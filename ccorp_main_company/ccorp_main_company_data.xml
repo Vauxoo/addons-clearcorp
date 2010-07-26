@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data noupdate="1">
-		<record id="SA" model="res.partner.title">
-			<field name="domain">partner</field>
-			<field name="name">S.A.</field>
-			<field name="shortcut">S.A.</field>
-		</record>
-
 		<!-- Basic Company  -->
 		<delete model="res.company" search="[('name','=','Tiny sprl')]"/>
 		

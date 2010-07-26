@@ -52,5 +52,10 @@
 			<field name="country_id" ref="base.cr"/>
 		</record>
 		
+		<record id="SA" model="res.partner.title">
+			<field name="domain">partner</field>
+			<field name="name">S.A.</field>
+			<field name="shortcut">S.A.</field>
+		</record>
 	</data>
 </openerp>
