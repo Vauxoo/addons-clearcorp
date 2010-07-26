@@ -10,7 +10,7 @@
 			<field name="accuracy">4</field>
 		</record>
 -->
-		<delete model="res.currency.rate" search="[('currency_id','=','*')]"/>
+		<delete model="res.currency.rate" search="[('currency_id','=','USD')]"/>
 		<record id="rateEUR" model="res.currency.rate">
 			<field name="rate">1.0</field>
 			<field name="currency_id" ref="base.EUR"/>
