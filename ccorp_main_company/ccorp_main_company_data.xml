@@ -23,7 +23,7 @@
 			<field name="rml_header1">Soluciones Realmente Integrales, a la medida y en Software Libre</field>
 			<field name="rml_footer1"></field>
 			<field name="rml_footer2"></field>
-			<field name="currency_id" ref="l10n_chart_cr.CRC"/>
+			<field name="currency_id" ref="l10n_exchange_rates_cr.CRC"/>
 		</record>
 		<assert id="main_company" model="res.company">
 			<test expr="currency_id.code == 'crc'.upper()"/>
