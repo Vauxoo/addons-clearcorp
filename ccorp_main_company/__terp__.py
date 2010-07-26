@@ -26,7 +26,7 @@
     "name" : "Changes default main company to ClearCorp",
     "version" : "0.1",
     'category': 'Generic Modules/Base',
-    "depends" : ['base','l10n_exchange_rates_cr'],
+    "depends" : ['base','l10n_base_data_cr'],
     "author" : "ClearCorp",
     "description": "Changes default main company to ClearCorp",
     'website': 'http://www.clearcorp.co.cr',

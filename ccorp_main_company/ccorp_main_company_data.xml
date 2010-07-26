@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data noupdate="1">
+		<record id="base.res_partner_title_pvt_ltd" model="res.partner.title">
+			<field name="domain">partner</field>
+			<field name="name">S.A.</field>
+			<field name="shortcut">S.A.</field>
+		</record>
+
 		<!-- Basic Company  -->
 		<delete model="res.company" search="[('name','=','Tiny sprl')]"/>
 		
@@ -9,12 +15,17 @@
 		</record>
 		<record id="ccorp_address" model="res.partner.address">
 			<field name="partner_id" ref="ccorp_partner"/>
-			<field name="name">Carlos Vásquez</field>
+			<field name="name">ClearCorp S.A.</field>
 			<field name="street">25 m. Norte de Pizza 2x1</field>
+			<field name="street2">Casa #2</field>
 			<field name="zip">30102</field>
 			<field name="city">Cartago Occidental</field>
+			<field name="fax">+506 2551-5533</field>
 			<field name="phone">+506 2551-5533</field>
+			<field name="email">info@clearcorp.co.cr</field>
 			<field name="type">default</field>
+			<field model="res.partner.title" name="title" ref="base.res_partner_title_pvt_ltd"/>
+			<field model="res.country" name="state_id" ref="l10n_base_data_cr.CAR"/>
 			<field model="res.country" name="country_id" ref="base.cr"/>
 		</record>
 		<record id="main_company" model="res.company">
@@ -23,7 +34,7 @@
 			<field name="rml_header1">Soluciones Realmente Integrales, a la medida y en Software Libre</field>
 			<field name="rml_footer1"></field>
 			<field name="rml_footer2"></field>
-			<field name="currency_id" ref="l10n_exchange_rates_cr.CRC"/>
+			<field name="currency_id" ref="l10n_base_data_cr.CRC"/>
 		</record>
 		<assert id="main_company" model="res.company">
 			<test expr="currency_id.code == 'crc'.upper()"/>
