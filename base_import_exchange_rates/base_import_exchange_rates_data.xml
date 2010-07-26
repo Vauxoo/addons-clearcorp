@@ -2,21 +2,7 @@
 <openerp>
     <data noupdate="1">
         <!-- Currencies -->
-<!--
-		<record id="EUR" model="res.currency">
-			<field name="name">EUR</field>
-			<field name="code">EUR</field>
-			<field name="rounding">0.01</field>
-			<field name="accuracy">4</field>
-		</record>
--->
-		<delete model="res.currency.rate" search="[]"/>
-		<record id="rateEUR" model="res.currency.rate">
-			<field name="rate">1.0</field>
-			<field name="currency_id" ref="base.EUR"/>
-			<field eval="time.strftime('%Y-01-01')" name="name"/>
-		</record>
-<!--
+		<delete model="res.currency" search="[]"/>
 		<record id="USD" model="res.currency">
 			<field name="name">USD</field>
 			<field name="code">USD</field>
@@ -24,10 +10,21 @@
 			<field name="accuracy">4</field>
 		</record>
 		<record id="rateUSD" model="res.currency.rate">
-			<field name="rate">1.3785</field>
+			<field name="rate">1.0</field>
 			<field name="currency_id" ref="USD"/>
 			<field eval="time.strftime('%Y-01-01')" name="name"/>
 		</record>
--->
+		<record id="CRC" model="res.currency">
+			<field name="name">CRC</field>
+			<field name="code">CRC</field>
+			<field name="rounding">0.01</field>
+			<field name="accuracy">4</field>
+		</record>
+		<record id="EUR" model="res.currency">
+			<field name="name">EUR</field>
+			<field name="code">EUR</field>
+			<field name="rounding">0.01</field>
+			<field name="accuracy">4</field>
+		</record>
 	</data>
 </openerp>
