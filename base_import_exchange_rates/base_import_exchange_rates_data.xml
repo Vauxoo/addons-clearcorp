@@ -2,7 +2,8 @@
 <openerp>
     <data noupdate="1">
         <!-- Currencies -->
-		<delete model="res.currency" search="[]"/>
+		<delete model="res.currency" search="[('currency_id','<>','EUR')]"/>
+		<delete model="res.currency.rate" search="[]"/>
 		<record id="USD" model="res.currency">
 			<field name="name">USD</field>
 			<field name="code">USD</field>
