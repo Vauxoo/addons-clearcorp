@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    __terp__.py
-#    l10n_exchange_rates_cr
+#    l10n_base_data_cr
 #    Author: ClearCorp S.A.
 #    Copyright (C) 2010 ClearCorp S.A. (<http://www.clearcorp.co.cr>). All Rights Reserved
 #
@@ -23,16 +23,15 @@
 
 
 {
-    "name" : "Costa Rica generic exchange rates",
+    "name" : "Costa Rica base module data",
     "version" : "0.1",
-    'category': 'General Modules',
+    'category': 'General Modules/Base',
     "depends" : ['base'],
     "author" : "ClearCorp",
-    "description": """Costa Rica exchange rates.
-    """,
+    "description": """Costa Rica base module complemetary data.""",
     'website': 'http://www.clearcorp.co.cr',
     'init_xml': [],
-    'update_xml': ['exchange_rates_data.xml'],
+    'update_xml': ['l10n_base_data_cr_data.xml'],
     'demo_xml': [],
     'installable': True,
     'active': True,

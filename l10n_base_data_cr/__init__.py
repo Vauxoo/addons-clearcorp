@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    __init__.py
-#    l10n_exchange_rates_cr
+#    l10n_base_data_cr
 #    Author: ClearCorp S.A.
 #    Copyright (C) 2010 ClearCorp S.A. (<http://www.clearcorp.co.cr>). All Rights Reserved
 #

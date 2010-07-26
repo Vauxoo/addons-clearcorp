@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <!-- Currencies -->
+		<delete model="res.currency.rate" search="[]"/>
+		<record id="CRC" model="res.currency">
+			<field name="name">CRC</field>
+			<field name="code">CRC</field>
+			<field name="rounding">0.01</field>
+			<field name="accuracy">4</field>
+		</record>
+		<record id="rateUSD" model="res.currency.rate">
+			<field name="rate">1.0</field>
+			<field name="currency_id" ref="base.USD"/>
+			<field eval="time.strftime('%Y-01-01')" name="name"/>
+		</record>
+		
+		<!-- States -->
+		<record id="SJO" model="res.country.state">
+			<field name="name">San José</field>
+			<field name="code">SJO</field>
+			<field name="country_id" ref="base.cr"/>
+		</record>
+		<record id="ALA" model="res.country.state">
+			<field name="name">Alajuela</field>
+			<field name="code">ALA</field>
+			<field name="country_id" ref="base.cr"/>
+		</record>
+		<record id="HER" model="res.country.state">
+			<field name="name">Heredia</field>
+			<field name="code">HER</field>
+			<field name="country_id" ref="base.cr"/>
+		</record>
+		<record id="CAR" model="res.country.state">
+			<field name="name">Cartago</field>
+			<field name="code">CAR</field>
+			<field name="country_id" ref="base.cr"/>
+		</record>
+		<record id="PUN" model="res.country.state">
+			<field name="name">Puntarenas</field>
+			<field name="code">PUN</field>
+			<field name="country_id" ref="base.cr"/>
+		</record>
+		<record id="GUA" model="res.country.state">
+			<field name="name">Guanacaste</field>
+			<field name="code">GUA</field>
+			<field name="country_id" ref="base.cr"/>
+		</record>
+		<record id="LIM" model="res.country.state">
+			<field name="name">Limón</field>
+			<field name="code">LIM</field>
+			<field name="country_id" ref="base.cr"/>
+		</record>
+		
+	</data>
+</openerp>
