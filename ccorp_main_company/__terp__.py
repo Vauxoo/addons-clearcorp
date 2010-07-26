@@ -26,7 +26,7 @@
     "name" : "Changes default main company to ClearCorp",
     "version" : "0.1",
     'category': 'Generic Modules/Base',
-    "depends" : ['base'],
+    "depends" : ['base','l10_chart_cr'],
     "author" : "ClearCorp",
     "description": "Changes default main company to ClearCorp",
     'website': 'http://www.clearcorp.co.cr',

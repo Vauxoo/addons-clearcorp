@@ -33,7 +33,7 @@ Implements a generic account chart for Costa Rica.
     """,
     'website': 'http://www.clearcorp.co.cr',
     'init_xml': [],
-    'update_xml': [],
+    'update_xml': ['exchange_rates_data.xml'],
     'demo_xml': [],
     'installable': True,
     'active': False,
