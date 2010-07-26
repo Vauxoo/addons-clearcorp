@@ -25,7 +25,7 @@
 		</record>
 		<record id="rateUSD" model="res.currency.rate">
 			<field name="rate">1.0</field>
-			<field name="currency_id" ref="USD"/>
+			<field name="currency_id" ref="base.USD"/>
 			<field eval="time.strftime('%Y-01-01')" name="name"/>
 		</record>
 	</data>
