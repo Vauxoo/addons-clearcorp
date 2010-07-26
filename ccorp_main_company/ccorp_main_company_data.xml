@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+		<!-- Basic Company  -->
+		<delete model="res.company" search="[('name','=','Tiny sprl')]"/>
+		
+		<record id="ccorp_partner" model="res.partner">
+			<field name="name">ClearCorp S.A.</field>
+		</record>
+		<record id="main_address" model="res.partner.address">
+			<field name="partner_id" ref="ccorp_partner"/>
+			<field name="name">Carlos Vásquez</field>
+			<field name="street">25 m. Norte de Pizza 2x1</field>
+			<field name="zip">30102</field>
+			<field name="city">Cartago Occidental</field>
+			<field name="phone">+506 2551-5533</field>
+			<field name="type">default</field>
+			<field model="res.country" name="country_id" ref="cr"/>
+		</record>
+		<record id="main_company" model="res.company">
+			<field name="name">ClearCorp S.A.</field>
+			<field name="partner_id" ref="main_partner"/>
+			<field name="rml_header1">Soluciones Realmente Integrales, a la medida y en Software Libre</field>
+			<field name="rml_footer1"></field>
+			<field name="rml_footer2"></field>
+			<field name="currency_id" ref="CRC"/>
+		</record>
+		<assert id="main_company" model="res.company">
+			<test expr="currency_id.code == 'crc'.upper()"/>
+			<test expr="name">ClearCorp S.A.</test>
+		</assert>
+	</data>
+</openerp>
