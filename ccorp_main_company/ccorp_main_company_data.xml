@@ -24,7 +24,7 @@
 			<field name="phone">+506 2551-5533</field>
 			<field name="email">info@clearcorp.co.cr</field>
 			<field name="type">default</field>
-			<field model="res.partner.title" name="title" ref="base.res_partner_title_pvt_ltd"/>
+			<field name="title">S.A.</field>
 			<field model="res.country" name="state_id" ref="l10n_base_data_cr.CAR"/>
 			<field model="res.country" name="country_id" ref="base.cr"/>
 		</record>
