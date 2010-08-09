@@ -5,6 +5,7 @@
 		<record id="base.main_partner" model="res.partner">
 			<field name="name">ClearCorp S.A.</field>
 			<field name="website">http://clearcorp.co.cr</field>
+			<field name="id_number">3-101-223344</field>
 			<field eval="time.strftime('%Y-01-01')" name="date"/>
 		</record>
 		<record id="base.main_address" model="res.partner.address">
