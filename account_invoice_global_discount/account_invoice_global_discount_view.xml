@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp><data>
+	<!--
+	Resource: account.invoice
+	Replaces the Compute Taxes string with Compute Totals
+	-->
+	<record id="invoice_supplier_form_ccorp_button" model="ir.ui.view">
+		<field name="name">account.invoice.supplier.form_ccorp_button</field>
+		<field name="model">account.invoice</field>
+		<field name="inherit_id" ref="account.invoice_supplier_form"/>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<button string="Compute Taxes" position="replace">
+				<button colspan="2" name="button_reset_taxes" states="draft" string="Compute Totals" type="object"/>
+			</button>
+		</field>
+	</record>
+	<record id="invoice_form_ccorp_button" model="ir.ui.view">
+		<field name="name">account.invoice.form_ccorp_button</field>
+		<field name="model">account.invoice</field>
+		<field name="inherit_id" ref="account.invoice_form"/>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<button string="Compute Taxes" position="replace">
+				<button colspan="2" name="button_reset_taxes" states="draft" string="Compute Totals" type="object" groups="base.group_user"/>
+			</button>
+		</field>
+	</record>
+    
+	<!--
+	Resource: account.invoice
+	Adds fields with not discounted amounts
+	-->
+	<record id="invoice_tree_ccorp1" model="ir.ui.view">
+		<field name="name">account.invoice.tree_ccorp1</field>
+		<field name="model">account.invoice</field>
+		<field name="inherit_id" ref="account.invoice_tree"/>
+		<field name="type">tree</field>
+		<field name="arch" type="xml">
+			<field name="amount_untaxed" position="replace">
+				<field name="amount_untaxed_not_discounted" sum="Untaxed amount"/>
+			</field>
+		</field>
+	</record>
+	<record id="invoice_tree_ccorp2" model="ir.ui.view">
+		<field name="name">account.invoice.tree_ccorp2</field>
+		<field name="model">account.invoice</field>
+		<field name="inherit_id" ref="account.invoice_tree"/>
+		<field name="type">tree</field>
+		<field name="arch" type="xml">
+			<field name="amount_total" position="before">
+				<field name="invoice_discount"/>
+				<field name="amount_discounted" sum="Discounted amount"/>
+			</field>
+		</field>
+	</record>
+    
+	<record id="invoice_supplier_form_ccorp1" model="ir.ui.view">
+		<field name="name">account.invoice.supplier.form_ccorp1</field>
+		<field name="model">account.invoice</field>
+		<field name="inherit_id" ref="account.invoice_supplier_form"/>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<xpath expr="/form/notebook/page/field[@name='invoice_line']/tree/field[@name='price_subtotal']" position="after">
+				<field name="discount"/>
+				<field name="price_subtotal_not_discounted"/>
+			</xpath>
+		</field>
+	</record>
+    <record id="invoice_supplier_form_ccorp2" model="ir.ui.view">
+		<field name="name">account.invoice.supplier.form_ccorp2</field>
+		<field name="model">account.invoice</field>
+		<field name="inherit_id" ref="account.invoice_supplier_form"/>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<xpath expr="/form/notebook/page/group/field[@name='amount_untaxed']" position="before">
+				<label string="" states="proforma,proforma2,open,paid,cancel" colspan="2"/>
+			</xpath>
+		</field>
+	</record>
+    <record id="invoice_supplier_form_ccorp3" model="ir.ui.view">
+		<field name="name">account.invoice.supplier.form_ccorp3</field>
+		<field name="model">account.invoice</field>
+		<field name="inherit_id" ref="account.invoice_supplier_form"/>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<xpath expr="/form/notebook/page/group/field[@name='amount_untaxed']" position="replace">
+				<field name="amount_untaxed_not_discounted"/>
+			</xpath>
+		</field>
+	</record>
+    <record id="invoice_supplier_form_ccorp4" model="ir.ui.view">
+		<field name="name">account.invoice.supplier.form_ccorp4</field>
+		<field name="model">account.invoice</field>
+		<field name="inherit_id" ref="account.invoice_supplier_form"/>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<xpath expr="/form/notebook/page/group/field[@name='reconciled']" position="before">
+				<field name="invoice_dicount"/>
+				<field name="amount_discounted"/>
+			</xpath>
+		</field>
+	</record>
+
+    <!--
+    Resource: account.invoice.line
+    Adds the subtotal not discounted to tree and form views
+    -->
+	<record id="view_invoice_line_tree_ccorp" model="ir.ui.view">
+		<field name="name">account.invoice.line.tree_ccorp</field>
+		<field name="model">account.invoice.line</field>
+		<field name="inherit_id" ref="account.view_invoice_line_tree"/>
+		<field name="type">tree</field>
+		<field name="arch" type="xml">
+			<field name="price_subtotal" position="after">
+				<field name="price_subtotal_not_discounted"/>
+			</field>
+		</field>
+	</record>
+	<record id="view_invoice_line_form_ccorp" model="ir.ui.view">
+		<field name="name">account.invoice.line.form_ccorp</field>
+		<field name="model">account.invoice.line</field>
+		<field name="inherit_id" ref="account.view_invoice_line_form"/>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<field name="price_subtotal" position="after">
+				<field name="price_subtotal_not_discounted"/>
+			</field>
+		</field>
+	</record>
+</data></openerp>
