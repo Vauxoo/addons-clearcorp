@@ -80,7 +80,10 @@ class account_invoice_ccorp(osv.osv):
             for line in invoice.invoice_line:
                 res[invoice.id]['amount_untaxed_not_discounted'] += line.price_subtotal_not_discounted
                 res[invoice.id]['amount_discounted'] += line.price_subtotal_not_discounted - line.price_subtotal
-            res[invoice.id]['invoice_discount'] = 100 * res[invoice.id]['amount_discounted'] / res[invoice.id]['amount_untaxed_not_discounted']
+            if res[invoice.id]['amount_untaxed_not_discounted'] == 0:
+                res[invoice.id]['invoice_discount'] = 0
+            else:
+                res[invoice.id]['invoice_discount'] = 100 * res[invoice.id]['amount_discounted'] / res[invoice.id]['amount_untaxed_not_discounted']
         return res
     
     def _get_invoice_line_ccorp(self, cr, uid, ids, context=None):
