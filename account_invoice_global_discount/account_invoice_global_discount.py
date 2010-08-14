@@ -104,7 +104,7 @@ class account_invoice_ccorp(osv.osv):
                 'account.invoice.line': (_get_invoice_line_ccorp, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
             },
             multi='ccorp'),
-        'amount_untaxed_not_discounted': fields.function(_amount_all_ccorp, method=True, digits=(16, int(config['price_accuracy'])),string='Untaxed',
+        'amount_untaxed_not_discounted': fields.function(_amount_all_ccorp, method=True, digits=(16, int(config['price_accuracy'])),string='Subtotal',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
                 'account.invoice.tax': (_get_invoice_tax_ccorp, None, 20),

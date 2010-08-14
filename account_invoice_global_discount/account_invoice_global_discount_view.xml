@@ -67,15 +67,31 @@
 			</xpath>
 		</field>
 	</record>
-    <record id="invoice_supplier_form_ccorp2" model="ir.ui.view">
-		<field name="name">account.invoice.supplier.form_ccorp2</field>
+    <record id="invoice_supplier_form_ccorp4" model="ir.ui.view">
+		<field name="name">account.invoice.supplier.form_ccorp4</field>
 		<field name="model">account.invoice</field>
 		<field name="inherit_id" ref="account.invoice_supplier_form"/>
 		<field name="type">form</field>
 		<field name="arch" type="xml">
-			<xpath expr="/form/notebook/page/group/field[@name='amount_untaxed']" position="before">
-				<label string="" states="proforma,proforma2,open,paid,cancel" colspan="2"/>
-			</xpath>
+			<field name="amount_untaxed" position="replace">
+				<field name="amount_untaxed_not_discounted"/>
+			</field>
+		</field>
+	</record>
+    <record id="invoice_supplier_form_ccorp2" model="ir.ui.view">
+		<field name="name">account.invoice.supplier.form_ccorp2</field>
+		<field name="model">account.invoice</field>
+		<field name="inherit_id" ref="invoice_supplier_form_ccorp_button"/>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<button name="button_reset_taxes" position="after">
+                <group colspan="2" col="1" states="proforma,proforma2,open,paid,cancel">
+                    <label string=""/>
+                </group>
+                <group colspan="2" col="1" states="proforma,proforma2,open,paid,cancel">
+                    <label string=""/>
+                </group>
+			</button>
 		</field>
 	</record>
     <record id="invoice_supplier_form_ccorp3" model="ir.ui.view">
@@ -84,21 +100,20 @@
 		<field name="inherit_id" ref="account.invoice_supplier_form"/>
 		<field name="type">form</field>
 		<field name="arch" type="xml">
-			<xpath expr="/form/notebook/page/group/field[@name='amount_untaxed']" position="replace">
-				<field name="amount_untaxed_not_discounted"/>
+			<xpath expr="/form/notebook/page/group/label[@string='']" position="replace">
 			</xpath>
 		</field>
 	</record>
-    <record id="invoice_supplier_form_ccorp4" model="ir.ui.view">
-		<field name="name">account.invoice.supplier.form_ccorp4</field>
+    <record id="invoice_supplier_form_ccorp5" model="ir.ui.view">
+		<field name="name">account.invoice.supplier.form_ccorp5</field>
 		<field name="model">account.invoice</field>
-		<field name="inherit_id" ref="account.invoice_supplier_form"/>
+		<field name="inherit_id" ref="invoice_supplier_form_ccorp4"/>
 		<field name="type">form</field>
 		<field name="arch" type="xml">
-			<xpath expr="/form/notebook/page/group/field[@name='reconciled']" position="before">
-				<field name="invoice_dicount"/>
+			<field name="amount_untaxed_not_discounted" position="after">
+				<field name="invoice_discount"/>
 				<field name="amount_discounted"/>
-			</xpath>
+			</field>
 		</field>
 	</record>
 
