@@ -18,22 +18,22 @@ msgstr ""
 #. module: account_invoice_global_discount
 #: view:account.invoice:0
 msgid "Compute Totals"
-msgstr ""
+msgstr "Calcular Totales"
 
 #. module: account_invoice_global_discount
 #: view:account.invoice:0
 msgid "Discounted amount"
-msgstr ""
+msgstr "Monto descontado"
 
 #. module: account_invoice_global_discount
 #: wizard_field:invoice.discount,init,discount:0
 msgid "Discount percentage"
-msgstr ""
+msgstr "Porcentaje de descuento"
 
 #. module: account_invoice_global_discount
 #: model:ir.module.module,shortdesc:account_invoice_global_discount.module_meta_information
 msgid "Global invoice discount"
-msgstr ""
+msgstr "Descuento global de factura"
 
 #. module: account_invoice_global_discount
 #: model:ir.module.module,description:account_invoice_global_discount.module_meta_information
@@ -41,18 +41,21 @@ msgid "Adds a discount feature for invoice.\n"
 "    With it one can add a discount percent to all invoice lines on an invoice.\n"
 "    It adds the discounted and undiscounted amounts on the invoice totals.\n"
 "    "
-msgstr ""
+msgstr "Agrega la funcionalidad de descuento a la factura\n"
+"    Con ésta es posible aplicar un porcetaje de descuento a todas las líneas de una factura.\n"
+"    Agrega los montos con y sin descuento al total de la factura.\n"
+"    "
 
 #. module: account_invoice_global_discount
 #: field:account.invoice,amount_discounted:0
 #: model:ir.actions.wizard,name:account_invoice_global_discount.invoice_discount
 msgid "Discount"
-msgstr ""
+msgstr "Descuento"
 
 #. module: account_invoice_global_discount
 #: wizard_view:invoice.discount,init:0
 msgid "Discount:"
-msgstr ""
+msgstr "Descuento:"
 
 #. module: account_invoice_global_discount
 #: view:account.invoice:0
@@ -62,22 +65,22 @@ msgstr "Base imponible"
 #. module: account_invoice_global_discount
 #: wizard_button:invoice.discount,init,end:0
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #. module: account_invoice_global_discount
 #: view:account.invoice:0
 #: wizard_button:invoice.discount,init,apply_discount:0
 msgid "Apply Discount"
-msgstr ""
+msgstr "Aplicar Descuento"
 
 #. module: account_invoice_global_discount
 #: field:account.invoice,amount_untaxed_not_discounted:0
 #: field:account.invoice.line,price_subtotal_not_discounted:0
 msgid "Subtotal"
-msgstr ""
+msgstr "Subtotal"
 
 #. module: account_invoice_global_discount
 #: field:account.invoice,invoice_discount:0
 msgid "Discount (%)"
-msgstr ""
+msgstr "Descuento (%)"
 
