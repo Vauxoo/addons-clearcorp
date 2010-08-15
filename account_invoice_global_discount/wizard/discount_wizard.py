@@ -39,7 +39,6 @@ import wizard
 _form = """<?xml version="1.0"?>
 <form string="Discount:">
     <field name="discount"/>
-    <label colspan="2" string="" />
 </form>
 """
 
@@ -58,7 +57,7 @@ def apply_discount(self, cr, uid, data, context):
     invoice_obj = pool.get('account.invoice')
     invoice_line_obj = pool.get('account.invoice.line')
     for invoice in invoice_obj.browse(cr, uid, data['ids'], context=context):
-        invoice_line_ref.write(cr, uid, [line.id for line in invoice.invoice_line], {'discount': data['form']['discount']}, context=context,)
+        invoice_line_obj.write(cr, uid, [line.id for line in invoice.invoice_line], {'discount': data['form']['discount']}, context=context,)
     return {}
 
 

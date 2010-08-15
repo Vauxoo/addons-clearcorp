@@ -4,6 +4,7 @@
 	Resource: account.invoice
 	Replaces the Compute Taxes string with Compute Totals
 	-->
+<!--
 	<record id="invoice_supplier_form_ccorp_button" model="ir.ui.view">
 		<field name="name">account.invoice.supplier.form_ccorp_button</field>
 		<field name="model">account.invoice</field>
@@ -26,7 +27,8 @@
 			</button>
 		</field>
 	</record>
-    
+-->
+	
 	<!--
 	Resource: account.invoice
 	Adds fields with not discounted amounts
@@ -54,6 +56,29 @@
 			</field>
 		</field>
 	</record>
+	
+	<record id="invoice_supplier_form_ccorp_line1" model="ir.ui.view">
+		<field name="name">account.invoice.supplier.form_ccorp1</field>
+		<field name="model">account.invoice</field>
+		<field name="inherit_id" ref="account.invoice_supplier_form"/>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<xpath expr="/form/notebook/page/field[@name='invoice_line']/tree/field[@name='price_subtotal']" position="before">
+				<field name="discount"/>
+			</xpath>
+		</field>
+	</record>
+	<record id="invoice_supplier_form_ccorp_line2" model="ir.ui.view">
+		<field name="name">account.invoice.supplier.form_ccorp1</field>
+		<field name="model">account.invoice</field>
+		<field name="inherit_id" ref="account.invoice_supplier_form"/>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<xpath expr="/form/notebook/page/field[@name='invoice_line']/tree/field[@name='price_subtotal']" position="after">
+				<field name="price_subtotal_not_discounted"/>
+			</xpath>
+		</field>
+	</record>
     
 	<record id="invoice_supplier_form_ccorp1" model="ir.ui.view">
 		<field name="name">account.invoice.supplier.form_ccorp1</field>
@@ -61,66 +86,58 @@
 		<field name="inherit_id" ref="account.invoice_supplier_form"/>
 		<field name="type">form</field>
 		<field name="arch" type="xml">
-			<xpath expr="/form/notebook/page/field[@name='invoice_line']/tree/field[@name='price_subtotal']" position="after">
-				<field name="discount"/>
-				<field name="price_subtotal_not_discounted"/>
+			<xpath expr="/form/notebook/page/group/button[@name='button_reset_taxes']" position="replace">
+                <button colspan="2" name="%(invoice_discount)d" states="draft" string="Apply Discount" type="action"/>
+                <button colspan="2" name="button_reset_taxes" states="draft" string="Compute Totals" type="object"/>
 			</xpath>
 		</field>
 	</record>
-    <record id="invoice_supplier_form_ccorp4" model="ir.ui.view">
-		<field name="name">account.invoice.supplier.form_ccorp4</field>
-		<field name="model">account.invoice</field>
-		<field name="inherit_id" ref="account.invoice_supplier_form"/>
-		<field name="type">form</field>
-		<field name="arch" type="xml">
-			<field name="amount_untaxed" position="replace">
-				<field name="amount_untaxed_not_discounted"/>
-			</field>
-		</field>
-	</record>
-    <record id="invoice_supplier_form_ccorp2" model="ir.ui.view">
+	<record id="invoice_supplier_form_ccorp2" model="ir.ui.view">
 		<field name="name">account.invoice.supplier.form_ccorp2</field>
 		<field name="model">account.invoice</field>
-		<field name="inherit_id" ref="invoice_supplier_form_ccorp_button"/>
-		<field name="type">form</field>
-		<field name="arch" type="xml">
-			<button name="button_reset_taxes" position="after">
-                <group colspan="2" col="1" states="proforma,proforma2,open,paid,cancel">
-                    <label string=""/>
-                </group>
-                <group colspan="2" col="1" states="proforma,proforma2,open,paid,cancel">
-                    <label string=""/>
-                </group>
-			</button>
-		</field>
-	</record>
-    <record id="invoice_supplier_form_ccorp3" model="ir.ui.view">
-		<field name="name">account.invoice.supplier.form_ccorp3</field>
-		<field name="model">account.invoice</field>
 		<field name="inherit_id" ref="account.invoice_supplier_form"/>
 		<field name="type">form</field>
 		<field name="arch" type="xml">
-			<xpath expr="/form/notebook/page/group/label[@string='']" position="replace">
+			<xpath expr="/form/notebook/page/group/field[@name='amount_untaxed']" position="replace">
+                <label colspan="2"/>
+                <field name="amount_untaxed_not_discounted"/>
+                <field name="invoice_discount"/>
+                <field name="amount_discounted"/>
 			</xpath>
 		</field>
 	</record>
-    <record id="invoice_supplier_form_ccorp5" model="ir.ui.view">
-		<field name="name">account.invoice.supplier.form_ccorp5</field>
+    
+	<record id="invoice_form_ccorp1" model="ir.ui.view">
+		<field name="name">account.invoice.form_ccorp1</field>
 		<field name="model">account.invoice</field>
-		<field name="inherit_id" ref="invoice_supplier_form_ccorp4"/>
+		<field name="inherit_id" ref="account.invoice_form"/>
 		<field name="type">form</field>
 		<field name="arch" type="xml">
-			<field name="amount_untaxed_not_discounted" position="after">
-				<field name="invoice_discount"/>
-				<field name="amount_discounted"/>
-			</field>
+			<xpath expr="/form/notebook/page/group/button[@name='button_reset_taxes']" position="replace">
+                <button colspan="2" name="%(invoice_discount)d" states="draft" string="Apply Discount" type="action"/>
+                <button colspan="2" name="button_reset_taxes" states="draft" string="Compute Totals" type="object"/>
+			</xpath>
+		</field>
+	</record>
+	<record id="invoice_form_ccorp2" model="ir.ui.view">
+		<field name="name">account.invoice.form_ccorp2</field>
+		<field name="model">account.invoice</field>
+		<field name="inherit_id" ref="account.invoice_form"/>
+		<field name="type">form</field>
+		<field name="arch" type="xml">
+			<xpath expr="/form/notebook/page/group/field[@name='amount_untaxed']" position="replace">
+                <label colspan="2"/>
+                <field name="amount_untaxed_not_discounted"/>
+                <field name="invoice_discount"/>
+                <field name="amount_discounted"/>
+			</xpath>
 		</field>
 	</record>
 
-    <!--
-    Resource: account.invoice.line
-    Adds the subtotal not discounted to tree and form views
-    -->
+	<!--
+	Resource: account.invoice.line
+	Adds the subtotal not discounted to tree and form views
+	-->
 	<record id="view_invoice_line_tree_ccorp" model="ir.ui.view">
 		<field name="name">account.invoice.line.tree_ccorp</field>
 		<field name="model">account.invoice.line</field>

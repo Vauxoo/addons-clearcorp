@@ -47,8 +47,8 @@
     'init_xml': [],
     'demo_xml': [],
     'update_xml': [
-        'account_invoice_global_discount_view.xml',
         'account_invoice_global_discount_wizard.xml',
+        'account_invoice_global_discount_view.xml',
         ],
     'license': 'Other OSI approved licence',
     'installable': True,
