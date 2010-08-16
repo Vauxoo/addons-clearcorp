@@ -34,9 +34,7 @@
 
 import wizard
 import osv
-import pooler
-import os
-import tools
+from tools import config
 
 import rpdb2
 
@@ -49,13 +47,14 @@ ask_form ='''<?xml version="1.0"?>
 
 finish_form ='''<?xml version="1.0"?>
 <form string="Winpdb debugger">
-    <label string="Module successfully imported !" colspan="4"/>
+    <label string="Winpdb attached or timeout." colspan="4"/>
 </form>
 '''
 
 class winpdb_debugger_wizard(wizard.interface):
     def start_debugger(self, cr, uid, data, context):
         rpdb2.start_embedded_debugger(config['admin_passwd'])
+        return {}
 
     states = {
         'init': {
@@ -63,7 +62,7 @@ class winpdb_debugger_wizard(wizard.interface):
             'result': {
                 'type': 'form',
                 'arch': ask_form,
-                'fields': ,
+                'fields': {},
                 'state': [
                     ('end', 'Cancel', 'gtk-cancel'),
                     ('start', 'Start Winpdb debugger', 'gtk-ok', True)

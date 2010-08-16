@@ -42,7 +42,7 @@
 	'description': """Adds a wizard to start a Winpdb debugger connection.
 	""",
 	'depends': ['base'],
-	'init_xml': [],
+	'init_xml': ['winpdb_debugger_wizard.xml'],
 	'demo_xml': [],
 	'update_xml': [],
 	'license': 'Other OSI approved licence',

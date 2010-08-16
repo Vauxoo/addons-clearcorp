@@ -8,6 +8,6 @@
 			<field name="name">Start Winpdb debugger</field>
 			<field name="wiz_name">winpdb.debugger</field>
 		</record>
-		<menuitem action="winpdb_debugger_wizard" id="winpdb_debugger_menu" parent="menu_administration" sequence="100" type="wizard"/>
+		<menuitem action="winpdb_debugger_wizard" id="winpdb_debugger_menu" parent="base.menu_administration" sequence="100" type="wizard"/>
 	</data>
 </openerp>
