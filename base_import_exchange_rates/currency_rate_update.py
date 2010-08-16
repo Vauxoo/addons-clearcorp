@@ -171,8 +171,14 @@ class Currency_rate_update(osv.osv):
                     getter = factory.register(service.service)
                     curr_to_fetch = map(lambda x : x.code, service.currency_to_update)
                     res, log_info = getter.get_updated_currency(curr_to_fetch, main_curr)
+                    from tools import debug
+                    debug(res)
                     rate_name = time.strftime('%Y-%m-%d')
                     for curr in service.currency_to_update :
+                        debug(curr.name)
+                        if curr.name not in res:
+                            debug(curr)
+                            continue
                         if curr.code == main_curr :
                             continue
                         do_create = True
@@ -503,15 +509,16 @@ class bccr_getter(Curreny_getter_interface) :   # class added for CR rates
 
     def get_updated_currency(self, currency_array, main_currency):
         """implementation of abstract method of Curreny_getter_interface"""
+        from tools import debug
         today = time.strftime('%d/%m/%Y')
+        debug(today)
         url1='http://indicadoreseconomicos.bccr.fi.cr/indicadoreseconomicos/WebServices/wsIndicadoresEconomicos.asmx/ObtenerIndicadoresEconomicos?tcIndicador='
         url2='&tcFechaInicio=' + today + '&tcFechaFinal=' + today + '&tcNombre=clearcorp&tnSubNiveles=N'
         #we do not want to update the main currency
         if main_currency in currency_array :
             currency_array.remove(main_currency)
         from xml.dom.minidom import parseString
-        rawfile_crc = self.get_url(url1 + '318' + url2)
-        rawfile_crc = self.get_url(url1 + '318' + url2)
+        debug(currency_array)
         #we dynamically update supported currencies
         self.supported_currency_array = []
         self.supported_currency_array.append('USD')
@@ -519,14 +526,19 @@ class bccr_getter(Curreny_getter_interface) :   # class added for CR rates
         self.supported_currency_array.append('EUR')
         self.validate_cur(main_currency)
         for curr in currency_array :
+            debug(curr)
             if curr.upper() == 'CRC':
                 url = url1 + '318' + url2    #318: indicator number for CRC sale rate
             elif curr.upper() == 'EUR':
                 url = url1 + '333' + url2    #333: indicator number for EUR rate
-            else:
-                continue
 
-            rawstring = self.get_url(url)
-            dom = parseString(rawstring)
-            self.updated_currency[curr] = dom.getElementsByTagName('NUM_VALOR')[0].firstChild.data
+            debug(url)
+            if url:
+                rawstring = self.get_url(url)
+                dom = parseString(rawstring)
+                debug(dom)
+                node = dom.getElementsByTagName('NUM_VALOR')
+                if len(node)>0:
+                    rate = node[0].firstChild.data
+                    self.updated_currency[curr] = rate
         return self.updated_currency, self.log_info

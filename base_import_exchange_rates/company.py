@@ -140,7 +140,7 @@ class res_company(osv.osv):
         ### activate the currency update
         'auto_currency_up': fields.boolean('Automatical update of the currency this company'),
         'services_to_use' : fields.one2many(
-                                            'currency.rate.update.service', 
+                                            'res.currency.rate.update.service', 
                                             'company_id',
                                             'Currency update services' 
                                             ),
