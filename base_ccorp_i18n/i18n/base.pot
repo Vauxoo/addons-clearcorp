@@ -1,0 +1,461 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#    * base
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.12\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2010-07-18 01:09:56+0000\n"
+"PO-Revision-Date: 2010-07-18 01:09:56+0000\n"
+"Last-Translator: Carlos Vásquez <carlos.vasquez@clearcorp.co.cr>\n"
+"Language-Team: ClearCorp Team <http://launchpad.net/~clearcorp>\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+
+#. module: base
+#: code:addons/base/ir/ir_model.py:0
+#, python-format
+msgid "You can not create this kind of document! (%s)"
+msgstr ""
+
+#: code:addons/base/module/wizard/wizard_export_lang.py:0
+#, python-format
+msgid "new"
+msgstr ""
+
+#. module: base
+#: code:addons/base/module/wizard/wizard_export_lang.py:0
+#, python-format
+msgid "Save this document to a %s file and edit it with a specific software or a text editor. The file encoding is UTF-8."
+msgstr ""
+
+#. module: base
+#: code:addons/base/ir/ir_model.py:0
+#, python-format
+msgid "Password mismatch !"
+msgstr ""
+
+#. module: base
+#: code:addons/base/module/module.py:0
+#, python-format
+msgid "This url '%s' must provide an html file with links to zip modules"
+msgstr ""
+
+#. module: base
+#: code:addons/base/res/res_user.py:0
+#, python-format
+msgid "You can not remove the admin user as it is used internally for resources created by OpenERP (updates, module installation, ...)"
+msgstr ""
+
+#. module: base
+#: code:addons/base/ir/ir_model.py:0
+#, python-format
+msgid "Custom fields must have a name that starts with 'x_' !"
+msgstr ""
+
+#. module: base
+#: code:addons/base/ir/ir_model.py:0
+#, python-format
+msgid "You can not remove the model '%s' !"
+msgstr ""
+
+#. module: base
+#: selection:ir.module.module,license:0
+msgid "Other OSI Approved Licence"
+msgstr ""
+
+#. module: base
+#: code:addons/base/ir/ir_report_custom.py:0
+#, python-format
+msgid "Pie charts need exactly two fields"
+msgstr ""
+
+#. module: base
+#: view:ir.actions.server:0
+msgid "Access all the fields related to the current object using expressions, i.e. object.partner_id.name "
+msgstr ""
+
+#. module: base
+#: code:addons/base/ir/ir_model.py:0
+#, python-format
+msgid "You can not read this document! (%s)"
+msgstr ""
+
+#. module: base
+#: code:addons/base/res/partner/partner.py:0
+#, python-format
+msgid " (copy)"
+msgstr ""
+
+#. module: base
+#: code:addons/base/res/res_user.py:0
+#, python-format
+msgid "Can not remove root user!"
+msgstr ""
+
+#. module: base
+#: code:addons/base/res/partner/partner.py:0
+#, python-format
+msgid "Couldn't generate the next id because some partners have an alphabetic id !"
+msgstr ""
+
+#. module: base
+#: help:ir.rule.group,global:0
+msgid "Make the rule global, otherwise it needs to be put on a group"
+msgstr ""
+
+#. module: base
+#: code:addons/base/res/res_user.py:0
+#, python-format
+msgid "Make sure you have no users linked with the group(s)!"
+msgstr ""
+
+#. module: base
+#: code:addons/base/ir/ir_report_custom.py:0
+#, python-format
+msgid "Enter at least one field !"
+msgstr ""
+
+#. module: base
+#: code:addons/base/ir/ir_model.py:0
+#, python-format
+msgid "You can not write in this document! (%s)"
+msgstr ""
+
+#. module: base
+#: code:addons/base/module/module.py:0
+#, python-format
+msgid "Can not upgrade module '%s'. It is not installed."
+msgstr ""
+
+#. module: base
+#: code:addons/base/ir/ir_model.py:0
+#, python-format
+msgid "You can not delete this document! (%s)"
+msgstr ""
+
+#. module: base
+#: code:addons/base/maintenance/maintenance.py:0
+#, python-format
+msgid "Unable to find a valid contract"
+msgstr ""
+
+#. module: base
+#: code:addons/base/ir/ir_actions.py:0
+#, python-format
+msgid "Please specify an action to launch !"
+msgstr ""
+
+#. module: base
+#: code:addons/base/module/module.py:0
+#, python-format
+msgid "Recursion error in modules dependencies !"
+msgstr ""
+
+#. module: base
+#: selection:module.lang.install,init,lang:0
+msgid "Ukrainian / украї́нська мо́ва"
+msgstr ""
+
+#. module: base
+#: code:addons/base/module/wizard/wizard_export_lang.py:0
+#, python-format
+msgid "Save this document to a .CSV file and open it with your favourite spreadsheet software. The file encoding is UTF-8. You have to translate the latest column before reimporting it."
+msgstr ""
+
+#. module: base
+#: code:addons/base/module/module.py:0
+#, python-format
+msgid "You try to upgrade a module that depends on the module: %s.\nBut this module is not available in your system."
+msgstr ""
+
+#. module: base
+#: code:addons/base/ir/ir_report_custom.py:0
+#, python-format
+msgid "Invalid operation"
+msgstr ""
+
+#. module: base
+#: selection:ir.translation,type:0
+msgid "SQL Constraint"
+msgstr ""
+
+#. module: base
+#: code:addons/base/module/module.py:0
+#, python-format
+msgid "You try to install a module that depends on the module: %s.\nBut this module is not available in your system."
+msgstr ""
+
+#. module: base
+#: selection:module.lang.install,init,lang:0
+msgid "Finland / Suomi"
+msgstr ""
+
+#. module: base
+#: code:addons/base/module/module.py:0
+#, python-format
+msgid "You try to remove a module that is installed or will be installed"
+msgstr ""
+
+#. module: base
+#: code:addons/base/ir/ir_report_custom.py:0
+#, python-format
+msgid "Using a relation field which uses an unknown object"
+msgstr ""
+
+#. module: base
+#: selection:ir.module.module,license:0
+msgid "Affero GPL-3"
+msgstr ""
+
+#. module: base
+#: selection:module.lang.install,init,lang:0
+msgid "Albanian / Shqipëri"
+msgstr ""
+
+#. module: base
+#: code:addons/base/ir/ir_model.py:0
+#, python-format
+msgid "\"%s\" contains too many dots. XML ids should not contain dots ! These are used to refer to other modules data, as in module.reference_id"
+msgstr ""
+
+#. module: base
+#: code:addons/base/res/res_user.py:0
+#, python-format
+msgid "The name of the group can not start with \"-\""
+msgstr ""
+
+#. module: base
+#: code:addons/base/ir/ir_report_custom.py:0
+#, python-format
+msgid "Tree can only be used in tabular reports"
+msgstr ""
+
+#. module: base
+#: selection:module.lang.install,init,lang:0
+msgid "Indonesian / Bahasa Indonesia"
+msgstr ""
+
+#. module: base
+#: code:addons/base/module/module.py:0
+#, python-format
+msgid "Some installed modules depend on the module you plan to Uninstall :\n %s"
+msgstr ""
+
+#. module: base
+#: view:ir.sequence:0
+msgid "Current Year without Century: %(y)s"
+msgstr ""
+
+#. module: base
+#: code:addons/base/ir/ir_actions.py:0
+#: code:addons/base/ir/ir_model.py:0
+#: code:addons/base/maintenance/maintenance.py:0
+#: code:addons/base/module/module.py:0
+#: code:addons/base/res/res_currency.py:0
+#: code:addons/base/res/res_user.py:0
+#, python-format
+msgid "Error"
+msgstr ""
+
+#. module: base
+#: model:ir.ui.menu,name:base.menu_partner_address_form
+msgid "Addresses"
+msgstr ""
+
+#. module: base
+#: code:addons/base/module/module.py:0
+#, python-format
+msgid "Module %s: Invalid Quality Certificate"
+msgstr ""
+
+#. module: base
+#: code:addons/base/module/module.py:0
+#, python-format
+msgid "Can not create the module file:\n %s"
+msgstr ""
+
+#. module: base
+#: code:addons/base/ir/ir_actions.py:0
+#, python-format
+msgid "Please specify the Partner Email address !"
+msgstr ""
+
+#. module: base
+#: code:addons/base/ir/ir_model.py:0
+#, python-format
+msgid "AccessError"
+msgstr ""
+
+#. module: base
+#: view:ir.actions.act_window:0
+msgid "Security (Groups)"
+msgstr ""
+
+#. module: base
+#: code:addons/base/module/wizard/wizard_module_import.py:0
+#, python-format
+msgid "Can not create the module file: %s !"
+msgstr ""
+
+#. module: base
+#: code:addons/base/ir/ir_actions.py:0
+#, python-format
+msgid "Please specify server option --email-from !"
+msgstr ""
+
+#. module: base
+#: view:ir.sequence:0
+msgid "Current Year with Century: %(year)s"
+msgstr ""
+
+#. module: base
+#: code:addons/base/module/wizard/wizard_module_import.py:0
+#, python-format
+msgid "Error !"
+msgstr ""
+
+#. module: base
+#: code:addons/base/ir/ir_actions.py:0
+#, python-format
+msgid "Problem in configuration `Record Id` in Server Action!"
+msgstr ""
+
+#. module: base
+#: code:addons/base/maintenance/maintenance.py:0
+#, python-format
+msgid "This error occurs on database %s"
+msgstr ""
+
+#. module: base
+#: selection:ir.module.module,license:0
+msgid "Other Proprietary"
+msgstr ""
+
+#. module: base
+#: code:addons/base/ir/ir_report_custom.py:0
+#, python-format
+msgid "Field %d should be a figure"
+msgstr ""
+
+#. module: base
+#: code:addons/base/res/res_currency.py:0
+#, python-format
+msgid "No rate found \n' \\n"
+"                    'for the currency: %s \n' \\n"
+"                    'at the date: %s"
+msgstr ""
+
+#. module: base
+#: selection:ir.module.module,license:0
+msgid "GPL Version 2"
+msgstr ""
+
+#. module: base
+#: selection:ir.module.module,license:0
+msgid "GPL Version 3"
+msgstr ""
+
+#. module: base
+#: code:addons/base/ir/ir_report_custom.py:0
+#, python-format
+msgid "Second field should be figures"
+msgstr ""
+
+#. module: base
+#: code:addons/base/ir/ir_model.py:0
+#, python-format
+msgid "Password empty !"
+msgstr ""
+
+#. module: base
+#: model:res.company,overdue_msg:base.main_company
+msgid "Would your payment have been carried out after this mail was sent, please consider the present one as void. Do not hesitate to contact our accounting department"
+msgstr ""
+
+#. module: base
+#: code:addons/base/maintenance/maintenance.py:0
+#, python-format
+msgid "Your can't submit bug reports due to uncovered modules: %s"
+msgstr ""
+
+#. module: base
+#: code:addons/base/res/res_user.py:0
+#, python-format
+msgid "Warning !"
+msgstr ""
+
+#. module: base
+#: selection:module.lang.install,init,lang:0
+msgid "Galician / Galego"
+msgstr ""
+
+#. module: base
+#: selection:module.lang.install,init,lang:0
+msgid "Latvian / Latviešu valoda"
+msgstr ""
+
+#. module: base
+#: selection:module.lang.install,init,lang:0
+msgid "Danish / Dansk"
+msgstr ""
+
+#. module: base
+#: code:addons/base/ir/ir_model.py:0
+#, python-format
+msgid "Model %s Does not Exist !"
+msgstr ""
+
+#. module: base
+#: code:addons/base/module/wizard/wizard_export_lang.py:0
+#, python-format
+msgid "Save this document to a .tgz file. This archive containt UTF-8 %s files and may be uploaded to launchpad."
+msgstr ""
+
+#. module: base
+#: code:addons/base/ir/ir_report_custom.py:0
+#, python-format
+msgid "Bar charts need at least two fields"
+msgstr ""
+
+#. module: base
+#: code:addons/base/ir/ir_model.py:0
+#, python-format
+msgid "You cannot remove the field '%s' !"
+msgstr ""
+
+#. module: base
+#: selection:module.lang.install,init,lang:0
+msgid "Persian / فارس"
+msgstr ""
+
+#. module: base
+#: selection:module.lang.install,init,lang:0
+msgid "Vietnam / Cộng hòa xã hội chủ nghĩa Việt Nam"
+msgstr ""
+
+#. module: base
+#: code:addons/base/res/partner/partner.py:0
+#, python-format
+msgid "Warning"
+msgstr ""
+
+#. module: base
+#: selection:module.lang.install,init,lang:0
+msgid "Slovak Language / Slovenský jazyk"
+msgstr ""
+
+#. module: base
+#: view:ir.actions.server:0
+msgid "Only one client action will be executed, last client action will be considered in case of multiple client actions."
+msgstr ""
+
+#. module: base
+#: code:addons/base/res/partner/partner.py:0
+#, python-format
+msgid "Partners: "
+msgstr ""
