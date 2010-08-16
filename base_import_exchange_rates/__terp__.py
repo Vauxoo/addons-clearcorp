@@ -44,7 +44,7 @@
     'category': 'Generic Modules/Base',
     'description': """Import exchange rates from XML web service.
     """,
-    'depends': ['base'],
+    'depends': ['account'],
     'init_xml': ['security/security.xml'],
     'demo_xml': [],
     'update_xml': [
