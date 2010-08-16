@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="1">
+		<!--
+		Winpdb debugger start wizard
+		-->
+		<record id="winpdb_debugger_wizard" model="ir.actions.wizard">
+			<field name="name">Start Winpdb debugger</field>
+			<field name="wiz_name">winpdb.debugger</field>
+		</record>
+		<menuitem action="winpdb_debugger_wizard" id="winpdb_debugger_menu" parent="menu_administration" sequence="100" type="wizard"/>
+	</data>
+</openerp>
