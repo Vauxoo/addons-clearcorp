@@ -51,5 +51,5 @@ Use symbol_prefix and symbol_suffix depending on the currency standard.
 		],
 	'license': 'Other OSI approved licence',
 	'installable': True,
-	'active': False,
+	'active': True,
 }
