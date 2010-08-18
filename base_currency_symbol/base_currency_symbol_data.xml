@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="1">
+		<!--
+		Resource: res.currency
+		-->
+		<record id="base.USD" model="res.currency">
+			<field name="symbol_prefix">$ </field>
+		</record>
+		<record id="base.EUR" model="res.currency">
+			<field name="symbol_suffix"> €</field>
+		</record>
+	</data>
+</openerp>
