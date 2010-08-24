@@ -29,12 +29,15 @@
 ##############################################################################
 
 from osv import osv, fields
+import pooler
 import time
 from mx import DateTime
 from datetime import datetime, timedelta
 import netsvc
 import string
 from tools.translate import _
+
+from tools import debug
 
 class res_currency_rate_update_service(osv.osv):
     """Class thats tell for wich services wich currencies 
@@ -170,34 +173,17 @@ class Currency_rate_update(osv.osv):
                     ## and return a dict of rate
                     getter = factory.register(service.service)
                     curr_to_fetch = map(lambda x : x.code, service.currency_to_update)
-                    res, log_info = getter.get_updated_currency(curr_to_fetch, main_curr)
-                    from tools import debug
-                    debug(res)
+                    res, log_info = getter.get_updated_currency(cr, uid, curr_to_fetch, main_curr)
                     rate_name = time.strftime('%Y-%m-%d')
                     for curr in service.currency_to_update :
-                        debug(curr.name)
                         if curr.name not in res:
-                            debug(curr)
                             continue
-                        if curr.code == main_curr :
-                            continue
-                        do_create = True
-                        for rate in curr.rate_ids :
-                            if rate.name == rate_name :
-                                rate.write({'rate':res[curr.code]})
-                                do_create = False
-                                break
-                        if do_create :
-                            vals = {
-                                        'currency_id': curr.id,
-                                        'rate':res[curr.code],
-                                        'name': rate_name
-                                    }
-                            rate_obj.create(    
-                                            cr,
-                                            uid,
-                                            vals,
-                                        )
+                            
+                        for name, rate in res[curr.code].iteritems():
+                            rate_ids = rate_obj.search(cr, uid, [('currency_id','=',curr.id),('name','=',name)])
+                            if not len(rate_ids):
+                                vals = {'currency_id': curr.id, 'rate': rate, 'name': name}
+                                rate_obj.create(cr, uid, vals)
                      
                     note = note + "\n currency updated at %s "\
                        %(str(datetime.today()))
@@ -492,53 +478,60 @@ class PL_NBP_getter(Curreny_getter_interface) :   # class added according to pol
 class bccr_getter(Curreny_getter_interface) :   # class added for CR rates
     """Implementation of Currency_getter_factory interface
     for PL NBP service"""
-        
-    def rate_retrieve(self, node) :
-        """ Parse a dom node to retrieve 
-        currencies data"""
-        res = {}
-        if isinstance(node, list) :
-            node = node[0]
-        res['code'] = node.getElementsByTagName('kod_waluty')[0].childNodes[0].data    # pl changes
-#        res['currency'] = node.getElementsByTagName('waehrung')[0].childNodes[0].data  Removed in Polish changes
-#        res['currency'] = res['code'] #pl changes
-        res['rate_currency'] = float(node.getElementsByTagName('kurs_sredni')[0].childNodes[0].data.replace(',','.'))  #pl changes
-        res['rate_ref'] = float(node.getElementsByTagName('przelicznik')[0].childNodes[0].data)  #pl changes
 
-        return res
-
-    def get_updated_currency(self, currency_array, main_currency):
+    def get_updated_currency(self, cr, uid, currency_array, main_currency):
         """implementation of abstract method of Curreny_getter_interface"""
-        from tools import debug
         today = time.strftime('%d/%m/%Y')
-        debug(today)
-        url1='http://indicadoreseconomicos.bccr.fi.cr/indicadoreseconomicos/WebServices/wsIndicadoresEconomicos.asmx/ObtenerIndicadoresEconomicos?tcIndicador='
-        url2='&tcFechaInicio=' + today + '&tcFechaFinal=' + today + '&tcNombre=clearcorp&tnSubNiveles=N'
-        #we do not want to update the main currency
-        if main_currency in currency_array :
-            currency_array.remove(main_currency)
-        from xml.dom.minidom import parseString
-        debug(currency_array)
-        #we dynamically update supported currencies
-        self.supported_currency_array = []
-        self.supported_currency_array.append('USD')
-        self.supported_currency_array.append('CRC')
-        self.supported_currency_array.append('EUR')
-        self.validate_cur(main_currency)
-        for curr in currency_array :
-            debug(curr)
-            if curr.upper() == 'CRC':
-                url = url1 + '318' + url2    #318: indicator number for CRC sale rate
-            elif curr.upper() == 'EUR':
-                url = url1 + '333' + url2    #333: indicator number for EUR rate
+        url1='http://indicadoreseconomicos.bccr.fi.cr/indicadoreseconomicos/WebServices/wsIndicadoresEconomicos.asmx/ObtenerIndicadoresEconomicos?tcNombre=clearcorp&tnSubNiveles=N&tcFechaFinal=' + today + '&tcFechaInicio='
+        url2='&tcIndicador='
 
-            debug(url)
+        from xml.dom.minidom import parseString
+        self.updated_currency = {}
+        for curr in currency_array :
+            self.updated_currency[curr] = {}
+
+            # Get the last rate for the selected currency
+            currency_obj = pooler.get_pool(cr.dbname).get('res.currency')
+            currency_rate_obj = pooler.get_pool(cr.dbname).get('res.currency.rate')
+            
+            currency_id = currency_obj.search(cr, uid, [('name','=',curr)])
+
+            if not currency_id:
+                continue
+                
+            last_rate_id = currency_rate_obj.search(cr, uid, [('currency_id','in',currency_id)], order='name DESC', limit=1)
+            last_rate = currency_rate_obj.browse(cr, uid, last_rate_id)
+            if len(last_rate):
+                last_rate_date = last_rate[0].name
+                last_rate_date = datetime.strptime(last_rate_date,"%Y-%m-%d").strftime("%d/%m/%Y")
+            else:
+                last_rate_date = today
+
+            url = url1 + last_rate_date + url2
+            
+            if curr.upper() == 'CRC':
+                url = url + '318'    #318: indicator number for CRC sale rate
+            elif curr.upper() == 'EUR':
+                url = url + '333'    #333: indicator number for EUR rate
+                
             if url:
+                debug(url)
                 rawstring = self.get_url(url)
                 dom = parseString(rawstring)
-                debug(dom)
-                node = dom.getElementsByTagName('NUM_VALOR')
-                if len(node)>0:
-                    rate = node[0].firstChild.data
-                    self.updated_currency[curr] = rate
+                nodes = dom.getElementsByTagName('INGC011_CAT_INDICADORECONOMIC')
+                for node in nodes:
+                    num_valor = node.getElementsByTagName('NUM_VALOR')
+                    if len(num_valor):
+                        rate = num_valor[0].firstChild.data
+                    else:
+                        continue
+                    des_fecha = node.getElementsByTagName('DES_FECHA')
+                    if len(des_fecha):
+                        date_str = des_fecha[0].firstChild.data.split('T')[0]
+                    else:
+                        continue
+                    #rate = node[0].firstChild.data
+                    if float(rate) > 0:
+                        self.updated_currency[curr][date_str] = rate
+        debug(self.updated_currency)
         return self.updated_currency, self.log_info
