@@ -19,7 +19,7 @@
 			<field name="phone">+506 2253-8140</field>
 			<field name="email">info@clearcorp.co.cr</field>
 			<field name="type">default</field>
-			<field model="res.country" name="state_id" ref="l10n_cr_base.state_S"/>
+			<field model="res.country" name="state_id" ref="l10n_cr_base.state_SJ"/>
 			<field model="res.country" name="country_id" ref="base.cr"/>
 		</record>
 		<record id="base.main_company" model="res.company">
