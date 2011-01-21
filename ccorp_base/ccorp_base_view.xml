@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+<openerp>
+	<data>
+		<!-- Add Customer, Supplier res.partner tree -->
+		<record model="ir.ui.view" id="ccorp_view_partner_tree_inherit_customer_supplier">
+			<field name="name">ccorp_view_partner_tree_inherit_customer_supplier</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_tree"/>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<field name="ref" position="after">
+					<field name="customer"/>
+					<field name="supplier"/>
+				</field>
+			</field>
+		</record>
+		
+		<!-- Remove City from res.partner tree -->
+		<record model="ir.ui.view" id="ccorp_view_partner_tree_inherit_remove_city">
+			<field name="name">ccorp_view_partner_tree_inherit_remove_city</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_tree"/>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<field name="city" position="replace"/>
+			</field>
+		</record>
+		<!-- Remove Country from res.partner tree -->
+		<record model="ir.ui.view" id="ccorp_view_partner_tree_inherit_country">
+			<field name="name">ccorp_view_partner_tree_inherit_country</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_tree"/>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<field name="country" position="replace"/>
+			</field>
+		</record>
+		<!-- Remove Language from res.partner tree -->
+		<record model="ir.ui.view" id="ccorp_view_partner_tree_inherit_lang">
+			<field name="name">ccorp_view_partner_tree_inherit_lang</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_tree"/>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<field name="lang" position="replace"/>
+			</field>
+		</record>
+	</data>
+</openerp>
