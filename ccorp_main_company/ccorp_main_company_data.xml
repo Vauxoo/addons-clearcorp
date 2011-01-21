@@ -11,15 +11,15 @@
 		</record>
 		<record id="base.main_address" model="res.partner.address">
 			<field name="name">ClearCorp S.A.</field>
-			<field name="street">25 m. Norte de Pizza 2x1</field>
-			<field name="street2">Casa #2</field>
-			<field name="zip">30102</field>
-			<field name="city">Cartago Occidental</field>
-			<field name="fax">+506 2551-5533</field>
-			<field name="phone">+506 2551-5533</field>
+			<field name="street">15 m. Este de la esq. NE de las Instalaciones Deportivas de la UCR</field>
+			<field name="street2"></field>
+			<field name="zip">11502</field>
+			<field name="city">Sabanilla, Montes de Oca</field>
+			<field name="fax">+506 2253-8140</field>
+			<field name="phone">+506 2253-8140</field>
 			<field name="email">info@clearcorp.co.cr</field>
 			<field name="type">default</field>
-			<field model="res.country" name="state_id" ref="l10n_cr_base.state_C"/>
+			<field model="res.country" name="state_id" ref="l10n_cr_base.state_S"/>
 			<field model="res.country" name="country_id" ref="base.cr"/>
 		</record>
 		<record id="base.main_company" model="res.company">
