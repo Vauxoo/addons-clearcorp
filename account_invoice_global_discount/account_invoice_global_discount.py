@@ -34,6 +34,7 @@
 
 from osv import osv,fields
 from tools import config
+import decimal_precision as dp
 
 class account_invoice_line_ccorp(osv.osv):
     '''
@@ -50,15 +51,15 @@ class account_invoice_line_ccorp(osv.osv):
                 cur = line.invoice_id.currency_id
                 res[line.id] = cur_obj.round(cr, uid, cur, res[line.id])
             else:
-                res[line.id] = round(line.price_unit * line.quantity, int(config['price_accuracy']))
+                res[line.id] = round(line.price_unit * line.quantity, dp.get_precision('Account'))
         return res
 
     def _amount_line_ccorp(self, cr, uid, ids, prop, unknow_none,unknow_dict):
         return self.pool.get('account.invoice.line')._amount_line(cr, uid, ids, prop, unknow_none,unknow_dict)
     
     _columns = {
-        'price_subtotal': fields.function(_amount_line_ccorp, method=True, string='Subtotal (discounted)',store=True, type="float", digits=(16, int(config['price_accuracy']))),
-        'price_subtotal_not_discounted': fields.function(_amount_line_no_discount, method=True, string='Subtotal',store=True, type="float", digits=(16, int(config['price_accuracy']))),
+        'price_subtotal': fields.function(_amount_line_ccorp, method=True, string='Subtotal (discounted)',store=True, type="float", digits_compute=dp.get_precision('Account')),
+        'price_subtotal_not_discounted': fields.function(_amount_line_no_discount, method=True, string='Subtotal',store=True, type="float", digits_compute=dp.get_precision('Account')),
     }
 account_invoice_line_ccorp()
 
@@ -93,21 +94,21 @@ class account_invoice_ccorp(osv.osv):
         return self.pool.get('account.invoice')._get_invoice_tax(cr, uid, ids, context)
     
     _columns = {
-        'invoice_discount': fields.function(_amount_all_ccorp, method=True, digits=(16, int(config['price_accuracy'])), string='Discount (%)',
+        'invoice_discount': fields.function(_amount_all_ccorp, method=True, digits_compute=dp.get_precision('Account'), string='Discount (%)',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
                 'account.invoice.tax': (_get_invoice_tax_ccorp, None, 20),
                 'account.invoice.line': (_get_invoice_line_ccorp, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
             },
             multi='ccorp'),
-        'amount_discounted': fields.function(_amount_all_ccorp, method=True, digits=(16, int(config['price_accuracy'])), string='Discount',
+        'amount_discounted': fields.function(_amount_all_ccorp, method=True, digits_compute=dp.get_precision('Account'), string='Discount',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
                 'account.invoice.tax': (_get_invoice_tax_ccorp, None, 20),
                 'account.invoice.line': (_get_invoice_line_ccorp, ['price_unit','invoice_line_tax_id','quantity','discount'], 20),
             },
             multi='ccorp'),
-        'amount_untaxed_not_discounted': fields.function(_amount_all_ccorp, method=True, digits=(16, int(config['price_accuracy'])),string='Subtotal',
+        'amount_untaxed_not_discounted': fields.function(_amount_all_ccorp, method=True, digits_compute=dp.get_precision('Account'),string='Subtotal',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line'], 20),
                 'account.invoice.tax': (_get_invoice_tax_ccorp, None, 20),
