@@ -172,14 +172,14 @@ class Currency_rate_update(osv.osv):
                     ## we initalize the class taht will handle the request
                     ## and return a dict of rate
                     getter = factory.register(service.service)
-                    curr_to_fetch = map(lambda x : x.code, service.currency_to_update)
+                    curr_to_fetch = map(lambda x : x.name, service.currency_to_update)
                     res, log_info = getter.get_updated_currency(cr, uid, curr_to_fetch, main_curr)
                     rate_name = time.strftime('%Y-%m-%d')
                     for curr in service.currency_to_update :
                         if curr.name not in res:
                             continue
                             
-                        for name, rate in res[curr.code].iteritems():
+                        for name, rate in res[curr.name].iteritems():
                             rate_ids = rate_obj.search(cr, uid, [('currency_id','=',curr.id),('name','=',name)])
                             if not len(rate_ids):
                                 vals = {'currency_id': curr.id, 'rate': rate, 'name': name}
