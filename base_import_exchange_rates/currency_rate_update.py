@@ -152,7 +152,7 @@ class Currency_rate_update(osv.osv):
     def run_currency_update(self, cr, uid):
         "update currency at the given frequence"
         factory = Currency_getter_factory()
-        curr_obj = self.pool.get('res_currency')
+        curr_obj = self.pool.get('res.currency')
         rate_obj = self.pool.get('res.currency.rate')
         companies = self.pool.get('res.company').search(cr, uid, [])
         for comp in self.pool.get('res.company').browse(cr, uid, companies):
