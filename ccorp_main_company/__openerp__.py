@@ -47,5 +47,5 @@
     'update_xml': [],
     'license': 'Other OSI approved licence',
     'installable': True,
-    'active': False,
+    'active': True,
 }
