@@ -165,8 +165,7 @@ class Currency_rate_update(osv.osv):
             if comp.multi_company_currency_enable :
                 search_filter = [('company_id','=',comp.id)]
             #we fetch the main currency. The main rate should be set at  1.00
-            main_curr_browse = curr_obj.browse(cr, uid, comp.currency_id.id)
-            main_curr = main_curr_browse.code
+            main_curr = curr_obj.browse(cr, uid, comp.currency_id.id).name
             for service in comp.services_to_use :
                 note = service.note and service.note or ''
                 try :
