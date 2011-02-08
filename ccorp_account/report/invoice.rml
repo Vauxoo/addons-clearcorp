@@ -30,7 +30,7 @@
 				<setFont name="Helvetica-Bold" size="10"/> 
 				<drawCentredString x="390" y="760">[[ o.company_id.name ]]</drawCentredString>
 				<setFont name="Helvetica" size="10"/> 
-				<drawCentredString x="390" y="748">ID Num.: [[ o.company_id.partner_id.id_number ]]</drawCentredString>
+				<drawCentredString x="390" y="748">ID Num.: [[ o.company_id.partner_id.ref ]]</drawCentredString>
 				<drawCentredString x="390" y="736">Tel-fax: [[ o.company_id.partner_id.address[0].phone ]]</drawCentredString>
 				<drawCentredString x="390" y="724">Email: [[ o.company_id.partner_id.address[0].email ]]</drawCentredString>
 				<drawCentredString x="390" y="712">Web: [[ o.company_id.partner_id.website ]]</drawCentredString>
@@ -53,7 +53,7 @@
 				<setFont name="Helvetica-Bold" size="10"/> 
 				<drawString x="28" y="672">[[ o.partner_id.name ]]</drawString>
 				<setFont name="Helvetica" size="10"/> 
-				<drawString x="28" y="660">ID Num.: [[ o.partner_id.id_number or '-' ]]</drawString>
+				<drawString x="28" y="660">ID Num.: [[ o.partner_id.ref or '-' ]]</drawString>
 				<drawString x="28" y="648">Phone: [[ o.address_invoice_id.phone or '-' ]]</drawString>
 				<drawString x="28" y="636">Fax: [[ o.address_invoice_id.fax or '-' ]]</drawString>
 				<drawString x="28" y="624">Email: [[ o.address_invoice_id.email or '-' ]]</drawString>
