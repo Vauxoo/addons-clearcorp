@@ -29,9 +29,5 @@
 			<field name="rml_footer2"></field>
 			<field name="currency_id" ref="base.USD"/>
 		</record>
-		<assert id="base.main_company" model="res.company">
-			<test expr="currency_id.code == 'usd'.upper()"/>
-			<test expr="name">ClearCorp S.A.</test>
-		</assert>
 	</data>
 </openerp>
