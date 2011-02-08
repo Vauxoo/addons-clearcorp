@@ -41,7 +41,7 @@
     'category': 'Generic Modules/Base',
     'description': """Changes default main company to ClearCorp on demo data
     """,
-    'depends': ['base'],
+    'depends': ['base','l10n_cr_base'],
     'init_xml': [],
     'demo_xml': ['ccorp_main_company_data.xml'],
     'update_xml': [],
