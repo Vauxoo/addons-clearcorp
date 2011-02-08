@@ -131,38 +131,4 @@
 			</field>
 		</field>
 	</record>
-
-
-	<!--
-	Removes account.tax.included fields
-	-->
-	<delete id="account_tax_include.account_invoice_view_price" model="ir.ui.view" />
-	<record id="invoice_form_tax_inc" model="ir.ui.view">
-		<field name="name">account.invoice.form_ccorp.tax_inc</field>
-		<field name="type">form</field>
-		<field name="model">account.invoice</field>
-		<field name="inherit_id" ref="account.invoice_form"/>
-		<field name="arch" type="xml">
-			<field name="move_id" position="after">
-				<field name="price_type" readonly="True"/>
-			</field>
-		</field>
-	</record>
-	
-	<delete id="account_tax_include.invoice_supplier_form_tax_include" model="ir.ui.view" />
-	<record id="invoice_supplier_form_tax_inc" model="ir.ui.view">
-		<field name="name">account.invoice.supplier.form_ccorp.tax_inc</field>
-		<field name="type">form</field>
-		<field name="model">account.invoice</field>
-		<field name="inherit_id" ref="account.invoice_supplier_form"/>
-		<field name="arch" type="xml">
-			<xpath expr="/form/notebook/page/label[@string='(keep empty to use the current period)']" position="after">
-				<field name="price_type"/>
-			</xpath>
-		</field>
-	</record>
-	
-	<delete id="account_tax_include.invoice_supplier_form_tax_include2" model="ir.ui.view" />
-	<delete id="account_tax_include.invoice_supplier_form_tax_include3" model="ir.ui.view" />
-	<delete id="account_tax_include.view_invoice_line_tree" model="ir.ui.view" />
 </data></openerp>
