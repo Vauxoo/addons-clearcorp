@@ -39,13 +39,13 @@
     'author': 'ClearCorp S.A.',
     'website': 'http://clearcorp.co.cr',
     'category': 'Generic Modules/Base',
-    'description': """
+    'description': """Changes default main company to ClearCorp on demo data
     """,
-    'depends': ['base','l10n_cr_base'],
+    'depends': ['base'],
     'init_xml': [],
-    'demo_xml': [],
-    'update_xml': ['ccorp_main_company_data.xml'],
+    'demo_xml': ['ccorp_main_company_data.xml'],
+    'update_xml': [],
     'license': 'Other OSI approved licence',
     'installable': True,
-    'active': True,
+    'active': False,
 }
