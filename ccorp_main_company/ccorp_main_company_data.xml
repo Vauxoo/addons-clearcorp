@@ -6,7 +6,7 @@
 			<field name="name">ClearCorp S.A.</field>
 			<field name="website">http://clearcorp.co.cr</field>
 			<field name="ref">3-101-578030</field>
-			<field name="title">Corp.</field>
+			<field name="title" ref="base.res_partner_title_pvt_ltd"/>
 			<field eval="time.strftime('%Y-01-01')" name="date"/>
 		</record>
 		<record id="base.main_address" model="res.partner.address">
