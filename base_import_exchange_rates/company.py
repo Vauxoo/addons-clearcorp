@@ -32,10 +32,12 @@ import netsvc
 from osv import fields, osv
 
 class res_company(osv.osv):
-    """override company to add currency udate"""
+    """
+    override company to add currency udate
+    """
         
-    _inherit = "res.company"
     _name = "res.company"
+    _inherit = "res.company"
     
     def _multi_curr_enable(self, cr, uid, ids, field_name, arg, context={}):
         "check if multiy company currency is enable"
