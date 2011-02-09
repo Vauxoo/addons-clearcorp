@@ -33,6 +33,9 @@ from osv import fields, osv
 
 class res_company(osv.osv):
     """override company to add currency udate"""
+        
+    _inherit = "res.company"
+    _name = "res.company"
     
     def _multi_curr_enable(self, cr, uid, ids, field_name, arg, context={}):
         "check if multiy company currency is enable"
@@ -48,8 +51,6 @@ class res_company(osv.osv):
         for id in ids:
             result[id] = enable
         return result
-        
-    _inherit = "res.company"
     _columns = {
         ### activate the currency update
         'auto_currency_up': fields.boolean('Automatical update of the currency this company'),
