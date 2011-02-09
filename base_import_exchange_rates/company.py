@@ -51,6 +51,7 @@ class res_company(osv.osv):
         for id in ids:
             result[id] = enable
         return result
+
     _columns = {
         ### activate the currency update
         'auto_currency_up': fields.boolean('Automatical update of the currency this company'),
