@@ -30,6 +30,7 @@
 
 import netsvc
 from osv import fields, osv
+
 class res_company(osv.osv):
     """override company to add currency udate"""
     
@@ -48,7 +49,38 @@ class res_company(osv.osv):
             result[id] = enable
         return result
         
-        
+    _inherit = "res.company"
+    _columns = {
+        ### activate the currency update
+        'auto_currency_up': fields.boolean('Automatical update of the currency this company'),
+        'services_to_use' : fields.one2many(
+                                            'res.currency.rate.update.service', 
+                                            'company_id',
+                                            'Currency update services' 
+                                            ),
+        ###predifine cron frequence
+        'interval_type': fields.selection(
+                                                [
+                                                    ('days','Day(s)'), 
+                                                    ('weeks', 'Week(s)'), 
+                                                    ('months', 'Month(s)')
+                                                ],
+                                                'Currency update frequence',
+                                                help="""changing this value will
+                                                 also affect other compagnies"""
+                                            ),
+        ###function field that allows to know the
+        ###mutli company currency implementation                                    
+        'multi_company_currency_enable' : fields.function(
+                                            _multi_curr_enable, 
+                                            method=True, 
+                                            type='boolean', 
+                                            string="Multi company currency",
+                                            help='if this case is not check you can'+\
+                                            ' not set currency is active on two company'
+                                        ),
+    }    
+
     def button_refresh_currency(self, cr, uid, ids, context=None):
         """Refrech  the currency !!for all the company
         now"""
@@ -122,7 +154,7 @@ class res_company(osv.osv):
             return {}
                     
             
-    def _on_change_intervall(self, cr, uid, id, interval) :
+    def _on_change_intervall(self, cr, uid, id, interval):
         ###Function that will update the cron
         ###freqeuence
         self.pool.get('currency.rate.update').save_cron(
@@ -135,35 +167,4 @@ class res_company(osv.osv):
             self.write(cr, uid, comp,{'interval_type':interval})
         return {}
         
-    _inherit = "res.company"
-    _columns = {
-        ### activate the currency update
-        'auto_currency_up': fields.boolean('Automatical update of the currency this company'),
-        'services_to_use' : fields.one2many(
-                                            'res.currency.rate.update.service', 
-                                            'company_id',
-                                            'Currency update services' 
-                                            ),
-        ###predifine cron frequence
-        'interval_type': fields.selection(
-                                                [
-                                                    ('days','Day(s)'), 
-                                                    ('weeks', 'Week(s)'), 
-                                                    ('months', 'Month(s)')
-                                                ],
-                                                'Currency update frequence',
-                                                help="""changing this value will
-                                                 also affect other compagnies"""
-                                            ),
-        ###function field that allows to know the
-        ###mutli company currency implementation                                    
-        'multi_company_currency_enable' : fields.function(
-                                            _multi_curr_enable, 
-                                            method=True, 
-                                            type='boolean', 
-                                            string="Multi company currency",
-                                            help='if this case is not check you can'+\
-                                            ' not set currency is active on two company'
-                                        ),
-    }    
 res_company()
