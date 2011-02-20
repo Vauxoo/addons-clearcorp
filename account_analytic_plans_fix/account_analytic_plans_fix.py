@@ -33,7 +33,7 @@
 ##############################################################################
 
 from osv import osv,fields
-from account import account_move_line
+from account.account_move_line import *
 
 class account_analytic_plans_fix_move_line(osv.osv):
 	'''
@@ -47,7 +47,7 @@ class account_analytic_plans_fix_move_line(osv.osv):
 		journal_pool = self.pool.get('account.journal')
 		if context is None:
 			context = {}
-		result = super(account_move_line.account_move_line, self).fields_view_get(cr, uid, view_id, view_type, context=context, toolbar=toolbar, submenu=submenu)
+		result = super(account_move_line, self).fields_view_get(cr, uid, view_id, view_type, context=context, toolbar=toolbar, submenu=submenu)
 		if view_type != 'tree':
 			#Remove the toolbar from the form view
 			if view_type == 'form':
@@ -90,7 +90,7 @@ class account_analytic_plans_fix_move_line(osv.osv):
 					fields.get(field.field).append(journal.id)
 					common_fields[field.field] = common_fields[field.field] + 1
 		fld.append(('period_id', 3, ('Period')))
-		fld.append(('journal_id', 10, ('Journal')))
+		fld.append(('journal_id', 10, 	('Journal')))
 		flds.append('period_id')
 		flds.append('journal_id')
 		fields['period_id'] = all_journal
