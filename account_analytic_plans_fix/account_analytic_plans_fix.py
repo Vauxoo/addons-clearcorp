@@ -70,7 +70,7 @@ class account_analytic_plans_fix_move_line(osv.osv):
 		fld = []
 		fields = {}
 		flds = []
-		title = _("Accounting Entries") #self.view_header_get(cr, uid, view_id, view_type, context)
+		title = ("Accounting Entries") #self.view_header_get(cr, uid, view_id, view_type, context)
 		xml = '''<?xml version="1.0"?>\n<tree string="%s" editable="top" refresh="5" on_write="on_create_write" colors="red:state==\'draft\';black:state==\'valid\'">\n\t''' % (title)
 
 		ids = journal_pool.search(cr, uid, [])
