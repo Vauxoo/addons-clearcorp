@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    __openerp__.py
-#    account_analytic_plan_fix
+#    account_analytic_plans_fix
 #    First author: Carlos Vásquez <carlos.vasquez@clearcorp.co.cr> (ClearCorp S.A.)
 #    Copyright (c) 2011-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
 #    
@@ -33,14 +33,14 @@
 ##############################################################################
 
 {
-	'name': 'account_analytic_plan bug fix',
+	'name': 'account_analytic_plans bug fix',
 	'version': '0.1',
 	'author': 'ClearCorp S.A.',
 	'website': 'http://clearcorp.co.cr',
 	'category': 'Generic Modules/Accounting',
-	'description': """Fixes a bug on account_analytic_plan that breaks manual account move entry UI.
+	'description': """Fixes a bug on account_analytic_plans that breaks manual account move entry UI.
 	""",
-	'depends': ['account_analytic_plan'],
+	'depends': ['account_analytic_plans'],
 	'init_xml': [],
 	'demo_xml': [],
 	'update_xml': [],

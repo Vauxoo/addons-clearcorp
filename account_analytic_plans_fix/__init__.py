@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    __init__.py
-#    account_analytic_plan_fix
+#    account_analytic_plans_fix
 #    First author: Carlos Vásquez <carlos.vasquez@clearcorp.co.cr> (ClearCorp S.A.)
 #    Copyright (c) 2011-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
 #    
@@ -32,4 +32,4 @@
 #    
 ##############################################################################
 
-import account_analytic_plan_fix
+import account_analytic_plans_fix

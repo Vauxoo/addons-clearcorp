@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    account_analytic_plan_fix.py
-#    account_analytic_plan_fix
+#    account_analytic_plans_fix.py
+#    account_analytic_plans_fix
 #    First author: Carlos Vásquez <carlos.vasquez@clearcorp.co.cr> (ClearCorp S.A.)
 #    Copyright (c) 2011-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
 #    
@@ -34,7 +34,7 @@
 
 from osv import osv,fields
 
-class account_analytic_plan_fix_move_line(osv.osv):
+class account_analytic_plans_fix_move_line(osv.osv):
 	'''
 	fixes move line manual entry view
 	'''
@@ -159,4 +159,4 @@ class account_analytic_plan_fix_move_line(osv.osv):
 		result['fields'] = self.fields_get(cr, uid, flds, context)
 		return result
 	
-account_analytic_plan_fix_move_line()
+account_analytic_plans_fix_move_line()
