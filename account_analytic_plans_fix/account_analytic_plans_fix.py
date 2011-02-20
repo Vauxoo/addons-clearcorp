@@ -110,10 +110,10 @@ class account_analytic_plans_fix_move_line(osv.osv):
 #                state = 'colors="red:state==\'draft\'"'
 			attrs = []
 			if field == 'debit':
-				attrs.append('sum = "%s"' % _("Total debit"))
+				attrs.append('sum = "%s"' % ("Total debit"))
 
 			elif field == 'credit':
-				attrs.append('sum = "%s"' % _("Total credit"))
+				attrs.append('sum = "%s"' % ("Total credit"))
 
 			elif field == 'move_id':
 				attrs.append('required = "False"')
