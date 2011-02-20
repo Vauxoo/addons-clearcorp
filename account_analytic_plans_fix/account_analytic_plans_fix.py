@@ -33,6 +33,7 @@
 ##############################################################################
 
 from osv import osv,fields
+from account import account_move_line
 
 class account_analytic_plans_fix_move_line(osv.osv):
 	'''
