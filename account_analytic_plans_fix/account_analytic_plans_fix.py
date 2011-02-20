@@ -44,6 +44,6 @@ class account_analytic_plans_fix_move_line(osv.osv):
 
 
 	def fields_view_get(self, cr, uid, view_id=None, view_type='form', context=None, toolbar=False, submenu=False):
-		return account_move_line.fields_view_get(cr, uid, view_id, view_type, context=context, toolbar=toolbar, submenu=submenu)
+		return account_move_line.fields_view_get(self, cr, uid, view_id, view_type, context=context, toolbar=toolbar, submenu=submenu)
 	
 account_analytic_plans_fix_move_line()
