@@ -89,8 +89,8 @@ class account_analytic_plans_fix_move_line(osv.osv):
 				else:
 					fields.get(field.field).append(journal.id)
 					common_fields[field.field] = common_fields[field.field] + 1
-		fld.append(('period_id', 3, _('Period')))
-		fld.append(('journal_id', 10, _('Journal')))
+		fld.append(('period_id', 3, ('Period')))
+		fld.append(('journal_id', 10, ('Journal')))
 		flds.append('period_id')
 		flds.append('journal_id')
 		fields['period_id'] = all_journal
