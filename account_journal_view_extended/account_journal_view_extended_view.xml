@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<!--
+		Resource: account.journal.column
+		Shows hidden and readonly fields
+		-->
+		<record id="account_journal_view_extended_form" model="ir.ui.view">
+			<field name="name">account.journal.column.form_ccorp1</field>
+			<field name="model">account.journal.column</field>
+			<field name="inherit_id" ref="account.view_journal_column_form"/>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<field name="sequence" position="replace">
+					<field name="sequence" readonly="False"/>
+					<field name="required"/>
+					<field name="readonly"/>
+				</field>
+			</field>
+		</record>
+		<record id="account_journal_view_extended_tree" model="ir.ui.view">
+			<field name="name">account.journal.column.tree_ccorp1</field>
+			<field name="model">account.journal.column</field>
+			<field name="inherit_id" ref="account.view_journal_column_tree"/>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<field name="name" position="after">
+					<field name="field"/>
+					<field name="required"/>
+					<field name="readonly"/>
+				</field>
+			</field>
+		</record>
+	</data>
+</openerp>
