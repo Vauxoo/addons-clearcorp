@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0"?>
 <document filename="invoice.pdf">[[ setLang(o.partner_id.lang) ]][[ repeatIn(objects,'o') ]]
 	<template pageSize="(612.0,792.0)" title="Invoice" author="Carlos Vasquez" allowSplitting="20">
 		<pageTemplate id="letter">
