@@ -45,7 +45,6 @@
     """,
     'depends': [
         'account',
-        'ccorp_base',
         'ccorp_report_fonts',
         ],
     'init_xml': [],
