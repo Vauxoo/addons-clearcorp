@@ -53,6 +53,8 @@ class sale_order_ccorp(report_sxw.rml_parse):
             'time': time,
             'discount': self.sale_order_ccorp_discount,
         })
+        self.context = context
+        self._node = None
 
 report_sxw.report_sxw(
     'report.sale.order.layout_ccorp',
