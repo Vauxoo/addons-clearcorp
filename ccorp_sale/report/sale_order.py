@@ -42,8 +42,17 @@ class sale_order_ccorp(report_sxw.rml_parse):
         super(sale_order_ccorp, self).__init__(cr, uid, name, context=context)
         self.localcontext.update({
             'time': time,
+            'discount': sale_order_ccorp_discount
         })
-            
+
+    def sale_order_ccorp_discount(self, sale_order):
+        res = 0
+        line_ids = self.pool.get('sale.order.line').search(self.cr, self.uid, [('order_id', '=', sale_order.id)])
+        for line in line_ids:
+            line_info = self.pool.get('sale.order.line').browse(self.cr, self.uid, id, self.context.copy())
+            res += line.price_subtotal * line.discount / 100
+        return res
+
 report_sxw.report_sxw(
     'report.sale.order.layout_ccorp',
     'sale.order',
