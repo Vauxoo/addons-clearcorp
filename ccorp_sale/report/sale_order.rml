@@ -196,7 +196,7 @@
 <!--
 			<blockTable colWidths="50,328,38,70,70" style="order_tbl_content">[[ (line.state == 'article' and o.amount_discounted != 0) or removeParentNode('blockTable') ]]
 -->
-			<blockTable colWidths="50,328,38,70,70" style="order_tbl_content">[[ (o.amount_discounted != 0) or removeParentNode('blockTable') ]]
+			<blockTable colWidths="50,328,38,70,70" style="order_tbl_content">[[ (discount != 0) or removeParentNode('blockTable') ]]
 				<tr>
 					<td><para style="order_tbl_content_txt_right">[[ formatLang(line.quantity) ]] [[ format(line.uos_id.name) ]]</para></td>
 					<td><para style="order_tbl_content_txt_left">[[ format(line.name) ]][[ (line.invoice_line_tax_id != []) and (' / (' + (', '.join([ lt.description for lt in line.invoice_line_tax_id ])) + ')') ]]</para></td>
@@ -205,7 +205,7 @@
 					<td><para style="order_tbl_content_txt_right">[[ o.currency_id.symbol_prefix or '' ]][[ formatLang(line.price_subtotal_not_discounted) ]][[ o.currency_id.symbol_suffix or '' ]]</para></td>
 				</tr>
 			</blockTable>
-			<blockTable colWidths="50,366,70,70" style="order_tbl_content">[[ (o.amount_discounted == 0) or removeParentNode('blockTable') ]]
+			<blockTable colWidths="50,366,70,70" style="order_tbl_content">[[ (discount == 0) or removeParentNode('blockTable') ]]
 				<tr>
 					<td><para style="order_tbl_content_txt_right">[[ formatLang(line.quantity) ]] [[ format(line.uos_id.name) ]]</para></td>
 					<td><para style="order_tbl_content_txt_left">[[ format(line.name) ]][[ (line.invoice_line_tax_id != []) and (' / (' + (', '.join([ lt.description for lt in line.invoice_line_tax_id ])) + ')') ]]</para></td>
