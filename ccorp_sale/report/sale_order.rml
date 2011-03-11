@@ -53,12 +53,20 @@
 				<drawString x="28" y="648">Payment tems: [[ o.payment_term.name or '-' ]]</drawString>
 				<drawString x="28" y="636">Your Reference: [[ o.client_order_ref ]]</drawString>
 				<drawString x="28" y="624">Confirmation date: [[ o.date_confirm != 'False' and formatLang(o.date_confirm,date=True)) or '-' ]]</drawString>
-				<!-- Header partner address -->
+				<!-- Invoice partner address -->
 				<setFont name="Helvetica" size="10"/>
-				<drawString x="180" y="660">Invoice: [[ o.partner_order_id.street or '' ]]</drawString>
-				<drawString x="180" y="648">[[ o.partner_order_id.street2 or '' ]]</drawString>
-				<drawString x="180" y="636">[[ (o.partner_order_id.zip and format(o.partner_order_id.zip) + ((o.partner_order_id.city or o.partner_order_id.state_id or o.partner_order_id.country_id) and ' ' or '') or '') + (o.partner_order_id.city and format(o.partner_order_id.city) or '') ]]</drawString>
-				<drawString x="180" y="624">[[ (o.partner_order_id.state_id and format(o.partner_order_id.state_id.name) + (o.partner_order_id.country_id and ', ' or '') or '') + (o.partner_order_id.country_id and format(o.partner_order_id.country_id.name) or '') ]]</drawString>
+				<drawString x="180" y="672">Invoice address</drawString>
+				<drawString x="180" y="660">[[ o.partner_invoice_id.street or '' ]]</drawString>
+				<drawString x="180" y="648">[[ o.partner_invoice_id.street2 or '' ]]</drawString>
+				<drawString x="180" y="636">[[ (o.partner_invoice_id.zip and format(o.partner_invoice_id.zip) + ((o.partner_invoice_id.city or o.partner_invoice_id.state_id or o.partner_invoice_id.country_id) and ' ' or '') or '') + (o.partner_invoice_id.city and format(o.partner_invoice_id.city) or '') ]]</drawString>
+				<drawString x="180" y="624">[[ (o.partner_invoice_id.state_id and format(o.partner_invoice_id.state_id.name) + (o.partner_invoice_id.country_id and ', ' or '') or '') + (o.partner_invoice_id.country_id and format(o.partner_invoice_id.country_id.name) or '') ]]</drawString>
+				<!-- Shipping partner address -->
+				<setFont name="Helvetica" size="10"/>
+				<drawString x="382" y="672">Shipping address</drawString>
+				<drawString x="382" y="660">[[ o.partner_shipping_id.street or '' ]]</drawString>
+				<drawString x="382" y="648">[[ o.partner_shipping_id.street2 or '' ]]</drawString>
+				<drawString x="382" y="636">[[ (o.partner_shipping_id.zip and format(o.partner_shipping_id.zip) + ((o.partner_shipping_id.city or o.partner_shipping_id.state_id or o.partner_shipping_id.country_id) and ' ' or '') or '') + (o.partner_shipping_id.city and format(o.partner_shipping_id.city) or '') ]]</drawString>
+				<drawString x="382" y="624">[[ (o.partner_shipping_id.state_id and format(o.partner_shipping_id.state_id.name) + (o.partner_shipping_id.country_id and ', ' or '') or '') + (o.partner_shipping_id.country_id and format(o.partner_shipping_id.country_id.name) or '') ]]</drawString>
 				<!-- Footer greeting -->
 				<setFont name="Helvetica" size="10"/>
 				<drawCentredString x="306" y="62">Thank you for choosing us.</drawCentredString>
