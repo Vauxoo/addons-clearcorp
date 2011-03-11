@@ -14,18 +14,13 @@
 				<image x="32" y="708" height="62" >[[ o.company_id.logo ]]</image>
 				<!-- Header main data -->
 				<setFont name="Helvetica-Bold" size="13"/>
-		 		<drawCentredString x="240.25" y="756">Electronic Invoice[[ ((o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')) or removeParentNode('drawCentredString')) and '' ]]</drawCentredString>
-				<drawCentredString x="240.25" y="756">PRO-FORMA[[ ((o.type == 'out_invoice' and o.state == 'proforma2') or removeParentNode('drawCentredString')) and '' ]]</drawCentredString>
-				<drawCentredString x="240.25" y="756">Draft Invoice[[ ((o.type == 'out_invoice' and o.state == 'draft') or removeParentNode('drawCentredString')) and '' ]]</drawCentredString>
-				<drawCentredString x="240.25" y="756">Cancelled Invoice[[ ((o.type == 'out_invoice' and o.state == 'cancel') or removeParentNode('drawCentredString')) and '' ]]</drawCentredString>
-				<drawCentredString x="240.25" y="756">Refund[[ (o.type=='out_refund' or removeParentNode('drawCentredString')) and '' ]]</drawCentredString>
-				<drawCentredString x="240.25" y="756">Supplier Refund[[ (o.type=='in_refund' or removeParentNode('drawCentredString')) and '' ]]</drawCentredString>
-				<drawCentredString x="240.25" y="756">Supplier Invoice[[ (o.type=='in_invoice' or removeParentNode('drawCentredString')) and '' ]]</drawCentredString>
+		 		<drawCentredString x="240.25" y="756">[[ o.state&lt;&gt;'draft' and removeParentNode('drawCentredString') ]] Quotation N° [[ o.name ]]</drawCentredString>
+				<drawCentredString x="240.25" y="756">[[ o.state=='draft' and removeParentNode('drawCentredString') ]] Order N° [[ o.name ]]</drawCentredString>
 				<setFont name="Helvetica" size="12"/>
-				<drawCentredString x="240.25" y="736">Num.: [[ o.number or removeParentNode('drawCentredString') ]]</drawCentredString>
+				<drawCentredString x="240.25" y="736">Num.: [[ o.name ]]</drawCentredString>
 				<setFont name="Helvetica" size="10"/>
 				<drawCentredString x="240.25" y="724">Date: [[ (o.date_order != 'False' and formatLang(o.date_order,date=True)) or removeParentNode('drawCentredString') ]]</drawCentredString>
-				<drawCentredString x="240.25" y="712">[[ o.name ]]</drawCentredString>
+				<drawCentredString x="240.25" y="712">[[ o.user_id.name ]]</drawCentredString>
 				<!-- Header Company data -->
 				<setFont name="Helvetica-Bold" size="10"/> 
 				<drawCentredString x="390" y="760">[[ o.company_id.name ]]</drawCentredString>
@@ -52,23 +47,17 @@
 				<!-- Header partner data -->
 				<setFont name="Helvetica-Bold" size="10"/> 
 				<drawString x="28" y="672">[[ o.partner_id.name ]]</drawString>
-				<setFont name="Helvetica" size="10"/> 
+				<setFont name="Helvetica" size="10"/>
+				<drawRightString x="584" y="672">Page: <pageNumber/></drawRightString>
 				<drawString x="28" y="660">ID Num.: [[ o.partner_id.ref or '-' ]]</drawString>
-				<drawString x="28" y="648">Phone: [[ o.partner_order_id.phone or '-' ]]</drawString>
-				<drawString x="28" y="636">Fax: [[ o.partner_order_id.fax or '-' ]]</drawString>
-				<drawString x="28" y="624">Email: [[ o.partner_order_id.email or '-' ]]</drawString>
+				<drawString x="28" y="648">Payment tems: [[ o.payment_term.name or '-' ]]</drawString>
+				<drawString x="28" y="636">Your Reference: [[ o.client_order_ref ]]</drawString>
+				<drawString x="28" y="624">Confirmation date: [[ o.date_confirm != 'False' and formatLang(o.date_confirm,date=True)) or '-' ]]</drawString>
 				<!-- Header partner address -->
 				<setFont name="Helvetica" size="10"/>
 				<drawString x="180" y="660">Address: [[ o.partner_order_id.street or '' ]]</drawString>
 				<drawString x="180" y="648">[[ o.partner_order_id.street2 or '' ]]</drawString>
 				<drawString x="180" y="636">[[ (o.partner_order_id.zip and format(o.partner_order_id.zip) + ((o.partner_order_id.city or o.partner_order_id.state_id or o.partner_order_id.country_id) and ' ' or '') or '') + (o.partner_order_id.city and format(o.partner_order_id.city) + ((o.partner_order_id.state_id or o.partner_order_id.country_id) and ', ' or '') or '') + (o.partner_order_id.state_id and format(o.partner_order_id.state_id.name) + (o.partner_order_id.country_id and ', ' or '') or '') + (o.partner_order_id.country_id and format(o.partner_order_id.country_id.name) or '') ]]</drawString>
-				<!-- Header Order data -->
-				<setFont name="Helvetica" size="10"/> 
-				<drawRightString x="584" y="672">Salesman: [[ o.partner_id.user_id.name or removeParentNode('drawRightString') ]]</drawRightString>
-				<drawRightString x="584" y="660">Payment tems: [[ o.payment_term.name or '-' ]]</drawRightString>
-				<drawRightString x="584" y="648">Due date: [[ formatLang(o.date_due,date=True) or '-' ]]</drawRightString>
-				<drawRightString x="584" y="636">Exchange rate: [[ '-' ]]</drawRightString>
-				<drawRightString x="584" y="624">Page: <pageNumber/></drawRightString>
 				<!-- Footer greeting -->
 				<setFont name="Helvetica" size="10"/>
 				<drawCentredString x="306" y="62">Thank you for choosing us.</drawCentredString>
@@ -80,8 +69,6 @@
 				<setFont name="Helvetica" size="8"/>
 				<drawCentredString x="306" y="44">Ctas. Bancarias: HSBC $ 40129749 SINPE 10400740511348127 - HSBC ¢ 40129749 SINPE 10400740511347211   |   Todos los cheques a nombre de ClearCorp S.A.</drawCentredString>
 				<drawCentredString x="306" y="34">Si realiza el pago en colones (CRC), por favor utilizar el tipo de cambio al día de la fecha de pago del BCCR.</drawCentredString>
-				<setFont name="Times-LightItalic" size="8"/> 
-				<drawCentredString x="306" y="22">Emitida conforme lo establecido en la resolución de Facturación Electrónica, N° DGT-22-07 del diecisiete de setiembre de dos mil siete de la Dirección General de Tributación</drawCentredString>
 			</pageGraphics>
 		</pageTemplate>
 	</template>
@@ -174,7 +161,7 @@
 	<images/>
 	<story>[[ repeatIn(objects,'o') ]][[ setLang(o.partner_id.lang) ]]
 		<blockTable colWidths="556" style="order_tbl_main" repeatRows="1"><tr><td>
-			<blockTable colWidths="50,328,38,70,70" style="order_tbl_header">[[ discount(o) != 0 or removeParentNode('blockTable') ]]
+			<blockTable colWidths="70,308,38,70,70" style="order_tbl_header">[[ discount(o) != 0 or removeParentNode('blockTable') ]]
 				<tr>
 					<td><para style="order_tbl_header_txt_center">Qty.</para></td>
 					<td><para style="order_tbl_header_txt_center">[Code] Description / (Taxes)</para></td>
@@ -183,7 +170,7 @@
 					<td><para style="order_tbl_header_txt_right">Total Price</para></td>
 				</tr>
 			</blockTable>
-			<blockTable colWidths="50,366,70,70" style="order_tbl_header">[[ discount(o) == 0 or removeParentNode('blockTable') ]]
+			<blockTable colWidths="70,346,70,70" style="order_tbl_header">[[ discount(o) == 0 or removeParentNode('blockTable') ]]
 				<tr>
 					<td><para style="order_tbl_header_txt_center">Qty.</para></td>
 					<td><para style="order_tbl_header_txt_center">[Code] Description / (Taxes)</para></td>
@@ -196,7 +183,7 @@
 <!--
 			<blockTable colWidths="50,328,38,70,70" style="order_tbl_content">[[ (line.state == 'article' and discount(o) != 0) or removeParentNode('blockTable') ]]
 -->
-			<blockTable colWidths="50,328,38,70,70" style="order_tbl_content">[[ (discount(o) != 0) or removeParentNode('blockTable') ]]
+			<blockTable colWidths="70,308,38,70,70" style="order_tbl_content">[[ (discount(o) != 0) or removeParentNode('blockTable') ]]
 				<tr>
 					<td><para style="order_tbl_content_txt_right">[[ formatLang(line.product_uom_qty) ]] [[ format(line.product_uom.name) ]]</para></td>
 					<td><para style="order_tbl_content_txt_left">[[ format(line.name) ]][[ (line.tax_id != []) and (' / (' + (', '.join([ lt.description for lt in line.tax_id ])) + ')') ]]</para></td>
@@ -205,7 +192,7 @@
 					<td><para style="order_tbl_content_txt_right">[[ o.currency_id.symbol_prefix or '' ]][[ formatLang(line.price_subtotal) ]][[ o.currency_id.symbol_suffix or '' ]]</para></td>
 				</tr>
 			</blockTable>
-			<blockTable colWidths="50,366,70,70" style="order_tbl_content">[[ (discount(o) == 0) or removeParentNode('blockTable') ]]
+			<blockTable colWidths="70,346,70,70" style="order_tbl_content">[[ (discount(o) == 0) or removeParentNode('blockTable') ]]
 				<tr>
 					<td><para style="order_tbl_content_txt_right">[[ formatLang(line.product_uom_qty) ]] [[ format(line.product_uom.name) ]]</para></td>
 					<td><para style="order_tbl_content_txt_left">[[ format(line.name) ]][[ (line.tax_id != []) and (' / (' + (', '.join([ lt.description for lt in line.tax_id ])) + ')') ]]</para></td>
