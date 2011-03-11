@@ -51,7 +51,7 @@ class sale_order_ccorp(report_sxw.rml_parse):
         super(sale_order_ccorp, self).__init__(cr, uid, name, context=context)
         self.localcontext.update({
             'time': time,
-            'discount': self.sale_order_ccorp_discount
+            'discount': self.sale_order_ccorp_discount,
         })
 
 report_sxw.report_sxw(
