@@ -43,7 +43,7 @@ class sale_order_ccorp(report_sxw.rml_parse):
         res = 0
         line_ids = self.pool.get('sale.order.line').search(self.cr, self.uid, [('order_id', '=', sale_order.id)])
         for line in line_ids:
-            line_info = self.pool.get('sale.order.line').browse(self.cr, self.uid, id, self.context.copy())
+            line_info = self.pool.get('sale.order.line').browse(self.cr, self.uid, line, self.context.copy())
             res += line_info.price_subtotal * line_info.discount / 100
         return res
 
