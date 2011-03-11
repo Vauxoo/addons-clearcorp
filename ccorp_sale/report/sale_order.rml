@@ -174,7 +174,7 @@
 	<images/>
 	<story>[[ repeatIn(objects,'o') ]][[ setLang(o.partner_id.lang) ]]
 		<blockTable colWidths="556" style="order_tbl_main" repeatRows="1"><tr><td>
-			<blockTable colWidths="50,328,38,70,70" style="order_tbl_header">[[ o.amount_discounted != 0 or removeParentNode('blockTable') ]]
+			<blockTable colWidths="50,328,38,70,70" style="order_tbl_header">[[ o.discount != 0 or removeParentNode('blockTable') ]]
 				<tr>
 					<td><para style="order_tbl_header_txt_center">Qty.</para></td>
 					<td><para style="order_tbl_header_txt_center">[Code] Description / (Taxes)</para></td>
@@ -183,7 +183,7 @@
 					<td><para style="order_tbl_header_txt_right">Total Price</para></td>
 				</tr>
 			</blockTable>
-			<blockTable colWidths="50,366,70,70" style="order_tbl_header">[[ o.amount_discounted == 0 or removeParentNode('blockTable') ]]
+			<blockTable colWidths="50,366,70,70" style="order_tbl_header">[[ o.discount == 0 or removeParentNode('blockTable') ]]
 				<tr>
 					<td><para style="order_tbl_header_txt_center">Qty.</para></td>
 					<td><para style="order_tbl_header_txt_center">[Code] Description / (Taxes)</para></td>
@@ -194,7 +194,7 @@
 		</td></tr>
 		<tr><td>[[ repeatIn(o.order_line, 'line') ]]
 <!--
-			<blockTable colWidths="50,328,38,70,70" style="order_tbl_content">[[ (line.state == 'article' and o.amount_discounted != 0) or removeParentNode('blockTable') ]]
+			<blockTable colWidths="50,328,38,70,70" style="order_tbl_content">[[ (line.state == 'article' and o.discount != 0) or removeParentNode('blockTable') ]]
 -->
 			<blockTable colWidths="50,328,38,70,70" style="order_tbl_content">[[ (discount != 0) or removeParentNode('blockTable') ]]
 				<tr>
@@ -276,12 +276,12 @@
 									</blockTable>
 								</td>
 							</tr>
-							<tr>[[ o.amount_discounted != 0 or removeParentNode('tr') ]]
+							<tr>[[ o.discount != 0 or removeParentNode('tr') ]]
 								<td>
 									<blockTable colWidths="70,70" style="order_tbl_content">
 										<tr>
 											<td><para style="order_tbl_content_txt_right">Discount</para></td>
-											<td><para style="order_tbl_content_txt_right">[[ o.currency_id.symbol_prefix or '' ]][[ formatLang(o.amount_discounted) ]][[ o.currency_id.symbol_suffix or '' ]]</para></td>
+											<td><para style="order_tbl_content_txt_right">[[ o.currency_id.symbol_prefix or '' ]][[ formatLang(o.discount) ]][[ o.currency_id.symbol_suffix or '' ]]</para></td>
 										</tr>
 									</blockTable>
 								</td>
