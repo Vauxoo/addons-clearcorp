@@ -38,12 +38,6 @@ from report import report_sxw
 import locale
 
 class sale_order_ccorp(report_sxw.rml_parse):
-    def __init__(self, cr, uid, name, context):
-        super(sale_order_ccorp, self).__init__(cr, uid, name, context=context)
-        self.localcontext.update({
-            'time': time,
-            'discount': self.sale_order_ccorp_discount
-        })
 
     def sale_order_ccorp_discount(self, sale_order):
         res = 0
@@ -52,6 +46,13 @@ class sale_order_ccorp(report_sxw.rml_parse):
             line_info = self.pool.get('sale.order.line').browse(self.cr, self.uid, id, self.context.copy())
             res += line.price_subtotal * line.discount / 100
         return res
+
+    def __init__(self, cr, uid, name, context):
+        super(sale_order_ccorp, self).__init__(cr, uid, name, context=context)
+        self.localcontext.update({
+            'time': time,
+            'discount': self.sale_order_ccorp_discount
+        })
 
 report_sxw.report_sxw(
     'report.sale.order.layout_ccorp',
