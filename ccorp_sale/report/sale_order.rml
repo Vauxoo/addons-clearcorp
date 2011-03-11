@@ -196,26 +196,26 @@
 <!--
 			<blockTable colWidths="50,328,38,70,70" style="order_tbl_content">[[ (line.state == 'article' and discount(o) != 0) or removeParentNode('blockTable') ]]
 -->
-			<blockTable colWidths="50,328,38,70,70" style="order_tbl_content">[[ (discount != 0) or removeParentNode('blockTable') ]]
+			<blockTable colWidths="50,328,38,70,70" style="order_tbl_content">[[ (discount(o) != 0) or removeParentNode('blockTable') ]]
 				<tr>
-					<td><para style="order_tbl_content_txt_right">[[ formatLang(line.quantity) ]] [[ format(line.uos_id.name) ]]</para></td>
-					<td><para style="order_tbl_content_txt_left">[[ format(line.name) ]][[ (line.invoice_line_tax_id != []) and (' / (' + (', '.join([ lt.description for lt in line.invoice_line_tax_id ])) + ')') ]][[discount(o)]]</para></td>
+					<td><para style="order_tbl_content_txt_right">[[ formatLang(line.product_uos_qty) ]] [[ format(line.product_uos.name) ]]</para></td>
+					<td><para style="order_tbl_content_txt_left">[[ format(line.name) ]][[ (line.tax_id != []) and (' / (' + (', '.join([ lt.description for lt in line.tax_id ])) + ')') ]]</para></td>
 					<td><para style="order_tbl_content_txt_center">[[ (line.discount == 0 and '-') or formatLang(line.discount) + ' %' ]]</para></td>
 					<td><para style="order_tbl_content_txt_right">[[ o.currency_id.symbol_prefix or '' ]][[ formatLang(line.price_unit) ]][[ o.currency_id.symbol_suffix or '' ]]</para></td>
-					<td><para style="order_tbl_content_txt_right">[[ o.currency_id.symbol_prefix or '' ]][[ formatLang(line.price_subtotal_not_discounted) ]][[ o.currency_id.symbol_suffix or '' ]]</para></td>
+					<td><para style="order_tbl_content_txt_right">[[ o.currency_id.symbol_prefix or '' ]][[ formatLang(line.price_subtotal) ]][[ o.currency_id.symbol_suffix or '' ]]</para></td>
 				</tr>
 			</blockTable>
 			<blockTable colWidths="50,366,70,70" style="order_tbl_content">[[ (discount(o) == 0) or removeParentNode('blockTable') ]]
 				<tr>
-					<td><para style="order_tbl_content_txt_right">[[ formatLang(line.quantity) ]] [[ format(line.uos_id.name) ]]</para></td>
-					<td><para style="order_tbl_content_txt_left">[[ format(line.name) ]][[ (line.invoice_line_tax_id != []) and (' / (' + (', '.join([ lt.description for lt in line.invoice_line_tax_id ])) + ')') ]]</para></td>
+					<td><para style="order_tbl_content_txt_right">[[ formatLang(line.product_uos_qty) ]] [[ format(line.product_uos.name) ]]</para></td>
+					<td><para style="order_tbl_content_txt_left">[[ format(line.name) ]][[ (line.tax_id != []) and (' / (' + (', '.join([ lt.description for lt in line.tax_id ])) + ')') ]]</para></td>
 					<td><para style="order_tbl_content_txt_right">[[ o.currency_id.symbol_prefix or '' ]][[ formatLang(line.price_unit) ]][[ o.currency_id.symbol_suffix or '' ]]</para></td>
-					<td><para style="order_tbl_content_txt_right">[[ o.currency_id.symbol_prefix or '' ]][[ formatLang(line.price_subtotal_not_discounted) ]][[ o.currency_id.symbol_suffix or '' ]]</para></td>
+					<td><para style="order_tbl_content_txt_right">[[ o.currency_id.symbol_prefix or '' ]][[ formatLang(line.price_subtotal) ]][[ o.currency_id.symbol_suffix or '' ]]</para></td>
 				</tr>
 			</blockTable>
-			<blockTable colWidths="556" style="order_tbl_content_note">[[ line.note or removeParentNode('blockTable') ]]
+			<blockTable colWidths="556" style="order_tbl_content_note">[[ line.notes or removeParentNode('blockTable') ]]
 				<tr>
-					<td><para style="order_tbl_content_txt_note">[[ line.product_id and line.product_id.code and '[' + format(line.product_id.code) + '] ' ]]<b>Note:</b> [[ format(line.note) ]]</para></td>
+					<td><para style="order_tbl_content_txt_note">[[ line.product_id and line.product_id.code and '[' + format(line.product_id.code) + '] ' ]]<b>Note:</b> [[ format(line.notes) ]]</para></td>
 				</tr>
 			</blockTable>
 <!--
