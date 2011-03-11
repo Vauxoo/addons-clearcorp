@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
 <openerp>
 	<data>
-		<report rml="sale/report/sale_order.rml" />
-
 		<report id="sale.report_sale_order"
 				string="Quotation / Order"
 				model="sale.order"
