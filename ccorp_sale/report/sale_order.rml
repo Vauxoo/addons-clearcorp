@@ -174,7 +174,7 @@
 	<images/>
 	<story>[[ repeatIn(objects,'o') ]][[ setLang(o.partner_id.lang) ]]
 		<blockTable colWidths="556" style="order_tbl_main" repeatRows="1"><tr><td>
-			<blockTable colWidths="50,328,38,70,70" style="order_tbl_header">[[ o.discount != 0 or removeParentNode('blockTable') ]]
+			<blockTable colWidths="50,328,38,70,70" style="order_tbl_header">[[ discount(o) != 0 or removeParentNode('blockTable') ]]
 				<tr>
 					<td><para style="order_tbl_header_txt_center">Qty.</para></td>
 					<td><para style="order_tbl_header_txt_center">[Code] Description / (Taxes)</para></td>
@@ -183,7 +183,7 @@
 					<td><para style="order_tbl_header_txt_right">Total Price</para></td>
 				</tr>
 			</blockTable>
-			<blockTable colWidths="50,366,70,70" style="order_tbl_header">[[ o.discount == 0 or removeParentNode('blockTable') ]]
+			<blockTable colWidths="50,366,70,70" style="order_tbl_header">[[ discount(o) == 0 or removeParentNode('blockTable') ]]
 				<tr>
 					<td><para style="order_tbl_header_txt_center">Qty.</para></td>
 					<td><para style="order_tbl_header_txt_center">[Code] Description / (Taxes)</para></td>
@@ -194,18 +194,18 @@
 		</td></tr>
 		<tr><td>[[ repeatIn(o.order_line, 'line') ]]
 <!--
-			<blockTable colWidths="50,328,38,70,70" style="order_tbl_content">[[ (line.state == 'article' and o.discount != 0) or removeParentNode('blockTable') ]]
+			<blockTable colWidths="50,328,38,70,70" style="order_tbl_content">[[ (line.state == 'article' and discount(o) != 0) or removeParentNode('blockTable') ]]
 -->
 			<blockTable colWidths="50,328,38,70,70" style="order_tbl_content">[[ (discount != 0) or removeParentNode('blockTable') ]]
 				<tr>
 					<td><para style="order_tbl_content_txt_right">[[ formatLang(line.quantity) ]] [[ format(line.uos_id.name) ]]</para></td>
-					<td><para style="order_tbl_content_txt_left">[[ format(line.name) ]][[ (line.invoice_line_tax_id != []) and (' / (' + (', '.join([ lt.description for lt in line.invoice_line_tax_id ])) + ')') ]][[discount]]</para></td>
+					<td><para style="order_tbl_content_txt_left">[[ format(line.name) ]][[ (line.invoice_line_tax_id != []) and (' / (' + (', '.join([ lt.description for lt in line.invoice_line_tax_id ])) + ')') ]][[discount(o)]]</para></td>
 					<td><para style="order_tbl_content_txt_center">[[ (line.discount == 0 and '-') or formatLang(line.discount) + ' %' ]]</para></td>
 					<td><para style="order_tbl_content_txt_right">[[ o.currency_id.symbol_prefix or '' ]][[ formatLang(line.price_unit) ]][[ o.currency_id.symbol_suffix or '' ]]</para></td>
 					<td><para style="order_tbl_content_txt_right">[[ o.currency_id.symbol_prefix or '' ]][[ formatLang(line.price_subtotal_not_discounted) ]][[ o.currency_id.symbol_suffix or '' ]]</para></td>
 				</tr>
 			</blockTable>
-			<blockTable colWidths="50,366,70,70" style="order_tbl_content">[[ (discount == 0) or removeParentNode('blockTable') ]]
+			<blockTable colWidths="50,366,70,70" style="order_tbl_content">[[ (discount(o) == 0) or removeParentNode('blockTable') ]]
 				<tr>
 					<td><para style="order_tbl_content_txt_right">[[ formatLang(line.quantity) ]] [[ format(line.uos_id.name) ]]</para></td>
 					<td><para style="order_tbl_content_txt_left">[[ format(line.name) ]][[ (line.invoice_line_tax_id != []) and (' / (' + (', '.join([ lt.description for lt in line.invoice_line_tax_id ])) + ')') ]]</para></td>
@@ -276,12 +276,12 @@
 									</blockTable>
 								</td>
 							</tr>
-							<tr>[[ o.discount != 0 or removeParentNode('tr') ]]
+							<tr>[[ discount(o) != 0 or removeParentNode('tr') ]]
 								<td>
 									<blockTable colWidths="70,70" style="order_tbl_content">
 										<tr>
 											<td><para style="order_tbl_content_txt_right">Discount</para></td>
-											<td><para style="order_tbl_content_txt_right">[[ o.currency_id.symbol_prefix or '' ]][[ formatLang(o.discount) ]][[ o.currency_id.symbol_suffix or '' ]]</para></td>
+											<td><para style="order_tbl_content_txt_right">[[ o.currency_id.symbol_prefix or '' ]][[ formatLang(discount(o)) ]][[ o.currency_id.symbol_suffix or '' ]]</para></td>
 										</tr>
 									</blockTable>
 								</td>
