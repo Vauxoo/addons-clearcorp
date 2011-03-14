@@ -1,5 +1,6 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
+#	* ccorp_sale
 #
 msgid ""
 msgstr ""
@@ -13,6 +14,27 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2011-02-26 05:56+0000\n"
+"X-Generator: Launchpad (build 12351)\n"
+
+#. module: ccorp_sale
+#: model:ir.module.module,description:ccorp_sale.module_meta_information
+msgid ""
+"ClearCorp 'sale' modifications:
+"    Reports:
+"      * Sale Order / Quotation
+"    "
+msgstr ""
+"ClearCorp 'sale' modifications:
+"    Reports:
+"      * Sale Order / Quotation
+"    "
+
+#. module: ccorp_sale
+#: model:ir.module.module,shortdesc:ccorp_sale.module_meta_information
+msgid "ClearCorp sale module modifications"
+msgstr "ClearCorp sale module modifications"
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
