@@ -21,13 +21,18 @@ msgstr "Orden Nº "
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
-msgid "Quotation Nº "
-msgstr "Cotización Nº "
+msgid "Quotation N° "
+msgstr "Order N° "
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
 msgid "Date: "
 msgstr "Fecha: "
+
+#. module: ccorp_sale
+#: report:sale.order.layout_ccorp:0
+msgid "Ref.: "
+msgstr "Ref.: "
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
