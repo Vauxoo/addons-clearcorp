@@ -17,7 +17,7 @@
 		 		<drawCentredString x="240.25" y="756">Quotation N° [[ (o.state&lt;&gt;'draft' and removeParentNode('drawCentredString')) or o.name ]]</drawCentredString>
 				<drawCentredString x="240.25" y="756">Order N° [[ (o.state=='draft' and removeParentNode('drawCentredString')) or o.name ]]</drawCentredString>
 				<setFont name="Helvetica" size="12"/>
-				<drawCentredString x="240.25" y="736">Date: [[ (o.date_order != 'False' and formatLang(o.date_order,date=True)) or removeParentNode('drawCentredString') ]]</drawCentredString>
+				<drawCentredString x="240.25" y="736">Date: [[ (o.date_order=='False' and removeParentNode('drawCentredString')) or formatLang(o.date_order,date=True) ]]</drawCentredString>
 				<setFont name="Helvetica" size="10"/>
 				<drawCentredString x="240.25" y="724">[[ o.user_id.name ]]</drawCentredString>
 				<drawCentredString x="240.25" y="712">Ref.: [[ o.client_order_ref != "" and o.client_order_ref ]]</drawCentredString>
