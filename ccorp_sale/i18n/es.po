@@ -15,101 +15,101 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: ccorp_sale
-#: rml:sale_order.layout_ccorp:0
+#: report:sale_order.layout_ccorp:0
 msgid "Order Nº "
 msgstr "Orden Nº "
 
 #. module: ccorp_sale
-#: rml:sale.order.layout_ccorp:0
+#: report:sale.order.layout_ccorp:0
 msgid "Quotation Nº "
 msgstr "Cotización Nº "
 
 #. module: ccorp_sale
-#: rml:sale.order.layout_ccorp:0
+#: report:sale.order.layout_ccorp:0
 msgid "Date: "
 msgstr "Fecha: "
 
 #. module: ccorp_sale
-#: rml:sale.order.layout_ccorp:0
+#: report:sale.order.layout_ccorp:0
 msgid "ID Num.: "
 msgstr "ID: "
 
 #. module: ccorp_sale
-#: rml:sale.order.layout_ccorp:0
+#: report:sale.order.layout_ccorp:0
 msgid "Tel-fax: "
 msgstr "Tel-fax: "
 
 #. module: ccorp_sale
-#: rml:sale.order.layout_ccorp:0
+#: report:sale.order.layout_ccorp:0
 msgid "Email: "
 msgstr "Email: "
 
 #. module: ccorp_sale
-#: rml:sale.order.layout_ccorp:0
+#: report:sale.order.layout_ccorp:0
 msgid "Web: "
 msgstr "Web: "
 
 #. module: ccorp_sale
-#: rml:sale.order.layout_ccorp:0
+#: report:sale.order.layout_ccorp:0
 msgid "Address:"
 msgstr "Dirección:"
 
 #. module: ccorp_sale
-#: rml:sale.order.layout_ccorp:0
+#: report:sale.order.layout_ccorp:0
 msgid "Phone: "
 msgstr "Tel: "
 
 #. module: ccorp_sale
-#: rml:sale.order.layout_ccorp:0
+#: report:sale.order.layout_ccorp:0
 msgid "Page: "
 msgstr "Pág.: "
 
 #. module: ccorp_sale
-#: rml:sale.order.layout_ccorp:0
+#: report:sale.order.layout_ccorp:0
 msgid "Thank you for choosing us."
 msgstr "Gracias por preferir nuestros servicios."
 
 #. module: ccorp_sale
-#: rml:sale.order.layout_ccorp:0
+#: report:sale.order.layout_ccorp:0
 msgid "Qty."
 msgstr "Cant."
 
 #. module: ccorp_sale
-#: rml:sale.order.layout_ccorp:0
+#: report:sale.order.layout_ccorp:0
 msgid "[Code] Description / (Taxes)"
 msgstr "[Cód.] Descripción / (Imp.)"
 
 #. module: ccorp_sale
-#: rml:sale.order.layout_ccorp:0
+#: report:sale.order.layout_ccorp:0
 msgid "Disc."
 msgstr "Desc."
 
 #. module: ccorp_sale
-#: rml:sale.order.layout_ccorp:0
+#: report:sale.order.layout_ccorp:0
 msgid "Unit Price"
 msgstr "Precio unitario"
 
 #. module: ccorp_sale
-#: rml:sale.order.layout_ccorp:0
+#: report:sale.order.layout_ccorp:0
 msgid "Total Price"
 msgstr "Precio total"
 
 #. module: ccorp_sale
-#: rml:sale.order.layout_ccorp:0
+#: report:sale.order.layout_ccorp:0
 msgid "Subtotal"
 msgstr "Subtotal"
 
 #. module: ccorp_sale
-#: rml:sale.order.layout_ccorp:0
+#: report:sale.order.layout_ccorp:0
 msgid "Discount"
 msgstr "Descuento"
 
 #. module: ccorp_sale
-#: rml:sale.order.layout_ccorp:0
+#: report:sale.order.layout_ccorp:0
 msgid "Taxes"
 msgstr "Impuestos"
 
 #. module: ccorp_sale
-#: rml:sale.order.layout_ccorp:0
+#: report:sale.order.layout_ccorp:0
 msgid "TOTAL"
 msgstr "TOTAL"
