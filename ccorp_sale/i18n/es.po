@@ -88,6 +88,16 @@ msgstr "Tel:"
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
+msgid "Invoice address:"
+msgstr "Dirección de factura:"
+
+#. module: ccorp_sale
+#: report:sale.order.layout_ccorp:0
+msgid "Shipping address:"
+msgstr "Dirección de envío:"
+
+#. module: ccorp_sale
+#: report:sale.order.layout_ccorp:0
 msgid "Page:"
 msgstr "Pág.:"
 
@@ -140,3 +150,18 @@ msgstr "Impuestos"
 #: report:sale.order.layout_ccorp:0
 msgid "TOTAL"
 msgstr "TOTAL"
+
+#. module: ccorp_sale
+#: report:sale.order.layout_ccorp:0
+msgid "Note:"
+msgstr "Nota:"
+
+#. module: ccorp_sale
+#: report:sale.order.layout_ccorp:0
+msgid "Order notes:"
+msgstr "Notas de orden:"
+
+#. module: ccorp_sale
+#: report:sale.order.layout_ccorp:0
+msgid "Payment notes:"
+msgstr "Notas de pago:"
