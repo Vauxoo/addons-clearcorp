@@ -14,8 +14,8 @@
 				<image x="32" y="708" height="62" >[[ o.company_id.logo ]]</image>
 				<!-- Header main data -->
 				<setFont name="Helvetica-Bold" size="13"/>
-		 		<drawCentredString x="240.25" y="756">Quotation N° [[ o.name ]][[ o.state&lt;&gt;'draft' and removeParentNode('drawCentredString') ]]</drawCentredString>
-				<drawCentredString x="240.25" y="756">Order N° [[ o.name ]][[ o.state=='draft' and removeParentNode('drawCentredString') ]]</drawCentredString>
+		 		<drawCentredString x="240.25" y="756">Quotation N° [[ (o.state&lt;&gt;'draft' and removeParentNode('drawCentredString')) or o.name ]]</drawCentredString>
+				<drawCentredString x="240.25" y="756">Order N° [[ (o.state=='draft' and removeParentNode('drawCentredString')) or o.name ]]</drawCentredString>
 				<setFont name="Helvetica" size="12"/>
 				<drawCentredString x="240.25" y="736">Date: [[ (o.date_order != 'False' and formatLang(o.date_order,date=True)) or removeParentNode('drawCentredString') ]]</drawCentredString>
 				<setFont name="Helvetica" size="10"/>
