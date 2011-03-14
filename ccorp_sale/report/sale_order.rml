@@ -195,7 +195,7 @@
 			<blockTable colWidths="70,308,38,70,70" style="order_tbl_content">[[ (discount(o) != 0) or removeParentNode('blockTable') ]]
 				<tr>
 					<td><para style="order_tbl_content_txt_right">[[ formatLang(line.product_uom_qty) ]] [[ format(line.product_uom.name) ]]</para></td>
-					<td><para style="order_tbl_content_txt_left">[[ line.product_id and line.product_id.code and (format(line.product_id.code)+" ") ]][[ format(line.name) ]][[ (line.tax_id != []) and (' / (' + (', '.join([ lt.description for lt in line.tax_id ])) + ')') ]]</para></td>
+					<td><para style="order_tbl_content_txt_left">[[ line.product_id and line.product_id.default_code != '' and (format(line.product_id.default_code)+" ") ]][[ format(line.name) ]][[ (line.tax_id != []) and (' / (' + (', '.join([ lt.description for lt in line.tax_id ])) + ')') ]]</para></td>
 					<td><para style="order_tbl_content_txt_center">[[ (line.discount == 0 and '-') or formatLang(line.discount) + ' %' ]]</para></td>
 					<td><para style="order_tbl_content_txt_right">[[ o.company_id.currency_id.symbol_prefix or '' ]][[ formatLang(line.price_unit) ]][[ o.company_id.currency_id.symbol_suffix or '' ]]</para></td>
 					<td><para style="order_tbl_content_txt_right">[[ o.company_id.currency_id.symbol_prefix or '' ]][[ formatLang(line.price_subtotal) ]][[ o.company_id.currency_id.symbol_suffix or '' ]]</para></td>
@@ -204,9 +204,9 @@
 			<blockTable colWidths="70,346,70,70" style="order_tbl_content">[[ (discount(o) == 0) or removeParentNode('blockTable') ]]
 				<tr>
 					<td><para style="order_tbl_content_txt_right">[[ formatLang(line.product_uom_qty) ]] [[ format(line.product_uom.name) ]]</para></td>
-					<td><para style="order_tbl_content_txt_left">[[ format(line.name) ]][[ (line.tax_id != []) and (' / (' + (', '.join([ lt.description for lt in line.tax_id ])) + ')') ]]</para></td>
-					<td><para style="order_tbl_content_txt_right">[[ o.currency_id.symbol_prefix or '' ]][[ formatLang(line.price_unit) ]][[ o.currency_id.symbol_suffix or '' ]]</para></td>
-					<td><para style="order_tbl_content_txt_right">[[ o.currency_id.symbol_prefix or '' ]][[ formatLang(line.price_subtotal) ]][[ o.currency_id.symbol_suffix or '' ]]</para></td>
+					<td><para style="order_tbl_content_txt_left">[[ line.product_id and line.product_id.default_code != '' and (format(line.product_id.default_code)+" ") ]][[ format(line.name) ]][[ (line.tax_id != []) and (' / (' + (', '.join([ lt.description for lt in line.tax_id ])) + ')') ]]</para></td>
+					<td><para style="order_tbl_content_txt_right">[[ o.company_id.currency_id.symbol_prefix or '' ]][[ formatLang(line.price_unit) ]][[ o.company_id.currency_id.symbol_suffix or '' ]]</para></td>
+					<td><para style="order_tbl_content_txt_right">[[ o.company_id.currency_id.symbol_prefix or '' ]][[ formatLang(line.price_subtotal) ]][[ o.company_id.currency_id.symbol_suffix or '' ]]</para></td>
 				</tr>
 			</blockTable>
 			<blockTable colWidths="556" style="order_tbl_content_note">[[ line.notes or removeParentNode('blockTable') ]]
@@ -267,7 +267,7 @@
 									<blockTable colWidths="70,70" style="order_tbl_content">
 										<tr>
 											<td><para style="order_tbl_content_txt_right">Subtotal</para></td>
-											<td><para style="order_tbl_content_txt_right">[[ o.currency_id.symbol_prefix or '' ]][[ formatLang(o.amount_untaxed) ]][[ o.currency_id.symbol_suffix or '' ]]</para></td>
+											<td><para style="order_tbl_content_txt_right">[[ o.company_id.currency_id.symbol_prefix or '' ]][[ formatLang(o.amount_untaxed) ]][[ o.company_id.currency_id.symbol_suffix or '' ]]</para></td>
 										</tr>
 									</blockTable>
 								</td>
@@ -277,7 +277,7 @@
 									<blockTable colWidths="70,70" style="order_tbl_content">
 										<tr>
 											<td><para style="order_tbl_content_txt_right">Discount</para></td>
-											<td><para style="order_tbl_content_txt_right">[[ o.currency_id.symbol_prefix or '' ]][[ formatLang(discount(o)) ]][[ o.currency_id.symbol_suffix or '' ]]</para></td>
+											<td><para style="order_tbl_content_txt_right">[[ o.company_id.currency_id.symbol_prefix or '' ]][[ formatLang(discount(o)) ]][[ o.company_id.currency_id.symbol_suffix or '' ]]</para></td>
 										</tr>
 									</blockTable>
 								</td>
@@ -287,7 +287,7 @@
 									<blockTable colWidths="70,70" style="order_tbl_content">
 										<tr>
 											<td><para style="order_tbl_content_txt_right">Taxes</para></td>
-											<td><para style="order_tbl_content_txt_right">[[ o.currency_id.symbol_prefix or '' ]][[ formatLang(o.amount_tax) ]][[ o.currency_id.symbol_suffix or '' ]]</para></td>
+											<td><para style="order_tbl_content_txt_right">[[ o.company_id.currency_id.symbol_prefix or '' ]][[ formatLang(o.amount_tax) ]][[ o.company_id.currency_id.symbol_suffix or '' ]]</para></td>
 										</tr>
 									</blockTable>
 								</td>
@@ -297,7 +297,7 @@
 									<blockTable colWidths="70,70" style="order_tbl_content">
 										<tr>
 											<td><para style="order_tbl_content_txt_right"><b>TOTAL</b></para></td>
-											<td><para style="order_tbl_content_txt_right"><b>[[ o.currency_id.symbol_prefix or '' ]][[ formatLang(o.amount_total) ]][[ o.currency_id.symbol_suffix or '' ]]</b></para></td>
+											<td><para style="order_tbl_content_txt_right"><b>[[ o.company_id.currency_id.symbol_prefix or '' ]][[ formatLang(o.amount_total) ]][[ o.company_id.currency_id.symbol_suffix or '' ]]</b></para></td>
 										</tr>
 									</blockTable>
 								</td>
