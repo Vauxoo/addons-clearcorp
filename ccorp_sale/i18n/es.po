@@ -15,7 +15,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: ccorp_sale
-#: report:sale_order.layout_ccorp:0
+#: report:sale.order.layout_ccorp:0
 msgid "Order Nº "
 msgstr "Orden Nº "
 
@@ -87,12 +87,12 @@ msgstr "Desc."
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
 msgid "Unit Price"
-msgstr "Precio unitario"
+msgstr "Precio Unit."
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
 msgid "Total Price"
-msgstr "Precio total"
+msgstr "Precio Total"
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0

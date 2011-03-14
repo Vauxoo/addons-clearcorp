@@ -14,10 +14,10 @@
 				<image x="32" y="708" height="62" >[[ o.company_id.logo ]]</image>
 				<!-- Header main data -->
 				<setFont name="Helvetica-Bold" size="13"/>
-		 		<drawCentredString x="240.25" y="756">[[ o.state&lt;&gt;'draft' and removeParentNode('drawCentredString') ]] Quotation N° [[ o.name ]]</drawCentredString>
-				<drawCentredString x="240.25" y="756">[[ o.state=='draft' and removeParentNode('drawCentredString') ]] Order N° [[ o.name ]]</drawCentredString>
+		 		<drawCentredString x="240.25" y="756">[[ o.state&lt;&gt;'draft' and removeParentNode('drawCentredString') ]][[ 'Quotation N° ' + o.name ]]</drawCentredString>
+				<drawCentredString x="240.25" y="756">[[ o.state=='draft' and removeParentNode('drawCentredString') ]][[ 'Order N° ' + o.name ]]</drawCentredString>
 				<setFont name="Helvetica" size="12"/>
-				<drawCentredString x="240.25" y="736">Date: [[ (o.date_order != 'False' and formatLang(o.date_order,date=True)) or removeParentNode('drawCentredString') ]]</drawCentredString>
+				<drawCentredString x="240.25" y="736">[[ (o.date_order != 'False' and ('Date: ' + formatLang(o.date_order,date=True))) or removeParentNode('drawCentredString') ]]</drawCentredString>
 				<setFont name="Helvetica" size="10"/>
 				<drawCentredString x="240.25" y="724">[[ o.user_id.name ]]</drawCentredString>
 				<drawCentredString x="240.25" y="712">[[ o.client_order_ref != "" and ( "Ref.: " + o.client_order_ref) ]]</drawCentredString>
