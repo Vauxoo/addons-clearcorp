@@ -20,7 +20,7 @@
 				<drawCentredString x="240.25" y="736">Date: [[ (o.date_order != 'False' and formatLang(o.date_order,date=True)) or removeParentNode('drawCentredString') ]]</drawCentredString>
 				<setFont name="Helvetica" size="10"/>
 				<drawCentredString x="240.25" y="724">[[ o.user_id.name ]]</drawCentredString>
-				<drawCentredString x="240.25" y="712"> </drawCentredString>
+				<drawCentredString x="240.25" y="712">[[ o.client_order_ref != "" and ( "Ref.: " + o.client_order_ref) ]]</drawCentredString>
 				<!-- Header Company data -->
 				<setFont name="Helvetica-Bold" size="10"/> 
 				<drawCentredString x="390" y="760">[[ o.company_id.name ]]</drawCentredString>
@@ -50,8 +50,8 @@
 				<setFont name="Helvetica" size="10"/>
 				<drawRightString x="584" y="672">Page: <pageNumber/></drawRightString>
 				<drawString x="28" y="660">ID Num.: [[ o.partner_id.ref or '-' ]]</drawString>
-				<drawString x="28" y="648">Payment tems: [[ o.payment_term.name or '-' ]]</drawString>
-				<drawString x="28" y="636">Your Reference: [[ o.client_order_ref ]]</drawString>
+				<drawString x="28" y="648">Phone: [[ o.partner_id.phone or '-' ]]</drawString>
+				<drawString x="28" y="636">Email: [[ o.partner_id.email or '-' ]]</drawString>
 				<drawString x="28" y="624">Confirmation date: [[ o.date_confirm != 'False' and formatLang(o.date_confirm,date=True)) or '-' ]]</drawString>
 				<!-- Invoice partner address -->
 				<setFont name="Helvetica" size="10"/>
@@ -195,10 +195,10 @@
 			<blockTable colWidths="70,308,38,70,70" style="order_tbl_content">[[ (discount(o) != 0) or removeParentNode('blockTable') ]]
 				<tr>
 					<td><para style="order_tbl_content_txt_right">[[ formatLang(line.product_uom_qty) ]] [[ format(line.product_uom.name) ]]</para></td>
-					<td><para style="order_tbl_content_txt_left">[[ format(line.name) ]][[ (line.tax_id != []) and (' / (' + (', '.join([ lt.description for lt in line.tax_id ])) + ')') ]]</para></td>
+					<td><para style="order_tbl_content_txt_left">[[ line.product_id and line.product_id.code and (format(line.product_id.code)+" ") ]][[ format(line.name) ]][[ (line.tax_id != []) and (' / (' + (', '.join([ lt.description for lt in line.tax_id ])) + ')') ]]</para></td>
 					<td><para style="order_tbl_content_txt_center">[[ (line.discount == 0 and '-') or formatLang(line.discount) + ' %' ]]</para></td>
-					<td><para style="order_tbl_content_txt_right">[[ o.currency_id.symbol_prefix or '' ]][[ formatLang(line.price_unit) ]][[ o.currency_id.symbol_suffix or '' ]]</para></td>
-					<td><para style="order_tbl_content_txt_right">[[ o.currency_id.symbol_prefix or '' ]][[ formatLang(line.price_subtotal) ]][[ o.currency_id.symbol_suffix or '' ]]</para></td>
+					<td><para style="order_tbl_content_txt_right">[[ o.company_id.currency_id.symbol_prefix or '' ]][[ formatLang(line.price_unit) ]][[ o.company_id.currency_id.symbol_suffix or '' ]]</para></td>
+					<td><para style="order_tbl_content_txt_right">[[ o.company_id.currency_id.symbol_prefix or '' ]][[ formatLang(line.price_subtotal) ]][[ o.company_id.currency_id.symbol_suffix or '' ]]</para></td>
 				</tr>
 			</blockTable>
 			<blockTable colWidths="70,346,70,70" style="order_tbl_content">[[ (discount(o) == 0) or removeParentNode('blockTable') ]]
@@ -250,12 +250,12 @@
 						</blockTable>
 						<blockTable colWidths="396" style="order_tbl_comment">[[ o.note or removeParentNode('blockTable') ]]
 							<tr>
-								<td><para style="order_tbl_comment_text"><b>Nota de orden: </b>[[ format(o.note) ]]</para></td>
+								<td><para style="order_tbl_comment_text"><b>Order notes: </b>[[ format(o.note) ]]</para></td>
 							</tr>
 						</blockTable>
 						<blockTable colWidths="396" style="order_tbl_comment">[[ (o.payment_term and o.payment_term.note) or removeParentNode('blockTable') ]]
 							<tr>
-								<td><para style="order_tbl_comment_text"><b>Nota de pago: </b>[[ format(o.payment_term and o.payment_term.note) ]]</para></td>
+								<td><para style="order_tbl_comment_text"><b>Payment notes: </b>[[ format(o.payment_term and o.payment_term.note) ]]</para></td>
 							</tr>
 						</blockTable>
 					</td>

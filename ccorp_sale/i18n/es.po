@@ -17,99 +17,99 @@ msgstr ""
 #. module: ccorp_sale
 #: rml:sale_order.layout_ccorp:0
 msgid "Order Nº "
-msgstr ""
+msgstr "Orden Nº "
 
 #. module: ccorp_sale
 #: rml:sale.order.layout_ccorp:0
 msgid "Quotation Nº "
-msgstr ""
+msgstr "Cotización Nº "
 
 #. module: ccorp_sale
 #: rml:sale.order.layout_ccorp:0
 msgid "Date: "
-msgstr ""
+msgstr "Fecha: "
 
 #. module: ccorp_sale
 #: rml:sale.order.layout_ccorp:0
 msgid "ID Num.: "
-msgstr ""
+msgstr "ID: "
 
 #. module: ccorp_sale
 #: rml:sale.order.layout_ccorp:0
 msgid "Tel-fax: "
-msgstr ""
+msgstr "Tel-fax: "
 
 #. module: ccorp_sale
 #: rml:sale.order.layout_ccorp:0
 msgid "Email: "
-msgstr ""
+msgstr "Email: "
 
 #. module: ccorp_sale
 #: rml:sale.order.layout_ccorp:0
 msgid "Web: "
-msgstr ""
+msgstr "Web: "
 
 #. module: ccorp_sale
 #: rml:sale.order.layout_ccorp:0
 msgid "Address:"
-msgstr ""
+msgstr "Dirección:"
 
 #. module: ccorp_sale
 #: rml:sale.order.layout_ccorp:0
 msgid "Phone: "
-msgstr ""
+msgstr "Tel: "
 
 #. module: ccorp_sale
 #: rml:sale.order.layout_ccorp:0
 msgid "Page: "
-msgstr ""
+msgstr "Pág.: "
 
 #. module: ccorp_sale
 #: rml:sale.order.layout_ccorp:0
 msgid "Thank you for choosing us."
-msgstr ""
+msgstr "Gracias por preferir nuestros servicios."
 
 #. module: ccorp_sale
 #: rml:sale.order.layout_ccorp:0
 msgid "Qty."
-msgstr ""
+msgstr "Cant."
 
 #. module: ccorp_sale
 #: rml:sale.order.layout_ccorp:0
 msgid "[Code] Description / (Taxes)"
-msgstr ""
+msgstr "[Cód.] Descripción / (Imp.)"
 
 #. module: ccorp_sale
 #: rml:sale.order.layout_ccorp:0
 msgid "Disc."
-msgstr ""
+msgstr "Desc."
 
 #. module: ccorp_sale
 #: rml:sale.order.layout_ccorp:0
 msgid "Unit Price"
-msgstr ""
+msgstr "Precio unitario"
 
 #. module: ccorp_sale
 #: rml:sale.order.layout_ccorp:0
 msgid "Total Price"
-msgstr ""
+msgstr "Precio total"
 
 #. module: ccorp_sale
 #: rml:sale.order.layout_ccorp:0
 msgid "Subtotal"
-msgstr ""
+msgstr "Subtotal"
 
 #. module: ccorp_sale
 #: rml:sale.order.layout_ccorp:0
 msgid "Discount"
-msgstr ""
+msgstr "Descuento"
 
 #. module: ccorp_sale
 #: rml:sale.order.layout_ccorp:0
 msgid "Taxes"
-msgstr ""
+msgstr "Impuestos"
 
 #. module: ccorp_sale
 #: rml:sale.order.layout_ccorp:0
 msgid "TOTAL"
-msgstr ""
+msgstr "TOTAL"
