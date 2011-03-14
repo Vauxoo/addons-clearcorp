@@ -16,43 +16,43 @@ msgstr ""
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
-msgid "Order N° "
-msgstr "Orden N° "
+msgid "Order N°"
+msgstr "Orden N°"
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
-msgid "Quotation N° "
-msgstr "Cotizatión N° "
+msgid "Quotation N°"
+msgstr "Cotizatión N°"
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
-msgid "Date: "
-msgstr "Fecha: "
+msgid "Date:"
+msgstr "Fecha:"
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
-msgid "Ref.: "
-msgstr "Ref.: "
+msgid "Ref.:"
+msgstr "Ref.:"
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
-msgid "ID Num.: "
-msgstr "ID: "
+msgid "ID Num.:"
+msgstr "ID:"
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
-msgid "Tel-fax: "
-msgstr "Tel-fax: "
+msgid "Tel-fax:"
+msgstr "Tel-fax:"
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
-msgid "Email: "
-msgstr "Email: "
+msgid "Email:"
+msgstr "Email:"
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
-msgid "Web: "
-msgstr "Web: "
+msgid "Web:"
+msgstr "Web:"
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
@@ -61,13 +61,13 @@ msgstr "Dirección:"
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
-msgid "Phone: "
-msgstr "Tel: "
+msgid "Phone:"
+msgstr "Tel:"
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
-msgid "Page: "
-msgstr "Pág.: "
+msgid "Page:"
+msgstr "Pág.:"
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
