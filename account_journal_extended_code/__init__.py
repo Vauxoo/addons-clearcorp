@@ -32,4 +32,4 @@
 #    
 ##############################################################################
 
-account_journal_extended_code.py
+account_journal_extended_code
