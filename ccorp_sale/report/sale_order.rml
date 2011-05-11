@@ -274,7 +274,8 @@
 									</blockTable>
 								</td>
 							</tr>
-							<tr>[[ discount(o) != 0 or removeParentNode('tr') ]]
+							<!-- TODO: fix de total and discount structure in this report -->
+							<!--<tr>[[ discount(o) != 0 or removeParentNode('tr') ]]
 								<td>
 									<blockTable colWidths="70,70" style="order_tbl_content">
 										<tr>
@@ -283,7 +284,7 @@
 										</tr>
 									</blockTable>
 								</td>
-							</tr>
+							</tr>-->
 							<tr>
 								<td>
 									<blockTable colWidths="70,70" style="order_tbl_content">
