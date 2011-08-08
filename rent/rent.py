@@ -11,7 +11,7 @@ class rent_client(osv.osv):
 	_columns = {
 		'client_lastname'  : fields.char('Lastname',size=15,required=True),
 		'client_lastname2' : fields.char('Second Lastname',size=15,required=True),
-		'client_birthdate' : fields.date('Birthdate',select=1),
+		'client_birthdate' : fields.date('Birthdate',select=1,required=True),
 		'client_province'  : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
 												('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
 		'client_id'        : fields.char('Id',size=10,required=True,help='Cedula del cliente'),
