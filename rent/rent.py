@@ -20,6 +20,7 @@ rent_client()
 
 class rent_state(osv.osv):
 	_name = 'rent.state'
+	_rec_name = "state_number"
 	_columns = {
 		'state_province' : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
 												('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
