@@ -93,7 +93,7 @@
 		</record>
 		
 		<!--STATE MENU-->
-		<menuitem name = "state_menu" name = "States" parent = "rent_manager"/>
-		<menuitem name = "state_submenu" name = "State" parent = "state_menu" action = "action_state_form_view"/>
+		<menuitem id = "state_menu" name = "States" parent = "rent_manager"/>
+		<menuitem id = "state_submenu" name = "State" parent = "state_menu" action = "action_state_form_view"/>
 	</data>
 </openerp>
