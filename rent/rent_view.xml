@@ -42,7 +42,7 @@
 			<field name = "res_model">rent.client</field>
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">tree</field>
-			<field name = "view_mode">tree,form</field>
+			<field name = "view_mode">form, tree</field>
 		</record>
 		
 		<menuitem id = "rent_manager" name = "Rent"/>
