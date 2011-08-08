@@ -13,7 +13,7 @@ class rent_client(osv.osv):
 		'client_lastname2' : fields.char('Second Lastname',size=15,required=True),
 		'client_birthdate' : fields.date('Birthdate',select=1),
 		'client_province'  : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
-												,('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
+												('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
 		'client_id'        : fields.char('Id',size=10,required=True,help='Cedula del cliente'),
 	}
 rent_client()
@@ -22,7 +22,7 @@ class rent_state(osv.osv):
 	_name = 'rent.state'
 	_columns = {
 		'state_province' : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
-												,('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
+												('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
 		'state_canton'   : fields.char('Canton',size=15,required=True),
 		'state_district' : fields.char('District',size=15,required=True),
 		'state_number'   : fields.char('# State', size=10,required=True),
