@@ -124,5 +124,16 @@
 				</form>
 			</field>
 		</record>
+		
+		<record model = "ir.actions.act_window" id = "action_building_form_view">
+			<field name = "name">Building Detail</field>
+			<field name = "res_model">rent.building</field>
+			<field name = "type">ir.actions.act_window</field>
+			<field name = "view_type">form</field>
+			<field name = "view_mode">tree,form</field>
+		</record>
+		
+		<!--BUILDING MENU-->
+		<menuitem id = "building_submenu" name = "Building" parent = "state_menu" action = "action_building_form_view"/>
 	</data>
 </openerp>
