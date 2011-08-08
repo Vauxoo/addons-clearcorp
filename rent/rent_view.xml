@@ -46,7 +46,7 @@
 		</record>
 		
 		<menuitem id = "rent_manager" name = "Rent"/>
-		<menuitem id = "rent_client_menu" name = "Clients" parent = "rent_client_manager"/>
+		<menuitem id = "rent_client_menu" name = "Clients" parent = "rent_manager"/>
 		<menuitem id = "rent_client_submenu" name = "Client" parent = "rent_client_menu" action = "action_client_form_view"/>
 	</data>
 </openerp>
