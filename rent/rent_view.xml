@@ -38,11 +38,11 @@
 		
 		
 		<record model = "ir.actions.act_window" id = "action_client_form_view">
-			<field name = "name">rent.client</field>
+			<field name = "name">Lista de Clientes</field>
 			<field name = "res_model">rent.client</field>
 			<field name = "type">ir.actions.act_window</field>
-			<field name = "view_type">tree</field>
-			<field name = "view_mode">form, tree</field>
+			<field name = "view_type">form</field>
+			<field name = "view_mode">form,tree</field>
 		</record>
 		
 		<menuitem id = "rent_manager" name = "Rent"/>
