@@ -60,6 +60,7 @@
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
 				<form string = "State Detail">
+					<field name = "state_number"/>
 					<field name = "state_value"/>
 					<field name = "state_area"/>
 					<field name = "state_province"/>
@@ -92,8 +93,36 @@
 			<field name = "view_mode">tree,form</field>
 		</record>
 		
-		<!--STATE MENU-->
-		<menuitem id = "state_menu" name = "States" parent = "rent_manager"/>
-		<menuitem id = "state_submenu" name = "State" parent = "state_menu" action = "action_state_form_view"/>
+		<!--ESTATE MENU-->
+		<menuitem id = "state_menu" name = "Real Estate" parent = "rent_manager"/>
+		<menuitem id = "state_submenu" name = "Estate" parent = "state_menu" action = "action_state_form_view"/>
+		
+		
+		<record model ="ir.ui.view" id = "building_form_view">
+			<field name = "name">rent.building.form</field>
+			<field name = "model">rent.building</field>
+			<field name = "type">form</field>
+			<field name = "arch" type = "xml">
+				<form string = "Building Details">
+					<field name = "name"/>
+					<field name = "building_date_construction"/>
+					<field name = "building_area"/>
+					<field name = "building_value"/>
+					<field name = "building_capacity"/>
+					<notebook colspan="4">
+						<page string = "Maquinas">
+							<field name = "Machines" colspan = "4" mode = "form" nolabel = "1" select = "1">
+								<form string = "Machines">
+									<field name = "building_elevator"/>
+									<field name = "building_elevators_number"/>
+									<field name = "building_stairs"/>
+									<field name = "building_stairs_type"/>
+								</form>
+							</field>							
+						</page>
+					</notebook>
+				</form>
+			</field>
+		</record>
 	</data>
 </openerp>
