@@ -10,7 +10,7 @@ class rent_client(osv.osv):
 	_inherit = 'res.partner'
 	_columns = {
 		'client_lastname'  : fields.char('Lastname',size=15,required=True),
-		'client_lastname2' : fields.char('Second Lastname,size=15,required=True),
+		'client_lastname2' : fields.char('Second Lastname',size=15,required=True),
 		'client_birthdate' : fields.date('Birthdate',select=1),
 		'client_province'  : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
 												,('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
