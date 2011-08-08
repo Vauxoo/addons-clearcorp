@@ -1,6 +1,6 @@
 {
 	"name"       : "Rent Module",
-	"author"     : "",
+	"author"     : "Mag Guevara Rivera",
 	"version"    : "1.0",
 	"depends"    : ["base"],
 	"init_xml"   : [],
