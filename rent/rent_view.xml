@@ -80,9 +80,6 @@
 										<separator string = "General Information" col = "4" colspan = "4"/>
 										<field name = "name"/>
 										<field name = "building_date_construction"/>
-										<field name = "building_area"/>
-										<field name = "building_value"/>
-										<field name = "building_capacity"/>
 									</group>
 									<group col = "4" colspan = "4">
 										<separator string = "Location" col = "4" colspan = "4"/>
