@@ -60,12 +60,15 @@
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
 				<form string = "State Detail">
-					<field name = "state_number"/>
-					<field name = "state_value"/>
-					<field name = "state_area"/>
-					<field name = "state_province"/>
-					<field name = "state_canton"/>
-					<field name = "state_district"/>					
+					<group col = "4" colspan = "4">
+						<separator string = "Datos Generales" col = "4" colspan = "4"/>
+						<field name = "state_number"/>
+						<field name = "state_value"/>
+						<field name = "state_area"/>
+						<field name = "state_province"/>
+						<field name = "state_canton"/>
+						<field name = "state_district"/>
+					</group>
 					<notebook colspan="4">
 						<page string = "Buildings">
 							<field name = "building_state" colspan = "4" mode = "form,tree" nolabel = "1" select = "1" height = "260">
