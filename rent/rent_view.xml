@@ -83,14 +83,6 @@
 									<field name = "building_stairs"/>
 									<field name = "building_stairs_type"/>
 								</form>
-								
-								<tree string="Building Details">
-                                    <field name="name"/>
-                                    <field name="building_date_construction"/>
-                                    <field name="building_value"/>
-                                    <field name="building_area"/>
-                                    <field name="building_capacity"/>
-                                </tree>
 							</field>
 						</page>
 					</notebook>
@@ -143,6 +135,21 @@
 						<field name = "building_capacity"/>
 					</group>
 				</form>
+			</field>
+		</record>
+		
+		<record model = "ir.ui.view" id = "building_form_view">
+			<field name = "name">rent.building.tree</field>
+			<field name = "model">rent.building</field>
+			<field name = "type">tree</field>
+			<field name = "arch" type = "xml">
+				<tree string="Building Details">
+                                    <field name="name"/>
+                                    <field name="building_date_construction"/>
+                                    <field name="building_value"/>
+                                    <field name="building_area"/>
+                                    <field name="building_capacity"/>
+                </tree>
 			</field>
 		</record>
 		
