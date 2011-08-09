@@ -94,7 +94,6 @@
 									<field name="name"/>
 									<field name="building_date_construction"/>
 									<field name="building_value"/>
-									<field name="building_area"/>
 									<field name="building_capacity"/>
 								</tree>
 							</field>
