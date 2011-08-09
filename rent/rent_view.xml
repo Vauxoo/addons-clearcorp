@@ -74,7 +74,33 @@
 					</group>
 					<notebook colspan="4">
 						<page string = "Buildings">
-							<field name = "building_state" colspan = "4" mode = "form,tree" nolabel = "1" select = "1" height = "260"/>
+							<field name = "building_estate" colspan = "4" mode = "form,tree" nolabel = "1" select = "1" height = "260">
+								<form string = "Building Details">
+									<group col = "4" colspan = "4">
+										<separator string = "General Information" col = "4" colspan = "4"/>
+										<field name = "name"/>
+										<field name = "building_date_construction"/>
+										<field name = "building_area"/>
+										<field name = "building_value"/>
+										<field name = "building_capacity"/>
+									</group>
+									<group col = "4" colspan = "4">
+										<separator string = "Location" col = "4" colspan = "4"/>
+										<field name = "building_elevator"/>
+										<field name = "building_elevators_number"/>
+										<field name = "building_stairs"/>
+										<field name = "building_stairs_type"/>
+									</group>
+								</form>
+								
+								<tree string="Building Details">
+									<field name="name"/>
+									<field name="building_date_construction"/>
+									<field name="building_value"/>
+									<field name="building_area"/>
+									<field name="building_capacity"/>
+								</tree>
+							</field>
 						</page>
 					</notebook>
 				</form>
@@ -118,12 +144,15 @@
 			<field name = "arch" type = "xml">
 				<form string = "Building Details">
 					<group col = "4" colspan = "4">
-						<separator string = "Datos Generales" col = "4" colspan = "4"/>
+						<separator string = "General Information" col = "4" colspan = "4"/>
 						<field name = "name"/>
 						<field name = "building_date_construction"/>
 						<field name = "building_area"/>
 						<field name = "building_value"/>
 						<field name = "building_capacity"/>
+					</group>
+					<group col = "4" colspan = "4">
+						<separator string = "Location" col = "4" colspan = "4"/>
 						<field name = "building_elevator"/>
 						<field name = "building_elevators_number"/>
 						<field name = "building_stairs"/>
