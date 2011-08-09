@@ -104,6 +104,7 @@
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
 			<field name = "view_id" ref="state_form_view"></field>
+			<field name="help">Manage the estates that your company owns, to have them available in your system</field>
 		</record>
 		
 		<!--ESTATE MENU-->
