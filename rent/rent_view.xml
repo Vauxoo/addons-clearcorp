@@ -65,11 +65,10 @@
 					<field name = "state_area"/>
 					<field name = "state_province"/>
 					<field name = "state_canton"/>
-					<field name = "state_district"/>
-					
+					<field name = "state_district"/>					
 					<notebook colspan="4">
-						<page string = "Maquinas">
-							<field name = "building_state" colspan = "4" mode = "form" nolabel = "1" select = "1">
+						<page string = "Buildings">
+							<field name = "building_state" colspan = "4" mode = "form,tree" nolabel = "1" select = "1" height = "260">
 								<form string = "Building Details">
 									<field name = "name"/>
 									<field name = "building_date_construction"/>
@@ -81,6 +80,14 @@
 									<field name = "building_stairs"/>
 									<field name = "building_stairs_type"/>
 								</form>
+								
+								<tree string="Building Details">
+                                    <field name="name"/>
+                                    <field name="building_date_construction"/>
+                                    <field name="building_value"/>
+                                    <field name="building_area"/>
+                                    <field name="building_capacity"/>
+                                </tree>
 							</field>
 						</page>
 					</notebook>
