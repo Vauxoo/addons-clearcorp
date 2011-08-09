@@ -31,6 +31,17 @@ class rent_state(osv.osv):
 		'state_area'     : fields.float('Area', required=True),
 		'state_buildings': fields.one2many('rent.building','building_estate','Buildings'),
 	}
+	
+	def determine_canton(self,cr,uid,ids,context=None):
+		v = {}
+		obj = self.pool.get('rent.state').browse(cr,uid,ids)
+		debug("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+		debug(obj)
+		return { 'value':v}
+	def determine_district(self,cr,uid,ids,context=None):
+		v = {}
+		
+		return {'value':v}
 rent_state()
 
 
