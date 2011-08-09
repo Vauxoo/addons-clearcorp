@@ -80,7 +80,8 @@
 									<field name = "building_elevators_number"/>
 									<field name = "building_stairs"/>
 									<field name = "building_stairs_type"/>
-							</field>							
+								</form>
+							</field>
 						</page>
 					</notebook>
 				</form>
