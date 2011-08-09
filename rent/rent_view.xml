@@ -68,13 +68,13 @@
 					</group>
 					<group col = "2" colspan = "2">
 						<separator string = "Location" col = "4" colspan = "4"/>
-						<field name = "state_province" on_change = "determine_canton"/>
-						<field name = "state_canton" on_change = "determine_distric"/>
+						<field name = "state_province" on_change = "determine_canton()"/>
+						<field name = "state_canton" on_change = "determine_distric()"/>
 						<field name = "state_district"/>
 					</group>
 					<notebook colspan="4">
 						<page string = "Buildings">
-							<field name = "state_buildings"/>
+							<field name = "state_buildings" no_label="1"/>
 						</page>
 					</notebook>
 				</form>
