@@ -29,6 +29,7 @@ class rent_state(osv.osv):
 		'state_number'   : fields.char('# State', size=10,required=True),
 		'state_value'    : fields.float('Value',required=True),
 		'state_area'     : fields.float('Area', required=True),
+		'state_buildings': fields.one2many('rent.building','building_estate','Buildings'),
 	}
 rent_state()
 
@@ -45,6 +46,7 @@ class rent_building(osv.osv):
 		'name'                       : fields.char('Name', size=40,required=True),
 		'building_value'             : fields.float('Value'),
 		'building_area'              : fields.float('Area'),
+		'building_estate'            : fields.many2one('rent.state', 'State'),
 	}
 rent_building()
 
