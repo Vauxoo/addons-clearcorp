@@ -32,12 +32,11 @@ class rent_state(osv.osv):
 		'state_buildings': fields.one2many('rent.building','building_estate','Buildings'),
 	}
 	
-	def determine_canton(self,cr,uid,ids,context=None):
+	def determine_canton(self,cr,uid,ids,pField,context=None):
 		v = {}
-		obj = self.pool.get('rent.state').browse(cr,uid,ids,context=None)
-		debug("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-		debug(obj)
-		debug(ids)
+		if pField == 'San Jose':
+			debug('asiiiiiiiiiiiiiiii')
+		debug(pField)
 		return { 'value':v}
 	def determine_district(self,cr,uid,ids,context=None):
 		v = {}
