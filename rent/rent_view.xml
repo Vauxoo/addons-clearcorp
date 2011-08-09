@@ -68,32 +68,7 @@
 						<field name = "state_province"/>
 						<field name = "state_canton"/>
 						<field name = "state_district"/>
-					</group>
-					<notebook colspan="4">
-						<page string = "Buildings">
-							<field name = "building_state" colspan = "4" mode = "form,tree" nolabel = "1" select = "1" height = "260">
-								<form string = "Building Details">
-									<field name = "name"/>
-									<field name = "building_date_construction"/>
-									<field name = "building_area"/>
-									<field name = "building_value"/>
-									<field name = "building_capacity"/>
-									<field name = "building_elevator"/>
-									<field name = "building_elevators_number"/>
-									<field name = "building_stairs"/>
-									<field name = "building_stairs_type"/>
-								</form>
-								
-								<tree string="Building Details">
-                                    <field name="name"/>
-                                    <field name="building_date_construction"/>
-                                    <field name="building_value"/>
-                                    <field name="building_area"/>
-                                    <field name="building_capacity"/>
-                                </tree>
-							</field>
-						</page>
-					</notebook>
+					</group>					
 				</form>
 			</field>
 		</record>
@@ -132,11 +107,14 @@
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
 				<form string = "Building Details">
-					<field name = "name"/>
-					<field name = "building_date_construction"/>
-					<field name = "building_area"/>
-					<field name = "building_value"/>
-					<field name = "building_capacity"/>
+					<group col = "4" colspan = "4">
+						<separator string = "Datos Generales" col = "4" colspan = "4"/>
+						<field name = "name"/>
+						<field name = "building_date_construction"/>
+						<field name = "building_area"/>
+						<field name = "building_value"/>
+						<field name = "building_capacity"/>
+					</group>
 				</form>
 			</field>
 		</record>
