@@ -74,7 +74,7 @@
 					</group>
 					<notebook colspan="4">
 						<page string = "Buildings">
-							
+							<field name = "state_buildings"/>
 						</page>
 					</notebook>
 				</form>
