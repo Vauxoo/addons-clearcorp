@@ -60,20 +60,21 @@
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
 				<form string = "State Detail">
-					<group col = "4" colspan = "4">
-						<separator string = "Datos Generales" col = "4" colspan = "4"/>
+					<group col = "2" colspan = "2">
+						<separator string = "General Information" col = "4" colspan = "4"/>
 						<field name = "state_number"/>
 						<field name = "state_value"/>
 						<field name = "state_area"/>
+					</group>
+					<group col = "2" colspan = "2">
+						<separator string = "Location" col = "4" colspan = "4"/>
 						<field name = "state_province"/>
 						<field name = "state_canton"/>
 						<field name = "state_district"/>
-					</group>
+					
 					<notebook colspan="4">
 						<page string = "Buildings">
-							<field name = "building_state" colspan = "4" mode = "form,tree" nolabel = "1" select = "1" height = "260">
-								
-							</field>
+							<field name = "building_state" colspan = "4" mode = "form,tree" nolabel = "1" select = "1" height = "260"/>
 						</page>
 					</notebook>
 				</form>
@@ -132,7 +133,7 @@
 			</field>
 		</record>
 		
-		<record model = "ir.ui.view" id = "building_form_view">
+		<record model = "ir.ui.view" id = "building_tree_view">
 			<field name = "name">rent.building.tree</field>
 			<field name = "model">rent.building</field>
 			<field name = "type">tree</field>
