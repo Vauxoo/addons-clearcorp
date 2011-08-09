@@ -68,7 +68,7 @@
 						<field name = "state_province"/>
 						<field name = "state_canton"/>
 						<field name = "state_district"/>
-					</group>					
+					</group>
 				</form>
 			</field>
 		</record>
@@ -94,6 +94,7 @@
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
+			<field name = "view_id" ref="state_form_view"></field>
 		</record>
 		
 		<!--ESTATE MENU-->
