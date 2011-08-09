@@ -34,7 +34,7 @@ class rent_state(osv.osv):
 	
 	def determine_canton(self,cr,uid,ids,context=None):
 		v = {}
-		obj = self.pool.get('rent.state').browse(cr,uid,ids,context)
+		obj = self.pool.get('rent.state')
 		debug("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
 		debug(obj)
 		return { 'value':v}
