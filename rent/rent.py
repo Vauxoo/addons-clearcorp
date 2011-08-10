@@ -46,7 +46,7 @@ class rent_state(osv.osv):
 		debug('asiiiiiiiiiiiiiiii')
 		try:
 			v ['state_canton'] = {
-				'San Jose' : SJ_CANTON
+				'San Jose' : SJ_CANTON,
 				'Heredia'  : (), 
 			}[pField]()
 			debug(v)
