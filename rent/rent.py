@@ -42,9 +42,9 @@ class rent_state(osv.osv):
 	def determine_canton(self,cr,uid,ids,pField,context=None):
 		v = {}
 		obj = self.pool.get('rent.state').browse(cr,uid,ids)
-		sj_canton = 0
 		debug('asiiiiiiiiiiiiiiii')
 		try:
+			debug(v)
 			v ['state_canton'] = {
 				'San Jose' : SJ_CANTON,
 				'Heredia'  : (), 
@@ -52,7 +52,7 @@ class rent_state(osv.osv):
 			debug(v)
 			obj.state_canton.readonly = False
 		except KeyError:
-			v ['state_canton'] = (('SPF','Seleccione una provincia primero'))
+			debug('se cae')
 		return { 'value':v}
 	def determine_district(self,cr,uid,ids,context=None):
 		v = {}
