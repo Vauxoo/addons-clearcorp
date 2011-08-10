@@ -18,12 +18,6 @@ class rent_client(osv.osv):
 	}
 rent_client()
 
-SJ_CANTON =  fields.selection((('San Jose','San Jose'), ('Escazu','Escazu'), 
-							('Desamparados','Desamparados'), ('Puriscal','Puriscal'),('Tarrazú','Tarrazú'),('Aserrí','Aserrí'),('Mora','Mora'),
-							('Goicoechea','Goicoechea'),('Santa Ana','Santa Ana'),('Alajuelita','Alajuelita'),('Vázquez de Coronado','Vázquez de Coronado'),
-							('Acosta','Acosta'),('Tibás','Tibás'),('Moravia','Moravia'),('Montes de Oca','Montes de Oca'),('Turrubares','Turrubares'),('Dota','Dota'),
-							('Curridabat','Curridabat'),('Pérez Zeledón','Pérez Zeledón'),('León Cortés','León Cortés'),'Canton')
-
 class rent_state(osv.osv):
 	_name = 'rent.state'
 	_rec_name = "state_number"
@@ -43,7 +37,11 @@ class rent_state(osv.osv):
 		obj = self.browse(cr,uid,ids)
 		if pField == 'San Jose':
 			debug('asiiiiiiiiiiiiiiii')
-			v ['state_canton'] = SJ_CANTON
+			v ['state_canton'] = fields.selection((('San Jose','San Jose'), ('Escazu','Escazu'), 
+							('Desamparados','Desamparados'), ('Puriscal','Puriscal'),('Tarrazú','Tarrazú'),('Aserrí','Aserrí'),('Mora','Mora'),
+							('Goicoechea','Goicoechea'),('Santa Ana','Santa Ana'),('Alajuelita','Alajuelita'),('Vázquez de Coronado','Vázquez de Coronado'),
+							('Acosta','Acosta'),('Tibás','Tibás'),('Moravia','Moravia'),('Montes de Oca','Montes de Oca'),('Turrubares','Turrubares'),('Dota','Dota'),
+							('Curridabat','Curridabat'),('Pérez Zeledón','Pérez Zeledón'),('León Cortés','León Cortés'),'Canton')
 			debug(pField)
 		return { 'value':v}
 	def determine_district(self,cr,uid,ids,context=None):
