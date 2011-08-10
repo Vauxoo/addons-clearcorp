@@ -38,7 +38,7 @@ class rent_state(osv.osv):
 		sj_canton = 0
 		try:
 			v ['state_canton'] = {
-				'San Jose' : (('San Jose','San Jose'), ('Escazu','Escazu'),('Desamparados','Desamparados'), ('Puriscal','Puriscal'),('Tarrazú','Tarrazú'),('Aserrí','Aserrí'),('Mora','Mora'),),
+				'San Jose' : (('San Jose','San Jose'), ('Escazu','Escazu'),('Desamparados','Desamparados'), ('Puriscal','Puriscal'),('Tarrazu','Tarrazu'),('Aserri','Aserri'),('Mora','Mora'),),
 				'Heredia'  : (), 
 			}[pField]()
 		except KeyError:
