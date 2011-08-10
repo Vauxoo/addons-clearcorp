@@ -37,9 +37,9 @@ class rent_state(osv.osv):
 		obj = self.browse(cr,uid,ids)
 		sj_canton = 0
 		v ['state_canton'] = {
-			'San Jose' : (('San Jose','San Jose')),
+			'San Jose' : (('San Jose','San Jose'), ('Escazu','Escazu')),
 			'Heredia'  : (), 
-		}[value](pField)
+		}[pField]()
 		
 #		if pField == 'San Jose':
 #			debug('asiiiiiiiiiiiiiiii')
