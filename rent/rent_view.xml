@@ -2,13 +2,13 @@
 <openerp>
 	<data>
 		<!--CLIENTS-->
-		<!--<record model = "ir.ui.view" id = "client_form_view">
+		<record model = "ir.ui.view" id = "client_form_view">
 			<field name = "name">rent.client.form</field>
 			<field name = "model">rent.client</field>
 			<field name = "type">form</field>
-			<field name = "inherit_id" ref="base.view_partner_form"/>
+			<!--<field name = "inherit" ref="base.view_partner_form"/>-->
 			<field name = "arch" type = "xml">
-				<data>
+				<form string = "Detalle de cliente">
 					<group col = "4" colspan = "2">
 						<separator string = "General Information" col = "4" colspan = "4"/>
 						<field name = "partner_id"/>
@@ -25,7 +25,7 @@
 						<separator string = "Others" col = "4" colspan = "4"/>
 						<field name = "comment"/>
 					</group>
-				</data>
+				</form>
 			</field>
 		</record>
 		
@@ -39,19 +39,19 @@
 					<field name = "name"/>
 					<!--<field name = "client_lastname"/>
 					<field name = "client_lastname2"/>
-					<field name = "client_province"/>
+					<field name = "client_province"/>-->
 					<field name = "email"/>
 					<field name = "phone"/>
 				</tree>
 			</field>
-		</record>-->
+		</record>
 		
 		
 		<record model = "ir.ui.view" id = "location_form_view">
 			<field name = "name">rent.state.form</field>
 			<field name = "model">rent.state</field>
 			<field name = "type">form</field>
-			<field name = "inherit_id" ref="base.view_partner_address_form2"/>
+			<field name = "inherit" ref="base.view_partner_address_form2"/>
 			<field name = "arch" type = "xml">
 				<form string = "State Detail">
 					<group col = "2" colspan = "2">
@@ -70,16 +70,15 @@
 			<field name = "name">rent.location.tree</field>
 			<field name = "model">rent.state</field>
 			<field name = "type">form</field>
-			<field name = "inherit_id" ref="base.view_partner_address_tree"/>
+			<field name = "inherit" ref="base.view_partner_address_form2"/>
 			<field name = "arch" type = "xml">
 				<form string = "State Detail">
 					<group col = "2" colspan = "2">
 						<separator string = "Location" col = "4" colspan = "4"/>
-						<field name="city" position = "replace">
-							<field name = "location_province" on_change = "determine_canton(state_province)"/>
-							<field name = "location_canton" on_change = "determine_district(state_canton)"/>
-							<field name = "location_district"/>
-						 </field>
+						<!--<field name = "state_address"/>-->
+						<field name = "location_province" on_change = "determine_canton(state_province)"/>
+						<field name = "location_canton" on_change = "determine_district(state_canton)"/>
+						<field name = "location_district"/>
 					</group>
 				</form>
 			</field>
