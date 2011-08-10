@@ -16,8 +16,8 @@ class rent_client(osv.osv):
 		'client_province'  : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
 												('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
 		'client_id'        : fields.char('Id',size=10,required=True,help='Cedula del cliente'),
-		#'client_canton': fields.related('address', 'client_canton', type='selection', string='Canton'),
-        #'client_district': fields.related('client_canton', 'client_district', type='selection', string='District'),
+		'client_canton': fields.related('address', 'client_canton', type='selection', string='Canton'),
+		'client_district': fields.related('client_canton', 'client_district', type='selection', string='District'),
 	}
 rent_client()
 

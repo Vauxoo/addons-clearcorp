@@ -7,10 +7,24 @@
 			<field name = "model">rent.client</field>
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
-				<form string = "Detalle de cliente">					
+				<form string = "Detalle de cliente">
 					<group col = "2" colspan = "2">
+						<separator string = "General Information" col = "4" colspan = "4"/>
+						<field name = "client_id"/>
+						<field name = "name"/>
+						<field name = "client_lastname"/>
+						<field name = "client_lastname2"/>
+						<field name = "client_province"/>
+					</group>
+					<group col = "4" colspan = "4">
 						<separator string = "Contact" col = "4" colspan = "4"/>
-						<field name = "address"/>
+						<field name = "email"/>										
+						<field name = "phone"/>
+						<field name = "address"/>						
+					</group>
+					<group col = "2" colspan = "2">
+						<separator string = "Others" col = "4" colspan = "4"/>
+						<field name = "comment"/>
 					</group>
 				</form>
 			</field>
