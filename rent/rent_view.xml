@@ -8,7 +8,7 @@
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
 				<form string = "Detalle de cliente">
-					<group col = "2" colspan = "2">
+					<group col = "4" colspan = "2">
 						<separator string = "General Information" col = "4" colspan = "4"/>
 						<field name = "client_id"/>
 						<field name = "name"/>
@@ -20,7 +20,7 @@
 						<separator string = "Contact" col = "4" colspan = "4"/>
 						<field name = "email"/>										
 						<field name = "phone"/>
-						<field name = "address"/>						
+						<field name = "address" colspan = "4"/>						
 					</group>
 					<group col = "2" colspan = "2">
 						<separator string = "Others" col = "4" colspan = "4"/>
