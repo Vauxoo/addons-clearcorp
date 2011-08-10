@@ -16,16 +16,10 @@ class rent_client(osv.osv):
 		'client_province'  : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
 												('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
 		'client_id'        : fields.char('Id',size=10,required=True,help='Cedula del cliente'),
-		'client_canton': fields.related('address', 'client_canton', type='selection', string='Canton'),
-        'client_district': fields.related('client_canton', 'client_district', type='selection', string='District'),
+		#'client_canton': fields.related('address', 'client_canton', type='selection', string='Canton'),
+        #'client_district': fields.related('client_canton', 'client_district', type='selection', string='District'),
 	}
 rent_client()
-
-#SJ_CANTON = (('San Jose','San Jose'), ('Escazu','Escazu'), 
-#			('Desamparados','Desamparados'), ('Puriscal','Puriscal'),('Tarrazu','Tarrazu'),('Aserri','Aserri'),('Mora','Mora'),
-#			('Goicoechea','Goicoechea'),('Santa Ana','Santa Ana'),('Alajuelita','Alajuelita'),('Vazquez de Coronado','Vazquez de Coronado'),
-#			('Acosta','Acosta'),('Tibas','Tibas'),('Moravia','Moravia'),('Montes de Oca','Montes de Oca'),('Turrubares','Turrubares'),('Dota','Dota'),
-#			('Curridabat','Curridabat'),('Perez Zeledon','Perez Zeledon'),('Leon Cortes','Leon Cortes'))
 
 class rent_state(osv.osv):
 	_name = 'rent.state'
