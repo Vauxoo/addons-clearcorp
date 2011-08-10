@@ -27,15 +27,9 @@ rent_client()
 #			('Acosta','Acosta'),('Tibas','Tibas'),('Moravia','Moravia'),('Montes de Oca','Montes de Oca'),('Turrubares','Turrubares'),('Dota','Dota'),
 #			('Curridabat','Curridabat'),('Perez Zeledon','Perez Zeledon'),('Leon Cortes','Leon Cortes'))
 
-H_CANTON = (('Heredia','Heredia'), ('Barva','Barva'), 
-			('Santo Domingo','Santo Domingo'), ('Santa Barbara','Santa Barbara'),('San Rafael','San Rafael'),('San Isidro','San Isidro'),('Belen','Belen'),
-			('Flores','Flores'),('Santa Ana','Santa Ana'),('Alajuelita','Alajuelita'),('Vazquez de Coronado','Vazquez de Coronado'),
-			('Acosta','Acosta'),('San Pablo','San Pablo'),('Sarapiqui','Sarapiqui'))
+H_CANTON = (('Heredia','Heredia'), ('Barva','Barva'), ('Santo Domingo','Santo Domingo'), ('Santa Barbara','Santa Barbara'),('San Rafael','San Rafael'),('San Isidro','San Isidro'),('Belen','Belen'), ('Flores','Flores'),('Santa Ana','Santa Ana'),('Alajuelita','Alajuelita'),('Vazquez de Coronado','Vazquez de Coronado'), ('Acosta','Acosta'),('San Pablo','San Pablo'),('Sarapiqui','Sarapiqui')) 
+A_CANTON = (('Alajuela','Alajuela'), ('San Ramon','San Ramon'), ('Grecia','Grecia'), ('San Mateo','San Mateo'),('Atenas','Atenas'),('Naranjo','Naranjo'),('Palmares','Palmares'), ('Poas','Poas'),('Orotina','Orotina'),('San Carlos','San Carlos'),('Alfaro Ruiz','Alfaro Ruiz'), ('Valverde Vega','Valverde Vega'),('Upala','Upala'),('Los Chiles','Los Chiles'),('Guatuso','Guatuso')) 
 
-A_CANTON = (('Alajuela','Alajuela'), ('San RamOn','San Ramon'), 
-			('Grecia','Grecia'), ('San Mateo','San Mateo'),('Atenas','Atenas'),('Naranjo','Naranjo'),('Palmares','Palmares'),
-			('Poas','Poas'),('Orotina','Orotina'),('San Carlos','San Carlos'),('Alfaro Ruiz','Alfaro Ruiz'),
-			('Valverde Vega','Valverde Vega'),('Upala','Upala'),('Los Chiles','Los Chiles'),('Guatuso','Guatuso'))
 class rent_state(osv.osv):
 	_name = 'rent.state'
 	_rec_name = "state_number"
