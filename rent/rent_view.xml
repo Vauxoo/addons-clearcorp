@@ -7,15 +7,11 @@
 			<field name = "model">rent.client</field>
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
-				<form string = "Detalle de cliente">
-					<field name = "client_id"/>
-					<field name = "name"/>
-					<field name = "client_lastname"/>
-					<field name = "client_lastname2"/>
-					<field name = "client_province"/>
-					<field name = "email"/>
-					<field name = "comment"/>
-					<field name = "phone"/>
+				<form string = "Detalle de cliente">					
+					<group col = "2" colspan = "2">
+						<separator string = "Contact" col = "4" colspan = "4"/>
+						<field name = "address"/>
+					</group>
 				</form>
 			</field>
 		</record>
@@ -38,12 +34,14 @@
 		</record>
 		
 		
+		
+		
 		<record model = "ir.actions.act_window" id = "action_client_form_view">
 			<field name = "name">Lista de Clientes</field>
 			<field name = "res_model">rent.client</field>
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
-			<field name = "view_mode">tree, form</field>
+			<field name = "view_mode">tree,form</field>
 		</record>
 		
 		<!--CLIENT MENU-->
@@ -68,6 +66,7 @@
 					</group>
 					<group col = "2" colspan = "2">
 						<separator string = "Location" col = "4" colspan = "4"/>
+						<!--<field name = "state_address"/>-->
 						<field name = "state_province" on_change = "determine_canton(state_province)"/>
 						<field name = "state_canton" on_change = "determine_district(state_canton)"/>
 						<field name = "state_district"/>
@@ -162,5 +161,43 @@
 		
 		<!--BUILDING MENU-->
 		<menuitem id = "building_submenu" name = "Building" parent = "state_menu" action = "action_building_form_view"/>
+		
+		
+		<!--FLOOR-->
+		
+		<record model ="ir.ui.view" id = "floor_form_view">
+			<field name = "name">rent.floor.form</field>
+			<field name = "model">rent.floor</field>
+			<field name = "type">form</field>
+			<field name = "arch" type = "xml">
+				<form string = "Floor Details">
+					<group col = "4" colspan = "4">
+						<separator string = "General Information" col = "4" colspan = "4"/>
+						<field name = "floor_number"/>
+					</group>
+				</form>
+			</field>
+		</record>
+		
+		<record model = "ir.ui.view" id = "floor_tree_view">
+			<field name = "name">rent.floor.tree</field>
+			<field name = "model">rent.floor</field>
+			<field name = "type">tree</field>
+			<field name = "arch" type = "xml">
+				<tree string="Floor Details">
+					<field name="floor_number"/>
+				</tree>
+			</field>
+		</record>
+		
+		<record model = "ir.actions.act_window" id = "action_floor_form_view">
+			<field name = "name">Floor Detail</field>
+			<field name = "res_model">rent.floor</field>
+			<field name = "type">ir.actions.act_window</field>
+			<field name = "view_type">form</field>
+			<field name = "view_mode">tree,form</field>
+		</record>
+		
+		<menuitem id = "floor_submenu" name = "Floors" parent = "state_menu" action = "action_floor_form_view"/>
 	</data>
 </openerp>
