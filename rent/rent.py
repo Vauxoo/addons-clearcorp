@@ -36,11 +36,13 @@ class rent_state(osv.osv):
 		v = {}
 		obj = self.browse(cr,uid,ids)
 		sj_canton = 0
-		v ['state_canton'] = {
-			'San Jose' : (('San Jose','San Jose'), ('Escazu','Escazu')),
-			'Heredia'  : (), 
-		}[pField]()
-		
+		try:
+			v ['state_canton'] = {
+				'San Jose' : (('San Jose','San Jose'), ('Escazu','Escazu'),('Desamparados','Desamparados'), ('Puriscal','Puriscal'),('Tarrazú','Tarrazú'),('Aserrí','Aserrí'),('Mora','Mora'),),
+				'Heredia'  : (), 
+			}[pField]()
+		except KeyError:
+			v ['state_canton'] = (('SPF','Seleccione una provincia primero'))
 #		if pField == 'San Jose':
 #			debug('asiiiiiiiiiiiiiiii')
 #			v ['state_canton'] = SJ_CANTON
