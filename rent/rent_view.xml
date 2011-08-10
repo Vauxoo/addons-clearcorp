@@ -1,7 +1,33 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <openerp>
 	<data>
-		
+		<!--CLIENTS-->
+		<record model = "ir.ui.view" id = "client_form_view">
+			<field name = "name">rent.client.form</field>
+			<field name = "model">rent.client</field>
+			<field name = "type">form</field>
+			<field name = "inherit_id" ref="base.view_partner_form"/>
+			<field name = "arch" type = "xml">
+				<form string = "Detalle de cliente">
+					<group col = "4" colspan = "2">
+						<separator string = "General Information" col = "4" colspan = "4"/>
+						<field name = "partner_id"/>
+						<field name = "name"/>
+						<field name = "client_birthdate"/>
+					</group>
+					<group col = "4" colspan = "4">
+						<separator string = "Contact" col = "4" colspan = "4"/>
+						<field name = "email"/>										
+						<field name = "phone"/>
+						<field name = "client_location" colspan = "4"/>						
+					</group>
+					<group col = "2" colspan = "2">
+						<separator string = "Others" col = "4" colspan = "4"/>
+						<field name = "comment"/>
+					</group>
+				</form>
+			</field>
+		</record>
 		
 		<record model = "ir.ui.view" id = "client_tree_view">
 			<field name = "name">rent.client.tree</field>
@@ -25,7 +51,7 @@
 			<field name = "name">rent.state.form</field>
 			<field name = "model">rent.state</field>
 			<field name = "type">form</field>
-			<field name = "inherit" ref="base.view_partner_address_form2"/>
+			<field name = "inherit_id" ref="base.view_partner_address_form2"/>
 			<field name = "arch" type = "xml">
 				<form string = "State Detail">
 					<group col = "2" colspan = "2">
@@ -44,7 +70,7 @@
 			<field name = "name">rent.location.tree</field>
 			<field name = "model">rent.state</field>
 			<field name = "type">form</field>
-			<field name = "inherit" ref="base.view_partner_address_tree"/>
+			<field name = "inherit_id" ref="base.view_partner_address_tree"/>
 			<field name = "arch" type = "xml">
 				<form string = "State Detail">
 					<group col = "2" colspan = "2">
