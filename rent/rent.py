@@ -43,6 +43,7 @@ class rent_state(osv.osv):
 		v = {}
 		obj = self.pool.get('rent.state').browse(cr,uid,ids)
 		debug('asiiiiiiiiiiiiiiii')
+		debug(pField)
 		try:
 			debug(v)
 			v ['state_canton'] = {
