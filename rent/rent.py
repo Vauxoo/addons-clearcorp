@@ -47,8 +47,8 @@ class rent_state(osv.osv):
 		try:
 			v['state_canton'] = {
 				'San Jose'   : constanst.SJ_CANTON,
-				'Heredia'    : H_CANTON, 
-				'Alajuela'   : A_CANTON,
+				'Heredia'    : constanst.H_CANTON, 
+				'Alajuela'   : constanst.A_CANTON,
 				'Cartago'    : (()),
 				'Puntarenas' : (()),
 				'Limon'      : (()),
