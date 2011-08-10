@@ -14,7 +14,7 @@
 			</field>
 		</record>
 		
-		<record model = "ir.ui.view" id = "client_tree_view">
+		<!--<record model = "ir.ui.view" id = "client_tree_view">
 			<field name = "name">rent.client.tree</field>
 			<field name = "model">rent.client</field>
 			<field name = "type">tree</field>
@@ -24,12 +24,12 @@
 					<field name = "name"/>
 					<!--<field name = "client_lastname"/>
 					<field name = "client_lastname2"/>
-					<field name = "client_province"/>-->
+					<field name = "client_province"/>
 					<field name = "email"/>
 					<field name = "phone"/>
 				</tree>
 			</field>
-		</record>
+		</record>-->
 		
 		
 		<record model = "ir.ui.view" id = "location_form_view">
