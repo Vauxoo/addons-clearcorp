@@ -24,7 +24,7 @@ class rent_location(osv.osv):
 	_name = 'rent.location'
 	_inherit = 'res.partner.address'
 	_columns = {
-		'location_id'       : fields.many2one('rent.client','Client ID')
+		'location_id'       : fields.many2one('rent.client','Client ID'),
 		'location_province' : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
 												('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
 		'location_canton'   : fields.selection((),'Canton',required=True),
