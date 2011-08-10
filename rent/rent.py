@@ -1,6 +1,7 @@
 from osv import osv, fields
 from tools import debug
 import time
+import constanst
 
 #Class that inherits from res.partner allowing to record the 
 #necesary data from the clients
@@ -46,7 +47,7 @@ class rent_state(osv.osv):
 		debug(pField)
 		try:
 			v['state_canton'] = {
-				'San Jose'   : SJ_CANTON,
+				'San Jose'   : constanst.SJ_CANTON,
 				'Heredia'    : (), 
 				'Alajuela'   : (),
 				'Cartago'    : (),

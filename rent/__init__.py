@@ -1,2 +1,1 @@
-import constanst
 import rent
