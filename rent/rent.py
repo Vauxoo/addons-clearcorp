@@ -16,6 +16,8 @@ class rent_client(osv.osv):
 		'client_province'  : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
 												('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
 		'client_id'        : fields.char('Id',size=10,required=True,help='Cedula del cliente'),
+		'client_canton': fields.related('address', 'client_canton', type='selection', string='Canton'),
+        'client_district': fields.related('client_canton', 'client_district', type='selection', string='District'),
 	}
 rent_client()
 
@@ -33,24 +35,23 @@ H_CANTON = (('Heredia','Heredia'), ('Barva','Barva'),
 A_CANTON = (('Alajuela','Alajuela'), ('San RamOn','San Ramon'), 
 			('Grecia','Grecia'), ('San Mateo','San Mateo'),('Atenas','Atenas'),('Naranjo','Naranjo'),('Palmares','Palmares'),
 			('Poas','Poas'),('Orotina','Orotina'),('San Carlos','San Carlos'),('Alfaro Ruiz','Alfaro Ruiz'),
-			('Valverde Vega','Valverde Vega'),('Upala','Upala'),('Los Chiles','Los Chiles'),('Guatuso','Guatuso'),('Turrubares','Turrubares'),('Dota','Dota'),
-			('Curridabat','Curridabat'),('Perez Zeledon','Perez Zeledon'),('Leon Cortes','Leon Cortes'))
+			('Valverde Vega','Valverde Vega'),('Upala','Upala'),('Los Chiles','Los Chiles'),('Guatuso','Guatuso'))
 class rent_state(osv.osv):
 	_name = 'rent.state'
 	_rec_name = "state_number"
 	_columns = {
-		#'state_province' : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
+		'state_province' : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
 											('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
-		#'state_canton'   : fields.selection((),'Canton',required=True),
-		#'state_district' : fields.selection((),'District', required=True,readonly=True),
+		'state_canton'   : fields.selection((),'Canton',required=True),
+		'state_district' : fields.selection((),'District', required=True,readonly=True),
 		'state_number'   : fields.char('# State', size=10,required=True),
 		'state_value'    : fields.float('Value',required=True),
 		'state_area'     : fields.float('Area', required=True),
 		'state_buildings': fields.one2many('rent.building','building_estate','Buildings'),
-		'state_address'  : fields.one2many('res.partner.address','partner_id', 'Direccion'),
-		'state_province': fields.related('state_address', 'state_province', type='selection', string='Province'),
-        'state_canton': fields.related('state_address', 'state_canton', type='selection', string='Canton'),
-        'state_district': fields.related('state_address', 'state_district', type='selection', string='District'),
+		#'state_address'  : fields.one2many('res.partner.address','partner_id', 'Direccion'),
+		#'state_province': fields.related('state_address', 'state_province', type='selection', string='Province'),
+        #'state_canton': fields.related('state_address', 'state_canton', type='selection', string='Canton'),
+        #'state_district': fields.related('state_address', 'state_district', type='selection', string='District'),
 	}
 	
 	def determine_canton(self,cr,uid,ids,pField,context=None):
@@ -61,8 +62,8 @@ class rent_state(osv.osv):
 		try:
 			v['state_canton'] = {
 				'San Jose'   : constanst.SJ_CANTON,
-				'Heredia'    : (()), 
-				'Alajuela'   : (()),
+				'Heredia'    : H_CANTON, 
+				'Alajuela'   : A_CANTON,
 				'Cartago'    : (()),
 				'Puntarenas' : (()),
 				'Limon'      : (()),
