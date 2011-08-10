@@ -32,11 +32,10 @@ class rent_state(osv.osv):
 		'state_buildings': fields.one2many('rent.building','building_estate','Buildings'),
 	}
 	
-	SJ_CANTON = (('San Jose','San Jose'), ('Escazu','Escazu'),('Desamparados','Desamparados'), ('Puriscal','Puriscal'),('Tarrazú','Tarrazú'),('Aserrí','Aserrí'),('Mora','Mora'), ('Goicoechea','Goicoechea'),('Santa Ana','Santa Ana'),('Alajuelita','Alajuelita'),('Vázquez de Coronado','Vázquez de Coronado'),('Acosta','Acosta'),('Tibás','Tibás'),('Moravia','Moravia'),('Montes de Oca','Montes de Oca'),('Turrubares','Turrubares'),('Dota','Dota'),('Curridabat','Curridabat'),('Pérez Zeledón','Pérez Zeledón'),('León Cortés','León Cortés'))
-	
 	def determine_canton(self,cr,uid,ids,pField,context=None):
 		v = {}
 		obj = self.browse(cr,uid,ids)
+		SJ_CANTON = (('San Jose','San Jose'), ('Escazu','Escazu'),('Desamparados','Desamparados'), ('Puriscal','Puriscal'),('Tarrazú','Tarrazú'),('Aserrí','Aserrí'),('Mora','Mora'), ('Goicoechea','Goicoechea'),('Santa Ana','Santa Ana'),('Alajuelita','Alajuelita'),('Vázquez de Coronado','Vázquez de Coronado'),('Acosta','Acosta'),('Tibás','Tibás'),('Moravia','Moravia'),('Montes de Oca','Montes de Oca'),('Turrubares','Turrubares'),('Dota','Dota'),('Curridabat','Curridabat'),('Pérez Zeledón','Pérez Zeledón'),('León Cortés','León Cortés'))
 		v ['state_canton'] = {
 			'San Jose' : SJ_CANTON,
 			'Heredia'  : (), 
