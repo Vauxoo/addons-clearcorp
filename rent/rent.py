@@ -81,3 +81,10 @@ class rent_building(osv.osv):
 	}
 rent_building()
 
+class rent_floor(osv.osv):
+	_name = 'rent.floor'
+	_columns = {
+		'floor_number' : fields.integer('# Floor',required=True),
+	}
+rent_floor()
+
