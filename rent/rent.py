@@ -18,13 +18,20 @@ class rent_client(osv.osv):
 	}
 rent_client()
 
+SJ_CANTON = (('San Jose','San Jose'), ('Escazu','Escazu'), 
+			('Desamparados','Desamparados'), ('Puriscal','Puriscal'),('Tarrazu','Tarrazu'),('Aserri','Aserri'),('Mora','Mora'),
+			('Goicoechea','Goicoechea'),('Santa Ana','Santa Ana'),('Alajuelita','Alajuelita'),('Vazquez de Coronado','Vazquez de Coronado'),
+			('Acosta','Acosta'),('Tibas','Tibas'),('Moravia','Moravia'),('Montes de Oca','Montes de Oca'),('Turrubares','Turrubares'),('Dota','Dota'),
+			('Curridabat','Curridabat'),('Perez Zeledon','Perez Zeledon'),('Leon Cortes','Leon Cortes'))
+
+
 class rent_state(osv.osv):
 	_name = 'rent.state'
 	_rec_name = "state_number"
 	_columns = {
 		'state_province' : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
 											('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
-		'state_canton'   : fields.selection((),'Canton',required=True,readonly=True),
+		'state_canton'   : fields.selection((),'Canton',required=True),
 		'state_district' : fields.selection((),'District', required=True,readonly=True),
 		'state_number'   : fields.char('# State', size=10,required=True),
 		'state_value'    : fields.float('Value',required=True),
@@ -34,25 +41,18 @@ class rent_state(osv.osv):
 	
 	def determine_canton(self,cr,uid,ids,pField,context=None):
 		v = {}
-		obj = self.browse(cr,uid,ids)
+		obj = self.pool.get('rent.state').browse(cr,uid,ids)
 		sj_canton = 0
+		debug('asiiiiiiiiiiiiiiii')
 		try:
 			v ['state_canton'] = {
-				'San Jose' : (('San Jose','San Jose'), ('Escazu','Escazu'),('Desamparados','Desamparados'), ('Puriscal','Puriscal'),('Tarrazu','Tarrazu'),('Aserri','Aserri'),('Mora','Mora'),),
+				'San Jose' : SJ_CANTON
 				'Heredia'  : (), 
 			}[pField]()
+			debug(v)
+			obj.state_canton.readonly = False
 		except KeyError:
 			v ['state_canton'] = (('SPF','Seleccione una provincia primero'))
-#		if pField == 'San Jose':
-#			debug('asiiiiiiiiiiiiiiii')
-#			v ['state_canton'] = SJ_CANTON
-#			debug(pField)
-#		elif pField == 'Cartago':
-#	
-#		elif pField == 'Alajuela':
-#		
-#		elif pField == 'Heredia':
-#		elif pField == 'San Jose':
 		return { 'value':v}
 	def determine_district(self,cr,uid,ids,context=None):
 		v = {}
