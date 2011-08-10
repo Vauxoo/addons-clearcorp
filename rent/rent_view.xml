@@ -52,7 +52,7 @@
 			<field name = "name">rent.state.form</field>
 			<field name = "model">rent.state</field>
 			<field name = "type">form</field>
-			<field name = "inherit" ref = "view_partner_address_form2"/>
+			<field name = "inherit" ref = "res.partner.view_partner_address_form2"/>
 			<field name = "arch" type = "xml">
 				<form string = "State Detail">
 					<group col = "2" colspan = "2">
