@@ -1,8 +1,6 @@
 from osv import osv, fields
 from tools import debug
 import time
-import data 
-from data import constanst
 
 #Class that inherits from res.partner allowing to record the 
 #necesary data from the clients
