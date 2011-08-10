@@ -45,11 +45,12 @@ class rent_state(osv.osv):
 		debug('asiiiiiiiiiiiiiiii')
 		debug(pField)
 		try:
-			debug(v)
-			v ['state_canton'] = {
+			selected = {
 				'San Jose' : SJ_CANTON,
 				'Heredia'  : (), 
-			}[pField](SJ_CANTON)
+			}
+			
+			v['state_canton'] = selected[pField]
 			debug(v)
 			obj.state_canton.readonly = False
 		except KeyError:
