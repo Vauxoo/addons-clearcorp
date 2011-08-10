@@ -8,24 +8,9 @@
 			<field name = "type">form</field>
 			<field name = "inherit_id" ref="base.view_partner_form"/>
 			<field name = "arch" type = "xml">
-				<form string = "Detalle de cliente">
-					<group col = "4" colspan = "2">
-						<separator string = "General Information" col = "4" colspan = "4"/>
-						<field name = "partner_id"/>
-						<field name = "name"/>
-						<field name = "client_birthdate"/>
-					</group>
-					<group col = "4" colspan = "4">
-						<separator string = "Contact" col = "4" colspan = "4"/>
-						<field name = "email"/>										
-						<field name = "phone"/>
-						<field name = "client_location" colspan = "4"/>						
-					</group>
-					<group col = "2" colspan = "2">
-						<separator string = "Others" col = "4" colspan = "4"/>
-						<field name = "comment"/>
-					</group>
-				</form>
+				<data>
+					
+				</data>
 			</field>
 		</record>
 		
