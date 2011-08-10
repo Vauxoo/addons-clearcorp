@@ -66,6 +66,26 @@
 		</record>
 		
 		
+		<record model = "ir.ui.view" id = "location_tree_view">
+			<field name = "name">rent.location.tree</field>
+			<field name = "model">rent.state</field>
+			<field name = "type">form</field>
+			<field name = "inherit" ref="base.view_partner_address_tree"/>
+			<field name = "arch" type = "xml">
+				<form string = "State Detail">
+					<group col = "2" colspan = "2">
+						<separator string = "Location" col = "4" colspan = "4"/>
+						<field name="city" position = "replace">
+							<field name = "location_province" on_change = "determine_canton(state_province)"/>
+							<field name = "location_canton" on_change = "determine_district(state_canton)"/>
+							<field name = "location_district"/>
+						 </field>
+					</group>
+				</form>
+			</field>
+		</record>
+		
+		
 		<record model = "ir.actions.act_window" id = "action_client_form_view">
 			<field name = "name">Lista de Clientes</field>
 			<field name = "res_model">rent.client</field>
