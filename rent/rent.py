@@ -49,7 +49,7 @@ class rent_state(osv.osv):
 			v ['state_canton'] = {
 				'San Jose' : SJ_CANTON,
 				'Heredia'  : (), 
-			}[pField]()
+			}[pField](SJ_CANTON)
 			debug(v)
 			obj.state_canton.readonly = False
 		except KeyError:
