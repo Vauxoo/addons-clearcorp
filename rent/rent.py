@@ -1,6 +1,7 @@
 from osv import osv, fields
 from tools import debug
 import time
+form data import constanst
 
 #Class that inherits from res.partner allowing to record the 
 #necesary data from the clients
@@ -18,11 +19,11 @@ class rent_client(osv.osv):
 	}
 rent_client()
 
-SJ_CANTON = (('San Jose','San Jose'), ('Escazu','Escazu'), 
-			('Desamparados','Desamparados'), ('Puriscal','Puriscal'),('Tarrazu','Tarrazu'),('Aserri','Aserri'),('Mora','Mora'),
-			('Goicoechea','Goicoechea'),('Santa Ana','Santa Ana'),('Alajuelita','Alajuelita'),('Vazquez de Coronado','Vazquez de Coronado'),
-			('Acosta','Acosta'),('Tibas','Tibas'),('Moravia','Moravia'),('Montes de Oca','Montes de Oca'),('Turrubares','Turrubares'),('Dota','Dota'),
-			('Curridabat','Curridabat'),('Perez Zeledon','Perez Zeledon'),('Leon Cortes','Leon Cortes'))
+#SJ_CANTON = (('San Jose','San Jose'), ('Escazu','Escazu'), 
+#			('Desamparados','Desamparados'), ('Puriscal','Puriscal'),('Tarrazu','Tarrazu'),('Aserri','Aserri'),('Mora','Mora'),
+#			('Goicoechea','Goicoechea'),('Santa Ana','Santa Ana'),('Alajuelita','Alajuelita'),('Vazquez de Coronado','Vazquez de Coronado'),
+#			('Acosta','Acosta'),('Tibas','Tibas'),('Moravia','Moravia'),('Montes de Oca','Montes de Oca'),('Turrubares','Turrubares'),('Dota','Dota'),
+#			('Curridabat','Curridabat'),('Perez Zeledon','Perez Zeledon'),('Leon Cortes','Leon Cortes'))
 
 
 class rent_state(osv.osv):
@@ -45,14 +46,16 @@ class rent_state(osv.osv):
 		debug('asiiiiiiiiiiiiiiii')
 		debug(pField)
 		try:
-			selected = {
-				'San Jose' : SJ_CANTON,
-				'Heredia'  : (), 
-			}
-			
-			v['state_canton'] = selected[pField]
+			v['state_canton'] = {
+				'San Jose'   : SJ_CANTON,
+				'Heredia'    : (), 
+				'Alajuela'   : (),
+				'Cartago'    : (),
+				'Puntarenas' : (),
+				'Limon'      : (),
+				'Guanacaste' : (),
+			}[pField]
 			debug(v)
-			obj.state_canton.readonly = False
 		except KeyError:
 			debug('se cae')
 		return { 'value':v}
