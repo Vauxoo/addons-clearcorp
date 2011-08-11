@@ -4,7 +4,7 @@
 		<!--CLIENTS-->
 		<record model = "ir.ui.view" id = "client_form_view">
 			<field name = "name">rent.client.form</field>
-			<field name = "model">rent.client</field>
+			<field name = "model">res.partner</field>
 			<field name = "type">form</field>
 			<field name="inherit_id" ref="base.view_partner_form"/>
 			<field name="arch" type="xml">
