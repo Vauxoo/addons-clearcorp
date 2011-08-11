@@ -16,9 +16,7 @@
 					<field name = "name" position = "after">
 						<field name = "client_birthdate"/>
 					</field>
-					<field name = "city" position = "replace">
-						<field name = "client_canton"/>
-					</field>
+					<field name = "city" position = "replace"/>
 				</data>
 			</field>
 		</record>
