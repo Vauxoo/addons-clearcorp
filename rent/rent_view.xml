@@ -22,16 +22,6 @@
 			<field name = "type">tree</field>
 			<field name = "inherit_id" ref = "base.view_partner_tree"/>
 			<field name = "arch" type = "xml">
-				<data>
-					<field name = "partner_id"/>
-					<field name = "name"/>
-					<!--<field name = "client_lastname"/>
-					<field name = "client_lastname2"/>
-					<field name = "client_province"/>-->
-					<field name = "email"/>
-					<field name = "phone"/>
-					
-				</data>
 			</field>
 		</record>
 		
