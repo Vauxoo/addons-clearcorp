@@ -20,17 +20,35 @@
 			<field name = "name">rent.client.tree</field>
 			<field name = "model">rent.client</field>
 			<field name = "type">tree</field>
+			<field name="inherit_id" ref="base.view_partner_tree"/>
 			<field name = "arch" type = "xml">
-				<tree>
-					<field name = "partner_id" position = "inside"/>
-					<field name = "name" position = "inside"/>
-					<field name = "email" position = "inside"/>
-					<field name = "phone" position = "inside"/>
-				</tree>
+				<field name = "user_id" position = "replace"/>
+				<field name = "country" position = "after">
+					<field name = "state_id"/>
+				</field>
+				<field name = "state_id" position = "after">
+					<field name = "birthdate"/>
+				</field>
 			</field>
 		</record>
 		
 		
+		<record model = "ir.actions.act_window" id = "action_client_form_view">
+			<field name = "name">Detalles de Clientes</field>
+			<field name = "res_model">rent.client</field>
+			<field name = "type">ir.actions.act_window</field>
+			<field name = "view_type">form</field>
+			<field name = "view_mode">tree,form</field>
+			<field name = "view_id" ref = "client_tree_view"/>
+		</record>
+		
+		<!--CLIENT MENU-->
+		<menuitem id = "rent_manager" name = "Rent" web_icon="data/rent.png"
+                  web_icon_hover="data/rent-hover.png"/>
+		<menuitem id = "rent_client_menu" name = "Clients" parent = "rent_manager"/>
+		<menuitem id = "rent_client_submenu" name = "Client" parent = "rent_client_menu" action = "action_client_form_view"/>
+		
+		<!---LOCATION--->
 		<record model = "ir.ui.view" id = "location_form_view">
 			<field name = "name">rent.state.form</field>
 			<field name = "model">rent.state</field>
@@ -67,23 +85,6 @@
 				</form>
 			</field>
 		</record>
-		
-		
-		<record model = "ir.actions.act_window" id = "action_client_form_view">
-			<field name = "name">Detalles de Clientes</field>
-			<field name = "res_model">rent.client</field>
-			<field name = "type">ir.actions.act_window</field>
-			<field name = "view_type">form</field>
-			<field name = "view_mode">tree,form</field>
-			<field name = "view_id" ref = "client_tree_view"/>
-		</record>
-		
-		<!--CLIENT MENU-->
-		<menuitem id = "rent_manager" name = "Rent" web_icon="data/rent.png"
-                  web_icon_hover="data/rent-hover.png"/>
-		<menuitem id = "rent_client_menu" name = "Clients" parent = "rent_manager"/>
-		<menuitem id = "rent_client_submenu" name = "Client" parent = "rent_client_menu" action = "action_client_form_view"/>
-		
 		
 		<!---STATES-->
 		<record model = "ir.ui.view" id = "state_form_view">
