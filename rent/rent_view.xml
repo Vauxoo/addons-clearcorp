@@ -2,9 +2,9 @@
 <openerp>
 	<data>
 		<!--
-		---------------------------------------
-						CLIENTS
-		---------------------------------------
+		======================================
+		CLIENTS
+		======================================
 		-->
 		<record model = "ir.ui.view" id = "client_form_view">
 			<field name = "name">rent.client.form</field>
@@ -57,9 +57,9 @@
 		
 		
 		<!--
-		---------------------------------------
+		======================================
 						CLIENT MENU
-		---------------------------------------
+		======================================
 		-->
 		<menuitem id = "rent_manager" name = "Rent" web_icon="data/rent.png"
                   web_icon_hover="data/rent-hover.png"/>
