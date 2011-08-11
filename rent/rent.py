@@ -61,10 +61,11 @@ class rent_state(osv.osv):
 	_name = 'rent.state'
 	_rec_name = "state_number"
 	_columns = {
-		'state_province' : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
+		#'state_province' : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
 											('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
-		'state_canton'   : fields.selection((),'Canton',required=True),
-		'state_district' : fields.selection((),'District', required=True,readonly=True),
+		
+		'state_canton'    : fields.related('address', 'location_canton', type='char', string='Canton'),
+		'state_district'  : fields.related('address', 'location_district', type='char', string='District'),
 		'state_number'   : fields.char('# State', size=10,required=True),
 		'state_value'    : fields.float('Value',required=True),
 		'state_area'     : fields.float('Area', required=True),

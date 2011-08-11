@@ -107,10 +107,10 @@
 						<field name = "state_value"/>
 						<field name = "state_area"/>
 					</group>
-					<group col = "2" colspan = "2">
+					<group col = "4" colspan = "4">
 						<separator string = "Location" col = "4" colspan = "4"/>
 						<!--<field name = "state_address"/>-->
-						<field name = "state_location"/>
+						<field name = "address"/>
 						<!--<field name = "state_canton" on_change = "determine_district(state_canton)"/>
 						<field name = "state_district"/>-->
 					</group>
