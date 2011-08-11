@@ -38,7 +38,7 @@ class rent_location(osv.osv):
 		debug('asiiiiiiiiiiiiiiii')
 		debug(pField)
 		try:
-			v['state_canton'] = {
+			v['canton'] = {
 				'San Jose'   : constanst.SJ_CANTON,
 				'Heredia'    : constanst.H_CANTON, 
 				'Alajuela'   : constanst.A_CANTON,
