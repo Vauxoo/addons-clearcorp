@@ -6,7 +6,6 @@
 			<field name = "name">rent.client.form</field>
 			<field name = "model">rent.client</field>
 			<field name = "type">form</field>
-			<!--<field name = "inherit" ref="base.view_partner_form"/>-->
 			<field name = "arch" type = "xml">
 				<form string = "Detalle de cliente">
 					<group col = "4" colspan = "2">
