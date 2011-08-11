@@ -16,9 +16,6 @@
 					<field name = "name" position = "after">
 						<field name = "client_birthdate"/>
 					</field>
-					<field name = "client_birthdate" position = "after">
-						<field name = "client_province"/>
-					</field>
 					
 					<field name = "address" position = "replace">
 						<field colspan="4" mode="form,tree" name="client_location" nolabel="1" select="1" height="260">
