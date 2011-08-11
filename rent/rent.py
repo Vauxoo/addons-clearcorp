@@ -53,7 +53,7 @@ class rent_location(osv.osv):
 		return { 'value':v}
 	def determine_district(self,cr,uid,ids,context=None):
 		v = {}
-		
+		v['district'] = (())
 		return {'value':v}
 rent_location()
 
