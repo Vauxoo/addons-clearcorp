@@ -1,7 +1,11 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <openerp>
 	<data>
-		<!--CLIENTS-->
+		<!--
+		---------------------------------------
+						CLIENTS
+		---------------------------------------
+		-->
 		<record model = "ir.ui.view" id = "client_form_view">
 			<field name = "name">rent.client.form</field>
 			<field name = "model">rent.client</field>
@@ -25,10 +29,13 @@
 			<field name = "type">tree</field>
 			<field name="inherit_id" ref="base.view_partner_tree"/>
 			<field name = "arch" type = "xml">
-				<field name = "user_id" position = "replace"/>
-				<field name = "country" position = "after">
-					<field name = "client_birthdate"/>
-				</field>
+				<data>
+					<field name = "reference" position = "replace"/>
+					<field name = "user_id" position = "replace"/>
+					<field name = "country" position = "after">
+						<field name = "client_birthdate"/>
+					</field>
+				</data>
 			</field>
 		</record>
 		
@@ -48,7 +55,12 @@
 			<field name="act_window_id" ref="action_client_form_view"/>
 		</record>
 		
-		<!--CLIENT MENU-->
+		
+		<!--
+		---------------------------------------
+						CLIENT MENU
+		---------------------------------------
+		-->
 		<menuitem id = "rent_manager" name = "Rent" web_icon="data/rent.png"
                   web_icon_hover="data/rent-hover.png"/>
 		<menuitem id = "rent_client_menu" name = "Clients" parent = "rent_manager"/>
