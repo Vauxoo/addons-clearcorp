@@ -43,7 +43,6 @@
 		</record>
 		
 		<record model = "ir.actions.act_window" id = "action_client_tree_view">
-			<field eval="10" name="sequence"/>
 			<field name = "view_mode">tree</field>
 			<field name = "view_id" ref = "client_tree_view"/>
 			<field name = "act_window_id" ref = "action_client_form_view"/>
