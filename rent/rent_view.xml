@@ -7,25 +7,26 @@
 			<field name = "model">rent.client</field>
 			<field name = "type">form</field>
 			<field name="inherit_id" ref="base.view_partner_form"/>
-			
+			<field name="arch" type="xml">
+				<notebook position="inside">
+					<page string="Location">
+						
+					</page>
+				</notebook>
+			</field>
 		</record>
 		
 		<record model = "ir.ui.view" id = "client_tree_view">
 			<field name = "name">rent.client.tree</field>
 			<field name = "model">rent.client</field>
 			<field name = "type">tree</field>
-			<field name = "inherit_id" ref = "base.view_partner_tree"/>
 			<field name = "arch" type = "xml">
-				<data>
+				<tree>
 					<field name = "partner_id" position = "inside"/>
 					<field name = "name" position = "inside"/>
-					<!--<field name = "client_lastname"/>
-					<field name = "client_lastname2"/>
-					<field name = "client_province"/>-->
 					<field name = "email" position = "inside"/>
 					<field name = "phone" position = "inside"/>
-					
-				</data>
+				</tree>
 			</field>
 		</record>
 		
