@@ -30,7 +30,7 @@
 			<field name="inherit_id" ref="base.view_partner_tree"/>
 			<field name = "arch" type = "xml">
 				<data>
-					<field name = "reference" position = "replace"/>
+					<field name = "ref" position = "replace"/>
 					<field name = "user_id" position = "replace"/>
 					<field name = "country" position = "after">
 						<field name = "client_birthdate"/>
