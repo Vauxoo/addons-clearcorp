@@ -35,7 +35,7 @@
                                         <field name="street" colspan="4"/>
                                         <field name="street2" colspan="4"/>
                                         <field name="zip"/>
-                                        <field name="client_canton"/>
+                                        <field name="city"/>
                                         <field name="country_id" completion="1"/>
                                         <field name="state_id"/>
                                      </group>
