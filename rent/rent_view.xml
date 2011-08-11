@@ -38,7 +38,7 @@
 			<field name = "res_model">rent.client</field>
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
-			<field name = "view_mode">form</field>
+			<field name = "view_mode">tree,form</field>
 			<field name = "view_id" ref = "client_form_view"/>
 		</record>
 		
@@ -48,6 +48,7 @@
 			<field name = "view_id" ref = "client_tree_view"/>
 			<field name="act_window_id" ref="action_client_form_view"/>
 		</record>
+		
 		<!--CLIENT MENU-->
 		<menuitem id = "rent_manager" name = "Rent" web_icon="data/rent.png"
                   web_icon_hover="data/rent-hover.png"/>
