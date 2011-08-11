@@ -43,9 +43,6 @@
 		</record>
 		
 		<record model = "ir.actions.act_window.view" id = "action_client_tree_view">
-			<field name = "name">Lista de Clientes</field>
-			<field name = "res_model">rent.client</field>
-			<field name = "type">ir.actions.act_window.view</field>
 			<field name = "view_type">tree</field>
 			<field name = "view_mode">tree</field>
 			<field name = "view_id" ref = "client_tree_view"/>
