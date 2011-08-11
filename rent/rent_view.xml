@@ -39,6 +39,12 @@
 			<field name = "view_id" ref = "client_tree_view"/>
 		</record>
 
+		<record model = "ir.actions.act_window.view" id = "action_client_form_view">
+			<field eval="10" name="sequence"/>
+			<field name = "view_type">form</field>
+			<field name = "view_id" ref = "client_form_view"/>
+			<field name = "act_window_id" ref = "action_client_tree_view"/>
+		</record>
 		<!--CLIENT MENU-->
 		<menuitem id = "rent_manager" name = "Rent" web_icon="data/rent.png"
                   web_icon_hover="data/rent-hover.png"/>
