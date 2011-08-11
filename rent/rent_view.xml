@@ -19,6 +19,7 @@
 					<field name = "city" position = "replace"/>
 					<field name = "state_id" position = "after" widget = "selection">
 						<field name = "city"/>
+						<field name = "canton"/>
 					</field>
 				</data>
 			</field>
