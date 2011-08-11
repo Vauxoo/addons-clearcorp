@@ -48,7 +48,7 @@
 		<menuitem id = "rent_client_menu" name = "Clients" parent = "rent_manager"/>
 		<menuitem id = "rent_client_submenu" name = "Client" parent = "rent_client_menu" action = "action_client_form_view"/>
 		
-		<!---LOCATION--->
+		<!--LOCATION-->
 		<record model = "ir.ui.view" id = "location_form_view">
 			<field name = "name">rent.state.form</field>
 			<field name = "model">rent.state</field>
