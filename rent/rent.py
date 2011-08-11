@@ -28,7 +28,7 @@ class rent_location(osv.osv):
 		'location_province' : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
 												('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
 		'location_canton'   : fields.selection((),'Canton',required=True),
-		'location_district' : fields.selection((),'District', required=True,readonly=True),
+		'location_district' : fields.selection((),'District', required=True),
 	}
 	def determine_canton(self,cr,uid,ids,pField,context=None):
 		v = {}

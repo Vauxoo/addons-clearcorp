@@ -16,10 +16,12 @@
 				<field name = "name" position = "after">
 					<field name = "client_birthdate"/>
 				</field>
-				<field name = "address" position = "replace">
-					<field name="client_location" colspan="4" nolabel="1" select="1" height="260"/>
+				<field name = "city" position = "replace">
+					<field name = "client_canton"/>
 				</field>
-				</data>
+				<field name = "client_canton" position = "after">
+					<field name = "client_district"/>
+				</field>
 			</field>
 		</record>
 		
