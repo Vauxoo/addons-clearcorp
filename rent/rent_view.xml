@@ -8,11 +8,9 @@
 			<field name = "type">form</field>
 			<field name="inherit_id" ref="base.view_partner_form"/>
 			<field name="arch" type="xml">
-				<notebook position="inside">
-					<page string="Location">
-						
-					</page>
-				</notebook>
+				<field name="name" position="after">
+					<field name = "client_birthdate"/>
+				</field>
 			</field>
 		</record>
 		
