@@ -47,6 +47,7 @@
 			<field name = "res_model">rent.client</field>
 			<field name = "type">ir.actions.act_window.view</field>
 			<field name = "view_type">tree</field>
+			<field name = "view_mode">tree</field>
 			<field name = "view_id" ref = "client_tree_view"/>
 			<field name="act_window_id" ref="action_client_form_view"/>
 		</record>
