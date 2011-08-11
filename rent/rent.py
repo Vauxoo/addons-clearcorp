@@ -23,8 +23,9 @@ class rent_client(osv.osv):
 	}
 rent_client()
 
+SJ_CANTON = fields.selection((('San Jose','San Jose'),('Escazu','Escazu')),'Canton')
+
 class rent_location(osv.osv):
-	SJ_CANTON = fields.selection((('San Jose','San Jose'),('Escazu','Escazu')),'Canton')
 	_name = 'res.partner.address'
 	_inherit = 'res.partner.address'
 	_columns = {
