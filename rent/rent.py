@@ -35,7 +35,6 @@ class rent_location(osv.osv):
 	}
 	def determine_canton(self,cr,uid,ids,pField,context=None):
 		v = {}
-		obj = self.pool.get('rent.location').browse(cr,uid,ids)
 		debug('asiiiiiiiiiiiiiiii')
 		debug(pField)
 		try:
