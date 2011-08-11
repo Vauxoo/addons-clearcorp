@@ -24,14 +24,14 @@ class rent_client(osv.osv):
 rent_client()
 
 class rent_location(osv.osv):
-	_name = 'rent.location'
+	_name = 'res.partner.address'
 	_inherit = 'res.partner.address'
 	_columns = {
-		'location_id'       : fields.many2one('rent.client','Client ID'),
-		'location_province' : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
+		#'location_id'       : fields.many2one('rent.client','Client ID'),
+		'province'          : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
 												('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
-		'location_canton'   : fields.selection((),'Canton',required=True),
-		'location_district' : fields.selection((),'District', required=True),
+		'canton'   : fields.selection((),'Canton',required=True),
+		'district' : fields.selection((),'District', required=True),
 	}
 	def determine_canton(self,cr,uid,ids,pField,context=None):
 		v = {}
