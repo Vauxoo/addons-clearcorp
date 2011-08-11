@@ -32,9 +32,10 @@
                                         <field name="street" colspan="4"/>
                                         <field name="street2" colspan="4"/>
                                         <field name="zip"/>
-                                        <field name="city"/>
                                         <field name="country_id" completion="1"/>
                                         <field name="state_id"/>
+                                        <field name="client_canton"/>
+                                        <field name= "client_district"/>
                                      </group>
                                      <group colspan="2" col="2">
                                         <separator string="Communication" colspan="2" col="2" />
