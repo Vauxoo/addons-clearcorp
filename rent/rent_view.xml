@@ -19,7 +19,6 @@
 					<field name = "city" position = "replace"/>
 					<field name = "state_id" position = "after">
 						<field name = "city"/>
-						<field name = "client_canton"/>
 					</field>
 				</data>
 			</field>
