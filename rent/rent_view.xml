@@ -25,7 +25,7 @@
 					<field name = "state_id"/>
 				</field>
 				<field name = "state_id" position = "after">
-					<field name = "birthdate"/>
+					<field name = "client_birthdate"/>
 				</field>
 			</field>
 		</record>
