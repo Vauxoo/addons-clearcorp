@@ -11,18 +11,17 @@
 					<group col = "4" colspan = "2">
 						<separator string = "General Information" col = "4" colspan = "4"/>
 						<field name = "partner_id"/>
-						<field name = "name"/>
+						
 						<field name = "client_birthdate"/>
 					</group>
 					<group col = "4" colspan = "4">
 						<separator string = "Contact" col = "4" colspan = "4"/>
-						<field name = "email"/>										
-						<field name = "phone"/>
+						
 						<field name = "client_location" colspan = "4"/>						
 					</group>
 					<group col = "2" colspan = "2">
 						<separator string = "Others" col = "4" colspan = "4"/>
-						<field name = "comment"/>
+						
 					</group>
 				</form>
 			</field>
@@ -34,13 +33,13 @@
 			<field name = "type">tree</field>
 			<field name = "arch" type = "xml">
 				<tree string = "Detalle de cliente">
-					<field name = "partner_id"/>
+					<!--<field name = "partner_id"/>
 					<field name = "name"/>
-					<!--<field name = "client_lastname"/>
+					<field name = "client_lastname"/>
 					<field name = "client_lastname2"/>
-					<field name = "client_province"/>-->
+					<field name = "client_province"/>
 					<field name = "email"/>
-					<field name = "phone"/>
+					<field name = "phone"/>-->
 				</tree>
 			</field>
 		</record>
