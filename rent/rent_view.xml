@@ -12,14 +12,12 @@
 			<field name = "type">form</field>
 			<field name="inherit_id" ref="base.view_partner_form"/>
 			<field name="arch" type="xml">
+				<data>
 				<field name = "name" position = "after">
 					<field name = "client_birthdate"/>
 				</field>
-				<notebook position="inside">
-					<page string="Locations">
-						<field name="client_location" colspan="4" nolabel="1"/>
-					</page>
-				</notebook>
+					<field name="client_location" colspan="4" nolabel="1"/>
+				</data>
 			</field>
 		</record>
 		
@@ -71,36 +69,19 @@
 			<field name = "name">rent.state.form</field>
 			<field name = "model">rent.state</field>
 			<field name = "type">form</field>
-			<field name = "inherit" ref="base.view_partner_address_form2"/>
+			<field name = "inherit_id" ref="base.view_partner_address_form2"/>
 			<field name = "arch" type = "xml">
-				<form string = "State Detail">
-					<group col = "2" colspan = "2">
-						<separator string = "Location" col = "4" colspan = "4"/>
-						<!--<field name = "state_address"/>-->
-						<field name = "location_province" on_change = "determine_canton(state_province)"/>
+				<data>
+					<field name="city" position = "replace">
 						<field name = "location_canton" on_change = "determine_district(state_canton)"/>
-						<field name = "location_district"/>
-					</group>
-				</form>
-			</field>
-		</record>
-		
-		
-		<record model = "ir.ui.view" id = "location_tree_view">
-			<field name = "name">rent.location.tree</field>
-			<field name = "model">rent.state</field>
-			<field name = "type">form</field>
-			<field name = "inherit" ref="base.view_partner_address_form2"/>
-			<field name = "arch" type = "xml">
-				<form string = "State Detail">
-					<group col = "2" colspan = "2">
-						<separator string = "Location" col = "4" colspan = "4"/>
-						<!--<field name = "state_address"/>-->
+					</field>
+					<field name="state_id" position = "replace">
 						<field name = "location_province" on_change = "determine_canton(state_province)"/>
-						<field name = "location_canton" on_change = "determine_district(state_canton)"/>
+					</field>
+					<field name="location_canton" position = "after">
 						<field name = "location_district"/>
-					</group>
-				</form>
+					</field>
+				</data>
 			</field>
 		</record>
 		
