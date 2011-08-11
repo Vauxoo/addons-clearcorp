@@ -4,19 +4,19 @@
 		<!--CLIENTS-->
 		<record model = "ir.ui.view" id = "client_form_view">
 			<field name = "name">rent.client.form</field>
-			<field name = "model">res.partner</field>
+			<field name = "model">rent.client</field>
 			<field name = "type">form</field>
 			<field name="inherit_id" ref="base.view_partner_form"/>
 			<field name="arch" type="xml">
 				<notebook position="inside">
 					<page string="Location">
-						
+						<field name = "client_location"/>
 					</page>
 				</notebook>
 			</field>
 		</record>
 		
-		<!--<record model = "ir.ui.view" id = "client_tree_view">
+		<record model = "ir.ui.view" id = "client_tree_view">
 			<field name = "name">rent.client.tree</field>
 			<field name = "model">rent.client</field>
 			<field name = "type">tree</field>
@@ -24,14 +24,14 @@
 				<tree string = "Detalle de cliente">
 					<field name = "partner_id"/>
 					<field name = "name"/>
-					<field name = "client_lastname"/>
+					<!--<field name = "client_lastname"/>
 					<field name = "client_lastname2"/>
-					<field name = "client_province"/>
+					<field name = "client_province"/>-->
 					<field name = "email"/>
 					<field name = "phone"/>
 				</tree>
 			</field>
-		</record>-->
+		</record>
 		
 		
 		<record model = "ir.ui.view" id = "location_form_view">
@@ -73,11 +73,12 @@
 		
 		
 		<record model = "ir.actions.act_window" id = "action_client_form_view">
-			<field name = "name">Lista de Clientes</field>
+			<field name = "name">Detalles de Clientes</field>
 			<field name = "res_model">rent.client</field>
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
+			<field name = "view_id" ref = "client_form_view"/>
 		</record>
 		
 		<!--CLIENT MENU-->
