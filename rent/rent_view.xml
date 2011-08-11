@@ -42,7 +42,11 @@
 			<field name = "view_id" ref = "client_form_view"/>
 		</record>
 		
-		
+		<record model = "ir.actions.act_window.view" id = "action_client_tree_view">
+			<field name = "view_mode">tree</field>
+			<field name = "view_id" ref = "client_tree_view"/>
+			<field name="act_window_id" ref="action_client_form_view"/>
+		</record>
 		
 		<!--CLIENT MENU-->
 		<menuitem id = "rent_manager" name = "Rent" web_icon="data/rent.png"
