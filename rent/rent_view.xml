@@ -17,7 +17,7 @@
 						<field name = "client_birthdate"/>
 					</field>
 					<field name = "city" position = "replace"/>
-					<field name = "state_id" position = "after">
+					<field name = "state_id" position = "after" widget = "selection">
 						<field name = "city"/>
 					</field>
 				</data>
