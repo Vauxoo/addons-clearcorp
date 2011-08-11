@@ -20,8 +20,9 @@
 			<field name = "name">rent.client.tree</field>
 			<field name = "model">rent.client</field>
 			<field name = "type">tree</field>
+			<field name = "inherit_id" ref = "base.view_partner_tree"/>
 			<field name = "arch" type = "xml">
-				<tree string = "Detalle de cliente">
+				<data>
 					<field name = "partner_id"/>
 					<field name = "name"/>
 					<!--<field name = "client_lastname"/>
@@ -29,7 +30,8 @@
 					<field name = "client_province"/>-->
 					<field name = "email"/>
 					<field name = "phone"/>
-				</tree>
+					
+				</data>
 			</field>
 		</record>
 		
