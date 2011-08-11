@@ -69,7 +69,7 @@ class rent_state(osv.osv):
 		'state_value'    : fields.float('Value',required=True),
 		'state_area'     : fields.float('Area', required=True),
 		'state_buildings': fields.one2many('rent.building','building_estate','Buildings'),
-		'state_location' : fields.one2many('rent.locaction','partner_id','Location'),
+		'state_location' : fields.one2many('rent.location','partner_id','Location'),
 		#'state_address'  : fields.one2many('res.partner.address','partner_id', 'Direccion'),
 		#'state_province': fields.related('state_address', 'state_province', type='selection', string='Province'),
         #'state_canton': fields.related('state_address', 'state_canton', type='selection', string='Canton'),
