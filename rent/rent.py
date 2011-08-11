@@ -16,8 +16,8 @@ class rent_client(osv.osv):
 		
 		'client_birthdate' : fields.date('Birthdate',select=1,required=True),
 		#'client_province' : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
-												('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
-		'client_canton'    : fields.related('client_location', 'location_canton', type='selection', string='Canton'),		
+		#										('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
+		'client_canton'    : fields.related('client_location', 'location_canton', type='selection', string='Canton'),
 		'client_location'  : fields.one2many('rent.location','location_id','Location'),
 		'client_district'  : fields.related('client_location', 'location_district', type='selection', string='District'),
 	}
