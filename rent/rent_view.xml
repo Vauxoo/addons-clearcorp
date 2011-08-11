@@ -13,15 +13,16 @@
 			<field name="inherit_id" ref="base.view_partner_form"/>
 			<field name="arch" type="xml">
 				<data>
-				<field name = "name" position = "after">
-					<field name = "client_birthdate"/>
-				</field>
-				<field name = "city" position = "replace">
-					<field name = "client_canton"/>
-				</field>
-				<field name = "client_canton" position = "after">
-					<field name = "client_district"/>
-				</field>
+					<field name = "name" position = "after">
+						<field name = "client_birthdate"/>
+					</field>
+					<field name = "city" position = "replace">
+						<field name = "client_canton"/>
+					</field>
+					<field name = "client_canton" position = "after">
+						<field name = "client_district"/>
+					</field>
+				</data>
 			</field>
 		</record>
 		
