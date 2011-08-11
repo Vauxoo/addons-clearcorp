@@ -15,8 +15,8 @@ class rent_client(osv.osv):
 		#'partner_id'        : fields.char('Id',size=10,required=True,help='Cedula del cliente'),
 		'client_birthdate' : fields.date('Birthdate',select=1,required=True),		
 		'client_location'  : fields.one2many('rent.location','location_id','Location'),
-		'client_canton'    : fields.related('address', 'client_canton', type='selection', string='Canton'),
-		'client_district'  : fields.char('Distric',size=15,required=True),
+		#'client_canton'    : fields.related('address', 'client_canton', type='selection', string='Canton'),
+		'client_canton'  : fields.char('Canton',size=15,required=True),
 		#'client_district'  : fields.related('address', 'client_district', type='selection', string='District'),
 	}
 rent_client()
