@@ -7,9 +7,6 @@
 			<field name = "model">rent.client</field>
 			<field name = "type">form</field>
 			<field name = "inherit_id" ref = "base.view_partner_form"/>
-			<field name = "arch" type = "xml">
-				
-			</field>
 		</record>
 		
 		<record model = "ir.ui.view" id = "client_tree_view">
