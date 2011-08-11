@@ -1,3 +1,3 @@
-SJ_CANTON = ((('San Jose','San Jose'),('Escazu','Escazu')))
+SJ_CANTON = fields.selection((('San Jose','San Jose'),('Escazu','Escazu')),'Canton')
 H_CANTON = (('Heredia','Heredia'),('Barva','Barva'),('Santo Domingo','Santo Domingo'),('Santa Barbara','Santa Barbara'),('San Rafael','San Rafael'),('San Isidro','San Isidro'),('Belen','Belen'),('Flores','Flores'),('Santa Ana','Santa Ana'),('Alajuelita','Alajuelita'),('Vazquez de Coronado','Vazquez de Coronado'),('Acosta','Acosta'),('San Pablo','San Pablo'),('Sarapiqui','Sarapiqui')) 
 A_CANTON = (('Alajuela','Alajuela'),('San Ramon','San Ramon'),('Grecia','Grecia'),('San Mateo','San Mateo'),('Atenas','Atenas'),('Naranjo','Naranjo'),('Palmares','Palmares'),('Poas','Poas'),('Orotina','Orotina'),('San Carlos','San Carlos'),('Alfaro Ruiz','Alfaro Ruiz'),('Valverde Vega','Valverde Vega'),('Upala','Upala'),('Los Chiles','Los Chiles'),('Guatuso','Guatuso')) 
