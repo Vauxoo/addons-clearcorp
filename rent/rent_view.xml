@@ -23,6 +23,7 @@
 					</field>
 					<field name = "client_birthdate" position = "after">
 						<field name = "client_province"/>
+						
 					</field>
 				</data>
 			</field>
