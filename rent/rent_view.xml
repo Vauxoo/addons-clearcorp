@@ -20,6 +20,9 @@
 					<field name = "state_id" position = "after">
 						<field name = "city"/>
 					</field>
+					<field name = "state_id" position = "replace">
+						<field name = "client_province"/>
+					</field>
 					<field name = "client_birthdate" position = "after">
 						<field name = "client_province"/>
 						
