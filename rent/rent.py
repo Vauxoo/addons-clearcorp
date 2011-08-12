@@ -144,7 +144,7 @@ rent_floor_local()
 #Class representing the parking, on floor. This class has a relation 
 #many2one with the floor 
 #
-class rent_floor_parking(sosv.osv):
+class rent_floor_parking(osv.osv):
 	_name = 'rent.floor.parking'
 	_columns = {
 		'parking_area' : fields.float('VRN Dynamic',required=True),
