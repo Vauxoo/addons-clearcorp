@@ -34,6 +34,12 @@ class rent_location(osv.osv):
 		#'canton'   : fields.char('Canton',size=20,required=True),
 		'district' : fields.char('District',size=20,required=True),
 	}
+	
+rent_location()
+
+class rent_state(osv.osv):
+	_name = 'rent.state'
+	_rec_name = "state_number"
 	def determine_canton(self,cr,uid,ids,pField,context=None):
 		v = {}
 		debug('asiiiiiiiiiiiiiiii')
@@ -56,11 +62,6 @@ class rent_location(osv.osv):
 		v = {}
 		v['district'] = (())
 		return {'value':v}
-rent_location()
-
-class rent_state(osv.osv):
-	_name = 'rent.state'
-	_rec_name = "state_number"
 	_columns = {
 		#'state_province' : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
 		#									('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
