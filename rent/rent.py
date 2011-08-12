@@ -49,24 +49,6 @@ class rent_location(osv.osv):
 		#'canton'   : fields.char('Canton',size=20,required=True),
 		'district' : fields.char('District',size=20,required=True),
 	}
-	def determine_canton(self,cr,uid,ids,pField,context=None):
-		v = {}
-		debug('asiiiiiiiiiiiiiiii')
-		debug(pField)
-		try:
-			v['canton'] = {
-				'San Jose'   : constanst.SJ_CANTON,
-				'Heredia'    : constanst.H_CANTON, 
-				'Alajuela'   : constanst.A_CANTON,
-				'Cartago'    : (()),
-				'Puntarenas' : (()),
-				'Limon'      : (()),
-				'Guanacaste' : (()),
-			}[pField]
-			debug(v)
-		except KeyError:
-			debug('se cae')
-		return { 'value':v}
 	def determine_district(self,cr,uid,ids,context=None):
 		v = {}
 		v['district'] = (())
