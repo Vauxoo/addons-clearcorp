@@ -407,15 +407,15 @@
 		</record>
 		
 		<record model = "ir.ui.view" id = "parking_tree_view">
-			<field name = "name">rent.floor.local.tree</field>
-			<field name = "model">rent.floor.local</field>
+			<field name = "name">rent.floor.parking.tree</field>
+			<field name = "model">rent.floor.parking</field>
 			<field name = "type">tree</field>
 			<field name = "arch" type = "xml">
 				<tree string = "Local List">
 					<field name = "parking_number"/>
-						<field name = "parking_value"/>
-						<field name = "parking_area"/>
-						<field name = "parking_rented"/>
+					<field name = "parking_value"/>
+					<field name = "parking_area"/>
+					<field name = "parking_rented"/>
 				</tree>
 			</field>
 		</record>
