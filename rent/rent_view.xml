@@ -138,17 +138,19 @@
 					</group>
 					<notebook colspan = "4">
 						<page string = "Location">
-							<field name = "state_location" colspan="4" mode="form,tree" nolabel="1" select="1" height="260">
-								<field name = "city" position = "replace"/>
-									<field name = "state_id" position = "replace">
-										<field name = "province" on_change =  "determine_canton(province)"/>
-									</field>
-								<field name = "province" position = "after" widget = "selection">
-									<field name = "canton" on_change ="determine_district(canton)"/>
-								</field>
-								<field name = "canton" position = "after">
-									<field name = "district"/>
-								</field>
+							<field name = "state_location" colspan="4" mode="form" nolabel="1" select="1" height="260">
+								<form string="Location">
+                                      <group colspan="2" col="4">
+                                        <separator string="Postal Address" colspan="4" col="4" />
+                                        <field name="type" string="Type" colspan="2"/>
+                                        <field name="street" colspan="4"/>
+                                        <field name="street2" colspan="4"/>
+                                        <field name="zip"/>
+                                        <field name="city"/>
+                                        <field name="country_id" completion="1"/>
+                                        <field name="state_id"/>
+                                     </group>
+                                </form>
 							</field>
 						<!--<field name = "state_address"/>-->
 						<!--<field name = "state_canton" on_change = "determine_district(state_canton)"/>
