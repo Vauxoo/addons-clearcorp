@@ -294,7 +294,6 @@
 				</form>
 			</field>
 		</record>
-		</record>
 		
 		<record model = "ir.ui.view" id = "floor_tree_view">
 			<field name = "name">rent.floor.tree</field>
