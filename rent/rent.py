@@ -126,7 +126,6 @@ rent_floor()
 #Class representing the local, on every floor. This class has a relation 
 #many2one with the floor 
 #
-#
 class rent_floor_local(osv.osv):
 	_name = 'rent.floor.local'
 	_columns = {
@@ -138,6 +137,7 @@ class rent_floor_local(osv.osv):
 		'local_light_meter_number' : fields.char('Light Meter', size=64),
 		'local_sqrmeter_price'  :  fields.float('VRN Dynamic',required=True),
 		'local_rented' : fields.boolean('Rented',help='Check if the local is rented'),
+		'local_floor'  : fields.many2one('rent.floor','# Floor'),
 	}
 rent_floor_local()
 
@@ -153,6 +153,7 @@ class rent_floor_parking(osv.osv):
 		'parking_huella' : fields.float('VRN Dynamic',required=True),
 		'parking_sqrmeter_price'  :  fields.float('VRN Dynamic',required=True),
 		'parking_rented' : fields.boolean('Rented',help='Check if the local is rented'),
+		'parking_floor'  : fields.many2one('rent.floor','# Floor'),
 	}
 rent_floor_parking()
 
