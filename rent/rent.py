@@ -26,24 +26,8 @@ rent_client()
 class rent_location(osv.osv):
 	_name = 'res.partner.address'
 	_inherit = 'res.partner.address'
-	_columns = {
-		#'location_id'       : fields.many2one('rent.client','Client ID'),
-		'province'          : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
-												('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
-		'canton'   : fields.function(determine_canton, type='selection',obj=None,method = True, string = 'Canton'),
-		#'canton'   : fields.char('Canton',size=20,required=True),
-		'district' : fields.char('District',size=20,required=True),
-	}
-	
-rent_location()
-
-class rent_state(osv.osv):
-	_name = 'rent.state'
-	_rec_name = "state_number"
-	def determine_canton(self,cr,uid,ids,field_name,arg,context=None):
+	def _determine_canton(self,cr,uid,ids,field_name,arg,context=None):
 		v = {}
-		debug('asiiiiiiiiiiiiiiii')
-		debug(field_name)
 		try:
 			v['canton'] = {
 				'San Jose'   : constanst.SJ_CANTON,
@@ -57,11 +41,41 @@ class rent_state(osv.osv):
 			debug(v)
 		except KeyError:
 			debug('se cae')
+		return constanst.SJ_CANTON
+	_columns = {
+		'province'          : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
+												('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
+		'canton'   : fields.function(_determine_canton,method=True, string='Canton',type='selection',selection=STATE),
+		#'canton'   : fields.char('Canton',size=20,required=True),
+		'district' : fields.char('District',size=20,required=True),
+	}
+	def determine_canton(self,cr,uid,ids,pField,context=None):
+		v = {}
+		debug('asiiiiiiiiiiiiiiii')
+		debug(pField)
+		try:
+			v['canton'] = {
+				'San Jose'   : constanst.SJ_CANTON,
+				'Heredia'    : constanst.H_CANTON, 
+				'Alajuela'   : constanst.A_CANTON,
+				'Cartago'    : (()),
+				'Puntarenas' : (()),
+				'Limon'      : (()),
+				'Guanacaste' : (()),
+			}[pField]
+			debug(v)
+		except KeyError:
+			debug('se cae')
 		return { 'value':v}
 	def determine_district(self,cr,uid,ids,context=None):
 		v = {}
 		v['district'] = (())
 		return {'value':v}
+rent_location()
+
+class rent_state(osv.osv):
+	_name = 'rent.state'
+	_rec_name = "state_number"
 	_columns = {
 		#'state_province' : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
 		#									('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
