@@ -295,7 +295,6 @@
 			</field>
 		</record>
 
-		
 		<record model = "ir.ui.view" id = "floor_tree_view">
 			<field name = "name">rent.floor.tree</field>
 			<field name = "model">rent.floor</field>
@@ -303,9 +302,8 @@
 			<field name = "arch" type = "xml">
 				<tree string="Floor Details">
 					<field name="floor_number"/>
-					<field name="floor_number"/>
-					<field name="floor_number"/>
-					<field name="floor_number"/>
+					<field name="floor_value"/>
+					<field name="floor_area"/>
 				</tree>
 			</field>
 		</record>

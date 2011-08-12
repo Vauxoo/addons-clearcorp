@@ -118,9 +118,41 @@ class rent_floor(osv.osv):
 		'floor_area' : fields.float('Area',required=True),
 		'floor_value' : fields.float('# Floor',help='This value is calculated using the estate and building area and values'),
 		'floor_acabado' : fields.char('Acabado',size=64),
-		#'floor_local' : fields.one2many('rent.floor.local','local_floor','Local'),
-		#'floor_parking' : fields.one2many('rent.floor.parking','parking_floor','Parking'),
+		'floor_local' : fields.one2many('rent.floor.local','local_floor','Local'),
+		'floor_parking' : fields.one2many('rent.floor.parking','parking_floor','Parking'),
 	}
 rent_floor()
 
+#Class representing the local, on every floor. This class has a relation 
+#many2one with the floor 
+#
+#
+class rent_floor_local(osv.osv):
+	_name = 'rent.floor.local'
+	_columns = {
+		'local_area' : fields.float('VRN Dynamic',required=True),
+		'local_value' : fields.float('Value',required=True),
+		'local_number' : fields.integer('# Local',required=True),
+		'local_huella' : fields.float('VRN Dynamic',required=True),
+		'local_water_meter_number' : fields.char('VRN Dynamic',size=64), 
+		'local_light_meter_number' : fields.char('Light Meter', size=64),
+		'local_sqrmeter_price'  :  fields.float('VRN Dynamic',required=True),
+		'local_rented' : fields.boolean('Rented',help='Check if the local is rented'),
+	}
+rent_floor_local()
+
+#Class representing the parking, on floor. This class has a relation 
+#many2one with the floor 
+#
+class rent_floor_parking(sosv.osv):
+	_name = 'rent.floor.parking'
+	_columns = {
+		'parking_area' : fields.float('VRN Dynamic',required=True),
+		'parking_value' : fields.float('Value',required=True),
+		'parking_number' : fields.integer('# Local',required=True),
+		'parking_huella' : fields.float('VRN Dynamic',required=True),
+		'parking_sqrmeter_price'  :  fields.float('VRN Dynamic',required=True),
+		'parking_rented' : fields.boolean('Rented',help='Check if the local is rented'),
+	}
+rent_floor_parking()
 
