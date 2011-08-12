@@ -130,8 +130,6 @@
 					<notebook colspan = "4">
 						<page string = "Location">
 						
-							
-						</field>
 						<!--<field name = "state_address"/>-->
 						<!--<field name = "state_canton" on_change = "determine_district(state_canton)"/>
 						<field name = "state_district"/>-->
