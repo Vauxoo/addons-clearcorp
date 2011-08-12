@@ -285,12 +285,6 @@
 						<field name = "floor_durability"/>
 						<field name = "floor_acabado"/>
 					</group>
-					<notebook colspan = "4">
-						<page string = "Locals">
-						</page>
-						<page string = "Parking">
-						</page>
-					</notebook>
 				</form>
 			</field>
 		</record>
