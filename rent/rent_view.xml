@@ -75,28 +75,28 @@
 		
 		<!--LOCATION-->
 		<record model = "ir.ui.view" id = "location_form_view">
-			<field name = "name">rent.state.form</field>
-			<field name = "model">rent.state</field>
+			<field name = "name">res.partner.address</field>
+			<field name = "model">res.partner.address</field>
 			<field name = "type">form</field>
 			<field name = "inherit_id" ref="base.view_partner_address_form2"/>
 			<field name = "arch" type = "xml">
 				<data>
 					<field name="city" position = "replace">
-						<field name = "location_canton" on_change = "determine_district(state_canton)"/>
+						<field name = "anton" on_change = "determine_district(state_canton)"/>
 					</field>
 					<field name="state_id" position = "replace">
-						<field name = "location_province" on_change = "determine_canton(state_province)"/>
+						<field name = "province" on_change = "determine_canton(state_province)"/>
 					</field>
-					<field name="location_canton" position = "after">
-						<field name = "location_district"/>
+					<field name="canton" position = "after">
+						<field name = "district"/>
 					</field>
 				</data>
 			</field>
 		</record>
 		
 		<record model = "ir.ui.view" id = "location_tree_view">
-			<field name = "name">rent.state.tree</field>
-			<field name = "model">rent.state</field>
+			<field name = "name">res.partner.address.tree</field>
+			<field name = "model">res.partner.address</field>
 			<field name = "type">tree</field>
 			<field name = "inherit_id" ref="base.view_partner_address_tree"/>
 			<field name = "arch" type = "xml">
@@ -128,13 +128,16 @@
 						<field name = "state_value"/>
 						<field name = "state_area"/>
 					</group>
-					<group col = "4" colspan = "4">
-						<separator string = "Location" col = "4" colspan = "4"/>
-						<field name = "state_location" nolabel="1"/>
+					<notebook colspan = "4">
+						<page string = "Location">
+						<field name = "state_location" colspan="4" mode="form,tree" nolabel="1" select="1" height="260">
+							
+						</field>
 						<!--<field name = "state_address"/>-->
 						<!--<field name = "state_canton" on_change = "determine_district(state_canton)"/>
 						<field name = "state_district"/>-->
-					</group>
+						</page>
+					</notebook>
 					<notebook colspan="4">
 						<page string = "Buildings">
 							<field name = "state_buildings" nolabel="1"/>
