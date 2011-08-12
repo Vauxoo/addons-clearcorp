@@ -191,10 +191,20 @@
 			<field name="help">Manage the estates that your company owns, to have them available in your system</field>
 		</record>
 		
-		<!--ESTATE MENU-->
+		<!--
+		======================================
+						ESTATE MENU
+		======================================
+		-->
 		<menuitem id = "state_menu" name = "Real Estate" parent = "rent_manager"/>
 		<menuitem id = "state_submenu" name = "Estate" parent = "state_menu" action = "action_state_form_view"/>
 		
+		
+		<!--
+		======================================
+						BUILDING
+		======================================
+		-->
 		
 		<record model ="ir.ui.view" id = "building_form_view">
 			<field name = "name">rent.building.form</field>
@@ -244,22 +254,43 @@
 			<field name = "view_mode">tree,form</field>
 		</record>
 		
-		<!--BUILDING MENU-->
+		
+		<!--
+		======================================
+						BUILDING MENU
+		======================================
+		-->
 		<menuitem id = "building_submenu" name = "Building" parent = "state_menu" action = "action_building_form_view"/>
 		
-		
-		<!--FLOOR-->
-		
+		<!--
+		======================================
+					FLOOR MENU
+		======================================
+		-->
 		<record model ="ir.ui.view" id = "floor_form_view">
 			<field name = "name">rent.floor.form</field>
 			<field name = "model">rent.floor</field>
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
 				<form string = "Floor Details">
-					<group col = "4" colspan = "4">
+					<group col = "2" colspan = "4">
 						<separator string = "General Information" col = "4" colspan = "4"/>
 						<field name = "floor_number"/>
+						<field name = "floor_area"/>
+						<field name = "floor_value"/>
 					</group>
+					<group col = "2" colspan = "4">
+						<separator string = "Design Information" col = "4" colspan = "4"/>
+						<field name = "floor_thickness"/>
+						<field name = "floor_durability"/>
+						<field name = "floor_acabado"/>
+					</group>
+					<notebook colspan = "4">
+						<page string = "Locals">
+						</page>
+						<page string = "Parking">
+						</page>
+					</notebook>
 				</form>
 			</field>
 		</record>
@@ -283,6 +314,11 @@
 			<field name = "view_mode">tree,form</field>
 		</record>
 		
+		<!--
+		======================================
+					FLOOR MENU
+		======================================
+		-->
 		<menuitem id = "floor_submenu" name = "Floors" parent = "state_menu" action = "action_floor_form_view"/>
 	</data>
 </openerp>
