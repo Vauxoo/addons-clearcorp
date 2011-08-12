@@ -94,6 +94,26 @@
 			</field>
 		</record>
 		
+		<record model = "ir.ui.view" id = "location_tree_view">
+			<field name = "name">rent.state.tree</field>
+			<field name = "model">rent.state</field>
+			<field name = "type">tree</field>
+			<field name = "inherit_id" ref="base.view_partner_address_tree"/>
+			<field name = "arch" type = "xml">
+				<data>
+					<field name="city" position = "replace">
+						<field name = "canton" on_change = "determine_district(state_canton)"/>
+					</field>
+					<field name="state_id" position = "replace">
+						<field name = "province" on_change = "determine_canton(state_province)"/>
+					</field>
+					<field name="canton" position = "after">
+						<field name = "district"/>
+					</field>
+				</data>
+			</field>
+		</record>
+		
 		<!---STATES-->
 		<record model = "ir.ui.view" id = "state_form_view">
 			<field name = "name">rent.state.form</field>
@@ -173,7 +193,7 @@
 						<field name = "building_elevator"/>
 						<field name = "building_elevators_number" attrs="{'readonly':[('building_elevator','=','False')]}"/>
 						<field name = "building_stairs"/>
-						<field name = "building_stairs_type" attrs="{'readonly':[('building_stairs','=','False')]}"/>
+						<field name = "building_stairs_number" attrs="{'readonly':[('building_stairs','=','False')]}"/>
 					</group>
 				</form>
 			</field>
