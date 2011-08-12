@@ -45,7 +45,7 @@ class rent_location(osv.osv):
 	_columns = {
 		'province'          : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
 												('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
-		'canton'   : fields.function(_determine_canton,method=True, string='Canton',type='selection',selection=STATE),
+		'canton'   : fields.function(_determine_canton,method=True, string='Canton',type='selection'),
 		#'canton'   : fields.char('Canton',size=20,required=True),
 		'district' : fields.char('District',size=20,required=True),
 	}
