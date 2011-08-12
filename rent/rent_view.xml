@@ -338,19 +338,19 @@
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
 				<form string = "Local Details">
-					<group>
+					<group col = "4" colspan = "2">
 						<separator string = "General Information"/>
 						<field name = "local_number"/>
 						<field name = "local_value"/>
 						<field name = "local_area"/>
 						<field name = "local_huella"/>
+					</group>					
+					<field name = "local_sqrmeter_price"/>
+					<field name = "local_rented"/>
+					<group col = "4" colspan = "2">
+						<separator string = "Miscelanius Information"/>
 						<field name = "local_water_meter_number"/>
 						<field name = "local_light_meter_number"/>
-						<field name = "local_sqrmeter_price"/>
-						<field name = "local_rented"/>
-					</group>
-					<group>
-						<separator string = "General Information"/>
 					</group>
 				</form>
 			</field>
@@ -390,7 +390,7 @@
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
 				<form string = "Parking Details">
-					<group>
+					<group col = "6" colspan = "4">
 						<separator string = "General Information"/>
 						<field name = "parking_number"/>
 						<field name = "parking_value"/>
@@ -398,9 +398,6 @@
 						<field name = "parking_huella"/>
 						<field name = "parking_sqrmeter_price"/>
 						<field name = "parking_rented"/>
-					</group>
-					<group>
-						<separator string = "General Information"/>
 					</group>
 				</form>
 			</field>

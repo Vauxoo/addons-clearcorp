@@ -33,8 +33,8 @@ class rent_location(osv.osv):
 		#'location_id'       : fields.many2one('rent.client','Client ID'),
 		'province'          : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
 												('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
-		'canton'   : fields.char('Canton',size=20,required=True),
-		'district' : fields.char('District',size=20,required=True),
+		'canton'   : fields.char('Canton',size=20),
+		'district' : fields.char('District',size=20),
 	}
 	def determine_canton(self,cr,uid,ids,pField,context=None):
 		v = {}
@@ -132,10 +132,10 @@ class rent_floor_local(osv.osv):
 		'local_area' : fields.float('VRN Dynamic',required=True),
 		'local_value' : fields.float('Value',required=True),
 		'local_number' : fields.integer('# Local',required=True),
-		'local_huella' : fields.float('VRN Dynamic',required=True),
-		'local_water_meter_number' : fields.char('VRN Dynamic',size=64), 
+		'local_huella' : fields.float('Huella',required=True),
+		'local_water_meter_number' : fields.char('Water Meter',size=64), 
 		'local_light_meter_number' : fields.char('Light Meter', size=64),
-		'local_sqrmeter_price'  :  fields.float('VRN Dynamic',required=True),
+		'local_sqrmeter_price'  :  fields.float('Sqr Meter Price',required=True),
 		'local_rented' : fields.boolean('Rented',help='Check if the local is rented'),
 		'local_floor'  : fields.many2one('rent.floor','# Floor'),
 	}
@@ -149,9 +149,9 @@ class rent_floor_parking(osv.osv):
 	_columns = {
 		'parking_area' : fields.float('VRN Dynamic',required=True),
 		'parking_value' : fields.float('Value',required=True),
-		'parking_number' : fields.integer('# Local',required=True),
-		'parking_huella' : fields.float('VRN Dynamic',required=True),
-		'parking_sqrmeter_price'  :  fields.float('VRN Dynamic',required=True),
+		'parking_number' : fields.integer('# Parking',required=True),
+		'parking_huella' : fields.float('Huella',required=True),
+		'parking_sqrmeter_price'  :  fields.float('Sqr Meter Value',required=True),
 		'parking_rented' : fields.boolean('Rented',help='Check if the local is rented'),
 		'parking_floor'  : fields.many2one('rent.floor','# Floor'),
 	}
