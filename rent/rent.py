@@ -40,10 +40,10 @@ rent_location()
 class rent_state(osv.osv):
 	_name = 'rent.state'
 	_rec_name = "state_number"
-	def determine_canton(self,cr,uid,ids,pField,context=None):
+	def determine_canton(self,cr,uid,ids,field_name,arg,context=None):
 		v = {}
 		debug('asiiiiiiiiiiiiiiii')
-		debug(pField)
+		debug(field_name)
 		try:
 			v['canton'] = {
 				'San Jose'   : constanst.SJ_CANTON,
@@ -53,7 +53,7 @@ class rent_state(osv.osv):
 				'Puntarenas' : (()),
 				'Limon'      : (()),
 				'Guanacaste' : (()),
-			}[pField]
+			}[field_name]
 			debug(v)
 		except KeyError:
 			debug('se cae')
