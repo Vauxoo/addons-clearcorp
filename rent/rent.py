@@ -30,7 +30,7 @@ class rent_location(osv.osv):
 		#'location_id'       : fields.many2one('rent.client','Client ID'),
 		'province'          : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
 												('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
-		'canton'   : fields.function(determine_canton, type='selection',obj=None,method = True, string = 'Canton')
+		'canton'   : fields.function(determine_canton, type='selection',obj=None,method = True, string = 'Canton'),
 		#'canton'   : fields.char('Canton',size=20,required=True),
 		'district' : fields.char('District',size=20,required=True),
 	}
