@@ -73,7 +73,11 @@
 		<menuitem id = "rent_client_menu" name = "Clients" parent = "rent_manager"/>
 		<menuitem id = "rent_client_submenu" name = "Client" parent = "rent_client_menu" action = "action_client_form_view"/>
 		
-		<!--LOCATION-->
+		<!--
+		======================================
+						LOCATION
+		======================================
+		-->
 		<record model = "ir.ui.view" id = "location_form_view">
 			<field name = "name">res.partner.address</field>
 			<field name = "model">res.partner.address</field>
@@ -114,7 +118,12 @@
 			</field>
 		</record>
 		
-		<!---STATES-->
+		
+		<!--
+		======================================
+						STATES
+		======================================
+		-->
 		<record model = "ir.ui.view" id = "state_form_view">
 			<field name = "name">rent.state.form</field>
 			<field name = "model">rent.state</field>
@@ -129,7 +138,8 @@
 					</group>
 					<notebook colspan = "4">
 						<page string = "Location">
-						
+							<field name = "state_location" colspan="4" mode="form,tree" nolabel="1" select="1" height="260">
+							</field>
 						<!--<field name = "state_address"/>-->
 						<!--<field name = "state_canton" on_change = "determine_district(state_canton)"/>
 						<field name = "state_district"/>-->
