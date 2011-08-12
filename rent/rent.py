@@ -18,7 +18,7 @@ class rent_client(osv.osv):
 		#'client_location'  : fields.one2many('rent.location','location_id','Location'),
 		#'client_province' : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
 		#										('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
-		'client_canton'    : fields.related('address', 'location_canton', type='char', string='Canton'),
+		'client_canton'    : fields.related('address', 'location_canton', type='function', string='Canton'),
 		'client_district'  : fields.related('address', 'location_district', type='char', string='District'),
 	}
 rent_client()
@@ -30,7 +30,8 @@ class rent_location(osv.osv):
 		#'location_id'       : fields.many2one('rent.client','Client ID'),
 		'province'          : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
 												('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
-		'canton'   : fields.char('Canton',size=20,required=True),
+		'canton'   : fields.function(determine_canton, type='selection',obj=None,method = True, string = 'Canton')
+		#'canton'   : fields.char('Canton',size=20,required=True),
 		'district' : fields.char('District',size=20,required=True),
 	}
 	def determine_canton(self,cr,uid,ids,pField,context=None):
@@ -76,8 +77,6 @@ class rent_state(osv.osv):
         #'state_canton': fields.related('state_address', 'state_canton', type='selection', string='Canton'),
         #'state_district': fields.related('state_address', 'state_district', type='selection', string='District'),
 	}
-	
-	
 rent_state()
 
 
@@ -95,6 +94,12 @@ class rent_building(osv.osv):
 		'building_area'              : fields.float('Area'),
 		'building_estate'            : fields.many2one('rent.state', 'State'),
 	}
+	
+	def has_elevators(self,cr,uid,ids,p_value,p_field,context=None):
+		v = {}
+		if (p_field == True):
+			v[p_value] = 
+		return {'value': v}
 rent_building()
 
 class rent_floor(osv.osv):
