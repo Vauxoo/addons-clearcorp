@@ -106,5 +106,21 @@ class rent_building(osv.osv):
 		return {'value': v}
 rent_building()
 
+#Class that represents every single floor contained on the building, defined above
+#All floors are differenced by the number starting from 0 (basement), then higher 
+#the numbre then near to the top of the building is the floor.
+class rent_floor(osv.osv):
+	_name = 'rent.floor'
+	_columns = {
+		'floor_number' : fields.integer('# Floor',required=True. help='Number of the floor in the building, starts from 0 (Basement)'),
+		'floor_thickness' : fields.integer('# Floor',required=True),
+		'floor_durability' : fields.integer('# Floor',required=True),
+		'floor_area' : fields.integer('# Floor',required=True),
+		'floor_value' : fields.integer('# Floor',required=True),
+		'floor_acabado' : fields.integer('# Floor',required=True),
+		'floor_local' : fields.one2many('rent.floor.local','local_floor','Local'),
+		'floor_parking' : fields.one2many('rent.floor.parking','parking_floor','Parking'),
+	}
+rent_floor()
 
 
