@@ -86,7 +86,7 @@
 			<field name = "arch" type = "xml">
 				<data>
 					<field name="city" position = "replace">
-						<field name = "anton" on_change = "determine_district(state_canton)"/>
+						<field name = "canton" on_change = "determine_district(state_canton)"/>
 					</field>
 					<field name="state_id" position = "replace">
 						<field name = "province" on_change = "determine_canton(state_province)"/>
@@ -132,7 +132,7 @@
 				<form string = "State Detail">
 					<group col = "2" colspan = "2">
 						<separator string = "General Information" col = "4" colspan = "4"/>
-						<field name = "state_number"/>
+						<field name = "state_number" select = "1"/>
 						<field name = "state_value"/>
 						<field name = "state_area"/>
 					</group>
@@ -147,9 +147,9 @@
                                         <field name="street2" colspan="4"/>
                                         <field name="zip"/>                                        
                                         <field name="country_id" completion="1"/>
-                                        <field name="province"/>
-                                        <field name="canton"/>
-                                        <field name="district"/>
+                                        <field name="province" select = "1"/>
+                                        <field name="canton" select = "1"/>
+                                        <field name="district" select = "1"/>
                                      </group>
                                 </form>
 							</field>
@@ -214,14 +214,14 @@
 				<form string = "Building Details">
 					<group col = "4" colspan = "4">
 						<separator string = "General Information" col = "4" colspan = "4"/>
-						<field name = "name"/>
-						<field name = "building_date_construction"/>
+						<field name = "name" select = "1"/>
+						<field name = "building_date_construction" select = "1"/>
 						<field name = "building_area"/>
 						<field name = "building_value"/>
 						<field name = "building_capacity"/>
 					</group>
 					<group col = "4" colspan = "4">
-						<separator string = "Location" col = "4" colspan = "4"/>
+						<separator string = "Machinery" col = "4" colspan = "4"/>
 						<field name = "building_elevator"/>
 						<field name = "building_elevators_number" attrs="{'readonly':[('building_elevator','=','False')]}"/>
 						<field name = "building_stairs"/>
@@ -273,13 +273,13 @@
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
 				<form string = "Floor Details">
-					<group col = "2" colspan = "4">
+					<group col = "4" colspan = "2">
 						<separator string = "General Information" col = "4" colspan = "4"/>
 						<field name = "floor_number"/>
 						<field name = "floor_area"/>
 						<field name = "floor_value"/>
 					</group>
-					<group col = "2" colspan = "4">
+					<group col = "4" colspan = "2">
 						<separator string = "Design Information" col = "4" colspan = "4"/>
 						<field name = "floor_thickness"/>
 						<field name = "floor_durability"/>
@@ -287,8 +287,10 @@
 					</group>
 					<notebook colspan = "4">
 						<page string = "Local">
+							<field name = "floor_local"/>
 						</page>
 						<page string = "Parking">
+							<field name = "floor_parking"/>
 						</page>
 					</notebook>
 				</form>
@@ -322,5 +324,85 @@
 		======================================
 		-->
 		<menuitem id = "floor_submenu" name = "Floors" parent = "state_menu" action = "action_floor_form_view"/>
+		
+		
+		<!--
+		======================================
+					LOCAL
+		======================================
+		-->
+		
+		<record model = "ir.ui.view" id = "local_form_view">
+			<field name = "name">rent.floor.local.form</field>
+			<field name = "model">rent.floor.local</field>
+			<field name = "type">form</field>
+			<field name = "arch" type = "xml">
+				<form string = "Local Details">
+					<group>
+						<separator string = "General Information"/>
+						<field name = "local_number"/>
+						<field name = "local_value"/>
+						<field name = "local_area"/>
+						<field name = "local_huella"/>
+						<field name = "local_water_meter_number"/>
+						<field name = "local_light_meter_number"/>
+						<field name = "local_sqrmeter_price"/>
+						<field name = "local_rented"/>
+					</group>
+					<group>
+						<separator string = "General Information"/>
+					</group>
+				</form>
+			</field>
+		</record>
+		
+		<record model = "ir.ui.view" id = "local_tree_view">
+			<field name = "name">rent.floor.local.tree</field>
+			<field name = "model">rent.floor.local</field>
+			<field name = "type">tree</field>
+			<field name = "arch" type = "xml">
+				<tree string = "Local List">
+				</tree>
+			</field>
+		</record>
+		
+		<!--
+		======================================
+					PARKING
+		======================================
+		-->
+		
+		<record model = "ir.ui.view" id = "parking_form_view">
+			<field name = "name">rent.floor.parking.form</field>
+			<field name = "model">rent.floor.parking</field>
+			<field name = "type">form</field>
+			<field name = "arch" type = "xml">
+				<form string = "Parking Details">
+					<group>
+						<separator string = "General Information"/>
+						<field name = "parking_number"/>
+						<field name = "parking_value"/>
+						<field name = "parking_area"/>
+						<field name = "parking_huella"/>
+						<field name = "parking_sqrmeter_price"/>
+						<field name = "parking_rented"/>
+					</group>
+					<group>
+						<separator string = "General Information"/>
+					</group>
+				</form>
+			</field>
+		</record>
+		
+		<record model = "ir.ui.view" id = "parking_tree_view">
+			<field name = "name">rent.floor.local.tree</field>
+			<field name = "model">rent.floor.local</field>
+			<field name = "type">tree</field>
+			<field name = "arch" type = "xml">
+				<tree string = "Local List">
+				</tree>
+			</field>
+		</record>
+		
 	</data>
 </openerp>
