@@ -115,7 +115,34 @@
 		</record>
 		
 		<!---STATES-->
-		
+		<record model = "ir.ui.view" id = "state_form_view">
+			<field name = "name">rent.state.form</field>
+			<field name = "model">rent.state</field>
+			<field name = "type">form</field>
+			<field name = "arch" type = "xml">
+				<form string = "State Detail">
+					<group col = "2" colspan = "2">
+						<separator string = "General Information" col = "4" colspan = "4"/>
+						<field name = "state_number"/>
+						<field name = "state_value"/>
+						<field name = "state_area"/>
+					</group>
+					<notebook colspan = "4">
+						<page string = "Location">
+						
+						<!--<field name = "state_address"/>-->
+						<!--<field name = "state_canton" on_change = "determine_district(state_canton)"/>
+						<field name = "state_district"/>-->
+						</page>
+					</notebook>
+					<notebook colspan="4">
+						<page string = "Buildings">
+							<field name = "state_buildings" nolabel="1"/>
+						</page>
+					</notebook>
+				</form>
+			</field>
+		</record>
 		
 		<record model = "ir.ui.view" id = "state_tree_view">
 			<field name = "name">rent.state.tree</field>
