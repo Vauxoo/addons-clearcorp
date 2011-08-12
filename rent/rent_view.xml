@@ -144,8 +144,6 @@
 						<!--<field name = "state_canton" on_change = "determine_district(state_canton)"/>
 						<field name = "state_district"/>-->
 						</page>
-					</notebook>
-					<notebook colspan="4">
 						<page string = "Buildings">
 							<field name = "state_buildings" nolabel="1"/>
 						</page>
