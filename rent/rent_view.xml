@@ -416,7 +416,7 @@
 			</field>
 		</record>
 		
-		<record name = "ir.actions.act_window" id = "action_parking_form_view">
+		<record model = "ir.actions.act_window" id = "action_parking_form_view">
 			<field name = "name">Parking Detail</field>
 			<field name = "res_model"></field>
 			<field name = "type">ir.actions.act_window</field>
