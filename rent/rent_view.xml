@@ -139,16 +139,17 @@
 					<notebook colspan = "4">
 						<page string = "Location">
 							<field name = "state_location" colspan="4" mode="form" nolabel="1" select="1" height="260">
-								<form string="Location">
+								<form string="Postal Address">
                                       <group colspan="2" col="4">
                                         <separator string="Postal Address" colspan="4" col="4" />
                                         <field name="type" string="Type" colspan="2"/>
                                         <field name="street" colspan="4"/>
                                         <field name="street2" colspan="4"/>
-                                        <field name="zip"/>
-                                        <field name="city"/>
+                                        <field name="zip"/>                                        
                                         <field name="country_id" completion="1"/>
-                                        <field name="state_id"/>
+                                        <field name="province"/>
+                                        <field name="canton"/>
+                                        <field name="district"/>
                                      </group>
                                 </form>
 							</field>
