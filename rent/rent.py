@@ -106,53 +106,5 @@ class rent_building(osv.osv):
 		return {'value': v}
 rent_building()
 
-#Class that represents every single floor contained on the building, defined above
-#All floors are differenced by the number starting from 0 (basement), then higher 
-#the numbre then near to the top of the building is the floor.
-class rent_floor(osv.osv):
-	_name = 'rent.floor'
-	_columns = {
-		'floor_number' : fields.integer('# Floor',required=True. help='Number of the floor in the building, starts from 0 (Basement)'),
-		'floor_thickness' : fields.integer('# Floor',required=True),
-		'floor_durability' : fields.integer('# Floor',required=True),
-		'floor_area' : fields.integer('# Floor',required=True),
-		'floor_value' : fields.integer('# Floor',required=True),
-		'floor_acabado' : fields.integer('# Floor',required=True),
-		'floor_local' : fields.one2many('rent.floor.local','local_floor','Local'),
-		'floor_parking' : fields.one2many('rent.floor.parking','parking_floor','Parking'),
-	}
-rent_floor()
 
-#Class representing the local, on every floor. This class has a relation 
-#many2one with the floor 
-#
-#
-class rent_floor_local(osv.osv):
-	_name = 'rent.floor.local'
-	_columns = {
-		'local_area' : fields.float('VRN Dynamic',required=True),
-		'local_value' : fields.float('Value',required=True),
-		'local_number' : fields.integer('# Local',required=True),
-		'local_huella' : fields.float('VRN Dynamic',required=True),
-		'local_water_meter_number' : fields.char('VRN Dynamic',size=64), 
-		'local_light_meter_number' : fields.char('Light Meter', size=64),
-		'local_sqrmeter_price'  :  fields.float('VRN Dynamic',required=True),
-		'local_rented' : fields.boolean('Rented',help='Check if the local is rented'),
-	}
-rent_floor_local()
-
-#Class representing the parking, on floor. This class has a relation 
-#many2one with the floor 
-#
-class rent_floor_parking(sosv.osv):
-	_name = 'rent.floor.parking'
-	_columns = {
-		'parking_area' : fields.float('VRN Dynamic',required=True),
-		'parking_value' : fields.float('Value',required=True),
-		'parking_number' : fields.integer('# Local',required=True),
-		'parking_huella' : fields.float('VRN Dynamic',required=True),
-		'parking_sqrmeter_price'  :  fields.float('VRN Dynamic',required=True),
-		'parking_rented' : fields.boolean('Rented',help='Check if the local is rented'),
-	}
-rent_floor_parking()
 
