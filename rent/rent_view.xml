@@ -173,7 +173,7 @@
 						<field name = "building_elevator"/>
 						<field name = "building_elevators_number"/>
 						<field name = "building_stairs"/>
-						<field name = "building_stairs_type" attrs={'required':[('building_stairs_type','=','0')]}/>
+						<field name = "building_stairs_type"/>
 					</group>
 				</form>
 			</field>
