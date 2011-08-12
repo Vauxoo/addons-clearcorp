@@ -98,7 +98,7 @@ class rent_building(osv.osv):
 	def has_elevators(self,cr,uid,ids,p_value,p_field,context=None):
 		v = {}
 		if (p_field == True):
-			v[p_value] = 
+			v[p_value] = 0
 		return {'value': v}
 rent_building()
 
