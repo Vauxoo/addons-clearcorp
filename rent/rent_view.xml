@@ -302,6 +302,9 @@
 			<field name = "arch" type = "xml">
 				<tree string="Floor Details">
 					<field name="floor_number"/>
+					<field name="floor_number"/>
+					<field name="floor_number"/>
+					<field name="floor_number"/>
 				</tree>
 			</field>
 		</record>
