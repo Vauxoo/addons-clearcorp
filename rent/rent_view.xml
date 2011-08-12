@@ -268,20 +268,5 @@
 		======================================
 		-->
 		
-		
-		<record model = "ir.actions.act_window" id = "action_floor_form_view">
-			<field name = "name">Floor Detail</field>
-			<field name = "res_model">rent.floor</field>
-			<field name = "type">ir.actions.act_window</field>
-			<field name = "view_type">form</field>
-			<field name = "view_mode">tree,form</field>
-		</record>
-		
-		<!--
-		======================================
-					FLOOR MENU
-		======================================
-		-->
-		<menuitem id = "floor_submenu" name = "Floors" parent = "state_menu" action = "action_floor_form_view"/>
 	</data>
 </openerp>
