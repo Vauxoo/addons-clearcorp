@@ -362,8 +362,20 @@
 			<field name = "type">tree</field>
 			<field name = "arch" type = "xml">
 				<tree string = "Local List">
+					<field name = "local_number"/>
+					<field name = "local_value"/>
+					<field name = "local_area"/>
+					<field name = "local_rented"/>
 				</tree>
 			</field>
+		</record>
+		
+		<record model = "ir.actions.act_window" id = "action_local_form_view">
+			<field name = "name">Local Detail</field>
+			<field name = "res_model">rent.floor.local</field>
+			<field name = "type">ir.actions.act_window</field>
+			<field name = "view_type">form</field>
+			<field name = "view_mode">tree,form</field>
 		</record>
 		
 		<!--
@@ -404,5 +416,12 @@
 			</field>
 		</record>
 		
+		<record name = "ir.actions.act_window" id = "action_parking_form_view">
+			<field name = "name"/>Parking Detail</field>
+			<field name = "res_model"/></field>
+			<field name = "tyoe"/>ir.actions.act_window</field>
+			<field name = "view_type"/>form</field>
+			<field name = "view_mode"/>tree,form</field>
+		</record>
 	</data>
 </openerp>
