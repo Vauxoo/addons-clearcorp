@@ -109,8 +109,8 @@
 					</group>
 					<group col = "4" colspan = "4">
 						<separator string = "Location" col = "4" colspan = "4"/>
+						<field name = "state_location" nolabel="1"/>
 						<!--<field name = "state_address"/>-->
-						<field name = "state_location"/>
 						<!--<field name = "state_canton" on_change = "determine_district(state_canton)"/>
 						<field name = "state_district"/>-->
 					</group>
@@ -171,9 +171,9 @@
 					<group col = "4" colspan = "4">
 						<separator string = "Location" col = "4" colspan = "4"/>
 						<field name = "building_elevator"/>
-						<field name = "building_elevators_number"/>
+						<field name = "building_elevators_number" attrs="{'readonly':[('building_elevator','=','False')]}"/>
 						<field name = "building_stairs"/>
-						<field name = "building_stairs_type"/>
+						<field name = "building_stairs_type" attrs="{'readonly':[('building_stairs','=','False')]}"/>
 					</group>
 				</form>
 			</field>
