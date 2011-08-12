@@ -267,47 +267,7 @@
 					FLOOR MENU
 		======================================
 		-->
-		<record model ="ir.ui.view" id = "floor_form_view">
-			<field name = "name">rent.floor.form</field>
-			<field name = "model">rent.floor</field>
-			<field name = "type">form</field>
-			<field name = "arch" type = "xml">
-				<form string = "Floor Details">
-					<group col = "2" colspan = "4">
-						<separator string = "General Information" col = "4" colspan = "4"/>
-						<field name = "floor_number"/>
-						<!--<field name = "floor_area"/>
-						<field name = "floor_value"/>-->
-					</group>
-					<group col = "2" colspan = "4">
-						<separator string = "Design Information" col = "4" colspan = "4"/>
-						<!--<field name = "floor_thickness"/>
-						<field name = "floor_durability"/>
-						<field name = "floor_acabado"/>-->
-					</group>
-					<notebook colspan = "4">
-						<page string = "Local">
-						</page>
-						<page string = "Parking">
-						</page>
-					</notebook>
-				</form>
-			</field>
-		</record>
 		
-		<record model = "ir.ui.view" id = "floor_tree_view">
-			<field name = "name">rent.floor.tree</field>
-			<field name = "model">rent.floor</field>
-			<field name = "type">tree</field>
-			<field name = "arch" type = "xml">
-				<tree string="Floor Details">
-					<field name="floor_number"/>
-					<field name="floor_number"/>
-					<field name="floor_number"/>
-					<field name="floor_number"/>
-				</tree>
-			</field>
-		</record>
 		
 		<record model = "ir.actions.act_window" id = "action_floor_form_view">
 			<field name = "name">Floor Detail</field>
