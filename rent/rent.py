@@ -112,8 +112,12 @@ rent_building()
 class rent_floor(osv.osv):
 	_name = 'rent.floor'
 	_columns = {
-		'floor_number' : fields.integer('# Floor',required=True. help='Number of the floor in the building, starts from 0 (Basement)'),
-
+		'floor_number' : fields.integer('# Floor',required=True, help='Number of the floor in the building, starts from 0 (Basement)'),
+		'floor_thickness' : fields.float('Thickness'),
+		'floor_durability' : fields.integer('Durability', help='Indicate the durability in years'),
+		'floor_area' : fields.float('Area',required=True),
+		'floor_value' : fields.float('# Floor',help='This value is calculated using the estate and building area and values'),
+		'floor_acabado' : fields.char('Acabado',size=64),
 		#'floor_local' : fields.one2many('rent.floor.local','local_floor','Local'),
 		#'floor_parking' : fields.one2many('rent.floor.parking','parking_floor','Parking'),
 	}
