@@ -344,11 +344,11 @@
 						<field name = "local_value"/>
 						<field name = "local_area"/>
 						<field name = "local_huella"/>
-					</group>					
-					<field name = "local_sqrmeter_price"/>
-					<field name = "local_rented"/>
+					</group>
 					<group col = "4" colspan = "2">
 						<separator string = "Miscelanius Information"/>
+						<field name = "local_sqrmeter_price"/>
+						<field name = "local_rented"/>
 						<field name = "local_water_meter_number"/>
 						<field name = "local_light_meter_number"/>
 					</group>
