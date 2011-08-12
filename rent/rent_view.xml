@@ -418,7 +418,7 @@
 		
 		<record model = "ir.actions.act_window" id = "action_parking_form_view">
 			<field name = "name">Parking Detail</field>
-			<field name = "res_model"></field>
+			<field name = "res_model">rent.floor.parking</field>
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
