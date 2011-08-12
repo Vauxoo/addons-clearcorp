@@ -67,11 +67,10 @@ class rent_state(osv.osv):
 		'state_canton'    : fields.related('address', 'location_canton', type='char', string='Canton'),
 		'state_district'  : fields.related('address', 'location_district', type='char', string='District'),
 		'state_number'   : fields.char('# State', size=10,required=True),
-		'state_value'    : fields.float('Value',required=True),
+		'state_value'    : fields.float('VRN Dynamic',required=True),
 		'state_area'     : fields.float('Area', required=True),
 		'state_buildings': fields.one2many('rent.building','building_estate','Buildings'),
 		'state_location' : fields.one2many('res.partner.address','partner_id','Location'),
-		#'state_address'  : fields.one2many('res.partner.address','partner_id', 'Direccion'),
 		#'state_province': fields.related('state_address', 'state_province', type='selection', string='Province'),
         #'state_canton': fields.related('state_address', 'state_canton', type='selection', string='Canton'),
         #'state_district': fields.related('state_address', 'state_district', type='selection', string='District'),
@@ -89,8 +88,8 @@ class rent_building(osv.osv):
 		'building_stairs'            : fields.boolean('Stairs',help='Select if the building has at least one elevator'),
 		'building_stairs_number'       : fields.integer('Stairs number',readonly=True,help='If checkbox of stairs is no selected this will be 0'),
 		'name'                       : fields.char('Name', size=40,required=True),
-		'building_value'             : fields.float('Value'),
-		'building_area'              : fields.float('Area'),
+		'building_value'             : fields.float('VRN Dynamic',required=True),
+		'building_area'              : fields.float('Area',required=True),
 		'building_estate'            : fields.many2one('rent.state', 'State'),
 	}
 	
@@ -104,6 +103,10 @@ rent_building()
 class rent_floor(osv.osv):
 	_name = 'rent.floor'
 	_columns = {
+		'floor_number' : fields.integer('# Floor',required=True. help='Number of the floor in the building, starts from 0 (Basement)'),
+		'floor_value' : fields.integer('# Floor',required=True),
+		'floor_thickness' : fields.integer('# Floor',required=True),
+		'floor_durability' : fields.integer('# Floor',required=True),
 		'floor_number' : fields.integer('# Floor',required=True),
 	}
 rent_floor()
