@@ -119,6 +119,7 @@
 			<field name = "name">rent.state.form</field>
 			<field name = "model">rent.state</field>
 			<field name = "type">form</field>
+			<field name="inherit_id" ref="base.view_partner_form"/>
 			<field name = "arch" type = "xml">
 				<form string = "State Detail">
 					<group col = "2" colspan = "2">
