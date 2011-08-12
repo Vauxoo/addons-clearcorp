@@ -18,7 +18,7 @@
 					</field>
 					<field name = "city" position = "replace"/>
 					<field name = "state_id" position = "replace">
-						<field name = "province"/>
+						<field name = "province" on_change =  "determine_canton(province)"/>
 					</field>
 					<field name = "province" position = "after" widget = "selection">
 						<field name = "canton" on_change ="determine_district(canton)"/>
@@ -171,9 +171,9 @@
 					<group col = "4" colspan = "4">
 						<separator string = "Location" col = "4" colspan = "4"/>
 						<field name = "building_elevator"/>
-						<field name = "building_elevators_number"/>
+						<field name = "building_elevators_number" attrs={'readonly':[('building_elevator','!=','False')]}/>
 						<field name = "building_stairs"/>
-						<field name = "building_stairs_type"/>
+						<field name = "building_stairs_type" attrs={'readonly':[('building_stairs','!=','False')]}/>
 					</group>
 				</form>
 			</field>

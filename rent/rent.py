@@ -18,7 +18,7 @@ class rent_client(osv.osv):
 		#'client_location'  : fields.one2many('rent.location','location_id','Location'),
 		#'client_province' : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
 		#										('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
-		'client_canton'    : fields.related('address', 'location_canton', type='function', string='Canton'),
+		'client_canton'    : fields.related('address', 'location_canton', type='char', string='Canton'),
 		'client_district'  : fields.related('address', 'location_district', type='char', string='District'),
 	}
 rent_client()
@@ -26,8 +26,17 @@ rent_client()
 class rent_location(osv.osv):
 	_name = 'res.partner.address'
 	_inherit = 'res.partner.address'
-	def _determine_canton(self,cr,uid,ids,field_name,arg,context=None):
+	_columns = {
+		#'location_id'       : fields.many2one('rent.client','Client ID'),
+		'province'          : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
+												('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
+		'canton'   : fields.char('Canton',size=20,required=True),
+		'district' : fields.char('District',size=20,required=True),
+	}
+	def determine_canton(self,cr,uid,ids,pField,context=None):
 		v = {}
+		debug('asiiiiiiiiiiiiiiii')
+		debug(pField)
 		try:
 			v['canton'] = {
 				'San Jose'   : constanst.SJ_CANTON,
@@ -37,18 +46,11 @@ class rent_location(osv.osv):
 				'Puntarenas' : (()),
 				'Limon'      : (()),
 				'Guanacaste' : (()),
-			}[field_name]
+			}[pField]
 			debug(v)
 		except KeyError:
 			debug('se cae')
-		return constanst.SJ_CANTON
-	_columns = {
-		'province'          : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
-												('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
-		'canton'   : fields.function(_determine_canton,method=True, string='Canton',type='selection'),
-		#'canton'   : fields.char('Canton',size=20,required=True),
-		'district' : fields.char('District',size=20,required=True),
-	}
+		return { 'value':v}
 	def determine_district(self,cr,uid,ids,context=None):
 		v = {}
 		v['district'] = (())
@@ -95,7 +97,7 @@ class rent_building(osv.osv):
 	def has_elevators(self,cr,uid,ids,p_value,p_field,context=None):
 		v = {}
 		if (p_field == True):
-			v[p_value] = 0
+			v[p_value] = 
 		return {'value': v}
 rent_building()
 
