@@ -171,9 +171,9 @@
 					<group col = "4" colspan = "4">
 						<separator string = "Location" col = "4" colspan = "4"/>
 						<field name = "building_elevator"/>
-						<field name = "building_elevators_number" attrs={'readonly':[('building_elevator','!=','False')]}/>
+						<field name = "building_elevators_number" attrs={'readonly':[('building_elevator','=','True')]}/>
 						<field name = "building_stairs"/>
-						<field name = "building_stairs_type" attrs={'readonly':[('building_stairs','!=','False')]}/>
+						<field name = "building_stairs_type" attrs={'readonly':[('building_stairs','=','True')]}/>
 					</group>
 				</form>
 			</field>
