@@ -97,6 +97,7 @@ class rent_building(osv.osv):
 		'building_value'             : fields.float('VRN Dynamic',required=True),
 		'building_area'              : fields.float('Area',required=True),
 		'building_estate'            : fields.many2one('rent.state', 'State'),
+		'building_photo'             : fields.binary('Photo'),
 	}
 	
 	def has_elevators(self,cr,uid,ids,p_value,p_field,context=None):
