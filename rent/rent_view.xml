@@ -441,13 +441,19 @@
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
 				<form string = "Rent Detail">
-					<group col = "4" colspan = "4">
+					<group col = "4" colspan = "2">
 						<separator string = "Information" colspan = "4"/>
 						<field name = "name"/>
 						<field name = "rent_type"/>
 						<field name = "rent_status"/>
 						<field name = "rent_total"/>
 						<field name = "rent_rise"/>
+					</group>
+					<group col = "2" colspan = "2">
+						<separator string = "Real Estate Related" colspan = "4"/>
+							<field name = "rent_rent_local" widget = "selection"/>
+							<field name = "rent_rent_parking" widget = "selection"/>
+							<field name = "rent_rent_state" widget = "selection"/>
 					</group>
 					<group col = "4" colspan = "4">
 						<separator string = "Length of Contract" colspan = "4"/>
