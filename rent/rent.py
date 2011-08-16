@@ -169,7 +169,7 @@ class rent_rent(osv.osv):
 	_columns = {
 		'name'             : fields.char('Reference',size=64),
 		'rent_end_date'    : fields.date('Ending Date'),
-		'rent_ending_motif': fields.char('Ending Motif',size=64),
+		'rent_ending_motif': fields.text('Ending Motif'),
 		'rent_rise'        : fields.float('Rise'),
 		'rent_type'        : fields.char('Type',size=64),
 		'rent_status'      : fields.selection((),'Status'),

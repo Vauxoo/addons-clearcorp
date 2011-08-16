@@ -449,7 +449,7 @@
 						<field name = "rent_value"/>
 						<field name = "rent_rise"/>
 					</group>
-					<group col = "2" colspan = "4">
+					<group col = "4" colspan = "4">
 						<separator string = "Length of Contract" colspan = "4"/>
 						<field name = "rent_start_date"/>
 						<field name = "rent_end_date"/>
