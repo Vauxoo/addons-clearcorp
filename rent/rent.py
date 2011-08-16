@@ -131,6 +131,7 @@ rent_floor()
 #
 class rent_floor_local(osv.osv):
 	_name = 'rent.floor.local'
+	_rec_name = 'local_number'
 	_columns = {
 		'local_area' : fields.float('VRN Dynamic',required=True),
 		'local_value' : fields.float('Value',required=True),
@@ -149,6 +150,7 @@ rent_floor_local()
 #
 class rent_floor_parking(osv.osv):
 	_name = 'rent.floor.parking'
+	_rec_name = 'parking_number'
 	_columns = {
 		'parking_area' : fields.float('VRN Dynamic',required=True),
 		'parking_value' : fields.float('Value',required=True),
