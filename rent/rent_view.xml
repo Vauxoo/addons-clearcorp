@@ -26,6 +26,7 @@
 					<field name = "canton" position = "after">
 						<field name = "district"/>
 					</field>
+					<page name = "Sales &amp; Purchases" position = "replace"/>
 				</data>
 			</field>
 		</record>
@@ -196,8 +197,8 @@
 						ESTATE MENU
 		======================================
 		-->
-		<menuitem id = "state_menu" name = "Real Estate" parent = "rent_manager"/>
-		<menuitem id = "state_submenu" name = "Estate" parent = "state_menu" action = "action_state_form_view"/>
+		<menuitem id = "rent_state_menu" name = "Real Estate" parent = "rent_manager"/>
+		<menuitem id = "rent_state_submenu" name = "Estate" parent = "state_menu" action = "action_state_form_view"/>
 		
 		
 		<!--
@@ -222,7 +223,7 @@
 					</group>
 					<group col = "4" colspan = "2">
 						<separator string = "Photos" col = "4" colspan = "4"/>
-						<field name = "building_photo" widget = "image" nolabel="1" img_width="150" img_height="150" />
+						<field name = "building_photo" widget = "image" nolabel="1" img_width="200" img_height="180" />
 					</group>
 					<group col = "4" colspan = "4">
 						<separator string = "Machinery" col = "4" colspan = "4"/>
@@ -264,7 +265,7 @@
 						BUILDING MENU
 		======================================
 		-->
-		<menuitem id = "building_submenu" name = "Building" parent = "state_menu" action = "action_building_form_view"/>
+		<menuitem id = "rent_building_submenu" name = "Building" parent = "state_menu" action = "action_building_form_view"/>
 		
 		<!--
 		======================================
@@ -327,7 +328,7 @@
 					FLOOR MENU
 		======================================
 		-->
-		<menuitem id = "floor_submenu" name = "Floors" parent = "state_menu" action = "action_floor_form_view"/>
+		<menuitem id = "rent_floor_submenu" name = "Floors" parent = "state_menu" action = "action_floor_form_view"/>
 		
 		
 		<!--
@@ -428,5 +429,69 @@
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
 		</record>
+		
+		<!--
+		======================================
+					RENT
+		======================================
+		-->
+		<record model = "ir.ui.view" id = "rent_form_view">
+			<field name = "name">rent.rent.form</field>
+			<field name = "model">rent.rent</field>
+			<field name = "type">form</field>
+			<field name = "arch" type = "xml">
+				<form string = "Rent Detail">
+					<group col = "4" colspan = "4">
+						<separator string = "Length of Contract" colspan = "4"/>
+						<field name = "rent_type"/>
+						<field name = "rent_status"/>
+						<field name = "rent_value"/>
+						<field name = "rent_rise"/>
+					</group>
+					<group col = "2" colspan = "4">
+						<separator string = "Length of Contract" colspan = "4"/>
+						<field name = "rent_start_date"/>
+						<field name = "rent_end_date"/>
+					</group>
+					<group col = "2" colspan = "4">
+						<separator string = "Contract Termination" colspan = "4"/>
+							<field name = "rent_ending_motif"/>
+					</group>
+				</form>
+			</field>
+		</record>
+		
+		<record model = "ir.ui.view" id = "rent_tree_view">
+			<field name = "name">rent.rent.tree</field>
+			<field name = "model">rent.rent</field>
+			<field name = "type">tree</field>
+			<field name = "arch" type = "xml">
+				<tree string = "Rent List">
+					<field name = "name"/>
+					<field name = "rent_type"/>
+					<field name = "rent_status"/>
+					<field name = "rent_start_date"/>
+					<field name = "rent_end_date"/>
+					</group>
+				</form>
+			</field>
+		</record>
+		
+		<record model = "ir.actions.act_window" id = "action_rent_form_view">
+			<field name = "name">Rent Details</field>
+			<field name = "res_model">rent.rent</field>
+			<field name = "type">ir.actions.act_window</field>
+			<field name = "view_type">form</field>
+			<field name = "view_mode">tree,form</field>
+			<field name = "view_id" ref = "rent_tree_view"/>
+		</record>
+		
+		<!--
+		======================================
+					RENT MENU
+		======================================
+		-->
+		<menuitem id = "rent_rent_menu" name = "Rent" parent = "rent_manager"/>
+		<menuitem id = "rent_rent_submenu" name = "Rents" parent = "state_menu" action = "action_rent_form_view"/>
 	</data>
 </openerp>

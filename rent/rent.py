@@ -98,6 +98,7 @@ class rent_building(osv.osv):
 		'building_area'              : fields.float('Area',required=True),
 		'building_estate'            : fields.many2one('rent.state', 'State'),
 		'building_photo'             : fields.binary('Photo'),
+		'building_floors'            : fields.one2many('rent.floor','floor_building','Floors'),
 	}
 	
 	def has_elevators(self,cr,uid,ids,p_value,p_field,context=None):
@@ -113,14 +114,15 @@ rent_building()
 class rent_floor(osv.osv):
 	_name = 'rent.floor'
 	_columns = {
-		'floor_number' : fields.integer('# Floor',required=True, help='Number of the floor in the building, starts from 0 (Basement)'),
-		'floor_thickness' : fields.float('Thickness'),
+		'floor_number'     : fields.integer('# Floor',required=True, help='Number of the floor in the building, starts from 0 (Basement)'),
+		'floor_thickness'  : fields.float('Thickness'),
 		'floor_durability' : fields.integer('Durability', help='Indicate the durability in years'),
-		'floor_area' : fields.float('Area',required=True),
-		'floor_value' : fields.float('# Floor',help='This value is calculated using the estate and building area and values'),
-		'floor_acabado' : fields.char('Acabado',size=64),
-		'floor_local' : fields.one2many('rent.floor.local','local_floor','Local'),
-		'floor_parking' : fields.one2many('rent.floor.parking','parking_floor','Parking'),
+		'floor_area'       : fields.float('Area',required=True),
+		'floor_value'      : fields.float('Value',help='This value is calculated using the estate and building area and values'),
+		'floor_acabado'    : fields.char('Acabado',size=64),
+		'floor_local'      : fields.one2many('rent.floor.local','local_floor','Local'),
+		'floor_parking'    : fields.one2many('rent.floor.parking','parking_floor','Parking'),
+		'floor_building'   : fields.many2one('rent.building','Building'),
 	}
 rent_floor()
 
@@ -158,3 +160,20 @@ class rent_floor_parking(osv.osv):
 	}
 rent_floor_parking()
 
+
+#Class to hold all the information that refences the rent
+#value, dates, status and to control de transaction of the bussines
+#
+class rent_rent(osv.osv):
+	_name = 'rent.rent'
+	_columns = {
+		'name'             : fields.char('Reference',size=64),
+		'rent_end_date'    : fields.date('Ending Date'),
+		'rent_ending_motif': fields.char('Ending Motif'),
+		'rent_rise'        : fields.float('Rise'),
+		'rent_type'        : fields.char('Type',size=64),
+		'rent_status'      : fields.selection((),'Status'),
+		'rent_start_date'  : fields.date('Starting Date'),
+		'rent_value'       : fields.function(),
+	}
+rent_rent()
