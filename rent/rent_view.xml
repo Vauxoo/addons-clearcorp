@@ -222,7 +222,7 @@
 					</group>
 					<group col = "4" colspan = "2">
 						<separator string = "Photos" col = "4" colspan = "4"/>
-						<field name = "building_photo" widget = "image" nolabel="1"/>
+						<field name = "building_photo" widget = "image" nolabel="1" img_width="150" img_height="150" />
 					</group>
 					<group col = "4" colspan = "4">
 						<separator string = "Machinery" col = "4" colspan = "4"/>
