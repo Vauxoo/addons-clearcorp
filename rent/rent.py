@@ -170,6 +170,7 @@ class rent_rent(osv.osv):
 	def _get_total_rent(self,cr,uid,obj,name,args,context):
 		v = {}
 		obj = self.pool.get('rent.floor.local')
+		debug('---------------------------------------')
 		debug(obj)
 		obj_ids = obj.browse(cr,uid,context['local_id'],context)
 		debug(obj_ids)
