@@ -442,7 +442,8 @@
 			<field name = "arch" type = "xml">
 				<form string = "Rent Detail">
 					<group col = "4" colspan = "4">
-						<separator string = "Length of Contract" colspan = "4"/>
+						<separator string = "Information" colspan = "4"/>
+						<field name = "name"/>
 						<field name = "rent_type"/>
 						<field name = "rent_status"/>
 						<field name = "rent_value"/>
