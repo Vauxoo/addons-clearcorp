@@ -454,9 +454,10 @@
 						<field name = "rent_start_date"/>
 						<field name = "rent_end_date"/>
 					</group>
-					<group col = "2" colspan = "4">
+					<group col = "4" colspan = "4">
 						<separator string = "Contract Termination" colspan = "4"/>
 							<field name = "rent_ending_motif"/>
+							<field name = "rent_ending_desc"/>
 					</group>
 				</form>
 			</field>

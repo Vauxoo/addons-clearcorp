@@ -172,7 +172,7 @@ class rent_rent(osv.osv):
 		'rent_ending_motif'     : fields.selection((('Desertion','Desertion'),('No Renovation','No Renovation'),('Eviction','Eviction')),'Ending Motif'),
 		'rent_ending_motif_desc': fields.text('Ending Motif Description'),
 		'rent_rise'             : fields.float('Rise'),
-		'rent_type'             : fields.char('Type',size=64),
+		'rent_type'             : fields.selection((('Contract','Contract'),('Adendum','Adendum'),('Renovation','Renovation')),'Type'),
 		'rent_status'           : fields.selection((('Valid','Valid'),('Finished','Finished'),('Draft','Draft')),'Status'),
 		'rent_start_date'       : fields.date('Starting Date'),
 		'rent_value'            : fields.integer('Value'),
