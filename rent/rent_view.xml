@@ -457,7 +457,7 @@
 					<group col = "4" colspan = "4">
 						<separator string = "Contract Termination" colspan = "4"/>
 							<field name = "rent_ending_motif"/>
-							<field name = "rent_ending_desc"/>
+							<field name = "rent_ending_modif_desc"/>
 					</group>
 				</form>
 			</field>
