@@ -198,7 +198,7 @@
 		======================================
 		-->
 		<menuitem id = "rent_state_menu" name = "Real Estate" parent = "rent_manager"/>
-		<menuitem id = "rent_state_submenu" name = "Estate" parent = "state_menu" action = "action_state_form_view"/>
+		<menuitem id = "rent_state_submenu" name = "Estate" parent = "rent_state_menu" action = "action_state_form_view"/>
 		
 		
 		<!--
@@ -265,7 +265,7 @@
 						BUILDING MENU
 		======================================
 		-->
-		<menuitem id = "rent_building_submenu" name = "Building" parent = "state_menu" action = "action_building_form_view"/>
+		<menuitem id = "rent_building_submenu" name = "Building" parent = "rent_state_menu" action = "action_building_form_view"/>
 		
 		<!--
 		======================================
@@ -328,7 +328,7 @@
 					FLOOR MENU
 		======================================
 		-->
-		<menuitem id = "rent_floor_submenu" name = "Floors" parent = "state_menu" action = "action_floor_form_view"/>
+		<menuitem id = "rent_floor_submenu" name = "Floors" parent = "rent_state_menu" action = "action_floor_form_view"/>
 		
 		
 		<!--
@@ -492,6 +492,6 @@
 		======================================
 		-->
 		<menuitem id = "rent_rent_menu" name = "Rent" parent = "rent_manager"/>
-		<menuitem id = "rent_rent_submenu" name = "Rents" parent = "state_menu" action = "action_rent_form_view"/>
+		<menuitem id = "rent_rent_submenu" name = "Rents" parent = "rent_rent_menu" action = "action_rent_form_view"/>
 	</data>
 </openerp>
