@@ -167,13 +167,14 @@ rent_floor_parking()
 class rent_rent(osv.osv):
 	_name = 'rent.rent'
 	_columns = {
-		'name'             : fields.char('Reference',size=64),
-		'rent_end_date'    : fields.date('Ending Date'),
-		'rent_ending_motif': fields.text('Ending Motif'),
-		'rent_rise'        : fields.float('Rise'),
-		'rent_type'        : fields.char('Type',size=64),
-		'rent_status'      : fields.selection((),'Status'),
-		'rent_start_date'  : fields.date('Starting Date'),
-		'rent_value'       : fields.integer('Value'),
+		'name'                  : fields.char('Reference',size=64),
+		'rent_end_date'         : fields.date('Ending Date'),
+		'rent_ending_motif'     : fields.selection((('Desertion','Desertion'),('No Renovation','No Renovation'),('Eviction','Eviction')),'Ending Motif'),
+		'rent_ending_motif_desc': fields.text('Ending Motif Description'),
+		'rent_rise'             : fields.float('Rise'),
+		'rent_type'             : fields.char('Type',size=64),
+		'rent_status'           : fields.selection((('Valid','Valid'),('Finished','Finished'),('Draft','Draft')),'Status'),
+		'rent_start_date'       : fields.date('Starting Date'),
+		'rent_value'            : fields.integer('Value'),
 	}
 rent_rent()
