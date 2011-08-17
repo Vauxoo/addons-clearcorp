@@ -36,7 +36,7 @@ class rent_location(osv.osv):
 		#'canton'   : fields.char('Canton',size=20),
 		#'district' : fields.char('District',size=20),
 		'canton_id'  : fields.many2one('rent.canton', 'Canton', domain = "[('state_id','=',state_id)]"),
-		'district_id' : fields.many2one('rent.canton.district', domain = "[('canton_id','=',canton_id)]"),
+		'district_id' : fields.many2one('rent.canton.district','District', domain = "[('canton_id','=',canton_id)]"),
 	}
 	def determine_canton(self,cr,uid,ids,pField,context=None):
 		v = {}
