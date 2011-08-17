@@ -17,7 +17,7 @@
 						<field name = "client_birthdate"/>
 					</field>
 					<field name = "city" position = "replace"/>
-					<field name = "estate_id" position = "replace">
+					<field name = "state_id" position = "replace">
 						<field name = "province" on_change =  "determine_canton(province)"/>
 					</field>
 					<field name = "province" position = "after" widget = "selection">
