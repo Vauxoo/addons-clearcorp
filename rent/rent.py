@@ -72,7 +72,7 @@ class rent_canton(osv.osv):
 	 }
 rent_canton()
 
-Class rent_canton_district(osv.osv):
+class rent_canton_district(osv.osv):
 	_name = 'rent.canton.district'
 	_description = 'District located in the canton'
 	_columns = {
