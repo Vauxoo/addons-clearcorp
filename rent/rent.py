@@ -174,7 +174,7 @@ class rent_rent(osv.osv):
 		obj = self.pool.get('rent.floor.local')
 		debug('---------------------------------------')
 		debug(obj)
-		obj_ids = obj.browse(cr,uid,context['rent_rent_local'],context)
+		#obj_ids = obj.browse(cr,uid,context,context)
 		debug(obj_ids)
 		
 		return v
