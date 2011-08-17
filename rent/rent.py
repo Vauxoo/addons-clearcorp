@@ -187,7 +187,7 @@ class rent_rent(osv.osv):
 		for m in obj_ids:
 			debug(m)
 			debug(m.id)
-			a = m[0]
+			a = m['local_number']
 			debug (a)
 			v[m.id] = 1
 		return v
