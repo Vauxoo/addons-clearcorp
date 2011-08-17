@@ -451,8 +451,8 @@
 					</group>
 					<group col = "2" colspan = "2">
 						<separator string = "Real Estate Related" colspan = "4"/>
-							<field name = "rent_rent_local" widget = "selection" attrs="{'readonly':['|',('rent_rent_parking','=',' '),('rent_rent_state','=',' ')]}"/>
-							<field name = "rent_rent_parking" widget = "selection" attrs = "{'readonly':['|',('rent_rent_state','=',' '),('rent_rent_local','=',' ')]}"/>
+							<field name = "rent_rent_local" widget = "selection" attrs="{'readonly':['|',('rent_rent_parking','!=',''),('rent_rent_state','!=','')]}"/>
+							<field name = "rent_rent_parking" widget = "selection" attrs = "{'readonly':['|',('rent_rent_state','!=',''),('rent_rent_local','!=','')]}"/>
 							<field name = "rent_rent_state" widget = "selection" on_change = "_enable_select"/>
 					</group>
 					<group col = "4" colspan = "4">
@@ -460,7 +460,7 @@
 						<field name = "rent_start_date"/>
 						<field name = "rent_end_date"/>
 					</group>
-					<group col = "4" colspan = "4">
+					<group col = "4" colspan = "4" attrs = "{'invisible':[('rent_status','=','Finished')]}">
 						<separator string = "Contract Termination" colspan = "4"/>
 							<field name = "rent_ending_motif"/>
 							<field name = "rent_ending_motif_desc"/>
