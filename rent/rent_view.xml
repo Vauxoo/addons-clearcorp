@@ -18,7 +18,7 @@
 					</field>
 					<field name = "city" position = "replace"/>
 					<field name = "state_id" position = "replace">
-						<field name = "state_id" widget = "selection"/>
+						<field name = "state_id" widget = "selection" domain = "[('county_id','=',country_id)]"/>
 						<!--<field name = "province" on_change =  "determine_canton(province)"/>-->
 					</field>
 					<field name = "state_id" position = "after">
