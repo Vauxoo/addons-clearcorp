@@ -113,6 +113,7 @@ rent_building()
 #the numbre then near to the top of the building is the floor.
 class rent_floor(osv.osv):
 	_name = 'rent.floor'
+	_rec_name = 'floor_number'
 	_columns = {
 		'floor_number'     : fields.integer('# Floor',required=True, help='Number of the floor in the building, starts from 0 (Basement)'),
 		'floor_thickness'  : fields.float('Thickness'),
@@ -151,14 +152,17 @@ rent_floor_local()
 class rent_floor_parking(osv.osv):
 	_name = 'rent.floor.parking'
 	_rec_name = 'parking_number'
-	_columns = {
-		'parking_area' : fields.float('VRN Dynamic',required=True),
-		'parking_value' : fields.float('Value',required=True),
-		'parking_number' : fields.integer('# Parking',required=True),
-		'parking_huella' : fields.float('Huella',required=True),
+	_columns = {fields.function(_get_total_rent,type='float',method=True,string='Total Paid'),
+		'parking_area'            : fields.function(_calculate_area,'VRN Dynamic',required=True),
+		#'parking_area'            : fields.float('VRN Dynamic',required=True),
+		'parking_value'           : fields.float('Value',required=True),
+		'parking_number'          : fields.integer('# Parking',required=True),
+		'parking_huella'          : fields.float('Huella',required=True),
 		'parking_sqrmeter_price'  :  fields.float('Sqr Meter Value',required=True),
-		'parking_rented' : fields.boolean('Rented',help='Check if the local is rented'),
-		'parking_floor'  : fields.many2one('rent.floor','# Floor'),
+		'parking_rented'          : fields.boolean('Rented',help='Checked if the local is rented',readonly=True),
+		'parking_floor'           : fields.many2one('rent.floor','# Floor'),
+		'parking_large'           : fields.float('Large Meters'),
+		'parking_width'           : fields.float('Width Meters'),
 	}
 rent_floor_parking()
 
@@ -169,18 +173,20 @@ rent_floor_parking()
 class rent_rent(osv.osv):
 	_name = 'rent.rent'
 	
-	def _get_total_rent(self,cr,uid,obj,name,args,context):
+	def _get_total_rent(self,cr,uid,ids,field_name,args,context):
 		v = {}
 		obj = self.pool.get('rent.floor.local')
 		debug('---------------------------------------')
 		debug(obj)
-		obj_ids = obj.search(cr,uid,[('local_number','=',args)])
-		debug(obj_ids)
-		
+		obj_ids = obj.browse(cr,uid,ids,context)])
+		for m in obj_ids:
+			debug(m)
+			v[m.id] = 1
 		return v
-
+		
 	_columns = {
 		'name'                  : fields.char('Reference',size=64),
+		'rent_rent_client'      : fields.many2one('rent.client','Client'),
 		'rent_end_date'         : fields.date('Ending Date'),
 		'rent_ending_motif'     : fields.selection((('Desertion','Desertion'),('No Renovation','No Renovation'),('Eviction','Eviction')),'Ending Motif'),
 		'rent_ending_motif_desc': fields.text('Ending Motif Description'),

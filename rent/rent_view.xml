@@ -26,7 +26,6 @@
 					<field name = "canton" position = "after">
 						<field name = "district"/>
 					</field>
-					<page name = "Sales &amp; Purchases" position = "replace"/>
 				</data>
 			</field>
 		</record>
@@ -395,14 +394,19 @@
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
 				<form string = "Parking Details">
-					<group col = "6" colspan = "6">
+					<group col = "4" colspan = "4">
 						<separator string = "General Information"/>
 						<field name = "parking_number"/>
 						<field name = "parking_value"/>
-						<field name = "parking_area"/>
-						<field name = "parking_huella"/>
 						<field name = "parking_sqrmeter_price"/>
 						<field name = "parking_rented"/>
+					</group>
+					<group col = "4" colspan = "4">
+						<separator string = "Area Specifications Information"/>
+						<field name = "parking_large"/>
+						<field name = "parking_width"/>						
+						<field name = "parking_area"/>
+						<field name = "parking_huella"/>
 					</group>
 				</form>
 			</field>
