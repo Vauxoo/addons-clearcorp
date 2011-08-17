@@ -84,7 +84,7 @@ rent_canton_district()
 
 #Class that represents the estates owned by the user. 
 #This class also uses the rent.location defined above
-class rent_state(osv.osv):
+class rent_estate(osv.osv):
 	_name = 'rent.estate'
 	_rec_name = "estate_number"
 	_columns = {
