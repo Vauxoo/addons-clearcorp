@@ -197,6 +197,6 @@ class rent_rent(osv.osv):
 	def _enable_select(self,cr,uid,ids,pFields,context=None):
 		v = {}
 		if pFields['local'] != '':
-			v['rent_rent_local'] = 
+			v['rent_rent_local'] = 0
 		return {'attrs' : v}
 rent_rent()
