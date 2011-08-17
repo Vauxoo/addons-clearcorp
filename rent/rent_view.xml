@@ -228,9 +228,9 @@
 					<group col = "4" colspan = "4">
 						<separator string = "Machinery" col = "4" colspan = "4"/>
 						<field name = "building_elevator"/>
-						<field name = "building_elevators_number" attrs="{'readonly':[('building_elevator','=','False')]}"/>
+						<field name = "building_elevators_number" readonly = "0" attrs="{'readonly':[('building_elevator','!=','True')]}"/>
 						<field name = "building_stairs"/>
-						<field name = "building_stairs_number" attrs="{'readonly':[('building_stairs','=','False')]}"/>
+						<field name = "building_stairs_number" readonly = "0" attrs="{'readonly':[('building_stairs','!=','True')]}"/>
 					</group>
 				</form>
 			</field>
@@ -451,9 +451,9 @@
 					</group>
 					<group col = "2" colspan = "2">
 						<separator string = "Real Estate Related" colspan = "4"/>
-							<field name = "rent_rent_local" widget = "selection"/>
-							<field name = "rent_rent_parking" widget = "selection"/>
-							<field name = "rent_rent_state" widget = "selection"/>
+							<field name = "rent_rent_local" widget = "selection" on_change = "_enable_select"/>
+							<field name = "rent_rent_parking" widget = "selection" on_change = "_enable_select"/>
+							<field name = "rent_rent_state" widget = "selection" on_change = "_enable_select"/>
 					</group>
 					<group col = "4" colspan = "4">
 						<separator string = "Length of Contract" colspan = "4"/>

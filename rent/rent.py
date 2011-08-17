@@ -188,10 +188,15 @@ class rent_rent(osv.osv):
 		'rent_type'             : fields.selection((('Contract','Contract'),('Adendum','Adendum'),('Renovation','Renovation')),'Type'),
 		'rent_status'           : fields.selection((('Valid','Valid'),('Finished','Finished'),('Draft','Draft')),'Status'),
 		'rent_start_date'       : fields.date('Starting Date'),
-		#'rent_value'            : fields.integer('Value'),
 		'rent_total'            : fields.function(_get_total_rent,type='float',method=True,string='Total Paid'),
 		'rent_rent_local'       : fields.many2one('rent.floor.local','Local'),
 		'rent_rent_parking'     : fields.many2one('rent.floor.parking','Parking'),
 		'rent_rent_state'       : fields.many2one('rent.state','Estate'),
 	}
+	
+	def _enable_select(self,cr,uid,ids,pFields,context=None):
+		v = {}
+		if pFields['local'] != '':
+			v['rent_rent_local'] = 
+		return {'attrs' : v}
 rent_rent()
