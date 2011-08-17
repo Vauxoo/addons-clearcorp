@@ -107,10 +107,10 @@
 						<!--<field name = "province" on_change =  "determine_canton(province)"/>-->
 					</field>
 					<field name = "state_id" position = "after">
-						<field name = "canton_id" on_change ="determine_district(canton)"/>
+						<field name = "canton_id" attrs = "{'readonly':[('state_id','!=','')]}"/>
 					</field>
 					<field name = "canton_id" position = "after">
-						<field name = "district_id"/>
+						<field name = "district_id" attrs = "{'readonly':[('canton_id','!=','')]}"/>
 					</field>
 				</data>
 			</field>
