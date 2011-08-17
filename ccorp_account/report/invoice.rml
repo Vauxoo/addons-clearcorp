@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<document filename="invoice.pdf">[[ setLang(o.partner_id.lang) ]][[ repeatIn(objects,'o') ]]
+<document filename="invoice.pdf">[[ repeatIn(objects,'o') ]]
 	<template pageSize="(612.0,792.0)" title="Invoice" author="Carlos Vasquez" allowSplitting="20">
 		<pageTemplate id="letter">
 			<frame id="letter" x1="28.0" y1="78" width="556" height="535"/>
@@ -10,6 +10,8 @@
 			<frame id="half-legal" x1="28.0" y1="60.0" width="556" height="256"/>
 -->
 			<pageGraphics>
+				<!-- Translation -->
+				<drawCentredString x="240.25" y="756">[[ setLang(o.partner_id.lang) ]]</drawCentredString>
 				<!-- Logos -->
 				<image x="32" y="708" height="62" >[[ o.company_id.logo ]]</image>
 				<!-- Header main data -->
@@ -28,7 +30,7 @@
 				<drawCentredString x="240.25" y="712">[[ o.name ]]</drawCentredString>
 				<!-- Header Company data -->
 				<setFont name="Helvetica-Bold" size="10"/> 
-				<drawCentredString x="390" y="760">[[ o.company_id.name ]]</drawCentredString>
+				<drawCentredString x="390" y="760">[[ o.company_id.partner_id.name ]]</drawCentredString>
 				<setFont name="Helvetica" size="10"/> 
 				<drawCentredString x="390" y="748">ID Num.: [[ o.company_id.partner_id.ref ]]</drawCentredString>
 				<drawCentredString x="390" y="736">Tel-fax: [[ o.company_id.partner_id.address[0].phone ]]</drawCentredString>
@@ -172,7 +174,9 @@
 		<paraStyle name="invoice_tbl_comment_text" fontName="Times-Italic" alignment="JUSTIFY"/>
 	</stylesheet>
 	<images/>
-	<story>[[ repeatIn(objects,'o') ]][[ setLang(o.partner_id.lang) ]]
+	<story>[[ repeatIn(objects,'o') ]]
+		<!-- Translation -->
+		<para>[[ setLang(o.partner_id.lang) ]]</para>
 		<blockTable colWidths="556" style="invoice_tbl_main" repeatRows="1"><tr><td>
 			<blockTable colWidths="50,328,38,70,70" style="invoice_tbl_header">[[ o.amount_discounted != 0 or removeParentNode('blockTable') ]]
 				<tr>
