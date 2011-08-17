@@ -17,7 +17,7 @@
 						<field name = "client_birthdate"/>
 					</field>
 					<field name = "city" position = "replace"/>
-					<field name = "state_id" position = "replace">
+					<field name = "estate_id" position = "replace">
 						<field name = "province" on_change =  "determine_canton(province)"/>
 					</field>
 					<field name = "province" position = "after" widget = "selection">
@@ -86,10 +86,10 @@
 			<field name = "arch" type = "xml">
 				<data>
 					<field name="city" position = "replace">
-						<field name = "canton" on_change = "determine_district(state_canton)"/>
+						<field name = "canton" on_change = "determine_district(estate_canton)"/>
 					</field>
-					<field name="state_id" position = "replace">
-						<field name = "province" on_change = "determine_canton(state_province)"/>
+					<field name="estate_id" position = "replace">
+						<field name = "province" on_change = "determine_canton(estate_province)"/>
 					</field>
 					<field name="canton" position = "after">
 						<field name = "district"/>
@@ -106,10 +106,10 @@
 			<field name = "arch" type = "xml">
 				<data>
 					<field name="city" position = "replace">
-						<field name = "canton" on_change = "determine_district(state_canton)"/>
+						<field name = "canton" on_change = "determine_district(estate_canton)"/>
 					</field>
-					<field name="state_id" position = "replace">
-						<field name = "province" on_change = "determine_canton(state_province)"/>
+					<field name="estate_id" position = "replace">
+						<field name = "province" on_change = "determine_canton(estate_province)"/>
 					</field>
 					<field name="canton" position = "after">
 						<field name = "district"/>
@@ -121,24 +121,24 @@
 		
 		<!--
 		======================================
-						STATES
+						estateS
 		======================================
 		-->
-		<record model = "ir.ui.view" id = "state_form_view">
-			<field name = "name">rent.state.form</field>
-			<field name = "model">rent.state</field>
+		<record model = "ir.ui.view" id = "estate_form_view">
+			<field name = "name">rent.estate.form</field>
+			<field name = "model">rent.estate</field>
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
-				<form string = "State Detail">
+				<form string = "estate Detail">
 					<group col = "2" colspan = "2">
 						<separator string = "General Information" col = "4" colspan = "4"/>
-						<field name = "state_number" select = "1"/>
-						<field name = "state_value"/>
-						<field name = "state_area"/>
+						<field name = "estate_number" select = "1"/>
+						<field name = "estate_value"/>
+						<field name = "estate_area"/>
 					</group>
 					<notebook colspan = "4">
 						<page string = "Location">
-							<field name = "state_location" colspan="4" mode="form" nolabel="1" select="1" height="260">
+							<field name = "estate_location" colspan="4" mode="form" nolabel="1" select="1" height="260">
 								<form string="Postal Address">
                                       <group colspan="2" col="4">
                                         <separator string="Postal Address" colspan="4" col="4" />
@@ -153,41 +153,41 @@
                                      </group>
                                 </form>
 							</field>
-						<!--<field name = "state_address"/>-->
-						<!--<field name = "state_canton" on_change = "determine_district(state_canton)"/>
-						<field name = "state_district"/>-->
+						<!--<field name = "estate_address"/>-->
+						<!--<field name = "estate_canton" on_change = "determine_district(estate_canton)"/>
+						<field name = "estate_district"/>-->
 						</page>
 						<page string = "Buildings">
-							<field name = "state_buildings" nolabel="1"/>
+							<field name = "estate_buildings" nolabel="1"/>
 						</page>
 					</notebook>
 				</form>
 			</field>
 		</record>
 		
-		<record model = "ir.ui.view" id = "state_tree_view">
-			<field name = "name">rent.state.tree</field>
-			<field name = "model">rent.state</field>
+		<record model = "ir.ui.view" id = "estate_tree_view">
+			<field name = "name">rent.estate.tree</field>
+			<field name = "model">rent.estate</field>
 			<field name = "type">tree</field>
 			<field name = "arch" type = "xml">
-				<tree string = "State Detail">
-					<field name = "state_number"/>
-					<field name = "state_area"/>
-					<field name = "state_value"/>
-					<!--<field name = "state_province"/>
-					<field name = "state_canton"/>
-					<field name = "state_district"/>-->
+				<tree string = "estate Detail">
+					<field name = "estate_number"/>
+					<field name = "estate_area"/>
+					<field name = "estate_value"/>
+					<!--<field name = "estate_province"/>
+					<field name = "estate_canton"/>
+					<field name = "estate_district"/>-->
 				</tree>
 			</field>
 		</record>
 		
-		<record model = "ir.actions.act_window" id = "action_state_form_view">
-			<field name = "name">State Detail</field>
-			<field name = "res_model">rent.state</field>
+		<record model = "ir.actions.act_window" id = "action_estate_form_view">
+			<field name = "name">estate Detail</field>
+			<field name = "res_model">rent.estate</field>
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
-			<field name = "view_id" ref="state_form_view"></field>
+			<field name = "view_id" ref="estate_form_view"></field>
 			<field name="help">Manage the estates that your company owns, to have them available in your system</field>
 		</record>
 		
@@ -196,8 +196,8 @@
 						ESTATE MENU
 		======================================
 		-->
-		<menuitem id = "rent_state_menu" name = "Real Estate" parent = "rent_manager"/>
-		<menuitem id = "rent_state_submenu" name = "Estate" parent = "rent_state_menu" action = "action_state_form_view"/>
+		<menuitem id = "rent_estate_menu" name = "Real Estate" parent = "rent_manager"/>
+		<menuitem id = "rent_estate_submenu" name = "Estate" parent = "rent_estate_menu" action = "action_estate_form_view"/>
 		
 		
 		<!--
@@ -264,7 +264,7 @@
 						BUILDING MENU
 		======================================
 		-->
-		<menuitem id = "rent_building_submenu" name = "Building" parent = "rent_state_menu" action = "action_building_form_view"/>
+		<menuitem id = "rent_building_submenu" name = "Building" parent = "rent_estate_menu" action = "action_building_form_view"/>
 		
 		<!--
 		======================================
@@ -327,7 +327,7 @@
 					FLOOR MENU
 		======================================
 		-->
-		<menuitem id = "rent_floor_submenu" name = "Floors" parent = "rent_state_menu" action = "action_floor_form_view"/>
+		<menuitem id = "rent_floor_submenu" name = "Floors" parent = "rent_estate_menu" action = "action_floor_form_view"/>
 		
 		
 		<!--
@@ -455,9 +455,9 @@
 					</group>
 					<group col = "2" colspan = "2">
 						<separator string = "Real Estate Related" colspan = "4"/>
-							<field name = "rent_rent_local"  widget = "selection" attrs="{'readonly' : ['|',('rent_rent_parking','!=',''),('rent_rent_state','!=','')], 'required' : [('rent_rent_state','=',''),('rent_rent_parking','=','')]}"/>
-							<field name = "rent_rent_parking" widget = "selection"  attrs = "{'readonly' : ['|',('rent_rent_state','!=',''),('rent_rent_local','!=','')], 'required' : [('rent_rent_state','=',''),('rent_rent_local','=','')]}"/>
-							<field name = "rent_rent_state" widget = "selection" attrs = "{'readonly' : ['|',('rent_rent_local','!=',''),('rent_rent_parking','!=','')], 'required' : [('rent_rent_local','=',''),('rent_rent_parking','=','')]}"/>
+							<field name = "rent_rent_local"  widget = "selection" attrs="{'readonly' : ['|',('rent_rent_parking','!=',''),('rent_rent_estate','!=','')], 'required' : [('rent_rent_estate','=',''),('rent_rent_parking','=','')]}"/>
+							<field name = "rent_rent_parking" widget = "selection"  attrs = "{'readonly' : ['|',('rent_rent_estate','!=',''),('rent_rent_local','!=','')], 'required' : [('rent_rent_estate','=',''),('rent_rent_local','=','')]}"/>
+							<field name = "rent_rent_estate" widget = "selection" attrs = "{'readonly' : ['|',('rent_rent_local','!=',''),('rent_rent_parking','!=','')], 'required' : [('rent_rent_local','=',''),('rent_rent_parking','=','')]}"/>
 					</group>
 					<group col = "4" colspan = "4">
 						<separator string = "Length of Contract" colspan = "4"/>

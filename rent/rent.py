@@ -18,23 +18,25 @@ class rent_client(osv.osv):
 		#'client_location'  : fields.one2many('rent.location','location_id','Location'),
 		#'client_province' : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
 		#										('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
-		'client_canton'    : fields.related('address', 'location_canton', type='char', string='Canton'),
-		'client_district'  : fields.related('address', 'location_district', type='char', string='District'),
+		'client_canton'    : fields.related('address', 'canton_id', type='many2one', relation='rent.canton', string='Canton'),
+		'client_district'  : fields.related('address', 'district_id', type='many2one', relation='rent.canton.district', string='District'),
 	}
 rent_client()
 
 
 # Class used to specialize the res.partner.address, this one adds the attributes of
-# canton, district and redefines the state_id to province making it as a selection
+# canton, district and redefines the estate_id to province making it as a selection
 class rent_location(osv.osv):
 	_name = 'res.partner.address'
 	_inherit = 'res.partner.address'
 	_columns = {
 		#'location_id'       : fields.many2one('rent.client','Client ID'),
-		'province'          : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
-												('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
-		'canton'   : fields.char('Canton',size=20),
-		'district' : fields.char('District',size=20),
+		#'province'          : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
+		#										('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
+		#'canton'   : fields.char('Canton',size=20),
+		#'district' : fields.char('District',size=20),
+		'canton_id'  : fields.many2one('rent.canton', 'Canton', domain = "[('state_id','=',state_id)]"),
+		'district_id' : fields.many2one('rent.canton.district', domain = "[('canton_id','=',canton_id)]"),
 	}
 	def determine_canton(self,cr,uid,ids,pField,context=None):
 		v = {}
@@ -60,27 +62,47 @@ class rent_location(osv.osv):
 		return {'value':v}
 rent_location()
 
+class rent_canton(osv.osv):
+	 _name = 'rent.canton'
+	 _description = 'Canton for the State'
+	 _columns = {
+		'state_id'   : fields.many2one('res.country.state','Province',required=True),
+		'name'       : fields.char('Canton Name', size=64, required=True),
+		'code'       : fields.char('Canton Code', size=4,help = 'The canton code in 4 chars' required=True),
+	 }
+rent_canton()
+
+Class rent_canton_district(osv.osv):
+	_name = 'rent.canton.district'
+	_description = 'District located in the canton'
+	_columns = {
+		'canton_id'  : fields.many2one('rent.canton','Canton',required=True),
+		'name'       : fields.char('Distric Name', size=64, required=True),
+		'code'       : fields.char('Distric Code', size=4,help = 'The district code in 4 chars' required=True),
+	}
+rent_canton_district()
+
 #Class that represents the estates owned by the user. 
 #This class also uses the rent.location defined above
 class rent_state(osv.osv):
-	_name = 'rent.state'
-	_rec_name = "state_number"
+	_name = 'rent.estate'
+	_rec_name = "estate_number"
 	_columns = {
-		#'state_province' : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
+		#'estate_province' : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
 		#									('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
 		
-		'state_canton'    : fields.related('address', 'location_canton', type='char', string='Canton'),
-		'state_district'  : fields.related('address', 'location_district', type='char', string='District'),
-		'state_number'   : fields.char('# State', size=10,required=True),
-		'state_value'    : fields.float('VRN Dynamic',required=True),
-		'state_area'     : fields.float('Area', required=True),
-		'state_buildings': fields.one2many('rent.building','building_estate','Buildings'),
-		'state_location' : fields.one2many('res.partner.address','partner_id','Location'),
-		#'state_province': fields.related('state_address', 'state_province', type='selection', string='Province'),
-        #'state_canton': fields.related('state_address', 'state_canton', type='selection', string='Canton'),
-        #'state_district': fields.related('state_address', 'state_district', type='selection', string='District'),
+		'estate_canton'    : fields.related('address', 'location_canton', type='char', string='Canton'),
+		'estate_district'  : fields.related('address', 'location_district', type='char', string='District'),
+		'estate_number'   : fields.char('# estate', size=10,required=True),
+		'estate_value'    : fields.float('VRN Dynamic',required=True),
+		'estate_area'     : fields.float('Area', required=True),
+		'estate_buildings': fields.one2many('rent.building','building_estate','Buildings'),
+		'estate_location' : fields.one2many('res.partner.address','partner_id','Location'),
+		#'estate_province': fields.related('estate_address', 'estate_province', type='selection', string='Province'),
+        #'estate_canton': fields.related('estate_address', 'estate_canton', type='selection', string='Canton'),
+        #'estate_district': fields.related('estate_address', 'estate_district', type='selection', string='District'),
 	}
-rent_state()
+rent_estate()
 
 #Class building to represente a Real Estate, that is on any land previously define by the user
 #this class contains the necesary data to determine the value for rent of the building
@@ -96,7 +118,7 @@ class rent_building(osv.osv):
 		'name'                       : fields.char('Name', size=40,required=True),
 		'building_value'             : fields.float('VRN Dynamic',required=True),
 		'building_area'              : fields.float('Area',required=True),
-		'building_estate'            : fields.many2one('rent.state', 'State'),
+		'building_estate'            : fields.many2one('rent.estate', 'estate'),
 		'building_photo'             : fields.binary('Photo'),
 		'building_floors'            : fields.one2many('rent.floor','floor_building','Floors'),
 	}
@@ -205,6 +227,6 @@ class rent_rent(osv.osv):
 		'rent_total'            : fields.function(_get_total_rent,type='float',method=True,string='Total Paid'),
 		'rent_rent_local'       : fields.many2one('rent.floor.local','Local'),
 		'rent_rent_parking'     : fields.many2one('rent.floor.parking','Parking'),
-		'rent_rent_state'       : fields.many2one('rent.state','Estate'),
+		'rent_rent_estate'       : fields.many2one('rent.estate','Estate'),
 	}
 rent_rent()
