@@ -193,10 +193,4 @@ class rent_rent(osv.osv):
 		'rent_rent_parking'     : fields.many2one('rent.floor.parking','Parking'),
 		'rent_rent_state'       : fields.many2one('rent.state','Estate'),
 	}
-	
-	def _enable_select(self,cr,uid,ids,pFields,context=None):
-		v = {}
-		if pFields['local'] != '':
-			v['rent_rent_local'] = 0
-		return {'attrs' : v}
 rent_rent()
