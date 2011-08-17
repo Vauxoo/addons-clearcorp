@@ -1,9 +1,94 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <openerp>
 	<data>
+		
 		<!--
 		======================================
-		CLIENTS
+				CANTON
+		======================================
+		-->
+
+        <record id="view_canton_tree" model="ir.ui.view">
+            <field name="name">rent.canton.tree</field>
+            <field name="model">rent.canton</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="State">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="state_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_canton_form" model="ir.ui.view">
+            <field name="name">rent.canton.form</field>
+            <field name="model">rent.canton</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Canton">
+                    <field name="state_id" select="1"/>
+                    <field name="name" select="1"/>
+                    <field name="code" select="1"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_canton" model="ir.actions.act_window">
+            <field name="name">Canton</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rent.canton</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_canton_tree"/>
+            <field name="help">If you are working on the Costa Rican market, you can manage the different Canton you are working on from here. Each canton is attached to one province.</field>
+        </record>
+		
+		
+		<!--
+		======================================
+				DISTRICT
+		======================================
+		-->
+
+        <record id="view_canton_district_tree" model="ir.ui.view">
+            <field name="name">rent.canton.district.tree</field>
+            <field name="model">rent.canton.district</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="State">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="canton_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_canton_district_form" model="ir.ui.view">
+            <field name="name">rent.canton.district.form</field>
+            <field name="model">rent.canton.district</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Canton">
+                    <field name="state_id" select="1"/>
+                    <field name="name" select="1"/>
+                    <field name="code" select="1"/>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_canton_district" model="ir.actions.act_window">
+            <field name="name">District</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rent.canton.district</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="view_canton_district_tree"/>
+        </record>
+		
+		
+		
+		<!--
+		======================================
+					CLIENTS
 		======================================
 		-->
 		<record model = "ir.ui.view" id = "client_form_view">
