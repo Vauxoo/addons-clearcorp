@@ -189,8 +189,8 @@ class rent_rent(osv.osv):
 		'rent_status'           : fields.selection((('Valid','Valid'),('Finished','Finished'),('Draft','Draft')),'Status'),
 		'rent_start_date'       : fields.date('Starting Date'),
 		'rent_total'            : fields.function(_get_total_rent,type='float',method=True,string='Total Paid'),
-		'rent_rent_local'       : fields.many2one('rent.floor.local','Local'),
-		'rent_rent_parking'     : fields.many2one('rent.floor.parking','Parking'),
-		'rent_rent_state'       : fields.many2one('rent.state','Estate'),
+		'rent_rent_local'       : fields.many2one('rent.floor.local','Local',required=True),
+		'rent_rent_parking'     : fields.many2one('rent.floor.parking','Parking',required=True),
+		'rent_rent_state'       : fields.many2one('rent.state','Estate',required=True),
 	}
 rent_rent()
