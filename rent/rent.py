@@ -68,7 +68,7 @@ class rent_canton(osv.osv):
 	 _columns = {
 		'state_id'   : fields.many2one('res.country.state','Province',required=True),
 		'name'       : fields.char('Canton Name', size=64, required=True),
-		'code'       : fields.char('Canton Code', size=4,help = 'The canton code in 4 chars' required=True),
+		'code'       : fields.char('Canton Code', size=4,help = 'The canton code in 4 chars', required=True),
 	 }
 rent_canton()
 
@@ -78,7 +78,7 @@ Class rent_canton_district(osv.osv):
 	_columns = {
 		'canton_id'  : fields.many2one('rent.canton','Canton',required=True),
 		'name'       : fields.char('Distric Name', size=64, required=True),
-		'code'       : fields.char('Distric Code', size=4,help = 'The district code in 4 chars' required=True),
+		'code'       : fields.char('Distric Code', size=4,help = 'The district code in 4 chars', required=True),
 	}
 rent_canton_district()
 
