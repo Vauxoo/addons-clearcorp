@@ -152,8 +152,13 @@ rent_floor_local()
 class rent_floor_parking(osv.osv):
 	_name = 'rent.floor.parking'
 	_rec_name = 'parking_number'
-	_columns = {fields.function(_get_total_rent,type='float',method=True,string='Total Paid'),
-		'parking_area'            : fields.function(_calculate_area,'VRN Dynamic',required=True),
+	
+	def _calculate_area(self,cr,uid,ids,field_name,context=None):
+		v = {}
+		
+		return v
+	_columns = {
+		'parking_area'            : fields.function(_calculate_area,type='float',method=True,string='VRN Dynamic'),
 		#'parking_area'            : fields.float('VRN Dynamic',required=True),
 		'parking_value'           : fields.float('Value',required=True),
 		'parking_number'          : fields.integer('# Parking',required=True),
