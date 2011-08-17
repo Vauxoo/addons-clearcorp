@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data noupdate="True">
+    <data>
 		<record id="sj_san_jose" model="rent.canton">
 			<field name="state_id">San Jose</field>
 			<field name="name">San Jose</field>
