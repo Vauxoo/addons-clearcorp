@@ -18,8 +18,8 @@ class rent_client(osv.osv):
 		#'client_location'  : fields.one2many('rent.location','location_id','Location'),
 		#'client_province' : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
 		#										('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
-		'client_canton'    : fields.related('address', 'canton_id', type='many2one', relation='rent.canton', string='Canton'),
-		'client_district'  : fields.related('address', 'district_id', type='many2one', relation='rent.canton.district', string='District'),
+		#'client_canton'    : fields.related('address', 'canton_id', type='many2one', relation='rent.canton', string='Canton'),
+		#'client_district'  : fields.related('address', 'district_id', type='many2one', relation='rent.canton.district', string='District'),
 	}
 rent_client()
 
@@ -33,10 +33,10 @@ class rent_location(osv.osv):
 		#'location_id'       : fields.many2one('rent.client','Client ID'),
 		#'province'          : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
 		#										('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
-		#'canton'   : fields.char('Canton',size=20),
-		#'district' : fields.char('District',size=20),
-		'canton_id'  : fields.many2one('rent.canton', 'Canton', domain = "[('state_id','=',state_id)]"),
-		'district_id' : fields.many2one('rent.canton.district', domain = "[('canton_id','=',canton_id)]"),
+		'canton'   : fields.char('Canton',size=20),
+		'district' : fields.char('District',size=20),
+		#'canton_id'  : fields.many2one('rent.canton', 'Canton', domain = "[('state_id','=',state_id)]"),
+		#'district_id' : fields.many2one('rent.canton.district', domain = "[('canton_id','=',canton_id)]"),
 	}
 	def determine_canton(self,cr,uid,ids,pField,context=None):
 		v = {}
