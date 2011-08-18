@@ -65,8 +65,9 @@ class rent_estate(osv.osv):
 		#'estate_province' : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
 		#									('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
 		
-		'estate_canton'    : fields.related('address', 'location_canton', type='char', string='Canton'),
-		'estate_district'  : fields.related('address', 'location_district', type='char', string='District'),
+		#'estate_canton'    : fields.related('address', 'location_canton', type='char', string='Canton'),
+		#'estate_district'  : fields.related('address', 'location_district', type='char', string='District'),
+		'estate_owner'    : fields.many2one('res.company','Owner',required=True),
 		'estate_number'   : fields.char('# estate', size=10,required=True),
 		'estate_value'    : fields.float('VRN Dynamic',required=True),
 		'estate_area'     : fields.float('Area', required=True),

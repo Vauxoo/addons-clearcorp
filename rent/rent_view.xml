@@ -103,14 +103,14 @@
 					</field>
 					<field name = "city" position = "replace"/>
 					<field name = "state_id" position = "replace">
-						<field name = "state_id"/>
+						<field name = "state_id" widget = "selection"/>
 						<!--<field name = "province" on_change =  "determine_canton(province)"/>-->
 					</field>
 					<field name = "state_id" position = "after">
-						<field name = "canton_id"/>
+						<field name = "canton_id" widget = "selection"/>
 					</field>
 					<field name = "canton_id" position = "after">
-						<field name = "district_id"/>
+						<field name = "district_id" widget = "selection"/>
 					</field>
 				</data>
 			</field>
@@ -163,7 +163,7 @@
 		======================================
 						LOCATION
 		======================================
-		-->
+		
 		<record model = "ir.ui.view" id = "location_form_view">
 			<field name = "name">res.partner.address</field>
 			<field name = "model">res.partner.address</field>
@@ -202,12 +202,11 @@
 					</field>
 				</data>
 			</field>
-		</record>
-		
+		</record>-->
 		
 		<!--
 		======================================
-						estateS
+						ESTATES
 		======================================
 		-->
 		<record model = "ir.ui.view" id = "estate_form_view">
@@ -218,27 +217,14 @@
 				<form string = "estate Detail">
 					<group col = "2" colspan = "2">
 						<separator string = "General Information" col = "4" colspan = "4"/>
+						<field name = "estate_owner" select = "1"/>
 						<field name = "estate_number" select = "1"/>
 						<field name = "estate_value"/>
 						<field name = "estate_area"/>
 					</group>
 					<notebook colspan = "4">
 						<page string = "Location">
-							<field name = "estate_location" colspan="4" mode="form" nolabel="1" select="1" height="260">
-								<form string="Postal Address">
-                                      <group colspan="2" col="4">
-                                        <separator string="Postal Address" colspan="4" col="4" />
-                                        <field name="type" string="Type" colspan="2"/>
-                                        <field name="street" colspan="4"/>
-                                        <field name="street2" colspan="4"/>
-                                        <field name="zip"/>                                        
-                                        <field name="country_id" completion="1"/>
-                                        <field name="province" select = "1"/>
-                                        <field name="canton" select = "1"/>
-                                        <field name="district" select = "1"/>
-                                     </group>
-                                </form>
-							</field>
+							<field name = "estate_location" colspan="4" nolabel="1" select="1" attrs = "{'readonly' : [('estate_owner','!=','')]}"/>
 						<!--<field name = "estate_address"/>-->
 						<!--<field name = "estate_canton" on_change = "determine_district(estate_canton)"/>
 						<field name = "estate_district"/>-->
