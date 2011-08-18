@@ -364,10 +364,10 @@
 					</group>
 					<notebook colspan = "4">
 						<page string = "Local">
-							<field name = "floor_local"/>
+							<field name = "floor_local" nolabel="1"/>
 						</page>
 						<page string = "Parking">
-							<field name = "floor_parking"/>
+							<field name = "floor_parking" nolabel="1"/>
 						</page>
 					</notebook>
 				</form>
