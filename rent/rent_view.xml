@@ -124,9 +124,7 @@
 			<field name = "arch" type = "xml">
 				<data>
 					<field name = "ref" position = "replace"/>
-					<field name = "city" position = "replace">
-						<field model = "res.partner.address" name = "state_id" domain = "['partner_id','=',name]"/>
-					</field>
+					<field name = "city" position = "replace"/>
 					<field name = "user_id" position = "replace"/>
 					<field name = "country" position = "after">
 						<field name = "client_birthdate"/>
