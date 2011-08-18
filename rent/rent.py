@@ -37,28 +37,6 @@ class rent_location(osv.osv):
 		'canton_id'  : fields.many2one('rent.canton', 'Canton', domain = "[('state_id','=',state_id)]"),
 		'district_id' : fields.many2one('rent.canton.district','District', domain = "[('canton_id','=',canton_id)]"),
 	}
-	def determine_canton(self,cr,uid,ids,pField,context=None):
-		v = {}
-		debug('asiiiiiiiiiiiiiiii')
-		debug(pField)
-		try:
-			v['canton'] = {
-				'San Jose'   : constanst.SJ_CANTON,
-				'Heredia'    : constanst.H_CANTON, 
-				'Alajuela'   : constanst.A_CANTON,
-				'Cartago'    : (()),
-				'Puntarenas' : (()),
-				'Limon'      : (()),
-				'Guanacaste' : (()),
-			}[pField]
-			debug(v)
-		except KeyError:
-			debug('se cae')
-		return { 'value':v}
-	def determine_district(self,cr,uid,ids,context=None):
-		v = {}
-		v['district'] = (())
-		return {'value':v}
 rent_location()
 
 #Class that inherits from res.partner allowing to record the 
@@ -68,10 +46,6 @@ class rent_client(osv.osv):
 	_name = 'rent.client'
 	_inherit = 'res.partner'
 	_columns = {
-		#'client_lastname'  : fields.char('Lastname',size=15,required=True),
-		#'client_lastname2' : fields.char('Second Lastname',size=15,required=True),
-		#'partner_id'        : fields.char('Id',size=10,required=True,help='Cedula del cliente'),
-		
 		'client_birthdate' : fields.date('Birthdate',select=1,required=True),
 		#'client_location'  : fields.one2many('rent.location','location_id','Location'),
 		#'client_province' : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),

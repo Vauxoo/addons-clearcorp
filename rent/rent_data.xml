@@ -4,130 +4,130 @@
 		<!--
 		=========================
 			SAN JOSE
-		=========================		
+		=========================
 		-->
 		<record id="sj_san_jose" model="rent.canton">
-			<field name="state_id">San Jose</field>
-			<field name="name">San Jose</field>
+			<field name="state_id">San José</field>
+			<field name="name">San José</field>
 			<field name="code">SJSJ</field>
 		</record>
 		
 		<record id="sj_san_jose_CAR" model="rent.canton.district">
-			<field name="canton_id">San Jose</field>
+			<field name="canton_id">San José</field>
 			<field name="name">El Carmen</field>
 			<field name="code">CAR</field>
 		</record>
 		
 		<record id="sj_ESC" model="rent.canton">
-			<field name="state_id">San Jose</field>
+			<field name="state_id">San José</field>
 			<field name="name">Escazu</field>
 			<field name="code">ESC</field>
 		</record>
 		
 		<record id="sj_DES" model="rent.canton">
-			<field name="state_id">San Jose</field>
+			<field name="state_id">San José</field>
 			<field name="name">Desamparados</field>
 			<field name="code">DES</field>
 		</record>
 		
 		<record id="sj_PUR" model="rent.canton">
-			<field name="state_id">San Jose</field>
+			<field name="state_id">San José</field>
 			<field name="name">Puriscal</field>
 			<field name="code">PUR</field>
 		</record>
 		
 		<record id="sj_TAR" model="rent.canton">
-			<field name="state_id">San Jose</field>
+			<field name="state_id">San José</field>
 			<field name="name">Tarrazu</field>
 			<field name="code">TAR</field>
 		</record>
 		
 		<record id="sj_ASE" model="rent.canton">
-			<field name="state_id">San Jose</field>
+			<field name="state_id">San José</field>
 			<field name="name">Aserri</field>
 			<field name="code">ASE</field>
 		</record>
 		
 		<record id="sj_GOI" model="rent.canton">
-			<field name="state_id">San Jose</field>
+			<field name="state_id">San José</field>
 			<field name="name">Goicoechea</field>
 			<field name="code">GOI</field>
 		</record>
 		
 		<record id="sj_MOR" model="rent.canton">
-			<field name="state_id">San Jose</field>
+			<field name="state_id">San José</field>
 			<field name="name">Mora</field>
 			<field name="code">MOR</field>
 		</record>
 		
 		<record id="sj_STA" model="rent.canton">
-			<field name="state_id">San Jose</field>
+			<field name="state_id">San José</field>
 			<field name="name">Santa Ana</field>
 			<field name="code">STA</field>
 		</record>
 		
 		<record id="sj_ALA" model="rent.canton">
-			<field name="state_id">San Jose</field>
+			<field name="state_id">San José</field>
 			<field name="name">Alajuelita</field>
 			<field name="code">ALA</field>
 		</record>
 		
 		<record id="sj_VDC" model="rent.canton">
-			<field name="state_id">San Jose</field>
+			<field name="state_id">San José</field>
 			<field name="name">Vazquez de Coronado</field>
 			<field name="code">VDC</field>
 		</record>
 		
 		<record id="sj_ACO" model="rent.canton">
-			<field name="state_id">San Jose</field>
+			<field name="state_id">San José</field>
 			<field name="name">Acosta</field>
 			<field name="code">ACO</field>
 		</record>
 		
 		<record id="sj_TIB" model="rent.canton">
-			<field name="state_id">San Jose</field>
+			<field name="state_id">San José</field>
 			<field name="name">Tibas</field>
 			<field name="code">TIB</field>
 		</record>
 		
 		<record id="sj_MORV" model="rent.canton">
-			<field name="state_id">San Jose</field>
+			<field name="state_id">San José</field>
 			<field name="name">Moravia</field>
 			<field name="code">MORV</field>
 		</record>
 		
 		<record id="sj_MDO" model="rent.canton">
-			<field name="state_id">San Jose</field>
+			<field name="state_id">San José</field>
 			<field name="name">Montes de Oca</field>
 			<field name="code">MDO</field>
 		</record>
 		
 		<record id="sj_TUR" model="rent.canton">
-			<field name="state_id">San Jose</field>
+			<field name="state_id">San José</field>
 			<field name="name">Turrubares</field>
 			<field name="code">TUR</field>
 		</record>
 		
 		<record id="sj_DOT" model="rent.canton">
-			<field name="state_id">San Jose</field>
+			<field name="state_id">San José</field>
 			<field name="name">Dota</field>
 			<field name="code">DOT</field>
 		</record>
 		
 		<record id="sj_CUR" model="rent.canton">
-			<field name="state_id">San Jose</field>
+			<field name="state_id">San José</field>
 			<field name="name">Curridabat</field>
 			<field name="code">CUR</field>
 		</record>
 		
 		<record id="sj_PZ" model="rent.canton">
-			<field name="state_id">San Jose</field>
+			<field name="state_id">San José</field>
 			<field name="name">Perez Zeledon</field>
 			<field name="code">PZ</field>
 		</record>
 		
 		<record id="sj_LC" model="rent.canton">
-			<field name="state_id">San Jose</field>
+			<field name="state_id">San José</field>
 			<field name="name">Leon Cortes</field>
 			<field name="code">LC</field>
 		</record>
