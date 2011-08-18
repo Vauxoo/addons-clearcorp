@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+		<!--
+		=========================
+			SAN JOSE
+		=========================		
+		-->
 		<record id="sj_san_jose" model="rent.canton">
 			<field name="state_id">San Jose</field>
 			<field name="name">San Jose</field>
@@ -127,6 +132,13 @@
 			<field name="code">LC</field>
 		</record>
 		
+		
+		<!--
+		=========================
+			HEREDIA
+		=========================		
+		-->
+		
 		<record id="h_SAP" model="rent.canton">
 			<field name="state_id">Heredia</field>
 			<field name="name">San Pablo</field>
@@ -139,5 +151,317 @@
 			<field name="code">STP</field>
 		</record>
 		
+		<record id="h_HER" model="rent.canton">
+			<field name="state_id">Heredia</field>
+			<field name="name">Heredia</field>
+			<field name="code">HER</field>
+		</record>
+		
+		<record id="h_SAP" model="rent.canton">
+			<field name="state_id">Heredia</field>
+			<field name="name">Barva</field>
+			<field name="code">BAR</field>
+		</record>
+		
+		<record id="h_SAP" model="rent.canton">
+			<field name="state_id">Heredia</field>
+			<field name="name">Santo Domingo</field>
+			<field name="code">STDO</field>
+		</record>
+		
+		<record id="h_SAP" model="rent.canton">
+			<field name="state_id">Heredia</field>
+			<field name="name">Santa Bárbara</field>
+			<field name="code">STBA</field>
+		</record>
+		
+		<record id="h_SAP" model="rent.canton">
+			<field name="state_id">Heredia</field>
+			<field name="name">San Rafael</field>
+			<field name="code">SAR</field>
+		</record>
+		
+		<record id="h_SAP" model="rent.canton">
+			<field name="state_id">Heredia</field>
+			<field name="name">San Isidro</field>
+			<field name="code">SAI</field>
+		</record>
+		
+		<record id="h_SAP" model="rent.canton">
+			<field name="state_id">Heredia</field>
+			<field name="name">Belén</field>
+			<field name="code">BEL</field>
+		</record>
+		
+		<record id="h_SAP" model="rent.canton">
+			<field name="state_id">Heredia</field>
+			<field name="name">Flores</field>
+			<field name="code">FLO</field>
+		</record>
+		
+		<record id="h_SAP" model="rent.canton">
+			<field name="state_id">Heredia</field>
+			<field name="name">Sarapiquí</field>
+			<field name="code">SARA</field>
+		</record>
+		
+		
+		
+		<!--
+		=========================
+			ALAJUELA
+		=========================		
+		-->
+		
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Alajuela</field>
+			<field name="name">Alajuela</field>
+			<field name="code">ALAJ</field>
+		</record>
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Alajuela</field>
+			<field name="name">San Ramón</field>
+			<field name="code">SANR</field>
+		</record>
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Alajuela</field>
+			<field name="name">Grecia</field>
+			<field name="code"></field>
+		</record>
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Alajuela</field>
+			<field name="name">San Mateo</field>
+			<field name="code"></field>
+		</record>
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Alajuela</field>
+			<field name="name">Atenas</field>
+			<field name="code"></field>
+		</record>
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Alajuela</field>
+			<field name="name">Naranjo</field>
+			<field name="code"></field>
+		</record>
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Alajuela</field>
+			<field name="name">Palmares</field>
+			<field name="code"></field>
+		</record>
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Alajuela</field>
+			<field name="name">Poás</field>
+			<field name="code"></field>
+		</record>
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Alajuela</field>
+			<field name="name">Orotina</field>
+			<field name="code"></field>
+		</record>
+		
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Alajuela</field>
+			<field name="name">San Carlos</field>
+			<field name="code"></field>
+		</record>
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Alajuela</field>
+			<field name="name">Alfaro Ruíz</field>
+			<field name="code"></field>
+		</record>
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Alajuela</field>
+			<field name="name">Valverde Vega</field>
+			<field name="code"></field>
+		</record>
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Alajuela</field>
+			<field name="name">Upala</field>
+			<field name="code"></field>
+		</record>
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Alajuela</field>
+			<field name="name">Los Chiles</field>
+			<field name="code"></field>
+		</record>
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Alajuela</field>
+			<field name="name">Guatuso</field>
+			<field name="code"></field>
+		</record>
+		
+		
+		<!--
+		=========================
+			CARTAGO
+		=========================		
+		-->
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Cartago</field>
+			<field name="name"></field>
+			<field name="code"></field>
+		</record>
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Cartago</field>
+			<field name="name">Paraíso</field>
+			<field name="code"></field>
+		</record>
+		
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Cartago</field>
+			<field name="name">La Unión</field>
+			<field name="code"></field>
+		</record>
+		
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Cartago</field>
+			<field name="name">Jiménez</field>
+			<field name="code"></field>
+		</record>
+		
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Cartago</field>
+			<field name="name">Turrialba</field>
+			<field name="code"></field>
+		</record>
+		
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Cartago</field>
+			<field name="name">Alvarado</field>
+			<field name="code"></field>
+		</record>
+		
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Cartago</field>
+			<field name="name">Oreamuno</field>
+			<field name="code"></field>
+		</record>
+		
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Cartago</field>
+			<field name="name">El Guarco</field>
+			<field name="code"></field>
+		</record>
+								
+		
+		<!--
+		=========================
+			PUNTARENAS
+		=========================		
+		-->
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Puntarenas</field>
+			<field name="name">Puntarenas</field>
+			<field name="code"></field>
+		</record>
+		
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Puntarenas</field>
+			<field name="name">Esparza</field>
+			<field name="code"></field>
+		</record>
+		
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Puntarenas</field>
+			<field name="name">Buenos Aires</field>
+			<field name="code"></field>
+		</record>
+		
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Puntarenas</field>
+			<field name="name">Montes de Oro</field>
+			<field name="code"></field>
+		</record>
+		
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Puntarenas</field>
+			<field name="name">Osa</field>
+			<field name="code"></field>
+		</record>
+		
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Puntarenas</field>
+			<field name="name">Aguirre</field>
+			<field name="code"></field>
+		</record>
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Puntarenas</field>
+			<field name="name">Golfito</field>
+			<field name="code"></field>
+		</record>
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Puntarenas</field>
+			<field name="name">Coto Brus</field>
+			<field name="code"></field>
+		</record>
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Puntarenas</field>
+			<field name="name">Parrita</field>
+			<field name="code"></field>
+		</record>
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Puntarenas</field>
+			<field name="name">Corredores</field>
+			<field name="code"></field>
+		</record>
+		
+		<record id="" model="rent.canton">
+			<field name="state_id">Puntarenas</field>
+			<field name="name">Garabito</field>
+			<field name="code"></field>
+		</record>
+		
+		
+		
+		
+		
+		<!--
+		=========================
+			Guanacaste
+		=========================		
+		-->
+		
+		
+		
+		
+		
+		<!--
+		=========================
+			LIMON
+		=========================		
+		-->
 	</data>
 </openerp>
