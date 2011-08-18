@@ -774,7 +774,7 @@
 		<record id="district_TUR_CARA" model="rent.canton.district">
 			<field model = "rent.canton" name="canton_id" ref="canton_SJ_TUR"/>
 			<field name="name">Carara</field>
-			<field name="code">CARA/field>
+			<field name="code">CARA</field>
 		</record>
 		<!--
 		=========================
