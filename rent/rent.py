@@ -1,27 +1,6 @@
 from osv import osv, fields
 from tools import debug
 import time
-import constanst
-
-#Class that inherits from res.partner allowing to record the 
-#necesary data from the clients
-
-class rent_client(osv.osv):
-	_name = 'rent.client'
-	_inherit = 'res.partner'
-	_columns = {
-		#'client_lastname'  : fields.char('Lastname',size=15,required=True),
-		#'client_lastname2' : fields.char('Second Lastname',size=15,required=True),
-		#'partner_id'        : fields.char('Id',size=10,required=True,help='Cedula del cliente'),
-		
-		'client_birthdate' : fields.date('Birthdate',select=1,required=True),
-		#'client_location'  : fields.one2many('rent.location','location_id','Location'),
-		#'client_province' : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
-		#										('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
-		'client_canton'    : fields.related('address', 'canton_id', type='many2one', relation='rent.canton', string='Canton'),
-		'client_district'  : fields.related('address', 'district_id', type='many2one', relation='rent.canton.district', string='District'),
-	}
-rent_client()
 
 
 # Class used to specialize the res.partner.address, this one adds the attributes of
@@ -81,6 +60,27 @@ class rent_canton_district(osv.osv):
 		'code'       : fields.char('Distric Code', size=4,help = 'The district code in 4 chars', required=True),
 	}
 rent_canton_district()
+
+#Class that inherits from res.partner allowing to record the 
+#necesary data from the clients
+
+class rent_client(osv.osv):
+	_name = 'rent.client'
+	_inherit = 'res.partner'
+	_columns = {
+		#'client_lastname'  : fields.char('Lastname',size=15,required=True),
+		#'client_lastname2' : fields.char('Second Lastname',size=15,required=True),
+		#'partner_id'        : fields.char('Id',size=10,required=True,help='Cedula del cliente'),
+		
+		'client_birthdate' : fields.date('Birthdate',select=1,required=True),
+		#'client_location'  : fields.one2many('rent.location','location_id','Location'),
+		#'client_province' : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
+		#										('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
+		'client_canton'    : fields.related('address', 'canton_id', type='many2one', relation='rent.canton', string='Canton'),
+		'client_district'  : fields.related('address', 'district_id', type='many2one', relation='rent.canton.district', string='District'),
+	}
+rent_client()
+
 
 #Class that represents the estates owned by the user. 
 #This class also uses the rent.location defined above
