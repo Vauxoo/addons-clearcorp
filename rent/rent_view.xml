@@ -13,7 +13,7 @@
             <field name="model">rent.canton</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="State">
+                <tree string="Canton">
                     <field name="name"/>
                     <field name="code"/>
                     <field name="state_id"/>
@@ -55,7 +55,7 @@
             <field name="model">rent.canton.district</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree string="State">
+                <tree string="District">
                     <field name="name"/>
                     <field name="code"/>
                     <field name="canton_id"/>
@@ -68,8 +68,8 @@
             <field name="model">rent.canton.district</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Canton">
-                    <field name="state_id" select="1"/>
+                <form string="District">
+                    <field name="canton_id" select="1"/>
                     <field name="name" select="1"/>
                     <field name="code" select="1"/>
                 </form>
