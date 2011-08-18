@@ -1,155 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-		<!--
-		=========================
-			SAN JOSE
-		=========================
-		-->
-		<record id="sj_san_jose" model="rent.canton">
-			<field name="state_id">San José</field>
-			<field name="name">San José</field>
-			<field name="code">SJSJ</field>
-		</record>
-		
-		<record id="sj_san_jose_CAR" model="rent.canton.district">
-			<field name="canton_id">San José</field>
-			<field name="name">El Carmen</field>
-			<field name="code">CAR</field>
-		</record>
-		
-		<record id="sj_ESC" model="rent.canton">
-			<field name="state_id">San José</field>
-			<field name="name">Escazu</field>
-			<field name="code">ESC</field>
-		</record>
-		
-		<record id="sj_DES" model="rent.canton">
-			<field name="state_id">San José</field>
-			<field name="name">Desamparados</field>
-			<field name="code">DES</field>
-		</record>
-		
-		<record id="sj_PUR" model="rent.canton">
-			<field name="state_id">San José</field>
-			<field name="name">Puriscal</field>
-			<field name="code">PUR</field>
-		</record>
-		
-		<record id="sj_TAR" model="rent.canton">
-			<field name="state_id">San José</field>
-			<field name="name">Tarrazu</field>
-			<field name="code">TAR</field>
-		</record>
-		
-		<record id="sj_ASE" model="rent.canton">
-			<field name="state_id">San José</field>
-			<field name="name">Aserri</field>
-			<field name="code">ASE</field>
-		</record>
-		
-		<record id="sj_GOI" model="rent.canton">
-			<field name="state_id">San José</field>
-			<field name="name">Goicoechea</field>
-			<field name="code">GOI</field>
-		</record>
-		
-		<record id="sj_MOR" model="rent.canton">
-			<field name="state_id">San José</field>
-			<field name="name">Mora</field>
-			<field name="code">MOR</field>
-		</record>
-		
-		<record id="sj_STA" model="rent.canton">
-			<field name="state_id">San José</field>
-			<field name="name">Santa Ana</field>
-			<field name="code">STA</field>
-		</record>
-		
-		<record id="sj_ALA" model="rent.canton">
-			<field name="state_id">San José</field>
-			<field name="name">Alajuelita</field>
-			<field name="code">ALA</field>
-		</record>
-		
-		<record id="sj_VDC" model="rent.canton">
-			<field name="state_id">San José</field>
-			<field name="name">Vazquez de Coronado</field>
-			<field name="code">VDC</field>
-		</record>
-		
-		<record id="sj_ACO" model="rent.canton">
-			<field name="state_id">San José</field>
-			<field name="name">Acosta</field>
-			<field name="code">ACO</field>
-		</record>
-		
-		<record id="sj_TIB" model="rent.canton">
-			<field name="state_id">San José</field>
-			<field name="name">Tibas</field>
-			<field name="code">TIB</field>
-		</record>
-		
-		<record id="sj_MORV" model="rent.canton">
-			<field name="state_id">San José</field>
-			<field name="name">Moravia</field>
-			<field name="code">MORV</field>
-		</record>
-		
-		<record id="sj_MDO" model="rent.canton">
-			<field name="state_id">San José</field>
-			<field name="name">Montes de Oca</field>
-			<field name="code">MDO</field>
-		</record>
-		
-		<record id="sj_TUR" model="rent.canton">
-			<field name="state_id">San José</field>
-			<field name="name">Turrubares</field>
-			<field name="code">TUR</field>
-		</record>
-		
-		<record id="sj_DOT" model="rent.canton">
-			<field name="state_id">San José</field>
-			<field name="name">Dota</field>
-			<field name="code">DOT</field>
-		</record>
-		
-		<record id="sj_CUR" model="rent.canton">
-			<field name="state_id">San José</field>
-			<field name="name">Curridabat</field>
-			<field name="code">CUR</field>
-		</record>
-		
-		<record id="sj_PZ" model="rent.canton">
-			<field name="state_id">San José</field>
-			<field name="name">Perez Zeledon</field>
-			<field name="code">PZ</field>
-		</record>
-		
-		<record id="sj_LC" model="rent.canton">
-			<field name="state_id">San José</field>
-			<field name="name">Leon Cortes</field>
-			<field name="code">LC</field>
-		</record>
-		
-		
-		<!--
-		=========================
-			HEREDIA
-		=========================		
-		-->
-		
-		<record id="h_SAP" model="rent.canton">
-			<field name="state_id">Heredia</field>
-			<field name="name">San Pablo</field>
-			<field name="code">SAP</field>
-		</record>
-		
-		<record id="h_SAP_STP" model="rent.canton.district">
-			<field name="canton_id">San Pablo</field>
-			<field name="name">San Pablo</field>
-			<field name="code">STP</field>
-		</record>
 		
 		<record id="h_HER" model="rent.canton">
 			<field name="state_id">Heredia</field>
@@ -169,23 +20,6 @@
 			<field name="code">STDO</field>
 		</record>
 		
-		<record id="h_STBA" model="rent.canton">
-			<field name="state_id">Heredia</field>
-			<field name="name">Santa Bárbara</field>
-			<field name="code">STBA</field>
-		</record>
-		
-		<record id="h_SAR" model="rent.canton">
-			<field name="state_id">Heredia</field>
-			<field name="name">San Rafael</field>
-			<field name="code">SAR</field>
-		</record>
-		
-		<record id="h_SAI" model="rent.canton">
-			<field name="state_id">Heredia</field>
-			<field name="name">San Isidro</field>
-			<field name="code">SAI</field>
-		</record>
 		
 		<record id="h_BEL" model="rent.canton">
 			<field name="state_id">Heredia</field>
@@ -220,23 +54,12 @@
 			<field name="code">ALAJ</field>
 		</record>
 		
-		<record id="a_sanr" model="rent.canton">
-			<field name="state_id">Alajuela</field>
-			<field name="name">San Ramón</field>
-			<field name="code">SANR</field>
-		</record>
-		
 		<record id="a_gre" model="rent.canton">
 			<field name="state_id">Alajuela</field>
 			<field name="name">Grecia</field>
 			<field name="code">GRE</field>
 		</record>
 		
-		<record id="a_stma" model="rent.canton">
-			<field name="state_id">Alajuela</field>
-			<field name="name">San Mateo</field>
-			<field name="code">STMA</field>
-		</record>
 		
 		<record id="a_ate" model="rent.canton">
 			<field name="state_id">Alajuela</field>
@@ -266,25 +89,6 @@
 			<field name="state_id">Alajuela</field>
 			<field name="name">Orotina</field>
 			<field name="code">ORO</field>
-		</record>
-		
-		
-		<record id="a_stca" model="rent.canton">
-			<field name="state_id">Alajuela</field>
-			<field name="name">San Carlos</field>
-			<field name="code">STCA</field>
-		</record>
-		
-		<record id="a_alfr" model="rent.canton">
-			<field name="state_id">Alajuela</field>
-			<field name="name">Alfaro Ruíz</field>
-			<field name="code">ALFR</field>
-		</record>
-		
-		<record id="a_valve" model="rent.canton">
-			<field name="state_id">Alajuela</field>
-			<field name="name">Valverde Vega</field>
-			<field name="code">VALVE</field>
 		</record>
 		
 		<record id="a_upa" model="rent.canton">
@@ -325,13 +129,6 @@
 		</record>
 		
 		
-		<record id="c_uni" model="rent.canton">
-			<field name="state_id">Cartago</field>
-			<field name="name">La Unión</field>
-			<field name="code">UNI</field>
-		</record>
-		
-		
 		<record id="c_jim" model="rent.canton">
 			<field name="state_id">Cartago</field>
 			<field name="name">Jiménez</field>
@@ -358,13 +155,6 @@
 			<field name="name">Oreamuno</field>
 			<field name="code">ORE</field>
 		</record>
-		
-		
-		<record id="c_guar" model="rent.canton">
-			<field name="state_id">Cartago</field>
-			<field name="name">El Guarco</field>
-			<field name="code">GUAR</field>
-		</record>
 								
 		
 		<!--
@@ -389,20 +179,6 @@
 		
 		<record id="" model="rent.canton">
 			<field name="state_id">Puntarenas</field>
-			<field name="name">Buenos Aires</field>
-			<field name="code"></field>
-		</record>
-		
-		
-		<record id="" model="rent.canton">
-			<field name="state_id">Puntarenas</field>
-			<field name="name">Montes de Oro</field>
-			<field name="code"></field>
-		</record>
-		
-		
-		<record id="" model="rent.canton">
-			<field name="state_id">Puntarenas</field>
 			<field name="name">Osa</field>
 			<field name="code"></field>
 		</record>
@@ -417,12 +193,6 @@
 		<record id="" model="rent.canton">
 			<field name="state_id">Puntarenas</field>
 			<field name="name">Golfito</field>
-			<field name="code"></field>
-		</record>
-		
-		<record id="" model="rent.canton">
-			<field name="state_id">Puntarenas</field>
-			<field name="name">Coto Brus</field>
 			<field name="code"></field>
 		</record>
 		
