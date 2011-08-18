@@ -1,0 +1,2 @@
+import project_name_shortcut
+

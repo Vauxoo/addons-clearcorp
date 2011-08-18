@@ -1,0 +1,1 @@
+import ccorp_account_journal_template
