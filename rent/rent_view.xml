@@ -124,6 +124,9 @@
 			<field name = "arch" type = "xml">
 				<data>
 					<field name = "ref" position = "replace"/>
+					<field name = "city" position = "replace">
+						<field name = "state_id"/>
+					</field>
 					<field name = "user_id" position = "replace"/>
 					<field name = "country" position = "after">
 						<field name = "client_birthdate"/>
@@ -215,7 +218,7 @@
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
 				<form string = "estate Detail">
-					<group col = "2" colspan = "2">
+					<group col = "4" colspan = "4">
 						<separator string = "General Information" col = "4" colspan = "4"/>
 						<field name = "estate_owner" select = "1"/>
 						<field name = "estate_number" select = "1"/>
@@ -223,8 +226,8 @@
 						<field name = "estate_area"/>
 					</group>
 					<notebook colspan = "4">
-						<page string = "Location">
-							<field name = "estate_location" colspan="4" nolabel="1" select="1" attrs = "{'readonly' : [('estate_owner','!=','')]}"/>
+						<page string = "Location"> 
+							<field name = "estate_location" colspan="4" nolabel="1" select="1" attrs = "{'readonly' : [('estate_owner','=','')]}" domain = "[('domain', '=', 'partner')]"/>
 						<!--<field name = "estate_address"/>-->
 						<!--<field name = "estate_canton" on_change = "determine_district(estate_canton)"/>
 						<field name = "estate_district"/>-->
