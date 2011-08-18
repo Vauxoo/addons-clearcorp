@@ -2,6 +2,26 @@ from osv import osv, fields
 from tools import debug
 import time
 
+class rent_canton(osv.osv):
+	 _name = 'rent.canton'
+	 _description = 'Canton for the State'
+	 _columns = {
+		'state_id'   : fields.many2one('res.country.state','Province',required=True),
+		'name'       : fields.char('Canton Name', size=64, required=True),
+		'code'       : fields.char('Canton Code', size=4,help = 'The canton code in 4 chars', required=True),
+	 }
+rent_canton()
+
+class rent_canton_district(osv.osv):
+	_name = 'rent.canton.district'
+	_description = 'District located in the canton'
+	_columns = {
+		'canton_id'  : fields.many2one('rent.canton','Canton',required=True),
+		'name'       : fields.char('Distric Name', size=64, required=True),
+		'code'       : fields.char('Distric Code', size=4,help = 'The district code in 4 chars', required=True),
+	}
+rent_canton_district()
+
 
 # Class used to specialize the res.partner.address, this one adds the attributes of
 # canton, district and redefines the estate_id to province making it as a selection
@@ -40,26 +60,6 @@ class rent_location(osv.osv):
 		v['district'] = (())
 		return {'value':v}
 rent_location()
-
-class rent_canton(osv.osv):
-	 _name = 'rent.canton'
-	 _description = 'Canton for the State'
-	 _columns = {
-		'state_id'   : fields.many2one('res.country.state','Province',required=True),
-		'name'       : fields.char('Canton Name', size=64, required=True),
-		'code'       : fields.char('Canton Code', size=4,help = 'The canton code in 4 chars', required=True),
-	 }
-rent_canton()
-
-class rent_canton_district(osv.osv):
-	_name = 'rent.canton.district'
-	_description = 'District located in the canton'
-	_columns = {
-		'canton_id'  : fields.many2one('rent.canton','Canton',required=True),
-		'name'       : fields.char('Distric Name', size=64, required=True),
-		'code'       : fields.char('Distric Code', size=4,help = 'The district code in 4 chars', required=True),
-	}
-rent_canton_district()
 
 #Class that inherits from res.partner allowing to record the 
 #necesary data from the clients
