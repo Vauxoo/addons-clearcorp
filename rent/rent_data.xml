@@ -157,49 +157,49 @@
 			<field name="code">HER</field>
 		</record>
 		
-		<record id="h_SAP" model="rent.canton">
+		<record id="h_BAR" model="rent.canton">
 			<field name="state_id">Heredia</field>
 			<field name="name">Barva</field>
 			<field name="code">BAR</field>
 		</record>
 		
-		<record id="h_SAP" model="rent.canton">
+		<record id="h_STDO" model="rent.canton">
 			<field name="state_id">Heredia</field>
 			<field name="name">Santo Domingo</field>
 			<field name="code">STDO</field>
 		</record>
 		
-		<record id="h_SAP" model="rent.canton">
+		<record id="h_STBA" model="rent.canton">
 			<field name="state_id">Heredia</field>
 			<field name="name">Santa Bárbara</field>
 			<field name="code">STBA</field>
 		</record>
 		
-		<record id="h_SAP" model="rent.canton">
+		<record id="h_SAR" model="rent.canton">
 			<field name="state_id">Heredia</field>
 			<field name="name">San Rafael</field>
 			<field name="code">SAR</field>
 		</record>
 		
-		<record id="h_SAP" model="rent.canton">
+		<record id="h_SAI" model="rent.canton">
 			<field name="state_id">Heredia</field>
 			<field name="name">San Isidro</field>
 			<field name="code">SAI</field>
 		</record>
 		
-		<record id="h_SAP" model="rent.canton">
+		<record id="h_BEL" model="rent.canton">
 			<field name="state_id">Heredia</field>
 			<field name="name">Belén</field>
 			<field name="code">BEL</field>
 		</record>
 		
-		<record id="h_SAP" model="rent.canton">
+		<record id="h_FLO" model="rent.canton">
 			<field name="state_id">Heredia</field>
 			<field name="name">Flores</field>
 			<field name="code">FLO</field>
 		</record>
 		
-		<record id="h_SAP" model="rent.canton">
+		<record id="h_SARA" model="rent.canton">
 			<field name="state_id">Heredia</field>
 			<field name="name">Sarapiquí</field>
 			<field name="code">SARA</field>
@@ -214,95 +214,95 @@
 		-->
 		
 		
-		<record id="" model="rent.canton">
+		<record id="a_alaj" model="rent.canton">
 			<field name="state_id">Alajuela</field>
 			<field name="name">Alajuela</field>
 			<field name="code">ALAJ</field>
 		</record>
 		
-		<record id="" model="rent.canton">
+		<record id="a_sanr" model="rent.canton">
 			<field name="state_id">Alajuela</field>
 			<field name="name">San Ramón</field>
 			<field name="code">SANR</field>
 		</record>
 		
-		<record id="" model="rent.canton">
+		<record id="a_gre" model="rent.canton">
 			<field name="state_id">Alajuela</field>
 			<field name="name">Grecia</field>
-			<field name="code"></field>
+			<field name="code">GRE</field>
 		</record>
 		
-		<record id="" model="rent.canton">
+		<record id="a_stma" model="rent.canton">
 			<field name="state_id">Alajuela</field>
 			<field name="name">San Mateo</field>
-			<field name="code"></field>
+			<field name="code">STMA</field>
 		</record>
 		
-		<record id="" model="rent.canton">
+		<record id="a_ate" model="rent.canton">
 			<field name="state_id">Alajuela</field>
 			<field name="name">Atenas</field>
-			<field name="code"></field>
+			<field name="code">ATE</field>
 		</record>
 		
-		<record id="" model="rent.canton">
+		<record id="a_nar" model="rent.canton">
 			<field name="state_id">Alajuela</field>
 			<field name="name">Naranjo</field>
-			<field name="code"></field>
+			<field name="code">NAR</field>
 		</record>
 		
-		<record id="" model="rent.canton">
+		<record id="a_pal" model="rent.canton">
 			<field name="state_id">Alajuela</field>
 			<field name="name">Palmares</field>
-			<field name="code"></field>
+			<field name="code">PAL</field>
 		</record>
 		
-		<record id="" model="rent.canton">
+		<record id="a_poa" model="rent.canton">
 			<field name="state_id">Alajuela</field>
 			<field name="name">Poás</field>
-			<field name="code"></field>
+			<field name="code">POA</field>
 		</record>
 		
-		<record id="" model="rent.canton">
+		<record id="a_oro" model="rent.canton">
 			<field name="state_id">Alajuela</field>
 			<field name="name">Orotina</field>
-			<field name="code"></field>
+			<field name="code">ORO</field>
 		</record>
 		
 		
-		<record id="" model="rent.canton">
+		<record id="a_stca" model="rent.canton">
 			<field name="state_id">Alajuela</field>
 			<field name="name">San Carlos</field>
-			<field name="code"></field>
+			<field name="code">STCA</field>
 		</record>
 		
-		<record id="" model="rent.canton">
+		<record id="a_alfr" model="rent.canton">
 			<field name="state_id">Alajuela</field>
 			<field name="name">Alfaro Ruíz</field>
-			<field name="code"></field>
+			<field name="code">ALFR</field>
 		</record>
 		
-		<record id="" model="rent.canton">
+		<record id="a_valve" model="rent.canton">
 			<field name="state_id">Alajuela</field>
 			<field name="name">Valverde Vega</field>
-			<field name="code"></field>
+			<field name="code">VALVE</field>
 		</record>
 		
-		<record id="" model="rent.canton">
+		<record id="a_upa" model="rent.canton">
 			<field name="state_id">Alajuela</field>
 			<field name="name">Upala</field>
-			<field name="code"></field>
+			<field name="code">UPA</field>
 		</record>
 		
-		<record id="" model="rent.canton">
+		<record id="a_chi" model="rent.canton">
 			<field name="state_id">Alajuela</field>
 			<field name="name">Los Chiles</field>
-			<field name="code"></field>
+			<field name="code">CHI</field>
 		</record>
 		
-		<record id="" model="rent.canton">
+		<record id="a_gua" model="rent.canton">
 			<field name="state_id">Alajuela</field>
 			<field name="name">Guatuso</field>
-			<field name="code"></field>
+			<field name="code">GUA</field>
 		</record>
 		
 		
@@ -312,58 +312,58 @@
 		=========================		
 		-->
 		
-		<record id="" model="rent.canton">
+		<record id="c_cart" model="rent.canton">
 			<field name="state_id">Cartago</field>
-			<field name="name"></field>
-			<field name="code"></field>
+			<field name="name">Cartago</field>
+			<field name="code">CART</field>
 		</record>
 		
-		<record id="" model="rent.canton">
+		<record id="c_para" model="rent.canton">
 			<field name="state_id">Cartago</field>
 			<field name="name">Paraíso</field>
-			<field name="code"></field>
+			<field name="code">PARA</field>
 		</record>
 		
 		
-		<record id="" model="rent.canton">
+		<record id="c_uni" model="rent.canton">
 			<field name="state_id">Cartago</field>
 			<field name="name">La Unión</field>
-			<field name="code"></field>
+			<field name="code">UNI</field>
 		</record>
 		
 		
-		<record id="" model="rent.canton">
+		<record id="c_jim" model="rent.canton">
 			<field name="state_id">Cartago</field>
 			<field name="name">Jiménez</field>
-			<field name="code"></field>
+			<field name="code">JIM</field>
 		</record>
 		
 		
-		<record id="" model="rent.canton">
+		<record id="c_turr" model="rent.canton">
 			<field name="state_id">Cartago</field>
 			<field name="name">Turrialba</field>
-			<field name="code"></field>
+			<field name="code">TURR</field>
 		</record>
 		
 		
-		<record id="" model="rent.canton">
+		<record id="c_alv" model="rent.canton">
 			<field name="state_id">Cartago</field>
 			<field name="name">Alvarado</field>
-			<field name="code"></field>
+			<field name="code">ALV</field>
 		</record>
 		
 		
-		<record id="" model="rent.canton">
+		<record id="c_ore" model="rent.canton">
 			<field name="state_id">Cartago</field>
 			<field name="name">Oreamuno</field>
-			<field name="code"></field>
+			<field name="code">ORE</field>
 		</record>
 		
 		
-		<record id="" model="rent.canton">
+		<record id="c_guar" model="rent.canton">
 			<field name="state_id">Cartago</field>
 			<field name="name">El Guarco</field>
-			<field name="code"></field>
+			<field name="code">GUAR</field>
 		</record>
 								
 		
