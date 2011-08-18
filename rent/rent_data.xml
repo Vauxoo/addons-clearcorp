@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data  noupdate="True">
+    <data noupdate="1">
 		<!--
 		=========================
 			SAN JOSE
@@ -13,7 +13,7 @@
 		</record>
 		
 		<record id="sj_san_jose_CAR" model="rent.canton.district">
-			<field name="canton_id" ref="San José"/>
+			<field model = "rent.canton" name="canton_id" ref="sj_san_jose"/>
 			<field name="name">El Carmen</field>
 			<field name="code">CAR</field>
 		</record>
