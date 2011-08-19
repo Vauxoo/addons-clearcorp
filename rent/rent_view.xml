@@ -103,7 +103,7 @@
 					</field>
 					<field name = "city" position = "replace"/>
 					<field name = "state_id" position = "replace">
-						<field name = "state_id"/>
+						<field name = "state_id" widget = "selection"/>
 						<!--<field name = "province" on_change =  "determine_canton(province)"/>-->
 					</field>
 					<field name = "state_id" position = "after">
@@ -260,7 +260,7 @@
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
-			<field name = "view_id" ref="estate_form_view"></field>
+			<field name = "view_id" ref="estate_tree_view"></field>
 			<field name="help">Manage the estates that your company owns, to have them available in your system</field>
 		</record>
 		
@@ -471,9 +471,9 @@
 						<separator string = "General Information"/>
 						<field name = "parking_number"/>
 						<field name = "parking_value"/>
-						<field name = "parking_sqrmeter_price"/>
+						<field name = "parking_sqrmeter_pricLocale"/>
 						<field name = "parking_rented"/>
-					</group>
+					</group>Local
 					<group col = "4" colspan = "4">
 						<separator string = "Area Specifications Information"/>
 						<field name = "parking_large"/>

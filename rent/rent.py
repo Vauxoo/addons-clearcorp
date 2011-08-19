@@ -48,8 +48,6 @@ class rent_client(osv.osv):
 	_columns = {
 		'client_birthdate' : fields.date('Birthdate',select=1,required=True),
 		#'client_location'  : fields.one2many('rent.location','location_id','Location'),
-		#'client_province' : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
-		#										('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
 		'client_canton'    : fields.related('address', 'canton_id', type='many2one', relation='rent.canton', string='Canton'),
 		'client_district'  : fields.related('address', 'district_id', type='many2one', relation='rent.canton.district', string='District'),
 	}
@@ -62,11 +60,6 @@ class rent_estate(osv.osv):
 	_name = 'rent.estate'
 	_rec_name = "estate_number"
 	_columns = {
-		#'estate_province' : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
-		#									('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
-		
-		#'estate_canton'    : fields.related('address', 'location_canton', type='char', string='Canton'),
-		#'estate_district'  : fields.related('address', 'location_district', type='char', string='District'),
 		'estate_owner'    : fields.many2one('res.company','Owner',required=True),
 		'estate_number'   : fields.char('# estate', size=10,required=True),
 		'estate_value'    : fields.float('VRN Dynamic',required=True),
@@ -97,12 +90,6 @@ class rent_building(osv.osv):
 		'building_photo'             : fields.binary('Photo'),
 		'building_floors'            : fields.one2many('rent.floor','floor_building','Floors'),
 	}
-	
-	def has_elevators(self,cr,uid,ids,p_value,p_field,context=None):
-		v = {}
-		if (p_field == True):
-			v[p_value] = 0
-		return {'value': v}
 rent_building()
 
 #Class that represents every single floor contained on the building, defined above
