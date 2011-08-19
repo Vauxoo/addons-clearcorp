@@ -98,7 +98,751 @@
 			<field name="name">San Rafael</field>
 			<field name = "code">STRA</field>
 		</record>
+	<!--
+		===============================
+			Canton of Desamparados
+		===============================
+		-->
+		<record id="canton_SJ_DES" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_SJ"/>
+			<field name="name">DES</field>
+			<field name = "code">DES</field>
+		</record>
 
+		<record id="district_DES_DDES" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_DES"/>
+			<field name="name">Desamparados</field>
+			<field name = "code">DDES</field>
+		</record>
+		<record id="district_DES_STMI" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_DES"/>
+			<field name="name">San Miguel</field>
+			<field name = "code">STMI</field>
+		</record>
+		<record id="district_DES_SJDD" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_DES"/>
+			<field name="name">San Juan de Dios</field>
+			<field name = "code">SJDD</field>
+		</record>
+		<record id="district_DES_SRA" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_DES"/>
+			<field name="name">San Rafael Arriba</field>
+			<field name = "code">SRA</field>
+		</record>
+		<record id="district_DES_DSTA" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_DES"/>
+			<field name="name">San Antonio</field>
+			<field name = "code">DSTA</field>
+		</record>
+		<record id="district_DES_FRA" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_DES"/>
+			<field name="name">Frailes</field>
+			<field name = "code">FRA</field>
+		</record>
+		<record id="district_DES_PAT" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_DES"/>
+			<field name="name">Patarrá</field>
+			<field name = "code">PAT</field>
+		</record>
+		<record id="district_DES_STCR" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_DES"/>
+			<field name="name">San Cristóbal</field>
+			<field name = "code">STCR</field>
+		</record>
+		<record id="district_DES_ROS" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_DES"/>
+			<field name="name">Rosario</field>
+			<field name = "code">ROS</field>
+		</record>
+		<record id="district_DES_DAM" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_DES"/>
+			<field name="name">Damas</field>
+			<field name = "code">DAM</field>
+		</record>
+		<record id="district_DES_SRAB" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_DES"/>
+			<field name="name">San Rafael Abajo</field>
+			<field name = "code">SRAB</field>
+		</record>
+		<record id="district_DES_GRA" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_DES"/>
+			<field name="name">Gravilias</field>
+			<field name = "code">GRA</field>
+		</record>
+		<record id="district_DES_LG" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_DES"/>
+			<field name="name">Los Guido</field>
+			<field name = "code">LG</field>
+		</record>
+
+		<!--
+		===============================
+			Canton of Puriscal
+		===============================
+		-->
+		<record id="canton_SJ_PUR" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_SJ"/>
+			<field name="name">PUR</field>
+			<field name = "code">PUR</field>
+		</record>
+
+		<record id="district_PUR_SAN" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_PUR"/>
+			<field name="name">Santiago</field>
+			<field name = "code">SAN</field>
+		</record>
+		<record id="district_PUR_MS" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_PUR"/>
+			<field name="name">Mercedes Sur</field>
+			<field name = "code">MS</field>
+		</record>
+		<record id="district_PUR_BAR" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_PUR"/>
+			<field name="name">Barbacoas</field>
+			<field name = "code">BAR</field>
+		</record>
+		<record id="district_PUR_GA" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_PUR"/>
+			<field name="name">Grifo Alto</field>
+			<field name = "code">GA</field>
+		</record>
+		<record id="district_PUR_PSTR" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_PUR"/>
+			<field name="name">San Rafael</field>
+			<field name = "code">PSTR</field>
+		</record>
+		<record id="district_PUR_CAN" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_PUR"/>
+			<field name="name">Candelarita</field>
+			<field name = "code">CAN</field>
+		</record>
+		<record id="district_PUR_DESI" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_PUR"/>
+			<field name="name">Desamparaditos</field>
+			<field name = "code">DESI</field>
+		</record>
+		<record id="district_PUR_PSTA" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_PUR"/>
+			<field name="name">San Antonio</field>
+			<field name = "code">PSTA</field>
+		</record>
+		<record id="district_PUR_CHI" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_PUR"/>
+			<field name="name">Chires</field>
+			<field name = "code">CHI</field>
+		</record>
+
+		<!--
+		===============================
+			Canton of Tarrazú
+		===============================
+		-->
+		<record id="canton_SJ_TAR" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_SJ"/>
+			<field name="name">TAR</field>
+			<field name = "code">TAR</field>
+		</record>
+
+		<record id="district_TAR_TSTM" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_TAR"/>
+			<field name="name">San Marcos</field>
+			<field name = "code">TSTM</field>
+		</record>
+		<record id="district_TAR_STLO" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_TAR"/>
+			<field name="name">San Lorenzo</field>
+			<field name = "code">STLO</field>
+		</record>
+		<record id="district_TAR_TSTC" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_TAR"/>
+			<field name="name">San Carlos</field>
+			<field name = "code">TSTC</field>
+		</record>
+
+		<!--
+		===============================
+			Canton of Aserrí
+		===============================
+		-->
+		<record id="canton_SJ_ASE" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_SJ"/>
+			<field name="name">ASE</field>
+			<field name = "code">ASE</field>
+		</record>
+
+		<record id="district_ASE_AASE" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_ASE"/>
+			<field name="name">Aserrí</field>
+			<field name = "code">AASE</field>
+		</record>
+		<record id="district_ASE_TTAR" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_ASE"/>
+			<field name="name">Tarbaca</field>
+			<field name = "code">TTAR</field>
+		</record>
+		<record id="district_ASE_VDJ" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_ASE"/>
+			<field name="name">Vuelta de Jorco</field>
+			<field name = "code">VDJ</field>
+		</record>
+		<record id="district_ASE_STGA" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_ASE"/>
+			<field name="name">San Gabriel</field>
+			<field name = "code">STGA</field>
+		</record>
+		<record id="district_ASE_LEG" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_ASE"/>
+			<field name="name">Legua</field>
+			<field name = "code">LEG</field>
+		</record>
+		<record id="district_ASE_MON" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_ASE"/>
+			<field name="name">Monterrey</field>
+			<field name = "code">MON</field>
+		</record>
+		<record id="district_ASE_SAL" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_ASE"/>
+			<field name="name">Salitrillos</field>
+			<field name = "code">SAL</field>
+		</record>
+
+		<!--
+		===============================
+			Canton of Mora
+		===============================
+		-->
+		<record id="canton_SJ_MOR" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_SJ"/>
+			<field name="name">MOR</field>
+			<field name = "code">MOR</field>
+		</record>
+
+		<record id="district_MOR_COL" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_MOR"/>
+			<field name="name">Colón</field>
+			<field name = "code">COL</field>
+		</record>
+		<record id="district_MOR_GUAY" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_MOR"/>
+			<field name="name">Guayabo</field>
+			<field name = "code">GUAY</field>
+		</record>
+		<record id="district_MOR_TAB" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_MOR"/>
+			<field name="name">Tabarcia</field>
+			<field name = "code">TAB</field>
+		</record>
+		<record id="district_MOR_PN" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_MOR"/>
+			<field name="name">Piedras Negras</field>
+			<field name = "code">PN</field>
+		</record>
+		<record id="district_MOR_PIC" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_MOR"/>
+			<field name="name">Picagres</field>
+			<field name = "code">PIC</field>
+		</record>
+
+		<!--
+		===============================
+			Canton of Goicoechea
+		===============================
+		-->
+		<record id="canton_SJ_GOI" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_SJ"/>
+			<field name="name">GOI</field>
+			<field name = "code">GOI</field>
+		</record>
+
+		<record id="district_GOI_GUAD" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_GOI"/>
+			<field name="name">Guadalupe</field>
+			<field name = "code">GUAD</field>
+		</record>
+		<record id="district_GOI_STFR" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_GOI"/>
+			<field name="name">San Francisco</field>
+			<field name = "code">STFR</field>
+		</record>
+		<record id="district_GOI_GOCB" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_GOI"/>
+			<field name="name">Calle Blancos</field>
+			<field name = "code">GOCB</field>
+		</record>
+		<record id="district_GOI_MDP" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_GOI"/>
+			<field name="name">Mata de Plátano</field>
+			<field name = "code">MDP</field>
+		</record>
+		<record id="district_GOI_IP" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_GOI"/>
+			<field name="name">Ipís</field>
+			<field name = "code">IP</field>
+		</record>
+		<record id="district_GOI_RR" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_GOI"/>
+			<field name="name">Rancho Redondo</field>
+			<field name = "code">RR</field>
+		</record>
+		<record id="district_GOI_PURR" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_GOI"/>
+			<field name="name">Purral</field>
+			<field name = "code">PURR</field>
+		</record>
+
+		<!--
+		===============================
+			Canton of Santa Ana
+		===============================
+		-->
+		<record id="canton_SJ_STA" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_SJ"/>
+			<field name="name">STA</field>
+			<field name = "code">STA</field>
+		</record>
+
+		<record id="district_STA_SSTA" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_STA"/>
+			<field name="name">Santa Ana</field>
+			<field name = "code">SSTA</field>
+		</record>
+		<record id="district_STA_SALI" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_STA"/>
+			<field name="name">Salitral</field>
+			<field name = "code">SALI</field>
+		</record>
+		<record id="district_STA_POZ" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_STA"/>
+			<field name="name">Pozos</field>
+			<field name = "code">POZ</field>
+		</record>
+		<record id="district_STA_SURU" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_STA"/>
+			<field name="name">Uruca</field>
+			<field name = "code">SURU</field>
+		</record>
+		<record id="district_STA_PIE" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_STA"/>
+			<field name="name">Piedades</field>
+			<field name = "code">PIE</field>
+		</record>
+		<record id="district_STA_BRA" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_STA"/>
+			<field name="name">Brasil</field>
+			<field name = "code">BRA</field>
+		</record>
+
+		<!--
+		===============================
+			Canton of Alajuelita
+		===============================
+		-->
+		<record id="canton_SJ_ALA" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_SJ"/>
+			<field name="name">ALA</field>
+			<field name = "code">ALA</field>
+		</record>
+
+		<record id="district_ALA_AALA" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_ALA"/>
+			<field name="name">Alajuelita</field>
+			<field name = "code">AALA</field>
+		</record>
+		<record id="district_ALA_ASJO" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_ALA"/>
+			<field name="name">San Josecito</field>
+			<field name = "code">ASJO</field>
+		</record>
+		<record id="district_ALA_ASTA" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_ALA"/>
+			<field name="name">San Antonio</field>
+			<field name = "code">ASTA</field>
+		</record>
+		<record id="district_ALA_CON" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_ALA"/>
+			<field name="name">Concepción</field>
+			<field name = "code">CON</field>
+		</record>
+		<record id="district_ALA_STFE" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_ALA"/>
+			<field name="name">San Felipe</field>
+			<field name = "code">STFE</field>
+		</record>
+
+		<!--
+		===============================
+			Canton of Vázquez de Coronado
+		===============================
+		-->
+		<record id="canton_SJ_VDC" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_SJ"/>
+			<field name="name">VDC</field>
+			<field name = "code">VDC</field>
+		</record>
+
+		<record id="district_VDC_CSTI" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_VDC"/>
+			<field name="name">San Isidro</field>
+			<field name = "code">CSTI</field>
+		</record>
+		<record id="district_VDC_CSTR" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_VDC"/>
+			<field name="name">San Rafael</field>
+			<field name = "code">CSTR</field>
+		</record>
+		<record id="district_VDC_DNDJ" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_VDC"/>
+			<field name="name">Dulce Nombre de Jesús</field>
+			<field name = "code">DNDJ</field>
+		</record>
+		<record id="district_VDC_PATA" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_VDC"/>
+			<field name="name">Patalillo</field>
+			<field name = "code">PATA</field>
+		</record>
+		<record id="district_VDC_CAS" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_VDC"/>
+			<field name="name">Cascajal</field>
+			<field name = "code">CAS</field>
+		</record>
+
+		<!--
+		===============================
+			Canton of Acosta
+		===============================
+		-->
+		<record id="canton_SJ_ACO" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_SJ"/>
+			<field name="name">ACO</field>
+			<field name = "code">ACO</field>
+		</record>
+
+		<record id="district_ACO_ASTI" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_ACO"/>
+			<field name="name">San Ignacio</field>
+			<field name = "code">ASTI</field>
+		</record>
+		<record id="district_ACO_GUAI" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_ACO"/>
+			<field name="name">Guaitil</field>
+			<field name = "code">GUAI</field>
+		</record>
+		<record id="district_ACO_APAL" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_ACO"/>
+			<field name="name">Palmichal</field>
+			<field name = "code">APAL</field>
+		</record>
+		<record id="district_ACO_CANG" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_ACO"/>
+			<field name="name">Cangrejal</field>
+			<field name = "code">CANG</field>
+		</record>
+		<record id="district_ACO_SABA" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_ACO"/>
+			<field name="name">Sabanillas</field>
+			<field name = "code">SABA</field>
+		</record>
+
+		<!--
+		===============================
+			Canton of Tibás
+		===============================
+		-->
+		<record id="canton_SJ_TIB" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_SJ"/>
+			<field name="name">TIB</field>
+			<field name = "code">TIB</field>
+		</record>
+
+		<record id="district_TIB_STJU" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_TIB"/>
+			<field name="name">San Juan</field>
+			<field name = "code">STJU</field>
+		</record>
+		<record id="district_TIB_CE" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_TIB"/>
+			<field name="name">Cinco Esquinas</field>
+			<field name = "code">CE</field>
+		</record>
+		<record id="district_TIB_AL" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_TIB"/>
+			<field name="name">Anselmo Llorente</field>
+			<field name = "code">AL</field>
+		</record>
+		<record id="district_TIB_LX" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_TIB"/>
+			<field name="name">León XIII</field>
+			<field name = "code">LX</field>
+		</record>
+		<record id="district_TIB_COLI" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_TIB"/>
+			<field name="name">Colima</field>
+			<field name = "code">COLI</field>
+		</record>
+
+		<!--
+		===============================
+			Canton of Moravia
+		===============================
+		-->
+		<record id="canton_SJ_MORV" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_SJ"/>
+			<field name="name">MORV</field>
+			<field name = "code">MORV</field>
+		</record>
+
+		<record id="district_MORV_STVI" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_MORV"/>
+			<field name="name">San Vicente</field>
+			<field name = "code">STVI</field>
+		</record>
+		<record id="district_MORV_STJE" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_MORV"/>
+			<field name="name">San Jerónimo</field>
+			<field name = "code">STJE</field>
+		</record>
+		<record id="district_MORV_TRI" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_MORV"/>
+			<field name="name">Trinidad</field>
+			<field name = "code">TRI</field>
+		</record>
+
+		<!--
+		===============================
+			Canton of Montes de Oca
+		===============================
+		-->
+		<record id="canton_SJ_MDO" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_SJ"/>
+			<field name="name">MDO</field>
+			<field name = "code">MDO</field>
+		</record>
+
+		<record id="district_MDO_STPE" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_MDO"/>
+			<field name="name">San Pedro</field>
+			<field name = "code">STPE</field>
+		</record>
+		<record id="district_MDO_SAB" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_MDO"/>
+			<field name="name">Sabanilla</field>
+			<field name = "code">SAB</field>
+		</record>
+		<record id="district_MDO_MMER" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_MDO"/>
+			<field name="name">Mercedes</field>
+			<field name = "code">MMER</field>
+		</record>
+		<record id="district_MDO_MSTR" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_MDO"/>
+			<field name="name">San Rafael</field>
+			<field name = "code">MSTR</field>
+		</record>
+
+		<!--
+		===============================
+			Canton of Turrubares
+		===============================
+		-->
+		<record id="canton_SJ_TUR" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_SJ"/>
+			<field name="name">TUR</field>
+			<field name = "code">TUR</field>
+		</record>
+
+		<record id="district_TUR_TSTP" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_TUR"/>
+			<field name="name">San Pablo</field>
+			<field name = "code">TSTP</field>
+		</record>
+		<record id="district_TUR_TSP" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_TUR"/>
+			<field name="name">San Pedro</field>
+			<field name = "code">TSP</field>
+		</record>
+		<record id="district_TUR_SJDM" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_TUR"/>
+			<field name="name">San Juan de Mata</field>
+			<field name = "code">SJDM</field>
+		</record>
+		<record id="district_TUR_STLU" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_TUR"/>
+			<field name="name">San Luis</field>
+			<field name = "code">STLU</field>
+		</record>
+		<record id="district_TUR_CARA" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_TUR"/>
+			<field name="name">Carara</field>
+			<field name = "code">CARA</field>
+		</record>
+
+		<!--
+		===============================
+			Canton of Dota
+		===============================
+		-->
+		<record id="canton_SJ_DOT" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_SJ"/>
+			<field name="name">DOT</field>
+			<field name = "code">DOT</field>
+		</record>
+
+		<record id="district_DOT_DOSM" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_DOT"/>
+			<field name="name">Santa María</field>
+			<field name = "code">DOSM</field>
+		</record>
+		<record id="district_DOT_JAR" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_DOT"/>
+			<field name="name">Jardín</field>
+			<field name = "code">JAR</field>
+		</record>
+		<record id="district_DOT_COP" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_DOT"/>
+			<field name="name">Copey</field>
+			<field name = "code">COP</field>
+		</record>
+
+		<!--
+		===============================
+			Canton of Curridabat
+		===============================
+		-->
+		<record id="canton_SJ_CUR" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_SJ"/>
+			<field name="name">CUR</field>
+			<field name = "code">CUR</field>
+		</record>
+
+		<record id="district_CUR_CCUR" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_CUR"/>
+			<field name="name">Curridabat</field>
+			<field name = "code">CCUR</field>
+		</record>
+		<record id="district_CUR_GRAN" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_CUR"/>
+			<field name="name">Granadilla</field>
+			<field name = "code">GRAN</field>
+		</record>
+		<record id="district_CUR_SANC" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_CUR"/>
+			<field name="name">Sánchez</field>
+			<field name = "code">SANC</field>
+		</record>
+		<record id="district_CUR_TIR" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_CUR"/>
+			<field name="name">Tirrases</field>
+			<field name = "code">TIR</field>
+		</record>
+
+		<!--
+		===============================
+			Canton of Pérez Zeledón
+		===============================
+		-->
+		<record id="canton_SJ_PZ" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_SJ"/>
+			<field name="name">PZ</field>
+			<field name = "code">PZ</field>
+		</record>
+
+		<record id="district_PZ_SIDG" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_PZ"/>
+			<field name="name">San Isidro del General</field>
+			<field name = "code">SIDG</field>
+		</record>
+		<record id="district_PZ_GEN" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_PZ"/>
+			<field name="name">General</field>
+			<field name = "code">GEN</field>
+		</record>
+		<record id="district_PZ_DF" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_PZ"/>
+			<field name="name">Daniel Flores</field>
+			<field name = "code">DF</field>
+		</record>
+		<record id="district_PZ_RIV" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_PZ"/>
+			<field name="name">Rivas</field>
+			<field name = "code">RIV</field>
+		</record>
+		<record id="district_PZ_PZSP" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_PZ"/>
+			<field name="name">San Pedro</field>
+			<field name = "code">PZSP</field>
+		</record>
+		<record id="district_PZ_PLATA" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_PZ"/>
+			<field name="name">Platanares</field>
+			<field name = "code">PLATA</field>
+		</record>
+		<record id="district_PZ_PEJ" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_PZ"/>
+			<field name="name">Pejibaye</field>
+			<field name = "code">PEJ</field>
+		</record>
+		<record id="district_PZ_CAJ" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_PZ"/>
+			<field name="name">Cajón</field>
+			<field name = "code">CAJ</field>
+		</record>
+		<record id="district_PZ_PZBA" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_PZ"/>
+			<field name="name">Barú</field>
+			<field name = "code">PZBA</field>
+		</record>
+		<record id="district_PZ_RN" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_PZ"/>
+			<field name="name">Río Nuevo</field>
+			<field name = "code">RN</field>
+		</record>
+		<record id="district_PZ_PPAR" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_PZ"/>
+			<field name="name">Páramo</field>
+			<field name = "code">PPAR</field>
+		</record>
+
+		<!--
+		===============================
+			Canton of León Cortés
+		===============================
+		-->
+		<record id="canton_SJ_LC" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_SJ"/>
+			<field name="name">LC</field>
+			<field name = "code">LC</field>
+		</record>
+
+		<record id="district_LC_LCSP" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_LC"/>
+			<field name="name">San Pablo</field>
+			<field name = "code">LCSP</field>
+		</record>
+		<record id="district_LC_SA" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_LC"/>
+			<field name="name">San Andrés</field>
+			<field name = "code">SA</field>
+		</record>
+		<record id="district_LC_LLB" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_LC"/>
+			<field name="name">Llano Bonito</field>
+			<field name = "code">LLB</field>
+		</record>
+		<record id="district_LC_LCSI" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_LC"/>
+			<field name="name">San Isidro</field>
+			<field name = "code">LCSI</field>
+		</record>
+		<record id="district_LC_SC" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_LC"/>
+			<field name="name">Santa Cruz</field>
+			<field name = "code">SC</field>
+		</record>
+		<record id="district_LC_LCSA" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_SJ_LC"/>
+			<field name="name">San Antonio</field>
+			<field name = "code">LCSA</field>
+		</record>
 
 	</data>
 </openerp>
