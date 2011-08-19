@@ -40,8 +40,10 @@ class rent_location(osv.osv):
 	
 	def get_canton(self,cr,uid,ids,p_state,context=None):
 		v = {}
-		canton_list = self.pool.get('rent.canton').search(cr,uid,[('state_id','=',p_state)])
+		canton_ids = self.pool.get('rent.canton').search(cr,uid,[('state_id','=',p_state)])
 		debug("==============================")
+		for canton in canton_ids:
+			canton_list[canton] = self.pool.get('rent.canton').browse(cr,uid,canton)
 		debug(canton_list)
 		v['canton_id'] = canton_list
 		return {
