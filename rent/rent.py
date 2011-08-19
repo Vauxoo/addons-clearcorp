@@ -37,6 +37,23 @@ class rent_location(osv.osv):
 		'canton_id'  : fields.many2one('rent.canton', 'Canton', domain = "[('state_id','=',state_id)]"),
 		'district_id' : fields.many2one('rent.canton.district','District', domain = "[('canton_id','=',canton_id)]"),
 	}
+	
+	def _get_canton_list(self,cr,uid,ids,p_state,context=None):
+		v = {}
+		canton_list = self.pool.get('rent.canton')search(cr,uid,[('state_id','=',p_state)]
+		debug(canton_list)
+		v['canton_id'] = canton_list
+		return {
+			'value' : v
+		}
+	def _get_district_list(self,cr,uid,ids,p_canton,context=None):
+		v = {}
+		district_list = self.pool.get('rent.canton.district')search(cr,uid,[('canton_id','=',p_canton)]
+		debug(district_list)
+		v['district_id'] = district_list
+		return {
+			'value' : v
+		}
 rent_location()
 
 #Class that inherits from res.partner allowing to record the 

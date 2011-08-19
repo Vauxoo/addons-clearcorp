@@ -103,14 +103,14 @@
 					</field>
 					<field name = "city" position = "replace"/>
 					<field name = "state_id" position = "replace">
-						<field name = "state_id" widget = "selection"/>
+						<field name = "state_id" on_change = "_get_canton_list(state_id)"/>
 						<!--<field name = "province" on_change =  "determine_canton(province)"/>-->
 					</field>
 					<field name = "state_id" position = "after">
-						<field name = "canton_id"/>
+						<field name = "canton_id" widget = "selection" on_change = "_get_district_list(canton_id)"/>
 					</field>
 					<field name = "canton_id" position = "after">
-						<field name = "district_id"/>
+						<field name = "district_id" widget = "selection"/>
 					</field>
 				</data>
 			</field>
@@ -260,7 +260,7 @@
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
-			<field name = "view_id" ref="estate_tree_view"></field>
+			<field name = "view_id" ref="estate_form_view"></field>
 			<field name="help">Manage the estates that your company owns, to have them available in your system</field>
 		</record>
 		
@@ -567,6 +567,7 @@
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
+			<field name = "view_id" ref = "rent_tree_view"/>
 		</record>
 		
 		<!--
