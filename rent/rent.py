@@ -40,7 +40,7 @@ class rent_location(osv.osv):
 	
 	def _get_canton_list(self,cr,uid,ids,p_state,context=None):
 		v = {}
-		canton_list = self.pool.get('rent.canton').search(cr,uid,[('state_id','=',p_state)]
+		canton_list = self.pool.get('rent.canton').search(cr,uid,[('state_id','=',p_state)])
 		debug(canton_list)
 		v['canton_id'] = canton_list
 		return {
@@ -48,7 +48,7 @@ class rent_location(osv.osv):
 		}
 	def _get_district_list(self,cr,uid,ids,p_canton,context=None):
 		v = {}
-		district_list = self.pool.get('rent.canton.district').search(cr,uid,[('canton_id','=',p_canton)]
+		district_list = self.pool.get('rent.canton.district').search(cr,uid,[('canton_id','=',p_canton)])
 		debug(district_list)
 		v['district_id'] = district_list
 		return {
