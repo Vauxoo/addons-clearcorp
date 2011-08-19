@@ -49,11 +49,12 @@ class rent_location(osv.osv):
 		debug(canton_ids)
 		for canton in canton_ids:
 			obj_canton = self.pool.get('rent.canton').browse(cr,uid,canton)
-			canton_list.append(("<option value='"+obj_canton.code+">"+obj_canton.name+"</option>"))
-			debug(canton_list)
+			canton_list.append(((obj_canton.code,obj_canton.name)))
 		v['canton_id'] = canton_list
+		debug(v)
 		return {
-			'value' : v
+			'value' : v,
+			'context' : v
 		}
 	def get_district(self,cr,uid,ids,p_canton,context=None):
 		v = {}
