@@ -107,7 +107,7 @@
 						<!--<field name = "province" on_change =  "determine_canton(province)"/>-->
 					</field>
 					<field name = "state_id" position = "after">
-						<field name = "canton_id" widget = "selection" on_change = "_get_district(canton_id)"/>
+						<field name = "canton_id" widget = "selection"/>
 					</field>
 					<field name = "canton_id" position = "after">
 						<field name = "district_id" widget = "selection"/>
