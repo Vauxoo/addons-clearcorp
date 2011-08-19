@@ -40,7 +40,7 @@ class rent_location(osv.osv):
 	
 	def get_canton(self,cr,uid,ids,p_state,context=None):
 		v = {}
-		canton_list = {}
+		canton_list = []
 		debug("==============================")
 		debug(p_state)
 		obj_state = self.pool.get('res.country.state').browse(cr,uid,p_state)
