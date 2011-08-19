@@ -2481,34 +2481,34 @@
 			Canton of Cañas
 		===============================
 		-->
-		<record id="canton_G_CAÑ" model="rent.canton">
+		<record id="canton_G_CANA" model="rent.canton">
 			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_G"/>
-			<field name="name">CAÑ</field>
-			<field name = "code">CAÑ</field>
+			<field name="name">CANA</field>
+			<field name = "code">CANA</field>
 		</record>
 
-		<record id="district_CAÑ_CCAÑ" model="rent.canton.district">
-			<field name="canton_id" model="rent.canton" ref="canton_G_CAÑ"/>
+		<record id="district_CANA_CCAÑ" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_G_CANA"/>
 			<field name="name">Cañas</field>
 			<field name = "code">CCAÑ</field>
 		</record>
-		<record id="district_CAÑ_CPAL" model="rent.canton.district">
-			<field name="canton_id" model="rent.canton" ref="canton_G_CAÑ"/>
+		<record id="district_CANA_CPAL" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_G_CANA"/>
 			<field name="name">Palmira</field>
 			<field name = "code">CPAL</field>
 		</record>
-		<record id="district_CAÑ_CSM" model="rent.canton.district">
-			<field name="canton_id" model="rent.canton" ref="canton_G_CAÑ"/>
+		<record id="district_CANA_CSM" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_G_CANA"/>
 			<field name="name">San Miguel</field>
 			<field name = "code">CSM</field>
 		</record>
-		<record id="district_CAÑ_BEB" model="rent.canton.district">
-			<field name="canton_id" model="rent.canton" ref="canton_G_CAÑ"/>
+		<record id="district_CANA_BEB" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_G_CANA"/>
 			<field name="name">Bebedero</field>
 			<field name = "code">BEB</field>
 		</record>
-		<record id="district_CAÑ_POR" model="rent.canton.district">
-			<field name="canton_id" model="rent.canton" ref="canton_G_CAÑ"/>
+		<record id="district_CANA_POR" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_G_CANA"/>
 			<field name="name">Porozal</field>
 			<field name = "code">POR</field>
 		</record>
