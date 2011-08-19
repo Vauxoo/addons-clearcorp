@@ -1,3 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="1">
+		<!--
+		CANTON AND DISTRICT FROM CR
+		-->
 
 		<!--
 		===============================
@@ -3320,5 +3326,6 @@
 			<field name="name">Duacarí</field>
 			<field name = "code">DUA</field>
 		</record>
+
 	</data>
 </openerp>
