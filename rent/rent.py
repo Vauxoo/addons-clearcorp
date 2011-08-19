@@ -72,7 +72,7 @@ class rent_estate(osv.osv):
 		'estate_value'    : fields.float('VRN Dynamic',required=True),
 		'estate_area'     : fields.float('Area', required=True),
 		'estate_buildings': fields.one2many('rent.building','building_estate','Buildings'),
-		'estate_location' : fields.many2one('res.partner.address','partner_id','Location',domain="[('res.partner.address.partner_id','=',estate_owner)]"),
+		'estate_location' : fields.many2one('res.partner.address','partner_id','Location'),
 		#'estate_province': fields.related('estate_address', 'estate_province', type='selection', string='Province'),
         #'estate_canton': fields.related('estate_address', 'estate_canton', type='selection', string='Canton'),
         #'estate_district': fields.related('estate_address', 'estate_district', type='selection', string='District'),
