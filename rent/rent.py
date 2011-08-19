@@ -44,7 +44,7 @@ class rent_location(osv.osv):
 		debug("==============================")
 		for canton in canton_ids:
 			canton_list[canton] = self.pool.get('rent.canton').browse(cr,uid,canton)
-		debug(canton_list)
+			debug(canton_list)
 		v['canton_id'] = canton_list
 		return {
 			'value' : v
