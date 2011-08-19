@@ -1866,14 +1866,14 @@
 			Canton of Los Chiles
 		===============================
 		-->
-		<record id="canton_A_UPA" model="rent.canton">
+		<record id="canton_A_CHIL" model="rent.canton">
 			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_A"/>
-			<field name="name">UPA</field>
-			<field name = "code">UPA</field>
+			<field name="name">CHIL</field>
+			<field name = "code">CHIL</field>
 		</record>
 
-		<record id="district_UPA_LCH" model="rent.canton.district">
-			<field name="canton_id" model="rent.canton" ref="canton_A_UPA"/>
+		<record id="district_CHIL_LCH" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_A_CHIL"/>
 			<field name="name">Los Chiles</field>
 			<field name = "code">LCH</field>
 		</record>
