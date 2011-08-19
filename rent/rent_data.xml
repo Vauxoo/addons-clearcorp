@@ -1916,5 +1916,355 @@
 			<field name="name">Cote</field>
 			<field name = "code">COTE</field>
 		</record>
+			<!--
+		===============================
+			Canton of Cartago
+		===============================
+		-->
+		<record id="canton_C_CART" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_C"/>
+			<field name="name">CART</field>
+			<field name = "code">CART</field>
+		</record>
+
+		<record id="district_CART_ORI" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_CART"/>
+			<field name="name">Oriental</field>
+			<field name = "code">ORI</field>
+		</record>
+		<record id="district_CART_OCC" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_CART"/>
+			<field name="name">Occidental</field>
+			<field name = "code">OCC</field>
+		</record>
+		<record id="district_CART_CCAR" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_CART"/>
+			<field name="name">Carmen</field>
+			<field name = "code">CCAR</field>
+		</record>
+		<record id="district_CART_STNI" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_CART"/>
+			<field name="name">San Nicolás</field>
+			<field name = "code">STNI</field>
+		</record>
+		<record id="district_CART_AGUA" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_CART"/>
+			<field name="name">Aguacaliente (San Francisco)</field>
+			<field name = "code">AGUA</field>
+		</record>
+		<record id="district_CART_GUA" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_CART"/>
+			<field name="name">Guadalupe (Arenilla)</field>
+			<field name = "code">GUA</field>
+		</record>
+		<record id="district_CART_CORR" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_CART"/>
+			<field name="name">Corralillo</field>
+			<field name = "code">CORR</field>
+		</record>
+		<record id="district_CART_TB" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_CART"/>
+			<field name="name">Tierra Blanca</field>
+			<field name = "code">TB</field>
+		</record>
+		<record id="district_CART_DN" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_CART"/>
+			<field name="name">Dulce Nombre</field>
+			<field name = "code">DN</field>
+		</record>
+		<record id="district_CART_LLG" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_CART"/>
+			<field name="name">Llano Grande</field>
+			<field name = "code">LLG</field>
+		</record>
+		<record id="district_CART_QUEB" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_CART"/>
+			<field name="name">Quebradilla</field>
+			<field name = "code">QUEB</field>
+		</record>
+
+		<!--
+		===============================
+			Canton of Paraíso
+		===============================
+		-->
+		<record id="canton_C_PARA" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_C"/>
+			<field name="name">PARA</field>
+			<field name = "code">PARA</field>
+		</record>
+
+		<record id="district_PARA_PAPR" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_PARA"/>
+			<field name="name">Paraíso</field>
+			<field name = "code">PAPR</field>
+		</record>
+		<record id="district_PARA_PSAN" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_PARA"/>
+			<field name="name">Santiago</field>
+			<field name = "code">PSAN</field>
+		</record>
+		<record id="district_PARA_ORO" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_PARA"/>
+			<field name="name">Orosi</field>
+			<field name = "code">ORO</field>
+		</record>
+		<record id="district_PARA_CAC" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_PARA"/>
+			<field name="name">Cachí</field>
+			<field name = "code">CAC</field>
+		</record>
+		<record id="district_PARA_LLSL" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_PARA"/>
+			<field name="name">Llanos de Santa Lucía</field>
+			<field name = "code">LLSL</field>
+		</record>
+
+		<!--
+		===============================
+			Canton of La Unión
+		===============================
+		-->
+		<record id="canton_C_UNI" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_C"/>
+			<field name="name">UNI</field>
+			<field name = "code">UNI</field>
+		</record>
+
+		<record id="district_UNI_TR" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_UNI"/>
+			<field name="name">Tres Ríos</field>
+			<field name = "code">TR</field>
+		</record>
+		<record id="district_UNI_STDI" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_UNI"/>
+			<field name="name">San Diego</field>
+			<field name = "code">STDI</field>
+		</record>
+		<record id="district_UNI_LUSJ" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_UNI"/>
+			<field name="name">San Juan</field>
+			<field name = "code">LUSJ</field>
+		</record>
+		<record id="district_UNI_LUSR" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_UNI"/>
+			<field name="name">San Rafael</field>
+			<field name = "code">LUSR</field>
+		</record>
+		<record id="district_UNI_LUCO" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_UNI"/>
+			<field name="name">Concepción</field>
+			<field name = "code">LUCO</field>
+		</record>
+		<record id="district_UNI_LUDN" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_UNI"/>
+			<field name="name">Dulce Nombre</field>
+			<field name = "code">LUDN</field>
+		</record>
+		<record id="district_UNI_LURA" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_UNI"/>
+			<field name="name">San Ramón</field>
+			<field name = "code">LURA</field>
+		</record>
+		<record id="district_UNI_RA" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_UNI"/>
+			<field name="name">Río Azul</field>
+			<field name = "code">RA</field>
+		</record>
+
+		<!--
+		===============================
+			Canton of Jiménez
+		===============================
+		-->
+		<record id="canton_C_JIM" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_C"/>
+			<field name="name">JIM</field>
+			<field name = "code">JIM</field>
+		</record>
+
+		<record id="district_JIM_JV" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_JIM"/>
+			<field name="name">Juan Viñas</field>
+			<field name = "code">JV</field>
+		</record>
+		<record id="district_JIM_TUC" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_JIM"/>
+			<field name="name">Tucurrique</field>
+			<field name = "code">TUC</field>
+		</record>
+		<record id="district_JIM_PEJI" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_JIM"/>
+			<field name="name">Pejibaye</field>
+			<field name = "code">PEJI</field>
+		</record>
+
+		<!--
+		===============================
+			Canton of Turrialba
+		===============================
+		-->
+		<record id="canton_C_TURR" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_C"/>
+			<field name="name">TURR</field>
+			<field name = "code">TURR</field>
+		</record>
+
+		<record id="district_TURR_TTURR" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_TURR"/>
+			<field name="name">Turrialba</field>
+			<field name = "code">TTURR</field>
+		</record>
+		<record id="district_TURR_LS" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_TURR"/>
+			<field name="name">La Suiza</field>
+			<field name = "code">LS</field>
+		</record>
+		<record id="district_TURR_PER" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_TURR"/>
+			<field name="name">Peralta</field>
+			<field name = "code">PER</field>
+		</record>
+		<record id="district_TURR_STCU" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_TURR"/>
+			<field name="name">Santa Cruz</field>
+			<field name = "code">STCU</field>
+		</record>
+		<record id="district_TURR_STTE" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_TURR"/>
+			<field name="name">Santa Teresita</field>
+			<field name = "code">STTE</field>
+		</record>
+		<record id="district_TURR_TPAV" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_TURR"/>
+			<field name="name">Pavones</field>
+			<field name = "code">TPAV</field>
+		</record>
+		<record id="district_TURR_TUIS" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_TURR"/>
+			<field name="name">Tuis</field>
+			<field name = "code">TUIS</field>
+		</record>
+		<record id="district_TURR_TAY" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_TURR"/>
+			<field name="name">Tayutic</field>
+			<field name = "code">TAY</field>
+		</record>
+		<record id="district_TURR_TSTR" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_TURR"/>
+			<field name="name">Santa Rosa</field>
+			<field name = "code">TSTR</field>
+		</record>
+		<record id="district_TURR_TE" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_TURR"/>
+			<field name="name">Tres Equis</field>
+			<field name = "code">TE</field>
+		</record>
+		<record id="district_TURR_LI" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_TURR"/>
+			<field name="name">La Isabel</field>
+			<field name = "code">LI</field>
+		</record>
+		<record id="district_TURR_CHIR" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_TURR"/>
+			<field name="name">Chirripó</field>
+			<field name = "code">CHIR</field>
+		</record>
+
+		<!--
+		===============================
+			Canton of Alvarado
+		===============================
+		-->
+		<record id="canton_C_ALV" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_C"/>
+			<field name="name">ALV</field>
+			<field name = "code">ALV</field>
+		</record>
+
+		<record id="district_ALV_PAC" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_ALV"/>
+			<field name="name">Pacayas</field>
+			<field name = "code">PAC</field>
+		</record>
+		<record id="district_ALV_CER" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_ALV"/>
+			<field name="name">Cervantes</field>
+			<field name = "code">CER</field>
+		</record>
+		<record id="district_ALV_CAP" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_ALV"/>
+			<field name="name">Capellades</field>
+			<field name = "code">CAP</field>
+		</record>
+
+		<!--
+		===============================
+			Canton of Oreamuno
+		===============================
+		-->
+		<record id="canton_C_ORE" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_C"/>
+			<field name="name">ORE</field>
+			<field name = "code">ORE</field>
+		</record>
+
+		<record id="district_ORE_OSR" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_ORE"/>
+			<field name="name">San Rafael</field>
+			<field name = "code">OSR</field>
+		</record>
+		<record id="district_ORE_COT" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_ORE"/>
+			<field name="name">Cot</field>
+			<field name = "code">COT</field>
+		</record>
+		<record id="district_ORE_OPC" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_ORE"/>
+			<field name="name">Potrero Cerrado</field>
+			<field name = "code">OPC</field>
+		</record>
+		<record id="district_ORE_CIP" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_ORE"/>
+			<field name="name">Cipreses</field>
+			<field name = "code">CIP</field>
+		</record>
+		<record id="district_ORE_OSRO" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_ORE"/>
+			<field name="name">Santa Rosa</field>
+			<field name = "code">OSRO</field>
+		</record>
+
+		<!--
+		===============================
+			Canton of El Guarco
+		===============================
+		-->
+		<record id="canton_C_GUAR" model="rent.canton">
+			<field name="state_id" model="res.country.state" ref="l10n_cr_base.state_C"/>
+			<field name="name">GUAR</field>
+			<field name = "code">GUAR</field>
+		</record>
+
+		<record id="district_GUAR_TEJ" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_GUAR"/>
+			<field name="name">Tejar</field>
+			<field name = "code">TEJ</field>
+		</record>
+		<record id="district_GUAR_ELSI" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_GUAR"/>
+			<field name="name">San Isidro</field>
+			<field name = "code">ELSI</field>
+		</record>
+		<record id="district_GUAR_TOB" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_GUAR"/>
+			<field name="name">Tobosi</field>
+			<field name = "code">TOB</field>
+		</record>
+		<record id="district_GUAR_PDA" model="rent.canton.district">
+			<field name="canton_id" model="rent.canton" ref="canton_C_GUAR"/>
+			<field name="name">Patio de Agua</field>
+			<field name = "code">PDA</field>
+		</record>
 	</data>
 </openerp>
