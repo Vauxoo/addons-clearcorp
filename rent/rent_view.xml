@@ -567,7 +567,6 @@
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
-			<field name = "view_id" ref = "rent_tree_view"/>
 		</record>
 		
 		<!--
