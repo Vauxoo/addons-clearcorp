@@ -225,7 +225,7 @@
 					</group>
 					<notebook colspan = "4">
 						<page string = "Location"> 
-							<field name = "estate_location" colspan="4" nolabel="1" select="1" attrs = "{'readonly' : [('estate_owner','=','')]}" domain="[('res.partner.address.partner_id','=',estate_owner)]"/>
+							<field name = "estate_location" colspan="4" nolabel="1" select="1" attrs = "{'readonly' : [('estate_owner','=','')]}" domain="[('res_partner_address_partner_id','=',estate_owner)]"/>
 						<!--<field name = "estate_address"/>-->
 						<!--<field name = "estate_canton" on_change = "determine_district(estate_canton)"/>
 						<field name = "estate_district"/>-->
