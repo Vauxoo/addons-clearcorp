@@ -82,7 +82,7 @@ class rent_building(osv.osv):
 		'building_elevator'          : fields.boolean('Elevadores',help='Select if the building has at least one elevator'),
 		'building_elevators_number'  : fields.integer('Elvetators number',readonly=True,help='If checkbox of elevators is no selected this will be 0'),
 		'building_stairs'            : fields.boolean('Stairs',help='Select if the building has at least one elevator'),
-		'building_stairs_number'       : fields.integer('Stairs number',readonly=True,help='If checkbox of stairs is no selected this will be 0'),
+		'building_stairs_number'     : fields.integer('Stairs number',readonly=True,help='If checkbox of stairs is no selected this will be 0'),
 		'name'                       : fields.char('Name', size=40,required=True),
 		'building_value'             : fields.float('VRN Dynamic',required=True),
 		'building_area'              : fields.float('Area',required=True),
@@ -118,15 +118,15 @@ class rent_floor_local(osv.osv):
 	_name = 'rent.floor.local'
 	_rec_name = 'local_number'
 	_columns = {
-		'local_area' : fields.float('VRN Dynamic',required=True),
-		'local_value' : fields.float('Value',required=True),
-		'local_number' : fields.integer('# Local',required=True),
-		'local_huella' : fields.float('Huella',required=True),
+		'local_area'               : fields.float('VRN Dynamic',required=True),
+		'local_value'              : fields.float('Value',required=True),
+		'local_number'             : fields.integer('# Local',required=True),
+		'local_huella'             : fields.float('Huella',required=True),
 		'local_water_meter_number' : fields.char('Water Meter',size=64), 
 		'local_light_meter_number' : fields.char('Light Meter', size=64),
-		'local_sqrmeter_price'  :  fields.float('Sqr Meter Price',required=True),
-		'local_rented' : fields.boolean('Rented',help='Check if the local is rented'),
-		'local_floor'  : fields.many2one('rent.floor','# Floor'),
+		'local_sqrmeter_price'     :  fields.float('Sqr Meter Price',required=True),
+		'local_rented'             : fields.boolean('Rented',help='Check if the local is rented'),
+		'local_floor'              : fields.many2one('rent.floor','# Floor'),
 	}
 rent_floor_local()
 
