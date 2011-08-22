@@ -135,7 +135,8 @@ class rent_local_floor(osv.osv):
 	_columns = {
 		'local_floor_width'  : fields.float('Width', required=True),
 		'local_floor_large'  : fields.float('Large', required=True),
-		'local_floor_floor'  : fields.many2one('rent.floor','Level',help='Represents the floor on witch its located the local')
+		'local_floor_floor'  : fields.many2one('rent.floor','Level',help='Represents the floor on witch its located the local'),
+		'local_rent'         : fields.many2one('rent.rent','Alquiler'),
 	}
 #Class representing the parking, on floor. This class has a relation 
 #many2one with the floor 
@@ -194,8 +195,11 @@ class rent_rent(osv.osv):
 		'rent_status'           : fields.selection((('Valid','Valid'),('Finished','Finished'),('Draft','Draft')),'Status'),
 		'rent_start_date'       : fields.date('Starting Date'),
 		'rent_total'            : fields.function(_get_total_rent,type='float',method=True,string='Total Paid'),
-		'rent_rent_local'       : fields.many2one('rent.floor.local','Local'),
+		'rent_rent_local'       : fields.one2many('rent.floor.local','local_rent','Local'),
 		'rent_rent_parking'     : fields.many2one('rent.floor.parking','Parking'),
 		'rent_rent_estate'      : fields.many2one('rent.estate','Estate'),
+		'rent_is_local'         : fields.boolean('Locals',help='Check if you want to calculate a rent for locals'),
+		'rent_is_parking'       : fields.boolean('Parking',help='Check if you want to calculate a rent for locals'),
+		'rent_is_estate'        : fields.boolean('Estates',help='Check if you want to calculate a rent for locals'),
 	}
 rent_rent()
