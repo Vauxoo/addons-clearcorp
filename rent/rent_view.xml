@@ -684,6 +684,13 @@
 		
 		<!--
 		======================================
+					CONTRACT MENU
+		======================================
+		-->
+		<menuitem id = "rent_contract_submenu" name = "Contracts" parent = "rent_rent_menu" action = "action_contract_form_view"/>
+		
+		<!--
+		======================================
 					CLAUSES
 		======================================
 		-->
@@ -726,6 +733,13 @@
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
 		</record>
+		
+		<!--
+		======================================
+					CONTRACT MENU
+		======================================
+		-->
+		<menuitem id = "rent_contract_clause_submenu" name = "Clauses" parent = "rent_rent_menu" action = "action_contract_clause_form_view"/>
 	</data>
 </openerp>
 
