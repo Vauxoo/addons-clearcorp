@@ -635,7 +635,110 @@
 					CONTRACTS
 		======================================
 		-->
+		<record model = "ir.ui.view" id = "contract_form_view">
+			<field name = "name">rent.contract.form</field>
+			<field name = "model">rent.contract</field>
+			<field name = "type">form</field>
+			<field name = "arch" type = "xml">
+				<form string = "Contrato">
+					<group col = "4" colspan = "4">
+						<separator colspan = "4" string = "General Data"/>
+						<field name = "name"/>
+						<field name = "contract_rent"/>
+						<field name = "contract_clauses"/>
+					</group>
+					<group col = "4" colspan = "4">
+						<separator colspan = "4" string = "General Data"/>
+						<field name = ""/>
+						<field name = ""/>
+						<field name = ""/>
+					</group>
+					<group col = "4" colspan = "4">
+						<separator colspan = "4" string = "Legend"/>
+						<label string = "Use the code of each clause to define de contracts design"
+					</group>
+				</form>
+			</field>
+		</record>
 		
+		<record model = "ir.ui.view" id = "contract_tree_view">
+			<field name = "name">rent.contract.tree</field>
+			<field name = "model">rent.contract</field>
+			<field name = "type">tree</field>
+			<field name = "arch" type = "xml">
+				<tree string = "Contract">
+						<field name = "name"/>
+						<field name = "contract_rent"/>
+				</tree>
+			</field>
+		</record>
+		
+		<record model = "ir.actions.atc_window" id = "action_contract_form_view">
+			<field name = "name">Contracts</field>
+			<field name = "res_model">rent.contract</field>
+			<field name = "type">ir.actions.act_window</field>
+			<field name = "view_type">form</field>
+			<field name = "view_mode">tree,form</field>
+		</record>
+		
+		<!--
+		======================================
+					CONTRACT MENU
+		======================================
+		-->
+		<menuitem id = "rent_contract_submenu" name = "Contracts" parent = "rent_rent_menu" action = "action_contract_form_view"/>
+		
+		<!--
+		======================================
+					CLAUSES
+		======================================
+		-->
+		
+		<record model = "ir.ui.view" id = "contract_clause_form_view">
+			<field name = "name">rent.contract.clause.form</field>
+			<field name = "model">rent.contract.clause</field>
+			<field name = "type">form</field>
+			<field name = "arch" type = "xml">
+				<form string = "Clauses">
+					<group col = "4" colspan = "4">
+						<separator colspan = "4" string = "Reference Data"/>
+						<field name = "clause_code" select = "1"/>
+						<field name = "clause_subject" select = "1"/>
+					</group>
+					<group col = "4" colspan = "4">
+						<separator colspan = "4" string = "Body"/>
+						<field name = "clause_body" nolabel="1"/>
+					</group>
+				</form>
+			</field>
+		</record>
+		
+		<record model = "ir.ui.view" id = "contract_clause_tree_view">
+			<field name = "name">rent.contract.clause.tree</field>
+			<field name = "model">rent.contract.clause</field>
+			<field name = "type">tree</field>
+			<field name = "arch" type = "xml">
+				<tree string = "Clause">
+						<field name = "clause_code" select = "1"/>
+						<field name = "clause_subject" select = "1"/>
+				</tree>
+			</field>
+		</record>
+		
+		<record model = "ir.actions.atc_window" id = "action_contract_clause_form_view">
+			<field name = "name">Clauses</field>
+			<field name = "res_model">rent.contract.clause</field>
+			<field name = "type">ir.actions.act_window</field>
+			<field name = "view_type">form</field>
+			<field name = "view_mode">tree,form</field>
+		</record>
+		
+		<!--
+		======================================
+					CONTRACT MENU
+		======================================
+		-->
+		<menuitem id = "rent_contract_clause_submenu" name = "Clauses" parent = "rent_rent_menu" action = "action_contract_clause_form_view"/>
 		
 	</data>
 </openerp>
