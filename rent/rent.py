@@ -178,7 +178,7 @@ class rent_rent(osv.osv):
 		debug(obj)
 		obj_ids = obj.browse(cr,uid,ids,context)
 		for m in obj_ids:
-		debug(m)
+			debug(m)
 			debug(m.id)
 			debug(m.local_sqrmeter_price)
 			debug (a)
