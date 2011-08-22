@@ -130,6 +130,13 @@ class rent_floor_local(osv.osv):
 	}
 rent_floor_local()
 
+class rent_local_floor(osv.osv):
+	name = 'rent.local.floor'
+	_columns = {
+		'local_floor_width'  : fields.float('Width', required=True),
+		'local_floor_large'  : fields.float('Large', required=True),
+		'local_floor_floor'  : fields.many2one('rent.floor','Level',help='Represents the floor on witch its located the local')
+	}
 #Class representing the parking, on floor. This class has a relation 
 #many2one with the floor 
 #
@@ -189,6 +196,6 @@ class rent_rent(osv.osv):
 		'rent_total'            : fields.function(_get_total_rent,type='float',method=True,string='Total Paid'),
 		'rent_rent_local'       : fields.many2one('rent.floor.local','Local'),
 		'rent_rent_parking'     : fields.many2one('rent.floor.parking','Parking'),
-		'rent_rent_estate'       : fields.many2one('rent.estate','Estate'),
+		'rent_rent_estate'      : fields.many2one('rent.estate','Estate'),
 	}
 rent_rent()

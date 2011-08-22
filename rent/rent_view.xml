@@ -351,6 +351,7 @@
 				<form string = "Floor Details">
 					<group col = "4" colspan = "2">
 						<separator string = "General Information" col = "4" colspan = "4"/>
+						<field name = "floor_building" select = "1"/>
 						<field name = "floor_number"/>
 						<field name = "floor_area"/>
 						<field name = "floor_value"/>
@@ -362,9 +363,9 @@
 						<field name = "floor_acabado"/>
 					</group>
 					<notebook colspan = "4">
-						<page string = "Local">
+						<!--<page string = "Local">
 							<field name = "floor_local" nolabel="1"/>
-						</page>
+						</page>-->
 						<page string = "Parking">
 							<field name = "floor_parking" nolabel="1"/>
 						</page>
@@ -382,6 +383,7 @@
 					<field name="floor_number"/>
 					<field name="floor_value"/>
 					<field name="floor_area"/>
+					<field name = "floor_building"/>
 				</tree>
 			</field>
 		</record>
