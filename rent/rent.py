@@ -131,7 +131,7 @@ class rent_floor_local(osv.osv):
 rent_floor_local()
 
 class rent_local_floor(osv.osv):
-	name = 'rent.local.floor'
+	_name = 'rent.local.floor'
 	_columns = {
 		'local_floor_width'  : fields.float('Width', required=True),
 		'local_floor_large'  : fields.float('Large', required=True),
