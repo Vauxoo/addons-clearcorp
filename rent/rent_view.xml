@@ -673,7 +673,7 @@
 			</field>
 		</record>
 		
-		<record model = "ir.actions.atc_window" id = "action_contract_form_view">
+		<record model = "ir.actions.act_window" id = "action_contract_form_view">
 			<field name = "name">Contracts</field>
 			<field name = "res_model">rent.contract</field>
 			<field name = "type">ir.actions.act_window</field>
@@ -725,7 +725,7 @@
 			</field>
 		</record>
 		
-		<record model = "ir.actions.atc_window" id = "action_contract_clause_form_view">
+		<record model = "ir.actions.act_window" id = "action_contract_clause_form_view">
 			<field name = "name">Clauses</field>
 			<field name = "res_model">rent.contract.clause</field>
 			<field name = "type">ir.actions.act_window</field>
