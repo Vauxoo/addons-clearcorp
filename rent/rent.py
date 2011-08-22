@@ -229,6 +229,6 @@ class rent_contract_clause(osv.osv):
 	_columns = {
 		'clause_code'     : fields.char('Reference',size=64,required=True,help='Reference code for the clause, used to create custom contracts'),
 		'clause_subject'  : fields.char('Subject',size=64,required=True),
-		'clause_body'     : field.text('Body',required=True),
+		'clause_body'     : fields.text('Body',required=True),
 	}
 rent_contract_clause()
