@@ -28,39 +28,15 @@ rent_canton_district()
 class rent_location(osv.osv):
 	_name = 'res.partner.address'
 	_inherit = 'res.partner.address'
+
 	_columns = {
-		#'location_id'       : fields.many2one('rent.client','Client ID'),
-		#'province'          : fields.selection((('Alajuela', 'Alajuela'),('Cartago','Cartago'),('Guanacaste','Guanacaste'),('Heredia','Heredia'),
-		#										('Limon', 'Limon'),('San Jose', 'San Jose'),('Puntarenas', 'Puntarenas')),'Province', required=True),
-		#'canton_id'   : fields.char('Canton',size=20),
-		#'district_id' : fields.char('District',size=20),
-		'canton_id'  : fields.many2one('rent.canton', 'Canton', domain = "[('state_id','=',state_id)]"),
+		#'province_id '   : fields.selection(_get_province,'Province',size=16),
+		#'canton_id'   : fields.selection(_get_canton, 'Canton'),
+		'canton_id'   : fields.many2one('rent.canton', 'Canton', domain = "[('state_id','=',state_id)]"),
 		'district_id' : fields.many2one('rent.canton.district','District', domain = "[('canton_id','=',canton_id)]"),
 	}
+
 	
-	def get_canton(self,cr,uid,ids,p_state,context=None):
-		v = {}
-		canton_list = []
-		debug("==============================")
-		debug(p_state)
-		obj_state = self.pool.get('res.country.state').browse(cr,uid,p_state)
-		debug(obj_state)
-		canton_ids = self.pool.get('rent.canton').search(cr,uid,[('state_id','=',obj_state.name)])
-		debug(canton_ids)
-		for canton in canton_ids:
-			obj_canton = self.pool.get('rent.canton').browse(cr,uid,canton)[0]
-			canton_list.append(obj_canton)
-		v['canton_id'] = canton_list
-		debug(v)
-		return v
-	def get_district(self,cr,uid,ids,p_canton,context=None):
-		v = {}
-		district_list = self.pool.get('rent.canton.district').search(cr,uid,[('canton_id','=',p_canton)])
-		debug(district_list)
-		v['district_id'] = district_list
-		return {
-			'value' : v
-		}
 rent_location()
 
 #Class that inherits from res.partner allowing to record the 

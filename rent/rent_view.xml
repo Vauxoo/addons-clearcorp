@@ -103,14 +103,13 @@
 					</field>
 					<field name = "city" position = "replace"/>
 					<field name = "state_id" position = "replace">
-						<field name = "state_id" on_change = "get_canton(state_id)"/>
-						<!--<field name = "province" on_change =  "determine_canton(province)"/>-->
+						<field name = "state_id"/>
 					</field>
 					<field name = "state_id" position = "after">
-						<field name = "canton_id" widget = "selection"/>
+						<field name = "canton_id" attrs = "{'readonly':[('state_id','=','')]}"/>
 					</field>
 					<field name = "canton_id" position = "after">
-						<field name = "district_id" widget = "selection"/>
+						<field name = "district_id" attrs = "{'readonly':[('canton_id','=','')]}"/>
 					</field>
 				</data>
 			</field>
