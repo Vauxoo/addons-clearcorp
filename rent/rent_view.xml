@@ -655,7 +655,7 @@
 					</group>
 					<group col = "4" colspan = "4">
 						<separator colspan = "4" string = "Legend"/>
-						<label string = "Use the code of each clause to define de contracts design"
+						<label string = "Use the code of each clause to define de contracts design"/>
 					</group>
 				</form>
 			</field>
