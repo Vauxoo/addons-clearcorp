@@ -138,6 +138,7 @@ class rent_local_floor(osv.osv):
 		'local_floor_floor'  : fields.many2one('rent.floor','Level',help='Represents the floor on witch its located the local'),
 		'local_rent'         : fields.many2one('rent.rent','Alquiler'),
 	}
+rent_local_floor()
 #Class representing the parking, on floor. This class has a relation 
 #many2one with the floor 
 #
@@ -172,16 +173,16 @@ class rent_rent(osv.osv):
 	
 	def _get_total_rent(self,cr,uid,ids,field_name,args,context):
 		v = {}
-		#obj = self.pool.get('rent.floor.local')
-		#debug('---------------------------------------')
-		#debug(obj)
-		#obj_ids = obj.browse(cr,uid,ids,context)
-		#for m in obj_ids:
-		#debug(m)
-		#	debug(m.id)
-		#	debug(m.local_sqrmeter_price)
-		#	debug (a)
-	#		v[m.id] = 1
+		obj = self.pool.get('rent.floor.local')
+		debug('---------------------------------------')
+		debug(obj)
+		obj_ids = obj.browse(cr,uid,ids,context)
+		for m in obj_ids:
+		debug(m)
+			debug(m.id)
+			debug(m.local_sqrmeter_price)
+			debug (a)
+			v[m.id] = 1
 		return v
 		
 	_columns = {

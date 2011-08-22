@@ -521,9 +521,9 @@
 				<form string = "Rent Detail">
 					<group col = "4" colspan = "2">
 						<separator string = "Information" colspan = "4"/>
-						<field name = "name"/>
-						<field name = "rent_type"/>
-						<field name = "rent_status"/>
+						<field name = "name" select = "1"/>
+						<field name = "rent_type" select = "1"/>
+						<field name = "rent_status" select = "1"/>
 						<field name = "rent_total"/>
 						<field name = "rent_rise"/>
 					</group>
@@ -533,8 +533,8 @@
 						<field name = "rent_is_parking" attrs = "{'readonly' : ['|',('rent_is_estate','!=','True'),('rent_is_local','!=','True')], 'required' : [('rent_is_estate','=','False'),('rent_is_local','=','False')]}"/>
 						<field name = "rent_is_estate" attrs = "{'readonly' : ['|',('rent_is_local','!=','True'),('rent_is_parking','!=','True')], 'required' : [('rent_is_local','=','False'),('rent_is_parking','=','False')]}"/>
 					</group>
-					<group col = "4" colspan = "2">
-						<separator string = "Real Estate Related" colspan = "4"/>
+					<group col = "4" colspan = "4">
+						<separator string = "Real Estate Information" colspan = "4"/>
 							<field name = "rent_rent_local" attrs="{'readonly' : ['|', ('rent_is_parking','!=','True'),('rent_is_estate','!=','True')], 'required' : [('rent_is_parking','=','False'),('rent_is_estate','=','False')], 'invisible' : [('|', ('rent_is_parking','!=','True'),('rent_is_estate','!=','True')]}"/>
 							<field name = "rent_rent_parking" widget = "selection"  attrs = "{'readonly' : ['|',('rent_is_estate','!=','True'),('rent_is_local','!=','True')], 'required' : [('rent_is_estate','=','False'),('rent_is_local','=','False')], 'invisible' : [('|', ('rent_is_estate','!=','True'),('rent_is_local','!=','True')]}"/>
 							<field name = "rent_rent_estate" widget = "selection" attrs = "{'readonly' : ['|',('rent_is_local','!=','True'),('rent_is_parking','!=','True')], 'required' : [('rent_is_local','=','False'),('rent_is_parking','=','False')], 'invisible' : ['|', ('rent_is_local','=','True'),('rent_is_parking','=','True')]}"/>
