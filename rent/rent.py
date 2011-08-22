@@ -133,6 +133,7 @@ rent_floor_local()
 class rent_local_floor(osv.osv):
 	_name = 'rent.local.floor'
 	_columns = {
+		'name'               : fields.char('Reference',size=64,help='Indicate a representative reference for the asociation'),
 		'local_floor_width'  : fields.float('Width', required=True),
 		'local_floor_large'  : fields.float('Large', required=True),
 		'local_floor_floor'  : fields.many2one('rent.floor','Level',help='Represents the floor on witch its located the local'),
