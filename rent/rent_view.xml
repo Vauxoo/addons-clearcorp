@@ -535,7 +535,7 @@
 					</group>
 					<group col = "4" colspan = "2">
 						<separator string = "Real Estate Related" colspan = "4"/>
-							<field name = "rent_rent_local"  widget = "selection" attrs="{'readonly' : ['|', ('rent_is_parking','!=','True'),('rent_is_estate','!=','True')], 'required' : [('rent_is_parking','=','False'),('rent_is_estate','=','False')], 'invisible' : [('|', ('rent_is_parking','!=','True'),('rent_is_estate','!=','True')]}"/>
+							<field name = "rent_rent_local" attrs="{'readonly' : ['|', ('rent_is_parking','!=','True'),('rent_is_estate','!=','True')], 'required' : [('rent_is_parking','=','False'),('rent_is_estate','=','False')], 'invisible' : [('|', ('rent_is_parking','!=','True'),('rent_is_estate','!=','True')]}"/>
 							<field name = "rent_rent_parking" widget = "selection"  attrs = "{'readonly' : ['|',('rent_is_estate','!=','True'),('rent_is_local','!=','True')], 'required' : [('rent_is_estate','=','False'),('rent_is_local','=','False')], 'invisible' : [('|', ('rent_is_estate','!=','True'),('rent_is_local','!=','True')]}"/>
 							<field name = "rent_rent_estate" widget = "selection" attrs = "{'readonly' : ['|',('rent_is_local','!=','True'),('rent_is_parking','!=','True')], 'required' : [('rent_is_local','=','False'),('rent_is_parking','=','False')], 'invisible' : ['|', ('rent_is_local','=','True'),('rent_is_parking','=','True')]}"/>
 					</group>
