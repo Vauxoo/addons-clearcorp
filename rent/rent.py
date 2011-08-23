@@ -215,7 +215,8 @@ class rent_contract(osv.osv):
 	_columns = {
 		'name'             : fields.char('Reference', size=64),
 		'contract_rent'    : fields.many2one('rent.rent','Rent Reference'),
-		'contract_clauses' : fields.many2many('rent.contract.clause','rent_contract_clause_rel','name','clause_code','Clausulas'),
+		'contract_clauses' : fields.one2many('rent.contract.clause.rel','rent_contract_id','Clausulas'),
+		#'contract_clauses' : fields.many2many('rent.contract.clause','rent_contract_clause_rel','name','clause_code','Clausulas'),
 		'contract_design'  : fields.char('Design',size=64,required=True),
 	}
 rent_contract()
@@ -224,8 +225,8 @@ rent_contract()
 #Class that holds all the clauses for the contracts
 #this class is used to create a custom contract
 #it simulates a sintaxys analizer to subtitute codes with the corresponding clause
-class rent_contract_clause(osv.osv):
-	_name = 'rent.contract.clause'
+class rent_contract_clause_rel(osv.osv):
+	_name = 'rent.contract.clause.rel'
 	_rec_name = 'clause_code'
 	_columns = {
 		'clause_code'     : fields.char('Reference',size=64,required=True,help='Reference code for the clause, used to create custom contracts'),
@@ -233,14 +234,14 @@ class rent_contract_clause(osv.osv):
 		'clause_body'     : fields.text('Body',required=True),
 		#'clause_contract' : fields.many2many('rent.contract','rent_contract_clause','id','id','Contracts'),
 	}
-rent_contract_clause()
+rent_contract_clause_rel()
 
 
 class rent_contract_clause_rel(osv.osv):
 	_name = 'rent.contract.clause.rel'
 	_columns = {
 		'rent_contract_id' : fields.many2one('rent.contract','Contract Reference'),
-		'rent_contract_id' : fields.many2one('rent.contract','Contract Reference'),
+		'rent_contract_clause_id' : fields.many2one('rent.contract','Contract Reference'),
 		'sequence'         : fields.integer('Sequence'),
 	}
 rent_contract_clause_rel()
