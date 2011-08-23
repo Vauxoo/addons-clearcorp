@@ -649,9 +649,7 @@
 					</group>
 					<group col = "4" colspan = "4">
 						<separator colspan = "4" string = "General Data"/>
-						<field name = ""/>
-						<field name = ""/>
-						<field name = ""/>
+						<field name = "contract_design"/>
 					</group>
 					<group col = "4" colspan = "4">
 						<separator colspan = "4" string = "Legend"/>
