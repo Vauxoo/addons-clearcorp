@@ -645,15 +645,19 @@
 						<separator colspan = "4" string = "General Data"/>
 						<field name = "name"/>
 						<field name = "contract_rent"/>
-						<field name = "contract_clauses"/>
 					</group>
 					<group col = "4" colspan = "4">
 						<separator colspan = "4" string = "General Data"/>
+						<field colspan = "4" name = "contract_clauses" nolabel = "1"/>
 						<field name = "contract_design"/>
 					</group>
 					<group col = "4" colspan = "4">
 						<separator colspan = "4" string = "Legend"/>
-						<label string = "Use the code of each clause to define de contracts design"/>
+						<label string = "Use the code of each clause to define de contracts design. Place the code of the clauses on the order you want then to apper on the contract"/>
+						<newline/>
+						<label string = "to do that use the following syntaxis: $code_clause. Where code_clause is tha code showed above in the list and "/>
+						<newline/>
+						<label string = "'$' (dolar symbol) is the caracter to identify a clause to place in the contract"/>
 					</group>
 				</form>
 			</field>
