@@ -176,15 +176,15 @@ class rent_rent(osv.osv):
 		v = {}
 		obj = self.pool.get('rent.floor.local')
 		debug('+==================================')
-		obj_ids = obj.search(cr,uid,[('rent_is_local','=',ids)])
-		debug(obj_ids)
-		for v in obj_ids:
-			debug(v)
-			debug(v.id)
-			m = self.pool.get('rent.floor.local').browse(cr,uid,v)
-			debug(m.local_sqrmeter_price)
-			debug (a)
-			v[m.id] = 1
+		#obj_ids = obj.search(cr,uid,[('rent_is_local','=',ids)])
+		#debug(obj_ids)
+		#for v in obj_ids:
+	#		debug(v)
+	#		debug(v.id)
+	#		m = self.pool.get('rent.floor.local').browse(cr,uid,v)
+	#		debug(m.local_sqrmeter_price)
+	#		debug (a)
+	#		v[m.id] = 1
 		return v
 		
 	_columns = {
