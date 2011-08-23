@@ -767,9 +767,9 @@
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
 				<form string = "Clausula de Contrato">
-					<field name = "rent_contract_id"/>
-					<field name = "rent_contract_id"/>
 					<field name = "sequence"/>
+					<field name = "rent_contract_id"/>
+					<field name = "rent_contract_id"/>
 				</form>
 			</field>
 		</record>
