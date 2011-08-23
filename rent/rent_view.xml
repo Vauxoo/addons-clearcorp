@@ -781,7 +781,6 @@
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
 			<field name = "view_id" ref = "clause_by_contract_tree_view"/>
-			</field>
 		</record>
 	</data>
 </openerp>
