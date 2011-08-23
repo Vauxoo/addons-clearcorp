@@ -737,11 +737,28 @@
 		
 		<!--
 		======================================
-					CONTRACT MENU
+					CONTRACT CLAUSE MENU
 		======================================
 		-->
 		<menuitem id = "rent_contract_clause_submenu" name = "Clauses" parent = "rent_rent_menu" action = "action_contract_clause_form_view"/>
 		
+		<!--
+		======================================
+					CONTRACT CLAUSE MENU
+		======================================
+		-->
+		<record model = "ir.ui.view" id = "clause_by_contract_form_view">
+			<field name = "name">clause.contract.form</field>
+			<field name = "model">clause.contract</field>
+			<field name = "type">form</field>
+			<field name = "arch" type = "xml">
+				<form string = "Clausula de Contrato">
+					<field name = "rent_contract_id"/>
+					<field name = "rent_contract_id"/>
+					<field name = "sequence"/>
+				</form>
+			</field>
+		</record>
 	</data>
 </openerp>
 
