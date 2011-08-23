@@ -225,8 +225,8 @@ rent_contract()
 #Class that holds all the clauses for the contracts
 #this class is used to create a custom contract
 #it simulates a sintaxys analizer to subtitute codes with the corresponding clause
-class rent_contract_clause_rel(osv.osv):
-	_name = 'rent.contract.clause.rel'
+class rent_contract_clause(osv.osv):
+	_name = 'rent.contract.clause'
 	_rec_name = 'clause_code'
 	_columns = {
 		'clause_code'     : fields.char('Reference',size=64,required=True,help='Reference code for the clause, used to create custom contracts'),
