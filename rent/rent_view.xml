@@ -668,7 +668,7 @@
 			<field name = "model">rent.contract</field>
 			<field name = "type">tree</field>
 			<field name = "arch" type = "xml">
-				<tree string = "Contract">
+				<tree string = "Contract" editable="top">
 						<field name = "name"/>
 						<field name = "contract_rent"/>
 				</tree>
@@ -720,7 +720,7 @@
 			<field name = "model">rent.contract.clause</field>
 			<field name = "type">tree</field>
 			<field name = "arch" type = "xml">
-				<tree string = "Clause">
+				<tree string = "Clause" editable="top">
 						<field name = "clause_code" select = "1"/>
 						<field name = "clause_subject" select = "1"/>
 				</tree>
