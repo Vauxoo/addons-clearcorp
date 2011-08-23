@@ -749,7 +749,7 @@
 		======================================
 		-->
 		<record model = "ir.ui.view" id = "clause_by_contract_form_view">
-			<field name = "name">clause.contract.form</field>
+			<field name = "name">clause.contract.clause.rel.form</field>
 			<field name = "model">rent.contract.clause.rel</field>
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
@@ -762,7 +762,7 @@
 		</record>
 		
 		<record model = "ir.ui.view" id = "clause_by_contract_tree_view">
-			<field name = "name">clause.contract.tree</field>
+			<field name = "name">clause.contract.clause.rel.tree</field>
 			<field name = "model">rent.contract.clause.rel</field>
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
