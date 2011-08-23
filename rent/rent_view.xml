@@ -721,7 +721,7 @@
 			<field name = "model">rent.contract.clause</field>
 			<field name = "type">tree</field>
 			<field name = "arch" type = "xml">
-				<tree string = "Clause" editable="top">
+				<tree string = "Clause">
 						<field name = "clause_code" select = "1"/>
 						<field name = "clause_subject" select = "1"/>
 				</tree>
@@ -745,7 +745,7 @@
 		
 		<!--
 		======================================
-					CONTRACT CLAUSE MENU
+					CLAUSE BY CONTRACT MENU
 		======================================
 		-->
 		<record model = "ir.ui.view" id = "clause_by_contract_form_view">
@@ -758,6 +758,29 @@
 					<field name = "rent_contract_id"/>
 					<field name = "sequence"/>
 				</form>
+			</field>
+		</record>
+		
+		<record model = "ir.ui.view" id = "clause_by_contract_tree_view">
+			<field name = "name">clause.contract.tree</field>
+			<field name = "model">clause.contract</field>
+			<field name = "type">form</field>
+			<field name = "arch" type = "xml">
+				<form string = "Clausula de Contrato">
+					<field name = "rent_contract_id"/>
+					<field name = "rent_contract_id"/>
+					<field name = "sequence"/>
+				</form>
+			</field>
+		</record>
+		
+		<record model = "ir.actions.act_window" id = "action_clause_by_contract_form_view">
+			<field name = "name">Clause by Contract</field>
+			<field name = "res_model">clause.contract</field>
+			<field name = "type">ir.actions.act_window</field>
+			<field name = "view_type">form</field>
+			<field name = "view_mode">tree,form</field>
+			<field name = "view_id" ref = "clause_by_contract_tree_view"/>
 			</field>
 		</record>
 	</data>

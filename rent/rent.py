@@ -241,5 +241,6 @@ class rent_contract_clause_rel(osv.osv):
 	_columns = {
 		'rent_contract_id' : fields.many2one('rent.contract','Contract Reference'),
 		'rent_contract_id' : fields.many2one('rent.contract','Contract Reference'),
-		'sequence'         : fields.integer('Sequence'),
+		'sequence'         : self.pool.get('ir.sequence').get_id(cr, uid, 'clausula_seq', context={} ),
 	}
+rent_contract_clause_rel()
