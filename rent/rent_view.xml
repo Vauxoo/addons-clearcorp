@@ -644,7 +644,7 @@
 					<group col = "4" colspan = "4">
 						<separator colspan = "4" string = "General Data"/>
 						<field name = "name"/>
-						<field name = "contract_rent" domain = "['|',('rent_status','=','Draft'), ('rent_status','=','valid'),('rent_type'.'!=','Adendum')]"/>
+						<field name = "contract_rent" domain = "['|',('rent_status','=','Draft'), ('rent_status','=','valid')]"/>
 					</group>
 					<group col = "4" colspan = "4">
 						<separator colspan = "4" string = "General Data"/>
