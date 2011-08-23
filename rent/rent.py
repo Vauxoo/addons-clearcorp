@@ -130,16 +130,6 @@ class rent_floor_local(osv.osv):
 	}
 rent_floor_local()
 
-class rent_local_floor(osv.osv):
-	_name = 'rent.local.floor'
-	_columns = {
-		'name'               : fields.char('Reference',size=64,help='Indicate a representative reference for the asociation'),
-		'local_floor_width'  : fields.float('Width', required=True),
-		'local_floor_large'  : fields.float('Large', required=True),
-		'local_floor_floor'  : fields.many2one('rent.floor','Level',help='Represents the floor on witch its located the local'),
-		'local_rent'         : fields.many2one('rent.rent','Alquiler'),
-	}
-rent_local_floor()
 #Class representing the parking, on floor. This class has a relation 
 #many2one with the floor 
 #
@@ -206,6 +196,17 @@ class rent_rent(osv.osv):
 		'rent_is_estate'        : fields.boolean('Estates',help='Check if you want to calculate a rent for locals'),
 	}
 rent_rent()
+
+class rent_local_floor(osv.osv):
+	_name = 'rent.local.floor'
+	_columns = {
+		'name'               : fields.char('Reference',size=64,help='Indicate a representative reference for the asociation'),
+		'local_floor_width'  : fields.float('Width', required=True),
+		'local_floor_large'  : fields.float('Large', required=True),
+		'local_floor_floor'  : fields.many2one('rent.floor','Level',help='Represents the floor on witch its located the local'),
+		'local_rent'         : fields.many2one('rent.rent','Alquiler'),
+	}
+rent_local_floor()
 
 #
 #
