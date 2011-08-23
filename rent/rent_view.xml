@@ -471,7 +471,6 @@
 					<group col = "8" colspan = "8">
 						<separator string = "General Information"/>
 						<field name = "name" select = "1"/>
-						<field name = "local_floor_floor"/>
 						<field name = "local_floor_floor" select = "1"/>
 						<field name = "local_floor_width"/>
 						<field name = "local_floor_large"/>
