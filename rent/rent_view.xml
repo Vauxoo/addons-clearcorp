@@ -658,6 +658,7 @@
 						<label string = "to do that use the following syntaxis: $code_clause. Where code_clause is tha code showed above in the list and "/>
 						<newline/>
 						<label string = "'$' (dolar symbol) is the caracter to identify a clause to place in the contract"/>
+						
 					</group>
 				</form>
 			</field>
