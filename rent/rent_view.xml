@@ -454,6 +454,7 @@
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
+			<field name = "view_id" ref = "local_tree_view"/>
 		</record>
 		
 		<!--
@@ -468,7 +469,7 @@
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
 				<form string = "Local Details">
-					<group col = "8" colspan = "8">
+					<group col = "4" colspan = "4">
 						<separator string = "General Information"/>
 						<field name = "name" select = "1"/>
 						<field name = "local_local_floor"/>
