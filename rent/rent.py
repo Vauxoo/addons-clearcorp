@@ -214,7 +214,7 @@ class rent_contract(osv.osv):
 	_columns = {
 		'name'             : fields.char('Reference', size=64),
 		'contract_rent'    : fields.many2one('rent.rent','Rent Reference'),
-		'contract_clauses' : fields.many2many('rent.contract.clause','rent_contract','name','clause_code','Clausulas'),
+		'contract_clauses' : fields.many2many('rent.contract.clause','rent_contract','id','id','Clausulas'),
 		'contract_design'  : fields.char('Design',size=64,required=True),
 	}
 rent_contract()
@@ -230,6 +230,6 @@ class rent_contract_clause(osv.osv):
 		'clause_code'     : fields.char('Reference',size=64,required=True,help='Reference code for the clause, used to create custom contracts'),
 		'clause_subject'  : fields.char('Subject',size=64,required=True),
 		'clause_body'     : fields.text('Body',required=True),
-		'clause_contract' : fields.many2many('rent.contract','rent_contract_clause','clause_code','name','Contracts'),
+		'clause_contract' : fields.many2many('rent.contract','rent_contract_clause','id','id','Contracts'),
 	}
 rent_contract_clause()
