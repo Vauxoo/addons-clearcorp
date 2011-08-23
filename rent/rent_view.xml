@@ -468,9 +468,10 @@
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
 				<form string = "Local Details">
-					<group col = "4" colspan = "4">
+					<group col = "8" colspan = "8">
 						<separator string = "General Information"/>
 						<field name = "name" select = "1"/>
+						<field name = "local_floor_floor"/>
 						<field name = "local_floor_floor" select = "1"/>
 						<field name = "local_floor_width"/>
 						<field name = "local_floor_large"/>
