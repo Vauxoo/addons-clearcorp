@@ -214,7 +214,7 @@ class rent_contract(osv.osv):
 	_columns = {
 		'name'             : fields.char('Reference', size=64),
 		'contract_rent'    : fields.many2one('rent.rent','Rent Reference'),
-		'contract_clauses' : fields.many2many('rent.contract.clause','rent_contract_clause_rel','name','clause_code','Clausulas'),
+		'contract_clauses' : fields.many2many('rent.contract.clause','rent_contract','name','clause_code','Clausulas'),
 		'contract_design'  : fields.char('Design',size=64,required=True),
 	}
 rent_contract()
