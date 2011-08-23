@@ -204,6 +204,7 @@ class rent_local_floor(osv.osv):
 		'local_floor_width'  : fields.float('Width', required=True),
 		'local_floor_large'  : fields.float('Large', required=True),
 		'local_floor_floor'  : fields.many2one('rent.floor','Level',help='Represents the floor on witch its located the local'),
+		'local_local_floor'  : fields.many2one('rent.floor.local','Level',help='Represents the floor on witch its located the local'),
 		'local_rent'         : fields.many2one('rent.rent','Alquiler'),
 	}
 rent_local_floor()
