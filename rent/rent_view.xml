@@ -750,7 +750,7 @@
 		-->
 		<record model = "ir.ui.view" id = "clause_by_contract_form_view">
 			<field name = "name">clause.contract.form</field>
-			<field name = "model">clause.contract</field>
+			<field name = "model">rent.contract.clause.rel</field>
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
 				<form string = "Clausula de Contrato">
@@ -763,7 +763,7 @@
 		
 		<record model = "ir.ui.view" id = "clause_by_contract_tree_view">
 			<field name = "name">clause.contract.tree</field>
-			<field name = "model">clause.contract</field>
+			<field name = "model">rent.contract.clause.rel</field>
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
 				<form string = "Clausula de Contrato">
@@ -776,7 +776,7 @@
 		
 		<record model = "ir.actions.act_window" id = "action_clause_by_contract_form_view">
 			<field name = "name">Clause by Contract</field>
-			<field name = "res_model">clause.contract</field>
+			<field name = "res_model">rent.contract.clause.rel</field>
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
