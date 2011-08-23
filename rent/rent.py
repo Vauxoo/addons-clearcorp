@@ -234,7 +234,7 @@ class rent_contract_clause(osv.osv):
 		'clause_body'     : fields.text('Body',required=True),
 		#'clause_contract' : fields.many2many('rent.contract','rent_contract_clause','id','id','Contracts'),
 	}
-rent_contract_clause_rel()
+rent_contract_clause()
 
 
 class rent_contract_clause_rel(osv.osv):
