@@ -90,7 +90,7 @@ rent_estate()
 class rent_building(osv.osv):
 	_name = 'rent.building'
 	
-	def _get_estate_vrm(self,cr,uid,ids,field_name,args,context=None):
+	def _get_building_vrm(self,cr,uid,ids,field_name,args,context=None):
 		res = {}
 		debug('+==================================')
 		for building_id in ids:
