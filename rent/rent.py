@@ -62,7 +62,7 @@ class rent_estate(osv.osv):
 	
 	def _get_estate_vrm(self,cr,uid,ids,field_name,args,context=None):
 		res = {}
-		debug('+==================================')
+		debug('FUNCTION+==================================')
 		debug(args)
 		for estate_id in ids:
 			debug(estate_id)
@@ -70,13 +70,13 @@ class rent_estate(osv.osv):
 			debug(obj_estate)
 			res[estate_id] = obj_estate.estate_value / obj_estate.estate_area
 			debug(res)
-		return res
+		return 4
 	
 	def calculate_vrm(self,cr,uid,ids,area_val,vrn_val):
 		res = {}
-		debug('+==================================')
+		debug('ONCHANGE+==================================')
 		debug(area_val)
-		debug('+==================================')
+		debug('ONCHANGE+==================================')
 		debug(vrn_val)
 		if (area_val and vrn_val):
 			res['estate_vrn_per_sqr'] = area_val / vrn_val
@@ -106,7 +106,7 @@ class rent_building(osv.osv):
 	
 	def _get_building_vrm(self,cr,uid,ids,field_name,args,context=None):
 		res = {}
-		debug('+==================================')
+		debug('FUNCTION+==================================')
 		for building_id in ids:
 			debug(building_id)
 			obj_building = self.pool.get('rent.building').browse(cr,uid,building_id)
