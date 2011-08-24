@@ -221,6 +221,7 @@
 						<field name = "estate_number" select = "1"/>
 						<field name = "estate_value"/>
 						<field name = "estate_area"/>
+						<field name = "estate_vrn_per_sqr"/>
 					</group>
 					<notebook colspan = "4">
 						<page string = "Location"> 

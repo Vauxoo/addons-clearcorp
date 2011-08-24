@@ -60,7 +60,7 @@ class rent_estate(osv.osv):
 	_name = 'rent.estate'
 	_rec_name = "estate_number"
 	
-	def _get_estate_vrm(self,cr,uid,ids,field_name,context=None):
+	def _get_estate_vrm(self,cr,uid,ids,field_name,args,context=None):
 		res = {}
 		debug('+==================================')
 		for estate_id in ids:
@@ -90,7 +90,7 @@ rent_estate()
 class rent_building(osv.osv):
 	_name = 'rent.building'
 	
-	def _get_estate_vrm(self,cr,uid,ids,field_name,context=None):
+	def _get_estate_vrm(self,cr,uid,ids,field_name,args,context=None):
 		res = {}
 		debug('+==================================')
 		for building_id in ids:
@@ -163,7 +163,7 @@ class rent_floor_parking(osv.osv):
 	_name = 'rent.floor.parking'
 	_rec_name = 'parking_number'
 	
-	def _calculate_area(self,cr,uid,ids,field_name,context=None):
+	def _calculate_area(self,cr,uid,ids,field_name,args,context=None):
 		v = {}
 		
 		return v
