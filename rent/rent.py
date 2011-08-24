@@ -94,6 +94,9 @@ class rent_estate(osv.osv):
         #'estate_canton': fields.related('estate_address', 'estate_canton', type='selection', string='Canton'),
         #'estate_district': fields.related('estate_address', 'estate_district', type='selection', string='District'),
 	}
+	_defautls = {
+		'estate_vrn_per_sqr' : _get_estate_vrm
+	}
 rent_estate()
 
 #Class building to represente a Real Estate, that is on any land previously define by the user
