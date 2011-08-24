@@ -26,7 +26,7 @@ from tools import debug
 
 class account_journal_template(osv.osv):
 	
-	_name = 'ccorp_account_journal_template.account_journal_template'
+	_name = 'account.journal.template'
 	_columns = {
 	
 		'name': fields.char('Journal Name', size=64),
@@ -68,11 +68,11 @@ class WizardMultiChartsAccounts(osv.osv_memory):
 		id_char_template = obj_self.chart_template_id
 		
 		#getting the list of journal_templates
-		lista = self.pool.get('ccorp_account_journal_template.account_journal_template').search(cr, uid, [('chart_template_id','=',id_char_template)])
+		lista = self.pool.get('account.journal.template').search(cr, uid, [('chart_template_id','=',id_char_template)])
 		
 		
 		for x in lista:
-			obj = self.pool.get('ccorp_account_journal_template.account_journal_template').browse(cr,uid,x)
+			obj = self.pool.get('account.journal.template').browse(cr,uid,x)
 			vals = {
 				'name' : obj.name,
 				'code' : obj.code,
