@@ -70,7 +70,6 @@ class rent_estate(osv.osv):
 			res[estate_id] = obj_estate.estate_value / obj_estate.estate_area
 			debug(res)
 		return res
-	
 		
 	_columns = {
 		'estate_owner'    : fields.many2one('res.company','Owner',required=True),
