@@ -72,9 +72,12 @@ class rent_estate(osv.osv):
 			debug(res)
 		return res
 	
-	def calculate_vrm(self,cr,uid,ids,area_val,vrn_val,context):
+	def calculate_vrm(self,cr,uid,ids,area_val,vrn_val):
 		res = {}
 		debug('+==================================')
+		debug(area_val)
+		debug('+==================================')
+		debug(vrn_val)
 		res['estate_vrn_per_sqr'] = obj_estate.estate_value / obj_estate.estate_area
 		return { 'value' : res}
 		
