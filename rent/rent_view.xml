@@ -261,7 +261,7 @@
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
-			<field name = "view_id" ref="estate_form_view"></field>
+			<field name = "view_id" ref="estate_tree_view"></field>
 			<field name="help">Manage the estates that your company owns, to have them available in your system</field>
 		</record>
 		
