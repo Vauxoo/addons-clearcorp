@@ -72,7 +72,8 @@ class rent_estate(osv.osv):
 			debug(res)
 		return res
 	def calculate_vrm(self,cr,uid,ids,context):
-		return _get_estate_vrm(self,cr,uids,ids,'estate_vrn_per_sqr',{},context)
+		debug('ONCHANGE==================================')
+		return {'value' : { 'estate_vrn_per_sqr' : _get_estate_vrm(self,cr,uids,ids,'estate_vrn_per_sqr',{},context)}}
 	_columns = {
 		'estate_owner'    : fields.many2one('res.company','Owner',required=True),
 		'estate_number'   : fields.char('# estate', size=10,required=True),
