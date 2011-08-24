@@ -189,9 +189,19 @@ class rent_rent(osv.osv):
 	_name = 'rent.rent'
 	
 	def _get_total_rent(self,cr,uid,ids,field_name,args,context):
-		v = {}
-		obj = self.pool.get('rent.floor.local')
+		res = {}
 		debug('+==================================')
+		for rent_id in ids:
+			obj_rent = self.pool.get('rent.rent').browse(cr,ui,rent_id)
+			if obj_rent.rent_is_local:
+				obj_ids = obj_rent.rent_rent_local
+				debug(obj_ids)
+			elif obj_rent.rent_is_parking:
+				obj_ids = obj_rent.rent_rent_parking
+				debug(obj_ids)
+			else:
+				obj_ids = obj_rent.rent_rent_estate
+				debug(obj_ids)
 		#obj_ids = obj.search(cr,uid,[('rent_is_local','=',ids)])
 		#debug(obj_ids)
 		#for v in obj_ids:
@@ -201,7 +211,7 @@ class rent_rent(osv.osv):
 	#		debug(m.local_sqrmeter_price)
 	#		debug (a)
 	#		v[m.id] = 1
-		return v
+		return res
 		
 	_columns = {
 		'name'                  : fields.char('Reference',size=64),
