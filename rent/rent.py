@@ -78,7 +78,8 @@ class rent_estate(osv.osv):
 		debug(area_val)
 		debug('+==================================')
 		debug(vrn_val)
-		res['estate_vrn_per_sqr'] = obj_estate.estate_value / obj_estate.estate_area
+		if (area_val and vrn_val):
+			res['estate_vrn_per_sqr'] = area_val / vrn_val
 		return { 'value' : res}
 		
 	_columns = {
