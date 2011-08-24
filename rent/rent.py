@@ -194,6 +194,7 @@ class rent_rent(osv.osv):
 		for rent_id in ids:
 			debug(rent_id)
 			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rent_id)
+			debug(obj_rent)
 			if obj_rent.rent_is_local:
 				obj_ids = obj_rent.rent_rent_local
 				debug(obj_ids)
