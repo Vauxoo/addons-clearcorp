@@ -87,7 +87,7 @@ class rent_estate(osv.osv):
 	
 	def calculate_vrm(self,cr,uid,ids,p_Par):
 		debug('ONCHANGE==================================')
-		return {'value' : { 'estate_vrn_per_sqr' : _get_estate_vrm(self,cr,uids,ids,'estate_vrn_per_sqr',None,context)}}
+		return _get_estate_vrm(self,cr,uids,ids,'estate_vrn_per_sqr',None,context)
 rent_estate()
 
 #Class building to represente a Real Estate, that is on any land previously define by the user
