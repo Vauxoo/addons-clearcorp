@@ -197,9 +197,9 @@ class rent_rent(osv.osv):
 			debug(obj_rent)
 			if obj_rent.rent_is_local:
 				debug("LOCALES")
-				for obj_local in obj_rent.rent_rent_local 
-				res[obj_rent] += obj_local.local_value 
-				debug(res)
+				for obj_local in obj_rent.rent_rent_local:
+					res[obj_rent] += obj_local.local_value 
+					debug(res)
 			elif obj_rent.rent_is_parking:
 				debug("PARQUEO")
 				obj_ids = obj_rent.rent_rent_parking
