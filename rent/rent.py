@@ -70,7 +70,7 @@ class rent_estate(osv.osv):
 			debug(obj_estate)
 			res[estate_id] = obj_estate.estate_value / obj_estate.estate_area
 			debug(res)
-		return 4
+		return res
 	
 	def calculate_vrm(self,cr,uid,ids,context):
 		res = {}
