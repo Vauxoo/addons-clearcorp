@@ -70,6 +70,8 @@ class rent_estate(osv.osv):
 			res[estate_id] = obj_estate.estate_value / obj_estate.estate_area
 			debug(res)
 		return res
+	def calculate_vrn(sefl,cr,uid,ids,context=None):
+		return _get_estate_vrm(self,cr,uid,ids,'estate_vrn_per_sqr',{},context)
 		
 	_columns = {
 		'estate_owner'    : fields.many2one('res.company','Owner',required=True),
@@ -197,8 +199,9 @@ class rent_rent(osv.osv):
 			debug(obj_rent)
 			if obj_rent.rent_is_local:
 				debug("LOCALES")
-				obj_ids = obj_rent.rent_rent_local
-				debug(obj_ids)
+				for obj_local in obj_rent.rent_rent_local 
+				res[obj_rent] += obj_local.value 
+				debug(res)
 			elif obj_rent.rent_is_parking:
 				debug("PARQUEO")
 				obj_ids = obj_rent.rent_rent_parking
