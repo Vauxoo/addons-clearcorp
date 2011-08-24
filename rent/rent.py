@@ -71,6 +71,10 @@ class rent_estate(osv.osv):
 			res[estate_id] = obj_estate.estate_value / obj_estate.estate_area
 			debug(res)
 		return res
+	
+	def calculate_vrm(self,cr,uid,ids,context):
+		debug('ONCHANGE==================================')
+		return _get_estate_vrm(self,cr,uids,ids,'estate_vrn_per_sqr',None,context)
 		
 	_columns = {
 		'estate_owner'    : fields.many2one('res.company','Owner',required=True),
@@ -84,10 +88,6 @@ class rent_estate(osv.osv):
         #'estate_canton': fields.related('estate_address', 'estate_canton', type='selection', string='Canton'),
         #'estate_district': fields.related('estate_address', 'estate_district', type='selection', string='District'),
 	}
-	
-	def calculate_vrm(self,cr,uid,ids,p_Par):
-		debug('ONCHANGE==================================')
-		return _get_estate_vrm(self,cr,uids,ids,'estate_vrn_per_sqr',None,context)
 rent_estate()
 
 #Class building to represente a Real Estate, that is on any land previously define by the user
