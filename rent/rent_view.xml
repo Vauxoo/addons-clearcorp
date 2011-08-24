@@ -293,6 +293,7 @@
 						<field name = "building_area"/>
 						<field name = "building_value"/>
 						<field name = "building_capacity"/>
+						<field name = "building_vrn_per_sqr"/>
 					</group>
 					<group col = "4" colspan = "2">
 						<separator string = "Photos" col = "4" colspan = "4"/>

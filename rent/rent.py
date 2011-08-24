@@ -89,6 +89,18 @@ rent_estate()
 #this class contains the necesary data to determine the value for rent of the building
 class rent_building(osv.osv):
 	_name = 'rent.building'
+	
+	def _get_estate_vrm(self,cr,uid,ids,field_name,context=None):
+		res = {}
+		debug('+==================================')
+		for building_id in ids:
+			debug(building_id)
+			obj_building = self.pool.get('rent.building').browse(cr,uid,building_id)
+			debug(obj_building)
+			res[building_id] = obj_building.building_value / obj_building.building_area
+			debug(res)
+		return res
+		
 	_columns = {
 		'building_capacity'          : fields.integer('Capacity',required=True),
 		'building_date_construction' : fields.date('Construction Date', required=True),
@@ -102,6 +114,7 @@ class rent_building(osv.osv):
 		'building_estate'            : fields.many2one('rent.estate', 'estate'),
 		'building_photo'             : fields.binary('Photo'),
 		'building_floors'            : fields.one2many('rent.floor','floor_building','Floors'),
+		'building_vrn_per_sqr'       : fields.function(_get_building_vrm,type='float',method=True,string='VRN Din/M2'),
 	}
 rent_building()
 
