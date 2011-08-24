@@ -63,6 +63,7 @@ class rent_estate(osv.osv):
 	def _get_estate_vrm(self,cr,uid,ids,field_name,args,context=None):
 		res = {}
 		debug('+==================================')
+		debug(args)
 		for estate_id in ids:
 			debug(estate_id)
 			obj_estate = self.pool.get('rent.estate').browse(cr,uid,estate_id)
@@ -70,7 +71,8 @@ class rent_estate(osv.osv):
 			res[estate_id] = obj_estate.estate_value / obj_estate.estate_area
 			debug(res)
 		return res
-		
+	def calculate_vrm(self,cr,uid,ids,context):
+		return _get_estate_vrm(self,cr,uids,ids,'estate_vrn_per_sqr',{},context)
 	_columns = {
 		'estate_owner'    : fields.many2one('res.company','Owner',required=True),
 		'estate_number'   : fields.char('# estate', size=10,required=True),
