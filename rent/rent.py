@@ -196,12 +196,15 @@ class rent_rent(osv.osv):
 			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rent_id)
 			debug(obj_rent)
 			if obj_rent.rent_is_local:
+				debug("LOCALES")
 				obj_ids = obj_rent.rent_rent_local
 				debug(obj_ids)
 			elif obj_rent.rent_is_parking:
+				debug("PARQUEO")
 				obj_ids = obj_rent.rent_rent_parking
 				debug(obj_ids)
 			else:
+				debug("LOTES")
 				obj_ids = obj_rent.rent_rent_estate
 				debug(obj_ids)
 		#obj_ids = obj.search(cr,uid,[('rent_is_local','=',ids)])
