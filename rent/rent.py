@@ -72,14 +72,10 @@ class rent_estate(osv.osv):
 			debug(res)
 		return 4
 	
-	def calculate_vrm(self,cr,uid,ids,area_val,vrn_val):
+	def calculate_vrm(self,cr,uid,ids,context):
 		res = {}
 		debug('ONCHANGE+==================================')
-		debug(area_val)
-		debug('ONCHANGE+==================================')
-		debug(vrn_val)
-		if (area_val and vrn_val):
-			res['estate_vrn_per_sqr'] = area_val / vrn_val
+		self.pool.get('rent.estate').write(cr, uid, ids, {'estate_area':[]}, context)
 		return { 'value' : res}
 		
 	_columns = {
@@ -87,15 +83,12 @@ class rent_estate(osv.osv):
 		'estate_number'   : fields.char('# estate', size=10,required=True),
 		'estate_value'    : fields.float('VRN Dynamic',required=True),
 		'estate_area'     : fields.float('Area', required=True),
-		'estate_vrn_per_sqr' : fields.float('VRN Din/M2',store=False, readonly=True),
+		'estate_vrn_per_sqr' : fields.function(_get_estate_vrm,type='float',method=True,string='VRN Din/M2'),#fields.float('VRN Din/M2',store=False, readonly=True),
 		'estate_buildings': fields.one2many('rent.building','building_estate','Buildings'),
 		'estate_location' : fields.many2one('res.partner.address','Location'),
 		#'estate_province': fields.related('estate_address', 'estate_province', type='selection', string='Province'),
         #'estate_canton': fields.related('estate_address', 'estate_canton', type='selection', string='Canton'),
         #'estate_district': fields.related('estate_address', 'estate_district', type='selection', string='District'),
-	}
-	_defautls = {
-		'estate_vrn_per_sqr' : 4.00
 	}
 rent_estate()
 
