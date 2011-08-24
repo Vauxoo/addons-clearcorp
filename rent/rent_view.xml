@@ -765,12 +765,12 @@
 		<record model = "ir.ui.view" id = "clause_by_contract_tree_view">
 			<field name = "name">clause.contract.clause.rel.tree</field>
 			<field name = "model">rent.contract.clause.rel</field>
-			<field name = "type">form</field>
+			<field name = "type">tree</field>
 			<field name = "arch" type = "xml">
-				<form string = "Clausula de Contrato">
+				<tree string = "Clausula de Contrato">
 					<field name = "sequence"/>
 					<field name = "rent_contract_clause_id"/>
-				</form>
+				</tree>
 			</field>
 		</record>
 		
