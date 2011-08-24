@@ -95,7 +95,7 @@ class rent_estate(osv.osv):
         #'estate_district': fields.related('estate_address', 'estate_district', type='selection', string='District'),
 	}
 	_defautls = {
-		'estate_vrn_per_sqr' : _get_estate_vrm
+		'estate_vrn_per_sqr' : 4
 	}
 rent_estate()
 
