@@ -574,7 +574,6 @@
 						<field name = "rent_type"/>
 						<field name = "rent_status"/>
 						<field name = "rent_total"/>
-						<field name = "rent_aval"/>
 						<field name = "rent_rise"/>
 					</group>
 					<group col = "2" colspan = "2">

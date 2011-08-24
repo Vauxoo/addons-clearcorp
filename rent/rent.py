@@ -203,21 +203,6 @@ class rent_rent(osv.osv):
 	#		v[m.id] = 1
 		return v
 		
-	def _get_total_aval(self,cr,uid,ids,field_name,args,context):
-		v = {}
-		obj = self.pool.get('rent.floor.local')
-		debug('+==================================')
-		#obj_ids = obj.search(cr,uid,[('rent_is_local','=',ids)])
-		#debug(obj_ids)
-		#for v in obj_ids:
-	#		debug(v)
-	#		debug(v.id)
-	#		m = self.pool.get('rent.floor.local').browse(cr,uid,v)
-	#		debug(m.local_sqrmeter_price)
-	#		debug (a)
-	#		v[m.id] = 1
-		return v
-		
 	_columns = {
 		'name'                  : fields.char('Reference',size=64),
 		'rent_rent_client'      : fields.many2one('rent.client','Client'),
@@ -235,7 +220,6 @@ class rent_rent(osv.osv):
 		'rent_is_local'         : fields.boolean('Locals',help='Check if you want to calculate a rent for locals'),
 		'rent_is_parking'       : fields.boolean('Parking',help='Check if you want to calculate a rent for locals'),
 		'rent_is_estate'        : fields.boolean('Estates',help='Check if you want to calculate a rent for locals'),
-		'rent_aval '            : fields.function(_get_total_aval,type='float',method=True,string='Total Aval'),
 	}
 rent_rent()
 
