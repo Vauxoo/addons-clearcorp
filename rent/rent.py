@@ -85,7 +85,7 @@ class rent_estate(osv.osv):
         #'estate_district': fields.related('estate_address', 'estate_district', type='selection', string='District'),
 	}
 	
-	def calculate_vrm(self,cr,uid,ids,p_Par,context):
+	def calculate_vrm(self,cr,uid,ids,p_Par):
 		debug('ONCHANGE==================================')
 		return {'value' : { 'estate_vrn_per_sqr' : _get_estate_vrm(self,cr,uids,ids,'estate_vrn_per_sqr',None,context)}}
 rent_estate()
