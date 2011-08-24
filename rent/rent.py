@@ -72,16 +72,18 @@ class rent_estate(osv.osv):
 			debug(res)
 		return res
 	
-	def calculate_vrm(self,cr,uid,ids,context):
-		debug('ONCHANGE==================================')
-		return _get_estate_vrm(self,cr,uids,ids,'estate_vrn_per_sqr',None,context)
+	def calculate_vrm(self,cr,uid,ids,area_val,vrn_val,context):
+		res = {}
+		debug('+==================================')
+		res['estate_vrn_per_sqr'] = obj_estate.estate_value / obj_estate.estate_area
+		return { 'value' : res}
 		
 	_columns = {
 		'estate_owner'    : fields.many2one('res.company','Owner',required=True),
 		'estate_number'   : fields.char('# estate', size=10,required=True),
 		'estate_value'    : fields.float('VRN Dynamic',required=True),
 		'estate_area'     : fields.float('Area', required=True),
-		'estate_vrn_per_sqr' : fields.function(_get_estate_vrm,type='float',method=True,string='VRN Din/M2'),
+		'estate_vrn_per_sqr' : fields.float('VRN Din/M2',store=False, readonly=True),
 		'estate_buildings': fields.one2many('rent.building','building_estate','Buildings'),
 		'estate_location' : fields.many2one('res.partner.address','Location'),
 		#'estate_province': fields.related('estate_address', 'estate_province', type='selection', string='Province'),
