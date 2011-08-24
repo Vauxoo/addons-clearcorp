@@ -247,7 +247,7 @@
 					<field name = "estate_number"/>
 					<field name = "estate_area"/>
 					<field name = "estate_value"/>
-					
+					<field name = "estate_vrn_per_sqr"/>
 					<!--<field name = "estate_province"/>
 					<field name = "estate_vrn_per_sqr"/>
 					<field name = "estate_district"/>-->
@@ -293,6 +293,7 @@
 						<field name = "building_area"/>
 						<field name = "building_value"/>
 						<field name = "building_capacity"/>
+						<field name = "building_vrn_per_sqr"/>
 					</group>
 					<group col = "4" colspan = "2">
 						<separator string = "Photos" col = "4" colspan = "4"/>
@@ -319,6 +320,7 @@
 					<field name="building_date_construction"/>
 					<field name="building_value"/>
 					<field name="building_area"/>
+					<field name = "building_vrn_per_sqr"/>
 					<field name="building_capacity"/>
 				</tree>
 			</field>
