@@ -220,7 +220,7 @@
 						<field name = "estate_owner" select = "1"/>
 						<field name = "estate_number" select = "1"/>
 						<field name = "estate_value" on_change = "calculate_vrm(estate_value)"/>
-						<field name = "estate_area" on_change = "calculate_vrm(estate_value)/>
+						<field name = "estate_area" on_change = "calculate_vrm(estate_value)"/>
 						<field name = "estate_vrn_per_sqr"/>
 					</group>
 					<notebook colspan = "4">
