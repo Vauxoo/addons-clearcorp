@@ -209,33 +209,7 @@
 						ESTATES
 		======================================
 		-->
-		<record model = "ir.ui.view" id = "estate_form_view">
-			<field name = "name">rent.estate.form</field>
-			<field name = "model">rent.estate</field>
-			<field name = "type">form</field>
-			<field name = "arch" type = "xml">
-				<form string = "estate Detail">
-					<group col = "4" colspan = "4">
-						<separator string = "General Information" col = "4" colspan = "4"/>
-						<field name = "estate_owner" select = "1"/>
-						<field name = "estate_number" select = "1"/>
-						<field name = "estate_value"/>
-						<field name = "estate_area"/>
-					</group>
-					<notebook colspan = "4">
-						<page string = "Location"> 
-							<field name = "estate_location" colspan="4" nolabel="1" select="1" attrs = "{'readonly' : [('estate_owner','=','')]}" domain="[('partner_id','=',estate_owner)]"/>
-						<!--<field name = "estate_address"/>-->
-						<!--<field name = "estate_canton" on_change = "determine_district(estate_canton)"/>
-						<field name = "estate_district"/>-->
-						</page>
-						<page string = "Buildings">
-							<field name = "estate_buildings" nolabel="1"/>
-						</page>
-					</notebook>
-				</form>
-			</field>
-		</record>
+		
 		
 		<record model = "ir.ui.view" id = "estate_tree_view">
 			<field name = "name">rent.estate.tree</field>
