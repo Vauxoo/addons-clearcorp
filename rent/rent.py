@@ -63,12 +63,12 @@ class rent_estate(osv.osv):
 	def _get_estate_vrm(self,cr,uid,ids,field_name,context=None):
 		res = {}
 		debug('+==================================')
-		for estate_id in ids:
-			debug(estate_id)
-			obj_estate = self.pool.get('rent.estate').browse(cr,uid,estate_id)
-			debug(obj_estate)
-			res[estate_id] = obj_estate.estate_value / obj_estate.estate_area
-			debug(res)
+		#for estate_id in ids:
+		#	debug(estate_id)
+		#	obj_estate = self.pool.get('rent.estate').browse(cr,uid,estate_id)
+		#	debug(obj_estate)
+		#	res[estate_id] = obj_estate.estate_value / obj_estate.estate_area
+		#	debug(res)
 		return res
 		
 	_columns = {
