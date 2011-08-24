@@ -70,8 +70,7 @@ class rent_estate(osv.osv):
 			res[estate_id] = obj_estate.estate_value / obj_estate.estate_area
 			debug(res)
 		return res
-	def calculate_vrn(sefl,cr,uid,ids,context=None):
-		return _get_estate_vrm(self,cr,uid,ids,'estate_vrn_per_sqr',{},context)
+	
 		
 	_columns = {
 		'estate_owner'    : fields.many2one('res.company','Owner',required=True),
