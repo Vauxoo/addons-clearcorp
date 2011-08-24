@@ -247,9 +247,9 @@
 					<field name = "estate_number"/>
 					<field name = "estate_area"/>
 					<field name = "estate_value"/>
-					<field name = "estate_vrn_per_sqr"/>
-					<!--<field name = "estate_province"/>
 					
+					<!--<field name = "estate_province"/>
+					<field name = "estate_vrn_per_sqr"/>
 					<field name = "estate_district"/>-->
 				</tree>
 			</field>
