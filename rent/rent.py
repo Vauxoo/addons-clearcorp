@@ -75,7 +75,7 @@ class rent_estate(osv.osv):
 	def calculate_vrm(self,cr,uid,ids,context):
 		res = {}
 		debug('ONCHANGE+==================================')
-		self.pool.get('rent.estate').write(cr, uid, ids, {'estate_buildings' : []}, context)
+		self.pool.get('rent.estate').write(cr, uid, ids, {}, context)
 		return { 'value' : res}
 		
 	_columns = {
