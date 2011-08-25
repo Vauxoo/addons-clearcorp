@@ -299,7 +299,7 @@ class rent_local_floor(osv.osv):
 			obj = self.pool.get('rent.local.floor').browse(cr,uid,local_id)
 			debug("---------------------------------")
 			debug(obj)
-			debug(obj._local_floor_area(self,cr,uid,local_id,'local_local_floor',None,context))
+			debug(obj._local_floor_area(local_id,'local_local_floor',None))
 			#areas = obj._local_floor_area(self,cr,uid,local_id,'local_local_floor',None,context)
 			#debug(areas)
 			#obj_build = sef.pool.get('rent.building').browse(cr,uid,obj.local_floor.floor_building)
