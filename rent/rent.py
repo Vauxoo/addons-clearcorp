@@ -183,7 +183,7 @@ class rent_floor_local(osv.osv):
 			debug(obj_floor)
 			#obj_build = sef.pool.get('rent.building').browse(cr,uid,obj.local_floor.floor_building)
 			
-			res[local_id] = obj.local_floor.floor_building.building_vrn_per_sqr
+			res[local_id] = 123
 		return res
 		
 	def _get_building_local(self,cr,uid,ids,field_name,args,context):
