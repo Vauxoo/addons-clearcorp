@@ -291,7 +291,10 @@ class rent_local_floor(osv.osv):
 			areas = obj._local_floor_area(local_id,'local_local_floor',None)
 			debug(areas)
 			#obj_build = sef.pool.get('rent.building').browse(cr,uid,obj.local_floor.floor_building)
-			res[local_id] = 123
+			obj_build = obj.local_floor.floor_building
+			debug(obj_build)
+			res[local_id] = areas[local_id] * obj_building._get_building_vrm(obj_building.id,None,None)[obj_building.id]
+			debug(res)
 		return res
 		
 	def _local_floor_area(self,cr,uid,ids,field_name,args,context):
