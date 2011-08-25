@@ -261,7 +261,9 @@ class rent_rent(osv.osv):
 			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rent_id)
 			fin = parser.parse(obj_rent.rent_end_date)
 			inicio = parser.parse(obj_rent.rent_start_date)
-			res[rent_id] = (fin - inicio)/365
+			debug(inicio)
+			debug(fin)
+			res[rent_id] = (fin.year - inicio.year)
 			debug(res)
 		return res
 	_columns = {
