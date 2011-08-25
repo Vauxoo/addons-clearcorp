@@ -498,7 +498,7 @@
 					<field name = "local_floor_floor" select = "1"/>
 					<field name = "local_floor_width"/>
 					<field name = "local_floor_large"/>
-					<field name = "local_sqrmeter_price"/>
+					<field name = "local_sqrmeter_price" sum = "Sqr Meter Total"/>
 				</tree>
 			</field>
 		</record>
@@ -614,7 +614,7 @@
 			<field name = "model">rent.rent</field>
 			<field name = "type">tree</field>
 			<field name = "arch" type = "xml">
-				<tree string = "Rent List">
+				<tree string = "Rent List" colors="blue:rent_status in ('Draft');black:rent_status in ('Valid');gray:state in ('Finished')">
 					<field name = "name"/>
 					<field name = "rent_type"/>
 					<field name = "rent_status"/>
