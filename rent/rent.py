@@ -62,19 +62,13 @@ class rent_estate(osv.osv):
 	
 	def _get_estate_vrm(self,cr,uid,ids,field_name,args,context=None):
 		res = {}
-		debug('FUNCTION+==================================')
-		debug(args)
 		for estate_id in ids:
-			debug(estate_id)
 			obj_estate = self.pool.get('rent.estate').browse(cr,uid,estate_id)
-			debug(obj_estate)
 			res[estate_id] = obj_estate.estate_value / obj_estate.estate_area
-			debug(res)
 		return res
 	
 	def calculate_vrm(self,cr,uid,ids,context):
 		res = {}
-		debug('ONCHANGE+==================================')
 		self.pool.get('rent.estate').write(cr, uid, ids, {}, context)
 		return { 'value' : res}
 		
@@ -99,13 +93,9 @@ class rent_building(osv.osv):
 	
 	def _get_building_vrm(self,cr,uid,ids,field_name,args,context=None):
 		res = {}
-		debug('FUNCTION+==================================')
 		for building_id in ids:
-			debug(building_id)
 			obj_building = self.pool.get('rent.building').browse(cr,uid,building_id)
-			debug(obj_building)
 			res[building_id] = obj_building.building_value / obj_building.building_area
-			debug(res)
 		return res
 		
 	_columns = {
@@ -298,10 +288,8 @@ class rent_local_floor(osv.osv):
 		for local_id in ids:
 			obj = self.pool.get('rent.local.floor').browse(cr,uid,local_id)
 			debug("---------------------------------")
-			debug(obj)
-			debug(obj._local_floor_area(local_id,'local_local_floor',None))
-			#areas = obj._local_floor_area(self,cr,uid,local_id,'local_local_floor',None,context)
-			#debug(areas)
+			areas = obj._local_floor_area(local_id,'local_local_floor',None)
+			debug(areas)
 			#obj_build = sef.pool.get('rent.building').browse(cr,uid,obj.local_floor.floor_building)
 			res[local_id] = 123
 		return res
