@@ -178,7 +178,7 @@ class rent_floor_local(osv.osv):
 	def _local_sqr_price(self,cr,uid,ids,field_name,args,context):
 		res = {}
 		for local_id in ids:
-			obj = self.pool.get('rent.floor.local').browse(cr,uid,local_id)
+			obj = self.pool.get('rent.local.floor').search(cr,uid,[('local_id)
 			obj_floor = self.pool.get('rent.floor').browse(cr,uid,obj.local_floor)
 			debug("---------------------------------")
 			debug(obj)

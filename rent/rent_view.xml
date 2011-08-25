@@ -423,6 +423,7 @@
 				<form string = "Local Details">
 					<group col = "4" colspan = "2">
 						<separator string = "General Information"/>
+						<field name = "local_building"/>
 						<field name = "local_number"/>
 						<field name = "local_value"/>
 						<field name = "local_area"/>
@@ -445,6 +446,7 @@
 			<field name = "type">tree</field>
 			<field name = "arch" type = "xml">
 				<tree string = "Local List">
+					<field name = "local_building"/>
 					<field name = "local_number"/>
 					<field name = "local_value"/>
 					<field name = "local_area"/>
