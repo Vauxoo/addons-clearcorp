@@ -292,7 +292,7 @@ class rent_local_floor(osv.osv):
 			debug(areas)
 			obj_build = obj.local_floor_floor.floor_building
 			debug(obj_build)
-			res[local_id] = areas[local_id] * obj_building._get_building_vrm(obj_building.id,None,None)[obj_building.id]
+			res[local_id] = areas[local_id] * obj_build._get_building_vrm(obj_build.id,None,None)[obj_build.id]
 			debug(res)
 		return res
 		
