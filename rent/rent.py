@@ -132,7 +132,7 @@ class rent_floor(osv.osv):
 	_name = 'rent.floor'
 	_rec_name = 'floor_number'
 	
-	def _calculate_floor_value(self,cr,uid,ids,field_name,context):
+	def _calculate_floor_value(self,cr,uid,ids,field_name,args,context):
 		res = {}
 		area = {}
 		debug("CALCULO====================")
