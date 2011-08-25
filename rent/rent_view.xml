@@ -628,7 +628,7 @@
 					<field name = "rent_status"/>
 					<field name = "rent_start_date"/>
 					<field name = "rent_end_date"/>
-					<button name="invoice_open" states="draft,proforma2" string="Approve" icon="terp-camera_test"/>
+					<button name="rent_valid" states="draft" string="Approve" icon="terp-camera_test"/>
 				</tree>
 			</field>
 		</record>

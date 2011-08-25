@@ -220,6 +220,10 @@ rent_floor_parking()
 class rent_rent(osv.osv):
 	_name = 'rent.rent'
 	
+	def rent_valid(self,cr,uid,ids,context):
+		for rent_id in ids:
+			self.pool.get('rent.rent').write(cr,uid,ids,{'rent_status':'Valid'})
+		return True
 	def _get_total_rent(self,cr,uid,ids,field_name,args,context):
 		res = {}
 		total = 0
