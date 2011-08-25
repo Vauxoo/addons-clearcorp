@@ -174,19 +174,6 @@ rent_floor()
 class rent_floor_local(osv.osv):
 	_name = 'rent.floor.local'
 	_rec_name = 'local_number'
-
-	def _local_sqr_price(self,cr,uid,ids,field_name,args,context):
-		res = {}
-		for local_id in ids:
-			obj = self.pool.get('rent.local.floor').search(cr,uid,[('local_id)
-			obj_floor = self.pool.get('rent.floor').browse(cr,uid,obj.local_floor)
-			debug("---------------------------------")
-			debug(obj)
-			debug(obj.local_floor)
-			#obj_build = sef.pool.get('rent.building').browse(cr,uid,obj.local_floor.floor_building)
-			
-			res[local_id] = 123
-		return res
 		
 	def _get_building_local(self,cr,uid,ids,field_name,args,context):
 		res = {}
@@ -204,8 +191,8 @@ class rent_floor_local(osv.osv):
 		'local_huella'             : fields.float('Huella',required=True),
 		'local_water_meter_number' : fields.char('Water Meter',size=64), 
 		'local_light_meter_number' : fields.char('Light Meter', size=64),
-		'local_sqrmeter_price'     : fields.function(_local_sqr_price,type='float',method=True,string='Sqr Meter Price'),
-		#'local_sqrmeter_price'     :  fields.float('Sqr Meter Price',required=True),
+		#'local_sqrmeter_price'     : fields.function(_local_sqr_price,type='float',method=True,string='Sqr Meter Price'),
+		'local_sqrmeter_price'     :  fields.float('Sqr Meter Price',required=True),
 		'local_rented'             : fields.boolean('Rented',help='Check if the local is rented'),
 		'local_floor'              : fields.many2one('rent.floor','# Floor'),
 		'local_building'           : fields.function(_get_building_local,type='many20ne',method=True,string='Building'),
@@ -306,6 +293,18 @@ rent_rent()
 class rent_local_floor(osv.osv):
 	_name = 'rent.local.floor'
 	
+	def _local_sqr_price(self,cr,uid,ids,field_name,args,context):
+		res = {}
+		for local_id in ids:
+			obj = self.pool.get('rent.local.floor').browse(cr,uid,local_id)
+			debug("---------------------------------")
+			debug(obj)
+			areas = obj._local_floor_area(self,cr,uid,local_id,'local_local_floor',None,context)
+			debug(areas)
+			#obj_build = sef.pool.get('rent.building').browse(cr,uid,obj.local_floor.floor_building)
+			res[local_id] = 123
+		return res
+		
 	def _local_floor_area(self,cr,uid,ids,field_name,args,context):
 		res = {}
 		for local_floor_id in ids:
@@ -314,13 +313,14 @@ class rent_local_floor(osv.osv):
 		return res
 	
 	_columns = {
-		'name'               : fields.char('Reference',size=64,help='Indicate a representative reference for the asociation'),
-		'local_floor_width'  : fields.float('Width', required=True),
-		'local_floor_large'  : fields.float('Large', required=True),
-		'local_floor_floor'  : fields.many2one('rent.floor','Level',help='Represents the floor on witch its located the local'),
-		'local_local_floor'  : fields.many2one('rent.floor.local','Local#',help='Represents the floor on witch its located the local'),
-		'local_rent'         : fields.many2one('rent.rent','Alquiler'),
-		'local_floor_area'   : fields.function(_local_floor_area,type='float',method=True,string='Area M2'),
+		'name'                 : fields.char('Reference',size=64,help='Indicate a representative reference for the asociation'),
+		'local_floor_width'    : fields.float('Width', required=True),
+		'local_floor_large'    : fields.float('Large', required=True),
+		'local_floor_floor'    : fields.many2one('rent.floor','Level',help='Represents the floor on witch its located the local'),
+		'local_local_floor'    : fields.many2one('rent.floor.local','Local#',help='Represents the floor on witch its located the local'),
+		'local_rent'           : fields.many2one('rent.rent','Alquiler'),
+		'local_floor_area'     : fields.function(_local_floor_area,type='float',method=True,string='Area M2'),
+		'local_sqrmeter_price' : fields.function(_local_sqr_price,type='float',method=True,string='Sqr Meter Price'),
 	}
 rent_local_floor()
 
