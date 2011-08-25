@@ -233,7 +233,7 @@ class rent_rent(osv.osv):
 				debug(obj_rent.rent_rent_local)
 				for obj_local in obj_rent.rent_rent_local:
 		#			res[rent_id] += obj_local.local_value 
-					total += obj_local.local_floor_value
+					total += obj_local._local_value(obj_local.id,None,None)
 					debug(total)
 			elif obj_rent.rent_is_parking:
 				debug("PARQUEO")
