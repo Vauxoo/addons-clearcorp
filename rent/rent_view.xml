@@ -448,7 +448,7 @@
 				<tree string = "Local List">
 					<field name = "local_building"/>
 					<field name = "local_number"/>
-					<field name = "local_value"/>
+					<!--<field name = "local_value"/>-->
 					<field name = "local_area"/>
 					<field name = "local_rented"/>
 				</tree>
