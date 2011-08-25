@@ -136,6 +136,7 @@ class rent_floor(osv.osv):
 		res = {}
 		area = {}
 		debug("CALCULO====================")
+		debug(ids)
 		for floor_id in ids:
 			actual_rent = self.pool.get('rent.rent').search(cr,uid,[('rent_status','=','Valid')])
 			debug(actual_rent)
@@ -174,6 +175,25 @@ class rent_floor_local(osv.osv):
 	_name = 'rent.floor.local'
 	_rec_name = 'local_number'
 
+	def _local_sqr_price(self,cr,uid,ids,field_name,args,context):
+		res = {}
+		for local_id in ids:
+			obj = self.pool.get('rent.floor.local').browse(cr,uid,local_id)
+			debug(obj.local_floor)
+			#obj_floor = self.pool.get('rent.floor').browse(cr,uid,obj.local_floor)
+			obj_build = sef.pool.get('rent.building').browse(cr,uid,obj.local_floor.floor_building)
+			
+			res[local_id] = 
+		return res
+		
+	def _get_building_local(self,cr,uid,ids,field_name,args,context):
+		res = {}
+		for local_id in ids:
+			obj_local = self.pool.get('rent.floor.local').browse(cr,uid,local_id)
+			obj_floor = self.pool.get('rent.floor').browse(cr,uid,obj_local.local_floor)
+			res[local_id] = obj_floor.floor_building
+		return res
+		
 	_columns = {
 		#'local_area'               : fields.function(_floor_area,type='float',method=True,string='VRN Dynamic'),
 		'local_area'               : fields.float('VRN Dynamic',required=True),
@@ -182,9 +202,11 @@ class rent_floor_local(osv.osv):
 		'local_huella'             : fields.float('Huella',required=True),
 		'local_water_meter_number' : fields.char('Water Meter',size=64), 
 		'local_light_meter_number' : fields.char('Light Meter', size=64),
-		'local_sqrmeter_price'     :  fields.float('Sqr Meter Price',required=True),
+		'local_sqrmeter_price'     : fields.function(_local_sqr_price,type='float',method=True,string='Sqr Meter Price'),
+		#'local_sqrmeter_price'     :  fields.float('Sqr Meter Price',required=True),
 		'local_rented'             : fields.boolean('Rented',help='Check if the local is rented'),
 		'local_floor'              : fields.many2one('rent.floor','# Floor'),
+		'local_building'           : fields.function(_get_building_local,type='many20ne',method=True,string='Building'),
 	}
 rent_floor_local()
 
