@@ -35,8 +35,6 @@ class rent_location(osv.osv):
 		'canton_id'   : fields.many2one('rent.canton', 'Canton', domain = "[('state_id','=',state_id)]"),
 		'district_id' : fields.many2one('rent.canton.district','District', domain = "[('canton_id','=',canton_id)]"),
 	}
-
-	
 rent_location()
 
 #Class that inherits from res.partner allowing to record the 
@@ -176,7 +174,7 @@ class rent_floor_local(osv.osv):
 	_columns = {
 		#'local_area'               : fields.function(_floor_area,type='float',method=True,string='VRN Dynamic'),
 		'local_area'               : fields.float('VRN Dynamic',required=True),
-		'local_value'              : fields.float('Value',required=True),
+		#'local_value'              : fields.float('Value',required=True),
 		'local_number'             : fields.integer('# Local',required=True),
 		'local_huella'             : fields.float('Huella',required=True),
 		'local_water_meter_number' : fields.char('Water Meter',size=64), 
@@ -185,7 +183,7 @@ class rent_floor_local(osv.osv):
 		'local_sqrmeter_price'     :  fields.float('Sqr Meter Price',required=True),
 		'local_rented'             : fields.boolean('Rented',help='Check if the local is rented'),
 		'local_floor'              : fields.many2one('rent.floor','# Floor'),
-		'local_building'           : fields.function(_get_building_local,type='many20ne',method=True,string='Building'),
+		'local_building'           : fields.function(_get_building_local,type='many2one',method=True,string='Building'),
 	}
 rent_floor_local()
 
@@ -230,6 +228,7 @@ class rent_rent(osv.osv):
 			debug(obj_rent)
 			if obj_rent.rent_is_local:
 				debug("LOCALES")
+				debug(obj_rent.rent_rent_local)
 				for obj_local in obj_rent.rent_rent_local:
 		#			res[rent_id] += obj_local.local_value 
 					debug(res)
@@ -287,13 +286,9 @@ class rent_local_floor(osv.osv):
 		res = {}
 		for local_id in ids:
 			obj = self.pool.get('rent.local.floor').browse(cr,uid,local_id)
-			debug("---------------------------------")
 			areas = obj._local_floor_area(local_id,'local_local_floor',None)
-			debug(areas)
 			obj_build = obj.local_floor_floor.floor_building
-			debug(obj_build)
 			res[local_id] = areas[local_id] * obj_build._get_building_vrm(obj_build.id,None,None)[obj_build.id]
-			debug(res)
 		return res
 		
 	def _local_floor_area(self,cr,uid,ids,field_name,args,context):
