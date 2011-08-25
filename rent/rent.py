@@ -233,7 +233,8 @@ class rent_rent(osv.osv):
 				debug(obj_rent.rent_rent_local)
 				for obj_local in obj_rent.rent_rent_local:
 		#			res[rent_id] += obj_local.local_value 
-					debug(obj_local._local_value(obj_local.id,None,None))
+					total += obj_local._local_value(obj_local.id,None,None)[obj_local.id]
+					debug(total)
 					#debug(total)
 			elif obj_rent.rent_is_parking:
 				debug("PARQUEO")
@@ -243,15 +244,7 @@ class rent_rent(osv.osv):
 				debug("LOTES")
 				obj_ids = obj_rent.rent_rent_estate
 				debug(obj_ids)
-		#obj_ids = obj.search(cr,uid,[('rent_is_local','=',ids)])
-		#debug(obj_ids)
-		#for v in obj_ids:
-	#		debug(v)
-	#		debug(v.id)
-	#		m = self.pool.get('rent.floor.local').browse(cr,uid,v)
-	#		debug(m.local_sqrmeter_price)
-	#		debug (a)
-	#		v[m.id] = 1
+			res[rent_id] = total
 		return res
 		
 	def _calculate_years(self,cr,uid,ids,field_name,args,context):
