@@ -222,6 +222,7 @@ class rent_rent(osv.osv):
 	
 	def _get_total_rent(self,cr,uid,ids,field_name,args,context):
 		res = {}
+		total = 0
 		debug('+==================================')
 		for rent_id in ids:
 			debug(rent_id)
