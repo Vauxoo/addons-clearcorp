@@ -483,6 +483,7 @@
 						<field name = "local_floor_floor" select = "1"/>
 						<field name = "local_floor_width"/>
 						<field name = "local_floor_large"/>
+						<field name = "local_sqrmeter_price"/>
 					</group>
 				</form>
 			</field>
@@ -498,6 +499,7 @@
 					<field name = "local_floor_floor" select = "1"/>
 					<field name = "local_floor_width"/>
 					<field name = "local_floor_large"/>
+					<field name = "local_sqrmeter_price"/>
 				</tree>
 			</field>
 		</record>
