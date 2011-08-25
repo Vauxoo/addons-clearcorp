@@ -131,12 +131,35 @@ rent_building()
 class rent_floor(osv.osv):
 	_name = 'rent.floor'
 	_rec_name = 'floor_number'
+	
+	def _calculate_floor_value(self,cr,uid,ids,field_name,context):
+		res = {}
+		area = {}
+		debug("CALCULO====================")
+		for floor_id in ids:
+			actual_rent = self.pool.get('rent.rent').search(cr,uid,[('rent_status','=','Valid')],context)
+			debug(actual_rent)
+			for rent_id in actual_rent:
+				locals_id = self.pool.get('rent.local.floor').search(cr,uid,[('local_rent','=',rent_id),('local_floor_floor','=',floor_id)],context)
+				debug(locals_id)
+				for local in locals_id:
+					obj_local = self.pool.get('rent.local.floor').browse(cr,uid,local)
+					area[floor_id] = obj_local.local_floor_width * obj_local.local_floor_large
+					obj_floor = self.pool.get('rent.floor').browse(cr,uid,floor_id)
+					obj_building = self.pool.get('rent.building').browse(cr,uid,obj_floor.floor_building)
+					debug(obj_building)
+					valores = obj_building._get_building_vrm(self,cr,uid,obj_floor.floor_building,None,context)
+					debug(valores)
+					res[floor_id] = area[floor_id] * valores[0]
+					debug(res)
+		return res
+	
 	_columns = {
 		'floor_number'     : fields.integer('# Floor',required=True, help='Number of the floor in the building, starts from 0 (Basement)'),
 		'floor_thickness'  : fields.float('Thickness'),
 		'floor_durability' : fields.integer('Durability', help='Indicate the durability in years'),
 		'floor_area'       : fields.float('Area',required=True),
-		'floor_value'      : fields.float('Value',help='This value is calculated using the estate and building area and values'),
+		'floor_value'      : fields.function(_calculate_floor_value,type='float',method=True,string='Value',help='This value is calculated using the estate and building area and values'),
 		'floor_acabado'    : fields.char('Acabado',size=64),
 		'floor_local'      : fields.one2many('rent.floor.local','local_floor','Local'),
 		'floor_parking'    : fields.one2many('rent.floor.parking','parking_floor','Parking'),
@@ -150,7 +173,9 @@ rent_floor()
 class rent_floor_local(osv.osv):
 	_name = 'rent.floor.local'
 	_rec_name = 'local_number'
+
 	_columns = {
+		#'local_area'               : fields.function(_floor_area,type='float',method=True,string='VRN Dynamic'),
 		'local_area'               : fields.float('VRN Dynamic',required=True),
 		'local_value'              : fields.float('Value',required=True),
 		'local_number'             : fields.integer('# Local',required=True),
@@ -225,7 +250,14 @@ class rent_rent(osv.osv):
 	#		debug (a)
 	#		v[m.id] = 1
 		return res
-		
+	def _calculate_years(self,cr,uid,ids,field_name,args,context):
+		debug('+==================================')
+		res = {}
+		for rent_id in ids:
+			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rent_id)
+			res[rent_id] = (obj_rent.rent_end_date - obj_rent.rent_start_date)/365
+			debug(res)
+		return res
 	_columns = {
 		'name'                  : fields.char('Reference',size=64),
 		'rent_rent_client'      : fields.many2one('rent.client','Client'),
@@ -243,11 +275,20 @@ class rent_rent(osv.osv):
 		'rent_is_local'         : fields.boolean('Locals',help='Check if you want to calculate a rent for locals'),
 		'rent_is_parking'       : fields.boolean('Parking',help='Check if you want to calculate a rent for locals'),
 		'rent_is_estate'        : fields.boolean('Estates',help='Check if you want to calculate a rent for locals'),
+		'rent_years'            : fields.function(_calculate_years,type='integer',method=True,string = 'Years' ,help='Check if you want to calculate a rent for locals'),
 	}
 rent_rent()
 
 class rent_local_floor(osv.osv):
 	_name = 'rent.local.floor'
+	
+	def _local_floor_area(self,cr,uid,ids,field_name,args,context):
+		res = {}
+		for local_floor_id in ids:
+			obj = self.pool.get('rent.local.floor').browse(cr,uid,local_floor_id)
+			res[local_floor_id] = obj.local_floor_width * obj.local_floor_large
+		return res
+	
 	_columns = {
 		'name'               : fields.char('Reference',size=64,help='Indicate a representative reference for the asociation'),
 		'local_floor_width'  : fields.float('Width', required=True),
@@ -255,6 +296,7 @@ class rent_local_floor(osv.osv):
 		'local_floor_floor'  : fields.many2one('rent.floor','Level',help='Represents the floor on witch its located the local'),
 		'local_local_floor'  : fields.many2one('rent.floor.local','Local#',help='Represents the floor on witch its located the local'),
 		'local_rent'         : fields.many2one('rent.rent','Alquiler'),
+		'local_floor_area'   : fields.function(_local_floor_area,type='float',method=True,string='Area M2'),
 	}
 rent_local_floor()
 

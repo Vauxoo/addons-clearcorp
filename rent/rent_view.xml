@@ -595,6 +595,7 @@
 						<separator string = "Length of Contract" colspan = "4"/>
 						<field name = "rent_start_date"/>
 						<field name = "rent_end_date"/>
+						<field name = "rent_years"/>
 					</group>
 					<group col = "4" colspan = "4" attrs = "{'invisible':[('rent_status','!=','Finished')]}">
 						<separator string = "Contract Termination" colspan = "4"/>
