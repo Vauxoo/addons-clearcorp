@@ -483,6 +483,7 @@
 						<field name = "local_floor_width"/>
 						<field name = "local_floor_large"/>
 						<field name = "local_sqrmeter_price"/>
+						<field name = "local_floor_value" sum = "Total"/>
 					</group>
 				</form>
 			</field>
@@ -582,18 +583,6 @@
 						<field name = "rent_total"/>
 						<field name = "rent_rise"/>
 					</group>
-					<group col = "2" colspan = "2">
-						<separator string = "Real Estate Related" colspan = "4"/>
-						<field name = "rent_is_local" attrs="{'readonly' : ['|',('rent_is_parking','=','True'),('rent_is_estate','=','True')], 'required' : [('rent_is_parking','!=','True'),('rent_is_estate','!=','True')]}"/>
-						<field name = "rent_is_parking" attrs = "{'readonly' : ['|',('rent_is_estate','=','True'),('rent_is_local','=','True')], 'required' : [('rent_is_estate','!=','True'),('rent_is_local','!=','True')]}"/>
-						<field name = "rent_is_estate" attrs = "{'readonly' : ['|',('rent_is_local','=','True'),('rent_is_parking','=','True')], 'required' : [('rent_is_local','!=','True'),('rent_is_parking','!=','True')]}"/>
-					</group>
-					<group col = "4" colspan = "4" attrs = "{'invisible':[('rent_is_parking','!=','True'),('rent_is_estate','!=','True'),('rent_is_local','!=','True')]}">
-						<separator string = "Real Estate Information" colspan = "4"/>
-							<field name = "rent_rent_local" attrs = "{'readonly' : [('rent_is_local','!=','True')], 'required' : [('rent_is_local','=','True')], 'invisible': [('rent_is_local','!=','True')]}"/>
-							<field name = "rent_rent_parking" attrs = "{'readonly' : [('rent_is_parking','!=','True')], 'required' : [('rent_is_parking','=','True')], 'invisible': [('rent_is_parking','!=','True')]}"/>
-							<field name = "rent_rent_estate" attrs = "{'readonly' : [('rent_is_estate','!=','True')], 'required' : [('rent_is_estate','=','True')], 'invisible': [('rent_is_estate','!=','True')]}"/>
-					</group>
 					<group col = "4" colspan = "4">
 						<separator string = "Length of Contract" colspan = "4"/>
 						<field name = "rent_start_date"/>
@@ -602,9 +591,28 @@
 					</group>
 					<group col = "4" colspan = "4" attrs = "{'invisible':[('rent_status','!=','Finished')]}">
 						<separator string = "Contract Termination" colspan = "4"/>
-							<field name = "rent_ending_motif"/>
-							<field name = "rent_ending_motif_desc"/>
+						<field name = "rent_ending_motif"/>
+						<field name = "rent_ending_motif_desc"/>
 					</group>
+					<notebook>
+						<page string = "Detail">
+							<group col = "2" colspan = "2">
+								<separator string = "Real Estate Related" colspan = "4"/>
+								<field name = "rent_is_local" attrs="{'readonly' : ['|',('rent_is_parking','=','True'),('rent_is_estate','=','True')], 'required' : [('rent_is_parking','!=','True'),('rent_is_estate','!=','True')]}"/>
+								<field name = "rent_is_parking" attrs = "{'readonly' : ['|',('rent_is_estate','=','True'),('rent_is_local','=','True')], 'required' : [('rent_is_estate','!=','True'),('rent_is_local','!=','True')]}"/>
+								<field name = "rent_is_estate" attrs = "{'readonly' : ['|',('rent_is_local','=','True'),('rent_is_parking','=','True')], 'required' : [('rent_is_local','!=','True'),('rent_is_parking','!=','True')]}"/>
+							</group>
+							<group col = "4" colspan = "4" attrs = "{'invisible':[('rent_is_parking','!=','True'),('rent_is_estate','!=','True'),('rent_is_local','!=','True')]}">
+								<separator string = "Real Estate Information" colspan = "4"/>
+									<field name = "rent_rent_local" attrs = "{'readonly' : [('rent_is_local','!=','True')], 'required' : [('rent_is_local','=','True')], 'invisible': [('rent_is_local','!=','True')]}"/>
+									<field name = "rent_rent_parking" attrs = "{'readonly' : [('rent_is_parking','!=','True')], 'required' : [('rent_is_parking','=','True')], 'invisible': [('rent_is_parking','!=','True')]}"/>
+									<field name = "rent_rent_estate" attrs = "{'readonly' : [('rent_is_estate','!=','True')], 'required' : [('rent_is_estate','=','True')], 'invisible': [('rent_is_estate','!=','True')]}"/>
+							</group>
+						</page>
+						<page string = "Results">
+							
+						</page>
+					</notebook>
 				</form>
 			</field>
 		</record>

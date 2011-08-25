@@ -1,6 +1,7 @@
 from osv import osv, fields
 from tools import debug
 import time
+from dateutil import parser
 
 class rent_canton(osv.osv):
 	 _name = 'rent.canton'
@@ -231,7 +232,8 @@ class rent_rent(osv.osv):
 				debug(obj_rent.rent_rent_local)
 				for obj_local in obj_rent.rent_rent_local:
 		#			res[rent_id] += obj_local.local_value 
-					debug(res)
+					total += obj_local.local_floor_value
+					debug(total)
 			elif obj_rent.rent_is_parking:
 				debug("PARQUEO")
 				obj_ids = obj_rent.rent_rent_parking
@@ -250,12 +252,15 @@ class rent_rent(osv.osv):
 	#		debug (a)
 	#		v[m.id] = 1
 		return res
+		
 	def _calculate_years(self,cr,uid,ids,field_name,args,context):
 		debug('+==================================')
 		res = {}
 		for rent_id in ids:
 			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rent_id)
-			res[rent_id] = (obj_rent.rent_end_date - obj_rent.rent_start_date)/365
+			fin = parser.parse(obj_rent.rent_end_date)
+			inicio = parser.parse(obj_rent.rent_start_date)
+			res[rent_id] = (fin - inicio)/365
 			debug(res)
 		return res
 	_columns = {
@@ -288,6 +293,15 @@ class rent_local_floor(osv.osv):
 			obj = self.pool.get('rent.local.floor').browse(cr,uid,local_id)
 			areas = obj._local_floor_area(local_id,'local_local_floor',None)
 			obj_build = obj.local_floor_floor.floor_building
+			res[local_id] = obj_build._get_building_vrm(obj_build.id,None,None)[obj_build.id]
+		return res
+	
+	def _local_value(self,cr,uid,ids,field_name,args,context):
+		res = {}
+		for local_id in ids:
+			obj = self.pool.get('rent.local.floor').browse(cr,uid,local_id)
+			areas = obj._local_floor_area(local_id,'local_local_floor',None)
+			obj_build = obj.local_floor_floor.floor_building
 			res[local_id] = areas[local_id] * obj_build._get_building_vrm(obj_build.id,None,None)[obj_build.id]
 		return res
 		
@@ -307,6 +321,7 @@ class rent_local_floor(osv.osv):
 		'local_rent'           : fields.many2one('rent.rent','Alquiler'),
 		'local_floor_area'     : fields.function(_local_floor_area,type='float',method=True,string='Area M2'),
 		'local_sqrmeter_price' : fields.function(_local_sqr_price,type='float',method=True,string='Sqr Meter Price'),
+		'local_floor_value   ' : fields.function(_local_value,type='float',method=True,string='Total Value'),
 	}
 rent_local_floor()
 
