@@ -483,7 +483,8 @@
 						<field name = "local_floor_width"/>
 						<field name = "local_floor_large"/>
 						<field name = "local_sqrmeter_price"/>
-						<!--<field name = "local_floor_value" sum = "Total"/>-->
+						<field name = "local_floor_value"/>
+						<!---->
 					</group>
 				</form>
 			</field>
@@ -500,6 +501,7 @@
 					<field name = "local_floor_width"/>
 					<field name = "local_floor_large"/>
 					<field name = "local_sqrmeter_price" sum = "Sqr Meter Total"/>
+					<field name = "local_floor_value" sum = "Total"/>
 				</tree>
 			</field>
 		</record>
