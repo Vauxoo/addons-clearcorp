@@ -123,7 +123,7 @@ class rent_floor(osv.osv):
 	
 	def _calculate_floor_value(self,cr,uid,ids,field_name,args,context):
 		res = {}
-		area = {}
+		valores = {}
 		debug("CALCULO====================")
 		debug(ids)
 		for floor_id in ids:
@@ -134,13 +134,9 @@ class rent_floor(osv.osv):
 				debug(locals_id)
 				for local in locals_id:
 					obj_local = self.pool.get('rent.local.floor').browse(cr,uid,local)
-					area[floor_id] = obj_local.local_floor_width * obj_local.local_floor_large
-					obj_floor = self.pool.get('rent.floor').browse(cr,uid,floor_id)
-					obj_building = self.pool.get('rent.building').browse(cr,uid,obj_floor.floor_building)
-					debug(obj_building)
-					valores = obj_building._get_building_vrm(self,cr,uid,obj_floor.floor_building,None,context)
+					valores = obj_local._local_value(local,None,None):
 					debug(valores)
-					res[floor_id] = area[floor_id] * valores[0]
+					res[floor_id] += valores[local]
 					debug(res)
 		return res
 	
@@ -242,12 +238,6 @@ rent_floor_parking()
 class rent_rent(osv.osv):
 	_name = 'rent.rent'
 	
-	def rent_valid(self,cr,uid,ids,context=None):
-		debug('BOTON====================================')
-		debug(ids)
-		for rent_id in ids:
-			self.pool.get('rent.rent').write(cr,uid,rent_id,{'rent_status':'Valid'})
-		return True
 	def _get_total_rent(self,cr,uid,ids,field_name,args,context):
 		res = {}
 		total = 0
@@ -274,6 +264,12 @@ class rent_rent(osv.osv):
 			res[rent_id] = total
 		return res
 
+	def rent_valid(self,cr,uid,ids,context=None):
+		debug('BOTON====================================')
+		debug(ids)
+		for rent_id in ids:
+			self.pool.get('rent.rent').write(cr,uid,rent_id,{'rent_status':'Valid'})
+		return True
 	_columns = {
 		'name'                  : fields.char('Reference',size=64),
 		'rent_rent_client'      : fields.many2one('rent.client','Client'),
