@@ -174,10 +174,13 @@ class rent_floor_local(osv.osv):
 		
 	def _get_building_local(self,cr,uid,ids,field_name,args,context):
 		res = {}
+		debug('EDIFICIO+==================================')
 		for local_id in ids:
+			debug(ids)
 			obj_local = self.pool.get('rent.floor.local').browse(cr,uid,local_id)
 			obj_floor = self.pool.get('rent.floor').browse(cr,uid,obj_local.local_floor)
 			res[local_id] = obj_floor.floor_building
+			debug(res)
 		return res
 		
 	_columns = {
