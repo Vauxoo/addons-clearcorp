@@ -146,7 +146,8 @@ class rent_floor(osv.osv):
 			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rent_ids)
 			for rent in obj_rent:
 				obj_parking = rent.rent_rent_parking
-				total += obj_parking._parking_value(obj_parking.id,None,None)[obj_parking.id]
+				if (obj_parking.parking_floor.id == floor_id):
+					total += obj_parking._parking_value(obj_parking.id,None,None)[obj_parking.id]
 			res[floor_id] = total
 			total = 0
 		return res
