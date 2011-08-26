@@ -463,6 +463,8 @@
 			<field name = "view_id" ref = "local_tree_view"/>
 		</record>
 		
+		<menuitem id = "rent_local_submenu" name = "Locals" parent = "rent_estate_menu" action = "action_local_form_view"/>
+		
 		<!--
 		======================================
 					LOCAL BY FLOOR
