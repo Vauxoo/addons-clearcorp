@@ -136,7 +136,7 @@ class rent_floor(osv.osv):
 				valores = obj_local._local_value(local,None,None)
 				debug(valores)
 				debug(local)
-				res[floor_id] += valores[local]
+				res[floor_id] = valores[local]
 				debug(res)
 		return res
 	
