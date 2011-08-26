@@ -258,8 +258,9 @@ class rent_rent(osv.osv):
 					debug(total)
 			elif obj_rent.rent_is_parking:
 				debug("PARQUEO")
-				obj_ids = obj_rent.rent_rent_parking
-				debug(obj_ids)
+				obj_parking = obj_rent.rent_rent_parking
+				debug(obj_parking)
+				total = obj_parking._parking_value(obj_parking.id,None,None)[obj_parking.id]
 			else:
 				debug("LOTES")
 				debug(obj_rent.rent_rent_estate)
