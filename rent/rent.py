@@ -141,6 +141,7 @@ class rent_floor(osv.osv):
 				total += valores[local]
 				debug(total)
 			res[floor_id] = total
+			total = 0
 		return res
 	
 	_columns = {
