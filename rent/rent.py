@@ -129,7 +129,7 @@ class rent_floor(osv.osv):
 		debug(ids)
 		for floor_id in ids:
 			debug(floor_id)
-			actual_rent = self.pool.get('rent.rent').search(cr,uid,[('rent_status','=','Valid')])
+			actual_rent = self.pool.get('rent.rent').search(cr,uid,['|',('rent_status','=','Valid'),('rent_status','=','Draft')])
 			debug(actual_rent)
 			locals_id = self.pool.get('rent.local.floor').search(cr,uid,[('local_rent','in',actual_rent),('local_floor_floor','=',floor_id)])
 			debug(locals_id)
@@ -140,6 +140,13 @@ class rent_floor(osv.osv):
 				debug(local)
 				total += valores[local]
 				debug(total)
+			
+			#se obtienen los parqueos del piso asociados en otras rentas
+			rent_ids = actual_rent.search(cr,uid,[('rent_is_parking','=','True')]
+			obj_rent = self.poo.get('rent.rent').browse(cr,uid,rent_ids)
+			for rent in obj_rent:
+				obj_parking = rent.rent_rent_parking
+				total += obj_parking._parking_value(obj_parking.id,None,None)[obj_parking.id]
 			res[floor_id] = total
 			total = 0
 		return res
