@@ -263,7 +263,18 @@ class rent_rent(osv.osv):
 					total += obj_local._local_value(obj_local.id,None,None)[obj_local.id]
 			res[rent_id] = total
 		return res
-
+	def _calculate_years(self,cr,uid,ids,field_name,args,context):
+		debug('+==================================')
+		res = {}
+		for rent_id in ids:
+			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rent_id)
+			fin = parser.parse(obj_rent.rent_end_date)
+			inicio = parser.parse(obj_rent.rent_start_date)
+			debug(inicio)
+			debug(fin)
+			res[rent_id] = (fin.year - inicio.year)
+			debug(res)
+		return res
 	def rent_valid(self,cr,uid,ids,context=None):
 		debug('BOTON====================================')
 		debug(ids)
