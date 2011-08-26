@@ -135,6 +135,7 @@ class rent_floor(osv.osv):
 				obj_local = self.pool.get('rent.local.floor').browse(cr,uid,local)
 				valores = obj_local._local_value(local,None,None)
 				debug(valores)
+				debug(local)
 				res[floor_id] += valores[local]
 				debug(res)
 		return res
