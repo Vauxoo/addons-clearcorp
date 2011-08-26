@@ -339,7 +339,7 @@ class rent_local_floor(osv.osv):
 		'local_rent'           : fields.many2one('rent.rent','Alquiler'),
 		'local_floor_area'     : fields.function(_local_floor_area,type='float',method=True,string='Area M2'),
 		'local_sqrmeter_price' : fields.function(_local_sqr_price,type='float',method=True,string='Sqr Meter Price'),
-		'local_floor_value   ' : fields.function(_local_value,type='float',method=True,string='Total Value'),
+		'local_floor_value'    : fields.function(_local_value,type='float',method=True,string='Total Value'),
 	}
 rent_local_floor()
 
