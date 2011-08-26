@@ -264,7 +264,7 @@ class rent_rent(osv.osv):
 				debug("LOTES")
 				debug(obj_rent.rent_rent_estate)
 				obj_estado = obj_rent.rent_rent_estate
-				total = obj_estado._get_estate_vrm(obj_estado.id,None,None)
+				total = obj_estado._get_estate_vrm(obj_estado.id,None,None)[obj_estado.id]
 				debug(total)
 				#for obj_estado in obj_rent.rent_rent_estate:
 					#debug(obj_estado)
