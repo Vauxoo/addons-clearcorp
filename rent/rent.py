@@ -259,6 +259,7 @@ class rent_rent(osv.osv):
 			else:
 				debug("LOTES")
 				for obj_estado in obj_rent.rent_rent_estate:
+					debug(obj_rent.rent_rent_estate)
 					total += obj_estado._get_estate_vrm(obj_estado.id,None,None)[obj_estado.id]
 					total += obj_local._local_value(obj_local.id,None,None)[obj_local.id]
 			res[rent_id] = total
