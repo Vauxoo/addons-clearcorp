@@ -195,17 +195,39 @@ class rent_floor_parking(osv.osv):
 	_name = 'rent.floor.parking'
 	_rec_name = 'parking_number'
 	
-	def _calculate_area(self,cr,uid,ids,field_name,args,context=None):
-		v = {}
+	def _parking_sqr_price(self,cr,uid,ids,field_name,args,context):
+		res = {}
+		for parking_id in ids:
+			obj = self.pool.get('rent.floor.parking').browse(cr,uid,parking_id)
+			obj_build = obj.parking_floor.floor_building
+			res[parking_id] = obj_build._get_building_vrm(obj_build.id,None,None)[obj_build.id]
+		return res
+	
+	def _parking_value(self,cr,uid,ids,field_name,args,context):
+		res = {}
+		for parking_id in ids:
+			obj = self.pool.get('rent.floor.parking').browse(cr,uid,parking_id)
+			areas = obj._parking_area(parking_id,None,None)
+			obj_build = obj.parking_floor.floor_building
+			res[parking_id] = areas[parking_id] * obj_build._get_building_vrm(obj_build.id,None,None)[obj_build.id]
+		return res
 		
-		return v
+	def _parking_area(self,cr,uid,ids,field_name,args,context):
+		res = {}
+		for parking_id in ids:
+			obj = self.pool.get('rent.floor.parking').browse(cr,uid,parking_id)
+			res[parking_id] = obj.parking_large * obj.parking_width
+		return res
+		
 	_columns = {
-		'parking_area'            : fields.function(_calculate_area,type='float',method=True,string='VRN Dynamic'),
+		'parking_area'            : fields.function(_parking_area,type='float',method=True,string='Area'),
 		#'parking_area'            : fields.float('VRN Dynamic',required=True),
-		'parking_value'           : fields.float('Value',required=True),
+		#'parking_value'           : fields.float('Value',required=True),
+		'parking_value'           : fields.function(_parking_value,type='float',method=True,string='Value'),
 		'parking_number'          : fields.integer('# Parking',required=True),
 		'parking_huella'          : fields.float('Huella',required=True),
-		'parking_sqrmeter_price'  :  fields.float('Sqr Meter Value',required=True),
+		'parking_sqrmeter_price'  :  fields.function(_parking_sqr_price,type='float',method=True,string='Sqr Meter Value'),
+		#'parking_sqrmeter_price'  :  fields.float('Sqr Meter Value',required=True),
 		'parking_rented'          : fields.boolean('Rented',help='Checked if the local is rented',readonly=True),
 		'parking_floor'           : fields.many2one('rent.floor','# Floor'),
 		'parking_large'           : fields.float('Large Meters'),
@@ -246,16 +268,12 @@ class rent_rent(osv.osv):
 				debug(obj_ids)
 			else:
 				debug("LOTES")
-				obj_ids = obj_rent.rent_rent_estate
-				debug(obj_ids)
+				for obj_estado in obj_rent.rent_rent_estate:
+					total += obj_estado._get_estate_vrm(obj_estado.id,None,None)[obj_estado.id]
+					total += obj_local._local_value(obj_local.id,None,None)[obj_local.id]
 			res[rent_id] = total
 		return res
-		
-	def _calculate_years(self,cr,uid,ids,field_name,args,context):
-		debug('+==================================')
-		res = {}
-		
-		return res
+
 	_columns = {
 		'name'                  : fields.char('Reference',size=64),
 		'rent_rent_client'      : fields.many2one('rent.client','Client'),
