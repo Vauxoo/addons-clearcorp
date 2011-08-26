@@ -124,9 +124,11 @@ class rent_floor(osv.osv):
 	def _calculate_floor_value(self,cr,uid,ids,field_name,args,context):
 		res = {}
 		valores = {}
+		total = 0
 		debug("CALCULO====================")
 		debug(ids)
 		for floor_id in ids:
+			debug(floor_id)
 			actual_rent = self.pool.get('rent.rent').search(cr,uid,[('rent_status','=','Valid')])
 			debug(actual_rent)
 			locals_id = self.pool.get('rent.local.floor').search(cr,uid,[('local_rent','=',actual_rent),('local_floor_floor','=',floor_id)])
@@ -136,8 +138,9 @@ class rent_floor(osv.osv):
 				valores = obj_local._local_value(local,None,None)
 				debug(valores)
 				debug(local)
-				res[floor_id] = valores[local]
-				debug(res)
+				total += valores[local]
+				debug(total)
+			res[floor_id] = total
 		return res
 	
 	_columns = {
