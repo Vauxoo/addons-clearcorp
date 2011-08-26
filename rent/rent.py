@@ -129,15 +129,14 @@ class rent_floor(osv.osv):
 		for floor_id in ids:
 			actual_rent = self.pool.get('rent.rent').search(cr,uid,[('rent_status','=','Valid')])
 			debug(actual_rent)
-			for rent_id in actual_rent:
-				locals_id = self.pool.get('rent.local.floor').search(cr,uid,[('local_rent','=',rent_id),('local_floor_floor','=',floor_id)])
-				debug(locals_id)
-				for local in locals_id:
-					obj_local = self.pool.get('rent.local.floor').browse(cr,uid,local)
-					valores = obj_local._local_value(local,None,None)
-					debug(valores)
-					res[floor_id] += valores[local]
-					debug(res)
+			locals_id = self.pool.get('rent.local.floor').search(cr,uid,[('local_rent','=',actual_rent),('local_floor_floor','=',floor_id)])
+			debug(locals_id)
+			for local in locals_id:
+				obj_local = self.pool.get('rent.local.floor').browse(cr,uid,local)
+				valores = obj_local._local_value(local,None,None)
+				debug(valores)
+				res[floor_id] += valores[local]
+				debug(res)
 		return res
 	
 	_columns = {
@@ -258,6 +257,10 @@ class rent_rent(osv.osv):
 				debug(obj_ids)
 			else:
 				debug("LOTES")
+				debug(obj_rent.rent_rent_estate)
+				obj_estado = obj_rent.rent_rent_estate
+				total = obj_estado._get_estate_vrm(obj_estado.id,None,None)
+				debug(total)
 				#for obj_estado in obj_rent.rent_rent_estate:
 					#debug(obj_estado)
 					#total += obj_estado._get_estate_vrm(obj_estado.id,None,None)[obj_estado.id]
