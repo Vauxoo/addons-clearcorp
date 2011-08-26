@@ -259,8 +259,8 @@ class rent_rent(osv.osv):
 			else:
 				debug("LOTES")
 				for obj_estado in obj_rent.rent_rent_estate:
-					debug(obj_estado)
-					total += obj_estado._get_estate_vrm(obj_estado.id,None,None)[obj_estado.id]
+					#debug(obj_estado)
+					#total += obj_estado._get_estate_vrm(obj_estado.id,None,None)[obj_estado.id]
 			res[rent_id] = total
 		return res
 	def _calculate_years(self,cr,uid,ids,field_name,args,context):
