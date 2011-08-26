@@ -225,7 +225,7 @@ class rent_rent(osv.osv):
 		debug(ids)
 		for rent_id in ids:
 			self.pool.get('rent.rent').write(cr,uid,rent_id,{'rent_status':'Valid'})
-		return
+		return True
 	def _get_total_rent(self,cr,uid,ids,field_name,args,context):
 		res = {}
 		total = 0
