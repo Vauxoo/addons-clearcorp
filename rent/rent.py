@@ -308,7 +308,7 @@ class rent_rent(osv.osv):
 		return True
 	_columns = {
 		'name'                  : fields.char('Reference',size=64),
-		'rent_rent_client'      : fields.many2one('res.partner','Client'),
+		'rent_rent_client'      : fields.many2one('res.partner','Client', required=True),
 		'rent_end_date'         : fields.date('Ending Date'),
 		'rent_ending_motif'     : fields.selection((('Desertion','Desertion'),('No Renovation','No Renovation'),('Eviction','Eviction')),'Ending Motif'),
 		'rent_ending_motif_desc': fields.text('Ending Motif Description'),
@@ -324,6 +324,7 @@ class rent_rent(osv.osv):
 		'rent_is_parking'       : fields.boolean('Parking',help='Check if you want to calculate a rent for locals'),
 		'rent_is_estate'        : fields.boolean('Estates',help='Check if you want to calculate a rent for locals'),
 		'rent_years'            : fields.function(_calculate_years,type='integer',method=True,string = 'Years' ,help='Check if you want to calculate a rent for locals'),
+		'rent_modif'            : fields.one2many('rent.rent', 'Contract reference'),
 	}
 rent_rent()
 
