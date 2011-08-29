@@ -660,9 +660,9 @@
 						<page string = "Results">
 							
 						</page>
-						<page string = "Modifications">
+						<!--<page string = "Modifications">
 							<field name = "rent_modif" attrs="{'readonly' : [('rent_type','=','Contract')]}"/>
-						</page>
+						</page>-->
 					</notebook>
 				</form>
 			</field>
