@@ -42,7 +42,7 @@ rent_location()
 #necesary data from the clients
 
 class rent_client(osv.osv):
-	_name = 'rent.client'
+	_name = 'res.partner'
 	_inherit = 'res.partner'
 	_columns = {
 		'client_birthdate' : fields.date('Birthdate',select=1,required=True),
@@ -177,9 +177,11 @@ class rent_floor_local(osv.osv):
 		debug('EDIFICIO+==================================')
 		for local_id in ids:
 			debug(ids)
-			obj_local = self.pool.get('rent.floor.local').browse(cr,uid,local_id)
-			obj_floor = self.pool.get('rent.floor').browse(cr,uid,obj_local.local_floor)
-			res[local_id] = obj_floor.floor_building
+			local = self.pool.get('rent.local.floor').search(cr,uid,[('local_local_floor','=',local_id)])
+			debug(local)
+			for lids in local:
+				obj_local = self.pool.get('rent.local.floor').browse(cr,uid,lids)
+				res[local_id] = obj_local.floor_building
 			debug(res)
 		return res
 		
@@ -195,7 +197,9 @@ class rent_floor_local(osv.osv):
 		'local_sqrmeter_price'     :  fields.float('Sqr Meter Price',required=True),
 		'local_rented'             : fields.boolean('Rented',help='Check if the local is rented'),
 		'local_floor'              : fields.many2one('rent.floor','# Floor'),
-		'local_building'           : fields.function(_get_building_local,type='many2one',method=True,string='Building'),
+		#'local_local_by_floor'     : fields.one2many('rent.floor.floor','# Floor'),
+		#'local_floor'              : fields.related('rent.local.floor','# Floor'),
+		'local_building'           : fields.function(_get_building_local,type='many2one',method=True,string='Building'),	
 	}
 rent_floor_local()
 
@@ -288,11 +292,12 @@ class rent_rent(osv.osv):
 		res = {}
 		for rent_id in ids:
 			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rent_id)
-			fin = parser.parse(obj_rent.rent_end_date)
-			inicio = parser.parse(obj_rent.rent_start_date)
-			debug(inicio)
-			debug(fin)
-			res[rent_id] = (fin.year - inicio.year)
+			if (obj_rent.rent_end_date != ' ' and  obj_rent.rent_start_date != ' '):
+				fin = parser.parse(obj_rent.rent_end_date)
+				inicio = parser.parse(obj_rent.rent_start_date)
+				debug(inicio)
+				debug(fin)
+				res[rent_id] = (fin.year - inicio.year)
 			debug(res)
 		return res
 	def rent_valid(self,cr,uid,ids,context=None):
@@ -303,7 +308,7 @@ class rent_rent(osv.osv):
 		return True
 	_columns = {
 		'name'                  : fields.char('Reference',size=64),
-		'rent_rent_client'      : fields.many2one('rent.client','Client'),
+		'rent_rent_client'      : fields.many2one('res.partner','Client'),
 		'rent_end_date'         : fields.date('Ending Date'),
 		'rent_ending_motif'     : fields.selection((('Desertion','Desertion'),('No Renovation','No Renovation'),('Eviction','Eviction')),'Ending Motif'),
 		'rent_ending_motif_desc': fields.text('Ending Motif Description'),
@@ -360,6 +365,7 @@ class rent_local_floor(osv.osv):
 		'local_floor_area'     : fields.function(_local_floor_area,type='float',method=True,string='Area M2'),
 		'local_sqrmeter_price' : fields.function(_local_sqr_price,type='float',method=True,string='Sqr Meter Price'),
 		'local_floor_value'    : fields.function(_local_value,type='float',method=True,string='Total Value'),
+		'local_floor_building' : fields.related('local_floor_floor','floor_building',type='many2one',relation='rent.building',string='Building', store=False),
 	}
 rent_local_floor()
 
