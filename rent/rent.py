@@ -358,8 +358,11 @@ class rent_local_floor(osv.osv):
 	
 	def onchange_floor(self,cr,uid,ids,floor_id):
 		res = {}
+		debug("+============================")
 		obj_floor = self.pool.get('rent.floor').browse(cr,uid,floor_id)
+		debug(obj_floor)
 		res['local_floor_building'] = obj_floor.floor_building
+		debug(res)
 		return {'value' : res}
 	_columns = {
 		'name'                 : fields.char('Reference',size=64,help='Indicate a representative reference for the asociation'),
