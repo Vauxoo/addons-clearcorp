@@ -356,6 +356,11 @@ class rent_local_floor(osv.osv):
 			res[local_floor_id] = obj.local_floor_width * obj.local_floor_large
 		return res
 	
+	def onchange_floor(self,cr,uid,ids,floor_id):
+		res = {}
+		obj_floor = self.pool.get('rent.floor').browse(cr,uid,floor_id)
+		res['local_floor_building'] = obj_floor.floor_building
+		return {'value' : res}
 	_columns = {
 		'name'                 : fields.char('Reference',size=64,help='Indicate a representative reference for the asociation'),
 		'local_floor_width'    : fields.float('Width', required=True),
@@ -366,7 +371,7 @@ class rent_local_floor(osv.osv):
 		'local_floor_area'     : fields.function(_local_floor_area,type='float',method=True,string='Area M2'),
 		'local_sqrmeter_price' : fields.function(_local_sqr_price,type='float',method=True,string='Sqr Meter Price'),
 		'local_floor_value'    : fields.function(_local_value,type='float',method=True,string='Total Value'),
-		'local_floor_building' : fields.related('local_floor_floor','floor_building',type='many2one',relation='rent.building',string='Building', store=False),
+		'local_floor_building' : fields.related('local_floor_floor','floor_building',type='many2one',relation='rent.building',string='Building', readonly=True, store=False,),
 	}
 rent_local_floor()
 
