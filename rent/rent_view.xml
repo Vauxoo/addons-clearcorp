@@ -625,7 +625,7 @@
 					<group col = "4" colspan = "2">
 						<separator string = "Information" colspan = "4"/>
 						<field name = "name"/>
-						<field name = "rent_rent_client"/>
+						<!--<field name = "rent_rent_client"/>-->
 						<field name = "rent_type"/>
 						<field name = "rent_status"/>
 						<field name = "rent_total"/>
