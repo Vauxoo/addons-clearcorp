@@ -292,15 +292,12 @@ class rent_rent(osv.osv):
 		res = {}
 		for rent_id in ids:
 			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rent_id)
-			#if (obj_rent.rent_end_date != '' and  obj_rent.rent_start_date != ''):
-			 try:
+			if (obj_rent.rent_end_date != '' and  obj_rent.rent_start_date != ''):
 				fin = parser.parse(obj_rent.rent_end_date)
 				inicio = parser.parse(obj_rent.rent_start_date)
 				debug(inicio)
 				debug(fin)
 				res[rent_id] = (fin.year - inicio.year)
-			except:
-				raise osv.except_osv(_('Warning'), _("Indique las fechas para la duraccion del contrato"))
 			debug(res)
 		return res
 	def rent_valid(self,cr,uid,ids,context=None):
