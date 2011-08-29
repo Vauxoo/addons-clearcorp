@@ -324,7 +324,7 @@ class rent_rent(osv.osv):
 		'rent_is_parking'       : fields.boolean('Parking',help='Check if you want to calculate a rent for locals'),
 		'rent_is_estate'        : fields.boolean('Estates',help='Check if you want to calculate a rent for locals'),
 		'rent_years'            : fields.function(_calculate_years,type='integer',method=True,string = 'Years' ,help='Check if you want to calculate a rent for locals'),
-		'rent_modif'            : fields.one2many('rent.rent', 'Contract reference'),
+		'rent_modif'            : fields.one2many('rent.rent', 'name','Contract reference'),
 	}
 rent_rent()
 
