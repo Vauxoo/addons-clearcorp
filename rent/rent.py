@@ -308,7 +308,7 @@ class rent_rent(osv.osv):
 		return True
 	_columns = {
 		'name'                  : fields.char('Reference',size=64),
-		'rent_rent_client'      : fields.many2one('res.partner','Client'),
+		'rent_rent_client'      : fields.many2one('rent.client','Client'),
 		'rent_end_date'         : fields.date('Ending Date'),
 		'rent_ending_motif'     : fields.selection((('Desertion','Desertion'),('No Renovation','No Renovation'),('Eviction','Eviction')),'Ending Motif'),
 		'rent_ending_motif_desc': fields.text('Ending Motif Description'),
