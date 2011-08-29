@@ -93,7 +93,7 @@
 		-->
 		<record model = "ir.ui.view" id = "client_form_view">
 			<field name = "name">rent.client.form</field>
-			<field name = "model">res.partner</field>
+			<field name = "model">rent.client</field>
 			<field name = "type">form</field>
 			<field name="inherit_id" ref="base.view_partner_form"/>
 			<field name="arch" type="xml">
@@ -117,7 +117,7 @@
 		
 		<record model = "ir.ui.view" id = "client_tree_view">
 			<field name = "name">res.partner.tree</field>
-			<field name = "model">res.partner</field>
+			<field name = "model">rent.client</field>
 			<field name = "type">tree</field>
 			<field name="inherit_id" ref="base.view_partner_tree"/>
 			<field name = "arch" type = "xml">
@@ -135,7 +135,7 @@
 		
 		<record model = "ir.actions.act_window" id = "action_client_form_view">
 			<field name = "name">Detalles de Clientes</field>
-			<field name = "res_model">res.partner</field>
+			<field name = "res_model">rent.client</field>
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
@@ -625,7 +625,7 @@
 					<group col = "4" colspan = "2">
 						<separator string = "Information" colspan = "4"/>
 						<field name = "name"/>
-						<!--<field name = "rent_rent_client"/>-->
+						<field name = "rent_rent_client"/>
 						<field name = "rent_type"/>
 						<field name = "rent_status"/>
 						<field name = "rent_total"/>

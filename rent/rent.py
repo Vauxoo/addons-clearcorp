@@ -42,7 +42,7 @@ rent_location()
 #necesary data from the clients
 
 class rent_client(osv.osv):
-	_name = 'res.partner'
+	_name = 'rent.client'
 	_inherit = 'res.partner'
 	_columns = {
 		'client_birthdate' : fields.date('Birthdate',select=1,required=True),
