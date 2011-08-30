@@ -456,7 +456,7 @@
 					</group>
 					<group col = "4" colspan = "4">
 						<separator string = "Miscelanius Information"/>
-						<field name = "local_sqrmeter_price"/>
+						<!--<field name = "local_sqrmeter_price"/>-->
 						<field name = "local_rented"/>
 						<field name = "local_water_meter_number"/>
 						<field name = "local_light_meter_number"/>
