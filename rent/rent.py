@@ -176,7 +176,7 @@ class rent_floor_local(osv.osv):
 		res = {}
 		debug('EDIFICIO+==================================')
 		debug(ids)
-		for local_id in ids:			
+		for local_id in ids:
 			local = self.pool.get('rent.local.floor').search(cr,uid,[('local_local_floor','=',local_id)])
 			debug(local)
 			for lids in local:
@@ -213,7 +213,7 @@ class rent_floor_local(osv.osv):
 		'local_floor'              : fields.many2one('rent.floor','# Floor'),
 		#'local_local_by_floor'     : fields.one2many('rent.floor.floor','# Floor'),
 		#'local_floor'              : fields.related('rent.local.floor','# Floor'),
-		'local_building'           : fields.function(_get_building_local,type='many2one',method=True,string='Building'),
+		'local_building'           : fields.function(_get_building_local,type='many2one',obj='rent.building',method=True,string='Building'),
 		'local_gallery_photo'      : fields.char('Gallery of Images', size=64),
 		'local_photo'              : fields.binary('Main photo'),
 	}
