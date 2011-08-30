@@ -346,7 +346,7 @@ class rent_rent(osv.osv):
 		'rent_modif_ref'        : fields.many2one('rent.rent', 'Modifications'),
 	}
 	
-	_default {
+	_default = {
 		'rent_status' : 'Draft',
 		'rent_type'   : 'Contract',
 	}
