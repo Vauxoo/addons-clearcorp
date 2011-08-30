@@ -377,7 +377,7 @@ class rent_local_floor(osv.osv):
 		debug("+============================")
 		obj_floor = self.pool.get('rent.floor').browse(cr,uid,floor_id)
 		debug(obj_floor)
-		res['local_floor_building'] = obj_floor.floor_building
+		res['local_floor_building'] = obj_floor.floor_building.id
 		debug(res)
 		return {'value' : res}
 	_columns = {
