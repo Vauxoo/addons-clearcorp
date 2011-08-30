@@ -182,8 +182,9 @@ class rent_floor_local(osv.osv):
 			for lids in local:
 				obj_local = self.pool.get('rent.local.floor').browse(cr,uid,lids)
 				debug(obj_local)
-				res[local_id] = obj_local.local_floor_floor.floor_building.id
+				#res[local_id] = obj_local.local_floor_floor.floor_building.id
 			debug(res)
+			res[local_id] = 2
 		return res
 	
 	def _determine_rented(self,cr,uid,ids,field_name,args,context):
