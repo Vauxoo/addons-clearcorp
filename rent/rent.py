@@ -194,6 +194,7 @@ class rent_floor_local(osv.osv):
 			res[local_id] =  False
 			debug(ids)
 			rent_ids = self.pool.get('rent.rent').search(cr,uid,[('rent_status','=','Valid')])
+			debug(rent_ids)
 			for rent in rent_ids:
 				local_rent = self.pool.get('rent.local.rent').search(cr,uid,[('local_rent','=',rent),('local_local_floor','=',local_id)])
 				if local_rent:
