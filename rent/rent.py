@@ -179,6 +179,7 @@ class rent_floor_local(osv.osv):
 		for local_id in ids:
 			local = self.pool.get('rent.local.floor').search(cr,uid,[('local_local_floor','=',local_id)])
 			debug(local)
+			res[local_id] = False
 			for lids in local:
 				obj_local = self.pool.get('rent.local.floor').browse(cr,uid,lids)
 				debug(obj_local)
