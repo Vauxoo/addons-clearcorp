@@ -171,8 +171,8 @@
 			<field name = "arch" type = "xml">
 				<search string = "Search Contact">
 					<group expand = "0" string = "Group By...">
-						<filter string = "Owners" icon = "terp-personal" domain = "[]" context="{'group_by : 'estate_owner'}"/>
-						<filter string = "Location" icon = "terp-go-home" domain = "[]" context="{'group_by : 'estate_location'}"/>
+						<filter string = "Owners" icon = "terp-personal" domain = "[]" context="{'group_by' : 'estate_owner'}"/>
+						<filter string = "Location" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'estate_location'}"/>
 					</group>
 				</search>
 			</field>
@@ -254,7 +254,7 @@
 			<field name = "arch" type = "xml">
 				<search string = "Search Building">
 					<group expand = "0" string = "Group By...">
-						<filter string = "Estates" icon = "terp-go-home" domain = "[]" context="{'group_by : 'building_estate'}"/>
+						<filter string = "Estates" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'building_estate'}"/>
 					</group>
 				</search>
 			</field>
@@ -613,10 +613,10 @@
 						<filter string = "Finished" icon = "terp-go-home" domain = "[('rent_status','=','Finished')]"/>
 					</group>
 					<group expand = "0" string = "Group By...">
-						<filter string = "Client" icon = "terp-personal" domain = "[]" context="{'group_by : 'rent_rent_client'}"/>
-						<filter string = "Type" icon = "terp-stock_symbol-selection" domain = "[]" context="{'group_by : 'rent_type'}"/>
-						<filter string = "Years" icon = "terp-go-home" domain = "[]" context="{'group_by : 'rent_years'}"/>
-						<filter string = "Status" icon = "terp-go-home" domain = "[]" context="{'group_by : 'rent_status'}"/>
+						<filter string = "Client" icon = "terp-personal" domain = "[]" context="{'group_by' : 'rent_rent_client'}"/>
+						<filter string = "Type" icon = "terp-stock_symbol-selection" domain = "[]" context="{'group_by' : 'rent_type'}"/>
+						<filter string = "Years" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'rent_years'}"/>
+						<filter string = "Status" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'rent_status'}"/>
 					</group>
 				</search>
 			</field>
