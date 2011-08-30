@@ -42,7 +42,7 @@ rent_location()
 #necesary data from the clients
 
 class rent_client(osv.osv):
-	_name = 'res.partner'
+	_name = 'rent.client'
 	_inherit = 'res.partner'
 	_columns = {
 		'client_birthdate' : fields.date('Birthdate',select=1,required=True),
@@ -181,24 +181,10 @@ class rent_floor_local(osv.osv):
 			debug(local)
 			for lids in local:
 				obj_local = self.pool.get('rent.local.floor').browse(cr,uid,lids)
-				res[local_id] = obj_local.floor_building
+			res[local_id] = obj_floor.floor_building
 			debug(res)
 		return res
-	
-	def _determine_rented(self,cr,uid,ids,field_name,args,context):
-		res = {}
-		debug('Renta+==================================')
-		for local_id in ids:
-			debug(ids)
-			rent_ids = self.pool.get('rent.rent').search(cr,uid,[('rent_status','=','Valid')])
-			for rent in rent_ids:
-				local_rent = self.pool.get('rent.local.rent').search(cr,uid,[('local_rent','=',rent),('local_local_floor','=',local_id)])
-				if local_rent:
-					res[local_id] =  False
-				else:
-					res[local_id] =  True
-		debug(res)
-		return res
+		
 	_columns = {
 		#'local_area'               : fields.function(_floor_area,type='float',method=True,string='VRN Dynamic'),
 		'local_area'               : fields.float('VRN Dynamic',required=True),
@@ -208,14 +194,10 @@ class rent_floor_local(osv.osv):
 		'local_water_meter_number' : fields.char('Water Meter',size=64), 
 		'local_light_meter_number' : fields.char('Light Meter', size=64),
 		#'local_sqrmeter_price'     : fields.function(_local_sqr_price,type='float',method=True,string='Sqr Meter Price'),
-		#'local_sqrmeter_price'     :  fields.float('Sqr Meter Price',required=True),
-		'local_rented'             : fields.function(_determine_rented,type='boolean',method=True,string='Rented',help='Check if the local is rented'),
+		'local_sqrmeter_price'     :  fields.float('Sqr Meter Price',required=True),
+		'local_rented'             : fields.boolean('Rented',help='Check if the local is rented'),
 		'local_floor'              : fields.many2one('rent.floor','# Floor'),
-		#'local_local_by_floor'     : fields.one2many('rent.floor.floor','# Floor'),
-		#'local_floor'              : fields.related('rent.local.floor','# Floor'),
 		'local_building'           : fields.function(_get_building_local,type='many2one',method=True,string='Building'),
-		'local_gallery_photo'      : fields.char('Gallery of Images', size=64),
-		'local_photo'              : fields.binary('Main photo'),
 	}
 rent_floor_local()
 
@@ -308,12 +290,11 @@ class rent_rent(osv.osv):
 		res = {}
 		for rent_id in ids:
 			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rent_id)
-			if (obj_rent.rent_end_date != '' and  obj_rent.rent_start_date != ''):
-				fin = parser.parse(obj_rent.rent_end_date)
-				inicio = parser.parse(obj_rent.rent_start_date)
-				debug(inicio)
-				debug(fin)
-				res[rent_id] = (fin.year - inicio.year)
+			fin = parser.parse(obj_rent.rent_end_date)
+			inicio = parser.parse(obj_rent.rent_start_date)
+			debug(inicio)
+			debug(fin)
+			res[rent_id] = (fin.year - inicio.year)
 			debug(res)
 		return res
 	def rent_valid(self,cr,uid,ids,context=None):
@@ -324,7 +305,7 @@ class rent_rent(osv.osv):
 		return True
 	_columns = {
 		'name'                  : fields.char('Reference',size=64),
-		'rent_rent_client'      : fields.many2one('res.partner','Client'),
+		'rent_rent_client'      : fields.many2one('rent.client','Client'),
 		'rent_end_date'         : fields.date('Ending Date'),
 		'rent_ending_motif'     : fields.selection((('Desertion','Desertion'),('No Renovation','No Renovation'),('Eviction','Eviction')),'Ending Motif'),
 		'rent_ending_motif_desc': fields.text('Ending Motif Description'),
@@ -340,8 +321,6 @@ class rent_rent(osv.osv):
 		'rent_is_parking'       : fields.boolean('Parking',help='Check if you want to calculate a rent for locals'),
 		'rent_is_estate'        : fields.boolean('Estates',help='Check if you want to calculate a rent for locals'),
 		'rent_years'            : fields.function(_calculate_years,type='integer',method=True,string = 'Years' ,help='Check if you want to calculate a rent for locals'),
-		'rent_modif'            : fields.one2many('rent.rent', 'name','Contract reference'),
-		'rent_modif_ref'        : fields.many2one('rent.rent', 'Modifications'),
 	}
 rent_rent()
 
@@ -373,14 +352,6 @@ class rent_local_floor(osv.osv):
 			res[local_floor_id] = obj.local_floor_width * obj.local_floor_large
 		return res
 	
-	def onchange_floor(self,cr,uid,ids,floor_id):
-		res = {}
-		debug("+============================")
-		obj_floor = self.pool.get('rent.floor').browse(cr,uid,floor_id)
-		debug(obj_floor)
-		res['local_floor_building'] = obj_floor.floor_building
-		debug(res)
-		return {'value' : res}
 	_columns = {
 		'name'                 : fields.char('Reference',size=64,help='Indicate a representative reference for the asociation'),
 		'local_floor_width'    : fields.float('Width', required=True),
@@ -391,8 +362,7 @@ class rent_local_floor(osv.osv):
 		'local_floor_area'     : fields.function(_local_floor_area,type='float',method=True,string='Area M2'),
 		'local_sqrmeter_price' : fields.function(_local_sqr_price,type='float',method=True,string='Sqr Meter Price'),
 		'local_floor_value'    : fields.function(_local_value,type='float',method=True,string='Total Value'),
-		'local_floor_building' : fields.related('local_floor_floor','floor_building',type='many2one',relation='rent.building',string='Building', readonly=True, store=False),
-	} 
+	}
 rent_local_floor()
 
 #
