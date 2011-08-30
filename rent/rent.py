@@ -184,7 +184,7 @@ class rent_floor_local(osv.osv):
 				debug(obj_local)
 				res[local_id] = obj_local.local_floor_building.id
 			debug(res)
-		return res
+		return {}
 	
 	def _determine_rented(self,cr,uid,ids,field_name,args,context):
 		res = {}
