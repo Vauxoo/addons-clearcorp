@@ -392,7 +392,7 @@ class rent_local_floor(osv.osv):
 		'local_sqrmeter_price' : fields.function(_local_sqr_price,type='float',method=True,string='Sqr Meter Price'),
 		'local_floor_value'    : fields.function(_local_value,type='float',method=True,string='Total Value'),
 		'local_floor_building' : fields.related('local_floor_floor','floor_building',type='many2one',relation='rent.building',string='Building', readonly=True, store=False),
-	}
+	} 
 rent_local_floor()
 
 #
