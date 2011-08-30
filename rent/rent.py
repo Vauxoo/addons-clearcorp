@@ -188,17 +188,18 @@ class rent_floor_local(osv.osv):
 	def _determine_rented(self,cr,uid,ids,field_name,args,context):
 		res = {}
 		debug('Renta+==================================')
+		res[local_id] =  False
 		for local_id in ids:
 			debug(ids)
 			rent_ids = self.pool.get('rent.rent').search(cr,uid,[('rent_status','=','Valid')])
 			for rent in rent_ids:
 				local_rent = self.pool.get('rent.local.rent').search(cr,uid,[('local_rent','=',rent),('local_local_floor','=',local_id)])
 				if local_rent:
-					res[local_id] =  False
-				else:
 					res[local_id] =  True
+				else:
+					res[local_id] =  False
 		debug(res)
-		return {'1':1}
+		return res
 	_columns = {
 		#'local_area'               : fields.function(_floor_area,type='float',method=True,string='VRN Dynamic'),
 		'local_area'               : fields.float('Area',required=True),
