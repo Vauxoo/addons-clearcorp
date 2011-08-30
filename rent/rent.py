@@ -328,11 +328,11 @@ class rent_rent(osv.osv):
 		'name'                  : fields.char('Reference',size=64),
 		'rent_rent_client'      : fields.many2one('res.partner','Client'),
 		'rent_end_date'         : fields.date('Ending Date'),
-		'rent_ending_motif'     : fields.selection((('Desertion','Desertion'),('No Renovation','No Renovation'),('Eviction','Eviction')),'Ending Motif'),
+		'rent_ending_motif'     : fields.selection([('Desertion','Desertion'),('No Renovation','No Renovation'),('Eviction','Eviction')],'Ending Motif'),
 		'rent_ending_motif_desc': fields.text('Ending Motif Description'),
 		'rent_rise'             : fields.float('Rise'),
-		'rent_type'             : fields.selection((('Contract','Contract'),('Adendum','Adendum'),('Renovation','Renovation')),'Type'),
-		'rent_status'           : fields.selection((('Valid','Valid'),('Finished','Finished'),('Draft','Draft')),'Status'),
+		'rent_type'             : fields.selection([('Contract','Contract'),('Adendum','Adendum'),('Renovation','Renovation')],'Type'),
+		'rent_status'           : fields.selection([('Valid','Valid'),('Finished','Finished'),('Draft','Draft')],'Status'),
 		'rent_start_date'       : fields.date('Starting Date'),
 		'rent_total'            : fields.function(_get_total_rent,type='float',method=True,string='Total Paid'),
 		'rent_rent_local'       : fields.one2many('rent.local.floor','local_rent','Local'),
@@ -346,7 +346,7 @@ class rent_rent(osv.osv):
 		'rent_modif_ref'        : fields.many2one('rent.rent', 'Modifications'),
 	}
 	
-	_default = {
+	_defaults = {
 		'rent_status' : 'Draft',
 		'rent_type'   : 'Contract',
 	}
