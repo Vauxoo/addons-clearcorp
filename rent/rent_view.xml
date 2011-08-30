@@ -92,8 +92,8 @@
 		======================================
 		-->
 		<record model = "ir.ui.view" id = "client_form_view">
-			<field name = "name">rent.client.form</field>
-			<field name = "model">rent.client</field>
+			<field name = "name">res.partner.form</field>
+			<field name = "model">res.partner</field>
 			<field name = "type">form</field>
 			<field name="inherit_id" ref="base.view_partner_form"/>
 			<field name="arch" type="xml">
@@ -116,8 +116,8 @@
 		</record>
 		
 		<record model = "ir.ui.view" id = "client_tree_view">
-			<field name = "name">rent.client.tree</field>
-			<field name = "model">rent.client</field>
+			<field name = "name">res.partner.tree</field>
+			<field name = "model">res.partner</field>
 			<field name = "type">tree</field>
 			<field name="inherit_id" ref="base.view_partner_tree"/>
 			<field name = "arch" type = "xml">
@@ -135,7 +135,7 @@
 		
 		<record model = "ir.actions.act_window" id = "action_client_form_view">
 			<field name = "name">Detalles de Clientes</field>
-			<field name = "res_model">rent.client</field>
+			<field name = "res_model">res.partner</field>
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
@@ -161,54 +161,22 @@
 		
 		<!--
 		======================================
-						LOCATION
-		======================================
-		
-		<record model = "ir.ui.view" id = "location_form_view">
-			<field name = "name">res.partner.address</field>
-			<field name = "model">res.partner.address</field>
-			<field name = "type">form</field>
-			<field name = "inherit_id" ref="base.view_partner_address_form2"/>
-			<field name = "arch" type = "xml">
-				<data>
-					<field name="city" position = "replace">
-						<field name = "canton" on_change = "determine_district(estate_canton)"/>
-					</field>
-					<field name="estate_id" position = "replace">
-						<field name = "province" on_change = "determine_canton(estate_province)"/>
-					</field>
-					<field name="canton" position = "after">
-						<field name = "district"/>
-					</field>
-				</data>
-			</field>
-		</record>
-		
-		<record model = "ir.ui.view" id = "location_tree_view">
-			<field name = "name">res.partner.address.tree</field>
-			<field name = "model">res.partner.address</field>
-			<field name = "type">tree</field>
-			<field name = "inherit_id" ref="base.view_partner_address_tree"/>
-			<field name = "arch" type = "xml">
-				<data>
-					<field name="city" position = "replace">
-						<field name = "canton" on_change = "determine_district(estate_canton)"/>
-					</field>
-					<field name="estate_id" position = "replace">
-						<field name = "province" on_change = "determine_canton(estate_province)"/>
-					</field>
-					<field name="canton" position = "after">
-						<field name = "district"/>
-					</field>
-				</data>
-			</field>
-		</record>-->
-		
-		<!--
-		======================================
 						ESTATES
 		======================================
 		-->
+		<record id = "view_estate_filter" model = "ir.ui.view">
+			<field name = "name">rent.estate.select</field>
+			<field name = "model">rent.estate</field>
+			<field name = "type">search</field>
+			<field name = "arch" type = "xml">
+				<search string = "Search Contact">
+					<group expand = "0" string = "Group By...">
+						<filter string = "Owners" icon = "terp-personal" domain = "[]" context="{'group_by' : 'estate_owner'}"/>
+						<filter string = "Location" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'estate_location'}"/>
+					</group>
+				</search>
+			</field>
+		</record>
 		<record model = "ir.ui.view" id = "estate_form_view">
 			<field name = "name">rent.estate.form</field>
 			<field name = "model">rent.estate</field>
@@ -249,9 +217,6 @@
 					<field name = "estate_area" />
 					<field name = "estate_value"/>
 					<field name = "estate_vrn_per_sqr"/>
-					<!--<field name = "estate_province"/>
-					<field name = "estate_vrn_per_sqr"/>
-					<field name = "estate_district"/>-->
 				</tree>
 			</field>
 		</record>
@@ -262,7 +227,8 @@
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
-			<field name = "view_id" ref="estate_tree_view"></field>
+			<field name = "view_id" ref="estate_tree_view"/>
+			<field name = "search_view_id" ref = "view_estate_filter"/>
 			<field name="help">Manage the estates that your company owns, to have them available in your system</field>
 		</record>
 		
@@ -280,6 +246,19 @@
 						BUILDING
 		======================================
 		-->
+		
+		<record id = "view_building_filter" model = "ir.ui.view">
+			<field name = "name">rent.building.select</field>
+			<field name = "model">rent.building</field>
+			<field name = "type">search</field>
+			<field name = "arch" type = "xml">
+				<search string = "Search Building">
+					<group expand = "0" string = "Group By...">
+						<filter string = "Estates" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'building_estate'}"/>
+					</group>
+				</search>
+			</field>
+		</record>
 		
 		<record model ="ir.ui.view" id = "building_form_view">
 			<field name = "name">rent.building.form</field>
@@ -300,13 +279,41 @@
 						<separator string = "Photos" col = "4" colspan = "4"/>
 						<field name = "building_photo" widget = "image" nolabel="1" img_width="200" img_height="180" />
 					</group>
-					<group col = "4" colspan = "4">
-						<separator string = "Machinery" col = "4" colspan = "4"/>
-						<field name = "building_elevator"/>
-						<field name = "building_elevators_number" attrs="{'readonly':[('building_elevator','!=','True')]}"/>
-						<field name = "building_stairs"/>
-						<field name = "building_stairs_number" attrs="{'readonly':[('building_stairs','!=','True')]}"/>
-					</group>
+					<notebook>
+						<page string = "Floors">
+							<field name = "building_floors" mode = "form,tree" nolabel = "1">
+								<form string = "Floor Details">
+									<group col = "4" colspan = "2">
+										<separator string = "General Information" col = "4" colspan = "4"/>
+										<field name = "floor_number"/>
+										<field name = "floor_area"/>
+										<field name = "floor_value"/>
+									</group>
+									<group col = "4" colspan = "2">
+										<separator string = "Design Information" col = "4" colspan = "4"/>
+										<field name = "floor_thickness"/>
+										<field name = "floor_durability"/>
+										<field name = "floor_acabado"/>
+									</group>
+								</form>
+								<tree string="Floor Details">
+									<field name="floor_number"/>
+									<field name="floor_value"/>
+									<field name="floor_area"/>
+									<field name = "floor_building"/>
+								</tree>
+							</field>
+						</page>
+						<page string = "Machinery">
+							<group col = "4" colspan = "4">
+								<separator string = "Machinery" col = "4" colspan = "4"/>
+								<field name = "building_elevator"/>
+								<field name = "building_elevators_number" attrs="{'readonly':[('building_elevator','!=','True')]}"/>
+								<field name = "building_stairs"/>
+								<field name = "building_stairs_number" attrs="{'readonly':[('building_stairs','!=','True')]}"/>
+							</group>
+						</page>
+					</notebook>
 				</form>
 			</field>
 		</record>
@@ -333,6 +340,7 @@
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
+			<field name = "search_view_id" ref = "view_building_filter"/>
 		</record>
 		
 		
@@ -348,8 +356,9 @@
 					FLOOR MENU
 		======================================
 		-->
+		
 		<record model ="ir.ui.view" id = "floor_form_view">
-			<field name = "name">rent.floor.form</field>
+			<field name = "name">rent.floor.form2</field>
 			<field name = "model">rent.floor</field>
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
@@ -393,20 +402,32 @@
 			</field>
 		</record>
 		
-		<record model = "ir.actions.act_window" id = "action_floor_form_view">
-			<field name = "name">Floor Detail</field>
-			<field name = "res_model">rent.floor</field>
-			<field name = "type">ir.actions.act_window</field>
-			<field name = "view_type">form</field>
-			<field name = "view_mode">tree,form</field>
-		</record>
 		
+		<record id="action_floor_form" model="ir.actions.act_window">
+            <field name="name">Floors</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rent.floor</field>
+            <field name="view_type">form</field>            
+            <field name="help">Customers (also called Partners in other areas of the system) helps you manage your address book of companies whether they are prospects, customers and/or suppliers. The partner form allows you to track and record all the necessary information to interact with your partners from the company address to their contacts as well as pricelists, and much more. If you installed the CRM, with the history tab, you can track all the interactions with a partner such as opportunities, emails, or sales orders issued.</field>
+        </record>
+        <record id="action_floor_form_view1" model="ir.actions.act_window.view">
+            <field eval="10" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="floor_tree_view"/>
+            <field name="act_window_id" ref="action_floor_form"/>
+        </record>
+        <record id="action_floor_form_view2" model="ir.actions.act_window.view">
+            <field eval="20" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="floor_form_view"/>
+            <field name="act_window_id" ref="action_floor_form"/>
+        </record>
 		<!--
 		======================================
 					FLOOR MENU
 		======================================
 		-->
-		<menuitem id = "rent_floor_submenu" name = "Floors" parent = "rent_estate_menu" action = "action_floor_form_view"/>
+		<menuitem id = "rent_floor_submenu" name = "Floors" parent = "rent_estate_menu" action = "action_floor_form"/>
 		
 		
 		<!--
@@ -422,15 +443,20 @@
 			<field name = "arch" type = "xml">
 				<form string = "Local Details">
 					<group col = "4" colspan = "2">
+						<separator string = "Photos" col = "4" colspan = "4"/>
+						<field name = "local_photo" widget = "image" nolabel="1" img_width="200" img_height="180" colspan = "4"/>
+						<field name = "local_gallery_photo" widget = "url" colspan = "4"/>
+					</group>
+					<group col = "4" colspan = "2">
 						<separator string = "General Information"/>
 						<field name = "local_building"/>
 						<field name = "local_number"/>
 						<field name = "local_area"/>
 						<field name = "local_huella"/>
 					</group>
-					<group col = "4" colspan = "2">
+					<group col = "4" colspan = "4">
 						<separator string = "Miscelanius Information"/>
-						<field name = "local_sqrmeter_price"/>
+						<!--<field name = "local_sqrmeter_price"/>-->
 						<field name = "local_rented"/>
 						<field name = "local_water_meter_number"/>
 						<field name = "local_light_meter_number"/>
@@ -481,7 +507,8 @@
 						<separator string = "General Information"/>
 						<field name = "name" select = "1"/>
 						<field name = "local_local_floor"/>
-						<field name = "local_floor_floor" select = "1"/>
+						<field name = "local_floor_floor" select = "1" on_change = "onchange_floor(local_floor_floor)"/>
+						<field name = "local_floor_building" select = "1"/>
 						<field name = "local_floor_width"/>
 						<field name = "local_floor_large"/>
 						<field name = "local_sqrmeter_price"/>
@@ -500,6 +527,7 @@
 				<tree string = "Local List">
 					<field name = "name" select = "1"/>
 					<field name = "local_floor_floor" select = "1"/>
+					<field name = "local_floor_building" select = "1"/>
 					<field name = "local_floor_width"/>
 					<field name = "local_floor_large"/>
 					<field name = "local_sqrmeter_price" sum = "Sqr Meter Total"/>
@@ -573,6 +601,27 @@
 					RENT
 		======================================
 		-->
+		<record id = "view_rent_rent_filter" model = "ir.ui.view">
+			<field name = "name">rent.rent.select</field>
+			<field name = "model">rent.rent</field>
+			<field name = "type">search</field>
+			<field name = "arch" type = "xml">
+				<search string = "Search Rents">
+					<group>
+						<filter string = "Draft" icon = "terp-stock_symbol-selection" domain = "[('rent_status','=','Draft')]"/>
+						<filter string = "Valid" icon = "terp-go-home" domain = "[('rent_status','=','Valid')]" />
+						<filter string = "Finished" icon = "terp-go-home" domain = "[('rent_status','=','Finished')]"/>
+					</group>
+					<group expand = "0" string = "Group By...">
+						<filter string = "Client" icon = "terp-personal" domain = "[]" context="{'group_by' : 'rent_rent_client'}"/>
+						<filter string = "Type" icon = "terp-stock_symbol-selection" domain = "[]" context="{'group_by' : 'rent_type'}"/>
+						<filter string = "Years" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'rent_years'}"/>
+						<filter string = "Status" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'rent_status'}"/>
+					</group>
+				</search>
+			</field>
+		</record>
+		
 		<record model = "ir.ui.view" id = "rent_form_view">
 			<field name = "name">rent.rent.form</field>
 			<field name = "model">rent.rent</field>
@@ -582,6 +631,7 @@
 					<group col = "4" colspan = "2">
 						<separator string = "Information" colspan = "4"/>
 						<field name = "name"/>
+						<field name = "rent_rent_client"/>
 						<field name = "rent_type"/>
 						<field name = "rent_status"/>
 						<field name = "rent_total"/>
@@ -605,7 +655,7 @@
 						<field name = "rent_ending_motif_desc"/>
 					</group>
 					<notebook>
-						<page string = "Detail">							
+						<page string = "Detail">
 							<group col = "4" colspan = "4" attrs = "{'invisible':[('rent_is_parking','!=','True'),('rent_is_estate','!=','True'),('rent_is_local','!=','True')]}">
 								<separator string = "Real Estate Information" colspan = "4"/>
 									<field name = "rent_rent_local" attrs = "{'readonly' : [('rent_is_local','!=','True')], 'required' : [('rent_is_local','=','True')], 'invisible': [('rent_is_local','!=','True')]}"/>
@@ -616,6 +666,9 @@
 						<page string = "Results">
 							
 						</page>
+						<!--<page string = "Modifications">
+							<field name = "rent_modif" attrs="{'readonly' : [('rent_type','=','Contract')]}"/>
+						</page>-->
 					</notebook>
 				</form>
 			</field>
