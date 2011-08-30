@@ -345,6 +345,11 @@ class rent_rent(osv.osv):
 		'rent_modif'            : fields.one2many('rent.rent', 'name','Contract reference'),
 		'rent_modif_ref'        : fields.many2one('rent.rent', 'Modifications'),
 	}
+	
+	_default {
+		'rent_status' : 'Draft',
+		'rent_type'   : 'Contract',
+	}
 rent_rent()
 
 class rent_local_floor(osv.osv):
