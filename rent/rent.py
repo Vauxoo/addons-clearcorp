@@ -183,7 +183,7 @@ class rent_floor_local(osv.osv):
 				obj_local = self.pool.get('rent.local.floor').browse(cr,uid,lids)
 				res[local_id] = obj_local.floor_building
 			debug(res)
-		return {1:1}
+		return {'1':1}
 	
 	def _determine_rented(self,cr,uid,ids,field_name,args,context):
 		res = {}
@@ -198,7 +198,7 @@ class rent_floor_local(osv.osv):
 				else:
 					res[local_id] =  True
 		debug(res)
-		return {1:1}
+		return {'1':1}
 	_columns = {
 		#'local_area'               : fields.function(_floor_area,type='float',method=True,string='VRN Dynamic'),
 		'local_area'               : fields.float('Area',required=True),
