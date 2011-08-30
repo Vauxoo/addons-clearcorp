@@ -332,7 +332,7 @@ class rent_rent(osv.osv):
 		'rent_ending_motif_desc': fields.text('Ending Motif Description'),
 		'rent_rise'             : fields.float('Rise'),
 		'rent_type'             : fields.selection([('Contract','Contract'),('Adendum','Adendum'),('Renovation','Renovation')],'Type'),
-		'rent_status'           : fields.selection([('Valid','Valid'),('Finished','Finished'),('Draft','Draft')],'Status'),
+		'rent_status'           : fields.selection([('Valid','Valid'),('Finished','Finished'),('Draft','Draft')],'Status', readonly=True),
 		'rent_start_date'       : fields.date('Starting Date'),
 		'rent_total'            : fields.function(_get_total_rent,type='float',method=True,string='Total Paid'),
 		'rent_rent_local'       : fields.one2many('rent.local.floor','local_rent','Local'),
