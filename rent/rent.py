@@ -194,12 +194,14 @@ class rent_floor_local(osv.osv):
 		'local_water_meter_number' : fields.char('Water Meter',size=64), 
 		'local_light_meter_number' : fields.char('Light Meter', size=64),
 		#'local_sqrmeter_price'     : fields.function(_local_sqr_price,type='float',method=True,string='Sqr Meter Price'),
-		'local_sqrmeter_price'     :  fields.float('Sqr Meter Price',required=True),
-		'local_rented'             : fields.boolean('Rented',help='Check if the local is rented'),
+		#'local_sqrmeter_price'     :  fields.float('Sqr Meter Price',required=True),
+		'local_rented'             : fields.function(_determine_rented,type='boolean',method=True,string='Rented',help='Check if the local is rented'),
 		'local_floor'              : fields.many2one('rent.floor','# Floor'),
 		#'local_local_by_floor'     : fields.one2many('rent.floor.floor','# Floor'),
 		#'local_floor'              : fields.related('rent.local.floor','# Floor'),
-		'local_building'           : fields.function(_get_building_local,type='many2one',method=True,string='Building'),	
+		'local_building'           : fields.function(_get_building_local,type='many2one',method=True,string='Building'),
+		'local_gallery_photo'      : fields.char('Gallery of Images', size=64),
+		'local_photo'              : fields.binary('Main photo'),
 	}
 rent_floor_local()
 
@@ -325,6 +327,7 @@ class rent_rent(osv.osv):
 		'rent_is_estate'        : fields.boolean('Estates',help='Check if you want to calculate a rent for locals'),
 		'rent_years'            : fields.function(_calculate_years,type='integer',method=True,string = 'Years' ,help='Check if you want to calculate a rent for locals'),
 		'rent_modif'            : fields.one2many('rent.rent', 'name','Contract reference'),
+		'rent_modif_ref'        : fields.many2one('rent.rent', 'Modifications'),
 	}
 rent_rent()
 

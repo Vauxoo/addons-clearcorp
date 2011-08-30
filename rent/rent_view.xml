@@ -161,54 +161,22 @@
 		
 		<!--
 		======================================
-						LOCATION
-		======================================
-		
-		<record model = "ir.ui.view" id = "location_form_view">
-			<field name = "name">res.partner.address</field>
-			<field name = "model">res.partner.address</field>
-			<field name = "type">form</field>
-			<field name = "inherit_id" ref="base.view_partner_address_form2"/>
-			<field name = "arch" type = "xml">
-				<data>
-					<field name="city" position = "replace">
-						<field name = "canton" on_change = "determine_district(estate_canton)"/>
-					</field>
-					<field name="estate_id" position = "replace">
-						<field name = "province" on_change = "determine_canton(estate_province)"/>
-					</field>
-					<field name="canton" position = "after">
-						<field name = "district"/>
-					</field>
-				</data>
-			</field>
-		</record>
-		
-		<record model = "ir.ui.view" id = "location_tree_view">
-			<field name = "name">res.partner.address.tree</field>
-			<field name = "model">res.partner.address</field>
-			<field name = "type">tree</field>
-			<field name = "inherit_id" ref="base.view_partner_address_tree"/>
-			<field name = "arch" type = "xml">
-				<data>
-					<field name="city" position = "replace">
-						<field name = "canton" on_change = "determine_district(estate_canton)"/>
-					</field>
-					<field name="estate_id" position = "replace">
-						<field name = "province" on_change = "determine_canton(estate_province)"/>
-					</field>
-					<field name="canton" position = "after">
-						<field name = "district"/>
-					</field>
-				</data>
-			</field>
-		</record>-->
-		
-		<!--
-		======================================
 						ESTATES
 		======================================
 		-->
+		<record id = "view_estate_filter" model = "ir.ui.view">
+			<field name = "name">rent.estate.select</field>
+			<field name = "model">rent.estate</field>
+			<field name = "type">search</field>
+			<field name = "arch" type = "xml">
+				<search string = "Search Contact">
+					<group expand = "0" string = "Group By...">
+						<filter string = "Owners" icon = "terp-personal" domain = "[]" context="{'group_by : 'estate_owner'}"/>
+						<filter string = "Location" icon = "terp-go-home" domain = "[]" context="{'group_by : 'estate_location'}"/>
+					</group>
+				</search>
+			</field>
+		</record>
 		<record model = "ir.ui.view" id = "estate_form_view">
 			<field name = "name">rent.estate.form</field>
 			<field name = "model">rent.estate</field>
@@ -249,9 +217,6 @@
 					<field name = "estate_area" />
 					<field name = "estate_value"/>
 					<field name = "estate_vrn_per_sqr"/>
-					<!--<field name = "estate_province"/>
-					<field name = "estate_vrn_per_sqr"/>
-					<field name = "estate_district"/>-->
 				</tree>
 			</field>
 		</record>
@@ -262,7 +227,8 @@
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
-			<field name = "view_id" ref="estate_tree_view"></field>
+			<field name = "view_id" ref="estate_tree_view"/>
+			<field name = "search_view_id" ref = "view_estate_filter"/>
 			<field name="help">Manage the estates that your company owns, to have them available in your system</field>
 		</record>
 		
@@ -280,6 +246,19 @@
 						BUILDING
 		======================================
 		-->
+		
+		<record id = "view_building_filter" model = "ir.ui.view">
+			<field name = "name">rent.building.select</field>
+			<field name = "model">rent.building</field>
+			<field name = "type">search</field>
+			<field name = "arch" type = "xml">
+				<search string = "Search Building">
+					<group expand = "0" string = "Group By...">
+						<filter string = "Estates" icon = "terp-go-home" domain = "[]" context="{'group_by : 'building_estate'}"/>
+					</group>
+				</search>
+			</field>
+		</record>
 		
 		<record model ="ir.ui.view" id = "building_form_view">
 			<field name = "name">rent.building.form</field>
@@ -361,6 +340,7 @@
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
+			<field name = "search_view_id" ref = "view_building_filter"/>
 		</record>
 		
 		
@@ -376,7 +356,7 @@
 					FLOOR MENU
 		======================================
 		-->
-			
+		
 		<record model ="ir.ui.view" id = "floor_form_view">
 			<field name = "name">rent.floor.form2</field>
 			<field name = "model">rent.floor</field>
@@ -463,13 +443,18 @@
 			<field name = "arch" type = "xml">
 				<form string = "Local Details">
 					<group col = "4" colspan = "2">
+						<separator string = "Photos" col = "4" colspan = "4"/>
+						<field name = "local_photo" widget = "image" nolabel="1" img_width="200" img_height="180" colspan = "4"/>
+						<field name = "local_gallery_photo" widget = "url" colspan = "4"/>
+					</group>
+					<group col = "4" colspan = "2">
 						<separator string = "General Information"/>
 						<field name = "local_building"/>
 						<field name = "local_number"/>
 						<field name = "local_area"/>
 						<field name = "local_huella"/>
 					</group>
-					<group col = "4" colspan = "2">
+					<group col = "4" colspan = "4">
 						<separator string = "Miscelanius Information"/>
 						<field name = "local_sqrmeter_price"/>
 						<field name = "local_rented"/>
@@ -616,6 +601,27 @@
 					RENT
 		======================================
 		-->
+		<record id = "view_rent_rent_filter" model = "ir.ui.view">
+			<field name = "name">rent.rent.select</field>
+			<field name = "model">rent.rent</field>
+			<field name = "type">search</field>
+			<field name = "arch" type = "xml">
+				<search string = "Search Rents">
+					<group>
+						<filter string = "Draft" icon = "terp-stock_symbol-selection" domain = "[('rent_status','=','Draft')]"/>
+						<filter string = "Valid" icon = "terp-go-home" domain = "[('rent_status','=','Valid')]" />
+						<filter string = "Finished" icon = "terp-go-home" domain = "[('rent_status','=','Finished')]"/>
+					</group>
+					<group expand = "0" string = "Group By...">
+						<filter string = "Client" icon = "terp-personal" domain = "[]" context="{'group_by : 'rent_rent_client'}"/>
+						<filter string = "Type" icon = "terp-stock_symbol-selection" domain = "[]" context="{'group_by : 'rent_type'}"/>
+						<filter string = "Years" icon = "terp-go-home" domain = "[]" context="{'group_by : 'rent_years'}"/>
+						<filter string = "Status" icon = "terp-go-home" domain = "[]" context="{'group_by : 'rent_status'}"/>
+					</group>
+				</search>
+			</field>
+		</record>
+		
 		<record model = "ir.ui.view" id = "rent_form_view">
 			<field name = "name">rent.rent.form</field>
 			<field name = "model">rent.rent</field>
