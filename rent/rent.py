@@ -42,7 +42,7 @@ rent_location()
 #necesary data from the clients
 
 class rent_client(osv.osv):
-	_name = 'rent.client'
+	_name = 'res.partner'
 	_inherit = 'res.partner'
 	_columns = {
 		'client_birthdate' : fields.date('Birthdate',select=1,required=True),
@@ -308,7 +308,7 @@ class rent_rent(osv.osv):
 		return True
 	_columns = {
 		'name'                  : fields.char('Reference',size=64),
-		'rent_rent_client'      : fields.many2one('rent.client','Client'),
+		'rent_rent_client'      : fields.many2one('res.partner','Client'),
 		'rent_end_date'         : fields.date('Ending Date'),
 		'rent_ending_motif'     : fields.selection((('Desertion','Desertion'),('No Renovation','No Renovation'),('Eviction','Eviction')),'Ending Motif'),
 		'rent_ending_motif_desc': fields.text('Ending Motif Description'),
@@ -374,7 +374,7 @@ class rent_local_floor(osv.osv):
 		'local_floor_area'     : fields.function(_local_floor_area,type='float',method=True,string='Area M2'),
 		'local_sqrmeter_price' : fields.function(_local_sqr_price,type='float',method=True,string='Sqr Meter Price'),
 		'local_floor_value'    : fields.function(_local_value,type='float',method=True,string='Total Value'),
-		'local_floor_building' : fields.related('local_floor_floor','floor_building',type='many2one',relation='rent.building',string='Building', readonly=True, store=False,),
+		'local_floor_building' : fields.related('local_floor_floor','floor_building',type='many2one',relation='rent.building',string='Building', readonly=True, store=False),
 	}
 rent_local_floor()
 
