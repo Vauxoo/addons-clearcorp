@@ -351,8 +351,9 @@ class rent_rent(osv.osv):
 	}
 	
 	_defaults = {
-		'state' : 'draft',
-		'rent_type'   : 'Contract',
+		'state'        : 'draft',
+		'rent_type'    : 'Contract',
+		'rent_is_local': 1
 	}
 rent_rent()
 
