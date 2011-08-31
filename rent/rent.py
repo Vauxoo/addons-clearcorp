@@ -354,7 +354,6 @@ class rent_rent(osv.osv):
 	_defaults = {
 		'state'        : 'draft',
 		'rent_type'    : 'Contract',
-		'rent_is_local': 1
 	}
 rent_rent()
 
@@ -400,7 +399,7 @@ class rent_local_floor(osv.osv):
 		'local_floor_large'    : fields.float('Large', required=True),
 		'local_floor_floor'    : fields.many2one('rent.floor','Level',help='Represents the floor on witch its located the local'),
 		'local_local_floor'    : fields.many2one('rent.floor.local','Local#',help='Represents the floor on witch its located the local'),
-		'local_rent'           : fields.many2one('rent.rent','Alquiler'),
+		'local_rent'           : fields.many2one('rent.rent','Alquiler',ondelete='cascade'),
 		'local_floor_area'     : fields.function(_local_floor_area,type='float',method=True,string='Area M2'),
 		'local_sqrmeter_price' : fields.function(_local_sqr_price,type='float',method=True,string='Sqr Meter Price'),
 		'local_floor_value'    : fields.function(_local_value,type='float',method=True,string='Total Value'),

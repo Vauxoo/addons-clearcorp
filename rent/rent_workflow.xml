@@ -38,6 +38,7 @@
 			<field name = "act_from" ref = "act_valid"/>
 			<field name = "act_to" ref = "act_finish"/>
 			<field name = "signal">rent_finish</field>
+			<field name="flow_stop">True</field>
 		</record>
     </data>
 </openerp>
