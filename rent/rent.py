@@ -1,6 +1,7 @@
 from osv import osv, fields
 from tools import debug
 import time
+import pooler
 from dateutil import parser
 from tools.translate import _
 
