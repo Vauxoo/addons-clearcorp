@@ -277,8 +277,6 @@ class rent_rent(osv.osv):
 	
 	def _get_total_rent(self,cr,uid,ids,field_name,args,context):
 		res = {}
-		total = 0
-		debug('+==================================')
 		
 		return res
 	def _calculate_years(self,cr,uid,ids,field_name,args,context):
@@ -286,7 +284,7 @@ class rent_rent(osv.osv):
 		res = {}
 		for rent_id in ids:
 			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rent_id)
-			if (obj_rent.rent_end_date != '' and  obj_rent.rent_start_date != ''):
+			if (obj_rent.rent_end_date and  obj_rent.rent_start_date):
 				fin = parser.parse(obj_rent.rent_end_date)
 				inicio = parser.parse(obj_rent.rent_start_date)
 				debug(inicio)
