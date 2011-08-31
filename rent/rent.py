@@ -133,7 +133,7 @@ class rent_floor(osv.osv):
 		debug(ids)
 		for floor_id in ids:
 			debug(floor_id)
-			actual_rent = self.pool.get('rent.rent').search(cr,uid,['|',('rent_status','=','Valid'),('rent_status','=','Draft')])
+			actual_rent = self.pool.get('rent.rent').search(cr,uid,['|',('rent_status','=','valid'),('rent_status','=','draft')])
 			debug(actual_rent)
 			locals_id = self.pool.get('rent.local.floor').search(cr,uid,[('local_rent','in',actual_rent),('local_floor_floor','=',floor_id)])
 			debug(locals_id)
@@ -146,7 +146,7 @@ class rent_floor(osv.osv):
 				debug(total)
 			
 			#This part look for the parking on rents associated to the floor
-			rent_ids = self.pool.get('rent.rent').search(cr,uid,['|',('rent_status','=','Valid'),('rent_status','=','Draft'),('rent_is_parking','=','True')])
+			rent_ids = self.pool.get('rent.rent').search(cr,uid,['|',('rent_status','=','valid'),('rent_status','=','draft'),('rent_is_parking','=','True')])
 			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rent_ids)
 			for rent in obj_rent:
 				obj_parking = rent.rent_rent_parking
@@ -197,7 +197,7 @@ class rent_floor_local(osv.osv):
 		for local_id in ids:
 			res[local_id] =  False
 			debug(ids)
-			rent_ids = self.pool.get('rent.rent').search(cr,uid,[('rent_status','=','Valid')])
+			rent_ids = self.pool.get('rent.rent').search(cr,uid,[('rent_status','=','valid')])
 			debug(rent_ids)
 			for rent in rent_ids:
 				local_rent = self.pool.get('rent.local.floor').search(cr,uid,[('local_rent','=',rent),('local_local_floor','=',local_id)])
@@ -330,23 +330,23 @@ class rent_rent(osv.osv):
 		return True
 	_columns = {
 		'name'                  : fields.char('Reference',size=64),
-		'rent_rent_client'      : fields.many2one('res.partner','Client'),
-		'rent_end_date'         : fields.date('Ending Date', required=True),
+		'rent_rent_client'      : fields.many2one('res.partner','Client', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_end_date'         : fields.date('Ending Date', required=True, states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_ending_motif'     : fields.selection([('Desertion','Desertion'),('No Renovation','No Renovation'),('Eviction','Eviction')],'Ending Motif'),
 		'rent_ending_motif_desc': fields.text('Ending Motif Description'),
-		'rent_rise'             : fields.float('Anual Rise'),
-		'rent_type'             : fields.selection([('Contract','Contract'),('Adendum','Adendum'),('Renovation','Renovation')],'Type'),
-		'rent_status'           : fields.selection([('Valid','Valid'),('Finished','Finished'),('Draft','Draft')],'Status', readonly=True),
-		'rent_start_date'       : fields.date('Starting Date', required=True),
+		'rent_rise'             : fields.float('Anual Rise', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_type'             : fields.selection([('Contract','Contract'),('Adendum','Adendum'),('Renovation','Renovation')],'Type', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'state'                 : fields.selection([('valid','Valid'),('finished','Finished'),('draft','Draft')],'Status', readonly=True),
+		'rent_start_date'       : fields.date('Starting Date', required=True, states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_total'            : fields.function(_get_total_rent,type='float',method=True,string='Total Paid'),
-		'rent_rent_local'       : fields.one2many('rent.local.floor','local_rent','Local'),
-		'rent_rent_parking'     : fields.many2one('rent.floor.parking','Parking'),
-		'rent_rent_estate'      : fields.many2one('rent.estate','Estate'),
-		'rent_is_local'         : fields.boolean('Locals',help='Check if you want to calculate a rent for locals'),
-		'rent_is_parking'       : fields.boolean('Parking',help='Check if you want to calculate a rent for locals'),
-		'rent_is_estate'        : fields.boolean('Estates',help='Check if you want to calculate a rent for locals'),
+		'rent_rent_local'       : fields.one2many('rent.local.floor','local_rent','Local', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_rent_parking'     : fields.many2one('rent.floor.parking','Parking', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_rent_estate'      : fields.many2one('rent.estate','Estate', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_is_local'         : fields.boolean('Locals',help='Check if you want to calculate a rent for locals', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_is_parking'       : fields.boolean('Parking',help='Check if you want to calculate a rent for locals', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_is_estate'        : fields.boolean('Estates',help='Check if you want to calculate a rent for locals', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_years'            : fields.function(_calculate_years,type='integer',method=True,string = 'Years' ,help='Check if you want to calculate a rent for locals'),
-		'rent_modif'            : fields.one2many('rent.rent', 'rent_modif_ref','Contract reference'),
+		'rent_modif'            : fields.one2many('rent.rent', 'rent_modif_ref','Contract reference', states={'draft':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_modif_ref'        : fields.many2one('rent.rent', 'Modifications'),
 	}
 	
