@@ -613,9 +613,9 @@
 			<field name = "arch" type = "xml">
 				<search string = "Search Rents">
 					<group>
-						<filter string = "Draft" icon = "terp-stock_symbol-selection" domain = "[('state','=','Draft')]"/>
-						<filter string = "Valid" icon = "terp-go-home" domain = "[('state','=','Valid')]" />
-						<filter string = "Finished" icon = "terp-go-home" domain = "[('state','=','Finished')]"/>
+						<filter string = "Draft" icon = "terp-stock_symbol-selection" domain = "[('state','=','draft')]"/>
+						<filter string = "Valid" icon = "terp-go-home" domain = "[('state','=','valid')]" />
+						<filter string = "Finished" icon = "terp-go-home" domain = "[('state','=','finished')]"/>
 					</group>
 					<group expand = "0" string = "Group By...">
 						<filter string = "Client" icon = "terp-personal" domain = "[]" context="{'group_by' : 'rent_rent_client'}"/>

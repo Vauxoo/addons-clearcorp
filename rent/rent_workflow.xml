@@ -15,13 +15,13 @@
 		
 		<record id = "act_valid" model = "workflow.activity">
 			<field name = "wkf_id" ref = "wkf"/>
-			<field name = "action">write({'rent_status':'valid'})</field>
+			<field name = "action">write({'state':'valid'})</field>
 			<field name = "name">function</field>
 		</record>
 		
 		<record id = "act_finish" model = "workflow.activity">
 			<field name = "wkf_id" ref = "wkf"/>
-			<field name = "action">write({'rent_status':'finished'})</field>
+			<field name = "action">write({'state':'finished'})</field>
 			<field name = "name">function</field>
 		</record>
 		
