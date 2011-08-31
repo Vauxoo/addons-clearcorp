@@ -601,26 +601,7 @@
 					RENT
 		======================================
 		-->
-		<record id = "view_rent_rent_filter" model = "ir.ui.view">
-			<field name = "name">rent.rent.select</field>
-			<field name = "model">rent.rent</field>
-			<field name = "type">search</field>
-			<field name = "arch" type = "xml">
-				<search string = "Search Rents">
-					<group>
-						<filter string = "Draft" icon = "terp-stock_symbol-selection" domain = "[('rent_status','=','Draft')]"/>
-						<filter string = "Valid" icon = "terp-go-home" domain = "[('rent_status','=','Valid')]" />
-						<filter string = "Finished" icon = "terp-go-home" domain = "[('rent_status','=','Finished')]"/>
-					</group>
-					<group expand = "0" string = "Group By...">
-						<filter string = "Client" icon = "terp-personal" domain = "[]" context="{'group_by' : 'rent_rent_client'}"/>
-						<filter string = "Type" icon = "terp-stock_symbol-selection" domain = "[]" context="{'group_by' : 'rent_type'}"/>
-						<filter string = "Years" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'rent_years'}"/>
-						<filter string = "Status" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'rent_status'}"/>
-					</group>
-				</search>
-			</field>
-		</record>
+		
 		
 		<record model = "ir.ui.view" id = "rent_form_view">
 			<field name = "name">rent.rent.form</field>
