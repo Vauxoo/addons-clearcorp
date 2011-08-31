@@ -601,7 +601,26 @@
 					RENT
 		======================================
 		-->
-		
+		<record id = "view_rent_rent_filter" model = "ir.ui.view">
+			<field name = "name">rent.rent.select</field>
+			<field name = "model">rent.rent</field>
+			<field name = "type">search</field>
+			<field name = "arch" type = "xml">
+				<search string = "Search Rents">
+					<group>
+						<filter string = "Draft" icon = "terp-stock_symbol-selection" domain = "[('rent_status','=','Draft')]"/>
+						<filter string = "Valid" icon = "terp-go-home" domain = "[('rent_status','=','Valid')]" />
+						<filter string = "Finished" icon = "terp-go-home" domain = "[('rent_status','=','Finished')]"/>
+					</group>
+					<group expand = "0" string = "Group By...">
+						<filter string = "Client" icon = "terp-personal" domain = "[]" context="{'group_by' : 'rent_rent_client'}"/>
+						<filter string = "Type" icon = "terp-stock_symbol-selection" domain = "[]" context="{'group_by' : 'rent_type'}"/>
+						<filter string = "Years" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'rent_years'}"/>
+						<filter string = "Status" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'rent_status'}"/>
+					</group>
+				</search>
+			</field>
+		</record>
 		
 		<record model = "ir.ui.view" id = "rent_form_view">
 			<field name = "name">rent.rent.form</field>
@@ -613,16 +632,16 @@
 						<separator string = "Information" colspan = "4"/>
 						<field name = "name"/>
 						<field name = "rent_rent_client"/>
-						<field name = "rent_type"/>
+						<field name = "rent_type" attrs = "{'readonly' : [('rent_status','!=','Draft')]}"/>
 						<field name = "rent_status"/>
 						<field name = "rent_total"/>
 						<field name = "rent_rise"/>
 					</group>
 					<group col = "2" colspan = "2">
 						<separator string = "Real Estate Related" colspan = "4"/>
-						<field name = "rent_is_local" attrs="{'readonly' : ['|',('rent_is_parking','=','True'),('rent_is_estate','=','True'),('rent_status','!=','Draft')], 'required' : [('rent_is_parking','!=','True'),('rent_is_estate','!=','True')]}"/>
-						<field name = "rent_is_parking" attrs = "{'readonly' : ['|',('rent_is_estate','=','True'),('rent_is_local','=','True'),('rent_status','!=','Draft')], 'required' : [('rent_is_estate','!=','True'),('rent_is_local','!=','True')]}"/>
-						<field name = "rent_is_estate" attrs = "{'readonly' : ['|',('rent_is_local','=','True'),('rent_is_parking','=','True'),('rent_status','!=','Draft')], 'required' : [('rent_is_local','!=','True'),('rent_is_parking','!=','True')]}"/>
+						<field name = "rent_is_local" attrs="{'readonly' : ['|','|',('rent_is_parking','=','True'),('rent_is_estate','=','True'),('rent_status','!=','Draft')], 'required' : [('rent_is_parking','!=','True'),('rent_is_estate','!=','True')]}"/>
+						<field name = "rent_is_parking" attrs = "{'readonly' : ['|','|',('rent_is_estate','=','True'),('rent_is_local','=','True'),('rent_status','!=','Draft')], 'required' : [('rent_is_estate','!=','True'),('rent_is_local','!=','True')]}"/>
+						<field name = "rent_is_estate" attrs = "{'readonly' : ['|','|',('rent_is_local','=','True'),('rent_is_parking','=','True'),('rent_status','!=','Draft')], 'required' : [('rent_is_local','!=','True'),('rent_is_parking','!=','True')]}"/>
 					</group>
 					<group col = "4" colspan = "4">
 						<separator string = "Length of Contract" colspan = "4"/>
@@ -678,6 +697,7 @@
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
 			<field name = "view_id" ref = "rent_tree_view"/>
+			<field name = "search_view_id" ref = "view_rent_rent_filter"/>
 		</record>
 		
 		<!--
