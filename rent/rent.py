@@ -91,6 +91,7 @@ class rent_building(osv.osv):
 	_name = 'rent.building'
 	
 	def _get_building_vrm(self,cr,uid,ids,field_name,args,context=None):
+		#This method calculates the vrn acording to the value an area of the building
 		res = {}
 		for building_id in ids:
 			obj_building = self.pool.get('rent.building').browse(cr,uid,building_id)
@@ -109,6 +110,7 @@ class rent_building(osv.osv):
 		'building_area'              : fields.float('Area',required=True),
 		'building_estate'            : fields.many2one('rent.estate', 'estate'),
 		'building_photo'             : fields.binary('Photo'),
+		'building_gallery_photo'             : fields.char('Gallery of Photos'),
 		'building_floors'            : fields.one2many('rent.floor','floor_building','Floors'),
 		'building_vrn_per_sqr'       : fields.function(_get_building_vrm,type='float',method=True,string='VRN Din/M2'),
 	}
@@ -122,6 +124,8 @@ class rent_floor(osv.osv):
 	_rec_name = 'floor_number'
 	
 	def _calculate_floor_value(self,cr,uid,ids,field_name,args,context):
+		#This method takes al the valid rents for the floor and calculates the value according to 
+		#the value of the locals,parking, building and estate related to it
 		res = {}
 		valores = {}
 		total = 0
@@ -141,7 +145,7 @@ class rent_floor(osv.osv):
 				total += valores[local]
 				debug(total)
 			
-			#se obtienen los parqueos del piso asociados en otras rentas
+			#This part look for the parking on rents associated to the floor
 			rent_ids = self.pool.get('rent.rent').search(cr,uid,['|',('rent_status','=','Valid'),('rent_status','=','Draft'),('rent_is_parking','=','True')])
 			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rent_ids)
 			for rent in obj_rent:

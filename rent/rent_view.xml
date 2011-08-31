@@ -277,7 +277,8 @@
 					</group>
 					<group col = "4" colspan = "2">
 						<separator string = "Photos" col = "4" colspan = "4"/>
-						<field name = "building_photo" widget = "image" nolabel="1" img_width="200" img_height="180" />
+						<field name = "building_photo" widget = "image" nolabel="1" img_width="200" img_height="180"  colspan = "4"/>
+						<field name = "building_gallery_photo" widget = "url" />
 					</group>
 					<notebook>
 						<page string = "Floors">
@@ -665,7 +666,12 @@
 									<field name = "rent_rent_local" attrs = "{'readonly' : ['|',('rent_is_local','!=','True'),('rent_status','!=','Draft')], 'required' : [('rent_is_local','=','True')], 'invisible': [('rent_is_local','!=','True')]}"/>
 									<field name = "rent_rent_parking" attrs = "{'readonly' : ['|',('rent_is_parking','!=','True'),('rent_status','!=','Draft')], 'required' : [('rent_is_parking','=','True')], 'invisible': [('rent_is_parking','!=','True')]}"/>
 									<field name = "rent_rent_estate" attrs = "{'readonly' : ['|',('rent_is_estate','!=','True'),('rent_status','!=','Draft')], 'required' : [('rent_is_estate','=','True')], 'invisible': [('rent_is_estate','!=','True')]}"/>
+
 							</group>
+							 <group col="6" colspan="4">
+                                    <button name="rent_cancel" states="Draft" string="Cancel" icon="gtk-cancel"/>
+                                    <button name="rent_valid" states="Draft" string="Approve" icon="terp-camera_test"/>
+                                </group>
 						</page>
 						<page string = "Results">
 							
@@ -689,7 +695,7 @@
 					<field name = "rent_status"/>
 					<field name = "rent_start_date"/>
 					<field name = "rent_end_date"/>
-					<button name="rent_valid" states="draft" string="Approve" icon="terp-camera_test" type = "object" attrs = "{'invisible' : [('rent_status','!=','Draft')]}"/>
+					<button name="rent_valid" states="draft" string="Approve" icon="terp-camera_test"/>
 				</tree>
 			</field>
 		</record>
