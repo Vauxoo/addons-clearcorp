@@ -669,9 +669,9 @@
 
 							</group>
 							 <group col="6" colspan="4">
-                                    <button name="rent_cancel" states="Draft" string="Cancel" icon="gtk-cancel"/>
-                                    <button name="rent_valid" states="Draft" string="Approve" icon="terp-camera_test"/>
-                                </group>
+									<button name="rent_cancel" states="Draft,Valid" string="Cancel" icon="gtk-cancel"/>
+									<button name="rent_valid" states="Draft" string="Approve" icon="terp-camera_test"/>
+							</group>
 						</page>
 						<page string = "Results">
 							
