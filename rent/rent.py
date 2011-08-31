@@ -114,6 +114,7 @@ class rent_building(osv.osv):
 		'building_gallery_photo'     : fields.char('Gallery of Photos', size=64),
 		'building_floors'            : fields.one2many('rent.floor','floor_building','Floors'),
 		'building_vrn_per_sqr'       : fields.function(_get_building_vrm,type='float',method=True,string='VRN Din/M2'),
+		'building_asset'             : fields.many2one('account.asset','Asset'),
 	}
 rent_building()
 
@@ -280,6 +281,12 @@ rent_floor_parking()
 class rent_rent(osv.osv):
 	_name = 'rent.rent'
 	
+	def _get_currency(self, cr, uid, context=None):
+        user = pooler.get_pool(cr.dbname).get('res.users').browse(cr, uid, [uid], context=context)[0]
+        if user.company_id:
+            return user.company_id.currency_id.id
+        return pooler.get_pool(cr.dbname).get('res.currency').search(cr, uid, [('rate','=', 1.0)])[0]
+        
 	def _get_total_rent(self,cr,uid,ids,field_name,args,context):
 		res = {}
 		total = 0
@@ -349,11 +356,13 @@ class rent_rent(osv.osv):
 		'rent_years'            : fields.function(_calculate_years,type='integer',method=True,string = 'Years' ,help='Check if you want to calculate a rent for locals'),
 		'rent_modif'            : fields.one2many('rent.rent', 'rent_modif_ref','Contract reference', states={'draft':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_modif_ref'        : fields.many2one('rent.rent', 'Modifications'),
+		'currency_id'           : fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft':[('readonly',False)]}),
 	}
 	
 	_defaults = {
 		'state'        : 'draft',
 		'rent_type'    : 'Contract',
+		'currency_id': _get_currency,
 	}
 rent_rent()
 
