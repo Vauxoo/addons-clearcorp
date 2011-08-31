@@ -2,6 +2,7 @@ from osv import osv, fields
 from tools import debug
 import time
 from dateutil import parser
+from tools.translate import _
 
 class rent_canton(osv.osv):
 	 _name = 'rent.canton'
