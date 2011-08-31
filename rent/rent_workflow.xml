@@ -10,18 +10,18 @@
 		<record id = "act_draft" model = "workflow.activity">
 			<field name = "wkf_id" ref = "wkf"/>
 			<field name = "flow_start">True</field>
-			<field name = "name">Draft</field>
+			<field name = "name">draft</field>
 		</record>
 		
 		<record id = "act_valid" model = "workflow.activity">
 			<field name = "wkf_id" ref = "wkf"/>
-			<field name = "action">write({'rent_status':'Valid'})</field>
+			<field name = "action">write({'rent_status':'valid'})</field>
 			<field name = "name">function</field>
 		</record>
 		
 		<record id = "act_finish" model = "workflow.activity">
 			<field name = "wkf_id" ref = "wkf"/>
-			<field name = "action">write({'rent_status':'Finished'})</field>
+			<field name = "action">write({'rent_status':'finished'})</field>
 			<field name = "name">function</field>
 		</record>
 		
