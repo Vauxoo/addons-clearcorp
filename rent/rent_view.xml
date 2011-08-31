@@ -505,10 +505,14 @@
 				<form string = "Local Details">
 					<group col = "4" colspan = "4">
 						<separator string = "General Information"/>
-						<field name = "name" select = "1"/>
-						<field name = "local_local_floor"/>
+						<field name = "name" select = "1"/>						
 						<field name = "local_floor_floor" select = "1" on_change = "onchange_floor(local_floor_floor)"/>
-						<field name = "local_floor_building" select = "1"/>
+						<field name = "local_floor_building" select = "1"/>						
+						<!---->
+					</group>
+					<group col = "4" colspan = "4">
+						<separator string = "Floor Specifications"/>
+						<field name = "local_local_floor"/>
 						<field name = "local_floor_width"/>
 						<field name = "local_floor_large"/>
 						<field name = "local_sqrmeter_price"/>
@@ -658,16 +662,16 @@
 						<page string = "Detail">
 							<group col = "4" colspan = "4" attrs = "{'invisible':[('rent_is_parking','!=','True'),('rent_is_estate','!=','True'),('rent_is_local','!=','True')]}">
 								<separator string = "Real Estate Information" colspan = "4"/>
-									<field name = "rent_rent_local" attrs = "{'readonly' : [('rent_is_local','!=','True')], 'required' : [('rent_is_local','=','True')], 'invisible': [('rent_is_local','!=','True')]}"/>
-									<field name = "rent_rent_parking" attrs = "{'readonly' : [('rent_is_parking','!=','True')], 'required' : [('rent_is_parking','=','True')], 'invisible': [('rent_is_parking','!=','True')]}"/>
-									<field name = "rent_rent_estate" attrs = "{'readonly' : [('rent_is_estate','!=','True')], 'required' : [('rent_is_estate','=','True')], 'invisible': [('rent_is_estate','!=','True')]}"/>
+									<field name = "rent_rent_local" attrs = "{'readonly' : ['|',('rent_is_local','!=','True'),('rent_status','!=','Draft')], 'required' : [('rent_is_local','=','True')], 'invisible': [('rent_is_local','!=','True')]}"/>
+									<field name = "rent_rent_parking" attrs = "{'readonly' : ['|',('rent_is_parking','!=','True'),('rent_status','!=','Draft')], 'required' : [('rent_is_parking','=','True')], 'invisible': [('rent_is_parking','!=','True')]}"/>
+									<field name = "rent_rent_estate" attrs = "{'readonly' : ['|',('rent_is_estate','!=','True'),('rent_status','!=','Draft')], 'required' : [('rent_is_estate','=','True')], 'invisible': [('rent_is_estate','!=','True')]}"/>
 							</group>
 						</page>
 						<page string = "Results">
 							
 						</page>
 						<page string = "Modifications">
-							<!--<field name = "rent_modif" attrs="{'readonly' : [('rent_type','=','Contract')]}"/>-->
+							<field name = "rent_modif" attrs="{'readonly' : [('rent_type','=','Contract')]}"/>
 						</page>
 					</notebook>
 				</form>
@@ -685,7 +689,7 @@
 					<field name = "rent_status"/>
 					<field name = "rent_start_date"/>
 					<field name = "rent_end_date"/>
-					<button name="rent_valid" states="draft" string="Approve" icon="terp-camera_test" type = "object"/>
+					<button name="rent_valid" states="draft" string="Approve" icon="terp-camera_test" type = "object" attrs = "{'invisible' : [('rent_status','!=','Draft')]}"/>
 				</tree>
 			</field>
 		</record>
