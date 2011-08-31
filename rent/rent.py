@@ -133,7 +133,7 @@ class rent_floor(osv.osv):
 		debug(ids)
 		for floor_id in ids:
 			debug(floor_id)
-			actual_rent = self.pool.get('rent.rent').search(cr,uid,['|',('rent_status','=','valid'),('rent_status','=','draft')])
+			actual_rent = self.pool.get('rent.rent').search(cr,uid,['|',('state','=','valid'),('state','=','draft')])
 			debug(actual_rent)
 			locals_id = self.pool.get('rent.local.floor').search(cr,uid,[('local_rent','in',actual_rent),('local_floor_floor','=',floor_id)])
 			debug(locals_id)
@@ -146,7 +146,7 @@ class rent_floor(osv.osv):
 				debug(total)
 			
 			#This part look for the parking on rents associated to the floor
-			rent_ids = self.pool.get('rent.rent').search(cr,uid,['|',('rent_status','=','valid'),('rent_status','=','draft'),('rent_is_parking','=','True')])
+			rent_ids = self.pool.get('rent.rent').search(cr,uid,['|',('state','=','valid'),('state','=','draft'),('rent_is_parking','=','True')])
 			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rent_ids)
 			for rent in obj_rent:
 				obj_parking = rent.rent_rent_parking
@@ -197,7 +197,7 @@ class rent_floor_local(osv.osv):
 		for local_id in ids:
 			res[local_id] =  False
 			debug(ids)
-			rent_ids = self.pool.get('rent.rent').search(cr,uid,[('rent_status','=','valid')])
+			rent_ids = self.pool.get('rent.rent').search(cr,uid,[('state','=','valid')])
 			debug(rent_ids)
 			for rent in rent_ids:
 				local_rent = self.pool.get('rent.local.floor').search(cr,uid,[('local_rent','=',rent),('local_local_floor','=',local_id)])
@@ -326,7 +326,7 @@ class rent_rent(osv.osv):
 		debug('BOTON====================================')
 		debug(ids)
 		for rent_id in ids:
-			self.pool.get('rent.rent').write(cr,uid,rent_id,{'rent_status':'Valid'})
+			self.pool.get('rent.rent').write(cr,uid,rent_id,{'state':'Valid'})
 		return True
 	_columns = {
 		'name'                  : fields.char('Reference',size=64),
@@ -351,7 +351,7 @@ class rent_rent(osv.osv):
 	}
 	
 	_defaults = {
-		'rent_status' : 'Draft',
+		'state' : 'Draft',
 		'rent_type'   : 'Contract',
 	}
 rent_rent()

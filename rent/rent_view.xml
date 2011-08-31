@@ -613,15 +613,15 @@
 			<field name = "arch" type = "xml">
 				<search string = "Search Rents">
 					<group>
-						<filter string = "Draft" icon = "terp-stock_symbol-selection" domain = "[('rent_status','=','Draft')]"/>
-						<filter string = "Valid" icon = "terp-go-home" domain = "[('rent_status','=','Valid')]" />
-						<filter string = "Finished" icon = "terp-go-home" domain = "[('rent_status','=','Finished')]"/>
+						<filter string = "Draft" icon = "terp-stock_symbol-selection" domain = "[('state','=','Draft')]"/>
+						<filter string = "Valid" icon = "terp-go-home" domain = "[('state','=','Valid')]" />
+						<filter string = "Finished" icon = "terp-go-home" domain = "[('state','=','Finished')]"/>
 					</group>
 					<group expand = "0" string = "Group By...">
 						<filter string = "Client" icon = "terp-personal" domain = "[]" context="{'group_by' : 'rent_rent_client'}"/>
 						<filter string = "Type" icon = "terp-stock_symbol-selection" domain = "[]" context="{'group_by' : 'rent_type'}"/>
 						<filter string = "Years" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'rent_years'}"/>
-						<filter string = "Status" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'rent_status'}"/>
+						<filter string = "Status" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'state'}"/>
 					</group>
 				</search>
 			</field>
@@ -637,8 +637,8 @@
 						<separator string = "Information" colspan = "4"/>
 						<field name = "name"/>
 						<field name = "rent_rent_client"/>
-						<field name = "rent_type" attrs = "{'readonly' : [('rent_status','!=','draft')]}"/>
-						<field name = "rent_status"/>
+						<field name = "rent_type" attrs = "{'readonly' : [('state','!=','draft')]}"/>
+						<field name = "state"/>
 						<field name = "rent_total"/>
 						<field name = "rent_rise"/>
 					</group>
@@ -654,7 +654,7 @@
 						<field name = "rent_end_date"/>
 						<field name = "rent_years"/>
 					</group>
-					<group col = "4" colspan = "4" attrs = "{'invisible':[('rent_status','!=','Finished')]}">
+					<group col = "4" colspan = "4" attrs = "{'invisible':[('state','!=','Finished')]}">
 						<separator string = "Contract Termination" colspan = "4"/>
 						<field name = "rent_ending_motif"/>
 						<field name = "rent_ending_motif_desc"/>
@@ -689,10 +689,10 @@
 			<field name = "model">rent.rent</field>
 			<field name = "type">tree</field>
 			<field name = "arch" type = "xml">
-				<tree string = "Rent List" colors="blue:rent_status in ('Draft');black:rent_status in ('Valid');gray:state in ('Finished')">
+				<tree string = "Rent List" colors="blue:state in ('draft');black:state in ('valid');gray:state in ('finished')">
 					<field name = "name"/>
 					<field name = "rent_type"/>
-					<field name = "rent_status"/>
+					<field name = "state"/>
 					<field name = "rent_start_date"/>
 					<field name = "rent_end_date"/>
 					<button name="rent_valid" states="draft" string="Approve" icon="terp-camera_test"/>
@@ -732,7 +732,7 @@
 					<group col = "4" colspan = "4">
 						<separator colspan = "4" string = "General Data"/>
 						<field name = "name"/>
-						<field name = "contract_rent" domain = "['|',('rent_status','=','Draft'), ('rent_status','=','valid'),('rent_type'.'!=','Adendum')]"/>
+						<field name = "contract_rent" domain = "['|',('state','=','Draft'), ('state','=','valid'),('rent_type'.'!=','Adendum')]"/>
 					</group>
 					<group col = "4" colspan = "4">
 						<separator colspan = "4" string = "General Data"/>
