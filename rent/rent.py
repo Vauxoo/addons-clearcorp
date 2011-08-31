@@ -114,7 +114,7 @@ class rent_building(osv.osv):
 		'building_gallery_photo'     : fields.char('Gallery of Photos', size=64),
 		'building_floors'            : fields.one2many('rent.floor','floor_building','Floors'),
 		'building_vrn_per_sqr'       : fields.function(_get_building_vrm,type='float',method=True,string='VRN Din/M2'),
-		'building_asset'             : fields.many2one('account.invoice','Asset'),
+		#'building_asset'             : fields.many2one('account.invoice','Asset'),
 	}
 rent_building()
 
