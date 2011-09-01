@@ -1,1 +1,1 @@
-import account_voucher_payment_form
+import account_voucher_payment_method
