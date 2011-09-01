@@ -18,16 +18,11 @@
 #
 ##############################################################################
 
-import tools
 from osv import osv, fields
-import addons
-import os
-from tools import debug
 
 class account_journal(osv.osv):
 	_name = "account.journal"
 	_inherit = "account.journal"
-	_description = "Journal"
 	_columns = {
 		'type': fields.selection([('sale', 'Sale'),
 								('sale_refund','Sale Refund'), 
