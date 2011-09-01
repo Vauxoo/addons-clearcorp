@@ -429,16 +429,14 @@ class rent_contract(osv.osv):
 		debug(contract_id)
 		obj_contract = self.pool.get('rent.contract').browse(cr,uid,contract_id)
 		debug(obj_contract)
-		#ids_clause = self.pool.get('rent.contract.clause.rel').search(cr,uid,[('rent_contract_id','=',contract_id)])
-		#clause_perm = self.pool.get('rent.contract.clause').search(cr,uid,[('clause_is_basic','=','True')])
-		#for obj_clause in self.pool.get('rent.contract.clause.rel').browse(cr,uid,ids_clause):
 		i = 0
 		for clause_perm in self.pool.get('rent.contract.clause').search(cr,uid,[('clause_is_basic','=','True')]):
 		#for obj_clause_perm in self.pool.get('rent.contract.clause').browse(cr,uid,clause_perm):
-			clause_rel_id = self.pool.get('rent.contract.clause.rel').create(cr,uid,{'sequence':i,'rent_contract_id':obj_contract.id,'rent_contract_clause_id' : clause_perm},context)
-			obj_clause_perm = self.pool.get('rent.contract.clause.rel').browse(cr,uid,clause_rel_id)
-			if obj_clause_perm:
-				obj_contract.write([(0,0,{'contract_clauses' : obj_clause_perm})])
+			#clause_rel_id = self.pool.get('rent.contract.clause.rel').create(cr,uid,{'sequence':i,'rent_contract_id':obj_contract.id,'rent_contract_clause_id' : clause_perm},context)
+			#obj_clause_perm = self.pool.get('rent.contract.clause.rel').browse(cr,uid,clause_rel_id)
+			#if obj_clause_perm:
+			obj_contract.write({'contract_clauses' : [(0,0,{'sequence':i,'rent_contract_id':obj_contract.id,'rent_contract_clause_id' : clause_perm})]})
+			i+=1
 		return obj_contract.id
 				
 	_columns = {
