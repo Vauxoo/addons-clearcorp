@@ -428,6 +428,7 @@ class rent_contract(osv.osv):
 		contract_id = super(rent_contract,self).create(cr,uid,vals,context)
 		debug(contract_id)
 		obj_contract = self.pool.get('rent.contract').browse(cr,uid,contract_id)
+		debug(obj_contract)
 		#ids_clause = self.pool.get('rent.contract.clause.rel').search(cr,uid,[('rent_contract_id','=',contract_id)])
 		#clause_perm = self.pool.get('rent.contract.clause').search(cr,uid,[('clause_is_basic','=','True')])
 		#for obj_clause in self.pool.get('rent.contract.clause.rel').browse(cr,uid,ids_clause):
