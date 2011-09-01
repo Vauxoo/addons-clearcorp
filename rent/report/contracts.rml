@@ -13,52 +13,27 @@
     <initialize>
       <paraStyle name="all" alignment="justify"/>
     </initialize>
-    <paraStyle name="P1" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" fontSize="10.0" leading="13" alignment="JUSTIFY" textColor="#000000"/>
-    <paraStyle name="P2" rightIndent="0.0" leftIndent="1.0" fontName="Helvetica" fontSize="10.0" leading="13" alignment="LEFT" textColor="#000000"/>
-    <paraStyle name="P3" rightIndent="0.0" leftIndent="1.0" fontName="Helvetica-Bold" fontSize="10.0" leading="13" alignment="LEFT" textColor="#000000"/>
-    <paraStyle name="P4" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" fontSize="11.0" leading="14" alignment="LEFT" textColor="#000000"/>
-    <paraStyle name="P5" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" fontSize="11.0" leading="14" alignment="CENTER" textColor="#000000"/>
     <paraStyle name="Standard" fontName="Helvetica"/>
     <paraStyle name="Heading" fontName="Helvetica" fontSize="14.0" leading="17" spaceBefore="12.0" spaceAfter="6.0"/>
     <paraStyle name="Text body" fontName="Helvetica" spaceBefore="0.0" spaceAfter="6.0"/>
     <paraStyle name="List" fontName="Helvetica" spaceBefore="0.0" spaceAfter="6.0"/>
     <paraStyle name="Caption" fontName="Helvetica" fontSize="12.0" leading="15" spaceBefore="6.0" spaceAfter="6.0"/>
     <paraStyle name="Index" fontName="Helvetica"/>
-    <paraStyle name="Header" fontName="Helvetica"/>
     <images/>
   </stylesheet>
   <story>
-    <para style="P4">
-      <font face="Helvetica">
-        <font face="Helvetica">[[repeatIn(objects,'o')]]</font>
-      </font>
-    </para>
-    <para style="P4">
-      <font face="Helvetica">
-        <font face="Helvetica" size="11.0"/>
-      </font>
-    </para>
-    <para style="P5">
-      <font face="Helvetica">
-        <font face="Helvetica">[[o.name]]</font>
-      </font>
-    </para>
-    <para style="P1">
-      <font face="Helvetica">
-        <font face="Helvetica" size="6.0"/>
-      </font>
-    </para>
-    <para style="P1">
-      <font face="Helvetica">
-        <font face="Helvetica" size="6.0">[[ repeatIn(o.contract_clauses,’c’) ]]</font>
-      </font>
-    </para>
-    <para style="P3">[[c.clause_subject]]: <font face="Helvetica">[[c.clause_body]]</font></para>
-    <para style="P2">
+    <para style="Standard">[[repeatIn(objects,'o')]]</para>
+    <para style="Standard">
       <font color="white"> </font>
     </para>
-    <para>
-      <seqReset id="L1"/>
+    <para style="Standard">[[o.name]]</para>
+    <para style="Standard">[[repeatIn(o.contract_clauses,'c')]]</para>
+    <para style="Standard">[[c.clause_subject]] : [[c.clause_body]]</para>
+    <para style="Standard">
+      <font color="white"> </font>
+    </para>
+    <para style="Standard">
+      <font color="white"> </font>
     </para>
   </story>
 </document>
