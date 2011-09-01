@@ -31,8 +31,8 @@
     <para style="Standard">
       <font color="white"> </font>
     </para>
-    <para style="Standard">[[o.name]]</para>
-    <para style="Standard">[[repeatIn(o.contract_clauses,'c')]]</para>
+    <para style="Standard">[[<font face="Helvetica"><font face="Helvetica" size="12.0">o</font></font>.name]]</para>
+    <para style="Standard">[[repeatIn(<font face="Helvetica"><font face="Helvetica" size="12.0">o</font></font><font face="Helvetica">.contract_clauses</font>,'c')]]</para>
     <para style="Standard">[[c.clause_subject]] : [[c.clause_body]]</para>
     <para style="Standard">
       <font color="white"> </font>
