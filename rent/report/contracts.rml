@@ -24,6 +24,8 @@
   <story>
     <para style="Standard">[[ repeatIn(objects, 'o') ]]</para>
     <para style="Standard">[[ o.name]]</para>
+    <para style="Standard">[[ repeatIn(o.contract_clauses, 'c') ]]</para>
+     <para style="Standard">[[ c.clause_subject]]</para><para>:</para><para>[[ c.clause_body]]</para>
     <para style="Standard">
       <font color="white"> </font>
     </para>
