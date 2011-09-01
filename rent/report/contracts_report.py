@@ -7,4 +7,4 @@ class contract_report(report_sxw.rml_parse):
 		self.localcontext.update({
 			'time' : time,
 		})
-report_sxw.report_sxw('report.contract_report','rent.contract', 'addons/rent/report/contracts.rml', parser=contract_report,header=True)
+report_sxw.report_sxw('report.contract_report','rent.contract', 'addons/rent/report/contracts.rml', parser=contract_report,header=False)
