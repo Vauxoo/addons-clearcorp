@@ -26,7 +26,7 @@
     <para style="Standard">[[ o.name]]</para>
     <section>
 		<para style="Standard">[[ repeatIn(o.contract_clauses,'l') ]]</para>
-		 <para style="Standard">[[ l.rent_contract_clause_id.clause_subject]] : <para>[[ l.rent_contract_clause_id.clause_body]]</para></para>
+		 <para style="Standard">[[ l.rent_contract_clause_id.clause_subject]] : [[ l.rent_contract_clause_id.clause_body]]</para>
 		<para style="Standard">
 		  <font color="white"> </font>
 		</para>
