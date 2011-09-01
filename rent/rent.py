@@ -422,6 +422,22 @@ rent_local_floor()
 #
 class rent_contract(osv.osv):
 	_name = 'rent.contract'
+	
+	def create(self,cr,uid, vals,context=None):
+		debug("CREANDO EL NUEVO CONTRATO")
+		contract_id = super(rent_contract,self).create(cr,uid,vals,context)
+		obj_contract = self.pool.get('rent.contract').browse(cr,uid,contract_id)
+		#ids_clause = self.pool.get('rent.contract.clause.rel').search(cr,uid,[('rent_contract_id','=',contract_id)])
+		#clause_perm = self.pool.get('rent.contract.clause').search(cr,uid,[('clause_is_basic','=','True')])
+		#for obj_clause in self.pool.get('rent.contract.clause.rel').browse(cr,uid,ids_clause):
+		i = 0
+		for clause_perm in self.pool.get('rent.contract.clause').search(cr,uid,[('clause_is_basic','=','True')]):
+		#for obj_clause_perm in self.pool.get('rent.contract.clause').browse(cr,uid,clause_perm):
+			clause_rel_id = super(rent_contract_clause_rel,self).create(cr,uid,{'sequence':i,'rent_contract_id':contract_id,'rent_contract_clause_id' : clause_perm},context)
+			if clause_rel_id:
+				self.pool.get('rent.contract').write(cr,uid,contract_id,{'contract_clauses' : clause_rel_id},context=context)
+		return contract_id
+				
 	_columns = {
 		'name'             : fields.char('Reference', size=64),
 		'contract_rent'    : fields.many2one('rent.rent','Rent Reference'),
@@ -429,6 +445,7 @@ class rent_contract(osv.osv):
 		#'contract_clauses' : fields.many2many('rent.contract.clause','rent_contract_clause_rel','name','clause_code','Clausulas'),
 		'contract_design'  : fields.char('Design',size=64),
 	}
+	
 rent_contract()
 
 
@@ -442,6 +459,7 @@ class rent_contract_clause(osv.osv):
 		'clause_code'     : fields.char('Reference',size=64,required=True,help='Reference code for the clause, used to create custom contracts'),
 		'clause_subject'  : fields.char('Subject',size=64,required=True),
 		'clause_body'     : fields.text('Body',required=True),
+		'clause_is_basic' : fields.boolean('Priority', help = 'Check if the clause should allways appear on every contract you create'),
 		#'clause_contract' : fields.many2many('rent.contract','rent_contract_clause','id','id','Contracts'),
 	}
 rent_contract_clause()
