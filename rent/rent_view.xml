@@ -794,10 +794,11 @@
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
 				<form string = "Clauses">
-					<group col = "4" colspan = "4">
+					<group col = "6" colspan = "4">
 						<separator colspan = "4" string = "Reference Data"/>
 						<field name = "clause_code" select = "1"/>
 						<field name = "clause_subject" select = "1"/>
+						<field name = "clause_is_basic" select = "1"/>
 					</group>
 					<group col = "4" colspan = "4">
 						<separator colspan = "4" string = "Body"/>
@@ -815,6 +816,7 @@
 				<tree string = "Clause">
 						<field name = "clause_code" select = "1"/>
 						<field name = "clause_subject" select = "1"/>
+						<field name = "clause_is_basic" select = "1"/>
 				</tree>
 			</field>
 		</record>
