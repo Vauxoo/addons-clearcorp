@@ -436,8 +436,9 @@ class rent_contract(osv.osv):
 		for clause_perm in self.pool.get('rent.contract.clause').search(cr,uid,[('clause_is_basic','=','True')]):
 		#for obj_clause_perm in self.pool.get('rent.contract.clause').browse(cr,uid,clause_perm):
 			clause_rel_id = self.pool.get('rent.contract.clause.rel').create(cr,uid,{'sequence':i,'rent_contract_id':obj_contract.id,'rent_contract_clause_id' : clause_perm},context)
-			if clause_rel_id:
-				obj_contract.write({'contract_clauses' : clause_rel_id})
+			obj_clause_perm = self.pool.get('rent.contract.clause.rel').browse(cr,uid,clause_rel_id)
+			if obj_clause_perm:
+				obj_contract.write({'contract_clauses' : obj_clause_perm.id})
 		return obj_contract.id
 				
 	_columns = {
