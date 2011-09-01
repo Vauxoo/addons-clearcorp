@@ -740,16 +740,7 @@
 					<group col = "4" colspan = "4">
 						<separator colspan = "4" string = "General Data"/>
 						<field colspan = "4" name = "contract_clauses" nolabel = "1"/>
-						<field name = "contract_design"/>
-					</group>
-					<group col = "4" colspan = "4">
-						<separator colspan = "4" string = "Legend"/>
-						<label string = "Use the code of each clause to define de contracts design. Place the code of the clauses on the order you want then to apper on the contract"/>
-						<newline/>
-						<label string = "to do that use the following syntaxis: $code_clause. Where code_clause is tha code showed above in the list and "/>
-						<newline/>
-						<label string = "'$' (dolar symbol) is the caracter to identify a clause to place in the contract"/>
-						
+						<!--<field name = "contract_design"/>-->
 					</group>
 				</form>
 			</field>
@@ -803,6 +794,27 @@
 					<group col = "4" colspan = "4">
 						<separator colspan = "4" string = "Body"/>
 						<field name = "clause_body" nolabel="1"/>
+					</group>
+					<group col="8" colspan="4">
+						<separator colspan = "4" string = "Legend"/>
+						<label string = "Use any of the code down to specife where should go special data to be retreived such as partners name, date, and others. Place it in the body of the clause as you need it"/>
+						<group>
+							<label colspan="4" string="Current Year with Century: %%(year)s"/>
+							<label colspan="4" string="Current Year without Century: %%(y)s"/>
+							<label colspan="4" string="Month: %%(month)s"/>
+							<label colspan="4" string="Day: %%(day)s"/>
+						</group>
+						<group>
+							<label colspan="4" string="Day of the year: %%(doy)s"/>
+							<label colspan="4" string="Week of the year: %%(woy)s"/>
+							<label colspan="4" string="Day of the week (0:Monday): %%(weekday)s"/>
+						</group>
+						<group>
+							<label colspan="4" string="Hour 00->24: %%(h24)s"/>
+							<label colspan="4" string="Hour 00->12: %%(h12)s"/>
+							<label colspan="4" string="Minute: %%(min)s"/>
+							<label colspan="4" string="Seconde: %%(sec)s"/>
+						</group>
 					</group>
 				</form>
 			</field>
