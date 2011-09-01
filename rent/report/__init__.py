@@ -1,0 +1,2 @@
+import contracts_report
+
