@@ -435,10 +435,10 @@ class rent_contract(osv.osv):
 		i = 0
 		for clause_perm in self.pool.get('rent.contract.clause').search(cr,uid,[('clause_is_basic','=','True')]):
 		#for obj_clause_perm in self.pool.get('rent.contract.clause').browse(cr,uid,clause_perm):
-			clause_rel_id = self.pool.get('rent.contract.clause.rel').create(cr,uid,{'sequence':i,'rent_contract_id':contract_id,'rent_contract_clause_id' : clause_perm},context)
+			clause_rel_id = self.pool.get('rent.contract.clause.rel').create(cr,uid,{'sequence':i,'rent_contract_id':obj_contract.id,'rent_contract_clause_id' : clause_perm},context)
 			if clause_rel_id:
 				self.pool.get('rent.contract').write(cr,uid,contract_id,{'contract_clauses' : clause_rel_id},context=context)
-		return contract_id
+		return obj_contract.id
 				
 	_columns = {
 		'name'             : fields.char('Reference', size=64),
