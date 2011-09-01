@@ -10,10 +10,6 @@
       <blockAlignment value="LEFT"/>
       <blockValign value="TOP"/>
     </blockTableStyle>
-    <blockTableStyle id="Tabla1">
-      <blockAlignment value="LEFT"/>
-      <blockValign value="TOP"/>
-    </blockTableStyle>
     <initialize>
       <paraStyle name="all" alignment="justify"/>
     </initialize>
@@ -22,13 +18,13 @@
     <paraStyle name="P3" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" fontSize="11.0" leading="14" alignment="LEFT" textColor="#000000"/>
     <paraStyle name="P4" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" fontSize="11.0" leading="14" alignment="JUSTIFY" textColor="#000000"/>
     <paraStyle name="P5" rightIndent="0.0" leftIndent="1.0" fontName="Helvetica" alignment="LEFT"/>
-    <paraStyle name="P6" rightIndent="0.0" leftIndent="1.0" fontName="Helvetica" fontSize="10.0" leading="13" alignment="LEFT" textColor="#000000"/>
-    <paraStyle name="P7" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" fontSize="10.0" leading="13" alignment="JUSTIFY" textColor="#000000"/>
-    <paraStyle name="P8" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" fontSize="11.0" leading="14" alignment="CENTER" textColor="#000000"/>
-    <paraStyle name="P9" fontName="Helvetica" fontSize="11.0" leading="14" alignment="LEFT"/>
-    <paraStyle name="P10" fontName="Helvetica" fontSize="11.0" leading="14" alignment="RIGHT"/>
-    <paraStyle name="P11" fontName="Helvetica" fontSize="11.0" leading="14" alignment="CENTER"/>
-    <paraStyle name="P12" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" fontSize="11.0" leading="14" alignment="LEFT" spaceBefore="0.0" spaceAfter="0.0" textColor="#000000"/>
+    <paraStyle name="P6" rightIndent="0.0" leftIndent="1.0" fontName="Helvetica-Bold" fontSize="10.0" leading="13" alignment="LEFT" textColor="#000000"/>
+    <paraStyle name="P7" rightIndent="0.0" leftIndent="1.0" fontName="Helvetica" fontSize="10.0" leading="13" alignment="LEFT" textColor="#000000"/>
+    <paraStyle name="P8" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" fontSize="10.0" leading="13" alignment="JUSTIFY" textColor="#000000"/>
+    <paraStyle name="P9" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" fontSize="11.0" leading="14" alignment="CENTER" textColor="#000000"/>
+    <paraStyle name="P10" fontName="Helvetica" fontSize="11.0" leading="14" alignment="LEFT"/>
+    <paraStyle name="P11" fontName="Helvetica" fontSize="11.0" leading="14" alignment="RIGHT"/>
+    <paraStyle name="P12" fontName="Helvetica" fontSize="11.0" leading="14" alignment="CENTER"/>
     <paraStyle name="Standard" fontName="Helvetica"/>
     <paraStyle name="Heading" fontName="Helvetica" fontSize="14.0" leading="17" spaceBefore="12.0" spaceAfter="6.0"/>
     <paraStyle name="Text body" fontName="Helvetica" spaceBefore="0.0" spaceAfter="6.0"/>
@@ -45,156 +41,21 @@
   </stylesheet>
   <story>
     <para style="P3">[[repeatIn(objects,'o')]]</para>
-    <para style="P12">
-      <font color="white"> </font>
-    </para>
-    <blockTable colWidths="154.0,213.0,132.0" style="Tabla1">
-      <tr>
-        <td>
-          <para style="P9">
-            <font face="Helvetica">
-              <font face="Helvetica" size="12.0"/>
-            </font>
-          </para>
-        </td>
-        <td>
-          <para style="P11">
-            <font face="Helvetica">
-              <font face="Helvetica" size="12.0"/>
-            </font>
-          </para>
-        </td>
-        <td>
-          <para style="P10">
-            <font face="Helvetica">
-              <font face="Helvetica" size="12.0"/>
-            </font>
-          </para>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <para style="P9">
-            <font color="white"> </font>
-          </para>
-        </td>
-        <td>
-          <para style="P9">
-            <font color="white"> </font>
-          </para>
-        </td>
-        <td>
-          <para style="P9">
-            <font color="white"> </font>
-          </para>
-        </td>
-      </tr>
-    </blockTable>
-    <para style="P8">[[o.name]]</para>
+    <para style="P9">[[o.name]]</para>
     <para style="P4">
       <font color="white"> </font>
     </para>
-    <para style="P7">
+    <para style="P8">
       <font face="Helvetica">
-        <font face="Helvetica" size="11.0">[[ repeatIn(o.contract_clauses,’c’) ]]</font>
+        <font face="Helvetica" size="6.0">[[ repeatIn(o.contract_clauses,’c’) ]]</font>
       </font>
     </para>
-    <para style="P6">
+    <para style="P6">[[c.clause_subject]]: <font face="Helvetica">[[c.clause_body]]</font></para>
+    <para style="P7">
       <font color="white"> </font>
     </para>
-    <para style="P6">
-      <font color="white"> </font>
-    </para>
-    <para style="P5">[[c.clause_subject]]: <font face="Helvetica">[[c.clause_body]]</font></para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P2">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
-    </para>
-    <para style="P1">
-      <font color="white"> </font>
+    <para style="P5">
+      <font face="Helvetica"/>
     </para>
     <para style="P1">
       <font color="white"> </font>
@@ -213,6 +74,99 @@
     </para>
     <para style="P2">
       <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P1">
+      <font color="white"> </font>
+    </para>
+    <para style="P2">
+      <font color="white"> </font>
+    </para>
+    <para>
+      <seqReset id="L1"/>
     </para>
     <para>
       <seqReset id="L1"/>
