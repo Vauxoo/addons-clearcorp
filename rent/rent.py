@@ -169,17 +169,17 @@ class rent_floor(osv.osv):
 		debug(res)
 		return res
 	 
-#	def name_get(self, cr, uid, ids, context=None):
-#       if not len(ids):
-#            return []
-#        reads = self.read(cr, uid, ids, ['floor_number','complete_name'], context=context)
- #       res = []
-#        for record in reads:
-#            name = record['floor_number']
-#            if record['complete_name']:
-#                name = record['complete_name'][1]
-#            res.append((record['id'], name))
-#        return res
+	def name_get(self, cr, uid, ids, context=None):
+       if not len(ids):
+            return []
+        reads = self.read(cr, uid, ids, ['floor_number','complete_name'], context=context)
+       res = []
+        for record in reads:
+            name = record['floor_number']
+            if record['complete_name']:
+                name = record['complete_name'][1]
+           res.append((record['id'], name))
+        return res
         
 	_columns = {
 		'floor_number'     : fields.char('# Floor',size=4,required=True, help='Number of the floor in the building, starts from 0 (Basement)'),

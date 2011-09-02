@@ -534,10 +534,11 @@
 			<field name = "type">tree</field>
 			<field name = "arch" type = "xml">
 				<tree string = "Local List" editable="bottom">
-					<field name = "local_floor_building" select = "1"/>
-					<field name = "local_floor_floor" select = "1"/>
+					<field name = "local_floor_building" select = "1" />
+					<field name = "local_floor_floor" select = "1" on_change = "onchange_floor(local_floor_floor)"/>
 					<field name = "local_floor_front"/>
 					<field name = "local_floor_side"/>
+					<field name = "local_floor_area"/>
 					<field name = "local_sqrmeter_price" sum = "Sqr Meter Total"/>
 					<field name = "local_floor_value" sum = "Total"/>
 				</tree>
@@ -574,7 +575,7 @@
 					<group col = "4" colspan = "4">
 						<separator string = "Area Specifications Information"/>
 						<field name = "parking_large"/>
-						<field name = "parking_width"/>						
+						<field name = "parking_width"/>	
 						<field name = "parking_area"/>
 						<field name = "parking_huella"/>
 					</group>
