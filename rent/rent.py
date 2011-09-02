@@ -235,7 +235,7 @@ class rent_floor_local(osv.osv):
 		total = 0
 		for local in self.pool.get('rent.floor.local').browse(cr,uid,ids):
 			for obj_local_floor in local.local_local_by_floor:
-				total += obj_local_floor._local_value(obj_local_floor.id,None,None)
+				total += obj_local_floor._local_value(obj_local_floor.id,None,None)[obj_local_floor.id]
 			res[local.id] = total
 			total = 0
 		debug(total)
