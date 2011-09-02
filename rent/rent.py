@@ -411,7 +411,7 @@ rent_rent()
 
 class rent_rent_analitic(osv.osv):
 	_name = 'rent.rent.analitic'
-	_columns {
+	_columns = {
 		'analitic_performance'       : fields.integer('Performance', help='This a percentaje number',store=False),
 		'analitic_years'             : fields.function(_performance_years, type='integer',method = True,string='Years'),
 		'analitic_amountc'           : fields.function(_performance_years, type='integer',method = True,string='Years'),
