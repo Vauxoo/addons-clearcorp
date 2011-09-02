@@ -139,8 +139,6 @@ class rent_floor(osv.osv):
 			debug(floor_id)
 			actual_rent = self.pool.get('rent.rent').search(cr,uid,['|',('state','=','valid'),('state','=','draft'),('rent_related_real','=','local')])
 			debug(actual_rent)
-			locals_id = 
-			debug(locals_id)
 			for obj_rent in self.pool.get('rent.rent').browse(cr,uid,actual_rent):
 				obj_local = obj_rent.rent_rent_local
 				valores = obj_local._local_value(obj_local.id,None,None)[obj_local.id]
@@ -221,12 +219,9 @@ class rent_floor_local(osv.osv):
 		for local_id in ids:
 			res[local_id] =  False
 			debug(ids)
-			rent_ids = self.pool.get('rent.rent').search(cr,uid,[('state','=','valid')])
-			debug(rent_ids)
-			for rent in rent_ids:
-				local_rent = self.pool.get('rent.floor.local').search(cr,uid,[('local_rent','=',rent)])
-				if local_rent:
-					res[local_id] =  True
+			rent_ids = self.pool.get('rent.rent').search(cr,uid,[('state','=','valid'),('rent_related_real','=','local'),('rent_rent_local','=',local_id)])
+			if rent_ids:
+				res[local_id] =  True
 		debug(res)
 		return res
 	def _local_value(self,cr,uid,ids,field_name,args,context):
@@ -241,6 +236,7 @@ class rent_floor_local(osv.osv):
 		debug(total)
 		debug(res)
 		return res
+
 	_columns = {
 		#'local_area'               : fields.function(_floor_area,type='float',method=True,string='VRN Dynamic'),
 		'local_area'               : fields.float('Area',required=True),
