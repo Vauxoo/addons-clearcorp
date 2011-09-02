@@ -334,7 +334,7 @@ class rent_rent(osv.osv):
 				debug("LOCALES")
 				debug(obj_rent.rent_rent_local)
 				total = obj_local._local_value(obj_local.id,None,None)[obj_local.id]
-					debug(total)
+				debug(total)
 			elif obj_rent.rent_related_real == 'parking':
 				debug("PARQUEO")
 				obj_parking = obj_rent.rent_rent_parking
