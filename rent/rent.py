@@ -165,7 +165,7 @@ class rent_floor(osv.osv):
 		res = {}
 		for obj_floor in self.pool.get('rent.floor').browse(cr,uid,ids):
 			building_code = obj_floor.floor_building.building_code
-			res[obj_floor.id] = building_code + obj_floor.floor_number
+			res[obj_floor.id] = building_code + '-' + obj_floor.floor_number
 		debug(res)
 		return res
 	 
