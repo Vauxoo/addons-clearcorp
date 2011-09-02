@@ -340,7 +340,10 @@ class rent_rent(osv.osv):
 			debug(obj_rent.rent_rent_local)
 			if (obj_rent.rent_related_real != vals['rent_related_real']):
 				#raise osv.except_osv(_('Warning !'), _('You have changed the type of real state that will overwrite the last with this one'))
-				obj_rent.write({'rent_rent_local' : [(2,obj_rent.rent_rent_local.id)], 'rent_rent_parking' : False, 'rent_rent_estate' : False})
+				local_list = []
+				for ob_local_floor in obj_rent.rent_rent_local:
+					local_list.append((2,ob_local_floor.id))
+				obj_rent.write({'rent_rent_local' : local_list, 'rent_rent_parking' : False, 'rent_rent_estate' : False})
 		return super(rent_rent, self).write(cr, uid, ids, vals, context=context)
 		
 	_columns = {
