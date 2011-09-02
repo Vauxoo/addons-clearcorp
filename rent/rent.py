@@ -415,14 +415,14 @@ class rent_rent_analitic(osv.osv):
 		'analitic_performance'       : fields.integer('Performance', help='This a percentaje number',store=False),
 		'analitic_years'             : fields.function(_performance_years, type='integer',method = True,string='Years'),
 		'analitic_amountc'           : fields.function(_performance_years, type='integer',method = True,string='Years'),
-		'analitic_colones'           : fields.function(_performance_years, type='integer',method = True,string='¢ / m²'),
+		'analitic_colones'           : fields.function(_performance_years, type='integer',method = True,string='c / m2'),
 		'analitic_amountd'           : fields.function(_performance_years, type='integer',method = True,string='Years'),
-		'analitic_dollars'           : fields.function(_performance_years, type='integer',method = True,string='$ / m²'),
-		'analitic_cust_colones'      : fields.integer('Amount ¢', store=False),
-		'analitic_cust_dollars'      : fields.function('Amount $', store=False),
+		'analitic_dollars'           : fields.function(_performance_years, type='integer',method = True,string='s / m2'),
+		'analitic_cust_colones'      : fields.integer('Amount c', store=False),
+		'analitic_cust_dollars'      : fields.function('Amount s', store=False),
 		
-		'analitic_dec_min_dollars'      : fields.function('Amount $', store=False),
-		'analitic_dec_base_dollars'      : fields.function('Amount $', store=False),
+		'analitic_dec_min_dollars'      : fields.function('Amount s', store=False),
+		'analitic_dec_base_dollars'      : fields.function('Amount s', store=False),
 		
 	}
 rent_rent_analitic()
