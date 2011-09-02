@@ -647,9 +647,10 @@
 					</group>
 					<group col = "2" colspan = "2">
 						<separator string = "Real Estate Related" colspan = "4"/>
-						<field name = "rent_is_local" attrs="{'readonly' : ['|',('rent_is_parking','=','True'),('rent_is_estate','=','True')], 'required' : [('rent_is_parking','!=','True'),('rent_is_estate','!=','True')]}"/>
+						<!--<field name = "rent_is_local" attrs="{'readonly' : ['|',('rent_is_parking','=','True'),('rent_is_estate','=','True')], 'required' : [('rent_is_parking','!=','True'),('rent_is_estate','!=','True')]}"/>
 						<field name = "rent_is_parking" attrs = "{'readonly' : ['|',('rent_is_estate','=','True'),('rent_is_local','=','True')], 'required' : [('rent_is_estate','!=','True'),('rent_is_local','!=','True')]}"/>
-						<field name = "rent_is_estate" attrs = "{'readonly' : ['|',('rent_is_local','=','True'),('rent_is_parking','=','True')], 'required' : [('rent_is_local','!=','True'),('rent_is_parking','!=','True')]}"/>
+						<field name = "rent_is_estate" attrs = "{'readonly' : ['|',('rent_is_local','=','True'),('rent_is_parking','=','True')], 'required' : [('rent_is_local','!=','True'),('rent_is_parking','!=','True')]}"/>-->
+						<field name = "rent_related_real"/>
 					</group>
 					<group col = "4" colspan = "4">
 						<separator string = "Length of Contract" colspan = "4"/>
@@ -666,9 +667,9 @@
 						<page string = "Detail">
 							<group col = "4" colspan = "4" attrs = "{'invisible':[('rent_is_parking','!=','True'),('rent_is_estate','!=','True'),('rent_is_local','!=','True')]}">
 								<separator string = "Real Estate Information" colspan = "4"/>
-									<field name = "rent_rent_local" attrs = "{'readonly' : [('rent_is_local','!=','True')], 'required' : [('rent_is_local','=','True')], 'invisible': [('rent_is_local','!=','True')]}"/>
-									<field name = "rent_rent_parking" attrs = "{'readonly' : [('rent_is_parking','!=','True')], 'required' : [('rent_is_parking','=','True')], 'invisible': [('rent_is_parking','!=','True')]}"/>
-									<field name = "rent_rent_estate" attrs = "{'readonly' : [('rent_is_estate','!=','True')], 'required' : [('rent_is_estate','=','True')], 'invisible': [('rent_is_estate','!=','True')]}"/>
+									<field name = "rent_rent_local" attrs = "{'readonly' : [('rent_related_real','!=','local')], 'required' : [('rent_related_real','=','local')], 'invisible': [('rent_related_real','=',' ')]}"/>
+									<field name = "rent_rent_parking" attrs = "{'readonly' : [('rent_related_real','!=','parking')], 'required' : [('rent_related_real','=','parking')], 'invisible': [('rent_related_real','=','')]}"/>
+									<field name = "rent_rent_estate" attrs = "{'readonly' : [('rent_related_real','!=','estate')], 'required' : [('rent_related_real','=','estate')], 'invisible': [('rent_related_real','=',' ')]}"/>
 
 							</group>
 							 <group col="6" colspan="4">
@@ -742,6 +743,19 @@
 						<field colspan = "4" name = "contract_clauses" nolabel = "1"/>
 						<!--<field name = "contract_design"/>-->
 					</group>
+					<group col="8" colspan="4">
+						<separator colspan = "4" string = "Legend"/>
+						<label string = "Use any of the code down to specife where should go special data to be retreived such as partners name, date, and others. Place it in the body of the clause as you need it"/>
+						<group>
+							<label colspan="4" string="Client name : %%(cli)s"/>
+							<label colspan="4" string="Company name: %%(com)s"/>
+						</group>
+						<group>
+							<label colspan="4" string="Total paid: %%(tot)s"/>
+							<label colspan="4" string="Starting Date: %%(sd)s"/>
+							<label colspan="4" string="Ending Date: %%(ed)s"/>
+						</group>
+					</group>
 				</form>
 			</field>
 		</record>
@@ -799,21 +813,13 @@
 						<separator colspan = "4" string = "Legend"/>
 						<label string = "Use any of the code down to specife where should go special data to be retreived such as partners name, date, and others. Place it in the body of the clause as you need it"/>
 						<group>
-							<label colspan="4" string="Current Year with Century: %%(year)s"/>
-							<label colspan="4" string="Current Year without Century: %%(y)s"/>
-							<label colspan="4" string="Month: %%(month)s"/>
-							<label colspan="4" string="Day: %%(day)s"/>
+							<label colspan="4" string="Client name : %%(cli)s"/>
+							<label colspan="4" string="Company name: %%(com)s"/>
 						</group>
 						<group>
-							<label colspan="4" string="Day of the year: %%(doy)s"/>
-							<label colspan="4" string="Week of the year: %%(woy)s"/>
-							<label colspan="4" string="Day of the week (0:Monday): %%(weekday)s"/>
-						</group>
-						<group>
-							<label colspan="4" string="Hour 00->24: %%(h24)s"/>
-							<label colspan="4" string="Hour 00->12: %%(h12)s"/>
-							<label colspan="4" string="Minute: %%(min)s"/>
-							<label colspan="4" string="Seconde: %%(sec)s"/>
+							<label colspan="4" string="Total paid: %%(tot)s"/>
+							<label colspan="4" string="Starting Date: %%(sd)s"/>
+							<label colspan="4" string="Ending Date: %%(ed)s"/>
 						</group>
 					</group>
 				</form>

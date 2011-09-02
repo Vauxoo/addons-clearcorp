@@ -296,13 +296,13 @@ class rent_rent(osv.osv):
 			debug(rent_id)
 			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rent_id)
 			debug(obj_rent)
-			if obj_rent.rent_is_local:
+			if obj_rent.rent_related_real == 'local':
 				debug("LOCALES")
 				debug(obj_rent.rent_rent_local)
 				for obj_local in obj_rent.rent_rent_local:
 					total += obj_local._local_value(obj_local.id,None,None)[obj_local.id]
 					debug(total)
-			elif obj_rent.rent_is_parking:
+			elif obj_rent.rent_related_real == 'parking':
 				debug("PARQUEO")
 				obj_parking = obj_rent.rent_rent_parking
 				debug(obj_parking)
@@ -331,12 +331,16 @@ class rent_rent(osv.osv):
 				res[rent_id] = (fin.year - inicio.year)
 			debug(res)
 		return res
-	def rent_valid(self,cr,uid,ids,context=None):
-		debug('BOTON====================================')
-		debug(ids)
-		for rent_id in ids:
-			self.pool.get('rent.rent').write(cr,uid,rent_id,{'state':'Valid'})
-		return True
+	
+	def write(self, cr, uid, ids, vals, context=None):
+		if 'rent_related_real' in vals:
+			obj_rent = self.pool.get('rent.rent').browse(cr,uid,ids)
+			debug(obj_rent)
+			if (obj_rent.rent_related_real != vals['rent_related_real']):
+				raise osv.except_osv(_('Warning !'), _('You have changed the type of real state that will overwrite the last with this one'))
+				obj_rent.write({'rent_rent_local' : [(2,obj_rent.rent_rent_local.id)], 'rent_rent_parking' : False, 'rent_rent_estate' : False})
+		return super(rent_rent, self).write(cr, uid, ids, vals, context=context)
+		
 	_columns = {
 		'name'                  : fields.char('Reference',size=64),
 		'rent_rent_client'      : fields.many2one('res.partner','Client', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
@@ -351,9 +355,10 @@ class rent_rent(osv.osv):
 		'rent_rent_local'       : fields.one2many('rent.local.floor','local_rent','Local', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rent_parking'     : fields.many2one('rent.floor.parking','Parking', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rent_estate'      : fields.many2one('rent.estate','Estate', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_is_local'         : fields.boolean('Locals',help='Check if you want to calculate a rent for locals', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_is_parking'       : fields.boolean('Parking',help='Check if you want to calculate a rent for locals', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_is_estate'        : fields.boolean('Estates',help='Check if you want to calculate a rent for locals', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
+		#'rent_is_local'         : fields.boolean('Locals',help='Check if you want to calculate a rent for locals', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
+		#'rent_is_parking'       : fields.boolean('Parking',help='Check if you want to calculate a rent for locals', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
+		#'rent_is_estate'        : fields.boolean('Estates',help='Check if you want to calculate a rent for locals', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_related_real'     : fields.selection([('local','Locals'),('parking','Parking'),('estate','Estates')],'Type of Real Estate', required=True),
 		'rent_years'            : fields.function(_calculate_years,type='integer',method=True,string = 'Years' ,help='Check if you want to calculate a rent for locals'),
 		'rent_modif'            : fields.one2many('rent.rent', 'rent_modif_ref','Contract reference', states={'draft':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_modif_ref'        : fields.many2one('rent.rent', 'Modifications'),
