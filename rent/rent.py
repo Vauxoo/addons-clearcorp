@@ -175,8 +175,8 @@ class rent_floor(osv.osv):
 		reads = self.read(cr, uid, ids, ['complete_name'], context=context)
 		res = []
 		for record in reads:
-		name = record['complete_name']
-		res.append((record['id'], name))
+			name = record['complete_name']
+			res.append((record['id'], name))
 		return res
 
 	_columns = {
