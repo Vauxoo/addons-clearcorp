@@ -371,7 +371,7 @@ class rent_rent(osv.osv):
 		#'rent_is_local'         : fields.boolean('Locals',help='Check if you want to calculate a rent for locals', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		#'rent_is_parking'       : fields.boolean('Parking',help='Check if you want to calculate a rent for locals', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		#'rent_is_estate'        : fields.boolean('Estates',help='Check if you want to calculate a rent for locals', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_related_real'     : fields.selection([('local','Locals'),('parking','Parking'),('estate','Estates')],'Type of Real Estate', required=True),
+		'rent_related_real'     : fields.selection([('local','Locals'),('parking','Parking'),('estate','Estates')],'Type of Real Estate', required=True,states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_years'            : fields.function(_calculate_years,type='integer',method=True,string = 'Years' ,help='Check if you want to calculate a rent for locals'),
 		'rent_modif'            : fields.one2many('rent.rent', 'rent_modif_ref','Contract reference', states={'draft':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_modif_ref'        : fields.many2one('rent.rent', 'Modifications'),
