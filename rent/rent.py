@@ -433,7 +433,6 @@ class rent_local_floor(osv.osv):
 		res = {}
 		for local_id in ids:
 			obj = self.pool.get('rent.local.floor').browse(cr,uid,local_id)
-			areas = obj._local_floor_area(local_id,'local_local_floor',None)
 			obj_build = obj.local_floor_floor.floor_building
 			res[local_id] = obj_build._get_building_vrm(obj_build.id,None,None)[obj_build.id]
 		return res
