@@ -142,7 +142,7 @@ class rent_floor(osv.osv):
 			locals_id = self.pool.get('rent.floor.local').search(cr,uid,[('local_rent','in',actual_rent)])
 			debug(locals_id)
 			for local in self.pool.get('rent.local.floor').browse(cr,uid,locals_id):
-				for local_by_floor in local.local_local_by_floor
+				for local_by_floor in local.local_local_by_floor:
 					valores = obj_local._local_value(local,None,None)
 					debug(valores)
 					debug(local)
