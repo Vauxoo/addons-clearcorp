@@ -115,6 +115,7 @@ class rent_building(osv.osv):
 		'building_gallery_photo'     : fields.char('Gallery of Photos', size=64),
 		'building_floors'            : fields.one2many('rent.floor','floor_building','Floors'),
 		'building_vrn_per_sqr'       : fields.function(_get_building_vrm,type='float',method=True,string='VRN Din/M2'),
+		'building_code'              : fields.char('Code', size=4, required=True),
 		#'building_asset'             : fields.many2one('account.invoice','Asset'),
 	}
 rent_building()
@@ -159,8 +160,28 @@ class rent_floor(osv.osv):
 			total = 0
 		return res
 	
+	def _get_fullname(self,cr,uid,ids,field_name,args,context):
+		debug("FULLNAME====================")
+		res = {}
+		for obj_floor in self.pool.get('rent.floor').browse(cr,uid,ids):
+			building_code = obj_floor.floor_building.building_code
+			res[obj_floor.id] = building_code + obj_floor.floor_number
+		return res
+	 
+#	def name_get(self, cr, uid, ids, context=None):
+#       if not len(ids):
+#            return []
+#        reads = self.read(cr, uid, ids, ['floor_number','complete_name'], context=context)
+ #       res = []
+#        for record in reads:
+#            name = record['floor_number']
+#            if record['complete_name']:
+#                name = record['complete_name'][1]
+#            res.append((record['id'], name))
+#        return res
+        
 	_columns = {
-		'floor_number'     : fields.integer('# Floor',required=True, help='Number of the floor in the building, starts from 0 (Basement)'),
+		'floor_number'     : fields.char('# Floor',size=4,required=True, help='Number of the floor in the building, starts from 0 (Basement)'),
 		'floor_thickness'  : fields.float('Thickness'),
 		'floor_durability' : fields.integer('Durability', help='Indicate the durability in years'),
 		'floor_area'       : fields.float('Area',required=True),
@@ -169,6 +190,7 @@ class rent_floor(osv.osv):
 		'floor_local'      : fields.one2many('rent.floor.local','local_floor','Local'),
 		'floor_parking'    : fields.one2many('rent.floor.parking','parking_floor','Parking'),
 		'floor_building'   : fields.many2one('rent.building','Building'),
+		'complete_name'    : fields.function(_get_fullname,type='char',method=True,string='Name',help='This name uses the code of the building and the floor name'),
 	}
 rent_floor()
 
@@ -215,16 +237,17 @@ class rent_floor_local(osv.osv):
 		'local_number'             : fields.integer('# Local',required=True),
 		'local_huella'             : fields.float('Huella',required=True),
 		'local_water_meter_number' : fields.char('Water Meter',size=64), 
-		'local_light_meter_number' : fields.char('Light Meter', size=64),
+		'local_light_meter_number' : fields.char('Electric Meter', size=64),
 		#'local_sqrmeter_price'     : fields.function(_local_sqr_price,type='float',method=True,string='Sqr Meter Price'),
 		#'local_sqrmeter_price'     :  fields.float('Sqr Meter Price',required=True),
 		'local_rented'             : fields.function(_determine_rented,type='boolean',method=True,string='Rented',help='Check if the local is rented'),
 		'local_floor'              : fields.many2one('rent.floor','# Floor'),
-		#'local_local_by_floor'     : fields.one2many('rent.floor.floor','# Floor'),
+		'local_local_by_floor'     : fields.one2many('rent.local.floor','Local floors'),
 		#'local_floor'              : fields.related('rent.local.floor','# Floor'),
 		'local_building'           : fields.function(_get_building_local,type='many2one',obj='rent.building',method=True,string='Building'),
-		'local_gallery_photo'      : fields.char('Gallery of Images', size=64),
+		'local_gallery_photo'      : fields.char('Photo Gallery', size=64),
 		'local_photo'              : fields.binary('Main photo'),
+		'local_rent'               : fields.many2one('rent.rent','Alquiler'),
 	}
 rent_floor_local()
 
@@ -365,7 +388,7 @@ class rent_rent(osv.osv):
 		'state'                 : fields.selection([('valid','Valid'),('finished','Finished'),('draft','Draft')],'Status', readonly=True),
 		'rent_start_date'       : fields.date('Starting Date', required=True, states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_total'            : fields.function(_get_total_rent,type='float',method=True,string='Total Paid'),
-		'rent_rent_local'       : fields.one2many('rent.local.floor','local_rent','Local', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_rent_local'       : fields.one2many('rent.floor.local','local_rent','Local', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rent_parking'     : fields.many2one('rent.floor.parking','Parking', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rent_estate'      : fields.many2one('rent.estate','Estate', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		#'rent_is_local'         : fields.boolean('Locals',help='Check if you want to calculate a rent for locals', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
@@ -376,6 +399,7 @@ class rent_rent(osv.osv):
 		'rent_modif'            : fields.one2many('rent.rent', 'rent_modif_ref','Contract reference', states={'draft':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_modif_ref'        : fields.many2one('rent.rent', 'Modifications'),
 		'currency_id'           : fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft':[('readonly',False)]}),
+		'rent_estimates'        : fields.one2many('rent.rent.analitic', 'analitic_rent','Estimates'),         
 	}
 	
 	_defaults = {
@@ -384,6 +408,24 @@ class rent_rent(osv.osv):
 		'currency_id': _get_currency,
 	}
 rent_rent()
+
+class rent_rent_analitic(osv.osv):
+	_name = 'rent.rent.analitic'
+	_columns {
+		'analitic_performance'       : fields.integer('Performance', help='This a percentaje number',store=False),
+		'analitic_years'             : fields.function(_performance_years, type='integer',method = True,string='Years'),
+		'analitic_amountc'           : fields.function(_performance_years, type='integer',method = True,string='Years'),
+		'analitic_colones'           : fields.function(_performance_years, type='integer',method = True,string='¢ / m²'),
+		'analitic_amountd'           : fields.function(_performance_years, type='integer',method = True,string='Years'),
+		'analitic_dollars'           : fields.function(_performance_years, type='integer',method = True,string='$ / m²'),
+		'analitic_cust_colones'      : fields.integer('Amount ¢', store=False),
+		'analitic_cust_dollars'      : fields.function('Amount $', store=False),
+		
+		'analitic_dec_min_dollars'      : fields.function('Amount $', store=False),
+		'analitic_dec_base_dollars'      : fields.function('Amount $', store=False),
+		
+	}
+rent_rent_analitic()
 
 class rent_local_floor(osv.osv):
 	_name = 'rent.local.floor'
@@ -422,13 +464,14 @@ class rent_local_floor(osv.osv):
 		debug(res)
 		return {'value' : res}
 	_columns = {
-		'name'                 : fields.char('Reference',size=64,help='Indicate a representative reference for the asociation'),
-		'local_floor_width'    : fields.float('Width', required=True),
-		'local_floor_large'    : fields.float('Large', required=True),
+		#'name'                 : fields.char('Reference',size=64,help='Indicate a representative reference for the asociation'),
+		'local_floor_front'    : fields.float('Front', required=True),
+		'local_floor_side'    : fields.float('Side', required=True),
 		'local_floor_floor'    : fields.many2one('rent.floor','Level',help='Represents the floor on witch its located the local'),
 		'local_local_floor'    : fields.many2one('rent.floor.local','Local#',help='Represents the floor on witch its located the local'),
-		'local_rent'           : fields.many2one('rent.rent','Alquiler',ondelete='cascade'),
-		'local_floor_area'     : fields.function(_local_floor_area,type='float',method=True,string='Area M2'),
+		#'local_rent'           : fields.many2one('rent.rent','Alquiler',ondelete='cascade'),
+		'local_floor_area'     : fields.float('Area M2',required=True),
+		#'local_floor_area'     : fields.function(_local_floor_area,type='float',method=True,string='Area M2'),
 		'local_sqrmeter_price' : fields.function(_local_sqr_price,type='float',method=True,string='Sqr Meter Price'),
 		'local_floor_value'    : fields.function(_local_value,type='float',method=True,string='Total Value'),
 		'local_floor_building' : fields.related('local_floor_floor','floor_building',type='many2one',relation='rent.building',string='Building', readonly=True, store=False),

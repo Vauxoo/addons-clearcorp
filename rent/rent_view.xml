@@ -398,10 +398,10 @@
 			<field name = "type">tree</field>
 			<field name = "arch" type = "xml">
 				<tree string="Floor Details">
-					<field name="floor_number"/>
+					<field name="complete_name"/>
+					<field name = "floor_building"/>
 					<field name="floor_value"/>
 					<field name="floor_area"/>
-					<field name = "floor_building"/>
 				</tree>
 			</field>
 		</record>
@@ -412,7 +412,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">rent.floor</field>
             <field name="view_type">form</field>            
-            <field name="help">Customers (also called Partners in other areas of the system) helps you manage your address book of companies whether they are prospects, customers and/or suppliers. The partner form allows you to track and record all the necessary information to interact with your partners from the company address to their contacts as well as pricelists, and much more. If you installed the CRM, with the history tab, you can track all the interactions with a partner such as opportunities, emails, or sales orders issued.</field>
+            <field name="help"></field>
         </record>
         <record id="action_floor_form_view1" model="ir.actions.act_window.view">
             <field eval="10" name="sequence"/>
@@ -457,13 +457,14 @@
 						<field name = "local_number"/>
 						<field name = "local_area"/>
 						<field name = "local_huella"/>
-					</group>
-					<group col = "4" colspan = "4">
 						<separator string = "Miscelanius Information"/>
 						<!--<field name = "local_sqrmeter_price"/>-->
 						<field name = "local_rented"/>
 						<field name = "local_water_meter_number"/>
 						<field name = "local_light_meter_number"/>
+					</group>
+					<group col = "4" colspan = "4">
+						<field name = "local_local_by_floor"/>
 					</group>
 				</form>
 			</field>
@@ -508,8 +509,7 @@
 			<field name = "arch" type = "xml">
 				<form string = "Local Details">
 					<group col = "4" colspan = "4">
-						<separator string = "General Information"/>
-						<field name = "name" select = "1"/>						
+						<separator string = "General Information"/>					
 						<field name = "local_floor_floor" select = "1" on_change = "onchange_floor(local_floor_floor)"/>
 						<field name = "local_floor_building" select = "1"/>						
 						<!---->
@@ -517,8 +517,8 @@
 					<group col = "4" colspan = "4">
 						<separator string = "Floor Specifications"/>
 						<field name = "local_local_floor"/>
-						<field name = "local_floor_width"/>
-						<field name = "local_floor_large"/>
+						<field name = "local_floor_front"/>
+						<field name = "local_floor_side"/>
 						<field name = "local_sqrmeter_price"/>
 						<field name = "local_floor_value"/>
 						<!---->
@@ -532,12 +532,11 @@
 			<field name = "model">rent.local.floor</field>
 			<field name = "type">tree</field>
 			<field name = "arch" type = "xml">
-				<tree string = "Local List">
-					<field name = "name" select = "1"/>
-					<field name = "local_floor_floor" select = "1"/>
+				<tree string = "Local List" editable="bottom">
 					<field name = "local_floor_building" select = "1"/>
-					<field name = "local_floor_width"/>
-					<field name = "local_floor_large"/>
+					<field name = "local_floor_floor" select = "1"/>
+					<field name = "local_floor_front"/>
+					<field name = "local_floor_side"/>
 					<field name = "local_sqrmeter_price" sum = "Sqr Meter Total"/>
 					<field name = "local_floor_value" sum = "Total"/>
 				</tree>
