@@ -337,6 +337,7 @@ class rent_rent(osv.osv):
 			obj_rent = self.pool.get('rent.rent').browse(cr,uid,ids)[0]
 			debug('_---------------------------------------------------ACT')
 			debug(obj_rent)
+			debug(obj_rent.rent_rent_local)
 			if (obj_rent.rent_related_real != vals['rent_related_real']):
 				#raise osv.except_osv(_('Warning !'), _('You have changed the type of real state that will overwrite the last with this one'))
 				obj_rent.write({'rent_rent_local' : [(2,obj_rent.rent_rent_local.id)], 'rent_rent_parking' : False, 'rent_rent_estate' : False})
