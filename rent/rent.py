@@ -334,7 +334,7 @@ class rent_rent(osv.osv):
 	
 	def write(self, cr, uid, ids, vals, context=None):
 		if 'rent_related_real' in vals:
-			obj_rent = self.pool.get('rent.rent').browse(cr,uid,ids)
+			obj_rent = self.pool.get('rent.rent').browse(cr,uid,ids)[0]
 			debug('_---------------------------------------------------ACT')
 			debug(obj_rent)
 			if (obj_rent.rent_related_real != vals['rent_related_real']):
