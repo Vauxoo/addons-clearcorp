@@ -442,17 +442,16 @@ class rent_local_floor(osv.osv):
 		res = {}
 		for local_id in ids:
 			obj = self.pool.get('rent.local.floor').browse(cr,uid,local_id)
-			areas = obj._local_floor_area(local_id,'local_local_floor',None)
 			obj_build = obj.local_floor_floor.floor_building
-			res[local_id] = areas[local_id] * obj_build._get_building_vrm(obj_build.id,None,None)[obj_build.id]
+			res[local_id] = local_floor_area * obj_build._get_building_vrm(obj_build.id,None,None)[obj_build.id]
 		return res
 		
-	def _local_floor_area(self,cr,uid,ids,field_name,args,context):
-		res = {}
-		for local_floor_id in ids:
-			obj = self.pool.get('rent.local.floor').browse(cr,uid,local_floor_id)
-			res[local_floor_id] = obj.local_floor_width * obj.local_floor_large
-		return res
+	#def _local_floor_area(self,cr,uid,ids,field_name,args,context):
+	#	res = {}
+	#	for local_floor_id in ids:
+	#		obj = self.pool.get('rent.local.floor').browse(cr,uid,local_floor_id)
+	#		res[local_floor_id] = obj.local_floor_width * obj.local_floor_large
+	#	return res
 	
 	def onchange_floor(self,cr,uid,ids,floor_id):
 		res = {}
