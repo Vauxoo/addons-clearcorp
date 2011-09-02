@@ -137,20 +137,20 @@ class rent_floor(osv.osv):
 		debug(ids)
 		for floor_id in ids:
 			debug(floor_id)
-			actual_rent = self.pool.get('rent.rent').search(cr,uid,['|',('state','=','valid'),('state','=','draft')])
+			actual_rent = self.pool.get('rent.rent').search(cr,uid,['|',('state','=','valid'),('state','=','draft'),('rent_related_real','=','local')])
 			debug(actual_rent)
-			locals_id = self.pool.get('rent.local.floor').search(cr,uid,[('local_rent','in',actual_rent),('local_floor_floor','=',floor_id)])
+			locals_id = self.pool.get('rent.floor.local').search(cr,uid,[('local_rent','in',actual_rent)])
 			debug(locals_id)
-			for local in locals_id:
-				obj_local = self.pool.get('rent.local.floor').browse(cr,uid,local)
-				valores = obj_local._local_value(local,None,None)
-				debug(valores)
-				debug(local)
-				total += valores[local]
+			for local in self.pool.get('rent.local.floor').browse(cr,uid,locals_id):
+				for local_by_floor in local.local_local_by_floor
+					valores = obj_local._local_value(local,None,None)
+					debug(valores)
+					debug(local)
+					total += valores[local]
 				debug(total)
 			
 			#This part look for the parking on rents associated to the floor
-			rent_ids = self.pool.get('rent.rent').search(cr,uid,['|',('state','=','valid'),('state','=','draft'),('rent_is_parking','=','True')])
+			rent_ids = self.pool.get('rent.rent').search(cr,uid,['|',('state','=','valid'),('state','=','draft'),('rent_related_real','=','parking')])
 			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rent_ids)
 			for rent in obj_rent:
 				obj_parking = rent.rent_rent_parking
@@ -166,6 +166,7 @@ class rent_floor(osv.osv):
 		for obj_floor in self.pool.get('rent.floor').browse(cr,uid,ids):
 			building_code = obj_floor.floor_building.building_code
 			res[obj_floor.id] = building_code + obj_floor.floor_number
+		debug(res)
 		return res
 	 
 #	def name_get(self, cr, uid, ids, context=None):
@@ -225,7 +226,7 @@ class rent_floor_local(osv.osv):
 			rent_ids = self.pool.get('rent.rent').search(cr,uid,[('state','=','valid')])
 			debug(rent_ids)
 			for rent in rent_ids:
-				local_rent = self.pool.get('rent.local.floor').search(cr,uid,[('local_rent','=',rent),('local_local_floor','=',local_id)])
+				local_rent = self.pool.get('rent.floor.local').search(cr,uid,[('local_rent','=',rent)])
 				if local_rent:
 					res[local_id] =  True
 		debug(res)
@@ -247,6 +248,7 @@ class rent_floor_local(osv.osv):
 		'local_building'           : fields.function(_get_building_local,type='many2one',obj='rent.building',method=True,string='Building'),
 		'local_gallery_photo'      : fields.char('Photo Gallery', size=64),
 		'local_photo'              : fields.binary('Main photo'),
+		'local_rent'               : fields.many2one('rent.rent','Alquiler'),
 	}
 rent_floor_local()
 
