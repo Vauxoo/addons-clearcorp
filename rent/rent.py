@@ -139,15 +139,15 @@ class rent_floor(osv.osv):
 			debug(floor_id)
 			actual_rent = self.pool.get('rent.rent').search(cr,uid,['|',('state','=','valid'),('state','=','draft'),('rent_related_real','=','local')])
 			debug(actual_rent)
-			locals_id = self.pool.get('rent.floor.local').search(cr,uid,[('local_rent','in',actual_rent)])
+			locals_id = 
 			debug(locals_id)
-			for local in self.pool.get('rent.local.floor').browse(cr,uid,locals_id):
-				for local_by_floor in local.local_local_by_floor:
-					valores = obj_local._local_value(local,None,None)
-					debug(valores)
-					debug(local)
-					total += valores[local]
-				debug(total)
+			for obj_rent in self.pool.get('rent.rent').browse(cr,uid,actual_rent):
+				obj_local = obj_rent.rent_rent_local
+				valores = obj_local._local_value(obj_local.id,None,None)[obj_local.id]
+				debug(valores)
+				debug(local)
+				total += valores[local]
+			debug(total)
 			
 			#This part look for the parking on rents associated to the floor
 			rent_ids = self.pool.get('rent.rent').search(cr,uid,['|',('state','=','valid'),('state','=','draft'),('rent_related_real','=','parking')])
