@@ -341,9 +341,9 @@ class rent_rent(osv.osv):
 			if (obj_rent.rent_related_real != vals['rent_related_real']):
 				debug(vals)
 				real_type = vals['rent_related_real'] 
-				if real_type  =='locals' or real_type  =='parking':
+				if real_type == 'local' or real_type == 'parking':
 					vals['rent_rent_estate'] = False
-				if real_type  =='locals' or real_type  =='estate':
+				if real_type == 'local' or real_type == 'estate':
 					vals['rent_rent_parking'] = False
 				if real_type == 'parking' or real_type == 'estate':
 					#raise osv.except_osv(_('Warning !'), _('You have changed the type of real state that will overwrite the last with this one'))
