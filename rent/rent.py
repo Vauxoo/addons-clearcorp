@@ -141,10 +141,10 @@ class rent_floor(osv.osv):
 			debug(actual_rent)
 			for obj_rent in self.pool.get('rent.rent').browse(cr,uid,actual_rent):
 				obj_local = obj_rent.rent_rent_local
-				valores = obj_local._local_value(obj_local.id,None,None)[obj_local.id]
+				valores = obj_local._local_value(obj_local.id,None,None)
 				debug(valores)
 				debug(local)
-				total += valores[local]
+				total += valores[obj_local.id]
 			debug(total)
 			
 			#This part look for the parking on rents associated to the floor
