@@ -247,7 +247,6 @@ class rent_floor_local(osv.osv):
 		'local_building'           : fields.function(_get_building_local,type='many2one',obj='rent.building',method=True,string='Building'),
 		'local_gallery_photo'      : fields.char('Photo Gallery', size=64),
 		'local_photo'              : fields.binary('Main photo'),
-		'local_rent'               : fields.many2one('rent.rent','Alquiler'),
 	}
 rent_floor_local()
 
@@ -378,7 +377,7 @@ class rent_rent(osv.osv):
 		return super(rent_rent, self).write(cr, uid, ids, vals, context=context)
 		
 	_columns = {
-		'name'                  : fields.char('Reference',size=64),
+		'name'                  : fields.char('Name',size=64),
 		'rent_rent_client'      : fields.many2one('res.partner','Client', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_end_date'         : fields.date('Ending Date', required=True, states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_ending_motif'     : fields.selection([('Desertion','Desertion'),('No Renovation','No Renovation'),('Eviction','Eviction')],'Ending Motif'),
@@ -388,7 +387,7 @@ class rent_rent(osv.osv):
 		'state'                 : fields.selection([('valid','Valid'),('finished','Finished'),('draft','Draft')],'Status', readonly=True),
 		'rent_start_date'       : fields.date('Starting Date', required=True, states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_total'            : fields.function(_get_total_rent,type='float',method=True,string='Total Paid'),
-		'rent_rent_local'       : fields.one2many('rent.floor.local','local_rent','Local', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_rent_local'       : fields.many2one('rent.floor.local','Local', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rent_parking'     : fields.many2one('rent.floor.parking','Parking', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rent_estate'      : fields.many2one('rent.estate','Estate', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		#'rent_is_local'         : fields.boolean('Locals',help='Check if you want to calculate a rent for locals', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
