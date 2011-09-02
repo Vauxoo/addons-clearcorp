@@ -335,6 +335,7 @@ class rent_rent(osv.osv):
 	def write(self, cr, uid, ids, vals, context=None):
 		if 'rent_related_real' in vals:
 			obj_rent = self.pool.get('rent.rent').browse(cr,uid,ids)
+			debug('_---------------------------------------------------ACT')
 			debug(obj_rent)
 			if (obj_rent.rent_related_real != vals['rent_related_real']):
 				raise osv.except_osv(_('Warning !'), _('You have changed the type of real state that will overwrite the last with this one'))
