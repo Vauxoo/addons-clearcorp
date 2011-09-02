@@ -229,6 +229,18 @@ class rent_floor_local(osv.osv):
 					res[local_id] =  True
 		debug(res)
 		return res
+	def _local_value(self,cr,uid,ids,field_name,args,context):
+		res = {}
+		debug(ids)
+		total = 0
+		for local in self.pool.get('rent.floor.local').browse(cr,uid,ids):
+			for obj_local_floor in local.local_local_by_floor:
+				total += obj_local_floor._local_value(obj_local_floor.id,None,None)
+			res[local.id] = total
+			total = 0
+		debug(total)
+		debug(res)
+		return res
 	_columns = {
 		#'local_area'               : fields.function(_floor_area,type='float',method=True,string='VRN Dynamic'),
 		'local_area'               : fields.float('Area',required=True),
@@ -321,8 +333,7 @@ class rent_rent(osv.osv):
 			if obj_rent.rent_related_real == 'local':
 				debug("LOCALES")
 				debug(obj_rent.rent_rent_local)
-				for obj_local in obj_rent.rent_rent_local:
-					total += obj_local._local_value(obj_local.id,None,None)[obj_local.id]
+				total = obj_local._local_value(obj_local.id,None,None)[obj_local.id]
 					debug(total)
 			elif obj_rent.rent_related_real == 'parking':
 				debug("PARQUEO")
