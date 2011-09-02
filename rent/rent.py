@@ -420,9 +420,9 @@ class rent_rent_analitic(osv.osv):
 		'analitic_cust_colones'      : fields.integer('Amount c', store=False),
 		'analitic_cust_dollars'      : fields.integer('Amount s', store=False),
 		
-		'analitic_dec_min_dollars'      : fields.integer('Amount s', store=False),
+		'analitic_dec_min_dollars'       : fields.integer('Amount s', store=False),
 		'analitic_dec_base_dollars'      : fields.integer('Amount s', store=False),
-		
+		'analitic_rent'                  : fields.many2one('rent.rent','Rent'),
 	}
 rent_rent_analitic()
 
