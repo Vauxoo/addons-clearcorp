@@ -745,7 +745,7 @@
 						<field colspan = "4" name = "contract_clauses" nolabel = "1"/>
 						<!--<field name = "contract_design"/>-->
 					</group>
-					<group col="8" colspan="4">
+					<group col="4" colspan="4">
 						<separator colspan = "4" string = "Legend"/>
 						<label string = "Use any of the code down to specife where should go special data to be retreived such as partners name, date, and others. Place it in the body of the clause as you need it"/>
 						<group>
@@ -801,17 +801,18 @@
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
 				<form string = "Clauses">
-					<group col = "6" colspan = "4">
+					<group col = "4" colspan = "4">
 						<separator colspan = "4" string = "Reference Data"/>
 						<field name = "clause_code" select = "1"/>
-						<field name = "clause_subject" select = "1"/>
 						<field name = "clause_is_basic" select = "1"/>
+						<field name = "clause_subject" select = "1"/>
+						
 					</group>
 					<group col = "4" colspan = "4">
 						<separator colspan = "4" string = "Body"/>
 						<field name = "clause_body" nolabel="1"/>
 					</group>
-					<group col="8" colspan="4">
+					<group col="4" colspan="4">
 						<separator colspan = "4" string = "Legend"/>
 						<label string = "Use any of the code down to specife where should go special data to be retreived such as partners name, date, and others. Place it in the body of the clause as you need it"/>
 						<group>
