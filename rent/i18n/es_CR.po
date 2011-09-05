@@ -46,12 +46,12 @@ msgstr "rent.contract.clause"
 #: model:ir.actions.act_window,name:rent.action_local_floor_form_view
 #: model:ir.actions.act_window,name:rent.action_local_form_view
 msgid "Local Detail"
-msgstr "Detalle del local Detail"
+msgstr "Detalle del local"
 
 #. module: rent
 #: help:rent.contract.clause,clause_is_basic:0
 msgid "Check if the clause should allways appear on every contract you create"
-msgstr "Seleccione si la clausula debería aparecer siempre en cada contrato que cree"
+msgstr "Seleccione si la Cláusula debería aparecer siempre en cada contrato que cree"
 
 #. module: rent
 #: view:rent.contract.clause:0
@@ -195,7 +195,7 @@ msgstr "Medidor de Luz"
 #. module: rent
 #: view:rent.contract.clause:0
 msgid "Clause"
-msgstr "Clausula"
+msgstr "Cláusula"
 
 #. module: rent
 #: field:rent.floor,floor_number:0
@@ -241,7 +241,7 @@ msgstr "Aumento anual"
 #. module: rent
 #: help:rent.contract.clause,clause_code:0
 msgid "Reference code for the clause, used to create custom contracts"
-msgstr "Referencia al código de la clausula, empleado para crear contratos personalizados"
+msgstr "Referencia al código de la Cláusula, empleado para crear contratos personalizados"
 
 #. module: rent
 #: model:ir.model,name:rent.model_res_partner
@@ -389,7 +389,7 @@ msgstr "Fecha de inicio"
 #. module: rent
 #: model:ir.actions.act_window,name:rent.action_clause_by_contract_form_view
 msgid "Clause by Contract"
-msgstr "Clausulas por contrato"
+msgstr "Cláusulas por contrato"
 
 #. module: rent
 #: field:rent.canton,state_id:0
@@ -530,7 +530,7 @@ msgstr "rent.rent"
 #. module: rent
 #: field:rent.contract,contract_clauses:0
 msgid "Clausulas"
-msgstr "Clausulas"
+msgstr "Cláusulas"
 
 #. module: rent
 #: view:rent.rent:0
@@ -570,7 +570,7 @@ msgstr "Local"
 #. module: rent
 #: field:rent.building,building_gallery_photo:0
 msgid "Gallery of Photos"
-msgstr "Gallería de fotosGallery of Photos"
+msgstr "Galería de fotos"
 
 #. module: rent
 #: view:rent.rent:0
@@ -762,7 +762,7 @@ msgstr "Cancelar"
 #: model:ir.ui.menu,name:rent.rent_contract_clause_submenu
 #: view:rent.contract.clause:0
 msgid "Clauses"
-msgstr "Clausulas"
+msgstr "Cláusulas"
 
 #. module: rent
 #: field:rent.estate,estate_number:0
@@ -946,7 +946,7 @@ msgstr "Use cualquier código, empleelos para indicar donde debería datos espec
 #. module: rent
 #: view:rent.contract.clause.rel:0
 msgid "Clausula de Contrato"
-msgstr "Clausula de Contrato"
+msgstr "Cláusula de Contrato"
 
 #. module: rent
 #: model:ir.ui.menu,name:rent.rent_estate_submenu

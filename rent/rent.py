@@ -81,6 +81,7 @@ class rent_estate(osv.osv):
 		'estate_vrn_per_sqr' : fields.function(_get_estate_vrm,type='float',method=True,string='VRN Din/M2'),#fields.float('VRN Din/M2',store=False, readonly=True),
 		'estate_buildings': fields.one2many('rent.building','building_estate','Buildings'),
 		'estate_location' : fields.many2one('res.partner.address','Location'),
+		'estate_account'  : fields.many2one('account.account', 'Cuenta'),
 		#'estate_province': fields.related('estate_address', 'estate_province', type='selection', string='Province'),
         #'estate_canton': fields.related('estate_address', 'estate_canton', type='selection', string='Canton'),
         #'estate_district': fields.related('estate_address', 'estate_district', type='selection', string='District'),

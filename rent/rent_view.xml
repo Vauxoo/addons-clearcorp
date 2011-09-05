@@ -190,6 +190,7 @@
 						<field name = "estate_value" />
 						<field name = "estate_area"  />
 						<field name = "estate_vrn_per_sqr"/>
+						<field name = "estate_account"/>
 						<button colspan="2" name="calculate_vrm" string="Compute Values" type="object" groups="base.group_user" icon="terp-stock_format-scientific"/>
 					</group>
 					<notebook colspan = "4">
