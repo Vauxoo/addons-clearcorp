@@ -626,6 +626,11 @@ msgid "Local List"
 msgstr "Lista de locales"
 
 #. module: rent
+#: view:rent.floor.parking:0
+msgid "Parking List"
+msgstr "Lista de Parqueos"
+
+#. module: rent
 #: report:contract_report:0
 msgid ":"
 msgstr ":"

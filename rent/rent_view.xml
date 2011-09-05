@@ -589,7 +589,7 @@
 			<field name = "model">rent.floor.parking</field>
 			<field name = "type">tree</field>
 			<field name = "arch" type = "xml">
-				<tree string = "Local List">
+				<tree string = "Parking List">
 					<field name = "parking_number"/>
 					<field name = "parking_value"/>
 					<field name = "parking_area"/>
