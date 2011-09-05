@@ -308,7 +308,7 @@
 							</field>
 						</page>
 						<page string = "Assets">
-							<!--<field name = "building_asset"/>-->
+							<field name = "building_asset"/>
 						</page>
 						<page string = "Machinery">
 							<group col = "4" colspan = "4">

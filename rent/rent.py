@@ -120,7 +120,7 @@ class rent_building(osv.osv):
 		'building_floors'            : fields.one2many('rent.floor','floor_building','Floors'),
 		'building_vrn_per_sqr'       : fields.function(_get_building_vrm,type='float',method=True,string='VRN Din/M2'),
 		'building_code'              : fields.char('Code', size=4, required=True),
-		#'building_asset'             : fields.many2one('account.invoice','Asset'),
+		'building_asset'             : fields.many2one('account.asset.asset','Asset'),
 	}
 rent_building()
 
@@ -183,7 +183,7 @@ class rent_floor(osv.osv):
 		return res
 
 	_columns = {
-		'floor_number'     : fields.char('# Floor',size=4,required=True, help='Number of the floor in the building, starts from 0 (Basement)'),
+		'floor_number'     : fields.char('# Floor',size=16,required=True, help='Number of the floor in the building, starts from 0 (Basement)'),
 		'floor_thickness'  : fields.float('Thickness'),
 		'floor_durability' : fields.integer('Durability', help='Indicate the durability in years'),
 		'floor_area'       : fields.float('Area',required=True),
