@@ -97,7 +97,10 @@ class rent_building(osv.osv):
 		res = {}
 		for building_id in ids:
 			obj_building = self.pool.get('rent.building').browse(cr,uid,building_id)
-			res[building_id] = obj_building.building_value / obj_building.building_area
+			try:
+				res[building_id] = obj_building.building_value / obj_building.building_area
+			except:
+				res[building_id] = 0
 		return res
 		
 	_columns = {
@@ -141,9 +144,11 @@ class rent_floor(osv.osv):
 			debug(actual_rent)
 			for obj_rent in self.pool.get('rent.rent').browse(cr,uid,actual_rent):
 				obj_local = obj_rent.rent_rent_local
-				valores = obj_local._local_value(obj_local.id,None,None)
-				debug(valores)
-				total += valores[obj_local.id]
+				local_floor_ids = self.pool.get('rent.local.floor').search(cr,uid,[('local_local_floor','=',obj_local.id),('local_floor_floor','=',floor_id)])
+				for local in self.pool.get('rent.local.floor').browse(cr,uid,local_floor_ids):
+					valores = local._local_value(local.id,None,None)
+					debug(valores)
+					total += valores[local.id]
 			debug(total)
 			
 			#This part look for the parking on rents associated to the floor
@@ -183,7 +188,7 @@ class rent_floor(osv.osv):
 		'floor_area'       : fields.float('Area',required=True),
 		'floor_value'      : fields.function(_calculate_floor_value,type='float',method=True,string='Value',help='This value is calculated using the estate and building area and values'),
 		'floor_acabado'    : fields.char('Acabado',size=64),
-		'floor_local'      : fields.one2many('rent.floor.local','local_floor','Local'),
+		#'floor_local'      : fields.one2many('rent.floor.local','local_floor','Local'),
 		'floor_parking'    : fields.one2many('rent.floor.parking','parking_floor','Parking'),
 		'floor_building'   : fields.many2one('rent.building','Building'),
 		'complete_name'    : fields.function(_get_fullname,type='char',method=True,string='Name',help='This name uses the code of the building and the floor name'),
@@ -236,6 +241,20 @@ class rent_floor_local(osv.osv):
 		debug(res)
 		return res
 
+	def name_get(self, cr, uid, ids, context=None):
+		if not len(ids):
+			return []
+		reads = self.read(cr, uid, ids, ['local_number','local_building'], context=context)
+		res = []
+		debug('NOMBREPISOS+==================================')
+		for record in reads:
+			debug(record)
+			debug(record['local_building'][1])
+			name = 'Local #' + str(record['local_number']) + ' , ' +  record['local_building'][1]
+		#	for subrecord in subreads 
+		#		name += ', ' + subrecord['local_floor_building']
+			res.append((record['id'], name))
+		return res
 	_columns = {
 		#'local_area'               : fields.function(_floor_area,type='float',method=True,string='VRN Dynamic'),
 		'local_area'               : fields.float('Area',required=True),
@@ -247,15 +266,64 @@ class rent_floor_local(osv.osv):
 		#'local_sqrmeter_price'     : fields.function(_local_sqr_price,type='float',method=True,string='Sqr Meter Price'),
 		#'local_sqrmeter_price'     :  fields.float('Sqr Meter Price',required=True),
 		'local_rented'             : fields.function(_determine_rented,type='boolean',method=True,string='Rented',help='Check if the local is rented'),
-		'local_floor'              : fields.many2one('rent.floor','# Floor'),
+		#'local_floor'              : fields.many2one('rent.floor','# Floor'),
 		'local_local_by_floor'     : fields.one2many('rent.local.floor','local_local_floor','Local floors'),
 		#'local_floor'              : fields.related('rent.local.floor','# Floor'),
 		'local_building'           : fields.function(_get_building_local,type='many2one',obj='rent.building',method=True,string='Building'),
 		'local_gallery_photo'      : fields.char('Photo Gallery', size=64),
 		'local_photo'              : fields.binary('Main photo'),
-		'local_rent'               : fields.many2one('rent.rent','Alquiler'),
+		#'local_rent'               : fields.many2one('rent.rent','Alquiler'),
 	}
 rent_floor_local()
+
+class rent_local_floor(osv.osv):
+	_name = 'rent.local.floor'
+	
+	def _local_sqr_price(self,cr,uid,ids,field_name,args,context):
+		res = {}
+		for local_id in ids:
+			obj = self.pool.get('rent.local.floor').browse(cr,uid,local_id)
+			obj_build = obj.local_floor_floor.floor_building
+			res[local_id] = obj_build._get_building_vrm(obj_build.id,None,None)[obj_build.id]
+		return res
+	
+	def _local_value(self,cr,uid,ids,field_name,args,context):
+		res = {}
+		for local_id in ids:
+			obj = self.pool.get('rent.local.floor').browse(cr,uid,local_id)
+			obj_build = obj.local_floor_floor.floor_building
+			res[local_id] = obj.local_floor_area * obj_build._get_building_vrm(obj_build.id,None,None)[obj_build.id]
+		return res
+		
+	#def _local_floor_area(self,cr,uid,ids,field_name,args,context):
+	#	res = {}
+	#	for local_floor_id in ids:
+	#		obj = self.pool.get('rent.local.floor').browse(cr,uid,local_floor_id)
+	#		res[local_floor_id] = obj.local_floor_width * obj.local_floor_large
+	#	return res
+	
+	def onchange_floor(self,cr,uid,ids,floor_id):
+		res = {}
+		debug("+============================")
+		obj_floor = self.pool.get('rent.floor').browse(cr,uid,floor_id)
+		debug(obj_floor)
+		res['local_floor_building'] = obj_floor.floor_building.id
+		debug(res)
+		return {'value' : res}
+	_columns = {
+		#'name'                 : fields.char('Reference',size=64,help='Indicate a representative reference for the asociation'),
+		'local_floor_front'    : fields.float('Front', required=True),
+		'local_floor_side'    : fields.float('Side', required=True),
+		'local_floor_floor'    : fields.many2one('rent.floor','Level',help='Represents the floor on witch its located the local'),
+		'local_local_floor'    : fields.many2one('rent.floor.local','Local#',help='Represents the floor on witch its located the local'),
+		#'local_rent'           : fields.many2one('rent.rent','Alquiler',ondelete='cascade'),
+		'local_floor_area'     : fields.float('Area M2',required=True),
+		#'local_floor_area'     : fields.function(_local_floor_area,type='float',method=True,string='Area M2'),
+		'local_sqrmeter_price' : fields.function(_local_sqr_price,type='float',method=True,string='Sqr Meter Price'),
+		'local_floor_value'    : fields.function(_local_value,type='float',method=True,string='Total Value'),
+		'local_floor_building' : fields.related('local_floor_floor','floor_building',type='many2one',relation='rent.building',string='Building', readonly=True, store=False),
+	} 
+rent_local_floor()
 
 #Class representing the parking, on floor. This class has a relation 
 #many2one with the floor 
@@ -287,7 +355,33 @@ class rent_floor_parking(osv.osv):
 			obj = self.pool.get('rent.floor.parking').browse(cr,uid,parking_id)
 			res[parking_id] = obj.parking_large * obj.parking_width
 		return res
-		
+	
+	def name_get(self, cr, uid, ids, context=None):
+		if not len(ids):
+			return []
+		reads = self.read(cr, uid, ids, ['parking_number','parking_floor'], context=context)
+		res = []
+		debug('NOMBREPARKEO+==================================')
+		for record in reads:
+			debug(record)
+			debug(record['parking_floor'][1])
+			name = 'Parking #' + str(record['parking_number']) + ' , ' +  record['parking_floor'][1]
+		#	for subrecord in subreads 
+		#		name += ', ' + subrecord['local_floor_building']
+			res.append((record['id'], name))
+		return res
+	
+	def _determine_rented(self,cr,uid,ids,field_name,args,context):
+		res = {}
+		debug('Renta+==================================')
+		for parking_id in ids:
+			res[parking_id] =  False
+			debug(ids)
+			rent_ids = self.pool.get('rent.rent').search(cr,uid,[('state','=','valid'),('rent_related_real','=','parking'),('rent_rent_parking','=',parking_id)])
+			if rent_ids:
+				res[parking_id] =  True
+		debug(res)
+		return res
 	_columns = {
 		'parking_area'            : fields.function(_parking_area,type='float',method=True,string='Area'),
 		#'parking_area'            : fields.float('VRN Dynamic',required=True),
@@ -297,7 +391,7 @@ class rent_floor_parking(osv.osv):
 		'parking_huella'          : fields.float('Huella',required=True),
 		'parking_sqrmeter_price'  :  fields.function(_parking_sqr_price,type='float',method=True,string='Sqr Meter Value'),
 		#'parking_sqrmeter_price'  :  fields.float('Sqr Meter Value',required=True),
-		'parking_rented'          : fields.boolean('Rented',help='Checked if the local is rented',readonly=True),
+		'parking_rented'          : fields.function(_determine_rented,type='boolean',method=True,string='Rented',help='Checked if the parking is rented'),
 		'parking_floor'           : fields.many2one('rent.floor','# Floor'),
 		'parking_large'           : fields.float('Large Meters'),
 		'parking_width'           : fields.float('Width Meters'),
@@ -432,55 +526,6 @@ class rent_rent_analitic(osv.osv):
 		'analitic_rent'                  : fields.many2one('rent.rent','Rent'),
 	}
 rent_rent_analitic()
-
-class rent_local_floor(osv.osv):
-	_name = 'rent.local.floor'
-	
-	def _local_sqr_price(self,cr,uid,ids,field_name,args,context):
-		res = {}
-		for local_id in ids:
-			obj = self.pool.get('rent.local.floor').browse(cr,uid,local_id)
-			obj_build = obj.local_floor_floor.floor_building
-			res[local_id] = obj_build._get_building_vrm(obj_build.id,None,None)[obj_build.id]
-		return res
-	
-	def _local_value(self,cr,uid,ids,field_name,args,context):
-		res = {}
-		for local_id in ids:
-			obj = self.pool.get('rent.local.floor').browse(cr,uid,local_id)
-			obj_build = obj.local_floor_floor.floor_building
-			res[local_id] = obj.local_floor_area * obj_build._get_building_vrm(obj_build.id,None,None)[obj_build.id]
-		return res
-		
-	#def _local_floor_area(self,cr,uid,ids,field_name,args,context):
-	#	res = {}
-	#	for local_floor_id in ids:
-	#		obj = self.pool.get('rent.local.floor').browse(cr,uid,local_floor_id)
-	#		res[local_floor_id] = obj.local_floor_width * obj.local_floor_large
-	#	return res
-	
-	def onchange_floor(self,cr,uid,ids,floor_id):
-		res = {}
-		debug("+============================")
-		obj_floor = self.pool.get('rent.floor').browse(cr,uid,floor_id)
-		debug(obj_floor)
-		res['local_floor_building'] = obj_floor.floor_building.id
-		debug(res)
-		return {'value' : res}
-	_columns = {
-		#'name'                 : fields.char('Reference',size=64,help='Indicate a representative reference for the asociation'),
-		'local_floor_front'    : fields.float('Front', required=True),
-		'local_floor_side'    : fields.float('Side', required=True),
-		'local_floor_floor'    : fields.many2one('rent.floor','Level',help='Represents the floor on witch its located the local'),
-		'local_local_floor'    : fields.many2one('rent.floor.local','Local#',help='Represents the floor on witch its located the local'),
-		#'local_rent'           : fields.many2one('rent.rent','Alquiler',ondelete='cascade'),
-		'local_floor_area'     : fields.float('Area M2',required=True),
-		#'local_floor_area'     : fields.function(_local_floor_area,type='float',method=True,string='Area M2'),
-		'local_sqrmeter_price' : fields.function(_local_sqr_price,type='float',method=True,string='Sqr Meter Price'),
-		'local_floor_value'    : fields.function(_local_value,type='float',method=True,string='Total Value'),
-		'local_floor_building' : fields.related('local_floor_floor','floor_building',type='many2one',relation='rent.building',string='Building', readonly=True, store=False),
-	} 
-rent_local_floor()
 
 #
 #
