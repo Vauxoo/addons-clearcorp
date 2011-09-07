@@ -605,7 +605,7 @@ class rent_rent_estimate(osv.osv):
 		'estimate_performance'       : fields.float('Performance',digits=(12,2), help='This a percentaje number'),
 		'estimate_years'             : fields.function(_performance_years, type='float',method = True,string='Years'),
 		'estimate_amountc'           : fields.function(_performance_amount, type='float',method = True,string='Amount'),
-		'estimate_colones'           : fields.function(_performance_currency, type='float',method = True,string='c / m2', multi=True),
+		'estimate_colones'           : fields.function(_performance_currency, type='float',method = True,string='c / m2'),
 		
 		'estimate_amountd'           : fields.function(_performance_amount, type='float',method = True,string='Amount $'),
 		#'estimate_dollars'           : fields.function(_performance_currency, type='float',method = True,string='s / m2', multi=True),
