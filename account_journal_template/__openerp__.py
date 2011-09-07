@@ -1,8 +1,8 @@
 {
     "name" : "Account journal template module",
-    "author" : "ClearCorp S.A",
+    "author" : "CLEARCORP S.A",
     "version" : "0.1",
-    "depends" : ["base","account"],
+    "depends" : ["base", "account", "account_voucher_payment_method"],
     "init_xml" : [],
     "update_xml" : [],
     "category" : "",

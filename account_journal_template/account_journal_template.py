@@ -31,14 +31,12 @@ class account_journal_template(osv.osv):
 	
 		'name': fields.char('Journal Name', size=64),
 		'code': fields.char('Code', size=5),
-		'type': fields.selection([('sale', 'Sale'),('sale_refund','Sale Refund'), ('purchase', 'Purchase'), ('purchase_refund','Purchase Refund'), ('cash', 'Cash'), ('bank', 'Bank and Cheques'), ('general', 'General'), ('situation', 'Opening/Closing Situation')], 'Type'),
+		'type': fields.selection([('sale', 'Sale'),('sale_refund','Sale Refund'), ('purchase', 'Purchase'), ('purchase_refund','Purchase Refund'), ('cash', 'Cash'), ('bank', 'Bank and Cheques'), ('general', 'General'), ('situation', 'Opening/Closing Situation'), ('payment', 'Payment method')], 'Type'),
 		'allow_date':fields.boolean('Check Date not in the Period'),
 		'entry_posted': fields.boolean('Skip \'Draft\' State for Manual Entries'),
 		'update_posted': fields.boolean('Allow Cancelling Entries'),
 		'group_invoice_lines': fields.boolean('Group Invoice Lines'),
-		'sequence_id': fields.many2one('ir.sequence', 'Entry Sequence'),
 		'currency': fields.many2one('res.currency', 'Currency'),
-		'company_id': fields.many2one('res.company', 'Company'),
 		'view_id': fields.many2one('account.journal.view', 'Display Mode'),
 		'centralisation': fields.boolean('Centralised counterpart'),
 		'default_credit_account_id': fields.many2one('account.account', 'Default Credit Account', domain="[('type','!=','view')]", help="It acts as a default account for credit amount"),
@@ -58,7 +56,6 @@ class WizardMultiChartsAccounts(osv.osv_memory):
 		res = super(WizardMultiChartsAccounts, self).execute(cr, uid, ids, context)
 		
 		#getting the wizard object
-		
 		obj_self = self.browse(cr,uid,ids[0])
 		
 		#getting the id of the company from the wizard
