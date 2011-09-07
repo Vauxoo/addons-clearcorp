@@ -580,8 +580,7 @@ class rent_rent_estimate(osv.osv):
 		amount = 0
 		debug("=============================amount")
 		for obj_estimate in self.pool.get('rent.rent.estimate').browse(cr,uid,ids):
-			obj_rent = self.pool.get('rent.rent').browse(cr,uid,obj_estimate.estimate_rent)
-			
+			obj_rent = obj_estimate.estimate_rent			
 			debug(obj_rent)
 			
 			currencies_val = {}
@@ -596,9 +595,14 @@ class rent_rent_estimate(osv.osv):
 		for obj_estimate in self.pool.get('rent.rent.estimate').browse(cr,uid,ids):
 			obj_rent = obj_estimate.estimate_rent
 			debug(obj_rent)
+			
 			valor = obj_rent._get_total_area(obj_rent.id,None,None)[obj_rent.id]
 			debug(valor)
-			res[obj_estimate.id] = obj_estimate.estimate_amountc / valor
+			
+			currencies_val = {}
+			currencies_val['estimate_amountc'] = obj_estimate.estimate_amountc['estimate_amountc'] / valor
+			
+			res[obj_estimate.id] = currencies_val
 		debug(res)
 		return res
 	_columns = {
