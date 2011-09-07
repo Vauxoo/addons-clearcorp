@@ -72,7 +72,17 @@ class rent_estate(osv.osv):
 		res = {}
 		self.pool.get('rent.estate').write(cr, uid, ids, {}, context)
 		return { 'value' : res}
-		
+	def _determine_rented(self,cr,uid,ids,field_name,args,context):
+		res = {}
+		debug('Renta+==================================')
+		for estate_id in ids:
+			res[estate_id] =  False
+			debug(ids)
+			rent_ids = self.pool.get('rent.rent').search(cr,uid,[('state','=','valid'),('rent_related_real','=','estate'),('rent_rent_local','=',estate_id)])
+			if rent_ids:
+				res[estate_id] =  True
+		debug(res)
+		return res
 	_columns = {
 		'estate_owner'    : fields.many2one('res.company','Owner',required=True),
 		'estate_number'   : fields.char('# estate', size=10,required=True),
@@ -82,6 +92,7 @@ class rent_estate(osv.osv):
 		'estate_buildings': fields.one2many('rent.building','building_estate','Buildings'),
 		'estate_location' : fields.many2one('res.partner.address','Location'),
 		'estate_account'  : fields.many2one('account.account', 'Cuenta'),
+		'estate_rented'    : fields.function(_determine_rented,type='boolean',method=True,string='Rented',help='Checked if the local is rented'),
 		#'estate_province': fields.related('estate_address', 'estate_province', type='selection', string='Province'),
         #'estate_canton': fields.related('estate_address', 'estate_canton', type='selection', string='Canton'),
         #'estate_district': fields.related('estate_address', 'estate_district', type='selection', string='District'),
@@ -256,9 +267,22 @@ class rent_floor_local(osv.osv):
 		#		name += ', ' + subrecord['local_floor_building']
 			res.append((record['id'], name))
 		return res
+	
+	#This method takes the area of every record of local_by_floor and calculates the total area
+	def _local_area(self,cr,uid,ids,field_name,args,context):
+		res = {}
+		debug ("AREA TOTAL")
+		for obj_local in self.pool.get('rent.floor.local').browse(cr,uid,ids):
+			debug(obj_local.local_local_by_floor)
+			total = 0
+			for obj_local_floor in obj_local.local_local_by_floor:
+				total += obj_local_floor.local_floor_area
+			debug(total)
+			res[obj_local.id] = total
+		return res
 	_columns = {
-		#'local_area'               : fields.function(_floor_area,type='float',method=True,string='VRN Dynamic'),
-		'local_area'               : fields.float('Area',required=True),
+		'local_area'               : fields.function(_local_area,type='float',method=True,string='VRN Dynamic'),
+		#'local_area'               : fields.float('Area',required=True),
 		#'local_value'              : fields.float('Value',required=True),
 		'local_number'             : fields.integer('# Local',required=True),
 		'local_huella'             : fields.float('Huella',required=True),
@@ -406,6 +430,38 @@ rent_floor_parking()
 class rent_rent(osv.osv):
 	_name = 'rent.rent'
 	
+	def onchange_estimations(self,cr,uid,ids,field):
+		res = {}
+		debug("==========ESTIMACIONES====")
+		debug(field)
+		obj_sorted = sorted(field,key=lambda estimate: estimate.estimate_performance,reverse=True)
+		vals = {}
+		priority = 1
+		for obj_record in obj_sorted:
+			if priority == 1:
+				vals['estimate_state'] = 'recommend'
+			elif priority == 2:
+				vals['estimate_state'] = 'min'
+			else:
+				vals['estimate_state'] = 'norec'
+			debug(vals)
+			obj_record.write(vals)
+			priority += 1
+		return True
+		
+	def _get_total_area(self,cr,uid,ids,fields_name,args,context):
+		res = {}
+		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
+			if obj_rent.rent_related_real == 'local':
+				total = obj_rent.rent_rent_local.local_area
+			elif obj_rent.rent_related_real == 'parking':
+				debug("PARQUEO")
+				total = obj_rent.rent_rent_parking.parking_area
+			else:
+				debug("LOTES")
+				total = obj_rent.rent_rent_estate.estate_area
+			res[obj_rent.id] = total
+		return res
 	def _get_currency(self, cr, uid, context=None):
 		user = pooler.get_pool(cr.dbname).get('res.users').browse(cr, uid, [uid], context=context)[0]
 		if user.company_id:
@@ -457,9 +513,10 @@ class rent_rent(osv.osv):
 		return res
 	
 	def write(self, cr, uid, ids, vals, context=None):
-		if 'rent_related_real' in vals:
-			obj_rent = self.pool.get('rent.rent').browse(cr,uid,ids)[0]
+		obj_rent = self.pool.get('rent.rent').browse(cr,uid,ids)[0]
+		if 'rent_related_real' in vals:			
 			debug('_---------------------------------------------------ACT')
+			
 			debug(obj_rent)
 			debug(obj_rent.rent_rent_local)
 			if (obj_rent.rent_related_real != vals['rent_related_real']):
@@ -470,14 +527,12 @@ class rent_rent(osv.osv):
 				if real_type == 'local' or real_type == 'estate':
 					vals['rent_rent_parking'] = False
 				if real_type == 'parking' or real_type == 'estate':
-					#raise osv.except_osv(_('Warning !'), _('You have changed the type of real state that will overwrite the last with this one'))
-				#	local_list = []
-				#	for ob_local_floor in obj_rent.rent_rent_local:
-				#		local_list.append((2,ob_local_floor.id))
-				#	vals['rent_rent_local'] = local_list
 					vals['rent_rent_local'] = False
 		debug(vals)
-		return super(rent_rent, self).write(cr, uid, ids, vals, context=context)
+		super(rent_rent, self).write(cr, uid, ids, vals, context=context)
+		if 'rent_estimates' in vals:
+			obj_rent.onchange_estimations(obj_rent.rent_estimates)
+		return True
 		
 	_columns = {
 		'name'                  : fields.char('Name',size=64),
@@ -501,7 +556,7 @@ class rent_rent(osv.osv):
 		'rent_modif'            : fields.one2many('rent.rent', 'rent_modif_ref','Contract reference', states={'draft':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_modif_ref'        : fields.many2one('rent.rent', 'Modifications'),
 		'currency_id'           : fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft':[('readonly',False)]}),
-		'rent_estimates'        : fields.one2many('rent.rent.analitic', 'analitic_rent','Estimates'),         
+		'rent_estimates'        : fields.one2many('rent.rent.estimate', 'estimate_rent','Estimates'),         
 	}
 	
 	_defaults = {
@@ -511,23 +566,51 @@ class rent_rent(osv.osv):
 	}
 rent_rent()
 
-class rent_rent_analitic(osv.osv):
-	_name = 'rent.rent.analitic'
-	_columns = {
-		'analitic_performance'       : fields.integer('Performance', help='This a percentaje number',store=False),
-		#'analitic_years'             : fields.function(_performance_years, type='integer',method = True,string='Years'),
-		#'analitic_amountc'           : fields.function(_performance_years, type='integer',method = True,string='Years'),
-		#'analitic_colones'           : fields.function(_performance_years, type='integer',method = True,string='c / m2'),
-		#'analitic_amountd'           : fields.function(_performance_years, type='integer',method = True,string='Years'),
-		#'analitic_dollars'           : fields.function(_performance_years, type='integer',method = True,string='s / m2'),
-		'analitic_cust_colones'      : fields.integer('Amount c', store=False),
-		'analitic_cust_dollars'      : fields.integer('Amount s', store=False),
+class rent_rent_estimate(osv.osv):
+	_name = 'rent.rent.estimate'
 		
-		'analitic_dec_min_dollars'       : fields.integer('Amount s', store=False),
-		'analitic_dec_base_dollars'      : fields.integer('Amount s', store=False),
-		'analitic_rent'                  : fields.many2one('rent.rent','Rent'),
+	def _performance_years(self,cr,uid,ids,field_name,args,context):
+		res = {}
+		debug("=============================ANOS")
+		for obj_estimate in self.pool.get('rent.rent.estimate').browse(cr,uid,ids):
+			res[obj_estimate.id] = 1 / (obj_estimate.estimate_performance / 100.00)
+		return res
+	def _performance_amount(self,cr,uid,ids,field_name,args,context):
+		res = {}
+		amount = 0
+		debug("=============================amount")
+		for obj_estimate in self.pool.get('rent.rent.estimate').browse(cr,uid,ids):
+			res[obj_estimate.id] = obj_estimate.estimate_rent.rent_total * (obj_estimate.estimate_performance/100.00)  / 12
+		debug(res)
+		return res
+	def _performance_colones(self,cr,uid,ids,field_name,args,contexto):
+		res = {}
+		debug("=============================col")
+		for obj_estimate in self.pool.get('rent.rent.estimate').browse(cr,uid,ids):
+			obj_rent = obj_estimate.estimate_rent
+			debug(obj_rent)
+			valor = obj_rent._get_total_area(obj_rent.id,None,None)[obj_rent.id]
+			debug(valor)
+			res[obj_estimate.id] = obj_estimate.estimate_amountc / valor
+		debug(res)
+		return res
+	_columns = {
+		'estimate_performance'       : fields.float('Performance',digits=(12,2), help='This a percentaje number'),
+		'estimate_years'             : fields.function(_performance_years, type='float',method = True,string='Years'),
+		'estimate_amountc'           : fields.function(_performance_amount, type='float',method = True,string='Amount'),
+		'estimate_colones'           : fields.function(_performance_colones, type='float',method = True,string='c / m2'),
+		#'estimate_amountd'           : fields.function(_performance_years, type='integer',method = True,string='Years'),
+		#'estimate_dollars'           : fields.function(_performance_years, type='integer',method = True,string='s / m2'),
+		'estimate_cust_colones'      : fields.integer('Amount c'),
+		'estimate_cust_dollars'      : fields.integer('Amount s'),
+		
+		'estimate_dec_min_dollars'       : fields.integer('Amount s'),
+		'estimate_dec_base_dollars'      : fields.integer('Amount s'),
+		'estimate_rent'                  : fields.many2one('rent.rent','Rent'),
+		'estimate_date'                  : fields.date('Fecha'),
+		'estimate_state'                 : fields.selection([('recommend','Recommend'),('min','Min'),('norec','Not Recomended')],'Status'),
 	}
-rent_rent_analitic()
+rent_rent_estimate()
 
 #
 #

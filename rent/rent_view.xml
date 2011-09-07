@@ -641,7 +641,7 @@
 					<group col = "4" colspan = "2">
 						<separator string = "Information" colspan = "4"/>
 						<field name = "name"/>
-						<field name = "rent_rent_client"/>
+						<field name = "rent_rent_client" select  = "1"/>
 						<field name = "rent_type" attrs = "{'readonly' : [('state','!=','draft')]}"/>
 						<field name = "state"/>
 						<field name = "rent_related_real"/>
@@ -670,9 +670,9 @@
 						<page string = "Detail">
 							<group col = "4" colspan = "4" attrs = "{'invisible':[('rent_related_real','=','')]}">
 								<separator string = "Real Estate Information" colspan = "4"/>
-									<field name = "rent_rent_local" attrs = "{'readonly' : [('rent_related_real','!=','local')], 'required' : [('rent_related_real','=','local')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','local')]}"/>
-									<field name = "rent_rent_parking" attrs = "{'readonly' : [('rent_related_real','!=','parking')], 'required' : [('rent_related_real','=','parking')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','parking')]}"/>
-									<field name = "rent_rent_estate" attrs = "{'readonly' : [('rent_related_real','!=','estate')], 'required' : [('rent_related_real','=','estate')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','estate')]}"/>
+									<field name = "rent_rent_local" domain = "[('local_rented','!=','True')]" attrs = "{'readonly' : [('rent_related_real','!=','local')], 'required' : [('rent_related_real','=','local')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','local')]}"/>
+									<field name = "rent_rent_parking" domain = "[('parking_rented','!=','True')]" attrs = "{'readonly' : [('rent_related_real','!=','parking')], 'required' : [('rent_related_real','=','parking')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','parking')]}"/>
+									<field name = "rent_rent_estate"  domain = "[('estate_rented','!=','True')]" attrs = "{'readonly' : [('rent_related_real','!=','estate')], 'required' : [('rent_related_real','=','estate')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','estate')]}"/>
 
 							</group>
 							 <group col="6" colspan="4">
@@ -680,8 +680,8 @@
 									<button name="rent_valid" states="draft" string="Approve" icon="terp-camera_test"/>
 							</group>
 						</page>
-						<page string = "Results">
-							
+						<page string = "Calculations">
+							<field name = "rent_estimates"/>
 						</page>
 						<page string = "Modifications">
 							<field name = "rent_modif" attrs="{'readonly' : [('rent_type','!=','Contract')]}" nolabel="1"/>
@@ -724,6 +724,61 @@
 		-->
 		<menuitem id = "rent_rent_menu" name = "Rent" parent = "rent_manager"/>
 		<menuitem id = "rent_rent_submenu" name = "Rents" parent = "rent_rent_menu" action = "action_rent_form_view"/>
+		
+		
+		<!--
+		======================================
+					RENT estimateS
+		======================================
+		-->
+		
+		<record model = "ir.ui.view" id = "rent_estimate_tree_view">
+			<field name = "name">rent.rent.estimate.tree</field>
+			<field name = "model">rent.rent.estimate</field>
+			<field name = "type">tree</field>
+			<field name = "arch" type = "xml">
+				<tree editable = "top" string = "Calculations List" colors="blue:estimate_state in ('recommend');red:estimate_state in ('min');gray:estimate_state in ('norec')">
+					<field name = "estimate_performance"/>
+					<field name = "estimate_years"/>
+					<field name = "estimate_amountc"/>
+					<field name = "estimate_colones"/>
+					<field name = "estimate_date"/>
+					<field name = "estimate_state"/>
+				</tree>
+			</field>
+		</record>
+		
+		<record model = "ir.ui.view" id = "rent_estimate_form_view">
+			<field name = "name">rent.rent.estimate.form</field>
+			<field name = "model">rent.rent.estimate</field>
+			<field name = "type">form</field>
+			<field name = "arch" type = "xml">
+				<form string = "Estimates">
+					<group col="4" colspan="4">
+						<separator colspan = "4" string = "Calculos"/>
+						<group>
+							<field name = "estimate_performance"/>
+							<field name = "estimate_years"/>
+						</group>
+						<group>
+							<field name = "estimate_amountc"/>
+							<field name = "estimate_date"/>
+							<field name = "estimate_colones"/>
+						</group>
+					</group>
+				</form>
+			</field>
+		</record>
+		
+		<record model = "ir.actions.act_window" id = "action_rent_estimate_form_view">
+			<field name = "name">Calculations Details</field>
+			<field name = "res_model">rent.rent.estimate</field>
+			<field name = "type">ir.actions.act_window</field>
+			<field name = "view_type">form</field>
+			<field name = "view_mode">tree,form</field>
+			<field name = "view_id" ref = "rent_estimate_tree_view"/>
+		</record>
+		
 		
 		<!--
 		======================================
