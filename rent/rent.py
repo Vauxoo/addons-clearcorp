@@ -596,13 +596,10 @@ class rent_rent_estimate(osv.osv):
 			obj_rent = obj_estimate.estimate_rent
 			debug(obj_rent)
 			
+			
 			valor = obj_rent._get_total_area(obj_rent.id,None,None)[obj_rent.id]
 			debug(valor)
-			
-			currencies_val = {}
-			currencies_val['estimate_amountc'] = obj_estimate.estimate_amountc/ valor
-			
-			res[obj_estimate.id] = currencies_val
+			res[obj_estimate.id] = obj_estimate.estimate_amountc / valor
 		debug(res)
 		return res
 	_columns = {
