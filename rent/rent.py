@@ -583,33 +583,35 @@ class rent_rent_estimate(osv.osv):
 			obj_rent = obj_estimate.estimate_rent			
 			debug(obj_rent)
 			
-			currencies_val = {}
-			currencies_val['estimate_amountc'] = obj_estimate.estimate_rent.rent_total * (obj_estimate.estimate_performance/100.00)  / 12
-			currencies_val['estimate_amountd'] = obj_estimate.estimate_rent.rent_total * (obj_estimate.estimate_performance/100.00)  / 12
-			res[obj_estimate.id] = currencies_val
+			amounts_val = {}
+			amounts_val['estimate_amountc'] = obj_estimate.estimate_rent.rent_total * (obj_estimate.estimate_performance/100.00)  / 12
+			amounts_val['estimate_amountd'] = obj_estimate.estimate_rent.rent_total * (obj_estimate.estimate_performance/100.00)  / 12
+			res[obj_estimate.id] = amounts_val
 		debug(res)
 		return res
 	def _performance_currency(self,cr,uid,ids,field_name,args,contexto):
 		res = {}
-		#debug("=============================col")
+		debug("=============================col")
 		for obj_estimate in self.pool.get('rent.rent.estimate').browse(cr,uid,ids):
 			obj_rent = obj_estimate.estimate_rent
 			debug(obj_rent)
 			
-			
+			currencies_val = {}
 			valor = obj_rent._get_total_area(obj_rent.id,None,None)[obj_rent.id]
 			debug(valor)
-			res[obj_estimate.id] = obj_estimate.estimate_amountc / valor
+			currencies_val['estimate_amountc'] = obj_estimate.estimate_amountc / valor
+			currencies_val['estimate_amountd'] = obj_estimate.estimate_amountc / valor
+			res[obj_estimate.id] = currencies_val
 		debug(res)
 		return res
 	_columns = {
 		'estimate_performance'       : fields.float('Performance',digits=(12,2), help='This a percentaje number'),
 		'estimate_years'             : fields.function(_performance_years, type='float',method = True,string='Years'),
 		'estimate_amountc'           : fields.function(_performance_amount, type='float',method = True,string='Amount', multi=True),
-		'estimate_colones'           : fields.function(_performance_currency, type='float',method = True,string='c / m2'),
+		'estimate_colones'           : fields.function(_performance_currency, type='float',method = True,string='c / m2', multi=True),
 		
 		'estimate_amountd'           : fields.function(_performance_amount, type='float',method = True,string='Amount $', multi=True),
-		#'estimate_dollars'           : fields.function(_performance_currency, type='float',method = True,string='s / m2', multi=True),
+		'estimate_dollars'           : fields.function(_performance_currency, type='float',method = True,string='s / m2', multi=True),
 		
 		'estimate_cust_colones'      : fields.integer('Amount c'),
 		'estimate_cust_dollars'      : fields.integer('Amount s'),
