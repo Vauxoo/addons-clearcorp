@@ -580,12 +580,18 @@ class rent_rent_estimate(osv.osv):
 		amount = 0
 		debug("=============================amount")
 		for obj_estimate in self.pool.get('rent.rent.estimate').browse(cr,uid,ids):
-			res[obj_estimate.id] = obj_estimate.estimate_rent.rent_total * (obj_estimate.estimate_performance/100.00)  / 12
+			rent_currency = self.pool.get('rent.rent').browse(cr,uid,obj_estimate.estimate_rent)._get_currency()
+			debug(rent_currency)
+			
+			currencies_val = {}
+			currencies_val['estimate_amountc'] = obj_estimate.estimate_rent.rent_total * (obj_estimate.estimate_performance/100.00)  / 12
+			currencies_val['estimate_amountd'] = obj_estimate.estimate_rent.rent_total * (obj_estimate.estimate_performance/100.00)  / 12
+			res[obj_estimate.id] = currencies_val
 		debug(res)
 		return res
-	def _performance_colones(self,cr,uid,ids,field_name,args,contexto):
+	def _performance_currency(self,cr,uid,ids,field_name,args,contexto):
 		res = {}
-		debug("=============================col")
+		#debug("=============================col")
 		for obj_estimate in self.pool.get('rent.rent.estimate').browse(cr,uid,ids):
 			obj_rent = obj_estimate.estimate_rent
 			debug(obj_rent)
@@ -597,18 +603,20 @@ class rent_rent_estimate(osv.osv):
 	_columns = {
 		'estimate_performance'       : fields.float('Performance',digits=(12,2), help='This a percentaje number'),
 		'estimate_years'             : fields.function(_performance_years, type='float',method = True,string='Years'),
-		'estimate_amountc'           : fields.function(_performance_amount, type='float',method = True,string='Amount'),
-		'estimate_colones'           : fields.function(_performance_colones, type='float',method = True,string='c / m2'),
-		#'estimate_amountd'           : fields.function(_performance_years, type='integer',method = True,string='Years'),
-		#'estimate_dollars'           : fields.function(_performance_years, type='integer',method = True,string='s / m2'),
+		'estimate_amountc'           : fields.function(_performance_amount, type='float',method = True,string='Amount', multi=True),
+		'estimate_colones'           : fields.function(_performance_currency, type='float',method = True,string='c / m2', multi=True),
+		
+		'estimate_amountd'           : fields.function(_performance_amount, type='float',method = True,string='Amount $', multi=True),
+		#'estimate_dollars'           : fields.function(_performance_currency, type='float',method = True,string='s / m2', multi=True),
+		
 		'estimate_cust_colones'      : fields.integer('Amount c'),
 		'estimate_cust_dollars'      : fields.integer('Amount s'),
 		
-		'estimate_dec_min_dollars'       : fields.integer('Amount s'),
-		'estimate_dec_base_dollars'      : fields.integer('Amount s'),
-		'estimate_rent'                  : fields.many2one('rent.rent','Rent'),
-		'estimate_date'                  : fields.date('Fecha'),
-		'estimate_state'                 : fields.selection([('recommend','Recommend'),('min','Min'),('norec','Not Recomended')],'Status'),
+		'estimate_dec_min_dollars'   : fields.integer('Amount s'),
+		'estimate_dec_base_dollars'  : fields.integer('Amount s'),
+		'estimate_rent'              : fields.many2one('rent.rent','Rent'),
+		'estimate_date'              : fields.date('Fecha'),
+		'estimate_state'             : fields.selection([('recommend','Recommend'),('min','Min'),('norec','Not Recomended')],'Status',readonly=True),
 	}
 rent_rent_estimate()
 

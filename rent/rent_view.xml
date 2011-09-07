@@ -466,7 +466,7 @@
 						<field name = "local_light_meter_number"/>
 					</group>
 					<group col = "4" colspan = "4">
-						<field name = "local_local_by_floor"/>
+						<field name = "local_local_by_floor" nolabel="1"/>
 					</group>
 				</form>
 			</field>
@@ -534,7 +534,7 @@
 			<field name = "model">rent.local.floor</field>
 			<field name = "type">tree</field>
 			<field name = "arch" type = "xml">
-				<tree string = "Local List" editable="bottom">
+				<tree string = "Location in floor list" editable="bottom">
 					<field name = "local_floor_building" select = "1" />
 					<field name = "local_floor_floor" select = "1" on_change = "onchange_floor(local_floor_floor)"/>
 					<field name = "local_floor_front"/>
@@ -681,7 +681,7 @@
 							</group>
 						</page>
 						<page string = "Calculations">
-							<field name = "rent_estimates"/>
+							<field name = "rent_estimates" nolabel="1"/>
 						</page>
 						<page string = "Modifications">
 							<field name = "rent_modif" attrs="{'readonly' : [('rent_type','!=','Contract')]}" nolabel="1"/>
@@ -742,6 +742,7 @@
 					<field name = "estimate_years"/>
 					<field name = "estimate_amountc"/>
 					<field name = "estimate_colones"/>
+					<field name = "estimate_amountd"/>
 					<field name = "estimate_date"/>
 					<field name = "estimate_state"/>
 				</tree>
