@@ -600,7 +600,7 @@ class rent_rent_estimate(osv.osv):
 			debug(valor)
 			
 			currencies_val = {}
-			currencies_val['estimate_amountc'] = obj_estimate.estimate_amountc['estimate_amountc'] / valor
+			currencies_val['estimate_amountc'] = obj_estimate.estimate_amountc/ valor
 			
 			res[obj_estimate.id] = currencies_val
 		debug(res)
