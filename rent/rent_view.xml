@@ -743,6 +743,7 @@
 					<field name = "estimate_amountc"/>
 					<field name = "estimate_colones"/>
 					<field name = "estimate_amountd"/>
+					<field name = "estimate_dollars"/>
 					<field name = "estimate_date"/>
 					<field name = "estimate_state"/>
 				</tree>
