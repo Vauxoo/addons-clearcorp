@@ -561,8 +561,8 @@ class rent_rent(osv.osv):
 			years_val = {}
 			percentaje = obj_rent.rent_rise.split('%')[0]
 			debug(percentaje)
-			years_val['rent_rise_year2'] = obj_rent.rent_amount_base * (1 + percentaje / 100)
-			years_val['rent_rise_year3'] = years_val['rent_rise_year2']  * (1 + percentaje / 100)
+			years_val['rent_rise_year2'] = obj_rent.rent_amount_base * (1 + float(percentaje) / 100)
+			years_val['rent_rise_year3'] = years_val['rent_rise_year2']  * (1 + float(percentaje) / 100)
 			res[obj_rent.id] = years_val
 		debug(res)
 		return res
