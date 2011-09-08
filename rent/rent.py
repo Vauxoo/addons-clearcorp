@@ -580,7 +580,7 @@ class rent_rent(osv.osv):
 		#'rent_rate'             : fields.float('Anual Rise', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rise_year2'       : fields.function(_rent_amount_years, type='float',method = True,string='Year 2 $', multi='Years'),
 		'rent_rise_year3'       : fields.function(_rent_amount_years, type='float',method = True,string='Year 3 $', multi='Years'),
-		'rent_amount_per_sqr'   : fields.function(_performance_amount, type='float',method = True,string='Amount $'),
+		'rent_amount_per_sqr'   : fields.function(_performance_per_sqr, type='float',method = True,string='Amount $'),
 		
 		'rent_type'             : fields.selection([('Contract','Contract'),('Adendum','Adendum'),('Renovation','Renovation')],'Type', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'state'                 : fields.selection([('valid','Valid'),('finished','Finished'),('draft','Draft')],'Status', readonly=True),
