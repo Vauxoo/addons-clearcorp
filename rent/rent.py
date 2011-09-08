@@ -601,7 +601,7 @@ class rent_rent(osv.osv):
 		'rent_type'    : 'Contract',
 		'currency_id': _get_currency,
 		'rent_amount_base' : 0.00,
-		'rent_rise'     : "%.2f%%" % (100/0.1),
+		'rent_rise'     : "%.2f%%" % (0.),
 	}
 rent_rent()
 
