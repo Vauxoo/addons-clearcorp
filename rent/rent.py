@@ -559,8 +559,8 @@ class rent_rent(osv.osv):
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
 			debug(obj_rent)
 			years_val = {}
-			years_val['rent_rise_year2'] = obj_rent.rent_amount_base * (1 + obj_rent.rent_rise)
-			years_val['rent_rise_year3'] = years_val['rent_rise_year2']  * (1 + obj_rent.rent_rise)
+			years_val['rent_rise_year2'] = obj_rent.rent_amount_base * (1 + obj_rent.rent_rise / 100)
+			years_val['rent_rise_year3'] = years_val['rent_rise_year2']  * (1 + obj_rent.rent_rise / 100)
 			res[obj_rent.id] = years_val
 		debug(res)
 		return res
