@@ -600,7 +600,7 @@ class rent_rent(osv.osv):
 		'state'        : 'draft',
 		'rent_type'    : 'Contract',
 		'currency_id': _get_currency,
-		'rent_amount_base' : _get_total_rent
+		'rent_amount_base' : 0.00
 	}
 rent_rent()
 
