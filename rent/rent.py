@@ -549,7 +549,7 @@ class rent_rent(osv.osv):
 		debug("=============================RENT PERFORMANCE")
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
 			debug(obj_rent)
-			res[obj_rent.id] = (obj_rent.rent_amount_base * 12) /  obj_rent.rent_total
+			res[obj_rent.id] = "%,2f%%" % ((obj_rent.rent_amount_base * 12) /  obj_rent.rent_total)
 		debug(res)
 		return res
 		
@@ -557,10 +557,11 @@ class rent_rent(osv.osv):
 		res = {}
 		debug("=============================YEARS")
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
+			debug(obj_rent.rent_rise.split('%')[0])
 			debug(obj_rent)
 			years_val = {}
-			years_val['rent_rise_year2'] = obj_rent.rent_amount_base * (1 + obj_rent.rent_rise)
-			years_val['rent_rise_year3'] = years_val['rent_rise_year2']  * (1 + obj_rent.rent_rise)
+			years_val['rent_rise_year2'] = obj_rent.rent_amount_base * (1 + obj_rent.rent_rise.split('%')[0])
+			years_val['rent_rise_year3'] = years_val['rent_rise_year2']  * (1 + obj_rent.rent_rise.split('%')[0])
 			res[obj_rent.id] = years_val
 		debug(res)
 		return res
@@ -571,7 +572,7 @@ class rent_rent(osv.osv):
 		'rent_ending_motif'     : fields.selection([('Desertion','Desertion'),('No Renovation','No Renovation'),('Eviction','Eviction')],'Ending Motif'),
 		'rent_ending_motif_desc': fields.text('Ending Motif Description'),
 		
-		'rent_rise'             : fields.float('Anual Rise', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_rise'             : fields.char('Anual Rise', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_amount_base'      : fields.float('Final Price $', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_performance'      : fields.function(_rent_performance, type='char',method = True,string='Performance'),
 		#'rent_rate'             : fields.float('Anual Rise', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
@@ -599,7 +600,7 @@ class rent_rent(osv.osv):
 		'rent_type'    : 'Contract',
 		'currency_id': _get_currency,
 		'rent_amount_base' : 0.00,
-		'rent_rise' : "%.2f%%" % (0)
+		'rent_rise' : "%,2f%%" % (0)
 	}
 rent_rent()
 
@@ -664,6 +665,7 @@ class rent_rent_estimate(osv.osv):
 		'estimate_date'              : fields.date('Fecha'),
 		'estimate_state'             : fields.selection([('recommend','Recommend'),('min','Min'),('norec','Not Recomended')],'Status',readonly=True),
 	}
+	
 rent_rent_estimate()
 
 #
