@@ -559,8 +559,10 @@ class rent_rent(osv.osv):
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
 			debug(obj_rent)
 			years_val = {}
-			years_val['rent_rise_year2'] = obj_rent.rent_amount_base * (1 + obj_rent.rent_rise / 100)
-			years_val['rent_rise_year3'] = years_val['rent_rise_year2']  * (1 + obj_rent.rent_rise / 100)
+			percentaje = obj_rent.rent_rise.split('%')[0]
+			debug(percentaje)
+			years_val['rent_rise_year2'] = obj_rent.rent_amount_base * (1 + percentaje / 100)
+			years_val['rent_rise_year3'] = years_val['rent_rise_year2']  * (1 + percentaje / 100)
 			res[obj_rent.id] = years_val
 		debug(res)
 		return res
@@ -571,7 +573,7 @@ class rent_rent(osv.osv):
 		'rent_ending_motif'     : fields.selection([('Desertion','Desertion'),('No Renovation','No Renovation'),('Eviction','Eviction')],'Ending Motif'),
 		'rent_ending_motif_desc': fields.text('Ending Motif Description'),
 		
-		'rent_rise'             : fields.float('Anual Rise', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_rise'             : fields.char('Anual Rise',size=64, states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_amount_base'      : fields.float('Final Price $', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_performance'      : fields.function(_rent_performance, type='char',method = True,string='Performance'),
 		#'rent_rate'             : fields.float('Anual Rise', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
@@ -599,7 +601,7 @@ class rent_rent(osv.osv):
 		'rent_type'    : 'Contract',
 		'currency_id': _get_currency,
 		'rent_amount_base' : 0.00,
-
+		'rent_rise'     : "%.2f%%" % (0)
 	}
 rent_rent()
 
