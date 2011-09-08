@@ -571,7 +571,7 @@ class rent_rent(osv.osv):
 		'rent_ending_motif'     : fields.selection([('Desertion','Desertion'),('No Renovation','No Renovation'),('Eviction','Eviction')],'Ending Motif'),
 		'rent_ending_motif_desc': fields.text('Ending Motif Description'),
 		
-		'rent_rise'             : fields.float('Anual Rise', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_rise'             : fields.char('Anual Rise', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]},size=64),
 		'rent_amount_base'      : fields.float('Final Price $', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_performance'      : fields.function(_rent_performance, type='char',method = True,string='Performance'),
 		#'rent_rate'             : fields.float('Anual Rise', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
@@ -598,7 +598,8 @@ class rent_rent(osv.osv):
 		'state'        : 'draft',
 		'rent_type'    : 'Contract',
 		'currency_id': _get_currency,
-		'rent_amount_base' : 0.00
+		'rent_amount_base' : 0.00,
+		'rent_rise'   : "%.2f%%" % (0)
 	}
 rent_rent()
 
