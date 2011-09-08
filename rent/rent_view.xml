@@ -656,7 +656,7 @@
 						<field name = "rent_rise_year2"/>
 						<field name = "rent_rise_year3"/>
 						<field name = "currency_id"/>
-						<button colspan="2" name="_get_total_rent" string="Compute Values" type="object" icon="terp-stock_format-scientific"/>
+						<button colspan="2" string="Compute Values" type="object" icon="terp-stock_format-scientific"/>
 					</group>
 					<group col = "4" colspan = "4">
 						<separator string = "Length of Contract" colspan = "4"/>
