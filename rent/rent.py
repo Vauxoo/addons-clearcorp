@@ -549,7 +549,7 @@ class rent_rent(osv.osv):
 		debug("=============================RENT PERFORMANCE")
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
 			debug(obj_rent)
-			res['rent_amount_per_sqr'] = (obj_rent.rent_amount_base * 12) /  obj_rent.rent_total
+			res['rent_performance'] = (obj_rent.rent_amount_base * 12) /  obj_rent.rent_total
 		debug(res)
 		return res
 		
