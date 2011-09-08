@@ -549,7 +549,7 @@ class rent_rent(osv.osv):
 		debug("=============================RENT PERFORMANCE")
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
 			debug(obj_rent)
-			res['rent_performance'] = str(1) + '%' #(obj_rent.rent_amount_base * 12) /  obj_rent.rent_total
+			res['rent_performance'] = (obj_rent.rent_amount_base * 12) /  obj_rent.rent_total
 		debug(res)
 		return res
 		
@@ -575,7 +575,7 @@ class rent_rent(osv.osv):
 		
 		'rent_rise'             : fields.float('Anual Rise', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_amount_base'      : fields.float('Final Price $', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_performance'      : fields.function(_rent_performance, type='char',method = True,string='Performance'),
+		'rent_performance'      : fields.function(_rent_performance, type='float',method = True,string='Performance'),
 		#'rent_rate'             : fields.float('Anual Rise', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rise_year2'       : fields.function(_rent_amount_years, type='float',method = True,string='Year 2 $', multi='Years'),
 		'rent_rise_year3'       : fields.function(_rent_amount_years, type='float',method = True,string='Year 3 $', multi='Years'),
@@ -600,6 +600,7 @@ class rent_rent(osv.osv):
 		'state'        : 'draft',
 		'rent_type'    : 'Contract',
 		'currency_id': _get_currency,
+		'rent_amount_base' : _get_total_rent
 	}
 rent_rent()
 
