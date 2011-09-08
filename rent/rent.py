@@ -549,7 +549,7 @@ class rent_rent(osv.osv):
 		debug("=============================RENT PERFORMANCE")
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
 			debug(obj_rent)
-			res['rent_performance'] = 1#(obj_rent.rent_amount_base * 12) /  obj_rent.rent_total
+			res['rent_performance'] = str(1) + '%' #(obj_rent.rent_amount_base * 12) /  obj_rent.rent_total
 		debug(res)
 		return res
 		
@@ -579,7 +579,7 @@ class rent_rent(osv.osv):
 		#'rent_rate'             : fields.float('Anual Rise', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rise_year2'       : fields.function(_rent_amount_years, type='float',method = True,string='Year 2 $', multi='Years'),
 		'rent_rise_year3'       : fields.function(_rent_amount_years, type='float',method = True,string='Year 3 $', multi='Years'),
-		'rent_amount_per_sqr'   : fields.function(_performance_per_sqr, type='float',method = True,string='Amount $'),
+		'rent_amount_per_sqr'   : fields.function(_performance_per_sqr, type='float',method = True,string='Amount per Sqr'),
 		
 		'rent_type'             : fields.selection([('Contract','Contract'),('Adendum','Adendum'),('Renovation','Renovation')],'Type', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'state'                 : fields.selection([('valid','Valid'),('finished','Finished'),('draft','Draft')],'Status', readonly=True),
