@@ -646,7 +646,7 @@
 						<field name = "state"/>
 						<field name = "rent_related_real"/>
 					</group>
-					<group col = "2" colspan = "2">
+					<group col = "4" colspan = "2">
 						<separator string = "Negotiation Information" colspan = "4"/>
 						<field name = "rent_amount_base" attrs="{'readonly' : ['|',('rent_is_parking','=','True'),('rent_is_estate','=','True')], 'required' : [('rent_is_parking','!=','True'),('rent_is_estate','!=','True')]}"/>
 						<field name = "rent_total"/>

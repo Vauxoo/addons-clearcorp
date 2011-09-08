@@ -148,20 +148,20 @@ class rent_floor(osv.osv):
 		res = {}
 		valores = {}
 		total = 0
-		debug("CALCULO====================")
-		debug(ids)
+	#	debug("CALCULO====================")
+	#	debug(ids)
 		for floor_id in ids:
-			debug(floor_id)
+	#		debug(floor_id)
 			actual_rent = self.pool.get('rent.rent').search(cr,uid,['|',('state','=','valid'),('state','=','draft'),('rent_related_real','=','local')])
-			debug(actual_rent)
+	#		debug(actual_rent)
 			for obj_rent in self.pool.get('rent.rent').browse(cr,uid,actual_rent):
 				obj_local = obj_rent.rent_rent_local
 				local_floor_ids = self.pool.get('rent.local.floor').search(cr,uid,[('local_local_floor','=',obj_local.id),('local_floor_floor','=',floor_id)])
 				for local in self.pool.get('rent.local.floor').browse(cr,uid,local_floor_ids):
 					valores = local._local_value(local.id,None,None)
-					debug(valores)
+	#				debug(valores)
 					total += valores[local.id]
-			debug(total)
+	#		debug(total)
 			
 			#This part look for the parking on rents associated to the floor
 			rent_ids = self.pool.get('rent.rent').search(cr,uid,['|',('state','=','valid'),('state','=','draft'),('rent_related_real','=','parking')])
@@ -216,41 +216,41 @@ class rent_floor_local(osv.osv):
 		
 	def _get_building_local(self,cr,uid,ids,field_name,args,context):
 		res = {}
-		debug('EDIFICIO+==================================')
-		debug(ids)
+	#	debug('EDIFICIO+==================================')
+	#	debug(ids)
 		for local_id in ids:
 			local = self.pool.get('rent.local.floor').search(cr,uid,[('local_local_floor','=',local_id)])
-			debug(local)
+	#		debug(local)
 			res[local_id] = False
 			for lids in local:
 				obj_local = self.pool.get('rent.local.floor').browse(cr,uid,lids)
-				debug(obj_local)
+	#			debug(obj_local)
 				res[local_id] = obj_local.local_floor_floor.floor_building.id
-			debug(res)
+	#		debug(res)
 		return res
 	
 	def _determine_rented(self,cr,uid,ids,field_name,args,context):
 		res = {}
-		debug('Renta+==================================')
+	#	debug('Renta+==================================')
 		for local_id in ids:
 			res[local_id] =  False
-			debug(ids)
+	#		debug(ids)
 			rent_ids = self.pool.get('rent.rent').search(cr,uid,[('state','=','valid'),('rent_related_real','=','local'),('rent_rent_local','=',local_id)])
 			if rent_ids:
 				res[local_id] =  True
-		debug(res)
+	#	debug(res)
 		return res
 	def _local_value(self,cr,uid,ids,field_name,args,context):
 		res = {}
-		debug(ids)
+	#	debug(ids)
 		total = 0
 		for local in self.pool.get('rent.floor.local').browse(cr,uid,ids):
 			for obj_local_floor in local.local_local_by_floor:
 				total += obj_local_floor._local_value(obj_local_floor.id,None,None)[obj_local_floor.id]
 			res[local.id] = total
 			total = 0
-		debug(total)
-		debug(res)
+	#	debug(total)
+	#	debug(res)
 		return res
 
 	def name_get(self, cr, uid, ids, context=None):
@@ -258,10 +258,10 @@ class rent_floor_local(osv.osv):
 			return []
 		reads = self.read(cr, uid, ids, ['local_number','local_building'], context=context)
 		res = []
-		debug('NOMBREPISOS+==================================')
+	#	debug('NOMBREPISOS+==================================')
 		for record in reads:
-			debug(record)
-			debug(record['local_building'][1])
+	#		debug(record)
+	#		debug(record['local_building'][1])
 			name = 'Local #' + str(record['local_number']) + ' , ' +  record['local_building'][1]
 		#	for subrecord in subreads 
 		#		name += ', ' + subrecord['local_floor_building']
@@ -271,13 +271,13 @@ class rent_floor_local(osv.osv):
 	#This method takes the area of every record of local_by_floor and calculates the total area
 	def _local_area(self,cr,uid,ids,field_name,args,context):
 		res = {}
-		debug ("AREA TOTAL")
+	#	debug ("AREA TOTAL")
 		for obj_local in self.pool.get('rent.floor.local').browse(cr,uid,ids):
-			debug(obj_local.local_local_by_floor)
+	#		debug(obj_local.local_local_by_floor)
 			total = 0
 			for obj_local_floor in obj_local.local_local_by_floor:
 				total += obj_local_floor.local_floor_area
-			debug(total)
+	#		debug(total)
 			res[obj_local.id] = total
 		return res
 	_columns = {
@@ -455,10 +455,10 @@ class rent_rent(osv.osv):
 			if obj_rent.rent_related_real == 'local':
 				total = obj_rent.rent_rent_local.local_area
 			elif obj_rent.rent_related_real == 'parking':
-				debug("PARQUEO")
+				#debug("PARQUEO")
 				total = obj_rent.rent_rent_parking.parking_area
 			else:
-				debug("LOTES")
+				#debug("LOTES")
 				total = obj_rent.rent_rent_estate.estate_area
 			res[obj_rent.id] = total
 		return res
@@ -472,54 +472,54 @@ class rent_rent(osv.osv):
 	def _get_total_rent(self,cr,uid,ids,field_name,args,context):
 		res = {}
 		total = 0
-		debug('+==================================')
+		#debug('+==================================')
 		for rent_id in ids:
-			debug(rent_id)
+			#debug(rent_id)
 			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rent_id)
 			debug(obj_rent)
 			if obj_rent.rent_related_real == 'local':
-				debug("LOCALES")
-				debug(obj_rent.rent_rent_local)
+			#	debug("LOCALES")
+			#	debug(obj_rent.rent_rent_local)
 				obj_local = obj_rent.rent_rent_local
 				total = obj_local._local_value(obj_local.id,None,None)[obj_local.id]
-				debug(total)
+			#	debug(total)
 			elif obj_rent.rent_related_real == 'parking':
-				debug("PARQUEO")
+			#	debug("PARQUEO")
 				obj_parking = obj_rent.rent_rent_parking
-				debug(obj_parking)
+			#	debug(obj_parking)
 				total = obj_parking._parking_value(obj_parking.id,None,None)[obj_parking.id]
 			else:
-				debug("LOTES")
-				debug(obj_rent.rent_rent_estate)
+			#	debug("LOTES")
+			#	debug(obj_rent.rent_rent_estate)
 				obj_estado = obj_rent.rent_rent_estate
 				total = obj_estado._get_estate_vrm(obj_estado.id,None,None)[obj_estado.id]
-				debug(total)
+			#	debug(total)
 			res[rent_id] = total
 		return res
 		
 	def _calculate_years(self,cr,uid,ids,field_name,args,context):
-		debug('+==================================')
+		#debug('+==================================')
 		res = {}
 		for rent_id in ids:
 			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rent_id)
 			if (obj_rent.rent_end_date and  obj_rent.rent_start_date):
 				fin = parser.parse(obj_rent.rent_end_date)
 				inicio = parser.parse(obj_rent.rent_start_date)
-				debug(inicio)
-				debug(fin)
+			#	debug(inicio)
+			#	debug(fin)
 				res[rent_id] = (fin.year - inicio.year)
-			debug(res)
+			#debug(res)
 		return res
 	
 	def write(self, cr, uid, ids, vals, context=None):
 		obj_rent = self.pool.get('rent.rent').browse(cr,uid,ids)[0]
 		if 'rent_related_real' in vals:			
-			debug('_---------------------------------------------------ACT')
+			#debug('_---------------------------------------------------ACT')
 			
-			debug(obj_rent)
-			debug(obj_rent.rent_rent_local)
+			#debug(obj_rent)
+			#debug(obj_rent.rent_rent_local)
 			if (obj_rent.rent_related_real != vals['rent_related_real']):
-				debug(vals)
+			#	debug(vals)
 				real_type = vals['rent_related_real'] 
 				if real_type == 'local' or real_type == 'parking':
 					vals['rent_rent_estate'] = False
@@ -527,7 +527,7 @@ class rent_rent(osv.osv):
 					vals['rent_rent_parking'] = False
 				if real_type == 'parking' or real_type == 'estate':
 					vals['rent_rent_local'] = False
-		debug(vals)
+		#debug(vals)
 		super(rent_rent, self).write(cr, uid, ids, vals, context=context)
 		if 'rent_estimates' in vals:
 			obj_rent.onchange_estimations(obj_rent.rent_estimates)
@@ -535,7 +535,7 @@ class rent_rent(osv.osv):
 		
 	def _performance_per_sqr(self,cr,uid,ids,field_name,args,context):
 		res = {}
-		debug("=============================DOL")
+		debug("=============================_performance_per_sqr")
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
 			debug(obj_rent)
 			valor = obj_rent._get_total_area(obj_rent.id,None,None)[obj_rent.id]
@@ -609,17 +609,17 @@ class rent_rent_estimate(osv.osv):
 		
 	def _performance_years(self,cr,uid,ids,field_name,args,context):
 		res = {}
-		debug("=============================ANOS")
+	#	debug("=============================ANOS")
 		for obj_estimate in self.pool.get('rent.rent.estimate').browse(cr,uid,ids):
 			res[obj_estimate.id] = 1 / (obj_estimate.estimate_performance / 100.00)
 		return res
 	def _performance_amount(self,cr,uid,ids,field_name,args,context):
 		res = {}
 		amount = 0
-		debug("=============================amount")
+	#	debug("=============================amount")
 		for obj_estimate in self.pool.get('rent.rent.estimate').browse(cr,uid,ids):
 			obj_rent = obj_estimate.estimate_rent
-			debug(obj_rent)
+	#		debug(obj_rent)
 			amounts_val = {}
 			
 			currency_id = obj_rent.currency_id
@@ -630,14 +630,14 @@ class rent_rent_estimate(osv.osv):
 			amounts_val['estimate_amountc'] = (obj_estimate.estimate_rent.rent_total * (obj_estimate.estimate_performance/100.00)  / 12) / rate_us
 			amounts_val['estimate_amountd'] = (obj_estimate.estimate_rent.rent_total * (obj_estimate.estimate_performance/100.00)  / 12) * rate_cr
 			res[obj_estimate.id] = amounts_val
-		debug(res)
+	#	debug(res)
 		return res
 	def _performance_currency(self,cr,uid,ids,field_name,args,contexto):
 		res = {}
-		debug("=============================col")
+	#	debug("=============================col")
 		for obj_estimate in self.pool.get('rent.rent.estimate').browse(cr,uid,ids):
 			obj_rent = obj_estimate.estimate_rent
-			debug(obj_rent)
+	#		debug(obj_rent)
 			
 			currencies_val = {}
 			valor = obj_rent._get_total_area(obj_rent.id,None,None)[obj_rent.id]
@@ -645,7 +645,7 @@ class rent_rent_estimate(osv.osv):
 			currencies_val['estimate_colones'] = obj_estimate.estimate_amountc / valor
 			currencies_val['estimate_dollars'] = obj_estimate.estimate_amountd / valor
 			res[obj_estimate.id] = currencies_val
-		debug(res)
+	#	debug(res)
 		return res
 	_columns = {
 		'estimate_performance'       : fields.float('Performance',digits=(12,2), help='This a percentaje number'),
