@@ -651,7 +651,7 @@
 						<field name = "rent_amount_base"/>
 						<field name = "rent_total"/>
 						<field name = "rent_performance"/>
-						<!--<field name = "rent_amount_per_sqr"/>-->
+						<field name = "rent_amount_per_sqr"/>
 						<field name = "rent_rise"/>
 						<field name = "rent_rise_year2"/>
 						<field name = "rent_rise_year3"/>
