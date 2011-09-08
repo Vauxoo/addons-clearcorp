@@ -462,6 +462,7 @@ class rent_rent(osv.osv):
 				total = obj_rent.rent_rent_estate.estate_area
 			res[obj_rent.id] = total
 		return res
+		
 	def _get_currency(self, cr, uid, context=None):
 		user = pooler.get_pool(cr.dbname).get('res.users').browse(cr, uid, [uid], context=context)[0]
 		if user.company_id:
@@ -493,11 +494,9 @@ class rent_rent(osv.osv):
 				obj_estado = obj_rent.rent_rent_estate
 				total = obj_estado._get_estate_vrm(obj_estado.id,None,None)[obj_estado.id]
 				debug(total)
-				#for obj_estado in obj_rent.rent_rent_estate:
-					#debug(obj_estado)
-					#total += obj_estado._get_estate_vrm(obj_estado.id,None,None)[obj_estado.id]
 			res[rent_id] = total
 		return res
+		
 	def _calculate_years(self,cr,uid,ids,field_name,args,context):
 		debug('+==================================')
 		res = {}
@@ -534,13 +533,55 @@ class rent_rent(osv.osv):
 			obj_rent.onchange_estimations(obj_rent.rent_estimates)
 		return True
 		
+	def _performance_per_sqr(self,cr,uid,ids,field_name,args,context):
+		res = {}
+		debug("=============================DOL")
+		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
+			debug(obj_rent)
+			valor = obj_rent._get_total_area(obj_rent.id,None,None)[obj_rent.id]
+			debug(valor)
+			res['rent_amount_per_sqr'] = obj_rent.rent_amount_base / valor
+		debug(res)
+		return res
+		
+	def _rent_performance(self,cr,uid,ids,field_name,args,context):
+		res = {}
+		debug("=============================RENT PERFORMANCE")
+		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
+			debug(obj_rent)
+			debug(valor)
+			res['rent_amount_per_sqr'] = (obj_rent.rent_amount_base * 12) /  obj_rent.rent_total
+		debug(res)
+		return res
+		
+	def _rent_amount_years(self,cr,uid,ids,field_name,args,contexto):
+		res = {}
+		debug("=============================YEARS")
+		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
+			debug(obj_rent)
+			
+			years_val = {}
+			debug(valor)
+			years_val['rent_rise_year2'] = obj_rent.rent_amount_base * (1 + obj_rent.rent_rise)
+			years_val['rent_rise_year3'] = years_val['rent_rise_year2']  * (1 + obj_rent.rent_rise)
+			res[obj_rent.id] = years_val
+		debug(res)
+		return res
 	_columns = {
 		'name'                  : fields.char('Name',size=64),
 		'rent_rent_client'      : fields.many2one('res.partner','Client', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_end_date'         : fields.date('Ending Date', required=True, states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_ending_motif'     : fields.selection([('Desertion','Desertion'),('No Renovation','No Renovation'),('Eviction','Eviction')],'Ending Motif'),
 		'rent_ending_motif_desc': fields.text('Ending Motif Description'),
+		
 		'rent_rise'             : fields.float('Anual Rise', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_amount_base'      : fields.float('Final Price $', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_performance'      : fields.function(_rent_performance, type='char',method = True,string='Performance'),
+		#'rent_rate'             : fields.float('Anual Rise', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_rise_year2'       : fields.function(_rent_amount_years, type='float',method = True,string='Year 2 $', multi='Years'),
+		'rent_rise_year3'       : fields.function(_rent_amount_years, type='float',method = True,string='Year 3 $', multi='Years'),
+		'rent_amount_per_sqr'   : fields.function(_performance_amount, type='float',method = True,string='Amount $'),
+		
 		'rent_type'             : fields.selection([('Contract','Contract'),('Adendum','Adendum'),('Renovation','Renovation')],'Type', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'state'                 : fields.selection([('valid','Valid'),('finished','Finished'),('draft','Draft')],'Status', readonly=True),
 		'rent_start_date'       : fields.date('Starting Date', required=True, states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
@@ -548,9 +589,6 @@ class rent_rent(osv.osv):
 		'rent_rent_local'       : fields.many2one('rent.floor.local','Local', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rent_parking'     : fields.many2one('rent.floor.parking','Parking', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rent_estate'      : fields.many2one('rent.estate','Estate', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
-		#'rent_is_local'         : fields.boolean('Locals',help='Check if you want to calculate a rent for locals', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
-		#'rent_is_parking'       : fields.boolean('Parking',help='Check if you want to calculate a rent for locals', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
-		#'rent_is_estate'        : fields.boolean('Estates',help='Check if you want to calculate a rent for locals', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_related_real'     : fields.selection([('local','Locals'),('parking','Parking'),('estate','Estates')],'Type of Real Estate', required=True,states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_years'            : fields.function(_calculate_years,type='integer',method=True,string = 'Years' ,help='Check if you want to calculate a rent for locals'),
 		'rent_modif'            : fields.one2many('rent.rent', 'rent_modif_ref','Contract reference', states={'draft':[('readonly',True)], 'finished':[('readonly',True)]}),
@@ -629,7 +667,6 @@ class rent_rent_estimate(osv.osv):
 	}
 rent_rent_estimate()
 
-#
 #
 #
 class rent_contract(osv.osv):

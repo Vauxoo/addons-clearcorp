@@ -647,12 +647,14 @@
 						<field name = "rent_related_real"/>
 					</group>
 					<group col = "2" colspan = "2">
-						<separator string = "Financial Information" colspan = "4"/>
-						<!--<field name = "rent_is_local" attrs="{'readonly' : ['|',('rent_is_parking','=','True'),('rent_is_estate','=','True')], 'required' : [('rent_is_parking','!=','True'),('rent_is_estate','!=','True')]}"/>
-						<field name = "rent_is_parking" attrs = "{'readonly' : ['|',('rent_is_estate','=','True'),('rent_is_local','=','True')], 'required' : [('rent_is_estate','!=','True'),('rent_is_local','!=','True')]}"/>
-						<field name = "rent_is_estate" attrs = "{'readonly' : ['|',('rent_is_local','=','True'),('rent_is_parking','=','True')], 'required' : [('rent_is_local','!=','True'),('rent_is_parking','!=','True')]}"/>-->
+						<separator string = "Negotiation Information" colspan = "4"/>
+						<field name = "rent_amount_base" attrs="{'readonly' : ['|',('rent_is_parking','=','True'),('rent_is_estate','=','True')], 'required' : [('rent_is_parking','!=','True'),('rent_is_estate','!=','True')]}"/>
 						<field name = "rent_total"/>
+						<field name = "rent_performance" attrs = "{'readonly' : ['|',('rent_is_estate','=','True'),('rent_is_local','=','True')], 'required' : [('rent_is_estate','!=','True'),('rent_is_local','!=','True')]}"/>
+						<field name = "rent_amount_per_sqr" attrs = "{'readonly' : ['|',('rent_is_local','=','True'),('rent_is_parking','=','True')], 'required' : [('rent_is_local','!=','True'),('rent_is_parking','!=','True')]}"/>
 						<field name = "rent_rise"/>
+						<field name = "rent_rise_year2"/>
+						<field name = "rent_rise_year3"/>
 						<field name = "currency_id"/>
 					</group>
 					<group col = "4" colspan = "4">
@@ -670,9 +672,9 @@
 						<page string = "Detail">
 							<group col = "4" colspan = "4" attrs = "{'invisible':[('rent_related_real','=','')]}">
 								<separator string = "Real Estate Information" colspan = "4"/>
-									<field name = "rent_rent_local" domain = "[('local_rented','!=','True')]" attrs = "{'readonly' : [('rent_related_real','!=','local')], 'required' : [('rent_related_real','=','local')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','local')]}"/>
-									<field name = "rent_rent_parking" domain = "[('parking_rented','!=','True')]" attrs = "{'readonly' : [('rent_related_real','!=','parking')], 'required' : [('rent_related_real','=','parking')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','parking')]}"/>
-									<field name = "rent_rent_estate"  domain = "[('estate_rented','!=','True')]" attrs = "{'readonly' : [('rent_related_real','!=','estate')], 'required' : [('rent_related_real','=','estate')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','estate')]}"/>
+									<field name = "rent_rent_local" domain = "[('local_rented','=','True')]" attrs = "{'readonly' : [('rent_related_real','!=','local')], 'required' : [('rent_related_real','=','local')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','local')]}"/>
+									<field name = "rent_rent_parking" domain = "[('parking_rented','=','True')]" attrs = "{'readonly' : [('rent_related_real','!=','parking')], 'required' : [('rent_related_real','=','parking')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','parking')]}"/>
+									<field name = "rent_rent_estate"  domain = "[('estate_rented','=','True')]" attrs = "{'readonly' : [('rent_related_real','!=','estate')], 'required' : [('rent_related_real','=','estate')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','estate')]}"/>
 
 							</group>
 							 <group col="6" colspan="4">
