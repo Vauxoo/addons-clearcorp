@@ -648,10 +648,10 @@
 					</group>
 					<group col = "4" colspan = "2">
 						<separator string = "Negotiation Information" colspan = "4"/>
-						<field name = "rent_amount_base" attrs="{'readonly' : ['|',('rent_is_parking','=','True'),('rent_is_estate','=','True')], 'required' : [('rent_is_parking','!=','True'),('rent_is_estate','!=','True')]}"/>
+						<field name = "rent_amount_base"/>
 						<field name = "rent_total"/>
-						<field name = "rent_performance" attrs = "{'readonly' : ['|',('rent_is_estate','=','True'),('rent_is_local','=','True')], 'required' : [('rent_is_estate','!=','True'),('rent_is_local','!=','True')]}"/>
-						<field name = "rent_amount_per_sqr" attrs = "{'readonly' : ['|',('rent_is_local','=','True'),('rent_is_parking','=','True')], 'required' : [('rent_is_local','!=','True'),('rent_is_parking','!=','True')]}"/>
+						<field name = "rent_performance"/>
+						<!--<field name = "rent_amount_per_sqr"/>-->
 						<field name = "rent_rise"/>
 						<field name = "rent_rise_year2"/>
 						<field name = "rent_rise_year3"/>
