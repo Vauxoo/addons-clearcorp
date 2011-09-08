@@ -557,11 +557,10 @@ class rent_rent(osv.osv):
 		res = {}
 		debug("=============================YEARS")
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
-			debug(obj_rent.rent_rise.split('%')[0])
 			debug(obj_rent)
 			years_val = {}
-			years_val['rent_rise_year2'] = obj_rent.rent_amount_base * (1 + obj_rent.rent_rise.split('%')[0])
-			years_val['rent_rise_year3'] = years_val['rent_rise_year2']  * (1 + obj_rent.rent_rise.split('%')[0])
+			years_val['rent_rise_year2'] = obj_rent.rent_amount_base * (1 + obj_rent.rent_rise)
+			years_val['rent_rise_year3'] = years_val['rent_rise_year2']  * (1 + obj_rent.rent_rise)
 			res[obj_rent.id] = years_val
 		debug(res)
 		return res
@@ -665,7 +664,6 @@ class rent_rent_estimate(osv.osv):
 		'estimate_date'              : fields.date('Fecha'),
 		'estimate_state'             : fields.selection([('recommend','Recommend'),('min','Min'),('norec','Not Recomended')],'Status',readonly=True),
 	}
-	
 rent_rent_estimate()
 
 #
