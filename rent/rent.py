@@ -641,7 +641,8 @@ rent_contract()
 #
 #
 class rent_contract_template(osv.osv):
-	
+	_name = 'rent.contract.template'
+rent_contract_template()
 
 #Class that holds all the clauses for the contracts
 #this class is used to create a custom contract
