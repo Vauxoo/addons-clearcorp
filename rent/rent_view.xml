@@ -642,7 +642,7 @@
 						<separator string = "Information" colspan = "4"/>
 						<field name = "name"/>
 						<field name = "rent_rent_client" select  = "1"/>
-						<field name = "rent_type" attrs = "{'readonly' : [('state','!=','draft')]}"/>
+						<field name = "rent_type" attrs = "{'readonly' : [('state','!=','draft')]}" on_change = "onchange_rent_type(rent_type)"/>
 						<field name = "state"/>
 						<field name = "rent_related_real"/>
 					</group>

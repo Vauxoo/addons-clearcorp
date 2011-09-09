@@ -481,36 +481,36 @@ class rent_rent(osv.osv):
 		
 	def _performance_per_sqr(self,cr,uid,ids,field_name,args,context):
 		res = {}
-		debug("=============================_performance_per_sqr")
+	#	debug("=============================_performance_per_sqr")
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
-			debug(obj_rent)
+	#		debug(obj_rent)
 			valor = obj_rent._get_total_area(obj_rent.id,None,None)[obj_rent.id]
-			debug(valor)
+	#		debug(valor)
 			res[obj_rent.id] = obj_rent.rent_amount_base / valor
-		debug(res)
+	#	debug(res)
 		return res
 		
 	def _rent_performance(self,cr,uid,ids,field_name,args,context):
 		res = {}
-		debug("=============================RENT PERFORMANCE")
+	#	debug("=============================RENT PERFORMANCE")
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
-			debug(obj_rent)
+	#		debug(obj_rent)
 			res[obj_rent.id] = "%.2f%%" % ((obj_rent.rent_amount_base * 12) /  obj_rent.rent_total)
-		debug(res)
+	#	debug(res)
 		return res
 		
 	def _rent_amount_years(self,cr,uid,ids,field_name,args,contexto):
 		res = {}
-		debug("=============================YEARS")
+	#	debug("=============================YEARS")
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
-			debug(obj_rent)
+	#		debug(obj_rent)
 			years_val = {}
 			percentaje = obj_rent.rent_rise.split('%')[0]
-			debug(percentaje)
+	#		debug(percentaje)
 			years_val['rent_rise_year2'] = obj_rent.rent_amount_base * (1 + float(percentaje) / 100)
 			years_val['rent_rise_year3'] = years_val['rent_rise_year2']  * (1 + float(percentaje) / 100)
 			res[obj_rent.id] = years_val
-		debug(res)
+	#	debug(res)
 		return res
 		
 	def action_invoice_create(self, cr, uid, ids, *args):
@@ -561,7 +561,19 @@ class rent_rent(osv.osv):
 #			self.write(cr, uid, [o.id], {'invoice_ids': [(4, inv_id)]})
 #			res = inv_id
 		return res
-		
+	
+	def onchange_rent_type(self,cr,uid,ids,field):
+		res = {}
+		debug("==========ESTIMACIONES====")
+		for obj_rent in self.browse(cr,uid,ids):
+			obj_rent_parent = obj_rent.rent_modif_ref
+			if obj_rent_parent :
+				res['name'] = obj_rent_parent.name
+				res['rent_rent_client'] = obj_rent_parent.rent_rent_client
+				res['rent_end_date'] = obj_rent_parent.rent_end_date
+				res['rent_rise'] = obj_rent_parent.rent_rise
+				res['rent_amount_base'] = obj_rent_parent.rent_amount_base
+		return {'value' : res}
 	_columns = {
 		'name'                  : fields.char('Name',size=64),
 		'rent_rent_client'      : fields.many2one('res.partner','Client', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
@@ -589,7 +601,7 @@ class rent_rent(osv.osv):
 		'rent_modif'            : fields.one2many('rent.rent', 'rent_modif_ref','Contract reference', states={'draft':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_modif_ref'        : fields.many2one('rent.rent', 'Modifications'),
 		'currency_id'           : fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft':[('readonly',False)]}),
-		'rent_estimates'        : fields.one2many('rent.rent.estimate', 'estimate_rent','Estimates'),         
+		'rent_estimates'        : fields.one2many('rent.rent.estimate', 'estimate_rent','Estimates',states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),         
 	}
 	
 	_defaults = {

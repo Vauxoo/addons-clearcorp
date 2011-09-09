@@ -312,7 +312,7 @@ msgstr "Prioridad"
 #: view:rent.rent:0
 #: selection:rent.rent,state:0
 msgid "Valid"
-msgstr "Validar"
+msgstr "Valido"
 
 #. module: rent
 #: view:rent.estate:0
