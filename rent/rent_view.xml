@@ -679,7 +679,7 @@
 
 							</group>
 							 <group col="6" colspan="4">
-									<button name="rent_cancel" states="draft,valid" string="Cancel" icon="gtk-cancel"/>
+									<button name="rent_finish" states="valid" string="Finish" icon="gtk-cancel"/>
 									<button name="rent_valid" states="draft" string="Approve" icon="terp-camera_test"/>
 							</group>
 						</page>
@@ -702,10 +702,14 @@
 				<tree string = "Rent List" colors="blue:state in ('draft');black:state in ('valid');gray:state in ('finished')">
 					<field name = "name"/>
 					<field name = "rent_type"/>
+					<field name = "rent_related_real"/>
 					<field name = "state"/>
 					<field name = "rent_start_date"/>
 					<field name = "rent_end_date"/>
+					<field name = "rent_amount_base"/>
+					<field name = "rent_rise"/>
 					<button name="rent_valid" states="draft" string="Approve" icon="terp-camera_test"/>
+					<button name="rent_finish" states="valid" string="Finish" icon="gtk-cancel"/>
 				</tree>
 			</field>
 		</record>
