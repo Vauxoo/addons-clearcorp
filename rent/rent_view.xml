@@ -664,7 +664,7 @@
 						<field name = "rent_end_date"/>
 						<field name = "rent_years"/>
 					</group>
-					<group col = "4" colspan = "4" attrs = "{'invisible':[('state','!=','Finished')]}">
+					<group col = "4" colspan = "4" attrs = "{'invisible':[('state','!=','finished')]}">
 						<separator string = "Contract Termination" colspan = "4"/>
 						<field name = "rent_ending_motif"/>
 						<field name = "rent_ending_motif_desc"/>
