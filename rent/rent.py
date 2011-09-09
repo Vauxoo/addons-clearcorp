@@ -564,7 +564,8 @@ class rent_rent(osv.osv):
 	
 	def onchange_rent_type(self,cr,uid,ids,field):
 		res = {}
-		debug("==========ESTIMACIONES====")
+		debug("==========Default====")
+		debug(ids)
 		for obj_rent in self.browse(cr,uid,ids):
 			obj_rent_parent = obj_rent.rent_modif_ref
 			if obj_rent_parent :
