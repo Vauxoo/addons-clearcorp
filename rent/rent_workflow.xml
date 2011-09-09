@@ -32,7 +32,7 @@
 			<field name = "wkf_id" ref = "wkf"/>
 			<field name = "action">write({'state':'finished'})</field>
 			<field name = "name">finished</field>
-			<field name = "kind">function</field>
+			<field name ="kind">function</field>
 		</record>
 		
 				
@@ -42,14 +42,14 @@
 			<field name = "signal">rent_valid</field>
 		</record>
 		
-		<record id="valid_to_invoicing" model="workflow.transition">
+		<!--<record id="valid_to_invoicing" model="workflow.transition">
 			<field name="act_from" ref="act_valid"/>
 			<field name="act_to" ref="act_invoice"/>
 			<field name="condition">state=='valid'</field>
-		</record>
+		</record>-->
 		
 		<record id = "valid_to_cancel" model = "workflow.transition">
-			<field name = "act_from" ref = "act_invoice"/>
+			<field name = "act_from" ref = "act_valid"/>
 			<field name = "act_to" ref = "act_finish"/>
 			<field name="flow_stop">True</field>
 			<field name = "signal">rent_finish</field>
