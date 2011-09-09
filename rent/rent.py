@@ -598,8 +598,8 @@ class rent_rent_estimate(osv.osv):
 		'estimate_cust_colones'      : fields.integer('Amount c'),
 		'estimate_cust_dollars'      : fields.integer('Amount s'),
 		
-		'estimate_dec_min_dollars'   : fields.integer('Amount s'),
-		'estimate_dec_base_dollars'  : fields.integer('Amount s'),
+		#'estimate_dec_min_dollars'   : fields.integer('Amount s'),
+		#'estimate_dec_base_dollars'  : fields.integer('Amount s'),
 		'estimate_rent'              : fields.many2one('rent.rent','Rent'),
 		'estimate_date'              : fields.date('Fecha'),
 		'estimate_state'             : fields.selection([('recommend','Recommend'),('min','Min'),('norec','Not Recomended')],'Status',readonly=True),
@@ -637,6 +637,11 @@ class rent_contract(osv.osv):
 	
 rent_contract()
 
+#
+#
+#
+class rent_contract_template(osv.osv):
+	
 
 #Class that holds all the clauses for the contracts
 #this class is used to create a custom contract
