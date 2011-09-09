@@ -620,7 +620,7 @@ class rent_rent_estimate(osv.osv):
 	def _performance_years(self,cr,uid,ids,field_name,args,context):
 		res = {}
 		for obj_estimate in self.pool.get('rent.rent.estimate').browse(cr,uid,ids):
-			res[obj_estimate.id] = 1 / (obj_estimate.estimate_performance / 100.00)
+			res[obj_estimate.id] = 1 / (obj_estimate.estimate_performance / 100.00) or 0
 		return res
 	def _performance_amount(self,cr,uid,ids,field_name,args,context):
 		res = {}
