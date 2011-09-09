@@ -49,10 +49,10 @@
 		</record>
 		
 		<record id = "valid_to_cancel" model = "workflow.transition">
-			<field name = "act_from" ref = "act_valid"/>
+			<field name = "act_from" ref = "act_invoice"/>
 			<field name = "act_to" ref = "act_finish"/>
-			<field name = "signal">rent_finish</field>
 			<field name="flow_stop">True</field>
+			<field name = "signal">rent_finish</field>
 		</record>
 		
     </data>
