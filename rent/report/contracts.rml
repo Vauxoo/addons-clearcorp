@@ -13,28 +13,29 @@
     <initialize>
       <paraStyle name="all" alignment="justify"/>
     </initialize>
-    <paraStyle name="Standard" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" alignment="JUSTIFY" spaceBefore="0.0" spaceAfter="0.0"/>
-    <paraStyle name="Heading" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" fontSize="14.0" leading="17" alignment="CENTER" spaceBefore="12.0" spaceAfter="6.0"/>
-    <paraStyle name="Text body" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" alignment="JUSTIFY" spaceBefore="0.0" spaceAfter="6.0"/>
-    <paraStyle name="List" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" alignment="JUSTIFY" spaceBefore="0.0" spaceAfter="6.0"/>
-    <paraStyle name="Caption" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" fontSize="12.0" leading="15" alignment="JUSTIFY" spaceBefore="6.0" spaceAfter="6.0"/>
-    <paraStyle name="Index" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" alignment="JUSTIFY" spaceBefore="0.0" spaceAfter="0.0"/>
+    <paraStyle name="P1" rightIndent="0.0" leftIndent="10.0" fontName="Helvetica" alignment="JUSTIFY"/>
+    <paraStyle name="P2" rightIndent="0.0" leftIndent="10.0" fontName="Helvetica" alignment="JUSTIFY"/>
+    <paraStyle name="P3" fontName="Helvetica-Bold" fontSize="115%" leading="NaN" alignment="CENTER" spaceBefore="12.0" spaceAfter="6.0"/>
+    <paraStyle name="Standard" fontName="Helvetica"/>
+    <paraStyle name="Heading" fontName="Helvetica" fontSize="14.0" leading="17" spaceBefore="12.0" spaceAfter="6.0"/>
+    <paraStyle name="Text body" fontName="Helvetica" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="List" fontName="Helvetica" spaceBefore="0.0" spaceAfter="6.0"/>
+    <paraStyle name="Caption" fontName="Helvetica" fontSize="12.0" leading="15" spaceBefore="6.0" spaceAfter="6.0"/>
+    <paraStyle name="Index" fontName="Helvetica"/>
+    <paraStyle name="Heading 1" fontName="Helvetica-Bold" fontSize="115%" leading="NaN" spaceBefore="12.0" spaceAfter="6.0"/>
     <images/>
   </stylesheet>
   <story>
-    <para style="Standard">[[ repeatIn(objects, 'o') ]]</para>
-    <para style="Heading">[[ o.name]]</para>
-    <section>
-		<para style="Standard">[[ repeatIn(o.contract_clauses,'l') ]]</para>
-		 <para style="Standard">[[ l.rent_contract_clause_id.clause_subject]] : [[ l.rent_contract_clause_id.clause_body]]</para>
-		<para style="Standard">
-		  <font color="white"> </font>
-		</para>
-    </section>
-    <para style="Standard">
+    <para style="Standard">[[ repeatIn(objects,'o') ]]</para>
+    <para style="P3">[[ o.name ]]</para>
+    <para style="P1">
       <font color="white"> </font>
     </para>
+    <para style="P2">[[ repeatIn(o.contract_clauses,'l') ]]</para>
+    <para style="P1" leftIndent="15" bulletIndent="0"><bullet><seq id="L4"/>.</bullet>[[ l.rent_contract_clause_id.clause_subject]] : [[ l.rent_contract_clause_id.clause_body]]</para>
+    <para>
+      <seqReset id="L4"/>
+    </para>
   </story>
-  <pageNumber/>
 </document>
 
