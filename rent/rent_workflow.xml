@@ -20,6 +20,14 @@
 			<field name ="kind">function</field>
 		</record>
 		
+		<record id="act_invoice" model="workflow.activity">
+			<field name="wkf_id" ref="wkf"/>
+			<field name="name">invoice</field>
+			<field name="kind">subflow</field>
+			<field name="subflow_id" search="[('osv','=','account.invoice')]" type="int"/>
+			<field name="action">action_invoice_create()</field>
+		</record>
+		
 		<record id = "act_finish" model = "workflow.activity">
 			<field name = "wkf_id" ref = "wkf"/>
 			<field name = "action">write({'state':'finished'})</field>
@@ -34,11 +42,18 @@
 			<field name = "signal">rent_valid</field>
 		</record>
 		
+		<record id="valid_to_invoicing" model="workflow.transition">
+			<field name="act_from" ref="act_valid"/>
+			<field name="act_to" ref="act_invoice"/>
+			<field name="condition">state=='valid'</field>
+		</record>
+		
 		<record id = "valid_to_cancel" model = "workflow.transition">
 			<field name = "act_from" ref = "act_valid"/>
 			<field name = "act_to" ref = "act_finish"/>
 			<field name = "signal">rent_finish</field>
 			<field name="flow_stop">True</field>
 		</record>
+		
     </data>
 </openerp>
