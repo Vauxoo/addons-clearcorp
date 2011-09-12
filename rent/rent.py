@@ -487,14 +487,14 @@ class rent_rent(osv.osv):
 		obj_rent = self.browse(cr,uid,ids)[0]
 		debug(obj_rent)
 		if obj_rent:
-			vals = {}
-			current_date = date.today()
-			current_date = current_date.replace(day=31,month=12)
+			vals = {}			
 			is_registrated = False
-			debug(current_date)
-			debug(obj_rent.rent_historic)
+			current_date = parser.parse(obj_rent.rent_start_date)
+			current_date = current_date.replace(day=31,month=12)
+			end_date = parser.parse(obj_rent.rent_end_date)
+			if end_date <= current_date:
+				current_date = end_date
 			for obj_historic in obj_rent.rent_historic:
-				debug(obj_historic.anual_value_date)
 				debug(current_date)
 				if obj_historic.anual_value_date == current_date.isoformat():
 					is_registrated = True
