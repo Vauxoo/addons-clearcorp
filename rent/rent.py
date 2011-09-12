@@ -486,8 +486,8 @@ class rent_rent(osv.osv):
 		super(rent_rent, self).write(cr, uid, ids, vals, context=context)
 		if 'rent_estimates' in vals:
 			obj_rent.onchange_estimations(obj_rent.rent_estimates)
-
-		obj_rent.register_historic()
+		if 'rent_amount_base' or 'rent_rise' in vals: 
+			obj_rent.register_historic()
 		return True
 		
 	def register_historic(self,cr,uid,ids):
