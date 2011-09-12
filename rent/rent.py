@@ -484,11 +484,11 @@ class rent_rent(osv.osv):
 		
 	def register_historic(self,cr,uid,ids,vals,context):
 		debug('HISTORIC+===================')
-		obj_rent = self.browse(cr,uid,ids)
+		obj_rent = self.browse(cr,uid,ids)[0]
 		debug(obj_rent)
 		if obj_rent:
 			current_date = date.today()
-			current_date.replace(day=31,month=12)
+			current_date = current_date.replace(day=31,month=12)
 			is_registrated = False
 			debug(current_date)
 			debug(obj_rent.rent_historic)
