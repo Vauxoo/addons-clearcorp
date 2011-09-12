@@ -26,6 +26,11 @@ msgid "Stairs number"
 msgstr "Número de Escaleras"
 
 #. module: rent
+#: help:rent.rent.anual.value,anual_value_value:0
+msgid "This value was taken from the record of rent at the indicated date"
+msgstr "Este valor fue tomado del registro de alquiler en la fecha indicada"
+
+#. module: rent
 #: field:rent.floor.parking,parking_width:0
 msgid "Width Meters"
 msgstr "Metros de frente"
@@ -36,6 +41,11 @@ msgstr "Metros de frente"
 #: view:rent.rent:0
 msgid "Group By..."
 msgstr "Agrupado por..."
+
+#. module: rent
+#: view:rent.rent.anual.value:0
+msgid "Value History"
+msgstr "Historial de Valor"
 
 #. module: rent
 #: field:rent.building,building_asset:0
@@ -271,6 +281,7 @@ msgstr "Sin renovación"
 
 #. module: rent
 #: field:rent.rent,rent_rise:0
+#: field:rent.rent.anual.value,anual_value_rate:0
 msgid "Anual Rise"
 msgstr "Aumento anual"
 
@@ -481,6 +492,7 @@ msgstr "Terreno"
 #. module: rent
 #: field:rent.floor,floor_value:0
 #: field:rent.floor.parking,parking_value:0
+#: field:rent.rent.anual.value,anual_value_value:0
 msgid "Value"
 msgstr "valor"
 
@@ -825,6 +837,7 @@ msgstr "Localizaciones del local en pisos"
 
 #. module: rent
 #: field:rent.rent,rent_estimates:0
+#: view:rent.rent.anual.value:0
 #: view:rent.rent.estimate:0
 msgid "Estimates"
 msgstr "Estimados"
@@ -849,6 +862,11 @@ msgstr "Información General"
 #: field:rent.floor.parking,parking_number:0
 msgid "# Parking"
 msgstr "# Parqueo"
+
+#. module: rent
+#: field:rent.rent.anual.value,anual_value_date:0
+msgid "Period"
+msgstr "Periodo"
 
 #. module: rent
 #: model:ir.actions.act_window,name:rent.action_floor_form
