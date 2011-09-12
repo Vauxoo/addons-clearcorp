@@ -615,7 +615,7 @@ class rent_rent(osv.osv):
 		'rent_modif_ref'        : fields.many2one('rent.rent', 'Modifications',ondelete='cascade'),
 		'currency_id'           : fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft':[('readonly',False)]}),
 		'rent_estimates'        : fields.one2many('rent.rent.estimate', 'estimate_rent','Estimates',states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),         
-		'rent_historic'        : fields.one2many('rent.rent.anual_value', 'anual_value_rent','Historic',readonly=True),         
+		'rent_historic'        : fields.one2many('rent.rent.anual.value', 'anual_value_rent','Historic',readonly=True),         
 	}
 	
 	_defaults = {
