@@ -635,7 +635,7 @@ class rent_rent(osv.osv):
 		'currency_id'           : fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft':[('readonly',False)]}),
 		'rent_estimates'        : fields.one2many('rent.rent.estimate', 'estimate_rent','Estimates',states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),         
 		'rent_historic'         : fields.one2many('rent.rent.anual.value', 'anual_value_rent','Historic',readonly=True),         
-		'rent_charge_day'       : fields.integer('Day of Charge',help='Indicate the day of the month to realize the charge of the rent'),
+		'rent_charge_day'       : fields.integer('Dia de cobro',help='Indica el dia del mes para realizar los cobros del alquiler.'),
 	}
 	
 	_defaults = {
@@ -684,8 +684,8 @@ class rent_rent_estimate(osv.osv):
 			res[obj_estimate.id] = currencies_val
 		return res
 	_columns = {
-		'estimate_performance'       : fields.float('Performance',digits=(12,2), help='This a percentaje number'),
-		'estimate_years'             : fields.function(_performance_years, type='float',method = True,string='Years'),
+		'estimate_performance'       : fields.float('Performance(%)',digits=(12,2), help='This a percentaje number'),
+		'estimate_years'             : fields.function(_performance_years, type='float',method = True,string='Years for reinv.'),
 		'estimate_amountc'           : fields.function(_performance_amount, type='float',method = True,string='Amount', multi=True),
 		'estimate_colones'           : fields.function(_performance_currency, type='float',method = True,string='c / m2',multi='Currency'),
 		
@@ -699,7 +699,7 @@ class rent_rent_estimate(osv.osv):
 		#'estimate_dec_base_dollars'  : fields.integer('Amount s'),
 		'estimate_rent'              : fields.many2one('rent.rent','Rent'),
 		'estimate_date'              : fields.date('Fecha'),
-		'estimate_state'             : fields.selection([('recommend','Recommend'),('min','Min'),('norec','Not Recomended')],'Status',readonly=True),
+		'estimate_state'             : fields.selection([('recommend','Recommend'),('min','Min'),('norec','Not Recomended')],'Status',readonly=False),
 	}
 	_order = "estimate_date desc"
 rent_rent_estimate()

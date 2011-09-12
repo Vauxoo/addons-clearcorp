@@ -980,6 +980,11 @@ msgid "Years"
 msgstr "Años"
 
 #. module: rent
+#: field:rent.rent.estimate,estimate_years:0
+msgid "Years for reinv."
+msgstr "Años p/rec"
+
+#. module: rent
 #: view:rent.floor.parking:0
 msgid "Area Specifications Information"
 msgstr "Especificaciones del área"

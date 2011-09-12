@@ -648,6 +648,7 @@
 						<field name = "rent_start_date"/>
 						<field name = "rent_end_date"/>
 						<field name = "rent_years"/>
+						<field name = "rent_charge_day"/>
 					</group>
 					<group col = "4" colspan = "2">
 						<separator string = "Negotiation Information" colspan = "4"/>
