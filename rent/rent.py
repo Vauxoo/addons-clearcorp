@@ -490,6 +490,7 @@ class rent_rent(osv.osv):
 				current_date = date.today()
 				current_date.replace(day=31,month=12)
 				is_registrated = False
+				debug(current_date)
 				debug(obj_rent.rent_historic)
 				for obj_historic in obj_rent.rent_historic:
 					if obj_historic.anual_value_date == current_date:
@@ -615,7 +616,7 @@ class rent_rent(osv.osv):
 		'rent_modif_ref'        : fields.many2one('rent.rent', 'Modifications',ondelete='cascade'),
 		'currency_id'           : fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft':[('readonly',False)]}),
 		'rent_estimates'        : fields.one2many('rent.rent.estimate', 'estimate_rent','Estimates',states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),         
-		'rent_historic'        : fields.one2many('rent.rent.anual.value', 'anual_value_rent','Historic',readonly=True),         
+		'rent_historic'         : fields.one2many('rent.rent.anual.value', 'anual_value_rent','Historic',readonly=True),         
 	}
 	
 	_defaults = {
