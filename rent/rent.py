@@ -496,7 +496,7 @@ class rent_rent(osv.osv):
 				current_date = end_date
 			for obj_historic in obj_rent.rent_historic:
 				debug(current_date.isoformat())
-				debug(anual_value_date)
+				debug(obj_historic.anual_value_date)
 				if obj_historic.anual_value_date == current_date.isoformat():
 					is_registrated = True
 					break
