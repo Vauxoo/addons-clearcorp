@@ -642,7 +642,7 @@
 						<separator string = "Information" colspan = "4"/>
 						<field name = "name"/>
 						<field name = "rent_rent_client" select  = "1"/>
-						<field name = "rent_type" attrs = "{'readonly' : [('state','!=','draft')]}" on_change = "onchange_rent_type(rent_type)"/>
+						<field name = "rent_type" attrs = "{'readonly' : [('state','!=','draft')]}"/>
 						<field name = "state"/>
 						<field name = "rent_related_real"/>
 					</group>
@@ -656,7 +656,7 @@
 						<field name = "rent_rise_year2"/>
 						<field name = "rent_rise_year3"/>
 						<field name = "currency_id"/>
-						<button colspan="2" string="Compute Values" type="object" icon="terp-stock_format-scientific"/>
+						<button colspan="2" name = "calculate_negotiation" string="Compute Values" type="object" icon="terp-stock_format-scientific"/>
 					</group>
 					<group col = "4" colspan = "4">
 						<separator string = "Length of Contract" colspan = "4"/>
@@ -688,7 +688,7 @@
 						</page>
 						<page string = "Historic">
 							<field name = "rent_historic" nolabel="1"/>
-						</page>						
+						</page>	
 						<page string = "Modifications">
 							<field name = "rent_modif" attrs="{'readonly' : [('rent_type','!=','Contract')]}" nolabel="1"/>
 						</page>

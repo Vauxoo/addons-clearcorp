@@ -441,7 +441,6 @@ class rent_rent(osv.osv):
 		total = 0
 		for rent_id in ids:
 			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rent_id)
-			debug(obj_rent)
 			if obj_rent.rent_related_real == 'local':
 				obj_local = obj_rent.rent_rent_local
 				total = obj_local._local_value(obj_local.id,None,None)[obj_local.id]
@@ -463,6 +462,15 @@ class rent_rent(osv.osv):
 				inicio = parser.parse(obj_rent.rent_start_date)
 				res[rent_id] = (fin.year - inicio.year)
 		return res
+		
+	def create(self,cr,uid, vals,context=None):
+		debug("============================CREANDO la nueva renta")
+		rent_id = super(rent_rent,self).create(cr,uid,vals,context)
+		debug(contract_id)
+		obj_rent = self.browse(cr,uid,rent_id)
+		debug(obj_rent)
+		obj_rent.register_historic()
+		return obj_rent.id
 	
 	def write(self, cr, uid, ids, vals, context=None):
 		obj_rent = self.pool.get('rent.rent').browse(cr,uid,ids)[0]
@@ -478,8 +486,8 @@ class rent_rent(osv.osv):
 		super(rent_rent, self).write(cr, uid, ids, vals, context=context)
 		if 'rent_estimates' in vals:
 			obj_rent.onchange_estimations(obj_rent.rent_estimates)
-		if 'rent_amount_base' in vals:
-			obj_rent.register_historic()
+
+		obj_rent.register_historic()
 		return True
 		
 	def register_historic(self,cr,uid,ids):
@@ -578,19 +586,23 @@ class rent_rent(osv.osv):
 #			res = inv_id
 		return res
 	
-	def onchange_rent_type(self,cr,uid,ids,field):
+#	def onchange_rent_type(self,cr,uid,ids,field):
+#		res = {}
+#		debug("==========Default====")
+#		debug(ids)
+#		for obj_rent in self.browse(cr,uid,ids):
+#			obj_rent_parent = obj_rent.rent_modif_ref
+#			if obj_rent_parent :
+#				res['name'] = obj_rent_parent.name
+#				res['rent_rent_client'] = obj_rent_parent.rent_rent_client
+#				res['rent_end_date'] = obj_rent_parent.rent_end_date
+#				res['rent_rise'] = obj_rent_parent.rent_rise
+#				res['rent_amount_base'] = obj_rent_parent.rent_amount_base
+#		return {'value' : res}
+	def calculate_negotiation(self,cr,uid,ids,context):
 		res = {}
-		debug("==========Default====")
-		debug(ids)
-		for obj_rent in self.browse(cr,uid,ids):
-			obj_rent_parent = obj_rent.rent_modif_ref
-			if obj_rent_parent :
-				res['name'] = obj_rent_parent.name
-				res['rent_rent_client'] = obj_rent_parent.rent_rent_client
-				res['rent_end_date'] = obj_rent_parent.rent_end_date
-				res['rent_rise'] = obj_rent_parent.rent_rise
-				res['rent_amount_base'] = obj_rent_parent.rent_amount_base
-		return {'value' : res}
+		self.pool.get('rent.rent').write(cr, uid, ids, {}, context)
+		return { 'value' : res}
 	_columns = {
 		'name'                  : fields.char('Name',size=64),
 		'rent_rent_client'      : fields.many2one('res.partner','Client', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
