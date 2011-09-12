@@ -644,6 +644,7 @@ class rent_rent(osv.osv):
 		'currency_id': _get_currency,
 		'rent_amount_base' : 0.00,
 		'rent_rise'     : "%.2f%%" % (0.),
+		'rent_charge_day' : 01,
 	}
 rent_rent()
 
@@ -702,6 +703,9 @@ class rent_rent_estimate(osv.osv):
 		'estimate_state'             : fields.selection([('recommend','Recommend'),('min','Min'),('norec','Not Recomended')],'Status',readonly=False),
 	}
 	_order = "estimate_date desc"
+	_defaults = {
+		'estimate_date'  : date.today()
+	}
 rent_rent_estimate()
 
 class rent_rent_anual_value(osv.osv):
