@@ -489,9 +489,9 @@ class rent_rent(osv.osv):
 		if obj_rent:
 			vals = {}			
 			is_registrated = False
-			current_date = parser.parse(obj_rent.rent_start_date)
+			current_date = parser.parse(obj_rent.rent_start_date).date()
 			current_date = current_date.replace(day=31,month=12)
-			end_date = parser.parse(obj_rent.rent_end_date)
+			end_date = parser.parse(obj_rent.rent_end_date).date()
 			if end_date <= current_date:
 				current_date = end_date
 			for obj_historic in obj_rent.rent_historic:
