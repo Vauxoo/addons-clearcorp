@@ -462,7 +462,16 @@ class rent_rent(osv.osv):
 				inicio = parser.parse(obj_rent.rent_start_date)
 				res[rent_id] = (fin.year - inicio.year)
 		return res
-		
+	
+	def create(self,cr,uid, vals,context=None):
+		debug("============================CREANDO la nueva renta")
+		rent_id = super(rent_rent,self).create(cr,uid,vals,context)
+		debug(contract_id)
+		obj_rent = self.browse(cr,uid,rent_id)
+		debug(obj_rent)
+		obj_rent.register_historic()
+		return obj_rent.id
+			
 	def write(self, cr, uid, ids, vals, context=None):
 		obj_rent = self.pool.get('rent.rent').browse(cr,uid,ids)[0]
 		if 'rent_related_real' in vals:			
