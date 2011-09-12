@@ -466,7 +466,7 @@ class rent_rent(osv.osv):
 	def create(self,cr,uid, vals,context=None):
 		debug("============================CREANDO la nueva renta")
 		rent_id = super(rent_rent,self).create(cr,uid,vals,context)
-		debug(contract_id)
+		debug(rent_id)
 		obj_rent = self.browse(cr,uid,rent_id)
 		debug(obj_rent)
 		obj_rent.register_historic()
