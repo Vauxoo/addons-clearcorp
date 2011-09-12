@@ -481,7 +481,7 @@ class rent_rent(osv.osv):
 			obj_rent.onchange_estimations(obj_rent.rent_estimates)
 		return True
 		
-	def _register_historic(self,cr,uid,ids,vals,context):
+	def register_historic(self,cr,uid,ids,vals,context):
 		debug('HISTORIC+===================')
 		obj_rent = self.browse(cr,uid,ids)
 		debug(obj_rent)
