@@ -704,7 +704,7 @@ class rent_rent_estimate(osv.osv):
 	}
 	_order = "estimate_date desc"
 	_defaults = {
-		'estimate_date'  : date.today().strftime('%c'),
+		'estimate_date'  : date.today().strftime('%d/%m/%Y'),
 	}
 rent_rent_estimate()
 
