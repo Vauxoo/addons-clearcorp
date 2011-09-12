@@ -474,31 +474,35 @@ class rent_rent(osv.osv):
 				if real_type == 'local' or real_type == 'estate':
 					vals['rent_rent_parking'] = False
 				if real_type == 'parking' or real_type == 'estate':
-					vals['rent_rent_local'] = False
-		if 'rent_amount_base' in vals:
-			obj_rent.register_historic(vals,context)
+					vals['rent_rent_local'] = False		
 		super(rent_rent, self).write(cr, uid, ids, vals, context=context)
 		if 'rent_estimates' in vals:
 			obj_rent.onchange_estimations(obj_rent.rent_estimates)
+		if 'rent_amount_base' in vals:
+			obj_rent.register_historic()
 		return True
 		
-	def register_historic(self,cr,uid,ids,vals,context):
+	def register_historic(self,cr,uid,ids):
 		debug('HISTORIC+===================')
 		obj_rent = self.browse(cr,uid,ids)[0]
 		debug(obj_rent)
 		if obj_rent:
+			vals = {}
 			current_date = date.today()
 			current_date = current_date.replace(day=31,month=12)
 			is_registrated = False
 			debug(current_date)
 			debug(obj_rent.rent_historic)
 			for obj_historic in obj_rent.rent_historic:
+				debug(obj_historic.anual_value_date)
+				debug(current_date)
 				if obj_historic.anual_value_date == current_date:
 					is_registrated = True
 					break
 			if not is_registrated:
 				vals['rent_historic'] = [(0,0,{'anual_value_rent':obj_rent.id,'anual_value_value':obj_rent.rent_amount_base,'anual_value_rate' : obj_rent.rent_rise, 'anual_value_date' : current_date})]
 			debug(vals)
+			obj_rent.write(vals)
 		return True
 		
 	def _performance_per_sqr(self,cr,uid,ids,field_name,args,context):
