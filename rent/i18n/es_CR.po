@@ -180,7 +180,7 @@ msgstr "Detalle del Local"
 #. module: rent
 #: field:rent.rent.estimate,estimate_amountc:0
 msgid "Amount"
-msgstr "Monto"
+msgstr "Monto ¢"
 
 #. module: rent
 #: help:rent.floor,floor_durability:0
@@ -344,7 +344,7 @@ msgstr "Adendum"
 #. module: rent
 #: field:rent.local.floor,local_floor_area:0
 msgid "Area M2"
-msgstr "Área en M2"
+msgstr "Área en m2"
 
 #. module: rent
 #: report:contract_report:0
@@ -378,6 +378,11 @@ msgstr "Localización"
 #: field:rent.rent.estimate,estimate_performance:0
 msgid "Performance"
 msgstr "Rendimiento"
+
+#. module: rent
+#: field:rent.rent.estimate,estimate_performance:0
+msgid "Performance(%)"
+msgstr "ROI(%)"
 
 #. module: rent
 #: view:rent.rent:0
@@ -451,7 +456,7 @@ msgstr "Buscar Edificio"
 #. module: rent
 #: field:rent.rent.estimate,estimate_amountd:0
 msgid "Amount $"
-msgstr "$"
+msgstr "Monto $"
 
 #. module: rent
 #: model:ir.model,name:rent.model_rent_rent_estimate
@@ -500,7 +505,7 @@ msgstr "valor"
 #: field:rent.building,building_vrn_per_sqr:0
 #: field:rent.estate,estate_vrn_per_sqr:0
 msgid "VRN Din/M2"
-msgstr "VRN Din/M2"
+msgstr "VRN Din/m2"
 
 #. module: rent
 #: report:contract_report:0
@@ -530,7 +535,7 @@ msgstr "Direcciones de empresa"
 #. module: rent
 #: field:rent.rent,rent_amount_per_sqr:0
 msgid "Amount per Sqr"
-msgstr "Precio por metro cuadrado"
+msgstr "Precio m2"
 
 #. module: rent
 #: selection:rent.rent.estimate,estimate_state:0
@@ -560,7 +565,7 @@ msgstr "Datos de referencia"
 #. module: rent
 #: field:rent.rent.estimate,estimate_cust_dollars:0
 msgid "Amount s"
-msgstr "$"
+msgstr "Monto $"
 
 #. module: rent
 #: field:rent.rent,currency_id:0
@@ -585,12 +590,12 @@ msgstr "Seleccionado si el parqueo está alquilado"
 #. module: rent
 #: field:rent.rent.estimate,estimate_colones:0
 msgid "c / m2"
-msgstr "c / m2"
+msgstr "¢ / m2"
 
 #. module: rent
 #: field:rent.rent.estimate,estimate_cust_colones:0
 msgid "Amount c"
-msgstr "¢"
+msgstr "Monto ¢"
 
 #. module: rent
 #: field:rent.canton.district,name:0
@@ -675,6 +680,11 @@ msgid "Status"
 msgstr "Estado"
 
 #. module: rent
+#: field:rent.rent.estimate,estimate_state:0
+msgid "Status"
+msgstr "Tipo"
+
+#. module: rent
 #: view:rent.rent.estimate:0
 msgid "Calculations List"
 msgstr "Lista de cálculos"
@@ -716,7 +726,7 @@ msgstr "Lista de Alquileres"
 #. module: rent
 #: field:rent.local.floor,local_sqrmeter_price:0
 msgid "Sqr Meter Price"
-msgstr "Precio metro cuadrado"
+msgstr "Precio m2"
 
 #. module: rent
 #: view:rent.floor.local:0
@@ -828,7 +838,7 @@ msgstr "Detalle de Terreno"
 #. module: rent
 #: field:rent.rent,rent_total:0
 msgid "Total Paid"
-msgstr "Total Pagado"
+msgstr "Valor del Inmueble"
 
 #. module: rent
 #: view:rent.local.floor:0
@@ -846,7 +856,7 @@ msgstr "Estimados"
 #: view:rent.contract:0
 #: view:rent.contract.clause:0
 msgid "Ending Date: %(ed)s"
-msgstr "Fecha de finalización: %(ed)s"
+msgstr "Fecha de Fin: %(ed)s"
 
 #. module: rent
 #: view:rent.building:0
@@ -904,7 +914,7 @@ msgstr "# Terreno"
 #. module: rent
 #: field:rent.floor.parking,parking_sqrmeter_price:0
 msgid "Sqr Meter Value"
-msgstr "Valor del metro cuadrado"
+msgstr "Valor del m2"
 
 #. module: rent
 #: view:rent.rent:0

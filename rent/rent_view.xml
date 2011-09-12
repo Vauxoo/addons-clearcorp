@@ -645,25 +645,28 @@
 						<field name = "rent_type" attrs = "{'readonly' : [('state','!=','draft')]}"/>
 						<field name = "state"/>
 						<field name = "rent_related_real"/>
+						<field name = "rent_start_date"/>
+						<field name = "rent_end_date"/>
+						<field name = "rent_years"/>
 					</group>
 					<group col = "4" colspan = "2">
 						<separator string = "Negotiation Information" colspan = "4"/>
 						<field name = "rent_amount_base"/>
 						<field name = "rent_total"/>
-						<field name = "rent_performance"/>
-						<field name = "rent_amount_per_sqr"/>
-						<field name = "rent_rise"/>
 						<field name = "rent_rise_year2"/>
+						<field name = "rent_performance"/>
 						<field name = "rent_rise_year3"/>
+						<field name = "rent_amount_per_sqr"/>
+						<field name = "rent_rise"/>						
 						<field name = "currency_id"/>
 						<button colspan="2" name = "calculate_negotiation" string="Compute Values" type="object" icon="terp-stock_format-scientific"/>
 					</group>
-					<group col = "4" colspan = "4">
+					<!--<group col = "4" colspan = "4">
 						<separator string = "Length of Contract" colspan = "4"/>
 						<field name = "rent_start_date"/>
 						<field name = "rent_end_date"/>
 						<field name = "rent_years"/>
-					</group>
+					</group>-->
 					<group col = "4" colspan = "4" attrs = "{'invisible':[('state','!=','finished')]}">
 						<separator string = "Contract Termination" colspan = "4"/>
 						<field name = "rent_ending_motif"/>
@@ -748,13 +751,13 @@
 			<field name = "type">tree</field>
 			<field name = "arch" type = "xml">
 				<tree editable = "top" string = "Calculations List" colors="blue:estimate_state in ('recommend');red:estimate_state in ('min');gray:estimate_state in ('norec')">
+					<field name = "estimate_date"/>
 					<field name = "estimate_performance"/>
 					<field name = "estimate_years"/>
 					<field name = "estimate_amountc"/>
-					<field name = "estimate_colones"/>
 					<field name = "estimate_amountd"/>
-					<field name = "estimate_dollars"/>
-					<field name = "estimate_date"/>
+					<field name = "estimate_colones"/>					
+					<field name = "estimate_dollars"/>					
 					<field name = "estimate_state"/>
 				</tree>
 			</field>

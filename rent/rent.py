@@ -635,6 +635,7 @@ class rent_rent(osv.osv):
 		'currency_id'           : fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft':[('readonly',False)]}),
 		'rent_estimates'        : fields.one2many('rent.rent.estimate', 'estimate_rent','Estimates',states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),         
 		'rent_historic'         : fields.one2many('rent.rent.anual.value', 'anual_value_rent','Historic',readonly=True),         
+		'rent_charge_day'       : fields.integer('Day of Charge',help='Indicate the day of the month to realize the charge of the rent'),
 	}
 	
 	_defaults = {
