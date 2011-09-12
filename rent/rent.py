@@ -497,7 +497,7 @@ class rent_rent(osv.osv):
 					is_registrated = True
 					break
 			if not is_registrated:
-				vals['rent_historic'] = [(0,0,{'anual_value_rent':obj_rent.id,'anual_value_value':obj_contract.rent_amount_base,'anual_value_rate' : obj_contract.rent_rise, 'anual_value_date' : current_date})]
+				vals['rent_historic'] = [(0,0,{'anual_value_rent':obj_rent.id,'anual_value_value':obj_rent.rent_amount_base,'anual_value_rate' : obj_rent.rent_rise, 'anual_value_date' : current_date})]
 			debug(vals)
 		return True
 		
