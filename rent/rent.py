@@ -3,6 +3,7 @@ from tools import debug
 import time
 import pooler
 from dateutil import parser
+from datetime import date
 from tools.translate import _
 
 class rent_canton(osv.osv):
