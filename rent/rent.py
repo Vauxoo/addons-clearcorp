@@ -474,43 +474,55 @@ class rent_rent(osv.osv):
 					vals['rent_rent_parking'] = False
 				if real_type == 'parking' or real_type == 'estate':
 					vals['rent_rent_local'] = False
+		if 'rent_amount_base' in vals:
+			_register_historic(self,cr,uid,ids,vals,context)
 		super(rent_rent, self).write(cr, uid, ids, vals, context=context)
 		if 'rent_estimates' in vals:
 			obj_rent.onchange_estimations(obj_rent.rent_estimates)
 		return True
 		
+	def _register_historic(self,cr,uid,ids,vals,context):
+		debug('HISTORIC+===================')
+		obj_rent = self.browse(cr,uid,ids)
+		debug(obj_rent)
+		if obj_rent:
+			try:
+				current_date = date.today()
+				current_date.replace(day=31,month=12)
+				is_registrated = False
+				debug(obj_rent.rent_historic)
+				for obj_historic in obj_rent.rent_historic:
+					if obj_historic.anual_value_date == current_date:
+						is_registrated = True
+						break
+				if not is_registrated:
+					vals['rent_historic'] = [(0,0,{'anual_value_rent':obj_rent.id,'anual_value_value':obj_contract.rent_amount_base,'anual_value_rate' : obj_contract.rent_rise, 'anual_value_date' : current_date})]
+			except:
+				print 'Error'
+			debug(vals)
+		return True
+		
 	def _performance_per_sqr(self,cr,uid,ids,field_name,args,context):
 		res = {}
-	#	debug("=============================_performance_per_sqr")
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
-	#		debug(obj_rent)
 			valor = obj_rent._get_total_area(obj_rent.id,None,None)[obj_rent.id]
-	#		debug(valor)
 			res[obj_rent.id] = obj_rent.rent_amount_base / valor
-	#	debug(res)
 		return res
 		
 	def _rent_performance(self,cr,uid,ids,field_name,args,context):
 		res = {}
-	#	debug("=============================RENT PERFORMANCE")
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
-	#		debug(obj_rent)
 			res[obj_rent.id] = "%.2f%%" % ((obj_rent.rent_amount_base * 12) /  obj_rent.rent_total)
-	#	debug(res)
 		return res
 		
 	def _rent_amount_years(self,cr,uid,ids,field_name,args,contexto):
 		res = {}
-	#	debug("=============================YEARS")
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
-	#		debug(obj_rent)
 			years_val = {}
 			percentaje = obj_rent.rent_rise.split('%')[0]
-	#		debug(percentaje)
 			years_val['rent_rise_year2'] = obj_rent.rent_amount_base * (1 + float(percentaje) / 100)
 			years_val['rent_rise_year3'] = years_val['rent_rise_year2']  * (1 + float(percentaje) / 100)
 			res[obj_rent.id] = years_val
-	#	debug(res)
 		return res
 		
 	def action_invoice_create(self, cr, uid, ids, *args):
@@ -603,6 +615,7 @@ class rent_rent(osv.osv):
 		'rent_modif_ref'        : fields.many2one('rent.rent', 'Modifications',ondelete='cascade'),
 		'currency_id'           : fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft':[('readonly',False)]}),
 		'rent_estimates'        : fields.one2many('rent.rent.estimate', 'estimate_rent','Estimates',states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),         
+		'rent_historic'        : fields.one2many('rent.rent.anual_value', 'anual_value_rent','Historic',readonly=True),         
 	}
 	
 	_defaults = {
@@ -671,6 +684,16 @@ class rent_rent_estimate(osv.osv):
 	_order = "estimate_date desc"
 rent_rent_estimate()
 
+class rent_rent_anual_value(osv.osv):
+	_name = 'rent.rent.anual.value'
+	_columns = {
+		'anual_value_rent'    : fields.many2one('rent.rent','Rent reference'),
+		'anual_value_value'   : fields.integer('Value',help='This value was taken from the record of rent at the indicated date'),
+		'anual_value_date'    : fields.date('Period'),
+		'anual_value_rate'    : fields.char('Anual Rise',size=64),
+	}
+	
+rent_rent_anual_value()
 #
 #
 class rent_contract(osv.osv):

@@ -686,6 +686,9 @@
 						<page string = "Calculations">
 							<field name = "rent_estimates" nolabel="1"/>
 						</page>
+						<page string = "Historic">
+							<field name = "rent_historic" nolabel="1"/>
+						</page>						
 						<page string = "Modifications">
 							<field name = "rent_modif" attrs="{'readonly' : [('rent_type','!=','Contract')]}" nolabel="1"/>
 						</page>
@@ -789,6 +792,55 @@
 		</record>
 		
 		
+		
+		
+		
+		
+		<!--
+		======================================
+					RENT History
+		======================================
+		-->
+		
+		<record model = "ir.ui.view" id = "rent_anual_value_tree_view">
+			<field name = "name">rent.rent.estimate.tree</field>
+			<field name = "model">rent.rent.anual.value</field>
+			<field name = "type">tree</field>
+			<field name = "arch" type = "xml">
+				<tree editable = "top" string = "Value History" colors="blue:estimate_state in ('recommend');red:estimate_state in ('min');gray:estimate_state in ('norec')">
+					<field name = "anual_value_value"/>
+					<field name = "anual_value_rate"/>
+					<field name = "anual_value_date"/>
+				</tree>
+			</field>
+		</record>
+		
+		<record model = "ir.ui.view" id = "rent_anual_value_form_view">
+			<field name = "name">rent.rent.estimate.form</field>
+			<field name = "model">rent.rent.anual.value</field>
+			<field name = "type">form</field>
+			<field name = "arch" type = "xml">
+				<form string = "Estimates">
+					<group col="4" colspan="4">
+						<separator colspan = "4" string = "Calculos"/>
+						<group>
+							<field name = "anual_value_value"/>
+							<field name = "anual_value_rate"/>
+							<field name = "anual_value_date"/>
+						</group>
+					</group>
+				</form>
+			</field>
+		</record>
+		
+		<record model = "ir.actions.act_window" id = "action_rent_anual_value_form_view">
+			<field name = "name">Calculations Details</field>
+			<field name = "res_model">rent.rent.anual.value</field>
+			<field name = "type">ir.actions.act_window</field>
+			<field name = "view_type">form</field>
+			<field name = "view_mode">tree,form</field>
+			<field name = "view_id" ref = "rent_anual_value_tree_view"/>
+		</record>
 		<!--
 		======================================
 					CONTRACTS
