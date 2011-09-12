@@ -486,20 +486,17 @@ class rent_rent(osv.osv):
 		obj_rent = self.browse(cr,uid,ids)
 		debug(obj_rent)
 		if obj_rent:
-			try:
-				current_date = date.today()
-				current_date.replace(day=31,month=12)
-				is_registrated = False
-				debug(current_date)
-				debug(obj_rent.rent_historic)
-				for obj_historic in obj_rent.rent_historic:
-					if obj_historic.anual_value_date == current_date:
-						is_registrated = True
-						break
-				if not is_registrated:
-					vals['rent_historic'] = [(0,0,{'anual_value_rent':obj_rent.id,'anual_value_value':obj_contract.rent_amount_base,'anual_value_rate' : obj_contract.rent_rise, 'anual_value_date' : current_date})]
-			except:
-				print 'Error'
+			current_date = date.today()
+			current_date.replace(day=31,month=12)
+			is_registrated = False
+			debug(current_date)
+			debug(obj_rent.rent_historic)
+			for obj_historic in obj_rent.rent_historic:
+				if obj_historic.anual_value_date == current_date:
+					is_registrated = True
+					break
+			if not is_registrated:
+				vals['rent_historic'] = [(0,0,{'anual_value_rent':obj_rent.id,'anual_value_value':obj_contract.rent_amount_base,'anual_value_rate' : obj_contract.rent_rise, 'anual_value_date' : current_date})]
 			debug(vals)
 		return True
 		
