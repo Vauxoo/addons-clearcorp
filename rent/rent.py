@@ -475,7 +475,7 @@ class rent_rent(osv.osv):
 				if real_type == 'parking' or real_type == 'estate':
 					vals['rent_rent_local'] = False
 		if 'rent_amount_base' in vals:
-			_register_historic(self,cr,uid,ids,vals,context)
+			register_historic(self,cr,uid,ids,vals,context)
 		super(rent_rent, self).write(cr, uid, ids, vals, context=context)
 		if 'rent_estimates' in vals:
 			obj_rent.onchange_estimations(obj_rent.rent_estimates)
