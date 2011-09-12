@@ -690,9 +690,12 @@
 						<page string = "Calculations">
 							<field name = "rent_estimates" nolabel="1"/>
 						</page>
-						<page string = "Historic">
+						<page string = "Aumentos">
 							<field name = "rent_historic" nolabel="1"/>
-						</page>	
+						</page>
+						<page string = "Facturas">
+							
+						</page>
 						<page string = "Modifications">
 							<field name = "rent_modif" attrs="{'readonly' : [('rent_type','!=','Contract')]}" nolabel="1"/>
 						</page>

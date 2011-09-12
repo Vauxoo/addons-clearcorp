@@ -718,6 +718,8 @@ class rent_rent_anual_value(osv.osv):
 	}
 	
 rent_rent_anual_value()
+
+
 #
 #
 class rent_contract(osv.osv):
