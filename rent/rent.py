@@ -463,7 +463,6 @@ class rent_rent(osv.osv):
 				res[rent_id] = (fin.year - inicio.year)
 		return res
 		
-	
 	def write(self, cr, uid, ids, vals, context=None):
 		obj_rent = self.pool.get('rent.rent').browse(cr,uid,ids)[0]
 		if 'rent_related_real' in vals:			
@@ -478,7 +477,7 @@ class rent_rent(osv.osv):
 		super(rent_rent, self).write(cr, uid, ids, vals, context=context)
 		if 'rent_estimates' in vals:
 			obj_rent.onchange_estimations(obj_rent.rent_estimates)
-		if 'rent_amount_base' or 'rent_rise' in vals: 
+		if 'rent_amount_base' in vals: 
 			obj_rent.register_historic()
 		return True
 		
