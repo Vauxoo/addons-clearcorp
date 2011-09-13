@@ -742,7 +742,7 @@ class rent_invoice_line(osv.osv):
 			context.update({'lang': part.lang})
 		result = {}
 		
-		a = fpos_obj.map_account(cr, uid, fpos, a)
+		a = fpos_obj.map_account(cr, uid, fpos, None)
 		if a:
 			result['account_id'] = a
 		if type in ('out_invoice', 'out_refund'):
