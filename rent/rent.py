@@ -749,6 +749,7 @@ class rent_invoice_line(osv.osv):
 			taxes = self.pool.get('account.account').browse(cr, uid, a, context=context).tax_ids
 		
 		tax_id = fpos_obj.map_tax(cr, uid, fpos, taxes)
+		domain = {}
 		res_final = {'value':result, 'domain':domain}
 		
 		company = self.pool.get('res.company').browse(cr, uid, company_id, context=context)
