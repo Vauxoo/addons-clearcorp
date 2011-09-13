@@ -566,8 +566,11 @@ class rent_rent(osv.osv):
 		res = False
 		journal_obj = self.pool.get('account.journal')
 		il = []
+		debug('GENERACION DE factura PAGO')
+		debug(args)
 		for rlist in args:
-			obj_rent = self.browse(cr,uid,rlist['rent_id'])
+			debug(rlist)
+			obj_rent = self.browse(cr,uid,rlist[0])
 			il.append(self.inv_line_create(cr, uid,obj_rent,rlist))
 			a = self.pool.get('ir.property').get(cr, uid, 'property_account_expense_categ', 'product.category').id
 			
