@@ -566,7 +566,7 @@ class rent_rent(osv.osv):
 		res = False
 		journal_obj = self.pool.get('account.journal')
 		il = []
-		for rlist in *args:
+		for rlist in args:
 			obj_rent = self.browse(cr,uid,rlist['rent_id'])
 			il.append(self.inv_line_create(cr, uid,obj_rent,rlist))
 			a = self.pool.get('ir.property').get(cr, uid, 'property_account_expense_categ', 'product.category').id
