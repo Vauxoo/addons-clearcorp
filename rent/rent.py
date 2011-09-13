@@ -734,7 +734,7 @@ class rent_invoice_line(osv.osv):
 		if obj_rent.rent_related_real == 'estate':
 			res['account_id'] = obj_rent.rent_rent_estate.estate_account
 		else:
-			res['account_id'] = obj_rent.rent_rent_local.local_building.building_asset
+			res['account_id'] = obj_rent.rent_rent_local.local_building.building_asset.id
 			
 		obj_company = self.pool.get('res.company').browse(cr, uid, company_id, context=context)
 		if obj_company.currency_id.id != obj_rent.currency_id.id:
