@@ -615,7 +615,7 @@ class rent_rent(osv.osv):
 		for obj_rent in self.browse(cr,uid,ids):
 			init_date = parser.parse(obj_rent.rent_start_date).date()
 			charged_days = (calendar.mdays[init_date.month] - init_date.day)  + (obj_rent.rent_charge_day - 1)
-			
+			debug(charged_days)
 			amount = (charged_days/ calendar.mdays[init_date.month]) * obj_rent.rent_amount_base
 			debug(amount)
 			end_date = date(init_date.year,init_date.month + 1,obj_rent.rent_charge_day)
