@@ -613,7 +613,7 @@ class rent_rent(osv.osv):
 			
 			amount = (charged_days/ calendar.mdays[init_date.month]) * obj_rent.rent_amount_base
 			end_date = date(init_date.year,init_date.month + 1,obj_rent.rent_charge_day)
-			desc = "Cobro de primer alquiler. Desde el %s hasta el %d de %s" % (init_date.strftime("%A %d. %B %Y"),end_date.strftime("%A %d. %B %Y"))
+			desc = "Cobro de primer alquiler. Desde el %s hasta el %s" % (init_date.strftime("%A %d. %B %Y"),end_date.strftime("%A %d. %B %Y"))
 			
 			res.append({
 				'rent_id': obj_rent.id,
