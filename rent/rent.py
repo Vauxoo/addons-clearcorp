@@ -737,8 +737,8 @@ class rent_invoice_line(osv.osv):
 			res['account_id'] = obj_rent.rent_rent_local.local_building.building_asset
 			
 		obj_company = self.pool.get('res.company').browse(cr, uid, company_id, context=context)
-		if obj_company.currency_id.id != obj_rent.currency.id:
-			new_price = res['price_unit'] * obj_rent.currency.rate
+		if obj_company.currency_id.id != obj_rent.currency_id.id:
+			new_price = res['price_unit'] * obj_rent.currency_id.rate
 			res['price_unit'] = new_price
 		debug(res)
 		return {'value' : res}
