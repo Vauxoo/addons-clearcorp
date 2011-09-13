@@ -723,52 +723,31 @@ class rent_invoice_line(osv.osv):
 	_inherit = 'account.invoice.line'
 	
 	def rent_id_change(self, cr, uid, ids, rent, uom, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, currency_id=False, context=None):
-		if context is None:
-			context = {}
-		company_id = context.get('company_id',False)
-		if not partner_id:
-			raise osv.except_osv(_('No Partner Defined !'),_("You must first select a partner !") )
-
-		obj_rent = self.pool.get('rent.rent').browse(cr, uid, rent, context=context)
-		part = self.pool.get('res.partner').browse(cr, uid, partner_id, context=context)
-		fpos_obj = self.pool.get('account.fiscal.position')
-		fpos = fposition_id and fpos_obj.browse(cr, uid, fposition_id, context=context) or False
-		if part.lang:
-			context.update({'lang': part.lang})
-		result = {}
-		
-		a = fpos_obj.map_account(cr, uid, fpos, '0-112001')
-		if a:
-			result['account_id'] = a or '0-112001'
-		
-		if type in ('out_invoice', 'out_refund'):
-			taxes = self.pool.get('account.account').browse(cr, uid, a, context=context).tax_ids
-		
-		tax_id = fpos_obj.map_tax(cr, uid, fpos, taxes)
-		
+		res = {}
+		obj_rent = self.pool.get('rent.rent').browse(cr, uid, rent, context=context)		
 		debug("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-		debug(obj_rent)
-
-		result.update({'invoice_line_tax_id': tax_id} )
+		debug(obj_rent)		
+		res['name'] = obj_rent.name
+		res['price_unit'] = obj_rent.rent_amount_base
 		
-		result['name'] = obj_rent.name
-		result['price_unit'] = obj_rent.rent_amount_base
-		
-		debug(result)
-		company = self.pool.get('res.company').browse(cr, uid, company_id, context=context)
-		currency = self.pool.get('res.currency').browse(cr, uid, currency_id, context=context)
-
-		if company.currency_id.id != currency.id:
-			new_price = result['price_unit'] * currency.rate
-			result['price_unit'] = new_price
-		return {'value' : result}
+		if obj_rent.rent_related_real == 'estate':
+			res['account_id'] = obj_rent.rent_rent_estate.estate_account
+		else:
+			res['account_id'] = obj_rent.rent_rent_local.local_floor.local_building.building_asset
+			
+		obj_company = self.pool.get('res.company').browse(cr, uid, company_id, context=context)
+		if obj_company.currency_id.id != obj_rent.currency.id:
+			new_price = res['price_unit'] * obj_rent.currency.rate
+			res['price_unit'] = new_price
+		debug(res)
+		return {'value' : res}
 	
 	def onchange_type(self,cr,uid,ids,field):
 		res = {}
-		debug("bbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
-		debug("bbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
+		debug("bbbbbbbbbbbbbbbbbbbbbbbbbbbbb")		
 		res['product_id'] = False
 		res['invoice_rent'] = False
+		debug(res)
 		return {'value' : res}
 	
 	_columns = {
