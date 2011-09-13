@@ -753,19 +753,20 @@ class rent_invoice_line(osv.osv):
 		debug("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 		debug(obj_rent)
 
+		result.update({'invoice_line_tax_id': tax_id} )
+		
 		result['name'] = obj_rent.name
 		result['price_unit'] = obj_rent.rent_amount_base
-		domain = {}
 		res_final = {'value':result}
 		
 		debug(result)
-		
 		company = self.pool.get('res.company').browse(cr, uid, company_id, context=context)
 		currency = self.pool.get('res.currency').browse(cr, uid, currency_id, context=context)
 
 		if company.currency_id.id != currency.id:
 			new_price = res_final['value']['price_unit'] * currency.rate
 			res_final['value']['price_unit'] = new_price
+		debug(res_final)
 		return res_final
 	
 	def onchange_type(self,cr,uid,ids,field):
