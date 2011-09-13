@@ -558,7 +558,7 @@ class rent_rent(osv.osv):
 			'quantity': 1 ,
 			'product_id': False,
 			'uos_id': False,
-			'invoice_line_tax_id': [(6, 0, [x.id for x in ol.taxes_id])],
+			'invoice_line_tax_id': [(6, 0, [])],
 			'account_analytic_id': False,
 			'invoice_rent': args['rent_id'] or False,
 		})
