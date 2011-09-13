@@ -485,7 +485,7 @@ class rent_rent(osv.osv):
 			obj_rent.onchange_estimations(obj_rent.rent_estimates)
 		if 'rent_amount_base' in vals: 
 			obj_rent.register_historic()
-			self.first_rent(ids)
+			obj_rent.first_rent()
 		return True
 		
 	def register_historic(self,cr,uid,ids):
