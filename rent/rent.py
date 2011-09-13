@@ -722,7 +722,7 @@ class rent_invoice_line(osv.osv):
 	_name = 'account.invoice.line'
 	_inherit = 'account.invoice.line'
 	
-	def rent_id_change(self, cr, uid, ids, rent, type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, currency_id=False, context=None):
+	def rent_id_change(self, cr, uid, ids, rent, uom, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, currency_id=False, context=None):
 		if context is None:
 			context = {}
 		company_id = context.get('company_id',False)
