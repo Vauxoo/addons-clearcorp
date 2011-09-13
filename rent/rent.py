@@ -616,8 +616,8 @@ class rent_rent(osv.osv):
 			init_date = parser.parse(obj_rent.rent_start_date).date()
 			charged_days = (calendar.mdays[init_date.month] - init_date.day)  + (obj_rent.rent_charge_day - 1)
 			debug(charged_days)
-			amount = (charged_days/ calendar.mdays[init_date.month]) * obj_rent.rent_amount_base
-			debug(charged_days/ calendar.mdays[init_date.month])
+			amount = (charged_days/ float(calendar.mdays[init_date.month])) * obj_rent.rent_amount_base
+			debug(amount)
 			end_date = date(init_date.year,init_date.month + 1,obj_rent.rent_charge_day)
 			desc = "Cobro de primer alquiler. Desde el %s hasta el %s" % (init_date.strftime("%A %d. %B %Y"),end_date.strftime("%A %d. %B %Y"))
 			
