@@ -13,10 +13,10 @@
 			<field name = "name">draft</field>
 		</record>
 		
-		<record id = "act_valid" model = "workflow.activity">
+		<record id = "act_active" model = "workflow.activity">
 			<field name = "wkf_id" ref = "wkf"/>
-			<field name = "action">write({'state':'valid'})</field>
-			<field name = "name">valid</field>
+			<field name = "action">write({'state':'active'})</field>
+			<field name = "name">active</field>
 			<field name ="kind">function</field>
 		</record>
 		
@@ -36,20 +36,20 @@
 		</record>
 		
 				
-		<record id = "draft_to_valid" model = "workflow.transition">
+		<record id = "draft_to_active" model = "workflow.transition">
 			<field name = "act_from" ref= "act_draft"/>
-			<field name = "act_to" ref= "act_valid"/>
-			<field name = "signal">rent_valid</field>
+			<field name = "act_to" ref= "act_active"/>
+			<field name = "signal">rent_active</field>
 		</record>
 		
-		<!--<record id="valid_to_invoicing" model="workflow.transition">
-			<field name="act_from" ref="act_valid"/>
+		<!--<record id="active_to_invoicing" model="workflow.transition">
+			<field name="act_from" ref="act_active"/>
 			<field name="act_to" ref="act_invoice"/>
-			<field name="condition">state=='valid'</field>
+			<field name="condition">state=='active'</field>
 		</record>-->
 		
-		<record id = "valid_to_cancel" model = "workflow.transition">
-			<field name = "act_from" ref= "act_valid"/>
+		<record id = "active_to_cancel" model = "workflow.transition">
+			<field name = "act_from" ref= "act_active"/>
 			<field name = "act_to" ref= "act_finish"/>
 			<field name = "signal">rent_finish</field>
 		</record>

@@ -76,7 +76,7 @@ class rent_estate(osv.osv):
 		for estate_id in ids:
 			res[estate_id] =  False
 			debug(ids)
-			rent_ids = self.pool.get('rent.rent').search(cr,uid,[('state','=','valid'),('rent_related_real','=','estate'),('rent_rent_local','=',estate_id)])
+			rent_ids = self.pool.get('rent.rent').search(cr,uid,[('state','=','active'),('rent_related_real','=','estate'),('rent_rent_local','=',estate_id)])
 			if rent_ids:
 				res[estate_id] =  True
 		debug(res)
@@ -138,13 +138,13 @@ class rent_floor(osv.osv):
 	_rec_name = 'floor_number'
 	
 	def _calculate_floor_value(self,cr,uid,ids,field_name,args,context):
-		#This method takes al the valid rents for the floor and calculates the value according to 
+		#This method takes al the active rents for the floor and calculates the value according to 
 		#the value of the locals,parking, building and estate related to it
 		res = {}
 		valores = {}
 		total = 0
 		for floor_id in ids:
-			actual_rent = self.pool.get('rent.rent').search(cr,uid,['|',('state','=','valid'),('state','=','draft'),('rent_related_real','=','local')])
+			actual_rent = self.pool.get('rent.rent').search(cr,uid,['|',('state','=','active'),('state','=','draft'),('rent_related_real','=','local')])
 			for obj_rent in self.pool.get('rent.rent').browse(cr,uid,actual_rent):
 				obj_local = obj_rent.rent_rent_local
 				local_floor_ids = self.pool.get('rent.local.floor').search(cr,uid,[('local_local_floor','=',obj_local.id),('local_floor_floor','=',floor_id)])
@@ -153,7 +153,7 @@ class rent_floor(osv.osv):
 					total += valores[local.id]
 			
 			#This part look for the parking on rents associated to the floor
-			rent_ids = self.pool.get('rent.rent').search(cr,uid,['|',('state','=','valid'),('state','=','draft'),('rent_related_real','=','parking')])
+			rent_ids = self.pool.get('rent.rent').search(cr,uid,['|',('state','=','active'),('state','=','draft'),('rent_related_real','=','parking')])
 			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rent_ids)
 			for rent in obj_rent:
 				obj_parking = rent.rent_rent_parking
@@ -216,7 +216,7 @@ class rent_floor_local(osv.osv):
 		res = {}
 		for local_id in ids:
 			res[local_id] =  False
-			rent_ids = self.pool.get('rent.rent').search(cr,uid,[('state','=','valid'),('rent_related_real','=','local'),('rent_rent_local','=',local_id)])
+			rent_ids = self.pool.get('rent.rent').search(cr,uid,[('state','=','active'),('rent_related_real','=','local'),('rent_rent_local','=',local_id)])
 			if rent_ids:
 				res[local_id] =  True
 		return res
@@ -251,14 +251,10 @@ class rent_floor_local(osv.osv):
 		return res
 	_columns = {
 		'local_area'               : fields.function(_local_area,type='float',method=True,string='VRN Dynamic'),
-		#'local_area'               : fields.float('Area',required=True),
-		#'local_value'              : fields.float('Value',required=True),
 		'local_number'             : fields.integer('# Local',required=True),
 		'local_huella'             : fields.float('Huella',required=True),
 		'local_water_meter_number' : fields.char('Water Meter',size=64), 
 		'local_light_meter_number' : fields.char('Electric Meter', size=64),
-		#'local_sqrmeter_price'     : fields.function(_local_sqr_price,type='float',method=True,string='Sqr Meter Price'),
-		#'local_sqrmeter_price'     :  fields.float('Sqr Meter Price',required=True),
 		'local_rented'             : fields.function(_determine_rented,type='boolean',method=True,string='Rented',help='Check if the local is rented'),
 		#'local_floor'              : fields.many2one('rent.floor','# Floor'),
 		'local_local_by_floor'     : fields.one2many('rent.local.floor','local_local_floor','Local floors'),
@@ -371,7 +367,7 @@ class rent_floor_parking(osv.osv):
 		for parking_id in ids:
 			res[parking_id] =  False
 			debug(ids)
-			rent_ids = self.pool.get('rent.rent').search(cr,uid,[('state','=','valid'),('rent_related_real','=','parking'),('rent_rent_parking','=',parking_id)])
+			rent_ids = self.pool.get('rent.rent').search(cr,uid,[('state','=','active'),('rent_related_real','=','parking'),('rent_rent_parking','=',parking_id)])
 			if rent_ids:
 				res[parking_id] =  True
 		debug(res)
@@ -608,32 +604,32 @@ class rent_rent(osv.osv):
 		return { 'value' : res}
 	_columns = {
 		'name'                  : fields.char('Name',size=64),
-		'rent_rent_client'      : fields.many2one('res.partner','Client', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_end_date'         : fields.date('Ending Date', required=True, states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_rent_client'      : fields.many2one('res.partner','Client', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_end_date'         : fields.date('Ending Date', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_ending_motif'     : fields.selection([('Desertion','Desertion'),('No Renovation','No Renovation'),('Eviction','Eviction')],'Ending Motif'),
 		'rent_ending_motif_desc': fields.text('Ending Motif Description'),
 		
-		'rent_rise'             : fields.char('Anual Rise',size=64, states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_amount_base'      : fields.float('Final Price $', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_rise'             : fields.char('Anual Rise',size=64, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_amount_base'      : fields.float('Final Price $', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_performance'      : fields.function(_rent_performance, type='char',method = True,string='Performance'),
-		#'rent_rate'             : fields.float('Anual Rise', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
+		#'rent_rate'             : fields.float('Anual Rise', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rise_year2'       : fields.function(_rent_amount_years, type='float',method = True,string='Year 2 $', multi='Years'),
 		'rent_rise_year3'       : fields.function(_rent_amount_years, type='float',method = True,string='Year 3 $', multi='Years'),
 		'rent_amount_per_sqr'   : fields.function(_performance_per_sqr, type='float',method = True,string='Amount per Sqr'),
 		
-		'rent_type'             : fields.selection([('Contract','Contract'),('Adendum','Adendum'),('Renovation','Renovation')],'Type', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'state'                 : fields.selection([('valid','Valid'),('finished','Finished'),('draft','Draft')],'Status', readonly=True),
-		'rent_start_date'       : fields.date('Starting Date', required=True, states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_type'             : fields.selection([('Contract','Contract'),('Adendum','Adendum'),('Renovation','Renovation')],'Type', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'state'                 : fields.selection([('active','Active'),('finished','Finished'),('draft','Draft')],'Status', readonly=True),
+		'rent_start_date'       : fields.date('Starting Date', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_total'            : fields.function(_get_total_rent,type='float',method=True,string='Total Paid'),
-		'rent_rent_local'       : fields.many2one('rent.floor.local','Local', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_rent_parking'     : fields.many2one('rent.floor.parking','Parking', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_rent_estate'      : fields.many2one('rent.estate','Estate', states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_related_real'     : fields.selection([('local','Locals'),('parking','Parking'),('estate','Estates')],'Type of Real Estate', required=True,states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_rent_local'       : fields.many2one('rent.floor.local','Local', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_rent_parking'     : fields.many2one('rent.floor.parking','Parking', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_rent_estate'      : fields.many2one('rent.estate','Estate', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_related_real'     : fields.selection([('local','Locals'),('parking','Parking'),('estate','Estates')],'Type of Real Estate', required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_years'            : fields.function(_calculate_years,type='integer',method=True,string = 'Years' ,help='Check if you want to calculate a rent for locals'),
 		'rent_modif'            : fields.one2many('rent.rent', 'rent_modif_ref','Contract reference', states={'draft':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_modif_ref'        : fields.many2one('rent.rent', 'Modifications',ondelete='cascade'),
 		'currency_id'           : fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft':[('readonly',False)]}),
-		'rent_estimates'        : fields.one2many('rent.rent.estimate', 'estimate_rent','Estimates',states={'valid':[('readonly',True)], 'finished':[('readonly',True)]}),         
+		'rent_estimates'        : fields.one2many('rent.rent.estimate', 'estimate_rent','Estimates',states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),         
 		'rent_historic'         : fields.one2many('rent.rent.anual.value', 'anual_value_rent','Historic',readonly=True),         
 		'rent_charge_day'       : fields.integer('Dia de cobro',help='Indica el dia del mes para realizar los cobros del alquiler.'),
 	}
@@ -719,6 +715,43 @@ class rent_rent_anual_value(osv.osv):
 	
 rent_rent_anual_value()
 
+#
+#
+#
+class rent_invoice_line(osv.osv):
+	_name = 'account.invoice.line'
+	_inherit = 'account.invoice.line'
+	
+	def onchange_type(self,cr,uid,ids,field):
+		res = {}
+		res['product_id'] = ' '
+		res['invoice_rent'] = ' '
+		return res
+	
+	_columns = {
+		'invoice_type'    : fields.selection([('rent','Rent'),('product','Product')],'Type',help = 'Select one of this to determine the type of invoice to create'),
+		'invoice_rent'    : fields.many2one('rent.rent','Rent id'),
+	}
+	_defaults = {
+		'invoice_type'  : 'rent',
+	}
+rent_invoice_line()
+
+#This class is used to keep reference of all the invoices
+#that have been register to the rent
+class rent_rent_invoice(osv.osv):
+	_name = 'rent.invoioce.rent'
+	_columns = {
+		'invoice_id'       : fields.many2one('account.invoice','Invoice'),
+		'invoice_rent_id'  : fields.many20ne('rent.rent', 'Rent'),
+		'invoice_date'     : fields.related('invoice_id','date_invoice', type='date',relation='account.invoice',string='Date',readonly=True,store=False),
+		'invoice_amount'   : fields.related('invoice_id','amount_total', type='float',relation='account.invoice',string='Amount Total',readonly=True,store=False),
+		'invoice_state'    : fields.related('invoice_id','state', type='char',relation='account.invoice',string='State',readonly=True,store=False),
+		'invoice_number'   : fields.related('invoice_id','number', type='char',size=64,relation='account.invoice',string='Invoice Number',readonly=True,store=False),
+		'invouce_residual' : fields.related('invoice_id','residual', type='float',relation='account.invoice',string='Residual',readonly=True,store=False),
+	}
+
+rent_rent_invoice()
 
 #
 #

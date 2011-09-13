@@ -619,7 +619,7 @@
 				<search string = "Search Rents">
 					<group>
 						<filter string = "Draft" icon = "terp-stock_symbol-selection" domain = "[('state','=','draft')]"/>
-						<filter string = "Valid" icon = "terp-go-home" domain = "[('state','=','valid')]" />
+						<filter string = "Active" icon = "terp-go-home" domain = "[('state','=','active')]" />
 						<filter string = "Finished" icon = "terp-go-home" domain = "[('state','=','finished')]"/>
 					</group>
 					<group expand = "0" string = "Group By...">
@@ -683,8 +683,8 @@
 
 							</group>
 							 <group col="6" colspan="4">
-									<button name="rent_finish" states="valid" string="Finish" icon="gtk-cancel"/>
-									<button name="rent_valid" states="draft" string="Approve" icon="terp-camera_test"/>
+									<button name="rent_finish" states="active" string="Finish" icon="gtk-cancel"/>
+									<button name="rent_active" states="draft" string="Approve" icon="terp-camera_test"/>
 							</group>
 						</page>
 						<page string = "Calculations">
@@ -709,7 +709,7 @@
 			<field name = "model">rent.rent</field>
 			<field name = "type">tree</field>
 			<field name = "arch" type = "xml">
-				<tree string = "Rent List" colors="blue:state in ('draft');black:state in ('valid');gray:state in ('finished')">
+				<tree string = "Rent List" colors="blue:state in ('draft');black:state in ('active');gray:state in ('finished')">
 					<field name = "name"/>
 					<field name = "rent_type"/>
 					<field name = "rent_related_real"/>
@@ -718,8 +718,8 @@
 					<field name = "rent_end_date"/>
 					<field name = "rent_amount_base"/>
 					<field name = "rent_rise"/>
-					<button name="rent_valid" states="draft" string="Approve" icon="terp-camera_test"/>
-					<button name="rent_finish" states="valid" string="Finish" icon="gtk-cancel"/>
+					<button name="rent_active" states="draft" string="Approve" icon="terp-camera_test"/>
+					<button name="rent_finish" states="active" string="Finish" icon="gtk-cancel"/>
 				</tree>
 			</field>
 		</record>
@@ -848,6 +848,34 @@
 			<field name = "view_mode">tree,form</field>
 			<field name = "view_id" ref = "rent_anual_value_tree_view"/>
 		</record>
+		
+		<!--
+		======================================
+					RENT INVOICE
+		======================================
+		-->
+		<record model = "ir.ui.view" id = "rent_invoice_form_view">
+			<field name = "name">rent.invoice.form</field>
+			<field name = "model">account.invoice.line</field>
+			<field name = "type">form</field>
+			<field name = "inherit_id" ref = "view_invoice_line_form"/>
+			<field name = "arch" type="xml">
+				<form string = "Invoice Line">
+					<field name="product_id" position="replace">
+						<field name = "product_id" attrs="{'invisible' : [('invoice_type','=','rent')]}"/>
+					</field>
+					<field name="product_id" position="before">
+						<field name = "invoice_type" on_change = "onchange_type(invoice_type)"/>
+					</field>
+					<field name="product_id" position="after">
+						<field name = "invoice_rent" attrs="{'invisible' : [('invoice_type','=','product')]}"/>
+					</field>
+				</form>
+			</field>
+		</record>
+		
+		
+		
 		<!--
 		======================================
 					CONTRACTS
@@ -862,7 +890,7 @@
 					<group col = "4" colspan = "4">
 						<separator colspan = "4" string = "General Data"/>
 						<field name = "name"/>
-						<field name = "contract_rent" domain = "['|',('state','=','draft'), ('state','=','valid'),('rent_type'.'!=','Adendum')]"/>
+						<field name = "contract_rent" domain = "['|',('state','=','draft'), ('state','=','active'),('rent_type'.'!=','Adendum')]"/>
 					</group>
 					<group col = "4" colspan = "4">
 						<separator colspan = "4" string = "General Data"/>
