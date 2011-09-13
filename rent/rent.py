@@ -743,7 +743,7 @@ class rent_rent_invoice(osv.osv):
 	_name = 'rent.invoioce.rent'
 	_columns = {
 		'invoice_id'       : fields.many2one('account.invoice','Invoice'),
-		'invoice_rent_id'  : fields.many20ne('rent.rent', 'Rent'),
+		'invoice_rent_id'  : fields.many2one('rent.rent', 'Rent'),
 		'invoice_date'     : fields.related('invoice_id','date_invoice', type='date',relation='account.invoice',string='Date',readonly=True,store=False),
 		'invoice_amount'   : fields.related('invoice_id','amount_total', type='float',relation='account.invoice',string='Amount Total',readonly=True,store=False),
 		'invoice_state'    : fields.related('invoice_id','state', type='char',relation='account.invoice',string='State',readonly=True,store=False),
