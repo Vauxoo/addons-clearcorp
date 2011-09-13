@@ -864,10 +864,11 @@
 					<field name="product_id" position="before">
 						<field name = "invoice_type" on_change = "onchange_type(invoice_type)"/>
 					</field>
+					<field name="product_id" position="replace"/>
 					<field name="invoice_type" position="after">
 						<field name = "invoice_rent" attrs="{'invisible' : [('invoice_type','=','product')]}"/>
 					</field>
-					<field name="product_id" position="replace">
+					<field name="invoice_rent" position="after">
 						<field name = "product_id" attrs="{'invisible' : [('invoice_type','=','rent')]}"/>
 					</field>
 				</form>
