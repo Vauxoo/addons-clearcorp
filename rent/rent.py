@@ -722,10 +722,47 @@ class rent_invoice_line(osv.osv):
 	_name = 'account.invoice.line'
 	_inherit = 'account.invoice.line'
 	
+	def rent_id_change(self, cr, uid, ids, rent, type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, currency_id=False, context=None):
+		 if context is None:
+			context = {}
+		company_id = context.get('company_id',False)
+		if not partner_id:
+			raise osv.except_osv(_('No Partner Defined !'),_("You must first select a partner !") )
+		if not rent:
+			if type in ('in_invoice', 'in_refund'):
+				return {'value': {'categ_id': False}, 'domain':{'':[]}}
+			else:
+				return {'value': {'price_unit': 0.0, 'categ_id': False}, 'domain':{'product_uom':[]}}
+		
+		obj_rent = self.pool.get('rent.rent').browse(cr, uid, rent, context=context)
+		part = self.pool.get('res.partner').browse(cr, uid, partner_id, context=context)
+		fpos_obj = self.pool.get('account.fiscal.position')
+		fpos = fposition_id and fpos_obj.browse(cr, uid, fposition_id, context=context) or False
+		if part.lang:
+			context.update({'lang': part.lang})
+		result = {}
+		
+		a = fpos_obj.map_account(cr, uid, fpos, a)
+		if a:
+			result['account_id'] = a
+		if type in ('out_invoice', 'out_refund'):
+			taxes = self.pool.get('account.account').browse(cr, uid, a, context=context).tax_ids
+		
+		tax_id = fpos_obj.map_tax(cr, uid, fpos, taxes)
+		res_final = {'value':result, 'domain':domain}
+		
+		company = self.pool.get('res.company').browse(cr, uid, company_id, context=context)
+		currency = self.pool.get('res.currency').browse(cr, uid, currency_id, context=context)
+
+		if company.currency_id.id != currency.id:
+			new_price = res_final['value']['price_unit'] * currency.rate
+			res_final['value']['price_unit'] = new_price
+		return res_final
+	
 	def onchange_type(self,cr,uid,ids,field):
 		res = {}
-		res['product_id'] = ' '
-		res['invoice_rent'] = ' '
+		res['product_id'] = False
+		res['invoice_rent'] = False
 		return res
 	
 	_columns = {
