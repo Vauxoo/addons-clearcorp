@@ -771,9 +771,11 @@ class rent_invoice_line(osv.osv):
 	
 	def onchange_type(self,cr,uid,ids,field):
 		res = {}
+		debug("bbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
+		debug("bbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
 		res['product_id'] = False
 		res['invoice_rent'] = False
-		return res
+		return {'value' : res}
 	
 	_columns = {
 		'invoice_type'    : fields.selection([('rent','Rent'),('product','Product')],'Type',help = 'Select one of this to determine the type of invoice to create'),
