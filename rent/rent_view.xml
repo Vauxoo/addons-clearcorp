@@ -865,6 +865,7 @@
 						<field name = "invoice_type" on_change = "onchange_type(invoice_type)"/>
 					</field>
 					<field name="product_id" position="replace"/>
+					<field name="uos_id" position="replace"/>
 					<field name="invoice_type" position="after">
 						<field name = "invoice_rent" on_change="rent_id_change(invoice_rent, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.address_invoice_id, parent.currency_id, {'company_id': parent.company_id})" attrs="{'invisible' : [('invoice_type','=','product')]}"/>
 					</field>
@@ -875,8 +876,6 @@
 				</data>
 			</field>
 		</record>
-		
-		
 		
 		
 		<!--
