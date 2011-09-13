@@ -4,6 +4,7 @@ import time
 import pooler
 from dateutil import parser
 from datetime import date
+import calendar
 from tools.translate import _
 
 class rent_canton(osv.osv):
@@ -484,6 +485,7 @@ class rent_rent(osv.osv):
 			obj_rent.onchange_estimations(obj_rent.rent_estimates)
 		if 'rent_amount_base' in vals: 
 			obj_rent.register_historic()
+			self.first_rent(ids)
 		return True
 		
 	def register_historic(self,cr,uid,ids):
@@ -536,48 +538,64 @@ class rent_rent(osv.osv):
 			res[obj_rent.id] = years_val
 		return res
 		
-	def action_invoice_create(self, cr, uid, ids, *args):
-		res = False
+	def inv_line_create(self, cr, uid,obj_rent,args):
+		res_data = {}
+		obj_company = obj_rent.rent_rent_client.company_id or False
+		
+		if obj_rent.rent_related_real == 'estate':
+			res_data['account_id'] = obj_rent.rent_rent_estate.estate_account.id
+		else:
+			res_data['account_id'] = obj_rent.rent_rent_local.local_building.building_asset.id
+			
+		if obj_company.currency_id.id != obj_rent.currency_id.id:
+			new_price = res_data['price_unit'] * obj_rent.currency_id.rate
+			res_data['price_unit'] = new_price
 
-#		journal_obj = self.pool.get('account.journal')
-#		for o in self.browse(cr, uid, ids):
-#			il = []
-#			todo = []
-#			for ol in o.order_line:
-#				todo.append(ol.id)
-#				if ol.product_id:
-#					a = ol.product_id.product_tmpl_id.property_account_expense.id
-#					if not a:
-#						a = ol.product_id.categ_id.property_account_expense_categ.id
-#					if not a:
-#						raise osv.except_osv(_('Error !'), _('There is no expense account defined for this product: "%s" (id:%d)') % (ol.product_id.name, ol.product_id.id,))
-#				else:
-#					a = self.pool.get('ir.property').get(cr, uid, 'property_account_expense_categ', 'product.category').id
-#				fpos = o.fiscal_position or False
-#				a = self.pool.get('account.fiscal.position').map_account(cr, uid, fpos, a)
-#				il.append(self.inv_line_create(cr, uid, a, ol))
-#
-#			a = o.partner_id.property_account_payable.id
-#			journal_ids = journal_obj.search(cr, uid, [('type', '=','purchase'),('company_id', '=', o.company_id.id)], limit=1)
-#			if not journal_ids:
-#				raise osv.except_osv(_('Error !'),
-#					_('There is no purchase journal defined for this company: "%s" (id:%d)') % (o.company_id.name, o.company_id.id))
-#			inv = {
-#				'name': o.partner_ref or o.name,
-#				'reference': o.partner_ref or o.name,
-#				'account_id': a,
-#				'type': 'in_invoice',
-#				'partner_id': o.partner_id.id,
-#				'currency_id': o.pricelist_id.currency_id.id,
-#				'address_invoice_id': o.partner_address_id.id,
-#				'address_contact_id': o.partner_address_id.id,
-#				'journal_id': len(journal_ids) and journal_ids[0] or False,
-#				'origin': o.name,
-#				'invoice_line': il,
-#				'fiscal_position': o.fiscal_position.id or o.partner_id.property_account_position.id,
-#				'payment_term': o.partner_id.property_payment_term and o.partner_id.property_payment_term.id or False,
-#				'company_id': o.company_id.id,
-#			}
+		return (0, False, {
+			'name': args['desc'],
+			'account_id': res_data['account_id'],
+			'price_unit': args['amount'] or 0.0,
+			'quantity': 1 ,
+			'product_id': False,
+			'uos_id': False,
+			'invoice_line_tax_id': [(6, 0, [x.id for x in ol.taxes_id])],
+			'account_analytic_id': False,
+			'invoice_rent': args['rent_id'] or False,
+		})
+	def invoice_rent(self, cr, uid, ids, *args):
+		res = False
+		journal_obj = self.pool.get('account.journal')
+		il = []
+		for rlist in *args:
+			obj_rent = self.browse(cr,uid,rlist['rent_id'])
+			il.append(self.inv_line_create(cr, uid,obj_rent,rlist))
+			a = self.pool.get('ir.property').get(cr, uid, 'property_account_expense_categ', 'product.category').id
+			
+			fpos = False
+			a = self.pool.get('account.fiscal.position').map_account(cr, uid, fpos, a)
+			obj_client = obj_rent.rent_rent_client
+			journal_ids = journal_obj.search(cr, uid, [('type', '=','purchase'),('company_id', '=',obj_client.company_id.id)],limit=1)
+
+			if not journal_ids:
+				raise osv.except_osv(_('Error !'),
+					_('There is no purchase journal defined for this company: "%s" (id:%d)') % (o.company_id.name, o.company_id.id))
+			desc = 'Factura por concepto de alquiler de  %s' % (obj_rent.rent_related_real)
+			inv = {
+				'name': obj_rent.name or desc,
+				'reference': obj_rent.name or desc,
+				'account_id': a,
+				'type': 'in_invoice',
+				'partner_id': obj_client.id,
+				'currency_id': obj_rent.currency_id.id,
+				'address_invoice_id': obj_client.address[0].id,
+				'address_contact_id': obj_client.address[0].id,
+				'journal_id': len(journal_ids) and journal_ids[0] or False,
+				'origin': obj_rent.name or desc,
+				'invoice_line': il,
+				'fiscal_position': obj_client.property_account_position.id,
+				'payment_term': obj_client.property_payment_term and o.partner_id.property_payment_term.id or False,
+				'company_id': obj_client.company_id.id,
+			}
 #			inv_id = self.pool.get('account.invoice').create(cr, uid, inv, {'type':'in_invoice'})
 #			self.pool.get('account.invoice').button_compute(cr, uid, [inv_id], {'type':'in_invoice'}, set_total=True)
 #			self.pool.get('purchase.order.line').write(cr, uid, todo, {'invoiced':True})
@@ -585,19 +603,30 @@ class rent_rent(osv.osv):
 #			res = inv_id
 		return res
 	
-#	def onchange_rent_type(self,cr,uid,ids,field):
-#		res = {}
-#		debug("==========Default====")
-#		debug(ids)
-#		for obj_rent in self.browse(cr,uid,ids):
-#			obj_rent_parent = obj_rent.rent_modif_ref
-#			if obj_rent_parent :
-#				res['name'] = obj_rent_parent.name
-#				res['rent_rent_client'] = obj_rent_parent.rent_rent_client
-#				res['rent_end_date'] = obj_rent_parent.rent_end_date
-#				res['rent_rise'] = obj_rent_parent.rent_rise
-#				res['rent_amount_base'] = obj_rent_parent.rent_amount_base
-#		return {'value' : res}
+	def first_rent(self,cr,uid,ids):
+		debug('GENERACION DE PRIMER PAGO')
+		res = []
+		debug(ids)
+		for obj_rent in self.browse(cr,uid,ids):
+			init_date = parser.parse(obj_rent.rent_start_date).date()
+			charged_days = (calendar.mdays[init_date.month] - init_date.day)  + (obj_rent.rent_charge_day - 1)
+			
+			amount = (charged_days/ calendar.mdays[init_date.month]) * obj_rent.rent_amount_base
+			end_date = date(init_date.year,init_date.month + 1,obj_rent.rent_charge_day)
+			desc = "Cobro de primer alquiler. Desde el %s hasta el %d de %s" % (init_date.strftime("%A %d. %B %Y"),end_date.strftime("%A %d. %B %Y"))
+			
+			res.append({
+				'rent_id': obj_rent.id,
+				'amount' : amount,
+				'date'   : end_date,
+				'desc'   : desc,
+			})
+		debug(res)
+		self.invoice_rent(res)
+		return True
+		
+	def rent_calc(sefl,cr,uid,ids,rent):
+		return True
 	def calculate_negotiation(self,cr,uid,ids,context):
 		res = {}
 		self.pool.get('rent.rent').write(cr, uid, ids, {}, context)
