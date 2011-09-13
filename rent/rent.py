@@ -750,9 +750,15 @@ class rent_invoice_line(osv.osv):
 		
 		tax_id = fpos_obj.map_tax(cr, uid, fpos, taxes)
 		
+		debug("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+		debug(obj_rent)
+
 		result['name'] = obj_rent.name
+		result['price_unit'] = obj_rent.rent_amount_base
 		domain = {}
-		res_final = {'value':result, 'domain':domain}
+		res_final = {'value':result}
+		
+		debug(result)
 		
 		company = self.pool.get('res.company').browse(cr, uid, company_id, context=context)
 		currency = self.pool.get('res.currency').browse(cr, uid, currency_id, context=context)
