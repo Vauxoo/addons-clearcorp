@@ -742,13 +742,15 @@ class rent_invoice_line(osv.osv):
 			context.update({'lang': part.lang})
 		result = {}
 		
-		a = fpos_obj.map_account(cr, uid, fpos, None)
+		a = fpos_obj.map_account(cr, uid, fpos, '0-112001')
 		if a:
-			result['account_id'] = a
+			result['account_id'] = a or '0-112001'
 		if type in ('out_invoice', 'out_refund'):
 			taxes = self.pool.get('account.account').browse(cr, uid, a, context=context).tax_ids
 		
 		tax_id = fpos_obj.map_tax(cr, uid, fpos, taxes)
+		
+		result['name'] = obj_rent.name
 		domain = {}
 		res_final = {'value':result, 'domain':domain}
 		
