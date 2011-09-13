@@ -694,7 +694,7 @@
 							<field name = "rent_historic" nolabel="1"/>
 						</page>
 						<page string = "Facturas">
-							
+							<field name = "rent_invoice_ids" nolabel="1"/>
 						</page>
 						<page string = "Modifications">
 							<field name = "rent_modif" attrs="{'readonly' : [('rent_type','!=','Contract')]}" nolabel="1"/>
@@ -851,7 +851,7 @@
 		
 		<!--
 		======================================
-					RENT INVOICE
+					RENT INVOICE LINE
 		======================================
 		-->
 		<record model = "ir.ui.view" id = "rent_invoice_form_view">
@@ -877,6 +877,42 @@
 			</field>
 		</record>
 		
+		
+		<!--
+		======================================
+					RENT INVOICE
+		======================================
+		-->
+		<record model = "ir.ui.view" id = "rent_invoices_form_view">
+			<field name = "name">rent.invoice.rent.form</field>
+			<field name = "model">rent.invoice.rent</field>
+			<field name = "type">form</field>
+			<field name = "arch" type="xml">
+				<form string = "Invoices">
+					<field name="invoice_id"/>
+					<field name="invoice_date"/>
+					<field name="invoice_state"/>
+					<field name="invoice_number"/>
+					<field name="invouce_residual"/>
+				</form>
+			</field>
+		</record>
+		
+		
+		<record model = "ir.ui.view" id = "rent_invoices_tree_view">
+			<field name = "name">rent.invoice.rent.tree</field>
+			<field name = "model">rent.invoice.rent</field>
+			<field name = "type">form</field>
+			<field name = "arch" type="xml">
+				<tree string = "Invoices">
+					<field name="invoice_id"/>
+					<field name="invoice_date"/>
+					<field name="invoice_state"/>
+					<field name="invoice_number"/>
+					<field name="invouce_residual"/>
+				</tree>
+			</field>
+		</record>
 		<!--
 		======================================
 					CONTRACTS

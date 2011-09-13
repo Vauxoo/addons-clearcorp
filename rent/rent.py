@@ -617,6 +617,7 @@ class rent_rent(osv.osv):
 			charged_days = (calendar.mdays[init_date.month] - init_date.day)  + (obj_rent.rent_charge_day - 1)
 			
 			amount = (charged_days/ calendar.mdays[init_date.month]) * obj_rent.rent_amount_base
+			debug(amount)
 			end_date = date(init_date.year,init_date.month + 1,obj_rent.rent_charge_day)
 			desc = "Cobro de primer alquiler. Desde el %s hasta el %s" % (init_date.strftime("%A %d. %B %Y"),end_date.strftime("%A %d. %B %Y"))
 			
@@ -666,6 +667,7 @@ class rent_rent(osv.osv):
 		'rent_estimates'        : fields.one2many('rent.rent.estimate', 'estimate_rent','Estimates',states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),         
 		'rent_historic'         : fields.one2many('rent.rent.anual.value', 'anual_value_rent','Historic',readonly=True),         
 		'rent_charge_day'       : fields.integer('Dia de cobro',help='Indica el dia del mes para realizar los cobros del alquiler.'),
+		'rent_invoice_ids'      : fields.one2many('rent.invoice.rent','invoice_rent_id','Rent Invoices'),
 	}
 	
 	_defaults = {
@@ -797,7 +799,7 @@ rent_invoice_line()
 #This class is used to keep reference of all the invoices
 #that have been register to the rent
 class rent_rent_invoice(osv.osv):
-	_name = 'rent.invoioce.rent'
+	_name = 'rent.invoice.rent'
 	_columns = {
 		'invoice_id'       : fields.many2one('account.invoice','Invoice'),
 		'invoice_rent_id'  : fields.many2one('rent.rent', 'Rent'),
