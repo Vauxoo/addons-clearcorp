@@ -51,7 +51,7 @@ class account_invoice_line_ccorp(osv.osv):
                 cur = line.invoice_id.currency_id
                 res[line.id] = cur_obj.round(cr, uid, cur, res[line.id])
             else:
-                res[line.id] = round(line.price_unit * line.quantity, dp.get_precision('Account'))
+                res[line.id] = line.price_unit * line.quantity
         return res
 
     def _amount_line_ccorp(self, cr, uid, ids, prop, unknow_none,unknow_dict):
