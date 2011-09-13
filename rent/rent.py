@@ -622,7 +622,7 @@ class rent_rent(osv.osv):
 				'desc'   : desc,
 			})
 		debug(res)
-		self.invoice_rent(res)
+		self.invoice_rent(cr,uid,ids,res)
 		return True
 		
 	def rent_calc(sefl,cr,uid,ids,rent):
