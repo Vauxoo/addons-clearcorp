@@ -885,7 +885,7 @@
 			<field name="arch" type="xml">
 				<data>
 					<field name = "uos_id" position = "replace"/>
-					<field name = "quantity" position = "after"/>
+					<field name = "quantity" position = "after">
 						<field name = "uos_id" attrs="{'invisible' : [('invoice_type','=','rent')]}"/>
 					</field>
 				</data>
