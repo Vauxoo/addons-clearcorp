@@ -881,7 +881,7 @@
 			<field name="name">account.invoice.line.tree</field>
 			<field name="model">account.invoice.line</field>
 			<field name="type">tree</field>
-			<field name="inherit_id" ref = "account.view_invoice_line_tree">
+			<field name="inherit_id" ref = "account.view_invoice_line_tree"/>
 			<field name="arch" type="xml">
 				<data>
 					<field name = "uos_id" position = "replace">
