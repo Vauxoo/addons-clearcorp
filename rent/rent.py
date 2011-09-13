@@ -728,12 +728,7 @@ class rent_invoice_line(osv.osv):
 		company_id = context.get('company_id',False)
 		if not partner_id:
 			raise osv.except_osv(_('No Partner Defined !'),_("You must first select a partner !") )
-		if not rent:
-			if type in ('in_invoice', 'in_refund'):
-				return {'value': {'categ_id': False}, 'domain':{'':[]}}
-			else:
-				return {'value': {'price_unit': 0.0, 'categ_id': False}, 'domain':{'product_uom':[]}}
-		
+
 		obj_rent = self.pool.get('rent.rent').browse(cr, uid, rent, context=context)
 		part = self.pool.get('res.partner').browse(cr, uid, partner_id, context=context)
 		fpos_obj = self.pool.get('account.fiscal.position')
@@ -745,6 +740,7 @@ class rent_invoice_line(osv.osv):
 		a = fpos_obj.map_account(cr, uid, fpos, '0-112001')
 		if a:
 			result['account_id'] = a or '0-112001'
+		
 		if type in ('out_invoice', 'out_refund'):
 			taxes = self.pool.get('account.account').browse(cr, uid, a, context=context).tax_ids
 		
@@ -757,17 +753,15 @@ class rent_invoice_line(osv.osv):
 		
 		result['name'] = obj_rent.name
 		result['price_unit'] = obj_rent.rent_amount_base
-		res_final = {'value':result}
 		
 		debug(result)
 		company = self.pool.get('res.company').browse(cr, uid, company_id, context=context)
 		currency = self.pool.get('res.currency').browse(cr, uid, currency_id, context=context)
 
 		if company.currency_id.id != currency.id:
-			new_price = res_final['value']['price_unit'] * currency.rate
-			res_final['value']['price_unit'] = new_price
-		debug(res_final)
-		return res_final
+			new_price = result['price_unit'] * currency.rate
+			result['price_unit'] = new_price
+		return {'value' : result}
 	
 	def onchange_type(self,cr,uid,ids,field):
 		res = {}
