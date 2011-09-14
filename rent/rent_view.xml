@@ -902,7 +902,7 @@
 		<record model = "ir.ui.view" id = "rent_invoices_tree_view">
 			<field name = "name">rent.invoice.rent.tree</field>
 			<field name = "model">rent.invoice.rent</field>
-			<field name = "type">form</field>
+			<field name = "type">tree</field>
 			<field name = "arch" type="xml">
 				<tree string = "Invoices">
 					<field name="invoice_id"/>
