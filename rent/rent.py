@@ -563,7 +563,7 @@ class rent_rent(osv.osv):
 			'invoice_rent': args['rent_id'] or False,
 		})
 	def invoice_rent(self, cr, uid, ids, *args):
-		res = False
+		res = {}
 		journal_obj = self.pool.get('account.journal')
 		il = []
 		debug('GENERACION DE factura PAGO')
@@ -598,6 +598,8 @@ class rent_rent(osv.osv):
 				'fiscal_position': obj_client.property_account_position.id,
 				'payment_term': obj_client.property_payment_term and o.partner_id.property_payment_term.id or False,
 				'company_id': obj_client.company_id.id,
+				'date_invoice' : date.today(),
+				'date_due' : date(date.today().year,date.today().month + 1,obj_rent.rent_charge_day),
 			}
 			debug(inv)
 			inv_id = self.pool.get('account.invoice').create(cr, uid, inv, {'type':'in_invoice'})
@@ -605,7 +607,9 @@ class rent_rent(osv.osv):
 #			self.pool.get('purchase.order.line').write(cr, uid, todo, {'invoiced':True})
 #			self.write(cr, uid, [o.id], {'invoice_ids': [(4, inv_id)]})
 			debug(inv_id)
-			res = inv_id
+			res['invoice_id'] = inv_id
+			res['rent_id'] = obj_rent.id
+			self.register_rent_invoice(cr,uid,ids,res)
 		return res
 	
 	def first_rent(self,cr,uid,ids):
@@ -631,9 +635,14 @@ class rent_rent(osv.osv):
 		self.invoice_rent(cr,uid,ids,res)
 		return True
 		
+	def register_rent_invoice(self,cr,uid,ids,args):
+		obj_rent = self.browse(cr,uid,args['rent_id'])
+		obj_rent.write({'rent_invoice_ids' : [(0,0,{'invoice_id':args['invoice_id'],'invoice_rent_id':obj_rent.id})]})
+		return True
 	def rent_calc(sefl,cr,uid,ids,rent):
 		return True
 	def calculate_negotiation(self,cr,uid,ids,context):
+		
 		res = {}
 		self.pool.get('rent.rent').write(cr, uid, ids, {}, context)
 		return { 'value' : res}
@@ -668,6 +677,7 @@ class rent_rent(osv.osv):
 		'rent_historic'         : fields.one2many('rent.rent.anual.value', 'anual_value_rent','Historic',readonly=True),         
 		'rent_charge_day'       : fields.integer('Dia de cobro',help='Indica el dia del mes para realizar los cobros del alquiler.'),
 		'rent_invoice_ids'      : fields.one2many('rent.invoice.rent','invoice_rent_id','Rent Invoices'),
+		'rent_invoiced_day'     : fields.integer('Invoiced Day',help='Indica el dia del mes para realizar los cobros del alquiler.'),
 	}
 	
 	_defaults = {
