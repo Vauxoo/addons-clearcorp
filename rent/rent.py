@@ -905,10 +905,13 @@ class stock_location(osv.osv):
 					name = record['location_id'][1] + ' / ' + name
 				res.append((record['id'], name))
 			else:
-				debug(record['location_id'])
 				if record['location_id']:
 					if len(record['location_id'][1].split(',')) < 2:
 						name = name + ', ' + record['location_id'][1]
 				res.append((record['id'], name))
 		return res
+	
+	_columns = {
+		'shortcut'  :  fields.char('Shortcut',size=10),
+	}
 stock_location()
