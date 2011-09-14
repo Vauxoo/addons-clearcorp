@@ -17,7 +17,7 @@ class stock_location(osv.osv):
 			context = {}
 		if not len(ids):
 			return []
-		reads = self.read(cr, uid, ids, ['name','location_id','shortcut'], context=context)
+		reads = self.read(cr, uid, ids, ['name','location_id'], context=context)
 		for record in reads:
 			name = record['name']
 			if context.get('full',False):
@@ -26,11 +26,12 @@ class stock_location(osv.osv):
 				res.append((record['id'], name))
 			else:
 				debug("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-				debug(record['shortcut'])
 				if record['location_id']:
 					if len(record['location_id'][1].split(',')) < 2:
-						if record['shortcut']:
-							name = record['shortcut'] + '--' + name
+						obj_stock_location = self.browse(cr,uid,record['location_id'][0])
+						debug(obj_stock_location)
+						if obj_stock_location.shortcut:
+							name = obj_stock_location.shortcut + '--' + name
 						else:
 							name = name + ', ' + record['location_id'][1]
 				res.append((record['id'], name))
