@@ -573,8 +573,8 @@ class rent_rent(osv.osv):
 			obj_rent = self.browse(cr,uid,rlist['rent_id'])
 			il.append(self.inv_line_create(cr, uid,obj_rent,rlist))
 
-			a = obj_client.property_account_receivable.id
 			obj_client = obj_rent.rent_rent_client
+			a = obj_client.property_account_receivable.id
 			journal_ids = journal_obj.search(cr, uid, [('type', '=','sale'),('company_id', '=',obj_client.company_id.id)],limit=1)
 
 			if not journal_ids:
