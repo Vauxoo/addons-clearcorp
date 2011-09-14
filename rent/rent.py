@@ -466,7 +466,7 @@ class rent_rent(osv.osv):
 		debug(rent_id)
 		obj_rent = self.browse(cr,uid,rent_id)
 		debug(obj_rent)
-		obj_rent.register_historic()
+		#obj_rent.register_historic()
 		return obj_rent.id
 			
 	def write(self, cr, uid, ids, vals, context=None):
@@ -780,7 +780,7 @@ class rent_invoice_line(osv.osv):
 		if obj_rent.rent_related_real == 'estate':
 			res['account_id'] = obj_rent.rent_rent_estate.estate_account
 		else:
-			res['account_id'] = obj_rent.rent_rent_local.local_building.building_asset.id
+			res['account_id'] = obj_rent.rent_rent_local.local_building.building_estate.estate_account
 			
 		obj_company = self.pool.get('res.company').browse(cr, uid, company_id, context=context)
 		if obj_company.currency_id.id != obj_rent.currency_id.id:
