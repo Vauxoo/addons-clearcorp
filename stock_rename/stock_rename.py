@@ -25,6 +25,7 @@ class stock_location(osv.osv):
 					name = record['location_id'][1] + ' / ' + name
 				res.append((record['id'], name))
 			else:
+				debug("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 				debug(record['shortcut'])
 				if record['location_id']:
 					if len(record['location_id'][1].split(',')) < 2:
