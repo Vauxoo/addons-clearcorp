@@ -545,7 +545,7 @@ class rent_rent(osv.osv):
 		if obj_rent.rent_related_real == 'estate':
 			res_data['account_id'] = obj_rent.rent_rent_estate.estate_account.id
 		else:
-			res_data['account_id'] = obj_rent.rent_rent_local.local_building.building_asset.id
+			res_data['account_id'] = obj_rent.rent_rent_local.local_building.building_estate.estate_account.id
 			
 		if obj_company.currency_id.id != obj_rent.currency_id.id:
 			new_price = res_data['price_unit'] * obj_rent.currency_id.rate
@@ -572,12 +572,10 @@ class rent_rent(osv.osv):
 			debug(rlist)
 			obj_rent = self.browse(cr,uid,rlist['rent_id'])
 			il.append(self.inv_line_create(cr, uid,obj_rent,rlist))
-			a = self.pool.get('ir.property').get(cr, uid, 'property_account_expense_categ', 'product.category').id
-			
-			fpos = False
-			a = self.pool.get('account.fiscal.position').map_account(cr, uid, fpos, a)
+
+			a = obj_client.property_account_receivable.id
 			obj_client = obj_rent.rent_rent_client
-			journal_ids = journal_obj.search(cr, uid, [('type', '=','purchase'),('company_id', '=',obj_client.company_id.id)],limit=1)
+			journal_ids = journal_obj.search(cr, uid, [('type', '=','sale'),('company_id', '=',obj_client.company_id.id)],limit=1)
 
 			if not journal_ids:
 				raise osv.except_osv(_('Error !'),
@@ -587,7 +585,7 @@ class rent_rent(osv.osv):
 				'name': obj_rent.name or desc,
 				'reference': obj_rent.name or desc,
 				'account_id': a,
-				'type': 'in_invoice',
+				'type': 'out_invoice',
 				'partner_id': obj_client.id,
 				'currency_id': obj_rent.currency_id.id,
 				'address_invoice_id': obj_client.address[0].id,
@@ -602,10 +600,8 @@ class rent_rent(osv.osv):
 				'date_due' : date(date.today().year,date.today().month + 1,obj_rent.rent_charge_day),
 			}
 			debug(inv)
-			inv_id = self.pool.get('account.invoice').create(cr, uid, inv, {'type':'in_invoice'})
-			self.pool.get('account.invoice').button_compute(cr, uid, [inv_id], {'type':'in_invoice'}, set_total=True)
-#			self.pool.get('purchase.order.line').write(cr, uid, todo, {'invoiced':True})
-#			self.write(cr, uid, [o.id], {'invoice_ids': [(4, inv_id)]})
+			inv_id = self.pool.get('account.invoice').create(cr, uid, inv, {'type':'out_invoice'})
+			self.pool.get('account.invoice').button_compute(cr, uid, [inv_id], {'type':'out_invoice'}, set_total=True)
 			debug(inv_id)
 			res['invoice_id'] = inv_id
 			res['rent_id'] = obj_rent.id
