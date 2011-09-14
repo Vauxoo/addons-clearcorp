@@ -898,8 +898,6 @@ class stock_location(osv.osv):
 		if not len(ids):
 			return []
 		reads = self.read(cr, uid, ids, ['name','location_id'], context=context)
-		debug(reads)
-		debug(ids)
 		for record in reads:
 			name = record['name']
 			if context.get('full',False):
@@ -907,9 +905,9 @@ class stock_location(osv.osv):
 					name = record['location_id'][1] + ' / ' + name
 				res.append((record['id'], name))
 			else:
-				debug(res)
 				if record['location_id']:
-					name = name + ', ' + record['location_id'][1]
-				res.append((record['id'], name))
+					if len(name.split(',')) < 2:
+						name = name + ', ' + record['location_id'][1]
+					res.append((record['id'], name))
 		return res
 stock_location()
