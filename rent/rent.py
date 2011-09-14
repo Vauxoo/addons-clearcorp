@@ -906,7 +906,7 @@ class stock_location(osv.osv):
 				res.append((record['id'], name))
 			else:
 				if record['location_id']:
-					name = name + ', ' + record['location_id'][1]
+					name = name + ', ' + record['location_id'][0]
 				res.append((record['id'], name))
 		return res
 stock_location()
