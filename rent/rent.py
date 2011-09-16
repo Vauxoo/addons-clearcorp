@@ -535,7 +535,7 @@ class rent_rent(osv.osv):
 			
 			valor = obj_rent._get_total_area(obj_rent.id,None,None)[obj_rent.id]
 			amounts_val['rent_amount_per_sqr'] = (obj_rent.rent_amount_base / valor) / rate_us
-			amounts_val['rent_amounts_per_sqr'] = (obj_rent.rent_amount_base / valor) / rate_cr
+			amounts_val['rent_amountd_per_sqr'] = (obj_rent.rent_amount_base / valor) / rate_cr
 			res[obj_rent.id] = amounts_val
 		return res
 		
@@ -549,9 +549,17 @@ class rent_rent(osv.osv):
 		res = {}
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
 			years_val = {}
+			
+			currency_id = obj_rent.currency_id
 			percentaje = obj_rent.rent_rise.split('%')[0]
 			years_val['rent_rise_year2'] = obj_rent.rent_amount_base * (1 + float(percentaje) / 100)
 			years_val['rent_rise_year3'] = years_val['rent_rise_year2']  * (1 + float(percentaje) / 100)
+			
+			years_val['rent_rise_year2'] = years_val['rent_rise_year2'] / currency_id.rate
+			years_val['rent_rise_year3'] = years_val['rent_rise_year3'] / currency_id.rate
+			
+			#Just to avoid use a separate function
+			years_val['rent_amountd_base'] = obj_rent.rent_amount_base / currency_id.rate
 			res[obj_rent.id] = years_val
 		return res
 		
@@ -800,13 +808,15 @@ class rent_rent(osv.osv):
 		'rent_rise'             : fields.char('Anual Rise',size=64, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_amount_base'      : fields.float('Final Price $', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_performance'      : fields.function(_rent_performance, type='char',method = True,string='Performance'),
-		#'rent_rate'             : fields.float('Anual Rise', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rise_year2'       : fields.function(_rent_amount_years, type='float',method = True,string='Year 2 $', multi='Years'),
 		'rent_rise_year3'       : fields.function(_rent_amount_years, type='float',method = True,string='Year 3 $', multi='Years'),
 		'rent_amount_per_sqr'   : fields.function(_performance_per_sqr, type='float',method = True,string='Amount per Sqr', multi='negot'),
 		
-		'rent_amounts_per_sqr'  : fields.function(_performance_per_sqr, type='float',method = True,string='Amount m2 $', multi='negot'),
-		'rent_amounts_base'     : fields.float('Final Price $', store=False, readonly=True),
+		'rent_amountd_per_sqr'  : fields.function(_performance_per_sqr, type='float',method = True,string='Amount m2 $', multi='negot'),
+		'rent_amountd_base'     : fields.function(_rent_amount_years, type='float',method = True,string='Final Price $', multi='negot'),
+		'rent_rise_year2d'      : fields.function(_rent_amount_years, type='float',method = True,string='Year 2  $', multi='Years'),
+		'rent_rise_year3d'      : fields.function(_rent_amount_years, type='float',method = True,string='Year 3  $', multi='Years'),
+		'rent_show_us_eq'       : fields.boolean('Check USD Currency Equivalent',store=False),
 		
 		'rent_type'             : fields.selection([('Contract','Contract'),('Adendum','Adendum'),('Renovation','Renovation')],'Type', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'state'                 : fields.selection([('active','Active'),('finished','Inactive'),('draft','Draft')],'Status', readonly=True),
