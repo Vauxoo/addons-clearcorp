@@ -559,10 +559,11 @@ class rent_rent(osv.osv):
 		res_data = {}
 		obj_company = obj_rent.rent_rent_client.company_id or False
 		
-		if obj_rent.rent_related_real == 'estate':
-			res_data['account_id'] = obj_rent.rent_rent_estate.estate_account.id
-		else:
-			res_data['account_id'] = obj_rent.rent_rent_local.local_building.building_estate.estate_account.id
+		res_data['account_id'] = obj_rent.rent_rent_account_id.id
+		#if obj_rent.rent_related_real == 'estate':
+		#	res_data['account_id'] = obj_rent.rent_rent_estate.estate_account.id
+		#else:
+		#	res_data['account_id'] = obj_rent.rent_rent_local.local_building.building_estate.estate_account.id
 			
 		if obj_company.currency_id.id != obj_rent.currency_id.id:
 			new_price = res_data['price_unit'] * obj_rent.currency_id.rate
