@@ -765,7 +765,7 @@ class rent_rent(osv.osv):
 		for obj_rent in self.browse(cr,uid,rent_ids):
 			today = date.today()
 			invoices_ids = self.pool.get('rent.rent.invoice').search(cr,uid,[('invoice_date','=',today.strftime('%Y-%m-%d'))]
-			for obj_invoice_rent in self.pool.get('rent.rent.invoice').browse(cr,uid,invoices_ids):
+			for obj_invoice_rent in self.pool.get('rent.invoice.rent').browse(cr,uid,invoices_ids):
 				date_due = obj_invoice_rent.date_due
 				if date_due.day > 8 and obj_invoice_rent.residual != 0:
 					cron
