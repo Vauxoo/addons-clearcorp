@@ -437,8 +437,9 @@ class rent_rent(osv.osv):
 	def _get_total_rent(self,cr,uid,ids,field_name,args,context):
 		res = {}
 		total = 0
-		for rent_id in ids:
-			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rent_id)
+		#for rent_id in ids:
+		for obj_rent in self.browse(cr,uid,ids):
+			#obj_rent = self.pool.get('rent.rent').browse(cr,uid,rent_id)
 			if obj_rent.rent_related_real == 'local':
 				obj_local = obj_rent.rent_rent_local
 				total = obj_local._local_value(obj_local.id,None,None)[obj_local.id]
@@ -448,7 +449,11 @@ class rent_rent(osv.osv):
 			else:
 				obj_estado = obj_rent.rent_rent_estate
 				total = obj_estado._get_estate_vrm(obj_estado.id,None,None)[obj_estado.id]
-			res[rent_id] = total
+			
+			total_vals = {}
+			total_vals['rent_total'] = total
+			total_vals['rent_total_us'] = total / obj_rent.currency_id.rate
+			res[rent_id] = total_vals
 		return res
 		
 	def _calculate_years(self,cr,uid,ids,field_name,args,context):
@@ -555,8 +560,8 @@ class rent_rent(osv.osv):
 			years_val['rent_rise_year2'] = obj_rent.rent_amount_base * (1 + float(percentaje) / 100)
 			years_val['rent_rise_year3'] = years_val['rent_rise_year2']  * (1 + float(percentaje) / 100)
 			
-			years_val['rent_rise_year2'] = years_val['rent_rise_year2'] / currency_id.rate
-			years_val['rent_rise_year3'] = years_val['rent_rise_year3'] / currency_id.rate
+			years_val['rent_rise_year2d'] = years_val['rent_rise_year2'] / currency_id.rate
+			years_val['rent_rise_year2d'] = years_val['rent_rise_year3'] / currency_id.rate
 			
 			#Just to avoid use a separate function
 			years_val['rent_amountd_base'] = obj_rent.rent_amount_base / currency_id.rate
@@ -817,11 +822,12 @@ class rent_rent(osv.osv):
 		'rent_rise_year2d'      : fields.function(_rent_amount_years, type='float',method = True,string='Year 2  $', multi='Years'),
 		'rent_rise_year3d'      : fields.function(_rent_amount_years, type='float',method = True,string='Year 3  $', multi='Years'),
 		'rent_show_us_eq'       : fields.boolean('Check USD Currency Equivalent',store=False),
+		'rent_total_us'         : fields.function(_get_total_rent,type='float',method=True,string='Total Paid',multi='total'),
 		
 		'rent_type'             : fields.selection([('Contract','Contract'),('Adendum','Adendum'),('Renovation','Renovation')],'Type', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'state'                 : fields.selection([('active','Active'),('finished','Inactive'),('draft','Draft')],'Status', readonly=True),
 		'rent_start_date'       : fields.date('Starting Date', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_total'            : fields.function(_get_total_rent,type='float',method=True,string='Total Paid'),
+		'rent_total'            : fields.function(_get_total_rent,type='float',method=True,string='Total Paid',multi='total'),
 		'rent_rent_local'       : fields.many2one('rent.floor.local','Local', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rent_parking'     : fields.many2one('rent.floor.parking','Parking', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rent_estate'      : fields.many2one('rent.estate','Estate', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
