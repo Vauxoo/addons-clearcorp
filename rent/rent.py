@@ -908,7 +908,7 @@ class rent_rent(osv.osv):
 		#'rent_main_total'            : fields.float('Total Paid'),
 		#'rent_main_total_us'         : fields.float('Total Paid $'),
 		#'rent_main_historic'         : fields.one2many('rent.rent.anual.value', 'anual_value_rent','Historic',readonly=True),         
-		'rent_main_company_id'       : fields.many2one('res.company', 'Supplier Company'),         
+		#'rent_main_company_id'       : fields.many2one('res.company', 'Supplier Company'),         
 	}
 	
 	_defaults = {
@@ -981,60 +981,7 @@ class rent_rent_estimate(osv.osv):
 	}
 rent_rent_estimate()
 
-class rent_rent_main_estimate(osv.osv):
-	_name = 'rent.rent.main.estimate'
-		
-	def _performance_years(self,cr,uid,ids,field_name,args,context):
-		res = {}
-		for obj_estimate in self.pool.get('rent.rent.main.estimate').browse(cr,uid,ids):
-			if obj_estimate.estimate_performance:
-				res[obj_estimate.id] = 1 / (obj_estimate.estimate_performance / 100.00)
-		return res
-	def _performance_amount(self,cr,uid,ids,field_name,args,context):
-		res = {}
-		amount = 0
-		for obj_estimate in self.pool.get('rent.rent.main.estimate').browse(cr,uid,ids):
-			obj_rent = obj_estimate.estimate_rent
-			amounts_val = {}
-			
-			currency_id = obj_rent.currency_id
-			debug(currency_id)
-			rate_cr = currency_id.rate
-			rate_us = 1
-			amounts_val['estimate_amountc'] = (obj_estimate.estimate_rent.rent_total * (obj_estimate.estimate_performance/100.00)  / 12) / rate_us
-			amounts_val['estimate_amountd'] = (obj_estimate.estimate_rent.rent_total * (obj_estimate.estimate_performance/100.00)  / 12) / rate_cr
-			res[obj_estimate.id] = amounts_val
-		return res
-	def _performance_currency(self,cr,uid,ids,field_name,args,contexto):
-		res = {}
-		for obj_estimate in self.pool.get('rent.rent.main.estimate').browse(cr,uid,ids):
-			obj_rent = obj_estimate.estimate_rent
-			
-			currencies_val = {}
-			valor = obj_rent._get_total_area(obj_rent.id,None,None)[obj_rent.id]
-			debug(valor)
-			currencies_val['estimate_colones'] = obj_estimate.estimate_amountc / valor
-			currencies_val['estimate_dollars'] = obj_estimate.estimate_amountd / valor
-			res[obj_estimate.id] = currencies_val
-		return res
-	_columns = {
-		'estimate_performance'       : fields.float('Performance(%)',digits=(12,2), help='This a percentaje number'),
-		'estimate_years'             : fields.function(_performance_years, type='float',method = True,string='Years for reinv.'),
-		'estimate_amountc'           : fields.function(_performance_amount, type='float',method = True,string='Amount', multi=True),
-		'estimate_colones'           : fields.function(_performance_currency, type='float',method = True,string='c / m2',multi='Currency'),
-		
-		'estimate_amountd'           : fields.function(_performance_amount, type='float',method = True,string='Amount $', multi=True),
-		'estimate_dollars'           : fields.function(_performance_currency, type='float',method = True,string='s / m2',multi='Currency'),
-		
-		'estimate_maintenance'       : fields.many2one('rent.rent','Rent'),
-		'estimate_date'              : fields.date('Fecha'),
-		'estimate_state'             : fields.selection([('final','Used'),('recommend','Recommend'),('min','Min'),('norec','Not Recomended')],'Status',readonly=False),
-	}
-	_order = "estimate_date desc"
-	_defaults = {
-		'estimate_date'  : date.today().strftime('%d/%m/%Y'),
-	}
-rent_rent_estimate()
+
 
 class rent_rent_anual_value(osv.osv):
 	_name = 'rent.rent.anual.value'
