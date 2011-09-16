@@ -798,7 +798,6 @@ class rent_rent(osv.osv):
 				res_first_inv.append(obj_rent)
 				
 				#we update the estimates list for the obj
-				obj_contract.write({'contract_clauses' : [(0,0,{'sequence':i,'rent_contract_id':obj_contract.id,'rent_contract_clause_id' : clause_perm})]})
 				obj_rent.write({'rent_estimates' : [(0,0,{'estimate_performance':obj_rent.rent_performance,'estimate_rent':obj_rent.id,'estimate_date' : date.today(), 'estimate_state':'final'})]})
 		debug(res_first_inv)
 		self.first_rent(cr,uid,res_first_inv)
