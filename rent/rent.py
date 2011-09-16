@@ -453,7 +453,7 @@ class rent_rent(osv.osv):
 			total_vals = {}
 			total_vals['rent_total'] = total
 			total_vals['rent_total_us'] = total / obj_rent.currency_id.rate
-			res[rent_id] = total_vals
+			res[ obj_rent.id] = total_vals
 		return res
 		
 	def _calculate_years(self,cr,uid,ids,field_name,args,context):
