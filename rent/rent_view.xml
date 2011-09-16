@@ -673,11 +673,9 @@
 								<field name = "rent_amount_per_sqr"/>
 								<field name = "rent_rise"/>	
 								<field name = "rent_rent_real_area"/>
-								<group col = "4" colspan = "2">
-									<field name = "currency_id"/>
-									<field name = "rent_show_us_eq"/>
-								</group>
-								<button colspan="2" name = "calculate_negotiation" string="Compute Values" type="object" icon="terp-stock_format-scientific"/>
+								<field name = "currency_id"/>
+								<field name = "rent_show_us_eq"/>
+								<button name = "calculate_negotiation" string="Compute Values" type="object" icon="terp-stock_format-scientific"/>
 							</group>
 							<group col = "4" colspan = "2" attrs = "{'invisible': [('rent_show_us_eq','!=','True')]}">
 								<separator string = "USD Currency Equivalence" colspan = "4"/>

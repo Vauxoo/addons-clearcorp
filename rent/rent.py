@@ -813,7 +813,7 @@ class rent_rent(osv.osv):
 		'rent_amount_per_sqr'   : fields.function(_performance_per_sqr, type='float',method = True,string='Amount per Sqr', multi='negot'),
 		
 		'rent_amountd_per_sqr'  : fields.function(_performance_per_sqr, type='float',method = True,string='Amount m2 $', multi='negot'),
-		'rent_amountd_base'     : fields.function(_rent_amount_years, type='float',method = True,string='Final Price $', multi='negot'),
+		'rent_amountd_base'     : fields.function(_rent_amount_years, type='float',method = True,string='Final Price $', multi='Years'),
 		'rent_rise_year2d'      : fields.function(_rent_amount_years, type='float',method = True,string='Year 2  $', multi='Years'),
 		'rent_rise_year3d'      : fields.function(_rent_amount_years, type='float',method = True,string='Year 3  $', multi='Years'),
 		'rent_show_us_eq'       : fields.boolean('Check USD Currency Equivalent',store=False),
