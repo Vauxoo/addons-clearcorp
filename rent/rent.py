@@ -768,7 +768,7 @@ class rent_rent(osv.osv):
 			for obj_invoice_rent in self.pool.get('rent.invoice.rent').browse(cr,uid,invoices_ids):
 				date_due = obj_invoice_rent.date_due
 				if date_due.day > 8 and obj_invoice_rent.residual != 0:
-					cron
+					res[obj_rent.id] = True
 		return True
 		
 	def action_first_invoice(self,cr,uid,ids,context=None):
