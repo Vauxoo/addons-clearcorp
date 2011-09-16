@@ -38,14 +38,14 @@
 		<record id="act_invoice_end" model="workflow.activity">
 			<field name="wkf_id" ref="wkf"/>
 			<field name="name">invoice_end</field>
-			<field name="kind">function</field>			
+			<field name="kind">function</field>
 		</record> 
 		
 		<record id = "act_finish" model = "workflow.activity">
 			<field name = "wkf_id" ref = "wkf"/>
 			<field name = "action">write({'state':'finished'})</field>
 			<field name = "name">finished</field>
-			<field name ="kind">function</field>
+			<field name = "kind">stopall</field>
 		</record>
 		
 				
@@ -64,7 +64,7 @@
 		<record id="trans_invoice_invoice_end" model="workflow.transition">
 			<field name="act_from" ref="act_invoice"/>
 			<field name="act_to" ref="act_invoice_end"/>
-			<field name="condition">state=='active'</field>
+			<field name="condition">(len(rent_invoice_ids) > 1)</field>
 		</record>
 		<!--<record id="active_to_invoicing" model="workflow.transition">
 			<field name="act_from" ref="act_active"/>
@@ -76,6 +76,7 @@
 			<field name = "act_from" ref= "act_invoice_end"/>
 			<field name = "act_to" ref= "act_finish"/>
 			<field name = "signal">rent_finish</field>
+			
 		</record>
 		
     </data>
