@@ -812,11 +812,24 @@ class rent_rent(osv.osv):
 		'rent_invoice_ids'      : fields.one2many('rent.invoice.rent','invoice_rent_id','Rent Invoices'),
 		'rent_invoiced_day'     : fields.integer('Invoiced Day',help='Indicates de how many days before of the charge day will create the invoice'),
 		
-		'rent_rent_account_id'  : fields.many2one('account.account','Account'),
-		'rent_rent_acc_int_id'  : fields.many2one('account.account','Interests Account'),
+		'rent_rent_account_id'  : fields.property(
+			'account.account',
+			type='many2one',
+			relation='account.account',
+			string="Income Account",
+			method=True,
+			view_load=True,
+			help="This account will be used for invoices instead of the default one to value sales for the current rent"),
+		'rent_rent_acc_int_id'  : fields.property(
+			'account.account',
+			type='many2one',
+			relation='account.account',
+			string="Interest Account",
+			method=True,
+			view_load=True,
+			help="This account will be used for invoices instead of the default one to value expenses for the current rent"),
 		
 		'rent_rent_real_area'   : fields.function(_get_total_area,type='float',method=True,string='Area'),
-		
 	}
 	
 	_defaults = {
