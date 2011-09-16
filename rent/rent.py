@@ -835,7 +835,7 @@ class rent_rent(osv.osv):
 			res[obj_rent.id] = years_val
 		return res
 	
-	columns = {
+	_columns = {
 		'name'                  : fields.char('Name',size=64),
 		'rent_rent_client'      : fields.many2one('res.partner','Client', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_end_date'         : fields.date('Ending Date', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
