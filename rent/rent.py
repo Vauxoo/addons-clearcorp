@@ -405,15 +405,16 @@ class rent_rent(osv.osv):
 		vals = {}
 		priority = 1
 		for obj_record in obj_sorted:
-			if priority == 1:
-				vals['estimate_state'] = 'recommend'
-			elif priority == 2:
-				vals['estimate_state'] = 'min'
-			else:
-				vals['estimate_state'] = 'norec'
+			if obj_record.estimate_state != 'final':
+				if priority == 1:
+					vals['estimate_state'] = 'recommend'
+				elif priority == 2:
+					vals['estimate_state'] = 'min'
+				else:
+					vals['estimate_state'] = 'norec'
+				priority += 1
 			debug(vals)
 			obj_record.write(vals)
-			priority += 1
 		return True
 		
 	def _get_total_area(self,cr,uid,ids,fields_name,args,context):
