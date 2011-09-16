@@ -796,9 +796,9 @@ class rent_rent(osv.osv):
 			if not has_first and parser.parse(obj_rent.rent_start_date).date().month == date.today().month:
 				#res_first_inv.append(obj_rent.id)
 				res_first_inv.append(obj_rent)
-				
+				percentaje = obj_rent.rent_performance.split('%')[0]
 				#we update the estimates list for the obj
-				obj_rent.write({'rent_estimates' : [(0,0,{'estimate_performance':obj_rent.rent_performance,'estimate_rent':obj_rent.id,'estimate_date' : date.today(), 'estimate_state':'final'})]})
+				obj_rent.write({'rent_estimates' : [(0,0,{'estimate_performance': float(percentaje),'estimate_rent':obj_rent.id,'estimate_date' : date.today(), 'estimate_state':'final'})]})
 		debug(res_first_inv)
 		self.first_rent(cr,uid,res_first_inv)
 		return {}
