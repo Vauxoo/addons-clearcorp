@@ -657,9 +657,9 @@
 						<field name = "rent_years"/>
 						<field name = "rent_charge_day"/>
 						<field name = "rent_invoiced_day"/>
+						<field name = "rent_grace_period"/>
 						<field name="rent_rent_account_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"  groups="base.group_extended"/>
 						<field name="rent_rent_acc_int_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" groups="base.group_extended"/>
-						
 					</group>
 					<notebook>
 						<page string = "Rent">
@@ -721,7 +721,40 @@
 						</page>
 						
 						<page string = "Maintenance">
-							
+							<group col = "4" colspan = "2">
+								<separator string = "General Information" colspan = "4"/>
+								<field name = "rent_main_company_id"/>
+							</group>
+							<group col = "4" colspan = "2">
+								<separator string = "Financial Information" colspan = "4"/>
+								<field name = "rent_main_amount_base"/>
+								<field name = "rent_main_total"/>
+								<field name = "rent_main_rise_year2"/>
+								<field name = "rent_main_performance"/>
+								<field name = "rent_main_rise_year3"/>
+								<field name = "rent_main_rise"/>
+								<field name = "rent_main_show_us_eq"/>
+								<label string = "  "/>
+								<button name = "calculate_negotiation" string="Compute Values" type="object" icon="terp-stock_format-scientific"/>
+							</group>
+							<group col = "4" colspan = "2" attrs = "{'invisible': [('rent_main_show_us_eq','!=','True')]}">
+								<separator string = "USD Currency Equivalence" colspan = "4"/>
+								<field name = "rent_main_amountd_base"/>
+								<field name = "rent_main_total_us"/>
+								<field name = "rent_main_rise_year2d"/>
+								<field name = "rent_main_rise_year3d"/>
+							</group>
+							<notebook>
+								<page string = "Calculations">
+									<field name = "rent_main_estimates" nolabel="1"/>
+								</page>
+								<!--<page string = "Aumentos">
+									<field name = "rent_main_historic" nolabel="1"/>
+								</page>-->
+								<page string = "Facturas">
+									<field name = "rent_main_invoice_ids" nolabel="1"/>
+								</page>
+							</notebook>
 						</page>
 					</notebook>
 				</form>
