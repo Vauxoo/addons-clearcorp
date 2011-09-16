@@ -811,29 +811,6 @@ class rent_rent(osv.osv):
 		self.pool.get('rent.rent').write(cr, uid, ids, {}, context)
 		return { 'value' : res}
 	
-	def _rent_main_performance(self,cr,uid,ids,field_name,args,context):
-		res = {}
-		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
-			res[obj_rent.id] = "%.2f%%" % ((obj_rent.rent_main_amount_base * 12) /  obj_rent.rent_main_total * 100)
-		return res
-		
-	def _rent_main_amount_years(self,cr,uid,ids,field_name,args,contexto):
-		res = {}
-		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
-			years_val = {}
-			
-			currency_id = obj_rent.currency_id
-			percentaje = obj_rent.rent_main_rise.split('%')[0]
-			years_val['rent_main_rise_year2'] = obj_rent.rent_main_amount_base * (1 + float(percentaje) / 100)
-			years_val['rent_main_rise_year3'] = years_val['rent_main_rise_year2']  * (1 + float(percentaje) / 100)
-			
-			years_val['rent_main_rise_year2d'] = years_val['rent_main_rise_year2'] / currency_id.rate
-			years_val['rent_main_rise_year3d'] = years_val['rent_main_rise_year3'] / currency_id.rate
-			
-			#Just to avoid use a separate function
-			years_val['rent_amountd_base'] = obj_rent.rent_main_amountd_base / currency_id.rate
-			res[obj_rent.id] = years_val
-		return res
 	
 	columns = {
 		'name'                  : fields.char('Name',size=64),
