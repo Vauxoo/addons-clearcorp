@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data>
+	<data>
 		<record id = "wkf" model = "workflow">
 			<field name = "name">rent.rent.basic</field>
 			<field name = "osv">rent.rent</field>
@@ -15,37 +15,22 @@
 		
 		<record id = "act_active" model = "workflow.activity">
 			<field name = "wkf_id" ref = "wkf"/>
-			<field name = "action">write({'state':'active'})</field>
+			<field name = "action">action_first_invoice() write({'state':'active'})</field>
 			<field name = "name">active</field>
 			<field name ="kind">function</field>
 		</record>
 		
-		<record id="act_invoice" model="workflow.activity">
-			<field name="wkf_id" ref="wkf"/>
-			<field name="name">invoice</field>
-			<field name="kind">subflow</field>
-			<field name="subflow_id" search="[('name','=','account.invoice.basic')]"/>
-			<field name="action">action_first_invoice()</field>
-		</record>
-		 
 		<record id="act_invoice_end" model="workflow.activity">
 			<field name="wkf_id" ref="wkf"/>
 			<field name="name">invoice_end</field>
-			<field name="kind">function</field>			
+			<field name="kind">function</field>
 		</record> 
 		
 		<record id = "act_finish" model = "workflow.activity">
 			<field name = "wkf_id" ref = "wkf"/>
 			<field name = "action">write({'state':'finished'})</field>
 			<field name = "name">finished</field>
-			<field name ="kind">function</field>
-		</record>
-		 
-		<record id = "act_finish" model = "workflow.activity">
-			<field name = "wkf_id" ref = "wkf"/>
-			<field name = "action">write({'state':'finished'})</field>
-			<field name = "name">finished</field>
-			<field name ="kind">function</field>
+			<field name = "kind">stopall</field>
 		</record>
 		
 				
@@ -55,29 +40,10 @@
 			<field name = "signal">rent_active</field>
 		</record>
 		
-		<record id="draft_to_invoicing" model="workflow.transition">
-			<field name="act_from" ref="act_active"/>
-			<field name="act_to" ref="act_invoice"/>
-			<field name="condition">state=='active'</field>
-		</record>
-		
-		<record id="trans_invoice_invoice_end" model="workflow.transition">
-			<field name="act_from" ref="act_invoice"/>
-			<field name="act_to" ref="act_invoice_end"/>
-			<field name="signal">subflow.open</field>
-		</record>
-		<!--<record id="active_to_invoicing" model="workflow.transition">
-			<field name="act_from" ref="act_active"/>
-			<field name="act_to" ref="act_invoice"/>
-			<field name="condition">state=='active'</field>
-		</record>-->
-		
 		<record id = "active_to_cancel" model = "workflow.transition">
-			<field name = "act_from" ref= "act_invoice_end"/>
+			<field name = "act_from" ref= "act_active"/>
 			<field name = "act_to" ref= "act_finish"/>
 			<field name = "signal">rent_finish</field>
 		</record>
-		
-    </data>
-    
+	</data>
 </openerp>
