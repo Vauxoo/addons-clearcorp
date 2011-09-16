@@ -561,7 +561,7 @@ class rent_rent(osv.osv):
 			years_val['rent_rise_year3'] = years_val['rent_rise_year2']  * (1 + float(percentaje) / 100)
 			
 			years_val['rent_rise_year2d'] = years_val['rent_rise_year2'] / currency_id.rate
-			years_val['rent_rise_year2d'] = years_val['rent_rise_year3'] / currency_id.rate
+			years_val['rent_rise_year3d'] = years_val['rent_rise_year3'] / currency_id.rate
 			
 			#Just to avoid use a separate function
 			years_val['rent_amountd_base'] = obj_rent.rent_amount_base / currency_id.rate
