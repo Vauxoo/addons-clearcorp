@@ -675,6 +675,7 @@
 								<field name = "rent_rent_real_area"/>
 								<field name = "currency_id"/>
 								<field name = "rent_show_us_eq"/>
+								<label string = "  "/>
 								<button name = "calculate_negotiation" string="Compute Values" type="object" icon="terp-stock_format-scientific"/>
 							</group>
 							<group col = "4" colspan = "2" attrs = "{'invisible': [('rent_show_us_eq','!=','True')]}">

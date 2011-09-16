@@ -796,6 +796,9 @@ class rent_rent(osv.osv):
 			if not has_first and parser.parse(obj_rent.rent_start_date).date().month == date.today().month:
 				#res_first_inv.append(obj_rent.id)
 				res_first_inv.append(obj_rent)
+				
+				#we update the estimates list for the obj
+				obj_rent.write('rent_estimates' : [(0,0,{'estimate_performance':obj_rent.rent_performance,'estimate_rent':obj_rent.id,'estimate_date' : date.today(), 'estimate_state':'final'})]})
 		debug(res_first_inv)
 		self.first_rent(cr,uid,res_first_inv)
 		return {}
@@ -917,14 +920,14 @@ class rent_rent_estimate(osv.osv):
 		'estimate_amountd'           : fields.function(_performance_amount, type='float',method = True,string='Amount $', multi=True),
 		'estimate_dollars'           : fields.function(_performance_currency, type='float',method = True,string='s / m2',multi='Currency'),
 		
-		'estimate_cust_colones'      : fields.integer('Amount c'),
-		'estimate_cust_dollars'      : fields.integer('Amount s'),
+	#	'estimate_cust_colones'      : fields.integer('Amount c'),
+	#	'estimate_cust_dollars'      : fields.integer('Amount s'),
 		
 		#'estimate_dec_min_dollars'   : fields.integer('Amount s'),
 		#'estimate_dec_base_dollars'  : fields.integer('Amount s'),
 		'estimate_rent'              : fields.many2one('rent.rent','Rent'),
 		'estimate_date'              : fields.date('Fecha'),
-		'estimate_state'             : fields.selection([('recommend','Recommend'),('min','Min'),('norec','Not Recomended')],'Status',readonly=False),
+		'estimate_state'             : fields.selection([('final','Used'),('recommend','Recommend'),('min','Min'),('norec','Not Recomended')],'Status',readonly=False),
 	}
 	_order = "estimate_date desc"
 	_defaults = {
