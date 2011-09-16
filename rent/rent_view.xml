@@ -663,7 +663,7 @@
 					</group>
 					<notebook>
 						<page string = "Rent">
-							<group col = "4">
+							<group col = "4" colspan = "2">
 								<separator string = "Negotiation Information" colspan = "4"/>
 								<field name = "rent_amount_base"/>
 								<field name = "rent_total"/>
@@ -673,14 +673,14 @@
 								<field name = "rent_amount_per_sqr"/>
 								<field name = "rent_rise"/>	
 								<field name = "rent_rent_real_area"/>
-								<group col = "4">
+								<group col = "4" colspan = "2">
 									<field name = "currency_id"/>
 									<field name = "rent_show_us_eq"/>
 								</group>
 								<button colspan="2" name = "calculate_negotiation" string="Compute Values" type="object" icon="terp-stock_format-scientific"/>
 							</group>
-							<group col = "4" colspan = "4" attrs = "{'invisible': [('rent_show_us_eq','!=','True')]}">
-								<separator string = "Length of Contract" colspan = "4"/>
+							<group col = "4" colspan = "2" attrs = "{'invisible': [('rent_show_us_eq','!=','True')]}">
+								<separator string = "USD Currency Equivalence" colspan = "4"/>
 								<field name = "rent_amountd_per_sqr"/>
 								<field name = "rent_amountd_base"/>
 								<field name = "rent_rise_year2d"/>
@@ -698,7 +698,7 @@
 											<field name = "rent_rent_local" domain = "[('local_rented','=','True')]" attrs = "{'readonly' : [('rent_related_real','!=','local')], 'required' : [('rent_related_real','=','local')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','local')]}"/>
 											<field name = "rent_rent_parking" domain = "[('parking_rented','=','True')]" attrs = "{'readonly' : [('rent_related_real','!=','parking')], 'required' : [('rent_related_real','=','parking')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','parking')]}"/>
 											<field name = "rent_rent_estate"  domain = "[('estate_rented','=','True')]" attrs = "{'readonly' : [('rent_related_real','!=','estate')], 'required' : [('rent_related_real','=','estate')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','estate')]}"/>
-									</group>									
+									</group>
 								</page>
 								<page string = "Calculations">
 									<field name = "rent_estimates" nolabel="1"/>
