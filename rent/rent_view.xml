@@ -725,6 +725,36 @@
 								<separator string = "General Information" colspan = "4"/>
 								<field name = "rent_main_company_id"/>
 							</group>
+							<group col = "4" colspan = "2">
+								<separator string = "Financial Information" colspan = "4"/>
+								<field name = "rent_main_amount_base"/>
+								<field name = "rent_main_total"/>
+								<field name = "rent_main_rise_year2"/>
+								<field name = "rent_main_performance"/>
+								<field name = "rent_main_rise_year3"/>
+								<field name = "rent_main_rise"/>
+								<field name = "rent_main_show_us_eq"/>
+								<label string = "  "/>
+								<button name = "calculate_negotiation" string="Compute Values" type="object" icon="terp-stock_format-scientific"/>
+							</group>
+							<group col = "4" colspan = "2" attrs = "{'invisible': [('rent_main_show_us_eq','!=','True')]}">
+								<separator string = "USD Currency Equivalence" colspan = "4"/>
+								<field name = "rent_main_amountd_base"/>
+								<field name = "rent_main_total_us"/>
+								<field name = "rent_main_rise_year2d"/>
+								<field name = "rent_main_rise_year3d"/>
+							</group>
+							<notebook>
+								<page string = "Calculations">
+									<field name = "rent_main_estimates" nolabel="1"/>
+								</page>
+								<page string = "Aumentos">
+									<field name = "rent_main_historic" nolabel="1"/>
+								</page>-->
+								<page string = "Facturas">
+									<field name = "rent_main_invoice_ids" nolabel="1"/>
+								</page>
+							</notebook>
 						</page>
 					</notebook>
 				</form>
