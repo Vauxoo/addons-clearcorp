@@ -780,11 +780,9 @@ class rent_rent(osv.osv):
 			today = date.today()
 			invoices_ids = self.pool.get('rent.rent.invoice').search(cr,uid,[('invoice_date','=',today.strftime('%Y-%m-%d'))])
 			for obj_invoice_rent in self.pool.get('rent.invoice.rent').browse(cr,uid,invoices_ids):
-				#date_due = parser.parse(obj_invoice_rent.date_due).date()
-				today = date.today()
-				limit_day = parser.parse(obj_invoice_rent.date_due).date().day + (obj_rent.rent_grace_period or 0)
-				if  (today.day > 8 and today.day > limit_dayand) and obj_invoice_rent.residual != 0:
-					res.append(obj_invoice_rent)
+				date_due = obj_invoice_rent.date_due
+				if date_due.day > 8 and obj_invoice_rent.residual != 0:
+					res[obj_rent.id] = True
 		return True
 		
 	def action_first_invoice(self,cr,uid,ids,context=None):
@@ -810,9 +808,7 @@ class rent_rent(osv.osv):
 		res = {}
 		self.pool.get('rent.rent').write(cr, uid, ids, {}, context)
 		return { 'value' : res}
-	
-	
-	columns = {
+	_columns = {
 		'name'                  : fields.char('Name',size=64),
 		'rent_rent_client'      : fields.many2one('res.partner','Client', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_end_date'         : fields.date('Ending Date', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
@@ -868,24 +864,8 @@ class rent_rent(osv.osv):
 			method=True,
 			view_load=True,
 			help="This account will be used for invoices instead of the default one to value expenses for the current rent"),
+		
 		'rent_rent_real_area'   : fields.function(_get_total_area,type='float',method=True,string='Area'),
-		
-		
-		#'rent_main_rise'             : fields.char('Anual Rise',size=64, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		#'rent_main_amount_base'      : fields.float('Final Price $', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		#'rent_main_performance'      : fields.function(_rent_main_performance, type='char',method = True,string='Performance'),
-		#'rent_main_amountd_base'     : fields.function(_rent_main_amount_years, type='float',method = True,string='Final Price $', multi='Years_main'),
-		#'rent_main_rise_year2'      : fields.function(_rent_main_amount_years, type='float',method = True,string='Year 2  $', multi='Years_main'),
-		#'rent_main_rise_year3'      : fields.function(_rent_main_amount_years, type='float',method = True,string='Year 3  $', multi='Years_main'),
-		#'rent_main_rise_year2d'      : fields.function(_rent_main_amount_years, type='float',method = True,string='Year 2  $', multi='Years_main'),
-		#'rent_main_rise_year3d'      : fields.function(_rent_main_amount_years, type='float',method = True,string='Year 3  $', multi='Years_main'),
-		#'rent_main_show_us_eq'       : fields.boolean('Check USD Currency Equivalent',store=False),
-		#'rent_main_estimates'        : fields.one2many('rent.rent.main.estimate', 'estimate_maintenance','Estimates',states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		#'rent_main_invoice_ids'      : fields.one2many('rent.invoice.rent','invoice_rent_id','Rent Invoices'),
-		#'rent_main_total'            : fields.float('Total Paid'),
-		#'rent_main_total_us'         : fields.float('Total Paid $'),
-		#'rent_main_historic'         : fields.one2many('rent.rent.anual.value', 'anual_value_rent','Historic',readonly=True),         
-		#'rent_main_company_id'       : fields.many2one('res.company', 'Supplier Company'),         
 	}
 	
 	_defaults = {
@@ -957,8 +937,6 @@ class rent_rent_estimate(osv.osv):
 		'estimate_date'  : date.today().strftime('%d/%m/%Y'),
 	}
 rent_rent_estimate()
-
-
 
 class rent_rent_anual_value(osv.osv):
 	_name = 'rent.rent.anual.value'
