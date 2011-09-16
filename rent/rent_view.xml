@@ -750,7 +750,7 @@
 								</page>
 								<page string = "Aumentos">
 									<field name = "rent_main_historic" nolabel="1"/>
-								</page>-->
+								</page>
 								<page string = "Facturas">
 									<field name = "rent_main_invoice_ids" nolabel="1"/>
 								</page>
