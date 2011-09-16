@@ -64,7 +64,7 @@
 		<record id="trans_invoice_invoice_end" model="workflow.transition">
 			<field name="act_from" ref="act_invoice"/>
 			<field name="act_to" ref="act_invoice_end"/>
-			<field name="condition">(len(rent_invoice_ids) > 1)</field>
+			<field name="condition">(len(rent_invoice_ids) >= 1)</field>
 		</record>
 		<!--<record id="active_to_invoicing" model="workflow.transition">
 			<field name="act_from" ref="act_active"/>
