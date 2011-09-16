@@ -758,6 +758,9 @@ class rent_rent(osv.osv):
 		debug(res_norm_inv)
 		self.rent_calc(cr,uid,res_norm_inv)
 		return True
+	def cron_rent_defaulter_interest(self,cr,uid):
+		
+		return True
 	def action_first_invoice(self,cr,uid,ids,context=None):
 		#gets the list of all active rents
 		rent_ids = self.search(cr,uid,[('state','=','active')])
@@ -796,7 +799,7 @@ class rent_rent(osv.osv):
 		'rent_amounts_base'     : fields.float('Final Price $', store=False, readonly=True),
 		
 		'rent_type'             : fields.selection([('Contract','Contract'),('Adendum','Adendum'),('Renovation','Renovation')],'Type', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'state'                 : fields.selection([('active','Active'),('finished','Finished'),('draft','Draft')],'Status', readonly=True),
+		'state'                 : fields.selection([('active','Active'),('finished','Inactive'),('draft','Draft')],'Status', readonly=True),
 		'rent_start_date'       : fields.date('Starting Date', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_total'            : fields.function(_get_total_rent,type='float',method=True,string='Total Paid'),
 		'rent_rent_local'       : fields.many2one('rent.floor.local','Local', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),

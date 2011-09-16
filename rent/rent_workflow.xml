@@ -40,13 +40,6 @@
 			<field name = "name">finished</field>
 			<field name ="kind">function</field>
 		</record>
-		 
-		<record id = "act_finish" model = "workflow.activity">
-			<field name = "wkf_id" ref = "wkf"/>
-			<field name = "action">write({'state':'finished'})</field>
-			<field name = "name">finished</field>
-			<field name ="kind">function</field>
-		</record>
 		
 				
 		<record id = "draft_to_active" model = "workflow.transition">
