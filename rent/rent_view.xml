@@ -778,7 +778,7 @@
 			<field name = "model">rent.rent.estimate</field>
 			<field name = "type">tree</field>
 			<field name = "arch" type = "xml">
-				<tree editable = "top" string = "Calculations List" colors="blue:estimate_state in ('recommend');red:estimate_state in ('min');gray:estimate_state in ('norec')">
+				<tree editable = "top" string = "Calculations List" colors="green:estimate_state in ('final');blue:estimate_state in ('recommend');red:estimate_state in ('min');gray:estimate_state in ('norec')">
 					<field name = "estimate_date"/>
 					<field name = "estimate_performance"/>
 					<field name = "estimate_years"/>
