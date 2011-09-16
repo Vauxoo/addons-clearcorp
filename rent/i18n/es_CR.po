@@ -545,7 +545,7 @@ msgstr "No recomendado"
 #. module: rent
 #: field:rent.rent,rent_amount_base:0
 msgid "Final Price $"
-msgstr "Precio Final $"
+msgstr "Precio Final"
 
 #. module: rent
 #: field:rent.floor,floor_durability:0
@@ -716,7 +716,7 @@ msgstr "Área"
 #. module: rent
 #: field:rent.rent,rent_rise_year2:0
 msgid "Year 2 $"
-msgstr "Año 2 $"
+msgstr "Año 2"
 
 #. module: rent
 #: view:rent.rent:0
@@ -1183,7 +1183,7 @@ msgstr "Detalles de Alquiler"
 #. module: rent
 #: field:rent.rent,rent_rise_year3:0
 msgid "Year 3 $"
-msgstr "Año 3 $"
+msgstr "Año 3"
 
 #. module: rent
 #: field:rent.floor.local,local_gallery_photo:0

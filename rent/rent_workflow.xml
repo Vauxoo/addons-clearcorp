@@ -24,10 +24,23 @@
 			<field name="wkf_id" ref="wkf"/>
 			<field name="name">invoice</field>
 			<field name="kind">subflow</field>
-			<field name="subflow_id" search="[('osv','=','account.invoice')]" type="int"/>
-			<field name="action">action_invoice_create()</field>
+			<field name="subflow_id" search="[('name','=','account.invoice.basic')]"/>
+			<field name="action">action_first_invoice()</field>
 		</record>
+		 
+		<record id="act_invoice_end" model="workflow.activity">
+			<field name="wkf_id" ref="wkf"/>
+			<field name="name">invoice_end</field>
+			<field name="kind">function</field>			
+		</record> 
 		
+		<record id = "act_finish" model = "workflow.activity">
+			<field name = "wkf_id" ref = "wkf"/>
+			<field name = "action">write({'state':'finished'})</field>
+			<field name = "name">finished</field>
+			<field name ="kind">function</field>
+		</record>
+		 
 		<record id = "act_finish" model = "workflow.activity">
 			<field name = "wkf_id" ref = "wkf"/>
 			<field name = "action">write({'state':'finished'})</field>
@@ -42,6 +55,17 @@
 			<field name = "signal">rent_active</field>
 		</record>
 		
+		<record id="draft_to_invoicing" model="workflow.transition">
+			<field name="act_from" ref="act_active"/>
+			<field name="act_to" ref="act_invoice"/>
+			<field name="condition">state=='active'</field>
+		</record>
+		
+		<record id="trans_invoice_invoice_end" model="workflow.transition">
+			<field name="act_from" ref="act_invoice"/>
+			<field name="act_to" ref="act_invoice_end"/>
+			<field name="signal">subflow.open</field>
+		</record>
 		<!--<record id="active_to_invoicing" model="workflow.transition">
 			<field name="act_from" ref="act_active"/>
 			<field name="act_to" ref="act_invoice"/>
@@ -49,10 +73,11 @@
 		</record>-->
 		
 		<record id = "active_to_cancel" model = "workflow.transition">
-			<field name = "act_from" ref= "act_active"/>
+			<field name = "act_from" ref= "act_invoice_end"/>
 			<field name = "act_to" ref= "act_finish"/>
 			<field name = "signal">rent_finish</field>
 		</record>
 		
     </data>
+    
 </openerp>

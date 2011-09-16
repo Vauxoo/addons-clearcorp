@@ -465,9 +465,16 @@
 						<field name = "local_water_meter_number"/>
 						<field name = "local_light_meter_number"/>
 					</group>
-					<group col = "4" colspan = "4">
-						<field name = "local_local_by_floor" nolabel="1"/>
-					</group>
+					<notebook>
+						<page string = "Floor List">
+							
+							<field name = "local_local_by_floor" nolabel="1"/>
+							
+						</page>
+						<page string = "Price historic">
+							<field name = "local_rise_historic" nolabel="1"/>
+						</page>
+					</notebook>
 				</form>
 			</field>
 		</record>
@@ -638,7 +645,7 @@
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
 				<form string = "Rent Detail">
-					<group col = "4" colspan = "2">
+					<group col = "4" colspan = "4">
 						<separator string = "Information" colspan = "4"/>
 						<field name = "name"/>
 						<field name = "rent_rent_client" select  = "1"/>
@@ -649,55 +656,68 @@
 						<field name = "rent_end_date"/>
 						<field name = "rent_years"/>
 						<field name = "rent_charge_day"/>
-					</group>
-					<group col = "4" colspan = "2">
-						<separator string = "Negotiation Information" colspan = "4"/>
-						<field name = "rent_amount_base"/>
-						<field name = "rent_total"/>
-						<field name = "rent_rise_year2"/>
-						<field name = "rent_performance"/>
-						<field name = "rent_rise_year3"/>
-						<field name = "rent_amount_per_sqr"/>
-						<field name = "rent_rise"/>						
-						<field name = "currency_id"/>
-						<button colspan="2" name = "calculate_negotiation" string="Compute Values" type="object" icon="terp-stock_format-scientific"/>
-					</group>
-					<!--<group col = "4" colspan = "4">
-						<separator string = "Length of Contract" colspan = "4"/>
-						<field name = "rent_start_date"/>
-						<field name = "rent_end_date"/>
-						<field name = "rent_years"/>
-					</group>-->
-					<group col = "4" colspan = "4" attrs = "{'invisible':[('state','!=','finished')]}">
-						<separator string = "Contract Termination" colspan = "4"/>
-						<field name = "rent_ending_motif"/>
-						<field name = "rent_ending_motif_desc"/>
+						<field name = "rent_invoiced_day"/>
+						<field name = "rent_rent_account_id"/>
+						<field name = "rent_rent_acc_int_id"/>
+						
 					</group>
 					<notebook>
-						<page string = "Detail">
-							<group col = "4" colspan = "4" attrs = "{'invisible':[('rent_related_real','=','')]}">
-								<separator string = "Real Estate Information" colspan = "4"/>
-									<field name = "rent_rent_local" domain = "[('local_rented','=','True')]" attrs = "{'readonly' : [('rent_related_real','!=','local')], 'required' : [('rent_related_real','=','local')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','local')]}"/>
-									<field name = "rent_rent_parking" domain = "[('parking_rented','=','True')]" attrs = "{'readonly' : [('rent_related_real','!=','parking')], 'required' : [('rent_related_real','=','parking')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','parking')]}"/>
-									<field name = "rent_rent_estate"  domain = "[('estate_rented','=','True')]" attrs = "{'readonly' : [('rent_related_real','!=','estate')], 'required' : [('rent_related_real','=','estate')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','estate')]}"/>
-
+						<page string = "Rent">
+							<group col = "4" colspan = "4">
+								<separator string = "Negotiation Information" colspan = "4"/>
+								<field name = "rent_amount_base"/>
+								<field name = "rent_total"/>
+								<field name = "rent_rise_year2"/>
+								<field name = "rent_performance"/>
+								<field name = "rent_rise_year3"/>
+								<field name = "rent_amount_per_sqr"/>
+								<field name = "rent_rise"/>	
+								<field name = "rent_rent_real_area"/>	
+								<field name = "currency_id"/>
+								<button colspan="2" name = "calculate_negotiation" string="Compute Values" type="object" icon="terp-stock_format-scientific"/>
 							</group>
-							 <group col="6" colspan="4">
+							<!--<group col = "4" colspan = "4">
+								<separator string = "Length of Contract" colspan = "4"/>
+								<field name = "rent_start_date"/>
+								<field name = "rent_end_date"/>
+								<field name = "rent_years"/>
+							</group>-->
+							<group col = "4" colspan = "4" attrs = "{'invisible':[('state','!=','finished')]}">
+								<separator string = "Contract Termination" colspan = "4"/>
+								<field name = "rent_ending_motif"/>
+								<field name = "rent_ending_motif_desc"/>
+							</group>
+							<notebook>
+								<page string = "Detail">
+									<group col = "4" colspan = "4" attrs = "{'invisible':[('rent_related_real','=','')]}">
+										<separator string = "Real Estate Information" colspan = "4"/>
+											<field name = "rent_rent_local" domain = "[('local_rented','=','True')]" attrs = "{'readonly' : [('rent_related_real','!=','local')], 'required' : [('rent_related_real','=','local')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','local')]}"/>
+											<field name = "rent_rent_parking" domain = "[('parking_rented','=','True')]" attrs = "{'readonly' : [('rent_related_real','!=','parking')], 'required' : [('rent_related_real','=','parking')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','parking')]}"/>
+											<field name = "rent_rent_estate"  domain = "[('estate_rented','=','True')]" attrs = "{'readonly' : [('rent_related_real','!=','estate')], 'required' : [('rent_related_real','=','estate')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','estate')]}"/>
+									</group>									
+								</page>
+								<page string = "Calculations">
+									<field name = "rent_estimates" nolabel="1"/>
+								</page>
+								<page string = "Aumentos">
+									<field name = "rent_historic" nolabel="1"/>
+								</page>
+								<page string = "Facturas">
+									<field name = "rent_invoice_ids" nolabel="1"/>
+								</page>
+								<page string = "Modifications">
+									<field name = "rent_modif" attrs="{'readonly' : [('rent_type','!=','Contract')]}" nolabel="1"/>
+								</page>
+							</notebook>
+							 <group col = "6" colspan = "4">
+									<button colspan="2" name = "cron_rent_invoice" string="Compute Values" type="object" icon="terp-stock_format-scientific"/>
 									<button name="rent_finish" states="active" string="Finish" icon="gtk-cancel"/>
 									<button name="rent_active" states="draft" string="Approve" icon="terp-camera_test"/>
 							</group>
 						</page>
-						<page string = "Calculations">
-							<field name = "rent_estimates" nolabel="1"/>
-						</page>
-						<page string = "Aumentos">
-							<field name = "rent_historic" nolabel="1"/>
-						</page>
-						<page string = "Facturas">
-							<field name = "rent_invoice_ids" nolabel="1"/>
-						</page>
-						<page string = "Modifications">
-							<field name = "rent_modif" attrs="{'readonly' : [('rent_type','!=','Contract')]}" nolabel="1"/>
+						
+						<page string = "Maintenance">
+							
 						</page>
 					</notebook>
 				</form>
@@ -814,10 +834,11 @@
 			<field name = "model">rent.rent.anual.value</field>
 			<field name = "type">tree</field>
 			<field name = "arch" type = "xml">
-				<tree editable = "top" string = "Value History" colors="blue:estimate_state in ('recommend');red:estimate_state in ('min');gray:estimate_state in ('norec')">
-					<field name = "anual_value_value"/>
-					<field name = "anual_value_rate"/>
+				<tree  string = "Value History">
 					<field name = "anual_value_date"/>
+					<field name = "anual_value_value"/>
+					<field name = "anual_value_prev_value"/>
+					<field name = "anual_value_rate"/>					
 				</tree>
 			</field>
 		</record>
@@ -1085,4 +1106,5 @@
 		</record>
 	</data>
 </openerp>
+
 

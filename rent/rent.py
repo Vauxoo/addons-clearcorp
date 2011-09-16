@@ -264,6 +264,7 @@ class rent_floor_local(osv.osv):
 		'local_gallery_photo'      : fields.char('Photo Gallery', size=64),
 		'local_photo'              : fields.binary('Main photo'),
 		#'local_rent'               : fields.many2one('rent.rent','Alquiler'),
+		'local_rise_historic'      : fields.one2many('rent.rent.anual.value','anual_value_local','Historic', readonly=True),
 	}
 rent_floor_local()
 
@@ -483,23 +484,23 @@ class rent_rent(osv.osv):
 		super(rent_rent, self).write(cr, uid, ids, vals, context=context)
 		if 'rent_estimates' in vals:
 			obj_rent.onchange_estimations(obj_rent.rent_estimates)
-		if 'rent_amount_base' in vals: 
-			obj_rent.register_historic()
-			obj_rent.first_rent()
+		#if 'rent_amount_base' in vals: 
+		#	self.register_historic(cr,uid,obj_rent)
 		return True
 		
-	def register_historic(self,cr,uid,ids):
+	def register_historic(self,cr,uid,obj_rent):
 		debug('HISTORIC+===================')
-		obj_rent = self.browse(cr,uid,ids)[0]
+		#obj_rent = self.browse(cr,uid,ids)[0]
 		debug(obj_rent)
 		if obj_rent:
 			vals = {}			
 			is_registrated = False
 			current_date = parser.parse(obj_rent.rent_start_date).date()
-			current_date = current_date.replace(day=31,month=12)
-			end_date = parser.parse(obj_rent.rent_end_date).date()
-			if end_date <= current_date:
-				current_date = end_date
+			current_date = current_date.replace(year=date.today().year)
+	#		current_date = current_date.replace(day=31,month=12)
+	#		end_date = parser.parse(obj_rent.rent_end_date).date()
+	#		if end_date <= current_date:
+	#			current_date = end_date
 			for obj_historic in obj_rent.rent_historic:
 				debug(current_date.isoformat())
 				debug(obj_historic.anual_value_date)
@@ -507,8 +508,17 @@ class rent_rent(osv.osv):
 					is_registrated = True
 					match_historic = obj_historic
 					break
+			#We need to update the amount_base of the rent, so we ca
+			#charge the next part with the rate included
+			percentaje = obj_rent.rent_rise.split('%')[0]
+			prev_value = obj_rent.rent_amount_base
+			years_val = obj_rent.rent_amount_base * (1 + float(percentaje) / 100)
+			#obj_rent.write({'rent_amount_base' : years_val})
+			vals['rent_amount_base'] = years_val
+			if obj_rent.rent_related_real == 'local':
+				vals['anual_value_local'] = obj_rent.rent_rent_local
 			if not is_registrated:
-				vals['rent_historic'] = [(0,0,{'anual_value_rent':obj_rent.id,'anual_value_value':obj_rent.rent_amount_base,'anual_value_rate' : obj_rent.rent_rise, 'anual_value_date' : current_date})]
+				vals['rent_historic'] = [(0,0,{'anual_value_rent':obj_rent.id,'anual_value_value':years_val,'anual_value_prev_value' : prev_value,'anual_value_rate' : obj_rent.rent_rise, 'anual_value_date' : current_date})]
 			else:
 				vals['rent_historic'] = [(1,match_historic.id,{'anual_value_value':obj_rent.rent_amount_base,'anual_value_rate' : obj_rent.rent_rise})]
 			debug(vals)
@@ -518,8 +528,15 @@ class rent_rent(osv.osv):
 	def _performance_per_sqr(self,cr,uid,ids,field_name,args,context):
 		res = {}
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
+			amounts_val = {}			
+			currency_id = obj_rent.currency_id
+			rate_cr = currency_id.rate
+			rate_us = 1
+			
 			valor = obj_rent._get_total_area(obj_rent.id,None,None)[obj_rent.id]
-			res[obj_rent.id] = obj_rent.rent_amount_base / valor
+			amounts_val['rent_amount_per_sqr'] = (obj_rent.rent_amount_base / valor) / rate_us
+			amounts_val['rent_amounts_per_sqr'] = (obj_rent.rent_amount_base / valor) / rate_cr
+			res[obj_rent.id] = amounts_val
 		return res
 		
 	def _rent_performance(self,cr,uid,ids,field_name,args,context):
@@ -573,72 +590,189 @@ class rent_rent(osv.osv):
 			obj_rent = self.browse(cr,uid,rlist['rent_id'])
 			il.append(self.inv_line_create(cr, uid,obj_rent,rlist))
 
-			obj_client = obj_rent.rent_rent_client
-			a = obj_client.property_account_receivable.id
-			journal_ids = journal_obj.search(cr, uid, [('type', '=','sale'),('company_id', '=',obj_client.company_id.id)],limit=1)
+		obj_client = obj_rent.rent_rent_client
+		a = obj_client.property_account_receivable.id
+		journal_ids = journal_obj.search(cr, uid, [('type', '=','sale'),('company_id', '=',obj_client.company_id.id)],limit=1)
 
-			if not journal_ids:
-				raise osv.except_osv(_('Error !'),
-					_('There is no purchase journal defined for this company: "%s" (id:%d)') % (o.company_id.name, o.company_id.id))
-			desc = 'Factura por concepto de alquiler de  %s' % (obj_rent.rent_related_real)
-			inv = {
-				'name': obj_rent.name or desc,
-				'reference': obj_rent.name or desc,
-				'account_id': a,
-				'type': 'out_invoice',
-				'partner_id': obj_client.id,
-				'currency_id': obj_rent.currency_id.id,
-				'address_invoice_id': obj_client.address[0].id,
-				'address_contact_id': obj_client.address[0].id,
-				'journal_id': len(journal_ids) and journal_ids[0] or False,
-				'origin': obj_rent.name or desc,
-				'invoice_line': il,
-				'fiscal_position': obj_client.property_account_position.id,
-				'payment_term': obj_client.property_payment_term and o.partner_id.property_payment_term.id or False,
-				'company_id': obj_client.company_id.id,
-				'date_invoice' : date.today(),
-				'date_due' : date(date.today().year,date.today().month + 1,obj_rent.rent_charge_day),
-			}
-			debug(inv)
-			inv_id = self.pool.get('account.invoice').create(cr, uid, inv, {'type':'out_invoice'})
-			self.pool.get('account.invoice').button_compute(cr, uid, [inv_id], {'type':'out_invoice'}, set_total=True)
-			debug(inv_id)
-			res['invoice_id'] = inv_id
-			res['rent_id'] = obj_rent.id
-			self.register_rent_invoice(cr,uid,ids,res)
+		if not journal_ids:
+			raise osv.except_osv(_('Error !'),
+				_('There is no purchase journal defined for this company: "%s" (id:%d)') % (o.company_id.name, o.company_id.id))
+		desc = 'Factura por concepto de alquiler de  %s' % (obj_rent.rent_related_real)
+		inv = {
+			'name': obj_rent.name or desc,
+			'reference': obj_rent.name or desc,
+			'account_id': a,
+			'type': 'out_invoice',
+			'partner_id': obj_client.id,
+			'currency_id': obj_rent.currency_id.id,
+			'address_invoice_id': obj_client.address[0].id,
+			'address_contact_id': obj_client.address[0].id,
+			'journal_id': len(journal_ids) and journal_ids[0] or False,
+			'origin': obj_rent.name or desc,
+			'invoice_line': il,
+			'fiscal_position': obj_client.property_account_position.id,
+			'payment_term': obj_client.property_payment_term and o.partner_id.property_payment_term.id or False,
+			'company_id': obj_client.company_id.id,
+			'date_invoice' : date.today(),
+			'date_due' : date(date.today().year,date.today().month + 1,obj_rent.rent_charge_day),
+		}
+		debug(inv)
+		inv_id = self.pool.get('account.invoice').create(cr, uid, inv, {'type':'out_invoice'})
+		self.pool.get('account.invoice').button_compute(cr, uid, [inv_id], {'type':'out_invoice'}, set_total=True)
+		debug(inv_id)
+		res['invoice_id'] = inv_id
+		res['rent_id'] = obj_rent.id
+		self.register_rent_invoice(cr,uid,ids,res)
 		return res
 	
 	def first_rent(self,cr,uid,ids):
 		debug('GENERACION DE PRIMER PAGO')
 		res = []
-		debug(ids)
-		for obj_rent in self.browse(cr,uid,ids):
-			init_date = parser.parse(obj_rent.rent_start_date).date()
-			charged_days = (calendar.mdays[init_date.month] - init_date.day)  + (obj_rent.rent_charge_day - 1)
-			debug(charged_days)
-			amount = (charged_days/ float(calendar.mdays[init_date.month])) * obj_rent.rent_amount_base
-			debug(amount)
-			end_date = date(init_date.year,init_date.month + 1,obj_rent.rent_charge_day)
-			desc = "Cobro de primer alquiler. Desde el %s hasta el %s" % (init_date.strftime("%A %d. %B %Y"),end_date.strftime("%A %d. %B %Y"))
+#		debug(ids)
+#		is_required = self._invoice_required
+#		for obj_rent in self.browse(cr,uid,ids):
+		for obj_rent in ids:
+			today = date.today()
+			charge_date = date(today.year,today.month,1)
 			
-			res.append({
-				'rent_id': obj_rent.id,
-				'amount' : amount,
-				'date'   : end_date,
-				'desc'   : desc,
-			})
-		debug(res)
-		self.invoice_rent(cr,uid,ids,res)
+			init_date = parser.parse(obj_rent.rent_start_date).date()
+			init_date = init_date.replace(year=today.year)
+			
+			res.append(self._invoice_data(cr,uid,ids,obj_rent,{'init_date': init_date, 'end_date' : charge_date.replace(day=calendar.mdays[charge_date.month])}))
+			self.invoice_rent(cr,uid,ids,res)
+			
+#			if is_required[obj_rent.id]:
+#				init_date = parser.parse(obj_rent.rent_start_date).date()
+#				charged_days = (calendar.mdays[init_date.month] - init_date.day) + 1
+#				debug(charged_days)
+#				amount = (charged_days/ float(calendar.mdays[init_date.month])) * obj_rent.rent_amount_base
+#				debug(amount)
+#				end_date = date(init_date.year,init_date.month + 1,obj_rent.rent_charge_day)
+#				desc = "Cobro de primer alquiler. Desde el %s hasta el %s" % (init_date.strftime("%A %d. %B %Y"),end_date.strftime("%A %d. %B %Y"))
+				
+#				res.append({
+#					'rent_id': obj_rent.id,
+#					'amount' : amount,
+#					'date'   : end_date,
+#					'desc'   : desc,
+#				})
+#				debug(res)
+#		self.invoice_rent(cr,uid,ids,res)
 		return True
-		
+	
+	def _invoice_required(self,cr,uid,ids):
+		res = {}
+	#	debug("CALCULANDO REQUERIDOS################")
+		for obj_rent in self.browse(cr,uid,ids):
+			is_required = False
+			today = date.today()
+			invoice_day = calendar.mdays[today.month] - obj_rent.rent_invoiced_day + obj_rent.rent_charge_day
+	#		debug(today)
+	#		debug(invoice_day)
+			if today.day == invoice_day:
+				is_required = True
+				for obj_inv_reg in obj_rent.rent_invoice_ids:
+	#				debug("BUSCANDO FACTURAS EXISTENTES################")
+					inv_date = parser.parse(obj_inv_reg.invoice_date).date()
+					start_date = parser.parse(obj_rent.rent_start_date).date()
+	#				debug(inv_date)
+					if inv_date.month == start_date.month and inv_date.year == start_date.year and len(obj_rent.rent_invoice_ids) <= 1:
+						is_required = True
+					elif inv_date.month == today.month and inv_date.year == today.year:
+						is_required = False
+						break
+			res[obj_rent.id] = is_required
+		return res
+	
 	def register_rent_invoice(self,cr,uid,ids,args):
 		obj_rent = self.browse(cr,uid,args['rent_id'])
 		obj_rent.write({'rent_invoice_ids' : [(0,0,{'invoice_id':args['invoice_id'],'invoice_rent_id':obj_rent.id})]})
 		return True
-	def rent_calc(sefl,cr,uid,ids,rent):
+	def rent_calc(self,cr,uid,ids):
+		debug('GENERACION DE Pago Normal')
+		res = {}		
+		#for obj_rent in self.browse(cr,uid,ids):
+		for obj_rent in ids:
+			res_dob_inv = []
+			today = date.today()
+			charge_date = date(today.year,today.month+1,1)
+			
+			rise_date = parser.parse(obj_rent.rent_start_date).date()
+			rise_date = rise_date.replace(year=today.year)
+			
+			if rise_date.month == charge_date.month:
+				res_dob_inv.append(self._invoice_data(cr,uid,ids,obj_rent,{'init_date': charge_date, 'end_date' : rise_date.replace(day=rise_date.day-1)}))
+				
+				#We need to update the amount_base of the rent, so we ca
+				#charge the next part with the rate included
+				#percentaje = obj_rent.rent_rise.split('%')[0]
+				#years_val = obj_rent.rent_amount_base * (1 + float(percentaje) / 100)
+				#obj_rent.write({'rent_amount_base' : years_val})
+				self.register_historic(cr,uid,obj_rent)
+				
+				obj_rent = self.browse(cr,uid,obj_rent.id)
+				res_dob_inv.append(self._invoice_data(cr,uid,ids,obj_rent,{'init_date': rise_date, 'end_date' : charge_date.replace(day=calendar.mdays[charge_date.month])}))
+			else:
+				res_dob_inv.append(self._invoice_data(cr,uid,ids,obj_rent,{'init_date': charge_date, 'end_date' : charge_date.replace(day=calendar.mdays[charge_date.month])}))
+			
+			debug(res_dob_inv)
+			self.invoice_rent(cr,uid,ids,res_dob_inv)
 		return True
-	def calculate_negotiation(self,cr,uid,ids,context):
+	def _invoice_data(self,cr,uid,ids,obj_rent,date_range):
+	#	debug('CALCULO DE ALQUILER')
+		init_date = date_range['init_date']
+		end_date = date_range['end_date']
+		month_days = calendar.mdays[init_date.month]
+	#	debug(init_date)
+	#	debug(end_date)
+	#	debug(month_days)
+		charged_days = month_days
+		if (end_date.day == month_days and init_date.day != 1) or (end_date.day != month_days and init_date.day == 1):
+			charged_days = (end_date.day - init_date.day) + 1
+	#	debug(charged_days)
+		amount =  charged_days / float(month_days) * obj_rent.rent_amount_base
+	#	debug(amount)
+		desc = "Cobro de alquiler. Desde el %s hasta el %s" % (init_date.strftime("%A %d %B %Y"),end_date.strftime("%A %d %B %Y"))
 		
+		res = {
+			'rent_id': obj_rent.id,
+			'amount' : amount,
+			'date'   : end_date,
+			'desc'   : desc,
+		}
+	#	debug(res)
+		return res
+	
+	def cron_rent_invoice(self,cr,uid,ids,context):
+		#gets the list of all active rents
+		rent_ids = self.search(cr,uid,['|',('state','=','active'),('state','=','finished')])
+		is_required = self._invoice_required(cr,uid,rent_ids)
+		res_norm_inv = []
+		debug("CRONO DE EJECUCUIONSSSSSSSSSSSSSSSSSSSSSSSS")
+		for obj_rent in self.browse(cr,uid,rent_ids):
+			debug(is_required[obj_rent.id])
+			if is_required[obj_rent.id]: 
+				#res_norm_inv.append(obj_rent.id)
+				res_norm_inv.append(obj_rent)
+		debug(res_norm_inv)
+		self.rent_calc(cr,uid,res_norm_inv)
+		return True
+	def action_first_invoice(self,cr,uid,ids,context=None):
+		#gets the list of all active rents
+		rent_ids = self.search(cr,uid,[('state','=','active')])
+		#is_required = self._invoice_required(cr,uid,rent_ids)
+		res_first_inv = []
+		debug("CAMBIO DE ESTADOSSSSSSSSSSSSSSSSSS")
+		for obj_rent in self.browse(cr,uid,rent_ids):
+			#if is_required[obj_rent.id]: 
+			has_first = self.pool.get('rent.invoice.rent').search(cr,uid,[('invoice_rent_id','=',obj_rent.id)])
+			if not has_first and parser.parse(obj_rent.rent_start_date).date().month == date.today().month:
+				#res_first_inv.append(obj_rent.id)
+				res_first_inv.append(obj_rent)
+		debug(res_first_inv)
+		self.first_rent(cr,uid,res_first_inv)
+		return {}
+	def calculate_negotiation(self,cr,uid,ids,context):
 		res = {}
 		self.pool.get('rent.rent').write(cr, uid, ids, {}, context)
 		return { 'value' : res}
@@ -646,7 +780,7 @@ class rent_rent(osv.osv):
 		'name'                  : fields.char('Name',size=64),
 		'rent_rent_client'      : fields.many2one('res.partner','Client', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_end_date'         : fields.date('Ending Date', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_ending_motif'     : fields.selection([('Desertion','Desertion'),('No Renovation','No Renovation'),('Eviction','Eviction')],'Ending Motif'),
+		'rent_ending_motif'     : fields.selection([('early','Early Return'),('expiration','Contract Expiration'),('eviction','No payment eviction'), ('others','Various problems with tenant')],'Ending Motif'),
 		'rent_ending_motif_desc': fields.text('Ending Motif Description'),
 		
 		'rent_rise'             : fields.char('Anual Rise',size=64, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
@@ -655,7 +789,10 @@ class rent_rent(osv.osv):
 		#'rent_rate'             : fields.float('Anual Rise', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rise_year2'       : fields.function(_rent_amount_years, type='float',method = True,string='Year 2 $', multi='Years'),
 		'rent_rise_year3'       : fields.function(_rent_amount_years, type='float',method = True,string='Year 3 $', multi='Years'),
-		'rent_amount_per_sqr'   : fields.function(_performance_per_sqr, type='float',method = True,string='Amount per Sqr'),
+		'rent_amount_per_sqr'   : fields.function(_performance_per_sqr, type='float',method = True,string='Amount per Sqr', multi='negot'),
+		
+		'rent_amounts_per_sqr'  : fields.function(_performance_per_sqr, type='float',method = True,string='Amount m2 $', multi='negot'),
+		'rent_amounts_base'     : fields.float('Final Price $', store=False, readonly=True),
 		
 		'rent_type'             : fields.selection([('Contract','Contract'),('Adendum','Adendum'),('Renovation','Renovation')],'Type', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'state'                 : fields.selection([('active','Active'),('finished','Finished'),('draft','Draft')],'Status', readonly=True),
@@ -671,9 +808,15 @@ class rent_rent(osv.osv):
 		'currency_id'           : fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft':[('readonly',False)]}),
 		'rent_estimates'        : fields.one2many('rent.rent.estimate', 'estimate_rent','Estimates',states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),         
 		'rent_historic'         : fields.one2many('rent.rent.anual.value', 'anual_value_rent','Historic',readonly=True),         
-		'rent_charge_day'       : fields.integer('Dia de cobro',help='Indica el dia del mes para realizar los cobros del alquiler.'),
+		'rent_charge_day'       : fields.integer('Charge Day',help='Indica el dia del mes para realizar los cobros del alquiler.'),
 		'rent_invoice_ids'      : fields.one2many('rent.invoice.rent','invoice_rent_id','Rent Invoices'),
-		'rent_invoiced_day'     : fields.integer('Invoiced Day',help='Indica el dia del mes para realizar los cobros del alquiler.'),
+		'rent_invoiced_day'     : fields.integer('Invoiced Day',help='Indicates de how many days before of the charge day will create the invoice'),
+		
+		'rent_rent_account_id'  : fields.many2one('account.account','Account'),
+		'rent_rent_acc_int_id'  : fields.many2one('account.account','Interests Account'),
+		
+		'rent_rent_real_area'   : fields.function(_get_total_area,type='float',method=True,string='Area'),
+		
 	}
 	
 	_defaults = {
@@ -707,7 +850,7 @@ class rent_rent_estimate(osv.osv):
 			rate_cr = currency_id.rate
 			rate_us = 1
 			amounts_val['estimate_amountc'] = (obj_estimate.estimate_rent.rent_total * (obj_estimate.estimate_performance/100.00)  / 12) / rate_us
-			amounts_val['estimate_amountd'] = (obj_estimate.estimate_rent.rent_total * (obj_estimate.estimate_performance/100.00)  / 12) * rate_cr
+			amounts_val['estimate_amountd'] = (obj_estimate.estimate_rent.rent_total * (obj_estimate.estimate_performance/100.00)  / 12) / rate_cr
 			res[obj_estimate.id] = amounts_val
 		return res
 	def _performance_currency(self,cr,uid,ids,field_name,args,contexto):
@@ -750,9 +893,11 @@ class rent_rent_anual_value(osv.osv):
 	_name = 'rent.rent.anual.value'
 	_columns = {
 		'anual_value_rent'    : fields.many2one('rent.rent','Rent reference'),
-		'anual_value_value'   : fields.integer('Value',help='This value was taken from the record of rent at the indicated date'),
+		'anual_value_prev_value'   : fields.float('Prev. Value',help='This value was taken from the record of rent at the indicated date'),
+		'anual_value_value'   : fields.float('Value',help='This value was taken from the record of rent at the indicated date'),
 		'anual_value_date'    : fields.date('Period'),
 		'anual_value_rate'    : fields.char('Anual Rise',size=64),
+		'anual_value_local'    : fields.many2one('rent.floor.local','Local reference'),
 	}
 	
 rent_rent_anual_value()
@@ -808,7 +953,7 @@ class rent_rent_invoice(osv.osv):
 	_name = 'rent.invoice.rent'
 	_columns = {
 		'invoice_id'       : fields.many2one('account.invoice','Invoice'),
-		'invoice_rent_id'  : fields.many2one('rent.rent', 'Rent'),
+		'invoice_rent_id'  : fields.many2one('rent.rent', 'Rent',ondelete='cascade'),
 		'invoice_date'     : fields.related('invoice_id','date_invoice', type='date',relation='account.invoice',string='Date',readonly=True,store=False),
 		'invoice_amount'   : fields.related('invoice_id','amount_total', type='float',relation='account.invoice',string='Amount Total',readonly=True,store=False),
 		'invoice_state'    : fields.related('invoice_id','state', type='char',relation='account.invoice',string='State',readonly=True,store=False),
