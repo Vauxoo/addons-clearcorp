@@ -746,7 +746,7 @@ class rent_rent(osv.osv):
 	
 	def cron_rent_invoice(self,cr,uid,ids,context):
 		#gets the list of all active rents
-		rent_ids = self.search(cr,uid,['|',('state','=','active'),('state','=','finished')])
+		rent_ids = self.search(cr,uid,[('state','=','active')])
 		is_required = self._invoice_required(cr,uid,rent_ids)
 		res_norm_inv = []
 		debug("CRONO DE EJECUCUIONSSSSSSSSSSSSSSSSSSSSSSSS")
@@ -758,9 +758,19 @@ class rent_rent(osv.osv):
 		debug(res_norm_inv)
 		self.rent_calc(cr,uid,res_norm_inv)
 		return True
+	
 	def cron_rent_defaulter_interest(self,cr,uid):
-		
+		rent_ids = self.search(cr,uid,[('state','=','active')])
+		res = []
+		for obj_rent in self.browse(cr,uid,rent_ids):
+			today = date.today()
+			invoices_ids = self.pool.get('rent.rent.invoice').search(cr,uid,[('invoice_date','=',today.strftime('%Y-%m-%d'))]
+			for obj_invoice_rent in self.pool.get('rent.rent.invoice').browse(cr,uid,invoices_ids):
+				date_due = obj_invoice_rent.date_due
+				if date_due.day > 8 and obj_invoice_rent.residual != 0:
+					cron
 		return True
+		
 	def action_first_invoice(self,cr,uid,ids,context=None):
 		#gets the list of all active rents
 		rent_ids = self.search(cr,uid,[('state','=','active')])

@@ -15,7 +15,8 @@
 		
 		<record id = "act_active" model = "workflow.activity">
 			<field name = "wkf_id" ref = "wkf"/>
-			<field name = "action">write({'state':'active'})</field>
+			<field name = "action">write({'state':'active'})
+			action_first_invoice()</field>
 			<field name = "name">active</field>
 			<field name ="kind">function</field>
 		</record>
@@ -26,14 +27,14 @@
 			<field name="kind">subflow</field>
 			<field name="subflow_id" search="[('name','=','account.invoice.basic')]"/>
 			<field name="action">action_first_invoice()</field>
-		</record>-->
+		</record>
 		
 		<record id="act_invoice" model="workflow.activity">
 			<field name="wkf_id" ref="wkf"/>
 			<field name="name">invoice</field>
 			<field name="kind">function</field>
 			<field name="action">action_first_invoice()</field>
-		</record>
+		</record>-->
 		 
 		<record id="act_invoice_end" model="workflow.activity">
 			<field name="wkf_id" ref="wkf"/>
@@ -55,7 +56,7 @@
 			<field name = "signal">rent_active</field>
 		</record>
 		
-		<record id="active_to_invoicing" model="workflow.transition">
+		<!--<record id="active_to_invoicing" model="workflow.transition">
 			<field name="act_from" ref="act_active"/>
 			<field name="act_to" ref="act_invoice"/>
 			<field name="condition">state=='active'</field>
@@ -73,10 +74,9 @@
 		</record>-->
 		
 		<record id = "active_to_cancel" model = "workflow.transition">
-			<field name = "act_from" ref= "act_invoice_end"/>
+			<field name = "act_from" ref= "act_active"/>
 			<field name = "act_to" ref= "act_finish"/>
-			<field name = "signal">rent_finish</field>
-			
+			<field name = "signal">rent_finish</field>			
 		</record>
 		
     </data>
