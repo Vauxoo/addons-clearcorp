@@ -814,7 +814,7 @@ class rent_rent(osv.osv):
 	def _rent_main_performance(self,cr,uid,ids,field_name,args,context):
 		res = {}
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
-			res[obj_rent.id] = "%.2f%%" % ((obj_rent.rent_main_amount_base * 12) /  obj_rent.rent_main_total * 100)
+			res[obj_rent.id] = "%.2f%%" % ((obj_rent.rent_main_amount_base * 12) /  (obj_rent.rent_main_total * 100) or 1)
 		return res
 		
 	def _rent_main_amount_years(self,cr,uid,ids,field_name,args,contexto):
