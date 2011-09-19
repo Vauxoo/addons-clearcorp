@@ -592,7 +592,7 @@ class rent_rent(osv.osv):
 			'account_analytic_id': False,
 			'invoice_rent': args['rent_id'] or False,
 		})
-	def invoice_rent(self, cr, uid, ids, *args,type='rent'):
+	def invoice_rent(self, cr, uid, ids, args, type='rent'):
 		res = {}
 		journal_obj = self.pool.get('account.journal')
 		il = []
