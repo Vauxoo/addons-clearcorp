@@ -895,8 +895,14 @@ class rent_rent(osv.osv):
 			help="This account will be used for invoices instead of the default one to value expenses for the current rent"),
 		'rent_rent_real_area'   : fields.function(_get_total_area,type='float',method=True,string='Area'),
 		
-		
+		"""
+		THIS SECTION CORRESPONS TO THE RENT MAINTENANCE ATTRIBUTES
+		IT'S INCLUDED IN THE SAME OBJECT TO AVOID USING A RELATION BETWEEN THEM
+		"""
+		'rent_main_start_date'       : fields.date('Starting Date', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_main_end_date'         : fields.date('Ending Date', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_main_rise'             : fields.char('Anual Rise',size=64, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		
 		'rent_main_amount_base'      : fields.float('Final Price $', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_main_performance'      : fields.function(_rent_main_performance, type='char',method = True,string='Performance'),
 		'rent_main_amountd_base'     : fields.function(_rent_main_amount_years, type='float',method = True,string='Final Price $', multi='Years_main'),
@@ -910,7 +916,11 @@ class rent_rent(osv.osv):
 		'rent_main_total'            : fields.float('Total Paid'),
 		'rent_main_total_us'         : fields.float('Total Paid $'),
 		#'rent_main_historic'         : fields.one2many('rent.rent.anual.value', 'anual_value_rent','Historic',readonly=True),         
-		'rent_main_company_id'       : fields.many2one('res.company', 'Supplier Company'),         
+		'rent_main_company_id'       : fields.many2one('res.company', 'Supplier Company'),      
+		
+		'rent_main_charge_day'       : fields.integer('Charge Day',help='Indica el dia del mes para realizar los cobros del alquiler.'),
+		'rent_main_invoiced_day'     : fields.integer('Invoiced Day',help='Indicates de how many days before of the charge day will create the invoice'),
+		'rent_main_grace_period'     : fields.integer('Grace Period',help='Indicates de how many days after the charge day will allow to paid an invoice without Interest for delay'),   
 	}
 	
 	_defaults = {
@@ -1110,6 +1120,7 @@ class rent_rent_invoice(osv.osv):
 		'invoice_state'    : fields.related('invoice_id','state', type='char',relation='account.invoice',string='State',readonly=True,store=False),
 		'invoice_number'   : fields.related('invoice_id','number', type='char',size=64,relation='account.invoice',string='Invoice Number',readonly=True,store=False),
 		'invouce_residual' : fields.related('invoice_id','residual', type='float',relation='account.invoice',string='Residual',readonly=True,store=False),
+		'invouce_type'     : fields.selection([('main','Maintenance'),('rent','Rent')],'Type'),
 	}
 
 rent_rent_invoice()
