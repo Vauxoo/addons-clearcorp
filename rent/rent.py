@@ -813,9 +813,11 @@ class rent_rent(osv.osv):
 	
 	def _rent_main_performance(self,cr,uid,ids,field_name,args,context):
 		res = {}
-		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
-			res[obj_rent.id] = "%.2f%%" % ((obj_rent.rent_main_amount_base * 12) /  (obj_rent.rent_main_total or 1) * 100) )
-		return res
+		#for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
+		#	total = 1
+		#	if obj_rent.rent_main_total:
+		#		res[obj_rent.id] = "%.2f%%" % ((obj_rent.rent_main_amount_base * 12) /  ( or ) * 100) 
+		return 0
 		
 	def _rent_main_amount_years(self,cr,uid,ids,field_name,args,contexto):
 		res = {}
@@ -831,7 +833,7 @@ class rent_rent(osv.osv):
 			years_val['rent_main_rise_year3d'] = years_val['rent_main_rise_year3'] / currency_id.rate
 			
 			#Just to avoid use a separate function
-			years_val['rent_amountd_base'] = obj_rent.rent_main_amountd_base / currency_id.rate
+			years_val['rent_main_amountd_base'] = obj_rent.rent_main_amount_base / currency_id.rate
 			res[obj_rent.id] = years_val
 		return res
 	
@@ -904,7 +906,7 @@ class rent_rent(osv.osv):
 		'rent_main_rise_year3d'      : fields.function(_rent_main_amount_years, type='float',method = True,string='Year 3  $', multi='Years_main'),
 		'rent_main_show_us_eq'       : fields.boolean('Check USD Currency Equivalent',store=False),
 		'rent_main_estimates'        : fields.one2many('rent.rent.main.estimate', 'estimate_maintenance','Estimates',states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_main_invoice_ids'      : fields.one2many('rent.invoice.rent','invoice_rent_id','Rent Invoices'),
+		#'rent_main_invoice_ids'      : fields.one2many('rent.invoice.rent.main','invoice_rent_main_id','Rent Invoices'),
 		'rent_main_total'            : fields.float('Total Paid'),
 		'rent_main_total_us'         : fields.float('Total Paid $'),
 		#'rent_main_historic'         : fields.one2many('rent.rent.anual.value', 'anual_value_rent','Historic',readonly=True),         
@@ -916,7 +918,9 @@ class rent_rent(osv.osv):
 		'rent_type'    : 'Contract',
 		'currency_id': _get_currency,
 		'rent_amount_base' : 0.00,
+		'rent_main_amount_base' : 0.00,
 		'rent_rise'     : "%.2f%%" % (0.),
+		'rent_main_rise': "%.2f%%" % (0.),
 		'rent_charge_day' : 01,
 	}
 rent_rent()
@@ -1034,7 +1038,7 @@ class rent_rent_main_estimate(osv.osv):
 	_defaults = {
 		'estimate_date'  : date.today().strftime('%d/%m/%Y'),
 	}
-rent_rent_estimate()
+rent_rent_main_estimate()
 
 class rent_rent_anual_value(osv.osv):
 	_name = 'rent.rent.anual.value'

@@ -721,7 +721,7 @@
 						</page>
 						
 						<page string = "Maintenance">
-							<group col = "4" colspan = "2">
+							<group col = "4" colspan = "4">
 								<separator string = "General Information" colspan = "4"/>
 								<field name = "rent_main_company_id"/>
 							</group>
@@ -752,7 +752,7 @@
 									<field name = "rent_main_historic" nolabel="1"/>
 								</page>-->
 								<page string = "Facturas">
-									<field name = "rent_main_invoice_ids" nolabel="1"/>
+									<!--<field name = "rent_main_invoice_ids" nolabel="1"/>-->
 								</page>
 							</notebook>
 						</page>
@@ -857,6 +857,61 @@
 		
 		
 		
+		
+		<!--
+		======================================
+					RENT MAINTENANCE estimateS
+		======================================
+		-->
+		
+		<record model = "ir.ui.view" id = "rent_main_estimate_tree_view">
+			<field name = "name">rent.rent.main.estimate.tree</field>
+			<field name = "model">rent.rent.main.estimate</field>
+			<field name = "type">tree</field>
+			<field name = "arch" type = "xml">
+				<tree editable = "top" string = "Calculations List" colors="green:estimate_state in ('final');blue:estimate_state in ('recommend');red:estimate_state in ('min');gray:estimate_state in ('norec')">
+					<field name = "estimate_date"/>
+					<field name = "estimate_performance"/>
+					<field name = "estimate_years"/>
+					<field name = "estimate_amountc"/>
+					<field name = "estimate_amountd"/>
+					<field name = "estimate_colones"/>					
+					<field name = "estimate_dollars"/>					
+					<field name = "estimate_state"/>
+				</tree>
+			</field>
+		</record>
+		
+		<record model = "ir.ui.view" id = "rent_main_estimate_form_view">
+			<field name = "name">rent.rent.main.estimate.form</field>
+			<field name = "model">rent.rent.main.estimate.</field>
+			<field name = "type">form</field>
+			<field name = "arch" type = "xml">
+				<form string = "Estimates">
+					<group col="4" colspan="4">
+						<separator colspan = "4" string = "Calculos"/>
+						<group>
+							<field name = "estimate_performance"/>
+							<field name = "estimate_years"/>
+						</group>
+						<group>
+							<field name = "estimate_amountc"/>
+							<field name = "estimate_date"/>
+							<field name = "estimate_colones"/>
+						</group>
+					</group>
+				</form>
+			</field>
+		</record>
+		
+		<record model = "ir.actions.act_window" id = "action_rent_main_estimate_form_view">
+			<field name = "name">Calculations Details</field>
+			<field name = "res_model">rent.rent.estimate</field>
+			<field name = "type">ir.actions.act_window</field>
+			<field name = "view_type">form</field>
+			<field name = "view_mode">tree,form</field>
+			<field name = "view_id" ref = "rent_main_estimate_tree_view"/>
+		</record>
 		
 		
 		
