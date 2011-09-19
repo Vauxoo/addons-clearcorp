@@ -915,6 +915,26 @@ class rent_rent(osv.osv):
 		'rent_main_charge_day'       : fields.integer('Charge Day',help='Indica el dia del mes para realizar los cobros del alquiler.'),
 		'rent_main_invoiced_day'     : fields.integer('Invoiced Day',help='Indicates de how many days before of the charge day will create the invoice'),
 		'rent_main_grace_period'     : fields.integer('Grace Period',help='Indicates de how many days after the charge day will allow to paid an invoice without Interest for delay'),   
+		
+		'rent_rent_main_account_id'  : fields.property(
+			'account.account',
+			type='many2one',
+			relation='account.account',
+			string="Income Account",
+			method=True,
+			view_load=True,
+			help="This account will be used for invoices instead of the default one to value sales for the current rent"),
+		'rent_rent_main_acc_int_id'  : fields.property(
+			'account.account',
+			type='many2one',
+			relation='account.account',
+			string="Interest Account",
+			method=True,
+			view_load=True,
+			help="This account will be used for invoices instead of the default one to value expenses for the current rent"),
+			
+		'rent_main_end_date'         : fields.date('Ending Date', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_main_start_date'       : fields.date('Starting Date', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 	}
 	
 	_defaults = {

@@ -652,20 +652,20 @@
 						<field name = "rent_type" attrs = "{'readonly' : [('state','!=','draft')]}"/>
 						<field name = "state"/>
 						<field name = "rent_related_real"/>
-						<field name = "rent_years"/>
-						<field name = "rent_start_date"/>
-						<field name = "rent_end_date"/>
-					</group>
-					<group col = "4" colspan = "4">
-						<separator string = "Accounting" colspan = "4"/>
-						<field name="rent_rent_account_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"  groups="base.group_extended"/>
-						<field name="rent_rent_acc_int_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" groups="base.group_extended"/>
-						<field name = "rent_charge_day"/>
-						<field name = "rent_invoiced_day"/>
-						<field name = "rent_grace_period"/>
 					</group>
 					<notebook>
 						<page string = "Rent">
+							<group col = "4" colspan = "4">
+								<separator string = "Accounting" colspan = "4"/>
+								<field name="rent_rent_account_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"  groups="base.group_extended"/>
+								<field name="rent_rent_acc_int_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" groups="base.group_extended"/>
+								<field name = "rent_charge_day"/>
+								<field name = "rent_invoiced_day"/>
+								<field name = "rent_grace_period"/>
+								<field name = "rent_years"/>
+								<field name = "rent_start_date"/>
+								<field name = "rent_end_date"/>
+							</group>
 							<group col = "4" colspan = "2">
 								<separator string = "Negotiation Information" colspan = "4"/>
 								<field name = "rent_amount_base"/>
@@ -727,9 +727,17 @@
 							<group col = "4" colspan = "4">
 								<separator string = "General Information" colspan = "4"/>
 								<field name = "rent_main_company_id"/>
+								<field name = "rent_main_start_date"/>
+								<field name = "rent_main_end_date"/>
+							</group>
+							<group col = "4" colspan = "4">
+								<separator string = "Accounting" colspan = "4"/>
+								<field name="rent_rent_main_account_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"  groups="base.group_extended"/>
+								<field name="rent_rent_main_acc_int_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" groups="base.group_extended"/>
 								<field name = "rent_main_charge_day"/>
 								<field name = "rent_main_invoiced_day"/>
 								<field name = "rent_main_grace_period"/>
+								
 							</group>
 							<group col = "4" colspan = "2">
 								<separator string = "Financial Information" colspan = "4"/>
