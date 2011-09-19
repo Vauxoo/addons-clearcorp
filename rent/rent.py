@@ -901,7 +901,7 @@ class rent_rent(osv.osv):
 		"""
 		'rent_main_start_date'       : fields.date('Starting Date', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_main_end_date'         : fields.date('Ending Date', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_main_rise'             : fields.char('Anual Rise',size=64, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),S
+		'rent_main_rise'             : fields.char('Anual Rise',size=64, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		
 		'rent_main_amount_base'      : fields.float('Final Price $', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_main_performance'      : fields.function(_rent_main_performance, type='char',method = True,string='Performance'),
