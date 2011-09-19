@@ -1120,7 +1120,7 @@ class rent_rent_invoice(osv.osv):
 		'invoice_state'    : fields.related('invoice_id','state', type='char',relation='account.invoice',string='State',readonly=True,store=False),
 		'invoice_number'   : fields.related('invoice_id','number', type='char',size=64,relation='account.invoice',string='Invoice Number',readonly=True,store=False),
 		'invouce_residual' : fields.related('invoice_id','residual', type='float',relation='account.invoice',string='Residual',readonly=True,store=False),
-		'invouce_type'     : fields.selection([('main','Maintenance'),('rent','Rent')],'Type'),
+		#'invouce_type'     : fields.selection([('main','Maintenance'),('rent','Rent')],'Type'),
 	}
 
 rent_rent_invoice()
