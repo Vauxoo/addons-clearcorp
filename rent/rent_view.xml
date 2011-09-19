@@ -766,7 +766,7 @@
 									<field name = "rent_main_historic" nolabel="1"/>
 								</page>-->
 								<page string = "Facturas">
-									<field name = "rent_main_invoice_ids" nolabel="1" domain = "[('invoice_type','=','main')]"/>
+									<field name = "rent_invoice_ids" nolabel="1" domain = "[('invoice_type','=','main')]"/>
 								</page>
 							</notebook>
 						</page>
