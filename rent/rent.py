@@ -963,7 +963,7 @@ class rent_rent(osv.osv):
 		'rent_main_rise_year3d'      : fields.function(_rent_main_amount_years, type='float',method = True,string='Year 3  $', multi='Years_main'),
 		'rent_main_show_us_eq'       : fields.boolean('Check USD Currency Equivalent',store=False),
 		'rent_main_estimates'        : fields.one2many('rent.rent.main.estimate', 'estimate_maintenance','Estimates',states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		#'rent_main_invoice_ids'      : fields.one2many('rent.invoice.rent.main','invoice_rent_main_id','Rent Invoices'),
+		'rent_main_invoice_ids'      : fields.one2many('rent.invoice.rent','invoice_rent_id','Rent Invoices'),
 		'rent_main_total'            : fields.float('Total Paid'),
 		'rent_main_total_us'         : fields.float('Total Paid $'),
 		#'rent_main_historic'         : fields.one2many('rent.rent.anual.value', 'anual_value_rent','Historic',readonly=True),         
