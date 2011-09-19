@@ -592,6 +592,7 @@ class rent_rent(osv.osv):
 			'account_analytic_id': False,
 			'invoice_rent': args['rent_id'] or False,
 		})
+	
 	def invoice_rent(self, cr, uid, ids, args,type='rent'):
 		res = {}
 		journal_obj = self.pool.get('account.journal')
@@ -667,7 +668,7 @@ class rent_rent(osv.osv):
 			
 			init_date = init_date.replace(year=today.year)
 			
-			res.append(self._invoice_data(cr,uid,ids,obj_rent,{'init_date': init_date, 'end_date' : charge_date.replace(day=calendar.mdays[charge_date.month])}))
+			res.append(self._invoice_data(cr,uid,ids,obj_rent,{'init_date': init_date, 'end_date' : charge_date.replace(day=calendar.mdays[charge_date.month])},type))
 			self.invoice_rent(cr,uid,ids,res,type)
 		return True
 	
@@ -729,6 +730,7 @@ class rent_rent(osv.osv):
 		obj_rent = self.browse(cr,uid,args['rent_id'])
 		obj_rent.write({'rent_invoice_ids' : [(0,0,{'invoice_id':args['invoice_id'],'invoice_rent_id':obj_rent.id,'invoice_type':args['invoice_type']})]})
 		return True
+	
 	def rent_calc(self,cr,uid,ids,type='rent'):
 		debug('GENERACION DE Pago Normal')
 		res = {}		
@@ -760,6 +762,7 @@ class rent_rent(osv.osv):
 			debug(res_dob_inv)
 			self.invoice_rent(cr,uid,ids,res_dob_inv,type)
 		return True
+	
 	def _invoice_data(self,cr,uid,ids,obj_rent,date_range,type='rent'):
 	#	debug('CALCULO DE ALQUILER')
 		init_date = date_range['init_date']
@@ -779,7 +782,7 @@ class rent_rent(osv.osv):
 		
 		amount =  charged_days / float(month_days) * amount_base
 	#	debug(amount)
-		desc = "Cobro de alquiler. Desde el %s hasta el %s" % (init_date.strftime("%A %d %B %Y"),end_date.strftime("%A %d %B %Y"))
+		desc = "Cobro de %s. Desde el %s hasta el %s" % ((type=='rent'and 'alquiler' or 'Mantenimiento'),init_date.strftime("%A %d %B %Y"),end_date.strftime("%A %d %B %Y"))
 		
 		res = {
 			'rent_id': obj_rent.id,
@@ -811,6 +814,7 @@ class rent_rent(osv.osv):
 	#	debug(res_norm_inv)
 	#	self.rent_calc(cr,uid,res_norm_inv)
 		return True
+	
 	def _method_invoice_caller (self,cr,uid,rent_ids,is_required,type='rent'):
 		res_norm_inv = []
 		debug("CRONO DE EJECUCUIONSSSSSSSSSSSSSSSSSSSSSSSS")
@@ -822,6 +826,7 @@ class rent_rent(osv.osv):
 		debug(res_norm_inv)
 		self.rent_calc(cr,uid,res_norm_inv,type)
 		return True
+	
 	def cron_rent_defaulter_interest(self,cr,uid):
 		rent_ids = self.search(cr,uid,[('state','=','active')])
 		res = []
