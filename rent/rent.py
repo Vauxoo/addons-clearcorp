@@ -622,7 +622,6 @@ class rent_rent(osv.osv):
 			if obj_rent.rent_main_charge_day - obj_rent.rent_main_invoiced_day > 0:
 				month_due = date.today().month
 			date_due = date(date.today().year,month_due,obj_rent.rent_main_charge_day = obj_rent.rent_main_grace_period)
-		 = 
 		inv = {
 			'name': obj_rent.name or desc,
 			'reference': obj_rent.name or desc,
