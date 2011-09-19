@@ -727,7 +727,9 @@
 							<group col = "4" colspan = "4">
 								<separator string = "General Information" colspan = "4"/>
 								<field name = "rent_main_company_id"/>
-							
+								<field name = "rent_main_charge_day"/>
+								<field name = "rent_main_invoiced_day"/>
+								<field name = "rent_main_grace_period"/>
 							</group>
 							<group col = "4" colspan = "2">
 								<separator string = "Financial Information" colspan = "4"/>
