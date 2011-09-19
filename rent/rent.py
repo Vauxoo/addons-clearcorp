@@ -798,6 +798,7 @@ class rent_rent(osv.osv):
 		
 		#after we invocied all the rents, now we can proceed with the maintenance 
 		#for them
+		debug("CALCULATING INVOICE FOR MAINTENANCE")
 		is_required = self._invoice_main_required(cr,uid,rent_ids,'main')
 		self._method_invoice_caller(cr,uid,rent_ids,is_required,'main')
 	#	res_norm_inv = []
