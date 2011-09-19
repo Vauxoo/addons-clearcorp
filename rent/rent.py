@@ -946,6 +946,7 @@ class rent_rent(osv.osv):
 		'rent_rise'     : "%.2f%%" % (0.),
 		'rent_main_rise': "%.2f%%" % (0.),
 		'rent_charge_day' : 01,
+		'rent_main_charge_day' : 01,
 	}
 rent_rent()
 
@@ -1134,6 +1135,7 @@ class rent_rent_invoice(osv.osv):
 		'invoice_state'    : fields.related('invoice_id','state', type='char',relation='account.invoice',string='State',readonly=True,store=False),
 		'invoice_number'   : fields.related('invoice_id','number', type='char',size=64,relation='account.invoice',string='Invoice Number',readonly=True,store=False),
 		'invouce_residual' : fields.related('invoice_id','residual', type='float',relation='account.invoice',string='Residual',readonly=True,store=False),
+		'invoice_type'     : fields.selection([('main','Maintenance'),('rent','Rent')],'Type'),
 		
 	}
 
