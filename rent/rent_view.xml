@@ -710,7 +710,7 @@
 									<field name = "rent_historic" nolabel="1"/>
 								</page>
 								<page string = "Facturas">
-									<field name = "rent_invoice_ids" nolabel="1"/>
+									<field name = "rent_invoice_ids" nolabel="1" domain = "[('invoice_type','=','rent')]"/>
 								</page>
 								<page string = "Modifications">
 									<field name = "rent_modif" attrs="{'readonly' : [('rent_type','!=','Contract')]}" nolabel="1"/>
@@ -766,7 +766,11 @@
 									<field name = "rent_main_historic" nolabel="1"/>
 								</page>-->
 								<page string = "Facturas">
-									<!--<field name = "rent_main_invoice_ids" nolabel="1"/>-->
+									<field name = "rent_main_invoice_ids" nolabel="1" domain = "[('invoice_type','=','main')]"/>
+				</tree>
+			</field>
+		</record>
+									</field>
 								</page>
 							</notebook>
 						</page>
