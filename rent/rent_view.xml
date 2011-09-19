@@ -767,10 +767,6 @@
 								</page>-->
 								<page string = "Facturas">
 									<field name = "rent_main_invoice_ids" nolabel="1" domain = "[('invoice_type','=','main')]"/>
-				</tree>
-			</field>
-		</record>
-									</field>
 								</page>
 							</notebook>
 						</page>
