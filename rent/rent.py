@@ -653,7 +653,7 @@ class rent_rent(osv.osv):
 	def first_rent(self,cr,uid,ids,type='rent'):
 		debug('GENERACION DE PRIMER PAGO')
 		res = []
-#		debug(ids)
+		debug(ids)
 #		is_required = self._invoice_required
 #		for obj_rent in self.browse(cr,uid,ids):
 		for obj_rent in ids:
@@ -860,7 +860,7 @@ class rent_rent(osv.osv):
 		debug(res_first_inv)
 		debug(res_first_main_inv)
 		self.first_rent(cr,uid,res_first_inv)
-		self.first_rent(cr,uid,res_first_main_inv)
+		self.first_rent(cr,uid,res_first_main_inv,'main')
 		return {}
 	
 	def calculate_negotiation(self,cr,uid,ids,context):
