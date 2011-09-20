@@ -331,6 +331,7 @@
 			<field name = "arch" type = "xml">
 				<tree string="Building Details">
 					<field name="name"/>
+					<field name="building_estate"/>
 					<field name="building_date_construction"/>
 					<field name="building_value"/>
 					<field name="building_area"/>
@@ -518,9 +519,9 @@
 			<field name = "arch" type = "xml">
 				<form string = "Local Details">
 					<group col = "4" colspan = "4">
-						<separator string = "General Information"/>					
+						<separator string = "General Information"/>
 						<field name = "local_floor_floor" select = "1" on_change = "onchange_floor(local_floor_floor)"/>
-						<field name = "local_floor_building" select = "1"/>						
+						<field name = "local_floor_building" select = "1"/>
 						<!---->
 					</group>
 					<group col = "4" colspan = "4">
@@ -629,10 +630,8 @@
 						<filter string = "Active" icon = "terp-go-home" domain = "[('state','=','active')]" />
 						<filter string = "Finished" icon = "terp-go-home" domain = "[('state','=','finished')]"/>
 					</group>
-					<group expand = "0" string = "Group By...">
-						<filter string = "Client" icon = "terp-personal" domain = "[]" context="{'group_by' : 'rent_rent_client'}"/>
+					<group colspan="4" expand = "0" string = "Group By...">
 						<filter string = "Type" icon = "terp-stock_symbol-selection" domain = "[]" context="{'group_by' : 'rent_type'}"/>
-						<filter string = "Years" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'rent_years'}"/>
 						<filter string = "Status" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'state'}"/>
 					</group>
 				</search>
