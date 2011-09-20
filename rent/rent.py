@@ -814,7 +814,7 @@ class rent_rent(osv.osv):
 		today = date(date.today().year,12,1)
 		debug(today)
 		dt2 = today + timedelta(days=32)
-		dt3 = dt2.replace(days=1)
+		dt3 = dt2.replace(day=1)
 		debug(dt3)
 		rent_ids = self.search(cr,uid,[('state','=','active')])
 		is_required = self._invoice_main_required(cr,uid,rent_ids,'rent')
