@@ -23,6 +23,7 @@ from osv import osv, fields
 class account_journal(osv.osv):
 	_name = "account.journal"
 	_inherit = "account.journal"
+	
 	_columns = {
 		'type': fields.selection([('sale', 'Sale'),
 								('sale_refund','Sale Refund'), 
