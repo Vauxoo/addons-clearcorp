@@ -536,7 +536,7 @@
 				</form>
 			</field>
 		</record>
-		
+	
 		<record model = "ir.ui.view" id = "local_floor_tree_view">
 			<field name = "name">rent.local.floor.tree</field>
 			<field name = "model">rent.local.floor</field>

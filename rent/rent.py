@@ -935,6 +935,36 @@ class rent_rent(osv.osv):
 		self.first_rent(cr,uid,res_first_main_inv,'main')
 		return {}
 	
+	def action_last_invoice(self,cr,uid,ids,context=None):
+		#gets the list of all active rents
+		rent_ids = self.search(cr,uid,[('state','=','active')])
+		#is_required = self._invoice_required(cr,uid,rent_ids)
+		res_first_inv = []
+		res_first_main_inv = []
+		debug("CAMBIO DE ESTADOSSSSSSSSSSSSSSSSSS")
+		for obj_rent in self.browse(cr,uid,rent_ids):
+			#if is_required[obj_rent.id]: 
+			has_first = self.pool.get('rent.invoice.rent').search(cr,uid,[('invoice_rent_id','=',obj_rent.id),('invoice_type','=','rent')])
+			if not has_first and parser.parse(obj_rent.rent_start_date).date().month == date.today().month:
+				#res_first_inv.append(obj_rent.id)
+				res_first_inv.append(obj_rent)
+				percentaje = obj_rent.rent_performance.split('%')[0]
+				#we update the estimates list for the obj
+				obj_rent.write({'rent_estimates' : [(0,0,{'estimate_performance': float(percentaje),'estimate_rent':obj_rent.id,'estimate_date' : date.today(), 'estimate_state':'final'})]})
+				
+			#We check for maintenance invoice
+			has_main_first = self.pool.get('rent.invoice.rent').search(cr,uid,[('invoice_rent_id','=',obj_rent.id),('invoice_type','=','main')])
+			if not has_main_first and parser.parse(obj_rent.rent_main_start_date).date().month == date.today().month:
+				res_first_main_inv.append(obj_rent)
+				percentaje = obj_rent.rent_main_performance.split('%')[0]
+				obj_rent.write({'rent_main_estimates' : [(0,0,{'estimate_performance': float(percentaje),'estimate_rent':obj_rent.id,'estimate_date' : date.today(), 'estimate_state':'final'})]})
+		
+		debug(res_first_inv)
+		debug(res_first_main_inv)
+		self.first_rent(cr,uid,res_first_inv)
+		self.first_rent(cr,uid,res_first_main_inv,'main')
+		return {}
+	
 	def calculate_negotiation(self,cr,uid,ids,context):
 		res = {}
 		self.pool.get('rent.rent').write(cr, uid, ids, {}, context)

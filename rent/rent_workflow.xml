@@ -29,7 +29,8 @@
 		
 		<record id = "act_finish" model = "workflow.activity">
 			<field name = "wkf_id" ref = "wkf"/>
-			<field name = "action">write({'state':'finished'})</field>
+			<field name = "action">write({'state':'finished'})
+			action_last_invoice()</field>
 			<field name = "name">finished</field>
 			<field name = "kind">stopall</field>
 		</record>
