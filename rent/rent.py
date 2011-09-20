@@ -672,30 +672,30 @@ class rent_rent(osv.osv):
 			self.invoice_rent(cr,uid,ids,res,type)
 		return True
 	
-	def _invoice_required(self,cr,uid,ids):
-		res = {}
-		debug("CALCULANDO REQUERIDOS################")
-		debug(ids)
-		for obj_rent in self.browse(cr,uid,ids):
-			is_required = False
-			today = date.today()
-			invoice_day = calendar.mdays[today.month] - obj_rent.rent_invoiced_day + obj_rent.rent_charge_day
-			debug(today)
-			debug(invoice_day)
-			if today.day == invoice_day:
-				is_required = True
-				for obj_inv_reg in obj_rent.rent_invoice_ids:
-					debug("BUSCANDO FACTURAS EXISTENTES################")
-					inv_date = parser.parse(obj_inv_reg.invoice_date).date()
-					start_date = parser.parse(obj_rent.rent_start_date).date()
-					debug(inv_date)
-					if inv_date.month == start_date.month and inv_date.year == start_date.year and len(obj_rent.rent_invoice_ids) <= 1:
-						is_required = True
-					elif inv_date.month == today.month and inv_date.year == today.year:
-						is_required = False
-						break
-			res[obj_rent.id] = is_required
-		return res
+#	def _invoice_required(self,cr,uid,ids):
+#		res = {}
+#		debug("CALCULANDO REQUERIDOS################")
+#		debug(ids)
+#		for obj_rent in self.browse(cr,uid,ids):
+#			is_required = False
+#			today = date.today()
+#			invoice_day = calendar.mdays[today.month] - obj_rent.rent_invoiced_day + obj_rent.rent_charge_day
+#			debug(today)
+#			debug(invoice_day)
+#			if today.day == invoice_day:
+#				is_required = True
+#				for obj_inv_reg in obj_rent.rent_invoice_ids:
+#					debug("BUSCANDO FACTURAS EXISTENTES################")
+#					inv_date = parser.parse(obj_inv_reg.invoice_date).date()
+#					start_date = parser.parse(obj_rent.rent_start_date).date()
+#					debug(inv_date)
+#					if inv_date.month == start_date.month and inv_date.year == start_date.year and len(obj_rent.rent_invoice_ids) <= 1:
+#						is_required = True
+#					elif inv_date.month == today.month and inv_date.year == today.year:
+#						is_required = False
+#						break
+#			res[obj_rent.id] = is_required
+#		return res
 	
 	def _invoice_main_required(self,cr,uid,ids,type='rent'):
 		res = {}
@@ -809,6 +809,11 @@ class rent_rent(osv.osv):
 	
 	def cron_rent_invoice(self,cr,uid,ids,context):
 		#gets the list of all active rents
+		debug('GENERACION DE Pago Normal')
+		today = date(date.today().year,12,1)
+		debug(today)
+		today = today.replace(month=today.month+1)
+		debug(today)
 		rent_ids = self.search(cr,uid,[('state','=','active')])
 		is_required = self._invoice_main_required(cr,uid,rent_ids,'rent')
 		self._method_invoice_caller(cr,uid,rent_ids,is_required,'rent')
@@ -876,6 +881,9 @@ class rent_rent(osv.osv):
 			has_main_first = self.pool.get('rent.invoice.rent').search(cr,uid,[('invoice_rent_id','=',obj_rent.id),('invoice_type','=','main')])
 			if not has_main_first and parser.parse(obj_rent.rent_main_start_date).date().month == date.today().month:
 				res_first_main_inv.append(obj_rent)
+				percentaje = obj_rent.rent_main_performance.split('%')[0]
+				obj_rent.write({'rent_main_estimates' : [(0,0,{'estimate_performance': float(percentaje),'estimate_rent':obj_rent.id,'estimate_date' : date.today(), 'estimate_state':'final'})]})
+		
 		debug(res_first_inv)
 		debug(res_first_main_inv)
 		self.first_rent(cr,uid,res_first_inv)
