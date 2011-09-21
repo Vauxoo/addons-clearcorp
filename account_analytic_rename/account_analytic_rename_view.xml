@@ -7,7 +7,7 @@
 					accounts
 		======================================
 		-->
-		<record model = "ir.ui.view" id = "account_analytic_rename_tree_view">
+		<record model = "ir.ui.view" id = "account_analytic_rename_form_view">
 			<field name = "name">account.analytic.account.form</field>
 			<field name = "model">account.analytic.account</field>
 			<field name = "type">form</field>
