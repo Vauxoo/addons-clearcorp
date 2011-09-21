@@ -17,17 +17,19 @@ class stock_location(osv.osv):
 			context = {}
 		if not len(ids):
 			return []
-		reads = self.read(cr, uid, ids, ['name','location_id','shortcut'], context=context)
-		for record in reads:
-			name = record['name']
-			if record['location_id']:
-				obj_stock_location = self.browse(cr,uid,record['location_id'][0])
-				if obj_stock_location.shortcut:
-					short_path = record['location_id'][1].strip(obj_stock_location.name)
-					name = short_path + obj_stock_location.shortcut + ' / ' + name
+		for obj_stock_location in self.browse(cr,uid,ids):
+			data = []
+			location = obj_stock_location
+			is_leaf = True
+			while location:
+				if not location.location_id or is_leaf:
+					data.insert(0,location.name)
+					is_leaft = False
 				else:
-					name = record['location_id'][1] + ' / ' + name
-			res.append((record['id'], name))  
+					data.insert(0,(location.shortcut or location.name))
+					data = '/'.join(data)
+				location = location.location_id
+			res.append((location.id, name))  
 		return res
 	
 	def _complete_name2(self, cr, uid, ids, name, args, context=None):
