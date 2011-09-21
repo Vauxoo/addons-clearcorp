@@ -35,7 +35,7 @@ class stock_location(osv.osv):
 			debug("DATA FINAL")
 			data = '/'.join(data)
 			debug(data)
-			res.append((location.id, data))  
+			res.append((location.id, 'Prueba'))  
 		return res
 	
 	def _complete_name2(self, cr, uid, ids, name, args, context=None):
