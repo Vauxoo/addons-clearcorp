@@ -4,7 +4,7 @@
 
 		<!--
 		======================================
-					STOCK
+					STOCK LOCATIONS
 		======================================
 		-->
 		<record model = "ir.ui.view" id = "stock_rename_form_view">
