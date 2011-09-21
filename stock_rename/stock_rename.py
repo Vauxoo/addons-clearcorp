@@ -36,9 +36,7 @@ class stock_location(osv.osv):
 		"""
 		res = {}
 		for m in self.browse(cr, uid, ids, context=context):
-			debug("FULL NAME")
-			debug(m.name_get())
-			res[m.id] = m.name
+			res[m.id] = m.name_get()[1]
 		return res
 	_columns = {
 		'shortcut'  :  fields.char('Shortcut',size=10),
