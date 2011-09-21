@@ -24,7 +24,7 @@ class stock_location(osv.osv):
 			while location:
 				debug("LOOP")
 				debug(data)
-				if (not location.location_id) or is_leaf:
+				if is_leaf and (not location.location_id):
 					debug("LEAF")
 					data.insert(0,location.name)
 				else:
