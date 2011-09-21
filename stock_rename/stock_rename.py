@@ -29,7 +29,7 @@ class stock_location(osv.osv):
 					data.insert(0,(location.shortcut or location.name))
 					data = '/'.join(data)
 				location = location.location_id
-			res.append((location.id, name))  
+			res.append((location.id, data))  
 		return res
 	
 	def _complete_name2(self, cr, uid, ids, name, args, context=None):
