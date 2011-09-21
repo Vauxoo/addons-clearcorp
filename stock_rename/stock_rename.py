@@ -22,6 +22,7 @@ class stock_location(osv.osv):
 			location = obj_stock_location
 			is_leaf = True
 			while location:
+				debug(data)
 				if not location.location_id or is_leaf:
 					data.insert(0,location.name)
 					is_leaft = False
@@ -29,6 +30,8 @@ class stock_location(osv.osv):
 					data.insert(0,(location.shortcut or location.name))
 					data = '/'.join(data)
 				location = location.location_id
+			debug("DATA FINAL")
+			debug(data)
 			res.append((location.id, data))  
 		return res
 	
