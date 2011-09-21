@@ -35,8 +35,9 @@ class stock_location(osv.osv):
 		@return: Dictionary of values
 		"""
 		res = {}
-		for m in self.browse(cr, uid, ids, context=context):
-			res[m.id] = m.name_get()[1]
+		name_list = self.name_get(cr,uid,ids,context)
+		for name in name_list:
+			res[name[0]] = name[1]
 		return res
 	_columns = {
 		'shortcut'  :  fields.char('Shortcut',size=10),
