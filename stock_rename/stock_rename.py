@@ -25,10 +25,13 @@ class stock_location(osv.osv):
 				debug(data)
 				if not location.location_id or is_leaf:
 					data.insert(0,location.name)
-					is_leaft = False
 				else:
+					debug("ROOT")
+					debug(location.shortcut)
+					debug(location.name)
 					data.insert(0,(location.shortcut or location.name))
 				location = location.location_id
+				is_leaft = False
 			debug("DATA FINAL")
 			data = '/'.join(data)
 			debug(data)
