@@ -28,9 +28,9 @@ class stock_location(osv.osv):
 					is_leaft = False
 				else:
 					data.insert(0,(location.shortcut or location.name))
-					data = '/'.join(data)
 				location = location.location_id
 			debug("DATA FINAL")
+			data = '/'.join(data)
 			debug(data)
 			res.append((location.id, data))  
 		return res
