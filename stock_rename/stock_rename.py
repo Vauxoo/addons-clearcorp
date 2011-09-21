@@ -12,31 +12,21 @@ class stock_location(osv.osv):
 	_inherit = "stock.location"
 	
 	def name_get(self, cr, uid, ids, context=None):
-		res = []
-		if context is None:
-			context = {}
-		if not len(ids):
+		if not ids:
 			return []
+		res = []
 		for obj_stock_location in self.browse(cr,uid,ids):
 			data = []
 			location = obj_stock_location
 			is_leaf = True
 			while location:
-				debug("LOOP")
-				debug(data)
 				if is_leaf:
-					debug("LEAF")
 					data.insert(0,location.name)
 					is_leaf = False
 				else:
-					debug("ROOT")
-					debug(location.shortcut)
-					debug(location.name)
 					data.insert(0,(location.shortcut or location.name))
 				location = location.location_id
-			debug("DATA FINAL")
 			data = '/'.join(data)
-			debug(data)
 			res.append((obj_stock_location.id, data))  
 		return res
 	
@@ -44,20 +34,11 @@ class stock_location(osv.osv):
 		""" Forms complete name of location from parent location to child location.
 		@return: Dictionary of values
 		"""
-		def _get_one_full_name(location, level=4):
-			if location.location_id:
-				parent_path = _get_one_full_name(location.location_id, level-1)
-				if location.location_id.shortcut:
-					short_path = parent_path.strip(location.location_id.name)
-					parent_path = short_path + location.location_id.shortcut + ' / '
-				else:
-					parent_path = parent_path + ' / '
-			else:
-				parent_path = ''
-			return parent_path + location.name
 		res = {}
 		for m in self.browse(cr, uid, ids, context=context):
-			res[m.id] = _get_one_full_name(m)
+			debug("FULL NAME")
+			debug(m.location_id.name)
+			res[m.id] = m.name
 		return res
 	_columns = {
 		'shortcut'  :  fields.char('Shortcut',size=10),
