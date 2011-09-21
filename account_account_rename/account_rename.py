@@ -67,4 +67,4 @@ class account_account(osv.osv):
 	_columns = {
 		'complete_name': fields.function(_complete_name, method=True, type='char', size=100, string="Location Name"),
 	}
-stock_location()
+account_account()

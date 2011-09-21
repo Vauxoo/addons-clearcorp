@@ -1,1 +1,1 @@
-import stock_location_rename
+import account_rename
