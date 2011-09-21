@@ -52,6 +52,7 @@ class account_account(osv.osv):
 					account = account.parent_id
 			data.append(obj_account.name)
 			data = '/'.join(data)
+			data = obj_account.code + ' ' + data
 			res.append((obj_account.id, data))  
 		return res
 	
