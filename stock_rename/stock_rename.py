@@ -22,6 +22,7 @@ class stock_location(osv.osv):
 			location = obj_stock_location
 			is_leaf = True
 			while location:
+				debug("LOOP")
 				debug(data)
 				if not location.location_id or is_leaf:
 					data.insert(0,location.name)
@@ -35,7 +36,7 @@ class stock_location(osv.osv):
 			debug("DATA FINAL")
 			data = '/'.join(data)
 			debug(data)
-			res.append((location.id, 'Prueba'))  
+			res.append((location.id, data))  
 		return res
 	
 	def _complete_name2(self, cr, uid, ids, name, args, context=None):
