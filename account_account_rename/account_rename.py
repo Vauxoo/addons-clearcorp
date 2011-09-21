@@ -66,6 +66,6 @@ class account_account(osv.osv):
 			res[name[0]] = name[1]
 		return res
 	_columns = {
-		'complete_name': fields.function(_complete_name, method=True, type='char', size=100, string="Location Name"),
+		'complete_name': fields.function(_complete_name, method=True, type='char', size=100, string="Account Name"),
 	}
 account_account()
