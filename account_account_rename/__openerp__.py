@@ -38,7 +38,7 @@
 	"depends"     : ["base","account"],
 	"init_xml"    : [],
 	"update_xml"  : ["account_rename_view.xml"],
-	"category"    : "Stock",
+	"category"    : "Accounting",
 	"active"      : False,
 	"instalable"  : True,
 }
