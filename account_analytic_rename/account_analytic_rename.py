@@ -46,13 +46,11 @@ class account_analytic_account(osv.osv):
 		for obj_account in self.browse(cr,uid,ids):
 			data = []
 			account = obj_account.parent_id
-			#if account.parent_id:
 			while account:
 				data.insert(0,(account.shortcut or account.name))
 				account = account.parent_id
 			data.append(obj_account.name)
 			data = '/'.join(data)
-			#data = obj_account.code + ' ' + data
 			res.append((obj_account.id, data))  
 		return res
 		
