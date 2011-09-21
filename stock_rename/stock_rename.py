@@ -18,12 +18,7 @@ class stock_location(osv.osv):
 		for obj_stock_location in self.browse(cr,uid,ids):
 			data = []
 			location = obj_stock_location.location_id
-			#is_leaf = True
 			while location:
-			#	if is_leaf:
-		#			data.insert(0,location.name)
-		#			is_leaf = False
-		#		else:
 				data.insert(0,(location.shortcut or location.name))
 				location = location.location_id
 			data.append(obj_stock_location.name)
