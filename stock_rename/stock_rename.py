@@ -37,7 +37,7 @@ class stock_location(osv.osv):
 		res = {}
 		for m in self.browse(cr, uid, ids, context=context):
 			debug("FULL NAME")
-			debug(m.location_id.name)
+			debug(m.name_get())
 			res[m.id] = m.name
 		return res
 	_columns = {
