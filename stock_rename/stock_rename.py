@@ -17,7 +17,7 @@ class stock_location(osv.osv):
 		res = []
 		for obj_stock_location in self.browse(cr,uid,ids):
 			data = []
-			location = obj_stock_location.location.id
+			location = obj_stock_location.location_id
 			#is_leaf = True
 			while location:
 			#	if is_leaf:
