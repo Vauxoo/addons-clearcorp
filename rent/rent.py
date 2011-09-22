@@ -961,8 +961,8 @@ class rent_rent(osv.osv):
 		
 		debug(res_first_inv)
 		debug(res_first_main_inv)
-		self.first_rent(cr,uid,res_first_inv)
-		self.first_rent(cr,uid,res_first_main_inv,'main')
+		#self.first_rent(cr,uid,res_first_inv)
+		#self.first_rent(cr,uid,res_first_main_inv,'main')
 		return {}
 	
 	def calculate_negotiation(self,cr,uid,ids,context):
@@ -1093,8 +1093,8 @@ class rent_rent(osv.osv):
 			view_load=True,
 			help="This account will be used for invoices instead of the default one to value expenses for the current rent"),
 			
-		'rent_main_end_date'         : fields.date('Ending Date', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_main_start_date'       : fields.date('Starting Date', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_main_end_date'         : fields.date('Ending Date', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_main_start_date'       : fields.date('Starting Date', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 	}
 	
 	_defaults = {
