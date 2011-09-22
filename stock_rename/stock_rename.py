@@ -1,10 +1,5 @@
 from osv import osv, fields
 from tools import debug
-import time
-import pooler
-from dateutil import parser
-from datetime import date
-import calendar
 from tools.translate import _
 
 class stock_location(osv.osv):

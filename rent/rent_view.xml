@@ -169,10 +169,13 @@
 			<field name = "model">rent.estate</field>
 			<field name = "type">search</field>
 			<field name = "arch" type = "xml">
-				<search string = "Search Contact">
+				<search string = "Search Estate">
+					<group  colspan = "4" >
+						<filter  string = "Rented" icon = "terp-stock_symbol-selection" domain = "[('estate_rented','=','True')]"/>
+						<filter string = "Not Rented" icon = "terp-sale" domain = "[('estate_rented','=','True')]"/>
+					</group>
 					<group expand = "0" string = "Group By...">
 						<filter string = "Owners" icon = "terp-personal" domain = "[]" context="{'group_by' : 'estate_owner'}"/>
-						<filter string = "Location" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'estate_location'}"/>
 					</group>
 				</search>
 			</field>
@@ -191,6 +194,7 @@
 						<field name = "estate_area"  />
 						<field name = "estate_vrn_per_sqr"/>
 						<field name = "estate_account"/>
+						<field name = "estate_rented"/>
 						<button colspan="2" name="calculate_vrm" string="Compute Values" type="object" groups="base.group_user" icon="terp-stock_format-scientific"/>
 					</group>
 					<notebook colspan = "4">
@@ -214,10 +218,12 @@
 			<field name = "type">tree</field>
 			<field name = "arch" type = "xml">
 				<tree string = "estate Detail">
-					<field name = "estate_number"/>
+					<field name = "estate_number" select = "1"/>
+					<field name = "estate_owner" select = "1"/>
 					<field name = "estate_area" />
 					<field name = "estate_value"/>
 					<field name = "estate_vrn_per_sqr"/>
+					<field name = "estate_rented"/>
 				</tree>
 			</field>
 		</record>
@@ -331,7 +337,7 @@
 			<field name = "arch" type = "xml">
 				<tree string="Building Details">
 					<field name="name"/>
-					<field name="building_estate"/>
+					<field name="building_estate" select = "1"/>
 					<field name="building_date_construction"/>
 					<field name="building_value"/>
 					<field name="building_area"/>
@@ -363,6 +369,18 @@
 					FLOOR MENU
 		======================================
 		-->
+		<record id = "view_floor_filter" model = "ir.ui.view">
+			<field name = "name">rent.floor.select</field>
+			<field name = "model">rent.floor</field>
+			<field name = "type">search</field>
+			<field name = "arch" type = "xml">
+				<search string = "Search Floor">
+					<group expand = "0" string = "Group By...">
+						<filter string = "floor_building" icon = "terp-personal" domain = "[]" context="{'group_by' : 'estate_owner'}"/>
+					</group>
+				</search>
+			</field>
+		</record>
 		
 		<record model ="ir.ui.view" id = "floor_form_view">
 			<field name = "name">rent.floor.form2</field>
@@ -414,8 +432,10 @@
             <field name="name">Floors</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">rent.floor</field>
-            <field name="view_type">form</field>            
-            <field name="help"></field>
+            <field name="view_type">form</field>
+            <field name = "search_view_id" ref = "view_floor_filter"/>            
+            <field name="help">Manage every floor that belongs to a determined Building. This is the main view where you can create a floor record
+            but you can still do it from the building form</field>
         </record>
         <record id="action_floor_form_view1" model="ir.actions.act_window.view">
             <field eval="10" name="sequence"/>
@@ -442,6 +462,22 @@
 					LOCAL
 		======================================
 		-->
+		<record id = "view_local_filter" model = "ir.ui.view">
+			<field name = "name">rent.floor.local.select</field>
+			<field name = "model">rent.floor.local</field>
+			<field name = "type">search</field>
+			<field name = "arch" type = "xml">
+				<search string = "Search Local">
+					<group  colspan = "4" >
+						<filter  string = "Rented" icon = "terp-stock_symbol-selection" domain = "[('local_rented','=','True')]"/>
+						<filter string = "Not Rented" icon = "terp-sale" domain = "[('local_rented','=','False')]"/>
+					</group>
+					<group expand = "0" string = "Group By...">
+						<filter string = "Owners" icon = "terp-personal" domain = "[]" context="{'group_by' : 'local_building'}"/>
+					</group>
+				</search>
+			</field>
+		</record>
 		
 		<record model = "ir.ui.view" id = "local_form_view">
 			<field name = "name">rent.floor.local.form</field>
@@ -502,6 +538,8 @@
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
 			<field name = "view_id" ref = "local_tree_view"/>
+			<field name = "search_view_id" ref = "view_local_filter"/>            
+			<field name="help">Manage every local that belongs to a determined floor. This is the only view where you can create a floor record</field>
 		</record>
 		
 		<menuitem id = "rent_local_submenu" name = "Locals" parent = "rent_estate_menu" action = "action_local_form_view"/>
