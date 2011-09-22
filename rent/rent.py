@@ -1107,6 +1107,7 @@ class rent_rent(osv.osv):
 		'rent_main_rise': "%.2f%%" % (0.),
 		'rent_charge_day' : 01,
 		'rent_main_charge_day' : 01,
+		'rent_main_performance' : "%.2f%%" % (0.),
 	}
 rent_rent()
 
