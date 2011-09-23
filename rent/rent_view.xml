@@ -420,7 +420,7 @@
 		<record id="action_building_form_view2" model="ir.actions.act_window.view">
 			<field eval="10" name="sequence"/>
 			<field name="view_mode">form</field>
-			<field name="view_id" ref="building_form_view1"/>
+			<field name="view_id" ref="building_form_view"/>
 			<field name="act_window_id" ref="action_building_form"/>
 		</record>
 		
