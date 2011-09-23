@@ -390,7 +390,7 @@
 						BUILDING MENU
 		======================================
 		-->
-		<menuitem id = "rent_building_submenu" name = "Building" parent = "rent_estate_menu" action = "action_building_form_view" sequence="10"/>
+		<menuitem id = "rent_building_submenu" name = "Building" parent = "rent_estate_menu" action = "action_building_form_view"/>
 		
 		<!--
 		======================================
