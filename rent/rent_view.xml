@@ -330,6 +330,20 @@
 			</field>
 		</record>
 		
+		<record model ="ir.ui.view" id = "building_form_view2">
+			<field name = "name">rent.building.form2</field>
+			<field name = "model">rent.building</field>
+			<field name = "type">form</field>
+			<field name = "inherit_id" ref="rent.building_form_view"/>
+			<field name = "arch" type = "xml">
+				<data>
+					<field name = "name" position = "after">
+						<field name="building_estate"/>
+					</field>
+				</data>
+			</field>
+		</record>
+		
 		<record model = "ir.ui.view" id = "building_tree_view">
 			<field name = "name">rent.building.tree</field>
 			<field name = "model">rent.building</field>
@@ -337,7 +351,6 @@
 			<field name = "arch" type = "xml">
 				<tree string="Building Details">
 					<field name="name"/>
-					<field name="building_estate" select = "1"/>
 					<field name="building_date_construction"/>
 					<field name="building_value"/>
 					<field name="building_area"/>
@@ -347,15 +360,66 @@
 			</field>
 		</record>
 		
-		<record model = "ir.actions.act_window" id = "action_building_form_view">
+		<record model = "ir.ui.view" id = "building_tree_view2">
+			<field name = "name">rent.building.tree2</field>
+			<field name = "model">rent.building</field>
+			<field name = "type">tree</field>
+			<field name = "inherit_id" ref="rent.building_form_view"/>
+			<field name = "arch" type = "xml">
+				<data>
+					<field name = "name" position = "after">
+						<field name = "building_estate" select="1">
+					</field>
+				</data>
+			</field>
+		</record>
+		
+		<!--<record model = "ir.actions.act_window" id = "action_building_form_view">
 			<field name = "name">Building Detail</field>
 			<field name = "res_model">rent.building</field>
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
 			<field name = "search_view_id" ref = "view_building_filter"/>
+		</record>-->
+		
+		
+		<record id="action_building_form" model="ir.actions.act_window">
+			<field name="name">building</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">rent.building</field>
+			<field name="view_type">form</field>           
+			<field name="help">Manage every parking that belongs to a determined estate. This is the main view where you can create a building record
+			but you can still do it from the estate form</field>
 		</record>
 		
+		<record id="action_building_tree_view1" model="ir.actions.act_window.view">
+			<field eval="20" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="building_tree_view"/>
+			<field name="act_window_id" ref="action_building_form"/>
+		</record>
+		
+		<record id="action_building_form_view1" model="ir.actions.act_window.view">
+			<field eval="20" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="building_form_view2"/>
+			<field name="act_window_id" ref="action_building_form"/>
+		</record>
+		
+		<record id="action_building_tree_view2" model="ir.actions.act_window.view">
+			<field eval="10" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="building_tree_view2"/>
+			<field name="act_window_id" ref="action_building_form"/>
+		</record>
+		
+		<record id="action_building_form_view2" model="ir.actions.act_window.view">
+			<field eval="10" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="building_form_view"/>
+			<field name="act_window_id" ref="action_building_form"/>
+		</record>
 		
 		<!--
 		======================================
