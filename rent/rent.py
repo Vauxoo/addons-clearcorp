@@ -753,27 +753,28 @@ class rent_rent(osv.osv):
 			debug(today)
 			debug(invoice_day)
 			if today.day == invoice_day:
-				is_required = True
-				debug(obj_rent)
-				debug("BUSCANDO FACTURAS EXISTENTES################")
-				for obj_inv_reg in inv_rent_list:
+				if type == 'main' and obj_rent.rent_main_inc:
+					is_required = True
 					debug(obj_rent)
-					inv_date = parser.parse(obj_inv_reg.invoice_date).date()
-					if type == 'rent':
-						start_date = parser.parse(obj_rent.rent_start_date).date()
-					elif type == 'main':
-						start_date = parser.parse(obj_rent.rent_main_start_date).date()
-					debug(inv_date)
-					debug(start_date)
-					debug(type)
-					debug(len(self.pool.get('rent.invoice.rent').search(cr,uid,[('invoice_rent_id','=',obj_rent.id),('invoice_type','=',type)])))
-					if inv_date.month == start_date.month and inv_date.year == start_date.year and len(inv_rent_list) <= 1:
-						debug("SOLO TIENE 1 FACTURA")
-						is_required = True
-					elif inv_date.month == today.month and inv_date.year == today.year:
-						debug("Tiene TIENE mas de una FACTURA")
-						is_required = False
-						break
+					debug("BUSCANDO FACTURAS EXISTENTES################")
+					for obj_inv_reg in inv_rent_list:
+						debug(obj_rent)
+						inv_date = parser.parse(obj_inv_reg.invoice_date).date()
+						if type == 'rent':
+							start_date = parser.parse(obj_rent.rent_start_date).date()
+						elif type == 'main':
+							start_date = parser.parse(obj_rent.rent_main_start_date).date()
+						debug(inv_date)
+						debug(start_date)
+						debug(type)
+						debug(len(self.pool.get('rent.invoice.rent').search(cr,uid,[('invoice_rent_id','=',obj_rent.id),('invoice_type','=',type)])))
+						if inv_date.month == start_date.month and inv_date.year == start_date.year and len(inv_rent_list) <= 1:
+							debug("SOLO TIENE 1 FACTURA")
+							is_required = True
+						elif inv_date.month == today.month and inv_date.year == today.year:
+							debug("Tiene TIENE mas de una FACTURA")
+							is_required = False
+							break
 			res[obj_rent.id] = is_required
 			debug(res)
 		return res
@@ -1055,13 +1056,14 @@ class rent_rent(osv.osv):
 			help="This account will be used for invoices instead of the default one to value expenses for the current rent"),
 		'rent_rent_real_area'   : fields.function(_get_total_area,type='float',method=True,string='Area'),
 		
+		'rent_main_inc'              : fields.boolean('Include Maintenance Rent'),
 		
 		'rent_main_rise'             : fields.char('Anual Rise',size=64, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_main_amount_base'      : fields.float('Final Price $', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_main_performance'      : fields.function(_rent_main_performance, type='char',method = True,string='Performance'),
 		'rent_main_amountd_base'     : fields.function(_rent_main_amount_years, type='float',method = True,string='Final Price $', multi='Years_main'),
-		'rent_main_rise_year2'      : fields.function(_rent_main_amount_years, type='float',method = True,string='Year 2  $', multi='Years_main'),
-		'rent_main_rise_year3'      : fields.function(_rent_main_amount_years, type='float',method = True,string='Year 3  $', multi='Years_main'),
+		'rent_main_rise_year2'       : fields.function(_rent_main_amount_years, type='float',method = True,string='Year 2  $', multi='Years_main'),
+		'rent_main_rise_year3'       : fields.function(_rent_main_amount_years, type='float',method = True,string='Year 3  $', multi='Years_main'),
 		'rent_main_rise_year2d'      : fields.function(_rent_main_amount_years, type='float',method = True,string='Year 2  $', multi='Years_main'),
 		'rent_main_rise_year3d'      : fields.function(_rent_main_amount_years, type='float',method = True,string='Year 3  $', multi='Years_main'),
 		'rent_main_show_us_eq'       : fields.boolean('Check USD Currency Equivalent',store=False),

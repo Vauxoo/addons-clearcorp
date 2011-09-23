@@ -689,6 +689,7 @@
 						<field name = "rent_type" attrs = "{'readonly' : [('state','!=','draft')]}"/>
 						<field name = "state"/>
 						<field name = "rent_related_real"/>
+						<field name = "rent_main_inc"/>
 					</group>
 					<notebook>
 						<page string = "Rent">
@@ -763,14 +764,14 @@
 						<page string = "Maintenance">
 							<group col = "4" colspan = "4">
 								<separator string = "General Information" colspan = "4"/>
-								<field name = "rent_main_company_id"/>
-								<field name = "rent_main_start_date"/>
-								<field name = "rent_main_end_date"/>
+								<field name = "rent_main_company_id" attrs = "{'readonly' : [('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True')]}"/>
+								<field name = "rent_main_start_date" attrs = "{'readonly' : [('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True')]}"/>
+								<field name = "rent_main_end_date" attrs = "{'readonly' : [('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True')]}"/>
 							</group>
 							<group col = "4" colspan = "4">
 								<separator string = "Accounting" colspan = "4"/>
-								<field name="rent_rent_main_account_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"  groups="base.group_extended"/>
-								<field name="rent_rent_main_acc_int_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" groups="base.group_extended"/>
+								<field name="rent_rent_main_account_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"  groups="base.group_extended" attrs = "{'readonly' : [('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True')]}"/>
+								<field name="rent_rent_main_acc_int_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" groups="base.group_extended" attrs = "{'readonly' : [('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True')]}"/>
 								<field name = "rent_main_charge_day"/>
 								<field name = "rent_main_invoiced_day"/>
 								<field name = "rent_main_grace_period"/>
