@@ -761,7 +761,7 @@
 							</group>
 						</page>
 						
-						<page string = "Maintenance">
+						<page string = "Maintenance" attrs = "{'readonly' : [('rent_main_inc','!=','True')]}">
 							<group col = "4" colspan = "4">
 								<separator string = "General Information" colspan = "4"/>
 								<field name = "rent_main_company_id" attrs = "{'readonly' : [('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True')]}"/>
@@ -772,9 +772,9 @@
 								<separator string = "Accounting" colspan = "4"/>
 								<field name="rent_rent_main_account_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"  groups="base.group_extended" attrs = "{'readonly' : [('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True')]}"/>
 								<field name="rent_rent_main_acc_int_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" groups="base.group_extended" attrs = "{'readonly' : [('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True')]}"/>
-								<field name = "rent_main_charge_day"/>
-								<field name = "rent_main_invoiced_day"/>
-								<field name = "rent_main_grace_period"/>
+								<field name = "rent_main_charge_day" attrs = "{'readonly' : [('rent_main_inc','!=','True')]}"/>
+								<field name = "rent_main_invoiced_day" attrs = "{'readonly' : [('rent_main_inc','!=','True')]}"/>
+								<field name = "rent_main_grace_period" attrs = "{'readonly' : [('rent_main_inc','!=','True')]}"/>
 								
 							</group>
 							<group col = "4" colspan = "2">
