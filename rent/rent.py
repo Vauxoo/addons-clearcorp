@@ -701,7 +701,7 @@ class rent_rent(osv.osv):
 		for obj_rent in ids:
 			today = date.today()
 			charge_date = date(today.year,today.month,1)
-			
+			 
 			if type == 'rent':
 				init_date = parser.parse(obj_rent.rent_start_date).date()
 			elif type == 'main':
@@ -709,7 +709,8 @@ class rent_rent(osv.osv):
 			
 			init_date = init_date.replace(year=today.year)
 			
-			res.append(self._invoice_data(cr,uid,ids,obj_rent,{'init_date': init_date, 'end_date' : charge_date.replace(day=calendar.mdays[charge_date.month])},type))
+			if (type == 'main' and obj_rent.rent_main_inc) or type == 'rent':
+				res.append(self._invoice_data(cr,uid,ids,obj_rent,{'init_date': init_date, 'end_date' : charge_date.replace(day=calendar.mdays[charge_date.month])},type))
 			self.invoice_rent(cr,uid,ids,res,type)
 		return True
 	
@@ -753,7 +754,7 @@ class rent_rent(osv.osv):
 			debug(today)
 			debug(invoice_day)
 			if today.day == invoice_day:
-				if type == 'main' and obj_rent.rent_main_inc:
+				if (type == 'main' and obj_rent.rent_main_inc) or type == 'rent':
 					is_required = True
 					debug(obj_rent)
 					debug("BUSCANDO FACTURAS EXISTENTES################")
