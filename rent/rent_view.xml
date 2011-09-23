@@ -364,13 +364,14 @@
 			<field name = "name">rent.building.tree2</field>
 			<field name = "model">rent.building</field>
 			<field name = "type">tree</field>
-			<field name="inherit_id" ref="building_tree_view"/>
 			<field name = "arch" type = "xml">
-				<data>
-					<field name="name" position= "after">
-						<field name="building_estate" select = "1"/>
-					</field>
-				</data>
+				<tree string="Building Details">
+					<field name="name"/>
+					<field name="building_date_construction"/>
+					<field name="building_value"/>
+					<field name="building_area"/>
+					<field name = "building_vrn_per_sqr"/>
+					<field name="building_capacity"/>
 			</field>
 		</record>
 		
