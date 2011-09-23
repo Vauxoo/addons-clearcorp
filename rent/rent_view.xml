@@ -283,8 +283,8 @@
 			</field>
 		</record>
 		
-		<record model ="ir.ui.view" id = "building_form_view">
-			<field name = "name">rent.building.form</field>
+		<record model ="ir.ui.view" id = "building_form_view2">
+			<field name = "name">rent.building.form2</field>
 			<field name = "model">rent.building</field>
 			<field name = "type">form</field>
 			<field name="inherit_id" ref="building_form_view"/>
@@ -297,8 +297,8 @@
 			</field>
 		</record>
 		
-		<record model ="ir.ui.view" id = "building_form_view2">
-			<field name = "name">rent.building.form2</field>
+		<record model ="ir.ui.view" id = "building_form_view">
+			<field name = "name">rent.building.form</field>
 			<field name = "model">rent.building</field>
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
@@ -406,7 +406,7 @@
 		<record id="action_building_form_view1" model="ir.actions.act_window.view">
 			<field eval="20" name="sequence"/>
 			<field name="view_mode">form</field>
-			<field name="view_id" ref="building_form_view2"/>
+			<field name="view_id" ref="building_form_view"/>
 			<field name="act_window_id" ref="action_building_form"/>
 		</record>
 		
@@ -420,7 +420,7 @@
 		<record id="action_building_form_view2" model="ir.actions.act_window.view">
 			<field eval="10" name="sequence"/>
 			<field name="view_mode">form</field>
-			<field name="view_id" ref="building_form_view"/>
+			<field name="view_id" ref="building_form_view2"/>
 			<field name="act_window_id" ref="action_building_form"/>
 		</record>
 		
@@ -430,7 +430,7 @@
 						BUILDING MENU
 		======================================
 		-->
-		<menuitem id = "rent_building_submenu" name = "Building" parent = "rent_estate_menu" action = "action_building_form" sequence = "10"/>
+		<menuitem id = "rent_building_submenu" name = "Building" parent = "rent_estate_menu" action = "action_building_form"/>
 		
 		<!--
 		======================================
