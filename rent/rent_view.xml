@@ -368,7 +368,7 @@
 			<field name = "arch" type = "xml">
 				<data>
 					<field name = "name" position = "after">
-						<field name = "building_estate" select="1">
+						<field name = "building_estate" select="1"/>
 					</field>
 				</data>
 			</field>
