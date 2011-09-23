@@ -360,21 +360,7 @@
 			</field>
 		</record>
 		
-		<record model = "ir.ui.view" id = "building_tree_view2">
-			<field name = "name">rent.building.tree2</field>
-			<field name = "model">rent.building</field>
-			<field name = "type">tree</field>
-			<field name = "arch" type = "xml">
-				<tree string="Building Details">
-					<field name="name"/>
-					<field name="building_date_construction"/>
-					<field name="building_value"/>
-					<field name="building_area"/>
-					<field name = "building_vrn_per_sqr"/>
-					<field name="building_capacity"/>
-				</tree>
-			</field>
-		</record>
+
 		
 		
 		<!--<record model = "ir.actions.act_window" id = "action_building_form_view">
