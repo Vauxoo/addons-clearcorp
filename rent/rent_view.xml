@@ -349,18 +349,18 @@
 		</record>
 
 		
-		<!--<record model = "ir.actions.act_window" id = "action_building_form_view">
+		<record model = "ir.actions.act_window" id = "action_building_form_view">
 			<field name = "name">Building Detail</field>
 			<field name = "res_model">rent.building</field>
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
 			<field name = "search_view_id" ref = "view_building_filter"/>
-		</record>-->
+		</record>
 		
 		
 		
-		<record id="action_building_form" model="ir.actions.act_window">
+		<!--<record id="action_building_form" model="ir.actions.act_window">
 			<field name="name">Building</field>
 			<field name="type">ir.actions.act_window</field>
 			<field name="res_model">rent.building</field>
@@ -369,7 +369,7 @@
 			but you can still do it from the estate form</field>
 		</record>
 		
-		<record id="action_building_tree_view1" model="ir.actions.act_window.view">
+		<!--<record id="action_building_tree_view1" model="ir.actions.act_window.view">
 			<field eval="10" name="sequence"/>
 			<field name="view_mode">tree</field>
 			<field name="view_id" ref="building_tree_view"/>
@@ -381,14 +381,14 @@
 			<field name="view_mode">form</field>
 			<field name="view_id" ref="building_form_view"/>
 			<field name="act_window_id" ref="action_building_form"/>
-		</record>
+		</record>-->
 		
 		<!--
 		======================================
 						BUILDING MENU
 		======================================
 		-->
-		<menuitem id = "rent_building_submenu" name = "Building" parent = "rent_estate_menu" action = "action_building_form" sequence="10"/>
+		<menuitem id = "rent_building_submenu" name = "Building" parent = "rent_estate_menu" action = "action_building_form_view" sequence="10"/>
 		
 		<!--
 		======================================
