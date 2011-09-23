@@ -620,16 +620,14 @@
 			</field>
 		</record>
 		
-		<record model = "ir.ui.view" id = "parking_form_view2">
-			<field name = "name">rent.floor.parking.form2</field>
+		<record model = "ir.ui.view" id = "parking_form_view">
+			<field name = "name">rent.floor.parking.form</field>
 			<field name = "model">rent.floor.parking</field>
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
 				<form string = "Parking Details">
 					<group col = "4" colspan = "4">
 						<separator string = "General Information"/>
-						<field name = "parking_floor_building"/>
-						<field name = "parking_floor" on_change="onchange_floor(parking_floor)"/>
 						<field name = "parking_number"/>
 						<field name = "parking_value"/>
 						<field name = "parking_sqrmeter_price"/>
@@ -662,14 +660,16 @@
 			</field>
 		</record>
 		
-		<record model = "ir.ui.view" id = "parking_form_view">
-			<field name = "name">rent.floor.parking.form</field>
+		<record model = "ir.ui.view" id = "parking_form_view2">
+			<field name = "name">rent.floor.parking.form2</field>
 			<field name = "model">rent.floor.parking</field>
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
 				<form string = "Parking Details">
 					<group col = "4" colspan = "4">
 						<separator string = "General Information"/>
+						<field name = "parking_floor_building"/>
+						<field name = "parking_floor" on_change="onchange_floor(parking_floor)"/>
 						<field name = "parking_number"/>
 						<field name = "parking_value"/>
 						<field name = "parking_sqrmeter_price"/>
@@ -703,7 +703,7 @@
 		</record>
 		
 		<record id="action_parking_form_view2" model="ir.actions.act_window.view">
-			<field eval="20" name="sequence"/>
+			<field eval="10" name="sequence"/>
 			<field name="view_mode">form</field>
 			<field name="view_id" ref="parking_form_view2"/>
 			<field name="act_window_id" ref="action_parking_form"/>
@@ -717,7 +717,7 @@
 		</record>
 		
 		<record id="action_parking_form_view1" model="ir.actions.act_window.view">
-			<field eval="10" name="sequence"/>
+			<field eval="20" name="sequence"/>
 			<field name="view_mode">form</field>
 			<field name="view_id" ref="parking_form_view"/>
 			<field name="act_window_id" ref="action_parking_form"/>
