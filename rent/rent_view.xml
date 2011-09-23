@@ -372,6 +372,7 @@
 					<field name="building_area"/>
 					<field name = "building_vrn_per_sqr"/>
 					<field name="building_capacity"/>
+				</tree>
 			</field>
 		</record>
 		
