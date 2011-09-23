@@ -934,12 +934,13 @@ class rent_rent(osv.osv):
 				#we update the estimates list for the obj
 				obj_rent.write({'rent_estimates' : [(0,0,{'estimate_performance': float(percentaje),'estimate_rent':obj_rent.id,'estimate_date' : date.today(), 'estimate_state':'final'})]})
 				
-			#We check for maintenance invoice
-			has_main_first = self.pool.get('rent.invoice.rent').search(cr,uid,[('invoice_rent_id','=',obj_rent.id),('invoice_type','=','main')])
-			if not has_main_first and parser.parse(obj_rent.rent_main_start_date).date().month == date.today().month:
-				res_first_main_inv.append(obj_rent)
-				percentaje = obj_rent.rent_main_performance.split('%')[0]
-				obj_rent.write({'rent_main_estimates' : [(0,0,{'estimate_performance': float(percentaje),'estimate_rent':obj_rent.id,'estimate_date' : date.today(), 'estimate_state':'final'})]})
+			#We check for maintenance invoice for this we need to heck if the rent hasta a maintenance record
+			if obj_rent.rent_main_inc:
+				has_main_first = self.pool.get('rent.invoice.rent').search(cr,uid,[('invoice_rent_id','=',obj_rent.id),('invoice_type','=','main')])
+				if not has_main_first and parser.parse(obj_rent.rent_main_start_date).date().month == date.today().month:
+					res_first_main_inv.append(obj_rent)
+					percentaje = obj_rent.rent_main_performance.split('%')[0]
+					obj_rent.write({'rent_main_estimates' : [(0,0,{'estimate_performance': float(percentaje),'estimate_rent':obj_rent.id,'estimate_date' : date.today(), 'estimate_state':'final'})]})
 		
 		debug(res_first_inv)
 		debug(res_first_main_inv)
