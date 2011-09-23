@@ -287,7 +287,6 @@
 			<field name = "name">rent.building.form</field>
 			<field name = "model">rent.building</field>
 			<field name = "type">form</field>
-			<field name = "inherit_id" ref="rent.building_form_view"/>
 			<field name = "arch" type = "xml">
 				<form string = "Building Details">
 					<group col = "4" colspan = "2">
