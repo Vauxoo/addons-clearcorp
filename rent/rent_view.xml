@@ -696,16 +696,16 @@
 		</record>
 		
 		<record id="action_parking_tree_view1" model="ir.actions.act_window.view">
-			<field eval="10" name="sequence"/>
+			<field eval="20" name="sequence"/>
 			<field name="view_mode">tree</field>
 			<field name="view_id" ref="parking_tree_view"/>
 			<field name="act_window_id" ref="action_parking_form"/>
 		</record>
 		
-		<record id="action_parking_form_view2" model="ir.actions.act_window.view">
+		<record id="action_parking_form_view1" model="ir.actions.act_window.view">
 			<field eval="20" name="sequence"/>
 			<field name="view_mode">form</field>
-			<field name="view_id" ref="parking_form_view2"/>
+			<field name="view_id" ref="parking_form_view"/>
 			<field name="act_window_id" ref="action_parking_form"/>
 		</record>
 		
@@ -716,8 +716,8 @@
 			<field name="act_window_id" ref="action_parking_form"/>
 		</record>
 		
-		<record id="action_parking_form_view1" model="ir.actions.act_window.view">
-			<field eval="20" name="sequence"/>
+		<record id="action_parking_form_view2" model="ir.actions.act_window.view">
+			<field eval="10" name="sequence"/>
 			<field name="view_mode">form</field>
 			<field name="view_id" ref="parking_form_view"/>
 			<field name="act_window_id" ref="action_parking_form"/>
