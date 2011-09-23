@@ -337,7 +337,6 @@
 			<field name = "arch" type = "xml">
 				<tree string="Building Details">
 					<field name="name"/>
-					<field name="building_estate" select = "1"/>
 					<field name="building_date_construction"/>
 					<field name="building_value"/>
 					<field name="building_area"/>
