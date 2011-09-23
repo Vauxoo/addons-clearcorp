@@ -267,8 +267,38 @@
 			</field>
 		</record>
 		
+		<record model = "ir.ui.view" id = "building_tree_view">
+			<field name = "name">rent.building.tree</field>
+			<field name = "model">rent.building</field>
+			<field name = "type">tree</field>
+			<field name = "arch" type = "xml">
+				<tree string="Building Details">
+					<field name="name"/>
+					<field name="building_date_construction"/>
+					<field name="building_value"/>
+					<field name="building_area"/>
+					<field name = "building_vrn_per_sqr"/>
+					<field name="building_capacity"/>
+				</tree>
+			</field>
+		</record>
+		
 		<record model ="ir.ui.view" id = "building_form_view">
 			<field name = "name">rent.building.form</field>
+			<field name = "model">rent.building</field>
+			<field name = "type">form</field>
+			<field name = "inherit_id" ref="rent.building_form_view"/>
+			<field name = "arch" type = "xml">
+				<data>
+					<field name = "name" position = "after">
+						<field name="building_estate"/>
+					</field>
+				</data>
+			</field>
+		</record>
+		
+		<record model ="ir.ui.view" id = "building_form_view2">
+			<field name = "name">rent.building.form2</field>
 			<field name = "model">rent.building</field>
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
@@ -330,35 +360,6 @@
 			</field>
 		</record>
 		
-		<record model ="ir.ui.view" id = "building_form_view2">
-			<field name = "name">rent.building.form2</field>
-			<field name = "model">rent.building</field>
-			<field name = "type">form</field>
-			<field name = "inherit_id" ref="rent.building_form_view"/>
-			<field name = "arch" type = "xml">
-				<data>
-					<field name = "name" position = "after">
-						<field name="building_estate"/>
-					</field>
-				</data>
-			</field>
-		</record>
-		
-		<record model = "ir.ui.view" id = "building_tree_view">
-			<field name = "name">rent.building.tree</field>
-			<field name = "model">rent.building</field>
-			<field name = "type">tree</field>
-			<field name = "arch" type = "xml">
-				<tree string="Building Details">
-					<field name="name"/>
-					<field name="building_date_construction"/>
-					<field name="building_value"/>
-					<field name="building_area"/>
-					<field name = "building_vrn_per_sqr"/>
-					<field name="building_capacity"/>
-				</tree>
-			</field>
-		</record>
 		
 		<record model = "ir.ui.view" id = "building_tree_view2">
 			<field name = "name">rent.building.tree2</field>
