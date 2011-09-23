@@ -283,8 +283,8 @@
 			</field>
 		</record>
 		
-		<record model ="ir.ui.view" id = "building_form_view2">
-			<field name = "name">rent.building.form2</field>
+		<record model ="ir.ui.view" id = "building_form_view">
+			<field name = "name">rent.building.form</field>
 			<field name = "model">rent.building</field>
 			<field name = "type">form</field>
 			<field name="inherit_id" ref="building_form_view"/>
@@ -297,8 +297,8 @@
 			</field>
 		</record>
 		
-		<record model ="ir.ui.view" id = "building_form_view">
-			<field name = "name">rent.building.form</field>
+		<record model ="ir.ui.view" id = "building_form_view2">
+			<field name = "name">rent.building.form2</field>
 			<field name = "model">rent.building</field>
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
