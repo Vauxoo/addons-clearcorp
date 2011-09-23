@@ -364,7 +364,7 @@
 			<field name = "name">rent.building.tree2</field>
 			<field name = "model">rent.building</field>
 			<field name = "type">tree</field>
-			<field name = "inherit_id" ref="rent.building_form_view"/>
+			<field name = "inherit_id" ref="rent.building_tree_view"/>
 			<field name = "arch" type = "xml">
 				<data>
 					<field name = "name" position = "after">
