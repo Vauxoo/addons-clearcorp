@@ -645,6 +645,47 @@
 		</record>
 		
 		
+		<record model = "ir.ui.view" id = "parking_form_view2">
+			<field name = "name">rent.floor.parking.form</field>
+			<field name = "model">rent.floor.parking</field>
+			<field name = "type">form</field>
+			<field name = "arch" type = "xml">
+				<form string = "Parking Details">
+					<group col = "4" colspan = "4">
+						<separator string = "General Information"/>
+						<field name = "parking_floor" on_change="onchange_floor(parking_floor)"/>
+						<field name = "parking_number"/>
+						<field name = "parking_value"/>
+						<field name = "parking_sqrmeter_price"/>
+						<field name = "parking_rented"/>
+					</group>
+					<group col = "4" colspan = "4">
+						<separator string = "Area Specifications Information"/>
+						<field name = "parking_large"/>
+						<field name = "parking_width"/>	
+						<field name = "parking_area"/>
+						<field name = "parking_huella"/>
+					</group>
+				</form>
+			</field>
+		</record>
+		
+		<record model = "ir.ui.view" id = "parking_tree_view2">
+			<field name = "name">rent.floor.parking.tree</field>
+			<field name = "model">rent.floor.parking</field>
+			<field name = "type">tree</field>
+			<field name = "arch" type = "xml">
+				<tree string = "Parking List">
+					<field name = "parking_floor"/>
+					<field name = "parking_number"/>
+					<field name = "parking_value"/>
+					<field name = "parking_area"/>
+					<field name = "parking_rented"/>
+				</tree>
+			</field>
+		</record>
+		
+		
 		<record id="action_parking_form" model="ir.actions.act_window">
 			<field name="name">Parking</field>
 			<field name="type">ir.actions.act_window</field>
@@ -653,7 +694,7 @@
 			<field name="help">Manage every parking that belongs to a determined floor. This is the main view where you can create a parking record
 			but you can still do it from the floor form</field>
 		</record>
-		<record id="action_parking_form_view1" model="ir.actions.act_window.view">
+		<record id="action_parking_tree_view1" model="ir.actions.act_window.view">
 			<field eval="10" name="sequence"/>
 			<field name="view_mode">tree</field>
 			<field name="view_id" ref="parking_tree_view"/>
@@ -666,13 +707,26 @@
 			<field name="act_window_id" ref="action_parking_form"/>
 		</record>
 		
-		<record model = "ir.actions.act_window" id = "action_parking_form_view">
-			<field name = "name">Parking Detail</field>
-			<field name = "res_model">rent.floor.parking</field>
-			<field name = "type">ir.actions.act_window</field>
-			<field name = "view_type">form</field>
-			<field name = "view_mode">tree,form</field>
-			<field name="view_id" ref="parking_tree_view"/>
+		<record id="action_parking_form2" model="ir.actions.act_window">
+			<field name="name">Parking</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">rent.floor.parking</field>
+			<field name="view_type">form</field>           
+			<field name="help">Manage every parking that belongs to a determined floor. This is the main view where you can create a parking record
+			but you can still do it from the floor form</field>
+		</record>
+		<record id="action_parking_tree_view3" model="ir.actions.act_window.view">
+			<field eval="10" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="parking_tree_view2"/>
+			<field name="act_window_id" ref="action_parking_form2"/>
+		</record>
+		
+		<record id="action_parking_form_view4" model="ir.actions.act_window.view">
+			<field eval="20" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="parking_form_view"/>
+			<field name="act_window_id" ref="action_parking_form2"/>
 		</record>
 		
 		<!--
@@ -680,7 +734,7 @@
 					PARKING MENU
 		======================================
 		-->
-		<menuitem id = "rent_parking_submenu" name = "Parking" parent = "rent_estate_menu" action = "action_parking_form_view"/>
+		<menuitem id = "rent_parking_submenu" name = "Parking" parent = "rent_estate_menu" action = "action_parking_form2"/>
 		<!--
 		======================================
 					RENT

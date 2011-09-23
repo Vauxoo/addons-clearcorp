@@ -375,6 +375,15 @@ class rent_floor_parking(osv.osv):
 				res[parking_id] =  True
 		debug(res)
 		return res
+	def onchange_floor(self,cr,uid,ids,floor_id):
+		res = {}
+		debug("+============================")
+		obj_floor = self.pool.get('rent.floor').browse(cr,uid,floor_id)
+		debug(obj_floor)
+		res['parking_floor_building'] = obj_floor.floor_building.id
+		debug(res)
+		return {'value' : res}
+		
 	_columns = {
 		'parking_area'            : fields.function(_parking_area,type='float',method=True,string='Area'),
 		#'parking_area'            : fields.float('VRN Dynamic',required=True),
@@ -388,6 +397,7 @@ class rent_floor_parking(osv.osv):
 		'parking_floor'           : fields.many2one('rent.floor','# Floor'),
 		'parking_large'           : fields.float('Large Meters'),
 		'parking_width'           : fields.float('Width Meters'),
+		'parking_floor_building'  : fields.related('parking_floor','floor_building',type='many2one',relation='rent.building',string='Building', readonly=True, store=False),
 	}
 rent_floor_parking()
 
