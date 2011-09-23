@@ -726,7 +726,7 @@
 					PARKING MENU
 		======================================
 		-->
-		<menuitem id = "rent_parking_submenu" name = "Parking" parent = "rent_estate_menu" action = "action_parking_form2"/>
+		<menuitem id = "rent_parking_submenu" name = "Parking" parent = "rent_estate_menu" action = "action_parking_form"/>
 		<!--
 		======================================
 					RENT
