@@ -628,6 +628,32 @@
 				<form string = "Parking Details">
 					<group col = "4" colspan = "4">
 						<separator string = "General Information"/>
+						<field name = "parking_floor_building"/>
+						<field name = "parking_floor" on_change="onchange_floor(parking_floor)"/>
+						<field name = "parking_number"/>
+						<field name = "parking_value"/>
+						<field name = "parking_sqrmeter_price"/>
+						<field name = "parking_rented"/>
+					</group>
+					<group col = "4" colspan = "4">
+						<separator string = "Area Specifications Information"/>
+						<field name = "parking_large"/>
+						<field name = "parking_width"/>	
+						<field name = "parking_area"/>
+						<field name = "parking_huella"/>
+					</group>
+				</form>
+			</field>
+		</record>
+		
+		<record model = "ir.ui.view" id = "parking_form_view2">
+			<field name = "name">rent.floor.parking.form2</field>
+			<field name = "model">rent.floor.parking</field>
+			<field name = "type">form</field>
+			<field name = "arch" type = "xml">
+				<form string = "Parking Details">
+					<group col = "4" colspan = "4">
+						<separator string = "General Information"/>
 						<field name = "parking_number"/>
 						<field name = "parking_value"/>
 						<field name = "parking_sqrmeter_price"/>
@@ -660,32 +686,6 @@
 			</field>
 		</record>
 		
-		<record model = "ir.ui.view" id = "parking_form_view2">
-			<field name = "name">rent.floor.parking.form2</field>
-			<field name = "model">rent.floor.parking</field>
-			<field name = "type">form</field>
-			<field name = "arch" type = "xml">
-				<form string = "Parking Details">
-					<group col = "4" colspan = "4">
-						<separator string = "General Information"/>
-						<field name = "parking_floor_building"/>
-						<field name = "parking_floor" on_change="onchange_floor(parking_floor)"/>
-						<field name = "parking_number"/>
-						<field name = "parking_value"/>
-						<field name = "parking_sqrmeter_price"/>
-						<field name = "parking_rented"/>
-					</group>
-					<group col = "4" colspan = "4">
-						<separator string = "Area Specifications Information"/>
-						<field name = "parking_large"/>
-						<field name = "parking_width"/>	
-						<field name = "parking_area"/>
-						<field name = "parking_huella"/>
-					</group>
-				</form>
-			</field>
-		</record>
-		
 		<record id="action_parking_form" model="ir.actions.act_window">
 			<field name="name">Parking</field>
 			<field name="type">ir.actions.act_window</field>
@@ -705,7 +705,7 @@
 		<record id="action_parking_form_view1" model="ir.actions.act_window.view">
 			<field eval="20" name="sequence"/>
 			<field name="view_mode">form</field>
-			<field name="view_id" ref="parking_form_view"/>
+			<field name="view_id" ref="parking_form_view2"/>
 			<field name="act_window_id" ref="action_parking_form"/>
 		</record>
 		
