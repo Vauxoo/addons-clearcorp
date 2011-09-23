@@ -644,7 +644,7 @@
 		</record>
 		
 		<record model = "ir.ui.view" id = "parking_form_view2">
-			<field name = "name">rent.floor.parking.form</field>
+			<field name = "name">rent.floor.parking.form2</field>
 			<field name = "model">rent.floor.parking</field>
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
@@ -670,7 +670,7 @@
 		</record>
 		
 		<record model = "ir.ui.view" id = "parking_tree_view2">
-			<field name = "name">rent.floor.parking.tree</field>
+			<field name = "name">rent.floor.parking.tree2</field>
 			<field name = "model">rent.floor.parking</field>
 			<field name = "type">tree</field>
 			<field name = "arch" type = "xml">
@@ -696,27 +696,27 @@
 		</record>
 		
 		<record id="action_parking_tree_view1" model="ir.actions.act_window.view">
-			<field eval="10" name="sequence"/>
+			<field eval="20" name="sequence"/>
 			<field name="view_mode">tree</field>
 			<field name="view_id" ref="parking_tree_view"/>
 			<field name="act_window_id" ref="action_parking_form"/>
 		</record>
 		<record id="action_parking_form_view1" model="ir.actions.act_window.view">
-			<field eval="10" name="sequence"/>
+			<field eval="20" name="sequence"/>
 			<field name="view_mode">form</field>
 			<field name="view_id" ref="parking_form_view"/>
 			<field name="act_window_id" ref="action_parking_form"/>
 		</record>
 		
 		<record id="action_parking_tree_view2" model="ir.actions.act_window.view">
-			<field eval="20" name="sequence"/>
+			<field eval="10" name="sequence"/>
 			<field name="view_mode">tree</field>
 			<field name="view_id" ref="parking_tree_view2"/>
 			<field name="act_window_id" ref="action_parking_form"/>
 		</record>
 		
 		<record id="action_parking_form_view2" model="ir.actions.act_window.view">
-			<field eval="20" name="sequence"/>
+			<field eval="10" name="sequence"/>
 			<field name="view_mode">form</field>
 			<field name="view_id" ref="parking_form_view2"/>
 			<field name="act_window_id" ref="action_parking_form"/>
