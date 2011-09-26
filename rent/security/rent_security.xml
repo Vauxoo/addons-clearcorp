@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp><data>
+	
+	<record id="group_rent_user" model="res.groups" context="{'noadmin':True}">
+		<field name="name">Rent / User</field>
+	</record>
+	<record id="group_rent_administrator" model="res.groups" context="{'noadmin':True}">
+		<field name="name">Rent / Administrator</field>
+	</record>
+
+</data></openerp>
