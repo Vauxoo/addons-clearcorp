@@ -3,8 +3,6 @@
 "access_rent_canton_manager","rent.canton manager","model_rent_canton","rent.group_rent_manager",1,1,1,1
 "access_rent_canton_district_user","rent.canton.district user","model_rent_canton_district","rent.group_rent_user",1,0,0,0
 "access_rent_canton_district_manager","rent.canton.district manager","model_rent_canton_district","rent.group_rent_manager",1,0,0,0
-"access_rent_location_user","res.partner.address user","model_rent_location","rent.group_rent_user",1,0,0,0
-"access_rent_location_manager","res.partner.address manager","model_rent_location","rent.group_rent_manager",1,0,0,0
 "access_res_partner_group_account_manager","res_partner group_account_manager","model_res_partner","account.group_account_manager",1,0,0,0
 "access_res_partner_address_invoice","res.partner.address invoice","base.model_res_partner_address","account.group_account_invoice",1,1,1,1
 "access_rent_estate_user","rent.estate","model_rent_estate","group_rent_user",1,0,0,0
