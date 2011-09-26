@@ -124,7 +124,7 @@ class rent_building(osv.osv):
 		'building_area'              : fields.float('Area',required=True),
 		'building_estate'            : fields.many2one('rent.estate', 'estate'),
 		'building_photo'             : fields.binary('Photo'),
-		'building_gallery_photo'     : fields.char('Gallery of Photos', size=64),
+		'building_gallery_photo'     : fields.char('Gallery of Photos', size=256),
 		'building_floors'            : fields.one2many('rent.floor','floor_building','Floors'),
 		'building_vrn_per_sqr'       : fields.function(_get_building_vrm,type='float',method=True,string='VRN Din/M2'),
 		'building_code'              : fields.char('Code', size=4, required=True),
@@ -258,7 +258,7 @@ class rent_floor_local(osv.osv):
 		'local_rented'             : fields.function(_determine_rented,type='boolean',method=True,string='Rented',help='Check if the local is rented'),
 		'local_local_by_floor'     : fields.one2many('rent.local.floor','local_local_floor','Local floors'),
 		'local_building'           : fields.function(_get_building_local,type='many2one',obj='rent.building',method=True,string='Building'),
-		'local_gallery_photo'      : fields.char('Photo Gallery', size=64),
+		'local_gallery_photo'      : fields.char('Photo Gallery', size=256),
 		'local_photo'              : fields.binary('Main photo'),
 		'local_rise_historic'      : fields.one2many('rent.rent.anual.value','anual_value_local','Historic', readonly=True),
 	}
