@@ -288,9 +288,9 @@
 				<form string = "Building Details">
 					<group col = "4" colspan = "2">
 						<separator string = "General Information" col = "4" colspan = "4"/>
-						<field name = "name"/>
+						<field name = "name" select = "1"/>
 						<field name = "building_code"/>
-						<field name = "building_date_construction"/>
+						<field name = "building_date_construction" select = "1"/>
 						<field name = "building_area"/>
 						<field name = "building_value"/>
 						<field name = "building_capacity"/>
