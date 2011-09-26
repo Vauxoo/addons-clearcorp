@@ -1,0 +1,41 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<openerp>
+	<data>
+
+		<!--
+		======================================
+					accounts
+		======================================
+		-->
+		<record model = "ir.ui.view" id = "account_analytic_rename_form_view">
+			<field name = "name">account.analytic.account.form</field>
+			<field name = "model">account.analytic.account</field>
+			<field name = "type">form</field>
+			<field name="inherit_id" ref="account.view_account_analytic_account_form"/>
+			<field name = "arch" type = "xml">
+				<data>
+					<field name = "type" position = "after">
+						<field name = "shortcut"/>
+					</field>
+				</data>
+			</field>
+		</record>
+		
+		<record model = "ir.ui.view" id = "account_analytic_rename_tree_view">
+			<field name = "name">account.analytic.account.tree</field>
+			<field name = "model">account.analytic.account</field>
+			<field name = "type">tree</field>
+			<field name="inherit_id" ref="account.view_account_analytic_account_tree"/>
+			<field name = "arch" type = "xml">
+				<data>
+					<field name = "name" position = "after">
+						<field name = "complete_name"/>
+						<field name = "shortcut"/>
+					</field>
+					<field name = "name" position = "replace"/>
+				</data>
+			</field>
+		</record>
+	</data>
+</openerp>
+
