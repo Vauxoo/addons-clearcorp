@@ -202,7 +202,7 @@
 							<field name = "estate_location" colspan="4" nolabel="1" select="1" attrs = "{'readonly' : [('estate_owner','=','')]}" domain="[('partner_id','=',estate_owner)]"/>
 						</page>
 						<page string = "Buildings">
-							<field name = "estate_buildings" context="{'form_view_ref' : 'rent.building_form_view', 'tree_view_ref' : 'rent.building_tree_view'}" nolabel="1"/>
+							<field name = "estate_buildings" context="{'form_view_ref' : 'rent.building_form_view3', 'tree_view_ref' : 'rent.building_tree_view'}" nolabel="1"/>
 						</page>
 					</notebook>
 				</form>
@@ -280,8 +280,8 @@
 			</field>
 		</record>
 		
-		<record model ="ir.ui.view" id = "building_form_view">
-			<field name = "name">rent.building.form</field>
+		<record model ="ir.ui.view" id = "building_form_view3">
+			<field name = "name">rent.building.form3</field>
 			<field name = "model">rent.building</field>
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
@@ -290,7 +290,6 @@
 						<separator string = "General Information" col = "4" colspan = "4"/>
 						<field name = "name" select = "1"/>
 						<field name = "building_code"/>
-						<field name = "building_estate"/>
 						<field name = "building_date_construction" select = "1"/>
 						<field name = "building_area"/>
 						<field name = "building_value"/>
