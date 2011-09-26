@@ -883,10 +883,6 @@ class rent_rent(osv.osv):
 		self.first_rent(cr,uid,res_first_main_inv,'main')
 		return {}
 	
-	def action_last_invoice(self,cr,uid,ids,context=None):
-		#underdevelop
-		return {}
-	
 	def calculate_negotiation(self,cr,uid,ids,context):
 		res = {}
 		self.pool.get('rent.rent').write(cr, uid, ids, {}, context)
@@ -1078,12 +1074,7 @@ class rent_rent_estimate(osv.osv):
 		
 		'estimate_amountd'           : fields.function(_performance_amount, type='float',method = True,string='Amount $', multi=True),
 		'estimate_dollars'           : fields.function(_performance_currency, type='float',method = True,string='s / m2',multi='Currency'),
-		
-	#	'estimate_cust_colones'      : fields.integer('Amount c'),
-	#	'estimate_cust_dollars'      : fields.integer('Amount s'),
-		
-		#'estimate_dec_min_dollars'   : fields.integer('Amount s'),
-		#'estimate_dec_base_dollars'  : fields.integer('Amount s'),
+
 		'estimate_rent'              : fields.many2one('rent.rent','Rent'),
 		'estimate_date'              : fields.date('Fecha'),
 		'estimate_state'             : fields.selection([('final','Used'),('recommend','Recommend'),('min','Min'),('norec','Not Recomended')],'Status',readonly=False),
