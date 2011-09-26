@@ -202,7 +202,7 @@
 							<field name = "estate_location" colspan="4" nolabel="1" select="1" attrs = "{'readonly' : [('estate_owner','=','')]}" domain="[('partner_id','=',estate_owner)]"/>
 						</page>
 						<page string = "Buildings">
-							<field name = "estate_buildings" context="{'form_view_ref' : 'rent.building_form_view', 'tree_view_ref' : 'rent.building_tree_view'}" nolabel="1"/>
+							<field name = "estate_buildings" context="{'form_view_ref' : 'rent.building_form_view2', 'tree_view_ref' : 'rent.building_tree_view'}" nolabel="1"/>
 						</page>
 					</notebook>
 				</form>
@@ -288,9 +288,9 @@
 				<form string = "Building Details">
 					<group col = "4" colspan = "2">
 						<separator string = "General Information" col = "4" colspan = "4"/>
-						<field name = "name" select = "1"/>
+						<field name = "name"/>
 						<field name = "building_code"/>
-						<field name = "building_date_construction" select = "1"/>
+						<field name = "building_date_construction"/>
 						<field name = "building_area"/>
 						<field name = "building_value"/>
 						<field name = "building_capacity"/>
@@ -322,7 +322,6 @@
 									<field name="floor_number"/>
 									<field name="floor_value"/>
 									<field name="floor_area"/>
-									<field name = "floor_building"/>
 								</tree>
 							</field>
 						</page>
@@ -405,7 +404,6 @@
 									<field name="floor_number"/>
 									<field name="floor_value"/>
 									<field name="floor_area"/>
-									<field name = "floor_building"/>
 								</tree>
 							</field>
 						</page>
