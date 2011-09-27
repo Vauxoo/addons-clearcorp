@@ -171,7 +171,7 @@
 			<field name = "arch" type = "xml">
 				<search string = "Search Estate">
 					<group  colspan = "4" >
-						<filter  string = "Rented" icon = "terp-stock_symbol-selection" domain = "[('estate_rented','=','True')]"/>
+						<filter  string = "Rented" icon = "terp-camera_test" domain = "[('estate_rented','=','True')]"/>
 						<filter string = "Not Rented" icon = "terp-sale" domain = "[('estate_rented','=','True')]"/>
 					</group>
 					<group expand = "0" string = "Group By...">
@@ -474,7 +474,7 @@
 			<field name = "arch" type = "xml">
 				<search string = "Search Floor">
 					<group expand = "0" string = "Group By...">
-						<filter string = "floor_building" icon = "terp-personal" domain = "[]" context="{'group_by' : 'estate_owner'}"/>
+						<filter string = "Edificio" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'floor_building'}"/>
 					</group>
 				</search>
 			</field>
@@ -567,11 +567,8 @@
 			<field name = "arch" type = "xml">
 				<search string = "Search Local">
 					<group  colspan = "4" >
-						<filter  string = "Rented" icon = "terp-stock_symbol-selection" domain = "[('local_rented','=','True')]"/>
-						<filter string = "Not Rented" icon = "terp-sale" domain = "[('local_rented','=','False')]"/>
-					</group>
-					<group expand = "0" string = "Group By...">
-						<filter string = "Owners" icon = "terp-personal" domain = "[]" context="{'group_by' : 'local_building'}"/>
+						<filter  string = "Rented" icon = "terp-camera_test" domain = "[('local_rented','=','True')]"/>
+						<filter string = "Not Rented" icon = "gtk-cancel" domain = "[('local_rented','=','False')]"/>
 					</group>
 				</search>
 			</field>
@@ -823,13 +820,13 @@
 			<field name = "arch" type = "xml">
 				<search string = "Search Rents">
 					<group>
-						<filter string = "Draft" icon = "terp-stock_symbol-selection" domain = "[('state','=','draft')]"/>
-						<filter string = "Active" icon = "terp-go-home" domain = "[('state','=','active')]" />
-						<filter string = "Finished" icon = "terp-go-home" domain = "[('state','=','finished')]"/>
+						<filter string = "Draft" icon = "terp-document-new" domain = "[('state','=','draft')]"/>
+						<filter string = "Active" icon = "terp-camera_test" domain = "[('state','=','active')]" />
+						<filter string = "Finished" icon = "gtk-cancel" domain = "[('state','=','finished')]"/>
 					</group>
 					<group colspan="4" expand = "0" string = "Group By...">
 						<filter string = "Type" icon = "terp-stock_symbol-selection" domain = "[]" context="{'group_by' : 'rent_type'}"/>
-						<filter string = "Status" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'state'}"/>
+						<filter string = "Status" icon = "terp-stock_zoom" domain = "[]" context="{'group_by' : 'state'}"/>
 					</group>
 				</search>
 			</field>
