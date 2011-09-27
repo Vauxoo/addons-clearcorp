@@ -15,6 +15,8 @@
 "access_rent_local_floor_manager","rent.local.floor manager","model_rent_local_floor","rent.group_rent_manager",1,1,1,1
 "access_rent_floor_parking_user","rent.floor.parking user","model_rent_floor_parking","rent.group_rent_user",1,0,0,0
 "access_rent_floor_parking_manager","rent.floor.parking manager","model_rent_floor_parking","rent.group_rent_manager",1,1,1,1
+"access_rent_rent_user","rent.rent user","model_rent_rent","rent.group_rent_user",1,0,0,0
+"access_rent_rent_manager","rent.rent manager","model_rent_rent","rent.group_rent_manager",1,1,1,1
 "access_rent_rent_estimate_user","rent.rent.estimate user","model_rent_rent_estimate","rent.group_rent_user",1,0,0,0
 "access_rent_rent_estimate_manager","rent.rent.estimate manager","model_rent_rent_estimate","rent.group_rent_manager",1,1,1,1
 "access_rent_rent_main_estimate_user","rent.rent.main.estimate user","model_rent_rent_main_estimate","rent.group_rent_user",1,0,0,0
