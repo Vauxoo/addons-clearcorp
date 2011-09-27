@@ -810,7 +810,7 @@ class rent_rent(osv.osv):
 	def cron_rent_invoice(self,cr,uid,ids,context):
 		#gets the list of all active rents
 		rent_ids = self.search(cr,uid,[('state','=','active')])
-
+		date_list = []
 		debug('CRONJOB FORCED TEST')
 		#we retrieve the date of today and the last date registered at the log 
 		#this allows to create the list with dates between those two
@@ -824,11 +824,11 @@ class rent_rent(osv.osv):
 			last_date = parser.parse(last_log.log_date).date()
 		else:
 			#if theres no record we set the today as the last_date assuming that 
-			#the cronjob has never been excecuted
+			#the cronjob has never been excecuted and add it to the list
 			last_date = today
+			date_list.append(last_date)
 		
 		debug(last_date)
-		date_list = []
 		while last_date < today:
 			last_date += timedelta(days=1)
 			date_list.append(last_date)
@@ -844,7 +844,7 @@ class rent_rent(osv.osv):
 			is_required = self._invoice_main_required(cr,uid,rent_ids,'main',record_date)
 			self._method_invoice_caller(cr,uid,rent_ids,is_required,'main',record_date)
 		debug(date_list)
-		log_desc = "CronJob ran for dates between %s to %s" % (date_list[0].strftime("%A %d %B %Y"),(len(date_list) == 1 and date_list[0] or date_list[-1]).strftime("%A %d %B %Y"))
+		log_desc = "CronJob ran for dates between %s to %s" % (date_list[0].strftime("%A %d %B %Y"),(len(date_list) > 1 and date_list[-1] or date_list[0]).strftime("%A %d %B %Y"))
 		self.pool.get('rent.invoice.log').write(cr,uid,ids,{'loag_date':today,	'log_desc' : log_desc },context)
 		return True
 	
