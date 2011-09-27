@@ -816,12 +816,16 @@ class rent_rent(osv.osv):
 		#this allows to create the list with dates between those two
 		today =date.today()
 		debug(today)
-		log_id = self.pool.get('rent.invoice.log').search(cr,uid,[],order='log_date')[0]
-		last_log = self.pool.get('rent.invoice.log').browse(cr,uid,log_id)
-		debug(last_log.log_date)
-		#if theres no record we set the today as the last_date assuming that 
-		#the cronjob has never been excecuted
-		last_date = (last_log and parser.parse(last_log.log_date).date() or today)
+		log_id = self.pool.get('rent.invoice.log').search(cr,uid,[],order='log_date')
+		debug(log_id)
+		if log_id:
+			last_log = self.pool.get('rent.invoice.log').browse(cr,uid,log_id[0])
+			debug(last_log.log_date)
+			last_date = parser.parse(last_log.log_date).date()
+		else:
+			#if theres no record we set the today as the last_date assuming that 
+			#the cronjob has never been excecuted
+			last_date = today
 		
 		debug(last_date)
 		date_list = []
