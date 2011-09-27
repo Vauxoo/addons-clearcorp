@@ -816,7 +816,7 @@ class rent_rent(osv.osv):
 		#this allows to create the list with dates between those two
 		today =date.today()
 		debug(today)
-		log_id = self.pool.get('rent.invoice.log').search(cr,uid,[],order='log_date')
+		log_id = self.pool.get('rent.invoice.log').search(cr,uid,[],order='log_date desc')
 		debug(log_id)
 		if log_id:
 			last_log = self.pool.get('rent.invoice.log').browse(cr,uid,log_id[0])
@@ -1243,7 +1243,7 @@ rent_rent_invoice()
 
 class rent_invoice_log(osv.osv):
 	_name = 'rent.invoice.log'
-	_order = 'log_date desc'
+	_order = 'log_date'
 	_columns = {
 		'log_date' : fields.date('Date'),
 		'log_desc' : fields.char('Description',size=200),
