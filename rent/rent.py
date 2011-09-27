@@ -820,7 +820,7 @@ class rent_rent(osv.osv):
 		
 		#if theres no record we set the today as the last_date assuming that 
 		#the cronjob has never been excecuted
-		last_date = parser.parse(last_log).date() or today
+		last_date = (last_log and parser.parse(last_log).date() or today)
 		debug(last_log)
 		debug(last_date)
 		date_list = []
