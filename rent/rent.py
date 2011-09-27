@@ -821,17 +821,16 @@ class rent_rent(osv.osv):
 		if log_id:
 			last_log = self.pool.get('rent.invoice.log').browse(cr,uid,log_id[0])
 			debug(last_log.log_date)
-			last_date = parser.parse(last_log.log_date).date()
+			last_date = parser.parse(last_log.log_date).date() + timedelta(days=1)
 		else:
 			#if theres no record we set the today as the last_date assuming that 
 			#the cronjob has never been excecuted and add it to the list
 			last_date = today
-			date_list.append(last_date)
 		
 		debug(last_date)
-		while last_date < today:
-			last_date += timedelta(days=1)
+		while last_date <= today:
 			date_list.append(last_date)
+			last_date += timedelta(days=1)
 		debug(date_list)
 		#once we have all that dates we run the method for each one 
 		#NOTE: date_list contains at least the today date
