@@ -254,7 +254,7 @@ class rent_floor_local(osv.osv):
 		'local_huella'             : fields.float('Huella',required=True),
 		'local_water_meter_number' : fields.char('Water Meter',size=64), 
 		'local_light_meter_number' : fields.char('Electric Meter', size=64),
-		'local_rented'             : fields.function(_determine_rented,type='boolean',method=True,string='Rented',help='Check if the local is rented',store=True),
+		'local_rented'             : fields.function(_determine_rented,type='boolean',method=True,string='Rented',help='Check if the local is rented'),
 		'local_local_by_floor'     : fields.one2many('rent.local.floor','local_local_floor','Local floors'),
 		'local_building'           : fields.function(_get_building_local,type='many2one',obj='rent.building',method=True,string='Building'),
 		'local_gallery_photo'      : fields.char('Photo Gallery', size=64),
@@ -809,19 +809,37 @@ class rent_rent(osv.osv):
 	
 	def cron_rent_invoice(self,cr,uid,ids,context):
 		#gets the list of all active rents
-		debug('GENERACION DE Pago Normal')
+		rent_ids = self.search(cr,uid,[('state','=','active')])
+
+		debug('CRONJOB FORCED TEST')
+		#we retrieve the date of today and the last date registered at the log 
+		#this allows to create the list with dates between those two
 		today =date.today()
 		debug(today)
-		rent_ids = self.search(cr,uid,[('state','=','active')])
-		#last_log = self.pool.get('rent.invoice.log').search
-			
-		is_required = self._invoice_main_required(cr,uid,rent_ids,'rent',today)
-		self._method_invoice_caller(cr,uid,rent_ids,is_required,'rent',today)
+		last_log = self.pool.get('rent.invoice.log').search(cr,uid,ids,[()],self._order = 'log_date desc')[0]
 		
-		#after we invocied all the rents, now we can proceed with the maintenance 
-		debug("CALCULATING INVOICE FOR MAINTENANCE")
-		is_required = self._invoice_main_required(cr,uid,rent_ids,'main',today)
-		self._method_invoice_caller(cr,uid,rent_ids,is_required,'main',today)
+		#if theres no record we set the today as the last_date assuming that 
+		#the cronjob has never been excecuted
+		last_date = parser.parse(last_log).date() or today
+		debug(last_log)
+		debug(last_date)
+		date_list = []
+		while last_date < today:
+			last_date += timedelta(days=1)
+			date_list.append(last_date)
+		debug(date_list)
+		#once we have all that dates we run the method for each one 
+		#NOTE: date_list contains at least the today date
+		for record_date in date_list:
+			is_required = self._invoice_main_required(cr,uid,rent_ids,'rent',today)
+			self._method_invoice_caller(cr,uid,rent_ids,is_required,'rent',today)
+		
+			#after we invocied all the rents, now we can proceed with the maintenance 
+			debug("CALCULATING INVOICE FOR MAINTENANCE")
+			is_required = self._invoice_main_required(cr,uid,rent_ids,'main',today)
+			self._method_invoice_caller(cr,uid,rent_ids,is_required,'main',today)
+		log_desc = "CronJob ran for dates between %s to %s" % (date_list[0].strftime("%A %d %B %Y"),date_list[-1].strftime("%A %d %B %Y"))
+		self.pool.get('rent.invoice.log').write(cr,uid,ids,{'loag_date':today,	'log_desc' : log_desc },context)
 		return True
 	
 	def _method_invoice_caller (self,cr,uid,rent_ids,is_required,type='rent',current_date=date.today()):
