@@ -845,7 +845,7 @@ class rent_rent(osv.osv):
 			self._method_invoice_caller(cr,uid,rent_ids,is_required,'main',record_date)
 		debug(date_list)
 		log_desc = "CronJob ran for dates between %s to %s" % (date_list[0].strftime("%A %d %B %Y"),(len(date_list) > 1 and date_list[-1] or date_list[0]).strftime("%A %d %B %Y"))
-		self.pool.get('rent.invoice.log').write(cr,uid,ids,{'loag_date':today,	'log_desc' : log_desc },context)
+		self.pool.get('rent.invoice.log').create(cr,uid,ids,{'log_date':today,'log_desc' : log_desc },context)
 		return True
 	
 	def _method_invoice_caller (self,cr,uid,rent_ids,is_required,type='rent',current_date=date.today()):
