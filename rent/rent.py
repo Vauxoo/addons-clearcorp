@@ -832,13 +832,13 @@ class rent_rent(osv.osv):
 		#once we have all that dates we run the method for each one 
 		#NOTE: date_list contains at least the today date
 		for record_date in date_list:
-			is_required = self._invoice_main_required(cr,uid,rent_ids,'rent',today)
-			self._method_invoice_caller(cr,uid,rent_ids,is_required,'rent',today)
+			is_required = self._invoice_main_required(cr,uid,rent_ids,'rent',record_date)
+			self._method_invoice_caller(cr,uid,rent_ids,is_required,'rent',record_date)
 		
 			#after we invocied all the rents, now we can proceed with the maintenance 
 			debug("CALCULATING INVOICE FOR MAINTENANCE")
-			is_required = self._invoice_main_required(cr,uid,rent_ids,'main',today)
-			self._method_invoice_caller(cr,uid,rent_ids,is_required,'main',today)
+			is_required = self._invoice_main_required(cr,uid,rent_ids,'main',record_date)
+			self._method_invoice_caller(cr,uid,rent_ids,is_required,'main',record_date)
 		log_desc = "CronJob ran for dates between %s to %s" % (date_list[0].strftime("%A %d %B %Y"),date_list[-1].strftime("%A %d %B %Y"))
 		self.pool.get('rent.invoice.log').write(cr,uid,ids,{'loag_date':today,	'log_desc' : log_desc },context)
 		return True
