@@ -74,7 +74,6 @@ class rent_estate(osv.osv):
 		return { 'value' : res}
 	def _determine_rented(self,cr,uid,ids,field_name,args,context):
 		res = {}
-		debug('Renta+==================================')
 		for estate_id in ids:
 			res[estate_id] =  False
 			debug(ids)
@@ -255,7 +254,7 @@ class rent_floor_local(osv.osv):
 		'local_huella'             : fields.float('Huella',required=True),
 		'local_water_meter_number' : fields.char('Water Meter',size=64), 
 		'local_light_meter_number' : fields.char('Electric Meter', size=64),
-		'local_rented'             : fields.function(_determine_rented,type='boolean',method=True,string='Rented',help='Check if the local is rented'),
+		'local_rented'             : fields.function(_determine_rented,type='boolean',method=True,string='Rented',help='Check if the local is rented',store=True),
 		'local_local_by_floor'     : fields.one2many('rent.local.floor','local_local_floor','Local floors'),
 		'local_building'           : fields.function(_get_building_local,type='many2one',obj='rent.building',method=True,string='Building'),
 		'local_gallery_photo'      : fields.char('Photo Gallery', size=64),
