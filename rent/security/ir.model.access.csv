@@ -22,8 +22,8 @@
 "access_rent_rent_anual_value_user","rent.rent.anual.value user","model_rent_rent_anual_value","rent.group_rent_user",1,0,0,0
 "access_rent_rent_anual_value_manager","rent.rent.anual.value manager","model_rent_rent_anual_value","rent.group_rent_manager",1,1,1,1
 "access_account_invoice_line_manager","account.invoice.line manager","model_account_invoice_line","account.group_account_manager",1,0,0,0
-"access_rent_rent_invoice_user","rent.invoice.rent user","model_rent_rent_invoice","rent.group_rent_user",1,0,0,0
-"access_rent_rent_invoice_manager","rent.invoice.rent manager","model_rent_rent_invoice","rent.group_rent_manager",1,1,1,1
+"access_rent_rent_invoice_user","rent.invoice.rent user","model_rent_invoice_rent","rent.group_rent_user",1,0,0,0
+"access_rent_rent_invoice_manager","rent.invoice.rent manager","model_rent_invoice_rent","rent.group_rent_manager",1,1,1,1
 "access_rent_contract_user","rent.contract user","model_rent_contract","rent.group_rent_user",1,0,0,0
 "access_rent_contract_manager","rent.contract manager","model_rent_contract","rent.group_rent_manager",1,1,1,1
 "access_rent_contract_clause_user","rent.contract.clauseuser","model_rent_contract_clause","rent.group_rent_user",1,0,0,0
