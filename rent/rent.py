@@ -843,8 +843,9 @@ class rent_rent(osv.osv):
 			is_required = self._invoice_main_required(cr,uid,rent_ids,'main',record_date)
 			self._method_invoice_caller(cr,uid,rent_ids,is_required,'main',record_date)
 		debug(date_list)
-		log_desc = "CronJob ran for dates between %s to %s" % (date_list[0].strftime("%A %d %B %Y"),(len(date_list) > 1 and date_list[-1] or date_list[0]).strftime("%A %d %B %Y"))
-		self.pool.get('rent.invoice.log').create(cr,uid,{'log_date':today,'log_desc' : log_desc })
+		if date_list:
+			log_desc = "CronJob ran for dates between %s to %s" % (date_list[0].strftime("%A %d %B %Y"),(len(date_list) > 1 and date_list[-1] or date_list[0]).strftime("%A %d %B %Y"))
+			self.pool.get('rent.invoice.log').create(cr,uid,{'log_date':today,'log_desc' : log_desc })
 		return True
 	
 	def _method_invoice_caller (self,cr,uid,rent_ids,is_required,type='rent',current_date=date.today()):
