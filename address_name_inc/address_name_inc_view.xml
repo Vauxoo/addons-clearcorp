@@ -18,6 +18,7 @@
 					<xpath expr="//field[@name='address']/form/field[@name='type']" position="after">
 						<field name="name"/>
 					</xpath>
+					<xpath expr="//field[@name='address']/form/field[@name='type']" position="replace"/>
 				</data>
 			</field>
 		</record>
