@@ -12,12 +12,11 @@
 			<field name = "name">res.partner.address.add_from</field>
 			<field name="model">res.partner</field>
 			<field name="inherit_id" ref="base.view_partner_form"/>
-			<field name = "arch" type = "xml">
+			<field name="arch" type="xml">
 				<data>
-					<xpath
-					expr="//field[@name='address']/form/field[@name='type']"
-					position="before">
-						<field name="name"/>
+					<xpath expr="//field[@name='address']/form/field[@name='email']"
+					position="after">
+						<field name="age"/>
 					</xpath>
 				</data>
 			</field>
