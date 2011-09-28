@@ -348,7 +348,7 @@ msgstr "Días de Anticipación"
 #: field:rent.rent,rent_rise:0
 #: field:rent.rent.anual.value,anual_value_rate:0
 msgid "Anual Rise"
-msgstr "Aumento Anual"
+msgstr "Aumento Anual(%)"
 
 #. module: rent
 #: help:rent.contract.clause,clause_code:0

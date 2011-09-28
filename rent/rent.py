@@ -512,7 +512,7 @@ class rent_rent(osv.osv):
 					break
 			#We need to update the amount_base of the rent, so we ca
 			#charge the next part with the rate included
-			percentaje = obj_rent.rent_rise.split('%')[0]
+			percentaje = obj_rent.rent_rise
 			prev_value = obj_rent.rent_amount_base
 			years_val = obj_rent.rent_amount_base * (1 + float(percentaje) / 100)
 			#obj_rent.write({'rent_amount_base' : years_val})
@@ -547,7 +547,7 @@ class rent_rent(osv.osv):
 			#charge the next part with the rate included
 			amount_base = obj_rent.rent_main_amount_base
 			rise = obj_rent.rent_main_rise
-			percentaje = rise.split('%')[0]
+			percentaje = rise
 			prev_value = amount_base
 			years_val = amount_base * (1 + float(percentaje) / 100)
 			#obj_rent.write({'rent_amount_base' : years_val})
@@ -587,7 +587,7 @@ class rent_rent(osv.osv):
 			years_val = {}
 			
 			currency_id = obj_rent.currency_id
-			percentaje = obj_rent.rent_rise.split('%')[0]
+			percentaje = obj_rent.rent_rise
 			debug(percentaje)
 			years_val['rent_rise_year2'] = obj_rent.rent_amount_base * (1 + float(percentaje) / 100)
 			years_val['rent_rise_year3'] = years_val['rent_rise_year2']  * (1 + float(percentaje) / 100)
@@ -928,7 +928,7 @@ class rent_rent(osv.osv):
 			years_val = {}
 			
 			currency_id = obj_rent.currency_id
-			percentaje = obj_rent.rent_main_rise.split('%')[0]
+			percentaje = obj_rent.rent_main_rise
 			years_val['rent_main_rise_year2'] = obj_rent.rent_main_amount_base * (1 + float(percentaje) / 100)
 			years_val['rent_main_rise_year3'] = years_val['rent_main_rise_year2']  * (1 + float(percentaje) / 100)
 			
@@ -947,7 +947,8 @@ class rent_rent(osv.osv):
 		'rent_ending_motif'     : fields.selection([('early','Early Return'),('expiration','Contract Expiration'),('eviction','No payment eviction'), ('others','Various problems with tenant')],'Ending Motif'),
 		'rent_ending_motif_desc': fields.text('Ending Motif Description'),
 		
-		'rent_rise'             : fields.char('Anual Rise',size=64, required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_rise'             : fields.float('Anual Rise', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		#'rent_rise'             : fields.char('Anual Rise',size=64, required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_amount_base'      : fields.float('Final Price $', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_performance'      : fields.function(_rent_performance, type='char',method = True,string='Performance'),
 		'rent_rise_year2'       : fields.function(_rent_amount_years, type='float',method = True,string='Year 2 $', multi='Years'),
@@ -1000,7 +1001,8 @@ class rent_rent(osv.osv):
 		
 		'rent_main_inc'              : fields.boolean('Include Maintenance Rent'),
 		
-		'rent_main_rise'             : fields.char('Anual Rise',size=64, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		#'rent_main_rise'             : fields.char('Anual Rise',size=64, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_main_rise'             : fields.float('Anual Rise', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_main_amount_base'      : fields.float('Final Price $', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_main_performance'      : fields.function(_rent_main_performance, type='char',method = True,string='Performance'),
 		'rent_main_amountd_base'     : fields.function(_rent_main_amount_years, type='float',method = True,string='Final Price $', multi='Years_main'),
@@ -1047,8 +1049,8 @@ class rent_rent(osv.osv):
 		'currency_id': _get_currency,
 		'rent_amount_base' : 0.00,
 		'rent_main_amount_base' : 0.00,
-		'rent_rise'     : "%.2f%%" % (0.),
-		'rent_main_rise': "%.2f%%" % (0.),
+		#'rent_rise'     : "%.2f%%" % (0.),
+		#'rent_main_rise': "%.2f%%" % (0.),
 		'rent_charge_day' : 01,
 		'rent_main_charge_day' : 01,
 		'rent_main_performance' : "%.2f%%" % (0.),
