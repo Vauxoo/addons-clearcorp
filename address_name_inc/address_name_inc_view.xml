@@ -8,11 +8,11 @@
 		======================================
 		-->
 		
-		<record model = "ir.ui.view" id = "account_rename_tree_view">
+		<record model = "ir.ui.view" id = "address_name_inc_from_view">
 			<field name = "name">res.partner.address.add_from</field>
 			<field name="model">res.partner</field>
 			<field name = "type">form</field>
-			<field name="inherit_id" ref="base_contact.view_partner_form_inherit"/>
+			<field name="inherit_id" ref="base.view_partner_form_inherit"/>
 			<field name = "arch" type = "xml">
 				<data>
 					<xpath
