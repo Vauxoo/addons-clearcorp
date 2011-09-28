@@ -941,13 +941,13 @@ class rent_rent(osv.osv):
 	
 	_columns = {
 		'name'                  : fields.char('Name',size=64),
-		'rent_rent_client'      : fields.many2one('res.partner','Client', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_rent_client'      : fields.many2one('res.partner','Client', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_end_date'         : fields.date('Ending Date', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_ending_motif'     : fields.selection([('early','Early Return'),('expiration','Contract Expiration'),('eviction','No payment eviction'), ('others','Various problems with tenant')],'Ending Motif'),
 		'rent_ending_motif_desc': fields.text('Ending Motif Description'),
 		
-		'rent_rise'             : fields.char('Anual Rise',size=64, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_amount_base'      : fields.float('Final Price $', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_rise'             : fields.char('Anual Rise',size=64, required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_amount_base'      : fields.float('Final Price $', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_performance'      : fields.function(_rent_performance, type='char',method = True,string='Performance'),
 		'rent_rise_year2'       : fields.function(_rent_amount_years, type='float',method = True,string='Year 2 $', multi='Years'),
 		'rent_rise_year3'       : fields.function(_rent_amount_years, type='float',method = True,string='Year 3 $', multi='Years'),
@@ -974,10 +974,10 @@ class rent_rent(osv.osv):
 		'currency_id'           : fields.many2one('res.currency', 'Currency', required=True, readonly=True),
 		'rent_estimates'        : fields.one2many('rent.rent.estimate', 'estimate_rent','Estimates',states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),         
 		'rent_historic'         : fields.one2many('rent.rent.anual.value', 'anual_value_rent','Historic',readonly=True, domain=[('anual_value_type', '=', 'rent')]),
-		'rent_charge_day'       : fields.integer('Charge Day',help='Indica el dia del mes para realizar los cobros del alquiler.'),
+		'rent_charge_day'       : fields.integer('Charge Day', required=True,help='Indica el dia del mes para realizar los cobros del alquiler.'),
 		'rent_invoice_ids'      : fields.one2many('rent.invoice.rent','invoice_rent_id','Rent Invoices', domain=[('invoice_type', '=', 'rent')]),
-		'rent_invoiced_day'     : fields.integer('Invoiced Day',help='Indicates de how many days before of the charge day will create the invoice'),
-		'rent_grace_period'     : fields.integer('Grace Period',help='Indicates de how many days after the charge day will allow to paid an invoice without Interest for delay'),
+		'rent_invoiced_day'     : fields.integer('Invoiced Day', required=True,help='Indicates de how many days before of the charge day will create the invoice'),
+		'rent_grace_period'     : fields.integer('Grace Period', required=True,help='Indicates de how many days after the charge day will allow to paid an invoice without Interest for delay'),
 		
 		'rent_rent_account_id'  : fields.property(
 			'account.account',
