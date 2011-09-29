@@ -46,7 +46,7 @@ class address_name_inc(osv.osv):
 		superdata = super(address_name_inc,self).name_get(cr,uid,ids)
 		for obj_address in self.browse(cr,uid,ids):
 			data = []
-			data.append((obj_address.name and obj_address.name or superdata[obj_addresss.id]))
+			data.append((obj_address.name and obj_address.name or superdata[obj_address.id]))
 			debug(data)
 			data = '/'.join(data)
 			res.append((obj_address.id, data))  
