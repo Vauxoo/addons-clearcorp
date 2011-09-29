@@ -43,7 +43,9 @@ class address_name_inc(osv.osv):
 		if not ids:
 			return []
 		res = []
-		superdata = super(address_name_inc,self).name_get(cr,uid,ids)
+		superdata = []
+		for record in super(address_name_inc,self).name_get(cr,uid,ids):
+			superdata[record[0]] = record[1]
 		debug(superdata)
 		for obj_address in self.browse(cr,uid,ids):
 			data = []
