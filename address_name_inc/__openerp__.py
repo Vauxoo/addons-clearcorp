@@ -35,7 +35,7 @@
 	"name"        : "Address name include",
 	"author"      : "ClearCorp S.A.",
 	"version"     : "0.1",
-	"depends"     : ["base"],
+	"depends"     : ["base","base_contact"],
 	"init_xml"    : [],
 	"update_xml"  : ["address_name_inc_view.xml"],
 	"category"    : "Base",

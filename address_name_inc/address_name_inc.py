@@ -43,27 +43,15 @@ class address_name_inc(osv.osv):
 		if not ids:
 			return []
 		res = []
-		for obj_account in self.browse(cr,uid,ids):
+		for obj_address in self.browse(cr,uid,ids):
 			data = []
 			account = obj_account.parent_id
-			if account.parent_id:
-				while account.parent_id:
-					data.insert(0,(account.shortcut or account.name))
-					account = account.parent_id
-			data.append(obj_account.name)
-			data = '/'.join(data)
-			data = obj_account.code + ' ' + data
+			if obj_address.name:
+				data.append(obj_address.name)
+			else:
+				data.append(super(res_partner_address,self).name_get(cr,uid,obj_address.id))
+			debug(data)
 			res.append((obj_account.id, data))  
-		return res
-	
-	def _complete_name(self, cr, uid, ids, name, args, context=None):
-		""" Forms complete name of account from parent account to child account.
-		@return: Dictionary of values
-		"""
-		res = {}
-		name_list = self.name_get(cr,uid,ids,context)
-		for name in name_list:
-			res[name[0]] = name[1]
 		return res
 address_name_inc()
 
