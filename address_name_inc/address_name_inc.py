@@ -45,7 +45,6 @@ class address_name_inc(osv.osv):
 		res = []
 		for obj_address in self.browse(cr,uid,ids):
 			data = []
-			account = obj_account.parent_id
 			if obj_address.name:
 				data.append(obj_address.name)
 			else:
