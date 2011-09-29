@@ -43,12 +43,10 @@ class address_name_inc(osv.osv):
 		if not ids:
 			return []
 		res = []
+		superdata = super(address_name_inc,self).name_get(cr,uid,ids)
 		for obj_address in self.browse(cr,uid,ids):
 			data = []
-			if obj_address.name:
-				data.append(obj_address.name)
-			else:
-				data.append(super(address_name_inc,self).name_get(cr,uid,obj_address.id))
+			data.append((obj_address.name and obj_address.name or superdata[obj_addresss.id]))
 			debug(data)
 			data = '/'.join(data)
 			res.append((obj_address.id, data))  
