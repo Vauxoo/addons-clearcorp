@@ -51,7 +51,7 @@ class address_name_inc(osv.osv):
 			else:
 				data.append(super(res_partner_address,self).name_get(cr,uid,obj_address.id))
 			debug(data)
-			res.append((obj_account.id, data))  
+			res.append((obj_address.id, data))  
 		return res
 address_name_inc()
 
