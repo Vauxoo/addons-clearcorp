@@ -13,6 +13,7 @@
 			<field name="arch" type="xml">
 				<data>
 					<xpath expr="//field[@name='name']" position = "replace"/>
+					<xpath expr="//field[@name='address']//field[@name='type']" position = "replace"/>
 					<xpath expr="//field[@name='address']" position = "after">
 						<field name = "name"/>
 					</xpath>
