@@ -1,7 +1,6 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <openerp>
 	<data>
-
 		<!--
 		======================================
 				res.partner address form
@@ -14,16 +13,7 @@
 			<field name="inherit_id" ref="base.view_partner_form"/>
 			<field name="arch" type="xml">
 				<data>
-					<xpath
-						expr="/form/field[@name='address']/form/field[@name='email']"
-						position="after">
-						<field name="age"/>
-					</xpath>
-					<xpath
-						expr="/form/field[@name='address']/tree/field[@name='email']"
-						position="after">
-						<field name="age"/>
-					</xpath>
+					<xpath expr="//form/field[@name='address']" position="replace"></xpath>
 				</data>
 			</field>
 		</record>
