@@ -48,7 +48,7 @@ class address_name_inc(osv.osv):
 			if obj_address.name:
 				data.append(obj_address.name)
 			else:
-				data.append(super(res_partner_address,self).name_get(cr,uid,obj_address.id))
+				data.append(super(address_name_inc,self).name_get(cr,uid,obj_address.id))
 			debug(data)
 			data = '/'.join(data)
 			res.append((obj_address.id, data))  
