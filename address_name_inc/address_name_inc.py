@@ -43,7 +43,7 @@ class address_name_inc(osv.osv):
 		if not ids:
 			return []
 		res = []
-		superdata = []
+		superdata = {}
 		for record in super(address_name_inc,self).name_get(cr,uid,ids):
 			debug(record[0])
 			debug(record[1])
