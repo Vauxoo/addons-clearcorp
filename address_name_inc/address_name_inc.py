@@ -66,3 +66,4 @@ class address_name_inc(osv.osv):
 			res[name[0]] = name[1]
 		return res
 address_name_inc()
+

@@ -18,6 +18,7 @@
 					<field name = "address" position = "replace"/>
 				</data>
 			</field>
+			
 		</record>
 	</data>
 </openerp>
