@@ -8,17 +8,19 @@
 		======================================
 		-->
 		
-		<record model="ir.ui.view" id="view_addres_name_inc_form">
-			<field name="name">res.partner.form.address.add</field>
-			<field name="model">res.partner</field>
-			<field name="model">form</field>
+		<record model = "ir.ui.view" id = "address_form_view">
+			<field name = "name">res.partner.form</field>
+			<field name = "model">res.partner</field>
+			<field name = "type">form</field>
 			<field name="inherit_id" ref="base.view_partner_form"/>
 			<field name="arch" type="xml">
 				<data>
-					<field name = "address" position = "replace"/>
+					<field name = "city" position = "replace"/>
+					<field name = "state_id" position = "replace">
+						<field name = "name"/>
+					</field>
 				</data>
 			</field>
-			
 		</record>
 	</data>
 </openerp>
