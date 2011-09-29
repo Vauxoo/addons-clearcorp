@@ -11,12 +11,9 @@
 			<field name = "model">res.partner</field>
 			<field name="inherit_id" ref="base.view_partner_form"/>
 			<field name="arch" type="xml">
-				<data>
-					<field name = "name" postion = "replace"/>
-					<xpath expr="//field[@name='address']/form/field[@name='type']" position = "before">
-						<field name = "name"/>
-					</xpath>
-				</data>
+				<xpath expr="//field[@name='address']/form/field[@name='type']" position = "before">
+					<field name = "name"/>
+				</xpath>
 			</field>
 		</record>
 	</data>
