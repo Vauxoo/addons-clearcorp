@@ -12,9 +12,7 @@
 			<field name="inherit_id" ref="base.view_partner_form"/>
 			<field name="arch" type="xml">
 				<data>
-					<xpath expr="//field[@name='name']" position = "replace"/>
-					<xpath expr="//field[@name='address']//field[@name='type']" position = "replace"/>
-					<xpath expr="//field[@name='address']" position = "after">
+					<xpath expr="//field[@name='address']//field[@name='type']" position = "before"/>
 						<field name = "name"/>
 					</xpath>
 				</data>
