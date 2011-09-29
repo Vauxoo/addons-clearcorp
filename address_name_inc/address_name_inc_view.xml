@@ -13,11 +13,9 @@
 			<field name = "type">form</field>
 			<field name="inherit_id" ref="base.view_partner_form"/>
 			<field name="arch" type="xml">
-				<data>
-					<xpath expr="//field[@name='address']/form/field[@name='type']" position="after">
-						<field name="name"/>
-					</xpath>
-				</data>
+				<xpath expr="/field[@name='address']/form/field[@name='type']" position="after">
+					<field name="name"/>
+				</xpath>
 			</field>
 		</record>
 	</data>
