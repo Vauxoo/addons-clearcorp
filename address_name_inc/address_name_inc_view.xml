@@ -8,14 +8,16 @@
 		======================================
 		-->
 		<record model = "ir.ui.view" id = "address_form_view">
-			<field name = "name">res.partner.form</field>
+			<field name = "name">res.partner.form1</field>
 			<field name = "model">res.partner</field>
 			<field name = "type">form</field>
 			<field name="inherit_id" ref="base.view_partner_form"/>
 			<field name="arch" type="xml">
-				<xpath expr="/field[@name='address']/form/field[@name='type']" position="after">
-					<field name="name"/>
-				</xpath>
+				<data>
+					<xpath expr="//field[@name='address']/form/field[@name='type']" position="before">
+						<field name="name"/>
+					</xpath>
+				</data>
 			</field>
 		</record>
 	</data>
