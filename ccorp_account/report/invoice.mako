@@ -4,7 +4,7 @@
 		${css}
 	</style>
 </head>
-<body>
+<body class = "data">
 	%for inv in objects :
 	<% setLang(inv.partner_id.lang) %>
 	<div id="wrapper">
