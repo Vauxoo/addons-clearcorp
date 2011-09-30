@@ -8,17 +8,19 @@
 	%for inv in objects :
 	<% setLang(inv.partner_id.lang) %>
 	<div id="wrapper">
-		%if inv.type == 'out_invoice' :
-		<span class="title">${_("Invoice")} ${inv.number or ''|entity}</span>
-		%elif inv.type == 'in_invoice' :
-		<span class="title">${_("Supplier Invoice")} ${inv.number or ''|entity}</span>   
-		%elif inv.type == 'out_refund' :
-		<span class="title">${_("Refund")} ${inv.number or ''|entity}</span> 
-		%elif inv.type == 'in_refund' :
-		<span class="title">${_("Supplier Refund")} ${inv.number or ''|entity}</span> 
-		%endif
-		<br/>
-		${_("Invoice Date:")} ${formatLang(inv.date_invoice, date=True)|entity}
+		<div class = "document_data">
+			%if inv.type == 'out_invoice' :
+			<span class="title">${_("Invoice")} ${inv.number or ''|entity}</span>
+			%elif inv.type == 'in_invoice' :
+			<span class="title">${_("Supplier Invoice")} ${inv.number or ''|entity}</span>   
+			%elif inv.type == 'out_refund' :
+			<span class="title">${_("Refund")} ${inv.number or ''|entity}</span> 
+			%elif inv.type == 'in_refund' :
+			<span class="title">${_("Supplier Refund")} ${inv.number or ''|entity}</span> 
+			%endif
+			<br/>
+			${_("Invoice Date:")} ${formatLang(inv.date_invoice, date=True)|entity}
+		</div>
 		<table class="partner-table">
 			<tbody>
 				<tr>
