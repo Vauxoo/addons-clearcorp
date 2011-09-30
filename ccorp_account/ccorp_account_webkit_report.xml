@@ -1,14 +1,7 @@
 <?xml version="1.0"?>
 <openerp>
 	<data>
-		<report id="ccorp_account_webkit_report"
-				string="Invoice HTML"
-				model="account.invoice"
-				name="account.invoice.layout_ccorp"
-				file="ccorp_account/report/invoice.mako"
-				auto="False"
-				report_type="webkit"/>
-
+		<report auto="False" id="account_invoice_ccorp" model="account.invoice" name="account.invoice.layout_ccorp"  file="ccorp_account/report/invoice.mako" string="Invoice HTML" report_type="webkit"/>
 		<!--
 		Deletes entries from account_invoice_layout
 		-->

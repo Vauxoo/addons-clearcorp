@@ -51,5 +51,4 @@ report_sxw.report_sxw(
     'report.account.invoice.layout_ccorp',
     'account.invoice',
     'addons/ccorp_account/report/invoice.mako',
-    parser=account_invoice_ccorp
-)
+    parser=account_invoice_ccorp)
