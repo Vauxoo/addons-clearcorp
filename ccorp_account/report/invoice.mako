@@ -30,55 +30,17 @@
 %for inv in objects :
 	<% setLang(inv.partner_id.lang) %>
 	<div id="wrapper">
-		<table class="header-table">
-			<tbody>
-				<tr>
-					<td>
-						<img style="width:200px;heigth:200px;" src=<%=${inv.company_id.logo}%> alt="CLEARCORP S.A."/>	
-					</td>
-					<td>
-						<p style="text-align:center;"><b>${inv.company_id.partner_id.name}</b><br/>
-						${_("ID Num")}: ${inv.company_id.partner_id.ref}<br/>
-						%if inv.type == 'out_invoice' :
-    					<span class="title">${_("Invoice")} ${inv.number or ''|entity}</span>
-					   %elif inv.type == 'in_invoice' :
-					   <span class="title">${_("Supplier Invoice")} ${inv.number or ''|entity}</span>   
-					   %elif inv.type == 'out_refund' :
-					   <span class="title">${_("Refund")} ${inv.number or ''|entity}</span> 
-					   %elif inv.type == 'in_refund' :
-					   <span class="title">${_("Supplier Refund")} ${inv.number or ''|entity}</span> 
-					   %endif
-					   <br/>
-						${_("Invoice Date:")} ${formatLang(inv.date_invoice, date=True)|entity}
-						</p>
-							
-					</td>
-					<td>
-						<table class="company_address">
-						<tr><td ><b>${_("Address")}:</b></td></tr>
-						<tr><td>${inv.company_id.partner_id.address[0].street or ''|entity}</td></tr>
-						<tr><td>${inv.company_id.partner_id.address[0].street2 or ''|entity}</td></tr>
-						<tr><td>${inv.company_id.partner_id.address[0].zip or ''|entity} ${inv.address_invoice_id.city or ''|entity}</td></tr>
-						%if inv.address_invoice_id.country_id :
-						<tr><td>${inv.company_id.partner_id.address[0].state_id.name  or ''|entity}, ${inv.company_id.partner_id.address[0].country_id.name or ''|entity} </td></tr>
-						%endif
-						%if inv.company_id.partner_id.address[0].phone :
-						<tr><td>${_("Tel-fax")}: ${inv.company_id.partner_id.address[0].phone|entity}</td></tr>
-						%endif
-						%if inv.company_id.partner_id.address[0].email :
-						<tr><td>${_("E-mail")}: ${inv.company_id.partner_id.address[0].email|entity}</td></tr>
-						%endif
-						%if inv.company_id.partner_id.website :
-						<tr><td>${_("Web")}: ${inv.company_id.partner_id.website|entity}</td></tr>
-						%endif
-					</table>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		
-		<p>${inv.company_id.rml_header1}</p>
-		<hr />
+		%if inv.type == 'out_invoice' :
+		<span class="title">${_("Invoice")} ${inv.number or ''|entity}</span>
+		%elif inv.type == 'in_invoice' :
+		<span class="title">${_("Supplier Invoice")} ${inv.number or ''|entity}</span>   
+		%elif inv.type == 'out_refund' :
+		<span class="title">${_("Refund")} ${inv.number or ''|entity}</span> 
+		%elif inv.type == 'in_refund' :
+		<span class="title">${_("Supplier Refund")} ${inv.number or ''|entity}</span> 
+		%endif
+		<br/>
+		${_("Invoice Date:")} ${formatLang(inv.date_invoice, date=True)|entity}
 		<table class="partner-table">
 			<tbody>
 				<tr>

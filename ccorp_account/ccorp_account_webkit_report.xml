@@ -7,7 +7,6 @@
 				name="account.invoice.layout_ccorp"
 				file="ccorp_account/report/invoice.mako"
 				auto="False"
-				header="False"
 				report_type="webkit"
 				attachment="(object.state in ('open','paid')) and ('Fac.'+(object.number or '').replace('/',''))"
 				attachment_use="1"/>
