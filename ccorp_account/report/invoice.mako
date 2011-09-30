@@ -2,32 +2,10 @@
 <head>
 	<style type="text/css">
 		${css}
-		.header-table {
-				width: 100%;
-				padding-top: 0px;
-				font-family: Arial,Verdana, Sans, Serif;
-				font-size: 6pt;
-		}
-		.partner-table {
-			width: 100%;
-			padding-top: 20px;
-			font-family: Arial,Verdana, Sans, Serif;
-			font-size: 10pt;
-		}
-		.data-table {
-			width: 100%;
-			padding-top: 20px;
-			font-family: Arial,Verdana, Sans, Serif;
-			font-size: 6pt;
-		}
-		.data-table th {
-			font-size: 8pt;
-			color : red;
-		}
-    </style>
+	</style>
 </head>
 <body>
-%for inv in objects :
+	%for inv in objects :
 	<% setLang(inv.partner_id.lang) %>
 	<div id="wrapper">
 		%if inv.type == 'out_invoice' :

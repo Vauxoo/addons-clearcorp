@@ -31,5 +31,5 @@
 #    or implied, of ClearCorp S.A..
 #    
 ##############################################################################
-
+import wizard
 import report

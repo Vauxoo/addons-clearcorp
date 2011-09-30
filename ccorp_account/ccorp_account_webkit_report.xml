@@ -7,14 +7,10 @@
 				name="account.invoice.layout_ccorp"
 				file="ccorp_account/report/invoice.mako"
 				auto="False"
-				report_type="webkit"
-				attachment="(object.state in ('open','paid')) and ('Fac.'+(object.number or '').replace('/',''))"
-				attachment_use="1"/>
+				report_type="webkit"/>
 
 		<!--
 		Deletes entries from account_invoice_layout
 		-->
-		<delete model="ir.actions.wizard" search="[('wiz_name','=','wizard.notify_message')]"/>
-		<delete model="ir.actions.report.xml" search="[('report_name','=','account.invoice.layout')]"/>
 	</data>
 </openerp>
