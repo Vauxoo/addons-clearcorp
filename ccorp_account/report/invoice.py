@@ -4,6 +4,7 @@
 #    invoice.py
 #    ccorp_account
 #    First author: Carlos Vásquez <carlos.vasquez@clearcorp.co.cr> (ClearCorp S.A.)
+#    Second author: Mag Guevara <mag.guevara@clearcorp.co.cr> (ClearCorp S.A.)
 #    Copyright (c) 2010-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
 #    
 #    Redistribution and use in source and binary forms, with or without modification, are
@@ -42,11 +43,13 @@ class account_invoice_ccorp(report_sxw.rml_parse):
         super(account_invoice_ccorp, self).__init__(cr, uid, name, context=context)
         self.localcontext.update({
             'time': time,
+            'cr' : cr,
+            'uid': uid,
         })
             
 report_sxw.report_sxw(
     'report.account.invoice.layout_ccorp',
     'account.invoice',
-    'addons/ccorp_account/report/invoice.rml',
+    'addons/ccorp_account/report/invoice.mako',
     parser=account_invoice_ccorp
 )

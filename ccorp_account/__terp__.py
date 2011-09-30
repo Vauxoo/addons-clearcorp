@@ -4,6 +4,7 @@
 #    __terp__.py
 #    ccorp_account
 #    First author: Carlos Vásquez <carlos.vasquez@clearcorp.co.cr> (ClearCorp S.A.)
+#    Second author: Mag Guevara <mag.guevara@clearcorp.co.cr> (ClearCorp S.A.)
 #    Copyright (c) 2010-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
 #    
 #    Redistribution and use in source and binary forms, with or without modification, are
@@ -46,11 +47,12 @@
     'depends': [
         'account',
         'ccorp_report_fonts',
+        'account_invoice_global_discount',
         ],
     'init_xml': [],
     'demo_xml': ['ccorp_account_demo.xml'],
     'update_xml': [
-        'ccorp_account_report.xml',
+        'ccorp_account_webkit_report.xml',
         ],
     'license': 'Other OSI approved licence',
     'installable': True,
