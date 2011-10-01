@@ -764,6 +764,8 @@ class rent_rent(osv.osv):
 				
 			rise_date = rise_date.replace(year=today.year)
 			
+			debug(rise_date)
+			debug(charge_date)
 			if rise_date.month == charge_date.month:
 				res_dob_inv.append(self._invoice_data(cr,uid,ids,obj_rent,{'init_date': charge_date, 'end_date' : rise_date.replace(day=rise_date.day-1)},type))
 				
