@@ -974,7 +974,7 @@ class rent_rent(osv.osv):
 		'rent_estimates'        : fields.one2many('rent.rent.estimate', 'estimate_rent','Estimates',states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),         
 		'rent_historic'         : fields.one2many('rent.rent.anual.value', 'anual_value_rent','Historic',readonly=True, domain=[('anual_value_type', '=', 'rent')]),
 		'rent_charge_day'       : fields.integer('Charge Day',help='Indica el dia del mes para realizar los cobros del alquiler.'),
-		'rent_invoice_ids'      : fields.one2many('rent.invoice.rent','invoice_rent_id','Rent Invoices', domain=[('invoice_type', '=', 'rent')],readonly=True),
+		'rent_invoice_ids'      : fields.one2many('rent.invoice.rent','invoice_rent_id','Rent Invoices', domain=[('invoice_type', '=', 'rent')]),
 		'rent_invoiced_day'     : fields.integer('Invoiced Day',help='Indicates de how many days before of the charge day will create the invoice'),
 		'rent_grace_period'     : fields.integer('Grace Period',help='Indicates de how many days after the charge day will allow to paid an invoice without Interest for delay'),
 		
