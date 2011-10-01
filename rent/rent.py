@@ -631,6 +631,7 @@ class rent_rent(osv.osv):
 		il = []
 		debug('GENERACION DE factura PAGO')
 		debug(args)
+		
 		for rlist in args:
 			debug(rlist)
 			obj_rent = self.browse(cr,uid,rlist['rent_id'])
@@ -647,7 +648,7 @@ class rent_rent(osv.osv):
 		
 		#Determines if today is the previous month for the invoice creation
 		today = current_date
-		
+		debug(today)
 		if type=='rent':
 			date_due = (obj_rent.rent_invoiced_day <= obj_rent.rent_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
 			date_due = date_due.replace(day=obj_rent.rent_charge_day + obj_rent.rent_grace_period)
@@ -780,7 +781,7 @@ class rent_rent(osv.osv):
 				res_dob_inv.append(self._invoice_data(cr,uid,ids,obj_rent,{'init_date': charge_date, 'end_date' : charge_date.replace(day=calendar.mdays[charge_date.month])},type))
 			
 			debug(res_dob_inv)
-			self.invoice_rent(cr,uid,ids,res_dob_inv,type)
+			self.invoice_rent(cr,uid,ids,res_dob_inv,type,today)
 		return True
 	
 	def _invoice_data(self,cr,uid,ids,obj_rent,date_range,type='rent'):
