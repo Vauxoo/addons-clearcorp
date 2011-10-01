@@ -752,6 +752,7 @@ class rent_rent(osv.osv):
 		res = {}
 		for obj_rent in ids:
 			res_dob_inv = []
+			debug(current_date)
 			today = current_date
 			
 			if type=='rent':
