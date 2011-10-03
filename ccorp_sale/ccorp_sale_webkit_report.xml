@@ -6,9 +6,8 @@
 				model="sale.order" 
 				name="sale.order.layout_ccorp"  
 				file="ccorp_sale/report/sale_order.mako" 
-				string="Print Sale Order" 
+				string="Quotation/Order" 
 				report_type="webkit"
-				web_kit = "Base Gam"
 				header="False"
 				/>
 	</data>
