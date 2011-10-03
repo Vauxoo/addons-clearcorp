@@ -37,7 +37,7 @@
 							${_("Phone")}:${so.address_invoice_id.phone or '-'|entity}<br/>
 							${_("Fax")}: ${so.address_invoice_id.fax or '-' | entity}<br/>
 							${_("Email")}: ${so.address_invoice_id.email or '-'|entity}<br/>
-							${_("Confirmation date")}: ${so.date_confirm and formatLang(so.date_confirm,date=True)) or '-'|entity}
+							${_("Confirmation date")}: ${(so.date_confirm and formatLang(so.date_confirm,date=True)) or '-'|entity}
 							<br/><br/>
 						</p>
 					</td>
