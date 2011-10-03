@@ -5,7 +5,7 @@
 				id="purchase.report_sale_order" 
 				model="purchase.order" 
 				name="purchase.order.layout_ccorp"  
-				file="ccorp_sale/report/purchase_order.mako" 
+				file="ccorp_purchase/report/purchase_order.mako" 
 				string="Purchas Order W" 
 				report_type="webkit"
 				/>
