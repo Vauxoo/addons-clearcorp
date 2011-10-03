@@ -42,18 +42,18 @@
 					</td>
 					<td><!-- Shipping partner address -->
 						<p style="text-align:left;">
-						${_("Invoice address")}:<br/><br/> 
+						<b>${_("Invoice address")}</b><br/>
 						${so.partner_invoice_id.street or ''}<br/>
-						${so.partner_invoice_id.street2 or ''}
+						${so.partner_invoice_id.street2 or ''}<br/>
 						${(so.partner_invoice_id.zip and format(so.partner_invoice_id.zip) + ((so.partner_invoice_id.city or so.partner_invoice_id.state_id or so.partner_invoice_id.country_id) and ' ' or '') or '') + (so.partner_invoice_id.city and format(so.partner_invoice_id.city) or '')}<br/>
-						${(so.partner_invoice_id.state_id and format(so.partner_invoice_id.state_id.name) + (so.partner_invoice_id.country_id and ', ' or '') or '') + (so.partner_invoice_id.country_id and format(so.partner_invoice_id.country_id.name) or '')}
+						${(so.partner_invoice_id.state_id and format(so.partner_invoice_id.state_id.name) + (so.partner_invoice_id.country_id and ', ' or '') or '') + (so.partner_invoice_id.country_id and format(so.partner_invoice_id.country_id.name) or '')}<br/>
 						</p>
 					</td>
 					<td><!-- Invoice partner address -->
 						<p style="text-align:left;">
-						${_("Shipping address")}:<br/><br/> 
+						<b>${_("Shipping address")}</b><br/>
 						${so.partner_shipping_id.street or ''}<br/>
-						${so.partner_shipping_id.street2 or ''}
+						${so.partner_shipping_id.street2 or ''}<br/>
 						${(so.partner_shipping_id.zip and format(so.partner_shipping_id.zip) + ((so.partner_shipping_id.city or so.partner_shipping_id.state_id or so.partner_shipping_id.country_id) and ' ' or '') or '') + (so.partner_shipping_id.city and format(so.partner_shipping_id.city) or '')}<br/>
 						${(so.partner_shipping_id.state_id and format(so.partner_shipping_id.state_id.name) + (so.partner_shipping_id.country_id and ', ' or '') or '') + (so.partner_shipping_id.country_id and format(so.partner_shipping_id.country_id.name) or '')}
 						</p>
