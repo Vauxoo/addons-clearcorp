@@ -45,7 +45,7 @@
 						${_("Invoice address")}:<br/><br/> 
 						${so.partner_invoice_id.street or ''}<br/>
 						${so.partner_invoice_id.street2 or ''}
-						${(o.partner_invoice_id.zip and format(o.partner_invoice_id.zip) + ((o.partner_invoice_id.city or o.partner_invoice_id.state_id or o.partner_invoice_id.country_id) and ' ' or '') or '') + (o.partner_invoice_id.city and format(o.partner_invoice_id.city) or '')}<br/>
+						${(so.partner_invoice_id.zip and format(so.partner_invoice_id.zip) + ((so.partner_invoice_id.city or so.partner_invoice_id.state_id or so.partner_invoice_id.country_id) and ' ' or '') or '') + (so.partner_invoice_id.city and format(so.partner_invoice_id.city) or '')}<br/>
 						${(so.partner_invoice_id.state_id and format(so.partner_invoice_id.state_id.name) + (so.partner_invoice_id.country_id and ', ' or '') or '') + (so.partner_invoice_id.country_id and format(so.partner_invoice_id.country_id.name) or '')}
 						</p>
 					</td>
