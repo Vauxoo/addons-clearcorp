@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+		<report auto="False" 
+				id="purchase.report_sale_order" 
+				model="purchase.order" 
+				name="purchase.order.layout_ccorp"  
+				file="ccorp_sale/report/purchase_order.mako" 
+				string="Quotation Order" 
+				report_type="webkit"
+				/>
+	</data>
+</openerp>
