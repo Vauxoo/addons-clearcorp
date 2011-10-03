@@ -76,7 +76,7 @@
 					<td>${line.discount and formatLang(line.discount) + '%' or '-'}</td>
 				%endif
 				<td>${so.company_id.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_unit)} ${so.company_id.currency_id.symbol_suffix or ''|entity }</td>
-				<td>${so.company_id.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_subtotal_not_discounted)} ${so.company_id.currency_id.symbol_suffix or ''|entity }</td>
+				<td>${so.company_id.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_subtotal)} ${so.company_id.currency_id.symbol_suffix or ''|entity }</td>
 			</tr>
 			%if line.notes :
 			<tr class = "notes"><td>${line.product_id and line.product_id.code and '[' + format(line.product_id.code) + '] '}<b>${_(Note)}:</b> ${format(line.notes)}</td></tr>
