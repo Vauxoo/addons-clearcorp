@@ -62,7 +62,7 @@
 			</tbody>
 		</table>
 		<table class="data-table">
-			%if discount(o) != 0:
+			%if discount(so) != 0:
 				<thead><th>Qty</th><th>[Code] Description / (Taxes)</th><th>Disc.</th><th>Unit Price</th><th>Total Price</th></thead>
 			%else:
 				<thead><th>Qty</th><th>[Code] Description / (Taxes)</th><th>Unit Price</th><th>Total Price</th></thead>
@@ -72,7 +72,7 @@
 			<tr>
 				<td>${formatLang(line.product_uom_qty)} ${format(line.product_uom.name)}</td>
 				<td>${line.name} ${line.invoice_line_tax_id != [] and (' / (' + (', '.join([ lt.description for lt in line.tax_id ])) + ')')|entity}</td>
-				%if discount(o) != 0:
+				%if discount(so) != 0:
 					<td>${line.discount and formatLang(line.discount) + '%' or '-'}</td>
 				%endif
 				<td>${so.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_unit)} ${so.currency_id.symbol_suffix or ''|entity }</td>
