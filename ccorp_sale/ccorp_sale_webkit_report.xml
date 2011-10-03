@@ -5,9 +5,10 @@
 				id="sale.report_sale_order" 
 				model="sale.order" 
 				name="sale.order.layout_ccorp"  
-				file="ccorp_account/report/sale_order.mako" 
+				file="ccorp_sale/report/sale_order.mako" 
 				string="Print Sale Order" 
 				report_type="webkit"
+				web_kit = "Base Gam"
 				header="False"
 				/>
 	</data>
