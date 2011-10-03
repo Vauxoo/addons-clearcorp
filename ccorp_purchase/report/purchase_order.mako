@@ -21,7 +21,6 @@
 			%if po.date_order:
 			<span class="title">${_("Date Ordered:")} ${formatLang(po.date_order, date=True)|entity}</span> <br/>
 			%endif
-			<span class="title">${po.user_id.name or ''|entity}</span>
 			<br/>
 			<span class="title">${_("Validated By.")}: ${po.validator and po.validator.name or ''|entity}</span><br/> 
 		</div>
