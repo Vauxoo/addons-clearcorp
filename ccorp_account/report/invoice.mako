@@ -63,7 +63,7 @@
 		<tbody>
 		%for line in inv.invoice_line :
 			<tr>
-				<td>${formatLang(line.quantity) ${format(line.uos_id.name)}</td>
+				<td>${formatLang(line.quantity)} ${format(line.uos_id.name)}</td>
 				<td>${line.name} 
 					%if line.invoice_line_tax_id != []:
 						${ ', '.join([ tax.name or '' for tax in line.invoice_line_tax_id ])|entity}

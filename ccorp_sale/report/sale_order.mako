@@ -20,8 +20,7 @@
 			%endif
 			<span class="title">${so.user_id.name or ''|entity}</span>
 			<br/>
-			<span class="title">${_("Ref."):} ${so.client_order_ref != "" and so.client_order_ref or '')|entity}</span><br/> 
-			${_("Invoice Date:")} ${}
+			<span class="title">${_("Ref.")}: ${so.client_order_ref != "" and so.client_order_ref or ''|entity}</span><br/> 
 		</div>
 		<!-- Header partner data -->
 		<table class="partner-table">
