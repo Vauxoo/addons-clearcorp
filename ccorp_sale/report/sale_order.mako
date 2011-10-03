@@ -34,7 +34,7 @@
 					<td><!-- Header partner data -->
 						<p style="text-align:left;">
 							${_("ID Num.")}: ${so.partner_id.ref or '-'|entity}<br/>
-							${_("Phone")}:${so.address_invoice_id.phone or '-'|entity}<br/>
+							${_("Phone")}:${so.partner_id.phone or '-'|entity}<br/>
 							${_("Fax")}: ${so.partner_id.Fax or '-' | entity}<br/>
 							${_("Email")}: ${so.partner_id.email or '-'|entity}<br/>
 							${_("Confirmation date")}: ${(so.date_confirm and formatLang(so.date_confirm,date=True)) or '-'|entity}
@@ -44,8 +44,8 @@
 					<td><!-- Shipping partner address -->
 						<p style="text-align:left;">
 						${_("Invoice address")}:<br/><br/> 
-						${so.address_invoice_id.street or ''}<br/>
-						${so.address_invoice_id.street2 or ''}
+						${so.partner_invoice_id.street or ''}<br/>
+						${so.partner_invoice_id.street2 or ''}
 						${(o.partner_invoice_id.zip and format(o.partner_invoice_id.zip) + ((o.partner_invoice_id.city or o.partner_invoice_id.state_id or o.partner_invoice_id.country_id) and ' ' or '') or '') + (o.partner_invoice_id.city and format(o.partner_invoice_id.city) or '')}<br/>
 						${(so.partner_invoice_id.state_id and format(so.partner_invoice_id.state_id.name) + (so.partner_invoice_id.country_id and ', ' or '') or '') + (so.partner_invoice_id.country_id and format(so.partner_invoice_id.country_id.name) or '')}
 						</p>
