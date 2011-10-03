@@ -100,5 +100,5 @@ report_sxw.report_sxw(
     'report.purchase.order.layout_ccorp',
     'purchase.order',
     'addons/ccorp_sale/report/purchase_order.mako',
-    parser=sale_order_ccorp
+    parser=purchase_order_ccorp
 )
