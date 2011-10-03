@@ -52,5 +52,5 @@ class partnert_payment(osv.osv):
             'Companies that refers to partner'),
         'last_reconciliation_date': fields.datetime('Latest Reconciliation Date', help='Date on which the partner accounting entries were reconciled last time', required=True),
 	}
-address_name_inc()
+partnert_payment()
 

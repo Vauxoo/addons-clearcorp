@@ -45,5 +45,5 @@ class account_invoice_payment(osv.osv):
 				"of accounting entries. If you keep the payment term and the due date empty, it means direct payment. "\
 				"The payment term may compute several due dates, for example 50% now, 50% in one month.", required=True),
 	}
-address_name_inc()
+account_invoice_payment()
 

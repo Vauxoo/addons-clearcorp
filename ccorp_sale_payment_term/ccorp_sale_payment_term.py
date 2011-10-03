@@ -42,5 +42,5 @@ class sale_payment(osv.osv):
 	_columns = {
 		'payment_term': fields.many2one('account.payment.term', 'Payment Term', required=True),
 	}
-address_name_inc()
+sale_payment()
 
