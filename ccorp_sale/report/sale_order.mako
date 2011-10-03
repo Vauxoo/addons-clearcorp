@@ -71,7 +71,7 @@
 		<tbody>
 		%for line in so.order_line :
 			<tr>
-				<td>${formatLang(line.product_uom_qty) ${format(line.product_uom.name)}}</td>
+				<td>${formatLang(line.product_uom_qty)} ${format(line.product_uom.name)}</td>
 				<td>${line.name} ${line.invoice_line_tax_id != [] and (' / (' + (', '.join([ lt.description for lt in line.tax_id ])) + ')')|entity}</td>
 				%if discount(o) != 0:
 					<td>${line.discount and formatLang(line.discount) + '%' or '-'}</td>
