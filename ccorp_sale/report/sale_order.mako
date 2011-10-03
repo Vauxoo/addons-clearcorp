@@ -75,17 +75,17 @@
 				%if discount(so) != 0:
 					<td>${line.discount and formatLang(line.discount) + '%' or '-'}</td>
 				%endif
-				<td>${so.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_unit)} ${so.currency_id.symbol_suffix or ''|entity }</td>
-				<td>${so.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_subtotal_not_discounted)} ${so.currency_id.symbol_suffix or ''|entity }</td>
+				<td>${so.company_id.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_unit)} ${so.company_id.currency_id.symbol_suffix or ''|entity }</td>
+				<td>${so.company_id.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_subtotal_not_discounted)} ${so.company_id.currency_id.symbol_suffix or ''|entity }</td>
 			</tr>
 			%if line.notes :
 			<tr class = "notes"><td>${line.product_id and line.product_id.code and '[' + format(line.product_id.code) + '] '}<b>${_(Note)}:</b> ${format(line.notes)}</td></tr>
 			%endif
 		%endfor
-		<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${so.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_untaxed_not_discounted)} ${so.currency_id.symbol_suffix or ''|entity}</td></tr>
+		<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${so.company_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_untaxed)} ${so.company_id.currency_id.symbol_suffix or ''|entity}</td></tr>
 		<!--<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Discount")}:</b></td><td style="text-align:right">${so.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_discounted)} ${so.currency_id.symbol_suffix or ''|entity}</td></tr>-->
-		<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Taxes")}:</b></td><td style="text-align:right">${so.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_tax)} ${so.currency_id.symbol_suffix or ''|entity}</td></tr>
-		<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Total")}:</b></td><td style="border-top:2px solid;text-align:right">${so.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_total)} ${so.currency_id.symbol_suffix or ''|entity}</td></tr>
+		<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Taxes")}:</b></td><td style="text-align:right">${so.company_idcurrency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_tax)} ${so.company_id.currency_id.symbol_suffix or ''|entity}</td></tr>
+		<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Total")}:</b></td><td style="border-top:2px solid;text-align:right">${so.company_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_total)} ${so.company_id.currency_id.symbol_suffix or ''|entity}</td></tr>
 		</tbody>
 		</table>
 		<table class="notes_table" width="40%">
