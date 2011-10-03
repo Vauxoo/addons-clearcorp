@@ -5,7 +5,7 @@
 	</style>
 </head>
 <body class = "data">
-	%for so in objects :
+	%for po in objects :
 	<% setLang(po.partner_id.lang) %>
 	<div id="wrapper">
 		<div class = "document_data">
