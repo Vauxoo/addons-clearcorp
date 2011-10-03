@@ -9,7 +9,7 @@
 	<% setLang(so.partner_id.lang) %>
 	<div id="wrapper">
 		<div class = "document_data">
-			%if not so.state&lt;&gt;'draft' :
+			%if not so.state =='draft' :
 			<span class="title">${_("Quotation N°")} ${so.name or ''|entity}</span><br/>
 			%endif
 			%if so.state != 'draft' :
