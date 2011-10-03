@@ -6,7 +6,7 @@
 				model="sale.order" 
 				name="sale.order.layout_ccorp"  
 				file="ccorp_sale/report/sale_order.mako" 
-				string="Quotation Order" 
+				string="Sale Order" 
 				report_type="webkit"
 				/>
 	</data>

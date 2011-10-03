@@ -6,7 +6,7 @@
 				model="purchase.order" 
 				name="purchase.order.layout_ccorp"  
 				file="ccorp_sale/report/purchase_order.mako" 
-				string="Quotation Order" 
+				string="Purchas Order W" 
 				report_type="webkit"
 				/>
 	</data>
