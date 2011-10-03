@@ -45,7 +45,7 @@
 						</p>
 					</td>
 					<td><!-- Shipping partner address -->
-						%for addr in po.dest_address_id and po.dest_address_id or []
+						%for addr in po.dest_address_id and po.dest_address_id or []:
 						<p style="text-align:left;">
 						<b>${_("Shipping address")}</b><br/>
 						${(addr.partner_id and addr.partner_id.title and addr.partner_id.title.name) or '' ]] [[ (addr.partner_id and addr.partner_id.name) or ''}<br/>
