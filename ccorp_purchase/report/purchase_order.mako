@@ -48,7 +48,7 @@
 						%for addr in po.dest_address_id and po.dest_address_id or []:
 						<p style="text-align:left;">
 						<b>${_("Shipping address")}</b><br/>
-						${(addr.partner_id and addr.partner_id.title and addr.partner_id.title.name) or '' ]] [[ (addr.partner_id and addr.partner_id.name) or ''}<br/>
+						${(addr.partner_id and addr.partner_id.title and addr.partner_id.title.name) or '' } ${(addr.partner_id and addr.partner_id.name) or ''}<br/>
 						${addr.street or ''}<br/>
 						${(addr.street2 or '')}<br/>
 						${addr.zip or ''} ${addr.city or '' )}<br/>
@@ -61,10 +61,10 @@
 					<td><!-- partner address -->
 						<p style="text-align:left;">
 						<b>${_("Partner address")}</b><br/>
-						${(po.partner_id and po.partner_id.title and po.partner_id.title.name) or '' ]] [[ (po.partner_id and po.partner_id.name) or '' }<br/>
+						${(po.partner_id and po.partner_id.title and po.partner_id.title.name) or ''} ${(po.partner_id and po.partner_id.name) or '' }<br/>
 						${(po.partner_address_id and po.partner_address_id.street ) or ''}<br/>
 						${(po.partner_address_id and po.partner_address_id.street2) or ''}<br/>
-						${(po.partner_address_id and po.partner_address_id.zip) or '' ]] [[ (po.partner_address_id and po.partner_address_id.city) or ''}<br/>
+						${(po.partner_address_id and po.partner_address_id.zip) or ''} ${(po.partner_address_id and po.partner_address_id.city) or ''}<br/>
 						${(po.partner_address_id and po.partner_address_id.state_id and po.partner_address_id.state_id.name) or '' }<br/>
 						${(po.partner_address_id and po.partner_address_id.country_id and po.partner_address_id.country_id.name) or '' }
 						</p>
