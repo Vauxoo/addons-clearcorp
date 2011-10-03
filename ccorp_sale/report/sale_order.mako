@@ -15,7 +15,7 @@
 			%if so.state != 'draft' :
 			<span class="title">${_("Order N°")} ${so.name or ''|entity}</span><br/>   
 			%endif
-			%if so.date_order != 'False' :
+			%if so.date_order:
 			<span class="title">${_("Date:")} ${formatLang(so.date_order, date=True)|entity}</span> <br/>
 			%endif
 			<span class="title">${so.user_id.name or ''|entity}</span>
