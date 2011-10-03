@@ -21,6 +21,7 @@
 			<br/>
 			${_("Invoice Date:")} ${formatLang(inv.date_invoice, date=True)|entity}
 		</div>
+		<!-- Header partner data -->
 		<table class="partner-table">
 			<tbody>
 				<tr>
@@ -38,14 +39,14 @@
 							<br/><br/>
 						</p>
 					</td>
-					<td>
+					<td><!-- Header partner address -->
 						<p style="text-align:left;">
 						${_("Address")}: ${inv.address_invoice_id.street or ''}<br/>
 						${inv.address_invoice_id.street2 or ''}<br/>
 						${(inv.address_invoice_id.zip and format(inv.address_invoice_id.zip) + ((inv.address_invoice_id.city or inv.address_invoice_id.state_id or inv.address_invoice_id.country_id) and ' ' or '') or '') + (inv.address_invoice_id.city and format(inv.address_invoice_id.city) + ((inv.address_invoice_id.state_id or inv.address_invoice_id.country_id) and ', ' or '') or '') + (inv.address_invoice_id.state_id and format(inv.address_invoice_id.state_id.name) + (inv.address_invoice_id.country_id and ', ' or '') or '') + (inv.address_invoice_id.country_id and format(inv.address_invoice_id.country_id.name) or '')}
 						</p>
 					</td>
-					<td>
+					<td><!-- Header invoice data -->
 						<p style="text-align:left;">
 						%if inv.partner_id.user_id.name:
 							${_("Salesman")}: ${inv.partner_id.user_id.name|entity}<br/>
@@ -62,7 +63,7 @@
 		<tbody>
 		%for line in inv.invoice_line :
 			<tr>
-				<td>${formatLang(line.quantity)}</td>
+				<td>${formatLang(line.quantity) ${format(line.uos_id.name)}</td>
 				<td>${line.name} 
 					%if line.invoice_line_tax_id != []:
 						${ ', '.join([ tax.name or '' for tax in line.invoice_line_tax_id ])|entity}

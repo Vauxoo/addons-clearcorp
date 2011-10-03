@@ -4,6 +4,7 @@
 #    invoice.py
 #    ccorp_sale
 #    First author: Carlos Vásquez <carlos.vasquez@clearcorp.co.cr> (ClearCorp S.A.)
+#    Second author: Mag Guevara <mag.guevara@clearcorp.co.cr> (ClearCorp S.A.)
 #    Copyright (c) 2010-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
 #    
 #    Redistribution and use in source and binary forms, with or without modification, are
@@ -52,6 +53,8 @@ class sale_order_ccorp(report_sxw.rml_parse):
         self.localcontext.update({
             'time': time,
             'discount': self.sale_order_ccorp_discount,
+            'cr'  : cr,
+            'uid' : uid,
         })
         self.context = context
         self._node = None
@@ -59,6 +62,6 @@ class sale_order_ccorp(report_sxw.rml_parse):
 report_sxw.report_sxw(
     'report.sale.order.layout_ccorp',
     'sale.order',
-    'addons/ccorp_sale/report/sale_order.rml',
+    'addons/ccorp_sale/report/sale_order.mako',
     parser=sale_order_ccorp
 )

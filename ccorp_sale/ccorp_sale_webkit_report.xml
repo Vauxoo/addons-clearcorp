@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+		<report auto="False" 
+				id="sale.report_sale_order" 
+				model="sale.order" 
+				name="sale.order.layout_ccorp"  
+				file="ccorp_account/report/sale_order.mako" 
+				string="Print Sale Order" 
+				report_type="webkit"
+				header="False"
+				/>
+	</data>
+</openerp>
