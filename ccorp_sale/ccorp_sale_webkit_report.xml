@@ -8,7 +8,6 @@
 				file="ccorp_sale/report/sale_order.mako" 
 				string="Quotation Order" 
 				report_type="webkit"
-				header="False"
 				/>
 	</data>
 </openerp>
