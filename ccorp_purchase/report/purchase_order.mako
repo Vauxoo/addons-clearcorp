@@ -51,7 +51,7 @@
 						${(addr.partner_id and addr.partner_id.title and addr.partner_id.title.name) or '' } ${(addr.partner_id and addr.partner_id.name) or ''}<br/>
 						${addr.street or ''}<br/>
 						${(addr.street2 or '')}<br/>
-						${addr.zip or ''} ${addr.city or '' )}<br/>
+						${addr.zip or ''} ${addr.city or ''}<br/>
 						${addr.state_id and addr.state_id.name or ' '}<br/>
 						${addr.country_id and addr.country_id.name or ''}<br/>
 						
