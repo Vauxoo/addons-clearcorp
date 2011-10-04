@@ -63,7 +63,7 @@
 		</table>
 		<table class="data-table" cellspacing="3">
 			%if discount(so) != 0:
-				<thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Disc.")}</th><th>${_("Unit Price")}</th><th>${_("Total Price")}</th></thead>
+				<thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Disc.(%)")}</th><th>${_("Unit Price")}</th><th>${_("Total Price")}</th></thead>
 			%else:
 				<thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Unit Price")}</th><th>${_("Total Price")}</th></thead>
 			%endif

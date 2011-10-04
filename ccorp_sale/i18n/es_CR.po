@@ -27,105 +27,105 @@ msgstr "ClearCorp 'sale' modifications:\n"
 "    "
 
 #. module: ccorp_sale
-#: report:addons/ccorp_sale/report/sale_order.mako:86
-#: report:addons/ccorp_sale/report/sale_order.mako:90
+#: report:report.sale.order.layout_ccorp:86
+#: report:report.sale.order.layout_ccorp:90
 msgid "Sub Total"
 msgstr "Sub Total"
 
 #. module: ccorp_sale
-#: report:addons/ccorp_sale/report/sale_order.mako:45
+#: report:report.sale.order.layout_ccorp:45
 msgid "Invoice address"
 msgstr "Dirección de facturación"
 
 #. module: ccorp_sale
-#: report:addons/ccorp_sale/report/sale_order.mako:19
+#: report:report.sale.order.layout_ccorp:19
 msgid "Date:"
 msgstr "Fecha:"
 
 #. module: ccorp_sale
-#: report:addons/ccorp_sale/report/sale_order.mako:36
+#: report:report.sale.order.layout_ccorp:36
 msgid "ID Num."
-msgstr "Cédula."
+msgstr "Céd. Jur."
 
 #. module: ccorp_sale
-#: report:addons/ccorp_sale/report/sale_order.mako:66
-msgid "Disc."
-msgstr "Desc."
+#: report:report.sale.order.layout_ccorp:66
+msgid "Disc.(%)"
+msgstr "Desc.(%)"
 
 #. module: ccorp_sale
-#: report:addons/ccorp_sale/report/sale_order.mako:82
+#: report:report.sale.order.layout_ccorp:82
 msgid "Note"
 msgstr "Nota"
 
 #. module: ccorp_sale
-#: report:addons/ccorp_sale/report/sale_order.mako:66
-#: report:addons/ccorp_sale/report/sale_order.mako:68
+#: report:report.sale.order.layout_ccorp:66
+#: report:report.sale.order.layout_ccorp:68
 msgid "Unit Price"
-msgstr "Precio Unitario"
+msgstr "Precio unitario"
 
 #. module: ccorp_sale
-#: report:addons/ccorp_sale/report/sale_order.mako:16
+#: report:report.sale.order.layout_ccorp:16
 msgid "Order N°"
 msgstr "Orden N°"
 
 #. module: ccorp_sale
-#: report:addons/ccorp_sale/report/sale_order.mako:38
+#: report:report.sale.order.layout_ccorp:38
 msgid "Email"
 msgstr "Email"
 
 #. module: ccorp_sale
-#: report:addons/ccorp_sale/report/sale_order.mako:66
-#: report:addons/ccorp_sale/report/sale_order.mako:68
+#: report:report.sale.order.layout_ccorp:66
+#: report:report.sale.order.layout_ccorp:68
 msgid "Total Price"
 msgstr "Precio total"
 
 #. module: ccorp_sale
-#: report:addons/ccorp_sale/report/sale_order.mako:39
+#: report:report.sale.order.layout_ccorp:39
 msgid "Confirmation date"
 msgstr "Fecha de confirmación"
 
 #. module: ccorp_sale
-#: report:addons/ccorp_sale/report/sale_order.mako:37
+#: report:report.sale.order.layout_ccorp:37
 msgid "Phone"
 msgstr "Teléfono"
 
 #. module: ccorp_sale
-#: report:addons/ccorp_sale/report/sale_order.mako:23
+#: report:report.sale.order.layout_ccorp:23
 msgid "Ref."
 msgstr "Ref."
 
 #. module: ccorp_sale
-#: report:addons/ccorp_sale/report/sale_order.mako:66
-#: report:addons/ccorp_sale/report/sale_order.mako:68
+#: report:report.sale.order.layout_ccorp:66
+#: report:report.sale.order.layout_ccorp:68
 msgid "[Code] Description / (Taxes)"
-msgstr "[Cód] Descripción / (Impuestos)"
+msgstr "[Cód.] Descripción / (Imp.)"
 
 #. module: ccorp_sale
-#: report:addons/ccorp_sale/report/sale_order.mako:54
+#: report:report.sale.order.layout_ccorp:54
 msgid "Shipping address"
 msgstr "Dirección de envío"
 
 #. module: ccorp_sale
-#: report:addons/ccorp_sale/report/sale_order.mako:87
-#: report:addons/ccorp_sale/report/sale_order.mako:91
+#: report:report.sale.order.layout_ccorp:87
+#: report:report.sale.order.layout_ccorp:91
 msgid "Taxes"
 msgstr "Impuestos"
 
 #. module: ccorp_sale
-#: report:addons/ccorp_sale/report/sale_order.mako:101
+#: report:report.sale.order.layout_ccorp:101
 msgid "Payment Note"
 msgstr "Nota de pago"
 
 #. module: ccorp_sale
-#: report:addons/ccorp_sale/report/sale_order.mako:98
+#: report:report.sale.order.layout_ccorp:98
 msgid "Order Notes"
 msgstr "Notas de la orden"
 
 #. module: ccorp_sale
-#: report:addons/ccorp_sale/report/sale_order.mako:66
-#: report:addons/ccorp_sale/report/sale_order.mako:68
+#: report:report.sale.order.layout_ccorp:66
+#: report:report.sale.order.layout_ccorp:68
 msgid "Qty"
-msgstr "Qty"
+msgstr "Cant."
 
 #. module: ccorp_sale
 #: model:ir.module.module,shortdesc:ccorp_sale.module_meta_information
@@ -133,13 +133,13 @@ msgid "ClearCorp sale module modifications"
 msgstr "ClearCorp sale module modifications"
 
 #. module: ccorp_sale
-#: report:addons/ccorp_sale/report/sale_order.mako:13
+#: report:report.sale.order.layout_ccorp:13
 msgid "Quotation N°"
 msgstr "Quotation N°"
 
 #. module: ccorp_sale
-#: report:addons/ccorp_sale/report/sale_order.mako:88
-#: report:addons/ccorp_sale/report/sale_order.mako:92
+#: report:report.sale.order.layout_ccorp:88
+#: report:report.sale.order.layout_ccorp:92
 msgid "Total"
 msgstr "Total"
 
