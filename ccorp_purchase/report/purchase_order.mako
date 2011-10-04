@@ -1,28 +1,7 @@
 <html>
 <head>
 	<style type="text/css">
-			.data-table {
-				width: 100%;
-				padding-top: 20px;
-				font-family: Arial,Verdana, Sans, Serif;
-				font-size: 12;
-			}
-			.data-table th{
-				border-bottom:2px solid black;
-				text-align:left;
-				font-size:12;
-				font-weight:bold;
-				padding-right:3px
-				padding-left:3px
-			}
-			.data-table thead {
-				display:table-header-group;
-			}
-			.notes_table {
-				font-family: Arial,Verdana, Sans, Serif;
-				font-size: 12;
-				font-style : italic;
-			}
+		${css}
 	</style>
 </head>
 <body class = "data">
@@ -115,6 +94,7 @@
 			%endif
 		</table>
 	</div>
+	<p style="page-break-after:always"></p>
 %endfor
 </body>
 </html>

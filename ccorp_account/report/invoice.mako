@@ -94,6 +94,7 @@
 			%endif
 		</table>
 	</div>
-%endfor
+	<p style="page-break-after:always"></p>
+	%endfor
 </body>
 </html>
