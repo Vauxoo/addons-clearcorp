@@ -58,7 +58,7 @@
 				</tr>
 			</tbody>
 		</table>
-		<table class="data-table">
+		<table class="data-table" cellspacing = "3">
 		<thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Disc.")}</th><th>${_("Unit Price")}</th><th>${_("Total Price")}</th></thead>
 		<tbody>
 		%for line in inv.invoice_line :
@@ -72,8 +72,8 @@
 				<td>
 					${line.discount and formatLang(line.discount) + '%' or '-'}
 				</td>
-				<td>${inv.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_unit)} ${inv.currency_id.symbol_suffix or ''|entity }</td>
-				<td>${inv.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_subtotal_not_discounted)} ${inv.currency_id.symbol_suffix or ''|entity }</td>
+				<td style="text-align:right;">${inv.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_unit)} ${inv.currency_id.symbol_suffix or ''|entity }</td>
+				<td style="text-align:right;">${inv.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_subtotal_not_discounted)} ${inv.currency_id.symbol_suffix or ''|entity }</td>
 			</tr>
 			%if line.note :
 			<tr><td>${line.product_id and line.product_id.code and '[' + format(line.product_id.code) + '] '}<b>${_("Note")}:</b> ${format(line.note)}</td></tr>

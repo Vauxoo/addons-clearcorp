@@ -68,7 +68,7 @@
 				</tr>
 			</tbody>
 		</table>
-		<table class="data-table">
+		<table class="data-table" cellspacing="3">
 			<thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Date Req.")}</th><th>${_("Unit Price")}</th><th>${_("Total Price")}</th></thead>
 		<tbody>
 		%for line in po.order_line :
@@ -76,8 +76,8 @@
 				<td>${formatLang(line.product_qty)} ${format(line.product_uom.name)}</td>
 				<td>${line.name} ${', '.join(map(lambda x: x.name, line.taxes_id))|entity}</td>
 				<td>${formatLang( line.date_planned, date=True)}</td>
-				<td>${po.pricelist_id.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_unit,digits=get_digits(dp='Purchase Price'))} ${po.pricelist_id.currency_id.symbol_suffix or ''|entity }</td>
-				<td>${po.pricelist_id.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_subtotal)} ${po.pricelist_id.currency_id.symbol_suffix or ''|entity }</td>
+				<td style="text-align:right;">${po.pricelist_id.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_unit,digits=get_digits(dp='Purchase Price'))} ${po.pricelist_id.currency_id.symbol_suffix or ''|entity }</td>
+				<td style="text-align:right;">${po.pricelist_id.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_subtotal)} ${po.pricelist_id.currency_id.symbol_suffix or ''|entity }</td>
 			</tr>
 			%if line.notes :
 			<tr class = "notes"><td>${line.product_id and line.product_id.code and '[' + format(line.product_id.code) + '] '}<b>${_("Note")}:</b> ${format(line.notes)}</td></tr>
