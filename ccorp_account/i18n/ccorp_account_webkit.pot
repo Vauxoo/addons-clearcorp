@@ -18,37 +18,37 @@ msgstr ""
 #. module: ccorp_account
 #: report:report.account.invoice.layout_ccorp:82
 msgid "Sub Total"
-msgstr "Sub Total"
+msgstr ""
 
 #. module: ccorp_account
 #: report:report.account.invoice.layout_ccorp:22
 msgid "Invoice Date:"
-msgstr "Fecha Facturación:"
+msgstr ""
 
 #. module: ccorp_account
 #: report:report.account.invoice.layout_ccorp:35
 msgid "ID Num."
-msgstr "Céd. Jur."
+msgstr ""
 
 #. module: ccorp_account
 #: report:report.account.invoice.layout_ccorp:62
 msgid "Disc.(%)"
-msgstr "Desc.(%)"
+msgstr ""
 
 #. module: ccorp_account
 #: report:report.account.invoice.layout_ccorp:54
 msgid "Payment tems"
-msgstr "Plazo de pago"
+msgstr ""
 
 #. module: ccorp_account
 #: report:report.account.invoice.layout_ccorp:79
 msgid "Note"
-msgstr "Nota"
+msgstr ""
 
 #. module: ccorp_account
 #: report:report.account.invoice.layout_ccorp:15
 msgid "Supplier Invoice"
-msgstr "Factura de Proveedor"
+msgstr ""
 
 #. module: ccorp_account
 #: model:ir.module.module,description:ccorp_account.module_meta_information
@@ -64,100 +64,100 @@ msgstr "ClearCorp 'account' modifications:\n"
 #. module: ccorp_account
 #: report:report.account.invoice.layout_ccorp:38
 msgid "Email"
-msgstr "Email"
+msgstr ""
 
 #. module: ccorp_account
 #: report:report.account.invoice.layout_ccorp:62
 msgid "Total Price"
-msgstr "Precio Total"
+msgstr ""
 
 #. module: ccorp_account
 #: report:report.account.invoice.layout_ccorp:37
 msgid "Fax"
-msgstr "Fax"
+msgstr ""
 
 #. module: ccorp_account
 #: report:report.account.invoice.layout_ccorp:83
 msgid "Discount"
-msgstr "Descuento"
+msgstr ""
 
 #. module: ccorp_account
 #: model:ir.actions.report.xml,name:ccorp_account.account_invoice_ccorp
 msgid "Invoice HTML"
-msgstr "Factura"
+msgstr ""
 
 #. module: ccorp_account
 #: report:report.account.invoice.layout_ccorp:36
 msgid "Phone"
-msgstr "Télefono"
+msgstr ""
 
 #. module: ccorp_account
 #: report:report.account.invoice.layout_ccorp:90
 msgid "Invoice Note"
-msgstr "Nota de factura"
+msgstr ""
 
 #. module: ccorp_account
 #: report:report.account.invoice.layout_ccorp:62
 msgid "[Code] Description / (Taxes)"
-msgstr "[Cód.] Descripción / (Imp.)"
+msgstr ""
 
 #. module: ccorp_account
 #: report:report.account.invoice.layout_ccorp:44
 msgid "Address"
-msgstr "Dirección"
+msgstr ""
 
 #. module: ccorp_account
 #: report:report.account.invoice.layout_ccorp:84
 msgid "Taxes"
-msgstr "Impuestos"
+msgstr ""
 
 #. module: ccorp_account
 #: model:ir.module.module,shortdesc:ccorp_account.module_meta_information
 msgid "ClearCorp account module modifications"
-msgstr "ClearCorp account module modifications"
+msgstr ""
 
 #. module: ccorp_account
 #: report:report.account.invoice.layout_ccorp:93
 msgid "Payment Note"
-msgstr "Nota de pago"
+msgstr ""
 
 #. module: ccorp_account
 #: report:report.account.invoice.layout_ccorp:17
 msgid "Refund"
-msgstr "Reembolso"
+msgstr ""
 
 #. module: ccorp_account
 #: report:report.account.invoice.layout_ccorp:55
 msgid "Due date"
-msgstr "Fecha de vencimiento"
+msgstr ""
 
 #. module: ccorp_account
 #: report:report.account.invoice.layout_ccorp:62
 msgid "Qty"
-msgstr "Cant."
+msgstr ""
 
 #. module: ccorp_account
 #: report:report.account.invoice.layout_ccorp:62
 msgid "Unit Price"
-msgstr "Precio unitario"
+msgstr ""
 
 #. module: ccorp_account
 #: report:report.account.invoice.layout_ccorp:13
 msgid "Invoice"
-msgstr "Factura"
+msgstr ""
 
 #. module: ccorp_account
 #: report:report.account.invoice.layout_ccorp:19
 msgid "Supplier Refund"
-msgstr "Reembolso de proveedor"
+msgstr ""
 
 #. module: ccorp_account
 #: report:report.account.invoice.layout_ccorp:85
 msgid "Total"
-msgstr "Total"
+msgstr ""
 
 #. module: ccorp_account
 #: report:report.account.invoice.layout_ccorp:52
 msgid "Salesman"
-msgstr "Vendedor"
+msgstr ""
 

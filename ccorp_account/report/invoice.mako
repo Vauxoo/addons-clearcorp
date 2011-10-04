@@ -59,7 +59,7 @@
 			</tbody>
 		</table>
 		<table class="data-table" cellspacing = "3">
-		<thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Disc.")}</th><th>${_("Unit Price")}</th><th>${_("Total Price")}</th></thead>
+		<thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Disc.(%)")}</th><th>${_("Unit Price")}</th><th>${_("Total Price")}</th></thead>
 		<tbody>
 		%for line in inv.invoice_line :
 			<tr>
