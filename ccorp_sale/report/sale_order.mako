@@ -63,9 +63,9 @@
 		</table>
 		<table class="data-table">
 			%if discount(so) != 0:
-				<thead><th>Qty</th><th>[Code] Description / (Taxes)</th><th>Disc.</th><th>Unit Price</th><th>Total Price</th></thead>
+				<thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Disc.")}</th><th>${_("Unit Price")}</th><th>${_("Total Price")}</th></thead>
 			%else:
-				<thead><th>Qty</th><th>[Code] Description / (Taxes)</th><th>Unit Price</th><th>Total Price</th></thead>
+				<thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Unit Price")}</th><th>${_("Total Price")}</th></thead>
 			%endif
 		<tbody>
 		%for line in so.order_line :
@@ -79,7 +79,7 @@
 				<td>${so.company_id.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_subtotal)} ${so.company_id.currency_id.symbol_suffix or ''|entity }</td>
 			</tr>
 			%if line.notes :
-			<tr class = "notes"><td>${line.product_id and line.product_id.code and '[' + format(line.product_id.code) + '] '}<b>${_(Note)}:</b> ${format(line.notes)}</td></tr>
+			<tr class = "notes"><td>${line.product_id and line.product_id.code and '[' + format(line.product_id.code) + '] '}<b>${_("Note")}:</b> ${format(line.notes)}</td></tr>
 			%endif
 		%endfor
 		%if discount(so) != 0:
@@ -95,10 +95,10 @@
 		</table>
 		<table class="notes_table" width="40%">
 			%if so.note:
-				<tr><td>Order Notes:</td><td>${format(so.note)}</td></tr>
+				<tr><td>${_("Order Notes")}:</td><td>${format(so.note)}</td></tr>
 			%endif
 			%if so.payment_term and so.payment_term.note:
-				<tr><td>Payment Note:</td><td>${format(so.payment_term and so.payment_term.note)}</td></tr>
+				<tr><td>${_("Payment Note")}:</td><td>${format(so.payment_term and so.payment_term.note)}</td></tr>
 			%endif
 		</table>
 	</div>

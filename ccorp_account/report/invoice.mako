@@ -59,7 +59,7 @@
 			</tbody>
 		</table>
 		<table class="data-table">
-		<thead><th>Qty</th><th>[Code] Description / (Taxes)</th><th>Disc.</th><th>Unit Price</th><th>Total Price</th></thead>
+		<thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Disc.")}</th><th>${_("Unit Price")}</th><th>${_("Total Price")}</th></thead>
 		<tbody>
 		%for line in inv.invoice_line :
 			<tr>
@@ -76,7 +76,7 @@
 				<td>${inv.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_subtotal_not_discounted)} ${inv.currency_id.symbol_suffix or ''|entity }</td>
 			</tr>
 			%if line.note :
-			<tr><td>${line.product_id and line.product_id.code and '[' + format(line.product_id.code) + '] '}<b>${_(Note)}:</b> ${format(line.note)}</td></tr>
+			<tr><td>${line.product_id and line.product_id.code and '[' + format(line.product_id.code) + '] '}<b>${_("Note")}:</b> ${format(line.note)}</td></tr>
 			%endif
 		%endfor
 		<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${inv.currency_id.symbol_prefix or ''|entity} ${formatLang(inv.amount_untaxed_not_discounted)} ${inv.currency_id.symbol_suffix or ''|entity}</td></tr>
@@ -87,10 +87,10 @@
 		</table>
 		<table class="notes_table" width="40%">
 			%if inv.comment:
-				<tr><td>Invoice Note:</td><td>${format(inv.comment)}</td></tr>
+				<tr><td>${_("Invoice Note")}:</td><td>${format(inv.comment)}</td></tr>
 			%endif
 			%if inv.payment_term and inv.payment_term.note:
-				<tr><td>Payment Note:</td><td>${format(inv.payment_term and inv.payment_term.note)}</td></tr>
+				<tr><td>${_("Payment Note")}:</td><td>${format(inv.payment_term and inv.payment_term.note)}</td></tr>
 			%endif
 		</table>
 	</div>
