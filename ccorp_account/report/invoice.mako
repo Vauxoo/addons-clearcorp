@@ -8,48 +8,63 @@
 	%for inv in objects :
 	<% setLang(inv.partner_id.lang) %>
 	<div id="wrapper">
-		<table class = "document_data">
-			<tr><td>
-			%if inv.type == 'out_invoice' and (inv.state == 'open' or inv.state == 'paid') :
-			<span class="title">${_("Electronic Invoice")} ${inv.number or ''|entity}</span>
-			%elif inv.type == 'out_invoice' and inv.state == 'proforma2' :
-			<span class="title">${_("PROFORMA")} ${inv.number or ''|entity}</span>
-			%elif inv.type == 'out_invoice' and inv.state == 'draft' :
-			<span class="title">${_("Draft Inovice")} ${inv.number or ''|entity}</span>
-			%elif inv.type == 'out_invoice' and inv.state == 'cancel':
-			<span class="title">${_("Canceled Invoice")} ${inv.number or ''|entity}</span>
-			%elif inv.type == 'in_invoice' :
-			<span class="title">${_("Supplier Invoice")} ${inv.number or ''|entity}</span>   
-			%elif inv.type == 'out_refund' :
-			<span class="title">${_("Refund")} ${inv.number or ''|entity}</span> 
-			%elif inv.type == 'in_refund' :
-			<span class="title">${_("Supplier Refund")} ${inv.number or ''|entity}</span> 
-			%endif</td>
-			
-			<td class ="other_data">
-				${_("Salesman")}: ${inv.partner_id.user_id.name or  ' '|entity}<br/>
-			</td>
-			
-			</tr>
-			<tr><td>
-			${_("Date:")} ${formatLang(inv.date_invoice, date=True)|entity}
-			</td>
-			<td class ="other_data">	${_("Due date")}: ${formatLang(inv.date_invoice, date=True)|entity}</td>
+		<table width = "100%">
+			<tr>
+				<td>
+					<table class = "document_data">
+						<tr><td>
+						%if inv.type == 'out_invoice' and (inv.state == 'open' or inv.state == 'paid') :
+						<span class="title">${_("Electronic Invoice")} ${inv.number or ''|entity}</span>
+						%elif inv.type == 'out_invoice' and inv.state == 'proforma2' :
+						<span class="title">${_("PROFORMA")} ${inv.number or ''|entity}</span>
+						%elif inv.type == 'out_invoice' and inv.state == 'draft' :
+						<span class="title">${_("Draft Inovice")} ${inv.number or ''|entity}</span>
+						%elif inv.type == 'out_invoice' and inv.state == 'cancel':
+						<span class="title">${_("Canceled Invoice")} ${inv.number or ''|entity}</span>
+						%elif inv.type == 'in_invoice' :
+						<span class="title">${_("Supplier Invoice")} ${inv.number or ''|entity}</span>   
+						%elif inv.type == 'out_refund' :
+						<span class="title">${_("Refund")} ${inv.number or ''|entity}</span> 
+						%elif inv.type == 'in_refund' :
+						<span class="title">${_("Supplier Refund")} ${inv.number or ''|entity}</span> 
+						%endif</td></tr>
+						
+						<tr><td>${_("Date:")} ${formatLang(inv.date_invoice, date=True)|entity}</td>
+						<tr><td>${inv.name or '' |entity}</td></tr>
+					</table>
+				</td>
+				<td>
+					<!-- Header document_extra data -->
+					<table class = "other_data">
+						<tr><td>${_("Salesman")}: ${inv.partner_id.user_id.name or  ' '|entity}</td>
+						<tr><td>${_("Due date")}: ${formatLang(inv.date_invoice, date=True)|entity}</td></tr>
+						<tr><td>${_("Payment tems")}: ${inv.payment_term.name or '-' |entity}</td></tr>
+					</table>
+				</td>
 			</tr>
 			<tr>
-				<td>${inv.name or '' |entity}</td>
-				<td class ="other_data">${_("Payment tems")}: ${inv.payment_term.name or '-' |entity}</td>
+				<td>
+					<!-- Header partner data -->
+					<table class="partner-table">
+						<tbody>
+							<tr class = "title"><td>${inv.partner_id.name}</td></tr>
+							<tr><td>${_("ID Num.")}: ${inv.partner_id.ref or '-'|entity}</td></tr>
+							<tr><td>${_("Phone")}:${inv.address_invoice_id.phone or '-'|entity}</td></tr>
+							<tr><td>${_("Fax")}: ${inv.address_invoice_id.fax or '-' | entity}</td></tr>
+							<tr><td colspan = "2">${_("Email")}: ${inv.address_invoice_id.email or '-'|entity}</td><td> </td></tr>
+						</tbody>
+					</table>
+				</td>
+				<td>
+					<table class "partner_address">
+						<tr class = "title"><td>${_("Address")}</td></tr>
+						<tr><td>${inv.address_invoice_id.street or ''}</td></tr>
+						<tr><td>${inv.address_invoice_id.street2 or ''}</td></tr>
+						<tr><td>${(inv.address_invoice_id.zip and format(inv.address_invoice_id.zip) + ((inv.address_invoice_id.city or inv.address_invoice_id.state_id or inv.address_invoice_id.country_id) and ' ' or '') or '') + (inv.address_invoice_id.city and format(inv.address_invoice_id.city) + ((inv.address_invoice_id.state_id or inv.address_invoice_id.country_id) and ', ' or '') or '') + (inv.address_invoice_id.state_id and format(inv.address_invoice_id.state_id.name) + (inv.address_invoice_id.country_id and ', ' or '') or '') + (inv.address_invoice_id.country_id and format(inv.address_invoice_id.country_id.name) or '')}</td></tr>
+						<tr><td></td></tr>
+					</table>
+				</td>
 			</tr>
-		</div>
-		<!-- Header partner data -->
-		<table class="partner-table">
-			<tbody>
-				<tr class = "title"><td>${inv.partner_id.name}</td><td>${_("Address")}</td></tr>
-				<tr><td>${_("ID Num.")}: ${inv.partner_id.ref or '-'|entity}</td><td>${inv.address_invoice_id.street or ''}</td></tr>
-				<tr><td>${_("Phone")}:${inv.address_invoice_id.phone or '-'|entity}</td><td>${inv.address_invoice_id.street2 or ''}</td></tr>
-				<tr><td>${_("Fax")}: ${inv.address_invoice_id.fax or '-' | entity}</td><td>${(inv.address_invoice_id.zip and format(inv.address_invoice_id.zip) + ((inv.address_invoice_id.city or inv.address_invoice_id.state_id or inv.address_invoice_id.country_id) and ' ' or '') or '') + (inv.address_invoice_id.city and format(inv.address_invoice_id.city) + ((inv.address_invoice_id.state_id or inv.address_invoice_id.country_id) and ', ' or '') or '') + (inv.address_invoice_id.state_id and format(inv.address_invoice_id.state_id.name) + (inv.address_invoice_id.country_id and ', ' or '') or '') + (inv.address_invoice_id.country_id and format(inv.address_invoice_id.country_id.name) or '')}</td></tr>
-				<tr><td colspan = "2">${_("Email")}: ${inv.address_invoice_id.email or '-'|entity}</td><td> </td></tr>
-			</tbody>
 		</table>
 		<table class="data-table" cellspacing = "3">
 		%if inv.amount_discounted != 0:
