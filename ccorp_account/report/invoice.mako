@@ -8,24 +8,44 @@
 	%for inv in objects :
 	<% setLang(inv.partner_id.lang) %>
 	<div id="wrapper">
-		<div class = "document_data">
-			%if inv.type == 'out_invoice' :
-			<span class="title">${_("Invoice")} ${inv.number or ''|entity}</span>
+		<table class = "document_data">
+			<tr><td>
+			%if inv.type == 'out_invoice' and (inv.state == 'open' or inv.state == 'paid') :
+			<span class="title">${_("Electronic Invoice")} ${inv.number or ''|entity}</span>
+			%elif inv.type == 'out_invoice' and inv.state == 'proforma2') :
+			<span class="title">${_("PROFORMA")} ${inv.number or ''|entity}</span>
+			%elif inv.type == 'out_invoice' and inv.state == 'draft') :
+			<span class="title">${_("Draft Inovice")} ${inv.number or ''|entity}</span>
+			%elif inv.type == 'out_invoice' and inv.state == 'cancel':
+			<span class="title">${_("Canceled Invoice")} ${inv.number or ''|entity}</span>
 			%elif inv.type == 'in_invoice' :
 			<span class="title">${_("Supplier Invoice")} ${inv.number or ''|entity}</span>   
 			%elif inv.type == 'out_refund' :
 			<span class="title">${_("Refund")} ${inv.number or ''|entity}</span> 
 			%elif inv.type == 'in_refund' :
 			<span class="title">${_("Supplier Refund")} ${inv.number or ''|entity}</span> 
-			%endif
-			<br/>
-			${_("Invoice Date:")} ${formatLang(inv.date_invoice, date=True)|entity}
+			%endif</td>
+			
+			<td>
+				${_("Salesman")}: ${inv.partner_id.user_id.name or  ' '|entity}<br/>
+			</td>
+			
+			</tr>
+			<tr><td>
+			${_("Date:")} ${formatLang(inv.date_invoice, date=True)|entity}
+			</td>
+			<td>	${_("Due date")}: ${formatLang(inv.date_invoice, date=True)|entity}</td>
+			</tr>
+			<tr>
+				<td>${inv.name or '' |entity}</td>
+				<td>${_("Payment tems")}: ${inv.payment_term.name or '-' |entity}</td>
+			</tr>
 		</div>
 		<!-- Header partner data -->
 		<table class="partner-table">
 			<tbody>
 				<tr>
-					<td colspan="3">
+					<td colspan="3" class = "title">
 						${inv.partner_id.name}
 					</td>
 				</tr>
@@ -40,26 +60,22 @@
 						</p>
 					</td>
 					<td><!-- Header partner address -->
+						<p class = "title">${_("Address")}</p>
 						<p style="text-align:left;">
-						${_("Address")}: ${inv.address_invoice_id.street or ''}<br/>
+						${inv.address_invoice_id.street or ''}<br/>
 						${inv.address_invoice_id.street2 or ''}<br/>
 						${(inv.address_invoice_id.zip and format(inv.address_invoice_id.zip) + ((inv.address_invoice_id.city or inv.address_invoice_id.state_id or inv.address_invoice_id.country_id) and ' ' or '') or '') + (inv.address_invoice_id.city and format(inv.address_invoice_id.city) + ((inv.address_invoice_id.state_id or inv.address_invoice_id.country_id) and ', ' or '') or '') + (inv.address_invoice_id.state_id and format(inv.address_invoice_id.state_id.name) + (inv.address_invoice_id.country_id and ', ' or '') or '') + (inv.address_invoice_id.country_id and format(inv.address_invoice_id.country_id.name) or '')}
 						</p>
-					</td>
-					<td><!-- Header invoice data -->
-						<p style="text-align:left;">
-						%if inv.partner_id.user_id.name:
-							${_("Salesman")}: ${inv.partner_id.user_id.name|entity}<br/>
-						%endif
-						${_("Payment tems")}: ${inv.payment_term.name or '-' |entity}<br/>
-						${_("Due date")}: ${formatLang(inv.date_invoice, date=True)|entity}<br/>
-						</p>
-					</td>
+					</td>					
 				</tr>
 			</tbody>
 		</table>
 		<table class="data-table" cellspacing = "3">
-		<thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Disc.(%)")}</th><th>${_("Unit Price")}</th><th>${_("Total Price")}</th></thead>
+		%if inv.amount_discounted != 0:
+				<thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Disc.(%)")}</th><th>${_("Unit Price")}</th><th>${_("Total Price")}</th></thead>
+		%else:
+				<thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Unit Price")}</th><th>${_("Total Price")}</th></thead>
+		%endif
 		<tbody>
 		%for line in inv.invoice_line :
 			<tr>
@@ -69,9 +85,9 @@
 						${ ', '.join([ tax.name or '' for tax in line.invoice_line_tax_id ])|entity}
 					%endif
 				</td>
-				<td>
-					${line.discount and formatLang(line.discount) + '%' or '-'}
-				</td>
+				%if inv.amount_discounted != 0:
+					<td style="text-align:right;">${line.discount and formatLang(line.discount) + '%' or '-'}</td>
+				%endif
 				<td style="text-align:right;">${inv.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_unit)} ${inv.currency_id.symbol_suffix or ''|entity }</td>
 				<td style="text-align:right;">${inv.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_subtotal_not_discounted)} ${inv.currency_id.symbol_suffix or ''|entity }</td>
 			</tr>
@@ -79,18 +95,25 @@
 			<tr><td>${line.product_id and line.product_id.code and '[' + format(line.product_id.code) + '] '}<b>${_("Note")}:</b> ${format(line.note)}</td></tr>
 			%endif
 		%endfor
+		%if inv.amount_discounted != 0:
 		<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${inv.currency_id.symbol_prefix or ''|entity} ${formatLang(inv.amount_untaxed_not_discounted)} ${inv.currency_id.symbol_suffix or ''|entity}</td></tr>
 		<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Discount")}:</b></td><td style="text-align:right">${inv.currency_id.symbol_prefix or ''|entity} ${formatLang(inv.amount_discounted)} ${inv.currency_id.symbol_suffix or ''|entity}</td></tr>
 		<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Taxes")}:</b></td><td style="text-align:right">${inv.currency_id.symbol_prefix or ''|entity} ${formatLang(inv.amount_tax)} ${inv.currency_id.symbol_suffix or ''|entity}</td></tr>
 		<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Total")}:</b></td><td style="border-top:2px solid;text-align:right">${inv.currency_id.symbol_prefix or ''|entity} ${formatLang(inv.amount_total)} ${inv.currency_id.symbol_suffix or ''|entity}</td></tr>
+		%else:
+		<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${inv.currency_id.symbol_prefix or ''|entity} ${formatLang(inv.amount_untaxed_not_discounted)} ${inv.currency_id.symbol_suffix or ''|entity}</td></tr>
+		<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Taxes")}:</b></td><td style="text-align:right">${inv.currency_id.symbol_prefix or ''|entity} ${formatLang(inv.amount_tax)} ${inv.currency_id.symbol_suffix or ''|entity}</td></tr>
+		<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Total")}:</b></td><td style="border-top:2px solid;text-align:right">${inv.currency_id.symbol_prefix or ''|entity} ${formatLang(inv.amount_total)} ${inv.currency_id.symbol_suffix or ''|entity}</td></tr>
+		%endif
+		
 		</tbody>
 		</table>
 		<table class="notes_table" width="40%">
 			%if inv.comment:
-				<tr><td>${_("Invoice Note")}:</td><td>${format(inv.comment)}</td></tr>
+				<tr><td>${_("Invoice Note")}: ${format(inv.comment)}</td></tr>
 			%endif
 			%if inv.payment_term and inv.payment_term.note:
-				<tr><td>${_("Payment Note")}:</td><td>${format(inv.payment_term and inv.payment_term.note)}</td></tr>
+				<tr><td>${_("Payment Note")}: ${format(inv.payment_term and inv.payment_term.note)}</td></tr>
 			%endif
 		</table>
 	</div>
