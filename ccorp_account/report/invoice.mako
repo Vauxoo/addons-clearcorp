@@ -110,10 +110,10 @@
 		</table>
 		<table class="notes_table">
 			%if inv.comment:
-				<tr><td>${_("Invoice Note")}: ${format(inv.comment)}</td></tr>
+				<tr class = "notes_tr"><td>${_("Invoice Note")}: ${format(inv.comment)}</td></tr>
 			%endif
 			%if inv.payment_term and inv.payment_term.note:
-				<tr><td>${_("Payment Note")}: ${format(inv.payment_term and inv.payment_term.note)}</td></tr>
+				<tr class = "notes_tr"><td>${_("Payment Note")}: ${format(inv.payment_term and inv.payment_term.note)}</td></tr>
 			%endif
 		</table>
 	</div>
