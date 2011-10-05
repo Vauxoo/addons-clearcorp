@@ -68,9 +68,9 @@
 		<%i = 0 %>
 		%for line in inv.invoice_line :
 			%if i% 2 == 0:
-				<tr class = "tr-odd">
+				<tr class = "even">
 			%else:
-				<tr class = "tr-even">
+				<tr class = "odd">
 			%endif
 				<td>${formatLang(line.quantity)} ${format(line.uos_id.name)}</td>
 				<td>${line.name} 
