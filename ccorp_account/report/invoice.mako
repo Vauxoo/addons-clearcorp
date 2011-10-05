@@ -8,7 +8,7 @@
 	%for inv in objects :
 	<% setLang(inv.partner_id.lang) %>
 	<div id="wrapper">
-		<table class = "document_data" cellspacing = "5">
+		<table class = "document_data">
 			<tr><td>
 			%if inv.type == 'out_invoice' and (inv.state == 'open' or inv.state == 'paid') :
 			<span class="title">${_("Electronic Invoice")} ${inv.number or ''|entity}</span>
@@ -26,7 +26,7 @@
 			<span class="title">${_("Supplier Refund")} ${inv.number or ''|entity}</span> 
 			%endif</td>
 			
-			<td>
+			<td class ="other_data">
 				${_("Salesman")}: ${inv.partner_id.user_id.name or  ' '|entity}<br/>
 			</td>
 			
@@ -34,11 +34,11 @@
 			<tr><td>
 			${_("Date:")} ${formatLang(inv.date_invoice, date=True)|entity}
 			</td>
-			<td>	${_("Due date")}: ${formatLang(inv.date_invoice, date=True)|entity}</td>
+			<td class ="other_data">	${_("Due date")}: ${formatLang(inv.date_invoice, date=True)|entity}</td>
 			</tr>
 			<tr>
 				<td>${inv.name or '' |entity}</td>
-				<td>${_("Payment tems")}: ${inv.payment_term.name or '-' |entity}</td>
+				<td class ="other_data">${_("Payment tems")}: ${inv.payment_term.name or '-' |entity}</td>
 			</tr>
 		</div>
 		<!-- Header partner data -->
