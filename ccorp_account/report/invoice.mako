@@ -72,20 +72,20 @@
 			%else:
 				<tr class = "odd">
 			%endif
-				<td>${formatLang(line.quantity)} ${format(line.uos_id.name)}</td>
-				<td>${line.name} 
+				<td valign = "top">${formatLang(line.quantity)} ${format(line.uos_id.name)}</td>
+				<td valign = "top">${line.name} 
 					%if line.invoice_line_tax_id != []:
 						${ ', '.join([ tax.name or '' for tax in line.invoice_line_tax_id ])|entity}
 					%endif
 					%if line.note :
-						<p class = "notes">${line.product_id and line.product_id.code and '[' + format(line.product_id.code) + '] '}<b>${_("Note")}:</b> ${format(line.note)}</p>
+						<p class = "notes"><b>${_("Note")}:</b> ${format(line.note)}</p>
 					%endif
 				</td>
 				%if inv.amount_discounted != 0:
-					<td style="text-align:right;">${line.discount and formatLang(line.discount) + '%' or '-'}</td>
+					<td valign = "top" style="text-align:right;">${line.discount and formatLang(line.discount) + '%' or '-'}</td>
 				%endif
-				<td style="text-align:right;">${inv.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_unit)} ${inv.currency_id.symbol_suffix or ''|entity }</td>
-				<td style="text-align:right;">${inv.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_subtotal_not_discounted)} ${inv.currency_id.symbol_suffix or ''|entity }</td>
+				<td style="text-align:right;" valign = "top">${inv.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_unit)} ${inv.currency_id.symbol_suffix or ''|entity }</td>
+				<td style="text-align:right;" valign = "top">${inv.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_subtotal_not_discounted)} ${inv.currency_id.symbol_suffix or ''|entity }</td>
 			</tr>
 		<%i += 1%>
 		%endfor
@@ -104,10 +104,10 @@
 		</table>
 		<table id = "notes_table">
 			%if inv.comment:
-				<tr><td>${_("Invoice Note")}: ${format(inv.comment)}</td></tr>
+				<tr><td><b>${_("Invoice Note")}:</b> ${format(inv.comment)}</td></tr>
 			%endif
 			%if inv.payment_term and inv.payment_term.note:
-				<tr><td>${_("Payment Note")}: ${format(inv.payment_term and inv.payment_term.note)}</td></tr>
+				<tr><td><b>${_("Payment Note")}:</b> ${format(inv.payment_term and inv.payment_term.note)}</td></tr>
 			%endif
 		</table>
 	</div>
