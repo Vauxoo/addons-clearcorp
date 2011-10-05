@@ -77,6 +77,9 @@
 					%if line.invoice_line_tax_id != []:
 						${ ', '.join([ tax.name or '' for tax in line.invoice_line_tax_id ])|entity}
 					%endif
+					%if line.note :
+						<p class = "notes">${line.product_id and line.product_id.code and '[' + format(line.product_id.code) + '] '}<b>${_("Note")}:</b> ${format(line.note)}</p>
+					%endif
 				</td>
 				%if inv.amount_discounted != 0:
 					<td style="text-align:right;">${line.discount and formatLang(line.discount) + '%' or '-'}</td>
@@ -84,9 +87,6 @@
 				<td style="text-align:right;">${inv.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_unit)} ${inv.currency_id.symbol_suffix or ''|entity }</td>
 				<td style="text-align:right;">${inv.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_subtotal_not_discounted)} ${inv.currency_id.symbol_suffix or ''|entity }</td>
 			</tr>
-			%if line.note :
-			<tr><td>${line.product_id and line.product_id.code and '[' + format(line.product_id.code) + '] '}<b>${_("Note")}:</b> ${format(line.note)}</td></tr>
-			%endif
 		<%i += 1%>
 		%endfor
 		%if inv.amount_discounted != 0:
