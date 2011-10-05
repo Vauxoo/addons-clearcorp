@@ -11,7 +11,7 @@
 		<table width = "100%" class = "document_data">
 			<tr class = "title">
 				<td class = "document_data">
-					%if not so.state =='draft' :
+					%if so.state =='draft' :
 					<span class="title">${_("Quotation N°")} ${so.name or ''|entity}</span><br/>
 					%endif
 					%if so.state != 'draft' :
@@ -57,7 +57,7 @@
 				<td>${(so.partner_shipping_id.state_id and format(so.partner_shipping_id.state_id.name) + (so.partner_shipping_id.country_id and ', ' or '') or '') + (so.partner_shipping_id.country_id and format(so.partner_shipping_id.country_id.name) or '')}</td>
 			</tr>
 		</table>
-		<table class="data-table" cellspacing="3">
+		<table id="data-table" cellspacing="3">
 			%if discount(so) != 0:
 				<thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Disc.(%)")}</th><th>${_("Unit Price")}</th><th>${_("Total Price")}</th></thead>
 			%else:
