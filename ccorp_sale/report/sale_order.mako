@@ -71,7 +71,6 @@
 			%else:
 				<tr class = "odd">
 			%endif
-			<tr>
 				<td valign = "top">${formatLang(line.product_uom_qty)} ${format(line.product_uom.name)}</td>
 				<td valign = "top">${line.name} ${line.tax_id != [] and (' / (' + (', '.join([ lt.description for lt in line.tax_id ])) + ')')|entity}
 					%if line.notes :
@@ -84,6 +83,7 @@
 				<td valign = "top" style="text-align:right;">${so.company_id.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_unit)} ${so.company_id.currency_id.symbol_suffix or ''|entity }</td>
 				<td valign = "top" style="text-align:right;">${so.company_id.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_subtotal)} ${so.company_id.currency_id.symbol_suffix or ''|entity }</td>
 			</tr>
+		<%i +=1%>
 		%endfor
 		%if discount(so) != 0:
 			<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${so.company_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_untaxed)} ${so.company_id.currency_id.symbol_suffix or ''|entity}</td></tr>
@@ -98,10 +98,10 @@
 		</table>
 		<table id="notes_table">
 			%if so.note:
-				<tr><td>${_("Order Notes")}:</td><td>${format(so.note)}</td></tr>
+				<tr><td><b>${_("Order Notes")}:</b></td><td>${format(so.note)}</td></tr>
 			%endif
 			%if so.payment_term and so.payment_term.note:
-				<tr><td>${_("Payment Note")}:</td><td>${format(so.payment_term and so.payment_term.note)}</td></tr>
+				<tr><td><b>${_("Payment Note")}:</b></td><td>${format(so.payment_term and so.payment_term.note)}</td></tr>
 			%endif
 		</table>
 	</div>
