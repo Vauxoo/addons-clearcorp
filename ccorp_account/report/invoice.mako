@@ -44,30 +44,11 @@
 		<!-- Header partner data -->
 		<table class="partner-table">
 			<tbody>
-				<tr>
-					<td colspan="3" class = "title">
-						${inv.partner_id.name}
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<p style="text-align:left;">
-							${_("ID Num.")}: ${inv.partner_id.ref or '-'|entity}<br/>
-							${_("Phone")}:${inv.address_invoice_id.phone or '-'|entity}<br/>
-							${_("Fax")}: ${inv.address_invoice_id.fax or '-' | entity}<br/>
-							${_("Email")}: ${inv.address_invoice_id.email or '-'|entity}
-							<br/><br/>
-						</p>
-					</td>
-					<td><!-- Header partner address -->
-						<p class = "title">${_("Address")}</p>
-						<p style="text-align:left;">
-						${inv.address_invoice_id.street or ''}<br/>
-						${inv.address_invoice_id.street2 or ''}<br/>
-						${(inv.address_invoice_id.zip and format(inv.address_invoice_id.zip) + ((inv.address_invoice_id.city or inv.address_invoice_id.state_id or inv.address_invoice_id.country_id) and ' ' or '') or '') + (inv.address_invoice_id.city and format(inv.address_invoice_id.city) + ((inv.address_invoice_id.state_id or inv.address_invoice_id.country_id) and ', ' or '') or '') + (inv.address_invoice_id.state_id and format(inv.address_invoice_id.state_id.name) + (inv.address_invoice_id.country_id and ', ' or '') or '') + (inv.address_invoice_id.country_id and format(inv.address_invoice_id.country_id.name) or '')}
-						</p>
-					</td>					
-				</tr>
+				<tr class = "title"><td>${inv.partner_id.name}</td><td>${_("Address")}</td></tr>
+				<tr><td>${_("ID Num.")}: ${inv.partner_id.ref or '-'|entity}</td><td>${inv.address_invoice_id.street or ''}</td></tr>
+				<tr><td>${_("Phone")}:${inv.address_invoice_id.phone or '-'|entity}</td><td>${inv.address_invoice_id.street2 or ''}</td></tr>
+				<tr><td>${_("Fax")}: ${inv.address_invoice_id.fax or '-' | entity}</td><td>${(inv.address_invoice_id.zip and format(inv.address_invoice_id.zip) + ((inv.address_invoice_id.city or inv.address_invoice_id.state_id or inv.address_invoice_id.country_id) and ' ' or '') or '') + (inv.address_invoice_id.city and format(inv.address_invoice_id.city) + ((inv.address_invoice_id.state_id or inv.address_invoice_id.country_id) and ', ' or '') or '') + (inv.address_invoice_id.state_id and format(inv.address_invoice_id.state_id.name) + (inv.address_invoice_id.country_id and ', ' or '') or '') + (inv.address_invoice_id.country_id and format(inv.address_invoice_id.country_id.name) or '')}</td></tr>
+				<tr><td>${_("Email")}: ${inv.address_invoice_id.email or '-'|entity}</td><td> </td></tr>
 			</tbody>
 		</table>
 		<table class="data-table" cellspacing = "3">
