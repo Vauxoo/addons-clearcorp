@@ -8,7 +8,7 @@
 	%for inv in objects :
 	<% setLang(inv.partner_id.lang) %>
 	<div id="wrapper">
-		<table class = "document_data">
+		<table class = "document_data" cellspacing = "5">
 			<tr><td>
 			%if inv.type == 'out_invoice' and (inv.state == 'open' or inv.state == 'paid') :
 			<span class="title">${_("Electronic Invoice")} ${inv.number or ''|entity}</span>
@@ -108,7 +108,7 @@
 		
 		</tbody>
 		</table>
-		<table class="notes_table" width="40%">
+		<table class="notes_table">
 			%if inv.comment:
 				<tr><td>${_("Invoice Note")}: ${format(inv.comment)}</td></tr>
 			%endif
