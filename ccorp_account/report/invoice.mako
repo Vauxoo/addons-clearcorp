@@ -48,7 +48,7 @@
 				<tr><td>${_("ID Num.")}: ${inv.partner_id.ref or '-'|entity}</td><td>${inv.address_invoice_id.street or ''}</td></tr>
 				<tr><td>${_("Phone")}:${inv.address_invoice_id.phone or '-'|entity}</td><td>${inv.address_invoice_id.street2 or ''}</td></tr>
 				<tr><td>${_("Fax")}: ${inv.address_invoice_id.fax or '-' | entity}</td><td>${(inv.address_invoice_id.zip and format(inv.address_invoice_id.zip) + ((inv.address_invoice_id.city or inv.address_invoice_id.state_id or inv.address_invoice_id.country_id) and ' ' or '') or '') + (inv.address_invoice_id.city and format(inv.address_invoice_id.city) + ((inv.address_invoice_id.state_id or inv.address_invoice_id.country_id) and ', ' or '') or '') + (inv.address_invoice_id.state_id and format(inv.address_invoice_id.state_id.name) + (inv.address_invoice_id.country_id and ', ' or '') or '') + (inv.address_invoice_id.country_id and format(inv.address_invoice_id.country_id.name) or '')}</td></tr>
-				<tr><td>${_("Email")}: ${inv.address_invoice_id.email or '-'|entity}</td><td> </td></tr>
+				<tr><td colspan = "2">${_("Email")}: ${inv.address_invoice_id.email or '-'|entity}</td><td> </td></tr>
 			</tbody>
 		</table>
 		<table class="data-table" cellspacing = "3">
@@ -91,10 +91,10 @@
 		</table>
 		<table class="notes_table">
 			%if inv.comment:
-				<tr class = "notes_tr"><td>${_("Invoice Note")}: ${format(inv.comment)}</td></tr>
+				<tr><td>${_("Invoice Note")}: ${format(inv.comment)}</td></tr>
 			%endif
 			%if inv.payment_term and inv.payment_term.note:
-				<tr class = "notes_tr"><td>${_("Payment Note")}: ${format(inv.payment_term and inv.payment_term.note)}</td></tr>
+				<tr><td>${_("Payment Note")}: ${format(inv.payment_term and inv.payment_term.note)}</td></tr>
 			%endif
 		</table>
 	</div>
