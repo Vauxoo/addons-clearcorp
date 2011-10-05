@@ -59,7 +59,7 @@
 		%endif
 		<tbody>
 		%for line in inv.invoice_line :
-			<tr>
+			<tr style ="border-bottom:1px solid black;">
 				<td>${formatLang(line.quantity)} ${format(line.uos_id.name)}</td>
 				<td>${line.name} 
 					%if line.invoice_line_tax_id != []:
@@ -91,10 +91,10 @@
 		</table>
 		<table class="notes_table">
 			%if inv.comment:
-				<tr><td>${_("Invoice Note")}: ${format(inv.comment)}</td></tr>
+				<tr style = "border-style:2px solid black;backgroung-color : #D8D8D8;margin-bottom : 20px;"><td>${_("Invoice Note")}: ${format(inv.comment)}</td></tr>
 			%endif
 			%if inv.payment_term and inv.payment_term.note:
-				<tr><td>${_("Payment Note")}: ${format(inv.payment_term and inv.payment_term.note)}</td></tr>
+				<tr style = "border-style:2px solid black;backgroung-color : #D8D8D8;"><td>${_("Payment Note")}: ${format(inv.payment_term and inv.payment_term.note)}</td></tr>
 			%endif
 		</table>
 	</div>
