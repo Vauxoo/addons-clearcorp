@@ -8,58 +8,54 @@
 	%for so in objects :
 	<% setLang(so.partner_id.lang) %>
 	<div id="wrapper">
-		<div class = "document_data">
-			%if not so.state =='draft' :
-			<span class="title">${_("Quotation N°")} ${so.name or ''|entity}</span><br/>
-			%endif
-			%if so.state != 'draft' :
-			<span class="title">${_("Order N°")} ${so.name or ''|entity}</span><br/>   
-			%endif
-			%if so.date_order:
-			<span class="title">${_("Date:")} ${formatLang(so.date_order, date=True)|entity}</span> <br/>
-			%endif
-			<span class="title">${so.user_id.name or ''|entity}</span>
-			<br/>
-			<span class="title">${_("Ref.")}: ${so.client_order_ref != "" and so.client_order_ref or ''|entity}</span><br/> 
-		</div>
-		<!-- Header partner data -->
-		<table class="partner-table">
-			<tbody>
-				<tr>
-					<td colspan="3">
-						${so.partner_id.name}
-					</td>
-				</tr>
-				<tr>
-					<td><!-- Header partner data -->
-						<p style="text-align:left;">
-							${_("ID Num.")}: ${so.partner_id.ref or '-'|entity}<br/>
-							${_("Phone")}:${so.partner_id.phone or '-'|entity}<br/>
-							${_("Email")}: ${so.partner_id.email or '-'|entity}<br/>
-							${_("Confirmation date")}: ${(so.date_confirm and formatLang(so.date_confirm,date=True)) or '-'|entity}
-							<br/><br/>
-						</p>
-					</td>
-					<td><!-- Shipping partner address -->
-						<p style="text-align:left;">
-						<b>${_("Invoice address")}</b><br/>
-						${so.partner_invoice_id.street or ''}<br/>
-						${so.partner_invoice_id.street2 or ''}<br/>
-						${(so.partner_invoice_id.zip and format(so.partner_invoice_id.zip) + ((so.partner_invoice_id.city or so.partner_invoice_id.state_id or so.partner_invoice_id.country_id) and ' ' or '') or '') + (so.partner_invoice_id.city and format(so.partner_invoice_id.city) or '')}<br/>
-						${(so.partner_invoice_id.state_id and format(so.partner_invoice_id.state_id.name) + (so.partner_invoice_id.country_id and ', ' or '') or '') + (so.partner_invoice_id.country_id and format(so.partner_invoice_id.country_id.name) or '')}<br/>
-						</p>
-					</td>
-					<td><!-- Invoice partner address -->
-						<p style="text-align:left;">
-						<b>${_("Shipping address")}</b><br/>
-						${so.partner_shipping_id.street or ''}<br/>
-						${so.partner_shipping_id.street2 or ''}<br/>
-						${(so.partner_shipping_id.zip and format(so.partner_shipping_id.zip) + ((so.partner_shipping_id.city or so.partner_shipping_id.state_id or so.partner_shipping_id.country_id) and ' ' or '') or '') + (so.partner_shipping_id.city and format(so.partner_shipping_id.city) or '')}<br/>
-						${(so.partner_shipping_id.state_id and format(so.partner_shipping_id.state_id.name) + (so.partner_shipping_id.country_id and ', ' or '') or '') + (so.partner_shipping_id.country_id and format(so.partner_shipping_id.country_id.name) or '')}
-						</p>
-					</td>
-				</tr>
-			</tbody>
+		<table width = "100%" class = "document_data">
+			<tr class = "title">
+				<td class = "document_data">
+					%if not so.state =='draft' :
+					<span class="title">${_("Quotation N°")} ${so.name or ''|entity}</span><br/>
+					%endif
+					%if so.state != 'draft' :
+					<span class="title">${_("Order N°")} ${so.name or ''|entity}</span><br/>   
+					%endif
+				</td>
+				<td>
+					${so.partner_id.name}
+				</td>
+			</tr>
+			<tr>
+				<td>${_("Date:")}
+					%if so.date_order:
+						${formatLang(so.date_order, date=True)|entity}
+					%endif
+				</td>
+				<td>${_("ID Num.")}: ${so.partner_id.ref or '-'|entity}</td>
+			</tr>
+			<tr>
+				<td>${so.user_id.name or ''|entity}</td>
+				<td>${_("Phone")}:${so.partner_id.phone or '-'|entity}</td>
+			</tr>
+			<tr>
+				<td>${_("Ref.")}: ${so.client_order_ref != "" and so.client_order_ref or ''|entity}</td>
+				<td>${_("Email")}: ${so.partner_id.email or '-'|entity}</td>
+			</tr>
+			<tr>
+				<td>${_("Confirmation date")}: ${(so.date_confirm and formatLang(so.date_confirm,date=True)) or '-'|entity}</td>
+				<td>&nbsp;</td><td>&nbsp;</td>
+			</tr>
+			<tr class = "zone_break"><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<!-- Shipping partner address -->
+			<!-- Invoice partner address -->
+			<tr class = "title"><td>${_("Invoice address")}</td><td>${_("Shipping address")}</td></tr>
+			<tr><td>${so.partner_invoice_id.street or ''}</td><td>${so.partner_shipping_id.street or ''}</td></tr>
+			<tr><td>${so.partner_invoice_id.street2 or ''}</td><td>${so.partner_shipping_id.street2 or ''}</td></tr>
+			<tr>
+				<td>${(so.partner_invoice_id.zip and format(so.partner_invoice_id.zip) + ((so.partner_invoice_id.city or so.partner_invoice_id.state_id or so.partner_invoice_id.country_id) and ' ' or '') or '') + (so.partner_invoice_id.city and format(so.partner_invoice_id.city) or '')}</td>
+				<td>${(so.partner_shipping_id.zip and format(so.partner_shipping_id.zip) + ((so.partner_shipping_id.city or so.partner_shipping_id.state_id or so.partner_shipping_id.country_id) and ' ' or '') or '') + (so.partner_shipping_id.city and format(so.partner_shipping_id.city) or '')}</td>
+			</tr>
+			<tr>
+				<td>${(so.partner_invoice_id.state_id and format(so.partner_invoice_id.state_id.name) + (so.partner_invoice_id.country_id and ', ' or '') or '') + (so.partner_invoice_id.country_id and format(so.partner_invoice_id.country_id.name) or '')}</td>
+				<td>${(so.partner_shipping_id.state_id and format(so.partner_shipping_id.state_id.name) + (so.partner_shipping_id.country_id and ', ' or '') or '') + (so.partner_shipping_id.country_id and format(so.partner_shipping_id.country_id.name) or '')}</td>
+			</tr>
 		</table>
 		<table class="data-table" cellspacing="3">
 			%if discount(so) != 0:
@@ -68,19 +64,26 @@
 				<thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Unit Price")}</th><th>${_("Total Price")}</th></thead>
 			%endif
 		<tbody>
+		<%i = 0 %>
 		%for line in so.order_line :
-			<tr>
-				<td>${formatLang(line.product_uom_qty)} ${format(line.product_uom.name)}</td>
-				<td>${line.name} ${line.tax_id != [] and (' / (' + (', '.join([ lt.description for lt in line.tax_id ])) + ')')|entity}</td>
-				%if discount(so) != 0:
-					<td>${line.discount and formatLang(line.discount) + '%' or '-'}</td>
-				%endif
-				<td style="text-align:right;">${so.company_id.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_unit)} ${so.company_id.currency_id.symbol_suffix or ''|entity }</td>
-				<td style="text-align:right;">${so.company_id.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_subtotal)} ${so.company_id.currency_id.symbol_suffix or ''|entity }</td>
-			</tr>
-			%if line.notes :
-			<tr class = "notes"><td>${line.product_id and line.product_id.code and '[' + format(line.product_id.code) + '] '}<b>${_("Note")}:</b> ${format(line.notes)}</td></tr>
+			%if i% 2 == 0:
+				<tr class = "even">
+			%else:
+				<tr class = "odd">
 			%endif
+			<tr>
+				<td valign = "top">${formatLang(line.product_uom_qty)} ${format(line.product_uom.name)}</td>
+				<td valign = "top">${line.name} ${line.tax_id != [] and (' / (' + (', '.join([ lt.description for lt in line.tax_id ])) + ')')|entity}
+					%if line.note :
+						<p class = "notes"><b>${_("Note")}:</b> ${format(line.note)}</p>
+					%endif
+				</td>
+				%if discount(so) != 0:
+					<td valign = "top">${line.discount and formatLang(line.discount) + '%' or '-'}</td>
+				%endif
+				<td valign = "top" style="text-align:right;">${so.company_id.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_unit)} ${so.company_id.currency_id.symbol_suffix or ''|entity }</td>
+				<td valign = "top" style="text-align:right;">${so.company_id.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_subtotal)} ${so.company_id.currency_id.symbol_suffix or ''|entity }</td>
+			</tr>
 		%endfor
 		%if discount(so) != 0:
 			<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${so.company_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_untaxed)} ${so.company_id.currency_id.symbol_suffix or ''|entity}</td></tr>
@@ -93,7 +96,7 @@
 		%endif
 		</tbody>
 		</table>
-		<table class="notes_table" width="40%">
+		<table id="notes_table">
 			%if so.note:
 				<tr><td>${_("Order Notes")}:</td><td>${format(so.note)}</td></tr>
 			%endif
