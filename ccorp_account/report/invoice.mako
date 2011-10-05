@@ -28,7 +28,7 @@
 					%endif
 				</td>
 				<td>
-					<td>${inv.partner_id.name}</td>
+					${inv.partner_id.name}
 				</td>
 			</tr>
 			<tr>
@@ -102,7 +102,7 @@
 		
 		</tbody>
 		</table>
-		<table class = "notes_table">
+		<table id = "notes_table">
 			%if inv.comment:
 				<tr><td>${_("Invoice Note")}: ${format(inv.comment)}</td></tr>
 			%endif
