@@ -89,12 +89,12 @@
 		
 		</tbody>
 		</table>
-		<table class="notes_table">
+		<table class = "notes_table">
 			%if inv.comment:
-				<tr style = "border-style:2px solid black;backgroung-color : #D8D8D8;margin-bottom : 20px;"><td>${_("Invoice Note")}: ${format(inv.comment)}</td></tr>
+				<tr><td>${_("Invoice Note")}: ${format(inv.comment)}</td></tr>
 			%endif
 			%if inv.payment_term and inv.payment_term.note:
-				<tr style = "border-style:2px solid black;backgroung-color : #D8D8D8;"><td>${_("Payment Note")}: ${format(inv.payment_term and inv.payment_term.note)}</td></tr>
+				<tr><td>${_("Payment Note")}: ${format(inv.payment_term and inv.payment_term.note)}</td></tr>
 			%endif
 		</table>
 	</div>
