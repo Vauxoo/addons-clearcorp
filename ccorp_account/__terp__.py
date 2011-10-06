@@ -52,7 +52,7 @@
     'init_xml': [],
     'demo_xml': ['ccorp_account_demo.xml'],
     'update_xml': [
-        'ccorp_account_webkit_report.xml',
+        'ccorp_account_webkit_report.xml', 'ccorp_account_view.xml',
         ],
     'license': 'Other OSI approved licence',
     'installable': True,
