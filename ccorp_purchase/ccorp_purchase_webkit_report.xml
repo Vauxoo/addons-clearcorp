@@ -6,7 +6,7 @@
 				model="purchase.order" 
 				name="purchase.order.layout_ccorp"  
 				file="ccorp_purchase/report/purchase_order.mako" 
-				string="Purchas Order W" 
+				string="Purchase Order" 
 				report_type="webkit"
 				/>
 	</data>
