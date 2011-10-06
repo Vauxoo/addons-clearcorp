@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 6.0.2\n"
 "Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2011-10-04 15:53+0000\n"
-"PO-Revision-Date: 2011-10-04 15:53+0000\n"
+"POT-Creation-Date: 2011-10-06 19:16+0000\n"
+"PO-Revision-Date: 2011-10-06 19:16+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -27,103 +27,103 @@ msgstr "ClearCorp 'sale' modifications:\n"
 "    "
 
 #. module: ccorp_sale
-#: report:report.sale.order.layout_ccorp:86
-#: report:report.sale.order.layout_ccorp:90
+#: report:report.sale.order.layout_ccorp:89
+#: report:report.sale.order.layout_ccorp:93
 msgid "Sub Total"
 msgstr "Sub Total"
 
 #. module: ccorp_sale
-#: report:report.sale.order.layout_ccorp:45
+#: report:report.sale.order.layout_ccorp:48
 msgid "Invoice address"
-msgstr "Dirección de facturación"
+msgstr "Dirección de Factura"
 
 #. module: ccorp_sale
-#: report:report.sale.order.layout_ccorp:19
+#: report:report.sale.order.layout_ccorp:26
 msgid "Date:"
 msgstr "Fecha:"
 
 #. module: ccorp_sale
-#: report:report.sale.order.layout_ccorp:36
+#: report:report.sale.order.layout_ccorp:31
 msgid "ID Num."
 msgstr "Céd. Jur."
 
 #. module: ccorp_sale
-#: report:report.sale.order.layout_ccorp:66
-msgid "Disc.(%)"
-msgstr "Desc.(%)"
-
-#. module: ccorp_sale
-#: report:report.sale.order.layout_ccorp:82
+#: report:report.sale.order.layout_ccorp:77
 msgid "Note"
 msgstr "Nota"
 
 #. module: ccorp_sale
-#: report:report.sale.order.layout_ccorp:66
-#: report:report.sale.order.layout_ccorp:68
+#: report:report.sale.order.layout_ccorp:62
+#: report:report.sale.order.layout_ccorp:64
 msgid "Unit Price"
-msgstr "Precio unitario"
+msgstr "Precio Unitario"
 
 #. module: ccorp_sale
-#: report:report.sale.order.layout_ccorp:16
+#: report:report.sale.order.layout_ccorp:18
 msgid "Order N°"
 msgstr "Orden N°"
 
 #. module: ccorp_sale
-#: report:report.sale.order.layout_ccorp:38
+#: report:report.sale.order.layout_ccorp:62
+msgid "Disc.(%)"
+msgstr "Desc.(%)"
+
+#. module: ccorp_sale
+#: report:report.sale.order.layout_ccorp:39
 msgid "Email"
 msgstr "Email"
 
 #. module: ccorp_sale
-#: report:report.sale.order.layout_ccorp:66
-#: report:report.sale.order.layout_ccorp:68
+#: report:report.sale.order.layout_ccorp:62
+#: report:report.sale.order.layout_ccorp:64
 msgid "Total Price"
-msgstr "Precio total"
+msgstr "Precio Total"
 
 #. module: ccorp_sale
-#: report:report.sale.order.layout_ccorp:39
+#: report:report.sale.order.layout_ccorp:42
 msgid "Confirmation date"
-msgstr "Fecha de confirmación"
+msgstr "Fecha de Confirmación"
 
 #. module: ccorp_sale
-#: report:report.sale.order.layout_ccorp:37
+#: report:report.sale.order.layout_ccorp:35
 msgid "Phone"
-msgstr "Teléfono"
+msgstr "Tel."
 
 #. module: ccorp_sale
-#: report:report.sale.order.layout_ccorp:23
+#: report:report.sale.order.layout_ccorp:38
 msgid "Ref."
 msgstr "Ref."
 
 #. module: ccorp_sale
-#: report:report.sale.order.layout_ccorp:66
-#: report:report.sale.order.layout_ccorp:68
+#: report:report.sale.order.layout_ccorp:62
+#: report:report.sale.order.layout_ccorp:64
 msgid "[Code] Description / (Taxes)"
 msgstr "[Cód.] Descripción / (Imp.)"
 
 #. module: ccorp_sale
-#: report:report.sale.order.layout_ccorp:54
+#: report:report.sale.order.layout_ccorp:48
 msgid "Shipping address"
 msgstr "Dirección de envío"
 
 #. module: ccorp_sale
-#: report:report.sale.order.layout_ccorp:87
-#: report:report.sale.order.layout_ccorp:91
+#: report:report.sale.order.layout_ccorp:90
+#: report:report.sale.order.layout_ccorp:94
 msgid "Taxes"
 msgstr "Impuestos"
 
 #. module: ccorp_sale
-#: report:report.sale.order.layout_ccorp:101
+#: report:report.sale.order.layout_ccorp:104
 msgid "Payment Note"
 msgstr "Nota de pago"
 
 #. module: ccorp_sale
-#: report:report.sale.order.layout_ccorp:98
+#: report:report.sale.order.layout_ccorp:101
 msgid "Order Notes"
-msgstr "Notas de la orden"
+msgstr "Nota de orden"
 
 #. module: ccorp_sale
-#: report:report.sale.order.layout_ccorp:66
-#: report:report.sale.order.layout_ccorp:68
+#: report:report.sale.order.layout_ccorp:62
+#: report:report.sale.order.layout_ccorp:64
 msgid "Qty"
 msgstr "Cant."
 
@@ -133,13 +133,13 @@ msgid "ClearCorp sale module modifications"
 msgstr "ClearCorp sale module modifications"
 
 #. module: ccorp_sale
-#: report:report.sale.order.layout_ccorp:13
+#: report:report.sale.order.layout_ccorp:15
 msgid "Quotation N°"
 msgstr "Quotation N°"
 
 #. module: ccorp_sale
-#: report:report.sale.order.layout_ccorp:88
-#: report:report.sale.order.layout_ccorp:92
+#: report:report.sale.order.layout_ccorp:91
+#: report:report.sale.order.layout_ccorp:95
 msgid "Total"
 msgstr "Total"
 
