@@ -171,8 +171,7 @@
 			<field name = "arch" type = "xml">
 				<search string = "Search Estate">
 					<group  colspan = "4" >
-						<filter  string = "Rented" icon = "terp-camera_test" domain = "[('estate_rented','=','True')]"/>
-						<filter string = "Not Rented" icon = "terp-sale" domain = "[('estate_rented','=','True')]"/>
+						<filter string = "Not Rented" icon = "terp-sale" domain = "[('estate_rented','=',False)]"/>
 					</group>
 					<group expand = "0" string = "Group By...">
 						<filter string = "Owners" icon = "terp-personal" domain = "[]" context="{'group_by' : 'estate_owner'}"/>
@@ -567,8 +566,7 @@
 			<field name = "arch" type = "xml">
 				<search string = "Search Local">
 					<group  colspan = "4" >
-						<filter  string = "Rented" icon = "terp-camera_test" domain = "[('local_rented','=','True')]"/>
-						<filter string = "Not Rented" icon = "gtk-cancel" domain = "[('local_rented','=','False')]"/>
+						<filter string = "Not Rented" icon = "gtk-cancel" domain = "[('local_rented','=',False)]"/>
 					</group>
 				</search>
 			</field>
