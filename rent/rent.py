@@ -884,6 +884,7 @@ class rent_rent(osv.osv):
 		res_first_inv = []
 		res_first_main_inv = []
 		debug("CAMBIO DE ESTADOSSSSSSSSSSSSSSSSSS")
+		debug(rent_ids)
 		for obj_rent in self.browse(cr,uid,rent_ids):
 			#if is_required[obj_rent.id]: 
 			has_first = self.pool.get('rent.invoice.rent').search(cr,uid,[('invoice_rent_id','=',obj_rent.id),('invoice_type','=','rent')])
