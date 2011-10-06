@@ -9,8 +9,8 @@
 			<field name = "arch" type = "xml">
 				<data>
 					<xpath expr = "/search/group/separator" position = "before">
-						<filter icon="terp-camera_test" string="Active Accounts" domain="[('active','in',('Active','True')]"/>
-						<filter icon="gtk-cancel" string="Inactive Accounts" domain="[('active','not in',('Active',)]"/>
+						<filter icon="terp-camera_test" string="Active Accounts" domain="[('active','=','True')]"/>
+						<filter icon="gtk-cancel" string="Inactive Accounts" domain="[('active','!=,'True')]"/>
 					</xpath>
 				</data>
 			</field>
