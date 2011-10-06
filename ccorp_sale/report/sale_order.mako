@@ -74,7 +74,7 @@
 				<td valign = "top">${formatLang(line.product_uom_qty)} ${format(line.product_uom.name)}</td>
 				<td valign = "top">${line.name} ${line.tax_id != [] and (' / (' + (', '.join([ lt.description for lt in line.tax_id ])) + ')') or ''|entity}
 					%if line.notes :
-						<p class = "notes"><b>${_("Note")}:</b> ${format(line.notes)}</p>
+						<span class = "notes"><b>${_("Note")}:</b> ${format(line.note)}</span>
 					%endif
 				</td>
 				%if discount(so) != 0:

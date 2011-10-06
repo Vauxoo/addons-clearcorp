@@ -78,7 +78,7 @@
 						${ ', '.join([ tax.name or '' for tax in line.invoice_line_tax_id ])|entity}
 					%endif
 					%if line.note :
-						<p class = "notes"><b>${_("Note")}:</b> ${format(line.note)}</p>
+						<span class = "notes"><b>${_("Note")}:</b> ${format(line.note)}</span>
 					%endif
 				</td>
 				%if inv.amount_discounted != 0:
