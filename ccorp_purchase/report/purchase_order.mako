@@ -14,7 +14,7 @@
 					%if po.state =='draft' :
 					<span class="title">${_("Order Ref")} ${po.name or ''|entity}</span><br/>
 					%endif
-					%if so.state != 'draft' :
+					%if po.state != 'draft' :
 					<span class="title">${_("Order N°")} ${so.name or ''|entity}</span>
 					%endif
 				</td>
