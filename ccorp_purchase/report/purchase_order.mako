@@ -53,12 +53,12 @@
 			<tr><td>${(po.partner_address_id and po.partner_address_id.street ) or ''}</td><td>${(po.dest_address_id and po.dest_address_id.street ) or ''}</td></tr>
 			<tr><td>${(po.partner_address_id and po.partner_address_id.street2 ) or ''}</td><td>${(po.dest_address_id and po.dest_address_id.street2 ) or ''}</td></tr>
 			<tr>
-				<td>${(so.partner_address_id.zip and format(so.partner_address_id.zip) + ((so.partner_address_id.city or so.partner_address_id.state_id or so.partner_address_id.country_id) and ' ' or '') or '') + (so.partner_address_id.city and format(so.partner_address_id.city) or '')}</td>
-				<td>${(so.dest_address_id.zip and format(so.dest_address_id.zip) + ((so.dest_address_id.city or so.dest_address_id.state_id or so.dest_address_id.country_id) and ' ' or '') or '') + (so.dest_address_id.city and format(so.dest_address_id.city) or '')}</td>
+				<td>${(po.partner_address_id.zip and format(po.partner_address_id.zip) + ((po.partner_address_id.city or po.partner_address_id.state_id or po.partner_address_id.country_id) and ' ' or '') or '') + (po.partner_address_id.city and format(po.partner_address_id.city) or '')}</td>
+				<td>${(po.dest_address_id.zip and format(po.dest_address_id.zip) + ((po.dest_address_id.city or po.dest_address_id.state_id or po.dest_address_id.country_id) and ' ' or '') or '') + (po.dest_address_id.city and format(po.dest_address_id.city) or '')}</td>
 			</tr>
 			<tr>
-				<td>${(so.partner_address_id.state_id and format(so.partner_address_id.state_id.name) + (so.partner_address_id.country_id and ', ' or '') or '') + (so.partner_address_id.country_id and format(so.partner_address_id.country_id.name) or '')}</td>
-				<td>${(so.dest_address_id.state_id and format(so.dest_address_id.state_id.name) + (so.dest_address_id.country_id and ', ' or '') or '') + (so.dest_address_id.country_id and format(so.dest_address_id.country_id.name) or '')}</td>
+				<td>${(po.partner_address_id.state_id and format(po.partner_address_id.state_id.name) + (po.partner_address_id.country_id and ', ' or '') or '') + (po.partner_address_id.country_id and format(po.partner_address_id.country_id.name) or '')}</td>
+				<td>${(po.dest_address_id.state_id and format(po.dest_address_id.state_id.name) + (po.dest_address_id.country_id and ', ' or '') or '') + (po.dest_address_id.country_id and format(po.dest_address_id.country_id.name) or '')}</td>
 			</tr>
 		</table>
 		
