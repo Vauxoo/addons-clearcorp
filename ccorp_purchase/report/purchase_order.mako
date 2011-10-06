@@ -72,16 +72,17 @@
 			%else:
 				<tr class = "odd">
 			%endif
-				<td>${formatLang(line.product_qty)} ${format(line.product_uom.name)}</td>
-				<td>${line.name} ${', '.join(map(lambda x: x.name, line.taxes_id))|entity}
+				<td valign = "top">${formatLang(line.product_qty)} ${format(line.product_uom.name)}</td>
+				<td valign = "top">${line.name} ${', '.join(map(lambda x: x.name, line.taxes_id))|entity}
 					%if line.notes :
 						<br/><span class = "notes"><b>${_("Note")}:</b> ${format(line.notes)}</span>
 					%endif
 				</td>
-				<td>${formatLang( line.date_planned, date=True)}</td>
-				<td style="text-align:right;">${po.pricelist_id.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_unit,digits=get_digits(dp='Purchase Price'))} ${po.pricelist_id.currency_id.symbol_suffix or ''|entity }</td>
-				<td style="text-align:right;">${po.pricelist_id.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_subtotal)} ${po.pricelist_id.currency_id.symbol_suffix or ''|entity }</td>
+				<td valign = "top">${formatLang( line.date_planned, date=True)}</td>
+				<td valign = "top" style="text-align:right;">${po.pricelist_id.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_unit,digits=get_digits(dp='Purchase Price'))} ${po.pricelist_id.currency_id.symbol_suffix or ''|entity }</td>
+				<td valign = "top" style="text-align:right;">${po.pricelist_id.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_subtotal)} ${po.pricelist_id.currency_id.symbol_suffix or ''|entity }</td>
 			</tr>
+		<%i +=1%>
 		%endfor
 		<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${po.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(po.amount_untaxed)} ${po.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
 		<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Taxes")}:</b></td><td style="text-align:right">${po.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(po.amount_tax)} ${po.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
