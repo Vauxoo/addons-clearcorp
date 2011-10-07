@@ -44,8 +44,6 @@ class sale_change_pricelist(osv.osv):
 		obj_so = self.pool.get('sale.order')
 		obj_so_line = self.pool.get('sale.order.line')
 		obj_currency = self.pool.get('res.currency')
-		if context is None:
-			context = {}
 		
 		new_currency = self.pool.get('product.pricelist').browse(cr,uid,new_pricelist_id).currency_id.id
 		debug(obj_so)
