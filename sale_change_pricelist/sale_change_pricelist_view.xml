@@ -15,9 +15,7 @@
 			<field name="inherit_id" ref="sale.view_order_form"/>
 			<field name = "arch" type = "xml">
 				<data>
-					<field name="pricelist_id" groups="replace">
-						<field domain="[('type','=','sale')]" name="pricelist_id" groups="base.group_extended" on_change = "change_currency"/>
-					</field>
+					<field name="pricelist_id" groups="replace"></field>
 				</data>
 			</field>
 		</record>
