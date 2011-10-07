@@ -276,8 +276,4 @@ class company_webkit(osv.osv):
 		'webkit_footer2': fields.char('Report Footer 2', size=200),
 		'webkit_footer3': fields.char('Report Footer 3', size=200),
 	}
-	
-	_defaults = {
-		'header_webkit' : _get_company_header,
-	}
 company_webkit()
