@@ -254,7 +254,7 @@ class company_webkit(osv.osv):
 	def _get_company_header(self,cr,uid,ids):
 		for obj_company in self.browse(cr,uid,ids):
 			vals = {
-				'name' : 'Base' + obj_company.partner_id.name, 
+				'name' : 'Base' + obj_company.name, 
 				'html': obj_company._get_default_header(), 
 				'css' : obj_company._get_default_css(),
 				'footer_html' : obj_company._get_default_footer(),

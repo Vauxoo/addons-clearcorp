@@ -8,18 +8,18 @@
 		======================================
 		-->
 		
-		<record model = "ir.ui.view" id = "account_rename_tree_view">
-			<field name = "name">account.account.tree</field>
-			<field name = "model">account.account</field>
-			<field name = "type">tree</field>
-			<field name="inherit_id" ref="account.view_account_list"/>
+		<record model = "ir.ui.view" id = "view_webkit_company_form">
+			<field name = "name">res.company.form</field>
+			<field name = "model">res.company</field>
+			<field name = "type">form</field>
+			<field name="inherit_id" ref="report_webkit.currency_del_img"/>
 			<field name = "arch" type = "xml">
 				<data>
-					<field name = "name" position = "after">
-						<field name = "complete_name"/>
-						<field name = "shortcut"/>
+					<field name = "lib_path" position = "after">
+						<field name = "webkit_footer1"/>
+						<field name = "webkit_footer2"/>
+						<field name = "webkit_footer3"/>
 					</field>
-					<field name = "name" position = "replace"/>
 				</data>
 			</field>
 		</record>
