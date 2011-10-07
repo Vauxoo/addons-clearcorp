@@ -250,25 +250,26 @@ class company_webkit(osv.osv):
 				font-style : italic;
 			}
 		"""
-	
-	def _get_company_header(self,cr,uid,ids):
-		for obj_company in self.browse(cr,uid,ids):
-			vals = {
-				'name' : 'Base company', 
-				'html': obj_company._get_default_header(), 
-				'css' : obj_company._get_default_css(),
-				'footer_html' : obj_company._get_default_footer(),
-				'margin_top' : 55.00,
-				'margin_bottom' : 24.00,
-				'orientation' : 'Portrait',
-				'format' : 'Letter',
-			}
-			register_id = self.pool.get('ir.header_webkit').search(cr,uid,[('name','=', 'Base' + obj_company.partner_id.name)])
-			
-			if not register_id:
-				#obj_header = super(rent_contract,self).create(cr,uid,vals,context) 
-				obj_company.write({'header_webkit' : [0,0, vals]})
-		return self.pool.get('ir.header_webkit').search(cr,uid,[('company_id','in', ids)])
+	def create(self,cr,uid, vals,context=None):
+		company_id = super(company_webkit,self).create(cr,uid,vals,context)
+		obj_company = self.pool.get('res.company').browse(cr,uid,company_id)
+		
+		vals = {
+			'name' : 'Base company', 
+			'html': obj_company._get_default_header(), 
+			'css' : obj_company._get_default_css(),
+			'footer_html' : obj_company._get_default_footer(),
+			'margin_top' : 55.00,
+			'margin_bottom' : 24.00,
+			'orientation' : 'Portrait',
+			'format' : 'Letter',
+		}
+		register_id = self.pool.get('ir.header_webkit').search(cr,uid,[('name','=', 'Base company')])
+		
+		if not register_id:
+			#obj_header = super(rent_contract,self).create(cr,uid,vals,context) 
+			obj_company.write({'header_webkit' : [0,0, vals]})
+		return obj_company.id
 		
 	_columns = {
 		'webkit_footer1': fields.char('Report Footer 1', size=200),
