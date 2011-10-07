@@ -269,6 +269,7 @@ class company_webkit(osv.osv):
 		register_id = self.pool.get('ir.header_webkit').search(cr,uid,[('name','=', 'Base company')])
 		debug(register_id)
 		if not register_id:
+			debug('VA A REGISTRAR')
 			#obj_header = super(rent_contract,self).create(cr,uid,vals,context) 
 			obj_company.write({'header_webkit' : [0,0, vals]})
 		return obj_company.id
