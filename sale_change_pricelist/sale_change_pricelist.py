@@ -71,6 +71,6 @@ class sale_change_pricelist(osv.osv):
 					raise osv.except_osv(_('Error'), _('Current currency is not confirured properly !'))
 				new_price = (line.price_unit / old_rate ) * rate
 			obj_so_line.write(cr, uid, [line.id], {'price_unit': new_price})
-		obj_so.write(cr, uid, [sorder.id], {'pricelist_id': new_currency})
+		obj_so.write(cr, uid, [sorder.id], {'pricelist_id': new_pricelist_id})
 		return True
 sale_change_pricelist()
