@@ -271,7 +271,7 @@ class company_webkit(osv.osv):
 		if not register_id:
 			debug('VA A REGISTRAR')
 			#obj_header = super(rent_contract,self).create(cr,uid,vals,context) 
-			obj_company.write({'header_webkit' : [0,0, vals]})
+			obj_company.write({'header_webkit' : [(0,0, vals)]})
 		return obj_company.id
 		
 	_columns = {
