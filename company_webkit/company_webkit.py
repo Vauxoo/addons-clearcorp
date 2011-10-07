@@ -253,10 +253,9 @@ class company_webkit(osv.osv):
 	def create(self,cr,uid, vals,context=None):
 		company_id = super(company_webkit,self).create(cr,uid,vals,context)
 		obj_company = self.pool.get('res.company').browse(cr,uid,company_id)
-		debug(company_id)
 		
 		vals = {
-			'name' : 'Base company', 
+			'name' : 'Base ' + obj_company.name, 
 			'html': obj_company._get_default_header(), 
 			'css' : obj_company._get_default_css(),
 			'footer_html' : obj_company._get_default_footer(),
@@ -265,11 +264,8 @@ class company_webkit(osv.osv):
 			'orientation' : 'Portrait',
 			'format' : 'Letter',
 		}
-		debug(vals)
-		register_id = self.pool.get('ir.header_webkit').search(cr,uid,[('name','=', 'Base company')])
-		debug(register_id)
+		register_id = self.pool.get('ir.header_webkit').search(cr,uid,[('name','=', 'Base ' + obj_company.name)])
 		if not register_id:
-			debug('VA A REGISTRAR')
 			#obj_header = super(rent_contract,self).create(cr,uid,vals,context) 
 			obj_company.write({'header_webkit' : [(0,0, vals)]})
 		return obj_company.id
