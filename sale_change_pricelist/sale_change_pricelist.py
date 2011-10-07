@@ -40,6 +40,7 @@ class sale_change_pricelist(osv.osv):
 	_inherit = "sale.order"
 	
 	def change_currency(self, cr, uid, ids, new_pricelist_id):
+		debug(new_pricelist_id)
 		obj_so = self.pool.get('sale.order')
 		obj_so_line = self.pool.get('sale.order.line')
 		obj_currency = self.pool.get('res.currency')
@@ -47,11 +48,12 @@ class sale_change_pricelist(osv.osv):
 			context = {}
 		
 		new_currency = self.pool.get('product.pricelist').browse(cr,uid,new_pricelist_id).currency_id.id
-
+		debug(obj_so)
 		sorder = obj_so.browse(cr, uid, ids)[0]
 		if sorder.pricelist_id.currency_id.id == new_currency:
 			return {}
 		rate = obj_currency.browse(cr, uid, new_currency).rate
+		debug(sorder.order_line)
 		for line in sorder.order_line:
 			new_price = 0
 			if sorder.company_id.currency_id.id == sorder.pricelist_id.currency_id.id:
