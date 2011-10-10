@@ -43,7 +43,7 @@ class sale_change_pricelist(osv.osv_memory):
 	}
 	
 	def view_init(self, cr , uid , fields_list, context=None):
-		obj_inv = self.pool.get('sale.Order')
+		obj_inv = self.pool.get('sale.order')
 		if context is None:
 			context = {}
 		if context.get('active_id',False):
