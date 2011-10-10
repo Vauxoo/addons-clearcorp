@@ -16,7 +16,7 @@
 			<field name = "arch" type = "xml">
 				<data>
 					<field name="pricelist_id" position="after">
-						<button name="%(action_sale_change_pricelist)d" string="Change Currency" type="object" icon="terp-stock_effects-object-colorize"/>
+						<button name="%(action_sale_change_pricelist)d" string="Change Currency" type="action" icon="terp-stock_effects-object-colorize"/>
 					</field>
 				</data>
 			</field>

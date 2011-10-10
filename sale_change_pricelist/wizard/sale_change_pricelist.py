@@ -42,17 +42,6 @@ class sale_change_pricelist(osv.osv_memory):
 		'pricelist_id': fields.many2one('product.pricelist', 'Change to', required=True, help="Select a pricelist to apply on the sale order"),
 	}
 	
-	def view_init(self, cr , uid , fields_list, context=None):
-		debug('INITTTTTTTTTTTTTTTTTTTT')
-		obj_inv = self.pool.get('sale.order')
-		if context is None:
-			context = {}
-		if context.get('active_id',False):
-			debug(context['active_id'])
-			if obj_inv.browse(cr, uid, context['active_id']).state != 'draft':
-				raise osv.except_osv(_('Error'), _('You can only change currency for Draft Invoice !'))
-			pass
-	
 	def change_currency(self, cr, uid, ids, context=None):
 		debug("------------------")
 		debug(ids)
