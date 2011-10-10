@@ -35,7 +35,7 @@ from osv import osv, fields
 from tools import debug
 from tools.translate import _
 
-class sale_change_pricelist(osv.osv):
+class sale_change_pricelist(osv.osv_memory):
 	_name = "sale.change.pricelist"
 	
 	_columns = {
