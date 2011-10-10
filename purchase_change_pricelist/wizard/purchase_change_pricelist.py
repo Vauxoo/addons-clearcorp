@@ -66,7 +66,6 @@ class purchase_change_pricelist(osv.osv_memory):
 		if porder.pricelist_id.currency_id.id == new_currency:
 			return {}
 		rate = obj_currency.browse(cr, uid, new_currency).rate
-		debug(sorder.order_line)
 		for line in porder.order_line:
 			new_price = 0
 			if porder.company_id.currency_id.id == porder.pricelist_id.currency_id.id:
@@ -86,6 +85,6 @@ class purchase_change_pricelist(osv.osv_memory):
 					raise osv.except_osv(_('Error'), _('Current currency is not confirured properly !'))
 				new_price = (line.price_unit / old_rate ) * rate
 			obj_po_line.write(cr, uid, [line.id], {'price_unit': new_price})
-		obj_po.write(cr, uid, [sorder.id], {'pricelist_id': new_pricelist_id})
+		obj_po.write(cr, uid, [porder.id], {'pricelist_id': new_pricelist_id})
 		return {'type': 'ir.actions.act_window_close'}
 purchase_change_pricelist()
