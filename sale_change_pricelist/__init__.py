@@ -1,1 +1,1 @@
-import sale_change_pricelist
+import wizard

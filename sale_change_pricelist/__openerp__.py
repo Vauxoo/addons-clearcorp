@@ -37,7 +37,7 @@
 	"version"     : "1.0",
 	"depends"     : ["base","sale"],
 	"init_xml"    : [],
-	"update_xml"  : ["sale_change_pricelist_view.xml"],
+	"update_xml"  : ["wizard/sale_change_pricelist_view.xml","sale_pricelist_view.xml",],
 	"category"    : "Sale",
 	"active"      : False,
 	"instalable"  : True,

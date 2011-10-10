@@ -36,18 +36,40 @@ from tools import debug
 from tools.translate import _
 
 class sale_change_pricelist(osv.osv):
-	_name = "sale.order"
-	_inherit = "sale.order"
+	_name = "sale.change.pricelist"
 	
-	def change_currency(self, cr, uid, ids, new_pricelist_id):
-		debug(new_pricelist_id)
+	_columns = {
+		'pricelist_id': fields.many2one('product.pricelist', 'Change to', required=True, help="Select a pricelist to apply on the sale order"),
+	}
+	
+	def view_init(self, cr , uid , fields_list, context=None):
+		obj_inv = self.pool.get('sale.Order')
+		if context is None:
+			context = {}
+		if context.get('active_id',False):
+			if obj_inv.browse(cr, uid, context['active_id']).state != 'draft':
+				raise osv.except_osv(_('Error'), _('You can only change currency for Draft Invoice !'))
+			pass
+	
+	def change_currency(self, cr, uid, ids, context=None):
+		debug("------------------")
+		debug(ids)
 		obj_so = self.pool.get('sale.order')
 		obj_so_line = self.pool.get('sale.order.line')
 		obj_currency = self.pool.get('res.currency')
 		
+		data = self.read(cr, uid, ids)[0]
+		new_pricelist_id = data['pricelist_id'][0]
+		
+		sorder = obj_so.browse(cr, uid, context['active_id'], context=context)
+		#new_pricelist_id = sorder.pricelist_id and sorder.pricelist_id.id or False
+		debug(new_pricelist_id)
+		debug(context['active_id'])
+		debug(sorder)
+		
 		new_currency = self.pool.get('product.pricelist').browse(cr,uid,new_pricelist_id).currency_id.id
-		debug(obj_so)
-		sorder = obj_so.browse(cr, uid, ids)[0]
+		debug(sorder.id)
+		
 		if sorder.pricelist_id.currency_id.id == new_currency:
 			return {}
 		rate = obj_currency.browse(cr, uid, new_currency).rate
@@ -72,5 +94,5 @@ class sale_change_pricelist(osv.osv):
 				new_price = (line.price_unit / old_rate ) * rate
 			obj_so_line.write(cr, uid, [line.id], {'price_unit': new_price})
 		obj_so.write(cr, uid, [sorder.id], {'pricelist_id': new_pricelist_id})
-		return True
+		return {'type': 'ir.actions.act_window_close'}
 sale_change_pricelist()
