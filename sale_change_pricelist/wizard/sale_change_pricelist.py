@@ -50,7 +50,7 @@ class sale_change_pricelist(osv.osv_memory):
 		obj_currency = self.pool.get('res.currency')
 		
 		data = self.read(cr, uid, ids)[0]
-		new_pricelist_id = data['pricelist_id'][0]
+		new_pricelist_id = data['pricelist_id']
 		
 		sorder = obj_so.browse(cr, uid, context['active_id'], context=context)
 		#new_pricelist_id = sorder.pricelist_id and sorder.pricelist_id.id or False
