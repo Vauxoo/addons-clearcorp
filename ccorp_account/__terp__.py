@@ -47,6 +47,7 @@
     'depends': [
         'account',
         'ccorp_report_fonts',
+        'report_webkit',
         'account_invoice_global_discount',
         ],
     'init_xml': [],

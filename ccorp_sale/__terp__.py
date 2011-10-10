@@ -46,6 +46,7 @@
     'depends': [
         'sale',
         'ccorp_report_fonts',
+        'report_webkit',
         ],
     'init_xml': [],
     'demo_xml': [],
