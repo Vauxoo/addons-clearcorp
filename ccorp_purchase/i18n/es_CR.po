@@ -124,7 +124,7 @@ msgstr "Cant."
 #. module: ccorp_purchase
 #: model:ir.module.module,shortdesc:ccorp_purchase.module_meta_information
 msgid "ClearCorp sale module modifications"
-msgstr "ClearCorp sale module modifications"
+msgstr "ClearCorp purchase module modifications"
 
 #. module: ccorp_purchase
 #: report:report.purchase.order.layout_ccorp:66
@@ -134,7 +134,7 @@ msgstr "Precio unitario"
 #. module: ccorp_purchase
 #: report:report.purchase.order.layout_ccorp:26
 msgid "Partnert Order Ref"
-msgstr "Orden de Ref."
+msgstr "Ref."
 
 #. module: ccorp_purchase
 #: report:report.purchase.order.layout_ccorp:15

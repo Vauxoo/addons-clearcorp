@@ -37,7 +37,7 @@ import pooler
 from report import report_sxw
 import locale
 
-class purchase_order_ccorp(report_sxw.rml_parse):
+class purchase_order_quotation_ccorp(report_sxw.rml_parse):
 
 	def _get_line_tax(self, line_obj):
 		self.cr.execute("SELECT tax_id FROM purchase_order_taxe WHERE order_line_id=%s", (line_obj.id))
@@ -84,7 +84,7 @@ class purchase_order_ccorp(report_sxw.rml_parse):
 		return product_obj._product_code(self.cr, self.uid, [product_id], name=None, arg=None, context={'partner_id': partner_id})[product_id]
 
 	def __init__(self, cr, uid, name, context):
-		super(purchase_order_ccorp, self).__init__(cr, uid, name, context=context)
+		super(purchase_order_quotation_ccorp, self).__init__(cr, uid, name, context=context)
 		self.localcontext.update({
 			'time': time,
 			'get_line_tax': self._get_line_tax,
@@ -97,8 +97,8 @@ class purchase_order_ccorp(report_sxw.rml_parse):
 		self._node = None
 
 report_sxw.report_sxw(
-    'report.purchase.order.layout_ccorp',
+    'report.purchase.order.quotation.layout_ccorp',
     'purchase.order',
-    'addons/ccorp_purchase/report/purchase_order.mako',
-    parser=purchase_order_ccorp
+    'addons/ccorp_purchase/report/purchase_quotation.mako',
+    parser=purchase_order_quotation_ccorp
 )
