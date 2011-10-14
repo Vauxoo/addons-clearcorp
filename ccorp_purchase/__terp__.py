@@ -51,7 +51,7 @@
     'demo_xml': [],
     'update_xml': [
         'ccorp_purchase_webkit_report.xml',
-        'ccorp_purchase_quotation_webkit_report '
+        'ccorp_purchase_quotation_webkit_report.xml'
         ],
     'license': 'Other OSI approved licence',
     'installable': True,
