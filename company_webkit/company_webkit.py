@@ -65,7 +65,7 @@ class company_webkit(osv.osv):
 			<tbody>
 				<tr>
 					<td>
-						${helper.embed_logo_by_name('ccorp_logo')|n}	
+						${helper.embed_logo_by_name('company_logo')|n}	
 					</td>
 					<td>
 						<table class="company_data">
@@ -127,7 +127,7 @@ class company_webkit(osv.osv):
 	</head>
 	<body class = "footer" onload="subst()">
 		<table class = "footer_table">
-			<tr><td><p class. ="company_footer">${company.webkit_footer1 or '&nbsp;'}</p></td></tr>
+			<tr><td><p class ="company_footer">${company.webkit_footer1 or '&nbsp;'}</p></td></tr>
 			<tr><td><p class ="company_footer">${company.webkit_footer2 or '&nbsp;'}</p></td><td style="text-align:right;font-size:12;">Page <span class="page"/></td><td style="text-align:left;font-size:12;">  of <span class="topage"/></td></tr>
 			<tr><td><p class ="company_footer">${company.webkit_footer3 or '&nbsp;'}</p></td></tr>
         </table>
