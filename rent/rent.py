@@ -310,6 +310,7 @@ class rent_floor_local(osv.osv):
 				total += obj_local_floor.local_floor_area
 			res[obj_local.id] = total
 		return res
+	
 	_columns = {
 		'local_area'               : fields.function(_local_area,type='float',method=True,string='VRN Dynamic'),
 		'local_number'             : fields.integer('# Local',required=True),
@@ -330,6 +331,25 @@ rent_floor_local()
 
 class rent_local_floor(osv.osv):
 	_name = 'rent.local.floor'
+	
+	def write (self, cr, uid,ids,vals,context=None):
+		#Check for the building and the floor so it can't be at diferent places before saving the changes
+		if vals['local_floor_floor']:
+			for obj_local_floor in self.browse(cr,uid,ids):
+				for obj_local_floor_check in obj_local_floor.local_local_floor.local_local_by_floor
+					current_floor = self.pool.get('rent.floor').browse(cr,uid,vals['local_floor_floor'])
+					if obj_local_floor_check.local_floor_floor.floor_building.id == current_floor.floor_building.id:
+						raise osv.except_osv('Wrong value!', 'The same local can not be on diferent buildings')
+						break
+		return super(rent_floor_local,self).write(cr,uid,ids,vals,context)
+	def create(self, cr, uid,vals, context=None):
+		#Check for the building and the floor so it can't be at diferent places before creating the object
+		locations_ids = self.search(cr,uid,[('local_local_floor','=',vals['local_local_floor'])])
+		for obj_local_floor in self.browse(cr,uid,locations_ids):
+			current_floor = self.pool.get('rent.floor').browse(cr,uid,vals['local_floor_floor'])
+			if obj_local_floor.local_floor_floor.floor_building.id == current_floor.floor_building.id:
+				raise osv.except_osv('Wrong value!', 'The same local can not be on diferent buildings')
+		return super(rent_floor_local,self).create(cr,uid,vals,context)
 	
 	def _local_sqr_price(self,cr,uid,ids,field_name,args,context):
 		res = {}
@@ -356,11 +376,9 @@ class rent_local_floor(osv.osv):
 	
 	def onchange_floor(self,cr,uid,ids,floor_id):
 		res = {}
-		debug("+============================")
 		obj_floor = self.pool.get('rent.floor').browse(cr,uid,floor_id)
-		debug(obj_floor)
-		res['local_floor_building'] = obj_floor.floor_building.id
-		debug(res)
+		if obj_floor:
+			res['local_floor_building'] = obj_floor.floor_building.id
 		return {'value' : res}
 	_columns = {
 		#'name'                 : fields.char('Reference',size=64,help='Indicate a representative reference for the asociation'),
