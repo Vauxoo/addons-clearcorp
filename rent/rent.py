@@ -241,7 +241,7 @@ class rent_floor(osv.osv):
 	}
 	_sql_constraints = [
 		('floor_area_gt_zero', 'CHECK (floor_area!=0)', 'The area for the floor cannot be 0!'),
-		('floor_building_number_key','UNIQUE(floor_number,floor_building)','You can not have two buildings with the same code!'),
+		('floor_building_number_key','UNIQUE(floor_number,floor_building)','You can not have two floors with the same number at the same building!'),
 	]
 rent_floor()
 
