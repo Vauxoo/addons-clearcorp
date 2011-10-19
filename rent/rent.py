@@ -120,8 +120,8 @@ class rent_building(osv.osv):
 	
 	def write (self, cr, uid,ids,vals,context=None):
 		#Check for the area before saving the changes
-		for obj_estate in self.browse(cr,uid,ids):
-			if obj_estate.building_area == 0:
+		for obj_building in self.browse(cr,uid,ids):
+			if obj_building.building_area == 0:
 				raise osv.except_osv('Wrong value!', 'The area for the building has to bee greater than 0')
 		return super(rent_building,self).write(cr,uid,ids,vals,context)
 	def create(self, cr, uid,vals, context=None):
@@ -174,8 +174,8 @@ class rent_floor(osv.osv):
 	
 	def write (self, cr, uid,ids,vals,context=None):
 		#Check for the area before saving the changes
-		for obj_estate in self.browse(cr,uid,ids):
-			if obj_estate.floor_area == 0:
+		for obj_floor in self.browse(cr,uid,ids):
+			if obj_floor.floor_area == 0:
 				raise osv.except_osv('Wrong value!', 'The area for the floor has to bee greater than 0')
 		return super(rent_floor,self).write(cr,uid,ids,vals,context)
 	def create(self, cr, uid,vals, context=None):
@@ -253,15 +253,15 @@ class rent_floor_local(osv.osv):
 	
 	def write (self, cr, uid,ids,vals,context=None):
 		#Check for the area before saving the changes
-		for obj_estate in self.browse(cr,uid,ids):
-			if obj_estate.estate_area == 0:
+		for obj_local in self.browse(cr,uid,ids):
+			if obj_local.local_area == 0:
 				raise osv.except_osv('Wrong value!', 'The huella for the local has to bee greater than 0')
-		return super(rent_estate,self).write(cr,uid,ids,vals,context)
+		return super(rent_floor_local,self).write(cr,uid,ids,vals,context)
 	def create(self, cr, uid,vals, context=None):
 		#Check for the area before creating the object
-		if vals['floor_area'] == 0:
-			raise osv.except_osv('Wrong value!', 'The huella for the floor has to bee greater than 0')
-		return super(rent_estate,self).create(cr,uid,vals,context)
+		if vals['local_area'] == 0:
+			raise osv.except_osv('Wrong value!', 'The huella for the local has to bee greater than 0')
+		return super(rent_floor_local,self).create(cr,uid,vals,context)
 	
 	def _get_building_local(self,cr,uid,ids,field_name,args,context):
 		res = {}
