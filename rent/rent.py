@@ -79,7 +79,7 @@ class rent_estate(osv.osv):
 			if obj_estate.estate_area == 0:
 				raise osv.except_osv('Wrong value!', 'The area for the estate has to bee greater than 0')
 			else:
-				res[estate_id] = obj_estate.estate_value / (obj_estate.estate_area == 0 and 1 or obj_estate.estate_area)
+				res[obj_estate.id] = obj_estate.estate_value / (obj_estate.estate_area == 0 and 1 or obj_estate.estate_area)
 		return res
 	
 	def calculate_vrm(self,cr,uid,ids,context):
