@@ -259,7 +259,7 @@ class rent_floor_local(osv.osv):
 		return super(rent_floor_local,self).write(cr,uid,ids,vals,context)
 	def create(self, cr, uid,vals, context=None):
 		#Check for the area before creating the object
-		if vals['local_area'] == 0:
+		if vals['local_huella'] == 0:
 			raise osv.except_osv('Wrong value!', 'The huella for the local has to bee greater than 0')
 		return super(rent_floor_local,self).create(cr,uid,vals,context)
 	
