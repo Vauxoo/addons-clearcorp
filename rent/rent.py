@@ -336,7 +336,7 @@ class rent_local_floor(osv.osv):
 		#Check for the building and the floor so it can't be at diferent places before saving the changes
 		if vals['local_floor_floor']:
 			for obj_local_floor in self.browse(cr,uid,ids):
-				for obj_local_floor_check in obj_local_floor.local_local_floor.local_local_by_floor
+				for obj_local_floor_check in obj_local_floor.local_local_floor.local_local_by_floor:
 					current_floor = self.pool.get('rent.floor').browse(cr,uid,vals['local_floor_floor'])
 					if obj_local_floor_check.local_floor_floor.floor_building.id == current_floor.floor_building.id:
 						raise osv.except_osv('Wrong value!', 'The same local can not be on diferent buildings')
