@@ -322,8 +322,8 @@
 									<field name="floor_number"/>
 									<field name="floor_value"/>
 									<field name="floor_area"/>
-								</tree>-->
-							</field>
+								</tree>
+							</field>-->
 						</page>
 						<page string = "Assets">
 							<field name = "building_asset"/>
