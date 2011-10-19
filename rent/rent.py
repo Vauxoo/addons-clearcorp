@@ -61,11 +61,25 @@ class rent_estate(osv.osv):
 	_name = 'rent.estate'
 	_rec_name = "estate_number"
 	
+	def write (self, cr, uid,ids,vals,context=None):
+		#Check for the area before saving the changes
+		for obj_estate in self.browse(cr,uid,ids):
+			if obj_estate.estate_area == 0:
+				raise osv.except_osv('Wrong value!', 'The area for the estate has to bee greater than 0')
+		return super(rent_estate,self).write(cr,uid,ids,vals,context)
+	def create(self, cr, uid,vals, context=None):
+		#Check for the area before creating the object
+		if vals['estate_area'] == 0:
+			raise osv.except_osv('Wrong value!', 'The area for the estate has to bee greater than 0')
+		return super(rent_estate,self).create(cr,uid,vals,context)
+	
 	def _get_estate_vrm(self,cr,uid,ids,field_name,args,context=None):
 		res = {}
-		for estate_id in ids:
-			obj_estate = self.pool.get('rent.estate').browse(cr,uid,estate_id)
-			res[estate_id] = obj_estate.estate_value / (obj_estate.estate_area == 0 and 1 or obj_estate.estate_area)
+		for obj_estate in self.pool.get('rent.estate').browse(cr,uid,ids):
+			if obj_estate.estate_area == 0:
+				raise osv.except_osv('Wrong value!', 'The area for the estate has to bee greater than 0')
+			else:
+				res[estate_id] = obj_estate.estate_value / (obj_estate.estate_area == 0 and 1 or obj_estate.estate_area)
 		return res
 	
 	def calculate_vrm(self,cr,uid,ids,context):
@@ -93,12 +107,28 @@ class rent_estate(osv.osv):
 		'estate_account'  : fields.many2one('account.account', 'Cuenta'),
 		'estate_rented'    : fields.function(_determine_rented,type='boolean',method=True,string='Rented',help='Checked if the local is rented'),
 	}
+	_sql_constraints = [
+		('estate_area_gt_zero', 'CHECK (estate_area!=0)', 'The area for the estate cannot be 0!'),
+		('estate_number_key','UNIQUE(estate_number)','You can not have two estates with the same number!'),
+	]
 rent_estate()
 
 #Class building to represente a Real Estate, that is on any land previously define by the user
 #this class contains the necesary data to determine the value for rent of the building
 class rent_building(osv.osv):
 	_name = 'rent.building'
+	
+	def write (self, cr, uid,ids,vals,context=None):
+		#Check for the area before saving the changes
+		for obj_estate in self.browse(cr,uid,ids):
+			if obj_estate.estate_area == 0:
+				raise osv.except_osv('Wrong value!', 'The area for the building has to bee greater than 0')
+		return super(rent_estate,self).write(cr,uid,ids,vals,context)
+	def create(self, cr, uid,vals, context=None):
+		#Check for the area before creating the object
+		if vals['building_area'] == 0:
+			raise osv.except_osv('Wrong value!', 'The area for the building has to bee greater than 0')
+		return super(rent_estate,self).create(cr,uid,vals,context)
 	
 	def _get_building_vrm(self,cr,uid,ids,field_name,args,context=None):
 		#This method calculates the vrn acording to the value an area of the building
@@ -129,6 +159,10 @@ class rent_building(osv.osv):
 		'building_code'              : fields.char('Code', size=4, required=True),
 		'building_asset'             : fields.many2one('account.asset.asset','Asset'),
 	}
+	_sql_constraints = [
+		('building_area_gt_zero', 'CHECK (building_area!=0)', 'The area for the building cannot be 0!'),
+		('building_code','UNIQUE(building_code)','You can not have two buildings with the same code!'),
+	]
 rent_building()
 
 #Class that represents every single floor contained on the building, defined above
@@ -137,6 +171,18 @@ rent_building()
 class rent_floor(osv.osv):
 	_name = 'rent.floor'
 	_rec_name = 'floor_number'
+	
+	def write (self, cr, uid,ids,vals,context=None):
+		#Check for the area before saving the changes
+		for obj_estate in self.browse(cr,uid,ids):
+			if obj_estate.estate_area == 0:
+				raise osv.except_osv('Wrong value!', 'The area for the floor has to bee greater than 0')
+		return super(rent_estate,self).write(cr,uid,ids,vals,context)
+	def create(self, cr, uid,vals, context=None):
+		#Check for the area before creating the object
+		if vals['floor_area'] == 0:
+			raise osv.except_osv('Wrong value!', 'The area for the floor has to bee greater than 0')
+		return super(rent_estate,self).create(cr,uid,vals,context)
 	
 	def _calculate_floor_value(self,cr,uid,ids,field_name,args,context):
 		#This method takes al the active rents for the floor and calculates the value according to 
@@ -193,6 +239,10 @@ class rent_floor(osv.osv):
 		'floor_building'   : fields.many2one('rent.building','Building'),
 		'complete_name'    : fields.function(_get_fullname,type='char',method=True,string='Name',help='This name uses the code of the building and the floor name'),
 	}
+	_sql_constraints = [
+		('floor_area_gt_zero', 'CHECK (floor_area!=0)', 'The area for the floor cannot be 0!'),
+		('floor_building_number_key','UNIQUE(floor_number,floor_building)','You can not have two buildings with the same code!'),
+	]
 rent_floor()
 
 #Class representing the local, on every floor. This class has a relation 
@@ -200,7 +250,19 @@ rent_floor()
 class rent_floor_local(osv.osv):
 	_name = 'rent.floor.local'
 	_rec_name = 'local_number'
-		
+	
+	def write (self, cr, uid,ids,vals,context=None):
+		#Check for the area before saving the changes
+		for obj_estate in self.browse(cr,uid,ids):
+			if obj_estate.estate_area == 0:
+				raise osv.except_osv('Wrong value!', 'The huella for the local has to bee greater than 0')
+		return super(rent_estate,self).write(cr,uid,ids,vals,context)
+	def create(self, cr, uid,vals, context=None):
+		#Check for the area before creating the object
+		if vals['floor_area'] == 0:
+			raise osv.except_osv('Wrong value!', 'The huella for the floor has to bee greater than 0')
+		return super(rent_estate,self).create(cr,uid,vals,context)
+	
 	def _get_building_local(self,cr,uid,ids,field_name,args,context):
 		res = {}
 		for local_id in ids:
@@ -261,6 +323,9 @@ class rent_floor_local(osv.osv):
 		'local_photo'              : fields.binary('Main photo'),
 		'local_rise_historic'      : fields.one2many('rent.rent.anual.value','anual_value_local','Historic', readonly=True),
 	}
+	_sql_constraints = [
+		('local_huella_gt_zero', 'CHECK (local_huella!=0)', 'The area for the floor cannot be 0!'),
+	]
 rent_floor_local()
 
 class rent_local_floor(osv.osv):
@@ -310,6 +375,12 @@ class rent_local_floor(osv.osv):
 		'local_floor_value'    : fields.function(_local_value,type='float',method=True,string='Total Value'),
 		'local_floor_building' : fields.related('local_floor_floor','floor_building',type='many2one',relation='rent.building',string='Building', readonly=True, store=False),
 	} 
+	_sql_constraints = [
+		('local_floor_area_gt_zero', 'CHECK (local_floor_area!=0)', 'The area for the local at this floor cannot be 0!'),
+		('local_floor_front_gt_zero', 'CHECK (local_floor_front!=0)', 'The front for the local cannot be 0!'),
+		('local_floor_side_gt_zero', 'CHECK (local_floor_side!=0)', 'The side for the local cannot be 0!'),
+		('local_floor_location_key','UNIQUE(local_floor_floor,local_local_floor)','You can not repeat the local at the same floor!'),
+	]
 rent_local_floor()
 
 #Class representing the parking, on floor. This class has a relation 
@@ -393,6 +464,13 @@ class rent_floor_parking(osv.osv):
 		'parking_width'           : fields.float('Width Meters'),
 		'parking_floor_building'  : fields.related('parking_floor','floor_building',type='many2one',relation='rent.building',string='Building', readonly=True, store=False),
 	}
+	_sql_constraints = [
+		('parking_huella_gt_zero', 'CHECK (parking_area!=0)', 'The huella for the parking cannot be 0!'),
+		('parking_large_gt_zero', 'CHECK (parking_large!=0)', 'The large for the parking cannot be 0!'),
+		('parking_width_gt_zero', 'CHECK (parking_width!=0)', 'The width for the parking cannot be 0!'),
+		('local_floor_side_gt_zero', 'CHECK (local_floor_side!=0)', 'The side for the local cannot be 0!'),
+		('parking_number_key','UNIQUE(parking_number,parking_floor)','You can not repeat the parking number at the same floor!'),
+	]
 rent_floor_parking()
 
 

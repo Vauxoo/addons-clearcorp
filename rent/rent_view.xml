@@ -302,8 +302,7 @@
 					</group>
 					<notebook>
 						<page string = "Floors">
-							<field name = "building_floors" widget = "one2many" nolabel = "1"/>
-							<!--<field name = "building_floors" mode = "form,tree" nolabel = "1">
+							<field name = "building_floors" mode = "form,tree" nolabel = "1">
 								<form string = "Floor Details">
 									<group col = "4" colspan = "2">
 										<separator string = "General Information" col = "4" colspan = "4"/>
@@ -323,7 +322,7 @@
 									<field name="floor_value"/>
 									<field name="floor_area"/>
 								</tree>
-							</field>-->
+							</field>
 						</page>
 						<page string = "Assets">
 							<field name = "building_asset"/>
