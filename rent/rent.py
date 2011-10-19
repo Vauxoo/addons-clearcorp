@@ -109,7 +109,7 @@ class rent_estate(osv.osv):
 	}
 	_sql_constraints = [
 		('estate_area_gt_zero', 'CHECK (estate_area!=0)', 'The area for the estate cannot be 0!'),
-		('estate_number_key','UNIQUE(estate_number)','You can not have two estates with the same number!'),
+		('estate_number_key','UNIQUE (estate_number)','You can not have two estates with the same number!'),
 	]
 rent_estate()
 
@@ -161,7 +161,7 @@ class rent_building(osv.osv):
 	}
 	_sql_constraints = [
 		('building_area_gt_zero', 'CHECK (building_area!=0)', 'The area for the building cannot be 0!'),
-		('building_code','UNIQUE(building_code)','You can not have two buildings with the same code!'),
+		('building_code','UNIQUE (building_code)','You can not have two buildings with the same code!'),
 	]
 rent_building()
 
@@ -379,7 +379,7 @@ class rent_local_floor(osv.osv):
 		('local_floor_area_gt_zero', 'CHECK (local_floor_area!=0)', 'The area for the local at this floor cannot be 0!'),
 		('local_floor_front_gt_zero', 'CHECK (local_floor_front!=0)', 'The front for the local cannot be 0!'),
 		('local_floor_side_gt_zero', 'CHECK (local_floor_side!=0)', 'The side for the local cannot be 0!'),
-		('local_floor_location_key','UNIQUE(local_floor_floor,local_local_floor)','You can not repeat the local at the same floor!'),
+		('local_floor_location_key','UNIQUE (local_floor_floor,local_local_floor)','You can not repeat the local at the same floor!'),
 	]
 rent_local_floor()
 
@@ -469,7 +469,7 @@ class rent_floor_parking(osv.osv):
 		('parking_large_gt_zero', 'CHECK (parking_large!=0)', 'The large for the parking cannot be 0!'),
 		('parking_width_gt_zero', 'CHECK (parking_width!=0)', 'The width for the parking cannot be 0!'),
 		('local_floor_side_gt_zero', 'CHECK (local_floor_side!=0)', 'The side for the local cannot be 0!'),
-		('parking_number_key','UNIQUE(parking_number,parking_floor)','You can not repeat the parking number at the same floor!'),
+		('parking_number_key','UNIQUE (parking_number,parking_floor)','You can not repeat the parking number at the same floor!'),
 	]
 rent_floor_parking()
 
