@@ -48,7 +48,7 @@ class rent_client(osv.osv):
 	_name = 'res.partner'
 	_inherit = 'res.partner'
 	_columns = {
-		'client_birthdate' : fields.date('Birthdate',select=1,required=True),
+		#'client_birthdate' : fields.date('Birthdate',select=1,required=True),
 		'client_canton'    : fields.related('address', 'canton_id', type='many2one', relation='rent.canton', string='Canton'),
 		'client_district'  : fields.related('address', 'district_id', type='many2one', relation='rent.canton.district', string='District'),
 	}
@@ -65,7 +65,7 @@ class rent_estate(osv.osv):
 		res = {}
 		for estate_id in ids:
 			obj_estate = self.pool.get('rent.estate').browse(cr,uid,estate_id)
-			res[estate_id] = obj_estate.estate_value / obj_estate.estate_area
+			res[estate_id] = obj_estate.estate_value / (obj_estate.estate_area == 0 and 1 or obj_estate.estate_area)
 		return res
 	
 	def calculate_vrm(self,cr,uid,ids,context):
