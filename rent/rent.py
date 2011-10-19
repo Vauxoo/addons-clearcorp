@@ -254,7 +254,7 @@ class rent_floor_local(osv.osv):
 	def write (self, cr, uid,ids,vals,context=None):
 		#Check for the area before saving the changes
 		for obj_local in self.browse(cr,uid,ids):
-			if obj_local.local_area == 0:
+			if obj_local.local_huella == 0:
 				raise osv.except_osv('Wrong value!', 'The huella for the local has to bee greater than 0')
 		return super(rent_floor_local,self).write(cr,uid,ids,vals,context)
 	def create(self, cr, uid,vals, context=None):
