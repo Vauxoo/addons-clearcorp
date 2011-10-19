@@ -123,12 +123,12 @@ class rent_building(osv.osv):
 		for obj_estate in self.browse(cr,uid,ids):
 			if obj_estate.estate_area == 0:
 				raise osv.except_osv('Wrong value!', 'The area for the building has to bee greater than 0')
-		return super(rent_estate,self).write(cr,uid,ids,vals,context)
+		return super(rent_building,self).write(cr,uid,ids,vals,context)
 	def create(self, cr, uid,vals, context=None):
 		#Check for the area before creating the object
 		if vals['building_area'] == 0:
 			raise osv.except_osv('Wrong value!', 'The area for the building has to bee greater than 0')
-		return super(rent_estate,self).create(cr,uid,vals,context)
+		return super(rent_building,self).create(cr,uid,vals,context)
 	
 	def _get_building_vrm(self,cr,uid,ids,field_name,args,context=None):
 		#This method calculates the vrn acording to the value an area of the building
@@ -177,12 +177,12 @@ class rent_floor(osv.osv):
 		for obj_estate in self.browse(cr,uid,ids):
 			if obj_estate.estate_area == 0:
 				raise osv.except_osv('Wrong value!', 'The area for the floor has to bee greater than 0')
-		return super(rent_estate,self).write(cr,uid,ids,vals,context)
+		return super(rent_floor,self).write(cr,uid,ids,vals,context)
 	def create(self, cr, uid,vals, context=None):
 		#Check for the area before creating the object
 		if vals['floor_area'] == 0:
 			raise osv.except_osv('Wrong value!', 'The area for the floor has to bee greater than 0')
-		return super(rent_estate,self).create(cr,uid,vals,context)
+		return super(rent_floor,self).create(cr,uid,vals,context)
 	
 	def _calculate_floor_value(self,cr,uid,ids,field_name,args,context):
 		#This method takes al the active rents for the floor and calculates the value according to 
