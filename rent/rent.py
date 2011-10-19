@@ -338,16 +338,21 @@ class rent_local_floor(osv.osv):
 			for obj_local_floor in self.browse(cr,uid,ids):
 				for obj_local_floor_check in obj_local_floor.local_local_floor.local_local_by_floor:
 					current_floor = self.pool.get('rent.floor').browse(cr,uid,vals['local_floor_floor'])
-					if obj_local_floor_check.local_floor_floor.floor_building.id == current_floor.floor_building.id:
+					if obj_local_floor_check.local_floor_floor.floor_building.id != current_floor.floor_building.id:
 						raise osv.except_osv('Wrong value!', 'The same local can not be on diferent buildings')
 						break
 		return super(rent_local_floor,self).write(cr,uid,ids,vals,context)
 	def create(self, cr, uid,vals, context=None):
 		#Check for the building and the floor so it can't be at diferent places before creating the object
 		locations_ids = self.search(cr,uid,[('local_local_floor','=',vals['local_local_floor'])])
+		debug(locations_ids)
+		current_floor = self.pool.get('rent.floor').browse(cr,uid,vals['local_floor_floor'])
+		debug(current_floor)
 		for obj_local_floor in self.browse(cr,uid,locations_ids):
-			current_floor = self.pool.get('rent.floor').browse(cr,uid,vals['local_floor_floor'])
-			if obj_local_floor.local_floor_floor.floor_building.id == current_floor.floor_building.id:
+			debug(obj_local_floor)
+			debug(obj_local_floor.local_floor_floor.floor_building.id)
+			debug(current_floor.floor_building.id)
+			if obj_local_floor.local_floor_floor.floor_building.id != current_floor.floor_building.id:
 				raise osv.except_osv('Wrong value!', 'The same local can not be on diferent buildings')
 		return super(rent_local_floor,self).create(cr,uid,vals,context)
 	
