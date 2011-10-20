@@ -602,7 +602,7 @@
 							
 						</page>
 						<page string = "Price historic">
-							<field name = "local_rise_historic" nolabel="1"/>
+							<field name = "local_rise_historic_ids" nolabel="1"/>
 						</page>
 					</notebook>
 				</form>

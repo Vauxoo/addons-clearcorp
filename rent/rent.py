@@ -332,7 +332,7 @@ class rent_floor_local(osv.osv):
 		'local_building'           : fields.function(_get_building_local,type='many2one',obj='rent.building',method=True,string='Building'),
 		'local_gallery_photo'      : fields.char('Photo Gallery', size=64),
 		'local_photo'              : fields.binary('Main photo'),
-		'local_rise_historic_id'      : fields.one2many('rent.rent.anual.value','anual_value_local','Historic', readonly=True),
+		'local_rise_historic_id'   : fields.one2many('rent.rent.anual.value','anual_value_local_ids','Historic', readonly=True),
 	}
 	_sql_constraints = [
 		('local_huella_gt_zero', 'CHECK (local_huella!=0)', 'The area for the floor cannot be 0!'),
@@ -617,9 +617,9 @@ class rent_rent(osv.osv):
 			#obj_rent.write({'rent_amount_base' : years_val})
 			vals['rent_amount_base'] = years_val
 			if obj_rent.rent_related_real == 'local':
-				vals['anual_value_local'] = obj_rent.rent_rent_local_id.id
+				vals['anual_value_local_ids'] = obj_rent.rent_rent_local_id.id
 			if not is_registrated:
-				vals['rent_historic_ids'] = [(0,0,{'anual_value_rent_id':obj_rent.id,'anual_value_value':years_val,'anual_value_prev_value' : prev_value,'anual_value_rate' : obj_rent.rent_rise, 'anual_value_date' : current_date, 'anual_value_type' : 'rent', 'anual_value_local':vals['anual_value_local']})]
+				vals['rent_historic_ids'] = [(0,0,{'anual_value_rent_id':obj_rent.id,'anual_value_value':years_val,'anual_value_prev_value' : prev_value,'anual_value_rate' : obj_rent.rent_rise, 'anual_value_date' : current_date, 'anual_value_type' : 'rent', 'anual_value_local_ids':vals['anual_value_local_ids']})]
 			else:
 				vals['rent_historic_ids'] = [(1,match_historic.id,{'anual_value_value':obj_rent.rent_amount_base,'anual_value_rate' : obj_rent.rent_rise})]
 			debug(vals)
@@ -652,9 +652,9 @@ class rent_rent(osv.osv):
 			#obj_rent.write({'rent_amount_base' : years_val})
 			vals['rent_main_amount_base'] = years_val
 			if obj_rent.rent_related_real == 'local':
-				vals['anual_value_local'] = obj_rent.rent_rent_local_id.id
+				vals['anual_value_local_ids'] = obj_rent.rent_rent_local_id.id
 			if not is_registrated:
-				vals['rent_main_historic_ids'] = [(0,0,{'anual_value_rent_id':obj_rent.id,'anual_value_value':years_val,'anual_value_prev_value' : prev_value,'anual_value_rate' : rise, 'anual_value_date' : current_date, 'anual_value_type' : 'main','anual_value_local':vals['anual_value_local']})]
+				vals['rent_main_historic_ids'] = [(0,0,{'anual_value_rent_id':obj_rent.id,'anual_value_value':years_val,'anual_value_prev_value' : prev_value,'anual_value_rate' : rise, 'anual_value_date' : current_date, 'anual_value_type' : 'main','anual_value_local_ids':vals['anual_value_local_ids']})]
 			else:
 				vals['rent_main_historic_ids'] = [(1,match_historic.id,{'anual_value_value':amount_base,'anual_value_rate' : rise})]
 			debug(vals)
@@ -1274,7 +1274,7 @@ class rent_rent_anual_value(osv.osv):
 		'anual_value_value'      : fields.float('Value',help='This value was taken from the record of rent at the indicated date'),
 		'anual_value_date'       : fields.date('Period'),
 		'anual_value_rate'       : fields.char('Anual Rise',size=64),
-		'anual_value_local'      : fields.many2one('rent.floor.local','Local reference'),
+		'anual_value_local_ids'      : fields.many2one('rent.floor.local','Local reference'),
 		'anual_value_type'       : fields.selection([('main','Maintenance'),('rent','Rent')],'Type'),
 	}
 	
