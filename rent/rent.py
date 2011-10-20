@@ -177,11 +177,21 @@ class rent_floor(osv.osv):
 		for obj_floor in self.browse(cr,uid,ids):
 			if obj_floor.floor_area == 0:
 				raise osv.except_osv('Wrong value!', 'The area for the floor has to bee greater than 0')
+			if vals['floor_number']:
+				obj_build = obj_floor.floor_building
+				for obj_f in obj_build.building_floors:
+					if obj_f.floor_number.upper() == vals['floor_number'].upper() and obj_f.id  != obj_floor.id:
+						raise osv.except_osv('Wrong value!', 'The number for the floor at the same building cannot be repeated')
 		return super(rent_floor,self).write(cr,uid,ids,vals,context)
 	def create(self, cr, uid,vals, context=None):
 		#Check for the area before creating the object
 		if vals['floor_area'] == 0:
 			raise osv.except_osv('Wrong value!', 'The area for the floor has to bee greater than 0')
+		if vals['floor_number']:
+				obj_build = search.pool.get('rent.building').browse(cr,uid,vals['floor_building'])
+				for obj_f in obj_build.building_floors:
+					if obj_f.floor_number.upper() == vals['floor_number'].upper():
+						raise osv.except_osv('Wrong value!', 'The number for the floor at the same building cannot be repeated')
 		return super(rent_floor,self).create(cr,uid,vals,context)
 	
 	def _calculate_floor_value(self,cr,uid,ids,field_name,args,context):
