@@ -174,7 +174,7 @@
 						<filter string = "Not Rented" icon = "terp-sale" domain = "[('estate_rented','=',False)]"/>
 					</group>
 					<group expand = "0" string = "Group By...">
-						<filter string = "Owners" icon = "terp-personal" domain = "[]" context="{'group_by' : 'estate_owner'}"/>
+						<filter string = "Owners" icon = "terp-personal" domain = "[]" context="{'group_by' : 'estate_owner_id'}"/>
 					</group>
 				</search>
 			</field>
@@ -187,21 +187,21 @@
 				<form string = "estate Detail">
 					<group col = "4" colspan = "4">
 						<separator string = "General Information" col = "4" colspan = "4"/>
-						<field name = "estate_owner" select = "1"/>
+						<field name = "estate_owner_id" select = "1"/>
 						<field name = "estate_number" select = "1"/>
 						<field name = "estate_value" />
 						<field name = "estate_area"  />
 						<field name = "estate_vrn_per_sqr"/>
-						<field name = "estate_account"/>
+						<field name = "estate_account_id"/>
 						<field name = "estate_rented"/>
 						<button colspan="2" name="calculate_vrm" string="Compute Values" type="object" groups="base.group_user" icon="terp-stock_format-scientific"/>
 					</group>
 					<notebook colspan = "4">
 						<page string = "Location"> 
-							<field name = "estate_location" colspan="4" nolabel="1" select="1" attrs = "{'readonly' : [('estate_owner','=','')]}" domain="[('partner_id','=',estate_owner)]"/>
+							<field name = "estate_location_id" colspan="4" nolabel="1" select="1" attrs = "{'readonly' : [('estate_owner_id','=','')]}" domain="[('partner_id','=',estate_owner_id)]"/>
 						</page>
 						<page string = "Buildings">
-							<field name = "estate_buildings" context="{'form_view_ref' : 'rent.building_form_view3', 'tree_view_ref' : 'rent.building_tree_view'}" nolabel="1"/>
+							<field name = "estate_buildings_ids" context="{'form_view_ref' : 'rent.building_form_view3', 'tree_view_ref' : 'rent.building_tree_view'}" nolabel="1"/>
 						</page>
 					</notebook>
 				</form>
@@ -215,7 +215,7 @@
 			<field name = "arch" type = "xml">
 				<tree string = "estate Detail">
 					<field name = "estate_number" select = "1"/>
-					<field name = "estate_owner" select = "1"/>
+					<field name = "estate_owner_id" select = "1"/>
 					<field name = "estate_area" />
 					<field name = "estate_value"/>
 					<field name = "estate_vrn_per_sqr"/>
@@ -257,7 +257,7 @@
 			<field name = "arch" type = "xml">
 				<search string = "Search Building">
 					<group expand = "0" string = "Group By...">
-						<filter string = "Estates" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'building_estate'}"/>
+						<filter string = "Estates" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'building_estate_id'}"/>
 					</group>
 				</search>
 			</field>
@@ -302,7 +302,7 @@
 					</group>
 					<notebook>
 						<page string = "Floors">
-							<field name = "building_floors" mode = "form,tree" nolabel = "1">
+							<field name = "building_floors_ids" mode = "form,tree" nolabel = "1">
 								<form string = "Floor Details">
 									<group col = "4" colspan = "2">
 										<separator string = "General Information" col = "4" colspan = "4"/>
@@ -325,7 +325,7 @@
 							</field>
 						</page>
 						<page string = "Assets">
-							<field name = "building_asset"/>
+							<field name = "building_asset_id"/>
 						</page>
 						<page string = "Machinery">
 							<group col = "4" colspan = "4">
@@ -349,7 +349,7 @@
 			<field name = "arch" type = "xml">
 				<tree string="Building Details">
 					<field name="name"/>
-					<field name="building_estate"/>
+					<field name="building_estate_id"/>
 					<field name="building_date_construction"/>
 					<field name="building_value"/>
 					<field name="building_area"/>
@@ -370,7 +370,7 @@
 						<separator string = "General Information" col = "4" colspan = "4"/>
 						<field name = "name" select = "1"/>
 						<field name = "building_code"/>
-						<field name = "building_estate"/>
+						<field name = "building_estate_id"/>
 						<field name = "building_date_construction" select = "1"/>
 						<field name = "building_area"/>
 						<field name = "building_value"/>
@@ -384,7 +384,7 @@
 					</group>
 					<notebook>
 						<page string = "Floors">
-							<field name = "building_floors" mode = "form,tree" nolabel = "1">
+							<field name = "building_floors_ids" mode = "form,tree" nolabel = "1">
 								<form string = "Floor Details">
 									<group col = "4" colspan = "2">
 										<separator string = "General Information" col = "4" colspan = "4"/>
@@ -407,7 +407,7 @@
 							</field>
 						</page>
 						<page string = "Assets">
-							<field name = "building_asset"/>
+							<field name = "building_asset_id"/>
 						</page>
 						<page string = "Machinery">
 							<group col = "4" colspan = "4">
@@ -473,7 +473,7 @@
 			<field name = "arch" type = "xml">
 				<search string = "Search Floor">
 					<group expand = "0" string = "Group By...">
-						<filter string = "Edificio" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'floor_building'}"/>
+						<filter string = "Edificio" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'floor_building_id'}"/>
 					</group>
 				</search>
 			</field>
@@ -487,7 +487,7 @@
 				<form string = "Floor Details">
 					<group col = "4" colspan = "2">
 						<separator string = "General Information" col = "4" colspan = "4"/>
-						<field name = "floor_building" select = "1"/>
+						<field name = "floor_building_id" select = "1"/>
 						<field name = "floor_number"/>
 						<field name = "floor_area"/>
 						<field name = "floor_value"/>
@@ -503,7 +503,7 @@
 							<field name = "floor_local" nolabel="1"/>
 						</page>-->
 						<page string = "Parking">
-							<field name = "floor_parking" context="{'form_view_ref' : 'rent.parking_form_view', 'tree_view_ref' : 'rent.parking_tree_view'}" nolabel="1"/>
+							<field name = "floor_parking_ids" context="{'form_view_ref' : 'rent.parking_form_view', 'tree_view_ref' : 'rent.parking_tree_view'}" nolabel="1"/>
 						</page>
 					</notebook>
 				</form>
@@ -517,7 +517,7 @@
 			<field name = "arch" type = "xml">
 				<tree string="Floor Details">
 					<field name="complete_name"/>
-					<field name = "floor_building"/>
+					<field name = "floor_building_id"/>
 					<field name="floor_value"/>
 					<field name="floor_area"/>
 				</tree>
@@ -598,7 +598,7 @@
 					<notebook>
 						<page string = "Floor List">
 							
-							<field name = "local_local_by_floor" nolabel="1"/>
+							<field name = "local_local_by_floor_ids" nolabel="1"/>
 							
 						</page>
 						<page string = "Price historic">
@@ -651,13 +651,13 @@
 				<form string = "Local Details">
 					<group col = "4" colspan = "4">
 						<separator string = "General Information"/>
-						<field name = "local_floor_floor" select = "1" on_change = "onchange_floor(local_floor_floor)"/>
+						<field name = "local_floor_floor_id" select = "1" on_change = "onchange_floor(local_floor_floor_id)"/>
 						<field name = "local_floor_building" select = "1"/>
 						<!---->
 					</group>
 					<group col = "4" colspan = "4">
 						<separator string = "Floor Specifications"/>
-						<field name = "local_local_floor"/>
+						<field name = "local_local_floor_id"/>
 						<field name = "local_floor_front"/>
 						<field name = "local_floor_side"/>
 						<field name = "local_sqrmeter_price"/>
@@ -675,7 +675,7 @@
 			<field name = "arch" type = "xml">
 				<tree string = "Location in floor list" editable="bottom">
 					<field name = "local_floor_building" select = "1" />
-					<field name = "local_floor_floor" select = "1" on_change = "onchange_floor(local_floor_floor)"/>
+					<field name = "local_floor_floor_id" select = "1" on_change = "onchange_floor(local_floor_floor_id)"/>
 					<field name = "local_floor_front"/>
 					<field name = "local_floor_side"/>
 					<field name = "local_floor_area"/>
@@ -744,7 +744,7 @@
 			<field name = "arch" type = "xml">
 				<tree string = "Parking List">
 					<field name = "parking_floor_building"/>
-					<field name = "parking_floor"/>
+					<field name = "parking_floor_id"/>
 					<field name = "parking_number"/>
 					<field name = "parking_value"/>
 					<field name = "parking_area"/>
@@ -762,7 +762,7 @@
 					<group col = "4" colspan = "4">
 						<separator string = "General Information"/>
 						<field name = "parking_floor_building"/>
-						<field name = "parking_floor" on_change="onchange_floor(parking_floor)"/>
+						<field name = "parking_floor_id" on_change="onchange_floor(parking_floor_id)"/>
 						<field name = "parking_number"/>
 						<field name = "parking_value"/>
 						<field name = "parking_sqrmeter_price"/>
@@ -839,7 +839,7 @@
 					<group col = "4" colspan = "4">
 						<separator string = "Information" colspan = "4"/>
 						<field name = "name"/>
-						<field name = "rent_rent_client" select  = "1"/>
+						<field name = "rent_rent_client_id" select  = "1"/>
 						<field name = "rent_type" attrs = "{'readonly' : [('state','!=','draft')]}"/>
 						<field name = "state"/>
 						<field name = "rent_related_real"/>
@@ -890,16 +890,16 @@
 								<page string = "Detail">
 									<group col = "4" colspan = "4" attrs = "{'invisible':[('rent_related_real','=','')]}">
 										<separator string = "Real Estate Information" colspan = "4"/>
-											<field name = "rent_rent_local" domain = "[('local_rented','=','True')]" attrs = "{'readonly' : [('rent_related_real','!=','local')], 'required' : [('rent_related_real','=','local')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','local')]}"/>
-											<field name = "rent_rent_parking" domain = "[('parking_rented','=','True')]" attrs = "{'readonly' : [('rent_related_real','!=','parking')], 'required' : [('rent_related_real','=','parking')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','parking')]}"/>
-											<field name = "rent_rent_estate"  domain = "[('estate_rented','=','True')]" attrs = "{'readonly' : [('rent_related_real','!=','estate')], 'required' : [('rent_related_real','=','estate')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','estate')]}"/>
+											<field name = "rent_rent_local_id" domain = "[('local_rented','=','True')]" attrs = "{'readonly' : [('rent_related_real','!=','local')], 'required' : [('rent_related_real','=','local')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','local')]}"/>
+											<field name = "rent_rent_parking_id" domain = "[('parking_rented','=','True')]" attrs = "{'readonly' : [('rent_related_real','!=','parking')], 'required' : [('rent_related_real','=','parking')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','parking')]}"/>
+											<field name = "rent_rent_estate_id"  domain = "[('estate_rented','=','True')]" attrs = "{'readonly' : [('rent_related_real','!=','estate')], 'required' : [('rent_related_real','=','estate')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','estate')]}"/>
 									</group>
 								</page>
 								<page string = "Calculations">
-									<field name = "rent_estimates" nolabel="1"/>
+									<field name = "rent_estimates_ids" nolabel="1"/>
 								</page>
 								<page string = "Aumentos">
-									<field name = "rent_historic" nolabel="1"/>
+									<field name = "rent_historic_ids" nolabel="1"/>
 								</page>
 								<page string = "Facturas">
 									<field name = "rent_invoice_ids" nolabel="1"/>
@@ -946,7 +946,7 @@
 							</group>
 							<notebook>
 								<page string = "Calculations">
-									<field name = "rent_main_estimates" nolabel="1"  attrs = "{'readonly' : [('rent_main_inc','!=','True')]}"/>
+									<field name = "rent_main_estimates_ids" nolabel="1"  attrs = "{'readonly' : [('rent_main_inc','!=','True')]}"/>
 								</page>
 								<page string = "Aumentos">
 									<field name = "rent_main_historic_ids" nolabel="1"/>
@@ -1185,9 +1185,9 @@
 					<field name="product_id" position="replace"/>
 					<field name="uos_id" position="replace"/>
 					<field name="invoice_type" position="after">
-						<field name = "invoice_rent" on_change="rent_id_change(invoice_rent, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.address_invoice_id, parent.currency_id, {'company_id': parent.company_id})" attrs="{'invisible' : [('invoice_type','=','product')]}"/>
+						<field name = "invoice_rent_id" on_change="rent_id_change(invoice_rent_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.address_invoice_id, parent.currency_id, {'company_id': parent.company_id})" attrs="{'invisible' : [('invoice_type','=','product')]}"/>
 					</field>
-					<field name="invoice_rent" position="after">
+					<field name="invoice_rent_id" position="after">
 						<field name = "product_id" on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.address_invoice_id, parent.currency_id, {'company_id': parent.company_id})" attrs="{'invisible' : [('invoice_type','=','rent')]}"/>
 						<field name="uos_id"  on_change="uos_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.address_invoice_id, parent.currency_id, {'company_id': parent.company_id})" attrs="{'invisible' : [('invoice_type','=','rent')]}"/>
 					</field>
@@ -1245,11 +1245,11 @@
 					<group col = "4" colspan = "4">
 						<separator colspan = "4" string = "General Data"/>
 						<field name = "name"/>
-						<field name = "contract_rent" domain = "['|',('state','=','draft'), ('state','=','active'),('rent_type'.'!=','Adendum')]"/>
+						<field name = "contract_rent_id" domain = "['|',('state','=','draft'), ('state','=','active'),('rent_type'.'!=','Adendum')]"/>
 					</group>
 					<group col = "4" colspan = "4">
 						<separator colspan = "4" string = "General Data"/>
-						<field colspan = "4" name = "contract_clauses" nolabel = "1"/>
+						<field colspan = "4" name = "contract_clauses_ids" nolabel = "1"/>
 						<!--<field name = "contract_design"/>-->
 					</group>
 					<group col="4" colspan="4">
@@ -1276,7 +1276,7 @@
 			<field name = "arch" type = "xml">
 				<tree string = "Contract">
 						<field name = "name"/>
-						<field name = "contract_rent"/>
+						<field name = "contract_rent_id"/>
 				</tree>
 			</field>
 		</record>
