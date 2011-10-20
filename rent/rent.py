@@ -188,7 +188,7 @@ class rent_floor(osv.osv):
 		if vals['floor_area'] == 0:
 			raise osv.except_osv('Wrong value!', 'The area for the floor has to bee greater than 0')
 		if vals['floor_number']:
-				obj_build = search.pool.get('rent.building').browse(cr,uid,vals['floor_building_id'])
+				obj_build = self.pool.get('rent.building').browse(cr,uid,vals['floor_building_id'])
 				for obj_f in obj_build.building_floors_ids:
 					if obj_f.floor_number.upper() == vals['floor_number'].upper():
 						raise osv.except_osv('Wrong value!', 'The number for the floor at the same building cannot be repeated')
