@@ -711,7 +711,6 @@ class rent_rent(osv.osv):
 			debug(today)
 			debug(invoice_day)
 			if today.day == invoice_day:
-				if is_same_month and today.month == in
 				is_required = True
 				for obj_inv_reg in obj_rent.rent_invoice_ids:
 					debug("BUSCANDO FACTURAS EXISTENTES################")
