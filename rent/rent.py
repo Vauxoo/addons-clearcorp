@@ -675,6 +675,7 @@ class rent_rent(osv.osv):
 	def _invoice_required(self,cr,uid,ids):
 		res = {}
 		debug("CALCULANDO REQUERIDOS################")
+		debug(ids)
 		for obj_rent in self.browse(cr,uid,ids):
 			is_required = False
 			today = date.today()
