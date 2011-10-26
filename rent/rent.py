@@ -674,20 +674,20 @@ class rent_rent(osv.osv):
 	
 	def _invoice_required(self,cr,uid,ids):
 		res = {}
-	#	debug("CALCULANDO REQUERIDOS################")
+		debug("CALCULANDO REQUERIDOS################")
 		for obj_rent in self.browse(cr,uid,ids):
 			is_required = False
 			today = date.today()
 			invoice_day = calendar.mdays[today.month] - obj_rent.rent_invoiced_day + obj_rent.rent_charge_day
-	#		debug(today)
-	#		debug(invoice_day)
+			debug(today)
+			debug(invoice_day)
 			if today.day == invoice_day:
 				is_required = True
 				for obj_inv_reg in obj_rent.rent_invoice_ids:
-	#				debug("BUSCANDO FACTURAS EXISTENTES################")
+					debug("BUSCANDO FACTURAS EXISTENTES################")
 					inv_date = parser.parse(obj_inv_reg.invoice_date).date()
 					start_date = parser.parse(obj_rent.rent_start_date).date()
-	#				debug(inv_date)
+					debug(inv_date)
 					if inv_date.month == start_date.month and inv_date.year == start_date.year and len(obj_rent.rent_invoice_ids) <= 1:
 						is_required = True
 					elif inv_date.month == today.month and inv_date.year == today.year:
