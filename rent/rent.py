@@ -705,12 +705,13 @@ class rent_rent(osv.osv):
 			is_required = False
 			today = date.today()
 			if type == 'rent':
-				invoice_day = calendar.mdays[today.month] - obj_rent.rent_invoiced_day + obj_rent.rent_charge_day
+					invoice_day = (obj_rent.rent_invoiced_day <= obj_rent.rent_charge_day and obj_rent.rent_charge_day - obj_rent.rent_invoiced_day or calendar.mdays[today.month] - obj_rent.rent_charge_day + obj_rent.rent_invoiced_day + 1)
 			elif type == 'main':
-				invoice_day = calendar.mdays[today.month] - obj_rent.rent_main_invoiced_day + obj_rent.rent_main_charge_day
+					invoice_day = (obj_rent.rent_main_invoiced_day <= rent_main_charge_day and obj_rent.rent_main_charge_day - obj_rent.rent_main_invoiced_day or calendar.mdays[today.month] - obj_rent.rent_main_invoiced_day + obj_rent.rent_main_charge_day + 1)
 			debug(today)
 			debug(invoice_day)
 			if today.day == invoice_day:
+				if is_same_month and today.month == in
 				is_required = True
 				for obj_inv_reg in obj_rent.rent_invoice_ids:
 					debug("BUSCANDO FACTURAS EXISTENTES################")
