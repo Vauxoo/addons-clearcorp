@@ -707,7 +707,7 @@ class rent_rent(osv.osv):
 			if type == 'rent':
 					invoice_day = (obj_rent.rent_invoiced_day <= obj_rent.rent_charge_day and obj_rent.rent_charge_day - obj_rent.rent_invoiced_day or calendar.mdays[today.month] - obj_rent.rent_charge_day + obj_rent.rent_invoiced_day + 1)
 			elif type == 'main':
-					invoice_day = (obj_rent.rent_main_invoiced_day <= rent_main_charge_day and obj_rent.rent_main_charge_day - obj_rent.rent_main_invoiced_day or calendar.mdays[today.month] - obj_rent.rent_main_invoiced_day + obj_rent.rent_main_charge_day + 1)
+					invoice_day = (obj_rent.rent_main_invoiced_day <= obj_rent.rent_main_charge_day and obj_rent.rent_main_charge_day - obj_rent.rent_main_invoiced_day or calendar.mdays[today.month] - obj_rent.rent_main_invoiced_day + obj_rent.rent_main_charge_day + 1)
 			debug(today)
 			debug(invoice_day)
 			if today.day == invoice_day:
