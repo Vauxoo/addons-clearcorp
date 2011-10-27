@@ -174,7 +174,7 @@
 				<data>
 					<field name = "birthdate" position = "replace"/>
 					<field name = "first_name" position = "after">
-						<field name = "birthdate" attrs = "{'required': True}"/>
+						<field name = "birthdate" attrs = "{'required': 'True'}"/>
 					</field>
 				</data>
 			</field>
@@ -187,12 +187,6 @@
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
 			<field name = "view_id" ref = "client_contact_form_view"/>
-		</record>
-		
-		<record model = "ir.actions.act_window.view" id = "action_client_contact_form_view">
-			<field name = "view_mode">form</field>
-			<field name = "view_id" ref = "client_contact_form_view"/>
-			<field name="act_window_id" ref="action_client_contact_form_view"/>
 		</record>
 		<menuitem id = "rent_client_contact_submenu" name = "Contacts" parent = "rent_client_menu" action = "action_client_contact_form_view"/>
 		<!--
