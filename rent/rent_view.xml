@@ -158,7 +158,7 @@
                   web_icon_hover="data/rent-hover.png"/>
 		<menuitem id = "rent_client_menu" name = "Clients" parent = "rent_manager"/>
 		<menuitem id = "rent_client_submenu" name = "Client" parent = "rent_client_menu" action = "action_client_form_view"/>
-		
+		<menuitem id = "rent_client_contact_submenu" name = "Contacts" parent = "rent_client_menu" action = "action_client_contact_form_view"/>
 		
 		<!--
 		======================================
@@ -180,7 +180,20 @@
 			</field>
 		</record>
 		
+		<record model = "ir.actions.act_window" id = "action_client_contact_form_view">
+			<field name = "name">Contacts</field>
+			<field name = "res_model">res.partner.contact</field>
+			<field name = "type">ir.actions.act_window</field>
+			<field name = "view_type">form</field>
+			<field name = "view_mode">tree,form</field>
+			<field name = "view_id" ref = "client_contact_form_view"/>
+		</record>
 		
+		<record model = "ir.actions.act_window.view" id = "action_client_contact_form_view">
+			<field name = "view_mode">form</field>
+			<field name = "view_id" ref = "client_contact_form_view"/>
+			<field name="act_window_id" ref="action_client_contact_form_view"/>
+		</record>
 		
 		<!--
 		======================================
@@ -194,11 +207,13 @@
 			<field name = "arch" type = "xml">
 				<search string = "Search Estate">
 					<group>
+						<filter string = "Rented" icon = "terp-sale" domain = "[('estate_rented','=',True)]"/>
 						<filter string = "Not Rented" icon = "terp-sale" domain = "[('estate_rented','=',False)]"/>
 						<separator orientation="vertical"/>
 						<field name="estate_number"/>
 						<field name="estate_owner_id"/>
 					</group>
+					<newline/>
 					<group expand = "0" string = "Group By...">
 						<filter string = "Owners" icon = "terp-personal" domain = "[]" context="{'group_by' : 'estate_owner_id'}"/>
 					</group>
@@ -506,10 +521,9 @@
 			<field name = "arch" type = "xml">
 				<search string = "Search Floor">
 					<group>
-						<separator orientation="vertical"/>
-						<field name="complete_name"/>
 						<field name="floor_building_id"/>
 					</group>
+					<newline/>
 					<group expand = "0" string = "Group By...">
 						<filter string = "Edificio" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'floor_building_id'}"/>
 					</group>
@@ -881,6 +895,8 @@
 						<separator orientation="vertical"/>
 						<field name="name"/>
 						<field name="rent_related_real"/>
+						<field name="rent_start_date"/>
+						<field name="rent_end_date"/>
 					</group>
 					<group colspan="4" expand = "0" string = "Group By...">
 						<filter string = "Type" icon = "terp-stock_symbol-selection" domain = "[]" context="{'group_by' : 'rent_type'}"/>
