@@ -186,7 +186,6 @@
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
-			<field name = "view_id" ref = "client_contact_form_view"/>
 		</record>
 		<menuitem id = "rent_client_contact_submenu" name = "Contacts" parent = "rent_client_menu" action = "action_client_contact_form_view"/>
 		<!--
