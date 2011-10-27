@@ -197,7 +197,7 @@
 						<filter string = "Not Rented" icon = "terp-sale" domain = "[('estate_rented','=',False)]"/>
 						<separator orientation="vertical"/>
 						<field name="estate_number"/>
-						<field name="estate_owner"/>
+						<field name="estate_owner_id"/>
 					</group>
 					<group expand = "0" string = "Group By...">
 						<filter string = "Owners" icon = "terp-personal" domain = "[]" context="{'group_by' : 'estate_owner_id'}"/>
@@ -607,7 +607,7 @@
 						<filter string = "Not Rented" icon = "gtk-cancel" domain = "[('local_rented','=',False)]"/>
 						<separator orientation="vertical"/>
 						<field name="local_number"/>
-						<field name="local_floor_building"/>
+						<field name="local_building"/>
 					</group>
 				</search>
 			</field>
