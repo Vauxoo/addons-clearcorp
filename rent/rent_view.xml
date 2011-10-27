@@ -159,6 +159,29 @@
 		<menuitem id = "rent_client_menu" name = "Clients" parent = "rent_manager"/>
 		<menuitem id = "rent_client_submenu" name = "Client" parent = "rent_client_menu" action = "action_client_form_view"/>
 		
+		
+		<!--
+		======================================
+					CONTACTS
+		======================================
+		-->
+		<record model = "ir.ui.view" id = "client_contact_form_view">
+			<field name = "name">res.partner.contact.form</field>
+			<field name = "model">res.partner.contact</field>
+			<field name = "type">form</field>
+			<field name="inherit_id" ref="base_contact.view_partner_contact_form"/>
+			<field name="arch" type="xml">
+				<data>
+					<field name = "birthdate" position = "replace"/>
+					<field name = "first_name" position = "after">
+						<field name = "birthdate" attrs = "{'required': True}">
+					</field>
+				</data>
+			</field>
+		</record>
+		
+		
+		
 		<!--
 		======================================
 						ESTATES
@@ -170,8 +193,11 @@
 			<field name = "type">search</field>
 			<field name = "arch" type = "xml">
 				<search string = "Search Estate">
-					<group  colspan = "4" >
+					<group>
 						<filter string = "Not Rented" icon = "terp-sale" domain = "[('estate_rented','=',False)]"/>
+						<separator orientation="vertical"/>
+						<field name="estate_number"/>
+						<field name="estate_owner"/>
 					</group>
 					<group expand = "0" string = "Group By...">
 						<filter string = "Owners" icon = "terp-personal" domain = "[]" context="{'group_by' : 'estate_owner_id'}"/>
@@ -187,8 +213,8 @@
 				<form string = "estate Detail">
 					<group col = "4" colspan = "4">
 						<separator string = "General Information" col = "4" colspan = "4"/>
-						<field name = "estate_owner_id" select = "1"/>
-						<field name = "estate_number" select = "1"/>
+						<field name = "estate_owner_id"/>
+						<field name = "estate_number"/>
 						<field name = "estate_value" />
 						<field name = "estate_area"  />
 						<field name = "estate_vrn_per_sqr"/>
@@ -232,7 +258,8 @@
 			<field name = "view_mode">tree,form</field>
 			<field name = "view_id" ref="estate_tree_view"/>
 			<field name = "search_view_id" ref = "view_estate_filter"/>
-			<field name="help">Manage the estates that your company owns, to have them available in your system</field>
+			<field name="help">Manage the estates that your company owns, to have them available in your system, an estate is a portion of land commonly used for construction, in some cases it can have more than a single estructure, for example 
+			a building. Here yo can set the main data for the estate and also create the buildings that belongs to it.</field>
 		</record>
 		
 		<!--
@@ -256,6 +283,12 @@
 			<field name = "type">search</field>
 			<field name = "arch" type = "xml">
 				<search string = "Search Building">
+					<group>
+						<separator orientation="vertical"/>
+						<field name="name"/>
+						<field name="building_estate_id"/>
+						<field name="building_code"/>
+					</group>
 					<group expand = "0" string = "Group By...">
 						<filter string = "Estates" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'building_estate_id'}"/>
 					</group>
@@ -472,6 +505,11 @@
 			<field name = "type">search</field>
 			<field name = "arch" type = "xml">
 				<search string = "Search Floor">
+					<group>
+						<separator orientation="vertical"/>
+						<field name="complete_name"/>
+						<field name="floor_building_id"/>
+					</group>
 					<group expand = "0" string = "Group By...">
 						<filter string = "Edificio" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'floor_building_id'}"/>
 					</group>
@@ -565,8 +603,11 @@
 			<field name = "type">search</field>
 			<field name = "arch" type = "xml">
 				<search string = "Search Local">
-					<group  colspan = "4" >
+					<group>
 						<filter string = "Not Rented" icon = "gtk-cancel" domain = "[('local_rented','=',False)]"/>
+						<separator orientation="vertical"/>
+						<field name="local_number"/>
+						<field name="local_floor_building"/>
 					</group>
 				</search>
 			</field>
@@ -698,6 +739,21 @@
 					PARKING
 		======================================
 		-->
+		<record id = "view_parking_filter" model = "ir.ui.view">
+			<field name = "name">rent.floor.parking.select</field>
+			<field name = "model">rent.floor.parking</field>
+			<field name = "type">search</field>
+			<field name = "arch" type = "xml">
+				<search string = "Search Parking">
+					<group>
+						<filter string = "Not Rented" icon = "gtk-cancel" domain = "[('parking_rented','=',False)]"/>
+						<separator orientation="vertical"/>
+						<field name="parking_floor_id"/>
+						<field name="parking_number"/>
+					</group>
+				</search>
+			</field>
+		</record>
 		
 		<record model = "ir.ui.view" id = "parking_tree_view">
 			<field name = "name">rent.floor.parking.tree</field>
@@ -783,7 +839,8 @@
 			<field name="name">Parking</field>
 			<field name="type">ir.actions.act_window</field>
 			<field name="res_model">rent.floor.parking</field>
-			<field name="view_type">form</field>           
+			<field name="view_type">form</field>
+			<field name = "search_view_id" ref = "view_parking_filter"/> 
 			<field name="help">Manage every parking that belongs to a determined floor. This is the main view where you can create a parking record
 			but you can still do it from the floor form</field>
 		</record>
@@ -821,6 +878,9 @@
 						<filter string = "Draft" icon = "terp-document-new" domain = "[('state','=','draft')]"/>
 						<filter string = "Active" icon = "terp-camera_test" domain = "[('state','=','active')]" />
 						<filter string = "Finished" icon = "gtk-cancel" domain = "[('state','=','finished')]"/>
+						<separator orientation="vertical"/>
+						<field name="name"/>
+						<field name="rent_related_real"/>
 					</group>
 					<group colspan="4" expand = "0" string = "Group By...">
 						<filter string = "Type" icon = "terp-stock_symbol-selection" domain = "[]" context="{'group_by' : 'rent_type'}"/>
@@ -904,9 +964,9 @@
 								<page string = "Facturas">
 									<field name = "rent_invoice_ids" nolabel="1"/>
 								</page>
-								<page string = "Modifications">
+								<!--<page string = "Modifications">
 									<field name = "rent_modif" attrs="{'readonly' : [('rent_type','!=','Contract')]}" nolabel="1"/>
-								</page>
+								</page>-->
 							</notebook>
 						</page>
 						

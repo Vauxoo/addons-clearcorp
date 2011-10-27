@@ -97,15 +97,15 @@ class rent_estate(osv.osv):
 		debug(res)
 		return res
 	_columns = {
-		'estate_owner_id'    : fields.many2one('res.company','Owner',required=True),
-		'estate_number'   : fields.char('# estate', size=10,required=True),
-		'estate_value'    : fields.float('VRN Dynamic',required=True),
-		'estate_area'     : fields.float('Area', required=True),
-		'estate_vrn_per_sqr' : fields.function(_get_estate_vrm,type='float',method=True,string='VRN Din/M2'),#fields.float('VRN Din/M2',store=False, readonly=True),
+		'estate_owner_id'     : fields.many2one('res.company','Owner',required=True),
+		'estate_number'       : fields.char('# estate', size=10,required=True),
+		'estate_value'        : fields.float('VRN Dynamic',required=True),
+		'estate_area'         : fields.float('Area', required=True),
+		'estate_vrn_per_sqr'  : fields.function(_get_estate_vrm,type='float',method=True,string='VRN Din/M2'),#fields.float('VRN Din/M2',store=False, readonly=True),
 		'estate_buildings_ids': fields.one2many('rent.building','building_estate_id','Buildings'),
-		'estate_location_id' : fields.many2one('res.partner.address','Location'),
-		'estate_account_id'  : fields.many2one('account.account', 'Cuenta'),
-		'estate_rented'    : fields.function(_determine_rented,type='boolean',method=True,string='Rented',help='Checked if the local is rented'),
+		'estate_location_id'  : fields.many2one('res.partner.address','Location'),
+		'estate_account_id'   : fields.many2one('account.account', 'Cuenta'),
+		'estate_rented'       : fields.function(_determine_rented,type='boolean',method=True,string='Rented',help='Checked if the local is rented', store=True),
 	}
 	_sql_constraints = [
 		('estate_area_gt_zero', 'CHECK (estate_area!=0)', 'The area for the estate cannot be 0!'),
@@ -142,8 +142,8 @@ class rent_building(osv.osv):
 		return res
 		
 	_columns = {
-		'building_capacity'          : fields.integer('Capacity',required=True),
-		'building_date_construction' : fields.date('Construction Date', required=True),
+		'building_capacity'          : fields.integer('Capacity'),
+		'building_date_construction' : fields.date('Construction Date'),
 		'building_elevator'          : fields.boolean('Elevadores',help='Select if the building has at least one elevator'),
 		'building_elevators_number'  : fields.integer('Elvetators number',readonly=True,help='If checkbox of elevators is no selected this will be 0'),
 		'building_stairs'            : fields.boolean('Stairs',help='Select if the building has at least one elevator'),
@@ -157,7 +157,7 @@ class rent_building(osv.osv):
 		'building_floors_ids'        : fields.one2many('rent.floor','floor_building_id','Floors'),
 		'building_vrn_per_sqr'       : fields.function(_get_building_vrm,type='float',method=True,string='VRN Din/M2'),
 		'building_code'              : fields.char('Code', size=4, required=True),
-		'building_asset_id'             : fields.many2one('account.asset.asset','Asset'),
+		'building_asset_id'          : fields.many2one('account.asset.asset','Asset'),
 	}
 	_sql_constraints = [
 		('building_area_gt_zero', 'CHECK (building_area!=0)', 'The area for the building cannot be 0!'),
