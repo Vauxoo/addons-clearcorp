@@ -180,12 +180,27 @@
 			</field>
 		</record>
 		
+		<record model = "ir.ui.view" id = "client_contact_tree_view">
+			<field name = "name">res.partner.contact.tree2</field>
+			<field name = "model">res.partner.contact</field>
+			<field name = "type">tree</field>
+			<field name="inherit_id" ref="base_contact.view_partner_contact_tree"/>
+			<field name="arch" type="xml">
+				<data>
+					<field name = "function" position = "after">
+						<field name = "birthdate"/>
+					</field>
+				</data>
+			</field>
+		</record>
+		
 		<record model = "ir.actions.act_window" id = "action_client_contact_form_view">
 			<field name = "name">Contacts</field>
 			<field name = "res_model">res.partner.contact</field>
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
+			<field name = "view_id" ref = "client_contact_tree_view"/>
 		</record>
 		<menuitem id = "rent_client_contact_submenu" name = "Contacts" parent = "rent_client_menu" action = "action_client_contact_form_view"/>
 		<!--
