@@ -174,7 +174,7 @@
 				<data>
 					<field name = "birthdate" position = "replace"/>
 					<field name = "first_name" position = "after">
-						<field name = "birthdate" attrs = "{'required': True}">
+						<field name = "birthdate" attrs = "{'required': True}"/>
 					</field>
 				</data>
 			</field>
