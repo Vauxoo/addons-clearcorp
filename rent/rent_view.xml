@@ -216,7 +216,7 @@
 				<search string = "Search Estate">
 					<group>
 						<filter string = "Rented" icon = "terp-sale" domain = "[('estate_rented','=',True)]"/>
-						<filter string = "Not Rented" icon = "terp-sale" domain = "[('estate_rented','=',False)]"/>
+						<filter string = "Not Rented" icon = "gtk-cancel" domain = "[('estate_rented','=',False)]"/>
 						<separator orientation="vertical"/>
 						<field name="estate_number"/>
 						<field name="estate_owner_id"/>
@@ -280,7 +280,7 @@
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
 			<field name = "view_id" ref="estate_tree_view"/>
-			<field name="domain">[("estate_owner_id", "=", user.company_id.id)]</field>
+			<field name="domain">[('estate_owner_id', '=', [user.company_id.id])]</field>
 			<field name = "search_view_id" ref = "view_estate_filter"/>
 			<field name="help">Manage the estates that your company owns, to have them available in your system, an estate is a portion of land commonly used for construction, in some cases it can have more than a single estructure, for example 
 			a building. Here yo can set the main data for the estate and also create the buildings that belongs to it.</field>
@@ -495,7 +495,7 @@
 			<field name="type">ir.actions.act_window</field>
 			<field name="res_model">rent.building</field>
 			<field name="view_type">form</field>
-			<field name="domain">[("building_estate_id.estate_owner_id", "=", user.company_id.id)]</field>
+			<field name="domain">[('building_estate_id.estate_owner_id', '=', [user.company_id.id])]</field>
 			<field name="help">Manage every parking that belongs to a determined estate. This is the main view where you can create a building record
 			but you can still do it from the estate form</field>
 		</record>
@@ -533,7 +533,6 @@
 					<group>
 						<field name="floor_building_id"/>
 					</group>
-					<newline/>
 					<group expand = "0" string = "Group By...">
 						<filter string = "Edificio" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'floor_building_id'}"/>
 					</group>
@@ -593,7 +592,7 @@
 			<field name="res_model">rent.floor</field>
 			<field name="view_type">form</field>
 			<field name = "search_view_id" ref = "view_floor_filter"/>
-			<field name="domain">[("floor_building_id.building_estate_id.estate_owner_id", "=", user.company_id.id)]</field>
+			<field name="domain">[('floor_building_id.building_estate_id.estate_owner_id', '=', [user.company_id.id])]</field>
 			<field name="help">Manage every floor that belongs to a determined Building. This is the main view where you can create a floor record
 			but you can still do it from the building form</field>
 		</record>
@@ -629,6 +628,7 @@
 			<field name = "arch" type = "xml">
 				<search string = "Search Local">
 					<group>
+						<filter string = "Rented" icon = "terp-sale" domain = "[('local_rented','=',True)]"/>
 						<filter string = "Not Rented" icon = "gtk-cancel" domain = "[('local_rented','=',False)]"/>
 						<separator orientation="vertical"/>
 						<field name="local_number"/>
@@ -865,6 +865,7 @@
 			<field name="type">ir.actions.act_window</field>
 			<field name="res_model">rent.floor.parking</field>
 			<field name="view_type">form</field>
+			<field name="domain">[('parking_floor_id.floor_building_id.building_estate_id.estate_owner_id', '=', [user.company_id.id])]</field>
 			<field name = "search_view_id" ref = "view_parking_filter"/> 
 			<field name="help">Manage every parking that belongs to a determined floor. This is the main view where you can create a parking record
 			but you can still do it from the floor form</field>
