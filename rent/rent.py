@@ -705,16 +705,18 @@ class rent_rent(osv.osv):
 			today = date.today()
 			if type == 'rent':
 					invoice_day = (obj_rent.rent_invoiced_day <= obj_rent.rent_charge_day and obj_rent.rent_charge_day - obj_rent.rent_invoiced_day or calendar.mdays[today.month] - obj_rent.rent_invoiced_day +  obj_rent.rent_charge_day + 1)
+					inv_rent_list = obj_rent.rent_invoice_ids
 			elif type == 'main':
 					invoice_day = (obj_rent.rent_main_invoiced_day <= obj_rent.rent_main_charge_day and obj_rent.rent_main_charge_day - obj_rent.rent_main_invoiced_day or calendar.mdays[today.month] - obj_rent.rent_main_invoiced_day + obj_rent.rent_main_charge_day + 1)
+					inv_rent_list = obj_rent.rent_main_invoice_ids
 			debug(today)
 			debug(invoice_day)
 			if today.day == invoice_day:
 				is_required = True
 				debug(obj_rent)
 				debug("BUSCANDO FACTURAS EXISTENTES################")
-				for obj_inv_reg in obj_rent.rent_invoice_ids:
-					debug(obj_rent.rent_invoice_ids)
+				for obj_inv_reg in inv_rent_list:
+					debug(obj_rent)
 					inv_date = parser.parse(obj_inv_reg.invoice_date).date()
 					if type == 'rent':
 						start_date = parser.parse(obj_rent.rent_start_date).date()
@@ -724,10 +726,9 @@ class rent_rent(osv.osv):
 					debug(start_date)
 					debug(type)
 					debug(len(self.pool.get('rent.invoice.rent').search(cr,uid,[('invoice_rent_id','=',obj_rent.id),('invoice_type','=',type)])))
-					if inv_date.month == start_date.month and inv_date.year == start_date.year and len(self.pool.get('rent.invoice.rent').search(cr,uid,[('invoice_rent_id','=',obj_rent.id),('invoice_type','=',type)])) <= 1:
+					if inv_date.month == start_date.month and inv_date.year == start_date.year and len(inv_rent_list) <= 1:
 						debug("SOLO TIENE 1 FACTURA")
 						is_required = True
-						break
 					elif inv_date.month == today.month and inv_date.year == today.year:
 						debug("Tiene TIENE mas de una FACTURA")
 						is_required = False
