@@ -712,8 +712,8 @@ class rent_rent(osv.osv):
 			if today.day == invoice_day:
 				is_required = True
 				debug(obj_rent)
+				debug("BUSCANDO FACTURAS EXISTENTES################")
 				for obj_inv_reg in obj_rent.rent_invoice_ids:
-					debug("BUSCANDO FACTURAS EXISTENTES################")
 					inv_date = parser.parse(obj_inv_reg.invoice_date).date()
 					if type == 'rent':
 						start_date = parser.parse(obj_rent.rent_start_date).date()
@@ -722,11 +722,13 @@ class rent_rent(osv.osv):
 					debug(inv_date)
 					debug(start_date)
 					if inv_date.month == start_date.month and inv_date.year == start_date.year and len(self.pool.get('rent.invoice.rent').search(cr,uid,[('invoice_rent_id','=',obj_rent.id),('invoice_type','=',type)])) <= 1:
+						debug("SOLO TIENE 1 FACTURA")
 						is_required = True
 					elif inv_date.month == today.month and inv_date.year == today.year:
 						is_required = False
 						break
 			res[obj_rent.id] = is_required
+			debug(res)
 		return res
 	
 	def register_rent_invoice(self,cr,uid,ids,args):
