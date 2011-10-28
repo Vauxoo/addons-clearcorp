@@ -721,7 +721,7 @@ class rent_rent(osv.osv):
 						start_date = parser.parse(obj_rent.rent_main_start_date).date()
 					debug(inv_date)
 					debug(start_date)
-					if inv_date.month == start_date.month and inv_date.year == start_date.year and len(self.pool.get('rent.invoice.rent').search(cr,uid,[('invoice_rent','=',obj_rent.id),('invoice_type','=',type)])) <= 1:
+					if inv_date.month == start_date.month and inv_date.year == start_date.year and len(self.pool.get('rent.invoice.rent').search(cr,uid,[('invoice_rent_id','=',obj_rent.id),('invoice_type','=',type)])) <= 1:
 						is_required = True
 					elif inv_date.month == today.month and inv_date.year == today.year:
 						is_required = False
