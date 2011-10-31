@@ -98,7 +98,7 @@ class rent_estate(osv.osv):
 		return res
 	_columns = {
 		'estate_owner_id'     : fields.many2one('res.company','Owner',required=True),
-		'estate_number'       : fields.char('# estate', size=10,required=True),
+		'estate_number'       : fields.char('# estate', size=20,required=True),
 		'estate_value'        : fields.float('VRN Dynamic',required=True),
 		'estate_area'         : fields.float('Area', required=True),
 		'estate_vrn_per_sqr'  : fields.function(_get_estate_vrm,type='float',method=True,string='VRN Din/M2'),#fields.float('VRN Din/M2',store=False, readonly=True),
@@ -333,7 +333,8 @@ class rent_floor_local(osv.osv):
 		'local_building'           : fields.function(_get_building_local,type='many2one',obj='rent.building',method=True,string='Building'),
 		'local_gallery_photo'      : fields.char('Photo Gallery', size=64),
 		'local_photo'              : fields.binary('Main photo'),
-		'local_rise_historic_ids'   : fields.one2many('rent.rent.anual.value','anual_value_local_ids','Historic', readonly=True),
+		'local_rise_historic_ids'  : fields.one2many('rent.rent.anual.value','anual_value_local_ids','Historic', readonly=True),
+		'local_notes'              : fields.text('Notes'),
 	}
 	_sql_constraints = [
 		('local_huella_gt_zero', 'CHECK (local_huella!=0)', 'The area for the floor cannot be 0!'),

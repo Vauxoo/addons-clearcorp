@@ -674,6 +674,9 @@
 						<page string = "Price historic">
 							<field name = "local_rise_historic_ids" nolabel="1"/>
 						</page>
+						<page string = "Notes">
+							<field name = "local_notes" nolabel="1"/>
+						</page>
 					</notebook>
 				</form>
 			</field>
