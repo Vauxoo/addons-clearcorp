@@ -324,7 +324,7 @@ class rent_floor_local(osv.osv):
 	
 	_columns = {
 		'local_area'               : fields.function(_local_area,type='float',method=True,string='VRN Dynamic'),
-		'local_number'             : fields.char('# Local',required=True, size=20),
+		'local_number'             : fields.char('# Local',required=True, size=30),
 		'local_huella'             : fields.float('Huella',required=True),
 		'local_water_meter_number' : fields.char('Water Meter',size=64), 
 		'local_light_meter_number' : fields.char('Electric Meter', size=64),
