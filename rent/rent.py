@@ -301,17 +301,6 @@ class rent_floor_local(osv.osv):
 			res[local.id] = total
 			total = 0
 		return res
-
-	def name_get(self, cr, uid, ids, context=None):
-		if not len(ids):
-			return []
-		reads = self.read(cr, uid, ids, ['local_number','local_building'], context=context)
-		res = []
-		for record in reads:
-			if record['local_number'] and record['local_building'] and record['local_building'][1]:
-				name = 'Local #' + str(record['local_number']) + ' , ' +  record['local_building'][1]
-				res.append((record['id'], name))
-		return res
 	
 	#This method takes the area of every record of local_by_floor and calculates the total area
 	def _local_area(self,cr,uid,ids,field_name,args,context):
