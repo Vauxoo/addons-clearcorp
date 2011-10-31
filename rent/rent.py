@@ -158,6 +158,7 @@ class rent_building(osv.osv):
 		'building_vrn_per_sqr'       : fields.function(_get_building_vrm,type='float',method=True,string='VRN Din/M2'),
 		'building_code'              : fields.char('Code', size=4, required=True),
 		'building_asset_id'          : fields.many2one('account.asset.asset','Asset'),
+		'building_company_id'        : fields.many2one('res.company','Owner',required=True)
 	}
 	_sql_constraints = [
 		('building_area_gt_zero', 'CHECK (building_area!=0)', 'The area for the building cannot be 0!'),
