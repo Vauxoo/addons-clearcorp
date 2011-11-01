@@ -905,7 +905,10 @@ class rent_rent(osv.osv):
 			'desc'   : desc,
 		}
 		return res
-	
+	def day_invoice_check(self,cr,uid):
+		#MAIN CRONJOB TO BE RUNNED EVERY DAY AN CREATE INVOICES
+		self.cron_rent_invoice(cr,uid,[])
+		return True
 	def cron_rent_invoice(self,cr,uid,ids,context):
 		#gets the list of all active rents
 		rent_ids = self.search(cr,uid,[('state','=','active')])
@@ -1072,7 +1075,7 @@ class rent_rent(osv.osv):
 		'rent_estimates_ids'    : fields.one2many('rent.rent.estimate', 'estimate_rent_id','Estimates',states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),         
 		'rent_historic_ids'     : fields.one2many('rent.rent.anual.value', 'anual_value_rent_id','Historic',readonly=True, domain=[('anual_value_type', '=', 'rent')]),
 		'rent_charge_day'       : fields.integer('Charge Day', required=True,help='Indica el dia del mes para realizar los cobros del alquiler.'),
-		'rent_invoice_ids'      : fields.one2many('rent.invoice.rent','invoice_rent_id','Rent Invoices', domain=[('invoice_type', '=', 'rent')]),
+		'rent_invoice_ids'      : fields.one2many('rent.invoice.rent','invoice_rent_id','Rent Invoices', domain=[('invoice_type', '=', 'rent')],readonly=True),
 		'rent_invoiced_day'     : fields.integer('Invoiced Day', required=True,help='Indicates de how many days before of the charge day will create the invoice'),
 		'rent_grace_period'     : fields.integer('Grace Period', required=True,help='Indicates de how many days after the charge day will allow to paid an invoice without Interest for delay'),
 		
@@ -1107,7 +1110,7 @@ class rent_rent(osv.osv):
 		'rent_main_rise_year3d'      : fields.function(_rent_main_amount_years, type='float',method = True,string='Year 3  $', multi='Years_main'),
 		'rent_main_show_us_eq'       : fields.boolean('Check USD Currency Equivalent',store=False),
 		'rent_main_estimates_ids'    : fields.one2many('rent.rent.main.estimate', 'estimate_maintenance_id','Estimates',states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_main_invoice_ids'      : fields.one2many('rent.invoice.rent','invoice_rent_id','Rent Invoices', domain=[('invoice_type', '=', 'main')]),
+		'rent_main_invoice_ids'      : fields.one2many('rent.invoice.rent','invoice_rent_id','Rent Invoices', domain=[('invoice_type', '=', 'main')],readonly=True),
 		'rent_main_total'            : fields.float('Total Paid'),
 		#'rent_main_total_us'         : fields.float('Total Paid $'),
 		'rent_main_historic_ids'     : fields.one2many('rent.rent.anual.value', 'anual_value_rent_id','Historic',readonly=True, domain=[('anual_value_type', '=', 'main')]),      
