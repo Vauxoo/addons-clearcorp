@@ -1100,7 +1100,7 @@ class rent_rent(osv.osv):
 		'rent_main_inc'              : fields.boolean('Include Maintenance Rent'),
 		
 		#'rent_main_rise'             : fields.char('Anual Rise',size=64, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_main_rise'             : fields.float('Anual Rise', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_main_rise'             : fields.float('Anual Rise', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_main_amount_base'      : fields.float('Final Price $', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_main_performance'      : fields.function(_rent_main_performance, type='char',method = True,string='Performance'),
 		'rent_main_amountd_base'     : fields.function(_rent_main_amount_years, type='float',method = True,string='Final Price $', multi='Years_main'),
