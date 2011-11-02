@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<document filename="test.pdf">
+	<template pageSize="(612.0,792.0)" title="Test" author="Martin Simon" allowSplitting="20">
+		<pageTemplate id="first">
+			<frame id="first" x1="57.0" y1="57.0" width="498" height="678"/>
+		</pageTemplate>
+	</template>
+	<stylesheet>
+		<blockTableStyle id="Standard_Outline">
+			<blockAlignment value="LEFT"/>
+			<blockValign value="TOP"/>
+		</blockTableStyle>
+		<initialize>
+			<paraStyle name="all" alignment="justify"/>
+		</initialize>
+		<paraStyle name="P1" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" alignment="JUSTIFY"/>
+		<paraStyle name="P2" rightIndent="0.0" leftIndent="1.0" fontName="Helvetica" alignment="JUSTIFY"/>
+		<paraStyle name="P3" rightIndent="0.0" leftIndent="1.0" fontName="Helvetica" alignment="JUSTIFY"/>
+		<paraStyle name="P4" rightIndent="0.0" leftIndent="0.0" fontName="Helvetica" alignment="JUSTIFY"/>
+		<paraStyle name="P5" rightIndent="0.0" leftIndent="1.0" fontName="Helvetica" alignment="JUSTIFY"/>
+		<paraStyle name="P6" rightIndent="0.0" leftIndent="1.0" fontName="Helvetica" alignment="JUSTIFY"/>
+		<paraStyle name="P7" rightIndent="0.0" leftIndent="1.0" fontName="Helvetica" alignment="JUSTIFY"/>
+		<paraStyle name="P8" fontName="Helvetica" fontSize="14.0" leading="17" alignment="CENTER" spaceBefore="12.0" spaceAfter="6.0"/>
+		<paraStyle name="P9" fontName="Helvetica" alignment="CENTER" spaceBefore="0.0" spaceAfter="6.0"/>
+		<paraStyle name="P10" fontName="Helvetica-Bold" fontSize="115%" leading="NaN" alignment="CENTER" spaceBefore="12.0" spaceAfter="6.0"/>
+		<paraStyle name="Standard" fontName="Helvetica"/>
+		<paraStyle name="Heading" fontName="Helvetica" fontSize="14.0" leading="17" spaceBefore="12.0" spaceAfter="6.0"/>
+		<paraStyle name="Text body" fontName="Helvetica" spaceBefore="0.0" spaceAfter="6.0"/>
+		<paraStyle name="List" fontName="Helvetica" spaceBefore="0.0" spaceAfter="6.0"/>
+		<paraStyle name="Caption" fontName="Helvetica" fontSize="12.0" leading="15" spaceBefore="6.0" spaceAfter="6.0"/>
+		<paraStyle name="Index" fontName="Helvetica"/>
+		<paraStyle name="Heading 1" fontName="Helvetica-Bold" fontSize="115%" leading="NaN" spaceBefore="12.0" spaceAfter="6.0"/>
+		<images/>
+	</stylesheet>
+	<story>
+		<para style="Standard">[[ repeatIn(objects,'o') ]]</para>
+		<para style="Standard">[[ time.strftime(time.ctime()[0:10]) ]]<font color="white"> .........</font><font color="white"> .........</font><font color="white"> .........</font><font color="white"> .........</font><font color="white"> .........</font>[[ time.ctime().split()[3] ]]</para>
+		<para style="P10">[[ o.name]]</para>
+		<para style="P8">
+			<font face="Helvetica" size="13.0">[[user.company_id.name]] - [[ o.contract_rent.rent_rent_client.name]]</font>
+		</para>
+		<para style="P9">
+			<font face="Helvetica" size="13.0"/>
+		</para>
+		<section>
+			<para style="P1">[[ repeatIn(o.contract_clauses,'l') ]]</para>
+			<para style="P3" leftIndent="15" bulletIndent="0"><bullet><seq id="L2"/></bullet><font face="Helvetica">[[ l.rent_contract_clause_id.clause_subject]] :</font> [[ l.rent_contract_clause_id.clause_body]]</para>
+			<para style="P2">
+			  <font color="white"> </font>
+			</para>
+			<para style="P5">
+			  <font color="white"> </font>
+			</para>
+			<para style="P7">
+			  <font color="white"> </font>
+			</para>
+			<para style="P6">
+				<font face="Helvetica" size="13.0">Por</font>
+				<font face="Helvetica" size="13.0"> la </font>
+				<font face="Helvetica-Bold" size="13.0">ARRENDADORA</font>
+				<font face="Helvetica" size="13.0">Por el </font>
+				<font face="Helvetica-Bold" size="13.0">INQUILINO</font>
+				</para>
+				<para style="P4">____________________________<font color="white"> .........</font><font color="white"> .........</font><font color="white"> .........</font>____________________________</para>
+				<para style="P4">
+					<font color="white"> </font>
+				</para>
+				<para style="P4">
+					<font color="white"> </font>
+				</para>
+				<para>
+					<seqReset id="L2"/>
+				</para>
+		</section>
+	</story>
+</document>
+
