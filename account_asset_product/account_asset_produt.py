@@ -9,20 +9,6 @@ import calendar
 from tools.translate import _
 
 
-class ccorp_addons_account_assets(osv.osv):
-	_name = 'account.asset.asset'
-	_inherit = 'account.asset.asset'
-	_columns = {
-		'product_id': fields.many2one('product.product', 'Product'), #, domain=[('type', '<>', 'service')]
-		'location_id': fields.dummy(string='Stock Location', relation='stock.location', type='many2one'),
-		'prod_lot_id': fields.many2one('stock.production.lot', 'Production Lot', domain="[('product_id','=',product_id)]"),
-	}
-	_defaults = { 
-		'code': lambda obj, cr, uid, context: obj.pool.get('ir.sequence').get_id_search(cr, uid, 'account.asset.code')
-	}
-ccorp_addons_account_assets()
-
-
 class ccorp_addons_ir_sequence(osv.osv):
 	_name = 'ir.sequence'
 	_inherit = 'ir.sequence'
@@ -47,5 +33,23 @@ class ccorp_addons_ir_sequence(osv.osv):
 		return False
 
 ccorp_addons_account_assets()
+
+
+
+class ccorp_addons_account_assets(osv.osv):
+	_name = 'account.asset.asset'
+	_inherit = 'account.asset.asset'
+	_columns = {
+		'product_id': fields.many2one('product.product', 'Product'), #, domain=[('type', '<>', 'service')]
+		'location_id': fields.dummy(string='Stock Location', relation='stock.location', type='many2one'),
+		'prod_lot_id': fields.many2one('stock.production.lot', 'Production Lot', domain="[('product_id','=',product_id)]"),
+	}
+	_defaults = { 
+		'code': lambda obj, cr, uid, context: obj.pool.get('ir.sequence').get_id_search(cr, uid, 'account.asset.code')
+	}
+ccorp_addons_account_assets()
+
+
+
 
 
