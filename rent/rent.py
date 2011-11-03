@@ -616,8 +616,6 @@ class rent_rent(osv.osv):
 		obj_rent = self.browse(cr,uid,rent_id)
 		return obj_rent.id
 	
-	def view_init(cr,uid,fields_list,context=None):
-	
 	def write(self, cr, uid, ids, vals, context=None):
 		obj_rent = self.pool.get('rent.rent').browse(cr,uid,ids)[0]
 		if 'rent_related_real' in vals:			
