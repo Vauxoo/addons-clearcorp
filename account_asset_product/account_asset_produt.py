@@ -31,6 +31,10 @@ class ccorp_addons_ir_sequence(osv.osv):
 			else:
 				return self._process(res['prefix']) + self._process(res['suffix'])
 		return False
+
+	def get_search(self, cr, uid, code):
+		return self.get_id_search(cr, uid, code, test='code')
+
 ccorp_addons_ir_sequence()
 
 
@@ -44,7 +48,7 @@ class ccorp_addons_account_assets(osv.osv):
 		'prod_lot_id': fields.many2one('stock.production.lot', 'Production Lot', domain="[('product_id','=',product_id)]"),
 	}
 	_defaults = { 
-		'code': lambda obj, cr, uid, context: obj.pool.get('ir.sequence').get_id_search(cr, uid, 'account.asset.code')
+		'code': lambda obj, cr, uid, context: obj.pool.get('ir.sequence').get_search(cr, uid, 'account.asset.code')
 	}
 ccorp_addons_account_assets()
 
