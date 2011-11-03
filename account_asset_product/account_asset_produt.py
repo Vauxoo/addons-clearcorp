@@ -17,7 +17,7 @@ class ccorp_addons_account_assets(osv.osv):
 		'location_id': fields.dummy(string='Stock Location', relation='stock.location', type='many2one'),
 		'prod_lot_id': fields.many2one('stock.production.lot', 'Production Lot', domain="[('product_id','=',product_id)]"),
 	}
-	 _defaults = { 
+	_defaults = { 
 		'code': lambda obj, cr, uid, context: obj.pool.get('ir.sequence').get_id_search(cr, uid, 'account.asset.code')
 	}
 ccorp_addons_account_assets()
@@ -44,7 +44,7 @@ class ccorp_addons_ir_sequence(osv.osv):
 				return self._process(res['prefix']) + '%%0%sd' % res['padding'] % res['number_next'] + self._process(res['suffix'])
 			else:
 				return self._process(res['prefix']) + self._process(res['suffix'])
-		return False
+	return False
 
 ccorp_addons_account_assets()
 
