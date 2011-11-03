@@ -1016,7 +1016,7 @@
 										'rent_related_real'   : rent_related_real,
 										'currency_id'         : currency_id,
 										'eqv_currency_id'     : eqv_currency_id,
-										'rent_charge_day'     : rent_charge_day
+										'rent_charge_day'     : rent_charge_day,
 										'rent_invoiced_day'   : rent_invoiced_day,
 										'rent_grace_period'   : rent_grace_period,
 										'rent_rent_account_id': rent_rent_account_id,
