@@ -1091,7 +1091,7 @@ class rent_rent(osv.osv):
 	
 	def onchange_calculate_exchange(self,cr,uid,ids,field):
 		res = {}
-		
+		debug('ONCHANGE')
 		for obj_rent in self.browse(cr,uid,ids):
 			res['rent_performance'] = self._rent_performance(cr,uid,ids,'rent_performance',None)[0]
 			res_years = self._rent_amount_years(cr,uid,ids,{'rent_rise_year2','rent_rise_year3','rent_amount_base','rent_rise_year2d','rent_rise_year3d','rent_amountd_base'},None)
