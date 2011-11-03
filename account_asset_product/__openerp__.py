@@ -4,7 +4,7 @@
 	"version"     : "1.0",
 	"depends"     : ["base","account_asset"],
 	"init_xml"    : [],
-	"update_xml"  : [],
+	"update_xml"  : ["account_asset_produt_sequence.xml",],
 	"category"    : "Account Asset",
 	"active"      : False,
 	"instalable"  : True,
