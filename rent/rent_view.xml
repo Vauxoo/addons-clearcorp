@@ -1002,7 +1002,6 @@
 								</page>
 								<page string = "Modifications" attrs = "{'invisible': [('rent_type','!=','Contract')]}">
 									<field name = "rent_modif" attrs="{'readonly' : [('rent_type','!=','Contract')]}" 
-									widget = "one2many_list"
 									default_get = "{
 										'name'                : name,
 										'rent_rent_client_id' : rent_rent_client_id,
