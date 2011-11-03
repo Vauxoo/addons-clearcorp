@@ -48,8 +48,10 @@ class ccorp_addons_account_assets(osv.osv):
 		'prod_lot_id': fields.many2one('stock.production.lot', 'Production Lot', domain="[('product_id','=',product_id)]"),
 	}
 	_defaults = { 
-		'code': debug(lambda self, cr, uid, context: self.pool.get('ir.sequence').get_search(cr, uid, 'account.asset.asset'))
+		'code': lambda self, cr, uid, context: self.pool.get('ir.sequence').get_search(cr, uid, 'account.asset.asset')
 	}
+	
+	
 ccorp_addons_account_assets()
 
 
