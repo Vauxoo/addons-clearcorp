@@ -1007,6 +1007,7 @@
 										'rent_rent_client_id' : rent_rent_client_id,
 										'rent_end_date'       : rent_end_date,
 										'rent_rise'           : rent_rise,
+										'rent_type'           : 'Adendum',
 										'rent_amount_base'    : rent_amount_base,
 										'rent_start_date'     : rent_start_date,
 										'rent_rent_local_id'  : rent_rent_local_id,
