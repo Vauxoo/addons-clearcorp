@@ -615,7 +615,7 @@ class rent_rent(osv.osv):
 		obj_rent = self.browse(cr,uid,rent_id)
 		return obj_rent.id
 	
-	def default_get(cr,uid,fields_list,context=None):
+	def default_get(self,cr,uid,fields_list,context=None):
 		debug ('DEFAULT_GET')
 		debug (fields_list)
 		res = {
