@@ -615,11 +615,7 @@ class rent_rent(osv.osv):
 		obj_rent = self.browse(cr,uid,rent_id)
 		return obj_rent.id
 	
-	def default_get(self,cr,uid,fields_list,context=None):
-		debug ('DEFAULT_GET')
-		debug (fields_list)
-		debug (context)
-		
+	def default_get(self,cr,uid,fields_list,context=None):		
 		res = {}
 		
 		if context:
@@ -631,6 +627,7 @@ class rent_rent(osv.osv):
 					'rent_rise'           : context['rent_rise'],
 					'rent_amount_base'    : context['rent_amount_base'],
 					'rent_type'           : 'Adendum',
+					'state'               : 'draft',
 					'rent_start_date'     : context['rent_start_date'],
 					'rent_rent_local_id'  : context['rent_rent_local_id'],
 					'rent_rent_parking_id': context['rent_rent_parking_id'],

@@ -994,10 +994,10 @@
 								<page string = "Calculations">
 									<field name = "rent_estimates_ids" nolabel="1"/>
 								</page>
-								<page string = "Aumentos">
+								<page string = "Aumentos" attrs = "{'invisible': [('rent_type','!=','Contract')]}">
 									<field name = "rent_historic_ids" nolabel="1"/>
 								</page>
-								<page string = "Facturas">
+								<page string = "Facturas" attrs = "{'invisible': [('rent_type','!=','Contract')]}">
 									<field name = "rent_invoice_ids" nolabel="1"/>
 								</page>
 								<page string = "Modifications" attrs = "{'invisible': [('rent_type','!=','Contract')]}">
@@ -1016,6 +1016,7 @@
 										'rent_related_real'   : rent_related_real,
 										'currency_id'         : currency_id,
 										'eqv_currency_id'     : eqv_currency_id,
+										'rent_charge_day'     : rent_charge_day
 										'rent_invoiced_day'   : rent_invoiced_day,
 										'rent_grace_period'   : rent_grace_period,
 										'rent_rent_account_id': rent_rent_account_id,
@@ -1076,7 +1077,7 @@
 					</notebook>
 					<group col = "6" colspan = "4">
 						<button colspan="2" name = "cron_rent_invoice" string="Check for Invoices" type="object" icon="terp-stock_format-scientific"/>
-						<button colspan="2" name="rent_finish" states="active" string="Finish" icon="gtk-cancel"/>
+						<button colspan="2" name="rent_finish" states="active" string="Finish" icon="gtk-cancel" attrs = "{'invisible': [('rent_type','!=','Contract')]}"/>
 						<button colspan="2" name="rent_active" states="draft" string="Approve" icon="terp-camera_test"/>
 					</group>
 				</form>
