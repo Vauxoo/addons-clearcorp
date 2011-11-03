@@ -617,7 +617,7 @@ class rent_rent(osv.osv):
 	
 	def default_get(self,cr,uid,fields_list,context=None):		
 		res = {}
-		
+		debug(context)
 		if context:
 			if context['rent_type'] and context['rent_type'] == 'Adendum':
 				res ={
