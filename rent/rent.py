@@ -618,6 +618,7 @@ class rent_rent(osv.osv):
 	def default_get(self,cr,uid,fields_list,context=None):
 		debug ('DEFAULT_GET')
 		debug (fields_list)
+		debug (context)
 		res = {
 				'name'                : name,
 				'rent_rent_client_id' : rent_rent_client_id,
