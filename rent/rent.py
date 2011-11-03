@@ -600,6 +600,12 @@ class rent_rent(osv.osv):
 	def copy (cr, uid, id, default=None, context=None):
 		default.update({
 			'rent_modif' : [],
+			'rent_estimates_ids' : [],
+			'rent_historic_ids' : [],
+			'rent_invoice_ids' : [],
+			'rent_main_estimates_ids' : [],
+			'rent_historic_ids' : [],
+			'rent_main_invoice_ids' : [],
 			'state'      : 'draft',
 		})
 		return super(rent_rent, self).copy(cr, uid, id, default=default, context=context)
@@ -609,7 +615,9 @@ class rent_rent(osv.osv):
 		rent_id = super(rent_rent,self).create(cr,uid,vals,context)
 		obj_rent = self.browse(cr,uid,rent_id)
 		return obj_rent.id
-			
+	
+	def view_init(cr,uid,fields_list,context=None):
+	
 	def write(self, cr, uid, ids, vals, context=None):
 		obj_rent = self.pool.get('rent.rent').browse(cr,uid,ids)[0]
 		if 'rent_related_real' in vals:			
@@ -1130,7 +1138,7 @@ class rent_rent(osv.osv):
 	_columns = {
 		'name'                  : fields.char('Name',size=64),
 		'rent_rent_client_id'   : fields.many2one('res.partner','Client', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_end_date'         : fields.date('Ending Date', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_end_date'         : fields.date('Ending Date', required=True, states={'active':[('readonly',False)], 'finished':[('readonly',True)]}),
 		'rent_ending_motif'     : fields.selection([('early','Early Return'),('expiration','Contract Expiration'),('eviction','No payment eviction'), ('others','Various problems with tenant')],'Ending Motif'),
 		'rent_ending_motif_desc': fields.text('Ending Motif Description'),
 		
