@@ -615,32 +615,33 @@ class rent_rent(osv.osv):
 		obj_rent = self.browse(cr,uid,rent_id)
 		return obj_rent.id
 	
-	def default_get(self,cr,uid,fields_list,context=None):		
+	def default_get(self,cr,uid,fields_list,context=None):
 		res = {}
 		debug(context)
 		if context:
-			if context['rent_type'] and context['rent_type'] == 'Adendum':
+			type = context.get('rent_type')
+			if type == 'Adendum':
 				res ={
-					'name'                : context['name'],
-					'rent_rent_client_id' : context['rent_rent_client_id'],
-					'rent_end_date'       : context['rent_end_date'],
-					'rent_rise'           : context['rent_rise'],
-					'rent_amount_base'    : context['rent_amount_base'],
+					'name'                : context.get('name'),
+					'rent_rent_client_id' : context.get('rent_rent_client_id'),
+					'rent_end_date'       : context.get('rent_end_date'),
+					'rent_rise'           : context.get('rent_rise'),
+					'rent_amount_base'    : context.get('rent_amount_base'),
 					'rent_type'           : 'Adendum',
 					'state'               : 'draft',
-					'rent_start_date'     : context['rent_start_date'],
-					'rent_rent_local_id'  : context['rent_rent_local_id'],
-					'rent_rent_parking_id': context['rent_rent_parking_id'],
-					'rent_rent_estate_id' : context['rent_rent_estate_id'],
-					'rent_related_real'   : context['rent_related_real'],
-					'currency_id'         : context['currency_id'],
-					'eqv_currency_id'     : context['eqv_currency_id'],
-					'rent_invoiced_day'   : context['rent_invoiced_day'],
-					'rent_charge_day'     : context['rent_charge_day'],
-					'rent_grace_period'   : context['rent_grace_period'],
-					'rent_rent_account_id': context['rent_rent_account_id'],
-					'rent_rent_acc_int_id': context['rent_rent_acc_int_id'],
-					'rent_main_inc'       : context['rent_main_inc'],
+					'rent_start_date'     : context.get('rent_start_date'),
+					'rent_rent_local_id'  : context.get('rent_rent_local_id'),
+					'rent_rent_parking_id': context.get('rent_rent_parking_id'),
+					'rent_rent_estate_id' : context.get('rent_rent_estate_id'),
+					'rent_related_real'   : context.get('rent_related_real'),
+					'currency_id'         : context.get('currency_id'),
+					'eqv_currency_id'     : context.get('eqv_currency_id'),
+					'rent_invoiced_day'   : context.get('rent_invoiced_day'),
+					'rent_charge_day'     : context.get('rent_charge_day'),
+					'rent_grace_period'   : context.get('rent_grace_period'),
+					'rent_rent_account_id': context.get('rent_rent_account_id'),
+					'rent_rent_acc_int_id': context.get('rent_rent_acc_int_id'),
+					'rent_main_inc'       : context.get('rent_main_inc'),
 				}
 		return res
 		
