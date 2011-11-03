@@ -615,7 +615,30 @@ class rent_rent(osv.osv):
 		obj_rent = self.browse(cr,uid,rent_id)
 		return obj_rent.id
 	
-	
+	def default_get(cr,uid,fields_list,context=None):
+		debug ('DEFAULT_GET')
+		debug (fields_list)
+		res = {
+				'name'                : name,
+				'rent_rent_client_id' : rent_rent_client_id,
+				'rent_end_date'       : rent_end_date,
+				'rent_rise'           : rent_rise,
+				'rent_amount_base'    : rent_amount_base,
+				'rent_type'           : 'Adendum',
+				'rent_start_date'     : rent_start_date,
+				'rent_rent_local_id'  : rent_rent_local_id,
+				'rent_rent_parking_id': rent_rent_parking_id,
+				'rent_rent_estate_id' : rent_rent_estate_id,
+				'rent_related_real'   : rent_related_real,
+				'currency_id'         : currency_id,
+				'eqv_currency_id'     : eqv_currency_id,
+				'rent_invoiced_day'   : rent_invoiced_day,
+				'rent_grace_period'   :rent_grace_period,
+				'rent_rent_account_id': rent_rent_account_id,
+				'rent_rent_acc_int_id': rent_rent_acc_int_id,
+				'rent_main_inc'       : rent_main_inc,
+				}
+		return {}
 		
 	def write(self, cr, uid, ids, vals, context=None):
 		obj_rent = self.pool.get('rent.rent').browse(cr,uid,ids)[0]
