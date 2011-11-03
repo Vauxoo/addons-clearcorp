@@ -44,7 +44,7 @@ class ccorp_addons_ir_sequence(osv.osv):
 				return self._process(res['prefix']) + '%%0%sd' % res['padding'] % res['number_next'] + self._process(res['suffix'])
 			else:
 				return self._process(res['prefix']) + self._process(res['suffix'])
-	return False
+		return False
 
 ccorp_addons_account_assets()
 
