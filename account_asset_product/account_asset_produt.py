@@ -31,8 +31,7 @@ class ccorp_addons_ir_sequence(osv.osv):
 			else:
 				return self._process(res['prefix']) + self._process(res['suffix'])
 		return False
-
-ccorp_addons_account_assets()
+ccorp_addons_ir_sequence()
 
 
 
