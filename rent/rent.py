@@ -619,27 +619,32 @@ class rent_rent(osv.osv):
 		debug ('DEFAULT_GET')
 		debug (fields_list)
 		debug (context)
-		res = {
-				'name'                : name,
-				'rent_rent_client_id' : rent_rent_client_id,
-				'rent_end_date'       : rent_end_date,
-				'rent_rise'           : rent_rise,
-				'rent_amount_base'    : rent_amount_base,
-				'rent_type'           : 'Adendum',
-				'rent_start_date'     : rent_start_date,
-				'rent_rent_local_id'  : rent_rent_local_id,
-				'rent_rent_parking_id': rent_rent_parking_id,
-				'rent_rent_estate_id' : rent_rent_estate_id,
-				'rent_related_real'   : rent_related_real,
-				'currency_id'         : currency_id,
-				'eqv_currency_id'     : eqv_currency_id,
-				'rent_invoiced_day'   : rent_invoiced_day,
-				'rent_grace_period'   :rent_grace_period,
-				'rent_rent_account_id': rent_rent_account_id,
-				'rent_rent_acc_int_id': rent_rent_acc_int_id,
-				'rent_main_inc'       : rent_main_inc,
+		
+		res = {}
+		
+		if context:
+			if context['rent_type'] and context['rent_type'] == 'Adendum':
+				res ={
+					'name'                : context['name'],
+					'rent_rent_client_id' : context['rent_rent_client_id'],
+					'rent_end_date'       : context['rent_end_date'],
+					'rent_rise'           : context['rent_rise'],
+					'rent_amount_base'    : context['rent_amount_base'],
+					'rent_type'           : 'Adendum',
+					'rent_start_date'     : context['rent_start_date'],
+					'rent_rent_local_id'  : context['rent_rent_local_id'],
+					'rent_rent_parking_id': context['rent_rent_parking_id'],
+					'rent_rent_estate_id' : context['rent_rent_estate_id'],
+					'rent_related_real'   : context['rent_related_real'],
+					'currency_id'         : context['currency_id'],
+					'eqv_currency_id'     : context['eqv_currency_id'],
+					'rent_invoiced_day'   : context['rent_invoiced_day'],
+					'rent_grace_period'   : context['rent_grace_period'],
+					'rent_rent_account_id': context['rent_rent_account_id'],
+					'rent_rent_acc_int_id': context['rent_rent_acc_int_id'],
+					'rent_main_inc'       : context['rent_main_inc'],
 				}
-		return {}
+		return res
 		
 	def write(self, cr, uid, ids, vals, context=None):
 		obj_rent = self.pool.get('rent.rent').browse(cr,uid,ids)[0]
