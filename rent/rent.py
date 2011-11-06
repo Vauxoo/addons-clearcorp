@@ -793,9 +793,9 @@ class rent_rent(osv.osv):
 			res_data['account_id'] = obj_rent.rent_rent_account_id.id
 		elif type == 'main':
 			res_data['account_id'] = obj_rent.rent_rent_main_account_id.id
-		if obj_company.currency_id.id != obj_rent.currency_id.id:
-			new_price = res_data['price_unit'] * obj_rent.currency_id.rate
-			res_data['price_unit'] = new_price
+		#if obj_company.currency_id.id != obj_rent.currency_id.id:
+		#	new_price = res_data['price_unit'] * obj_rent.currency_id.rate
+		#	res_data['price_unit'] = new_price
 
 		return (0, False, {
 			'name': args['desc'],
