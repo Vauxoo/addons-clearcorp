@@ -1099,10 +1099,16 @@ class rent_rent(osv.osv):
 						'rent_type'          : 'Adendum',
 						'rent_modif_ref'     : rent_id,
 						'rent_estimates_ids' : [],
+						'rent_modif'         : [],
+						'rent_historic_ids'  : [],
+						'rent_invoice_ids'   : [],
+						'state'              : 'active'
 					})
 					vals.update({
-						'rent_modif_ref' : False,
-						'rent_type'      : 'Contract',
+						'rent_modif_ref'     : False,
+						'rent_type'          : 'Contract',
+						'state'              : 'active',
+						'rent_estimates_ids' : False,
 					})
 					debug(org_rent)
 					debug(vals)
