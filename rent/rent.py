@@ -671,7 +671,7 @@ class rent_rent(osv.osv):
 				#	'rent_rent_account_id': context.get('rent_rent_account_id'),
 				#	'rent_rent_acc_int_id': context.get('rent_rent_acc_int_id'),
 				#	'rent_main_inc'       : context.get('rent_main_inc'),
-				}
+				#}
 			else:
 				res = {
 					'state'        : 'draft',
