@@ -780,10 +780,11 @@ class rent_rent(osv.osv):
 		
 	def _rent_performance(self,cr,uid,ids,field_name,args,context):
 		res = {}
-		if 'onchange_amount' in args:
-			amount = args.get('onchange_amount')
-			total = args.get('onchange_total')
-			res[0] = "%.2f%%" % ((amount * 12) /  (amount== 0.00 and 1 or total) * 100)
+		if args:
+			if 'onchange_amount' in args:
+				amount = args.get('onchange_amount')
+				total = args.get('onchange_total')
+				res[0] = "%.2f%%" % ((amount * 12) /  (amount== 0.00 and 1 or total) * 100)
 		else:
 			for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
 				res[obj_rent.id] = "%.2f%%" % ((obj_rent.rent_amount_base * 12) /  (obj_rent.rent_total== 0.00 and 1 or obj_rent.rent_total) * 100)
