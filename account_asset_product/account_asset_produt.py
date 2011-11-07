@@ -55,7 +55,7 @@ class ccorp_addons_account_assets(osv.osv):
 		debug(sentCode)
 		if sentCode == (self.pool.get('ir.sequence').get_search(cr, uid, 'account.asset.asset')):
 			codep=self.pool.get('ir.sequence').get(cr, uid, 'account.asset.asset')
-		return super(account_asset_asset, self).create(cr, uid, vals, context=None)
+		return super(ccorp_addons_account_assets, self).create(cr, uid, vals, context=None)
 	
 ccorp_addons_account_assets()
 
