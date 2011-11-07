@@ -51,6 +51,13 @@ class ccorp_addons_account_assets(osv.osv):
 		'product_id': fields.many2one('product.product', 'Product'), #, domain=[('type', '<>', 'service')]
 		'location_id': fields.dummy(string='Stock Location', relation='stock.location', type='many2one'),
 		'prod_lot_id': fields.many2one('stock.production.lot', 'Production Lot', domain="[('product_id','=',product_id)]"),
+		 'code':
+				fields.property(
+					type='char',
+					string='Asset code',
+					method=True,
+					view_load=True,
+					help=' DX'),
 	}
 	_defaults = { 
 		'code': lambda self, cr, uid, context: self.pool.get('ir.sequence').get_search(cr, uid, 'account.asset.asset'),
