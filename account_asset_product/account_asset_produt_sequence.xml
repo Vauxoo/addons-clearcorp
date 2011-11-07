@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data noupdate="1">
+    <data>
         <record id="seq_type_asset_product" model="ir.sequence.type">
             <field name="name">account.asset.asset</field>
             <field name="code">account.asset.asset</field>
