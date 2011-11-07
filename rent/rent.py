@@ -1089,6 +1089,10 @@ class rent_rent(osv.osv):
 		self.first_rent(cr,uid,res_first_main_inv,'main')
 		return {}
 	
+	def calculate_negotiation(self,cr,uid,ids,context=None):
+		res = {}
+		return { 'value' : res}
+	
 	def onchange_calculate_exchange(self,cr,uid,ids,field):
 		res = {}
 		debug('ONCHANGE')
