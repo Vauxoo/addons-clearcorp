@@ -937,7 +937,7 @@
 						<field name = "rent_rent_client_id" select  = "1"/>
 						<field name = "rent_type" attrs = "{'readonly' : [('state','!=','draft')]}"/>
 						<field name = "state"/>
-						<field name = "rent_related_real"/>
+						<field name = "rent_related_real" />
 						<field name = "rent_main_inc"/>
 					</group>
 					<notebook>
@@ -950,7 +950,7 @@
 								<field name = "rent_invoiced_day"/>
 								<field name = "rent_grace_period"/>
 								<field name = "rent_years"/>
-								<field name = "rent_start_date"/>
+								<field name = "rent_start_date" attrs = "{'readonly' : [('rent_type','!=','Contract')]}"/>
 								<field name = "rent_end_date"/>
 							</group>
 							<group col = "4" colspan = "2">
@@ -986,9 +986,9 @@
 								<page string = "Detail">
 									<group col = "4" colspan = "4" attrs = "{'invisible':[('rent_related_real','=','')]}">
 										<separator string = "Real Estate Information" colspan = "4"/>
-											<field name = "rent_rent_local_id" attrs = "{'readonly' : [('rent_related_real','!=','local')], 'required' : [('rent_related_real','=','local')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','local')]}"/>
-											<field name = "rent_rent_parking_id" attrs = "{'readonly' : [('rent_related_real','!=','parking')], 'required' : [('rent_related_real','=','parking')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','parking')]}"/>
-											<field name = "rent_rent_estate_id"  attrs = "{'readonly' : [('rent_related_real','!=','estate')], 'required' : [('rent_related_real','=','estate')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','estate')]}"/>
+											<field name = "rent_rent_local_id" attrs = "{'readonly' : [('rent_related_real','!=','local'), ('state','=','draft')], 'required' : [('rent_related_real','=','local')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','local')]}"/>
+											<field name = "rent_rent_parking_id" attrs = "{'readonly' : [('rent_related_real','!=','parking'), ('state','=','draft')], 'required' : [('rent_related_real','=','parking')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','parking')]}"/>
+											<field name = "rent_rent_estate_id"  attrs = "{'readonly' : [('rent_related_real','!=','estate'), ('state','=','draft')], 'required' : [('rent_related_real','=','estate')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','estate')]}"/>
 									</group>
 								</page>
 								<page string = "Calculations">

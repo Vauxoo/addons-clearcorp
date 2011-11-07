@@ -1250,7 +1250,7 @@ class rent_rent(osv.osv):
 		return res
 	
 	_columns = {
-		'name'                  : fields.char('Name',size=64),
+		'name'                  : fields.char('Name',size=64,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rent_client_id'   : fields.many2one('res.partner','Client', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_end_date'         : fields.date('Ending Date', required=True, states={'active':[('readonly',False)], 'finished':[('readonly',True)]}),
 		'rent_ending_motif'     : fields.selection([('early','Early Return'),('expiration','Contract Expiration'),('eviction','No payment eviction'), ('others','Various problems with tenant')],'Ending Motif'),
@@ -1271,7 +1271,7 @@ class rent_rent(osv.osv):
 		'rent_show_us_eq'       : fields.boolean('Check USD Currency Equivalent',store=False),
 		'rent_total_us'         : fields.function(_get_total_rent,type='float',method=True,string='Total Paid',multi='total'),
 		
-		'rent_type'             : fields.selection([('Contract','Contract'),('Adendum','Adendum'),('Renovation','Renovation')],'Type', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_type'             : fields.selection([('Contract','Contract'),('Adendum','Adendum'),('Renovation','Renovation')],'Type', readonly=True),
 		'state'                 : fields.selection([('active','Active'),('finished','Inactive'),('draft','Draft')],'Status', readonly=True),
 		'rent_start_date'       : fields.date('Starting Date', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_total'            : fields.function(_get_total_rent,type='float',method=True,string='Total Paid',multi='total'),
@@ -1282,7 +1282,7 @@ class rent_rent(osv.osv):
 		'rent_years'            : fields.function(_calculate_years,type='integer',method=True,string = 'Years' ,help='Check if you want to calculate a rent for locals'),
 		'rent_modif'            : fields.one2many('rent.rent', 'rent_modif_ref','Contract reference', states={'draft':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_modif_ref'        : fields.many2one('rent.rent', 'Modifications',ondelete='cascade'),
-		'currency_id'           : fields.many2one('res.currency', 'Currency', required=True),
+		'currency_id'           : fields.many2one('res.currency', 'Currency', required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'eqv_currency_id'       : fields.many2one('res.currency', 'Currency Equivalence', required=True),
 		'rent_estimates_ids'    : fields.one2many('rent.rent.estimate', 'estimate_rent_id','Estimates',states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),         
 		'rent_historic_ids'     : fields.one2many('rent.rent.anual.value', 'anual_value_rent_id','Historic',readonly=True, domain=[('anual_value_type', '=', 'rent')]),
