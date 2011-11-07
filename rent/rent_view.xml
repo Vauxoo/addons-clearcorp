@@ -950,7 +950,7 @@
 								<field name = "rent_invoiced_day"/>
 								<field name = "rent_grace_period"/>
 								<field name = "rent_years"/>
-								<field name = "rent_start_date" attrs = "{'readonly' : ['|'('state','!=','draft'),('rent_type','!=','Contract')]}"/>
+								<field name = "rent_start_date" attrs = "{'readonly' : ['|',('state','!=','draft'),('rent_type','!=','Contract')]}"/>
 								<field name = "rent_end_date"/>
 							</group>
 							<group col = "4" colspan = "2">
