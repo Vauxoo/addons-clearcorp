@@ -955,7 +955,7 @@
 							</group>
 							<group col = "4" colspan = "2">
 								<separator string = "Negotiation Information" colspan = "4"/>
-								<field name = "rent_amount_base" on_change = "onchange_calculate_exchange(rent_amount_base)"/>
+								<field name = "rent_amount_base"/>
 								<field name = "rent_total"/>
 								<field name = "rent_rise_year2"/>
 								<field name = "rent_performance"/>
@@ -1003,25 +1003,7 @@
 								<page string = "Modifications" attrs = "{'invisible': [('rent_type','!=','Contract')]}">
 									<field name = "rent_modif" attrs="{'readonly' : [('rent_type','!=','Contract')]}" 
 									default_get = "{
-										'name'                : name,
-										'rent_rent_client_id' : rent_rent_client_id,
-										'rent_end_date'       : rent_end_date,
-										'rent_rise'           : rent_rise,
 										'rent_type'           : 'Adendum',
-										'rent_amount_base'    : rent_amount_base,
-										'rent_start_date'     : rent_start_date,
-										'rent_rent_local_id'  : rent_rent_local_id,
-										'rent_rent_parking_id': rent_rent_parking_id,
-										'rent_rent_estate_id' : rent_rent_estate_id,
-										'rent_related_real'   : rent_related_real,
-										'currency_id'         : currency_id,
-										'eqv_currency_id'     : eqv_currency_id,
-										'rent_charge_day'     : rent_charge_day,
-										'rent_invoiced_day'   : rent_invoiced_day,
-										'rent_grace_period'   : rent_grace_period,
-										'rent_rent_account_id': rent_rent_account_id,
-										'rent_rent_acc_int_id': rent_rent_acc_int_id,
-										'rent_main_inc'       : rent_main_inc,
 									}"
 									nolabel="1"
 									context="{'tree_view_ref' : 'rent.rent_adendum_tree_view'}"/>

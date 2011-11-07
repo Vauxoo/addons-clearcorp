@@ -635,27 +635,42 @@ class rent_rent(osv.osv):
 		if context:
 			type = context.get('rent_type')
 			if type == 'Adendum':
-				res ={
-					'name'                : context.get('name'),
-					'rent_rent_client_id' : context.get('rent_rent_client_id'),
-					'rent_end_date'       : context.get('rent_end_date'),
-					'rent_rise'           : context.get('rent_rise'),
-					'rent_amount_base'    : context.get('rent_amount_base'),
-					'rent_type'           : 'Adendum',
-					'state'               : 'draft',
-					'rent_start_date'     : context.get('rent_start_date'),
-					'rent_rent_local_id'  : context.get('rent_rent_local_id'),
-					'rent_rent_parking_id': context.get('rent_rent_parking_id'),
-					'rent_rent_estate_id' : context.get('rent_rent_estate_id'),
-					'rent_related_real'   : context.get('rent_related_real'),
-					'currency_id'         : context.get('currency_id'),
-					'eqv_currency_id'     : context.get('eqv_currency_id'),
-					'rent_invoiced_day'   : context.get('rent_invoiced_day'),
-					'rent_charge_day'     : context.get('rent_charge_day'),
-					'rent_grace_period'   : context.get('rent_grace_period'),
-					'rent_rent_account_id': context.get('rent_rent_account_id'),
-					'rent_rent_acc_int_id': context.get('rent_rent_acc_int_id'),
-					'rent_main_inc'       : context.get('rent_main_inc'),
+				rent_id = context.get('active_id')
+				if rent_id:
+					res = self.copy_data(cr,uid,rent_id)
+					res.update({
+						'rent_type'             : type,
+						'rent_estimates_ids'    : [],
+						'rent_modif'            : [],
+						'rent_historic_ids'     : [],
+						'rent_invoice_ids'      : [],
+						'state'                 : 'draft',
+						'rent_main_estimates_ids'    : [],
+						'rent_main_invoice_ids'      : [],
+						'rent_main_historic_ids'     : [],
+						
+					})
+				#res ={
+				#	'name'                : context.get('name'),
+				#	'rent_rent_client_id' : context.get('rent_rent_client_id'),
+				#	'rent_end_date'       : context.get('rent_end_date'),
+				#	'rent_rise'           : context.get('rent_rise'),
+				#	'rent_amount_base'    : context.get('rent_amount_base'),
+				#	'rent_type'           : 'Adendum',
+				#	'state'               : 'draft',
+				#	'rent_start_date'     : context.get('rent_start_date'),
+				#	'rent_rent_local_id'  : context.get('rent_rent_local_id'),
+				#	'rent_rent_parking_id': context.get('rent_rent_parking_id'),
+				#	'rent_rent_estate_id' : context.get('rent_rent_estate_id'),
+				#	'rent_related_real'   : context.get('rent_related_real'),
+				#	'currency_id'         : context.get('currency_id'),
+				#	'eqv_currency_id'     : context.get('eqv_currency_id'),
+				#	'rent_invoiced_day'   : context.get('rent_invoiced_day'),
+				#	'rent_charge_day'     : context.get('rent_charge_day'),
+				#	'rent_grace_period'   : context.get('rent_grace_period'),
+				#	'rent_rent_account_id': context.get('rent_rent_account_id'),
+				#	'rent_rent_acc_int_id': context.get('rent_rent_acc_int_id'),
+				#	'rent_main_inc'       : context.get('rent_main_inc'),
 				}
 			else:
 				res = {
