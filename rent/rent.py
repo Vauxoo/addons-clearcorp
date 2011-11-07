@@ -620,6 +620,10 @@ class rent_rent(osv.osv):
 					'rent_type'      : 'Adendum',
 					'rent_modif_ref' : rent_id,
 				})
+				vals.update({
+					'rent_modif_ref' : False,
+					'rent_type'      : 'Contract',
+				})
 				debug(org_rent)
 				debug(vals)
 				self.write(cr,uid,[rent_id],vals)
