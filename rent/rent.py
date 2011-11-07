@@ -611,11 +611,23 @@ class rent_rent(osv.osv):
 		return super(rent_rent, self).copy(cr, uid, id, default=default, context=context)
 		
 	def create(self,cr,uid, vals,context=None):
-		rent_id = super(rent_rent,self).create(cr,uid,vals,context)
-		debug(vals)
-		debug(context)
-		obj_rent = self.browse(cr,uid,rent_id)
-		return obj_rent.id
+		org_rent = vals
+		if vals:
+			if vals.get('rent_type') == 'Adendum':
+				rent_id = vals.get('rent_modif_ref')
+				org_rent = self.copy_data(cr,uid,rent_id)
+				org_rent.update({
+					'rent_type'      : 'Adendum',
+					'rent_modif_ref' : rent_id,
+				})
+				debug(org_rent)
+				debug(vals)
+				self.write(cr,uid,rent_id,vals)
+		return super(rent_rent,self).create(cr,uid,org_rent,context)
+		
+		#	rent_id = super(rent_rent,self).create(cr,uid,vals,context)
+		#obj_rent = self.browse(cr,uid,rent_id)
+		#return obj_rent.id
 	
 	def default_get(self,cr,uid,fields_list,context=None):
 		res = {}
