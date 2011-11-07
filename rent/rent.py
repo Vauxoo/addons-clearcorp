@@ -780,8 +780,13 @@ class rent_rent(osv.osv):
 		
 	def _rent_performance(self,cr,uid,ids,field_name,args,context):
 		res = {}
-		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
-			res[obj_rent.id] = "%.2f%%" % ((obj_rent.rent_amount_base * 12) /  (obj_rent.rent_total== 0.00 and 1 or obj_rent.rent_total) * 100)
+		if 'onchange_amount' in args:
+			amount = args.get('onchange_amount')
+			total = args.get('onchange_total')
+			res[0] = "%.2f%%" % ((amount * 12) /  (amount== 0.00 and 1 or total) * 100)
+		else:
+			for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
+				res[obj_rent.id] = "%.2f%%" % ((obj_rent.rent_amount_base * 12) /  (obj_rent.rent_total== 0.00 and 1 or obj_rent.rent_total) * 100)
 		return res
 		
 	def _rent_amount_years(self,cr,uid,ids,field_name,args,contexto):
@@ -1159,12 +1164,16 @@ class rent_rent(osv.osv):
 		res = {}
 		debug('ONCHANGE')
 		debug(ids)
-		for obj_rent in self.browse(cr,uid,ids):
+		#for obj_rent in self.browse(cr,uid,ids):
+		if field:
+			res_total = self._get_total_rent(cr,uid,ids,{'rent_total','rent_total_us'},None,None)
 			res['rent_performance'] = self._rent_performance(cr,uid,ids,'rent_performance',None,None)[0]
+			
+			res['rent_total'] = res_total[0]['rent_total']
+			res['rent_total_us'] = res_total[0]['rent_total_us']
+			
 			res_years = self._rent_amount_years(cr,uid,ids,{'rent_rise_year2','rent_rise_year3','rent_amount_base','rent_rise_year2d','rent_rise_year3d','rent_amountd_base'},None)
 			res_sqr = self._performance_per_sqr(cr,uid,ids,{'rent_performance','rent_amountd_per_sqr'},None,None)
-			res_total = self._get_total_rent(cr,uid,ids,{'rent_total','rent_total_us'},None,None)
-			
 			res['rent_rise_year2'] = res_years[0]['rent_rise_year2']
 			res['rent_rise_year3'] = res_years[0]['rent_rise_year3']
 			res['rent_amount_base'] = res_years[0]['rent_amount_base']
@@ -1175,8 +1184,6 @@ class rent_rent(osv.osv):
 			res['rent_performance'] = res_sqr[0]['rent_performance']
 			res['rent_amountd_per_sqr'] = res_sqr[0]['rent_amountd_per_sqr']
 			
-			res['rent_total'] = res_total[0]['rent_total']
-			res['rent_total_us'] = res_total[0]['rent_total_us']
 			
 		#for obj_rent in self.browse(cr,uid,ids):
 		#	current_currency = obj_rent.currency_id
