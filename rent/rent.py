@@ -1186,7 +1186,7 @@ class rent_rent(osv.osv):
 			res['rent_total'] = res_total[0]['rent_total']
 			res['rent_total_us'] = res_total[0]['rent_total_us']
 			
-			res['rent_performance'] = self._rent_performance(cr,uid,ids,'rent_performance',{'onchange_amount':field,'onchange_total' res['rent_total']},None)[0]
+			res['rent_performance'] = self._rent_performance(cr,uid,ids,'rent_performance',{'onchange_amount':field,'onchange_total' : res['rent_total']},None)[0]
 			
 			
 			res_years = self._rent_amount_years(cr,uid,ids,{'rent_rise_year2','rent_rise_year3','rent_amount_base','rent_rise_year2d','rent_rise_year3d','rent_amountd_base'},None)
