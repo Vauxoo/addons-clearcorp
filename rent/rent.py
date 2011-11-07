@@ -638,12 +638,12 @@ class rent_rent(osv.osv):
 				rent_id = context.get('active_id')
 				if rent_id:
 					res = self.copy_data(cr,uid,rent_id)
-					res['rent_rent_account_id'] = context.get('rent_rent_account_id'),
-					res['rent_rent_acc_int_id']  = context.get('rent_rent_acc_int_id'),
+					res['rent_rent_account_id'] = context.get('rent_rent_account_id')
+					res['rent_rent_acc_int_id']  = context.get('rent_rent_acc_int_id')
 					if context.get('rent_main_inc'):
 						obj_rent = self.browse(cr,uid,rent_id)
-						res['rent_rent_main_account_id']  = context.get('rent_rent_main_account_id'),
-						res['rent_rent_main_acc_int_id']  = context.get('rent_rent_main_acc_int_id'),
+						res['rent_rent_main_account_id']  = context.get('rent_rent_main_account_id')
+						res['rent_rent_main_acc_int_id']  = context.get('rent_rent_main_acc_int_id')
 					res.update({
 						'rent_type'             : type,
 						'rent_estimates_ids'    : [],
