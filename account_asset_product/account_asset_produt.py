@@ -49,10 +49,19 @@ class ccorp_addons_account_assets(osv.osv):
 	}
 	_defaults = { 
 		'code': lambda self, cr, uid, context: self.pool.get('ir.sequence').get_search(cr, uid, 'account.asset.asset')
+		'partner_id':  _getCompany
 	}
 	_sql_constraints = [ 
 		('unique_asset_company', 'UNIQUE (partner_id,code)', 'You can not have two asset with the same code in the same partner !') 
 	] 
+	
+	
+	def _getCompany(self, cr, uid, vals, context=None):
+		user = pooler.get_pool(cr.dbname).get('res.users').browse(cr, uid, [uid], context=context)[0]
+		if user.company_id:
+			return user.company_id.id
+	
+	
 	
 	def create(self, cr, uid, vals, context=None):
 		sentCode = vals['code']
