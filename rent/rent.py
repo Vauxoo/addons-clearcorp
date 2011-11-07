@@ -612,6 +612,8 @@ class rent_rent(osv.osv):
 		
 	def create(self,cr,uid, vals,context=None):
 		rent_id = super(rent_rent,self).create(cr,uid,vals,context)
+		debug(vals)
+		debug(context)
 		obj_rent = self.browse(cr,uid,rent_id)
 		return obj_rent.id
 	
