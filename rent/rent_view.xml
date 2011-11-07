@@ -1023,7 +1023,8 @@
 										'rent_rent_acc_int_id': rent_rent_acc_int_id,
 										'rent_main_inc'       : rent_main_inc,
 									}"
-									nolabel="1"/>
+									nolabel="1"
+									context="{'tree_view_ref' : 'rent.rent_adendum_tree_view'}"/>
 								</page>
 							</notebook>
 						</page>
@@ -1104,6 +1105,23 @@
 			</field>
 		</record>
 		
+		<record model = "ir.ui.view" id = "rent_adendum_tree_view">
+			<field name = "name">rent.rent.adendum.tree</field>
+			<field name = "model">rent.rent</field>
+			<field name = "type">tree</field>
+			<field name = "arch" type = "xml">
+				<tree string = "Adendum List" colors="blue:state in ('draft');black:state in ('active');gray:state in ('finished')">
+					<field name = "rent_type"/>
+					<field name = "rent_related_real"/>
+					<field name = "state"/>
+					<field name = "rent_end_date"/>
+					<field name = "rent_amount_base"/>
+					<field name = "rent_rise"/>
+					<field name = "currency_id"/>
+					<button name="rent_active" states="draft" string="Approve" icon="terp-camera_test"/>
+				</tree>
+			</field>
+		</record>
 		<record model = "ir.actions.act_window" id = "action_rent_form_view">
 			<field name = "name">Rent Details</field>
 			<field name = "res_model">rent.rent</field>
@@ -1111,6 +1129,7 @@
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
 			<field name = "view_id" ref = "rent_tree_view"/>
+			<field name="domain">[('rent_type','=','Contract')]</field>
 			<field name = "search_view_id" ref = "view_rent_rent_filter"/>
 		</record>
 		

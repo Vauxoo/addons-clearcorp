@@ -994,7 +994,7 @@ class rent_rent(osv.osv):
 		return True
 	def cron_rent_invoice(self,cr,uid,ids,context):
 		#gets the list of all active rents
-		rent_ids = self.search(cr,uid,[('state','=','active')])
+		rent_ids = self.search(cr,uid,[('state','=','active'),('rent_type','=','Contract')])
 		date_list = []
 		debug('CRONJOB FORCED TEST')
 		#we retrieve the date of today and the last date registered at the log 
@@ -1070,7 +1070,9 @@ class rent_rent(osv.osv):
 			has_first = self.pool.get('rent.invoice.rent').search(cr,uid,[('invoice_rent_id','=',obj_rent.id),('invoice_type','=','rent')])
 			if not has_first and parser.parse(obj_rent.rent_start_date).date().month == date.today().month:
 				#res_first_inv.append(obj_rent.id)
-				res_first_inv.append(obj_rent)
+				if obj_rent.rent_type != "Adendum":
+					#we only create invoice for the contracts NOT for the adendums
+					res_first_inv.append(obj_rent)
 				percentaje = obj_rent.rent_performance.split('%')[0]
 				#we update the estimates list for the obj
 				obj_rent.write({'rent_estimates_ids' : [(0,0,{'estimate_performance': float(percentaje),'estimate_rent_id':obj_rent.id,'estimate_date' : date.today(), 'estimate_state':'final'})]})
@@ -1079,7 +1081,9 @@ class rent_rent(osv.osv):
 			if obj_rent.rent_main_inc:
 				has_main_first = self.pool.get('rent.invoice.rent').search(cr,uid,[('invoice_rent_id','=',obj_rent.id),('invoice_type','=','main')])
 				if not has_main_first and parser.parse(obj_rent.rent_main_start_date).date().month == date.today().month:
-					res_first_main_inv.append(obj_rent)
+					if obj_rent.rent_type != "Adendum":
+						#we only create invoice for the contracts NOT for the adendums
+						res_first_main_inv.append(obj_rent)
 					percentaje = obj_rent.rent_main_performance.split('%')[0]
 					obj_rent.write({'rent_main_estimates_ids' : [(0,0,{'estimate_performance': float(percentaje),'estimate_rent_id':obj_rent.id,'estimate_date' : date.today(), 'estimate_state':'final'})]})
 		
