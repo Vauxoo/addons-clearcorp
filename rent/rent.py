@@ -665,8 +665,8 @@ class rent_rent(osv.osv):
 				res = {
 					'state'        : 'draft',
 					'rent_type'    : 'Contract',
-					'currency_id': _get_currency,
-					'eqv_currency_id': _get_currency_eqv,
+					'currency_id': self._get_currency(cr,uid,context),
+					'eqv_currency_id': self._get_currency_eqv(cr,uid,context),
 					'rent_amount_base' : 0.00,
 					'rent_main_amount_base' : 0.00,
 					#'rent_rise'     : "%.2f%%" % (0.),
