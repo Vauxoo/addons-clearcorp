@@ -650,6 +650,7 @@ class rent_rent(osv.osv):
 						'rent_main_historic_ids'     : [],
 						
 					})
+				debug(res)
 				#res ={
 				#	'name'                : context.get('name'),
 				#	'rent_rent_client_id' : context.get('rent_rent_client_id'),
