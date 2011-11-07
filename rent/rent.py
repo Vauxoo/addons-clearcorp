@@ -622,7 +622,7 @@ class rent_rent(osv.osv):
 				})
 				debug(org_rent)
 				debug(vals)
-				self.write(cr,uid,rent_id,vals)
+				self.write(cr,uid,[rent_id],vals)
 		return super(rent_rent,self).create(cr,uid,org_rent,context)
 		
 		#	rent_id = super(rent_rent,self).create(cr,uid,vals,context)
