@@ -612,27 +612,23 @@ class rent_rent(osv.osv):
 		
 	def create(self,cr,uid, vals,context=None):
 		org_rent = vals
-		if vals:
-			if vals.get('rent_type') == 'Adendum':
-				rent_id = vals.get('rent_modif_ref')
-				org_rent = self.copy_data(cr,uid,rent_id)
-				org_rent.update({
-					'rent_type'      : 'Adendum',
-					'rent_modif_ref' : rent_id,
-				})
-				vals.update({
-					'rent_modif_ref' : False,
-					'rent_type'      : 'Contract',
-				})
-				debug(org_rent)
-				debug(vals)
-				self.write(cr,uid,[rent_id],vals)
+		#if vals:
+		#	if vals.get('rent_type') == 'Adendum':
+		#		rent_id = vals.get('rent_modif_ref')
+		#		org_rent = self.copy_data(cr,uid,rent_id)
+		#		org_rent.update({
+		#			'rent_type'      : 'Adendum',
+		#			'rent_modif_ref' : rent_id,
+		#		})
+		#		vals.update({
+		#			'rent_modif_ref' : False,
+		#			'rent_type'      : 'Contract',
+		#		})
+		#		debug(org_rent)
+		#		debug(vals)
+		#		self.write(cr,uid,[rent_id],vals)
 		return super(rent_rent,self).create(cr,uid,org_rent,context)
 		
-		#	rent_id = super(rent_rent,self).create(cr,uid,vals,context)
-		#obj_rent = self.browse(cr,uid,rent_id)
-		#return obj_rent.id
-	
 	def default_get(self,cr,uid,fields_list,context=None):
 		res = {}
 		debug(context)
@@ -1089,6 +1085,30 @@ class rent_rent(osv.osv):
 					res.append(obj_invoice_rent)
 		return True
 		
+	def action_aprove_adendum(self,cr,uid,ids,context=None):
+		debug(ids)
+		rent_ids = self.search(cr,uid,[('state','=','active'), ('rent_type','=','Adendum')])
+		debug(rent_ids)
+		for rent_aden_id in rent_ids:
+			vals = self.copy_data(cr,uid,rent_aden_id)
+			if vals:
+				if vals.get('rent_type') == 'Adendum':
+					rent_id = vals.get('rent_modif_ref')
+					org_rent = self.copy_data(cr,uid,rent_id)
+					org_rent.update({
+						'rent_type'          : 'Adendum',
+						'rent_modif_ref'     : rent_id,
+						'rent_estimates_ids' : [],
+					})
+					vals.update({
+						'rent_modif_ref' : False,
+						'rent_type'      : 'Contract',
+					})
+					debug(org_rent)
+					debug(vals)
+					self.write(cr,uid,[rent_id],vals)
+					self.write(cr,uid,[rent_aden_id],org_rent)
+		return True
 	def action_first_invoice(self,cr,uid,ids,context=None):
 		#gets the list of all active rents
 		rent_ids = self.search(cr,uid,[('state','=','active')])
@@ -1134,10 +1154,10 @@ class rent_rent(osv.osv):
 		debug('ONCHANGE')
 		debug(ids)
 		for obj_rent in self.browse(cr,uid,ids):
-			res['rent_performance'] = self._rent_performance(cr,uid,ids,'rent_performance',None)[0]
+			res['rent_performance'] = self._rent_performance(cr,uid,ids,'rent_performance',None,None)[0]
 			res_years = self._rent_amount_years(cr,uid,ids,{'rent_rise_year2','rent_rise_year3','rent_amount_base','rent_rise_year2d','rent_rise_year3d','rent_amountd_base'},None)
-			res_sqr = self._performance_per_sqr(cr,uid,ids,{'rent_performance','rent_amountd_per_sqr'},None)
-			res_total = self._get_total_rent(cr,uid,ids,{'rent_total','rent_total_us'},None)
+			res_sqr = self._performance_per_sqr(cr,uid,ids,{'rent_performance','rent_amountd_per_sqr'},None,None)
+			res_total = self._get_total_rent(cr,uid,ids,{'rent_total','rent_total_us'},None,None)
 			
 			res['rent_rise_year2'] = res_years[0]['rent_rise_year2']
 			res['rent_rise_year3'] = res_years[0]['rent_rise_year3']
