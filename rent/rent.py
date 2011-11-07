@@ -658,20 +658,19 @@ class rent_rent(osv.osv):
 					'rent_main_inc'       : context.get('rent_main_inc'),
 				}
 			else:
-				res = self._defaults
-			#	res = {
-			#		'state'        : 'draft',
-			#		'rent_type'    : 'Contract',
-			#		'currency_id': self._get_currency(cr,uid,context),
-			#		'eqv_currency_id': self._get_currency_eqv(cr,uid,context),
-			#		'rent_amount_base' : 0.00,
-			#		'rent_main_amount_base' : 0.00,
-			#		#'rent_rise'     : "%.2f%%" % (0.),
-			#		#'rent_main_rise': "%.2f%%" % (0.),
-			#		'rent_charge_day' : 01,
-			#		'rent_main_charge_day' : 01,
-			#		'rent_main_performance' : "%.2f%%" % (0.),
-			#	}
+				res = {
+					'state'        : 'draft',
+					'rent_type'    : 'Contract',
+					'currency_id': self._get_currency(cr,uid,context),
+					'eqv_currency_id': self._get_currency_eqv(cr,uid,context),
+					'rent_amount_base' : 0.00,
+					'rent_main_amount_base' : 0.00,
+					#'rent_rise'     : "%.2f%%" % (0.),
+					#'rent_main_rise': "%.2f%%" % (0.),
+					'rent_charge_day' : 01,
+					'rent_main_charge_day' : 01,
+					'rent_main_performance' : "%.2f%%" % (0.),
+				}
 		return res
 		
 	def write(self, cr, uid, ids, vals, context=None):
