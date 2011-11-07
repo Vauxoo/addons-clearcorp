@@ -42,6 +42,11 @@ ccorp_addons_ir_sequence()
 class ccorp_addons_account_assets(osv.osv):
 	_name = 'account.asset.asset'
 	_inherit = 'account.asset.asset'
+	
+	def _getCompany(self, cr, uid, vals, context=None):
+		user = pooler.get_pool(cr.dbname).get('res.users').browse(cr, uid, [uid], context=context)[0]
+		if user.company_id:
+			return user.company_id.id
 	_columns = {
 		'product_id': fields.many2one('product.product', 'Product'), #, domain=[('type', '<>', 'service')]
 		'location_id': fields.dummy(string='Stock Location', relation='stock.location', type='many2one'),
@@ -56,10 +61,7 @@ class ccorp_addons_account_assets(osv.osv):
 	] 
 	
 	
-	def _getCompany(self, cr, uid, vals, context=None):
-		user = pooler.get_pool(cr.dbname).get('res.users').browse(cr, uid, [uid], context=context)[0]
-		if user.company_id:
-			return user.company_id.id
+	
 	
 	
 	
