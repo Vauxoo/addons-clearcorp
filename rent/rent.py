@@ -634,7 +634,7 @@ class rent_rent(osv.osv):
 		#return obj_rent.id
 	
 	def default_get(self,cr,uid,fields_list,context=None):
-		res = {}
+		res = _defaults
 		debug(context)
 		if context:
 			type = context.get('rent_type')
