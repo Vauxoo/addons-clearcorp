@@ -637,6 +637,7 @@ class rent_rent(osv.osv):
 			if type == 'Adendum':
 				rent_id = context.get('active_id')
 				if rent_id:
+					
 					res = self.copy_data(cr,uid,rent_id)
 					res['rent_rent_account_id'] = context.get('rent_rent_account_id'),
 					res['rent_rent_acc_int_id']  = context.get('rent_rent_acc_int_id'),
