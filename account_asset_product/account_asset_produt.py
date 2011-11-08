@@ -50,7 +50,7 @@ class ccorp_addons_account_assets(osv.osv):
 			return user.company_id.id
 	
 	def get_location1(self, cr, uid, ids, pprodlot, context=None):
-		product_lot= self.pool.get('stock.production.lot').browse(cr, uid, pprodlot,order='log date desc')
+		product_lot= self.pool.get('stock.production.lot').browse(cr, uid, pprodlot)
 		debug(product_lot)
 		#debug(product_lot.product_id)
 		res = {}
