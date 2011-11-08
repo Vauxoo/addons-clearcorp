@@ -68,7 +68,7 @@ class ccorp_addons_account_assets(osv.osv):
 				saved_move_location = move_object.location_id.name
 				saved_move_date = parser.parse(move_object.date).date()
 				
-			elif saved_move_date <= temp_saved_move_date:
+			elif saved_move_date < temp_saved_move_date:
 				saved_move_location = move_object.location_id.name
 				saved_move_date = parser.parse(move_object.date).date()
 			
