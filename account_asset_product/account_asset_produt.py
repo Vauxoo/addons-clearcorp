@@ -50,7 +50,7 @@ class ccorp_addons_account_assets(osv.osv):
 			return user.company_id.id
 	
 	def get_location1(self, cr, uid, ids, pprodlot, context=None):
-		product_lot= self.pool.get('stock.production.lot').browse(cr, uid, pprodlot)
+		product_lot= self.pool.get('stock.production.lot').browse(cr, uid, pprodlot,order='log date desc')
 		debug(product_lot)
 		#debug(product_lot.product_id)
 		res = {}
@@ -65,11 +65,11 @@ class ccorp_addons_account_assets(osv.osv):
 			debug(move_object.date)
 			temp_saved_move_date = parser.parse(move_object.date).date()
 			if saved_move_date == 0:
-				saved_move_location = move_object.location_id.name
+				saved_move_location = move_object.location_dest_id.name
 				saved_move_date = parser.parse(move_object.date).date()
 				
 			elif saved_move_date < temp_saved_move_date:
-				saved_move_location = move_object.location_id.name
+				saved_move_location = move_object.location_dest_id.name
 				saved_move_date = parser.parse(move_object.date).date()
 			
 		
