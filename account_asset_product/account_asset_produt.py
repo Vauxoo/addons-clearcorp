@@ -58,14 +58,14 @@ class ccorp_addons_account_assets(osv.osv):
 		
 		for key in product_lot.move_ids:
 			move_object= self.pool.get('stock.move').browse(cr, uid, key)
-			temp_saved_move_date = parser.parse(move_object.date)
+			temp_saved_move_date = parser.parse(move_object.date).date
 			if saved_move_date == None:
 				saved_move_location = move_object.location_id
-				saved_move_date = parser.parse(move_object.date)
+				saved_move_date = parser.parse(move_object.date).date
 				
 			elif saved_move_date <= temp_saved_move_date
 				saved_move_location = move_object.location_id
-				saved_move_date = parser.parse(move_object.date)
+				saved_move_date = parser.parse(move_object.date).date
 			
 		
 		return saved_move_location
