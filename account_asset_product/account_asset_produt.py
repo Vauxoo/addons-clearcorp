@@ -73,8 +73,8 @@ class ccorp_addons_account_assets(osv.osv):
 	
 	
 	_columns = {
-		'product_id': fields.related('prod_lot_id', 'product_id',type='char',relation='stock.production.lot',string='Product'), #, domain=[('type', '<>', 'service')]
-		'location_id': fields.char(size=100 ,string='Cedula'),
+		'product_id': fields.related('prod_lot_id', 'product_id',type='many2one',relation='stock.production.lot',string='Product'), #, domain=[('type', '<>', 'service')]
+		'location_id': fields.char(size=100 ,string='Location'),
 		'prod_lot_id': fields.many2one('stock.production.lot', 'Production Lot', domain="[('company_id','=',product_id)]"),
 	}
 	_defaults = { 
@@ -86,7 +86,7 @@ class ccorp_addons_account_assets(osv.osv):
 	] 
 	
 	def on_change_search_location(self, cr, uid, ids, pprodlot):
-		result = get_location1(cr,uid, ids,pprodlot)
+		result = self.get_location1(cr,uid, ids,pprodlot)
 		v = {}
 		v['prod_lot_id'] = result
 		return {'value':v}
