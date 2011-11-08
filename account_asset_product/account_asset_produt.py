@@ -76,11 +76,20 @@ class ccorp_addons_account_assets(osv.osv):
 		return saved_move_location
 	
 	
+	def get_product1(self, cr, uid, ids, pprodlot, context=None):
+		product_lot= self.pool.get('stock.production.lot').browse(cr, uid, pprodlot)
+		debug(product_lot)
+		#debug(product_lot.product_id)
+		saved_lot_product= product_lot.product_id.name
+		
+		
+		
+		return saved_move_location
 	
 	_columns = {
 		'prod_lot_id': fields.many2one('stock.production.lot', 'Production Lot'), #, domain="[('company_id','=',product_id)]",
-		'asset_product_id': fields.related('prod_lot_id', 'product_id', type='many2one', relation='product.product' ,string='Product', readonly=True),
-		'location_id': fields.char(size=100 ,string='Location'),
+		'asset_product_id': fields.char(size=100 ,string='Product', readonly=True ),
+		'location_id': fields.char(size=100 ,string='Location', readonly=True ),
 		
 	}
 	_defaults = { 
@@ -93,8 +102,10 @@ class ccorp_addons_account_assets(osv.osv):
 	
 	def on_change_search_location(self, cr, uid, ids, pprodlot):
 		result = self.get_location1(cr,uid, ids,pprodlot)
+		result2 = self.get_product1(cr,uid, ids,pprodlot)
 		v = {}
 		v['location_id'] = result
+		v['asset_product_id'] = result2
 		return {'value':v}
 	
 	
