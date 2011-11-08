@@ -43,7 +43,9 @@ from tools.translate import _
 
 class account_voucher_journal_payment(osv.osv):
     _name = 'account.voucher'
+    _inherit = 'account.voucher'
     _description = 'Accounting Voucher'
+  
     def onchange_partner_id(self, cr, uid, ids, partner_id, journal_id, price, currency_id, ttype, date, context=None):
         """price
         Returns a dict that contains new values and context
