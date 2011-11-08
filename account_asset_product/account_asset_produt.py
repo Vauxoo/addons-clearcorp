@@ -65,11 +65,11 @@ class ccorp_addons_account_assets(osv.osv):
 			debug(move_object.date)
 			temp_saved_move_date = parser.parse(move_object.date).date()
 			if saved_move_date == 0:
-				saved_move_location = move_object.location_id.id
+				saved_move_location = move_object.location_id.name
 				saved_move_date = parser.parse(move_object.date).date()
 				
 			elif saved_move_date <= temp_saved_move_date:
-				saved_move_location = move_object.location_id.id
+				saved_move_location = move_object.location_id.name
 				saved_move_date = parser.parse(move_object.date).date()
 			
 		
@@ -94,7 +94,7 @@ class ccorp_addons_account_assets(osv.osv):
 	def on_change_search_location(self, cr, uid, ids, pprodlot):
 		result = self.get_location1(cr,uid, ids,pprodlot)
 		v = {}
-		v['prod_lot_id'] = result
+		v['location_id'] = result
 		return {'value':v}
 	
 	
