@@ -1,1 +1,0 @@
-import account_voucher_journal_payment
