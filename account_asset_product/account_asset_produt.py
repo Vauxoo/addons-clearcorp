@@ -9,6 +9,7 @@ import calendar
 from tools.translate import _
 
 
+
 class ccorp_addons_ir_sequence(osv.osv):
 	_name = 'ir.sequence'
 	_inherit = 'ir.sequence'
@@ -47,10 +48,34 @@ class ccorp_addons_account_assets(osv.osv):
 		user = pooler.get_pool(cr.dbname).get('res.users').browse(cr, uid, [uid], context=context)[0]
 		if user.company_id:
 			return user.company_id.id
+	
+	def get_location1(self, cr, uid, ids, pprodlot, args, context=None):
+		product_lot= self.pool.get('stock.production.lot').browse(cr, uid, pprodlot)
+		res = {}
+		saved_move_location = None
+		saved_move_date = None
+		
+		
+		for key in product_lot.move_ids:
+			move_object= self.pool.get('stock.move').browse(cr, uid, key)
+			
+			if saved_move_date == None:
+				saved_move_location = move_object.location_id
+				saved_move_date = parser.parse(move_object.date)
+				
+			elif saved_move_date <= parser.parse(move_object.date)
+				saved_move_location = move_object.location_id
+				saved_move_date = parser.parse(move_object.date)
+			
+		
+		return saved_move_location
+	
+	
+	
 	_columns = {
-		'product_id': fields.many2one('product.product', 'Product'), #, domain=[('type', '<>', 'service')]
-		'location_id': fields.dummy(string='Stock Location', relation='stock.location', type='many2one'),
-		'prod_lot_id': fields.many2one('stock.production.lot', 'Production Lot', domain="[('product_id','=',product_id)]"),
+		'product_id': fields.related('prod_lot_id', 'product_id',type='char',relation='stock.production.lot',string='Product'), #, domain=[('type', '<>', 'service')]
+		'location_id': fields.char(size=100 ,string='Cedula'),
+		'prod_lot_id': fields.many2one('stock.production.lot', 'Production Lot', domain="[('company_id','=',product_id)]"),
 	}
 	_defaults = { 
 		'code': lambda self, cr, uid, context: self.pool.get('ir.sequence').get_search(cr, uid, 'account.asset.asset'),
@@ -60,7 +85,11 @@ class ccorp_addons_account_assets(osv.osv):
 		('unique_asset_company', 'UNIQUE (partner_id,code)', 'You can not have two asset with the same code in the same partner !') 
 	] 
 	
-	
+	def on_change_search_location(self, cr, uid, ids, pprodlot):
+		result = get_location1(cr,uid, ids,pprodlot)
+		v = {}
+		v['prod_lot_id'] = result
+		return {'value':v}
 	
 	
 	
