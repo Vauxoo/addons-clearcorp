@@ -78,9 +78,10 @@ class ccorp_addons_account_assets(osv.osv):
 	
 	
 	_columns = {
-		'product_id': fields.related('prod_lot_id', 'product_id', type='many2one', relation='product.product',string='Product', readonly=True), #, domain=[('type', '<>', 'service')]
-		'location_id': fields.char(size=100 ,string='Location'),
 		'prod_lot_id': fields.many2one('stock.production.lot', 'Production Lot', domain="[('company_id','=',product_id)]"),
+		'asset_product_id': fields.related('prod_lot_id', 'product_id', type='many2one', relation='product.product',string='Product', readonly=True), #, domain=[('type', '<>', 'service')]
+		'location_id': fields.char(size=100 ,string='Location'),
+		
 	}
 	_defaults = { 
 		'code': lambda self, cr, uid, context: self.pool.get('ir.sequence').get_search(cr, uid, 'account.asset.asset'),
