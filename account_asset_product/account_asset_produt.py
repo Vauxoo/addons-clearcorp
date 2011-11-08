@@ -57,7 +57,10 @@ class ccorp_addons_account_assets(osv.osv):
 		
 		
 		for key in product_lot.move_ids:
+			debug(key)
 			move_object= self.pool.get('stock.move').browse(cr, uid, key)
+			debug(move_object)
+			debug(move_object.date)
 			temp_saved_move_date = parser.parse(move_object.date)
 			if saved_move_date == 0:
 				saved_move_location = move_object.location_id
