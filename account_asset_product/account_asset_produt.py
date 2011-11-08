@@ -84,7 +84,7 @@ class ccorp_addons_account_assets(osv.osv):
 		
 		
 		
-		return saved_move_location
+		return saved_lot_product
 	
 	_columns = {
 		'prod_lot_id': fields.many2one('stock.production.lot', 'Production Lot'), #, domain="[('company_id','=',product_id)]",
