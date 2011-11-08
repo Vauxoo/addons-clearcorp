@@ -52,7 +52,7 @@ class ccorp_addons_account_assets(osv.osv):
 	def get_location1(self, cr, uid, ids, pprodlot, context=None):
 		product_lot= self.pool.get('stock.production.lot').browse(cr, uid, pprodlot)
 		debug(product_lot)
-		debug(product_lot.product_id)
+		#debug(product_lot.product_id)
 		res = {}
 		saved_move_location = 0
 		saved_move_date = 0
@@ -78,8 +78,8 @@ class ccorp_addons_account_assets(osv.osv):
 	
 	
 	_columns = {
-		'prod_lot_id': fields.many2one('stock.production.lot', 'Production Lot', domain="[('company_id','=',product_id)]"),
-		#'asset_product_id': fields.related('prod_lot_id', 'product_id', type='many2one', relation='product.product',string='Product', readonly=True), #, domain=[('type', '<>', 'service')]
+		'prod_lot_id': fields.many2one('stock.production.lot', 'Production Lot') #, domain="[('company_id','=',product_id)]",
+		'asset_product_id': fields.related('prod_lot_id', 'product_id', type='many2one', relation='product.product',string='Product', readonly=True), #, domain=[('type', '<>', 'service')]
 		'location_id': fields.char(size=100 ,string='Location'),
 		
 	}
