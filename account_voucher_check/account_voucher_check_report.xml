@@ -2,11 +2,11 @@
 <openerp>
 	<data>
 		<report auto="False" 
-				id="purchase.report_quotation_order" 
-				model="purchase.order" 
-				name="purchase.order.quotation.layout_ccorp"  
-				file="ccorp_purchase/report/purchase_order.mako" 
-				string="Purchase Quotation" 
+				id="account_voucher.report_check_voucher" 
+				model="account.voucher" 
+				name="check.voucher.layout_ccorp"  
+				file="account_voucher_check/report/check_voucher.mako" 
+				string="Check Print" 
 				report_type="webkit"
 				/>
 	</data>
