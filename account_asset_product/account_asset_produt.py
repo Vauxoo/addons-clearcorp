@@ -103,11 +103,10 @@ class ccorp_addons_account_assets(osv.osv):
 	def _get_location(self, cr, uid, ids, field_name, arg, context={}):
 		asset_id=context.get('active_id')
 		if asset_id != None:
-			product_lot= self.pool.get('account.asset.asset').browse(cr, uid, asset_id)
-			pprodlot = product_lot.prod_lot_id.id
-			
-			product_lot= self.pool.get('stock.production.lot').browse(cr, uid, pprodlot)
+			asset= self.pool.get('account.asset.asset').browse(cr, uid, asset_id)
+			product_lot= self.pool.get('stock.production.lot').browse(cr, uid, asset.prod_lot_id.id)  
 			debug(product_lot)
+			
 			#debug(product_lot.product_id)
 			res = {}
 			saved_move_location = 0
@@ -135,6 +134,7 @@ class ccorp_addons_account_assets(osv.osv):
 		debug(asset_id)
 		if asset_id != None:
 			asset= self.pool.get('account.asset.asset').browse(cr, uid, asset_id)
+			debug(asset.prod_lot_id.id)
 			product_lot= self.pool.get('stock.production.lot').browse(cr, uid, asset.prod_lot_id.id)  
 			debug(product_lot)
 			#debug(product_lot.product_id)
