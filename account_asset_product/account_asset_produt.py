@@ -66,8 +66,8 @@ class ccorp_addons_account_assets(osv.osv):
 				return self._process(res['prefix']) + self._process(res['suffix'])
 		return False
 
-	def get_search(self, cr, uid, code):
-		return self.get_id_search(cr, uid, code, test='code')
+	def get_search(self, cr, uid,context=None):
+		return self.get_id_search(cr, uid, 'account.asset.asset', test='code')
 	
 	
 	
@@ -132,7 +132,7 @@ class ccorp_addons_account_assets(osv.osv):
 		
 	}
 	_defaults = { 
-		'code': get_search(cr, uid,'account.asset.asset'),
+		'code': get_search,
 		'partner_id': _getCompany
 	}
 	_sql_constraints = [ 
