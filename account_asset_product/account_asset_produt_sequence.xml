@@ -10,7 +10,7 @@
             <field name="name">account.asset.asset</field>
             <field name="code">account.asset.asset</field>
             <field name="padding">3</field>
-            <field name="company_id">user.company_id.id</field>
+            <!--field name="company_id">user.company_id.id</field-->
         </record>
         
         <record model="ir.ui.view" id="account_asset_product_assre_form">
