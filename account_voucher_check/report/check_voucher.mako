@@ -6,14 +6,14 @@
 </head>
 <body class = "data">
 	%for check in objects :
-	<% setLang(po.partner_id.lang) %>
+	<% setLang(check.partner_id.lang) %>
 	<div id="wrapper">
 		<table width = "100%" class = "document_data">
 			<tr class = "title">
 				<td class = "document_data">
 					<span class="title">${check.partner_id.name or ''|entity}</span><br/>
 				<td>
-					<span class="title">{(check.date or ''|entity}</span>
+					<span class="title">${(check.date or ''|entity}</span>
 				</td>
 				<td>
 					<span class = "title">${formatLang(check.amount)}</span>
