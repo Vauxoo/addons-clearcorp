@@ -14,6 +14,24 @@ class ccorp_addons_account_assets(osv.osv):
 	_name = 'account.asset.asset'
 	_inherit = 'account.asset.asset'
 	
+	
+
+	def _process(self, s):
+		return (s or '') % {
+			'year':time.strftime('%Y'),
+			'month': time.strftime('%m'),
+			'day':time.strftime('%d'),
+			'y': time.strftime('%y'),
+			'doy': time.strftime('%j'),
+			'woy': time.strftime('%W'),
+			'weekday': time.strftime('%w'),
+			'h24': time.strftime('%H'),
+			'h12': time.strftime('%I'),
+			'min': time.strftime('%M'),
+			'sec': time.strftime('%S'),
+		}
+	
+	
 	def _getCompany(self, cr, uid, vals, context=None):
 		user = pooler.get_pool(cr.dbname).get('res.users').browse(cr, uid, [uid], context=context)[0]
 		if user.company_id:
