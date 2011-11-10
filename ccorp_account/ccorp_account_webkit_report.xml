@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+		<report auto="False" id="account_invoice_ccorp" model="account.invoice" name="account.invoice.layout_ccorp"  file="ccorp_account/report/invoice.mako" string="Invoice HTML" report_type="webkit" 				attachment="(object.state in ('open','paid')) and ('Fac.'+(object.number or '').replace('/',''))"
+				attachment_use="1"/>
+		<!--
+		Deletes entries from account_invoice_layout
+		-->
+		<delete model="ir.actions.wizard" search="[('wiz_name','=','wizard.notify_message')]"/>
+		<delete model="ir.actions.report.xml" search="[('report_name','=','account.invoice.layout')]"/>
+	</data>
+</openerp>

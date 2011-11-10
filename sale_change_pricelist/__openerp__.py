@@ -1,10 +1,10 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    __init__.py
-#    ccorp_account
-#    First author: Carlos Vásquez <carlos.vasquez@clearcorp.co.cr> (ClearCorp S.A.)
-#    Copyright (c) 2010-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
+#    sale_change_pricelist.py
+#    sale_change_pricelist
+#    First author: Mag Guevara <mag.guevara@clearcorp.co.cr> (ClearCorp S.A.)
+#    Copyright (c) 2011-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
 #    
 #    Redistribution and use in source and binary forms, with or without modification, are
 #    permitted provided that the following conditions are met:
@@ -31,5 +31,14 @@
 #    or implied, of ClearCorp S.A..
 #    
 ##############################################################################
-import wizard
-import report
+{
+	"name"        : "Sale change pricelist",
+	"author"      : "ClearCorp S.A.",
+	"version"     : "1.0",
+	"depends"     : ["base","sale"],
+	"init_xml"    : [],
+	"update_xml"  : ["wizard/sale_change_pricelist_view.xml","sale_pricelist_view.xml",],
+	"category"    : "Sale",
+	"active"      : False,
+	"instalable"  : True,
+}

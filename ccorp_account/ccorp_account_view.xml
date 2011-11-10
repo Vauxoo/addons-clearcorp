@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+		<record model = "ir.ui.view" id = "view_char_account_inactive">
+			<field name = "name">account.search.chart.inactive</field>
+			<field name = "model">account.account</field>
+			<field name = "type">search</field>
+			<field name = "inherit_id" ref = "account.view_account_search"/>
+			<field name = "arch" type = "xml">
+				<data>
+					<xpath expr = "/search/group/separator" position = "before">
+						<filter icon="gtk-cancel" string="Inactive Accounts" domain="[('active','=',False)]"/>
+					</xpath>
+				</data>
+			</field>
+		</record>
+	</data>
+</openerp>

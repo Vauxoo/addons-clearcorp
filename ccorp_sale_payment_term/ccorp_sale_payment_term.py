@@ -1,10 +1,10 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    __init__.py
-#    ccorp_account
-#    First author: Carlos Vásquez <carlos.vasquez@clearcorp.co.cr> (ClearCorp S.A.)
-#    Copyright (c) 2010-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
+#    address_name_inc.py
+#    address_name_inc
+#    First author: Mag Guevara <mag.guevara@clearcorp.co.cr> (ClearCorp S.A.)
+#    Copyright (c) 2011-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
 #    
 #    Redistribution and use in source and binary forms, with or without modification, are
 #    permitted provided that the following conditions are met:
@@ -31,5 +31,16 @@
 #    or implied, of ClearCorp S.A..
 #    
 ##############################################################################
-import wizard
-import report
+from osv import osv, fields
+from tools import debug
+from tools.translate import _
+
+class sale_payment(osv.osv):
+	_name = 'sale.order'
+	_inherit = 'sale.order'
+	
+	_columns = {
+		'payment_term': fields.many2one('account.payment.term', 'Payment Term', required=True),
+	}
+sale_payment()
+

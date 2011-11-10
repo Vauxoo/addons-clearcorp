@@ -1,10 +1,10 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    __init__.py
-#    ccorp_account
-#    First author: Carlos Vásquez <carlos.vasquez@clearcorp.co.cr> (ClearCorp S.A.)
-#    Copyright (c) 2010-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
+#    address_name_inc.py
+#    address_name_inc
+#    First author: Mag Guevara <mag.guevara@clearcorp.co.cr> (ClearCorp S.A.)
+#    Copyright (c) 2011-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
 #    
 #    Redistribution and use in source and binary forms, with or without modification, are
 #    permitted provided that the following conditions are met:
@@ -31,5 +31,19 @@
 #    or implied, of ClearCorp S.A..
 #    
 ##############################################################################
-import wizard
-import report
+from osv import osv, fields
+from tools import debug
+from tools.translate import _
+
+class account_invoice_payment(osv.osv):
+	_name = 'account.invoice'
+	_inherit = 'account.invoice'
+	
+	_columns = {
+		'payment_term': fields.many2one('account.payment.term', 'Payment Term',readonly=True, states={'draft':[('readonly',False)]},
+			help="If you use payment terms, the due date will be computed automatically at the generation "\
+				"of accounting entries. If you keep the payment term and the due date empty, it means direct payment. "\
+				"The payment term may compute several due dates, for example 50% now, 50% in one month.", required=True),
+	}
+account_invoice_payment()
+

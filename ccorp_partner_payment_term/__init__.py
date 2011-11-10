@@ -1,0 +1,1 @@
+import ccorp_partner_payment_term

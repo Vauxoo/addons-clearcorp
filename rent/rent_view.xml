@@ -157,7 +157,7 @@
 		<menuitem id = "rent_manager" name = "Rent" web_icon="data/rent.png"
                   web_icon_hover="data/rent-hover.png"/>
 		<menuitem id = "rent_client_menu" name = "Clients" parent = "rent_manager"/>
-		<menuitem id = "rent_client_submenu" name = "Client" parent = "rent_client_menu" action = "base.action_partner_form"/>
+		<menuitem id = "rent_client_submenu" name = "Client" parent = "rent_client_menu" action = "action_client_form_view"/>
 		
 		
 		<!--
@@ -935,9 +935,9 @@
 						<separator string = "Information" colspan = "4"/>
 						<field name = "name"/>
 						<field name = "rent_rent_client_id" select  = "1"/>
-						<field name = "rent_type" attrs = "{'readonly' : [('state','!=','draft')]}"/>
+						<field name = "rent_type"/>
 						<field name = "state"/>
-						<field name = "rent_related_real"/>
+						<field name = "rent_related_real" />
 						<field name = "rent_main_inc"/>
 					</group>
 					<notebook>
@@ -950,7 +950,7 @@
 								<field name = "rent_invoiced_day"/>
 								<field name = "rent_grace_period"/>
 								<field name = "rent_years"/>
-								<field name = "rent_start_date"/>
+								<field name = "rent_start_date" attrs = "{'readonly' : ['|',('state','!=','draft'),('rent_type','!=','Contract')]}"/>
 								<field name = "rent_end_date"/>
 							</group>
 							<group col = "4" colspan = "2">
@@ -975,6 +975,7 @@
 								<field name = "rent_rise_year2d"/>
 								<field name = "rent_amountd_per_sqr"/>
 								<field name = "rent_rise_year3d"/>
+								<field name = "eqv_currency_id"/>
 							</group>
 							<group col = "4" colspan = "4" attrs = "{'invisible':[('state','!=','finished')]}">
 								<separator string = "Contract Termination" colspan = "4"/>
@@ -985,23 +986,31 @@
 								<page string = "Detail">
 									<group col = "4" colspan = "4" attrs = "{'invisible':[('rent_related_real','=','')]}">
 										<separator string = "Real Estate Information" colspan = "4"/>
-											<field name = "rent_rent_local_id" attrs = "{'readonly' : [('rent_related_real','!=','local')], 'required' : [('rent_related_real','=','local')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','local')]}"/>
-											<field name = "rent_rent_parking_id" attrs = "{'readonly' : [('rent_related_real','!=','parking')], 'required' : [('rent_related_real','=','parking')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','parking')]}"/>
-											<field name = "rent_rent_estate_id"  attrs = "{'readonly' : [('rent_related_real','!=','estate')], 'required' : [('rent_related_real','=','estate')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','estate')]}"/>
+											<field name = "rent_rent_local_id" attrs = "{ 'required' : [('rent_related_real','=','local'),('state','=','draft')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','local')], 'readonly': ['|',('rent_related_real','!=','local'),('state','!=','draft')]}"/>
+											<field name = "rent_rent_parking_id" attrs = " { 'required' : [('rent_related_real','=','parking'),('state','=','draft')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','parking')], 'readonly': ['|',('rent_related_real','!=','parking'),('state','!=','draft')]}"/>
+											<field name = "rent_rent_estate_id"  attrs = " { 'required' : [('rent_related_real','=','estate'),('state','=','draft')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','estate')], 'readonly': ['|',('rent_related_real','!=','estate'),('state','!=','draft')]}"/>
 									</group>
 								</page>
 								<page string = "Calculations">
 									<field name = "rent_estimates_ids" nolabel="1"/>
 								</page>
-								<page string = "Aumentos">
+								<page string = "Aumentos" attrs = "{'invisible': [('rent_type','!=','Contract')]}">
 									<field name = "rent_historic_ids" nolabel="1"/>
 								</page>
-								<page string = "Facturas">
+								<page string = "Facturas" attrs = "{'invisible': [('rent_type','!=','Contract')]}">
 									<field name = "rent_invoice_ids" nolabel="1"/>
 								</page>
-								<!--<page string = "Modifications">
-									<field name = "rent_modif" attrs="{'readonly' : [('rent_type','!=','Contract')]}" nolabel="1"/>
-								</page>-->
+								<page string = "Modifications" attrs = "{'invisible': [('rent_type','!=','Contract')]}">
+									<field name = "rent_modif" attrs="{'readonly' : [('rent_type','!=','Contract')]}" 
+									default_get = "{
+										'rent_type'           : 'Adendum',
+										'rent_rent_account_id': rent_rent_account_id,
+										'rent_rent_acc_int_id': rent_rent_acc_int_id,
+									}"
+									nolabel="1"
+									context="{'tree_view_ref' : 'rent.rent_adendum_tree_view'}"/>
+								</page>
+								
 							</notebook>
 						</page>
 						
@@ -1054,7 +1063,7 @@
 					</notebook>
 					<group col = "6" colspan = "4">
 						<button colspan="2" name = "cron_rent_invoice" string="Check for Invoices" type="object" icon="terp-stock_format-scientific"/>
-						<button colspan="2" name="rent_finish" states="active" string="Finish" icon="gtk-cancel"/>
+						<button colspan="2" name="rent_finish" states="active" string="Finish" invisible = "1" icon="gtk-cancel" attrs = "{'invisible': [('rent_type','!=','Contract')]}"/>
 						<button colspan="2" name="rent_active" states="draft" string="Approve" icon="terp-camera_test"/>
 					</group>
 				</form>
@@ -1081,6 +1090,23 @@
 			</field>
 		</record>
 		
+		<record model = "ir.ui.view" id = "rent_adendum_tree_view">
+			<field name = "name">rent.rent.adendum.tree</field>
+			<field name = "model">rent.rent</field>
+			<field name = "type">tree</field>
+			<field name = "arch" type = "xml">
+				<tree string = "Adendum List" colors="blue:state in ('draft');black:state in ('active');gray:state in ('finished')">
+					<field name = "rent_type"/>
+					<field name = "rent_related_real"/>
+					<field name = "state"/>
+					<field name = "rent_end_date"/>
+					<field name = "rent_amount_base"/>
+					<field name = "rent_rise"/>
+					<field name = "currency_id"/>
+					<button name="rent_active" states="draft" string="Approve" icon="terp-camera_test"/>
+				</tree>
+			</field>
+		</record>
 		<record model = "ir.actions.act_window" id = "action_rent_form_view">
 			<field name = "name">Rent Details</field>
 			<field name = "res_model">rent.rent</field>
@@ -1088,6 +1114,7 @@
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
 			<field name = "view_id" ref = "rent_tree_view"/>
+			<field name="domain">[('rent_type','=','Contract')]</field>
 			<field name = "search_view_id" ref = "view_rent_rent_filter"/>
 		</record>
 		

@@ -541,6 +541,9 @@ class rent_rent(osv.osv):
 		if user.company_id:
 			return user.company_id.currency_id.id
 		return pooler.get_pool(cr.dbname).get('res.currency').search(cr, uid, [('rate','=', 1.0)])[0]
+	
+	def _get_currency_eqv(self, cr, uid, context=None):
+		return pooler.get_pool(cr.dbname).get('res.currency').search(cr, uid, [('rate','=', 1.0)])[0]
 		
 	def _get_total_rent(self,cr,uid,ids,field_name,args,context):
 		res = {}
@@ -556,9 +559,31 @@ class rent_rent(osv.osv):
 				obj_estado = obj_rent.rent_rent_estate_id
 				total = obj_estado._get_estate_vrm(obj_estado.id,None,None)[obj_estado.id]
 			
+			obj_client = obj_rent.rent_rent_client_id
+			company_currency = (obj_client.company_id and obj_client.company_id.currency_id or self._get_currency(cr,uid,context))
+			
+			to_exchange = {
+				'obj_rent' : obj_rent,
+				'vals'     : [('rent_total',total),
+				],
+				'from_currency' : company_currency,
+				'to_currency'   : obj_rent.currency_id,
+			}
+			
+			exchanged = self._calculate_exchange(cr,uid,ids,to_exchange)
+			
+			total = exchanged['rent_total']
+			to_exchange = {
+				'obj_rent' : obj_rent,
+				'vals'     : [('rent_total_us',total),
+				],
+				'from_currency' : obj_rent.currency_id,
+				'to_currency'   : obj_rent.eqv_currency_id,
+			}
+			exchanged = self._calculate_exchange(cr,uid,ids,to_exchange)
 			total_vals = {}
 			total_vals['rent_total'] = total
-			total_vals['rent_total_us'] = total / obj_rent.currency_id.rate
+			total_vals['rent_total_us'] = exchanged['rent_total_us']
 			res[ obj_rent.id] = total_vals
 		return res
 		
@@ -572,12 +597,103 @@ class rent_rent(osv.osv):
 				res[rent_id] = (fin.year - inicio.year)
 		return res
 	
+	def copy (cr, uid, id, default=None, context=None):
+		default.update({
+			'rent_modif' : [],
+			'rent_estimates_ids' : [],
+			'rent_historic_ids' : [],
+			'rent_invoice_ids' : [],
+			'rent_main_estimates_ids' : [],
+			'rent_historic_ids' : [],
+			'rent_main_invoice_ids' : [],
+			'state'      : 'draft',
+		})
+		return super(rent_rent, self).copy(cr, uid, id, default=default, context=context)
+		
 	def create(self,cr,uid, vals,context=None):
-		debug("============================CREANDO la nueva renta")
-		rent_id = super(rent_rent,self).create(cr,uid,vals,context)
-		obj_rent = self.browse(cr,uid,rent_id)
-		return obj_rent.id
-			
+		org_rent = vals
+		#if vals:
+		#	if vals.get('rent_type') == 'Adendum':
+		#		rent_id = vals.get('rent_modif_ref')
+		#		org_rent = self.copy_data(cr,uid,rent_id)
+		#		org_rent.update({
+		#			'rent_type'      : 'Adendum',
+		#			'rent_modif_ref' : rent_id,
+		#		})
+		#		vals.update({
+		#			'rent_modif_ref' : False,
+		#			'rent_type'      : 'Contract',
+		#		})
+		#		debug(org_rent)
+		#		debug(vals)
+		#		self.write(cr,uid,[rent_id],vals)
+		return super(rent_rent,self).create(cr,uid,org_rent,context)
+		
+	def default_get(self,cr,uid,fields_list,context=None):
+		res = {}
+		debug(context)
+		if context:
+			type = context.get('rent_type')
+			if type == 'Adendum':
+				rent_id = context.get('active_id')
+				if rent_id:
+					res = self.copy_data(cr,uid,rent_id)
+					res['rent_rent_account_id'] = context.get('rent_rent_account_id')
+					res['rent_rent_acc_int_id']  = context.get('rent_rent_acc_int_id')
+					if context.get('rent_main_inc'):
+						obj_rent = self.browse(cr,uid,rent_id)
+						res['rent_rent_main_account_id']  = context.get('rent_rent_main_account_id')
+						res['rent_rent_main_acc_int_id']  = context.get('rent_rent_main_acc_int_id')
+					res.update({
+						'rent_type'             : type,
+						'rent_estimates_ids'    : [],
+						'rent_modif'            : [],
+						'rent_historic_ids'     : [],
+						'rent_invoice_ids'      : [],
+						'state'                 : 'draft',
+						'rent_main_estimates_ids'    : [],
+						'rent_main_invoice_ids'      : [],
+						'rent_main_historic_ids'     : [],
+					})
+				debug(res)
+				#res ={
+				#	'name'                : context.get('name'),
+				#	'rent_rent_client_id' : context.get('rent_rent_client_id'),
+				#	'rent_end_date'       : context.get('rent_end_date'),
+				#	'rent_rise'           : context.get('rent_rise'),
+				#	'rent_amount_base'    : context.get('rent_amount_base'),
+				#	'rent_type'           : 'Adendum',
+				#	'state'               : 'draft',
+				#	'rent_start_date'     : context.get('rent_start_date'),
+				#	'rent_rent_local_id'  : context.get('rent_rent_local_id'),
+				#	'rent_rent_parking_id': context.get('rent_rent_parking_id'),
+				#	'rent_rent_estate_id' : context.get('rent_rent_estate_id'),
+				#	'rent_related_real'   : context.get('rent_related_real'),
+				#	'currency_id'         : context.get('currency_id'),
+				#	'eqv_currency_id'     : context.get('eqv_currency_id'),
+				#	'rent_invoiced_day'   : context.get('rent_invoiced_day'),
+				#	'rent_charge_day'     : context.get('rent_charge_day'),
+				#	'rent_grace_period'   : context.get('rent_grace_period'),
+				#	'rent_rent_account_id': context.get('rent_rent_account_id'),
+				#	'rent_rent_acc_int_id': context.get('rent_rent_acc_int_id'),
+				#	'rent_main_inc'       : context.get('rent_main_inc'),
+				#}
+			else:
+				res = {
+					'state'        : 'draft',
+					'rent_type'    : 'Contract',
+					'currency_id': self._get_currency(cr,uid,context),
+					'eqv_currency_id': self._get_currency_eqv(cr,uid,context),
+					'rent_amount_base' : 0.00,
+					'rent_main_amount_base' : 0.00,
+					#'rent_rise'     : "%.2f%%" % (0.),
+					#'rent_main_rise': "%.2f%%" % (0.),
+					'rent_charge_day' : 01,
+					'rent_main_charge_day' : 01,
+					'rent_main_performance' : "%.2f%%" % (0.),
+				}
+		return res
+		
 	def write(self, cr, uid, ids, vals, context=None):
 		obj_rent = self.pool.get('rent.rent').browse(cr,uid,ids)[0]
 		if 'rent_related_real' in vals:			
@@ -666,19 +782,31 @@ class rent_rent(osv.osv):
 	def _performance_per_sqr(self,cr,uid,ids,field_name,args,context):
 		res = {}
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
-			amounts_val = {}			
-			currency_id = obj_rent.currency_id
-			rate_cr = currency_id.rate
-			rate_us = 1
-			
+			amounts_val = {}
 			valor = obj_rent._get_total_area(obj_rent.id,None,None)[obj_rent.id]
-			amounts_val['rent_amount_per_sqr'] = (obj_rent.rent_amount_base / valor) / rate_us
-			amounts_val['rent_amountd_per_sqr'] = (obj_rent.rent_amount_base / valor) / rate_cr
+			amounts_val['rent_amount_per_sqr'] = (obj_rent.rent_amount_base / valor) 
+			
+			to_exchange = {
+				'obj_rent' : obj_rent,
+				'vals'     : [('rent_amountd_per_sqr',amounts_val['rent_amount_per_sqr']),
+				],
+				'from_currency' : obj_rent.currency_id,
+				'to_currency'   : obj_rent.eqv_currency_id,
+			}
+			
+			exchanged = self._calculate_exchange(cr,uid,ids,to_exchange)
+			amounts_val['rent_amountd_per_sqr'] = exchanged['rent_amountd_per_sqr']
 			res[obj_rent.id] = amounts_val
 		return res
 		
 	def _rent_performance(self,cr,uid,ids,field_name,args,context):
 		res = {}
+	#	if args:
+	#		if 'onchange_amount' in args:
+	#			amount = args.get('onchange_amount')
+	#			total = args.get('onchange_total')
+	#			res[0] = "%.2f%%" % ((amount * 12) /  (amount== 0.00 and 1 or total) * 100)
+	#	else:
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
 			res[obj_rent.id] = "%.2f%%" % ((obj_rent.rent_amount_base * 12) /  (obj_rent.rent_total== 0.00 and 1 or obj_rent.rent_total) * 100)
 		return res
@@ -688,17 +816,27 @@ class rent_rent(osv.osv):
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
 			years_val = {}
 			
-			currency_id = obj_rent.currency_id
 			percentaje = obj_rent.rent_rise
 			debug(percentaje)
 			years_val['rent_rise_year2'] = obj_rent.rent_amount_base * (1 + float(percentaje) / 100)
 			years_val['rent_rise_year3'] = years_val['rent_rise_year2']  * (1 + float(percentaje) / 100)
 			
-			years_val['rent_rise_year2d'] = years_val['rent_rise_year2'] / currency_id.rate
-			years_val['rent_rise_year3d'] = years_val['rent_rise_year3'] / currency_id.rate
+			to_exchange = {
+				'obj_rent'      : obj_rent,
+				'vals'          : [('rent_rise_year2d',years_val['rent_rise_year2']),
+				('rent_rise_year3d',years_val['rent_rise_year3']),
+				('rent_amountd_base',obj_rent.rent_amount_base),
+				],
+				'from_currency' : obj_rent.currency_id,
+				'to_currency'   : obj_rent.eqv_currency_id,
+			}
+			
+			exchanged = self._calculate_exchange(cr,uid,ids,to_exchange)
+			years_val['rent_rise_year2d'] = exchanged['rent_rise_year2d']
+			years_val['rent_rise_year3d'] = exchanged['rent_rise_year3d']
 			
 			#Just to avoid use a separate function
-			years_val['rent_amountd_base'] = obj_rent.rent_amount_base / currency_id.rate
+			years_val['rent_amountd_base'] = exchanged['rent_amountd_base']
 			res[obj_rent.id] = years_val
 		return res
 		
@@ -710,9 +848,9 @@ class rent_rent(osv.osv):
 			res_data['account_id'] = obj_rent.rent_rent_account_id.id
 		elif type == 'main':
 			res_data['account_id'] = obj_rent.rent_rent_main_account_id.id
-		if obj_company.currency_id.id != obj_rent.currency_id.id:
-			new_price = res_data['price_unit'] * obj_rent.currency_id.rate
-			res_data['price_unit'] = new_price
+		#if obj_company.currency_id.id != obj_rent.currency_id.id:
+		#	new_price = res_data['price_unit'] * obj_rent.currency_id.rate
+		#	res_data['price_unit'] = new_price
 
 		return (0, False, {
 			'name': args['desc'],
@@ -911,7 +1049,7 @@ class rent_rent(osv.osv):
 		return True
 	def cron_rent_invoice(self,cr,uid,ids,context):
 		#gets the list of all active rents
-		rent_ids = self.search(cr,uid,[('state','=','active')])
+		rent_ids = self.search(cr,uid,[('state','=','active'),('rent_type','=','Contract')])
 		date_list = []
 		debug('CRONJOB FORCED TEST')
 		#we retrieve the date of today and the last date registered at the log 
@@ -974,6 +1112,36 @@ class rent_rent(osv.osv):
 					res.append(obj_invoice_rent)
 		return True
 		
+	def action_aprove_adendum(self,cr,uid,ids,context=None):
+		debug(ids)
+		rent_ids = self.search(cr,uid,[('state','=','active'), ('rent_type','=','Adendum')])
+		debug(rent_ids)
+		for rent_aden_id in rent_ids:
+			vals = self.copy_data(cr,uid,rent_aden_id)
+			if vals:
+				if vals.get('rent_type') == 'Adendum':
+					rent_id = vals.get('rent_modif_ref')
+					org_rent = self.copy_data(cr,uid,rent_id)
+					org_rent.update({
+						'rent_type'          : 'Adendum',
+						'rent_modif_ref'     : rent_id,
+						'rent_estimates_ids' : [],
+						'rent_modif'         : [],
+						'rent_historic_ids'  : [],
+						'rent_invoice_ids'   : [],
+						'state'              : 'active'
+					})
+					vals.update({
+						'rent_modif_ref'     : False,
+						'rent_type'          : 'Contract',
+						'state'              : 'active',
+						'rent_estimates_ids' : False,
+					})
+					debug(org_rent)
+					debug(vals)
+					self.write(cr,uid,[rent_id],vals)
+					self.write(cr,uid,[rent_aden_id],org_rent)
+		return True
 	def action_first_invoice(self,cr,uid,ids,context=None):
 		#gets the list of all active rents
 		rent_ids = self.search(cr,uid,[('state','=','active')])
@@ -987,7 +1155,9 @@ class rent_rent(osv.osv):
 			has_first = self.pool.get('rent.invoice.rent').search(cr,uid,[('invoice_rent_id','=',obj_rent.id),('invoice_type','=','rent')])
 			if not has_first and parser.parse(obj_rent.rent_start_date).date().month == date.today().month:
 				#res_first_inv.append(obj_rent.id)
-				res_first_inv.append(obj_rent)
+				if obj_rent.rent_type != "Adendum":
+					#we only create invoice for the contracts NOT for the adendums
+					res_first_inv.append(obj_rent)
 				percentaje = obj_rent.rent_performance.split('%')[0]
 				#we update the estimates list for the obj
 				obj_rent.write({'rent_estimates_ids' : [(0,0,{'estimate_performance': float(percentaje),'estimate_rent_id':obj_rent.id,'estimate_date' : date.today(), 'estimate_state':'final'})]})
@@ -996,7 +1166,9 @@ class rent_rent(osv.osv):
 			if obj_rent.rent_main_inc:
 				has_main_first = self.pool.get('rent.invoice.rent').search(cr,uid,[('invoice_rent_id','=',obj_rent.id),('invoice_type','=','main')])
 				if not has_main_first and parser.parse(obj_rent.rent_main_start_date).date().month == date.today().month:
-					res_first_main_inv.append(obj_rent)
+					if obj_rent.rent_type != "Adendum":
+						#we only create invoice for the contracts NOT for the adendums
+						res_first_main_inv.append(obj_rent)
 					percentaje = obj_rent.rent_main_performance.split('%')[0]
 					obj_rent.write({'rent_main_estimates_ids' : [(0,0,{'estimate_performance': float(percentaje),'estimate_rent_id':obj_rent.id,'estimate_date' : date.today(), 'estimate_state':'final'})]})
 		
@@ -1006,11 +1178,69 @@ class rent_rent(osv.osv):
 		self.first_rent(cr,uid,res_first_main_inv,'main')
 		return {}
 	
-	def calculate_negotiation(self,cr,uid,ids,context):
+	def calculate_negotiation(self,cr,uid,ids,context=None):
 		res = {}
-		self.pool.get('rent.rent').write(cr, uid, ids, {}, context)
 		return { 'value' : res}
 	
+	def onchange_calculate_exchange(self,cr,uid,ids,field):
+		res = {}
+		debug('ONCHANGE')
+		debug(ids)
+		for obj_rent in self.browse(cr,uid,ids):
+		#if field:
+			res_total = self._get_total_rent(cr,uid,ids,{'rent_total','rent_total_us'},None,None)
+			res['rent_total'] = res_total[0]['rent_total']
+			res['rent_total_us'] = res_total[0]['rent_total_us']
+			
+			res['rent_performance'] = self._rent_performance(cr,uid,ids,'rent_performance',{'onchange_amount':field,'onchange_total' : res['rent_total']},None)[0]
+			
+			
+			res_years = self._rent_amount_years(cr,uid,ids,{'rent_rise_year2','rent_rise_year3','rent_amount_base','rent_rise_year2d','rent_rise_year3d','rent_amountd_base'},None)
+			res_sqr = self._performance_per_sqr(cr,uid,ids,{'rent_performance','rent_amountd_per_sqr'},None,None)
+			res['rent_rise_year2'] = res_years[0]['rent_rise_year2']
+			res['rent_rise_year3'] = res_years[0]['rent_rise_year3']
+			res['rent_amount_base'] = res_years[0]['rent_amount_base']
+			res['rent_rise_year2d'] = res_years[0]['rent_rise_year2d']
+			res['rent_rise_year3d'] = res_years[0]['rent_rise_year3d']
+			res['rent_amountd_base'] = res_years[0]['rent_amountd_base']
+			
+			res['rent_performance'] = res_sqr[0]['rent_performance']
+			res['rent_amountd_per_sqr'] = res_sqr[0]['rent_amountd_per_sqr']
+			
+			
+		#for obj_rent in self.browse(cr,uid,ids):
+		#	current_currency = obj_rent.currency_id
+		#	obj_client = obj_rent.rent_rent_client_id
+		#	company_currency = (obj_client.company_id and obj_client.company_id.currency_id.id or self._get_currency(cr,uid,context))
+		#	if company_currency  == current_currency.id:
+		#		if current_currency.name != "USD":
+		#			res['eqv_currency_id'] = pooler.get_pool(cr.dbname).get('res.currency').search(cr, uid, [('name','=','USD')])[0]
+		#		else:
+		#			res['eqv_currency_id'] = company_currency
+		#	if company_currency  != current_currency.id:
+		#		res['eqv_currency_id'] = company_currency
+		#	
+		#	obj_rent.write({'currency_id': current_currency.id, 'eqv_currency_id': res['eqv_currency_id']})
+		return { 'value' : res}
+	
+	def _calculate_exchange(self,cr,uid,ids,args,context=None):
+		val = {}
+		if args:
+			#we search for all the variables so we can exchange currencies
+			obj_rent = args['obj_rent']
+			obj_client = obj_rent.rent_rent_client_id
+			orig_currency  = args['from_currency']
+			dest_currency  = args['to_currency']
+			#Main currency required, for now we asume its the USD
+			main_currency = pooler.get_pool(cr.dbname).get('res.currency').search(cr, uid, [('rate','=', 1.0)])[0]
+			for record in args['vals']:
+				value = record[1]
+				if (orig_currency.id != dest_currency.id):
+					value = value / orig_currency.rate
+					if dest_currency.id != main_currency:
+						value = value * dest_currency.rate
+				val[record[0]] = value
+		return val
 	def _rent_main_performance(self,cr,uid,ids,field_name,args,context):
 		res = {}
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
@@ -1024,24 +1254,35 @@ class rent_rent(osv.osv):
 		res = {}
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
 			years_val = {}
-			
-			currency_id = obj_rent.currency_id
+
 			percentaje = obj_rent.rent_main_rise
 			years_val['rent_main_rise_year2'] = obj_rent.rent_main_amount_base * (1 + float(percentaje) / 100)
 			years_val['rent_main_rise_year3'] = years_val['rent_main_rise_year2']  * (1 + float(percentaje) / 100)
 			
-			years_val['rent_main_rise_year2d'] = years_val['rent_main_rise_year2'] / currency_id.rate
-			years_val['rent_main_rise_year3d'] = years_val['rent_main_rise_year3'] / currency_id.rate
+			to_exchange = {
+				'obj_rent'      : obj_rent,
+				'vals'          : [('rent_main_rise_year2d',years_val['rent_main_rise_year2']),
+				('rent_main_rise_year3d',years_val['rent_main_rise_year3']),
+				('rent_main_amountd_base',obj_rent.rent_main_amount_base),
+				],
+				'from_currency' : obj_rent.currency_id,
+				'to_currency'   : obj_rent.eqv_currency_id,
+			}
+			
+			exchanged = self._calculate_exchange(cr,uid,ids,to_exchange)
+			years_val['rent_main_rise_year2d'] = exchanged['rent_main_rise_year2d']
+			years_val['rent_main_rise_year3d'] = exchanged['rent_main_rise_year3d']
 			
 			#Just to avoid use a separate function
-			years_val['rent_main_amountd_base'] = obj_rent.rent_main_amount_base / currency_id.rate
+			years_val['rent_main_amountd_base'] = exchanged['rent_main_amountd_base']
+			
 			res[obj_rent.id] = years_val
 		return res
 	
 	_columns = {
-		'name'                  : fields.char('Name',size=64),
+		'name'                  : fields.char('Name',size=64,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rent_client_id'   : fields.many2one('res.partner','Client', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_end_date'         : fields.date('Ending Date', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_end_date'         : fields.date('Ending Date', required=True, states={'active':[('readonly',False)], 'finished':[('readonly',True)]}),
 		'rent_ending_motif'     : fields.selection([('early','Early Return'),('expiration','Contract Expiration'),('eviction','No payment eviction'), ('others','Various problems with tenant')],'Ending Motif'),
 		'rent_ending_motif_desc': fields.text('Ending Motif Description'),
 		
@@ -1060,7 +1301,7 @@ class rent_rent(osv.osv):
 		'rent_show_us_eq'       : fields.boolean('Check USD Currency Equivalent',store=False),
 		'rent_total_us'         : fields.function(_get_total_rent,type='float',method=True,string='Total Paid',multi='total'),
 		
-		'rent_type'             : fields.selection([('Contract','Contract'),('Adendum','Adendum'),('Renovation','Renovation')],'Type', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_type'             : fields.selection([('Contract','Contract'),('Adendum','Adendum'),('Renovation','Renovation')],'Type', readonly=True),
 		'state'                 : fields.selection([('active','Active'),('finished','Inactive'),('draft','Draft')],'Status', readonly=True),
 		'rent_start_date'       : fields.date('Starting Date', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_total'            : fields.function(_get_total_rent,type='float',method=True,string='Total Paid',multi='total'),
@@ -1071,7 +1312,8 @@ class rent_rent(osv.osv):
 		'rent_years'            : fields.function(_calculate_years,type='integer',method=True,string = 'Years' ,help='Check if you want to calculate a rent for locals'),
 		'rent_modif'            : fields.one2many('rent.rent', 'rent_modif_ref','Contract reference', states={'draft':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_modif_ref'        : fields.many2one('rent.rent', 'Modifications',ondelete='cascade'),
-		'currency_id'           : fields.many2one('res.currency', 'Currency', required=True, readonly=True),
+		'currency_id'           : fields.many2one('res.currency', 'Currency', required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'eqv_currency_id'       : fields.many2one('res.currency', 'Currency Equivalence', required=True),
 		'rent_estimates_ids'    : fields.one2many('rent.rent.estimate', 'estimate_rent_id','Estimates',states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),         
 		'rent_historic_ids'     : fields.one2many('rent.rent.anual.value', 'anual_value_rent_id','Historic',readonly=True, domain=[('anual_value_type', '=', 'rent')]),
 		'rent_charge_day'       : fields.integer('Charge Day', required=True,help='Indica el dia del mes para realizar los cobros del alquiler.'),
@@ -1145,6 +1387,7 @@ class rent_rent(osv.osv):
 		'state'        : 'draft',
 		'rent_type'    : 'Contract',
 		'currency_id': _get_currency,
+		'eqv_currency_id': _get_currency_eqv,
 		'rent_amount_base' : 0.00,
 		'rent_main_amount_base' : 0.00,
 		#'rent_rise'     : "%.2f%%" % (0.),

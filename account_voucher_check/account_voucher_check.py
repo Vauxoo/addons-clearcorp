@@ -1,10 +1,10 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    __init__.py
-#    ccorp_account
-#    First author: Carlos Vásquez <carlos.vasquez@clearcorp.co.cr> (ClearCorp S.A.)
-#    Copyright (c) 2010-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
+#    account_voucher_check.py
+#    account_voucher_check
+#    First author: Mag Guevara <mag.guevara@clearcorp.co.cr> (ClearCorp S.A.)
+#    Copyright (c) 2011-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
 #    
 #    Redistribution and use in source and binary forms, with or without modification, are
 #    permitted provided that the following conditions are met:
@@ -31,5 +31,22 @@
 #    or implied, of ClearCorp S.A..
 #    
 ##############################################################################
-import wizard
-import report
+
+import time
+from lxml import etree
+
+import netsvc
+from osv import osv, fields
+import decimal_precision as dp
+from tools.translate import _
+
+
+class account_voucher_check(osv.osv):
+	_name = 'account.voucher'
+	_inherit = 'account.voucher'
+	_description = 'Accounting Voucher'
+
+	_columns = {
+		'amount_text'     :   fields.char('On text the amount',size=256,required=True),
+	}
+account_voucher_check()

@@ -1,0 +1,1 @@
+import ccorp_sale_payment_term

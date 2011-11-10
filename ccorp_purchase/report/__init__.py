@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    __init__.py
-#    ccorp_account
+#    ccorp_purchase
 #    First author: Carlos Vásquez <carlos.vasquez@clearcorp.co.cr> (ClearCorp S.A.)
 #    Copyright (c) 2010-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
 #    
@@ -31,5 +31,6 @@
 #    or implied, of ClearCorp S.A..
 #    
 ##############################################################################
-import wizard
-import report
+
+import purchase_order
+import purchase_quotation

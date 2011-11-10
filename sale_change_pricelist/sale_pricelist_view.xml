@@ -1,0 +1,27 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<openerp>
+	<data>
+
+		<!--
+		======================================
+					sales order
+		======================================
+		-->
+		
+		<record model = "ir.ui.view" id = "view_sale_update_currency">
+			<field name = "name">sale.order.pricelist.form</field>
+			<field name = "model">sale.order</field>
+			<field name = "type">form</field>
+			<field name="inherit_id" ref="sale.view_order_form"/>
+			<field name = "arch" type = "xml">
+				<data>
+					<field name="pricelist_id" position="replace">
+						<field domain="[('type','=','sale')]" name="pricelist_id" groups="base.group_extended" readonly="1"/>
+						<button name="%(action_sale_change_pricelist)d" string="Change Currency" type="action" icon="terp-stock_effects-object-colorize" attrs="{'invisible':[('state','!=','draft')]}"/>
+					</field>
+				</data>
+			</field>
+		</record>
+	</data>
+</openerp>
+

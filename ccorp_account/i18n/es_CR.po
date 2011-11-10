@@ -1,0 +1,190 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* ccorp_account
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.0.2\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2011-10-06 19:15+0000\n"
+"PO-Revision-Date: 2011-10-06 19:15+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:93
+#: report:report.account.invoice.layout_ccorp:98
+msgid "Sub Total"
+msgstr "Sub Total"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:39
+msgid "Date:"
+msgstr "Fecha:"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:36
+msgid "ID Num."
+msgstr "Céd. Jur.."
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:47
+msgid "Payment tems"
+msgstr "Plazo de pago"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:81
+msgid "Note"
+msgstr "Nota"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:23
+msgid "Supplier Invoice"
+msgstr "Factura de proveedor"
+
+#. module: ccorp_account
+#: model:ir.module.module,description:ccorp_account.module_meta_information
+msgid "ClearCorp 'account' modifications:\n"
+"    Reports:\n"
+"      * Invoice\n"
+"    "
+msgstr "ClearCorp 'account' modifications:\n"
+"    Reports:\n"
+"      * Invoice\n"
+"    "
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:63
+msgid "Disc.(%)"
+msgstr "Desc.(%)"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:48
+msgid "Email"
+msgstr "Email"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:63
+#: report:report.account.invoice.layout_ccorp:65
+msgid "Total Price"
+msgstr "Precio total"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:17
+msgid "PROFORMA"
+msgstr "PROFORMA"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:44
+msgid "Fax"
+msgstr "Fax"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:94
+msgid "Discount"
+msgstr "Descuento"
+
+#. module: ccorp_account
+#: model:ir.actions.report.xml,name:ccorp_account.account_invoice_ccorp
+msgid "Invoice HTML"
+msgstr "Factura"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:21
+msgid "Canceled Invoice"
+msgstr "Factura cancelada"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:40
+msgid "Phone"
+msgstr "Tel."
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:107
+msgid "Invoice Note"
+msgstr "Nota de factura"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:63
+#: report:report.account.invoice.layout_ccorp:65
+msgid "[Code] Description / (Taxes)"
+msgstr "[Cód.] Descripción / (Imp.)"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:19
+msgid "Draft Inovice"
+msgstr "Factura Borrador"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:55
+msgid "Address"
+msgstr "Dirección"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:15
+msgid "Electronic Invoice"
+msgstr "Factura Electrónica"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:95
+#: report:report.account.invoice.layout_ccorp:99
+msgid "Taxes"
+msgstr "Impuestos"
+
+#. module: ccorp_account
+#: model:ir.module.module,shortdesc:ccorp_account.module_meta_information
+msgid "ClearCorp account module modifications"
+msgstr "ClearCorp account module modifications"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:110
+msgid "Payment Note"
+msgstr "Nota de pago"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:25
+msgid "Refund"
+msgstr "Reembolso"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:43
+msgid "Due date"
+msgstr "Vence"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:63
+#: report:report.account.invoice.layout_ccorp:65
+msgid "Qty"
+msgstr "Cant."
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:63
+#: report:report.account.invoice.layout_ccorp:65
+msgid "Unit Price"
+msgstr "Precio unitario"
+
+#. module: ccorp_account
+#: view:account.account:0
+msgid "Inactive Accounts"
+msgstr "Cuentas inactivas"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:27
+msgid "Supplier Refund"
+msgstr "Reembolso de proveedor"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:96
+#: report:report.account.invoice.layout_ccorp:100
+msgid "Total"
+msgstr "Total"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:51
+msgid "Salesman"
+msgstr "Vendedor"
+

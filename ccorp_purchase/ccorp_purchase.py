@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    __init__.py
+#    ccorp_account.py
 #    ccorp_account
 #    First author: Carlos Vásquez <carlos.vasquez@clearcorp.co.cr> (ClearCorp S.A.)
 #    Copyright (c) 2010-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
@@ -31,5 +31,23 @@
 #    or implied, of ClearCorp S.A..
 #    
 ##############################################################################
-import wizard
-import report
+
+from osv import osv,fields
+
+class account_invoice(osv.osv):
+	_inherit = 'account.invoice'
+	
+	def name_get(self, cr, uid, ids, context={}):
+		if not len(ids):
+			return []
+		reads = self.read(cr, uid, ids, ['name', 'number'], context)
+		res = []
+		for record in reads:
+			name = ""
+			if record['number']:
+				name = record['number']
+			if record['name']:
+				name = name + ' ' + record['name']
+			res.append((record['id'], name))
+		return res
+account_invoice()

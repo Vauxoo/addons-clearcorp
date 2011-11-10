@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    __init__.py
-#    ccorp_account
-#    First author: Carlos Vásquez <carlos.vasquez@clearcorp.co.cr> (ClearCorp S.A.)
+#    __terp__.py
+#    ccorp_purchase
+#    First author: Mag Guevara <mag.guevara@clearcorp.co.cr> (ClearCorp S.A.)
 #    Copyright (c) 2010-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
 #    
 #    Redistribution and use in source and binary forms, with or without modification, are
@@ -31,5 +31,29 @@
 #    or implied, of ClearCorp S.A..
 #    
 ##############################################################################
-import wizard
-import report
+
+{
+    'name': 'ClearCorp sale module modifications',
+    'version': '0.1',
+    'author': 'ClearCorp S.A.',
+    'website': 'http://clearcorp.co.cr',
+    'category': '',
+    'description': """ClearCorp 'sale' modifications:
+    Reports:
+      * Sale Order / Quotation
+    """,
+    'depends': [
+        'purchase',
+        'ccorp_report_fonts',
+        'report_webkit',
+        ],
+    'init_xml': [],
+    'demo_xml': [],
+    'update_xml': [
+        'ccorp_purchase_webkit_report.xml',
+        'ccorp_purchase_quotation_webkit_report.xml',
+        ],
+    'license': 'Other OSI approved licence',
+    'installable': True,
+    'active': False,
+}

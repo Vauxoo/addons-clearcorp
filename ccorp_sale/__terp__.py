@@ -4,6 +4,7 @@
 #    __terp__.py
 #    ccorp_sale
 #    First author: Carlos Vásquez <carlos.vasquez@clearcorp.co.cr> (ClearCorp S.A.)
+#    Second author: Mag Guevara <mag.guevara@clearcorp.co.cr> (ClearCorp S.A.)
 #    Copyright (c) 2010-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
 #    
 #    Redistribution and use in source and binary forms, with or without modification, are
@@ -45,11 +46,12 @@
     'depends': [
         'sale',
         'ccorp_report_fonts',
+        'report_webkit',
         ],
     'init_xml': [],
     'demo_xml': [],
     'update_xml': [
-        'ccorp_sale_report.xml',
+        'ccorp_sale_webkit_report.xml',
         ],
     'license': 'Other OSI approved licence',
     'installable': True,
