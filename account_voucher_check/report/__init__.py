@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    account_voucher_check.py
-#    account_voucher_check
+#    __init__.py
+#    check_voucher
 #    First author: Mag Guevara <mag.guevara@clearcorp.co.cr> (ClearCorp S.A.)
 #    Copyright (c) 2011-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
 #    
@@ -31,14 +31,5 @@
 #    or implied, of ClearCorp S.A..
 #    
 ##############################################################################
-{
-	"name"        : "Voucher Check",
-	"author"      : "ClearCorp S.A.",
-	"version"     : "0.1",
-	"depends"     : ["base","account",'report_webkit',],
-	"init_xml"    : [],
-	"update_xml"  : ['account_voucher_check_view.xml','account_voucher_check_report.xml',],
-	"category"    : "Accounting",
-	"active"      : False,
-	"instalable"  : True,
-}
+
+import check_voucher

@@ -1,10 +1,10 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    account_voucher_check.py
+#    check_voucher.py
 #    account_voucher_check
 #    First author: Mag Guevara <mag.guevara@clearcorp.co.cr> (ClearCorp S.A.)
-#    Copyright (c) 2011-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
+#    Copyright (c) 2010-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
 #    
 #    Redistribution and use in source and binary forms, with or without modification, are
 #    permitted provided that the following conditions are met:
@@ -31,14 +31,27 @@
 #    or implied, of ClearCorp S.A..
 #    
 ##############################################################################
-{
-	"name"        : "Voucher Check",
-	"author"      : "ClearCorp S.A.",
-	"version"     : "0.1",
-	"depends"     : ["base","account",'report_webkit',],
-	"init_xml"    : [],
-	"update_xml"  : ['account_voucher_check_view.xml','account_voucher_check_report.xml',],
-	"category"    : "Accounting",
-	"active"      : False,
-	"instalable"  : True,
-}
+
+import time
+import pooler
+from report import report_sxw
+import locale
+
+class check_voucher(report_sxw.rml_parse):
+
+	def __init__(self, cr, uid, name, context):
+		super(check_voucher, self).__init__(cr, uid, name, context=context)
+		self.localcontext.update({
+			'time': time,
+			'cr'  : cr,
+			'uid' : uid,
+		})
+		self.context = context
+		self._node = None
+
+report_sxw.report_sxw(
+    'report.check.voucher.layout_ccorp',
+    'account.voucher',
+    'addons/account_voucher_check/report/check_voucher.mako',
+    parser=check_voucher
+)
