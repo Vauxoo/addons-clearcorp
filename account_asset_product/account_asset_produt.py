@@ -67,7 +67,7 @@ class ccorp_addons_account_assets(osv.osv):
 		return False
 
 	def get_search(self, cr, uid,context=None):
-		return self.get_id_search(cr, uid, code='account.asset.asset', test='code')
+		return self.get_id_search(cr, uid, sequence_id='account.asset.asset', test='code')
 	
 	
 	
