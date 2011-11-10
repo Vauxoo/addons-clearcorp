@@ -130,6 +130,7 @@ class ccorp_addons_account_assets(osv.osv):
 	
 	
 	def _get_asset_product(self, cr, uid, ids, field_name, arg, context={}):
+		debug(context)
 		asset_id=context.get('active_id')
 		debug(asset_id)
 		if asset_id != None:
