@@ -13,7 +13,7 @@
 				<td class = "document_data">
 					<span class="title">${check.partner_id.name or ''|entity}</span><br/>
 				<td>
-					<span class="title">${(check.date or ''|entity}</span>
+					<span class="title">${check.date or ''|entity}</span>
 				</td>
 				<td>
 					<span class = "title">${formatLang(check.amount)}</span>
