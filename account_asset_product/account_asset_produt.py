@@ -132,7 +132,7 @@ class ccorp_addons_account_assets(osv.osv):
 		
 	}
 	_defaults = { 
-		'code': get_search('account.asset.asset'),
+		'code': get_search(cr, uid,'account.asset.asset'),
 		'partner_id': _getCompany
 	}
 	_sql_constraints = [ 
