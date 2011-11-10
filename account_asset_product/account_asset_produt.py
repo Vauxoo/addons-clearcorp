@@ -66,8 +66,7 @@ class ccorp_addons_account_assets(osv.osv):
 				return self._process(res['prefix']) + self._process(res['suffix'])
 		return False
 
-	def get_search(self, cr, uid,context=None)
-	:
+	def get_search(self, cr, uid,context=None):
 		return self.get_id_search(cr, uid, code='account.asset.asset', test='code')
 	
 	
