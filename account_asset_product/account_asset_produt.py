@@ -136,6 +136,7 @@ class ccorp_addons_account_assets(osv.osv):
 		if asset_id != None:
 			#asset= self.pool.get('account.asset.asset').browse(cr, uid, asset_id)
 			asset_id2=self.browse(cr,uid,asset_id).name.id
+			debug(asset_id2)
 			asset= self.pool.get('account.asset.asset').browse(cr, uid, asset_id2)
 			debug(asset.prod_lot_id.id)
 			product_lot= self.pool.get('stock.production.lot').browse(cr, uid, asset.prod_lot_id.id)  
