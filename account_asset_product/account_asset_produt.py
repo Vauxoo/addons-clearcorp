@@ -108,7 +108,7 @@ class ccorp_addons_account_assets(osv.osv):
 					saved_move_location = move_object.location_dest_id.name
 					saved_move_date = parser.parse(move_object.date).date()
 			
-				return saved_move_location
+			return saved_move_location
 	
 	
 	def _get_asset_product(self, cr, uid, ids, context=None):
