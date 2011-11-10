@@ -10,36 +10,6 @@ from tools.translate import _
 
 
 
-class ccorp_addons_ir_sequence(osv.osv):
-	_name = 'ir.sequence'
-	_inherit = 'ir.sequence'
-	
-	def get_id_search(self, cr, uid, sequence_id, test='id', context=None):
-		assert test in ('code','id')
-		company_ids = self.pool.get('res.company').search(cr, uid, [], context=context)
-		cr.execute('''SELECT id, number_next, prefix, suffix, padding
-					FROM ir_sequence
-					WHERE %s=%%s
-					AND active=true
-					AND (company_id in %%s or company_id is NULL)
-					ORDER BY company_id, id
-					FOR UPDATE NOWAIT''' % test,
-					(sequence_id, tuple(company_ids)))
-		res = cr.dictfetchone()
-		if res:
-			if res['number_next']:
-				return self._process(res['prefix']) + '%%0%sd' % res['padding'] % res['number_next'] + self._process(res['suffix'])
-			else:
-				return self._process(res['prefix']) + self._process(res['suffix'])
-		return False
-
-	def get_search(self, cr, uid, code):
-		return self.get_id_search(cr, uid, code, test='code')
-
-ccorp_addons_ir_sequence()
-
-
-
 class ccorp_addons_account_assets(osv.osv):
 	_name = 'account.asset.asset'
 	_inherit = 'account.asset.asset'
@@ -76,6 +46,31 @@ class ccorp_addons_account_assets(osv.osv):
 		return saved_move_location
 	
 	
+	
+	def get_id_search(self, cr, uid, sequence_id, test='id', context=None):
+		assert test in ('code','id')
+		company_ids = self.pool.get('res.company').search(cr, uid, [], context=context)
+		cr.execute('''SELECT id, number_next, prefix, suffix, padding
+					FROM ir_sequence
+					WHERE %s=%%s
+					AND active=true
+					AND (company_id in %%s or company_id is NULL)
+					ORDER BY company_id, id
+					FOR UPDATE NOWAIT''' % test,
+					(sequence_id, tuple(company_ids)))
+		res = cr.dictfetchone()
+		if res:
+			if res['number_next']:
+				return self._process(res['prefix']) + '%%0%sd' % res['padding'] % res['number_next'] + self._process(res['suffix'])
+			else:
+				return self._process(res['prefix']) + self._process(res['suffix'])
+		return False
+
+	def get_search(self, cr, uid, code):
+		return self.get_id_search(cr, uid, code, test='code')
+	
+	
+	
 	def get_product1(self, cr, uid, ids, pprodlot, context=None):
 		product_lot= self.pool.get('stock.production.lot').browse(cr, uid, pprodlot)
 		debug(product_lot)
@@ -86,14 +81,58 @@ class ccorp_addons_account_assets(osv.osv):
 		
 		return saved_lot_product
 	
+	def _get_location(self, cr, uid, ids, context=None):
+		asset_id=contex.get('active_id')
+		if asset_id != None:
+			product_lot= self.pool.get('account.asset.asset').browse(cr, uid, asset_id)
+			pprodlot = product_lot.prod_lot_id.id
+			
+			product_lot= self.pool.get('stock.production.lot').browse(cr, uid, pprodlot)
+			debug(product_lot)
+			#debug(product_lot.product_id)
+			res = {}
+			saved_move_location = 0
+			saved_move_date = 0
+		
+			for move_object in product_lot.move_ids:
+			#debug(key)
+			#move_object= self.pool.get('stock.move').browse(cr, uid, key)
+			debug(move_object)
+			debug(move_object.date)
+			temp_saved_move_date = parser.parse(move_object.date).date()
+			if saved_move_date == 0:
+				saved_move_location = move_object.location_dest_id.name
+				saved_move_date = parser.parse(move_object.date).date()
+				
+			elif saved_move_date < temp_saved_move_date:
+				saved_move_location = move_object.location_dest_id.name
+				saved_move_date = parser.parse(move_object.date).date()
+			
+			return saved_move_location
+	
+	
+	def _get_asset_product(self, cr, uid, ids, context=None):
+		asset_id=contex.get('active_id')
+		if asset_id != None:
+			product_lot= self.pool.get('account.asset.asset').browse(cr, uid, asset_id)
+			
+			debug(product_lot)
+			#debug(product_lot.product_id)
+			saved_lot_product= product_lot.product_id.name
+		
+		
+		
+		return saved_lot_product
+	
+	
 	_columns = {
 		'prod_lot_id': fields.many2one('stock.production.lot', 'Production Lot'), #, domain="[('company_id','=',product_id)]",
-		'asset_product_id': fields.char(size=100 ,string='Product', readonly=True ),
-		'location_id': fields.char(size=100 ,string='Location', readonly=True ),
+		'asset_product_id': fields.function(_get_asset_product,string='Product',type="char", readonly=True ),
+		'location_id': fields.function(_get_location, string='Location', readonly=True ,type="char"),
 		
 	}
 	_defaults = { 
-		'code': lambda self, cr, uid, context: self.pool.get('ir.sequence').get_search(cr, uid, 'account.asset.asset'),
+		'code': get_search('account.asset.asset'),
 		'partner_id': _getCompany
 	}
 	_sql_constraints = [ 
