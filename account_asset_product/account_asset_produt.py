@@ -102,7 +102,7 @@ class ccorp_addons_account_assets(osv.osv):
 	
 	def _get_location(self, cr, uid, ids, field_name, arg, context={}):
 		asset_id=context.get('active_id')
-		if asset_id != None:
+#		if asset_id != None:
 #			for id1 in ids:
 #				asset= self.pool.get('account.asset.asset').browse(cr, uid, id1)
 #				product_lot= self.pool.get('stock.production.lot').browse(cr, uid, asset.prod_lot_id.id)  
@@ -134,7 +134,7 @@ class ccorp_addons_account_assets(osv.osv):
 		debug(context)
 		asset_id=context.get('active_id')
 		debug(asset_id)
-		if asset_id != None:
+#		if asset_id != None:
 #			for id2 in ids:
 #				#asset= self.pool.get('account.asset.asset').browse(cr, uid, asset_id)
 #				asset= self.pool.get('account.asset.asset').browse(cr, uid, id2)
