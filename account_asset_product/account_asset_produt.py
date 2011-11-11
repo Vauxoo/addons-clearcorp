@@ -138,6 +138,7 @@ class ccorp_addons_account_assets(osv.osv):
 		debug(context)
 		asset_id=context.get('active_id')
 		debug(asset_id)
+		res = {}
 		if asset_id != None:
 			for id2 in ids:
 				#asset= self.pool.get('account.asset.asset').browse(cr, uid, asset_id)
