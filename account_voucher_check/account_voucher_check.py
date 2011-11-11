@@ -47,6 +47,6 @@ class account_voucher_check(osv.osv):
 	_description = 'Accounting Voucher'
 
 	_columns = {
-		'amount_text'     :   fields.char('On text the amount',size=256,required=True),
+		'amount_text'     :   fields.char('On text the amount',size=256),
 	}
 account_voucher_check()
