@@ -14,27 +14,27 @@
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td>
-					<span class="title">${check.date or ''|entity}</span>
+					<span class="text_font">${check.date or ''|entity}</span>
 				</td>
 			</tr>
 			<tr class = "detail">
 				<td class = "document_data" colspan = "3">
-					<span class="title">${check.partner_id.name or ''|entity}</span>
+					<span class="text_font">${check.partner_id.name or ''|entity}</span>
 				</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td>
-					<span class = "title">${formatLang(check.amount)}</span>
+					<span class = "text_font">${formatLang(check.amount)}</span>
 				</td>
 			</tr>
 			<tr class = "detail">
 				<td class = "amount_text" colspan = "4">
-					<span class="title">${check.partner_id.name or ''|entity}</span>
+					<span class="text_font">${check.partner_id.name or ''|entity}</span>
 				</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td>
-					<span class = "title">${formatLang(check.amount)}</span>
+					<span class = "text_font">${formatLang(check.amount)}</span>
 				</td>
 			</tr>
 		</table>
