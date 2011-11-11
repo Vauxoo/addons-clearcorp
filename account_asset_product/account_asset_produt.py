@@ -142,8 +142,9 @@ class ccorp_addons_account_assets(osv.osv):
 				debug(asset.prod_lot_id)
 				product_lot= self.pool.get('stock.production.lot').browse(cr, uid, asset.prod_lot_id.id)  
 				debug(product_lot)
-				#debug(product_lot.product_id)
+				debug(product_lot.product_id.name)
 				saved_lot_product= product_lot.product_id.name
+				
 		
 		
 		
