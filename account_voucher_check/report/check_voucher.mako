@@ -29,13 +29,11 @@
 			</tr>
 			<tr class = "detail">
 				<td class = "amount_text" colspan = "4">
-					<span class="text_font">${check.partner_id.name or ''|entity}</span>
+					<span class="text_font">${check.amount_text or ''|entity}</span>
 				</td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
-				<td>
-					<span class = "text_font">${formatLang(check.amount)}</span>
-				</td>
+				<td>&nbsp;</td>
 			</tr>
 		</table>
 		<table width = "100%" class = "document_data">
