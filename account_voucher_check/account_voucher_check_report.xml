@@ -8,7 +8,7 @@
 				file="account_voucher_check/report/check_voucher.mako" 
 				string="Check Print" 
 				report_type="webkit"
-				header "False"
+				header =  "False"
 				/>
 	</data>
 </openerp>
