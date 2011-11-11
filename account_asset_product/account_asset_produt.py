@@ -158,8 +158,10 @@ class ccorp_addons_account_assets(osv.osv):
 	
 	_columns = {
 		'prod_lot_id': fields.many2one('stock.production.lot', 'Production Lot'), #, domain="[('company_id','=',product_id)]",
-		'asset_product_id': fields.function(_get_asset_product,string='Product',type="char", store=False, method=True, readonly=True ),
-		'location_id': fields.function(_get_location, string='Location', store=False, method=True,readonly=True ,type="char"),
+		#'asset_product_id': fields.function(_get_asset_product,string='Product',type="char", store=False, method=True, readonly=True ),
+		#'location_id': fields.function(_get_location, string='Location', store=False, method=True,readonly=True ,type="char"),
+		'asset_product_id': fields.related('prod_lot_id', 'product_id', type='many2one', relation='product.product', string='Product', readonly=True)
+		'location_id': fields.related('prod_lot_id', 'last_location_id', type='many2one', relation='stock.location', string='Location', readonly=True)
 		
 	}
 	_defaults = { 
