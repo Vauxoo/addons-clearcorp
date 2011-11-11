@@ -41,7 +41,7 @@
 				<td>&nbsp;</td>
 				%if check.narration:
 				<td>${check.narration or ''|entity}</td>
-				%else
+				%else:
 				<td>&nbsp;</td>
 				%endif
 			</tr>
