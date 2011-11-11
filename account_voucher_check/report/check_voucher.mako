@@ -38,7 +38,7 @@
 		</table>
 		<table width = "100%" class = "document_data">
 			<tr class = "part_account">
-				<td>&nbsp;</td>
+				<td>SE EMITE ESTE CHEQUE POR EL SIGUIENTE CONCEPTO</td>
 				%if check.narration:
 				<td>${check.narration or ''|entity}</td>
 				%else:
