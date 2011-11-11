@@ -103,31 +103,31 @@ class ccorp_addons_account_assets(osv.osv):
 	def _get_location(self, cr, uid, ids, field_name, arg, context={}):
 		asset_id=context.get('active_id')
 		if asset_id != None:
-			for id1 in ids:
-				asset= self.pool.get('account.asset.asset').browse(cr, uid, id1)
-				product_lot= self.pool.get('stock.production.lot').browse(cr, uid, asset.prod_lot_id.id)  
-				debug(product_lot)
+#			for id1 in ids:
+#				asset= self.pool.get('account.asset.asset').browse(cr, uid, id1)
+#				product_lot= self.pool.get('stock.production.lot').browse(cr, uid, asset.prod_lot_id.id)  
+#				debug(product_lot)
 			
 				#debug(product_lot.product_id)
-				res = {}
-				saved_move_location = 0
-				saved_move_date = 0
+#				res = {}
+#				saved_move_location = 0
+#				saved_move_date = 0
 		
-				for move_object in product_lot.move_ids:
+#				for move_object in product_lot.move_ids:
 					#debug(key)
 					#move_object= self.pool.get('stock.move').browse(cr, uid, key)
-					debug(move_object)
-					debug(move_object.date)
-					temp_saved_move_date = parser.parse(move_object.date).date()
-					if saved_move_date == 0:
-						saved_move_location = move_object.location_dest_id.name
-						saved_move_date = parser.parse(move_object.date).date()
+#					debug(move_object)
+#					debug(move_object.date)
+#					temp_saved_move_date = parser.parse(move_object.date).date()
+#					if saved_move_date == 0:
+#						saved_move_location = move_object.location_dest_id.name
+#						saved_move_date = parser.parse(move_object.date).date()
 				
-					elif saved_move_date < temp_saved_move_date:
-						saved_move_location = move_object.location_dest_id.name
-						saved_move_date = parser.parse(move_object.date).date()
+#					elif saved_move_date < temp_saved_move_date:
+#						saved_move_location = move_object.location_dest_id.name
+#						saved_move_date = parser.parse(move_object.date).date()
 			
-					return saved_move_location
+#					return saved_move_location
 	
 	
 	def _get_asset_product(self, cr, uid, ids, field_name, arg, context={}):
@@ -135,19 +135,19 @@ class ccorp_addons_account_assets(osv.osv):
 		asset_id=context.get('active_id')
 		debug(asset_id)
 		if asset_id != None:
-			for id2 in ids:
-				#asset= self.pool.get('account.asset.asset').browse(cr, uid, asset_id)
-				asset= self.pool.get('account.asset.asset').browse(cr, uid, id2)
-				debug(asset)
-				debug(asset.prod_lot_id.id)
-				product_lot= self.pool.get('stock.production.lot').browse(cr, uid, asset.prod_lot_id.id)  
-				debug(product_lot)
-				#debug(product_lot.product_id)
-				saved_lot_product= product_lot.product_id.name
+#			for id2 in ids:
+#				#asset= self.pool.get('account.asset.asset').browse(cr, uid, asset_id)
+#				asset= self.pool.get('account.asset.asset').browse(cr, uid, id2)
+#				debug(asset)
+#				debug(asset.prod_lot_id)
+#				product_lot= self.pool.get('stock.production.lot').browse(cr, uid, asset.prod_lot_id.id)  
+#				debug(product_lot)
+#				#debug(product_lot.product_id)
+#				saved_lot_product= product_lot.product_id.name
 		
 		
 		
-			return saved_lot_product
+#			return saved_lot_product
 	
 	
 	_columns = {
