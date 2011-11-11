@@ -33,6 +33,31 @@
 			</field>
 		</record>
         
+        <record id="view_medical_zahha_laboratory_filter" model="ir.ui.view">
+			<field name="name">account.asset.asset search</field>
+			<field name="model">account.asset.asset</field>
+			<field name="type">search</field>
+			<field name="arch" type="xml">
+				<search string="Search Asset">
+					<separator orientation="vertical"/>
+					    <field name="name"/>
+					    <field name="code" />
+					    <field name="location_id"/>
+					    <field name="asset_product_id" />
+					    <field name="category_id" />
+					    <field name="prod_lot_id" />
+					 <newline/>
+					<filter string="Active" domain="[('active','=','True')]" icon="terp-project"/>
+					<filter string="Inactive" domain="[('active','=','False')]" icon="terp-project"/>
+					
+					
+					
+					
+
+					<newline/>
+				</search>
+			</field>
+		</record>
         
         
         
