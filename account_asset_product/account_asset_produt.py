@@ -147,7 +147,7 @@ class ccorp_addons_account_assets(osv.osv):
 				product_lot= self.pool.get('stock.production.lot').browse(cr, uid, asset.prod_lot_id.id)  
 				debug(product_lot)
 				debug(product_lot.product_id.name)
-				res[id2] = move_object.location_dest_id.name
+				res[id2]= product_lot.product_id.name
 				
 		
 		
