@@ -23,10 +23,12 @@
 					<field name="code" position="after">
 						<!--newline/-->
 						<field name="prod_lot_id" /><!--on_change="on_change_search_location(prod_lot_id)"-->
-						<field name="asset_product_id"/>
-						<field name="location_id"/>
+						<field name="asset_product_id" select="1"/>
+						<field name="location_id" select="1"/>
 						
-					</field>		
+					</field>	
+					<field name="localisation" position="replace"/>
+						
 				</data>
 			</field>
 		</record>
