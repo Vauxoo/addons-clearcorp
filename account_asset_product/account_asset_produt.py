@@ -122,12 +122,16 @@ class ccorp_addons_account_assets(osv.osv):
 					if saved_move_date == 0:
 						saved_move_location = move_object.location_dest_id.name
 						saved_move_date = parser.parse(move_object.date).date()
+						res[id1] = move_object.location_dest_id.name
+						
 				
 					elif saved_move_date < temp_saved_move_date:
 						saved_move_location = move_object.location_dest_id.name
 						saved_move_date = parser.parse(move_object.date).date()
+						res[id1] = move_object.location_dest_id.name
 			
-					return saved_move_location
+					
+					return res
 	
 	
 	def _get_asset_product(self, cr, uid, ids, field_name, arg, context={}):
