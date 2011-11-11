@@ -40,15 +40,17 @@
 			<field name="arch" type="xml">
 				<search string="Search Asset">
 					<separator orientation="vertical"/>
+						<filter string="Active" domain="[('active','=','True')]" icon="terp-project"/>
+						<filter string="Inactive" domain="[('active','=','False')]" icon="terp-project"/>
+					    <newline/>
 					    <field name="name"/>
 					    <field name="code" />
 					    <field name="location_id"/>
 					    <field name="asset_product_id" />
 					    <field name="category_id" />
 					    <field name="prod_lot_id" />
-					 <newline/>
-					<filter string="Active" domain="[('active','=','True')]" icon="terp-project"/>
-					<filter string="Inactive" domain="[('active','=','False')]" icon="terp-project"/>
+					 
+					
 					
 					
 					
