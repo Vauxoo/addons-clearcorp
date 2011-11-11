@@ -100,11 +100,11 @@ class ccorp_addons_account_assets(osv.osv):
 		
 		return saved_lot_product
 	
-	def _get_location(self, cr, uid, ids, field_name, arg, context={}):
+	def _get_location(self, cr, uid, ids, field_name, arg, context : context['prod_lot_id'] if context and 'prod_lot_id' in context else None ):
 		asset_id=context.get('active_id')
 		if asset_id != None:
-			asset= self.pool.get('account.asset.asset').browse(cr, uid, asset_id)
-			product_lot= self.pool.get('stock.production.lot').browse(cr, uid, asset.prod_lot_id.id)  
+			#asset= self.pool.get('account.asset.asset').browse(cr, uid, asset_id)
+			product_lot= self.pool.get('stock.production.lot').browse(cr, uid, prod_lot_id)  
 			debug(product_lot)
 			
 			#debug(product_lot.product_id)
