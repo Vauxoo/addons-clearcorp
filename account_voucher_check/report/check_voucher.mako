@@ -48,7 +48,7 @@
 				%endif
 			</tr>
 		</table>
-		<table width = "100%" id = "table_account" height = "450px">
+		<table width = "100%" id = "table_account" height = "250px">
 			<tr><thead><th>CODE</th><th>ACCOUNTS AFFECTED</th><th>CREDIT</th><th>DEBIT</th></thead></tr>
 			%for line in check.line_cr_ids :
 			<tr class = "account_line">
