@@ -78,7 +78,7 @@
 				<td>No.5199</td>
 				<td>${user.name}</td>
 				<td>${user.name}</td>
-				<td><span class = "text_font">${check.partner_id.name or ''|entity}</span></td>
+				<td><span>${check.partner_id.name or ''|entity}</span></td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 			</tr>
