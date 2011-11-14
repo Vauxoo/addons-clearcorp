@@ -14,7 +14,7 @@
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 				<td>
-					<span class="text_font">${check.date or ''|entity}</span>
+					<span class="text_font" id = "date">${check.date or ''|entity}</span>
 				</td>
 			</tr>
 			<tr class = "detail">
