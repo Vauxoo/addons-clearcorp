@@ -58,11 +58,22 @@
 				<td>${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}</td>
 			</tr>
 			%endfor
+			%for line in check.line_dr_ids :
+			<tr>
+				<td>${line.account_id.code}</td>
+				<td>
+					${line.account_id.name}
+				</td>
+				<td>${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}</td>
+				<td>${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}</td>
+			</tr>
+			%endfor
 		</table>
 		<table width = "100%" class = "document_data">
 			<tr class = "check_footer">
-				<td>No.</td>
-				<td>&nbsp;</td>
+				<td>No.5199</td>
+				<td>${user.name}</td>
+				<td>${user.name}</td>
 				<td><span class = "text_font">${check.partner_id.name or ''|entity}</span></td>
 			</tr>
 			<tr class = "zone_break"><td>&nbsp;</td><td>&nbsp;</td></tr>
