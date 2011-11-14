@@ -47,7 +47,7 @@ class report_webkit_format(osv.osv):
 				('B9' ,'B9  23  33 x 62 mm'),
 				('B10',':B10    16  31 x 44 mm'),
 				('C5E','C5E 24  163 x 229 mm'),
-				('C5E','C5E 25  171 x 180 mm'),
+				('Letter','Checks 25  171 x 180 mm'),
 				('Comm10E','Comm10E 26  105 x 241 mm, U.S. Common 10 Envelope'),
 				('DLE', 'DLE 27 110 x 220 mm'),
 				('Executive','Executive 4   7.5 x 10 inches, 190.5 x 254 mm'),
