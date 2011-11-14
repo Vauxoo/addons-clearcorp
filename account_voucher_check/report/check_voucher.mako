@@ -48,8 +48,9 @@
 				%endif
 			</tr>
 		</table>
-		<table width = "100%" id = "table_account">
-			<tr><thead><th>CODE</th><th>ACCOUNTS AFFECTED</th><th>CREDIT</th><th>DEBIT</th></thead></tr>
+		<table width = "100%" id = "table_account" border = "1">
+			<thead><tr><th>CODE</th><th>ACCOUNTS AFFECTED</th><th>CREDIT</th><th>DEBIT</th><tr></thead>
+			<tbody>
 			%for line in check.line_cr_ids :
 			<tr class = "account_line">
 				<td valign="top">${line.account_id.code}</td>
@@ -70,6 +71,7 @@
 				<td valign="top">${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}</td>
 			</tr>
 			%endfor
+			</tbody>
 		</table>
 		<table width = "100%" id = "footer_data">
 			<tr id = "check_footer">
