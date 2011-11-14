@@ -79,8 +79,9 @@
 				<td>${user.name}</td>
 				<td>${user.name}</td>
 				<td><span class = "text_font">${check.partner_id.name or ''|entity}</span></td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
 			</tr>
-			<tr class = "zone_break"><td>&nbsp;</td><td>&nbsp;</td></tr>
 		</table>		
 	</div>
 	<p style="page-break-after:always"></p>
