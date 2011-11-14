@@ -18,7 +18,7 @@
 				</td>
 			</tr>
 			<tr class = "detail">
-				<td class = "document_data" colspan = "3">
+				<td colspan = "3">
 					<span class="text_font">${check.partner_id.name or ''|entity}</span>
 				</td>
 				<td>&nbsp;</td>
@@ -36,7 +36,7 @@
 				<td>&nbsp;</td>
 			</tr>
 		</table>
-		<table width = "100%" class = "document_data">
+		<table width = "100%" id = "document_data">
 			<thead>
 				<tr><th>SE EMITE ESTE CHEQUE POR EL SIGUIENTE CONCEPTO</th></tr>
 			</thead>
@@ -48,7 +48,7 @@
 				%endif
 			</tr>
 		</table>
-		<table width = "100%" class = "table_account">
+		<table width = "100%" id = "table_account" height = "450px">
 			<tr><thead><th>CODE</th><th>ACCOUNTS AFFECTED</th><th>CREDIT</th><th>DEBIT</th></thead></tr>
 			%for line in check.line_cr_ids :
 			<tr class = "account_line">
@@ -71,7 +71,7 @@
 			</tr>
 			%endfor
 		</table>
-		<table width = "100%" class = "document_data">
+		<table width = "100%" id = "footer_data">
 			<tr class = "check_footer">
 				<td>No.5199</td>
 				<td>${user.name}</td>
