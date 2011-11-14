@@ -51,7 +51,7 @@
 		<table width = "100%" id = "table_account">
 			<tr><thead><th>CODE</th><th>ACCOUNTS AFFECTED</th><th>CREDIT</th><th>DEBIT</th></thead></tr>
 			%for line in check.line_cr_ids :
-			<tr class = "account_line">
+			<tr class = "account_line" valign = "top">
 				<td>${line.account_id.code}</td>
 				<td>
 					${line.account_id.name}
@@ -61,7 +61,7 @@
 			</tr>
 			%endfor
 			%for line in check.line_dr_ids :
-			<tr class = "account_line">
+			<tr class = "account_line" valign = "top">
 				<td>${line.account_id.code}</td>
 				<td>
 					${line.account_id.name}
@@ -72,7 +72,7 @@
 			%endfor
 		</table>
 		<table width = "100%" id = "footer_data">
-			<tr class = "check_footer">
+			<tr id = "check_footer">
 				<td>No.5199</td>
 				<td>${user.name}</td>
 				<td>${user.name}</td>
