@@ -36,7 +36,7 @@
 				<td>&nbsp;</td>
 			</tr>
 		</table>
-		<table width = "100%" id = "document_data">
+		<table width = "100%" id = "document_desc">
 			<thead>
 				<tr><th>SE EMITE ESTE CHEQUE POR EL SIGUIENTE CONCEPTO</th></tr>
 			</thead>
@@ -51,23 +51,23 @@
 		<table width = "100%" id = "table_account">
 			<tr><thead><th>CODE</th><th>ACCOUNTS AFFECTED</th><th>CREDIT</th><th>DEBIT</th></thead></tr>
 			%for line in check.line_cr_ids :
-			<tr class = "account_line" valign = "top">
-				<td>${line.account_id.code}</td>
-				<td>
+			<tr class = "account_line">
+				<td  valign = "top">${line.account_id.code}</td>
+				<td  valign = "top">
 					${line.account_id.name}
 				</td>
-				<td>${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}</td>
-				<td>${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}</td>
+				<td valign = "top">${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}</td>
+				<td valign = "top">${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}</td>
 			</tr>
 			%endfor
 			%for line in check.line_dr_ids :
-			<tr class = "account_line" valign = "top">
-				<td>${line.account_id.code}</td>
-				<td>
+			<tr class = "account_line">
+				<td  valign = "top">${line.account_id.code}</td>
+				<td  valign = "top">
 					${line.account_id.name}
 				</td>
-				<td>${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}</td>
-				<td>${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}</td>
+				<td  valign = "top">${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}</td>
+				<td  valign = "top">${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}</td>
 			</tr>
 			%endfor
 		</table>
