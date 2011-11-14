@@ -8,7 +8,7 @@
 	%for check in objects :
 	<% setLang(check.partner_id.lang) %>
 	<div id="wrapper">
-		<table width = "100%" class = "document_data">
+		<table width = "100%" id = "document_data">
 			<tr>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
@@ -48,7 +48,7 @@
 				%endif
 			</tr>
 		</table>
-		<table width = "100%" id = "table_account" border = "1">
+		<table width = "100%" id = "table_account">
 			<thead><tr><th>CODE</th><th>ACCOUNTS AFFECTED</th><th>CREDIT</th><th>DEBIT</th><tr></thead>
 			<tbody>
 			%for line in check.line_cr_ids :
@@ -67,7 +67,7 @@
 				<td valign="top">
 					${line.account_id.name}
 				</td>
-				<td valign="bottom">${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}</td>
+				<td valign="top">${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}</td>
 				<td valign="top">${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}</td>
 			</tr>
 			%endfor
