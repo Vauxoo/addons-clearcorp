@@ -37,15 +37,17 @@
 			</tr>
 		</table>
 		<table width = "100%" class = "document_data">
+			<thead>
+				<tr><th>SE EMITE ESTE CHEQUE POR EL SIGUIENTE CONCEPTO</th></tr>
+			</thead>
 			<tr class = "part_account">
-				<td>SE EMITE ESTE CHEQUE POR EL SIGUIENTE CONCEPTO</td>
 				%if check.narration:
 				<td>${check.narration or ''|entity}</td>
 				%else:
 				<td>&nbsp;</td>
 				%endif
 			</tr>
-			<th>CODE</th><th>ACCOUNTS AFFECTED</th><th>CREDIT</th><th>DEBIT</th>
+			<tr><thead><th>CODE</th><th>ACCOUNTS AFFECTED</th><th>CREDIT</th><th>DEBIT</th></thead></tr>
 			%for line in check.line_cr_ids :
 			<tr>
 				<td>${line.account_id.code}</td>
