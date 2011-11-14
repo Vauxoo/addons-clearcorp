@@ -47,9 +47,11 @@
 				<td>&nbsp;</td>
 				%endif
 			</tr>
+		</table>
+		<table width = "100%" class = "table_account">
 			<tr><thead><th>CODE</th><th>ACCOUNTS AFFECTED</th><th>CREDIT</th><th>DEBIT</th></thead></tr>
 			%for line in check.line_cr_ids :
-			<tr>
+			<tr class = "account_line">
 				<td>${line.account_id.code}</td>
 				<td>
 					${line.account_id.name}
@@ -59,7 +61,7 @@
 			</tr>
 			%endfor
 			%for line in check.line_dr_ids :
-			<tr>
+			<tr class = "account_line">
 				<td>${line.account_id.code}</td>
 				<td>
 					${line.account_id.name}
