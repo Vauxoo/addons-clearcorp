@@ -139,6 +139,7 @@
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
+			<field name="domain">[('customer','=','True')]</field>
 			<field name = "view_id" ref = "client_form_view"/>
 		</record>
 		
@@ -938,6 +939,7 @@
 						<field name = "rent_type"/>
 						<field name = "state"/>
 						<field name = "rent_related_real" />
+						<field name = "'rent_group_id'" />
 						<field name = "rent_main_inc"/>
 					</group>
 					<notebook>
@@ -1523,6 +1525,46 @@
 			<field name = "view_mode">tree,form</field>
 			<field name = "view_id" ref = "clause_by_contract_tree_view"/>
 		</record>
+		
+		
+		<!--
+		======================================
+					RENT GROUP
+		======================================
+		-->
+		<record model = "ir.ui.view" id = "rent_rent_group_form_view">
+			<field name = "name">rent.rent.group.form</field>
+			<field name = "model">rent.rent.group</field>
+			<field name = "type">form</field>
+			<field name = "arch" type = "xml">
+				<form string = "Rent Group">
+					<field name = "name"/>
+					<field name = "rent_rent_ids"/>
+				</form>
+			</field>
+		</record>
+		
+		<record model = "ir.ui.view" id = "rent_rent_group_tree_view">
+			<field name = "name">rent.rent.group.tree</field>
+			<field name = "model">rent.rent.group</field>
+			<field name = "type">tree</field>
+			<field name = "arch" type = "xml">
+				<tree string = "Rent Group List">
+					<field name = "name"/>
+					<field name = "rent_rent_ids"/>
+				</tree>
+			</field>
+		</record>
+		
+		<record model = "ir.actions.act_window" id = "action_rent_group_form_view">
+			<field name = "name">Rent Group</field>
+			<field name = "res_model">rent.rent.group</field>
+			<field name = "type">ir.actions.act_window</field>
+			<field name = "view_type">form</field>
+			<field name = "view_mode">tree,form</field>
+			<field name = "view_id" ref = "rent_rent_group_tree_view"/>
+		</record>
+		<menuitem id = "rent_rent_group_submenu" name = "Rent group" parent = "rent_rent_menu" action = "action_rent_group_form_view"/>
 	</data>
 </openerp>
 

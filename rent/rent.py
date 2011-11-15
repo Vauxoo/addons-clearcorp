@@ -1320,10 +1320,12 @@ class rent_rent(osv.osv):
 		'eqv_currency_id'       : fields.many2one('res.currency', 'Currency Equivalence', required=True),
 		'rent_estimates_ids'    : fields.one2many('rent.rent.estimate', 'estimate_rent_id','Estimates',states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),         
 		'rent_historic_ids'     : fields.one2many('rent.rent.anual.value', 'anual_value_rent_id','Historic',readonly=True, domain=[('anual_value_type', '=', 'rent')]),
-		'rent_charge_day'       : fields.integer('Charge Day', required=True,help='Indica el dia del mes para realizar los cobros del alquiler.'),
+		'rent_charge_day'       : fields.integer('Charge Day', required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]},help='Indica el dia del mes para realizar los cobros del alquiler.'),
 		'rent_invoice_ids'      : fields.one2many('rent.invoice.rent','invoice_rent_id','Rent Invoices', domain=[('invoice_type', '=', 'rent')],readonly=True),
-		'rent_invoiced_day'     : fields.integer('Invoiced Day', required=True,help='Indicates de how many days before of the charge day will create the invoice'),
-		'rent_grace_period'     : fields.integer('Grace Period', required=True,help='Indicates de how many days after the charge day will allow to paid an invoice without Interest for delay'),
+		'rent_invoiced_day'     : fields.integer('Invoiced Day', required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]},help='Indicates de how many days before of the charge day will create the invoice'),
+		'rent_grace_period'     : fields.integer('Grace Period', required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]},help='Indicates de how many days after the charge day will allow to paid an invoice without Interest for delay'),
+		
+		'rent_group_id'         : fields.many2one('rent.rent.group','Contract Group',ondelete='cascade'),
 		
 		'rent_rent_account_id'  : fields.property(
 			'account.account',
@@ -1360,11 +1362,11 @@ class rent_rent(osv.osv):
 		'rent_main_total'            : fields.float('Total Paid'),
 		#'rent_main_total_us'         : fields.float('Total Paid $'),
 		'rent_main_historic_ids'     : fields.one2many('rent.rent.anual.value', 'anual_value_rent_id','Historic',readonly=True, domain=[('anual_value_type', '=', 'main')]),      
-		'rent_main_company_id'       : fields.many2one('res.company', 'Supplier Company'),      
+		'rent_main_company_id'       : fields.many2one('res.company', 'Supplier Company',states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),      
 		
-		'rent_main_charge_day'       : fields.integer('Charge Day',help='Indica el dia del mes para realizar los cobros del alquiler.'),
-		'rent_main_invoiced_day'     : fields.integer('Invoiced Day',help='Indicates de how many days before of the charge day will create the invoice'),
-		'rent_main_grace_period'     : fields.integer('Grace Period',help='Indicates de how many days after the charge day will allow to paid an invoice without Interest for delay'),   
+		'rent_main_charge_day'       : fields.integer('Charge Day',states={'active':[('readonly',True)], 'finished':[('readonly',True)]},help='Indica el dia del mes para realizar los cobros del alquiler.'),
+		'rent_main_invoiced_day'     : fields.integer('Invoiced Day',states={'active':[('readonly',True)], 'finished':[('readonly',True)]},help='Indicates de how many days before of the charge day will create the invoice'),
+		'rent_main_grace_period'     : fields.integer('Grace Period',states={'active':[('readonly',True)], 'finished':[('readonly',True)]},help='Indicates de how many days after the charge day will allow to paid an invoice without Interest for delay'),   
 		
 		'rent_rent_main_account_id'  : fields.property(
 			'account.account',
@@ -1658,3 +1660,12 @@ class rent_contract_clause_rel(osv.osv):
 		'sequence'                : fields.integer('Sequence'),
 	}
 rent_contract_clause_rel()
+
+class rent_rent_group(osv.osv):
+	_name = 'rent.rent.group'
+	
+	_columns = {
+		'name'            : fields.char('Name',size=64,required=True),
+		'rent_rent_ids'   : fields.one2many('rent.rent','rent_group_id','Rents List',readonly=True),
+	}
+rent_rent_group()
