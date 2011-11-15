@@ -1127,16 +1127,16 @@ class rent_rent(osv.osv):
 		
 	def action_aprove_adendum(self,cr,uid,ids,context=None):
 		debug(ids)
-		rent_ids = self.search(cr,uid,[('state','=','active'), ('rent_type','=','Adendum')])
+		rent_ids = self.search(cr,uid,[('state','=','active'), ('rent_type','in',['Adendum','Others'])])
 		debug(rent_ids)
 		for rent_aden_id in rent_ids:
 			vals = self.copy_data(cr,uid,rent_aden_id)
 			if vals:
-				if vals.get('rent_type') == 'Adendum':
+				if vals.get('rent_type') in ['Adendum','Others']:
 					rent_id = vals.get('rent_modif_ref')
 					org_rent = self.copy_data(cr,uid,rent_id)
 					org_rent.update({
-						'rent_type'          : 'Adendum',
+						'rent_type'          : vals.get('rent_type'),
 						'rent_modif_ref'     : rent_id,
 						'rent_estimates_ids' : [],
 						'rent_modif'         : [],
@@ -1314,7 +1314,7 @@ class rent_rent(osv.osv):
 		'rent_show_us_eq'       : fields.boolean('Check USD Currency Equivalent',store=False),
 		'rent_total_us'         : fields.function(_get_total_rent,type='float',method=True,string='Total Paid',multi='total'),
 		
-		'rent_type'             : fields.selection([('Contract','Contract'),('Adendum','Adendum'),('Others','Others')],'Type'),
+		'rent_type'             : fields.selection([('Contract','Contract'),('Adendum','Adendum'),('Others','Others')],'Type',states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'state'                 : fields.selection([('active','Active'),('finished','Inactive'),('draft','Draft')],'Status', readonly=True),
 		'rent_start_date'       : fields.date('Starting Date', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_total'            : fields.function(_get_total_rent,type='float',method=True,string='Total Paid',multi='total'),
