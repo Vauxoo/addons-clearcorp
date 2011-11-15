@@ -1538,8 +1538,14 @@
 			<field name = "type">form</field>
 			<field name = "arch" type = "xml">
 				<form string = "Rent Group">
-					<field name = "name"/>
-					<field name = "rent_rent_ids"/>
+					<group col = "4" colspan = "4">
+						<separator string = "Accounting" colspan = "4"/>
+						<field name = "name"/>
+					</group>
+					<group col = "4" colspan = "4">
+						<separator string = "Accounting" colspan = "4"/>
+						<field name = "rent_rent_ids" context="{'tree_view_ref' : 'rent.rent_tree_view'}" nolabel="1"/>
+					</group>
 				</form>
 			</field>
 		</record>
