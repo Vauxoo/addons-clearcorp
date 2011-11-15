@@ -600,6 +600,7 @@ class rent_rent(osv.osv):
 	def copy (self, cr, uid, id, default=None, context=None):
 		debug("ENTRA AL COPY")
 		default.update({
+			'name' : default.get('name') + ' (copia)',
 			'rent_modif' : [],
 			'rent_estimates_ids' : [],
 			'rent_historic_ids' : [],
