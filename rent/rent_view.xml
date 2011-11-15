@@ -1418,7 +1418,7 @@
 					CONTRACT MENU
 		======================================
 		-->
-		<menuitem id = "rent_contract_submenu" name = "Contracts" parent = "rent_rent_menu" action = "action_contract_form_view"/>
+		<!--<menuitem id = "rent_contract_submenu" name = "Contracts" parent = "rent_rent_menu" action = "action_contract_form_view"/>-->
 		
 		<!--
 		======================================
@@ -1486,7 +1486,7 @@
 					CONTRACT CLAUSE MENU
 		======================================
 		-->
-		<menuitem id = "rent_contract_clause_submenu" name = "Clauses" parent = "rent_rent_menu" action = "action_contract_clause_form_view"/>
+		<!--<menuitem id = "rent_contract_clause_submenu" name = "Clauses" parent = "rent_rent_menu" action = "action_contract_clause_form_view"/>-->
 		
 		<!--
 		======================================
@@ -1539,11 +1539,11 @@
 			<field name = "arch" type = "xml">
 				<form string = "Rent Group">
 					<group col = "4" colspan = "4">
-						<separator string = "Accounting" colspan = "4"/>
+						<separator string = "Details" colspan = "4"/>
 						<field name = "name"/>
 					</group>
 					<group col = "4" colspan = "4">
-						<separator string = "Accounting" colspan = "4"/>
+						<separator string = "Rents" colspan = "4"/>
 						<field name = "rent_rent_ids" context="{'tree_view_ref' : 'rent.rent_tree_view'}" nolabel="1"/>
 					</group>
 				</form>
