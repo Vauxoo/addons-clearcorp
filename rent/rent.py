@@ -598,11 +598,11 @@ class rent_rent(osv.osv):
 		return res
 	
 	def copy (self, cr, uid, id, default=None, context=None):
-		debug("ENTRA AL COPY")
-		debug(default)
-		debug(default.get('name'))
+		obj_rent = self.browse(cr,uid,id, context=context)
+		if not default:
+			default = {}
+		default['name'] = (obj_rent.name or '') + '(copy)'
 		default.update({
-			'name' :  '',
 			'rent_modif' : [],
 			'rent_estimates_ids' : [],
 			'rent_historic_ids' : [],
