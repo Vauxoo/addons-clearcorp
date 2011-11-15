@@ -1314,7 +1314,7 @@ class rent_rent(osv.osv):
 		'rent_show_us_eq'       : fields.boolean('Check USD Currency Equivalent',store=False),
 		'rent_total_us'         : fields.function(_get_total_rent,type='float',method=True,string='Total Paid',multi='total'),
 		
-		'rent_type'             : fields.selection([('Contract','Contract'),('Adendum','Adendum'),('Renovation','Renovation')],'Type', readonly=True),
+		'rent_type'             : fields.selection([('Contract','Contract'),('Adendum','Adendum'),('Others','Others')],'Type'),
 		'state'                 : fields.selection([('active','Active'),('finished','Inactive'),('draft','Draft')],'Status', readonly=True),
 		'rent_start_date'       : fields.date('Starting Date', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_total'            : fields.function(_get_total_rent,type='float',method=True,string='Total Paid',multi='total'),
