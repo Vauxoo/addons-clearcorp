@@ -497,6 +497,15 @@ class rent_floor_parking(osv.osv):
 	]
 rent_floor_parking()
 
+class rent_rent_group(osv.osv):
+	_name = 'rent.rent.group'
+	
+	_columns = {
+		'name'            : fields.char('Name',size=64,required=True),
+		'rent_rent_ids'   : fields.one2many('rent.rent','rent_group_id','Rents List',readonly=True),
+	}
+rent_rent_group()
+
 
 #Class to hold all the information that refences the rent
 #value, dates, status and to control de transaction of the bussines
@@ -1660,12 +1669,3 @@ class rent_contract_clause_rel(osv.osv):
 		'sequence'                : fields.integer('Sequence'),
 	}
 rent_contract_clause_rel()
-
-class rent_rent_group(osv.osv):
-	_name = 'rent.rent.group'
-	
-	_columns = {
-		'name'            : fields.char('Name',size=64,required=True),
-		'rent_rent_ids'   : fields.one2many('rent.rent','rent_group_id','Rents List',readonly=True),
-	}
-rent_rent_group()
