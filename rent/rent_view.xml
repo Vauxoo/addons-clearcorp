@@ -1105,6 +1105,7 @@
 					<field name = "rent_amount_base"/>
 					<field name = "rent_rise"/>
 					<field name = "currency_id"/>
+					<field name = "rent_modif_date"/>
 					<button name="rent_active" states="draft" string="Approve" icon="terp-camera_test"/>
 				</tree>
 			</field>

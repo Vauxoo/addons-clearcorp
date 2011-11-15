@@ -1335,7 +1335,7 @@ class rent_rent(osv.osv):
 		'rent_grace_period'     : fields.integer('Grace Period', required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]},help='Indicates de how many days after the charge day will allow to paid an invoice without Interest for delay'),
 		
 		'rent_group_id'         : fields.many2one('rent.rent.group','Contract Group',ondelete='cascade'),
-		
+		'rent_modif_date'       : fields.date('Modification Date',readonly=True),
 		'rent_rent_account_id'  : fields.property(
 			'account.account',
 			type='many2one',
