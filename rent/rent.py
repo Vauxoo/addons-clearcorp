@@ -597,7 +597,7 @@ class rent_rent(osv.osv):
 				res[rent_id] = (fin.year - inicio.year)
 		return res
 	
-	def copy (cr, uid, id, default=None, context=None):
+	def copy (self, cr, uid, id, default=None, context=None):
 		debug("ENTRA AL COPY")
 		default.update({
 			'rent_modif' : [],
