@@ -1142,7 +1142,8 @@ class rent_rent(osv.osv):
 						'rent_modif'         : [],
 						'rent_historic_ids'  : [],
 						'rent_invoice_ids'   : [],
-						'state'              : 'active'
+						'state'              : 'active',
+						'rent_modif_date'    : date.today(),
 					})
 					vals.update({
 						'rent_modif_ref'     : False,
