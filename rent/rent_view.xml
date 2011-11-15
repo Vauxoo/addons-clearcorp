@@ -1019,27 +1019,27 @@
 						<page string = "Maintenance">
 							<group col = "4" colspan = "4">
 								<separator string = "General Information" colspan = "4"/>
-								<field name = "rent_main_company_id" attrs = "{'readonly' : ['|',('rent_main_inc','!=','True'),('state','!=','draft')], 'required' : [('rent_main_inc','=','True')]}"/>
-								<field name = "rent_main_start_date" attrs = "{'readonly' : ['|',('rent_main_inc','!=','True'),('state','!=','draft')], 'required' : [('rent_main_inc','=','True')]}"/>
-								<field name = "rent_main_end_date" attrs = "{'readonly' : ['|',('rent_main_inc','!=','True'),('state','!=','draft')], 'required' : [('rent_main_inc','=','True')]}"/>
+								<field name = "rent_main_company_id" attrs = "{'readonly' : ['|',('rent_main_inc','!=','True'),('state','!=','draft')], 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
+								<field name = "rent_main_start_date" attrs = "{'readonly' : ['|',('rent_main_inc','!=','True'),('state','!=','draft')], 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
+								<field name = "rent_main_end_date" attrs = "{'readonly' : ['|',('rent_main_inc','!=','True'),('state','!=','draft')], 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
 							</group>
 							<group col = "4" colspan = "4">
 								<separator string = "Accounting" colspan = "4"/>
-								<field name="rent_rent_main_account_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"  groups="base.group_extended" attrs = "{'readonly' : ['|',('rent_main_inc','!=','True'),('state','!=','draft')], 'required' : [('rent_main_inc','=','True')]}"/>
-								<field name="rent_rent_main_acc_int_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" groups="base.group_extended" attrs = "{'readonly' : ['|',('rent_main_inc','!=','True'),('state','!=','draft')], 'required' : [('rent_main_inc','=','True')]}"/>
-								<field name = "rent_main_charge_day" attrs = "{'readonly' : ['|',('state','!=','draft'),('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True')]}"/>
-								<field name = "rent_main_invoiced_day" attrs = "{'readonly' : ['|',('state','!=','draft'),('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True')]}"/>
-								<field name = "rent_main_grace_period" attrs = "{'readonly' : ['|',('state','!=','draft'),('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True')]}"/>
+								<field name="rent_rent_main_account_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"  groups="base.group_extended" attrs = "{'readonly' : ['|',('rent_main_inc','!=','True'),('state','!=','draft')], 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
+								<field name="rent_rent_main_acc_int_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" groups="base.group_extended" attrs = "{'readonly' : ['|',('rent_main_inc','!=','True'),('state','!=','draft')], 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
+								<field name = "rent_main_charge_day" attrs = "{'readonly' : ['|',('state','!=','draft'),('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
+								<field name = "rent_main_invoiced_day" attrs = "{'readonly' : ['|',('state','!=','draft'),('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
+								<field name = "rent_main_grace_period" attrs = "{'readonly' : ['|',('state','!=','draft'),('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
 								
 							</group>
 							<group col = "4" colspan = "2">
 								<separator string = "Financial Information" colspan = "4"/>
-								<field name = "rent_main_amount_base"  attrs = "{''|',('state','!=','draft'),readonly' : [('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True')]}"/>
-								<field name = "rent_main_total"  attrs = "{'readonly' : ['|',('state','!=','draft'),('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True')]}"/>
+								<field name = "rent_main_amount_base"  attrs = "{'readonly' : ['|',('state','!=','draft'),('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
+								<field name = "rent_main_total"  attrs = "{'readonly' : ['|',('state','!=','draft'),('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
 								<field name = "rent_main_rise_year2"/>
 								<field name = "rent_main_performance"/>
 								<field name = "rent_main_rise_year3"/>
-								<field name = "rent_main_rise"  attrs = "{'readonly' : ['|',('state','!=','draft'),('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True')]}"/>
+								<field name = "rent_main_rise"  attrs = "{'readonly' : ['|',('state','!=','draft'),('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
 								<field name = "rent_main_show_us_eq"/>
 								<label string = "  "/>
 								<button name = "calculate_negotiation" string="Compute Values" type="object" icon="terp-stock_format-scientific"/>
