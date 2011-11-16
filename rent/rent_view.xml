@@ -1012,7 +1012,9 @@
 									nolabel="1"
 									context="{'tree_view_ref' : 'rent.rent_adendum_tree_view'}"/>
 								</page>
-								
+								<page string = "Notes">
+									<field name = "rent_notes" nolabel="1"/>
+								</page>
 							</notebook>
 						</page>
 						

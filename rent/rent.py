@@ -1143,7 +1143,6 @@ class rent_rent(osv.osv):
 						'rent_historic_ids'  : [],
 						'rent_invoice_ids'   : [],
 						'state'              : 'active',
-						'rent_modif_date'    : date.today(),
 					})
 					vals.update({
 						'rent_modif_ref'     : False,
@@ -1397,6 +1396,8 @@ class rent_rent(osv.osv):
 			
 		'rent_main_end_date'         : fields.date('Ending Date', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_main_start_date'       : fields.date('Starting Date', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		
+		'rent_notes'                 : fields.text('Notes'
 	}
 	
 	_defaults = {
@@ -1411,6 +1412,7 @@ class rent_rent(osv.osv):
 		'rent_charge_day' : 01,
 		'rent_main_charge_day' : 01,
 		'rent_main_performance' : "%.2f%%" % (0.),
+		'rent_modif_date' : date.today()
 	}
 rent_rent()
 
