@@ -1397,7 +1397,7 @@ class rent_rent(osv.osv):
 		'rent_main_end_date'         : fields.date('Ending Date', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_main_start_date'       : fields.date('Starting Date', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		
-		'rent_notes'                 : fields.text('Notes'
+		'rent_notes'                 : fields.text('Notes',help='Add complementary information about the rent or maintenance'),
 	}
 	
 	_defaults = {
