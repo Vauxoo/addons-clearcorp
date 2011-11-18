@@ -75,7 +75,7 @@
 				<tr class = "odd">
 			%endif
 				<td valign = "top">${formatLang(line.product_qty)} ${format(line.product_uom.name)}</td>
-				<td valign = "top">${line.name} ${', '.join(map(lambda x: x.name, line.taxes_id))|entity}
+				<td valign = "top" width="150">${line.name} ${', '.join(map(lambda x: x.name, line.taxes_id))|entity}
 					%if line.notes :
 						<br/><span class = "notes"><b>${_("Note")}:</b> ${format(line.notes)}</span>
 					%endif
