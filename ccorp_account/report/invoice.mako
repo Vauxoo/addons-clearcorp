@@ -73,7 +73,7 @@
 				<tr class = "odd">
 			%endif
 				<td valign = "top">${formatLang(line.quantity)} ${format(line.uos_id.name)}</td>
-				<td valign = "top">${line.name} 
+				<td valign = "top" id="desc_col">${line.name} 
 					%if line.invoice_line_tax_id != []:
 						${ ', '.join([ tax.name or '' for tax in line.invoice_line_tax_id ])|entity}
 					%endif
