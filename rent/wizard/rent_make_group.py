@@ -59,22 +59,21 @@ class rent_make_group(osv.osv_memory):
 		data = self.read(cr, uid, ids)[0]
 		newgrp = False
 		for o in obj_rent.browse(cr, uid, context.get(('active_ids'), []), context=context):
-			if not o.rent_group_id:
-				group_ids =self.pool.get('rent.rent.group').search(cr,uid,[],context=context)
-				created = False
-				for group_id in self.pool.get('rent.rent.group').browse(cr,uid,group_ids,context=context):
-					if group_id.name == data['name']:
-						created = True
-						newgrp = group_id.id
-						break
-				if created == False:
-					vals = {
-							'name'     : data['name'],
-							'obj_rent' : o.id,
-					}
-				newgrp = obj_group.create(cr,uid,vals,context)
-				debug(newgrp)
-				o.write({'rent_group_id':newgrp})
+			group_ids =self.pool.get('rent.rent.group').search(cr,uid,[],context=context)
+			created = False
+			for group_id in self.pool.get('rent.rent.group').browse(cr,uid,group_ids,context=context):
+				if group_id.name == data['name']:
+					created = True
+					newgrp = group_id.id
+					break
+			if created == False:
+				vals = {
+						'name'     : data['name'],
+						'obj_rent' : o.id,
+				}
+			newgrp = obj_group.create(cr,uid,vals,context)
+			debug(newgrp)
+			o.write({'rent_group_id':newgrp})
 		return {'type': 'ir.actions.act_window_close'}
 rent_make_group()
 
