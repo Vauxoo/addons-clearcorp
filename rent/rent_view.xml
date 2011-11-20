@@ -1565,7 +1565,7 @@
 			<field name = "model">rent.rent.group</field>
 			<field name = "type">tree</field>
 			<field name = "arch" type = "xml">
-				<tree string = "Rent Group List" readonly="1">
+				<tree string = "Rent Group List">
 					<field name = "name"/>
 					<field name = "rent_rent_ids"/>
 				</tree>
