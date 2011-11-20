@@ -27,11 +27,11 @@ class rent_make_group(osv.osv_memory):
 	_name = "rent.make.group"
 	_columns = {
 		'name'            : fields.char('Name',size=64,required=True),
-		'code'            : fields.char('Code',size=64, help='sequence auto generated for the contrat', readonly=True),
+		#'code'            : fields.char('Code',size=64, help='sequence auto generated for the contrat', readonly=True),
 	}
 	_defaults = {
 		'name'    : 'Contract group',
-		'code'    : lambda obj, cr, uid, context: obj.pool.get('ir.sequence').get(cr, uid, 'rent.rent.group'),
+		#'code'    : lambda obj, cr, uid, context: obj.pool.get('ir.sequence').get(cr, uid, 'rent.rent.group'),
 	}
 
 	def view_init(self, cr, uid, fields_list, context=None):
@@ -69,7 +69,7 @@ class rent_make_group(osv.osv_memory):
 				if created == False:
 					vals = {
 							'name'     : data['name'],
-							'code'     : data['code'] != '' and data['code'] or 'GRP-' + (o.rent_related_real == 'local' and o.rent_rent_local_id.name_get() or (o.rent_related_real == 'estate' and o.rent_rent_estate_id.name_get() or (o.rent_related_real == 'parking' and o.rent_rent_parking_id.name_get() or ''))),
+							'obj_rent' : o.id,
 					}
 					newgrp = obj_group.create(cr,uid,vals,context)
 				
