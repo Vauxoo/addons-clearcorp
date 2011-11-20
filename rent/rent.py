@@ -1304,7 +1304,7 @@ class rent_rent(osv.osv):
 	_columns = {
 		'name'                  : fields.char('Name',size=64,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rent_client_id'   : fields.many2one('res.partner','Client', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_end_date'         : fields.date('Ending Date', required=True, states={'active':[('readonly',False)], 'finished':[('readonly',True)]}),
+		'rent_end_date'         : fields.date('Ending Date', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_ending_motif'     : fields.selection([('early','Early Return'),('expiration','Contract Expiration'),('eviction','No payment eviction'), ('others','Various problems with tenant')],'Ending Motif'),
 		'rent_ending_motif_desc': fields.text('Ending Motif Description'),
 		
@@ -1335,7 +1335,7 @@ class rent_rent(osv.osv):
 		'rent_modif'            : fields.one2many('rent.rent', 'rent_modif_ref','Contract reference', states={'draft':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_modif_ref'        : fields.many2one('rent.rent', 'Modifications',ondelete='cascade'),
 		'currency_id'           : fields.many2one('res.currency', 'Currency', required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'eqv_currency_id'       : fields.many2one('res.currency', 'Currency Equivalence', required=True),
+		'eqv_currency_id'       : fields.many2one('res.currency', 'Currency Equivalence', required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_estimates_ids'    : fields.one2many('rent.rent.estimate', 'estimate_rent_id','Estimates',states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),         
 		'rent_historic_ids'     : fields.one2many('rent.rent.anual.value', 'anual_value_rent_id','Historic',readonly=True, domain=[('anual_value_type', '=', 'rent')]),
 		'rent_charge_day'       : fields.integer('Charge Day', required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]},help='Indica el dia del mes para realizar los cobros del alquiler.'),
@@ -1343,7 +1343,7 @@ class rent_rent(osv.osv):
 		'rent_invoiced_day'     : fields.integer('Invoiced Day', required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]},help='Indicates de how many days before of the charge day will create the invoice'),
 		'rent_grace_period'     : fields.integer('Grace Period', required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]},help='Indicates de how many days after the charge day will allow to paid an invoice without Interest for delay'),
 		
-		'rent_group_id'         : fields.many2one('rent.rent.group','Contract Group',ondelete='cascade'),
+		'rent_group_id'         : fields.many2one('rent.rent.group','Contract Group',ondelete='cascade', readonly=True),
 		'rent_modif_date'       : fields.date('Modification Date',readonly=True),
 		'rent_rent_account_id'  : fields.property(
 			'account.account',
@@ -1352,7 +1352,7 @@ class rent_rent(osv.osv):
 			string="Income Account",
 			method=True,
 			view_load=True,
-			help="This account will be used for invoices instead of the default one to value sales for the current rent",required=True),
+			help="This account will be used for invoices instead of the default one to value sales for the current rent",required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rent_acc_int_id'  : fields.property(
 			'account.account',
 			type='many2one',
@@ -1360,7 +1360,7 @@ class rent_rent(osv.osv):
 			string="Interest Account",
 			method=True,
 			view_load=True,
-			help="This account will be used for invoices instead of the default one to value expenses for the current rent",required=True),
+			help="This account will be used for invoices instead of the default one to value expenses for the current rent",required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rent_real_area'   : fields.function(_get_total_area,type='float',method=True,string='Area'),
 		
 		'rent_main_inc'              : fields.boolean('Include Maintenance Rent'),
@@ -1393,7 +1393,7 @@ class rent_rent(osv.osv):
 			string="Income Account",
 			method=True,
 			view_load=True,
-			help="This account will be used for invoices instead of the default one to value sales for the current rent"),
+			help="This account will be used for invoices instead of the default one to value sales for the current rent",states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rent_main_acc_int_id'  : fields.property(
 			'account.account',
 			type='many2one',
@@ -1401,7 +1401,7 @@ class rent_rent(osv.osv):
 			string="Interest Account",
 			method=True,
 			view_load=True,
-			help="This account will be used for invoices instead of the default one to value expenses for the current rent"),
+			help="This account will be used for invoices instead of the default one to value expenses for the current rent",states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 			
 		'rent_main_end_date'         : fields.date('Ending Date', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_main_start_date'       : fields.date('Starting Date', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
