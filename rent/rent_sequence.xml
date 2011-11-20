@@ -12,7 +12,7 @@
             <field name="name">Rent Group</field>
             <field name="code">rent.rent.group</field>
             <field name="prefix">GRP</field>
-            <field name="padding">3</field>
+            <field name="padding">1</field>
         </record>
     </data>
 </openerp>

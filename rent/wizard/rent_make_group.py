@@ -71,7 +71,7 @@ class rent_make_group(osv.osv_memory):
 							'name'     : data['name'],
 							'code'     : data['code'] != '' and data['code'] or 'GRP-' + (o.rent_related_real == 'local' and o.rent_rent_local_id.name_get() or (o.rent_related_real == 'estate' and o.rent_rent_estate_id.name_get() or (o.rent_related_real == 'parking' and o.rent_rent_parking_id.name_get() or ''))),
 					}
-					newgrp = obj_group.create(self,cr,uid,vals,context)
+					newgrp = obj_group.create(cr,uid,vals,context)
 				
 				o.write({'rent_group_id':newgrp})
 		res = mod_obj.get_object_reference(cr, uid, 'account', 'view_account_invoice_filter')
