@@ -511,7 +511,7 @@ class rent_rent_group(osv.osv):
 	
 	_columns = {
 		'name'            : fields.char('Name',size=64,required=True),
-		'rent_rent_ids'   : fields.one2many('rent.rent','rent_group_id','Rents Members',readonly=True),
+		'rent_rent_ids'   : fields.one2many('rent.rent','rent_group_id','Rents Members',readonly=True, domain=[('rent_type','=','Contract')]),
 	}
 rent_rent_group()
 
