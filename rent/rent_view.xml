@@ -1565,7 +1565,7 @@
 			<field name = "model">rent.rent.group</field>
 			<field name = "type">tree</field>
 			<field name = "arch" type = "xml">
-				<tree string = "Rent Group List">
+				<tree string = "Rent Group List" readonly="1">
 					<field name = "name"/>
 					<field name = "rent_rent_ids"/>
 				</tree>
@@ -1578,6 +1578,7 @@
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
+			<field name="domain">[('rent_type','=','Contract')]</field>
 			<field name = "view_id" ref = "rent_rent_group_tree_view"/>
 		</record>
 		<menuitem id = "rent_rent_group_submenu" name = "Rent group" parent = "rent_rent_menu" action = "action_rent_group_form_view"/>
