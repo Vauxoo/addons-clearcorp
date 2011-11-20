@@ -504,7 +504,7 @@ class rent_rent_group(osv.osv):
 		if vals:
 			next_seq = self.pool.get('ir.sequence').get(cr, uid, 'rent.rent.group')
 			rent = vals.get('obj_rent',False)
-			o = self.pool.get('rent.rent').browse(
+			o = self.pool.get('rent.rent').browse(cr,uid,rent)
 			code = next_seq or (o and ('GRP-' + (o.rent_related_real == 'local' and o.rent_rent_local_id.name_get() or (o.rent_related_real == 'estate' and o.rent_rent_estate_id.name_get() or (o.rent_related_real == 'parking' and o.rent_rent_parking_id.name_get() or '')))))
 			vals['code'] = code
 		return super(rent_rent_group,self).create(cr,uid,vals,context)
