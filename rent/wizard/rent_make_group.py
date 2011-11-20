@@ -27,6 +27,7 @@ class rent_make_group(osv.osv_memory):
 	_name = "rent.make.group"
 	_columns = {
 		'name'            : fields.char('Name',size=64,required=True),
+		'code'            : fields.char('Code',size=64, help='Check the box to group the invoices for the same customers'),
 	}
 	_defaults = {
 		'name'    : 'Contract group'
