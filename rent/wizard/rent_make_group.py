@@ -74,7 +74,6 @@ class rent_make_group(osv.osv_memory):
 					newgrp = obj_group.create(cr,uid,vals,context)
 				
 				o.write({'rent_group_id':newgrp})
-		res = mod_obj.get_object_reference(cr, uid, 'account', 'view_account_invoice_filter')
 		return {'type': 'ir.actions.act_window_close'}
 rent_make_group()
 
