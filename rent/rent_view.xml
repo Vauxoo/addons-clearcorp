@@ -1075,7 +1075,7 @@
 							type="action"
 							states="active"
 							icon="gtk-go-forward"
-							attrs="{'invisible': ['|',('rent_type', '!=', 'Contract'),('rent_group_id', '!=', 'False')]}"/>
+							attrs="{'invisible': ['|',('rent_type', '!=', 'Contract'),('rent_group_id', '=', '')]}"/>
 					</group>
 				</form>
 			</field>
