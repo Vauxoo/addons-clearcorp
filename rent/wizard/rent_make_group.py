@@ -30,7 +30,7 @@ class rent_make_group(osv.osv_memory):
 		'code'            : fields.char('Code',size=64, help='sequence auto generated for the contrat', readonly=True),
 	}
 	_defaults = {
-		'name'    : 'Contract group'
+		'name'    : 'Contract group',
 		'code'    : lambda obj, cr, uid, context: obj.pool.get('ir.sequence').get(cr, uid, 'rent.rent.group'),
 	}
 
