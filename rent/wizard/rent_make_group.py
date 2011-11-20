@@ -62,7 +62,7 @@ class rent_make_group(osv.osv_memory):
 				group_ids =self.pool.get('rent.rent.group').search(cr,uid,[],context=context)
 				created = False
 				for group_id in self.pool.get('rent.rent.group').browse(cr,uid,group_ids,context=context):
-					if group_id.name = data['name']:
+					if group_id.name == data['name']:
 						created = True
 						newgrp = group_id.id
 						break
