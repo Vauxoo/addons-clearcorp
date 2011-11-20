@@ -27,10 +27,11 @@ class rent_make_group(osv.osv_memory):
 	_name = "rent.make.group"
 	_columns = {
 		'name'            : fields.char('Name',size=64,required=True),
-		'code'            : fields.char('Code',size=64, help='Check the box to group the invoices for the same customers'),
+		'code'            : fields.char('Code',size=64, help='sequence auto generated for the contrat', readonly=True),
 	}
 	_defaults = {
 		'name'    : 'Contract group'
+		'code'    : lambda obj, cr, uid, context: obj.pool.get('ir.sequence').get(cr, uid, 'rent.rent.group'),
 	}
 
 	def view_init(self, cr, uid, fields_list, context=None):
@@ -44,32 +45,37 @@ class rent_make_group(osv.osv_memory):
 			return {
 				'warning' : {
 					'title' : 'Alert',
-					'message' : 'The contract already has a group. If you proceed, the previous group will be overwrited'
+					'message' : 'The contract already has a group. You can not proceed, the previous will remain.'
 				}
 			}
 		return False
 
 	def make_group(self, cr, uid, ids, context=None):
-		order_obj = self.pool.get('sale.order')
-		mod_obj = self.pool.get('ir.model.data')
-		newinv = []
+		obj_rent = self.pool.get('rent.rent')
+		obj_group = self.pool.get('rent.rent.group')
 		if context is None:
 			context = {}
 		data = self.read(cr, uid, ids)[0]
-		order_obj.action_invoice_create(cr, uid, context.get(('active_ids'), []), data['grouped'], date_inv = data['invoice_date'])
-		wf_service = netsvc.LocalService("workflow")
-		for id in context.get(('active_ids'), []):
-			wf_service.trg_validate(uid, 'sale.order', id, 'manual_invoice', cr)
-
-		for o in order_obj.browse(cr, uid, context.get(('active_ids'), []), context=context):
-			for i in o.invoice_ids:
-				newinv.append(i.id)
-
+		newgrp = False
+		for o in obj_rent.browse(cr, uid, context.get(('active_ids'), []), context=context):
+			if not o.rent_group_id:
+				group_ids =self.pool.get('rent.rent.group').search(cr,uid,[],context=context)
+				created = False
+				for group_id in self.pool.get('rent.rent.group').browse(cr,uid,group_ids,context=context):
+					if group_id.name = data['name']:
+						created = True
+						newgrp = group_id.id
+						break
+				if created == False:
+					vals = {
+							'name'     : data['name']
+							'code'     : data['code'] or 'GRP-' + (o.rent_related_real == 'local' and o.rent_rent_local_id.name_get() or (o.rent_related_real == 'estate' and o.rent_rent_estate_id.name_get() or (o.rent_related_real == 'parking' and o.rent_rent_parking_id.name_get() or '')))
+					}
+					newgrp = obj_group.create(self,cr,uid,vals,context)
+				
+				o.write({'rent_group_id':newgrp})
 		res = mod_obj.get_object_reference(cr, uid, 'account', 'view_account_invoice_filter')
-
-		return {
-			
-		}
+		return {'type': 'ir.actions.act_window_close'}
 rent_make_group()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
