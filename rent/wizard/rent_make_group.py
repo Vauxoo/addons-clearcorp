@@ -26,7 +26,6 @@ import netsvc
 class rent_make_group(osv.osv_memory):
 	_name = "rent.make.group"
 	_columns = {
-		'code'            : fields.char('Code', help='Check the box to group the invoices for the same customers'),
 		'name'            : fields.char('Name',size=64,required=True),
 	}
 	_defaults = {
