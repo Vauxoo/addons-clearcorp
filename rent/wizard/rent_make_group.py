@@ -72,6 +72,6 @@ class rent_make_group(osv.osv_memory):
 			
 		}
 
-sale_make_invoice()
+rent_make_group()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
