@@ -22,6 +22,7 @@
 from osv import fields, osv
 from tools.translate import _
 import netsvc
+from tools import debug
 
 class rent_make_group(osv.osv_memory):
 	_name = "rent.make.group"
@@ -71,8 +72,8 @@ class rent_make_group(osv.osv_memory):
 							'name'     : data['name'],
 							'obj_rent' : o.id,
 					}
-					newgrp = obj_group.create(cr,uid,vals,context)
-				
+				newgrp = obj_group.create(cr,uid,vals,context)
+				debug(newgrp)
 				o.write({'rent_group_id':newgrp})
 		return {'type': 'ir.actions.act_window_close'}
 rent_make_group()
