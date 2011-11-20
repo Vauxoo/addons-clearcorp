@@ -1065,10 +1065,17 @@
 							</notebook>
 						</page>
 					</notebook>
-					<group col = "6" colspan = "4">
+					<group col = "3" colspan = "4">
 						<button colspan="2" name = "cron_rent_invoice" string="Check for Invoices" type="object" icon="terp-stock_format-scientific"/>
 						<button colspan="2" name="rent_finish" states="active" string="Finish" invisible = "1" icon="gtk-cancel" attrs = "{'invisible': [('rent_type','!=','Contract')]}"/>
 						<button colspan="2" name="rent_active" states="draft" string="Approve" icon="terp-camera_test"/>
+						<button colspan="1"
+							name="%(action_view_rent_make_group)d"
+							string="Create new Group"
+							type="action"
+							states="active"
+							icon="gtk-go-forward"
+							attrs="{'invisible': [('rent_type', '!=', 'Contract')]}"/>
 					</group>
 				</form>
 			</field>

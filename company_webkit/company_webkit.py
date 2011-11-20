@@ -249,6 +249,10 @@ class company_webkit(osv.osv):
 				margin-left: 5px;
 				font-style : italic;
 			}
+			#desc_col{
+				width : 380px;
+			}
+
 		"""
 	def create(self,cr,uid, vals,context=None):
 		company_id = super(company_webkit,self).create(cr,uid,vals,context)
