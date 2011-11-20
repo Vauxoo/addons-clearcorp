@@ -68,8 +68,8 @@ class rent_make_group(osv.osv_memory):
 						break
 				if created == False:
 					vals = {
-							'name'     : data['name']
-							'code'     : data['code']  #or 'GRP-' + str((o.rent_related_real == 'local' and o.rent_rent_local_id.name_get() or (o.rent_related_real == 'estate' and o.rent_rent_estate_id.name_get() or (o.rent_related_real == 'parking' and o.rent_rent_parking_id.name_get() or ''))))
+							'name'     : data['name'],
+							'code'     : data['code'] or 'GRP-' + (o.rent_related_real == 'local' and o.rent_rent_local_id.name_get() or (o.rent_related_real == 'estate' and o.rent_rent_estate_id.name_get() or (o.rent_related_real == 'parking' and o.rent_rent_parking_id.name_get() or ''))),
 					}
 					newgrp = obj_group.create(self,cr,uid,vals,context)
 				
