@@ -215,7 +215,7 @@ msgstr "Edificio"
 #. module: rent
 #: view:rent.rent:0
 msgid "USD Currency Equivalence"
-msgstr "Equivalencia en dólares"
+msgstr "Equivalencia en otra moneda"
 
 #. module: rent
 #: view:rent.rent:0
@@ -1131,7 +1131,7 @@ msgstr "Año 2"
 #: field:rent.rent,rent_main_show_us_eq:0
 #: field:rent.rent,rent_show_us_eq:0
 msgid "Check USD Currency Equivalent"
-msgstr "Ver equivalencia en dólares"
+msgstr "Ver equivalencia en otra moneda"
 
 #. module: rent
 #: model:ir.model,name:rent.model_rent_invoice_rent
