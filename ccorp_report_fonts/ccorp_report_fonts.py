@@ -49,24 +49,24 @@ def wrap_trml2pdf(method):
     """We have to wrap the original parseString() to modify the rml data
     before it generates the pdf."""
     #AppleGaramond
-    pdfmetrics.registerFont(TTFont('AppleGaramond-Regular', os.path.join(os.path.abspath(config['addons_path']), 'ccorp_report_fonts', 'fonts', 'AppleGaramond-Regular.ttf'),enc))
+    pdfmetrics.registerFont(TTFont('AppleGaramond', os.path.join(os.path.abspath(config['addons_path']), 'ccorp_report_fonts', 'fonts', 'AppleGaramond-Regular.ttf'),enc))
     pdfmetrics.registerFont(TTFont('AppleGaramond-Bold', os.path.join(os.path.abspath(config['addons_path']), 'ccorp_report_fonts', 'fonts', 'AppleGaramond-Bold.ttf'),enc))
     pdfmetrics.registerFont(TTFont('AppleGaramond-Light', os.path.join(os.path.abspath(config['addons_path']), 'ccorp_report_fonts', 'fonts', 'AppleGaramond-Light.ttf'),enc))
     pdfmetrics.registerFont(TTFont('AppleGaramond-Italic', os.path.join(os.path.abspath(config['addons_path']), 'ccorp_report_fonts', 'fonts', 'AppleGaramond-Italic.ttf'),enc))
     pdfmetrics.registerFont(TTFont('AppleGaramond-BoldItalic', os.path.join(os.path.abspath(config['addons_path']), 'ccorp_report_fonts', 'fonts', 'AppleGaramond-BoldItalic.ttf'),enc))
     pdfmetrics.registerFont(TTFont('AppleGaramond-LightItalic', os.path.join(os.path.abspath(config['addons_path']), 'ccorp_report_fonts', 'fonts', 'AppleGaramond-LightItalic.ttf'),enc))
-    addMapping('AppleGaramond', 0, 0, 'AppleGaramond-Regular')
+    addMapping('AppleGaramond', 0, 0, 'AppleGaramond')
     addMapping('AppleGaramond', 1, 0, 'AppleGaramond-Bold')
     addMapping('AppleGaramond', 0, 1, 'AppleGaramond-Italic')
     addMapping('AppleGaramond', 1, 1, 'AppleGaramond-BoldItalic')
     addMapping('AppleGaramond-Light', 0, 0, 'AppleGaramond-Light')
     addMapping('AppleGaramond-Light', 0, 1, 'AppleGaramond-LightItalic')
     #MyriadPro
-    pdfmetrics.registerFont(TTFont('MyriadPro-Regular', os.path.join(os.path.abspath(config['addons_path']), 'ccorp_report_fonts', 'fonts', 'MyriadPro-Regular.ttf'),enc))
+    pdfmetrics.registerFont(TTFont('MyriadPro', os.path.join(os.path.abspath(config['addons_path']), 'ccorp_report_fonts', 'fonts', 'MyriadPro-Regular.ttf'),enc))
     pdfmetrics.registerFont(TTFont('MyriadPro-Bold', os.path.join(os.path.abspath(config['addons_path']), 'ccorp_report_fonts', 'fonts', 'MyriadPro-Bold.ttf'),enc))
     pdfmetrics.registerFont(TTFont('MyriadPro-Italic', os.path.join(os.path.abspath(config['addons_path']), 'ccorp_report_fonts', 'fonts', 'MyriadPro-Italic.ttf'),enc))
     pdfmetrics.registerFont(TTFont('MyriadPro-BoldItalic', os.path.join(os.path.abspath(config['addons_path']), 'ccorp_report_fonts', 'fonts', 'MyriadPro-BoldItalic.ttf'),enc))
-    addMapping('MyriadPro', 0, 0, 'MyriadPro-Regular')
+    addMapping('MyriadPro', 0, 0, 'MyriadPro')
     addMapping('MyriadPro', 1, 0, 'MyriadPro-Bold')
     addMapping('MyriadPro', 0, 1, 'MyriadPro-Italic')
     addMapping('MyriadPro', 1, 1, 'MyriadPro-BoldItalic')
@@ -83,14 +83,14 @@ def wrap_trml2pdf(method):
         of the rml file. The rml file is acually a string (data)."""
         data = args[0]
         fontmap = {
-            'Times-Roman':                  'AppleGaramond-Regular',
+            'Times-Roman':                  'AppleGaramond',
             'Times-BoldItalic':             'AppleGaramond-BoldItalic',
             'Times-Bold':                   'AppleGaramond-Bold',
             'Times-Italic':                 'AppleGaramond-Italic',
             'Times-Light':		    'AppleGaramond-Light',
             'Times-LightItalic':    'AppleGaramond-LightItalic',
 
-            'TimesCondensed-Roman':         'AppleGaramond-Regular',
+            'TimesCondensed-Roman':         'AppleGaramond',
             'TimesCondensed-BoldItalic':    'AppleGaramond-BoldItalic',
             'TimesCondensed-Bold':          'AppleGaramond-Bold',
             'TimesCondensed-Italic':        'AppleGaramond-Italic',
@@ -100,9 +100,9 @@ def wrap_trml2pdf(method):
             'Helvetica-Bold':               'MyriadPro-Bold',
             'Helvetica-Italic':             'MyriadPro-Italic',
             'Helvetica-Oblique':            'MyriadPro-Italic',
-            'Helvetica':                    'MyriadPro-Regular',
+            'Helvetica':                    'MyriadPro',
 
-            'Helvetica-ExtraLight':         'MyriadPro-Regular',
+            'Helvetica-ExtraLight':         'MyriadPro',
 
             'HelveticaCondensed-BoldItalic':'MyriadPro-BoldCondItalic',
             'HelveticaCondensed-Bold':      'MyriadPro-BoldCond',
