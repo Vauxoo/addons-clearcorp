@@ -40,7 +40,7 @@
 				<td>${_("Phone")}:${inv.address_invoice_id.phone or '-'|entity}</td>
 			</tr>
 			<tr>
-				<td>${_("Due date")}: ${formatLang(inv.due_date, date=True)|entity}</td>
+				<td>${_("Due date")}: ${formatLang(inv.date_due, date=True)|entity}</td>
 				<td>${_("Fax")}: ${inv.address_invoice_id.fax or '-' | entity}</td>
 			</tr>
 			<tr>
