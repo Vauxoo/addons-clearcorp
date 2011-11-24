@@ -941,7 +941,7 @@
 						<field name = "rent_related_real" />
 						<field name = "rent_group_id" />
 						<field name = "rent_main_inc"/>
-						<field name = "rent_include_water" attrs = "{'invisible' : [('rent_related_real','not in',['local'])], 'readonly' : [('rent_related_real','=','local'), ('rent_rent_local_id.local_water_meter_number','!=','')]}"/>
+						<field name = "rent_include_water" attrs = "{'invisible' : [('rent_related_real','not in',['local'])], 'readonly' : [('rent_related_real','=','local'), (rent_rent_local_id.local_water_meter_number,'!=','')]}"/>
 					</group>
 					<notebook>
 						<page string = "Rent">
