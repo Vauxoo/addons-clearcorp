@@ -652,6 +652,7 @@ class rent_rent(osv.osv):
 		return super(rent_rent,self).create(cr,uid,org_rent,context)
 		
 		
+		
 	def default_get(self,cr,uid,fields_list,context=None):
 		res = {}
 		debug(context)
