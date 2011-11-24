@@ -651,6 +651,7 @@ class rent_rent(osv.osv):
 		#		self.write(cr,uid,[rent_id],vals)
 		return super(rent_rent,self).create(cr,uid,org_rent,context)
 		
+		
 	def default_get(self,cr,uid,fields_list,context=None):
 		res = {}
 		debug(context)
