@@ -1045,6 +1045,7 @@ class rent_rent(osv.osv):
 		return True
 	
 	def invoice_services(self,cr,uid,ids,args,type='rent',current_date=date.today()):
+		#TIENE UN PROBLEMA EN EL 
 		#Creates the invoice for every rent given as arg, the args is a list of dictionaries 
 		#usually it only has one element. But it can take up 2 records to create an invoice with 2 lines
 		res = {}
@@ -1074,7 +1075,7 @@ class rent_rent(osv.osv):
 				_('There is no purchase journal defined for this company: "%s" (id:%d)') % (o.company_id.name, o.company_id.id))
 		
 		
-		currency = (type=='rent' and obj_rent.currency_id or obj_rent.currency_main_id.id)
+		currency = (type=='rent' and obj_rent.currency_id.id or obj_rent.currency_main_id.id)
 		
 		#Determines if today is the previous month for the invoice creation
 		today = current_date
