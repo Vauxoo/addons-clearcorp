@@ -1040,6 +1040,72 @@ class rent_rent(osv.osv):
 			
 			debug(res_dob_inv)
 			self.invoice_rent(cr,uid,ids,res_dob_inv,type,today)
+			if type == 'rent':
+				self.invocie_services(cr,uid,ids,res_dob_inv,type,today)
+		return True
+	
+	def invoice_services(self,cr,uid,ids,args,type='rent',current_date=today.day()):
+		#Creates the invoice for every rent given as arg, the args is a list of dictionaries 
+		#usually it only has one element. But it can take up 2 records to create an invoice with 2 lines
+		res = {}
+		journal_obj = self.pool.get('account.journal')
+		il = []
+		debug('INVOICE FOR SERVICES')
+		debug(args)
+		desc = 'Payment of services  %s' % (obj_rent.name)
+		
+		for rlist in args:
+			obj_rent = self.browse(cr,uid,rlist['rent_id'])
+			if (obj_rent.rent_include_water):
+				rlist.update({
+							'amount' : 0.0,
+							'desc'   : desc,
+				})
+				il.append(self.inv_line_create(cr, uid,obj_rent,rlist,type))
+
+		obj_client = obj_rent.rent_rent_client_id
+		a = obj_client.property_account_receivable.id
+		journal_ids = journal_obj.search(cr, uid, [('type', '=','sale'),('company_id', '=',obj_client.company_id.id)],limit=1)
+
+		if not journal_ids:
+			raise osv.except_osv(_('Error !'),
+				_('There is no purchase journal defined for this company: "%s" (id:%d)') % (o.company_id.name, o.company_id.id))
+		
+		
+		currency = (type=='rent' and obj_rent.currency_id or obj_rent.currency_main_id.id)
+		
+		#Determines if today is the previous month for the invoice creation
+		today = current_date
+		debug(today)
+		if type=='rent':
+			date_due = (obj_rent.rent_invoiced_day <= obj_rent.rent_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
+			date_due = date_due.replace(day=obj_rent.rent_charge_day + obj_rent.rent_grace_period)
+		
+		inv = {
+			'name': obj_rent.name or desc,
+			'reference': obj_rent.name or desc,
+			'account_id': a,
+			'type': 'out_invoice',
+			'partner_id': obj_client.id,
+			'currency_id': currency,
+			'address_invoice_id': obj_client.address[0].id,
+			'address_contact_id': obj_client.address[0].id,
+			'journal_id': len(journal_ids) and journal_ids[0] or False,
+			'origin': obj_rent.name or desc,
+			'invoice_line': il,
+			'fiscal_position': obj_client.property_account_position.id,
+			'payment_term': obj_client.property_payment_term and o.partner_id.property_payment_term.id or False,
+			'company_id': obj_client.company_id.id,
+			'date_invoice' : today,
+			'date_due' : date_due,
+		}
+		
+		inv_id = self.pool.get('account.invoice').create(cr, uid, inv, {'type':'out_invoice'})
+		self.pool.get('account.invoice').button_compute(cr, uid, [inv_id], {'type':'out_invoice'}, set_total=True)
+		res['invoice_id'] = inv_id
+		res['rent_id'] = obj_rent.id
+		res['invoice_type'] = type
+		#self.register_rent_invoice(cr,uid,ids,res)
 		return True
 	
 	def _invoice_data(self,cr,uid,ids,obj_rent,date_range,type='rent'):
