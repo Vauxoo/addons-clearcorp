@@ -1301,6 +1301,7 @@ class rent_rent(osv.osv):
 			res[obj_rent.id] = years_val
 		return res
 	
+	
 	_columns = {
 		'name'                  : fields.char('Name',size=64,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rent_client_id'   : fields.many2one('res.partner','Client', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
@@ -1407,6 +1408,7 @@ class rent_rent(osv.osv):
 		'rent_main_start_date'       : fields.date('Starting Date', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		
 		'rent_notes'                 : fields.text('Notes',help='Add complementary information about the rent or maintenance'),
+		'rent_include_water'         : fields.boolean('Include water payment',readonly=True, states={'draft':[('readonly',False)]}help="Check if you want to generate an invoice for the water payment"),
 	}
 	
 	_defaults = {
