@@ -1408,7 +1408,7 @@ class rent_rent(osv.osv):
 		'rent_main_start_date'       : fields.date('Starting Date', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		
 		'rent_notes'                 : fields.text('Notes',help='Add complementary information about the rent or maintenance'),
-		'rent_include_water'         : fields.boolean('Include water payment',readonly=True, states={'draft':[('readonly',False)]}help="Check if you want to generate an invoice for the water payment"),
+		'rent_include_water'         : fields.boolean('Include water payment',readonly=True, states={'draft':[('readonly',False)]},help="Check if you want to generate an invoice for the water payment"),
 	}
 	
 	_defaults = {
