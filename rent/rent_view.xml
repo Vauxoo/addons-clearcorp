@@ -960,9 +960,9 @@
 								<separator string = "Negotiation Information" colspan = "4"/>
 								<field name = "rent_amount_base"/>
 								<field name = "rent_total"/>
-								<!-- <field name = "rent_rise_year2"/> -->
+								<field name = "rent_rise_year2"/>
 								<field name = "rent_performance"/>
-								<!--<field name = "rent_rise_year3"/> -->
+								<field name = "rent_rise_year3"/>
 								<field name = "rent_amount_per_sqr"/>
 								<field name = "rent_rise"/>	
 								<field name = "rent_rent_real_area"/>
@@ -971,7 +971,7 @@
 								<field name = "rent_rise_chart_years" on_change = "onchange_rise_years(rent_rise_chart_years,rent_amount_base,rent_rise)"/>
 								<label string = "  "/>
 								<button name = "calculate_negotiation" string="Compute Values" type="object" icon="terp-stock_format-scientific"/>
-								<field name = "rent_rise_chart_ids" nolabel="1" colspan = "4"/>								
+								<!-- <field name = "rent_rise_chart_ids" nolabel="1" colspan = "4"/> -->								
 							</group>
 							<group col = "4" colspan = "2" attrs = "{'invisible': [('rent_show_us_eq','!=','True')]}">
 								<separator string = "USD Currency Equivalence" colspan = "4"/>
