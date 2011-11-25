@@ -667,6 +667,8 @@ class rent_rent(osv.osv):
 		#		debug(org_rent)
 		#		debug(vals)
 		#		self.write(cr,uid,[rent_id],vals)
+		except:
+			print ''
 		return super(rent_rent,self).create(cr,uid,org_rent,context)
 			
 	def default_get(self,cr,uid,fields_list,context=None):
