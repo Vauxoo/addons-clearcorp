@@ -518,9 +518,13 @@ rent_rent_group()
 class rent_rise_estimate(osv.osv):
 	_name = 'rent.rise.estimate'
 	_columns = {
-			'year'    : fields.integer('Year',help='Number of the year as a sequence'),
-			'amount'  : fields.float('Amount'),
-			'rent_id' : fields.many2one('rent.rent','Rent_id'),
+			'year'         : fields.integer('Year',help='Number of the year as a sequence'),
+			'amount'       : fields.float('Amount (local)'),
+			'currency_id'  : fields.related('rent_id', 'currency_id',type='many2one' relation='rent.rent', string='Currency', readonly=True,store=False),
+			
+			'amount_foreing'       : fields.float('Amount (Foreing)'),
+			'currency_foreing_id'  : fields.related('rent_id', 'eqv_currency_id',type='many2one' relation='rent.rent', string='Currency(out)', readonly=True,store=False),
+			'rent_id'              : fields.many2one('rent.rent','Rent_id'),
 	}
 rent_rise_estimate()
 
@@ -658,9 +662,7 @@ class rent_rent(osv.osv):
 		#		debug(vals)
 		#		self.write(cr,uid,[rent_id],vals)
 		return super(rent_rent,self).create(cr,uid,org_rent,context)
-		
-		
-		
+			
 	def default_get(self,cr,uid,fields_list,context=None):
 		res = {}
 		debug(context)
@@ -1382,6 +1384,20 @@ class rent_rent(osv.osv):
 			res[obj_rent.id] = years_val
 		return res
 	
+	def _rent_rise_years(self,cr,uid,ids,field_name,args,context=None):
+		res = {}
+		lines = {}
+		for obj_rent in self.browse(cr,uid,ids):
+			
+			percentaje = obj_rent.rent_main_rise
+			amount_base = obj_rent.rent_amount_base
+			years = args and args.('years') or 3
+			
+			for x in range(2,years):
+				amount_base	= amount_base * (1 + float(percentaje) / 100)
+				lines.append((0,0,{'year' : x, 'amount' : amount}))
+			res[obj_rent.id] = lines
+		return res
 	
 	_columns = {
 		'name'                  : fields.char('Name',size=64,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
@@ -1491,6 +1507,9 @@ class rent_rent(osv.osv):
 		'rent_notes'                 : fields.text('Notes',help='Add complementary information about the rent or maintenance'),
 		'rent_include_water'         : fields.boolean('Include water payment',readonly=True, states={'draft':[('readonly',False)]},help="Check if you want to generate an invoice for the water payment"),
 		'rent_rise_chart_ids'        : fields.one2many('rent.rise.estimate','rent_id', 'Rise Chart'),
+		'rent_rise_chart_years'      : fields.integer('Rise years',help='Indicate the number of years you want to see at the chart of rise estimates'),
+		
+		'rent_rise_chart2_ids'       : fields.function(_rent_rise_years, type='one2many', relation = 'rent.rise.estimate', method = True,string='Rise for Years', multi='rise_years'),
 	}
 	
 	_defaults = {
