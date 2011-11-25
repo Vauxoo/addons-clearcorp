@@ -1340,6 +1340,8 @@ class rent_rent(osv.osv):
 			main_currency = pooler.get_pool(cr.dbname).get('res.currency').search(cr, uid, [('rate','=', 1.0)])[0]
 			for record in args['vals']:
 				value = record[1]
+				debug(orig_currency.name)
+				debug(dest_currency.name)
 				if (orig_currency.id != dest_currency.id):
 					value = value / orig_currency.rate
 					if dest_currency.id != main_currency:
