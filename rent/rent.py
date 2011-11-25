@@ -1395,7 +1395,7 @@ class rent_rent(osv.osv):
 			
 			for x in range(2,years):
 				amount_base	= amount_base * (1 + float(percentaje) / 100)
-				lines.append((0,0,{'year' : x, 'amount' : amount}))
+				lines.append((0,0,{'year' : x, 'amount' : amount_base}))
 			res[obj_rent.id] = lines
 		return res
 	
