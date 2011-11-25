@@ -1386,7 +1386,7 @@ class rent_rent(osv.osv):
 	
 	def _rent_rise_years(self,cr,uid,ids,field_name,args,context=None):
 		res = {}
-		lines = {}
+		lines = []
 		for obj_rent in self.browse(cr,uid,ids):
 			
 			percentaje = obj_rent.rent_main_rise
