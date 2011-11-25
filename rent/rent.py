@@ -1509,7 +1509,7 @@ class rent_rent(osv.osv):
 		'rent_rise_chart_ids'        : fields.one2many('rent.rise.estimate','rent_id', 'Rise Chart'),
 		'rent_rise_chart_years'      : fields.integer('Rise years',help='Indicate the number of years you want to see at the chart of rise estimates'),
 		
-		'rent_rise_chart2_ids'       : fields.function(_rent_rise_years, type='one2many', relation = 'rent.rise.estimate', method = True,string='Rise for Years', multi='rise_years'),
+		'rent_rise_chart2_ids'       : fields.function(_rent_rise_years, type='one2many', obj= 'rent.rise.estimate', method = True,string='Rise for Years', multi='rise_years'),
 	}
 	
 	_defaults = {
