@@ -1394,6 +1394,7 @@ class rent_rent(osv.osv):
 			years = args and args.get('years', 3) or 3
 			
 			for x in range(2,years):
+				debug(x)
 				amount_base	= amount_base * (1 + float(percentaje) / 100)
 				lines.append((0,0,{'year' : x, 'amount' : amount_base}))
 			debug(lines)
