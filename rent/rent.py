@@ -1392,10 +1392,10 @@ class rent_rent(osv.osv):
 		percentaje = rise
 		amount_base = base
 		years = field or 4
-		for x in range(2,years):
+		for x in range(1,years):
 			debug(x)
 			amount_base	= amount_base * (1 + float(percentaje) / 100)
-			lines.append((0,0,{'year' : x, 'amount' : amount_base}))
+			lines.append((0,0,{'year' : x+1, 'amount' : amount_base}))
 		debug(lines)
 		res['rent_rise_chart2_ids'] = lines
 		debug(res)
