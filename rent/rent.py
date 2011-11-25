@@ -1391,7 +1391,7 @@ class rent_rent(osv.osv):
 			
 			percentaje = obj_rent.rent_main_rise
 			amount_base = obj_rent.rent_amount_base
-			years = args.get('years', 3)
+			years = agrs and args.get('years', 3) or 3
 			
 			for x in range(2,years):
 				amount_base	= amount_base * (1 + float(percentaje) / 100)
