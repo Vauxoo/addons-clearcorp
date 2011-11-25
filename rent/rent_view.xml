@@ -968,9 +968,10 @@
 								<field name = "rent_rent_real_area"/>
 								<field name = "currency_id"/>
 								<field name = "rent_show_us_eq"/>
+								<field name = "rent_rise_chart_years" on_change = "onchange_rise_years(rent_rise_chart_years,rent_amount_base,rent_rise)"/>
 								<label string = "  "/>
 								<button name = "calculate_negotiation" string="Compute Values" type="object" icon="terp-stock_format-scientific"/>
-								<field name = "rent_rise_chart2_ids" nolabel="1"/>								
+								<field name = "rent_rise_chart_ids" nolabel="1" colspan = "4"/>								
 							</group>
 							<group col = "4" colspan = "2" attrs = "{'invisible': [('rent_show_us_eq','!=','True')]}">
 								<separator string = "USD Currency Equivalence" colspan = "4"/>
@@ -981,7 +982,6 @@
 								<field name = "rent_rise_year3d"/>
 								<field name = "eqv_currency_id"/>
 							</group>
-							<!-- <field name = "rent_rise_chart_ids" nolabel="1"/> -->
 							<group col = "4" colspan = "4" attrs = "{'invisible':[('state','!=','finished')]}">
 								<separator string = "Contract Termination" colspan = "4"/>
 								<field name = "rent_ending_motif"/>

@@ -1384,23 +1384,22 @@ class rent_rent(osv.osv):
 			res[obj_rent.id] = years_val
 		return res
 	
-	def _rent_rise_years(self,cr,uid,ids,field_name,args,context=None):
+	#def _rent_rise_years(self,cr,uid,ids,field_name,args,context=None):
+	def onchange_rise_years(self,cr,uid,ids,field,base,rise):
 		res = {}
 		lines = []
-		for obj_rent in self.browse(cr,uid,ids):
-			
-			percentaje = obj_rent.rent_main_rise
-			amount_base = obj_rent.rent_amount_base
-			years = args and args.get('years', 4) or 4
-			
-			for x in range(2,years):
-				debug(x)
-				amount_base	= amount_base * (1 + float(percentaje) / 100)
-				lines.append((0,0,{'year' : x, 'amount' : amount_base, 'rent_id' : obj_rent.id}))
-			debug(lines)
-			res[obj_rent.id] = {'rent_rise_chart2_ids' : lines}
+		#for obj_rent in self.browse(cr,uid,ids):
+		percentaje = rise
+		amount_base = base
+		years = field or 4
+		for x in range(2,years):
+			debug(x)
+			amount_base	= amount_base * (1 + float(percentaje) / 100)
+			lines.append((0,0,{'year' : x, 'amount' : amount_base}))
+		debug(lines)
+		res['rent_rise_chart2_ids'] = lines
 		debug(res)
-		return res
+		return {'value' : res}
 	
 	_columns = {
 		'name'                  : fields.char('Name',size=64,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
@@ -1512,7 +1511,7 @@ class rent_rent(osv.osv):
 		'rent_rise_chart_ids'        : fields.one2many('rent.rise.estimate','rent_id', 'Rise Chart'),
 		'rent_rise_chart_years'      : fields.integer('Rise years',help='Indicate the number of years you want to see at the chart of rise estimates'),
 		
-		'rent_rise_chart2_ids'       : fields.function(_rent_rise_years, type='one2many', obj= 'rent.rise.estimate', method = True,string='Rise for Years'),
+		#'rent_rise_chart2_ids'       : fields.function(_rent_rise_years, type='one2many', obj= 'rent.rise.estimate', method = True,string='Rise for Years'),
 	}
 	
 	_defaults = {
