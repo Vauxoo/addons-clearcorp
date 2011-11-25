@@ -1399,6 +1399,7 @@ class rent_rent(osv.osv):
 				lines.append((0,0,{'year' : x, 'amount' : amount_base}))
 			debug(lines)
 			res[obj_rent.id] = {'rent_rise_chart2_ids' : lines}
+		debug(res)
 		return res
 	
 	_columns = {
