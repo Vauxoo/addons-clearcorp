@@ -1337,7 +1337,7 @@ class rent_rent(osv.osv):
 			orig_currency  = args['from_currency']
 			dest_currency  = args['to_currency']
 			#Main currency required, for now we asume its the USD
-			main_currency = pooler.get_pool(cr.dbname).get('res.currency').search(cr, uid, [('rate','=', 1.0)])[0]
+			main_currency = pooler.get_pool(cr.dbname).get('res.currency').search(cr, uid, [('name','=','USD')])[0]
 			for record in args['vals']:
 				value = record[1]
 				debug(orig_currency.name)
