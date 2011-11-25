@@ -1583,6 +1583,26 @@
 			<field name = "view_id" ref = "rent_rent_group_tree_view"/>
 		</record>
 		<menuitem id = "rent_rent_group_submenu" name = "Rent group" parent = "rent_rent_menu" action = "action_rent_group_form_view"/>
+		
+		
+		<!--
+		======================================
+					RENT RISE ESTIMATE
+		======================================
+		-->
+		
+		<record model = "ir.ui.view" id = "rent_rent_group_tree_view">
+			<field name = "name">rent.rise.estimate.tree</field>
+			<field name = "model">rent.rise.estimate</field>
+			<field name = "type">tree</field>
+			<field name = "arch" type = "xml">
+				<tree string = "Rise Estimation">
+					<field name = "year"/>
+					<field name = "amount"/>
+				</tree>
+			</field>
+		</record>
+	</data>
 	</data>
 </openerp>
 
