@@ -1482,6 +1482,7 @@ class rent_rent(osv.osv):
 		
 		'rent_notes'                 : fields.text('Notes',help='Add complementary information about the rent or maintenance'),
 		'rent_include_water'         : fields.boolean('Include water payment',readonly=True, states={'draft':[('readonly',False)]},help="Check if you want to generate an invoice for the water payment"),
+		'rent_rise_chart_ids'         : fields.one2many('rent.rise.estimate','rent_id', 'Rise Chart', readonly=True)
 	}
 	
 	_defaults = {
@@ -1756,3 +1757,14 @@ class rent_contract_clause_rel(osv.osv):
 		'sequence'                : fields.integer('Sequence'),
 	}
 rent_contract_clause_rel()
+
+
+class rent_rise_estimate(osv.osv):
+	_name = 'rent.rise.estimate'
+	_columns = {
+			'year'    : fields.integer('Year',help='Number of the year as a sequence'),
+			'amount'  : fields.float('Amount',readonly),
+			'rent_id' : fields.many2one('rent.rent','Rent_id')
+	}
+
+rent_rise_estimate()
