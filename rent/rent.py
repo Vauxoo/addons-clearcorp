@@ -515,6 +515,14 @@ class rent_rent_group(osv.osv):
 	}
 rent_rent_group()
 
+class rent_rise_estimate(osv.osv):
+	_name = 'rent.rise.estimate'
+	_columns = {
+			'year'    : fields.integer('Year',help='Number of the year as a sequence'),
+			'amount'  : fields.float('Amount'),
+			'rent_id' : fields.many2one('rent.rent','Rent_id'),
+	}
+rent_rise_estimate()
 
 #Class to hold all the information that refences the rent
 #value, dates, status and to control de transaction of the bussines
@@ -1500,15 +1508,6 @@ class rent_rent(osv.osv):
 		'rent_modif_date' : date.today()
 	}
 rent_rent()
-
-class rent_rise_estimate(osv.osv):
-	_name = 'rent.rise.estimate'
-	_columns = {
-			'year'    : fields.integer('Year',help='Number of the year as a sequence'),
-			'amount'  : fields.float('Amount'),
-			'rent_id' : fields.many2one('rent.rent','Rent_id'),
-	}
-rent_rise_estimate()
 
 class rent_rent_estimate(osv.osv):
 	_name = 'rent.rent.estimate'
