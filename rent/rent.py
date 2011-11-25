@@ -646,6 +646,12 @@ class rent_rent(osv.osv):
 		
 	def create(self,cr,uid, vals,context=None):
 		org_rent = vals
+		try:
+			user = pooler.get_pool(cr.dbname).get('res.users').browse(cr, uid, [uid], context=context)[0]
+			if user.company_id:
+				org_rent.update({
+					'company_id'  : user.company_id.id,
+				})
 		#if vals:
 		#	if vals.get('rent_type') == 'Adendum':
 		#		rent_id = vals.get('rent_modif_ref')
@@ -1511,6 +1517,7 @@ class rent_rent(osv.osv):
 		
 		'rent_notes'                 : fields.text('Notes',help='Add complementary information about the rent or maintenance'),
 		'rent_include_water'         : fields.boolean('Include water payment',readonly=True, states={'draft':[('readonly',False)]},help="Check if you want to generate an invoice for the water payment"),
+		'company_id'                 : fields.many2one('res.company', 'Company'),
 		#'rent_rise_chart_ids'        : fields.one2many('rent.rise.estimate','rent_id', 'Rise Chart'),
 		#'rent_rise_chart_years'      : fields.integer('Rise years',help='Indicate the number of years you want to see at the chart of rise estimates'),
 		
