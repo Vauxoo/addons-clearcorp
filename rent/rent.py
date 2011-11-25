@@ -520,10 +520,10 @@ class rent_rise_estimate(osv.osv):
 	_columns = {
 			'year'         : fields.integer('Year',help='Number of the year as a sequence'),
 			'amount'       : fields.float('Amount (local)'),
-			'currency_id'  : fields.related('rent_id', 'currency_id',type='many2one' relation='rent.rent', string='Currency', readonly=True,store=False),
+			'currency_id'  : fields.related('rent_id', 'currency_id',type='many2one', relation='rent.rent', string='Currency', readonly=True,store=False),
 			
 			'amount_foreing'       : fields.float('Amount (Foreing)'),
-			'currency_foreing_id'  : fields.related('rent_id', 'eqv_currency_id',type='many2one' relation='rent.rent', string='Currency(out)', readonly=True,store=False),
+			'currency_foreing_id'  : fields.related('rent_id', 'eqv_currency_id',type='many2one', relation='rent.rent', string='Currency(out)', readonly=True,store=False),
 			'rent_id'              : fields.many2one('rent.rent','Rent_id'),
 	}
 rent_rise_estimate()
