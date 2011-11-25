@@ -970,6 +970,7 @@
 								<field name = "rent_show_us_eq"/>
 								<label string = "  "/>
 								<button name = "calculate_negotiation" string="Compute Values" type="object" icon="terp-stock_format-scientific"/>
+								<field name = "rent_rise_chart" nolabel="1" colspan = "4"/>
 							</group>
 							<group col = "4" colspan = "2" attrs = "{'invisible': [('rent_show_us_eq','!=','True')]}">
 								<separator string = "USD Currency Equivalence" colspan = "4"/>
