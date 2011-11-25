@@ -1763,7 +1763,7 @@ class rent_rise_estimate(osv.osv):
 	_name = 'rent.rise.estimate'
 	_columns = {
 			'year'    : fields.integer('Year',help='Number of the year as a sequence'),
-			'amount'  : fields.float('Amount',readonly),
+			'amount'  : fields.float('Amount',readonly=True),
 			'rent_id' : fields.many2one('rent.rent','Rent_id')
 	}
 
