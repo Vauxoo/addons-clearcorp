@@ -1695,6 +1695,11 @@ msgid "Include Maintenance Rent"
 msgstr "Incluir cobro de mantenimiento"
 
 #. module: rent
+#: field:rent.rent,rent_include_water:0
+msgid "Include water payment"
+msgstr "Incluir pago de agua"
+
+#. module: rent
 #: view:rent.rent:0
 msgid "Create new Group"
 msgstr "Crear Nuevo Grupo"
