@@ -1397,7 +1397,7 @@ class rent_rent(osv.osv):
 			amount_base	= amount_base * (1 + float(percentaje) / 100)
 			lines.append((0,0,{'year' : x+1, 'amount' : amount_base}))
 		debug(lines)
-		res['rent_rise_chart2_ids'] = lines
+		res['rent_rise_chart_ids'] = lines
 		debug(res)
 		return {'value' : res}
 	
