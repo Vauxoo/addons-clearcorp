@@ -1135,7 +1135,7 @@ class rent_rent(osv.osv):
 		#MAIN CRONJOB TO BE RUNNED EVERY DAY AN CREATE INVOICES
 		self.cron_rent_invoice(cr,uid,[])
 		return True
-	def cron_rent_invoice(self,cr,uid,ids,context):
+	def cron_rent_invoice(self,cr,uid,ids,context=None):
 		#gets the list of all active rents
 		rent_ids = self.search(cr,uid,[('state','=','active'),('rent_type','=','Contract')])
 		date_list = []
