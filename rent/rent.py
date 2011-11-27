@@ -834,7 +834,7 @@ class rent_rent(osv.osv):
 				#res_norm_inv.append(obj_rent.id)
 				res_norm_inv.append(obj_rent)
 		debug(res_norm_inv)
-		self.rent_calc(cr,uid,res_norm_inv,type)
+		self.rent_calc(cr,uid,res_norm_inv,type,current_date)
 		return True
 	
 	def cron_rent_defaulter_interest(self,cr,uid):
