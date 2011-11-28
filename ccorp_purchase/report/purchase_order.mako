@@ -2,9 +2,6 @@
 <head>
 	<style type="text/css">
 		${css}
-		#desc_col_po{
-				width : 400px;
-		}
 	</style>
 </head>
 <body class = "data">
