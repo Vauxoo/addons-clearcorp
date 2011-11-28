@@ -441,20 +441,20 @@ class rent_floor_parking(osv.osv):
 			res[parking_id] = obj.parking_large * obj.parking_width
 		return res
 	
-	def name_get(self, cr, uid, ids, context=None):
-		if not len(ids):
-			return []
-		reads = self.read(cr, uid, ids, ['parking_number','parking_floor_id'], context=context)
-		res = []
-		debug('NOMBREPARKEO+==================================')
-		for record in reads:
-			debug(record)
-			debug(record['parking_floor_id'][1])
-			name = 'Parking #' + str(record['parking_number']) + ' , ' +  record['parking_floor_id'][1]
-		#	for subrecord in subreads 
-		#		name += ', ' + subrecord['local_floor_building']
-			res.append((record['id'], name))
-		return res
+	#def name_get(self, cr, uid, ids, context=None):
+	#	if not len(ids):
+	#		return []
+	#	reads = self.read(cr, uid, ids, ['parking_number','parking_floor_id'], context=context)
+	#	res = []
+	#	debug('NOMBREPARKEO+==================================')
+	#	for record in reads:
+	#		debug(record)
+	#		debug(record['parking_floor_id'][1])
+	#		name = 'Parking #' + str(record['parking_number']) + ' , ' +  record['parking_floor_id'][1]
+	#	#	for subrecord in subreads 
+	#	#		name += ', ' + subrecord['local_floor_building']
+	#		res.append((record['id'], name))
+	#	return res
 	
 	def _determine_rented(self,cr,uid,ids,field_name,args,context):
 		res = {}
