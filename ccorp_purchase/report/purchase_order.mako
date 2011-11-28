@@ -2,6 +2,9 @@
 <head>
 	<style type="text/css">
 		${css}
+		#desc_col_po{
+				width : 400px;
+		}
 	</style>
 </head>
 <body class = "data">
@@ -75,7 +78,7 @@
 				<tr class = "odd">
 			%endif
 				<td valign = "top">${formatLang(line.product_qty)} ${format(line.product_uom.name)}</td>
-				<td valign = "top" id="desc_col">${line.name} ${', '.join(map(lambda x: x.name, line.taxes_id))|entity}
+				<td valign = "top" id="desc_col_po">${line.name} ${', '.join(map(lambda x: x.name, line.taxes_id))|entity}
 					%if line.notes :
 						<br/><span class = "notes"><b>${_("Note")}:</b> ${format(line.notes)}</span>
 					%endif
