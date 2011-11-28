@@ -479,7 +479,8 @@ class rent_floor_parking(osv.osv):
 	_columns = {
 		'parking_area'            : fields.function(_parking_area,type='float',method=True,string='Area'),
 		'parking_value'           : fields.function(_parking_value,type='float',method=True,string='Value'),
-		'parking_number'          : fields.integer('# Parking',required=True),
+		#'parking_number'          : fields.integer('# Parking',required=True),
+		'parking_number'          : fields.char('# Parking',required=True, size=64),
 		'parking_huella'          : fields.float('Huella',required=True),
 		'parking_sqrmeter_price'  : fields.function(_parking_sqr_price,type='float',method=True,string='Sqr Meter Value'),
 		'parking_rented'          : fields.function(_determine_rented,type='boolean',method=True,string='Rented',help='Checked if the parking is rented'),
