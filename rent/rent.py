@@ -1041,7 +1041,7 @@ class rent_rent(osv.osv):
 			debug(res_dob_inv)
 			self.invoice_rent(cr,uid,ids,res_dob_inv,type,today)
 			if type == 'rent':
-				self.invocie_services(cr,uid,ids,res_dob_inv,type,today)
+				self.invoice_services(cr,uid,ids,res_dob_inv,type,today)
 		return True
 	
 	def invoice_services(self,cr,uid,ids,args,type='rent',current_date=date.today()):
