@@ -1,16 +1,16 @@
-# Spanish translation for openerp-ccorp-addons
-# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# Arabic translation for openerp-ccorp-addons
+# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
 # This file is distributed under the same license as the openerp-ccorp-addons package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: openerp-ccorp-addons\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-08-15 05:20+0000\n"
-"PO-Revision-Date: 2011-11-16 05:10+0000\n"
-"Last-Translator: ClearCorp S.A. <Unknown>\n"
-"Language-Team: Spanish <es@li.org>\n"
+"PO-Revision-Date: 2011-11-21 12:07+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,22 +20,22 @@ msgstr ""
 #. module: account_invoice_global_discount
 #: view:account.invoice:0
 msgid "Compute Totals"
-msgstr "Calcular Totales"
+msgstr ""
 
 #. module: account_invoice_global_discount
 #: view:account.invoice:0
 msgid "Discounted amount"
-msgstr "Monto descontado"
+msgstr ""
 
 #. module: account_invoice_global_discount
 #: wizard_field:invoice.discount,init,discount:0
 msgid "Discount percentage"
-msgstr "Porcentaje de descuento"
+msgstr ""
 
 #. module: account_invoice_global_discount
 #: model:ir.module.module,shortdesc:account_invoice_global_discount.module_meta_information
 msgid "Global invoice discount"
-msgstr "Descuento global de factura"
+msgstr ""
 
 #. module: account_invoice_global_discount
 #: model:ir.module.module,description:account_invoice_global_discount.module_meta_information
@@ -46,46 +46,41 @@ msgid ""
 "    It adds the discounted and undiscounted amounts on the invoice totals.\n"
 "    "
 msgstr ""
-"Agrega la funcionalidad de descuento para la factura\n"
-"    Con ésta es posible aplicar un porcentaje de descuento a todas las "
-"líneas de una factura\n"
-"    Agrega los montos descontados y sin descontar a los totales de factura.\n"
-"    "
 
 #. module: account_invoice_global_discount
 #: field:account.invoice,amount_discounted:0
 #: model:ir.actions.wizard,name:account_invoice_global_discount.invoice_discount
 msgid "Discount"
-msgstr "Descuento"
+msgstr ""
 
 #. module: account_invoice_global_discount
 #: wizard_view:invoice.discount,init:0
 msgid "Discount:"
-msgstr "Descuento:"
+msgstr ""
 
 #. module: account_invoice_global_discount
 #: view:account.invoice:0
 msgid "Untaxed amount"
-msgstr "Monto sin impuesto"
+msgstr ""
 
 #. module: account_invoice_global_discount
 #: wizard_button:invoice.discount,init,end:0
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "إلغاء"
 
 #. module: account_invoice_global_discount
 #: view:account.invoice:0
 #: wizard_button:invoice.discount,init,apply_discount:0
 msgid "Apply Discount"
-msgstr "Aplicar descuento"
+msgstr ""
 
 #. module: account_invoice_global_discount
 #: field:account.invoice,amount_untaxed_not_discounted:0
 #: field:account.invoice.line,price_subtotal_not_discounted:0
 msgid "Subtotal"
-msgstr "Subtotal"
+msgstr "المجموع الفرعي"
 
 #. module: account_invoice_global_discount
 #: field:account.invoice,invoice_discount:0
 msgid "Discount (%)"
-msgstr "Descuento (%)"
+msgstr "الخصم (%)"
