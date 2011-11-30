@@ -90,11 +90,9 @@ class rent_estate(osv.osv):
 		res = {}
 		for estate_id in ids:
 			res[estate_id] =  False
-			debug(ids)
 			rent_ids = self.pool.get('rent.rent').search(cr,uid,[('state','=','active'),('rent_related_real','=','estate'),('rent_rent_local_id','=',estate_id)])
 			if rent_ids:
 				res[estate_id] =  True
-		debug(res)
 		return res
 	_columns = {
 		'estate_owner_id'     : fields.many2one('res.company','Owner',required=True),
@@ -226,7 +224,6 @@ class rent_floor(osv.osv):
 		for obj_floor in self.pool.get('rent.floor').browse(cr,uid,ids):
 			building_code = obj_floor.floor_building_id.building_code
 			res[obj_floor.id] = building_code + '-' + obj_floor.floor_number
-		debug(res)
 		return res
 	 
 	def name_get(self, cr, uid, ids, context=None):
@@ -358,13 +355,8 @@ class rent_local_floor(osv.osv):
 	def create(self, cr, uid,vals, context=None):
 		#Check for the building and the floor so it can't be at diferent places before creating the object
 		locations_ids = self.search(cr,uid,[('local_local_floor_id','=',vals['local_local_floor_id'])])
-		debug(locations_ids)
 		current_floor = self.pool.get('rent.floor').browse(cr,uid,vals['local_floor_floor_id'])
-		debug(current_floor)
 		for obj_local_floor in self.browse(cr,uid,locations_ids):
-			debug(obj_local_floor)
-			debug(obj_local_floor.local_floor_floor_id.floor_building_id.id)
-			debug(current_floor.floor_building_id.id)
 			if obj_local_floor.local_floor_floor_id.floor_building_id.id != current_floor.floor_building_id.id:
 				raise osv.except_osv('Wrong value!', 'The same local can not be on diferent buildings')
 		return super(rent_local_floor,self).create(cr,uid,vals,context)
@@ -458,22 +450,16 @@ class rent_floor_parking(osv.osv):
 	
 	def _determine_rented(self,cr,uid,ids,field_name,args,context):
 		res = {}
-		debug('Renta+==================================')
 		for parking_id in ids:
 			res[parking_id] =  False
-			debug(ids)
 			rent_ids = self.pool.get('rent.rent').search(cr,uid,[('state','=','active'),('rent_related_real','=','parking'),('rent_rent_parking_id','=',parking_id)])
 			if rent_ids:
 				res[parking_id] =  True
-		debug(res)
 		return res
 	def onchange_floor(self,cr,uid,ids,floor_id):
 		res = {}
-		debug("+============================")
 		obj_floor = self.pool.get('rent.floor').browse(cr,uid,floor_id)
-		debug(obj_floor)
 		res['parking_floor_building'] = obj_floor.floor_building_id.id
-		debug(res)
 		return {'value' : res}
 		
 	_columns = {
@@ -537,8 +523,6 @@ class rent_rent(osv.osv):
 	
 	def onchange_estimations(self,cr,uid,ids,field):
 		res = {}
-		debug("==========ESTIMACIONES====")
-		debug(field)
 		obj_sorted = sorted(field,key=lambda estimate: estimate.estimate_performance,reverse=True)
 		priority = 1
 		for obj_record in obj_sorted:
@@ -551,7 +535,6 @@ class rent_rent(osv.osv):
 				else:
 					vals['estimate_state'] = 'norec'
 				priority += 1
-			debug(vals)
 			obj_record.write(vals)
 		return True
 		
@@ -674,7 +657,6 @@ class rent_rent(osv.osv):
 			
 	def default_get(self,cr,uid,fields_list,context=None):
 		res = {}
-		debug(context)
 		if context:
 			type = context.get('rent_type')
 			if type == 'Adendum':
@@ -698,7 +680,6 @@ class rent_rent(osv.osv):
 						'rent_main_invoice_ids'      : [],
 						'rent_main_historic_ids'     : [],
 					})
-				debug(res)
 				#res ={
 				#	'name'                : context.get('name'),
 				#	'rent_rent_client_id' : context.get('rent_rent_client_id'),
@@ -756,17 +737,13 @@ class rent_rent(osv.osv):
 		return True
 		
 	def register_historic(self,cr,uid,obj_rent):
-		debug('HISTORIC+===================')
 		#obj_rent = self.browse(cr,uid,ids)[0]
-		debug(obj_rent)
 		if obj_rent:
 			vals = {}
 			is_registrated = False
 			current_date = parser.parse(obj_rent.rent_start_date).date()
 			current_date = current_date.replace(year=date.today().year)
 			for obj_historic in obj_rent.rent_historic_ids:
-				debug(current_date.isoformat())
-				debug(obj_historic.anual_value_date)
 				if obj_historic.anual_value_date == current_date.isoformat():
 					is_registrated = True
 					match_historic = obj_historic
@@ -784,22 +761,17 @@ class rent_rent(osv.osv):
 				vals['rent_historic_ids'] = [(0,0,{'anual_value_rent_id':obj_rent.id,'anual_value_value':years_val,'anual_value_prev_value' : prev_value,'anual_value_rate' : obj_rent.rent_rise, 'anual_value_date' : current_date, 'anual_value_type' : 'rent', 'anual_value_local_ids':vals['anual_value_local_ids']})]
 			else:
 				vals['rent_historic_ids'] = [(1,match_historic.id,{'anual_value_value':obj_rent.rent_amount_base,'anual_value_rate' : obj_rent.rent_rise})]
-			debug(vals)
 			obj_rent.write(vals)
 		return True
 	
 	def register_main_historic(self,cr,uid,obj_rent):
-		debug('HISTORIC MAIN+===================')
 		#obj_rent = self.browse(cr,uid,ids)[0]
-		debug(obj_rent)
 		if obj_rent:
 			vals = {}
 			is_registrated = False
 			current_date = parser.parse(obj_rent.rent_main_start_date).date()
 			current_date = current_date.replace(year=date.today().year)
 			for obj_historic in obj_rent.rent_main_historic_ids:
-				debug(current_date.isoformat())
-				debug(obj_historic.anual_value_date)
 				if obj_historic.anual_value_date == current_date.isoformat():
 					is_registrated = True
 					match_historic = obj_historic
@@ -819,7 +791,6 @@ class rent_rent(osv.osv):
 				vals['rent_main_historic_ids'] = [(0,0,{'anual_value_rent_id':obj_rent.id,'anual_value_value':years_val,'anual_value_prev_value' : prev_value,'anual_value_rate' : rise, 'anual_value_date' : current_date, 'anual_value_type' : 'main','anual_value_local_ids':vals['anual_value_local_ids']})]
 			else:
 				vals['rent_main_historic_ids'] = [(1,match_historic.id,{'anual_value_value':amount_base,'anual_value_rate' : rise})]
-			debug(vals)
 			obj_rent.write(vals)
 		return True
 	def _performance_per_sqr(self,cr,uid,ids,field_name,args,context):
@@ -860,7 +831,6 @@ class rent_rent(osv.osv):
 			years_val = {}
 			
 			percentaje = obj_rent.rent_rise
-			debug(percentaje)
 			years_val['rent_rise_year2'] = obj_rent.rent_amount_base * (1 + float(percentaje) / 100)
 			years_val['rent_rise_year3'] = years_val['rent_rise_year2']  * (1 + float(percentaje) / 100)
 			
@@ -970,7 +940,6 @@ class rent_rent(osv.osv):
 		#the invoice_rent to create every invoice
 		debug('GENERACION DE PRIMER PAGO')
 		res = []
-		debug(ids)
 		for obj_rent in ids:
 			today = current_date
 			charge_date = date(today.year,today.month,1)
@@ -1058,8 +1027,7 @@ class rent_rent(osv.osv):
 				res_dob_inv.append(self._invoice_data(cr,uid,ids,obj_rent,{'init_date': rise_date, 'end_date' : charge_date.replace(day=calendar.mdays[charge_date.month])},type))
 			else:
 				res_dob_inv.append(self._invoice_data(cr,uid,ids,obj_rent,{'init_date': charge_date, 'end_date' : charge_date.replace(day=calendar.mdays[charge_date.month])},type))
-			
-			debug(res_dob_inv)
+
 			self.invoice_rent(cr,uid,ids,res_dob_inv,type,today)
 			if type == 'rent':
 				self.invoice_services(cr,uid,ids,res_dob_inv,type,today)
@@ -1079,7 +1047,6 @@ class rent_rent(osv.osv):
 		
 		for rlist in args:
 			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rlist['rent_id'])
-			debug(obj_rent)
 			if obj_rent.rent_include_water:
 				desc = desc +  obj_rent.name
 				rlist.update({
@@ -1124,13 +1091,11 @@ class rent_rent(osv.osv):
 			'date_invoice' : today,
 			'date_due' : date_due,
 		}
-		debug(inv)
 		inv_id = self.pool.get('account.invoice').create(cr, uid, inv, {'type':'out_invoice'})
 		self.pool.get('account.invoice').button_compute(cr, uid, [inv_id], {'type':'out_invoice'}, set_total=True)
 		res['invoice_id'] = inv_id
 		res['rent_id'] = obj_rent.id
 		res['invoice_type'] = type
-		debug(res)
 		#self.register_rent_invoice(cr,uid,ids,res)
 		return res
 	
@@ -1171,21 +1136,17 @@ class rent_rent(osv.osv):
 		today =date.today()
 		debug(today)
 		log_id = self.pool.get('rent.invoice.log').search(cr,uid,[],order='log_date desc')
-		debug(log_id)
 		if log_id:
 			last_log = self.pool.get('rent.invoice.log').browse(cr,uid,log_id[0])
-			debug(last_log.log_date)
 			last_date = parser.parse(last_log.log_date).date() + timedelta(days=1)
 		else:
 			#if theres no record we set the today as the last_date assuming that 
 			#the cronjob has never been excecuted and add it to the list
 			last_date = today
 		
-		debug(last_date)
 		while last_date <= today:
 			date_list.append(last_date)
 			last_date += timedelta(days=1)
-		debug(date_list)
 		#once we have all that dates we run the method for each one 
 		#NOTE: date_list contains at least the today date
 		for record_date in date_list:
@@ -1196,7 +1157,6 @@ class rent_rent(osv.osv):
 			debug("CALCULATING INVOICE FOR MAINTENANCE")
 			is_required = self._invoice_main_required(cr,uid,rent_ids,'main',record_date)
 			self._method_invoice_caller(cr,uid,rent_ids,is_required,'main',record_date)
-		debug(date_list)
 		if date_list:
 			log_desc = "CronJob ran for dates between %s to %s" % (date_list[0].strftime("%A %d %B %Y"),(len(date_list) > 1 and date_list[-1] or date_list[0]).strftime("%A %d %B %Y"))
 			self.pool.get('rent.invoice.log').create(cr,uid,{'log_date':today,'log_desc' : log_desc })
@@ -1227,9 +1187,7 @@ class rent_rent(osv.osv):
 		return True
 		
 	def action_aprove_adendum(self,cr,uid,ids,context=None):
-		debug(ids)
 		rent_ids = self.search(cr,uid,[('state','=','active'), ('rent_type','in',['Adendum','Others'])])
-		debug(rent_ids)
 		for rent_aden_id in rent_ids:
 			vals = self.copy_data(cr,uid,rent_aden_id)
 			if vals:
@@ -1251,8 +1209,6 @@ class rent_rent(osv.osv):
 						'state'              : 'active',
 						'rent_estimates_ids' : False,
 					})
-					debug(org_rent)
-					debug(vals)
 					self.write(cr,uid,[rent_id],vals)
 					self.write(cr,uid,[rent_aden_id],org_rent)
 		return True
@@ -1262,8 +1218,6 @@ class rent_rent(osv.osv):
 		#is_required = self._invoice_required(cr,uid,rent_ids)
 		res_first_inv = []
 		res_first_main_inv = []
-		debug("CAMBIO DE ESTADOSSSSSSSSSSSSSSSSSS")
-		debug(rent_ids)
 		for obj_rent in self.browse(cr,uid,rent_ids):
 			#if is_required[obj_rent.id]: 
 			has_first = self.pool.get('rent.invoice.rent').search(cr,uid,[('invoice_rent_id','=',obj_rent.id),('invoice_type','=','rent')])
@@ -1286,8 +1240,6 @@ class rent_rent(osv.osv):
 					percentaje = obj_rent.rent_main_performance.split('%')[0]
 					obj_rent.write({'rent_main_estimates_ids' : [(0,0,{'estimate_performance': float(percentaje),'estimate_rent_id':obj_rent.id,'estimate_date' : date.today(), 'estimate_state':'final'})]})
 		
-		debug(res_first_inv)
-		debug(res_first_main_inv)
 		self.first_rent(cr,uid,res_first_inv)
 		self.first_rent(cr,uid,res_first_main_inv,'main')
 		return {}
@@ -1362,9 +1314,7 @@ class rent_rent(osv.osv):
 		res = {}
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
 			total = 1
-			debug(obj_rent.rent_main_total)
 			res[obj_rent.id] = "%.2f%%" % ((obj_rent.rent_main_amount_base * 12) /  (obj_rent.rent_main_total== 0.00 and 1 or obj_rent.rent_main_total) * 100) 
-			debug(res)
 		return res
 		
 	def _rent_main_amount_years(self,cr,uid,ids,field_name,args,contexto):
@@ -1677,7 +1627,6 @@ class rent_invoice_line(osv.osv):
 		res = {}
 		company_id = context.get('company_id',False)
 		obj_rent = self.pool.get('rent.rent').browse(cr, uid, rent, context=context)		
-		debug(obj_rent)		
 		res['name'] = obj_rent.name
 		res['price_unit'] = obj_rent.rent_amount_base
 		
@@ -1690,14 +1639,13 @@ class rent_invoice_line(osv.osv):
 		if obj_company.currency_id.id != obj_rent.currency_id.id:
 			new_price = res['price_unit'] * obj_rent.currency_id.rate
 			res['price_unit'] = new_price
-		debug(res)
 		return {'value' : res}
 	
 	def onchange_type(self,cr,uid,ids,field):
 		res = {}
 		res['product_id'] = False
 		res['invoice_rent_id'] = False
-		debug(res)
+
 		return {'value' : res}
 	
 	_columns = {
