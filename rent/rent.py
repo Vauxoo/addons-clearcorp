@@ -827,7 +827,7 @@ class rent_rent(osv.osv):
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
 			amounts_val = {}
 			valor = obj_rent._get_total_area(obj_rent.id,None,None)[obj_rent.id]
-			amounts_val['rent_amount_per_sqr'] = (obj_rent.rent_amount_base / valor) 
+			amounts_val['rent_amount_per_sqr'] = (obj_rent.rent_amount_base / (valor == 0 and 1.0 or valor)) 
 			
 			to_exchange = {
 				'obj_rent' : obj_rent,
