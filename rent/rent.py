@@ -1325,7 +1325,7 @@ rent_invoice_line()
 class rent_rent_invoice(osv.osv):
 	_name = 'rent.invoice.rent'
 	_columns = {
-		'invoice_id'       : fields.many2one('account.invoice','Invoice' ondelete='cascade'),
+		'invoice_id'       : fields.many2one('account.invoice','Invoice', ondelete='cascade'),
 		'invoice_rent_id'  : fields.many2one('rent.rent', 'Rent',ondelete='cascade'),
 		'invoice_date'     : fields.related('invoice_id','date_invoice', type='date',relation='account.invoice',string='Date',readonly=True,store=False),
 		'invoice_amount'   : fields.related('invoice_id','amount_total', type='float',relation='account.invoice',string='Amount Total',readonly=True,store=False),
