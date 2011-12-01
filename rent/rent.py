@@ -733,7 +733,6 @@ class rent_rent(osv.osv):
 		debug(args)
 		
 		for rlist in args:
-			debug(rlist)
 			obj_rent = self.browse(cr,uid,rlist['rent_id'])
 			il.append(self.inv_line_create(cr, uid,obj_rent,rlist,type))
 
@@ -774,10 +773,8 @@ class rent_rent(osv.osv):
 			'date_invoice' : date.today(),
 			'date_due' : date_due,
 		}
-		debug(inv)
 		inv_id = self.pool.get('account.invoice').create(cr, uid, inv, {'type':'out_invoice'})
 		self.pool.get('account.invoice').button_compute(cr, uid, [inv_id], {'type':'out_invoice'}, set_total=True)
-		debug(inv_id)
 		res['invoice_id'] = inv_id
 		res['rent_id'] = obj_rent.id
 		res['invoice_type'] = type
@@ -1328,7 +1325,7 @@ rent_invoice_line()
 class rent_rent_invoice(osv.osv):
 	_name = 'rent.invoice.rent'
 	_columns = {
-		'invoice_id'       : fields.many2one('account.invoice','Invoice'),
+		'invoice_id'       : fields.many2one('account.invoice','Invoice' ondelete='cascade'),
 		'invoice_rent_id'  : fields.many2one('rent.rent', 'Rent',ondelete='cascade'),
 		'invoice_date'     : fields.related('invoice_id','date_invoice', type='date',relation='account.invoice',string='Date',readonly=True,store=False),
 		'invoice_amount'   : fields.related('invoice_id','amount_total', type='float',relation='account.invoice',string='Amount Total',readonly=True,store=False),
