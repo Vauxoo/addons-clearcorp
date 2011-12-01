@@ -821,6 +821,7 @@ class rent_rent(osv.osv):
 			if today.day == invoice_day:
 				if (type == 'main' and obj_rent.rent_main_inc) or type == 'rent':
 					is_required = True
+					debug(inv_rent_list)
 					for obj_inv_reg in inv_rent_list:
 						inv_date = parser.parse(obj_inv_reg.invoice_date).date()
 						if type == 'rent':
@@ -933,7 +934,9 @@ class rent_rent(osv.osv):
 		#once we have all that dates we run the method for each one 
 		#NOTE: date_list contains at least the today date
 		for record_date in date_list:
+			debug(record_date)
 			is_required = self._invoice_main_required(cr,uid,rent_ids,'rent',record_date)
+			debug(is_required)
 			self._method_invoice_caller(cr,uid,rent_ids,is_required,'rent',record_date)
 		
 			#after we invocied all the rents, now we can proceed with the maintenance 
