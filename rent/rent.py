@@ -574,6 +574,8 @@ class rent_rent(osv.osv):
 				total = obj_estado._get_estate_vrm(obj_estado.id,None,None)[obj_estado.id]
 			
 			obj_client = obj_rent.rent_rent_client_id
+			debug(obj_client.company_id)
+			debug(obj_client.company_id.currency_id)
 			company_currency = (obj_client.company_id and obj_client.company_id.currency_id or self._get_currency(cr,uid,context))
 			
 			to_exchange = {
