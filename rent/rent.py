@@ -634,7 +634,7 @@ class rent_rent(osv.osv):
 			user = pooler.get_pool(cr.dbname).get('res.users').browse(cr, uid, [uid], context=context)[0]
 			if user.company_id:
 				org_rent.update({
-					'company_id'  : user.company_id.id,
+				#	'company_id'  : user.company_id.id,
 				})
 		#if vals:
 		#	if vals.get('rent_type') == 'Adendum':
