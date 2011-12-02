@@ -577,7 +577,7 @@ class rent_rent(osv.osv):
 			debug(obj_client.company_id)
 			debug(obj_client.company_id.currency_id)
 			company_currency = (obj_client.company_id and obj_client.company_id.currency_id or self._get_currency(cr,uid,context))
-			
+			debug(company_currency)
 			to_exchange = {
 				'obj_rent' : obj_rent,
 				'vals'     : [('rent_total',total),
