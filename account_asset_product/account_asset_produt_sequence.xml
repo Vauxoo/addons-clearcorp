@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+		
+        <record id="seq_type_asset_product" model="ir.sequence.type">
+            <field name="name">account.asset.asset</field>
+            <field name="code">account.asset.asset</field>
+        </record>
+        <record id="seq_master_item" model="ir.sequence">
+            <field name="name">account.asset.asset</field>
+            <field name="code">account.asset.asset</field>
+            <field name="padding">3</field>
+            <!--field name="company_id">user.company_id.id</field-->
+        </record>
+        
+        <record model="ir.ui.view" id="account_asset_product_assre_form">
+			<field name="name">account.asset.asset</field>
+			<field name="model">account.asset.asset</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="account_asset.view_account_asset_asset_form"/>
+			<field name="arch" type="xml">
+				<data>
+					<field name="code" position="after">
+						<!--newline/-->
+						<field name="prod_lot_id" /><!--on_change="on_change_search_location(prod_lot_id)"-->
+						<field name="asset_product_id" select="1"/>
+						<field name="location_id" select="1"/>
+						
+					</field>	
+					<field name="localisation" position="replace"/>
+						
+				</data>
+			</field>
+		</record>
+        
+        <record id="view_medical_zahha_laboratory_filter" model="ir.ui.view">
+			<field name="name">account.asset.asset search</field>
+			<field name="model">account.asset.asset</field>
+			<field name="type">search</field>
+			<field name="arch" type="xml">
+				<search string="Search Asset">
+					<separator orientation="vertical"/>
+						<filter string="Active" domain="[('active','=','True')]" icon="terp-project"/>
+						<filter string="Inactive" domain="[('active','=','False')]" icon="terp-project"/>
+					    <newline/>
+					    <field name="name"/>
+					    <field name="code" />
+					    <field name="location_id"/>
+					    <field name="asset_product_id" />
+					    <field name="category_id" />
+					    <field name="prod_lot_id" />
+					 
+					
+					
+					
+					
+					
+
+					<newline/>
+				</search>
+			</field>
+		</record>
+        
+        
+        
+        
+    </data>
+</openerp>
