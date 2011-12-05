@@ -30,6 +30,7 @@
 	""",
 	'depends': [
 		'account',
+		'base_contact',
 		],
 	'init_xml': [],
 	'demo_xml': [],
