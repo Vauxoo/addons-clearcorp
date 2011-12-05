@@ -139,6 +139,7 @@
 			<field name = "type">ir.actions.act_window</field>
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
+			<field name="domain">[('customer','=','True')]</field>
 			<field name = "view_id" ref = "client_form_view"/>
 		</record>
 		
@@ -936,9 +937,11 @@
 						<field name = "name"/>
 						<field name = "rent_rent_client_id" select  = "1"/>
 						<field name = "rent_type"/>
-						<field name = "state"/>
+						<field name = "active"/>
 						<field name = "rent_related_real" />
+						<field name = "rent_group_id" />
 						<field name = "rent_main_inc"/>
+						<field name = "rent_include_water" attrs = "{'invisible' : [('rent_related_real','not in',['local'])], 'readonly' : [('rent_rent_local_id.local_water_meter_number','=','')]}"/>
 					</group>
 					<notebook>
 						<page string = "Rent">
@@ -963,10 +966,13 @@
 								<field name = "rent_amount_per_sqr"/>
 								<field name = "rent_rise"/>	
 								<field name = "rent_rent_real_area"/>
+								<field name = "rent_deposit"/>
 								<field name = "currency_id"/>
 								<field name = "rent_show_us_eq"/>
+								<!--<field name = "rent_rise_chart_years" on_change = "onchange_rise_years(rent_rise_chart_years,rent_amount_base,rent_rise)"/>-->
 								<label string = "  "/>
 								<button name = "calculate_negotiation" string="Compute Values" type="object" icon="terp-stock_format-scientific"/>
+								<!-- <field name = "rent_rise_chart_ids" nolabel="1" colspan = "4"/> -->								
 							</group>
 							<group col = "4" colspan = "2" attrs = "{'invisible': [('rent_show_us_eq','!=','True')]}">
 								<separator string = "USD Currency Equivalence" colspan = "4"/>
@@ -986,7 +992,7 @@
 								<page string = "Detail">
 									<group col = "4" colspan = "4" attrs = "{'invisible':[('rent_related_real','=','')]}">
 										<separator string = "Real Estate Information" colspan = "4"/>
-											<field name = "rent_rent_local_id" attrs = "{ 'required' : [('rent_related_real','=','local'),('state','=','draft')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','local')], 'readonly': ['|',('rent_related_real','!=','local'),('state','!=','draft')]}"/>
+											<field name = "rent_rent_local_id"  attrs = "{ 'required' : [('rent_related_real','=','local'),('state','=','draft')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','local')], 'readonly': ['|',('rent_related_real','!=','local'),('state','!=','draft')]}"/>
 											<field name = "rent_rent_parking_id" attrs = " { 'required' : [('rent_related_real','=','parking'),('state','=','draft')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','parking')], 'readonly': ['|',('rent_related_real','!=','parking'),('state','!=','draft')]}"/>
 											<field name = "rent_rent_estate_id"  attrs = " { 'required' : [('rent_related_real','=','estate'),('state','=','draft')], 'invisible': ['|',('rent_related_real','=',''),('rent_related_real','!=','estate')], 'readonly': ['|',('rent_related_real','!=','estate'),('state','!=','draft')]}"/>
 									</group>
@@ -1010,34 +1016,36 @@
 									nolabel="1"
 									context="{'tree_view_ref' : 'rent.rent_adendum_tree_view'}"/>
 								</page>
-								
+								<page string = "Notes">
+									<field name = "rent_notes" nolabel="1"/>
+								</page>
 							</notebook>
 						</page>
 						
 						<page string = "Maintenance">
 							<group col = "4" colspan = "4">
 								<separator string = "General Information" colspan = "4"/>
-								<field name = "rent_main_company_id" attrs = "{'readonly' : [('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True')]}"/>
-								<field name = "rent_main_start_date" attrs = "{'readonly' : [('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True')]}"/>
-								<field name = "rent_main_end_date" attrs = "{'readonly' : [('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True')]}"/>
+								<field name = "rent_main_company_id" attrs = "{'readonly' : ['|',('rent_main_inc','!=','True'),('state','!=','draft')], 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
+								<field name = "rent_main_start_date" attrs = "{'readonly' : ['|',('rent_main_inc','!=','True'),('state','!=','draft')], 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
+								<field name = "rent_main_end_date" attrs = "{'readonly' : ['|',('rent_main_inc','!=','True'),('state','!=','draft')], 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
 							</group>
 							<group col = "4" colspan = "4">
 								<separator string = "Accounting" colspan = "4"/>
-								<field name="rent_rent_main_account_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"  groups="base.group_extended" attrs = "{'readonly' : [('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True')]}"/>
-								<field name="rent_rent_main_acc_int_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" groups="base.group_extended" attrs = "{'readonly' : [('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True')]}"/>
-								<field name = "rent_main_charge_day" attrs = "{'readonly' : [('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True')]}"/>
-								<field name = "rent_main_invoiced_day" attrs = "{'readonly' : [('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True')]}"/>
-								<field name = "rent_main_grace_period" attrs = "{'readonly' : [('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True')]}"/>
+								<field name="rent_rent_main_account_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"  groups="base.group_extended" attrs = "{'readonly' : ['|',('rent_main_inc','!=','True'),('state','!=','draft')], 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
+								<field name="rent_rent_main_acc_int_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" groups="base.group_extended" attrs = "{'readonly' : ['|',('rent_main_inc','!=','True'),('state','!=','draft')], 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
+								<field name = "rent_main_charge_day" attrs = "{'readonly' : ['|',('state','!=','draft'),('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
+								<field name = "rent_main_invoiced_day" attrs = "{'readonly' : ['|',('state','!=','draft'),('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
+								<field name = "rent_main_grace_period" attrs = "{'readonly' : ['|',('state','!=','draft'),('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
 								
 							</group>
 							<group col = "4" colspan = "2">
 								<separator string = "Financial Information" colspan = "4"/>
-								<field name = "rent_main_amount_base"  attrs = "{'readonly' : [('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True')]}"/>
-								<field name = "rent_main_total"  attrs = "{'readonly' : [('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True')]}"/>
+								<field name = "rent_main_amount_base"  attrs = "{'readonly' : ['|',('state','!=','draft'),('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
+								<field name = "rent_main_total"  attrs = "{'readonly' : ['|',('state','!=','draft'),('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
 								<field name = "rent_main_rise_year2"/>
 								<field name = "rent_main_performance"/>
 								<field name = "rent_main_rise_year3"/>
-								<field name = "rent_main_rise"  attrs = "{'readonly' : [('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True')]}"/>
+								<field name = "rent_main_rise"  attrs = "{'readonly' : ['|',('state','!=','draft'),('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
 								<field name = "rent_main_show_us_eq"/>
 								<label string = "  "/>
 								<button name = "calculate_negotiation" string="Compute Values" type="object" icon="terp-stock_format-scientific"/>
@@ -1062,9 +1070,17 @@
 						</page>
 					</notebook>
 					<group col = "6" colspan = "4">
+						<field name = "state"/>
 						<button colspan="2" name = "cron_rent_invoice" string="Check for Invoices" type="object" icon="terp-stock_format-scientific"/>
 						<button colspan="2" name="rent_finish" states="active" string="Finish" invisible = "1" icon="gtk-cancel" attrs = "{'invisible': [('rent_type','!=','Contract')]}"/>
 						<button colspan="2" name="rent_active" states="draft" string="Approve" icon="terp-camera_test"/>
+						<button colspan="2"
+							name="%(action_view_rent_make_group)d"
+							string="Create new Group"
+							type="action"
+							states="active"
+							icon="gtk-go-forward"
+							attrs="{'invisible': ['|',('rent_type', '!=', 'Contract'),('state', '!=', 'active')]}"/>
 					</group>
 				</form>
 			</field>
@@ -1103,6 +1119,7 @@
 					<field name = "rent_amount_base"/>
 					<field name = "rent_rise"/>
 					<field name = "currency_id"/>
+					<field name = "rent_modif_date"/>
 					<button name="rent_active" states="draft" string="Approve" icon="terp-camera_test"/>
 				</tree>
 			</field>
@@ -1416,7 +1433,7 @@
 					CONTRACT MENU
 		======================================
 		-->
-		<menuitem id = "rent_contract_submenu" name = "Contracts" parent = "rent_rent_menu" action = "action_contract_form_view"/>
+		<!--<menuitem id = "rent_contract_submenu" name = "Contracts" parent = "rent_rent_menu" action = "action_contract_form_view"/>-->
 		
 		<!--
 		======================================
@@ -1484,7 +1501,7 @@
 					CONTRACT CLAUSE MENU
 		======================================
 		-->
-		<menuitem id = "rent_contract_clause_submenu" name = "Clauses" parent = "rent_rent_menu" action = "action_contract_clause_form_view"/>
+		<!--<menuitem id = "rent_contract_clause_submenu" name = "Clauses" parent = "rent_rent_menu" action = "action_contract_clause_form_view"/>-->
 		
 		<!--
 		======================================
@@ -1522,6 +1539,71 @@
 			<field name = "view_type">form</field>
 			<field name = "view_mode">tree,form</field>
 			<field name = "view_id" ref = "clause_by_contract_tree_view"/>
+		</record>
+		
+		
+		<!--
+		======================================
+					RENT GROUP
+		======================================
+		-->
+		<record model = "ir.ui.view" id = "rent_rent_group_form_view">
+			<field name = "name">rent.rent.group.form</field>
+			<field name = "model">rent.rent.group</field>
+			<field name = "type">form</field>
+			<field name = "arch" type = "xml">
+				<form string = "Rent Group">
+					<group col = "4" colspan = "4">
+						<separator string = "Details" colspan = "4"/>
+						<field name = "name"/>
+					</group>
+					<group col = "4" colspan = "4">
+						<separator string = "Rents" colspan = "4"/>
+						<field name = "rent_rent_ids" context="{'tree_view_ref' : 'rent.rent_tree_view'}" nolabel="1"/>
+					</group>
+				</form>
+			</field>
+		</record>
+		
+		<record model = "ir.ui.view" id = "rent_rent_group_tree_view">
+			<field name = "name">rent.rent.group.tree</field>
+			<field name = "model">rent.rent.group</field>
+			<field name = "type">tree</field>
+			<field name = "arch" type = "xml">
+				<tree string = "Rent Group List">
+					<field name = "name"/>
+					<field name = "rent_rent_ids"/>
+				</tree>
+			</field>
+		</record>
+		
+		<record model = "ir.actions.act_window" id = "action_rent_group_form_view">
+			<field name = "name">Rent Group</field>
+			<field name = "res_model">rent.rent.group</field>
+			<field name = "type">ir.actions.act_window</field>
+			<field name = "view_type">form</field>
+			<field name = "view_mode">tree,form</field>
+			<field name = "view_id" ref = "rent_rent_group_tree_view"/>
+		</record>
+		<menuitem id = "rent_rent_group_submenu" name = "Rent group" parent = "rent_rent_menu" action = "action_rent_group_form_view"/>
+		
+		
+		<!--
+		======================================
+					RENT RISE ESTIMATE
+		======================================
+		-->
+		
+		<record model = "ir.ui.view" id = "rent_rent_group_tree_view">
+			<field name = "name">rent.rise.estimate.tree</field>
+			<field name = "model">rent.rise.estimate</field>
+			<field name = "type">tree</field>
+			<field name = "arch" type = "xml">
+				<tree string = "Rise Estimation">
+					<field name = "year"/>
+					<field name = "amount"/>
+				</tree>
+			</field>
 		</record>
 	</data>
 </openerp>
