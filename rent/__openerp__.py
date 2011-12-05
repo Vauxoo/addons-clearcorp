@@ -22,7 +22,7 @@
 {
 	"name"        : "Rent",
 	"author"      : "Clear Corp S.A.",
-	"version"     : "1.0",
+	"version"     : "1.1",
 	"depends"     : ["base","account"],
 	"init_xml"    : [],
 	"update_xml"  : [
