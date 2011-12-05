@@ -966,6 +966,7 @@
 								<field name = "rent_amount_per_sqr"/>
 								<field name = "rent_rise"/>	
 								<field name = "rent_rent_real_area"/>
+								<field name = "rent_deposit"/>
 								<field name = "currency_id"/>
 								<field name = "rent_show_us_eq"/>
 								<!--<field name = "rent_rise_chart_years" on_change = "onchange_rise_years(rent_rise_chart_years,rent_amount_base,rent_rise)"/>-->
