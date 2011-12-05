@@ -20,12 +20,20 @@
 #
 ##############################################################################
 {
-	"name"        : "Rent",
-	"author"      : "Clear Corp S.A.",
-	"version"     : "1.1",
-	"depends"     : ["base","account"],
-	"init_xml"    : [],
-	"update_xml"  : [
+	'name': 'Rent',
+	'version': '1.1',
+	'url': 'http://launchpad.net/openerp-ccorp-addons',
+	'author': 'ClearCorp S.A.',
+	'website': 'http://clearcorp.co.cr',
+	'category': 'Rent',
+	'description': """ClearCorp 'rent' module for real estate business.
+	""",
+	'depends': [
+		'account',
+		],
+	'init_xml': [],
+	'demo_xml': ['ccorp_account_demo.xml'],
+	'update_xml': [
 					"wizard/rent_make_group.xml",
 					"rent_sequence.xml",
 					"rent_view.xml", 
@@ -33,9 +41,9 @@
 					"rent_workflow.xml", 
 					"rent_contract_report.xml",
 					"security/rent_security.xml",
-					"security/ir.model.access.csv",],
-	"category"    : "Rent",
-	"license"     : "AGPL-3",
-	"active"      : False,
-	"instalable"  : True,
+					"security/ir.model.access.csv",
+				],
+	'license': 'GPL-3',
+	'installable': True,
+	'active': False,
 }
