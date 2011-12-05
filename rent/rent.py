@@ -176,7 +176,7 @@ class rent_building(osv.osv):
 		'building_floors_ids'        : fields.one2many('rent.floor','floor_building_id','Floors'),
 		'building_vrn_per_sqr'       : fields.function(_get_building_vrm,type='float',method=True,string='VRN Din/M2'),
 		'building_code'              : fields.char('Code', size=4, required=True),
-		'building_asset_id'          : fields.many2one('account.asset.asset','Asset'),
+		#'building_asset_id'          : fields.many2one('account.asset.asset','Asset'),
 		'building_company_id'        : fields.many2one('res.company','Company',required=True),
 	}
 	_sql_constraints = [

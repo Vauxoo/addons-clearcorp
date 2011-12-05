@@ -384,9 +384,9 @@
 								</tree>
 							</field>
 						</page>
-						<page string = "Assets">
+						<!--<page string = "Assets">
 							<field name = "building_asset_id"/>
-						</page>
+						</page>-->
 						<page string = "Machinery">
 							<group col = "4" colspan = "4">
 								<separator string = "Machinery" col = "4" colspan = "4"/>
