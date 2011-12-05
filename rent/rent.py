@@ -1497,6 +1497,7 @@ class rent_rent(osv.osv):
 	}
 rent_rent()
 
+
 class rent_rent_estimate(osv.osv):
 	_name = 'rent.rent.estimate'
 		
@@ -1514,7 +1515,6 @@ class rent_rent_estimate(osv.osv):
 			amounts_val = {}
 			
 			currency_id = obj_rent.currency_id
-			debug(currency_id)
 			rate_cr = currency_id.rate
 			rate_us = 1
 			amounts_val['estimate_amountc'] = (obj_estimate.estimate_rent_id.rent_total * (obj_estimate.estimate_performance/100.00)  / 12) / rate_us
