@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <!-- Sequences for rent.group -->
+        <record id="seq_type_rent_group" model="ir.sequence.type">
+            <field name="name">Rent Group</field>
+            <field name="code">rent.rent.group</field>
+        </record>
+
+        <record id="seq_rent_rent_group" model="ir.sequence">
+            <field name="name">Rent Group</field>
+            <field name="code">rent.rent.group</field>
+            <field name="prefix">GRP</field>
+            <field name="padding">1</field>
+        </record>
+    </data>
+</openerp>

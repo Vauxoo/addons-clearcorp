@@ -1,0 +1,6 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<openerp>
+	<data>
+		<report id = "rent_contract_report" string = "Print Contract" model = "rent.contract" name = "contract_report" rml = "rent/report/contracts.rml"  auto = "False"/>
+	</data>
+</openerp>

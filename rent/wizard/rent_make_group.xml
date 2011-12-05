@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_rent_make_group" model="ir.ui.view">
+            <field name="name">Create Group</field>
+            <field name="model">rent.make.group</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Create Group">
+                    <separator colspan="4" string="Do you really want to create the group ?" />
+                    <field name="name"/>
+                    <separator string="" colspan="6"/>
+                    <button special="cancel" string="Cancel" icon="gtk-cancel"/>
+                    <button name="make_group" string="Create Group" type="object" icon="terp-gtk-go-back-rtl"/>
+               </form>
+            </field>
+        </record>
+
+        <record id="action_view_rent_make_group" model="ir.actions.act_window">
+            <field name="name">Make Group</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rent.make.group</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_rent_make_group"/>
+            <field name="target">new</field>
+            <field name="multi">True</field>
+        </record>
+    </data>
+</openerp>
