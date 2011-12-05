@@ -717,6 +717,7 @@ class rent_rent(osv.osv):
 					'rent_charge_day' : 01,
 					'rent_main_charge_day' : 01,
 					'rent_main_performance' : "%.2f%%" % (0.),
+					'active': 1,
 				}
 		return res
 		
@@ -1489,7 +1490,8 @@ class rent_rent(osv.osv):
 		'rent_charge_day' : 01,
 		'rent_main_charge_day' : 01,
 		'rent_main_performance' : "%.2f%%" % (0.),
-		'rent_modif_date' : date.today()
+		'rent_modif_date' : date.today(),
+		'active': 1,
 	}
 rent_rent()
 

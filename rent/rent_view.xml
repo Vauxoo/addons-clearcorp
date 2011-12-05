@@ -937,7 +937,6 @@
 						<field name = "name"/>
 						<field name = "rent_rent_client_id" select  = "1"/>
 						<field name = "rent_type"/>
-						<field name = "state"/>
 						<field name = "rent_related_real" />
 						<field name = "rent_group_id" />
 						<field name = "rent_main_inc"/>
@@ -1070,6 +1069,7 @@
 						</page>
 					</notebook>
 					<group col = "6" colspan = "4">
+						<field name = "state"/>
 						<button colspan="2" name = "cron_rent_invoice" string="Check for Invoices" type="object" icon="terp-stock_format-scientific"/>
 						<button colspan="2" name="rent_finish" states="active" string="Finish" invisible = "1" icon="gtk-cancel" attrs = "{'invisible': [('rent_type','!=','Contract')]}"/>
 						<button colspan="2" name="rent_active" states="draft" string="Approve" icon="terp-camera_test"/>
