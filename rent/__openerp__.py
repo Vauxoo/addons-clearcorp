@@ -35,7 +35,7 @@
 	"name"        : "Rent",
 	"author"      : "Clear Corp S.A.",
 	"version"     : "1.0",
-	"depends"     : ["base","account_asset"],
+	"depends"     : ["base","account"],
 	"init_xml"    : [],
 	"update_xml"  : [
 					"wizard/rent_make_group.xml",
