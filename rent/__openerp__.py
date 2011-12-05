@@ -1,8 +1,6 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    rent.py
-#    rent
 #    First author: Mag Guevara <mag.guevara@clearcorp.co.cr> (ClearCorp S.A.)
 #    Copyright (c) 2011-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
 #    
