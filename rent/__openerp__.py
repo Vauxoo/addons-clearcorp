@@ -29,7 +29,7 @@
 	'description': """ClearCorp 'rent' module for real estate business.
 	""",
 	'depends': [
-		'account_asset',
+		'account',
 		],
 	'init_xml': [],
 	'demo_xml': [],
