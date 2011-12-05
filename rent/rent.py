@@ -1472,6 +1472,8 @@ class rent_rent(osv.osv):
 		'rent_include_water'         : fields.boolean('Include water payment',readonly=True, states={'draft':[('readonly',False)]},help="Check if you want to generate an invoice for the water payment"),
 		'company_id'                 : fields.many2one('res.company', 'Company'),
 		'rent_deposit'               : fields.float('Deposit', required=True, states={'finished':[('readonly',True)]}),
+		
+		'active'                     : fields.boolean('Active', help="If the active field is set to False, it will allow you to hide the resource record without removing it."),
 		#'rent_rise_chart_ids'        : fields.one2many('rent.rise.estimate','rent_id', 'Rise Chart'),
 		#'rent_rise_chart_years'      : fields.integer('Rise years',help='Indicate the number of years you want to see at the chart of rise estimates'),
 		

@@ -937,6 +937,7 @@
 						<field name = "name"/>
 						<field name = "rent_rent_client_id" select  = "1"/>
 						<field name = "rent_type"/>
+						<field name = "active"/>
 						<field name = "rent_related_real" />
 						<field name = "rent_group_id" />
 						<field name = "rent_main_inc"/>
