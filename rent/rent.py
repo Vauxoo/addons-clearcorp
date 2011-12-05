@@ -505,37 +505,6 @@ class rent_floor_parking(osv.osv):
 	]
 rent_floor_parking()
 
-class rent_rent_group(osv.osv):
-	_name = 'rent.rent.group'
-	
-	def create(self,cr,uid,vals,context=None):
-		if vals:
-			next_seq = self.pool.get('ir.sequence').get(cr, uid, 'rent.rent.group')
-			rent = vals.get('obj_rent',False)
-			o = self.pool.get('rent.rent').browse(cr,uid,rent)
-			code = next_seq or (o and ('GRP-' + (o.rent_related_real == 'local' and o.rent_rent_local_id.name_get() or (o.rent_related_real == 'estate' and o.rent_rent_estate_id.name_get() or (o.rent_related_real == 'parking' and o.rent_rent_parking_id.name_get() or '')))))
-			vals['code'] = code
-		return super(rent_rent_group,self).create(cr,uid,vals,context)
-	
-	_columns = {
-		'name'            : fields.char('Name',size=64,required=True),
-		'rent_rent_ids'   : fields.one2many('rent.rent','rent_group_id','Rents Members',readonly=True, domain=[('rent_type','=','Contract')]),
-	}
-rent_rent_group()
-
-class rent_rise_estimate(osv.osv):
-	_name = 'rent.rise.estimate'
-	_columns = {
-			'year'         : fields.integer('Year',help='Number of the year as a sequence'),
-			'amount'       : fields.float('Amount (local)'),
-			'currency_id'  : fields.related('rent_id', 'currency_id',type='many2one', relation='rent.rent', string='Currency', readonly=True,store=False),
-			
-			'amount_foreing'       : fields.float('Amount (Foreing)'),
-			'currency_foreing_id'  : fields.related('rent_id', 'eqv_currency_id',type='many2one', relation='rent.rent', string='Currency(out)', readonly=True,store=False),
-			'rent_id'              : fields.many2one('rent.rent','Rent_id'),
-	}
-rent_rise_estimate()
-
 #Class to hold all the information that refences the rent
 #value, dates, status and to control de transaction of the bussines
 #
@@ -1518,6 +1487,36 @@ class rent_rent(osv.osv):
 	}
 rent_rent()
 
+class rent_rent_group(osv.osv):
+	_name = 'rent.rent.group'
+	
+	def create(self,cr,uid,vals,context=None):
+		if vals:
+			next_seq = self.pool.get('ir.sequence').get(cr, uid, 'rent.rent.group')
+			rent = vals.get('obj_rent',False)
+			o = self.pool.get('rent.rent').browse(cr,uid,rent)
+			code = next_seq or (o and ('GRP-' + (o.rent_related_real == 'local' and o.rent_rent_local_id.name_get() or (o.rent_related_real == 'estate' and o.rent_rent_estate_id.name_get() or (o.rent_related_real == 'parking' and o.rent_rent_parking_id.name_get() or '')))))
+			vals['code'] = code
+		return super(rent_rent_group,self).create(cr,uid,vals,context)
+	
+	_columns = {
+		'name'            : fields.char('Name',size=64,required=True),
+		'rent_rent_ids'   : fields.one2many('rent.rent','rent_group_id','Rents Members',readonly=True, domain=[('rent_type','=','Contract')]),
+	}
+rent_rent_group()
+
+class rent_rise_estimate(osv.osv):
+	_name = 'rent.rise.estimate'
+	_columns = {
+			'year'         : fields.integer('Year',help='Number of the year as a sequence'),
+			'amount'       : fields.float('Amount (local)'),
+			'currency_id'  : fields.related('rent_id', 'currency_id',type='many2one', relation='rent.rent', string='Currency', readonly=True,store=False),
+			
+			'amount_foreing'       : fields.float('Amount (Foreing)'),
+			'currency_foreing_id'  : fields.related('rent_id', 'eqv_currency_id',type='many2one', relation='rent.rent', string='Currency(out)', readonly=True,store=False),
+			'rent_id'              : fields.many2one('rent.rent','Rent_id'),
+	}
+rent_rise_estimate()
 
 class rent_rent_estimate(osv.osv):
 	_name = 'rent.rent.estimate'
