@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    account_voucher_check.py
-#    account_voucher_check
+#    __init__.py
+#    check_voucher
 #    First author: Mag Guevara <mag.guevara@clearcorp.co.cr> (ClearCorp S.A.)
 #    Copyright (c) 2011-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
 #    
@@ -32,21 +32,4 @@
 #    
 ##############################################################################
 
-import time
-from lxml import etree
-
-import netsvc
-from osv import osv, fields
-import decimal_precision as dp
-from tools.translate import _
-
-
-class account_voucher_check(osv.osv):
-	_name = 'account.voucher'
-	_inherit = 'account.voucher'
-	_description = 'Accounting Voucher'
-
-	_columns = {
-		'amount_text'     :   fields.char('On text the amount',size=256),
-	}
-account_voucher_check()
+import check_voucher

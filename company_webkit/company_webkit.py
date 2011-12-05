@@ -193,9 +193,9 @@ class company_webkit(osv.osv):
 				font-size: 8.4;
 				font-style : italic;
 			}
-			.footer{
+			.footer {
 				border-top: 1px solid black; 
-				width: 100%";
+				width: 100%;
 				border:0; margin: 0;
 				padding-bottom: 300px;
 			}
@@ -234,7 +234,7 @@ class company_webkit(osv.osv):
 			.document_data {
 				font-family: Arial,Verdana, Sans, Serif;
 				font-size: 13;
-				widht : 100%;
+				width : 100%;
 			}
 			
 			#data-table tbody tr.even td {
@@ -249,6 +249,10 @@ class company_webkit(osv.osv):
 				margin-left: 5px;
 				font-style : italic;
 			}
+			#desc_col{
+				width : 380px;
+			}
+
 		"""
 	def create(self,cr,uid, vals,context=None):
 		company_id = super(company_webkit,self).create(cr,uid,vals,context)

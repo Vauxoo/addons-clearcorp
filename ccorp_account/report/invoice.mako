@@ -40,7 +40,7 @@
 				<td>${_("Phone")}:${inv.address_invoice_id.phone or '-'|entity}</td>
 			</tr>
 			<tr>
-				<td>${_("Due date")}: ${formatLang(inv.date_invoice, date=True)|entity}</td>
+				<td>${_("Due date")}: ${formatLang(inv.date_due, date=True)|entity}</td>
 				<td>${_("Fax")}: ${inv.address_invoice_id.fax or '-' | entity}</td>
 			</tr>
 			<tr>
@@ -73,7 +73,7 @@
 				<tr class = "odd">
 			%endif
 				<td valign = "top">${formatLang(line.quantity)} ${format(line.uos_id.name)}</td>
-				<td valign = "top">${line.name} 
+				<td valign = "top" id="desc_col">${line.name} 
 					%if line.invoice_line_tax_id != []:
 						${ ', '.join([ tax.name or '' for tax in line.invoice_line_tax_id ])|entity}
 					%endif

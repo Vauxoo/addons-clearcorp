@@ -1,10 +1,10 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    account_voucher_check.py
+#    check_voucher.py
 #    account_voucher_check
 #    First author: Mag Guevara <mag.guevara@clearcorp.co.cr> (ClearCorp S.A.)
-#    Copyright (c) 2011-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
+#    Copyright (c) 2010-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
 #    
 #    Redistribution and use in source and binary forms, with or without modification, are
 #    permitted provided that the following conditions are met:
@@ -33,20 +33,25 @@
 ##############################################################################
 
 import time
-from lxml import etree
+import pooler
+from report import report_sxw
+import locale
 
-import netsvc
-from osv import osv, fields
-import decimal_precision as dp
-from tools.translate import _
+class check_voucher(report_sxw.rml_parse):
 
+	def __init__(self, cr, uid, name, context):
+		super(check_voucher, self).__init__(cr, uid, name, context=context)
+		self.localcontext.update({
+			'time': time,
+			'cr'  : cr,
+			'uid' : uid,
+		})
+		self.context = context
+		self._node = None
 
-class account_voucher_check(osv.osv):
-	_name = 'account.voucher'
-	_inherit = 'account.voucher'
-	_description = 'Accounting Voucher'
-
-	_columns = {
-		'amount_text'     :   fields.char('On text the amount',size=256),
-	}
-account_voucher_check()
+report_sxw.report_sxw(
+    'report.check.voucher.layout_ccorp',
+    'account.voucher',
+    'addons/account_voucher_check/report/check_voucher.mako',
+    parser=check_voucher
+)

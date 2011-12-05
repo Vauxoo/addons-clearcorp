@@ -16,11 +16,11 @@
 				<field name="arch" type="xml">
 					<data>
 						<field name = "company_id" position = "after">
-							<field name = "amount_text"/>
+							<field name = "amount_text" required="1"/>
 						</field>
 					</data>
 				</field>
-			</record>
+		</record>
 
 			<record id="action_check_payment" model="ir.actions.act_window">
 				<field name="name">Check Payment</field>
