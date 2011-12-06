@@ -127,7 +127,7 @@ class rent_estate(osv.osv):
 		'estate_rented'       : fields.function(_determine_rented,type='boolean',method=True,string='Rented',help='Checked if the local is rented', store=True),
 	}
 	_sql_constraints = [
-		('estate_area_gt_zero', 'CHECK (estate_area!=0)', 'The area for the estate cannot be 0!'),
+		('estate_area_gt_zero', 'CHECK (estate_area != 0)', 'The area for the estate cannot be 0!'),
 		('estate_number_key','UNIQUE (estate_number)','You can not have two estates with the same number!'),
 	]
 rent_estate()
