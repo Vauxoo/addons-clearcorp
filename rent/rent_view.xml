@@ -909,8 +909,8 @@
 			<field name = "arch" type = "xml">
 				<search string = "Search Rents">
 					<group>
-						<filter string = "Draft" icon = "terp-document-new" domain = "[('state','=','draft')]"/>
-						<filter string = "Active" icon = "terp-camera_test" domain = "[('state','=','active')]" />
+						<filter string = "Draft" name ="draft" icon = "terp-document-new" domain = "[('state','=','draft')]"/>
+						<filter string = "Active" name = "active" icon = "terp-camera_test" domain = "[('state','=','active')]" />
 						<filter string = "Finished" icon = "gtk-cancel" domain = "[('state','=','finished')]"/>
 						<separator orientation="vertical"/>
 						<field name="name"/>
@@ -918,6 +918,7 @@
 						<field name="rent_start_date"/>
 						<field name="rent_end_date"/>
 					</group>
+					<newline/>
 					<group colspan="4" expand = "0" string = "Group By...">
 						<filter string = "Type" icon = "terp-stock_symbol-selection" domain = "[]" context="{'group_by' : 'rent_type'}"/>
 						<filter string = "Status" icon = "terp-stock_zoom" domain = "[]" context="{'group_by' : 'state'}"/>
@@ -939,10 +940,10 @@
 						<field name = "rent_type"/>
 						<field name = "rent_group_id" />
 						<field name = "rent_related_real" />
-						<group colspan = "2" col = "4">
+						<group colspan = "2" col = "6">
 							<field name = "active"/>
-							<field name = "rent_main_inc"/>
 							<field name = "rent_include_water" attrs = "{'invisible' : [('rent_related_real','not in',['local'])], 'readonly' : [('rent_rent_local_id.local_water_meter_number','=','')]}"/>
+							<field name = "rent_main_inc"/>
 						</group>
 					</group>
 					<notebook>
@@ -1073,10 +1074,10 @@
 					</notebook>
 					<group col = "6" colspan = "4">
 						<field name = "state"/>
-						<button colspan="2" name = "cron_rent_invoice" string="Check for Invoices" type="object" icon="terp-stock_format-scientific"/>
-						<button colspan="2" name="rent_finish" states="active" string="Finish" invisible = "1" icon="gtk-cancel" attrs = "{'invisible': [('rent_type','!=','Contract')]}"/>
-						<button colspan="2" name="rent_active" states="draft" string="Approve" icon="terp-camera_test"/>
-						<button colspan="2"
+						<button name = "cron_rent_invoice" string="Check for Invoices" type="object" icon="terp-stock_format-scientific"/>
+						<button name="rent_finish" states="active" string="Finish" invisible = "1" icon="gtk-cancel" attrs = "{'invisible': [('rent_type','!=','Contract')]}"/>
+						<button name="rent_active" states="draft" string="Approve" icon="terp-camera_test"/>
+						<button 
 							name="%(action_view_rent_make_group)d"
 							string="Create new Group"
 							type="action"
@@ -1134,6 +1135,7 @@
 			<field name = "view_mode">tree,form</field>
 			<field name = "view_id" ref = "rent_tree_view"/>
 			<field name="domain">[('rent_type','=','Contract')]</field>
+			<field name="context">{"search_default_active":1}</field>
 			<field name = "search_view_id" ref = "view_rent_rent_filter"/>
 		</record>
 		
