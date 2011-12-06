@@ -176,7 +176,7 @@ class rent_building(osv.osv):
 		'building_floors_ids'        : fields.one2many('rent.floor','floor_building_id','Floors'),
 		'building_vrn_per_sqr'       : fields.function(_get_building_vrm,type='float',method=True,string='VRN Din/M2'),
 		'building_code'              : fields.char('Code', size=4, required=True),
-		#'building_asset_id'          : fields.many2one('account.asset.asset','Asset'),
+		'building_asset_id'          : fields.many2one('account.asset.asset','Asset'),
 		'building_company_id'        : fields.many2one('res.company','Company',required=True),
 	}
 	_sql_constraints = [
@@ -1197,6 +1197,16 @@ class rent_rent(osv.osv):
 					res.append(obj_invoice_rent)
 		return True
 		
+	def cron_rent_date_due_check(self,cr,uid):
+		active_rent_ids = self.search(cr,uid,[('state','=','active'),('active','=','true')])
+		current_date = date.today()
+		required_action = []
+		for obj_ren in self.browse(cr,uid,active_rent_ids):
+			custom_month = current_date + timedelta(weeks=24)
+			if obj_ren.rent_end_date == custom_month:
+				required_action.append(obj_ren.id)
+		
+		return True
 	def action_aprove_adendum(self,cr,uid,ids,context=None):
 		rent_ids = self.search(cr,uid,[('state','=','active'), ('rent_type','in',['Adendum','Others'])])
 		for rent_aden_id in rent_ids:
@@ -1649,19 +1659,20 @@ class rent_invoice_line(osv.osv):
 	def rent_id_change(self, cr, uid, ids, rent, uom, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, currency_id=False, context=None):
 		res = {}
 		company_id = context.get('company_id',False)
-		obj_rent = self.pool.get('rent.rent').browse(cr, uid, rent, context=context)		
-		res['name'] = obj_rent.name
-		res['price_unit'] = obj_rent.rent_amount_base
-		
-		if obj_rent.rent_related_real == 'estate':
-			res['account_id'] = obj_rent.rent_rent_estate_id.estate_account_id
-		else:
-			res['account_id'] = obj_rent.rent_rent_local_id.local_building.building_estate_id.estate_account_id
+		if rent:
+			obj_rent = self.pool.get('rent.rent').browse(cr, uid, rent, context=context)
+			res['name'] = obj_rent.name
+			res['price_unit'] = obj_rent.rent_amount_base
 			
-		obj_company = self.pool.get('res.company').browse(cr, uid, company_id, context=context)
-		if obj_company.currency_id.id != obj_rent.currency_id.id:
-			new_price = res['price_unit'] * obj_rent.currency_id.rate
-			res['price_unit'] = new_price
+			if obj_rent.rent_related_real == 'estate':
+				res['account_id'] = obj_rent.rent_rent_estate_id.estate_account_id
+			else:
+				res['account_id'] = obj_rent.rent_rent_local_id.local_building.building_estate_id.estate_account_id
+				
+			obj_company = self.pool.get('res.company').browse(cr, uid, company_id, context=context)
+			if obj_company.currency_id.id != obj_rent.currency_id.id:
+				new_price = res['price_unit'] * obj_rent.currency_id.rate
+				res['price_unit'] = new_price
 		return {'value' : res}
 	
 	def onchange_type(self,cr,uid,ids,field):
