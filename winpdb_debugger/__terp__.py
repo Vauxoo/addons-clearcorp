@@ -32,7 +32,7 @@
 	'init_xml': ['winpdb_debugger_wizard.xml'],
 	'demo_xml': [],
 	'update_xml': [],
-	'license': 'AGPL',
+	'license': 'AGPL-3',
 	'installable': True,
 	'active': False,
 }
