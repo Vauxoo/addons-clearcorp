@@ -1694,7 +1694,8 @@ class rent_invoice_line(osv.osv):
 	
 	def rent_id_change(self, cr, uid, ids, rent, uom, qty=0, name='', type='out_invoice', partner_id=False, fposition_id=False, price_unit=False, address_invoice_id=False, currency_id=False, context=None):
 		res = {}
-		company_id = context.get('company_id',False)
+		#company_id = context.get('company_id',False)
+		debug(rent)
 		if rent:
 			obj_rent = self.pool.get('rent.rent').browse(cr, uid, rent, context=context)
 			res['name'] = obj_rent.name
