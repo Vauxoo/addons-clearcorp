@@ -1706,10 +1706,10 @@ class rent_invoice_line(osv.osv):
 				res['account_id'] = obj_rent.rent_rent_account_id
 				#res['account_id'] = obj_rent.rent_rent_local_id.local_building.building_estate_id.estate_account_id
 				
-			obj_company = self.pool.get('res.company').browse(cr, uid, company_id, context=context)
-			if obj_company.currency_id.id != obj_rent.currency_id.id:
-				new_price = res['price_unit'] * obj_rent.currency_id.rate
-				res['price_unit'] = new_price
+			#obj_company = self.pool.get('res.company').browse(cr, uid, company_id, context=context)
+			#if obj_company.currency_id.id != obj_rent.currency_id.id:
+			#	new_price = res['price_unit'] * obj_rent.currency_id.rate
+			#	res['price_unit'] = new_price
 		return {'value' : res}
 	
 	def onchange_type(self,cr,uid,ids,field):
