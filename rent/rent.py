@@ -1205,8 +1205,25 @@ class rent_rent(osv.osv):
 			custom_month = current_date + timedelta(weeks=24)
 			if obj_ren.rent_end_date == custom_month:
 				required_action.append(obj_ren.id)
+		self._send_notification(cr,uid,required_action,context=None)
+		self._create_negotiation_contract(cr,uid,required_action,context=None)
+		return True
+		
+	def _send_notification(self,cr,uid,ids,context=None):
 		
 		return True
+		
+	def _create_negotiation_contract(self,cr,uid,ids,context=None):
+		copied = []
+		for rent_id in ids:
+			copied.append(self.copy(cr,uid,rent_id))
+		debug(copied)
+		return True
+	def test_negotiation(self,cr,uid,ids,context=None):
+		test_ids = self.search(cr,uid,[('state','=','draft')])
+		self._create_negotiation_contract(cr,uid,test_ids,context=context)
+		return True
+		
 	def action_aprove_adendum(self,cr,uid,ids,context=None):
 		rent_ids = self.search(cr,uid,[('state','=','active'), ('rent_type','in',['Adendum','Others'])])
 		for rent_aden_id in rent_ids:
