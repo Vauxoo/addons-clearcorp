@@ -176,7 +176,7 @@ class rent_building(osv.osv):
 		'building_floors_ids'        : fields.one2many('rent.floor','floor_building_id','Floors'),
 		'building_vrn_per_sqr'       : fields.function(_get_building_vrm,type='float',method=True,string='VRN Din/M2'),
 		'building_code'              : fields.char('Code', size=4, required=True),
-		'building_asset_id'          : fields.many2one('account.asset.asset','Asset'),
+		#'building_asset_id'          : fields.many2one('account.asset.asset','Asset'),
 		'building_company_id'        : fields.many2one('res.company','Company',required=True),
 	}
 	_sql_constraints = [
@@ -1197,17 +1197,17 @@ class rent_rent(osv.osv):
 					res.append(obj_invoice_rent)
 		return True
 		
-	#def cron_rent_date_due_check(self,cr,uid):
-	#	active_rent_ids = self.search(cr,uid,[('state','=','active'),('active','=','true')])
-	#	current_date = date.today()
-	#	required_action = []
-	#	for obj_ren in self.browse(cr,uid,active_rent_ids):
-	#		custom_month = current_date + timedelta(weeks=24)
-	#		if obj_ren.rent_end_date == custom_month:
-	#			required_action.append(obj_ren.id)
-	#	self._send_notification(cr,uid,required_action,context=None)
-	#	self._create_negotiation_contract(cr,uid,required_action,context=None)
-	#	return True
+	def cron_rent_date_due_check(self,cr,uid):
+		active_rent_ids = self.search(cr,uid,[('state','=','active'),('active','=','true')])
+		current_date = date.today()
+		required_action = []
+		for obj_ren in self.browse(cr,uid,active_rent_ids):
+			custom_month = current_date + timedelta(weeks=24)
+			if obj_ren.rent_end_date == custom_month:
+				required_action.append(obj_ren.id)
+		self._send_notification(cr,uid,required_action,context=None)
+		self._create_negotiation_contract(cr,uid,required_action,context=None)
+		return True
 		
 	def _send_notification(self,cr,uid,ids,context=None):
 		
