@@ -1214,7 +1214,7 @@ class rent_rent(osv.osv):
 		return True
 		
 	def _send_notification(self,cr,uid,ids,context=None):
-		
+		#Method that notifies the user about the problems to solve
 		return True
 		
 	def _create_negotiation_contract(self,cr,uid,ids,context=None):
@@ -1240,7 +1240,7 @@ class rent_rent(osv.osv):
 			depo = float(record['deposit'])
 			if current > depo:
 				required_act.append(record['rent_id'])
-		debug(required_act)
+		#TODO:ESCRIBIR METODO PARA QUE ALERTE
 		return True
 		
 	def action_aprove_adendum(self,cr,uid,ids,context=None):

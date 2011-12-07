@@ -1084,7 +1084,6 @@
 							states="active"
 							icon="gtk-go-forward"
 							attrs="{'invisible': ['|',('rent_type', '!=', 'Contract'),('state', '!=', 'active')]}"/>
-						<button name = "test_negotiation" string="Test negotiation" type="object" icon="terp-stock_format-scientific"/>
 					</group>
 				</form>
 			</field>
