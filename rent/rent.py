@@ -1229,7 +1229,8 @@ class rent_rent(osv.osv):
 		debug("ENTRAAAAAAAAAA")
 		for obj_rent in self.browse(cr,uid,test_ids):
 			res_deposit_fix.append({'rent_id':obj_rent.id,'current_amount':obj_rent.rent_amount_base,'deposit':obj_rent.rent_deposit})
-		self._create_negotiation_contract(cr,uid,test_ids,context=context)
+		debug(res_deposit_fix)
+		self._check_deposit(cr,uid,test_ids,context=context)
 		return True
 	
 	def _check_deposit(self,cr,uid,args,context=None):
