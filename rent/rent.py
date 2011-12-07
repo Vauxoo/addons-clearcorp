@@ -1711,7 +1711,7 @@ class rent_invoice_line(osv.osv):
 			#if obj_company.currency_id.id != obj_rent.currency_id.id:
 			#	new_price = res['price_unit'] * obj_rent.currency_id.rate
 			#	res['price_unit'] = new_price
-		return {'value' : {}}
+		return {'value' : res}
 	
 	def onchange_type(self,cr,uid,ids,field):
 		res = {}
