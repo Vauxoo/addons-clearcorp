@@ -1009,6 +1009,7 @@ class rent_rent(osv.osv):
 		#calculates the rent considering the date of change for the anual rate.
 		debug('GENERACION DE Pago Normal')
 		res = {}
+		res_deposit_fix = []
 		for obj_rent in ids:
 			res_dob_inv = []
 			debug(current_date)
@@ -1036,12 +1037,15 @@ class rent_rent(osv.osv):
 					self.register_main_historic(cr,uid,obj_rent)
 				obj_rent = self.browse(cr,uid,obj_rent.id)
 				res_dob_inv.append(self._invoice_data(cr,uid,ids,obj_rent,{'init_date': rise_date, 'end_date' : charge_date.replace(day=calendar.mdays[charge_date.month])},type))
+				res_deposit_fix.append({'rent_id':obj_rent.id,'current_amount':obj_rent.rent_amount_base,'deposit':obj_rent.rent_deposit})
 			else:
 				res_dob_inv.append(self._invoice_data(cr,uid,ids,obj_rent,{'init_date': charge_date, 'end_date' : charge_date.replace(day=calendar.mdays[charge_date.month])},type))
 
 			self.invoice_rent(cr,uid,ids,res_dob_inv,type,today)
 			if type == 'rent':
 				self.invoice_services(cr,uid,ids,res_dob_inv,type,today)
+			if res_deposit_fix:
+				self._check_deposit(cr,uid,res_deposit_fix,context=None)
 		return True
 	
 	
@@ -1217,11 +1221,22 @@ class rent_rent(osv.osv):
 		copied = []
 		for rent_id in ids:
 			copied.append(self.copy(cr,uid,rent_id))
-		debug(copied)
 		return True
+	
 	def test_negotiation(self,cr,uid,ids,context=None):
 		test_ids = self.search(cr,uid,[('state','=','draft')])
+		res_deposit_fix = []
+		for obj_rent in self.browse(cr,uid,test_ids):
+			res_deposit_fix.append({'rent_id':obj_rent.id,'current_amount':obj_rent.rent_amount_base,'deposit':obj_rent.rent_deposit})
 		self._create_negotiation_contract(cr,uid,test_ids,context=context)
+		return True
+	
+	def _check_deposit(self,cr,uid,args,context=None):
+		required_act = []
+		for record in args:
+			if record['current_amount'] > record['deposit']:
+				required_act.append(rent_id)
+		debug(required_act)
 		return True
 		
 	def action_aprove_adendum(self,cr,uid,ids,context=None):
