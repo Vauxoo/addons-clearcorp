@@ -1696,10 +1696,10 @@ class rent_invoice_line(osv.osv):
 		res = {}
 		#company_id = context.get('company_id',False)
 		debug(rent)
-		#if rent:
-		#	obj_rent = self.pool.get('rent.rent').browse(cr, uid, rent, context=context)
-		#	res['name'] = obj_rent.name
-		#	res['price_unit'] = obj_rent.rent_amount_base
+		if rent:
+			obj_rent = self.pool.get('rent.rent').browse(cr, uid, rent, context=context)
+			res['name'] = obj_rent.name
+			res['price_unit'] = obj_rent.rent_amount_base
 			
 		#	if obj_rent.rent_related_real == 'estate':
 		#		res['account_id'] = obj_rent.rent_rent_estate_id.estate_account_id
