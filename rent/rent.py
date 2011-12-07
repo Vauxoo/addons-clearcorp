@@ -1239,7 +1239,7 @@ class rent_rent(osv.osv):
 			current = float(record['current_amount'])
 			depo = float(record['deposit'])
 			if current > depo:
-				required_act.append(rent_id)
+				required_act.append(record['rent_id'])
 		debug(required_act)
 		return True
 		
