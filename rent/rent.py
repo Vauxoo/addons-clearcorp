@@ -1702,9 +1702,9 @@ class rent_invoice_line(osv.osv):
 			res['price_unit'] = obj_rent.rent_amount_base
 			
 			if obj_rent.rent_related_real == 'estate':
-				res['account_id'] = obj_rent.rent_rent_estate_id.estate_account_id
+				res['account_id'] = obj_rent.rent_rent_estate_id.estate_account_id.id
 			else:
-				res['account_id'] = obj_rent.rent_rent_account_id
+				res['account_id'] = obj_rent.rent_rent_account_id.id
 				#res['account_id'] = obj_rent.rent_rent_local_id.local_building.building_estate_id.estate_account_id
 				
 			#obj_company = self.pool.get('res.company').browse(cr, uid, company_id, context=context)
