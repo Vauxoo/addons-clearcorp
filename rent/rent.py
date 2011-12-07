@@ -1236,7 +1236,7 @@ class rent_rent(osv.osv):
 	def _check_deposit(self,cr,uid,args,context=None):
 		required_act = []
 		for record in args:
-			if record['current_amount'] > record['deposit']:
+			if float(record['current_amount']) > float(record['deposit']):
 				required_act.append(rent_id)
 		debug(required_act)
 		return True
