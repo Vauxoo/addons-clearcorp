@@ -1109,6 +1109,22 @@
 			</field>
 		</record>
 		
+		<record model = "ir.ui.view" id = "rent_tree_view2">
+			<field name = "name">rent.rent.tree2</field>
+			<field name = "model">rent.rent</field>
+			<field name = "type">tree</field>
+			<field name = "arch" type = "xml">
+				<tree string = "Rent List" colors="blue:state in ('draft');black:state in ('active');gray:state in ('finished')">
+					<field name = "name"/>
+					<field name = "rent_client_id"/>
+					<field name = "rent_related_real"/>
+					<field name = "rent_amount_base"/>
+					<field name = "rent_currency_id"/>
+					<field name = "rent_rise"/>
+				</tree>
+			</field>
+		</record>
+		
 		<record model = "ir.ui.view" id = "rent_adendum_tree_view">
 			<field name = "name">rent.rent.adendum.tree</field>
 			<field name = "model">rent.rent</field>
@@ -1165,8 +1181,8 @@
 					<field name = "estimate_years"/>
 					<field name = "estimate_amountc"/>
 					<field name = "estimate_amountd"/>
-					<field name = "estimate_colones"/>					
-					<field name = "estimate_dollars"/>					
+					<field name = "estimate_colones"/>
+					<field name = "estimate_dollars"/>
 					<field name = "estimate_state"/>
 				</tree>
 			</field>
@@ -1328,7 +1344,8 @@
 					<field name="product_id" position="replace"/>
 					<field name="uos_id" position="replace"/>
 					<field name="invoice_type" position="after">
-						<field name = "invoice_rent_id" on_change="rent_id_change(invoice_rent_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.address_invoice_id, parent.currency_id, {'company_id': parent.company_id})" attrs="{'invisible' : [('invoice_type','=','product')]}"/>
+						<field name = "invoice_rent_id" on_change="rent_id_change(invoice_rent_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.address_invoice_id, parent.currency_id, {'company_id': parent.company_id})" attrs="{'invisible' : [('invoice_type','=','product')]}"
+						context="{'tree_view_ref' : 'rent.rent_tree_view2'}"/>
 					</field>
 					<field name="invoice_rent_id" position="after">
 						<field name = "product_id" on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.address_invoice_id, parent.currency_id, {'company_id': parent.company_id})" attrs="{'invisible' : [('invoice_type','=','rent')]}"/>
