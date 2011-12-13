@@ -1648,7 +1648,7 @@ msgstr "Nombre de Compañía: %(com)s"
 #. module: rent
 #: field:account.invoice.line,invoice_rent_id:0
 msgid "Rent id"
-msgstr "Rent id"
+msgstr "Contrato"
 
 #. module: rent
 #: view:rent.floor.parking:0
