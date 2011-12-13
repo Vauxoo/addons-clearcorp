@@ -1461,8 +1461,8 @@ class rent_rent(osv.osv):
 		
 		'rent_group_id'         : fields.many2one('rent.rent.group','Contract Group',ondelete='cascade', readonly=True),
 		'rent_modif_date'       : fields.date('Modification Date',readonly=True),
-		'rent_rent_account_id'  : many2one('account.account','Income Account',help="This account will be used for invoices instead of the default one to value sales for the current rent",required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_rent_acc_int_id'  : many2one('account.account','Interest Account',help="This account will be used for invoices instead of the default one to value expenses for the current rent",required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_rent_account_id'  : fields.many2one('account.account','Income Account',help="This account will be used for invoices instead of the default one to value sales for the current rent",required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_rent_acc_int_id'  : fields.many2one('account.account','Interest Account',help="This account will be used for invoices instead of the default one to value expenses for the current rent",required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		#'rent_rent_account_id'  : fields.property(
 		#	'account.account',
 		#	type='many2one',
@@ -1504,8 +1504,8 @@ class rent_rent(osv.osv):
 		'rent_main_invoiced_day'     : fields.integer('Invoiced Day',states={'active':[('readonly',True)], 'finished':[('readonly',True)]},help='Indicates de how many days before of the charge day will create the invoice'),
 		'rent_main_grace_period'     : fields.integer('Grace Period',states={'active':[('readonly',True)], 'finished':[('readonly',True)]},help='Indicates de how many days after the charge day will allow to paid an invoice without Interest for delay'),   
 		
-		'rent_rent_main_account_id'  : many2one('account.account','Income Account',help="This account will be used for invoices instead of the default one to value sales for the current rent",required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_rent_main_acc_int_id'  : many2one('account.account','Interest Account',help="This account will be used for invoices instead of the default one to value expenses for the current rent",required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_rent_main_account_id'  : fields.many2one('account.account','Income Account',help="This account will be used for invoices instead of the default one to value sales for the current rent",required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_rent_main_acc_int_id'  : fields.many2one('account.account','Interest Account',help="This account will be used for invoices instead of the default one to value expenses for the current rent",required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		#'rent_rent_main_account_id'  : fields.property(
 		#	'account.account',
 		#	type='many2one',
