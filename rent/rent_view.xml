@@ -1116,7 +1116,7 @@
 			<field name = "arch" type = "xml">
 				<tree string = "Rent List" colors="blue:state in ('draft');black:state in ('active');gray:state in ('finished')">
 					<field name = "name"/>
-					<field name = "rent_client_id"/>
+					<field name = "rent_rent_client_id"/>
 					<field name = "rent_related_real"/>
 					<field name = "rent_amount_base"/>
 					<field name = "currency_id"/>
