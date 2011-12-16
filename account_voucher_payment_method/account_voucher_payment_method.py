@@ -24,20 +24,22 @@ class account_journal(osv.osv):
 	_name = "account.journal"
 	_inherit = "account.journal"
 	_columns = {
-		'type': fields.selection([('sale', 'Sale'),
-								('sale_refund','Sale Refund'), 
-								('purchase', 'Purchase'), 
-								('purchase_refund','Purchase Refund'), 
-								('cash', 'Cash'), 
-								('bank', 'Bank and Cheques'), 
-								('general', 'General'), 
-								('situation', 'Opening/Closing Situation'),
-								('payment','Payment method')], 'Type', size=32, required=True,
-								help="Select 'Sale' for Sale journal to be used at the time of making invoice."\
-								" Select 'Purchase' for Purchase Journal to be used at the time of approving purchase order."\
-								" Select 'Cash' to be used at the time of making payment."\
-								" Select 'General' for miscellaneous operations."\
-								" Select 'Opening/Closing Situation' to be used at the time of new fiscal year creation or end of year entries generation."),
+		#'type': fields.selection([('sale', 'Sale'),
+		#						('sale_refund','Sale Refund'), 
+		#						('purchase', 'Purchase'), 
+		#						('purchase_refund','Purchase Refund'), 
+		#						('cash', 'Cash'), 
+		#						('bank', 'Bank and Cheques'), 
+		#						('general', 'General'), 
+		#						('situation', 'Opening/Closing Situation'),
+		#						('payment','Payment method')], 'Type', size=32, required=True,
+		#						help="Select 'Sale' for Sale journal to be used at the time of making invoice."\
+		#						" Select 'Purchase' for Purchase Journal to be used at the time of approving purchase order."\
+		#						" Select 'Cash' to be used at the time of making payment."\
+		#						" Select 'General' for miscellaneous operations."\
+		#						" Select 'Opening/Closing Situation' to be used at the time of new fiscal year creation or end of year entries generation."),
+		'payment_method'            : fields.boolean('Payment method'),
+		'payment_verification'      : fields.boolean('Payment Verification'),
 	}
 account_journal()
 
