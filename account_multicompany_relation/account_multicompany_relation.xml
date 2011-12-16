@@ -1,0 +1,56 @@
+<openerp>
+	<data>
+		
+		<!-- Account voucher payment and purchase inherit -->
+		
+		<record model="ir.ui.view" id="view_account_multi_relation">
+			<field name="name">account.multicompany.relation.form</field>
+			<field name="model">account.multicompany.relation</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string = "Account Multicompany Relation">
+					<field name = "origin_account"/>
+					<field name = "targ_account"/>
+					<field name = "origin_journal"/>
+					<field name = "targ_journal"/>
+				</form>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_account_multi_relation_tree">
+			<field name="name">account.multicompany.relation.tree</field>
+			<field name="model">account.multicompany.relation</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<tree string = "Account Multicompany Relation" editable = "top">
+					<field name = "origin_account"/>
+					<field name = "targ_account"/>
+					<field name = "origin_journal"/>
+					<field name = "targ_journal"/>
+				</tree>
+			</field>
+		</record>
+		
+		<record id="action_account_multi_relation" model="ir.actions.act_window">
+			<field name="name">Account Multicompany Relation</field>
+			<field name="res_model">account.multicompany.relation</field>
+			<field name="view_type">form</field>
+			<field name="view_id" eval="False"/>
+			<field name="target">current</field>
+			<field name="help">The account multicompany relation form allows you to create a connection between two companies that have payments and need to alter an account from one company to another</field>
+		</record>
+		<record id="action_account_multi_relation_tree" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="act_window_id" ref="action_account_multi_relation"/>
+		</record>
+		<record id="action_account_multi_relation_form" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_account_multi_relation"/>
+			<field name="act_window_id" ref="action_account_multi_relation"/>
+		</record>
+		
+		<menuitem id = "account_multi_relation_menu" name = "Account Multi Companny" parent="account.menu_configuration_misc" groups="base.group_extended" action = "action_account_multi_relation" sequence="10"/>
+	</data>
+</openerp>
