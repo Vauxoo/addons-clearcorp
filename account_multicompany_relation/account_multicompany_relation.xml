@@ -52,5 +52,34 @@
 		</record>
 		
 		<menuitem id = "account_multi_relation_menu" name = "Account Multi Companny" parent="account.menu_configuration_misc" groups="base.group_extended" action = "action_account_multi_relation" sequence="10"/>
+		
+		<record model="ir.ui.view" id="view_account_account_mirror_ext">
+			<field name="name">account.account.relation.form</field>
+			<field name="model">account.account</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref = "account.view_account_form"/field>
+			<field name="arch" type="xml">
+				<data>
+					<field name = "user_type" position = "after">
+						<field name = "account_mirror"/>
+					</field>
+				</data>
+			</field>
+		</record>
+		
+		
+		<record model="ir.ui.view" id="view_account_journal_mirror_ext">
+			<field name="name">account.journal.relation.form</field>
+			<field name="model">account.journal</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref = "account.view_account_journal_form"/field>
+			<field name="arch" type="xml">
+				<data>
+					<field name = "type" position = "after">
+						<field name = "journal_mirror"/>
+					</field>
+				</data>
+			</field>
+		</record>
 	</data>
 </openerp>
