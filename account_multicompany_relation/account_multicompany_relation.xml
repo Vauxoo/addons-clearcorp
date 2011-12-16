@@ -72,7 +72,7 @@
 			<field name="name">account.journal.relation.form</field>
 			<field name="model">account.journal</field>
 			<field name="type">form</field>
-			<field name="inherit_id" ref = "account.view_account_journal_form"/field>
+			<field name="inherit_id" ref = "account.view_account_journal_form"/>
 			<field name="arch" type="xml">
 				<data>
 					<field name = "type" position = "after">
