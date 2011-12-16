@@ -57,7 +57,7 @@
 			<field name="name">account.account.relation.form</field>
 			<field name="model">account.account</field>
 			<field name="type">form</field>
-			<field name="inherit_id" ref = "account.view_account_form"/field>
+			<field name="inherit_id" ref = "account.view_account_form"/>
 			<field name="arch" type="xml">
 				<data>
 					<field name = "user_type" position = "after">
