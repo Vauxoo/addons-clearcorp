@@ -21,7 +21,7 @@
 		<record model="ir.ui.view" id="view_account_multi_relation_tree">
 			<field name="name">account.multicompany.relation.tree</field>
 			<field name="model">account.multicompany.relation</field>
-			<field name="type">form</field>
+			<field name="type">tree</field>
 			<field name="arch" type="xml">
 				<tree string = "Account Multicompany Relation" editable = "bottom">
 					<field name = "name"/>
