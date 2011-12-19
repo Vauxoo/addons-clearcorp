@@ -69,7 +69,7 @@
 		
 		
 		<record model="ir.ui.view" id="view_account_journal_mirror_ext">
-			<field name="name">account.journal.relation.form</field>
+			<field name="name">account.journal.relation.form2</field>
 			<field name="model">account.journal</field>
 			<field name="type">form</field>
 			<field name="inherit_id" ref = "account.view_account_journal_form"/>

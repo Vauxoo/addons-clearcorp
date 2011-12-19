@@ -26,8 +26,8 @@ class account_multicompany_relation(osv.osv):
 	_columns = {
 		'origin_account'    :    fields.many2one('account.account', 'Original Account',help='Indicate the original account where the transaction is taking place'),
 		'targ_account'      :    fields.many2one('account.account', 'Target Account',help='Indicate the target account where the transaction of the original account has to be seen, this is an account from another company'),
-		'origin_journal'    :    fields.many2one('account.account', 'Original Journal',help='Indicate the original journal where the transaction is taking place'),
-		'targ_journal'      :    fields.many2one('account.account', 'Target Journal',help='Indicate the original account where the transaction is taking place'),
+		'origin_journal'    :    fields.many2one('account.journal', 'Original Journal',help='Indicate the original journal where the transaction is taking place'),
+		'targ_journal'      :    fields.many2one('account.journal', 'Target Journal',help='Indicate the original account where the transaction is taking place'),
 	}
 account_multicompany_relation()
 
