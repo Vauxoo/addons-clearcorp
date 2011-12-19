@@ -9,6 +9,7 @@
 			<field name="type">form</field>
 			<field name="arch" type="xml">
 				<form string = "Account Multicompany Relation">
+					<field name = "name"/>
 					<field name = "origin_account"/>
 					<field name = "targ_account"/>
 					<field name = "origin_journal"/>
@@ -22,7 +23,8 @@
 			<field name="model">account.multicompany.relation</field>
 			<field name="type">form</field>
 			<field name="arch" type="xml">
-				<tree string = "Account Multicompany Relation" editable = "top">
+				<tree string = "Account Multicompany Relation" editable = "bottom">
+					<field name = "name"/>
 					<field name = "origin_account"/>
 					<field name = "targ_account"/>
 					<field name = "origin_journal"/>

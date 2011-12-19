@@ -24,6 +24,7 @@ class account_multicompany_relation(osv.osv):
 	_name = "account.multicompany.relation"
 	_inherit = "account.journal"
 	_columns = {
+		'name'              :    fields.char('Name',size=64, required=True,help='Name for the mirror object relation'),
 		'origin_account'    :    fields.many2one('account.account', 'Original Account',help='Indicate the original account where the transaction is taking place'),
 		'targ_account'      :    fields.many2one('account.account', 'Target Account',help='Indicate the target account where the transaction of the original account has to be seen, this is an account from another company'),
 		'origin_journal'    :    fields.many2one('account.journal', 'Original Journal',help='Indicate the original journal where the transaction is taking place'),
