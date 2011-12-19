@@ -106,11 +106,11 @@
 			<field name = "inherit_id" ref = "account_voucher.view_vendor_receipt_form"/>
 			<field name = "arch" type = "xml">
 				<data>
-						<xpath expr = "//field[@name='line_cr_ids']//field[@name='amount_original']" position = "replace">
-							<field name = "date_original"/>
+						<xpath expr = "//field[@name='line_cr_ids']//field[@name='amount_original']" position = "after">
+							<field name = "currency_id"/>
 						</xpath>
-						<xpath expr = "//field[@name='line_dr_ids']//field[@name='amount_original']" position = "replace">
-							<field name = "date_original"/>
+						<xpath expr = "//field[@name='line_dr_ids']//field[@name='amount_original']" position = "after">
+							<field name = "currency_id"/>
 						</xpath>
 				</data>
 			</field>
@@ -124,10 +124,10 @@
 			<field name = "arch" type = "xml">
 				<data>
 						<xpath expr = "//field[@name='line_cr_ids']//field[@name='amount_original']" position = "replace">
-							<field name = "date_original"/>
+							<field name = "move_line_id.currency_id"/>
 						</xpath>
 						<xpath expr = "//field[@name='line_dr_ids']//field[@name='amount_original']" position = "replace">
-							<field name = "date_original"/>
+							<field name = "move_line_id.currency_id"/>
 						</xpath>
 						<!--<xpath expr = "//field[@name='line_cr_ids']//field[@name='amount_original']" position = "after">
 							<field name = "currency_id"/>

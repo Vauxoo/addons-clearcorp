@@ -181,3 +181,11 @@ class account_voucher_journal_payment(osv.osv):
 
         return default
 account_voucher_journal_payment()
+
+class account_voucher_line(osv.osv):
+	_name = 'account.voucher.line'
+	_inherit = 'account.voucher.line'
+	_columns = {
+		'currency_id' :  fields.related('move_line_id', 'currency_id' type = 'many2one' relation = 'account.move.line', string = 'Currency' readonly=True),
+	}
+account_voucher_line()
