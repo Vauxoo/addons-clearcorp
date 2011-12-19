@@ -44,6 +44,7 @@
 		<record id="action_account_multi_relation_tree" model="ir.actions.act_window.view">
 			<field eval="1" name="sequence"/>
 			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_account_multi_relation_tree"/>
 			<field name="act_window_id" ref="action_account_multi_relation"/>
 		</record>
 		<record id="action_account_multi_relation_form" model="ir.actions.act_window.view">
@@ -54,6 +55,8 @@
 		</record>
 		
 		<menuitem id = "account_multi_relation_menu" name = "Account Multi Companny" parent="account.menu_configuration_misc" groups="base.group_extended" action = "action_account_multi_relation" sequence="10"/>
+		
+		
 		
 		<record model="ir.ui.view" id="view_account_account_mirror_ext">
 			<field name="name">account.account.relation.form</field>
