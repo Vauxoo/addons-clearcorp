@@ -30,7 +30,7 @@
 				<data>
 					<field name="journal_id" position="replace">
 						<field name="journal_id"
-							domain="[('type','in',['payment'])]"
+							domain="[('payment_method','=','True')]"
 							widget="selection" select="1"
 							on_change="onchange_partner_id(partner_id, journal_id, amount, currency_id, type, date, context)"
 							string="Payment Method"/>
@@ -39,11 +39,40 @@
 			</field>
 		</record>
 		
+		<record id="action_vendor_reciept2" model="ir.actions.act_window">
+			<field name="name">Customer Payment</field>
+			<field name="res_model">account.voucher</field>
+			<field name="view_type">form</field>
+			<field name="domain">[('journal_id.payment_method', '=', 'True')]</field>
+			<field name="context">{'payment_method':'True'}</field>
+			<field name="view_id" eval="False"/>
+			<field name="search_view_id" ref="account_voucher.view_voucher_filter_vendor_pay"/>
+			<field name="target">current</field>
+			<field name="help">Sales payment allows you to register the payments you receive from your customers. In order to record a payment, you must enter the customer, the payment method (=the journal) and the payment amount. OpenERP will propose to you automatically the reconciliation of this payment with the open invoices or sales receipts.</field>
+		</record>
+		<record id="action_vendor_reciept_tree" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence"/>
+			<field name="view_mode">tree</field>
+			<field name="act_window_id" ref="action_vendor_reciept2"/>
+		</record>
+		<record id="action_vendor_reciept_form" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence"/>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="account_voucher.view_vendor_payment_form"/>
+			<field name="act_window_id" ref="action_vendor_reciept2"/>
+		</record>
+		
+		<record id="account_voucher.menu_action_vendor_receipt" model="ir.ui.menu" >
+			<field name="action" ref="action_vendor_reciept2"/>
+		</record>
+		
+		
 		<record id="action_vendor_payment2" model="ir.actions.act_window">
 			<field name="name">Supplier Payment</field>
 			<field name="res_model">account.voucher</field>
 			<field name="view_type">form</field>
-			<field name="domain">[('journal_id.payment_method', '=', 1)]</field>
+			<field name="domain">[('journal_id.payment_method', '=', 'True')]</field>
+			<field name="context">{'payment_method':'True'}</field>
 			<field name="view_id" eval="False"/>
 			<field name="search_view_id" ref="account_voucher.view_voucher_filter_vendor_pay"/>
 			<field name="target">current</field>
