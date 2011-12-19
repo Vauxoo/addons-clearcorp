@@ -103,7 +103,7 @@
 			<field name = "name">account.voucher.line.mod</field>
 			<field name = "model">account.voucher.line</field>
 			<field name = "type">tree</field>
-			<field name = "inherid_id" ref = "accoubt_voucher.view_vendor_receipt_form"/>
+			<field name = "inherid_id" ref = "account_voucher.view_vendor_receipt_form"/>
 			<field name = "arch" type = "xml">
 				<data>
 						<xpath expr = "//field[@name='line_cr_ids']//field[@name='amount_original']" position = "after">
