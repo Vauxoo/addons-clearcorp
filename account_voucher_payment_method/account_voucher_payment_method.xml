@@ -12,7 +12,7 @@
 				<data>
 					<field name="journal_id" position="replace">
 						<field name="journal_id"
-								domain="[('type','in',['payment'])]"
+								domain="[('payment_method','=','True')]"
 								widget="selection" select="1"
 								on_change="onchange_partner_id(partner_id, journal_id, amount, currency_id, type, date, context)"
 								string="Payment Method"/>
