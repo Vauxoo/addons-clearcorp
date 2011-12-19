@@ -186,6 +186,6 @@ class account_voucher_line(osv.osv):
 	_name = 'account.voucher.line'
 	_inherit = 'account.voucher.line'
 	_columns = {
-		'currency_id' :  fields.related('move_line_id', 'currency_id', type = 'many2one', relation = 'account.move.line', string = 'Currency', readonly=True),
+		'currency_id' :  fields.related('move_line_id', 'currency_id', type = 'many2one', relation = 'account.invoice', string = 'Currency', readonly=True,store=False),
 	}
 account_voucher_line()
