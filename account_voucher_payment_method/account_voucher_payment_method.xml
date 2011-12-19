@@ -94,11 +94,11 @@
 			<field name="action" ref="action_vendor_payment2"/>
 		</record>
 		
-		<!---
+		<!--
 		
 		ACCOUNT.VOUCHER.LINE MODIFICATION
 		
-		--->
+		-->
 		<record model = "ir.ui.view" id = "view_account_voucher_line_mod">
 			<field name = "name">account.voucher.line.mod</field>
 			<field name = "model">account.voucher.line</field>
