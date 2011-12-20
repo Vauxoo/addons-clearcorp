@@ -370,8 +370,8 @@ class account_voucher_journal_payment(osv.osv):
 
 			#VER QUE HACER CON LAS DE AJUSTE
 			inv_currency_id = self.pool.get('res.currency').browse(cr,uid,current_currency) or mirror_journal_id.currency or mirror_journal_id.company_id.currency_id
-			debug(inv_currency_id)
-			debug(current_currency)
+			#debug(inv_currency_id)
+			#debug(current_currency)
 			if not currency_pool.is_zero(cr, uid, inv_currency_id, line_total):
 				diff = line_total
 				account_id = False
@@ -392,6 +392,7 @@ class account_voucher_journal_payment(osv.osv):
 					#'amount_currency': company_currency <> current_currency and currency_pool.compute(cr, uid, company_currency, current_currency, diff * -1, context=context_multi_currency) or 0.0,
 					#'currency_id': company_currency <> current_currency and current_currency or False,
 				}
+				debug(move_line)
 				move_line_pool.create(cr, uid, move_line)
 			#self.write(cr, uid, [inv.id], {
 			#	'move_id': move_id,
