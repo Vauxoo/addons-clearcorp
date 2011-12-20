@@ -315,6 +315,7 @@ class account_voucher_journal_payment(osv.osv):
 			debug(inv.line_ids)
 			debug(line_total)
 			for line in inv.line_ids:
+				debug("for de los lines")
 				#create one move line per voucher line where amount is not 0.0
 				if not line.amount:
 					continue
