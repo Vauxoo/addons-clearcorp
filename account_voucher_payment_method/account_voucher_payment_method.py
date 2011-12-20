@@ -280,6 +280,10 @@ class account_voucher_journal_payment(osv.osv):
 				debit = -credit
 				credit = 0.0
 			sign = debit - credit < 0 and -1 or 1
+			debug(debit)
+			debug(credit)
+			debug(sign)
+			
 			#create the first line of the voucher
 			move_line = {
 				'name': inv.name or '/',
@@ -302,12 +306,14 @@ class account_voucher_journal_payment(osv.osv):
 			debug(self.pool.get('account.move.line').browse(cr,uid,move_line_id).company_id.name)
 			rec_list_ids = []
 			line_total = debit - credit
+			debug(line_total)
 			if inv.type == 'sale':
 				line_total = line_total - currency_pool.compute(cr, uid, inv.currency_id.id, company_currency, inv.tax_amount, context=context_multi_currency)
 			elif inv.type == 'purchase':
 				line_total = line_total + currency_pool.compute(cr, uid, inv.currency_id.id, company_currency, inv.tax_amount, context=context_multi_currency)
 
 			debug(inv.line_ids)
+			debug(line_total)
 			for line in inv.line_ids:
 				#create one move line per voucher line where amount is not 0.0
 				if not line.amount:
@@ -347,15 +353,15 @@ class account_voucher_journal_payment(osv.osv):
 					line_total -= amount
 					move_line['credit'] = amount
 
-				if inv.tax_id and inv.type in ('sale', 'purchase'):
-					move_line.update({
-						'account_tax_id': inv.tax_id.id,
-					})
-				if move_line.get('account_tax_id', False):
-					tax_data = tax_obj.browse(cr, uid, [move_line['account_tax_id']], context=context)[0]
-					if not (tax_data.base_code_id and tax_data.tax_code_id):
-						raise osv.except_osv(_('No Account Base Code and Account Tax Code!'),_("You have to configure account base code and account tax code on the '%s' tax!") % (tax_data.name))
-				sign = (move_line['debit'] - move_line['credit']) < 0 and -1 or 1
+				#if inv.tax_id and inv.type in ('sale', 'purchase'):
+				#	move_line.update({
+				#		'account_tax_id': inv.tax_id.id,
+				#	})
+				#if move_line.get('account_tax_id', False):
+				#	tax_data = tax_obj.browse(cr, uid, [move_line['account_tax_id']], context=context)[0]
+				#	if not (tax_data.base_code_id and tax_data.tax_code_id):
+				#		raise osv.except_osv(_('No Account Base Code and Account Tax Code!'),_("You have to configure account base code and account tax code on the '%s' tax!") % (tax_data.name))
+				#sign = (move_line['debit'] - move_line['credit']) < 0 and -1 or 1
 				move_line['amount_currency'] = company_currency <> current_currency and sign * line.amount or 0.0
 				voucher_line = move_line_pool.create(cr, uid, move_line)
 				if line.move_line_id.id:
