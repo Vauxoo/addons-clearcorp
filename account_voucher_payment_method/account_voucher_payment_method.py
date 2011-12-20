@@ -352,6 +352,7 @@ class account_voucher_journal_payment(osv.osv):
 				else:
 					line_total -= amount
 					move_line['credit'] = amount
+					move_line['account_id'] = mirror_journal_id.default_debit_account_id.id
 
 				#if inv.tax_id and inv.type in ('sale', 'purchase'):
 				#	move_line.update({
@@ -363,6 +364,7 @@ class account_voucher_journal_payment(osv.osv):
 				#		raise osv.except_osv(_('No Account Base Code and Account Tax Code!'),_("You have to configure account base code and account tax code on the '%s' tax!") % (tax_data.name))
 				#sign = (move_line['debit'] - move_line['credit']) < 0 and -1 or 1
 				debug(move_line)
+				debug(line.type)
 				move_line['amount_currency'] = company_currency <> current_currency and sign * line.amount or 0.0
 				voucher_line = move_line_pool.create(cr, uid, move_line)
 				if line.move_line_id.id:
