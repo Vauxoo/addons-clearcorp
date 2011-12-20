@@ -222,26 +222,26 @@ class account_voucher_journal_payment(osv.osv):
 			debug("DENTRO DEL FOR")
 			debug(inv)
 			debug(inv.move_id)
-			if inv.move_id:
-				continue
+			mirror_journal_id = args.get('journal',False)
+			mirror_account_id = args.get('account',False)
+			period_id = args.get('period',False)
+			partner_id = args.get('partner',False)
+			
+			#if inv.move_id:
+			#	continue
 			context_multi_currency = context.copy()
 			context_multi_currency.update({'date': inv.date})
 			debug("CONTINUE")
 			if inv.number:
 				name = inv.number
-			elif inv.journal_id.sequence_id:
-				name = seq_obj.get_id(cr, uid, inv.journal_id.sequence_id.id)
+			elif mirror_journal_id.sequence_id:
+				name = seq_obj.get_id(cr, uid, mirror_journal_id.sequence_id.id)
 			else:
 				raise osv.except_osv(_('Error !'), _('Please define a sequence on the journal !'))
 			if not inv.reference:
 				ref = name.replace('/','')
 			else:
 				ref = inv.reference
-
-			mirror_journal_id = args.get('journal',False)
-			mirror_account_id = args.get('account',False)
-			period_id = args.get('period',False)
-			partner_id = args.get('partner',False)
 
 			move = {
 				'name': name,
@@ -282,7 +282,7 @@ class account_voucher_journal_payment(osv.osv):
 				'move_id': move_id,
 				'journal_id': mirror_journal_id and mirror_journal_id.id or inv.journal_id.id,
 				'period_id': period_id and period_id.id or inv.period_id.id,
-				'partner_id': inv.partner_id.id,
+				'partner_id': partner_id and partner_id.id inv.partner_id.id,
 				'currency_id': company_currency <> current_currency and  current_currency or False,
 				'amount_currency': company_currency <> current_currency and sign * inv.amount or 0.0,
 				'date': inv.date,
@@ -309,7 +309,7 @@ class account_voucher_journal_payment(osv.osv):
 					amount = currency_pool.compute(cr, uid, current_currency, company_currency, line.untax_amount or line.amount, context=context_multi_currency)
 				
 				move_line = {
-					'journal_id': mirror_journal_id and mirror_journal_id or inv.journal_id.id,
+					'journal_id': mirror_journal_id and mirror_journal_id.id or inv.journal_id.id,
 					'period_id': period_id and period_id.id or inv.period_id.id,
 					'name': line.name and line.name or '/',
 					'account_id': mirror_account_id and mirror_account_id.id or line.account_id.id,
@@ -352,16 +352,17 @@ class account_voucher_journal_payment(osv.osv):
 					rec_ids = [voucher_line, line.move_line_id.id]
 					rec_list_ids.append(rec_ids)
 
-			inv_currency_id = current_currency or inv.currency_id or inv.journal_id.currency or inv.journal_id.company_id.currency_id
+			#VER QUE HACER CON LAS DE AJUSTE
+			inv_currency_id = current_currency or mirror_journal_id.currency or mirror_journal_id.company_id.currency_id
 			if not currency_pool.is_zero(cr, uid, inv_currency_id, line_total):
 				diff = line_total
 				account_id = False
 				if inv.payment_option == 'with_writeoff':
-					account_id = inv.writeoff_acc_id.id
+					account_id = mirror_account_id and mirror_account_id.id or inv.writeoff_acc_id.id
 				elif inv.type in ('sale', 'receipt'):
-					account_id = partner_id and partner_id.property_account_receivable.id or inv.partner_id.property_account_receivable.id
+					account_id = mirror_account_id and mirror_account_id.id or (partner_id and partner_id.property_account_receivable.id or inv.partner_id.property_account_receivable.id)
 				else:
-					account_id = partner_id and partner_id.property_account_payable.id or inv.partner_id.property_account_payable.id
+					account_id = mirror_account_id and mirror_account_id.id or (partner_id and partner_id.property_account_payable.id or inv.partner_id.property_account_payable.id)
 				move_line = {
 					'name': name,
 					'account_id': account_id,
@@ -374,11 +375,11 @@ class account_voucher_journal_payment(osv.osv):
 					#'currency_id': company_currency <> current_currency and current_currency or False,
 				}
 				move_line_pool.create(cr, uid, move_line)
-			self.write(cr, uid, [inv.id], {
-				'move_id': move_id,
-				'state': 'posted',
-				'number': name,
-			})
+			#self.write(cr, uid, [inv.id], {
+			#	'move_id': move_id,
+			#	'state': 'posted',
+			#	'number': name,
+			#})
 			move_pool.post(cr, uid, [move_id], context={})
 			for rec_ids in rec_list_ids:
 				if len(rec_ids) >= 2:
