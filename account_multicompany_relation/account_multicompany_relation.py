@@ -22,7 +22,6 @@ from osv import osv, fields
 
 class account_multicompany_relation(osv.osv):
 	_name = "account.multicompany.relation"
-	_inherit = "account.journal"
 	_columns = {
 		'name'              :    fields.char('Name',size=64, required=True,help='Name for the mirror object relation'),
 		'origin_account'    :    fields.many2one('account.account', 'Original Account',help='Indicate the original account where the transaction is taking place'),
