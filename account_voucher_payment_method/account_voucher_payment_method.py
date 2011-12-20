@@ -194,7 +194,7 @@ class account_voucher_journal_payment(osv.osv):
 			partner_id = company_id.partner_id
 			
 			args = {
-				'journal' : mirror_journal,
+				'journal' : targ_journal,
 				'account' : targ_account,
 				'partner' : partner_id,
 			}
@@ -247,10 +247,12 @@ class account_voucher_journal_payment(osv.osv):
 				'period_id': period_id and period_id.id or (inv.period_id and inv.period_id.id or False)
 			}
 			move_id = move_pool.create(cr, uid, move)
-
+			debug(move)
 			#create the first line manually
 			company_currency = mirror_journal_id and mirror_journal_id.company_id.currency_id.id or inv.journal_id.company_id.currency_id.id
 			current_currency = mirror_journal_id and mirror_journal_id.currency_id.id or inv.currency_id.id
+			
+			debug(company_currency)
 			debit = 0.0
 			credit = 0.0
 			# TODO: is there any other alternative then the voucher type ??
@@ -281,6 +283,7 @@ class account_voucher_journal_payment(osv.osv):
 				'date': inv.date,
 				'date_maturity': inv.date_due
 			}
+			debug(move_line)
 			move_line_pool.create(cr, uid, move_line)
 			rec_list_ids = []
 			line_total = debit - credit
@@ -289,6 +292,7 @@ class account_voucher_journal_payment(osv.osv):
 			elif inv.type == 'purchase':
 				line_total = line_total + currency_pool.compute(cr, uid, inv.currency_id.id, company_currency, inv.tax_amount, context=context_multi_currency)
 
+			debug(inv.line_ids)
 			for line in inv.line_ids:
 				#create one move line per voucher line where amount is not 0.0
 				if not line.amount:
@@ -313,6 +317,7 @@ class account_voucher_journal_payment(osv.osv):
 					'debit': 0.0,
 					'date': inv.date
 				}
+				debug(move_line)
 				if amount < 0:
 					amount = -amount
 					if line.type == 'dr':
