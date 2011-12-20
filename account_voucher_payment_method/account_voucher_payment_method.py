@@ -193,10 +193,16 @@ class account_voucher_journal_payment(osv.osv):
 			company_id = self.pool.get('res.company').browse(cr,uid,1)
 			partner_id = company_id.partner_id
 			
+			period_id  = self.pool.get('account.period').search(cr,uid,['|',('name','=',voucher.period_id.name), ('code','=',voucher.period_id.code),('company_id','=',company_id.id)])
+			debug(period_id)
+			
+			period = self.pool.get('account.period').browse(cr,uid,period_id)
+			debug(period)
 			args = {
 				'journal' : targ_journal,
 				'account' : targ_account,
 				'partner' : partner_id,
+				'period'  : period,
 			}
 			debug(args)
 			self.action_move_line_create_mirror(cr,uid,ids,args,context=context)
