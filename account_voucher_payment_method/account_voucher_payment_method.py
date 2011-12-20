@@ -185,8 +185,7 @@ class account_voucher_journal_payment(osv.osv):
 	def proforma_voucher_mirror(self, cr, uid, ids, context=None):
 		debug("USING OVERRIDE METHOD")
 		super(account_voucher_journal_payment, self).action_move_line_create(cr, uid, ids, context=context)
-		voucher = self.browse(cr,uid,ids,context=context)
-		debug("USING OVERRIDE METHOD")
+		voucher = self.browse(cr,uid,ids,context=context)[0]
 		if voucher.journal_id.journal_mirror:
 			mirror_journal = voucher.journal_id.journal_mirror
 			targ_journal =  mirror_journal.targ_journal
