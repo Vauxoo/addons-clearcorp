@@ -259,6 +259,7 @@ class account_voucher_journal_payment(osv.osv):
 			}
 			move_id = move_pool.create(cr, uid, move)
 			debug(move)
+			
 			#create the first line manually
 			company_currency = mirror_journal_id and mirror_journal_id.company_id.currency_id.id or inv.journal_id.company_id.currency_id.id
 			current_currency = mirror_journal_id and mirror_journal_id.currency.id or inv.currency_id.id
@@ -295,7 +296,10 @@ class account_voucher_journal_payment(osv.osv):
 				'date_maturity': inv.date_due
 			}
 			debug(move_line)
-			move_line_pool.create(cr, uid, move_line)
+			move_line_id = move_line_pool.create(cr, uid, move_line)
+			debug("COMPANIA DEL MOVE")
+			debug(self.pool.get('account.move').browse(cr,uid,move_id).company_id.name)
+			debug(self.pool.get('account.move').browse(cr,uid,move_line_id).company_id.name)
 			rec_list_ids = []
 			line_total = debit - credit
 			if inv.type == 'sale':
@@ -388,6 +392,7 @@ class account_voucher_journal_payment(osv.osv):
 			#	'state': 'posted',
 			#	'number': name,
 			#})
+			debug("LLEGO AL POST")
 			move_pool.post(cr, uid, [move_id], context={})
 			for rec_ids in rec_list_ids:
 				if len(rec_ids) >= 2:
