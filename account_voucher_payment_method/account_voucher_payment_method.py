@@ -219,11 +219,12 @@ class account_voucher_journal_payment(osv.osv):
 		
 		debug(ids)
 		for inv in self.browse(cr, uid, ids, context=context):
+			debug(inv)
 			if inv.move_id:
 				continue
 			context_multi_currency = context.copy()
 			context_multi_currency.update({'date': inv.date})
-
+			debug("CONTINUE")
 			if inv.number:
 				name = inv.number
 			elif inv.journal_id.sequence_id:
