@@ -289,7 +289,8 @@ class account_voucher_journal_payment(osv.osv):
 				'name': inv.name or '/',
 				'debit': debit,
 				'credit': credit,
-				'account_id': mirror_account_id and mirror_account_id.id or inv.account_id.id,
+				#'account_id': mirror_account_id and mirror_account_id.id or inv.account_id.id,
+				'account_id': mirror_journal_id and mirror_journal_id.default_debit_account_id.id or inv.account_id.id,
 				'move_id': move_id,
 				'journal_id': mirror_journal_id and mirror_journal_id.id or inv.journal_id.id,
 				'period_id': period_id and period_id.id or inv.period_id.id,
@@ -349,10 +350,11 @@ class account_voucher_journal_payment(osv.osv):
 				if (line.type=='dr'):
 					line_total += amount
 					move_line['debit'] = amount
+					move_line['account_id'] = mirror_journal_id.default_debit_account_id.id
 				else:
 					line_total -= amount
 					move_line['credit'] = amount
-					move_line['account_id'] = mirror_journal_id.default_debit_account_id.id
+					move_line['account_id'] = mirror_account_id.id
 
 				#if inv.tax_id and inv.type in ('sale', 'purchase'):
 				#	move_line.update({
