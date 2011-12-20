@@ -282,7 +282,7 @@ class account_voucher_journal_payment(osv.osv):
 				'move_id': move_id,
 				'journal_id': mirror_journal_id and mirror_journal_id.id or inv.journal_id.id,
 				'period_id': period_id and period_id.id or inv.period_id.id,
-				'partner_id': partner_id and partner_id.id inv.partner_id.id,
+				'partner_id': partner_id and partner_id.id or inv.partner_id.id,
 				'currency_id': company_currency <> current_currency and  current_currency or False,
 				'amount_currency': company_currency <> current_currency and sign * inv.amount or 0.0,
 				'date': inv.date,
