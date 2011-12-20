@@ -5,7 +5,7 @@
 	"depends" : ["account_voucher"],
 	"init_xml" : [],
 	"update_xml" : [
-		"account_voucher_workflow.xml",
+		"account_voucher_payment_workflow.xml",
 		"account_voucher_payment_method.xml",
 		],
 	"category" : "",
