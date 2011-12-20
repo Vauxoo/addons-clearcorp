@@ -183,7 +183,8 @@ class account_voucher_journal_payment(osv.osv):
         return default
     
 	def proforma_voucher(self, cr, uid, ids, context=None):
-		self.action_move_line_create(cr, uid, ids, context=context)
+		debug("USING OVERRIDE METHOD")
+		super(account_voucher, self).action_move_line_create(cr, uid, ids, context=context)
 		voucher = self.browse(cr,uid,ids,context=context)
 		debug("USING OVERRIDE METHOD")
 		if voucher.journal_id.journal_mirror:
