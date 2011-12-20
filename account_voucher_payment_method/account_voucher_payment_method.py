@@ -255,7 +255,7 @@ class account_voucher_journal_payment(osv.osv):
 			debug(move)
 			#create the first line manually
 			company_currency = mirror_journal_id and mirror_journal_id.company_id.currency_id.id or inv.journal_id.company_id.currency_id.id
-			current_currency = mirror_journal_id and mirror_journal_id.currency_id.id or inv.currency_id.id
+			current_currency = mirror_journal_id and mirror_journal_id.currency.id or inv.currency_id.id
 			
 			debug(company_currency)
 			debit = 0.0
