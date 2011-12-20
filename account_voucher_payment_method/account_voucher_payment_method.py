@@ -219,7 +219,9 @@ class account_voucher_journal_payment(osv.osv):
 		
 		debug(ids)
 		for inv in self.browse(cr, uid, ids, context=context):
+			debug("DENTRO DEL FOR")
 			debug(inv)
+			debug(inv.move_id)
 			if inv.move_id:
 				continue
 			context_multi_currency = context.copy()
