@@ -216,6 +216,8 @@ class account_voucher_journal_payment(osv.osv):
 		currency_pool = self.pool.get('res.currency')
 		tax_obj = self.pool.get('account.tax')
 		seq_obj = self.pool.get('ir.sequence')
+		
+		debug(ids)
 		for inv in self.browse(cr, uid, ids, context=context):
 			if inv.move_id:
 				continue
