@@ -54,14 +54,14 @@
 			<field name="act_window_id" ref="action_account_multi_relation"/>
 		</record>
 		-->
-		<record id="action_account_multi_relation" model="ir.actions.act_window">
-            <field name="name">Account Multicompany Relation</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">account.multicompany.relation</field>
-            <field name="view_type">tree</field>
-            <field name="view_id" ref="view_account_multi_relation_tree"/>
-        </record>
-		<menuitem id = "account_multi_relation_menu" name = "Account Multi Companny" parent="account.menu_configuration_misc" groups="base.group_extended" action = "action_account_multi_relation" sequence="10"/>
+		<record id="action_account_multi_relation_fix" model="ir.actions.act_window">
+			<field name="name">Account Multicompany Relation</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">account.multicompany.relation</field>
+			<field name="view_type">tree</field>
+			<field name="view_id" ref="view_account_multi_relation_tree"/>
+		</record>
+		<menuitem id = "account_multi_relation_menu" name = "Relation Multicompany" parent="account.menu_configuration_misc" action = "action_account_multi_relation_fix"/>
 		
 		
 		
