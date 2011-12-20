@@ -299,7 +299,7 @@ class account_voucher_journal_payment(osv.osv):
 			move_line_id = move_line_pool.create(cr, uid, move_line)
 			debug("COMPANIA DEL MOVE")
 			debug(self.pool.get('account.move').browse(cr,uid,move_id).company_id.name)
-			debug(self.pool.get('account.move').browse(cr,uid,move_line_id).company_id.name)
+			debug(self.pool.get('account.move.line').browse(cr,uid,move_line_id).company_id.name)
 			rec_list_ids = []
 			line_total = debit - credit
 			if inv.type == 'sale':
@@ -394,9 +394,9 @@ class account_voucher_journal_payment(osv.osv):
 			#})
 			debug("LLEGO AL POST")
 			move_pool.post(cr, uid, [move_id], context={})
-			for rec_ids in rec_list_ids:
-				if len(rec_ids) >= 2:
-					move_line_pool.reconcile_partial(cr, uid, rec_ids)
+		#	for rec_ids in rec_list_ids:
+		#		if len(rec_ids) >= 2:
+		#			move_line_pool.reconcile_partial(cr, uid, rec_ids)
 		return True    
 account_voucher_journal_payment()
 
