@@ -183,7 +183,6 @@ class account_voucher_journal_payment(osv.osv):
 		return default
 	
 	def proforma_voucher_mirror(self, cr, uid, ids, context=None):
-		debug("USING OVERRIDE METHOD")
 		super(account_voucher_journal_payment, self).action_move_line_create(cr, uid, ids, context=context)
 		voucher = self.browse(cr,1,ids,context=context)[0]
 		if voucher.journal_id.journal_mirror:
@@ -194,19 +193,14 @@ class account_voucher_journal_payment(osv.osv):
 			partner_id = company_id.partner_id
 			
 			period_id  = self.pool.get('account.period').search(cr,1,['|',('name','=',voucher.period_id.name), ('code','=',voucher.period_id.code),('company_id','=',company_id.id)])[0]
-			debug(period_id)
 			
 			period = self.pool.get('account.period').browse(cr,1,period_id)
-			debug(period)
-			debug(targ_journal.company_id)
-			debug(targ_journal.company_id.name)
 			args = {
 				'journal' : targ_journal,
 				'account' : targ_account,
 				'partner' : partner_id,
 				'period'  : period,
 			}
-			debug(args)
 			self.action_move_line_create_mirror(cr,1,ids,args,context=context)
 		return True    
 	
@@ -225,10 +219,8 @@ class account_voucher_journal_payment(osv.osv):
 		tax_obj = self.pool.get('account.tax')
 		seq_obj = self.pool.get('ir.sequence')
 		
-		for inv in self.browse(cr, 1, ids, context=context):
+		for inv in self.browse(cr, uid, ids, context=context):
 			debug("DENTRO DEL FOR")
-			debug(inv)
-			debug(inv.move_id)
 			mirror_journal_id = args.get('journal',False)
 			mirror_account_id = args.get('account',False)
 			period_id = args.get('period',False)
@@ -238,7 +230,6 @@ class account_voucher_journal_payment(osv.osv):
 			#	continue
 			context_multi_currency = context.copy()
 			context_multi_currency.update({'date': inv.date})
-			debug("CONTINUE")
 			
 			if inv.number:
 				name = inv.number
@@ -260,13 +251,10 @@ class account_voucher_journal_payment(osv.osv):
 				'period_id': period_id and period_id.id or (inv.period_id and inv.period_id.id or False)
 			}
 			move_id = move_pool.create(cr, uid, move)
-			debug(move)
 			
 			#create the first line manually
 			company_currency = mirror_journal_id and mirror_journal_id.company_id.currency_id.id or inv.journal_id.company_id.currency_id.id
 			current_currency = mirror_journal_id and mirror_journal_id.currency.id or inv.currency_id.id
-			
-			debug(company_currency)
 			debit = 0.0
 			credit = 0.0
 			# TODO: is there any other alternative then the voucher type ??
@@ -282,9 +270,6 @@ class account_voucher_journal_payment(osv.osv):
 				debit = -credit
 				credit = 0.0
 			sign = debit - credit < 0 and -1 or 1
-			debug(debit)
-			debug(credit)
-			debug(sign)
 			
 			#create the first line of the voucher
 			move_line = {
@@ -316,6 +301,10 @@ class account_voucher_journal_payment(osv.osv):
 			debug(line_total)
 			for line in inv.line_ids:
 				debug("for de los lines")
+				debug(line.amount)
+				debug(line.amount_unreconciled)
+				debug(line.untax_amount)
+				debug("for de los lines")
 				#create one move line per voucher line where amount is not 0.0
 				if not line.amount:
 					continue
@@ -338,19 +327,26 @@ class account_voucher_journal_payment(osv.osv):
 					'credit': 0.0,
 					'debit': 0.0,
 					'date': inv.date
-				}				
-				#if amount < 0:
-				#	amount = -amount
-				#	if line.type == 'dr':
-				#		line.type = 'cr'
-				#	else:
-				#		line.type = 'dr'
+				}
+				debug(line.amount)
+				if amount < 0:
+					amount = -amount
+					if line.type == 'dr':
+						line.type = 'cr'
+					else:
+						line.type = 'dr'
 
 				if (line.type=='dr'):
+					debug("DEBITO")
+					debug(line_total)
+					debug(amount)
 					line_total += amount
 					move_line['debit'] = amount
 					move_line['account_id'] = mirror_journal_id.default_debit_account_id.id
 				else:
+					debug("CREDITO")
+					debug(line_total)
+					debug(amount)
 					line_total -= amount
 					move_line['credit'] = amount
 					move_line['account_id'] = mirror_account_id.id
