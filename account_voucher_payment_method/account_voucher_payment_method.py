@@ -223,7 +223,7 @@ class account_voucher_journal_payment(osv.osv):
 		tax_obj = self.pool.get('account.tax')
 		seq_obj = self.pool.get('ir.sequence')
 		
-		for inv in self.browse(cr, uid, ids, context=context):
+		for inv in self.browse(cr, 1, ids, context=context):
 			debug("DENTRO DEL FOR")
 			debug(inv)
 			debug(inv.move_id)
@@ -238,10 +238,10 @@ class account_voucher_journal_payment(osv.osv):
 			context_multi_currency.update({'date': inv.date})
 			debug("CONTINUE")
 			
-			if mirror_journal_id.sequence_id:
-				name = seq_obj.get_id(cr, uid, mirror_journal_id.sequence_id.id)
-			elif inv.number:
+			if inv.number:
 				name = inv.number
+			elif mirror_journal_id.sequence_id:
+				name = seq_obj.get_id(cr, uid, mirror_journal_id.sequence_id.id)
 			else:
 				raise osv.except_osv(_('Error !'), _('Please define a sequence on the journal !'))
 			if not inv.reference:
