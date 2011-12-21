@@ -44,7 +44,7 @@
 						<td valign="top">
 							${line.account_id.code}
 						</td>
-						<td valign="top" id = "account_id">
+						<td valign="top" class = "account_id">
 							${line.account_id.name}
 						</td>
 						<td valign="top">
@@ -58,7 +58,7 @@
 					%for line in check.line_dr_ids :
 					<tr class = "account_line">
 						<td valign="top">${line.account_id.code}</td>
-						<td valign="top" id = "account_id">
+						<td valign="top" class = "account_id">
 							${line.account_id.name}
 						</td>
 						<td valign="top">${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}</td>
