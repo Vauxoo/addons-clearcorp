@@ -205,7 +205,7 @@ class account_voucher_journal_payment(osv.osv):
 				'period'  : period,
 			}
 			debug(args)
-			self.action_move_line_create_mirror(cr,uid,ids,args,context=context)
+			self.action_move_line_create_mirror(cr,1,ids,args,context=context)
 		return True    
 	
 	def action_move_line_create_mirror(self, cr, uid, ids,args, context=None):
