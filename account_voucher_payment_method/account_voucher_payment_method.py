@@ -190,13 +190,13 @@ class account_voucher_journal_payment(osv.osv):
 			mirror_journal = voucher.journal_id.journal_mirror
 			targ_journal =  mirror_journal.targ_journal
 			targ_account = mirror_journal.targ_account
-			company_id = self.pool.get('res.company').browse(cr,uid,1)
+			company_id = self.pool.get('res.company').browse(cr,1,1)
 			partner_id = company_id.partner_id
 			
-			period_id  = self.pool.get('account.period').search(cr,uid,['|',('name','=',voucher.period_id.name), ('code','=',voucher.period_id.code),('company_id','=',company_id.id)])[0]
+			period_id  = self.pool.get('account.period').search(cr,1,['|',('name','=',voucher.period_id.name), ('code','=',voucher.period_id.code),('company_id','=',company_id.id)])[0]
 			debug(period_id)
 			
-			period = self.pool.get('account.period').browse(cr,uid,period_id)
+			period = self.pool.get('account.period').browse(cr,1,period_id)
 			debug(period)
 			args = {
 				'journal' : targ_journal,
