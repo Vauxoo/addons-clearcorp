@@ -12,7 +12,6 @@
 			<div id = "date">
 				<span class="text_font" id = "date">${check.date or ''|entity}</span>
 			</div>
-			</tr>
 			<div id = "detail">
 				<div class = "detail_line">
 					<span class="text_font">${check.partner_id.name or ''|entity}</span>
@@ -21,7 +20,7 @@
 					<span class = "amount">${formatLang(check.amount)}</span>
 				</div>
 			</div>
-			<div class = "detail_line">
+			<div class = "amount_text">
 				<span class="text_font">${check.amount_text or check.partner_id.name or ''|entity}</span>
 			</div>
 		</div>
