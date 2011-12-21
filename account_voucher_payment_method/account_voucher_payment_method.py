@@ -223,7 +223,6 @@ class account_voucher_journal_payment(osv.osv):
 		tax_obj = self.pool.get('account.tax')
 		seq_obj = self.pool.get('ir.sequence')
 		
-		debug(ids)
 		for inv in self.browse(cr, uid, ids, context=context):
 			debug("DENTRO DEL FOR")
 			debug(inv)
@@ -238,10 +237,11 @@ class account_voucher_journal_payment(osv.osv):
 			context_multi_currency = context.copy()
 			context_multi_currency.update({'date': inv.date})
 			debug("CONTINUE")
-			if inv.number:
-				name = inv.number
-			elif mirror_journal_id.sequence_id:
+			
+			if mirror_journal_id.sequence_id:
 				name = seq_obj.get_id(cr, uid, mirror_journal_id.sequence_id.id)
+			elif inv.number:
+				name = inv.number
 			else:
 				raise osv.except_osv(_('Error !'), _('Please define a sequence on the journal !'))
 			if not inv.reference:
@@ -302,9 +302,6 @@ class account_voucher_journal_payment(osv.osv):
 			}
 			debug(move_line)
 			move_line_id = move_line_pool.create(cr, uid, move_line)
-			debug("COMPANIA DEL MOVE")
-			debug(self.pool.get('account.move').browse(cr,uid,move_id).company_id.name)
-			debug(self.pool.get('account.move.line').browse(cr,uid,move_line_id).company_id.name)
 			rec_list_ids = []
 			line_total = debit - credit
 			debug(line_total)
@@ -340,12 +337,12 @@ class account_voucher_journal_payment(osv.osv):
 					'debit': 0.0,
 					'date': inv.date
 				}				
-				if amount < 0:
-					amount = -amount
-					if line.type == 'dr':
-						line.type = 'cr'
-					else:
-						line.type = 'dr'
+				#if amount < 0:
+				#	amount = -amount
+				#	if line.type == 'dr':
+				#		line.type = 'cr'
+				#	else:
+				#		line.type = 'dr'
 
 				if (line.type=='dr'):
 					line_total += amount
@@ -368,15 +365,15 @@ class account_voucher_journal_payment(osv.osv):
 				debug(move_line)
 				debug(line.type)
 				move_line['amount_currency'] = company_currency <> current_currency and sign * line.amount or 0.0
+				if move_line['debit'] == 0 and move_line['credit'] == 0:
+					continue
 				voucher_line = move_line_pool.create(cr, uid, move_line)
-				if line.move_line_id.id:
-					rec_ids = [voucher_line, line.move_line_id.id]
-					rec_list_ids.append(rec_ids)
+				#if line.move_line_id.id:
+				#	rec_ids = [voucher_line, line.move_line_id.id]
+				#	rec_list_ids.append(rec_ids)
 
 			#VER QUE HACER CON LAS DE AJUSTE
 			inv_currency_id = self.pool.get('res.currency').browse(cr,uid,current_currency) or mirror_journal_id.currency or mirror_journal_id.company_id.currency_id
-			#debug(inv_currency_id)
-			#debug(current_currency)
 			if not currency_pool.is_zero(cr, uid, inv_currency_id, line_total):
 				diff = line_total
 				account_id = False
@@ -399,16 +396,8 @@ class account_voucher_journal_payment(osv.osv):
 				}
 				debug(move_line)
 				move_line_pool.create(cr, uid, move_line)
-			#self.write(cr, uid, [inv.id], {
-			#	'move_id': move_id,
-			#	'state': 'posted',
-			#	'number': name,
-			#})
 			debug("LLEGO AL POST")
 			move_pool.post(cr, uid, [move_id], context={})
-		#	for rec_ids in rec_list_ids:
-		#		if len(rec_ids) >= 2:
-		#			move_line_pool.reconcile_partial(cr, uid, rec_ids)
 		return True    
 account_voucher_journal_payment()
 
