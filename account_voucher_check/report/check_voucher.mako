@@ -67,6 +67,8 @@
 					%endfor
 					</tbody>
 				</table>
+			</div>
+			<div id = "footer">
 				<table width = "100%" id = "footer_data">
 					<tr id = "check_footer">
 						<td>No.5199</td>
