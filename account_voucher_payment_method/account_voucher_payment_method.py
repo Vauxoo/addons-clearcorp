@@ -198,6 +198,8 @@ class account_voucher_journal_payment(osv.osv):
 			
 			period = self.pool.get('account.period').browse(cr,1,period_id)
 			debug(period)
+			debug(mirror_journal.company_id)
+			debug(mirror_journal.company_id.name)
 			args = {
 				'journal' : targ_journal,
 				'account' : targ_account,
