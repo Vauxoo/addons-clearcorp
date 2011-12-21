@@ -10,7 +10,7 @@
 	<div id="wrapper">
 		<div id = "document_data">
 			<div id = "date">
-				<span class="text_font" id = "date">${check.date or ''|entity}</span>
+				<span class="text_font">${check.date or ''|entity}</span>
 			</div>
 			<div id = "detail">
 				<div class = "detail_line">
