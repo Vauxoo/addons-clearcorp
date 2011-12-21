@@ -17,12 +17,12 @@
 				<div class = "detail_line">
 					<span class="text_font">${check.partner_id.name or ''|entity}</span>
 				</div>
-				<div class = "detail_line">
-					<span class = "text_font">${formatLang(check.amount)}</span>
+				<div class = "amount_detail">
+					<span class = "amount">${formatLang(check.amount)}</span>
 				</div>
 			</div>
-			<div class = "amount_detail">
-				<span class="amount">${check.amount_text or ''|entity}</span>
+			<div class = "detail_line">
+				<span class="text_font">${check.amount_text or check.partner_id.name or ''|entity}</span>
 			</div>
 		</div>
 		<div id = "accounting_data">
