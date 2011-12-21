@@ -329,6 +329,8 @@ class account_voucher_journal_payment(osv.osv):
 					'date': inv.date
 				}
 				debug(line.amount)
+				debug(amount)
+				debug(line.move_line_id.amount_residual)
 				if amount < 0:
 					amount = -amount
 					if line.type == 'dr':
