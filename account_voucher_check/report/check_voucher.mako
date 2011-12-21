@@ -8,7 +8,7 @@
 	%for check in objects :
 	<% setLang(check.partner_id.lang) %>
 	<div id="wrapper">
-		<div width = "100%" id = "document_data">
+		<div id = "document_data">
 			<div id = "date">
 				<span class="text_font" id = "date">${check.date or ''|entity}</span>
 			</div>
@@ -26,7 +26,7 @@
 			</div>
 		</div>
 		<div id = "accounting_data">
-			<div width = "100%" id = "document_desc">
+			<div id = "document_desc">
 				<p>&nbsp;</p>
 				<div class = "detail_desc">
 					%if check.narration:
