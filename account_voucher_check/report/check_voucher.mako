@@ -71,8 +71,10 @@
 			<div id = "footer">
 				<div width = "100%" id = "footer_data">
 					<div class = "code_cell">&nbsp;</div>
-					<div class = "made_by">${user.name}</div>
-					<div class = "made_by">${user.name}</div>
+					<div id = "related">
+						<div class = "made_by">${user.name}</div>
+						<div class = "made_by">${user.name}</div>
+					</div>
 					<div id = "receipt">
 						<div class = "sub_receipt">${check.partner_id.name or ''|entity}</div>
 						<div>&nbsp;</div>
