@@ -69,16 +69,16 @@
 				</table>
 			</div>
 			<div id = "footer">
-				<table width = "100%" id = "footer_data">
-					<tr id = "check_footer">
-						<td class = "code_cell">No.5199</td>
-						<td>${user.name}</td>
-						<td>${user.name}</td>
-						<td><span>${check.partner_id.name or ''|entity}</span></td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-					</tr>
-				</table>
+				<div width = "100%" id = "footer_data">
+					<div class = "code_cell">&nbsp;</div>
+					<div class = "made_by">${user.name}</div>
+					<div class = "made_by">${user.name}</div>
+					<div id = "receipt">
+						<div class = "sub_receipt">${check.partner_id.name or ''|entity}</div>
+						<div>&nbsp;</div>
+						<div>&nbsp;</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
