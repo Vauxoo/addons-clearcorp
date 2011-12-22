@@ -70,7 +70,7 @@
 			</div>
 			<div id = "footer">
 				<div width = "100%" id = "footer_data">
-					<div class = "code_cell">&nbsp;</div>
+					<div class = "code_div">&nbsp;</div>
 					<div id = "related">
 						<div class = "made_by">${user.name}</div>
 						<div class = "made_by">${user.name}</div>
