@@ -77,8 +77,6 @@
 					</div>
 					<div id = "receipt">
 						<div class = "sub_receipt">${check.partner_id.name or ''|entity}</div>
-						<div>&nbsp;</div>
-						<div>&nbsp;</div>
 					</div>
 				</div>
 			</div>
