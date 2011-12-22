@@ -41,28 +41,28 @@
 					<tbody>
 					%for line in check.line_cr_ids :
 					<tr class = "account_line">
-						<td valign="top">
+						<td valign="top" class = "code_cell">
 							${line.account_id.code}
 						</td>
 						<td valign="top" class = "account_id">
 							${line.account_id.name}
 						</td>
-						<td valign="top">
+						<td valign="top" class = "amount_acc">
 							${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}
 						</td>
-						<td valign="top">
+						<td valign="top" class = "amount_acc">
 							${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}
 						</td>
 					</tr>
 					%endfor
 					%for line in check.line_dr_ids :
 					<tr class = "account_line">
-						<td valign="top">${line.account_id.code}</td>
+						<td valign="top" class = "code_cell">${line.account_id.code}</td>
 						<td valign="top" class = "account_id">
 							${line.account_id.name}
 						</td>
-						<td valign="top">${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}</td>
-						<td valign="top">${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}</td>
+						<td valign="top" class = "amount_acc">${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}</td>
+						<td valign="top" class = "amount_acc">${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}</td>
 					</tr>
 					%endfor
 					</tbody>
@@ -71,7 +71,7 @@
 			<div id = "footer">
 				<table width = "100%" id = "footer_data">
 					<tr id = "check_footer">
-						<td>No.5199</td>
+						<td class = "code_cell">No.5199</td>
 						<td>${user.name}</td>
 						<td>${user.name}</td>
 						<td><span>${check.partner_id.name or ''|entity}</span></td>
