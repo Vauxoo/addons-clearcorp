@@ -936,6 +936,7 @@
 					<group col = "4" colspan = "4">
 						<separator string = "Information" colspan = "4"/>
 						<field name = "name"/>
+						<field name = "ref"/>
 						<field name = "rent_rent_client_id" select  = "1"/>
 						<field name = "rent_type"/>
 						<field name = "rent_group_id" />

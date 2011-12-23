@@ -1418,7 +1418,8 @@ class rent_rent(osv.osv):
 		return {'value' : res}
 	
 	_columns = {
-		'name'                  : fields.char('Name',size=64,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'name'                  : fields.char('Name',size=64,required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'ref'                  : fields.char('Reference',size=64,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rent_client_id'   : fields.many2one('res.partner','Client', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_end_date'         : fields.date('Ending Date', required=True, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_ending_motif'     : fields.selection([('early','Early Return'),('expiration','Contract Expiration'),('eviction','No payment eviction'), ('others','Various problems with tenant')],'Ending Motif'),
@@ -1504,8 +1505,8 @@ class rent_rent(osv.osv):
 		'rent_main_invoiced_day'     : fields.integer('Invoiced Day',states={'active':[('readonly',True)], 'finished':[('readonly',True)]},help='Indicates de how many days before of the charge day will create the invoice'),
 		'rent_main_grace_period'     : fields.integer('Grace Period',states={'active':[('readonly',True)], 'finished':[('readonly',True)]},help='Indicates de how many days after the charge day will allow to paid an invoice without Interest for delay'),   
 		
-		'rent_rent_main_account_id'  : fields.many2one('account.account','Income Account',help="This account will be used for invoices instead of the default one to value sales for the current rent",required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_rent_main_acc_int_id'  : fields.many2one('account.account','Interest Account',help="This account will be used for invoices instead of the default one to value expenses for the current rent",required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_rent_main_account_id'  : fields.many2one('account.account','Income Account',help="This account will be used for invoices instead of the default one to value sales for the current rent",states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_rent_main_acc_int_id'  : fields.many2one('account.account','Interest Account',help="This account will be used for invoices instead of the default one to value expenses for the current rent",states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		#'rent_rent_main_account_id'  : fields.property(
 		#	'account.account',
 		#	type='many2one',
