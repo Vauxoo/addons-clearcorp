@@ -38,7 +38,7 @@
 	"description" : """
 	This module creates a field for the company shortcut to later use it a the chart of accounts as part for the complete name of each
 	account
-	"""
+	""",
 	"depends"     : ["base","account"],
 	"init_xml"    : [],
 	"update_xml"  : ["account_company_shortcut_rename_view.xml"],
