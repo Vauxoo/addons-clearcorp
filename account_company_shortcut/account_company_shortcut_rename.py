@@ -53,7 +53,7 @@ class account_account(osv.osv):
 			data.append(obj_account.name)
 			data = '/'.join(data)
 			company = obj_account.company_id
-			data = (company and company.shorcut or '') + obj_account.code + ' ' + data
+			data = (company and company.shortcut or '') + obj_account.code + ' ' + data
 			res.append((obj_account.id, data))  
 		return res
 	
