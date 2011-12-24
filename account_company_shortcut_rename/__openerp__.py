@@ -41,7 +41,7 @@
 	"""
 	"depends"     : ["base","account"],
 	"init_xml"    : [],
-	"update_xml"  : ["account_company_shorcut_rename_view.xml"],
+	"update_xml"  : ["account_company_shortcut_rename_view.xml"],
 	"category"    : "Accounting",
 	"active"      : False,
 	"instalable"  : True,

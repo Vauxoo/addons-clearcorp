@@ -1,1 +1,1 @@
-import account_company_shorcut_rename
+import account_company_shortcut_rename

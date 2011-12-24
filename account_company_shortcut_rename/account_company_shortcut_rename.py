@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    account_company_shorcut_rename.py
-#    account_company_shorcut_rename
+#    account_company_shortcut_rename.py
+#    account_company_shortcut_rename
 #    First author: Mag Guevara <mag.guevara@clearcorp.co.cr> (ClearCorp S.A.)
 #    Copyright (c) 2011-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
 #    
