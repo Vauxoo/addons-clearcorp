@@ -98,6 +98,8 @@ class account_voucher_journal_payment(osv.osv):
 		}
 
 		if not partner_id:
+			debug("DEFAULT EN EL IF SIN PARTNER")
+			debug(default)
 			return default
 
 		if not partner_id and ids:
@@ -119,6 +121,8 @@ class account_voucher_journal_payment(osv.osv):
 		default['value']['account_id'] = account_id
 
 		if journal.type not in ('cash', 'bank','payment'):
+			debug("DEFAULT EN EL IF journal no de dinero banco o pagos")
+			debug(default)
 			return default
 
 		total_credit = 0.0
@@ -136,8 +140,12 @@ class account_voucher_journal_payment(osv.osv):
 			if context.get('invoice_id', False):
 				domain.append(('invoice', '=', context['invoice_id']))
 			ids = move_line_pool.search(cr, uid, domain, context=context)
+			debug("no encuentra movelines en el contexto")
+			debug(ids)
 		else:
 			ids = context['move_line_ids']
+			debug("SI encuentra movelines en el contexto")
+			debug(ids)
 		ids.reverse()
 		moves = move_line_pool.browse(cr, uid, ids, context=context)
 
@@ -147,6 +155,8 @@ class account_voucher_journal_payment(osv.osv):
 		elif company_currency != currency_id and ttype == 'receipt':
 			total_credit = currency_pool.compute(cr, uid, currency_id, company_currency, total_credit, context=context_multi_currency)
 
+		debug("lista de moves")
+		debug(moves)
 		for line in moves:
 			if line.credit and line.reconcile_partial_id and ttype == 'receipt':
 				continue
@@ -192,6 +202,7 @@ class account_voucher_journal_payment(osv.osv):
 			elif ttype == 'receipt' and len(default['value']['line_dr_ids']) > 0:
 				default['value']['pre_line'] = 1
 			debug(price)
+			debug(default)
 			default['value']['writeoff_amount'] = self._compute_writeoff_amount(cr, uid, default['value']['line_dr_ids'], default['value']['line_cr_ids'], price)
 
 		return default
