@@ -150,8 +150,6 @@ class account_voucher_journal_payment(osv.osv):
 		elif company_currency != currency_id and ttype == 'receipt':
 			total_credit = currency_pool.compute(cr, uid, currency_id, company_currency, total_credit, context=context_multi_currency)
 
-		debug("lista de moves")
-		debug(moves)
 		for line in moves:
 			if line.credit and line.reconcile_partial_id and ttype == 'receipt':
 				continue
@@ -196,10 +194,9 @@ class account_voucher_journal_payment(osv.osv):
 				default['value']['pre_line'] = 1
 			elif ttype == 'receipt' and len(default['value']['line_dr_ids']) > 0:
 				default['value']['pre_line'] = 1
-			debug(price)
-			debug(default)
 			default['value']['writeoff_amount'] = self._compute_writeoff_amount(cr, uid, default['value']['line_dr_ids'], default['value']['line_cr_ids'], price)
-
+		debug(price)
+		debug(default)
 		return default
 	
 	def proforma_voucher_mirror(self, cr, uid, ids, context=None):
