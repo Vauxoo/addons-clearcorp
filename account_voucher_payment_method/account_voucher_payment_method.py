@@ -49,6 +49,19 @@ class account_voucher_journal_payment(osv.osv):
 	_inherit = 'account.voucher'
 	_description = 'Accounting Voucher'
 	
+	def _compute_writeoff_amount(self, cr, uid, line_dr_ids, line_cr_ids, amount):
+		debug("METODO DEL WRITEOFF")
+		debug(line_dr_ids)
+		debug(line_cr_ids)
+		debit = credit = 0.0
+		for l in line_dr_ids:
+			debit += l['amount']
+		for l in line_cr_ids:
+			credit += l['amount']
+		debug(credit)
+		debug(debit)
+		return abs(amount - abs(credit - debit))
+	
 	def onchange_partner_id(self, cr, uid, ids, partner_id, journal_id, price, currency_id, ttype, date, context=None):
 		"""price
 		Returns a dict that contains new values and context
@@ -178,6 +191,7 @@ class account_voucher_journal_payment(osv.osv):
 				default['value']['pre_line'] = 1
 			elif ttype == 'receipt' and len(default['value']['line_dr_ids']) > 0:
 				default['value']['pre_line'] = 1
+			debug(price)
 			default['value']['writeoff_amount'] = self._compute_writeoff_amount(cr, uid, default['value']['line_dr_ids'], default['value']['line_cr_ids'], price)
 
 		return default
