@@ -50,16 +50,11 @@ class account_voucher_journal_payment(osv.osv):
 	_description = 'Accounting Voucher'
 	
 	def _compute_writeoff_amount(self, cr, uid, line_dr_ids, line_cr_ids, amount):
-		debug("METODO DEL WRITEOFF")
-		debug(line_dr_ids)
-		debug(line_cr_ids)
 		debit = credit = 0.0
 		for l in line_dr_ids:
 			debit += l['amount']
 		for l in line_cr_ids:
 			credit += l['amount']
-		debug(credit)
-		debug(debit)
 		return abs(amount - abs(credit - debit))
 	
 	def onchange_partner_id(self, cr, uid, ids, partner_id, journal_id, price, currency_id, ttype, date, context=None):
@@ -136,7 +131,7 @@ class account_voucher_journal_payment(osv.osv):
 			account_type = 'receivable'
 
 		if not context.get('move_line_ids', False):
-			domain = [('state','=','valid'), ('account_id.type', '=', account_type), ('reconcile_id', '=', False), ('partner_id', '=', partner_id)]
+			domain = [('state','=','valid'), ('account_id.type', '=', account_type), ('reconcile_id', '=', False), ('partner_id', '=', partner_id), ('journal_id.payment_method','=',False)]
 			if context.get('invoice_id', False):
 				domain.append(('invoice', '=', context['invoice_id']))
 			ids = move_line_pool.search(cr, uid, domain, context=context)
