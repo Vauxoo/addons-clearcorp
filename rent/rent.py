@@ -593,7 +593,7 @@ class rent_rent(osv.osv):
 				'from_currency' : company_currency,
 				'to_currency'   : obj_rent.currency_id,
 			}
-			
+			debug(to_exchange)
 			exchanged = self._calculate_exchange(cr,uid,ids,to_exchange)
 			
 			total = exchanged['rent_total']
