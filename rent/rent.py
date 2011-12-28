@@ -615,15 +615,25 @@ class rent_rent(osv.osv):
 		desc = 'Factura por concepto de alquiler de  %s' % (obj_rent.rent_related_real)
 		
 		#Determines if today is the previous month for the invoice creation
-		month_due = date.today().month + 1
-		if type == 'rent':
-			if obj_rent.rent_charge_day - obj_rent.rent_invoiced_day > 0:
-				month_due = date.today().month
-			date_due = date(date.today().year,month_due,obj_rent.rent_charge_day + obj_rent.rent_grace_period)
+		today = date.today()
+		#month_due = (today.replace(day=1) + timedelta(days=32)).replace(day=1)
+		#month_due = today.month + 1
+		
+		if type=='rent':
+			date_due = (obj_rent.rent_invoiced_day <= obj_rent.rent_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
+			date_due = date_due.replace(day=obj_rent.rent_charge_day + obj_rent.rent_grace_period)
 		elif type == 'main':
-			if obj_rent.rent_main_charge_day - obj_rent.rent_main_invoiced_day > 0:
-				month_due = date.today().month
-			date_due = date(date.today().year,month_due,obj_rent.rent_main_charge_day + obj_rent.rent_main_grace_period)
+			date_due = (obj_rent.rent_main_invoiced_day <= obj_rent.rent_main_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
+			date_due = date_due.replace(day=obj_rent.rent_main_charge_day + obj_rent.rent_main_grace_period)
+		
+		#if type == 'rent':
+		#	if obj_rent.rent_charge_day - obj_rent.rent_invoiced_day > 0:
+		#		month_due = today.month
+		#	date_due = date(today.year,month_due,obj_rent.rent_charge_day + obj_rent.rent_grace_period)
+		#elif type == 'main':
+		#	if obj_rent.rent_main_charge_day - obj_rent.rent_main_invoiced_day > 0:
+		#		month_due = today.month
+		#	date_due = date(today.year,month_due,obj_rent.rent_main_charge_day + obj_rent.rent_main_grace_period)
 		inv = {
 			'name': obj_rent.name or desc,
 			'reference': obj_rent.name or desc,
@@ -753,11 +763,11 @@ class rent_rent(osv.osv):
 			
 			if type=='rent':
 				rise_date = parser.parse(obj_rent.rent_start_date).date()
-				charge_date = (obj_rent.rent_invoiced_day <= obj_rent.rent_charge_day and date(today.year,today.year,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
+				charge_date = (obj_rent.rent_invoiced_day <= obj_rent.rent_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
 				#month_charge =(obj_rent.rent_invoiced_day <= obj_rent.rent_charge_day and  today.month or (today + timedelta(days=32)).replace(day=1))
 			elif type == 'main':
 				rise_date = parser.parse(obj_rent.rent_main_start_date).date()
-				charge_date = (obj_rent.rent_main_invoiced_day <= obj_rent.rent_main_charge_day and date(today.year,today.year,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
+				charge_date = (obj_rent.rent_main_invoiced_day <= obj_rent.rent_main_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
 				#month_charge =(obj_rent.rent_main_invoiced_day <= obj_rent.rent_main_charge_day and  today.month or (today + timedelta(days=32)).replace(day=1))
 				
 			rise_date = rise_date.replace(year=today.year)			
