@@ -753,13 +753,15 @@ class rent_rent(osv.osv):
 			
 			if type=='rent':
 				rise_date = parser.parse(obj_rent.rent_start_date).date()
-				month_charge =(obj_rent.rent_invoiced_day <= obj_rent.rent_charge_day and  today.month or (today + timedelta(days=32)).replace(day=1))
+				charge_date = (obj_rent.rent_invoiced_day <= obj_rent.rent_charge_day and date(today.year,today.year,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
+				#month_charge =(obj_rent.rent_invoiced_day <= obj_rent.rent_charge_day and  today.month or (today + timedelta(days=32)).replace(day=1))
 			elif type == 'main':
 				rise_date = parser.parse(obj_rent.rent_main_start_date).date()
-				month_charge =(obj_rent.rent_main_invoiced_day <= obj_rent.rent_main_charge_day and  today.month or (today + timedelta(days=32)).replace(day=1))
+				charge_date = (obj_rent.rent_main_invoiced_day <= obj_rent.rent_main_charge_day and date(today.year,today.year,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
+				#month_charge =(obj_rent.rent_main_invoiced_day <= obj_rent.rent_main_charge_day and  today.month or (today + timedelta(days=32)).replace(day=1))
 				
 			rise_date = rise_date.replace(year=today.year)			
-			charge_date = date(today.year,month_charge,1)
+			#charge_date = date(today.year,month_charge,1)
 			
 			if rise_date.month == charge_date.month:
 				res_dob_inv.append(self._invoice_data(cr,uid,ids,obj_rent,{'init_date': charge_date, 'end_date' : rise_date.replace(day=rise_date.day-1)},type))
