@@ -1758,7 +1758,7 @@ class rent_rent_invoice(osv.osv):
 		'invoice_id'       : fields.many2one('account.invoice','Invoice', ondelete='cascade'),
 		'invoice_rent_id'  : fields.many2one('rent.rent', 'Rent',ondelete='cascade'),
 		'invoice_date'     : fields.related('invoice_id','date_invoice', type='date',relation='account.invoice',string='Date',readonly=True,store=False),
-		'invoice_due_date' : fields.related('invoice_id','due_date', type='date',relation='account.invoice',string='Due Date',readonly=True,store=False),
+		'invoice_due_date' : fields.related('invoice_id','date_due', type='date',relation='account.invoice',string='Due Date',readonly=True,store=False),
 		'invoice_amount'   : fields.related('invoice_id','amount_total', type='float',relation='account.invoice',string='Amount Total',readonly=True,store=False),
 		'invoice_state'    : fields.related('invoice_id','state', type='char',relation='account.invoice',string='State',readonly=True,store=False),
 		'invoice_number'   : fields.related('invoice_id','number', type='char',size=64,relation='account.invoice',string='Invoice Number',readonly=True,store=False),
