@@ -756,7 +756,8 @@ class rent_rent(osv.osv):
 			current_date = parser.parse(obj_rent.rent_start_date).date()
 			current_date = current_date.replace(year=date.today().year)
 			for obj_historic in obj_rent.rent_historic_ids:
-				if obj_historic.anual_value_date.year == current_date.year:
+				obj_date = parser.parse(obj_historic.anual_value_date).date()
+				if obj_date.year == current_date.year:
 				#if obj_historic.anual_value_date == current_date.isoformat():
 					is_registrated = True
 					match_historic = obj_historic
@@ -786,7 +787,8 @@ class rent_rent(osv.osv):
 			current_date = parser.parse(obj_rent.rent_main_start_date).date()
 			current_date = current_date.replace(year=date.today().year)
 			for obj_historic in obj_rent.rent_main_historic_ids:
-				if obj_historic.anual_value_date.year == current_date.year:
+				obj_date = parser.parse(obj_historic.anual_value_date).date()
+				if obj_date.year == current_date.year:
 				#if obj_historic.anual_value_date == current_date.isoformat():
 					is_registrated = True
 					match_historic = obj_historic
