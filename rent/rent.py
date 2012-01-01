@@ -997,15 +997,17 @@ class rent_rent(osv.osv):
 						debug(today)
 						if type == 'rent':
 							start_date = parser.parse(obj_rent.rent_start_date).date()
+							charge_date = today+timedelta(days=obj_rent.rent_invoiced_day+obj_rent.rent_grace_period)
 						elif type == 'main':
 							start_date = parser.parse(obj_rent.rent_main_start_date).date()
+							charge_date = today+timedelta(days=obj_rent.rent_main_invoiced_day+obj_rent.rent_main_grace_period)
 						if inv_date.month == start_date.month and inv_date.year == start_date.year and len(inv_rent_list) <= 1:
 							debug("SOLO TIENE 1 FACTURA")
 							is_required = True
 						elif (inv_date.month == today.month and inv_date.year == today.year):
-							is_required = False
-							charge_date = today+timedelta(days=obj_rent.rent_main_invoiced_day)
-							if (inv_date.month != charge_date.month and inv_date.year != charge_date.year) and ():
+							is_required = False							
+							if (inv_date.month != charge_date.month and inv_date.year != charge_date.year)
+							#if (inv_date.month != charge_date.month and inv_date.year != charge_date.year) and ():
 								debug(inv_date)
 								debug(charge_date)
 								debug("NECESITA FACTURA")
@@ -1187,8 +1189,6 @@ class rent_rent(osv.osv):
 		debug(date_list)
 		for record_date in date_list:
 			is_required = self._invoice_main_required(cr,uid,rent_ids,'rent',record_date)
-			debug(record_date)
-			debug(is_required)
 			self._method_invoice_caller(cr,uid,rent_ids,is_required,'rent',record_date)
 		
 			#after we invocied all the rents, now we can proceed with the maintenance 
