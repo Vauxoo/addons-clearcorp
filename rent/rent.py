@@ -990,7 +990,6 @@ class rent_rent(osv.osv):
 			if today.day == invoice_day:
 				if (type == 'main' and obj_rent.rent_main_inc) or type == 'rent':
 					is_required = True
-					max_inv = 0
 					for obj_inv_reg in inv_rent_list:						
 						inv_date = parser.parse(obj_inv_reg.invoice_due_date).date()
 						inv_create = parser.parse(obj_inv_reg.invoice_date).date()
@@ -1004,15 +1003,15 @@ class rent_rent(osv.osv):
 						if inv_date.month == start_date.month and inv_date.year == start_date.year and len(inv_rent_list) <= 1:
 							debug("SOLO TIENE 1 FACTURA")
 							is_required = True
-						elif (inv_date.month == today.month and inv_date.year == today.year):
-							#debug(inv_date)
-							#debug(today)
-							#debug("Tiene TIENE mas de una FACTURA")
-							#is_required = False
-							max_inv += 1
-							if max_inv >= 2:
+						else:
+							charge_date = today+timedelta(days=obj_rent.rent_main_invoiced_day)
+							if (inv_date.month == charge_date.month and inv_date.year == charge_date.year):
+								debug(inv_date)
+								debug(today)
+								debug("Tiene TIENE mas de una FACTURA")
 								is_required = False
 								break
+						#elif (inv_date.month == today.month and inv_date.year == today.year):
 			res[obj_rent.id] = is_required
 		return res
 	
@@ -1040,8 +1039,6 @@ class rent_rent(osv.osv):
 				
 			rise_date = rise_date.replace(year=today.year)
 			
-			debug(rise_date)
-			debug(charge_date)
 			if rise_date.month == charge_date.month:
 				if rise_date.day > 1:
 					#It's necesary to check if the rise is on a day different than the first of every month
