@@ -991,7 +991,9 @@ class rent_rent(osv.osv):
 				if (type == 'main' and obj_rent.rent_main_inc) or type == 'rent':
 					is_required = True
 					debug(inv_rent_list)
-					for obj_inv_reg in inv_rent_list:						
+					i = 0
+					for obj_inv_reg in inv_rent_list:
+						i += 1						
 						inv_date = parser.parse(obj_inv_reg.invoice_due_date).date()
 						inv_create = parser.parse(obj_inv_reg.invoice_date).date()
 						#inv_date = parser.parse(obj_inv_reg.invoice_date).date()
@@ -1014,6 +1016,8 @@ class rent_rent(osv.osv):
 							#	debug(today)
 								is_required = True
 						#elif (inv_date.month == today.month and inv_date.year == today.year):
+					debug("veces iteradas")
+					debug(i)
 			res[obj_rent.id] = is_required
 		return res
 	
