@@ -1001,6 +1001,8 @@ class rent_rent(osv.osv):
 							debug("SOLO TIENE 1 FACTURA")
 							is_required = True
 						elif inv_date.month == today.month and inv_date.year == today.year:
+							debug(inv_date)
+							debug(today)
 							debug("Tiene TIENE mas de una FACTURA")
 							is_required = False
 							break
@@ -1179,6 +1181,7 @@ class rent_rent(osv.osv):
 			last_date += timedelta(days=1)
 		#once we have all that dates we run the method for each one 
 		#NOTE: date_list contains at least the today date
+		debug(date_list)
 		for record_date in date_list:
 			is_required = self._invoice_main_required(cr,uid,rent_ids,'rent',record_date)
 			#debug(is_required)
