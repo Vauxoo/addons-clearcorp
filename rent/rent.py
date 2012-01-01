@@ -1101,7 +1101,7 @@ class rent_rent(osv.osv):
 			'date_invoice' : today,
 			'date_due' : date_due,
 		}
-		
+		debug(inv)
 		inv_id = self.pool.get('account.invoice').create(cr, uid, inv, {'type':'out_invoice'})
 		self.pool.get('account.invoice').button_compute(cr, uid, [inv_id], {'type':'out_invoice'}, set_total=True)
 		res['invoice_id'] = inv_id
