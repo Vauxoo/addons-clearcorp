@@ -1021,7 +1021,7 @@ class rent_rent(osv.osv):
 							#	is_required = True
 						else:
 							is_required = True
-							debug("No se ha encontrado una factura en los registros hasta el momento " + i)
+							debug("No se ha encontrado una factura en los registros hasta el momento. %d" % (i))
 								
 						#elif (inv_date.month == today.month and inv_date.year == today.year):
 					debug("veces iteradas")
