@@ -770,7 +770,7 @@ class rent_rent(osv.osv):
 			if obj_rent.rent_related_real == 'local':
 				vals['anual_value_local_ids'] = obj_rent.rent_rent_local_id.id
 			if not is_registrated:
-				vals['rent_historic_ids'] = [(0,0,{'anual_value_rent_id':obj_rent.id,'anual_value_value':years_val,'anual_value_prev_value' : prev_value,'anual_value_rate' : obj_rent.rent_rise, 'anual_value_date' : current_date, 'anual_value_type' : 'rent', 'anual_value_local_ids':vals['anual_value_local_ids']})]
+				vals['rent_historic_ids'] = [(0,0,{'anual_value_rent_id':obj_rent.id,'anual_value_value':years_val,'anual_value_prev_value' : prev_value,'anual_value_rate' : obj_rent.rent_rise, 'anual_value_date' : current_date, 'anual_value_type' : 'rent', 'anual_value_local_ids':vals['anual_value_local_ids'] or False})]
 			else:
 				vals['rent_historic_ids'] = [(1,match_historic.id,{'anual_value_value':obj_rent.rent_amount_base,'anual_value_rate' : obj_rent.rent_rise})]
 			obj_rent.write(vals)
