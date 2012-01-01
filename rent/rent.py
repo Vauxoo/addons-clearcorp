@@ -1159,7 +1159,7 @@ class rent_rent(osv.osv):
 			#if theres no record we set the today as the last_date assuming that 
 			#the cronjob has never been excecuted and add it to the list
 			last_date = today
-		
+		debug(last_date)
 		while last_date <= today:
 			date_list.append(last_date)
 			last_date += timedelta(days=1)
@@ -1167,6 +1167,7 @@ class rent_rent(osv.osv):
 		#NOTE: date_list contains at least the today date
 		for record_date in date_list:
 			is_required = self._invoice_main_required(cr,uid,rent_ids,'rent',record_date)
+			debug(is_required)
 			self._method_invoice_caller(cr,uid,rent_ids,is_required,'rent',record_date)
 		
 			#after we invocied all the rents, now we can proceed with the maintenance 
