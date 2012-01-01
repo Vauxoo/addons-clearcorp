@@ -976,16 +976,10 @@ class rent_rent(osv.osv):
 			today = current_date
 			if type == 'rent':
 					invoice_day = (obj_rent.rent_invoiced_day < obj_rent.rent_charge_day) and (obj_rent.rent_charge_day - obj_rent.rent_invoiced_day) or (calendar.mdays[today.month] - obj_rent.rent_invoiced_day +  obj_rent.rent_charge_day)
-					debug(obj_rent.rent_invoiced_day)
-					debug(obj_rent.rent_charge_day)
-					debug(obj_rent.rent_invoiced_day < obj_rent.rent_charge_day)
-					debug(invoice_day)
 					inv_rent_list = obj_rent.rent_invoice_ids
 			elif type == 'main':
 					invoice_day = (obj_rent.rent_main_invoiced_day < obj_rent.rent_main_charge_day) and (obj_rent.rent_main_charge_day - obj_rent.rent_main_invoiced_day) or (calendar.mdays[today.month] - obj_rent.rent_main_invoiced_day + obj_rent.rent_main_charge_day)
 					inv_rent_list = obj_rent.rent_main_invoice_ids
-
-			debug(today.day)
 			if today.day == invoice_day:
 				if (type == 'main' and obj_rent.rent_main_inc) or type == 'rent':
 					is_required = True
@@ -1034,11 +1028,15 @@ class rent_rent(osv.osv):
 			debug(rise_date)
 			debug(charge_date)
 			if rise_date.month == charge_date.month:
-				res_dob_inv.append(self._invoice_data(cr,uid,ids,obj_rent,{'init_date': charge_date, 'end_date' : rise_date - timedelta(days=1)},type))
-				#res_dob_inv.append(self._invoice_data(cr,uid,ids,obj_rent,{'init_date': charge_date, 'end_date' : rise_date.replace(day=rise_date.day-1)},type))
+				if rise_date.day > 1:
+					#It's necesary to check if the rise is on a day different than the first of every month
+					res_dob_inv.append(self._invoice_data(cr,uid,ids,obj_rent,{'init_date': charge_date, 'end_date' : rise_date - timedelta(days=1)},type))
+					#res_dob_inv.append(self._invoice_data(cr,uid,ids,obj_rent,{'init_date': charge_date, 'end_date' : rise_date.replace(day=rise_date.day-1)},type))
 				
-				#We need to update the amount_base of the rent, so we ca
+				#We need to update the amount_base of the rent, so we can
 				#charge the next part with the rate included
+				#NOTE: Even if the rise is on the second day of the month we apply the previous charge on the first day 
+				#and the new one on the remaining
 				if type=='rent':
 					self.register_historic(cr,uid,obj_rent)
 				elif type=='main':
@@ -1136,7 +1134,10 @@ class rent_rent(osv.osv):
 			amount_base = obj_rent.rent_main_amount_base
 		
 		amount =  charged_days / float(month_days) * amount_base
-		desc = "Cobro de %s. Desde el %s hasta el %s" % ((type=='rent'and 'alquiler' or 'Mantenimiento'),init_date.strftime("%A %d %B %Y"),end_date.strftime("%A %d %B %Y"))
+		if init_date != end_date:
+			desc = "Cobro de %s. Desde el %s hasta el %s" % ((type=='rent'and 'alquiler' or 'mantenimiento'),init_date.strftime("%A %d %B %Y"),end_date.strftime("%A %d %B %Y"))
+		else:
+			desc = "Cobro de %s. Del %s " % ((type=='rent'and 'alquiler' or 'mantenimiento'),init_date.strftime("%A %d %B %Y"))
 		
 		res = {
 			'rent_id': obj_rent.id,
