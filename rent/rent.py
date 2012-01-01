@@ -994,7 +994,6 @@ class rent_rent(osv.osv):
 						inv_date = parser.parse(obj_inv_reg.invoice_due_date).date()
 						inv_create = parser.parse(obj_inv_reg.invoice_date).date()
 						#inv_date = parser.parse(obj_inv_reg.invoice_date).date()
-						debug(today)
 						if type == 'rent':
 							start_date = parser.parse(obj_rent.rent_start_date).date()
 							charge_date = today+timedelta(days=obj_rent.rent_invoiced_day+obj_rent.rent_grace_period)
@@ -1008,9 +1007,10 @@ class rent_rent(osv.osv):
 							is_required = False							
 							if (inv_date.month != charge_date.month and inv_date.year != charge_date.year):
 							#if (inv_date.month != charge_date.month and inv_date.year != charge_date.year) and ():
+								debug("NECESITA FACTURA")
 								debug(inv_date)
 								debug(charge_date)
-								debug("NECESITA FACTURA")
+								debug(today)
 								is_required = True
 						#elif (inv_date.month == today.month and inv_date.year == today.year):
 			res[obj_rent.id] = is_required
