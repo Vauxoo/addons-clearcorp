@@ -975,14 +975,14 @@ class rent_rent(osv.osv):
 			is_required = False
 			today = current_date
 			if type == 'rent':
-					invoice_day = (obj_rent.rent_invoiced_day < obj_rent.rent_charge_day) and (obj_rent.rent_charge_day - obj_rent.rent_invoiced_day) or (calendar.mdays[today.month] - obj_rent.rent_invoiced_day +  obj_rent.rent_charge_day + 1)
+					invoice_day = (obj_rent.rent_invoiced_day < obj_rent.rent_charge_day) and (obj_rent.rent_charge_day - obj_rent.rent_invoiced_day) or (calendar.mdays[today.month] - obj_rent.rent_invoiced_day +  obj_rent.rent_charge_day)
 					debug(obj_rent.rent_invoiced_day)
 					debug(obj_rent.rent_charge_day)
 					debug(obj_rent.rent_invoiced_day < obj_rent.rent_charge_day)
 					debug(invoice_day)
 					inv_rent_list = obj_rent.rent_invoice_ids
 			elif type == 'main':
-					invoice_day = (obj_rent.rent_main_invoiced_day < obj_rent.rent_main_charge_day) and (obj_rent.rent_main_charge_day - obj_rent.rent_main_invoiced_day) or (calendar.mdays[today.month] - obj_rent.rent_main_invoiced_day + obj_rent.rent_main_charge_day + 1)
+					invoice_day = (obj_rent.rent_main_invoiced_day < obj_rent.rent_main_charge_day) and (obj_rent.rent_main_charge_day - obj_rent.rent_main_invoiced_day) or (calendar.mdays[today.month] - obj_rent.rent_main_invoiced_day + obj_rent.rent_main_charge_day)
 					inv_rent_list = obj_rent.rent_main_invoice_ids
 
 			debug(today.day)
