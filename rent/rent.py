@@ -899,8 +899,8 @@ class rent_rent(osv.osv):
 		res = {}
 		journal_obj = self.pool.get('account.journal')
 		il = []
-		debug('GENERACION DE factura PAGO')
-		debug(args)
+		#debug('GENERACION DE factura PAGO')
+		#debug(args)
 		
 		for rlist in args:
 			obj_rent = self.browse(cr,uid,rlist['rent_id'])
@@ -1003,13 +1003,14 @@ class rent_rent(osv.osv):
 						if inv_date.month == start_date.month and inv_date.year == start_date.year and len(inv_rent_list) <= 1:
 							debug("SOLO TIENE 1 FACTURA")
 							is_required = True
-						else:
+						elif (inv_date.month == today.month and inv_date.year == today.year):
+							is_required = False
 							charge_date = today+timedelta(days=obj_rent.rent_main_invoiced_day)
-							if (inv_date.month == charge_date.month and inv_date.year == charge_date.year):
+							if (inv_date.month != charge_date.month and inv_date.year != charge_date.year):
 								debug(inv_date)
 								debug(today)
-								debug("Tiene TIENE mas de una FACTURA")
-								is_required = False
+								debug("NECESITA FACTURA")
+								is_required = True
 								break
 						#elif (inv_date.month == today.month and inv_date.year == today.year):
 			res[obj_rent.id] = is_required
