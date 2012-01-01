@@ -1010,16 +1010,19 @@ class rent_rent(osv.osv):
 						if inv_date.month == start_date.month and inv_date.year == start_date.year and len(inv_rent_list) <= 1:
 							debug("SOLO TIENE 1 FACTURA")
 							is_required = True
-						elif (inv_date.month == today.month and inv_date.year == today.year):
+						elif (inv_date.month == charge_date.month and inv_date.year == charge_date.year):
+						#elif (inv_date.month == today.month and inv_date.year == today.year):
 							is_required = False
-							debug("YA TIENE UNA FACTURA EN ESE MES VERIFICANDO SI ES LA DEL MES ANTERIOR")
-							if (inv_date.month != charge_date.month and inv_date.year != charge_date.year):
+							debug("YA SE ENCONTRO UNA FACTURA QUE COINCIDE SE VA A SALIR")
+							break
+							#if (inv_date.month != charge_date.month and inv_date.year != charge_date.year):
 							#if (inv_date.month != charge_date.month and inv_date.year != charge_date.year) and ():
-								debug("NECESITA FACTURA")
-								is_required = True
-							else:
-								debug("LA FACTURA ES LA DEL MES EN CURSO si esto sale mas de una vez no sale del for " + i)
-								break
+							#	debug("NECESITA FACTURA")
+							#	is_required = True
+						else:
+							is_required = True
+							debug("No se ha encontrado una factura en los registros hasta el momento " + i)
+								
 						#elif (inv_date.month == today.month and inv_date.year == today.year):
 					debug("veces iteradas")
 					debug(i)
