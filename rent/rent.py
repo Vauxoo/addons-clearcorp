@@ -1001,9 +1001,9 @@ class rent_rent(osv.osv):
 							debug("SOLO TIENE 1 FACTURA")
 							is_required = True
 						elif inv_date.month == today.month and inv_date.year == today.year:
-							debug(inv_date)
-							debug(today)
-							debug("Tiene TIENE mas de una FACTURA")
+							#debug(inv_date)
+							#debug(today)
+							#debug("Tiene TIENE mas de una FACTURA")
 							is_required = False
 							break
 			res[obj_rent.id] = is_required
