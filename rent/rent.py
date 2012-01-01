@@ -582,8 +582,6 @@ class rent_rent(osv.osv):
 				total = obj_estado._get_estate_vrm(obj_estado.id,None,None)[obj_estado.id]
 			
 			obj_client = obj_rent.rent_rent_client_id
-			debug(obj_client.company_id)
-			debug(obj_client.company_id.currency_id)
 			company_currency = (obj_client.company_id and obj_client.company_id.currency_id or (obj_rent.currency_id or self.pool.get('res.currency').browse(cr,uid,self._get_currency(cr,uid,context))))
 			#company_currency = self.pool.get('res.currency').browse(cr,uid,company_currency_id)
 			debug(company_currency)
@@ -594,7 +592,6 @@ class rent_rent(osv.osv):
 				'from_currency' : company_currency,
 				'to_currency'   : obj_rent.currency_id,
 			}
-			debug(to_exchange)
 			exchanged = self._calculate_exchange(cr,uid,ids,to_exchange)
 			
 			total = exchanged['rent_total']
@@ -719,6 +716,8 @@ class rent_rent(osv.osv):
 					'rent_type'    : 'Contract',
 					'currency_id': self._get_currency(cr,uid,context),
 					'eqv_currency_id': self._get_currency_eqv(cr,uid,context),
+					'main_currency_id': self._get_currency(cr,uid,context),
+					'main_eqv_currency_id': self._get_currency_eqv(cr,uid,context),
 					'rent_amount_base' : 0.00,
 					'rent_main_amount_base' : 0.00,
 					#'rent_rise'     : "%.2f%%" % (0.),
@@ -933,7 +932,7 @@ class rent_rent(osv.osv):
 			'account_id': a,
 			'type': 'out_invoice',
 			'partner_id': obj_client.id,
-			'currency_id': obj_rent.currency_id.id,
+			'currency_id': (type == 'rent' and obj_rent.currency_id.id or obj_rent.main_currency_id.id),
 			'address_invoice_id': obj_client.address[0].id,
 			'address_contact_id': obj_client.address[0].id,
 			'journal_id': len(journal_ids) and journal_ids[0] or False,
@@ -1092,7 +1091,7 @@ class rent_rent(osv.osv):
 				_('There is no purchase journal defined for this company: "%s" (id:%d)') % (obj_rent.company_id.name, obj_rent.company_id.id))
 		
 		
-		currency = (type=='rent' and obj_rent.currency_id.id or obj_rent.currency_main_id.id)
+		currency = (type=='rent' and obj_rent.currency_id.id or obj_rent.main_currency_id.id)
 		
 		#Determines if today is the previous month for the invoice creation
 		today = current_date
@@ -1403,8 +1402,8 @@ class rent_rent(osv.osv):
 				('rent_main_rise_year3d',years_val['rent_main_rise_year3']),
 				('rent_main_amountd_base',obj_rent.rent_main_amount_base),
 				],
-				'from_currency' : obj_rent.currency_id,
-				'to_currency'   : obj_rent.eqv_currency_id,
+				'from_currency' : obj_rent.main_currency_id or obj_rent.currency_id,
+				'to_currency'   : obj_rent.main_eqv_currency_id or obj_rent.eqv_currency_id,
 			}
 			
 			exchanged = self._calculate_exchange(cr,uid,ids,to_exchange)
@@ -1514,6 +1513,10 @@ class rent_rent(osv.osv):
 		'rent_main_estimates_ids'    : fields.one2many('rent.rent.main.estimate', 'estimate_maintenance_id','Estimates',states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_main_invoice_ids'      : fields.one2many('rent.invoice.rent','invoice_rent_id','Rent Invoices', domain=[('invoice_type', '=', 'main')],readonly=True),
 		'rent_main_total'            : fields.float('Total Paid'),
+		
+		'main_currency_id'           : fields.many2one('res.currency', 'Currency', required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'main_eqv_currency_id'       : fields.many2one('res.currency', 'Currency Equivalence', required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		
 		#'rent_main_total_us'         : fields.float('Total Paid $'),
 		'rent_main_historic_ids'     : fields.one2many('rent.rent.anual.value', 'anual_value_rent_id','Historic',readonly=True, domain=[('anual_value_type', '=', 'main')]),      
 		'rent_main_company_id'       : fields.many2one('res.company', 'Supplier Company',states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),      
@@ -1524,23 +1527,6 @@ class rent_rent(osv.osv):
 		
 		'rent_rent_main_account_id'  : fields.many2one('account.account','Income Account',help="This account will be used for invoices instead of the default one to value sales for the current rent",states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rent_main_acc_int_id'  : fields.many2one('account.account','Interest Account',help="This account will be used for invoices instead of the default one to value expenses for the current rent",states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		#'rent_rent_main_account_id'  : fields.property(
-		#	'account.account',
-		#	type='many2one',
-		#	relation='account.account',
-		#	string="Income Account",
-		#	method=True,
-		#	view_load=True,
-		#	help="This account will be used for invoices instead of the default one to value sales for the current rent",states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		#'rent_rent_main_acc_int_id'  : fields.property(
-		#	'account.account',
-		#	type='many2one',
-		#	relation='account.account',
-		#	string="Interest Account",
-		#	method=True,
-		#	view_load=True,
-		#	help="This account will be used for invoices instead of the default one to value expenses for the current rent",states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-			
 		'rent_main_end_date'         : fields.date('Ending Date', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_main_start_date'       : fields.date('Starting Date', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		
@@ -1561,6 +1547,8 @@ class rent_rent(osv.osv):
 		'rent_type'    : 'Contract',
 		'currency_id': _get_currency,
 		'eqv_currency_id': _get_currency_eqv,
+		'main_currency_id': _get_currency,
+		'main_eqv_currency_id': _get_currency_eqv,
 		'rent_amount_base' : 0.00,
 		'rent_main_amount_base' : 0.00,
 		#'rent_rise'     : "%.2f%%" % (0.),
@@ -1653,7 +1641,7 @@ class rent_rent_main_estimate(osv.osv):
 			obj_rent = obj_estimate.estimate_maintenance_id
 			amounts_val = {}
 			
-			currency_id = obj_rent.currency_id
+			currency_id = obj_rent.main_currency_id or obj_rent.currency_id
 			debug(currency_id)
 			rate_cr = currency_id.rate
 			rate_us = 1

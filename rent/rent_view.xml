@@ -1050,6 +1050,7 @@
 								<field name = "rent_main_performance"/>
 								<field name = "rent_main_rise_year3"/>
 								<field name = "rent_main_rise"  attrs = "{'readonly' : ['|',('state','!=','draft'),('rent_main_inc','!=','True')], 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
+								<field name = "main_currency_id"/>
 								<field name = "rent_main_show_us_eq"/>
 								<label string = "  "/>
 								<button name = "calculate_negotiation" string="Compute Values" type="object" icon="terp-stock_format-scientific"/>
@@ -1059,6 +1060,7 @@
 								<field name = "rent_main_amountd_base"/>
 								<field name = "rent_main_rise_year2d"/>
 								<field name = "rent_main_rise_year3d"/>
+								<field name = "main_eqv_currency_id"/>
 							</group>
 							<notebook>
 								<page string = "Calculations">
