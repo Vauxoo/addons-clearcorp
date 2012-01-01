@@ -1056,6 +1056,7 @@ class rent_rent(osv.osv):
 		
 		for rlist in args:
 			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rlist['rent_id'])
+			debug(obj_rent)
 			if obj_rent.rent_include_water:
 				desc = desc +  obj_rent.name
 				rlist.update({
