@@ -1044,6 +1044,7 @@ class rent_rent(osv.osv):
 				self.invoice_services(cr,uid,ids,res_dob_inv,type,today)
 		return True
 	
+	
 	def invoice_services(self,cr,uid,ids,args,type='rent',current_date=date.today()):
 		#TIENE UN PROBLEMA EN EL 
 		#Creates the invoice for every rent given as arg, the args is a list of dictionaries 
