@@ -976,11 +976,15 @@ class rent_rent(osv.osv):
 			today = current_date
 			if type == 'rent':
 					invoice_day = (obj_rent.rent_invoiced_day <= obj_rent.rent_charge_day and obj_rent.rent_charge_day - obj_rent.rent_invoiced_day or calendar.mdays[today.month] - obj_rent.rent_invoiced_day +  obj_rent.rent_charge_day + 1)
+					debug(obj_rent.rent_invoiced_day)
+					debug(obj_rent.rent_charge_day)
+					debug(obj_rent.rent_invoiced_day <= obj_rent.rent_charge_day)
+					debug(invoice_day)
 					inv_rent_list = obj_rent.rent_invoice_ids
 			elif type == 'main':
 					invoice_day = (obj_rent.rent_main_invoiced_day <= obj_rent.rent_main_charge_day and obj_rent.rent_main_charge_day - obj_rent.rent_main_invoiced_day or calendar.mdays[today.month] - obj_rent.rent_main_invoiced_day + obj_rent.rent_main_charge_day + 1)
 					inv_rent_list = obj_rent.rent_main_invoice_ids
-			debug(invoice_day)
+
 			debug(today.day)
 			if today.day == invoice_day:
 				if (type == 'main' and obj_rent.rent_main_inc) or type == 'rent':
@@ -1169,7 +1173,7 @@ class rent_rent(osv.osv):
 		#NOTE: date_list contains at least the today date
 		for record_date in date_list:
 			is_required = self._invoice_main_required(cr,uid,rent_ids,'rent',record_date)
-			debug(is_required)
+			#debug(is_required)
 			self._method_invoice_caller(cr,uid,rent_ids,is_required,'rent',record_date)
 		
 			#after we invocied all the rents, now we can proceed with the maintenance 
