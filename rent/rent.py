@@ -926,6 +926,8 @@ class rent_rent(osv.osv):
 		
 		desc = "Cobro de %s. Mes %s " % ((type=='rent'and 'alquiler' or 'mantenimiento'),date_due.month)
 		
+		inv_date = date_due - timedelta(days= obj_rent.rent_main_grace_period + obj_rent.rent_invoiced_day)
+		
 		inv = {
 			'name': desc or obj_rent.name,
 			'reference': obj_rent.name or desc,
@@ -941,7 +943,7 @@ class rent_rent(osv.osv):
 			'fiscal_position': obj_client.property_account_position.id,
 			'payment_term': obj_client.property_payment_term and o.partner_id.property_payment_term.id or False,
 			'company_id': obj_rent.company_id.id,
-			'date_invoice' : today,
+			'date_invoice' : inv_date or today,
 			'date_due' : date_due,
 		}
 		inv_id = self.pool.get('account.invoice').create(cr, uid, inv, {'type':'out_invoice'})
@@ -988,8 +990,10 @@ class rent_rent(osv.osv):
 			if today.day == invoice_day:
 				if (type == 'main' and obj_rent.rent_main_inc) or type == 'rent':
 					is_required = True
+					max_inv = 0
 					for obj_inv_reg in inv_rent_list:						
 						inv_date = parser.parse(obj_inv_reg.invoice_due_date).date()
+						inv_create = parser.parse(obj_inv_reg.invoice_date).date()
 						#inv_date = parser.parse(obj_inv_reg.invoice_date).date()
 						debug(today)
 						debug(inv_date)
@@ -1000,12 +1004,15 @@ class rent_rent(osv.osv):
 						if inv_date.month == start_date.month and inv_date.year == start_date.year and len(inv_rent_list) <= 1:
 							debug("SOLO TIENE 1 FACTURA")
 							is_required = True
-						elif inv_date.month == today.month and inv_date.year == today.year:
+						elif (inv_date.month == today.month and inv_date.year == today.year):
 							#debug(inv_date)
 							#debug(today)
 							#debug("Tiene TIENE mas de una FACTURA")
-							is_required = False
-							break
+							#is_required = False
+							max_inv += 1
+							if max_inv >= 2:
+								is_required = False
+								break
 			res[obj_rent.id] = is_required
 		return res
 	
