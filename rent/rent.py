@@ -990,9 +990,7 @@ class rent_rent(osv.osv):
 			if today.day == invoice_day:
 				if (type == 'main' and obj_rent.rent_main_inc) or type == 'rent':
 					is_required = True
-					debug(inv_rent_list)
 					inv_rent_list = sorted(inv_rent_list,key=lambda reg: time.strptime(reg.invoice_due_date,'%Y-%m-%d'),reverse=True)
-					debug(inv_rent_list)
 					i = 0
 					for obj_inv_reg in inv_rent_list:
 						i += 1						
@@ -1010,6 +1008,7 @@ class rent_rent(osv.osv):
 							is_required = True
 						elif (inv_date.month == today.month and inv_date.year == today.year):
 							is_required = False
+							debug("YA TIENE UNA FACTURA EN ESE MES VERIFICANDO SI ES LA DEL MES ANTERIOR")
 							if (inv_date.month != charge_date.month and inv_date.year != charge_date.year):
 							#if (inv_date.month != charge_date.month and inv_date.year != charge_date.year) and ():
 								debug("NECESITA FACTURA")
@@ -1018,10 +1017,12 @@ class rent_rent(osv.osv):
 								debug(today)
 								is_required = True
 							else:
+								debug("LA FACTURA ES LA DEL MES EN CURSO si esto sale mas de una vez no sale del for " + i)
 								break
 						#elif (inv_date.month == today.month and inv_date.year == today.year):
 					debug("veces iteradas")
 					debug(i)
+					debug(is_required)
 			res[obj_rent.id] = is_required
 		return res
 	
