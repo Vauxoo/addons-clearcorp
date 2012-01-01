@@ -1055,15 +1055,15 @@ class rent_rent(osv.osv):
 				res_dob_inv.append(self._invoice_data(cr,uid,ids,obj_rent,{'init_date': charge_date, 'end_date' : charge_date.replace(day=calendar.mdays[charge_date.month])},type))
 
 			self.invoice_rent(cr,uid,ids,res_dob_inv,type,today)
-			if type == 'rent':
+			if type == 'rent' and obj_rent.rent_include_water:
+				debug("TIENE COBRO DE AGUA")
 				self.invoice_services(cr,uid,ids,res_dob_inv,type,today)
 			if res_deposit_fix:
 				self._check_deposit(cr,uid,res_deposit_fix,context=None)
 		return True
 	
 	
-	def invoice_services(self,cr,uid,ids,args,type='rent',current_date=date.today()):
-		#TIENE UN PROBLEMA EN EL 
+	def invoice_services(self,cr,uid,ids,args,type='rent',current_date=date.today()): 
 		#Creates the invoice for every rent given as arg, the args is a list of dictionaries 
 		#usually it only has one element. But it can take up 2 records to create an invoice with 2 lines
 		res = {}
