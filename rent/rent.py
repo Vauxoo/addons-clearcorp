@@ -990,6 +990,7 @@ class rent_rent(osv.osv):
 			if today.day == invoice_day:
 				if (type == 'main' and obj_rent.rent_main_inc) or type == 'rent':
 					is_required = True
+					debug(inv_rent_list)
 					for obj_inv_reg in inv_rent_list:						
 						inv_date = parser.parse(obj_inv_reg.invoice_due_date).date()
 						inv_create = parser.parse(obj_inv_reg.invoice_date).date()
@@ -1007,10 +1008,10 @@ class rent_rent(osv.osv):
 							is_required = False							
 							if (inv_date.month != charge_date.month and inv_date.year != charge_date.year):
 							#if (inv_date.month != charge_date.month and inv_date.year != charge_date.year) and ():
-								debug("NECESITA FACTURA")
-								debug(inv_date)
-								debug(charge_date)
-								debug(today)
+							#	debug("NECESITA FACTURA")
+							#	debug(inv_date)
+							#	debug(charge_date)
+							#	debug(today)
 								is_required = True
 						#elif (inv_date.month == today.month and inv_date.year == today.year):
 			res[obj_rent.id] = is_required
