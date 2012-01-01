@@ -904,7 +904,7 @@ class rent_rent(osv.osv):
 
 		obj_client = obj_rent.rent_rent_client_id
 		a = obj_client.property_account_receivable.id
-		journal_ids = journal_obj.search(cr, uid, [('type', '=','sale'),('company_id', '=',obj_client.company_id.id)],limit=1)
+		journal_ids = journal_obj.search(cr, uid, [('type', '=','sale'),('company_id', '=',obj_rent.company_id.id)],limit=1)
 
 		if not journal_ids:
 			raise osv.except_osv(_('Error !'),
