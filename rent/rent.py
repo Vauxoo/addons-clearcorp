@@ -1017,6 +1017,8 @@ class rent_rent(osv.osv):
 							#	debug(charge_date)
 							#	debug(today)
 								is_required = True
+							else:
+								break
 						#elif (inv_date.month == today.month and inv_date.year == today.year):
 					debug("veces iteradas")
 					debug(i)
