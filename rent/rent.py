@@ -908,7 +908,7 @@ class rent_rent(osv.osv):
 
 		if not journal_ids:
 			raise osv.except_osv(_('Error !'),
-				_('There is no purchase journal defined for this company: "%s" (id:%d)') % (o.company_id.name, o.company_id.id))
+				_('There is no purchase journal defined for this company: "%s" (id:%d)') % (obj_rent.company_id.name, obj_rent.company_id.id))
 		desc = 'Factura por concepto de alquiler de  %s' % (obj_rent.rent_related_real)
 		
 		#Determines if today is the previous month for the invoice creation
@@ -935,7 +935,7 @@ class rent_rent(osv.osv):
 			'invoice_line': il,
 			'fiscal_position': obj_client.property_account_position.id,
 			'payment_term': obj_client.property_payment_term and o.partner_id.property_payment_term.id or False,
-			'company_id': obj_client.company_id.id,
+			'company_id': obj_rent.company_id.id,
 			'date_invoice' : today,
 			'date_due' : date_due,
 		}
@@ -1079,11 +1079,11 @@ class rent_rent(osv.osv):
 
 		obj_client = obj_rent.rent_rent_client_id
 		a = obj_client.property_account_receivable.id
-		journal_ids = journal_obj.search(cr, uid, [('type', '=','sale'),('company_id', '=',obj_client.company_id.id)],limit=1)
+		journal_ids = journal_obj.search(cr, uid, [('type', '=','sale'),('company_id', '=',obj_rent.company_id.id)],limit=1)
 
 		if not journal_ids:
 			raise osv.except_osv(_('Error !'),
-				_('There is no purchase journal defined for this company: "%s" (id:%d)') % (o.company_id.name, o.company_id.id))
+				_('There is no purchase journal defined for this company: "%s" (id:%d)') % (obj_rent.company_id.name, obj_rent.company_id.id))
 		
 		
 		currency = (type=='rent' and obj_rent.currency_id.id or obj_rent.currency_main_id.id)
@@ -1109,7 +1109,7 @@ class rent_rent(osv.osv):
 			'invoice_line': il,
 			'fiscal_position': obj_client.property_account_position.id,
 			'payment_term': obj_client.property_payment_term and o.partner_id.property_payment_term.id or False,
-			'company_id': obj_client.company_id.id,
+			'company_id': obj_rent.company_id.id,
 			'date_invoice' : today,
 			'date_due' : date_due,
 		}
