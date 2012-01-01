@@ -1005,12 +1005,11 @@ class rent_rent(osv.osv):
 						elif (inv_date.month == today.month and inv_date.year == today.year):
 							is_required = False
 							charge_date = today+timedelta(days=obj_rent.rent_main_invoiced_day)
-							if (inv_date.month != charge_date.month and inv_date.year != charge_date.year):
+							if (inv_date.month != charge_date.month and inv_date.year != charge_date.year) and ():
 								debug(inv_date)
 								debug(charge_date)
 								debug("NECESITA FACTURA")
 								is_required = True
-								break
 						#elif (inv_date.month == today.month and inv_date.year == today.year):
 			res[obj_rent.id] = is_required
 		return res
