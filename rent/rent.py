@@ -1107,8 +1107,9 @@ class rent_rent(osv.osv):
 		res['invoice_id'] = inv_id
 		res['rent_id'] = obj_rent.id
 		res['invoice_type'] = type
+		debug(res)
 		#self.register_rent_invoice(cr,uid,ids,res)
-		return True
+		return res
 	
 	def _invoice_data(self,cr,uid,ids,obj_rent,date_range,type='rent'):
 		#creates a dictionary with all the needed data of the rent or maintenance
