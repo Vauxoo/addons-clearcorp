@@ -914,7 +914,6 @@ class rent_rent(osv.osv):
 		if not journal_ids:
 			raise osv.except_osv(_('Error !'),
 				_('There is no purchase journal defined for this company: "%s" (id:%d)') % (obj_rent.company_id.name, obj_rent.company_id.id))
-		desc = 'Factura por concepto de alquiler de  %s' % (obj_rent.rent_related_real)
 		
 		#Determines if today is the previous month for the invoice creation
 		today = current_date
@@ -926,8 +925,10 @@ class rent_rent(osv.osv):
 			date_due = (obj_rent.rent_main_invoiced_day <= obj_rent.rent_main_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
 			date_due = date_due.replace(day=obj_rent.rent_main_charge_day + obj_rent.rent_main_grace_period)
 		
+		desc = "Cobro de %s. Mes %s " % ((type=='rent'and 'alquiler' or 'mantenimiento'),date_due.month)
+		
 		inv = {
-			'name': obj_rent.name or desc,
+			'name': desc or obj_rent.name,
 			'reference': obj_rent.name or desc,
 			'account_id': a,
 			'type': 'out_invoice',
