@@ -1052,11 +1052,12 @@ class rent_rent(osv.osv):
 		il = []
 		debug('INVOICE FOR SERVICES')
 		debug(args)
-		desc = 'Payment of services  %s' % (obj_rent.name)
+		desc = 'Payment of services  '
 		
 		for rlist in args:
 			obj_rent = self.browse(cr,uid,rlist['rent_id'])
 			if (obj_rent.rent_include_water):
+				desc = desc +  obj_rent.name
 				rlist.update({
 							'amount' : 0.0,
 							'desc'   : desc,
