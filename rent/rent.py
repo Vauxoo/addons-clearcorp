@@ -995,7 +995,6 @@ class rent_rent(osv.osv):
 						inv_create = parser.parse(obj_inv_reg.invoice_date).date()
 						#inv_date = parser.parse(obj_inv_reg.invoice_date).date()
 						debug(today)
-						debug(inv_date)
 						if type == 'rent':
 							start_date = parser.parse(obj_rent.rent_start_date).date()
 						elif type == 'main':
@@ -1008,7 +1007,7 @@ class rent_rent(osv.osv):
 							charge_date = today+timedelta(days=obj_rent.rent_main_invoiced_day)
 							if (inv_date.month != charge_date.month and inv_date.year != charge_date.year):
 								debug(inv_date)
-								debug(today)
+								debug(charge_date)
 								debug("NECESITA FACTURA")
 								is_required = True
 								break
