@@ -991,7 +991,7 @@ class rent_rent(osv.osv):
 				if (type == 'main' and obj_rent.rent_main_inc) or type == 'rent':
 					is_required = True
 					debug(inv_rent_list)
-					inv_rent_list = sorted(inv_rent_list,key=lambda reg: datetime.strptime(reg.invoice_due_date,'%Y-%m-%d'),reverse=True)
+					inv_rent_list = sorted(inv_rent_list,key=lambda reg: time.strptime(reg.invoice_due_date,'%Y-%m-%d'),reverse=True)
 					debug(inv_rent_list)
 					i = 0
 					for obj_inv_reg in inv_rent_list:
