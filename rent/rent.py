@@ -918,10 +918,10 @@ class rent_rent(osv.osv):
 		today = current_date
 		debug(today)
 		if type=='rent':
-			date_due = (obj_rent.rent_invoiced_day <= obj_rent.rent_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
+			date_due = (obj_rent.rent_invoiced_day < obj_rent.rent_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
 			date_due = date_due.replace(day=obj_rent.rent_charge_day + obj_rent.rent_grace_period)
 		elif type == 'main':
-			date_due = (obj_rent.rent_main_invoiced_day <= obj_rent.rent_main_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
+			date_due = (obj_rent.rent_main_invoiced_day < obj_rent.rent_main_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
 			date_due = date_due.replace(day=obj_rent.rent_main_charge_day + obj_rent.rent_main_grace_period)
 		
 		desc = "Cobro de %s. Mes %s " % ((type=='rent'and 'alquiler' or 'mantenimiento'),date_due.month)
@@ -1032,10 +1032,10 @@ class rent_rent(osv.osv):
 			
 			if type=='rent':
 				rise_date = parser.parse(obj_rent.rent_start_date).date()
-				charge_date = (obj_rent.rent_invoiced_day <= obj_rent.rent_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
+				charge_date = (obj_rent.rent_invoiced_day < obj_rent.rent_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
 			elif type == 'main':
 				rise_date = parser.parse(obj_rent.rent_main_start_date).date()
-				charge_date = (obj_rent.rent_main_invoiced_day <= obj_rent.rent_main_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
+				charge_date = (obj_rent.rent_main_invoiced_day < obj_rent.rent_main_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
 				
 			rise_date = rise_date.replace(year=today.year)
 			
