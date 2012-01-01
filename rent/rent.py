@@ -907,7 +907,7 @@ class rent_rent(osv.osv):
 			il.append(self.inv_line_create(cr, uid,obj_rent,rlist,type))
 
 		obj_client = obj_rent.rent_rent_client_id
-		a = obj_rent.rent_rent_account_id or obj_client.property_account_receivable.id
+		a = obj_rent.rent_rent_account_id.id or obj_client.property_account_receivable.id
 		#a = obj_client.property_account_receivable.id
 		journal_ids = journal_obj.search(cr, uid, [('type', '=','sale'),('company_id', '=',obj_rent.company_id.id)],limit=1)
 
@@ -1105,7 +1105,7 @@ class rent_rent(osv.osv):
 				il.append(self.inv_line_create(cr, uid,obj_rent,rlist,type))
 
 		obj_client = obj_rent.rent_rent_client_id
-		a = obj_rent.rent_rent_account_id or obj_client.property_account_receivable.id
+		a = obj_rent.rent_rent_account_id.id or obj_client.property_account_receivable.id
 		#a = obj_client.property_account_receivable.id
 		journal_ids = journal_obj.search(cr, uid, [('type', '=','sale'),('company_id', '=',obj_rent.company_id.id)],limit=1)
 
