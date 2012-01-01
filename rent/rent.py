@@ -1189,7 +1189,8 @@ class rent_rent(osv.osv):
 		debug(date_list)
 		for record_date in date_list:
 			is_required = self._invoice_main_required(cr,uid,rent_ids,'rent',record_date)
-			#debug(is_required)
+			debug(record_date)
+			debug(is_required)
 			self._method_invoice_caller(cr,uid,rent_ids,is_required,'rent',record_date)
 		
 			#after we invocied all the rents, now we can proceed with the maintenance 
