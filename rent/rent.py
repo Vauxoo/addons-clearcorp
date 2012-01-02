@@ -1099,12 +1099,13 @@ class rent_rent(osv.osv):
 		il = []
 		debug('INVOICE FOR SERVICES')
 		debug(args)
-		desc = 'Payment of services  '
+		
+		desc = 'Pago de servicios de '
 		
 		for rlist in args:
 			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rlist['rent_id'])
 			if obj_rent.rent_include_water:
-				desc = desc +  obj_rent.name
+				desc = desc + "agua. " + obj_rent.rent_rent_local_id and obj_rent.rent_rent_local_id.local_water_meter_number
 				rlist.update({
 							'amount' : 0.0,
 							'desc'   : desc,
@@ -1112,7 +1113,7 @@ class rent_rent(osv.osv):
 				il.append(self.inv_line_create(cr, uid,obj_rent,rlist,type))
 
 		obj_client = obj_rent.rent_rent_client_id
-		a = obj_rent.rent_inv_account_id.id or obj_rent.rent_rent_account_id.id or obj_client.property_account_receivable.id
+		a = obj_rent.rent_inv_water_account_id or obj_rent.rent_inv_account_id.id or obj_rent.rent_rent_account_id.id or obj_client.property_account_receivable.id
 		#a = obj_client.property_account_receivable.id
 		journal_ids = journal_obj.search(cr, uid, [('type', '=','sale'),('company_id', '=',obj_rent.company_id.id)],limit=1)
 
@@ -1127,7 +1128,7 @@ class rent_rent(osv.osv):
 		today = current_date
 		debug(today)
 		if type=='rent':
-			date_due = (obj_rent.rent_invoiced_day <= obj_rent.rent_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
+			date_due = (obj_rent.rent_invoiced_day < obj_rent.rent_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
 			date_due = date_due.replace(day=obj_rent.rent_charge_day + obj_rent.rent_grace_period)
 		
 		period_id = False
