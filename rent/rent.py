@@ -1099,12 +1099,13 @@ class rent_rent(osv.osv):
 		il = []
 		debug('INVOICE FOR SERVICES')
 		debug(args)
-		desc = 'Payment of services  '
+		
+		desc = 'Pago de servicios de '
 		
 		for rlist in args:
 			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rlist['rent_id'])
 			if obj_rent.rent_include_water:
-				desc = desc +  obj_rent.name
+				desc = desc + "agua. " + obj_rent.rent_rent_local_id and obj_rent.rent_rent_local_id.local_water_meter_number
 				rlist.update({
 							'amount' : 0.0,
 							'desc'   : desc,
@@ -1112,7 +1113,7 @@ class rent_rent(osv.osv):
 				il.append(self.inv_line_create(cr, uid,obj_rent,rlist,type))
 
 		obj_client = obj_rent.rent_rent_client_id
-		a = obj_rent.rent_inv_account_id.id or obj_rent.rent_rent_account_id.id or obj_client.property_account_receivable.id
+		a = obj_rent.rent_inv_water_account_id or obj_rent.rent_inv_account_id.id or obj_rent.rent_rent_account_id.id or obj_client.property_account_receivable.id
 		#a = obj_client.property_account_receivable.id
 		journal_ids = journal_obj.search(cr, uid, [('type', '=','sale'),('company_id', '=',obj_rent.company_id.id)],limit=1)
 
@@ -1127,7 +1128,7 @@ class rent_rent(osv.osv):
 		today = current_date
 		debug(today)
 		if type=='rent':
-			date_due = (obj_rent.rent_invoiced_day <= obj_rent.rent_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
+			date_due = (obj_rent.rent_invoiced_day < obj_rent.rent_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
 			date_due = date_due.replace(day=obj_rent.rent_charge_day + obj_rent.rent_grace_period)
 		
 		period_id = False
@@ -1515,9 +1516,9 @@ class rent_rent(osv.osv):
 		'rent_group_id'         : fields.many2one('rent.rent.group','Contract Group',ondelete='cascade', readonly=True),
 		'rent_modif_date'       : fields.date('Modification Date',readonly=True),
 		
-		'rent_inv_account_id'   : fields.many2one('account.account','Invoice Account',help="This account will be used for invoices instead of the default one to value sales for the current rent",required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_rent_account_id'  : fields.many2one('account.account','Income Account',help="This account will be used for invoices instead of the default one to value sales for the current rent",required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_rent_acc_int_id'  : fields.many2one('account.account','Interest Account',help="This account will be used for invoices instead of the default one to value expenses for the current rent",required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_inv_account_id'   : fields.many2one('account.account','Invoice Account',help="This account will be used for invoices instead of the default one to value sales for the current rent",required=True,states={'finished':[('readonly',True)]}),
+		'rent_rent_account_id'  : fields.many2one('account.account','Income Account',help="This account will be used for invoices instead of the default one to value sales for the current rent",required=True,states={'finished':[('readonly',True)]}),
+		'rent_rent_acc_int_id'  : fields.many2one('account.account','Interest Account',help="This account will be used for invoices instead of the default one to value expenses for the current rent",required=True,states={'finished':[('readonly',True)]}),
 		#'rent_rent_account_id'  : fields.property(
 		#	'account.account',
 		#	type='many2one',
@@ -1536,7 +1537,7 @@ class rent_rent(osv.osv):
 		#	help="This account will be used for invoices instead of the default one to value expenses for the current rent",required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rent_real_area'   : fields.function(_get_total_area,type='float',method=True,string='Area'),
 		
-		'rent_main_inc'              : fields.boolean('Include Maintenance Rent'),
+		'rent_main_inc'              : fields.boolean('Include Maintenance Rent',states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		
 		#'rent_main_rise'             : fields.char('Anual Rise',size=64, states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_main_rise'             : fields.float('Anual Rise', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
@@ -1563,16 +1564,20 @@ class rent_rent(osv.osv):
 		'rent_main_invoiced_day'     : fields.integer('Invoiced Day',states={'active':[('readonly',True)], 'finished':[('readonly',True)]},help='Indicates de how many days before of the charge day will create the invoice'),
 		'rent_main_grace_period'     : fields.integer('Grace Period',states={'active':[('readonly',True)], 'finished':[('readonly',True)]},help='Indicates de how many days after the charge day will allow to paid an invoice without Interest for delay'),   
 		
-		'rent_rent_main_account_id'  : fields.many2one('account.account','Income Account',help="This account will be used for invoices instead of the default one to value sales for the current rent",states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_rent_main_acc_int_id'  : fields.many2one('account.account','Interest Account',help="This account will be used for invoices instead of the default one to value expenses for the current rent",states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_inv_main_account_id'   : fields.many2one('account.account','Invoice Account',help="This account will be used for invoices instead of the default one to value expenses for the current rent",states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_rent_main_account_id'  : fields.many2one('account.account','Income Account',help="This account will be used for invoices instead of the default one to value sales for the current rent",states={'finished':[('readonly',True)]}),
+		'rent_rent_main_acc_int_id'  : fields.many2one('account.account','Interest Account',help="This account will be used for invoices instead of the default one to value expenses for the current rent",states={'finished':[('readonly',True)]}),
+		'rent_inv_main_account_id'   : fields.many2one('account.account','Invoice Account',help="This account will be used for invoices instead of the default one to value expenses for the current rent",states={'finished':[('readonly',True)]}),
 		
 		'rent_main_end_date'         : fields.date('Ending Date', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_main_start_date'       : fields.date('Starting Date', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		
 		'rent_notes'                 : fields.text('Notes',help='Add complementary information about the rent or maintenance'),
+		'main_notes'                 : fields.text('Notes',help='Add complementary information about the rent or maintenance'),
+		
 		'rent_include_water'         : fields.boolean('Include water payment',readonly=True, states={'draft':[('readonly',False)]},help="Check if you want to generate an invoice for the water payment"),
-		'company_id'                 : fields.many2one('res.company', 'Company'),
+		'rent_inv_water_account_id'  : fields.many2one('account.account','Water payment Account',help="This account will be used for invoices of water instead of the default one to value expenses for the current rent",states={'finished':[('readonly',True)]}),
+		
+		'company_id'                 : fields.many2one('res.company', 'Company',readonly=True),
 		'rent_deposit'               : fields.float('Deposit', required=True, states={'finished':[('readonly',True)]}),
 		
 		'active'                     : fields.boolean('Active', help="If the active field is set to False, it will allow you to hide the resource record without removing it."),
