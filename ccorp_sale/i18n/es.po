@@ -1,167 +1,118 @@
-# Translation of OpenERP Server.
-# This file contains the translation of the following modules:
-#	* ccorp_sale
+# Spanish translation for openerp-ccorp-addons
+# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
+# This file is distributed under the same license as the openerp-ccorp-addons package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 6.0.1\n"
-"Report-Msgid-Bugs-To: support@openerp.com\n"
+"Project-Id-Version: openerp-ccorp-addons\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-14 17:23+0000\n"
-"PO-Revision-Date: 2011-03-14 17:23+0000\n"
-"Last-Translator: <>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2011-11-16 05:10+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-02-26 05:56+0000\n"
-"X-Generator: Launchpad (build 12351)\n"
+"X-Launchpad-Export-Date: 2011-11-29 06:07+0000\n"
+"X-Generator: Launchpad (build 14399)\n"
 
 #. module: ccorp_sale
-#: model:ir.module.module,description:ccorp_sale.module_meta_information
-msgid ""
-"ClearCorp 'sale' modifications:
-"    Reports:
-"      * Sale Order / Quotation
-"    "
+#: report:sale_order.layout_ccorp:0
+msgid "Order Nº "
 msgstr ""
-"ClearCorp 'sale' modifications:
-"    Reports:
-"      * Sale Order / Quotation
-"    "
-
-#. module: ccorp_sale
-#: model:ir.module.module,shortdesc:ccorp_sale.module_meta_information
-msgid "ClearCorp sale module modifications"
-msgstr "ClearCorp sale module modifications"
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
-msgid "Order N°"
-msgstr "Orden N°"
+msgid "Quotation Nº "
+msgstr ""
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
-msgid "Quotation N°"
-msgstr "Cotizatión N°"
+msgid "Date: "
+msgstr ""
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
-msgid "Date:"
-msgstr "Fecha:"
+msgid "ID Num.: "
+msgstr ""
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
-msgid "Ref.:"
-msgstr "Ref.:"
+msgid "Tel-fax: "
+msgstr ""
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
-msgid "ID Num.:"
-msgstr "ID:"
+msgid "Email: "
+msgstr ""
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
-msgid "Tel-fax:"
-msgstr "Tel-fax:"
-
-#. module: ccorp_sale
-#: report:sale.order.layout_ccorp:0
-msgid "Email:"
-msgstr "Email:"
-
-#. module: ccorp_sale
-#: report:sale.order.layout_ccorp:0
-msgid "Web:"
-msgstr "Web:"
+msgid "Web: "
+msgstr ""
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
 msgid "Address:"
-msgstr "Dirección:"
+msgstr ""
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
-msgid "Phone:"
-msgstr "Tel:"
+msgid "Phone: "
+msgstr ""
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
-msgid "Invoice address:"
-msgstr "Dirección de factura:"
-
-#. module: ccorp_sale
-#: report:sale.order.layout_ccorp:0
-msgid "Shipping address:"
-msgstr "Dirección de envío:"
-
-#. module: ccorp_sale
-#: report:sale.order.layout_ccorp:0
-msgid "Page:"
-msgstr "Pág.:"
+msgid "Page: "
+msgstr ""
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
 msgid "Thank you for choosing us."
-msgstr "Gracias por preferir nuestros servicios."
+msgstr ""
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
 msgid "Qty."
-msgstr "Cant."
+msgstr ""
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
 msgid "[Code] Description / (Taxes)"
-msgstr "[Cód.] Descripción / (Imp.)"
+msgstr ""
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
 msgid "Disc."
-msgstr "Desc."
+msgstr ""
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
 msgid "Unit Price"
-msgstr "Precio Unit."
+msgstr ""
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
 msgid "Total Price"
-msgstr "Precio Total"
+msgstr ""
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
 msgid "Subtotal"
-msgstr "Subtotal"
+msgstr ""
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
 msgid "Discount"
-msgstr "Descuento"
+msgstr ""
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
 msgid "Taxes"
-msgstr "Impuestos"
+msgstr ""
 
 #. module: ccorp_sale
 #: report:sale.order.layout_ccorp:0
 msgid "TOTAL"
-msgstr "TOTAL"
-
-#. module: ccorp_sale
-#: report:sale.order.layout_ccorp:0
-msgid "Note:"
-msgstr "Nota:"
-
-#. module: ccorp_sale
-#: report:sale.order.layout_ccorp:0
-msgid "Order notes:"
-msgstr "Notas de orden:"
-
-#. module: ccorp_sale
-#: report:sale.order.layout_ccorp:0
-msgid "Payment notes:"
-msgstr "Notas de pago:"
+msgstr ""
