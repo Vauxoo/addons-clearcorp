@@ -1565,7 +1565,7 @@ class rent_rent(osv.osv):
 		
 		'rent_rent_main_account_id'  : fields.many2one('account.account','Income Account',help="This account will be used for invoices instead of the default one to value sales for the current rent",states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rent_main_acc_int_id'  : fields.many2one('account.account','Interest Account',help="This account will be used for invoices instead of the default one to value expenses for the current rent",states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
-		'rent_inv_main_acc_int_id'   : fields.many2one('account.account','Invoice Account',help="This account will be used for invoices instead of the default one to value expenses for the current rent",states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
+		'rent_inv_main_account_id'   : fields.many2one('account.account','Invoice Account',help="This account will be used for invoices instead of the default one to value expenses for the current rent",states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		
 		'rent_main_end_date'         : fields.date('Ending Date', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_main_start_date'       : fields.date('Starting Date', states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
