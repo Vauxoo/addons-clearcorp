@@ -945,7 +945,10 @@
 							<field name = "active"/>
 							<field name = "rent_include_water" attrs = "{'invisible' : [('rent_related_real','not in',['local'])], 'readonly' : [('rent_rent_local_id.local_water_meter_number','=','')]}"/>
 						</group>
-						<field name = "rent_main_inc"/>
+						<group colspan = "2" col = "6">
+							<field name = "rent_main_inc"/>
+							<field name = "company_id"/>
+						</group>
 					</group>
 					<notebook>
 						<page string = "Rent">
@@ -954,6 +957,7 @@
 								<field name="rent_rent_account_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"  groups="base.group_extended"/>
 								<field name="rent_rent_acc_int_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" groups="base.group_extended"/>
 								<field name="rent_inv_account_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" groups="base.group_extended"/>
+								<field name="rent_inv_water_account_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" groups="base.group_extended"/>
 							</group>
 							<group col = "4" colspan = "4">
 								<field name = "rent_charge_day"/>
@@ -1075,6 +1079,9 @@
 								</page>
 								<page string = "Facturas">
 									<field name = "rent_main_invoice_ids" nolabel="1"/>
+								</page>
+								<page string = "Notes">
+									<field name = "main_notes" nolabel="1"/>
 								</page>
 							</notebook>
 						</page>
