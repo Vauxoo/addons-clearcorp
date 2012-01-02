@@ -907,7 +907,7 @@ class rent_rent(osv.osv):
 			il.append(self.inv_line_create(cr, uid,obj_rent,rlist,type))
 
 		obj_client = obj_rent.rent_rent_client_id
-		a = obj_rent.rent_rent_account_id.id or obj_client.property_account_receivable.id
+		a = obj_rent.rent_inv_account_id.id or obj_rent.rent_rent_account_id.id or obj_client.property_account_receivable.id
 		#a = obj_client.property_account_receivable.id
 		journal_ids = journal_obj.search(cr, uid, [('type', '=','sale'),('company_id', '=',obj_rent.company_id.id)],limit=1)
 
@@ -1105,7 +1105,7 @@ class rent_rent(osv.osv):
 				il.append(self.inv_line_create(cr, uid,obj_rent,rlist,type))
 
 		obj_client = obj_rent.rent_rent_client_id
-		a = obj_rent.rent_rent_account_id.id or obj_client.property_account_receivable.id
+		a = obj_rent.rent_inv_account_id.id or obj_rent.rent_rent_account_id.id or obj_client.property_account_receivable.id
 		#a = obj_client.property_account_receivable.id
 		journal_ids = journal_obj.search(cr, uid, [('type', '=','sale'),('company_id', '=',obj_rent.company_id.id)],limit=1)
 
@@ -1501,6 +1501,8 @@ class rent_rent(osv.osv):
 		
 		'rent_group_id'         : fields.many2one('rent.rent.group','Contract Group',ondelete='cascade', readonly=True),
 		'rent_modif_date'       : fields.date('Modification Date',readonly=True),
+		
+		'rent_inv_account_id'   : fields.many2one('account.account','Invoice Account',help="This account will be used for invoices instead of the default one to value sales for the current rent",required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rent_account_id'  : fields.many2one('account.account','Income Account',help="This account will be used for invoices instead of the default one to value sales for the current rent",required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_rent_acc_int_id'  : fields.many2one('account.account','Interest Account',help="This account will be used for invoices instead of the default one to value expenses for the current rent",required=True,states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		#'rent_rent_account_id'  : fields.property(
