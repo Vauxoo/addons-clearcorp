@@ -929,6 +929,12 @@ class rent_rent(osv.osv):
 		
 		inv_date = date_due - timedelta(days= obj_rent.rent_main_grace_period + obj_rent.rent_invoiced_day)
 		
+		period_id = False
+		if not period_id:
+			period_ids = self.pool.get('account.period').search(cr, uid, [('date_start','<=', date_due or time.strftime('%Y-%m-%d')),('date_stop','>=',date_due or time.strftime('%Y-%m-%d')), ('company_id', '=', obj_rent.company_id.id)])
+			if period_ids:
+				period_id = period_ids[0]
+		
 		inv = {
 			'name': desc or obj_rent.name,
 			'reference': obj_rent.name or desc,
@@ -946,6 +952,7 @@ class rent_rent(osv.osv):
 			'company_id': obj_rent.company_id.id,
 			'date_invoice' : inv_date or today,
 			'date_due' : date_due,
+			'period_id' : period_id or False,
 		}
 		inv_id = self.pool.get('account.invoice').create(cr, uid, inv, {'type':'out_invoice'})
 		self.pool.get('account.invoice').button_compute(cr, uid, [inv_id], {'type':'out_invoice'}, set_total=True)
@@ -1123,6 +1130,11 @@ class rent_rent(osv.osv):
 			date_due = (obj_rent.rent_invoiced_day <= obj_rent.rent_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
 			date_due = date_due.replace(day=obj_rent.rent_charge_day + obj_rent.rent_grace_period)
 		
+		period_id = False
+		if not period_id:
+			period_ids = self.pool.get('account.period').search(cr, uid, [('date_start','<=', date_due or time.strftime('%Y-%m-%d')),('date_stop','>=',date_due or time.strftime('%Y-%m-%d')), ('company_id', '=', obj_rent.company_id.id)])
+			if period_ids:
+				period_id = period_ids[0]
 		inv = {
 			'name': obj_rent.name or desc,
 			'reference': obj_rent.name or desc,
@@ -1140,6 +1152,7 @@ class rent_rent(osv.osv):
 			'company_id': obj_rent.company_id.id,
 			'date_invoice' : today,
 			'date_due' : date_due,
+			'period_id' : period_id or False,
 		}
 		inv_id = self.pool.get('account.invoice').create(cr, uid, inv, {'type':'out_invoice'})
 		self.pool.get('account.invoice').button_compute(cr, uid, [inv_id], {'type':'out_invoice'}, set_total=True)
