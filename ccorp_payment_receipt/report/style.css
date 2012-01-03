@@ -114,20 +114,20 @@ body {
 }
 
 #signature {
-	width : 40%;
 	height : 50px;
 	background-color : dark-grey;
-	border-top: 1px solid black;
+	border: 1px solid black;
 	margin-left : 10px;
+	float : left;
 }
 .sign_detail {
 	margin-bottom : 20px;
 }
 
 .payment_method{
-	width : 50%;
+	width : 40%;
 	float :left;
-	margin-left : 5px;
+	margin-left : 10px;
 }
 
 #val_first{
@@ -141,4 +141,9 @@ body {
 	margin-bottom : 20px;
 }
 
+.line{
+	width : 40%;
+	float :left;
+	margin-left : 10px;
+}
 

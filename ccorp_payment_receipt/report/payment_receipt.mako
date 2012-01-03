@@ -29,7 +29,7 @@
 		<hr/>
 		<div id = "validation">
 			<div id = "val_first">
-				<div  class = "payment_method">
+				<div  class = "line">
 					<hr/>
 				</div>
 				<div class = "payment_method">
