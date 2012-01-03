@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    __init__.py
-#    ccorp_account
+#    payment_receipt
 #    First author: Carlos Vásquez <carlos.vasquez@clearcorp.co.cr> (ClearCorp S.A.)
 #    Copyright (c) 2010-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
 #    
@@ -32,4 +32,4 @@
 #    
 ##############################################################################
 
-import cic_voucher_report
+import payment_receipt
