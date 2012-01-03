@@ -2,6 +2,6 @@
 <openerp>
 	<data>
 		<report auto="False" id="account_voucher_ccorp" model="account.voucher" 
-		name="account.voucher.layout_ccorp"  file="cic_voucher/report/invoice.mako" string="Payment Voucher" report_type="webkit"/>
+		name="account.voucher.layout_ccorp"  file="ccorp_payment_receipt/report/payment_receipt.mako" string="Payment Voucher" report_type="webkit"/>
 	</data>
 </openerp>
