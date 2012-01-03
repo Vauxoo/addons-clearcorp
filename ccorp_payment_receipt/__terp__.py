@@ -45,7 +45,8 @@
     """,
     'depends': [
         'account',
-        'account_payment_method',
+        'account_voucher_payment_method',
+        'base_currency_symbol',
         'report_webkit',
         ],
     'init_xml': [],
