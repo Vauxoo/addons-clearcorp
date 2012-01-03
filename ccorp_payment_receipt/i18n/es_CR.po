@@ -16,12 +16,12 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: ccorp_payment_receipt
-#: report:addons/ccorp_payment_receipt/report/payment_receipt.mako:39
+#: report:report.account.voucher.layout_ccorp:39
 msgid "Check No."
 msgstr "CHEQUE No."
 
 #. module: ccorp_payment_receipt
-#: report:addons/ccorp_payment_receipt/report/payment_receipt.mako:13
+#: report:report.account.voucher.layout_ccorp:13
 msgid "No."
 msgstr "No."
 
@@ -31,42 +31,42 @@ msgid "Payment Voucher"
 msgstr "Imprimir Recibo"
 
 #. module: ccorp_payment_receipt
-#: report:addons/ccorp_payment_receipt/report/payment_receipt.mako:46
+#: report:report.account.voucher.layout_ccorp:46
 msgid "AUTORIZADO MEDIANTE OFICIO No.04-00007-97 DE FECHA 30-09-97 DE LA D.G.T.D."
 msgstr "AUTORIZADO MEDIANTE OFICIO No.04-00007-97 DE FECHA 30-09-97 DE LA D.G.T.D."
 
 #. module: ccorp_payment_receipt
-#: report:addons/ccorp_payment_receipt/report/payment_receipt.mako:23
+#: report:report.account.voucher.layout_ccorp:23
 msgid "Concept of"
 msgstr "POR CONCEPTO DE"
 
 #. module: ccorp_payment_receipt
-#: report:addons/ccorp_payment_receipt/report/payment_receipt.mako:45
+#: report:report.account.voucher.layout_ccorp:45
 msgid "LA VALIDEZ DE ESTE RECIBO QUEDA SUJETA A QUE LOS CHEQUES RECIBIDOS SEAN PAGADOS POR EL BANCO A NUESTRA SATISFACCION"
 msgstr "LA VALIDEZ DE ESTE RECIBO QUEDA SUJETA A QUE LOS CHEQUES RECIBIDOS SEAN PAGADOS POR EL BANCO A NUESTRA SATISFACCION"
 
 #. module: ccorp_payment_receipt
-#: report:addons/ccorp_payment_receipt/report/payment_receipt.mako:37
+#: report:report.account.voucher.layout_ccorp:37
 msgid "Cash"
 msgstr "EFECTIVO"
 
 #. module: ccorp_payment_receipt
-#: report:addons/ccorp_payment_receipt/report/payment_receipt.mako:20
+#: report:report.account.voucher.layout_ccorp:20
 msgid "The amount of"
 msgstr "LA SUMA DE"
 
 #. module: ccorp_payment_receipt
-#: report:addons/ccorp_payment_receipt/report/payment_receipt.mako:26
+#: report:report.account.voucher.layout_ccorp:26
 msgid "Observations"
 msgstr "OBSERVACIONES"
 
 #. module: ccorp_payment_receipt
-#: report:addons/ccorp_payment_receipt/report/payment_receipt.mako:49
+#: report:report.account.voucher.layout_ccorp:49
 msgid "P/"
 msgstr "P/"
 
 #. module: ccorp_payment_receipt
-#: report:addons/ccorp_payment_receipt/report/payment_receipt.mako:17
+#: report:report.account.voucher.layout_ccorp:17
 msgid "We recieve from"
 msgstr "RECIBIMOS DE"
 
@@ -77,5 +77,5 @@ msgstr "RECIBO DE DINERO"
 
 #. module: ccorp_payment_receipt
 #: report:report.account.voucher.layout_ccorp:1
-msgid "DATE"
+msgid "Date"
 msgstr "FECHA"
