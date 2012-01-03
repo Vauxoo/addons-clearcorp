@@ -1,20 +1,11 @@
-body {
-
-}
-
 /*HEADER*/
 .header {
-	padding : 200px 10px 5px 10px;
+	padding : 100px 10px 5px 10px;
 	border:0; margin: 0;
 }
 .header-table {
 	width: 100%;
 	padding-top: 8%;
-}
-.partner-table {
-	width: 100%;
-	font-family: Arial,Verdana, Sans, Serif;
-	font-size: 12;
 }
 
 .title {
@@ -37,9 +28,6 @@ body {
 }
 /*BODY*/
 
-#wrapper{
-
-}
 
 #document_data{
 	margin : 10px;
@@ -53,34 +41,17 @@ body {
 }
 
 #date {
-	margin : 20px 0px 5px 600px;
+	margin : 20px 0px 5px 400px;
 }
 
 .detail {
-	margin-top : 20px;
+	margin-top : 10px;
 	width : 100%;
-}
-
-.amount_detail {
-	margin : 0px 0px 0px 10px;
-}
-
-#document_desc {
-	height : 110px;
-	margin-bottom : 7px;
-	width : 100%;
-}
-
-.detail_desc{
-	font-family : courier, arial, sans, serif;
-	font-size : 10px;
-	font-style : italic;
 }
 
 .text_font{
 	font-family : courier, arial, sans, serif;
 	font-size : 14px;
-	font-style : bold;
 	font-style : bold;
 }
 
@@ -97,11 +68,6 @@ body {
 	font-style : bold;
 }
 
-#validation {
-	padding : 5px;
-	width : 100%;
-}
-
 #info{
 	width : 50%;
 	float : left;
@@ -114,20 +80,19 @@ body {
 }
 
 #signature {
-	height : 50px;
 	background-color : dark-grey;
 	border: 1px solid black;
 	margin-left : 10px;
 	float : left;
 }
 .sign_detail {
-	margin-bottom : 20px;
+	padding : 10px;
 }
 
 .payment_method{
-	width : 40%;
+	width : 50%;
 	float :left;
-	margin-left : 10px;
+	margin-left : 30px;
 }
 
 #val_first{
@@ -138,11 +103,10 @@ body {
 
 #val_second{
 	width : 100%;
-	margin-bottom : 20px;
 }
 
 .line{
-	width : 40%;
+	width : 30%;
 	float :left;
 	margin-left : 10px;
 }

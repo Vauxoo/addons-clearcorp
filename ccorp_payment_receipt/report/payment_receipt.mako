@@ -33,11 +33,11 @@
 					<hr/>
 				</div>
 				<div class = "payment_method">
-				%if check.journal_id.type == 'cash':
-					<span class = "amount">${_("Cash")}
-				%elif check.journal_id.type == 'bank':
-					<span class = "amount">${_("Check No.")}: <span class = "amount">${check.reference or ''|entity }</span>
-				%endif
+					%if check.journal_id.type == 'cash':
+						<span class = "amount">${_("Cash")}</span>
+					%elif check.journal_id.type == 'bank':
+						${_("Check No.")}: <span class = "amount">${check.reference or ''|entity }</span>
+					%endif
 				</div>
 			</div>
 			<div id = "val_second">
