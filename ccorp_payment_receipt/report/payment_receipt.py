@@ -49,7 +49,7 @@ class payment_receipt(report_sxw.rml_parse):
         })
             
     def get_text(self,amount,currency):
-		res = number_to_text_es(amount,currency)
+		res = number_to_text_es(amount,currency.currency_name or currency.name or ' ')
 		return res
 		
 report_sxw.report_sxw(
