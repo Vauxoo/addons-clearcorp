@@ -71,22 +71,22 @@
 }
 
 .info{
-	padding-top : 20px;
+	padding-top : 35px;
 }
 
 .info_detail{
 	font-family : courier, arial, sans, serif;
-	font-size : 12px;
+	font-size : 9px;
 	font-style : italic;
 }
 
 .signature {
 	background-color : #D4CCC5;
 	border: 1px solid black;
-	padding-left : 10px;
+	-webkit-border-radius: 10px;
 }
 .sign_detail {
-	padding : 10px;
+	margin-bottom : 40px;
 }
 
 .payment_method{
@@ -114,4 +114,8 @@
 #validation {
 	border-collapse:separate;
 	border-spacing: 10px;
+}
+
+#wrapper{
+	margin-top : 100px;
 }

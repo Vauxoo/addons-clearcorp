@@ -11,7 +11,7 @@
 		<div id = "document_data">
 			<div id = "date">
 				<div id="number">${_("No.")}  ${check.number or ''|entity}</div>
-				<div class="text_font">${check.date or ''|entity}</div>
+				<div class="text_font">${_("Date")}: ${check.date or ''|entity}</div>
 			</div>
 			<div class = "detail">
 				${_("We recieve from")}: <span class="text_font">${check.partner_id.name or ''|entity}</span>
