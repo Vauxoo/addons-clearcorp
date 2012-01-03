@@ -52,6 +52,7 @@
 			</div>
 		</div>
 	</div>
+<p style="page-break-after:always"></p>
 %endfor
 </body>
 </html>
