@@ -73,5 +73,5 @@ msgstr "RECIBIMOS DE"
 #. module: ccorp_payment_receipt
 #: report.account.voucher.layout_ccorp:1
 msgid "MONEY RECEIPT"
-msgid "RECIBO DE DINERO"
+msgstr "RECIBO DE DINERO"
 
