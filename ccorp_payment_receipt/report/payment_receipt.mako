@@ -14,9 +14,7 @@
 				<div class="text_font">${check.date or ''|entity}</div>
 			</div>
 			<div class = "detail">
-				<div class = "detail_line">
-					${_("We recieve from")}: <span class="text_font">${check.partner_id.name or ''|entity}</span>
-				</div>
+				${_("We recieve from")}: <span class="text_font">${check.partner_id.name or ''|entity}</span>
 			</div>
 			<div class = "detail">
 				${_("The amount of")}: <span class = "amount_text">${get_text(check.amount,check.currency_id) or ''|entity}</span>
