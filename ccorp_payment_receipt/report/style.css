@@ -1,0 +1,88 @@
+body {
+
+}
+
+#wrapper{
+
+}
+
+#document_data{
+	padding : 5px;
+	width : 100%;
+}
+
+#number{
+	text-align : center;
+	color : red;
+	font-size : 2em;
+}
+
+#date {
+	margin : 20px 0px 5px 400px;
+}
+
+.detail {
+	margin-top : 20px;
+	width : 100%;
+}
+
+.amount_detail {
+	margin : 0px 0px 0px 10px;
+}
+
+#document_desc {
+	height : 110px;
+	margin-bottom : 7px;
+	width : 100%;
+}
+
+.detail_desc{
+	font-family : courier, arial, sans, serif;
+	font-size : 10px;
+	font-style : italic;
+}
+
+.text_font{
+	font-family : courier, arial, sans, serif;
+	font-size : 14px;
+	font-style : bold;
+}
+
+.detail_line{
+	width : 100%;
+	float : left;
+	margin-left : 70px;
+}
+.amount_text{
+	font-family : courier, arial, sans, serif;
+	font-size : 16px;
+	font-style : italic;
+	margin : 5px;
+	width : 100%;
+	font-style : bold;
+}
+
+#validation {
+	padding : 5px;
+	width : 100%;
+}
+
+#info{
+	width : 50%;
+	float : left;
+}
+
+.info_detail{
+	font-family : courier, arial, sans, serif;
+	font-size : 12px;
+	font-style : italic;
+}
+
+#signature {
+	width : 50%;
+}
+
+.payment_method{
+	width : 50%;
+	float :left;
+}
