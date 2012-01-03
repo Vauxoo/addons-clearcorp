@@ -2,6 +2,41 @@ body {
 
 }
 
+/*HEADER*/
+.header {
+	padding : 200px 10px 5px 10px;
+	border:0; margin: 0;
+}
+.header-table {
+	width: 100%;
+	padding-top: 8%;
+}
+.partner-table {
+	width: 100%;
+	font-family: Arial,Verdana, Sans, Serif;
+	font-size: 12;
+}
+
+.title {
+	font-size:16;
+	font-weight: bold;
+}
+
+.company_address{
+	width : 100%;
+	text-align: right;
+	font-family: Arial,Verdana, Sans, Serif;
+	font-size: 13;
+}
+
+.company_data {
+	width : 100%;
+	text-align: center;
+	font-family: Arial,Verdana, Sans, Serif;
+	font-size: 13;
+}
+/*BODY*/
+
 #wrapper{
 
 }
@@ -14,11 +49,11 @@ body {
 #number{
 	text-align : center;
 	color : red;
-	font-size : 2em;
+	font-size : 0.9em;
 }
 
 #date {
-	margin : 20px 0px 5px 400px;
+	margin : 20px 0px 5px 600px;
 }
 
 .detail {
@@ -46,12 +81,12 @@ body {
 	font-family : courier, arial, sans, serif;
 	font-size : 14px;
 	font-style : bold;
+	font-style : bold;
 }
 
 .detail_line{
 	width : 100%;
 	float : left;
-	margin-left : 70px;
 }
 .amount_text{
 	font-family : courier, arial, sans, serif;
@@ -70,6 +105,7 @@ body {
 #info{
 	width : 50%;
 	float : left;
+	margin-left : 20px;
 }
 
 .info_detail{
@@ -80,9 +116,29 @@ body {
 
 #signature {
 	width : 50%;
+	height : 50px;
+	background-color : dark-grey;
+	border-top: 1px solid black;
+}
+.sign_detail {
+	margin-bottom : 30px;
 }
 
 .payment_method{
 	width : 50%;
 	float :left;
+	margin-left : 20px;
 }
+
+#val_first{
+	width : 100%;
+	margin-top : 20px;
+	margin-bottom : 20px;
+}
+
+#val_second{
+	width : 100%;
+	margin-bottom : 20px;
+}
+
+

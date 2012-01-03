@@ -28,8 +28,9 @@
 				${_("Observations")}: <span class = "text_font"> ${check.narration or ''|entity}</span>
 			</div>
 		</div>
+		<hr/>
 		<div id = "validation">
-			<div>
+			<div id = "val_first">
 				<div  class = "payment_method">
 					<hr/>
 				</div>
@@ -41,13 +42,15 @@
 				%endif
 				</div>
 			</div>
-			<div id = "info">
-				<span class = "info_detail">${_("LA VALIDEZ DE ESTE RECIBO QUEDA SUJETA A QUE LOS CHEQUES RECIBIDOS SEAN PAGADOS POR EL BANCO A NUESTRA SATISFACCION")}</span>
-				<span class = "info_detail">${_("AUTORIZADO MEDIANTE OFICIO No.04-00007-97 DE FECHA 30-09-97 DE LA D.G.T.D.")}</span>
-			</div>
-			<div id = "signature">
-				<span class = "sign_detail">${_("P/")} ${check.company_id.partner_id.name or ''|entity }</span>
-				<hr/>
+			<div id = "val_second">
+				<div id = "info">
+					<span class = "info_detail">${_("LA VALIDEZ DE ESTE RECIBO QUEDA SUJETA A QUE LOS CHEQUES RECIBIDOS SEAN PAGADOS POR EL BANCO A NUESTRA SATISFACCION")}</span>
+					<span class = "info_detail">${_("AUTORIZADO MEDIANTE OFICIO No.04-00007-97 DE FECHA 30-09-97 DE LA D.G.T.D.")}</span>
+				</div>
+				<div id = "signature">
+					<span class = "sign_detail">${_("P/")} ${check.company_id.partner_id.name or ''|entity }</span>
+					<hr/>
+				</div>
 			</div>
 		</div>
 	</div>
