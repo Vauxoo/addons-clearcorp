@@ -90,7 +90,7 @@ def number_to_text_es(number_in,currency,join_dec=' y '):
     if (len(number_dec) < 2 ):
       number_dec+='0'         
 
-    converted += currency + join_dec + number_dec + "céntimos"
+    converted += currency + join_dec + number_dec + " CENTIMOS"
 
     return converted
                     
