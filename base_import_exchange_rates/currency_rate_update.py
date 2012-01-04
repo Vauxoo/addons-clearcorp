@@ -92,7 +92,7 @@ class Currency_rate_update(osv.osv):
     _description = "Currency Rate Update"
     ##dict that represent a cron object
     cron = {
-            'active'          : True,
+            'active'          : False,
             'priority'        : 1,
             'interval_number' : 1,
             'interval_type'   : 'minutes',
