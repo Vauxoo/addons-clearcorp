@@ -34,9 +34,9 @@
 				</td>
 				<td class = "payment_method">
 					%if check.journal_id.type == 'cash':
-						<span class = "amount">${_("Cash")}</span>
+						<span class = "amount">&nbsp;</span>
 					%elif check.journal_id.type == 'bank':
-						<span class="text_doct">${_("Check No.")}:</span> <span class = "amount">${check.reference or ''|entity }</span>
+						<span class="text_doct">&nbsp;</span> <span class = "amount">&nbsp;</span>
 					%endif
 				</td>
 			</tr>
