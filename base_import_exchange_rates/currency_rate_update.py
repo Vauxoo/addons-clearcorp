@@ -92,10 +92,10 @@ class Currency_rate_update(osv.osv):
     _description = "Currency Rate Update"
     ##dict that represent a cron object
     cron = {
-            'active'          : False,
+            'active'          : True,
             'priority'        : 1,
             'interval_number' : 1,
-            'interval_type'   : 'weeks',
+            'interval_type'   : 'minutes',
             'nextcall'        : time.strftime("%Y-%m-%d %H:%M:%S", (datetime.today() + timedelta(days=1)).timetuple() ), #tomorrow same time
             'numbercall'      : -1,
             'doall'           : True,
