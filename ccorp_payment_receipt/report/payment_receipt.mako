@@ -9,8 +9,8 @@
 	<% setLang(check.partner_id.lang) %>
 	<div id="wrapper">
 		<div id = "document_data">
+			<div id="number">${_("No.")}  ${check.number or ''|entity}</div>
 			<div id = "date">
-				<div id="number">${_("No.")}  ${check.number or ''|entity}</div>
 				<div class="text_font"><span class="text_doct">${_("Date")}:</span> ${check.date or ''|entity}</div>
 			</div>
 			<div class = "detail">

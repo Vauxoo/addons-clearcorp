@@ -5,7 +5,7 @@
 }
 .header-table {
 	width: 100%;
-	padding-top: 8%;
+	margin-top: 8%;
 }
 
 .title {
@@ -26,11 +26,16 @@
 	font-family: Arial,Verdana, Sans, Serif;
 	font-size: 13;
 }
+
+.
+
 /*BODY*/
 
+.header_img{
+	width : 150px;
+}
 
 #document_data{
-	margin : 10px;
 	margin-bottom : 20px;
 	width : 100%;
 }
@@ -39,6 +44,7 @@
 	text-align : center;
 	color : red;
 	font-size : 0.9em;
+	float : left;
 }
 
 #date {
@@ -81,10 +87,10 @@
 }
 
 .signature {
+	text-align : center;
 	background-color : #BFBFBF;
 	border: 1px solid black;
 	-webkit-border-radius: 10px;
-	border-left-width: 20px;
 }
 .sign_detail {
 	margin-bottom : 40px;
@@ -94,7 +100,6 @@
 	width : 50%;
 	float :left;
 	margin-left : 30px;
-	border-left-width: 20px;
 }
 
 #val_first{
@@ -115,11 +120,11 @@
 
 #validation {
 	border-collapse:separate;
-	border-spacing: 10px;
+	border-spacing: 20px;
 }
 
 #wrapper{
-	margin-top : 50px;
+	margin-top : 30px;
 }
 
 .text_doct{
@@ -132,5 +137,5 @@
 	margin-top : 50px;
 	border-top: 1px solid black;
 	width : 100%;
-	height : 2px;
+	height : 1px;
 }
