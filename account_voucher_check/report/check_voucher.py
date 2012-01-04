@@ -62,7 +62,7 @@ class check_voucher(report_sxw.rml_parse):
 			obj_lang = lang_pool.browse(self.cr,self.uid,id_lang)[0]
 			separator = obj_lang  and obj_lang.thousands_sep or separator
 		debug(separator)
-		res = number_to_text_es(amount,currency.currency_name,separator)
+		res = number_to_text_es(amount,currency.currency_name,separator=separator)
 		return res
 		
 report_sxw.report_sxw(
