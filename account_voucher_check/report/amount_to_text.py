@@ -48,7 +48,7 @@ CENTENAS = (
     'NOVECIENTOS '   
 )                    
                      
-def number_to_text_es(number_in,currency,join_dec=' y ',separator=','):
+def number_to_text_es(number_in,currency,join_dec=' y ',separator=',',decimal_point='.'):
                               
     converted = ''                              
 
@@ -56,25 +56,18 @@ def number_to_text_es(number_in,currency,join_dec=' y ',separator=','):
       number = str(number_in)   
     else:                       
       number = number_in        
-                     
-    debug(separator)                                        
+     
     number_str=number
     #if we are using the coma as separator we need to remove them from the string
     try:
-      if separator == ',':
-        number_str = number_str.replace(',','')
-      elif separator == '.':
-        number_str = number_str.replace('.','')
+      number_str = number_str.replace(separator,'')
     except ValueError:
       print 'The separator used for the thousands its not supported'
     
     debug(number_str)                                      
                                                            
     try:                                                   
-      if separator == ',':
-        number_int, number_dec = number_str.split(".")       
-      elif separator == '.':
-        number_int, number_dec = number_str.split(",")       
+      number_int, number_dec = number_str.split(decimal_point)       
     except ValueError:                                     
       number_int = number_str                              
       number_dec = ""                                      
