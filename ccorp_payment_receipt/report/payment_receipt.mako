@@ -17,7 +17,7 @@
 				<span class="text_doct">${_("We recieve from")}:</span> <span class="text_font">${check.partner_id.name or ''|entity}</span>
 			</div>
 			<div class = "detail">
-				<span class="text_doct">${_("The amount of")}:</span> <span class = "amount_text">${get_text(check.amount,check.currency_id) or ''|entity}</span>
+				<span class="text_doct">${_("The amount of")}:</span> <span class = "amount_text">${get_text(check.amount,check.currency_id,check.partner_id.lang) or ''|entity}</span>
 			</div>
 			<div class = "detail">
 				<span class="text_doct">${_("Concept of")}:</span> <span class="text_font">${check.name or ''|entity}</span>
