@@ -35,7 +35,7 @@
 	"name"        : "Voucher Check",
 	"author"      : "ClearCorp S.A.",
 	"version"     : "0.1",
-	"depends"     : ["base","account",'report_webkit',],
+	"depends"     : ["base","account","report_webkit","base_currency_symbol"],
 	"init_xml"    : [],
 	"update_xml"  : ['account_voucher_check_view.xml','account_voucher_check_report.xml',],
 	"category"    : "Accounting",

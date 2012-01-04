@@ -22,21 +22,21 @@
 			<tbody>
 				<tr>
 					<td>
-						{div id="header_logo"}${helper.embed_logo_by_name('company_logo')|n}{/div}
+						<div id="header_logo">${helper.embed_logo_by_name('company_logo')|n}</div>
 					</td>
 					<td>
 						<table class="company_data">
 							<tr class = "title">
 								<td>${company.partner_id.name |entity}</td>
-								<td style = "text-align : right;">&nbsp;</td>
+								<td style = "text-align : right;" rowspan = "6">${_("MONEY RECEIPT")}</td>
 							</tr>
 							<tr>
 								<td>${company.partner_id.address[0].street  or ''|entity}, ${company.partner_id.address[0].street2 or ''|entity}</td>
-								<td style = "text-align : right;">&nbsp;</td>
+								<td style = "text-align : right;"></td>
 							</tr>
 							<tr>
 								<td>${_("Tel. PBX")}: ${company.partner_id.address[0].phone or '-'|entity} - ${_("FAX")}:  ${company.partner_id.address[0].fax or '-'|entity}</td>
-								<td style = "text-align : right;">${_("MONEY RECEIPT")}</td>
+								<td style = "text-align : right;">&nbsp;</td>
 							</tr>
 							<tr>
 								<td>${company.partner_id.address[0].zip or ''|entity} ${company.partner_id.address[0].city or ''|entity}, ${company.partner_id.address[0].country_id and company.partner_id.address[0].country_id.name or ''|entity}</td>
@@ -55,6 +55,7 @@
 				</tr>
 			</tbody>
 		</table>
+		<hr/>
 		${_debug or ''|n} </body>
 </html>
 

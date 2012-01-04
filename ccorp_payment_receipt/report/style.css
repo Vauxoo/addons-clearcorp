@@ -27,21 +27,21 @@
 	font-size: 13;
 }
 
-.
-
-/*BODY*/
-
-.header_img{
+.header_logo{
 	width : 150px;
 }
 
+/*BODY*/
+
+
+
 #document_data{
-	margin-bottom : 20px;
+	margin-bottom : 50px;
 	width : 100%;
 }
 
 #number{
-	text-align : center;
+	text-align : left;
 	color : red;
 	font-size : 0.9em;
 	float : left;

@@ -6,7 +6,7 @@
 		======================================
 					accounts
 		======================================
-		-->
+		
 		
 		<record model="ir.ui.view" id="view_check_form">
 			<field name="name">account.voucher.check.form</field>
@@ -21,7 +21,7 @@
 					</data>
 				</field>
 		</record>
-
+-->
 			<record id="action_check_payment" model="ir.actions.act_window">
 				<field name="name">Check Payment</field>
 				<field name="res_model">account.voucher</field>
