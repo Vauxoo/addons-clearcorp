@@ -97,7 +97,7 @@ class res_company(osv.osv):
         return True
         
         
-    def _on_change_auto_currency_up(self, cr, uid, id, value):
+    def on_change_auto_currency_up(self, cr, uid, id, value):
         """handle the activation of the currecny update on compagnies.
         There are two ways of implementing mutli_company currency, 
         the currency is shared or not. The module take care of the two
