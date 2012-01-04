@@ -194,7 +194,22 @@ class Currency_rate_update(osv.osv):
                         %(str(datetime.today()), str(e))
                     self.logger.notifyChannel(self.LOG_NAME, netsvc.LOG_INFO, str(e))
                     service.write({'note':error_msg})
-                
+    
+    def get_next_date(self, cr, uid, context=None):
+		tomorrow=datetime.date.today() + datetime.timedelta(days=1)
+		pday= tomorrow.day 
+		pmonth = tomorrow.month
+		pyear = tomorrow.year
+		phour = "02:00:00"
+		string = pyear+"-"+pmonth+"-"+pday+" "+phour
+		res = time.strftime("%Y-%m-%d %H:%M:%S", string.timetuple() )
+		return res
+		
+		
+		
+		
+			
+hr_payroll_cr_holiday_period()            
                 
 Currency_rate_update()
 

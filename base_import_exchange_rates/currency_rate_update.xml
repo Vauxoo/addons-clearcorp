@@ -34,11 +34,12 @@
         <record id="cron_import_rates" model="ir.cron">
 			<field name="name">Exchange Rates Cron</field>
 			<field name="user_id" ref="base.user_root"/>
-			<field name="interval_type">minutes</field>
+			<field name="interval_type">days</field>
 			<field name="interval_number" eval="1"/>
 			<field name="numbercall" eval="-1"/>
+			<field name="nextcall" eval="'get_next_date'"/>
 			<field name="doall" eval="True"/> <!-- Repeat missed calls? -->
-			<field name="model" eval="'base_import_exchange_rates.currency_rate_update'"/>
+			<field name="model" eval="'currency.rate.update'"/>
 			<field name="function" eval="'run_currency_update'"/>
 			<field name="priority" eval="0"/>
 		</record>
