@@ -42,12 +42,12 @@
 			</tr>
 			<tr id = "val_second">
 				<td class = "info">
-					<span class = "info_detail">${_("LA VALIDEZ DE ESTE RECIBO QUEDA SUJETA A QUE LOS CHEQUES RECIBIDOS SEAN PAGADOS POR EL BANCO A NUESTRA SATISFACCION")}</span>
-					<span class = "info_detail">${_("AUTORIZADO MEDIANTE OFICIO No.04-00007-97 DE FECHA 30-09-97 DE LA D.G.T.D.")}</span>
+					<p class = "info_detail">${_("LA VALIDEZ DE ESTE RECIBO QUEDA SUJETA A QUE LOS CHEQUES RECIBIDOS SEAN PAGADOS POR EL BANCO A NUESTRA SATISFACCION")}</p>
+					<p class = "info_detail">${_("AUTORIZADO MEDIANTE OFICIO No.04-00007-97 DE FECHA 30-09-97 DE LA D.G.T.D.")}</p>
 				</td>
 				<td valign = "top" class = "signature">
 					<span class = "sign_detail">${_("P/")} ${check.company_id.partner_id.name or ''|entity }</span>
-					<span class="sign_line"><hr/></span>
+					<div class="sign_line"></div>
 				</td>
 			</tr>
 		</table>

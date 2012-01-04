@@ -81,9 +81,10 @@
 }
 
 .signature {
-	background-color : #D4CCC5;
+	background-color : #BFBFBF;
 	border: 1px solid black;
 	-webkit-border-radius: 10px;
+	border-left-width: 20px;
 }
 .sign_detail {
 	margin-bottom : 40px;
@@ -93,6 +94,7 @@
 	width : 50%;
 	float :left;
 	margin-left : 30px;
+	border-left-width: 20px;
 }
 
 #val_first{
@@ -128,4 +130,7 @@
 
 .sign_line{
 	margin-top : 50px;
+	border-top: 1px solid black;
+	width : 100%;
+	height : 2px;
 }
