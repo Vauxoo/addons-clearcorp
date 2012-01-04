@@ -117,5 +117,15 @@
 }
 
 #wrapper{
-	margin-top : 100px;
+	margin-top : 50px;
+}
+
+.text_doct{
+	font-family : arial, sans, serif;
+	font-size : 16px;
+	font-weight : bolder;
+}
+
+.sign_line{
+	margin-top : 50px;
 }
