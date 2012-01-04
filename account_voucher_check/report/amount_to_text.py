@@ -62,7 +62,7 @@ def number_to_text_es(number_in,currency,join_dec=' y ',separator=','):
     try:
       if separator == ',':
         number_str = number_str.replace(',','')
-      elif separator == '.'
+      elif separator == '.':
         number_str = number_str.replace('.','')
     except ValueError:
       print 'The separator used for the thousands its not supported'
