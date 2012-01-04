@@ -1,5 +1,7 @@
 #!/usr/bin/python                   
 # -*- coding: utf-8 -*-
+
+from tools import debug
 UNIDADES = (
     '',     
     'UN ',  
@@ -55,7 +57,8 @@ def number_to_text_es(number_in,currency,join_dec=' y '):
     else:                       
       number = number_in        
                                                            
-    number_str=number                                      
+    number_str=number
+    debug(number_str)                                      
                                                            
     try:                                                   
       number_int, number_dec = number_str.split(".")       
