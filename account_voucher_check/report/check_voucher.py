@@ -49,6 +49,7 @@ class check_voucher(report_sxw.rml_parse):
 			'uid' : uid,
 			'get_text':self.get_text,
 		})
+		debug(context)
 		self.context = context
 		self._node = None
 
