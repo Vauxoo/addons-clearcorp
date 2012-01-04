@@ -56,7 +56,8 @@ def number_to_text_es(number_in,currency,join_dec=' y ',separator=','):
       number = str(number_in)   
     else:                       
       number = number_in        
-                                                           
+                     
+    debug(separator)                                        
     number_str=number
     #if we are using the coma as separator we need to remove them from the string
     try:
