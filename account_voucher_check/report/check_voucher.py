@@ -37,6 +37,7 @@ import pooler
 from report import report_sxw
 from amount_to_text import number_to_text_es
 import locale
+from tools import debug
 
 class check_voucher(report_sxw.rml_parse):
 
@@ -52,6 +53,7 @@ class check_voucher(report_sxw.rml_parse):
 		self._node = None
 
 	def get_text(self,amount,currency):
+		debug(amount)
 		res = number_to_text_es(amount,currency.currency_name)
 		return res
 		
