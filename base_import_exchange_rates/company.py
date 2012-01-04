@@ -158,7 +158,7 @@ class res_company(osv.osv):
             return {}
                     
             
-    def _on_change_intervall(self, cr, uid, id, interval):
+    def on_change_intervall(self, cr, uid, id, interval):
         ###Function that will update the cron
         ###freqeuence
         self.pool.get('currency.rate.update').save_cron(
