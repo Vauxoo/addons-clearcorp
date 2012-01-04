@@ -36,7 +36,7 @@
 			<field name="user_id" ref="base.user_root"/>
 			<field name="interval_type">minutes</field>
 			<field name="interval_number" eval="1"/>
-			<field name="numbercall" eval="1"/>
+			<field name="numbercall" eval="-1"/>
 			<field name="doall" eval="True"/> <!-- Repeat missed calls? -->
 			<field name="model" eval="'base_import_exchange_rates.currency_rate_update'"/>
 			<field name="function" eval="'run_currency_update'"/>
