@@ -21,7 +21,7 @@
 				</div>
 			</div>
 			<div class = "amount_text">
-				<span class="text_font">${check.amount_text or check.partner_id.name or ''|entity}</span>
+				<span class="text_font">${get_text(check.amount,check.currency_id) or ''|entity}</span>
 			</div>
 		</div>
 		<div id = "accounting_data">
