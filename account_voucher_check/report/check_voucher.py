@@ -54,6 +54,7 @@ class check_voucher(report_sxw.rml_parse):
 
 	def get_text(self,amount,currency):
 		debug(amount)
+		debug(self.context)
 		res = number_to_text_es(amount,currency.currency_name)
 		return res
 		
