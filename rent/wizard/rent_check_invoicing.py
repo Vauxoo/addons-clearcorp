@@ -41,7 +41,7 @@ class rent_check_invoicing(osv.osv_memory):
 		return last_log.strftime("%A %d %B %Y")
 	
 	_columns = {
-		'last_date' : fields.char('You are about to run the check for invoicing, the last date registered is',size=64 readonly=True, store=False),
+		'last_date' : fields.char('You are about to run the check for invoicing, the last date registered is',size=64 ,readonly=True, store=False),
 	}
 	_defaults = {
 		'last_date' :_get_last_date,
