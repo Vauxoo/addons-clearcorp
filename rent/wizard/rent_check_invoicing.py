@@ -29,14 +29,7 @@ class rent_check_invoicing(osv.osv_memory):
 	_name = "rent.check.invoicing"
 	_description = "Force the verficiation of invoices until today"
 
-	_columns = {
-		'last_date' : fields.date('You are about to run the check for invoicing, the last date registered is', readonly=True, store=False),
-	}
-	_defaults = {
-		'last_date' :_get_last_dat,
-	}
-	
-	def _get_last_date(self, cr, uid, context=None):
+def _get_last_date(self, cr, uid, context=None):
 		if context is None:
 			context = {}
 		log_id = self.pool.get('rent.invoice.log').search(cr,uid,[],order='log_date desc')
@@ -46,6 +39,14 @@ class rent_check_invoicing(osv.osv_memory):
 		else:
 			last_log = date.today()
 		return last_log
+	_columns = {
+		'last_date' : fields.date('You are about to run the check for invoicing, the last date registered is', readonly=True, store=False),
+	}
+	_defaults = {
+		'last_date' :_get_last_date,
+	}
+	
+	
 		
 	def view_init(self, cr, uid, fields_list, context=None):
 		#result = super(rent_check_invoicing,self).fields_view_get(cr,uid,view_id=None,view_type='form')
