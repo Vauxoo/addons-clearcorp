@@ -29,8 +29,10 @@ class rent_check_invoicing(osv.osv_memory):
 	_name = "rent.check.invoicing"
 	_description = "Force the verficiation of invoices until today"
 	
-	def fields_view_get(self,cr,uid,view_id=None,view_type='form',context={},toolbar=False):
-		#result = super(rent_check_invoicing,self).fields_view_get(cr,uid,view_id=view_id)
+	def fields_view_get(self, cr, uid, view_id=None, view_type='form', context={}, toolbar=False):
+		debug("ENTRA")
+		result = super(rent_check_invoicing,self).fields_view_get(cr,uid,view_id=view_id)
+		debug("NOSE CAE")
 		if context is None:
 			context = {}
 		log_id = self.pool.get('rent.invoice.log').search(cr,uid,[],order='log_date desc')
