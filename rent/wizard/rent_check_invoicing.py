@@ -30,7 +30,7 @@ class rent_check_invoicing(osv.osv_memory):
 	_description = "Force the verficiation of invoices until today"
 
 	_columns = {
-		'notes' :  fields.char('Note',size=100),
+		'notes' :  fields.char('Note',size=100,store=False),
 	}
 	def view_init(self, cr, uid, fields_list, context=None):
 		if context is None:
@@ -44,7 +44,7 @@ class rent_check_invoicing(osv.osv_memory):
 		
 		desc = 'You are about to run the check for invoicing, the last date registered is: %s' % (last_log.strftime("%A %d %B %Y"))
 		return {
-			'value': {'notes': notes}
+			'value': {'notes': desc}
 		}
 
 	def check_invoicing(self, cr, uid, ids, context=None):
