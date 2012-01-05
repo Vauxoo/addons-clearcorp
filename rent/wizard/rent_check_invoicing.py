@@ -38,7 +38,7 @@ class rent_check_invoicing(osv.osv_memory):
 		log_id = self.pool.get('rent.invoice.log').search(cr,uid,[],order='log_date desc')
 		if log_id:
 			last_log = self.pool.get('rent.invoice.log').browse(cr,uid,log_id[0])
-			last_log = parser.parse(last_log).date()
+			last_log = parser.parse(last_log.log_date).date()
 		else:
 			last_log = date.today()
 		
