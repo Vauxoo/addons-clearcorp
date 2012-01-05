@@ -32,7 +32,7 @@ class rent_check_invoicing(osv.osv_memory):
 	_columns = {
 		'last_date' : fields.date('You are about to run the check for invoicing, the last date registered is', readonly=True, store=False),
 	}
-	_defaults {
+	_defaults = {
 		'last_date' :_get_last_dat,
 	}
 	
