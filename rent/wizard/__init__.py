@@ -20,5 +20,6 @@
 ##############################################################################
 
 import rent_make_group
+import rent_check_invoicing
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
