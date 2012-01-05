@@ -36,6 +36,7 @@
 	'demo_xml': [],
 	'update_xml': [
 					'wizard/rent_make_group.xml',
+					'wizard/rent_check_invoicing.xml',
 					'rent_sequence.xml',
 					'rent_view.xml', 
 					'rent_data.xml',
