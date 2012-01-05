@@ -49,7 +49,7 @@ class rent_check_invoicing(osv.osv_memory):
 		else:
 			last_log = date.today()
 		
-		debug (self.fields_view_get(cr,uid,
+		
 		desc = 'You are about to run the check for invoicing, the last date registered is: %s' % (last_log.strftime("%A %d %B %Y"))
 		return {
 			'value': {'notes': desc}
