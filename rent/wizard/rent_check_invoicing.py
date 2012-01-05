@@ -32,6 +32,13 @@ class rent_check_invoicing(osv.osv_memory):
 	_columns = {
 		'notes' :  fields.char('Note',size=100,store=False),
 	}
+	
+	def fields_view_get(self,cr,uid,view_id=None,view_type='form',context={},toolbar=False):
+		result = super(rent_check_invoicing,self).fields_view_get(cr,uid,view_id,view_type,context=context,toolbar=toolbar)
+		
+		debug(result)
+		return result
+
 	def view_init(self, cr, uid, fields_list, context=None):
 		if context is None:
 			context = {}
@@ -42,6 +49,7 @@ class rent_check_invoicing(osv.osv_memory):
 		else:
 			last_log = date.today()
 		
+		debug (self.fields_view_get(cr,uid,
 		desc = 'You are about to run the check for invoicing, the last date registered is: %s' % (last_log.strftime("%A %d %B %Y"))
 		return {
 			'value': {'notes': desc}
