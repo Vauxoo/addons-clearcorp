@@ -925,7 +925,10 @@ class rent_rent(osv.osv):
 			date_due = (obj_rent.rent_main_invoiced_day < obj_rent.rent_main_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
 			date_due = date_due.replace(day=obj_rent.rent_main_charge_day + obj_rent.rent_main_grace_period)
 		
-		desc = "Cobro de %s. Mes %s " % ((type=='rent'and 'alquiler' or 'mantenimiento'),date_due.month)
+		desc = "Cobro de %s. Mes %s " % ((type=='rent'and 'alquiler' or 'mantenimiento'),date_due.strftime("%B %Y"))
+		
+		main_grace = (type=='rent'and obj_rent.rent_grace_period or obj_rent.rent_main_grace_period)
+		invoice_day = (type=='rent'and obj_rent.rent_invoiced_day or obj_rent.rent_main_invoiced_day)
 		
 		inv_date = date_due - timedelta(days= obj_rent.rent_main_grace_period + obj_rent.rent_invoiced_day)
 		
