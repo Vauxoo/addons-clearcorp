@@ -42,7 +42,7 @@ class rent_check_invoicing(osv.osv_memory):
 		
 		desc = 'You are about to run the check for invoicing, the last date registered is: %s' % (last_log.strftime("%A %d %B %Y"))
 		
-		desc += '<label string="'+desc+'"/>'
+		desc = '<label string="'+desc+'"/>'
 		arch1 = '<form string="Check rent invoicing to date">\n<separator string="Check Rent Invoicing" colspan="4"/>\n'
 		arch2 = '\n<group colspan="4" col="6">\n<button icon="gtk-cancel" special="cancel" string="Close"/>\n<button icon="terp-camera_test" string="Check Invoicing" name="check_invoicing" type="object" default_focus="1"/>\n</group>\n</form>'
 		
