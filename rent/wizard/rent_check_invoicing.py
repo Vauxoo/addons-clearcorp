@@ -51,7 +51,7 @@ class rent_check_invoicing(osv.osv_memory):
 		arch_total = arch1 + desc + arch2
 		debug(arch_total)
 		
-		result['arch'] = arch_total
+		#result['arch'] = arch_total
 		return result
 
 	def check_invoicing(self, cr, uid, ids, context=None):
