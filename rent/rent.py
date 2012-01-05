@@ -930,7 +930,7 @@ class rent_rent(osv.osv):
 		main_grace = (type=='rent'and obj_rent.rent_grace_period or obj_rent.rent_main_grace_period)
 		invoice_day = (type=='rent'and obj_rent.rent_invoiced_day or obj_rent.rent_main_invoiced_day)
 		
-		inv_date = date_due - timedelta(days= obj_rent.rent_main_grace_period + obj_rent.rent_invoiced_day)
+		inv_date = date_due - timedelta(days= main_grace + invoice_day)
 		
 		period_id = False
 		if not period_id:
