@@ -16,10 +16,17 @@
             </field>
         </record>
 
-        <act_window id="action_rent_check_invoicing"
-            multi="True"
-            key2="client_action_multi" name="Check Invoicing"
-            res_model="rent.check.invoicing" src_model = "rent.rent"
-            view_mode="form" target="new" view_type="form" />
+		<record id="action_rent_check_invoicing" model="ir.actions.act_window">
+            <field name="name">Check Invoicing2</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rent.check.invoicing</field>
+            <field name="src_model">rent.rent</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="rent_check_invoicing_view"/>
+            <field name="target">new</field>
+            <field name="multi">True</field>
+            <field name="key2">client_action_multi</field>
+        </record>
     </data>
 </openerp>
