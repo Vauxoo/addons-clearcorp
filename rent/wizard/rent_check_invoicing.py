@@ -28,14 +28,9 @@ from dateutil import parser
 class rent_check_invoicing(osv.osv_memory):
 	_name = "rent.check.invoicing"
 	_description = "Force the verficiation of invoices until today"
-	
-	def fields_view_get(self, cr, uid, view_id=None, view_type='form', context={}, toolbar=False):
-		debug("ENTRA")
-		debug("ENTRA")
-		debug(view_id)
-		debug("ENTRA")
-		result = super(rent_check_invoicing,self).fields_view_get(cr,uid,view_id=view_id,view_type=view_type)
-		debug("NOSE CAE")
+
+	def view_init(self, cr, uid, fields_list, context=None):
+		result = super(rent_check_invoicing,self).fields_view_get(cr,uid,view_id=None,view_type='form')
 		if context is None:
 			context = {}
 		log_id = self.pool.get('rent.invoice.log').search(cr,uid,[],order='log_date desc')
@@ -45,8 +40,6 @@ class rent_check_invoicing(osv.osv_memory):
 		else:
 			last_log = date.today()
 		
-		desc = 'You are about to run the check for invoicing, the last date registered is: %s' % (last_log.strftime("%A %d %B %Y"))
-		
 		desc = '<label string="'+desc+'"/>'
 		arch1 = '<form string="Check rent invoicing to date">\n<separator string="Check Rent Invoicing" colspan="4"/>\n'
 		arch2 = '\n<group colspan="4" col="6">\n<button icon="gtk-cancel" special="cancel" string="Close"/>\n<button icon="terp-camera_test" string="Check Invoicing" name="check_invoicing" type="object" default_focus="1"/>\n</group>\n</form>'
@@ -54,9 +47,10 @@ class rent_check_invoicing(osv.osv_memory):
 		arch_total = arch1 + desc + arch2
 		debug(arch_total)
 		
-		#result['arch'] = arch_total
+		result['arch'] = arch_total
+		debug(result)
 		return result
-
+		
 	def check_invoicing(self, cr, uid, ids, context=None):
 		obj_rent = self.pool.get('rent.rent')
 		obj_rent.cron_rent_invoice(cr,uid,ids,context=context)
