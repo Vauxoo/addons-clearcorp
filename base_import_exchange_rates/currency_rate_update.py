@@ -209,7 +209,7 @@ class Currency_rate_update(osv.osv):
 		
 		
 			
-hr_payroll_cr_holiday_period()            
+           
                 
 Currency_rate_update()
 
