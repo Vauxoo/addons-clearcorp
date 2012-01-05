@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
             <form string="Check rent invoicing to date">
                 <separator string="Check Rent Invoicing" colspan="4"/>
+					<field name = "notes"/>
                     <group colspan="4" col="6">
                         <button icon="gtk-cancel" special="cancel" string="Close"/>
                         <button icon="terp-camera_test" string="Check Invoicing" name="check_invoicing" type="object" default_focus="1"/>
