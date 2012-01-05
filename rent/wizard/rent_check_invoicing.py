@@ -27,7 +27,7 @@ from dateutil import parser
 
 class rent_check_invoicing(osv.osv_memory):
 	_name = "rent.check.invoicing"
-	_description = "Force the verficiation of invoice for all the contracts from the last date until today"
+	_description = "Force the verficiation of invoices until today"
 
 	_columns = {
 		'notes' :  fields.char('Note',size=100,store=False),
