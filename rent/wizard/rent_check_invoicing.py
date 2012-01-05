@@ -29,7 +29,7 @@ class rent_check_invoicing(osv.osv_memory):
 	_name = "rent.check.invoicing"
 	_description = "Force the verficiation of invoices until today"
 
-	_columns : {
+	_columns = {
 		'last_date' : fields.date('You are about to run the check for invoicing, the last date registered is', readonly=True, store=False),
 	}
 	_defaults {
