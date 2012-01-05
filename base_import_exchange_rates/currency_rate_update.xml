@@ -37,7 +37,7 @@
 			<field name="interval_type">days</field>
 			<field name="interval_number" eval="1"/>
 			<field name="numbercall" eval="-1"/>
-			<field name="nextcall" ref='get_next_dat'/>
+			<field name="nextcall" model="currency.rate.update" eval='get_next_dat'/>
 			<field name="doall" eval="True"/> <!-- Repeat missed calls? -->
 			<field name="model" eval="'currency.rate.update'"/>
 			<field name="function" eval="'run_currency_update'"/>
