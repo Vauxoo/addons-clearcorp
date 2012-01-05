@@ -203,6 +203,7 @@ class Currency_rate_update(osv.osv):
 		phour = "02:00:00"
 		string = pyear+"-"+pmonth+"-"+pday+" "+phour
 		res = time.strftime("%Y-%m-%d %H:%M:%S", string.timetuple() )
+		debug(res)
 		return res
 		
 		
