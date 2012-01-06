@@ -36,7 +36,7 @@
 
 
 #document_data{
-	margin-bottom : 20px;
+	margin-bottom : 50px;
 	width : 100%;
 }
 
@@ -58,9 +58,9 @@
 
 .text_font{
 	font-family : Arial,Verdana, Sans, Serif;
-	font-size : 14px;
+	font-size : 16px;
 	font-style : bold;
-	margin-left : 15px
+	margin-left : 15px;
 }
 
 .detail_line{
@@ -70,14 +70,12 @@
 .amount_text{
 	font-family : Arial,Verdana, Sans, Serif;
 	font-size : 16px;
-	font-style : italic;
-	margin : 5px;
-	width : 100%;
+	margin-left : 15px;
 	font-style : bold;
 }
 
 .info{
-	/*padding-top : 35px;*/
+	padding-top : 35px;
 	width: 100%;
 }
 
@@ -89,7 +87,7 @@
 
 .signature {
 	text-align : center;
-	background-color : #D1D1D1;
+	background-color : #EBEBEB;
 	border: 1px solid black;
 	-webkit-border-radius: 10px;
 	width : 100%;
