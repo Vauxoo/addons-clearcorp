@@ -19,7 +19,7 @@
 				<td class= "detail">
 					<span class="text_doct">${_("We recieve from")}:
 				</td>
-				<td>
+				<td "detail_data">
 					</span> <span class="text_font">${check.partner_id.name or ''|entity}</span>
 				</td>
 			</tr>
@@ -27,7 +27,7 @@
 				<td class = "detail">
 					<span class="text_doct">${_("The amount of")}:</span>
 				</td>
-				<td>
+				<td "detail_data">
 					<span class = "amount_text">${check.currency_id.symbol_prefix or ''|entity } ${formatLang(check.amount)} ${check.currency_id.symbol_suffix or ''|entity }</span>
 				</td>
 			</tr>
@@ -35,7 +35,7 @@
 				<td class = "detail">
 					<span class="text_doct">${_("In words the amount of")}:</span>
 				</td>
-				<td>
+				<td "detail_data">
 					<span class = "amount_text">${get_text(check.amount,check.currency_id,check.partner_id.lang) or ''|entity}</span>
 				</td>
 			</tr>
@@ -43,7 +43,7 @@
 				<td class = "detail">
 					<span class="text_doct">${_("Concept of")}:</span> 
 				</td>
-				<td>
+				<td class = "detail_data">
 					<span class="text_font">${check.name or ''|entity}</span>
 				</td>
 			</tr>
@@ -51,7 +51,7 @@
 				<td class = "detail">
 					<span class="text_doct">${_("Observations")}:</span>
 				</td>
-				<td>
+				<td "detail_data">
 					<span class = "text_font"> ${check.narration or ''|entity}</span>
 				</td>
 			</tr>
