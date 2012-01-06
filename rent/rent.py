@@ -1306,7 +1306,7 @@ class rent_rent(osv.osv):
 		return True
 	def action_first_invoice(self,cr,uid,ids,context=None):
 		#gets the list of all active rents
-		rent_ids = self.search(cr,uid,[('state','=','active')])
+		rent_ids = self.search(cr,uid,[('state','=','active'), ('rent_type','in',['Contract'])])
 		#is_required = self._invoice_required(cr,uid,rent_ids)
 		res_first_inv = []
 		res_first_main_inv = []
