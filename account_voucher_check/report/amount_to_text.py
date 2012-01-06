@@ -99,7 +99,9 @@ def number_to_text_es(number_in,currency,join_dec=' y ',separator=',',decimal_po
     if (len(number_dec) < 2 ):
       number_dec+='0'         
 
-    converted += currency + join_dec + number_dec + " CENTIMOS"
+    has_decimal = float(number_dec) != 0 and join_dec + number_dec + " CENTIMOS" or ' EXACTOS'
+    converted += currency +  has_decimal
+    
 
     return converted
                     
