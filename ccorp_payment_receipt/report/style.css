@@ -36,6 +36,11 @@
 
 
 #document_data{
+	margin-bottom : 20px;
+	width : 100%;
+}
+
+#document_table{
 	margin-bottom : 50px;
 	width : 100%;
 }
