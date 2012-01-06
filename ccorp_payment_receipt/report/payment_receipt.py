@@ -48,7 +48,7 @@ class payment_receipt(report_sxw.rml_parse):
             'get_text':self.get_text,
         })
             
-    def get_text(self,amount,currency):
+    def get_text(self,amount,currency,lang):
 		separator = ','
 		decimal_point = '.'
 		if lang:
