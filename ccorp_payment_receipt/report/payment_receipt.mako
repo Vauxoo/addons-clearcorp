@@ -17,7 +17,10 @@
 				<span class="text_doct">${_("We recieve from")}:</span> <span class="text_font">${check.partner_id.name or ''|entity}</span>
 			</div>
 			<div class = "detail">
-				<span class="text_doct">${_("The amount of")}:</span> <span class = "amount_text">${get_text(check.amount,check.currency_id,check.partner_id.lang) or ''|entity}</span>
+				<span class="text_doct">${_("The amount of")}:</span> <span class = "amount_text">${check.currency_id.symbol_prefix or ''|entity } ${formatLang(check.amount)} ${check.currency_id.symbol_suffix or ''|entity }</span>
+			</div>
+			<div class = "detail">
+				<span class="text_doct">${_("In words the amount of")}:</span> <span class = "amount_text">${get_text(check.amount,check.currency_id,check.partner_id.lang) or ''|entity}</span>
 			</div>
 			<div class = "detail">
 				<span class="text_doct">${_("Concept of")}:</span> <span class="text_font">${check.name or ''|entity}</span>
@@ -42,12 +45,20 @@
 			</tr>
 			<tr id = "val_second">
 				<td class = "info">
-					<p class = "info_detail">${_("LA VALIDEZ DE ESTE RECIBO QUEDA SUJETA A QUE LOS CHEQUES RECIBIDOS SEAN PAGADOS POR EL BANCO A NUESTRA SATISFACCION")}</p>
-					<p class = "info_detail">${_("AUTORIZADO MEDIANTE OFICIO No.04-00007-97 DE FECHA 30-09-97 DE LA D.G.T.D.")}</p>
+					&nbsp;
 				</td>
 				<td valign = "top" class = "signature">
 					<span class = "sign_detail">${_("P/")} ${check.company_id.partner_id.name or ''|entity }</span>
 					<div class="sign_line"></div>
+				</td>
+			</tr>
+			<tr id = "val_second">				
+				<td class = "info" colspan = "2">
+					<p class = "info_detail">${_("LA VALIDEZ DE ESTE RECIBO QUEDA SUJETA A QUE LOS CHEQUES RECIBIDOS SEAN PAGADOS POR EL BANCO A NUESTRA SATISFACCION")}</p>
+					<p class = "info_detail">${_("AUTORIZADO MEDIANTE OFICIO No.04-00007-97 DE FECHA 30-09-97 DE LA D.G.T.D.")}</p>
+				</td>
+				<td>
+					&nbsp;
 				</td>
 			</tr>
 		</table>

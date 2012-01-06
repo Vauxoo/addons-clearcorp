@@ -57,7 +57,7 @@
 }
 
 .text_font{
-	font-family : courier, arial, sans, serif;
+	font-family : Arial,Verdana, Sans, Serif;
 	font-size : 14px;
 	font-style : bold;
 	margin-left : 15px
@@ -68,7 +68,7 @@
 	float : left;
 }
 .amount_text{
-	font-family : courier, arial, sans, serif;
+	font-family : Arial,Verdana, Sans, Serif;
 	font-size : 16px;
 	font-style : italic;
 	margin : 5px;
@@ -81,14 +81,14 @@
 }
 
 .info_detail{
-	font-family : courier, arial, sans, serif;
-	font-size : 9px;
+	font-family : Arial,Verdana, Sans, Serif;
+	font-size : 12px;
 	font-style : italic;
 }
 
 .signature {
 	text-align : center;
-	background-color : #BFBFBF;
+	background-color : #D1D1D1;
 	border: 1px solid black;
 	-webkit-border-radius: 10px;
 }
@@ -129,7 +129,7 @@
 }
 
 .text_doct{
-	font-family : arial, sans, serif;
+	font-family : Arial,Verdana, Sans, Serif;
 	font-size : 16px;
 	font-weight : bolder;
 }
