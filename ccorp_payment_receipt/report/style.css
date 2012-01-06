@@ -77,12 +77,13 @@
 }
 
 .info{
-	padding-top : 35px;
+	/*padding-top : 35px;*/
+	width: 100%;
 }
 
 .info_detail{
 	font-family : Arial,Verdana, Sans, Serif;
-	font-size : 12px;
+	font-size : 11px;
 	font-style : italic;
 }
 
@@ -91,6 +92,7 @@
 	background-color : #D1D1D1;
 	border: 1px solid black;
 	-webkit-border-radius: 10px;
+	width : 100%;
 }
 .sign_detail {
 	margin-bottom : 40px;
@@ -113,7 +115,7 @@
 }
 
 .line{
-	width : 30%;
+	width : 50%;
 	float :left;
 	margin-left : 10px;
 }
@@ -122,6 +124,7 @@
 	border-collapse:separate;
 	border-spacing: 20px;
 	margin-top : 30px;
+	width : 100%;
 }
 
 #wrapper{

@@ -44,7 +44,7 @@
 				</td>
 			</tr>
 			<tr id = "val_second">
-				<td class = "info">
+				<td class = "line">
 					&nbsp;
 				</td>
 				<td valign = "top" class = "signature">
@@ -52,14 +52,11 @@
 					<div class="sign_line"></div>
 				</td>
 			</tr>
-			<tr id = "val_second">				
+			<tr id = "val_second">
 				<td class = "info" colspan = "2">
 					<p class = "info_detail">${_("LA VALIDEZ DE ESTE RECIBO QUEDA SUJETA A QUE LOS CHEQUES RECIBIDOS SEAN PAGADOS POR EL BANCO A NUESTRA SATISFACCION")}</p>
 					<p class = "info_detail">${_("AUTORIZADO MEDIANTE OFICIO No.04-00007-97 DE FECHA 30-09-97 DE LA D.G.T.D.")}</p>
-				</td>
-				<td>
-					&nbsp;
-				</td>
+				</td>				
 			</tr>
 		</table>
 	</div>
