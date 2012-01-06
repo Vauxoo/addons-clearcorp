@@ -13,22 +13,35 @@
 			<div id = "date">
 				<div class="text_font"><span class="text_doct">${_("Date")}:</span> ${check.date or ''|entity}</div>
 			</div>
-			<div class = "detail">
-				<span class="text_doct">${_("We recieve from")}:</span> <span class="text_font">${check.partner_id.name or ''|entity}</span>
-			</div>
-			<div class = "detail">
-				<span class="text_doct">${_("The amount of")}:</span> <span class = "amount_text">${check.currency_id.symbol_prefix or ''|entity } ${formatLang(check.amount)} ${check.currency_id.symbol_suffix or ''|entity }</span>
-			</div>
-			<div class = "detail">
-				<span class="text_doct">${_("In words the amount of")}:</span> <span class = "amount_text">${get_text(check.amount,check.currency_id,check.partner_id.lang) or ''|entity}</span>
-			</div>
-			<div class = "detail">
-				<span class="text_doct">${_("Concept of")}:</span> <span class="text_font">${check.name or ''|entity}</span>
-			</div>
-			<div class = "detail">
-				<span class="text_doct">${_("Observations")}:</span> <span class = "text_font"> ${check.narration or ''|entity}</span>
-			</div>
 		</div>
+		<table>
+			<tr>
+				<td class= "detail"></td>
+					<span class="text_doct">${_("We recieve from")}:</span> <span class="text_font">${check.partner_id.name or ''|entity}</span>
+				</td>
+			</div>
+			</tr>
+			<tr>
+				<td class = "detail">
+					<span class="text_doct">${_("The amount of")}:</span> <span class = "amount_text">${check.currency_id.symbol_prefix or ''|entity } ${formatLang(check.amount)} ${check.currency_id.symbol_suffix or ''|entity }</span>
+				</td>
+			</tr>
+			<tr>
+				<td class = "detail">
+					<span class="text_doct">${_("In words the amount of")}:</span> <span class = "amount_text">${get_text(check.amount,check.currency_id,check.partner_id.lang) or ''|entity}</span>
+				</td>
+			</tr>
+			<tr>
+				<td class = "detail">
+					<span class="text_doct">${_("Concept of")}:</span> <span class="text_font">${check.name or ''|entity}</span>
+				</td>
+			</tr>
+			<tr>
+				<td class = "detail">
+					<span class="text_doct">${_("Observations")}:</span> <span class = "text_font"> ${check.narration or ''|entity}</span>
+				</td>
+			</tr>
+		</table>
 		<hr/>
 		<table id = "validation">
 			<tr>
