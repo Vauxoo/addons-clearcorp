@@ -57,8 +57,6 @@ class payment_receipt(report_sxw.rml_parse):
 			obj_lang = lang_pool.browse(self.cr,self.uid,id_lang)[0]
 			separator = obj_lang  and obj_lang.thousands_sep or separator
 			decimal_point = obj_lang  and obj_lang.decimal_point or decimal_point
-		debug(separator)
-		debug(decimal_point)
 		res = number_to_text_es(amount,currency.currency_name,separator=separator,decimal_point=decimal_point)
 		return res
 		
