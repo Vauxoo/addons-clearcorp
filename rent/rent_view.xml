@@ -1089,7 +1089,7 @@
 					<group col = "6" colspan = "4">
 						<field name = "state"/>
 						<button name = "cron_rent_invoice" string="Check for Invoices" type="object" icon="terp-stock_format-scientific"/>
-						<button name="rent_finish" states="active" string="Finish" invisible = "1" icon="gtk-cancel" attrs = "{'invisible': [('rent_type','!=','Contract')]}"/>
+						<button name="rent_finish" states="active" string="Finish" icon="gtk-cancel" attrs = "{'invisible': [('rent_type','!=','Contract')]}"/>
 						<button name="rent_active" states="draft" string="Approve" icon="terp-camera_test"/>
 						<button 
 							name="%(action_view_rent_make_group)d"
