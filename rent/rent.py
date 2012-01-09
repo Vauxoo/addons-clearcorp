@@ -849,7 +849,7 @@ class rent_rent(osv.osv):
 			res[obj_rent.id] = years_val
 		return res
 		
-	def inv_line_create(self, cr, uid,obj_rent,args,type='rent'):
+	def inv_line_create(self, cr, uid,obj_rent,args,type='rent',first_inv=False):
 		res_data = {}
 		obj_company = obj_rent.rent_rent_client_id.company_id or False
 		
@@ -879,9 +879,8 @@ class rent_rent(osv.osv):
 		res = {}
 		journal_obj = self.pool.get('account.journal')
 		il = []
-		#debug('GENERACION DE factura PAGO')
-		#debug(args)
-		
+		debug(first_inv)
+
 		for rlist in args:
 			obj_rent = self.browse(cr,uid,rlist['rent_id'])
 			il.append(self.inv_line_create(cr, uid,obj_rent,rlist,type))
@@ -899,18 +898,27 @@ class rent_rent(osv.osv):
 		today = current_date
 		debug(today)
 		if type=='rent':
-			date_due = (obj_rent.rent_invoiced_day < obj_rent.rent_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
-			date_due = date_due.replace(day=obj_rent.rent_charge_day + obj_rent.rent_grace_period)
+			if not first_inv:
+				date_due = (obj_rent.rent_invoiced_day < obj_rent.rent_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
+				date_due = date_due.replace(day=obj_rent.rent_charge_day + obj_rent.rent_grace_period)
+			else:
+				date_due = today +  timedelta(days=obj_rent.rent_grace_period)
 		elif type == 'main':
-			date_due = (obj_rent.rent_main_invoiced_day < obj_rent.rent_main_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
-			date_due = date_due.replace(day=obj_rent.rent_main_charge_day + obj_rent.rent_main_grace_period)
+			if not first_inv:
+				date_due = (obj_rent.rent_main_invoiced_day < obj_rent.rent_main_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
+				date_due = date_due.replace(day=obj_rent.rent_main_charge_day + obj_rent.rent_main_grace_period)
+			else:
+				date_due = today +  timedelta(days=obj_rent.rent_main_grace_period)
 		
 		desc = "Cobro de %s. Mes %s " % ((type=='rent'and 'alquiler' or 'mantenimiento'),date_due.strftime("%B %Y"))
 		
-		main_grace = (type=='rent'and obj_rent.rent_grace_period or obj_rent.rent_main_grace_period)
-		invoice_day = (type=='rent'and obj_rent.rent_invoiced_day or obj_rent.rent_main_invoiced_day)
-		
-		inv_date = date_due - timedelta(days= main_grace + invoice_day)
+		if not first_inv:
+			main_grace = (type=='rent'and obj_rent.rent_grace_period or obj_rent.rent_main_grace_period)
+			invoice_day = (type=='rent'and obj_rent.rent_invoiced_day or obj_rent.rent_main_invoiced_day)
+			
+			inv_date = date_due - timedelta(days= main_grace + invoice_day)
+		else:
+			inv_date = today
 		
 		period_id = False
 		if not period_id:
@@ -964,7 +972,7 @@ class rent_rent(osv.osv):
 			if (type == 'main' and obj_rent.rent_main_inc) or type == 'rent':
 				res.append(self._invoice_data(cr,uid,ids,obj_rent,{'init_date': init_date, 'end_date' : charge_date.replace(day=calendar.mdays[charge_date.month])},type))
 			debug(res)
-			self.invoice_rent(cr,uid,ids,res,type)
+			self.invoice_rent(cr,uid,ids,res,type,first_inv=True)
 		return True
 	
 	def _invoice_main_required(self,cr,uid,ids,type='rent',current_date=date.today()):
