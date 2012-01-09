@@ -1282,7 +1282,7 @@ class rent_rent(osv.osv):
 		return True
 		
 	def action_aprove_adendum(self,cr,uid,ids,context=None):
-		rent_ids = self.search(cr,uid,[('state','=','active'), ('rent_type','in',['Adendum','Others']),('rent_modif_date','=','NULL')])
+		rent_ids = self.search(cr,uid,[('state','=','active'), ('rent_type','in',['Adendum','Others']),('rent_modif_date','=',False)])
 		debug(rent_ids)
 		for rent_aden_id in rent_ids:
 			vals = self.copy_data(cr,uid,rent_aden_id)
