@@ -849,7 +849,7 @@ class rent_rent(osv.osv):
 			res[obj_rent.id] = years_val
 		return res
 		
-	def inv_line_create(self, cr, uid,obj_rent,args,type='rent',first_inv=False):
+	def inv_line_create(self, cr, uid,obj_rent,args,type='rent'):
 		res_data = {}
 		obj_company = obj_rent.rent_rent_client_id.company_id or False
 		
@@ -873,7 +873,7 @@ class rent_rent(osv.osv):
 			'invoice_rent_id': args['rent_id'] or False,
 		})
 	
-	def invoice_rent(self, cr, uid, ids, args,type='rent',current_date=date.today()):
+	def invoice_rent(self, cr, uid, ids, args,type='rent',current_date=date.today(),first_inv=False):
 		#Creates the invoice for every rent given as arg, the args is a list of dictionaries 
 		#usually it only has one element. But it can take up 2 records to create an invoice with 2 lines
 		res = {}
