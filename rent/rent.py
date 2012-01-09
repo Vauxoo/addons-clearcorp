@@ -275,7 +275,7 @@ class rent_floor(osv.osv):
 rent_floor()
 
 #Class representing the local, on every floor. This class has a relation 
-#many2one with the floor 
+#with the floor throught the class rent_local_floor
 class rent_floor_local(osv.osv):
 	_name = 'rent.floor.local'
 	_rec_name = 'local_number'
@@ -360,6 +360,8 @@ class rent_floor_local(osv.osv):
 	]
 rent_floor_local()
 
+##Class used to connect the local to the floor, its a  many to one relation with the floor, allowing to locate it
+##in one or more floors of the same building
 class rent_local_floor(osv.osv):
 	_name = 'rent.local.floor'
 	
@@ -687,6 +689,7 @@ class rent_rent(osv.osv):
 						'rent_main_estimates_ids'    : [],
 						'rent_main_invoice_ids'      : [],
 						'rent_main_historic_ids'     : [],
+						'rent_modif_date'       : None,
 					})
 			else:
 				res = {
@@ -1071,7 +1074,6 @@ class rent_rent(osv.osv):
 				self._check_deposit(cr,uid,res_deposit_fix,context=None)
 		return True
 	
-	
 	def invoice_services(self,cr,uid,ids,args,type='rent',current_date=date.today()): 
 		#Creates the invoice for every rent given as arg, the args is a list of dictionaries 
 		#usually it only has one element. But it can take up 2 records to create an invoice with 2 lines
@@ -1170,10 +1172,12 @@ class rent_rent(osv.osv):
 			'desc'   : desc,
 		}
 		return res
+		
 	def day_invoice_check(self,cr,uid):
 		#MAIN CRONJOB TO BE RUNNED EVERY DAY AN CREATE INVOICES
 		self.cron_rent_invoice(cr,uid,[])
 		return True
+		
 	def cron_rent_invoice(self,cr,uid,ids,context=None):
 		#gets the list of all active rents
 		rent_ids = self.search(cr,uid,[('state','=','active'),('rent_type','=','Contract')])
@@ -1304,6 +1308,7 @@ class rent_rent(osv.osv):
 					self.write(cr,uid,[rent_id],vals)
 					self.write(cr,uid,[rent_aden_id],org_rent)
 		return True
+		
 	def action_first_invoice(self,cr,uid,ids,context=None):
 		#gets the list of all active rents
 		rent_ids = self.search(cr,uid,[('state','=','active'), ('rent_type','in',['Contract'])])
@@ -1399,6 +1404,7 @@ class rent_rent(osv.osv):
 						value = value * dest_currency.rate
 				val[record[0]] = value
 		return val
+		
 	def _rent_main_performance(self,cr,uid,ids,field_name,args,context):
 		res = {}
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
