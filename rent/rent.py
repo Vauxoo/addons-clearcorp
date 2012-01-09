@@ -586,7 +586,6 @@ class rent_rent(osv.osv):
 			obj_client = obj_rent.rent_rent_client_id
 			company_currency = (obj_client.company_id and obj_client.company_id.currency_id or (obj_rent.currency_id or self.pool.get('res.currency').browse(cr,uid,self._get_currency(cr,uid,context))))
 			#company_currency = self.pool.get('res.currency').browse(cr,uid,company_currency_id)
-			debug(company_currency)
 			to_exchange = {
 				'obj_rent' : obj_rent,
 				'vals'     : [('rent_total',total),
@@ -964,6 +963,7 @@ class rent_rent(osv.osv):
 			
 			if (type == 'main' and obj_rent.rent_main_inc) or type == 'rent':
 				res.append(self._invoice_data(cr,uid,ids,obj_rent,{'init_date': init_date, 'end_date' : charge_date.replace(day=calendar.mdays[charge_date.month])},type))
+			debug(res)
 			self.invoice_rent(cr,uid,ids,res,type)
 		return True
 	
