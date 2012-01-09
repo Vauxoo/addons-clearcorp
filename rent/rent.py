@@ -1171,6 +1171,7 @@ class rent_rent(osv.osv):
 			'date'   : end_date,
 			'desc'   : desc,
 		}
+		debug(res)
 		return res
 		
 	def day_invoice_check(self,cr,uid):
