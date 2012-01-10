@@ -929,6 +929,8 @@ class rent_rent(osv.osv):
 			if period_ids:
 				period_id = period_ids[0]
 		
+		company_id = (type == 'rent' and obj_rent.company_id.id or (obj_rent.rent_main_company_id and obj_rent.rent_main_company_id.id or False))
+		
 		inv = {
 			'name': desc or obj_rent.name,
 			'reference': obj_rent.name or desc,
@@ -943,7 +945,7 @@ class rent_rent(osv.osv):
 			'invoice_line': il,
 			'fiscal_position': obj_client.property_account_position.id,
 			'payment_term': obj_client.property_payment_term and o.partner_id.property_payment_term.id or False,
-			'company_id': obj_rent.company_id.id,
+			'company_id': company_id,
 			'date_invoice' : inv_date or today,
 			'date_due' : date_due,
 			'period_id' : period_id or False,
