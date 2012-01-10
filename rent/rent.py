@@ -956,7 +956,7 @@ class rent_rent(osv.osv):
 		self.register_rent_invoice(cr,uid,ids,res)
 		if type == 'rent' and obj_rent.rent_include_water:
 			debug("TIENE COBRO DE AGUA")
-			self.invoice_services(cr,uid,obj_rent.id,inv)
+			self.invoice_services(cr,uid,[obj_rent.id],inv)
 		
 		return res
 	
