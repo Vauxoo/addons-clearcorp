@@ -857,6 +857,9 @@ class rent_rent(osv.osv):
 			res_data['account_id'] = obj_rent.rent_rent_account_id.id
 		elif type == 'main':
 			res_data['account_id'] = obj_rent.rent_rent_main_account_id.id
+		elif type== 'services':
+			res_data['account_id'] = obj_rent.rent_inv_water_account_id.id
+
 		#if obj_company.currency_id.id != obj_rent.currency_id.id:
 		#	new_price = res_data['price_unit'] * obj_rent.currency_id.rate
 		#	res_data['price_unit'] = new_price
@@ -870,7 +873,7 @@ class rent_rent(osv.osv):
 			'uos_id': False,
 			'invoice_line_tax_id': [(6, 0, [])],
 			'account_analytic_id': False,
-			'invoice_rent_id': args['rent_id'] or False,
+			'invoice_rent_id': obj_rent.id or args.get('rent_id', False),
 		})
 	
 	def invoice_rent(self, cr, uid, ids, args,type='rent',current_date=date.today(),first_inv=False):
@@ -951,6 +954,10 @@ class rent_rent(osv.osv):
 		res['rent_id'] = obj_rent.id
 		res['invoice_type'] = type
 		self.register_rent_invoice(cr,uid,ids,res)
+		if type == 'rent' and obj_rent.rent_include_water:
+			debug("TIENE COBRO DE AGUA")
+			self.invoice_services(cr,uid,obj_rent.id,inv)
+		
 		return res
 	
 	def first_rent(self,cr,uid,ids,type='rent',current_date=date.today()):
@@ -1075,85 +1082,50 @@ class rent_rent(osv.osv):
 				res_dob_inv.append(self._invoice_data(cr,uid,ids,obj_rent,{'init_date': charge_date, 'end_date' : charge_date.replace(day=calendar.mdays[charge_date.month])},type))
 
 			self.invoice_rent(cr,uid,ids,res_dob_inv,type,today)
-			if type == 'rent' and obj_rent.rent_include_water:
-				debug("TIENE COBRO DE AGUA")
-				self.invoice_services(cr,uid,ids,res_dob_inv,type,today)
 			if res_deposit_fix:
 				self._check_deposit(cr,uid,res_deposit_fix,context=None)
 		return True
 	
-	def invoice_services(self,cr,uid,ids,args,type='rent',current_date=date.today()): 
-		#Creates the invoice for every rent given as arg, the args is a list of dictionaries 
-		#usually it only has one element. But it can take up 2 records to create an invoice with 2 lines
-		res = {}
-		journal_obj = self.pool.get('account.journal')
-		il = []
+	def invoice_services(self,cr,uid,ids,inv,current_date=date.today()):
+		#It receive a dictionary containing all the data for the invoice of the rent, and updates the values
+		#required to create another invoice for the services
 		debug('INVOICE FOR SERVICES')
-		debug(args)
-		
+		il = []
+		rlist = {
+			'amount' : 0.0,
+			'desc'   : '',
+		}
 		desc = 'Pago de servicios de '
-		
-		for rlist in args:
-			obj_rent = self.pool.get('rent.rent').browse(cr,uid,rlist['rent_id'])
+		today = current_date
+		for obj_rent in self,browse(cr,uid,ids):
 			if obj_rent.rent_include_water:
-				desc = desc + "agua. " + (obj_rent.rent_rent_local_id and obj_rent.rent_rent_local_id.local_water_meter_number)
+				charged_month = (obj_rent.rent_invoiced_day < obj_rent.rent_charge_day and today or (today.replace(day=1) - timedelta(days=2)))
+				
+				obj_local = obj_rent.rent_rent_local_id
+				
+				desc = desc + "agua. Paja %s mes de %s" % ( obj_local and obj_local.local_water_meter_number,
+				charged_month.strftime("%B %Y"))
+				
 				rlist.update({
 							'amount' : 0.0,
 							'desc'   : desc,
 				})
-				il.append(self.inv_line_create(cr, uid,obj_rent,rlist,type))
+				il.append(self.inv_line_create(cr, uid,obj_rent,rlist,type='services'))
+		desc = "Cobro de %s. Mes %s " % ('servicios',charged_month.strftime("%B %Y"))
 
-		obj_client = obj_rent.rent_rent_client_id
-		a = obj_rent.rent_inv_water_account_id or obj_rent.rent_inv_account_id.id or obj_rent.rent_rent_account_id.id or obj_client.property_account_receivable.id
-		#a = obj_client.property_account_receivable.id
-		journal_ids = journal_obj.search(cr, uid, [('type', '=','sale'),('company_id', '=',obj_rent.company_id.id)],limit=1)
-
-		if not journal_ids:
-			raise osv.except_osv(_('Error !'),
-				_('There is no purchase journal defined for this company: "%s" (id:%d)') % (obj_rent.company_id.name, obj_rent.company_id.id))
+		currency = self._get_currency(cr,uid)
+		a = obj_rent.rent_inv_water_account_id.id or obj_rent.rent_inv_account_id.id
 		
-		
-		currency = (type=='rent' and obj_rent.currency_id.id or obj_rent.main_currency_id.id)
-		
-		#Determines if today is the previous month for the invoice creation
-		today = current_date
-		debug(today)
-		if type=='rent':
-			date_due = (obj_rent.rent_invoiced_day < obj_rent.rent_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
-			date_due = date_due.replace(day=obj_rent.rent_charge_day + obj_rent.rent_grace_period)
-		
-		period_id = False
-		if not period_id:
-			period_ids = self.pool.get('account.period').search(cr, uid, [('date_start','<=', date_due or time.strftime('%Y-%m-%d')),('date_stop','>=',date_due or time.strftime('%Y-%m-%d')), ('company_id', '=', obj_rent.company_id.id)])
-			if period_ids:
-				period_id = period_ids[0]
-		inv = {
-			'name': obj_rent.name or desc,
-			'reference': obj_rent.name or desc,
+		inv.update({
+			'name': desc or obj_rent.name,
 			'account_id': a,
-			'type': 'out_invoice',
-			'partner_id': obj_client.id,
 			'currency_id': currency,
-			'address_invoice_id': obj_client.address[0].id,
-			'address_contact_id': obj_client.address[0].id,
-			'journal_id': len(journal_ids) and journal_ids[0] or False,
-			'origin': obj_rent.name or desc,
 			'invoice_line': il,
-			'fiscal_position': obj_client.property_account_position.id,
-			'payment_term': obj_client.property_payment_term and o.partner_id.property_payment_term.id or False,
-			'company_id': obj_rent.company_id.id,
-			'date_invoice' : today,
-			'date_due' : date_due,
-			'period_id' : period_id or False,
-		}
+		})
 		inv_id = self.pool.get('account.invoice').create(cr, uid, inv, {'type':'out_invoice'})
 		self.pool.get('account.invoice').button_compute(cr, uid, [inv_id], {'type':'out_invoice'}, set_total=True)
-		res['invoice_id'] = inv_id
-		res['rent_id'] = obj_rent.id
-		res['invoice_type'] = type
-		#self.register_rent_invoice(cr,uid,ids,res)
-		return res
-	
+		return True
+		
 	def _invoice_data(self,cr,uid,ids,obj_rent,date_range,type='rent'):
 		#creates a dictionary with all the needed data of the rent or maintenance
 		init_date = date_range['init_date']
