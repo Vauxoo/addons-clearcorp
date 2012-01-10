@@ -1118,7 +1118,7 @@ class rent_rent(osv.osv):
 		
 		inv.update({
 			'name': desc or obj_rent.name,
-			'account_id': a,
+		#	'account_id': a,
 			'currency_id': currency,
 			'invoice_line': il,
 		})
