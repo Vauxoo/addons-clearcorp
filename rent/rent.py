@@ -1097,7 +1097,7 @@ class rent_rent(osv.osv):
 		}
 		desc = 'Pago de servicios de '
 		today = current_date
-		for obj_rent in self,browse(cr,uid,ids):
+		for obj_rent in self.browse(cr,uid,ids):
 			if obj_rent.rent_include_water:
 				charged_month = (obj_rent.rent_invoiced_day < obj_rent.rent_charge_day and today or (today.replace(day=1) - timedelta(days=2)))
 				
