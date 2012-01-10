@@ -1103,7 +1103,7 @@ class rent_rent(osv.osv):
 				
 				obj_local = obj_rent.rent_rent_local_id
 				
-				desc = desc + "agua. Paja %s mes de %s" % ( obj_local and obj_local.local_water_meter_number,
+				desc = desc + "agua, %s mes de %s" % ( obj_local and ("Paja " + obj_local.local_water_meter_number or ''),
 				charged_month.strftime("%B %Y"))
 				
 				rlist.update({
