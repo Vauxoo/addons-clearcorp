@@ -57,4 +57,4 @@ class period(osv.osv):
 	_columns = {
         'code': fields.char('Code', size=64, required=True, help="The code will be used for the code of the period."),
 	}
-fiscalyear()
+period()
