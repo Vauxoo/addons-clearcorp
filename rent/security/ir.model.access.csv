@@ -36,3 +36,5 @@
 "access_rent_contract_clause_rel_manager","rent.contract.clause.rel manager","model_rent_contract_clause_rel","rent.group_rent_manager",1,1,1,1
 "access_rent_contract_template_user","rent.contract.template user","model_rent_contract_template","rent.group_rent_user",1,0,0,0
 "access_rent_contract_template_manager","rent.contract.template manager","model_rent_contract_template","rent.group_rent_manager",1,1,1,1
+"access_rent_invoice_log_user","rent.invoice.log user","model_rent_invoice_log","rent.group_rent_user",1,0,0,0
+"access_rent_invoice_log_manager","rent.invoice.log manager","model_rent_invoice_log","rent.group_rent_manager",1,1,1,1
