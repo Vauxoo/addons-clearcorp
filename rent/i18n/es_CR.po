@@ -29,7 +29,7 @@ msgstr "Maquinaria"
 #. module: rent
 #: help:rent.rent,rent_inv_water_account_id:0
 msgid "This account will be used for invoices of water instead of the default one to value expenses for the current rent"
-msgstr "This account will be used for invoices of water instead of the default one to value expenses for the current rent"
+msgstr "Esta cuenta será empleada para el pago de agua que se realicen de los alquileres"
 
 #. module: rent
 #: field:rent.building,building_stairs_number:0
@@ -50,7 +50,7 @@ msgstr "Este valor fue tomado del registro de alquiler en la fecha indicada"
 #. module: rent
 #: view:rent.check.invoicing:0
 msgid "Check Rent Invoicing"
-msgstr "Check Rent Invoicing"
+msgstr "Revisar Facturación de Alquileres"
 
 #. module: rent
 #: view:rent.building:0
@@ -74,7 +74,7 @@ msgstr "Recomendado"
 #. module: rent
 #: field:rent.rent,rent_ending_motif:0
 msgid "Ending Motif"
-msgstr "Motivo de finalización"
+msgstr "Motivo de Finalización"
 
 #. module: rent
 #: model:ir.model,name:rent.model_rent_contract_clause
@@ -90,17 +90,17 @@ msgstr "Información para Negociación"
 #: model:ir.actions.act_window,name:rent.action_local_floor_form_view
 #: model:ir.actions.act_window,name:rent.action_local_form_view
 msgid "Local Detail"
-msgstr "Detalle del local"
+msgstr "Detalle del Local"
 
 #. module: rent
 #: help:rent.contract.clause,clause_is_basic:0
 msgid "Check if the clause should allways appear on every contract you create"
-msgstr "Seleccione si la Cláusula debería aparecer siempre en cada contrato que cree"
+msgstr "Seleccione si la cláusula debería aparecer siempre en cada contrato que cree"
 
 #. module: rent
 #: model:ir.model,name:rent.model_res_partner_address
 msgid "Partner Addresses"
-msgstr "Direcciones de empresa"
+msgstr "Direcciones de Empresa"
 
 #. module: rent
 #: view:rent.contract.clause:0
@@ -135,7 +135,7 @@ msgstr "la"
 #. module: rent
 #: field:rent.rise.estimate,amount:0
 msgid "Amount (local)"
-msgstr "Amount (local)"
+msgstr "Monto (local)"
 
 #. module: rent
 #: code:addons/rent/wizard/rent_make_group.py:44
@@ -194,7 +194,7 @@ msgstr "Frente"
 #. module: rent
 #: field:rent.floor.local,local_water_meter_number:0
 msgid "Water Meter"
-msgstr "Medidor de agua"
+msgstr "Medidor de Agua"
 
 #. module: rent
 #: field:rent.rent,rent_related_real:0
@@ -204,7 +204,7 @@ msgstr "Tipo de Bien Inmueble"
 #. module: rent
 #: field:rent.rent.group,rent_rent_ids:0
 msgid "Rents Members"
-msgstr "Contratos registrados"
+msgstr "Contratos Registrados"
 
 #. module: rent
 #: view:rent.contract:0
@@ -255,12 +255,12 @@ msgstr "Buscar Parqueo"
 #. module: rent
 #: field:rent.invoice.rent,invoice_due_date:0
 msgid "Due Date"
-msgstr "Due Date"
+msgstr "Fecha de Vencimiento"
 
 #. module: rent
 #: model:ir.model,name:rent.model_rent_check_invoicing
 msgid "Force the verficiation of invoices until today"
-msgstr "Force the verficiation of invoices until today"
+msgstr "Forzar la verificación de facturas hasta el día de hoy"
 
 #. module: rent
 #: field:rent.building,building_elevator:0
@@ -352,7 +352,7 @@ msgstr "rent.contract.clause.rel"
 #: field:rent.rent,rent_end_date:0
 #: field:rent.rent,rent_main_end_date:0
 msgid "Ending Date"
-msgstr "Fecha de finalización"
+msgstr "Fecha de Finalización"
 
 #. module: rent
 #: model:ir.ui.menu,name:rent.rent_rent_submenu
@@ -387,7 +387,7 @@ msgstr "# Piso"
 #: model:ir.actions.act_window,name:rent.action_rent_check_invoicing
 #: view:rent.check.invoicing:0
 msgid "Check Invoicing"
-msgstr "Check Invoicing"
+msgstr "Revisar Facturación"
 
 #. module: rent
 #: field:rent.floor.local,local_gallery_photo:0
@@ -402,7 +402,7 @@ msgstr "rent.floor.parking"
 #. module: rent
 #: field:rent.rise.estimate,amount_foreing:0
 msgid "Amount (Foreing)"
-msgstr "Amount (Foreing)"
+msgstr "Monto (Extranjero)"
 
 #. module: rent
 #: model:ir.model,name:rent.model_rent_rent_anual_value
@@ -457,7 +457,7 @@ msgstr "Representa el piso en el cual el local esta ubicado"
 #. module: rent
 #: field:rent.invoice.rent,invoice_amount:0
 msgid "Amount Total"
-msgstr "Monto total"
+msgstr "Monto Total"
 
 #. module: rent
 #: field:rent.contract.clause,clause_subject:0
@@ -492,7 +492,7 @@ msgstr "Total m2"
 #: help:rent.rent,main_notes:0
 #: help:rent.rent,rent_notes:0
 msgid "Add complementary information about the rent or maintenance"
-msgstr "Add complementary information about the rent or maintenance"
+msgstr "Información complementaria acerca del alquiler o mantenimiento"
 
 #. module: rent
 #: model:ir.actions.act_window,name:rent.action_canton_district
@@ -540,7 +540,7 @@ msgstr "Estado"
 #: view:rent.floor.local:0
 #: view:rent.floor.parking:0
 msgid "Not Rented"
-msgstr "No alquilado"
+msgstr "No Alquilado"
 
 #. module: rent
 #: field:rent.invoice.rent,invoice_state:0
@@ -550,7 +550,7 @@ msgstr "Estado"
 #. module: rent
 #: field:rent.rent.anual.value,anual_value_prev_value:0
 msgid "Prev. Value"
-msgstr "Valor previo"
+msgstr "Valor Previo"
 
 #. module: rent
 #: view:rent.estate:0
@@ -609,7 +609,7 @@ msgstr "Edificios"
 #. module: rent
 #: view:rent.rent:0
 msgid "Adendum List"
-msgstr "Lista de modificaciones"
+msgstr "Lista de Modificaciones"
 
 #. module: rent
 #: code:addons/rent/rent.py:898
@@ -669,7 +669,7 @@ msgstr "rent.rent.estimate"
 #. module: rent
 #: view:rent.rise.estimate:0
 msgid "Rise Estimation"
-msgstr "Estimaciones de aumentos"
+msgstr "Estimaciones de Aumentos"
 
 #. module: rent
 #: field:rent.building,building_stairs:0
@@ -685,7 +685,7 @@ msgstr "Fecha de Inicio"
 #. module: rent
 #: model:ir.actions.act_window,name:rent.action_clause_by_contract_form_view
 msgid "Clause by Contract"
-msgstr "Cláusulas por contrato"
+msgstr "Cláusulas por Contrato"
 
 #. module: rent
 #: selection:rent.rent,rent_ending_motif:0
@@ -707,7 +707,7 @@ msgstr "Provincia"
 #: view:rent.estate:0
 #: view:rent.rent:0
 msgid "Compute Values"
-msgstr "Calcular valores"
+msgstr "Calcular Valores"
 
 #. module: rent
 #: field:rent.building,building_estate_id:0
@@ -801,7 +801,7 @@ msgstr "rent.rent.group"
 #: selection:rent.rent.estimate,estimate_state:0
 #: selection:rent.rent.main.estimate,estimate_state:0
 msgid "Not Recomended"
-msgstr "No recomendado"
+msgstr "No Recomendado"
 
 #. module: rent
 #: field:rent.building,building_value:0
@@ -1076,7 +1076,7 @@ msgstr "Lista de locales"
 #. module: rent
 #: view:rent.floor.local:0
 msgid "Miscelanius Information"
-msgstr "Información miscelanea"
+msgstr "Información Miscelánea"
 
 #. module: rent
 #: model:ir.model,name:rent.model_rent_make_group
@@ -1103,7 +1103,7 @@ msgstr "Aumentos"
 #: view:rent.building:0
 #: view:rent.floor:0
 msgid "Design Information"
-msgstr "Información de diseño"
+msgstr "Información de Diseño"
 
 #. module: rent
 #: field:rent.rent.estimate,estimate_years:0
@@ -1260,7 +1260,12 @@ msgstr "Detalle de Terreno"
 #: field:rent.rent,rent_total:0
 #: field:rent.rent,rent_total_us:0
 msgid "Total Paid"
-msgstr "Valor del mantenimiento"
+msgstr "Valor del Inmueble"
+
+#. module: rent
+#: field:rent.rent,rent_main_total:0
+msgid "Total Paid"
+msgstr "Valor del Mantenimiento"
 
 #. module: rent
 #: field:rent.rent,rent_rise_year3:0
@@ -1398,13 +1403,13 @@ msgstr "Contrato"
 #. module: rent
 #: field:rent.floor.parking,parking_large:0
 msgid "Large Meters"
-msgstr "Metros de profundidad"
+msgstr "Metros de Profundidad"
 
 #. module: rent
 #: view:rent.contract:0
 #: view:rent.contract.clause:0
 msgid "Client name : %(cli)s"
-msgstr "Nombre de cliente : %(cli)s"
+msgstr "Nombre de Cliente : %(cli)s"
 
 #. module: rent
 #: selection:rent.rent.estimate,estimate_state:0
@@ -1420,7 +1425,7 @@ msgstr "¿Realmente quiere crear el grupo?"
 #. module: rent
 #: view:rent.building:0
 msgid "Building Details"
-msgstr "Detalle del edificio"
+msgstr "Detalle del Edificio"
 
 #. module: rent
 #: sql_constraint:rent.building:0
@@ -1578,7 +1583,7 @@ msgstr "Precio Total"
 #. module: rent
 #: field:rent.building,building_date_construction:0
 msgid "Construction Date"
-msgstr "Fecha de construcción"
+msgstr "Fecha de Construcción"
 
 #. module: rent
 #: field:rent.contract.clause.rel,rent_contract_clause_id:0
@@ -1697,7 +1702,7 @@ msgstr "No puede repetir el número del parqueo en el mismo piso!"
 #. module: rent
 #: field:rent.rent,rent_modif_date:0
 msgid "Modification Date"
-msgstr "Modification Date"
+msgstr "Fecha de Modificación"
 
 #. module: rent
 #: field:rent.rent,rent_modif:0
@@ -1822,7 +1827,7 @@ msgstr "Especificaciones de Piso"
 #: view:rent.contract:0
 #: view:rent.contract.clause:0
 msgid "Total paid: %(tot)s"
-msgstr "Total pago: %(tot)s"
+msgstr "Total Pago: %(tot)s"
 
 #. module: rent
 #: model:ir.ui.menu,name:rent.rent_local_submenu
