@@ -23,7 +23,7 @@ body {
 }
 
 .amount_detail {
-	margin : 0px 0px 0px 400px;/*cambio de 400 a 200*/
+	margin : 0px 0px 0px 450px;/*cambio de 400 a 200*/
 	
 }
 
@@ -42,10 +42,13 @@ body {
 	margin-top : 4px;/*cambio de 8 a 2*/
 	margin-bottom : 7px;/*cambio de 13 a 7*/
 	height : 250px;/*cambio de 290 a 250*/
-	width : 660px; /*643*/
+	width : 80%;
+	/*width : 660px; /*643*/
 }
 
-#table_account{}
+#table_account{
+	border-collapse: collapse;
+}
 
 #footer_data{}
 
@@ -74,13 +77,13 @@ body {
 .detail_line{
 	width : 60%;/*cambio de 70 a 30*/
 	float : left;
-	margin-left : 30px;/*cambio de 70 a 30*/
+	margin-left : 40px;/*cambio de 70 a 30*/
 }
 .amount_text{
 	/*margin : 5px;*/
-	width : 100%;
+	width : 70%;
 	margin-top : 20px;
-	margin-left : 30px;/*cambio de 70 a 30*/
+	margin-left : 40px;/*cambio de 70 a 30*/
 }
 
 .account_id{
@@ -88,7 +91,7 @@ body {
 }
 
 .code_cell {
-	width : 125px;
+	width : 120px;/*125*/
 }
 
 .code_div {
@@ -98,7 +101,7 @@ body {
 }
 
 .amount_acc {
-	width : 130px;
+	width : 120px;/*125*/
 }
 
 .made_by{
