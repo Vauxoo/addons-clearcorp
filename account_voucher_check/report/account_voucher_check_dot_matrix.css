@@ -13,17 +13,17 @@ body {
 }
 
 #date {
-	margin : 20px 0px 5px 300px;/*cambio de 400 a 200*/
+	margin : 20px 0px 5px 350px;/*cambio de 400 a 200*/
 }
 
 #detail {
-	margin-top : 20px;
+	margin-top : 13px;
 	width : 100%;
 	
 }
 
 .amount_detail {
-	margin : 0px 0px 0px 450px;/*cambio de 400 a 200*/
+	margin : 0px 0px 0px 375px;/*cambio de 400 a 200*/
 	
 }
 
@@ -42,7 +42,7 @@ body {
 	margin-top : 4px;/*cambio de 8 a 2*/
 	margin-bottom : 7px;/*cambio de 13 a 7*/
 	height : 250px;/*cambio de 290 a 250*/
-	width : 80%;
+	width : 82%;
 	/*width : 660px; /*643*/
 }
 
@@ -72,26 +72,29 @@ body {
 .account_line{
 	font-family : courier, arial, sans, serif;
 	font-size : 13px;
-	text-align : center;
 }
 .detail_line{
 	width : 60%;/*cambio de 70 a 30*/
 	float : left;
-	margin-left : 40px;/*cambio de 70 a 30*/
+	margin-left : 50px;/*cambio de 70 a 30*/
 }
 .amount_text{
 	/*margin : 5px;*/
 	width : 70%;
-	margin-top : 20px;
-	margin-left : 40px;/*cambio de 70 a 30*/
+	margin-top : 15px;
+	margin-left : 50px;/*cambio de 70 a 30*/
+	word-spacing:-1px;
 }
 
 .account_id{
-	width : 290px;
+	width : 288px;
+	text-align : center;
+	word-spacing:-1px;
 }
 
 .code_cell {
 	width : 120px;/*125*/
+	text-align : left;
 }
 
 .code_div {
@@ -102,6 +105,8 @@ body {
 
 .amount_acc {
 	width : 120px;/*125*/
+	text-align : center;
+	word-spacing:-1px;
 }
 
 .made_by{
@@ -128,3 +133,5 @@ body {
 	font-size : 10px;
 	text-align : center;
 }
+
+ td {border-collapse: collapse; }
