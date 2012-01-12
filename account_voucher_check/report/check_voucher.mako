@@ -36,7 +36,7 @@
 				</div>
 			</div>
 			<div id = "accounts">
-				<table width = "100%" id = "table_account">
+				<table width = "100%" id = "table_account" cellpadding = "0" cellspacing = "0">
 					<thead><tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr></thead>
 					<tbody>
 					%for line in check.line_cr_ids :
