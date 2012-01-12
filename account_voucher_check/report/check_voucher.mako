@@ -37,7 +37,7 @@
 			</div>
 			<div id = "accounts">
 				<table width = "100%" id = "table_account">
-					<thead><tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><tr></thead>
+					<thead><tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr></thead>
 					<tbody>
 					%for line in check.line_cr_ids :
 					<tr class = "account_line">

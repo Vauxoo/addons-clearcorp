@@ -1,5 +1,5 @@
 body {
-	margin-top : 10px;/*cambio de 20 a 10*/
+	/*margin-top : 10px;cambio de 20 a 10*/
 }
 
 #wrapper{
@@ -7,7 +7,7 @@ body {
 }
 
 #document_data{
-	padding : 5px;
+	/*padding : 5px;*/
 	width : 100%;
 	height : 200px;/*cambio de 210 a 200*/
 }
@@ -23,24 +23,23 @@ body {
 }
 
 .amount_detail {
-	margin : 0px 0px 0px 300px;/*cambio de 400 a 200*/
+	margin : 0px 0px 0px 400px;/*cambio de 400 a 200*/
 	
 }
 
 #accounting_data {
-	margin-right : 100px;
+	/*margin-right : 100px;*/
 	
 }
 
 #document_desc {
 	height : 90px;/*cambio de 110 a 90*/
-	margin-bottom : 3px;/*cambio de 7 a 3*/
+	margin-bottom : 5px;/*cambio de 7 a 3*/
 	width : 100%;
 }
 
 #accounts{
-	margin-left : 0px;
-	margin-top : 2px;/*cambio de 8 a 2*/
+	margin-top : 4px;/*cambio de 8 a 2*/
 	margin-bottom : 7px;/*cambio de 13 a 7*/
 	height : 250px;/*cambio de 290 a 250*/
 	width : 660px; /*643*/
@@ -52,24 +51,24 @@ body {
 
 .detail_desc{
 	font-family : courier, arial, sans, serif;
-	font-size : 14px;
+	font-size : 13px;
 	font-style : italic;
 }
 
 .text_font{
 	font-family : courier, arial, sans, serif;
-	font-size : 14px;
+	font-size : 13px;
 }
 
 .amount{
 	font-family : courier, arial, sans, serif;
-	font-size : 14px;
+	font-size : 13px;
 	font-style : italic;
 }
 
 .account_line{
 	font-family : courier, arial, sans, serif;
-	font-size : 14px;
+	font-size : 13px;
 	text-align : center;
 }
 .detail_line{
@@ -78,7 +77,7 @@ body {
 	margin-left : 30px;/*cambio de 70 a 30*/
 }
 .amount_text{
-	margin : 5px;
+	/*margin : 5px;*/
 	width : 100%;
 	margin-top : 20px;
 	margin-left : 30px;/*cambio de 70 a 30*/
@@ -107,7 +106,7 @@ body {
 	width : 85px;
 	margin-left : 5px;
 	font-family : courier, arial, sans, serif;
-	font-size : 14px;
+	font-size : 13px;
 	text-align : center;
 }
 
