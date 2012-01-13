@@ -789,7 +789,9 @@ class rent_rent(osv.osv):
 			#	vals['rent_main_historic_ids'] = [(1,match_historic.id,{'anual_value_value':amount_base,'anual_value_rate' : rise})]
 			obj_rent.write(vals)
 		return True
-	def _performance_per_sqr(self,cr,uid,ids,field_name,args,context):
+	def _value_per_sqr(self,cr,uid,ids,field_name,args,context):
+		#Calculates the price per sqr meter using the total area of the real state 
+		#and the final price or amount base of the rent
 		res = {}
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
 			amounts_val = {}
@@ -1046,6 +1048,10 @@ class rent_rent(osv.osv):
 	
 	def rent_calc(self,cr,uid,ids,type='rent',current_date=date.today()):
 		#calculates the rent considering the date of change for the anual rate.
+		#Verify if the rent needs to increase the price due to an anual rise
+		#If the rise is at some point of the month it separetes the invoice on 2 lines 
+		#the first one from the first day and the day before the rise, and the second one
+		#from the day of rise to the end of month
 		debug('GENERACION DE Pago Normal')
 		res = {}
 		res_deposit_fix = []
@@ -1223,6 +1229,7 @@ class rent_rent(osv.osv):
 		return True
 		
 	def cron_rent_date_due_check(self,cr,uid):
+		#TODO: SEND NOTIFICATION TO ADMIN
 		active_rent_ids = self.search(cr,uid,[('state','=','active'),('active','=','true')])
 		current_date = date.today()
 		required_action = []
@@ -1255,6 +1262,7 @@ class rent_rent(osv.osv):
 		return True
 	
 	def _check_deposit(self,cr,uid,args,context=None):
+		#
 		required_act = []
 		for record in args:
 			current = float(record['current_amount'])
@@ -1348,7 +1356,7 @@ class rent_rent(osv.osv):
 		#	
 		#	
 		#	res_years = self._rent_amount_years(cr,uid,ids,{'rent_rise_year2','rent_rise_year3','rent_amount_base','rent_rise_year2d','rent_rise_year3d','rent_amountd_base'},None)
-		#	res_sqr = self._performance_per_sqr(cr,uid,ids,{'rent_performance','rent_amountd_per_sqr'},None,None)
+		#	res_sqr = self._value_per_sqr(cr,uid,ids,{'rent_performance','rent_amountd_per_sqr'},None,None)
 		#	res['rent_rise_year2'] = res_years[0]['rent_rise_year2']
 		#	res['rent_rise_year3'] = res_years[0]['rent_rise_year3']
 		#	res['rent_amount_base'] = res_years[0]['rent_amount_base']
@@ -1461,9 +1469,9 @@ class rent_rent(osv.osv):
 		'rent_performance'      : fields.function(_rent_performance, type='char',method = True,string='Performance'),
 		'rent_rise_year2'       : fields.function(_rent_amount_years, type='float',method = True,string='Year 2 $', multi='Years'),
 		'rent_rise_year3'       : fields.function(_rent_amount_years, type='float',method = True,string='Year 3 $', multi='Years'),
-		'rent_amount_per_sqr'   : fields.function(_performance_per_sqr, type='float',method = True,string='Amount per Sqr', multi='negot'),
+		'rent_amount_per_sqr'   : fields.function(_value_per_sqr, type='float',method = True,string='Amount per Sqr', multi='negot'),
 		
-		'rent_amountd_per_sqr'  : fields.function(_performance_per_sqr, type='float',method = True,string='Amount m2 $', multi='negot'),
+		'rent_amountd_per_sqr'  : fields.function(_value_per_sqr, type='float',method = True,string='Amount m2 $', multi='negot'),
 		'rent_amountd_base'     : fields.function(_rent_amount_years, type='float',method = True,string='Final Price $', multi='Years'),
 		'rent_rise_year2d'      : fields.function(_rent_amount_years, type='float',method = True,string='Year 2  $', multi='Years'),
 		'rent_rise_year3d'      : fields.function(_rent_amount_years, type='float',method = True,string='Year 3  $', multi='Years'),
@@ -1584,6 +1592,7 @@ class rent_rent(osv.osv):
 rent_rent()
 
 class rent_rise_estimate(osv.osv):
+	#IDEA PARA CALCULO DE AUMENTOS
 	_name = 'rent.rise.estimate'
 	_columns = {
 			'year'         : fields.integer('Year',help='Number of the year as a sequence'),
