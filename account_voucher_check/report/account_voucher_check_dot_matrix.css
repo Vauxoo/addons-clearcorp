@@ -140,6 +140,5 @@ body {
 .amount_desc {
 	font-family : courier, arial, sans, serif;
 	font-size : 13px;
-	letter-spacing:-1px;
-	word-spacing:-1px;
+	word-spacing:-6px;
  }
