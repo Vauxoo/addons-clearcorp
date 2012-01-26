@@ -43,6 +43,16 @@
     'website': 'http://clearcorp.co.cr',
     'category': 'Generic Modules/Base',
     'description': """Import exchange rates from XML web service.
+		Configuration:
+		1) Install the module.
+		2) Go to Administration > Company, open the company you want to syncronize.
+		3) in the page ´Currency auto update configuration´ you can configure wich webservice you wan to use
+	       the company the currency is related to, and the currecy.
+	    4) You have to go to Administration>Configuration>Planification , and configure the interval you want for the method to syncronize.
+		 
+    
+    
+    
     """,
     'depends': ['account'],
     'init_xml': ['security/security.xml'],

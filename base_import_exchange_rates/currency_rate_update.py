@@ -95,7 +95,7 @@ class Currency_rate_update(osv.osv):
             'active'          : False,
             'priority'        : 1,
             'interval_number' : 1,
-            'interval_type'   : 'weeks',
+            'interval_type'   : 'minutes',
             'nextcall'        : time.strftime("%Y-%m-%d %H:%M:%S", (datetime.today() + timedelta(days=1)).timetuple() ), #tomorrow same time
             'numbercall'      : -1,
             'doall'           : True,
@@ -194,7 +194,23 @@ class Currency_rate_update(osv.osv):
                         %(str(datetime.today()), str(e))
                     self.logger.notifyChannel(self.LOG_NAME, netsvc.LOG_INFO, str(e))
                     service.write({'note':error_msg})
-                
+    
+    def get_next_date(self, cr, uid, context=None):
+		tomorrow=datetime.date.today() + datetime.timedelta(days=1)
+		pday= tomorrow.day 
+		pmonth = tomorrow.month
+		pyear = tomorrow.year
+		phour = "02:00:00"
+		string = pyear+"-"+pmonth+"-"+pday+" "+phour
+		res = time.strftime("%Y-%m-%d %H:%M:%S", (string).timetuple() )
+		debug(res)
+		return res
+		
+		
+		
+		
+			
+           
                 
 Currency_rate_update()
 

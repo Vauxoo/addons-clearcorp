@@ -31,6 +31,23 @@
             </field>
         </record>
         
+        <record id="cron_import_rates" model="ir.cron">
+			<field name="name">Exchange Rates Cron</field>
+			<field name="user_id" ref="base.user_root"/>
+			<field name="interval_type">days</field>
+			<field name="interval_number" eval="1"/>
+			<field name="numbercall" eval="-1"/>
+			<!--field name="nextcall" model="currency.rate.update" ='get_next_dat'/-->
+			<field name="doall" eval="True"/> <!-- Repeat missed calls? -->
+			<field name="model" eval="'currency.rate.update'"/>
+			<field name="function" eval="'run_currency_update'"/>
+			<field name="priority" eval="0"/>
+		</record>
+        
+        
+        
+        
+        
     <!--    <record model="ir.actions.act_window" id="open_currency_rate_update">
             <field name="name">Update Rates</field>
             <field name="res_model">currency.rate.update</field>
