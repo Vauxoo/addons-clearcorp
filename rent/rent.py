@@ -816,17 +816,15 @@ class rent_rent(osv.osv):
 			elif type == 'main':
 					invoice_day = (obj_rent.rent_main_invoiced_day <= obj_rent.rent_main_charge_day and obj_rent.rent_main_charge_day - obj_rent.rent_main_invoiced_day or calendar.mdays[today.month] - obj_rent.rent_main_invoiced_day + obj_rent.rent_main_charge_day + 1)
 					inv_rent_list = obj_rent.rent_main_invoice_ids
-			debug(today)
-			debug(today.day)
-			debug(invoice_day)
 			if today.day == invoice_day:
 				debug("ENTRA if")
-				debug(type)
 				if (type == 'main' and obj_rent.rent_main_inc) or type == 'rent':
 					is_required = True
 					debug(inv_rent_list)
-					for obj_inv_reg in inv_rent_list:
+					for obj_inv_reg in inv_rent_list:						
 						inv_date = parser.parse(obj_inv_reg.invoice_date).date()
+						debug(today)
+						debug(inv_date)
 						if type == 'rent':
 							start_date = parser.parse(obj_rent.rent_start_date).date()
 						elif type == 'main':
