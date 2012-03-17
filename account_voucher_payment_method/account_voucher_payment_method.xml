@@ -10,12 +10,13 @@
 			<field name="type">form</field>
 			<field name="arch" type="xml">
 				<data>
-					<field name="journal_id" position="replace">
+					<field name="journal_id" position="replace"> 
 						<field name="journal_id"
-								domain="[('payment_method','=','True')]"
-								widget="selection" select="1"
-								on_change="onchange_partner_id(partner_id, journal_id, amount, currency_id, type, date, context)"
-								string="Payment Method"/>
+                            domain="[('payment_method_customer','=','True')]"
+                            invisible="context.get('line_type', False)"
+                            widget="selection" select="1"
+                            on_change="onchange_journal(journal_id, line_cr_ids, False, partner_id, date, amount, type, company_id, context)"
+                            string="Payment Method"/>
 					</field>
 				</data>
 			</field>
@@ -28,12 +29,13 @@
 			<field name="type">form</field>
 			<field name="arch" type="xml">
 				<data>
-					<field name="journal_id" position="replace">
+					<field name="journal_id" position="replace"> 
 						<field name="journal_id"
-							domain="[('payment_method','=','True')]"
-							widget="selection" select="1"
-							on_change="onchange_partner_id(partner_id, journal_id, amount, currency_id, type, date, context)"
-							string="Payment Method"/>
+                            domain="[('payment_method_supplier','=','True')]"
+                            invisible="context.get('line_type', False)"
+                            widget="selection" select="1"
+                            on_change="onchange_journal(journal_id, line_cr_ids, False, partner_id, date, amount, type, company_id, context)"
+                            string="Payment Method"/>
 					</field>
 				</data>
 			</field>
@@ -43,7 +45,7 @@
 			<field name="name">Customer Payment</field>
 			<field name="res_model">account.voucher</field>
 			<field name="view_type">form</field>
-			<field name="domain">[('journal_id.payment_method', '=', 'True'), ('type','=','receipt')]</field>
+			<field name="domain">[('journal_id.payment_method_customer', '=', 'True'), ('type','=','receipt')]</field>
 			<field name="context">{'type' : 'receipt','payment_method':'True'}</field>
 			<field name="view_id" eval="False"/>
 			<field name="search_view_id" ref="account_voucher.view_voucher_filter_vendor_pay"/>
@@ -71,7 +73,7 @@
 			<field name="name">Supplier Payment</field>
 			<field name="res_model">account.voucher</field>
 			<field name="view_type">form</field>
-			<field name="domain">[('journal_id.payment_method', '=', 'True'), ('type','=','payment')]</field>
+			<field name="domain">[('journal_id.payment_method_supplier', '=', 'True'), ('type','=','payment')]</field>
 			<field name="context">{'type':'payment','payment_method':'True'}</field>
 			<field name="view_id" eval="False"/>
 			<field name="search_view_id" ref="account_voucher.view_voucher_filter_vendor_pay"/>
@@ -154,7 +156,9 @@
 					<field name = "type" position = "after">
 						<group colspan = "2" col = "4">
 							<separator string = "Payment Options"/>
-							<field name = "payment_method"/>
+                            <newline/>
+                            <field name = "payment_method_customer"/>
+							<field name = "payment_method_supplier"/>
 							<field name = "payment_verification"/>
 						</group>
 					</field>
