@@ -32,7 +32,7 @@
 #    
 ##############################################################################
 from osv import osv, fields
-from tools import debug
+#from tools import debug
 from tools.translate import _
 
 class account_account(osv.osv):
@@ -56,16 +56,16 @@ class account_account(osv.osv):
 			res.append((obj_account.id, data))  
 		return res
 	
-	def _complete_name(self, cr, uid, ids, name, args, context=None):
-		""" Forms complete name of account from parent account to child account.
-		@return: Dictionary of values
-		"""
-		res = {}
-		name_list = self.name_get(cr,uid,ids,context)
-		for name in name_list:
-			res[name[0]] = name[1]
-		return res
-	_columns = {
-		'complete_name': fields.function(_complete_name, method=True, type='char', size=100, string="Account Name"),
-	}
+	#def _complete_name(self, cr, uid, ids, name, args, context=None):
+		#""" Forms complete name of account from parent account to child account.
+		#@return: Dictionary of values
+		#"""
+		#res = {}
+		#name_list = self.name_get(cr,uid,ids,context)
+		#for name in name_list:
+			#res[name[0]] = name[1]
+		#return res
+	#_columns = {
+		#'complete_name': fields.function(_complete_name, method=True, type='char', size=100, string="Account Name"),
+	#}
 account_account()

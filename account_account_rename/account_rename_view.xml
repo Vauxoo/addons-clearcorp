@@ -16,7 +16,7 @@
 			<field name = "arch" type = "xml">
 				<data>
 					<field name = "name" position = "after">
-						<field name = "complete_name"/>
+						<!--field name = "complete_name"/-->
 						<field name = "shortcut"/>
 					</field>
 					<field name = "name" position = "replace"/>
