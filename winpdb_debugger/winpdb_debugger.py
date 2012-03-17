@@ -20,12 +20,13 @@
 #
 ##############################################################################
 
-import wizard
-import osv
+from osv import osv,fields
+from tools.translate import _
 from tools import config
 
 import rpdb2
 
+"""
 ask_form ='''<?xml version="1.0"?>
 <form string="Winpdb debugger">
     <label string="Open Winpdb and set the password to the OpenERP server administrator password. Then clic 'Start Winpdb debugger'." colspan="4"/>
@@ -38,33 +39,30 @@ finish_form ='''<?xml version="1.0"?>
     <label string="Winpdb attached or timeout." colspan="4"/>
 </form>
 '''
+"""
+class winpdb_debugger_wizard(osv.osv_memory):
+    _name = 'winpdb.debugger.wizard'
 
-class winpdb_debugger_wizard(wizard.interface):
-    def start_debugger(self, cr, uid, data, context):
+    def action_start_debugger(self, cr, uid, data, context):
         rpdb2.start_embedded_debugger(config['admin_passwd'])
-        return {}
+        return{}
 
-    states = {
-        'init': {
-            'actions': [],
-            'result': {
-                'type': 'form',
-                'arch': ask_form,
-                'fields': {},
-                'state': [
-                    ('end', 'Cancel', 'gtk-cancel'),
-                    ('start', 'Start Winpdb debugger', 'gtk-ok', True)
-                ]
-            }
-        },
-        'start': {
-            'actions': [start_debugger],
-            'result': {
-                'type':'form',
-                'arch':finish_form,
-                'fields':{},
-                'state':[('end','Close')]
-            }
-        },
-    }
-winpdb_debugger_wizard('winpdb.debugger')
+
+
+
+winpdb_debugger_wizard()
+
+
+"""
+return {
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'winpdb.debugger.wizard',
+            'views': [('winpdb_debugger_close__wizard','form')],
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+            'context': context,
+        }
+
+
+"""
