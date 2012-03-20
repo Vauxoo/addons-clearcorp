@@ -1,1 +1,0 @@
-import account_account_template_char_name

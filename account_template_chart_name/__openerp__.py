@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    account_rename.py
-#    account_rename
-#    First author: Mag Guevara <mag.guevara@clearcorp.co.cr> (ClearCorp S.A.)
+#    account_template_chart_name.py
+#    account_template_chart_name
+#    First author: Juan Felipe Munoz <juan.munoz@clearcorp.co.cr> (ClearCorp S.A.)
 #    Copyright (c) 2011-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
 #    
 #    Redistribution and use in source and binary forms, with or without modification, are
@@ -31,16 +31,14 @@
 #    or implied, of ClearCorp S.A..
 #    
 ##############################################################################
-from osv import osv, fields
-#from tools import debug
-from tools.translate import _
-
-class account_account_template_char_name(osv.osv):
-    _name = "account.account.template"
-    _inherit = "account.account.template"
-
-
-    _columns = {
-        'char_template': fields.char('Char Template', size=64, required=True),
-    }
-account_account_template_char_name ()
+{
+	"name"        : "Accounting Template Chart Name",
+	"author"      : "ClearCorp S.A.",
+	"version"     : "1.0",
+	"depends"     : ["account"],
+	"init_xml"    : [],
+	"update_xml"  : ["account_template_chart_name.xml"],
+	"category"    : "Accounting",
+	"active"      : False,
+	"instalable"  : True,
+}
