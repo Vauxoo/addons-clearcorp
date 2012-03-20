@@ -41,5 +41,5 @@ class account_template_chart_name(osv.osv):
 
 
     _columns = {
-        'char_template': fields.char('Char Template', size=64, required=True),
+        'chart_template': fields.char('Chart Template', size=64, required=True),
     }
