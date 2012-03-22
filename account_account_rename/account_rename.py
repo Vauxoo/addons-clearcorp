@@ -69,3 +69,17 @@ class account_account(osv.osv):
 		#'complete_name': fields.function(_complete_name, method=True, type='char', size=100, string="Account Name"),
 	#}
 account_account()
+
+
+class account_fiscalyear(osv.osv):
+	'''
+	Adds up to 16 chars to a Fiscal year code
+	'''
+	_name = 'account.fiscalyear'
+	_inherit = 'account.fiscalyear'
+	
+	_columns = {
+		'code': fields.char('Code', size=16, required=True, help="The code will be used to generate the numbers of the journal entries of this journal."),
+	}
+account_fiscalyear()
+
