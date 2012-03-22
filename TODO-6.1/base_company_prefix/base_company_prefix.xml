@@ -1,19 +1,36 @@
 <openerp>
 	<data>
 		
-		<record id="view_company_form" model="ir.ui.view">
+		<record id="base_company_prefix.view_company_form" model="ir.ui.view">
 			<field name="name">res.company.form</field>
 			<field name="model">res.company</field>
 			<field name="inherit_id" ref="base.view_company_form"/>
 			<field name="type">form</field>
 			<field name="arch" type="xml">
 				<form string="Company">
-					<group colspan="4" col="6">
-						<field name="prefix"/>
-					</group>
+                    
+                        <field name="prefix"/>
 				</form>
 			</field>
 		</record>
+        
+        
+        
+        <record id="base_company_prefix.view_company_tree" model="ir.ui.view">
+			<field name="name">res.company.tree</field>
+			<field name="model">res.company</field>
+			<field name="inherit_id" ref="base.view_company_tree"/>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree>
+
+                        <field name="prefix"/>
+
+				</tree>
+			</field>
+		</record>
+        
+        
 		
 	</data>
 </openerp>
