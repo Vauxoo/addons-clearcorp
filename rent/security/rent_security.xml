@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+	
+	<record id="group_rent_user" model="res.groups">
+		<field name="name">Rent / User</field>
+	</record>
+	<record id="group_rent_manager" model="res.groups">
+		<field name="name">Rent / Manager</field>
+	</record>
+    
+    <record id="rent_parking_multi-company" model="ir.rule">
+        <field name="name">Parking multi-company</field>
+        <field ref="rent.model_rent_floor_parking" name="model_id"/>
+        <field eval="True" name="global"/>
+        <field name="domain_force">['|',('parking_floor_id.floor_building_id.building_estate_id.estate_owner_id.id','=',False),('parking_floor_id.floor_building_id.building_estate_id.estate_owner_id.id','child_of',[user.company_id.id])]</field>
+    </record>
+    
+    <record id="rent_estate_multi-company" model="ir.rule">
+        <field name="name">Estate multi-company</field>
+        <field ref="rent.model_rent_estate" name="model_id"/>
+        <field eval="True" name="global"/>
+        <field name="domain_force">['|',('estate_owner_id','=',False),('estate_owner_id','child_of',[user.company_id.id])]</field>
+    </record>
+    
+    <record id="rent_building_multi-company" model="ir.rule">
+        <field name="name">Building multi-comepany</field>
+        <field ref="rent.model_rent_building" name="model_id"/>
+        <field eval="True" name="global"/>
+        <field name="domain_force">['|',('building_estate_id.estate_owner_id','=',False),('building_estate_id.estate_owner_id','child_of',[user.company_id.id])]</field>
+    </record>
+    
+    <record id="rent_floor_multi-company" model="ir.rule">
+        <field name="name">Floor multi-company</field>
+        <field ref="rent.model_rent_floor" name="model_id"/>
+        <field eval="True" name="global"/>
+        <field name="domain_force">['|',('floor_building_id.building_estate_id.estate_owner_id','=',False),('floor_building_id.building_estate_id.estate_owner_id','child_of',[user.company_id.id])]</field>
+    </record>
+    
+    
+    <!--record id="rent_rent_multi-company" model="ir.rule">
+        <field name="name">Rent multi-company</field>
+        <field ref="rent.model_rent_rent_rent" name="model_id"/>
+        <field eval="True" name="global"/>
+        <field name="domain_force">['|',('floor_building_id.building_estate_id.estate_owner_id','=',False),('floor_building_id.building_estate_id.estate_owner_id','child_of',[user.company_id.id])]</field>
+    </record-->
+    
+    
+	</data>
+</openerp>
