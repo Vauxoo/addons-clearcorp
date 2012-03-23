@@ -93,8 +93,8 @@ class account_voucher_journal_payment(osv.osv):
 		}
 
 		if not partner_id:
-			debug("DEFAULT EN EL IF SIN PARTNER")
-			debug(default)
+			#debug("DEFAULT EN EL IF SIN PARTNER")
+			#debug(default)
 			return default
 
 		if not partner_id and ids:
@@ -116,8 +116,8 @@ class account_voucher_journal_payment(osv.osv):
 		default['value']['account_id'] = account_id
 
 		if journal.type not in ('cash', 'bank','payment'):
-			debug("DEFAULT EN EL IF journal no de dinero banco o pagos")
-			debug(default)
+			#debug("DEFAULT EN EL IF journal no de dinero banco o pagos")
+			#debug(default)
 			return default
 
 		total_credit = 0.0
@@ -135,12 +135,12 @@ class account_voucher_journal_payment(osv.osv):
 			if context.get('invoice_id', False):
 				domain.append(('invoice', '=', context['invoice_id']))
 			ids = move_line_pool.search(cr, uid, domain, context=context)
-			debug("no encuentra movelines en el contexto")
-			debug(ids)
+			#debug("no encuentra movelines en el contexto")
+			#debug(ids)
 		else:
 			ids = context['move_line_ids']
-			debug("SI encuentra movelines en el contexto")
-			debug(ids)
+			#debug("SI encuentra movelines en el contexto")
+			#debug(ids)
 		ids.reverse()
 		moves = move_line_pool.browse(cr, uid, ids, context=context)
 
@@ -195,8 +195,8 @@ class account_voucher_journal_payment(osv.osv):
 			elif ttype == 'receipt' and len(default['value']['line_dr_ids']) > 0:
 				default['value']['pre_line'] = 1
 			default['value']['writeoff_amount'] = self._compute_writeoff_amount(cr, uid, default['value']['line_dr_ids'], default['value']['line_cr_ids'], price)
-		debug(price)
-		debug(default)
+		#debug(price)
+		#debug(default)
 		return default
 	
 	def proforma_voucher_mirror(self, cr, uid, ids, context=None):
@@ -237,7 +237,7 @@ class account_voucher_journal_payment(osv.osv):
 		seq_obj = self.pool.get('ir.sequence')
 		
 		for inv in self.browse(cr, uid, ids, context=context):
-			debug("DENTRO DEL FOR")
+			#debug("DENTRO DEL FOR")
 			mirror_journal_id = args.get('journal',False)
 			mirror_account_id = args.get('account',False)
 			period_id = args.get('period',False)
@@ -304,24 +304,24 @@ class account_voucher_journal_payment(osv.osv):
 				'date': inv.date,
 				'date_maturity': inv.date_due
 			}
-			debug(move_line)
+			#debug(move_line)
 			move_line_id = move_line_pool.create(cr, uid, move_line)
 			rec_list_ids = []
 			line_total = debit - credit
-			debug(line_total)
+			#debug(line_total)
 			if inv.type == 'sale':
 				line_total = line_total - currency_pool.compute(cr, uid, inv.currency_id.id, company_currency, inv.tax_amount, context=context_multi_currency)
 			elif inv.type == 'purchase':
 				line_total = line_total + currency_pool.compute(cr, uid, inv.currency_id.id, company_currency, inv.tax_amount, context=context_multi_currency)
 
-			debug(inv.line_ids)
-			debug(line_total)
+			#debug(inv.line_ids)
+			#debug(line_total)
 			for line in inv.line_ids:
-				debug("for de los lines")
-				debug(line.amount)
-				debug(line.amount_unreconciled)
-				debug(line.untax_amount)
-				debug("for de los lines")
+				#debug("for de los lines")
+				#debug(line.amount)
+				#debug(line.amount_unreconciled)
+				#debug(line.untax_amount)
+				#debug("for de los lines")
 				#create one move line per voucher line where amount is not 0.0
 				if not line.amount:
 					continue
@@ -345,8 +345,8 @@ class account_voucher_journal_payment(osv.osv):
 					'debit': 0.0,
 					'date': inv.date
 				}
-				debug(line.amount)
-				debug(amount)
+				#debug(line.amount)
+				#debug(amount)
 				debug(line.move_line_id.amount_residual)
 				if amount < 0:
 					amount = -amount
@@ -356,16 +356,16 @@ class account_voucher_journal_payment(osv.osv):
 						line.type = 'dr'
 
 				if (line.type=='dr'):
-					debug("DEBITO")
-					debug(line_total)
-					debug(amount)
+					#debug("DEBITO")
+					#debug(line_total)
+					#debug(amount)
 					line_total += amount
 					move_line['debit'] = amount
 					move_line['account_id'] = mirror_journal_id.default_debit_account_id.id
 				else:
-					debug("CREDITO")
-					debug(line_total)
-					debug(amount)
+					#debug("CREDITO")
+					#debug(line_total)
+					#debug(amount)
 					line_total -= amount
 					move_line['credit'] = amount
 					move_line['account_id'] = mirror_account_id.id
@@ -379,8 +379,8 @@ class account_voucher_journal_payment(osv.osv):
 				#	if not (tax_data.base_code_id and tax_data.tax_code_id):
 				#		raise osv.except_osv(_('No Account Base Code and Account Tax Code!'),_("You have to configure account base code and account tax code on the '%s' tax!") % (tax_data.name))
 				#sign = (move_line['debit'] - move_line['credit']) < 0 and -1 or 1
-				debug(move_line)
-				debug(line.type)
+				#debug(move_line)
+				#debug(line.type)
 				move_line['amount_currency'] = company_currency <> current_currency and sign * line.amount or 0.0
 				if move_line['debit'] == 0 and move_line['credit'] == 0:
 					continue
@@ -411,9 +411,9 @@ class account_voucher_journal_payment(osv.osv):
 					#'amount_currency': company_currency <> current_currency and currency_pool.compute(cr, uid, company_currency, current_currency, diff * -1, context=context_multi_currency) or 0.0,
 					#'currency_id': company_currency <> current_currency and current_currency or False,
 				}
-				debug(move_line)
+				#debug(move_line)
 				move_line_pool.create(cr, uid, move_line)
-			debug("LLEGO AL POST")
+			#debug("LLEGO AL POST")
 			move_pool.post(cr, uid, [move_id], context={})
 		return True    
 account_voucher_journal_payment()

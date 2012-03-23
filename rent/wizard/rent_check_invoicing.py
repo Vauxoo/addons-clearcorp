@@ -22,7 +22,7 @@
 from osv import fields, osv
 from tools.translate import _
 import netsvc
-from tools import debug
+#from tools import debug
 from dateutil import parser
 
 class rent_check_invoicing(osv.osv_memory):
@@ -57,7 +57,7 @@ class rent_check_invoicing(osv.osv_memory):
 				arch1 = """<form string="Check rent invoicing to date">\n<separator string="Check Rent Invoicing" colspan="4"/>\n"""
 				arch2 = """\n<group colspan="4" col="6">\n<button icon="gtk-cancel" special="cancel" string="Close"/>\n<button icon="terp-camera_test" string="Check Invoicing" name="check_invoicing" type="object" default_focus="1"/>\n</group>\n</form>"""
 				arch_total = arch1 + desc + arch2
-				debug(arch_total)
+				#debug(arch_total)
 				res['arch'] = arch_total
 			except:
 				return res
