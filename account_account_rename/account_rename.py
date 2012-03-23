@@ -32,7 +32,7 @@
 #    
 ##############################################################################
 from osv import osv, fields
-from tools import debug
+#from tools import debug
 from tools.translate import _
 
 class account_account(osv.osv):
@@ -44,6 +44,8 @@ class account_account(osv.osv):
 			return []
 		res = []
 		for obj_account in self.browse(cr,uid,ids):
+			obj_company = self.pool.get('res.company').browse(cr,uid,obj_account.company_id.id)
+			prefix= obj_company.prefix
 			data = []
 			account = obj_account.parent_id
 			if account.parent_id:
@@ -52,20 +54,34 @@ class account_account(osv.osv):
 					account = account.parent_id
 			data.append(obj_account.name)
 			data = '/'.join(data)
-			data = obj_account.code + ' ' + data
+			data = prefix + '-' + obj_account.code + ' ' + data
 			res.append((obj_account.id, data))  
 		return res
 	
-	def _complete_name(self, cr, uid, ids, name, args, context=None):
-		""" Forms complete name of account from parent account to child account.
-		@return: Dictionary of values
-		"""
-		res = {}
-		name_list = self.name_get(cr,uid,ids,context)
-		for name in name_list:
-			res[name[0]] = name[1]
-		return res
-	_columns = {
-		'complete_name': fields.function(_complete_name, method=True, type='char', size=100, string="Account Name"),
-	}
+	#def _complete_name(self, cr, uid, ids, name, args, context=None):
+		#""" Forms complete name of account from parent account to child account.
+		#@return: Dictionary of values
+		#"""
+		#res = {}
+		#name_list = self.name_get(cr,uid,ids,context)
+		#for name in name_list:
+			#res[name[0]] = name[1]
+		#return res
+	#_columns = {
+		#'complete_name': fields.function(_complete_name, method=True, type='char', size=100, string="Account Name"),
+	#}
 account_account()
+
+
+class account_fiscalyear(osv.osv):
+	'''
+	Adds up to 16 chars to a Fiscal year code
+	'''
+	_name = 'account.fiscalyear'
+	_inherit = 'account.fiscalyear'
+	
+	_columns = {
+		'code': fields.char('Code', size=16, required=True, help="The code will be used to generate the numbers of the journal entries of this journal."),
+	}
+account_fiscalyear()
+

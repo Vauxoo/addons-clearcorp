@@ -1,0 +1,43 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<openerp>
+	<data>
+
+		<!--
+		======================================
+					accounts
+		======================================
+		-->
+		
+		<record model = "ir.ui.view" id = "account_account_template_chart_name_view_form">
+			<field name = "name">account.account.template.chart.name.form</field>
+			<field name = "model">account.account.template</field>
+			<field name = "type">form</field>
+			<field name="inherit_id" ref="account.view_account_template_form"/>
+			<field name = "arch" type = "xml">
+				<data>
+					<field name = "chart_template_id" position = "after">
+						<field name = "chart_template"/>
+					</field>
+				</data>
+			</field>
+		</record>
+        
+        
+        <record model = "ir.ui.view" id = "account_account_template_chart_name_view_tree">
+			<field name = "name">account.account.template.chart.name.tree</field>
+			<field name = "model">account.account.template</field>
+			<field name = "type">tree</field>
+			<field name="inherit_id" ref="account.view_account_template_tree"/>
+			<field name = "arch" type = "xml">
+				<data>
+					<field name = "name" position = "after">
+						<field name = "chart_template"/>
+					</field>
+				</data>
+			</field>
+		</record>
+        
+        
+	</data>
+</openerp>
+
