@@ -57,10 +57,11 @@ class account_account(osv.osv):
 				data.append(obj_account.name)
 				data = '/'.join(data)
 				data = prefix + '-' + obj_account.code + ' ' + data
-			data.append(obj_account.name)
-			data = '/'.join(data)
-			data = prefix + ' ' + data
-			res.append((obj_account.id, data))  
+			else:
+				data.append(obj_account.name)
+				data = '/'.join(data)
+				data = prefix + ' ' + data
+			res.append((obj_account.id, data))
 		return res
 	
 	#def _complete_name(self, cr, uid, ids, name, args, context=None):
