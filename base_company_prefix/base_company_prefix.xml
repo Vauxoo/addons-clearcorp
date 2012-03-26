@@ -7,10 +7,13 @@
 			<field name="inherit_id" ref="base.view_company_form"/>
 			<field name="type">form</field>
 			<field name="arch" type="xml">
-				<form string="Company">
-                    
-                        <field name="prefix"/>
-				</form>
+			
+                    <data>
+                        <field name="name" position="after" >
+                            <field name="prefix"/>
+                        </field>
+                    </data>
+				
 			</field>
 		</record>
         
@@ -22,11 +25,13 @@
 			<field name="inherit_id" ref="base.view_company_tree"/>
 			<field name="type">tree</field>
 			<field name="arch" type="xml">
-				<tree>
-
-                        <field name="prefix"/>
-
-				</tree>
+				
+                    <data>
+                       <field name="name" position="after" >
+                            <field name="prefix"/>
+                        </field>
+                    </data>
+				
 			</field>
 		</record>
         

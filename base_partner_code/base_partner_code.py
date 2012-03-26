@@ -12,6 +12,6 @@ class res_partner(osv.osv):
     _inherit = "res.partner"
     _order = "name"
     _columns = {
-            'code': fields.char('Reference', size=16, select=1),
+            'code': fields.char('Internal Code', size=16, select=1),
     }
 res_partner()

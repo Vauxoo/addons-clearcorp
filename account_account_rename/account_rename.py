@@ -46,12 +46,15 @@ class account_account(osv.osv):
 		for obj_account in self.browse(cr,uid,ids):
 			obj_company = self.pool.get('res.company').browse(cr,uid,obj_account.company_id.id)
 			prefix= obj_company.prefix
+			if prefix == False:
+				prefix = ''
 			data = []
 			account = obj_account.parent_id
 			if account.parent_id:
 				while account.parent_id:
-					data.insert(0,(account.shortcut or account.name))
-					account = account.parent_id
+					if account.parent_id != None:
+						data.insert(0,(account.shortcut or account.name))
+						account = account.parent_id
 			data.append(obj_account.name)
 			data = '/'.join(data)
 			data = prefix + '-' + obj_account.code + ' ' + data
