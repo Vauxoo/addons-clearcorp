@@ -52,12 +52,14 @@ class account_account(osv.osv):
 			account = obj_account.parent_id
 			if account.parent_id:
 				while account.parent_id:
-					if account.parent_id != None:
-						data.insert(0,(account.shortcut or account.name))
-						account = account.parent_id
+					data.insert(0,(account.shortcut or account.name))
+					account = account.parent_id
+				data.append(obj_account.name)
+				data = '/'.join(data)
+				data = prefix + '-' + obj_account.code + ' ' + data
 			data.append(obj_account.name)
 			data = '/'.join(data)
-			data = prefix + '-' + obj_account.code + ' ' + data
+			data = prefix + ' ' + data
 			res.append((obj_account.id, data))  
 		return res
 	
