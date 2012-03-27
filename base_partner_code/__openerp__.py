@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
 ##############################################################################
 #
-#    account_rename.py
-#    account_rename
-#    First author: Mag Guevara <mag.guevara@clearcorp.co.cr> (ClearCorp S.A.)
+#    __openerp__.py
+#    account_journal_extended_code
+#    First author: Carlos Vásquez <carlos.vasquez@clearcorp.co.cr> (ClearCorp S.A.)
 #    Copyright (c) 2011-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
 #    
 #    Redistribution and use in source and binary forms, with or without modification, are
@@ -31,63 +31,20 @@
 #    or implied, of ClearCorp S.A..
 #    
 ##############################################################################
-from osv import osv, fields
-#from tools import debug
-from tools.translate import _
 
-class account_account(osv.osv):
-	_name = "account.account"
-	_inherit = "account.account"
-	
-	def name_get(self, cr, uid, ids, context=None):
-		if not ids:
-			return []
-		res = []
-		for obj_account in self.browse(cr,uid,ids):
-			obj_company = self.pool.get('res.company').browse(cr,uid,obj_account.company_id.id)
-			prefix= obj_company.prefix
-			if prefix == False:
-				prefix = ''
-			data = []
-			account = obj_account.parent_id
-			if account.parent_id:
-				while account.parent_id:
-					data.insert(0,(account.shortcut or account.name))
-					account = account.parent_id
-				data.append(obj_account.name)
-				data = '/'.join(data)
-				data = prefix + '-' + obj_account.code + ' ' + data
-			else:
-				data.append(obj_account.name)
-				data = '/'.join(data)
-				data = prefix + ' ' + data
-			res.append((obj_account.id, data))
-		return res
-	
-	#def _complete_name(self, cr, uid, ids, name, args, context=None):
-		#""" Forms complete name of account from parent account to child account.
-		#@return: Dictionary of values
-		#"""
-		#res = {}
-		#name_list = self.name_get(cr,uid,ids,context)
-		#for name in name_list:
-			#res[name[0]] = name[1]
-		#return res
-	#_columns = {
-		#'complete_name': fields.function(_complete_name, method=True, type='char', size=100, string="Account Name"),
-	#}
-account_account()
-
-
-class account_fiscalyear(osv.osv):
-	'''
-	Adds up to 16 chars to a Fiscal year code
-	'''
-	_name = 'account.fiscalyear'
-	_inherit = 'account.fiscalyear'
-	
-	_columns = {
-		'code': fields.char('Code', size=16, required=True, help="The code will be used to generate the numbers of the journal entries of this journal."),
-	}
-account_fiscalyear()
-
+{
+	'name': 'Base Partner Code',
+	'version': '0.1',
+	'author': 'ClearCorp S.A.',
+	'website': 'http://clearcorp.co.cr',
+	'category': 'General Modules/Base',
+	'description': """Enables up to 64 chars in a journal code
+	""",
+	'depends': ['base'],
+	'init_xml': [],
+	'demo_xml': [],
+	'update_xml': ['base_partner_code_view.xml'],
+	'license': 'Other OSI approved licence',
+	'installable': True,
+	'active': False,
+}
