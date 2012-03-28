@@ -35,7 +35,7 @@
 	"name"        : "Accounting rename",
 	"author"      : "ClearCorp S.A.",
 	"version"     : "1.0",
-	"depends"     : ["base","account"],
+	"depends"     : ["base","account","base_company_prefix"],
 	"init_xml"    : [],
 	"update_xml"  : ["account_rename_view.xml"],
 	"category"    : "Accounting",
