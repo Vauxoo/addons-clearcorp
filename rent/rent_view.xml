@@ -1,165 +1,19 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <openerp>
     <data>
-        
         <!--
         ======================================
-                CANTON
-        ======================================
-        -->
-
-        <record id="view_canton_tree" model="ir.ui.view">
-            <field name="name">rent.canton.tree</field>
-            <field name="model">rent.canton</field>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
-                <tree string="Canton">
-                    <field name="name"/>
-                    <field name="code"/>
-                    <field name="state_id"/>
-                </tree>
-            </field>
-        </record>
-
-        <record id="view_canton_form" model="ir.ui.view">
-            <field name="name">rent.canton.form</field>
-            <field name="model">rent.canton</field>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <form string="Canton">
-                    <field name="state_id" select="1"/>
-                    <field name="name" select="1"/>
-                    <field name="code" select="1"/>
-                </form>
-            </field>
-        </record>
-
-        <record id="action_canton" model="ir.actions.act_window">
-            <field name="name">Canton</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">rent.canton</field>
-            <field name="view_type">form</field>
-            <field name="view_id" ref="view_canton_tree"/>
-            <field name="help">If you are working on the Costa Rican market, you can manage the different Canton you are working on from here. Each canton is attached to one province.</field>
-        </record>
-        
-        
-        <!--
-        ======================================
-                DISTRICT
-        ======================================
-        -->
-
-        <record id="view_canton_district_tree" model="ir.ui.view">
-            <field name="name">rent.canton.district.tree</field>
-            <field name="model">rent.canton.district</field>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
-                <tree string="District">
-                    <field name="name"/>
-                    <field name="code"/>
-                    <field name="canton_id"/>
-                </tree>
-            </field>
-        </record>
-
-        <record id="view_canton_district_form" model="ir.ui.view">
-            <field name="name">rent.canton.district.form</field>
-            <field name="model">rent.canton.district</field>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <form string="District">
-                    <field name="canton_id" select="1"/>
-                    <field name="name" select="1"/>
-                    <field name="code" select="1"/>
-                </form>
-            </field>
-        </record>
-
-        <record id="action_canton_district" model="ir.actions.act_window">
-            <field name="name">District</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">rent.canton.district</field>
-            <field name="view_type">form</field>
-            <field name="view_id" ref="view_canton_district_tree"/>
-        </record>
-        
-        
-        
-        <!--
-        ======================================
-                    CLIENTS
-        ======================================
-        -->
-        <record model = "ir.ui.view" id = "client_form_view">
-            <field name = "name">res.partner.form</field>
-            <field name = "model">res.partner</field>
-            <field name = "type">form</field>
-            <field name="inherit_id" ref="base.view_partner_form"/>
-            <field name="arch" type="xml">
-                <data>
-                    <!--<field name = "name" position = "after">
-                        <field name = "client_birthdate"/>
-                    </field>-->
-                    <field name = "city" position = "replace"/>
-                    <field name = "state_id" position = "replace">
-                        <field name = "state_id"/>
-                    </field>
-                    <field name = "state_id" position = "after">
-                        <field name = "canton_id" attrs = "{'readonly':[('state_id','=','')]}"/>
-                    </field>
-                    <field name = "canton_id" position = "after">
-                        <field name = "district_id" attrs = "{'readonly':[('canton_id','=','')]}"/>
-                    </field>
-                </data>
-            </field>
-        </record>
-        
-        <record model = "ir.ui.view" id = "client_tree_view">
-            <field name = "name">res.partner.tree</field>
-            <field name = "model">res.partner</field>
-            <field name = "type">tree</field>
-            <field name="inherit_id" ref="base.view_partner_tree"/>
-            <field name = "arch" type = "xml">
-                <data>
-                    <field name = "ref" position = "replace"/>
-                    <field name = "city" position = "replace"/>
-                    <field name = "user_id" position = "replace"/>
-                    <!--<field name = "country" position = "after">
-                        <field name = "client_birthdate"/>
-                    </field>-->
-                </data>
-            </field>
-        </record>
-        
-        
-        <record model = "ir.actions.act_window" id = "action_client_form_view">
-            <field name = "name">Detalles de Clientes</field>
-            <field name = "res_model">res.partner</field>
-            <field name = "type">ir.actions.act_window</field>
-            <field name = "view_type">form</field>
-            <field name = "view_mode">tree,form</field>
-            <field name="domain">[('customer','=','True')]</field>
-            <field name = "view_id" ref = "client_form_view"/>
-        </record>
-        
-        <record model = "ir.actions.act_window.view" id = "action_client_tree_view">
-            <field name = "view_mode">tree</field>
-            <field name = "view_id" ref = "client_tree_view"/>
-            <field name="act_window_id" ref="action_client_form_view"/>
-        </record>
-        
-        
-        <!--
-        ======================================
-                        CLIENT MENU
+                        MENU
         ======================================
         -->
         <menuitem id = "rent_manager" name = "Rent" web_icon="data/rent.png"
                   web_icon_hover="data/rent-hover.png"/>
-        <menuitem id = "rent_client_menu" name = "Clients" parent = "rent_manager"/>
-        <menuitem id = "rent_client_submenu" name = "Client" parent = "rent_client_menu" action = "action_client_form_view"/>
+        <menuitem id = "rent_client_menu" name = "Customers" parent = "rent_manager"/>
+        <menuitem id="menu_account_customer" name="Customers"
+            parent="rent_client_menu"
+            action="base.action_partner_customer_form" sequence="100"/>
         
+        <!--
         ======================================
                         ESTATES
         ======================================

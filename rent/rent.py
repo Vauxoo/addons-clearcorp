@@ -29,26 +29,6 @@ from datetime import timedelta
 import calendar
 from tools.translate import _
 
-class rent_canton(osv.osv):
-	 _name = 'rent.canton'
-	 _description = 'Canton for the State'
-	 _columns = {
-		'state_id'   : fields.many2one('res.country.state','Province',required=True),
-		'name'       : fields.char('Canton Name', size=64, required=True),
-		'code'       : fields.char('Canton Code', size=4,help = 'The canton code in 4 chars', required=True),
-	 }
-rent_canton()
-
-class rent_canton_district(osv.osv):
-	_name = 'rent.canton.district'
-	_description = 'District located in the canton'
-	_columns = {
-		'canton_id'  : fields.many2one('rent.canton','Canton',required=True),
-		'name'       : fields.char('Distric Name', size=64, required=True),
-		'code'       : fields.char('Distric Code', size=4,help = 'The district code in 4 chars', required=True),
-	}
-rent_canton_district()
-
 
 # Class used to specialize the res.partner.address, this one adds the attributes of
 # canton, district and redefines the estate_id to province making it as a selection
@@ -57,8 +37,8 @@ class rent_location(osv.osv):
 	_inherit = 'res.partner.address'
 
 	_columns = {
-		'canton_id'   : fields.many2one('rent.canton', 'Canton', domain = "[('state_id','=',state_id)]"),
-		'district_id' : fields.many2one('rent.canton.district','District', domain = "[('canton_id','=',canton_id)]"),
+		'canton_id'   : fields.many2one('res.country.canton', 'Canton', domain = "[('state_id','=',state_id)]"),
+		'district_id' : fields.many2one('res.country.canton.district','District', domain = "[('canton_id','=',canton_id)]"),
 	}
 rent_location()
 
@@ -70,8 +50,8 @@ class rent_client(osv.osv):
 	_inherit = 'res.partner'
 	_columns = {
 		#'client_birthdate' : fields.date('Birthdate',select=1,required=True),
-		'client_canton'    : fields.related('address', 'canton_id', type='many2one', relation='rent.canton', string='Canton'),
-		'client_district'  : fields.related('address', 'district_id', type='many2one', relation='rent.canton.district', string='District'),
+		'client_canton'    : fields.related('address', 'canton_id', type='many2one', relation='res.country.canton', string='Canton'),
+		'client_district'  : fields.related('address', 'district_id', type='many2one', relation='res.country.canton.district', string='District'),
 	}
 rent_client()
 
