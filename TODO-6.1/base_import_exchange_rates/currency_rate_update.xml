@@ -35,12 +35,13 @@
 			<field name="name">Exchange Rates Cron</field>
 			<field name="user_id" ref="base.user_root"/>
 			<field name="interval_type">days</field>
-			<field name="interval_number" eval="1"/>
-			<field name="numbercall" eval="-1"/>
+			<field name="interval_number" > 1</field>
+			<field name="numbercall" >-1</field>
 			<!--field name="nextcall" model="currency.rate.update" ='get_next_dat'/-->
 			<field name="doall" eval="True"/> <!-- Repeat missed calls? -->
 			<field name="model" eval="'currency.rate.update'"/>
 			<field name="function" eval="'run_currency_update'"/>
+            <field eval="'()'" name="args"/>
 			<field name="priority" eval="0"/>
 		</record>
         

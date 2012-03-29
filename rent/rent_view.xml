@@ -239,6 +239,7 @@
 						<separator string = "General Information" col = "4" colspan = "4"/>
 						<field name = "estate_owner_id"/>
 						<field name = "estate_number"/>
+                        <field name="ref"/>
 						<field name = "estate_value" />
 						<field name = "estate_area"  />
 						<field name = "estate_vrn_per_sqr"/>
@@ -348,6 +349,7 @@
 						<separator string = "General Information" col = "4" colspan = "4"/>
 						<field name = "name" select = "1"/>
 						<field name = "building_code"/>
+                        <field name="ref"/>
 						<field name = "building_company_id"/>
 						<field name = "building_date_construction" select = "1"/>
 						<field name = "building_area"/>
@@ -433,6 +435,7 @@
 						<field name = "building_code"/>
 						<field name = "building_estate_id"/>
 						<field name = "building_company_id"/>
+                        <field name="ref"/>
 						<field name = "building_date_construction" select = "1"/>
 						<field name = "building_area"/>
 						<field name = "building_value"/>
@@ -555,6 +558,7 @@
 						<separator string = "General Information" col = "4" colspan = "4"/>
 						<field name = "floor_building_id" select = "1"/>
 						<field name = "floor_number"/>
+                        <field name="ref"/>
 						<field name = "floor_area"/>
 						<field name = "floor_value"/>
 					</group>
@@ -658,6 +662,7 @@
 						<separator string = "General Information"/>
 						<field name = "local_building"/>
 						<field name = "local_number"/>
+                        <field name="ref"/>
 						<field name = "local_area"/>
 						<field name = "local_huella"/>
 						<separator string = "Miscelanius Information"/>
@@ -779,6 +784,7 @@
 			<field name = "arch" type = "xml">
 				<search string = "Search Parking">
 					<group>
+                        <filter string = "Rented" icon = "gtk-check" domain = "[('parking_rented','=',True)]"/>
 						<filter string = "Not Rented" icon = "gtk-cancel" domain = "[('parking_rented','=',False)]"/>
 						<separator orientation="vertical"/>
 						<field name="parking_floor_id"/>
@@ -811,6 +817,7 @@
 					<group col = "4" colspan = "4">
 						<separator string = "General Information"/>
 						<field name = "parking_number"/>
+                        <field name="ref"/>
 						<field name = "parking_value"/>
 						<field name = "parking_sqrmeter_price"/>
 						<field name = "parking_rented"/>
@@ -853,6 +860,7 @@
 						<field name = "parking_floor_building"/>
 						<field name = "parking_floor_id" on_change="onchange_floor(parking_floor_id)"/>
 						<field name = "parking_number"/>
+                        <field name="ref"/>
 						<field name = "parking_value"/>
 						<field name = "parking_sqrmeter_price"/>
 						<field name = "parking_rented"/>
