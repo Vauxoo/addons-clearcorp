@@ -30,7 +30,7 @@
 	""",
 	'depends': [
 		'account',
-		'base_contact',
+		'l10n_cr_base',
 		],
 	'init_xml': [],
 	'demo_xml': [],
