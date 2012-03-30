@@ -36,8 +36,10 @@ from datetime import datetime, timedelta
 import netsvc
 import string
 from tools.translate import _
+import logging
+#from tools import debug
 
-from tools import debug
+
 
 class res_currency_rate_update_service(osv.osv):
     """Class thats tell for wich services wich currencies 
@@ -103,7 +105,7 @@ class Currency_rate_update(osv.osv):
             'function'        : 'run_currency_update',
             'args'            : '()',    
     }
-        
+    logger2 = logging.getLogger('currency.rate.update')
     logger = netsvc.Logger()
     LOG_NAME = 'cron-rates'
     MOD_NAME = 'c2c_currency_rate_update: '
@@ -196,20 +198,21 @@ class Currency_rate_update(osv.osv):
                     service.write({'note':error_msg})
     
     def get_next_date(self, cr, uid, context=None):
-		tomorrow=datetime.date.today() + datetime.timedelta(days=1)
-		pday= tomorrow.day 
-		pmonth = tomorrow.month
-		pyear = tomorrow.year
-		phour = "02:00:00"
-		string = pyear+"-"+pmonth+"-"+pday+" "+phour
-		res = time.strftime("%Y-%m-%d %H:%M:%S", (string).timetuple() )
-		debug(res)
-		return res
-		
-		
-		
-		
-			
+        tomorrow=datetime.date.today() + datetime.timedelta(days=1)
+        pday= tomorrow.day 
+        pmonth = tomorrow.month
+        pyear = tomorrow.year
+        phour = "02:00:00"
+        string = pyear+"-"+pmonth+"-"+pday+" "+phour
+        res = time.strftime("%Y-%m-%d %H:%M:%S", (string).timetuple() )
+        logger2.info(res)
+        #debug(res)
+        return res
+
+
+
+
+
            
                 
 Currency_rate_update()
@@ -495,7 +498,9 @@ class bccr_getter(Curreny_getter_interface) :   # class added for CR rates
     """Implementation of Currency_getter_factory interface
     for PL NBP service"""
 
+    
     def get_updated_currency(self, cr, uid, currency_array, main_currency):
+        logger2 = logging.getLogger('bccr_getter')
         """implementation of abstract method of Curreny_getter_interface"""
         today = time.strftime('%d/%m/%Y')
         url1='http://indicadoreseconomicos.bccr.fi.cr/indicadoreseconomicos/WebServices/wsIndicadoresEconomicos.asmx/ObtenerIndicadoresEconomicos?tcNombre=clearcorp&tnSubNiveles=N&tcFechaFinal=' + today + '&tcFechaInicio='
@@ -531,7 +536,8 @@ class bccr_getter(Curreny_getter_interface) :   # class added for CR rates
                 url = url + '333'    #333: indicator number for EUR rate
                 
             if url:
-                debug(url)
+                #debug(url)
+                logger2.info(url)
                 rawstring = self.get_url(url)
                 dom = parseString(rawstring)
                 nodes = dom.getElementsByTagName('INGC011_CAT_INDICADORECONOMIC')
@@ -549,5 +555,6 @@ class bccr_getter(Curreny_getter_interface) :   # class added for CR rates
                     #rate = node[0].firstChild.data
                     if float(rate) > 0:
                         self.updated_currency[curr][date_str] = rate
-        debug(self.updated_currency)
+        #debug(self.updated_currency)
+        logger2.info(self.updated_currency)
         return self.updated_currency, self.log_info

@@ -101,6 +101,7 @@ class rent_estate(osv.osv):
         'estate_location_id'  : fields.many2one('res.partner.address','Location'),
         'estate_account_id'   : fields.many2one('account.account', 'Cuenta'),
         'estate_rented'       : fields.function(_determine_rented,type='boolean',method=True,string='Rented',help='Checked if the local is rented', store=True),
+        'ref'                 : fields.char('ref', size=64),
     }
     _sql_constraints = [
         ('estate_area_gt_zero', 'CHECK (estate_area!=0)', 'The area for the estate cannot be 0!'),
@@ -153,6 +154,7 @@ class rent_building(osv.osv):
         'building_code'              : fields.char('Code', size=4, required=True),
         #'building_asset_id'          : fields.many2one('account.asset.asset','Asset'),
         'building_company_id'        : fields.many2one('res.company','Company',required=True),
+        'ref'                        : fields.char('ref', size=64),
     }
     _sql_constraints = [
         ('building_area_gt_zero', 'CHECK (building_area!=0)', 'The area for the building cannot be 0!'),
@@ -232,15 +234,16 @@ class rent_floor(osv.osv):
         return res
 
     _columns = {
-        'floor_number'     : fields.char('# Floor',size=16,required=True, help='Number of the floor in the building, starts from 0 (Basement)'),
-        'floor_thickness'  : fields.float('Thickness'),
-        'floor_durability' : fields.integer('Durability', help='Indicate the durability in years'),
-        'floor_area'       : fields.float('Area',required=True),
-        'floor_value'      : fields.function(_calculate_floor_value,type='float',method=True,string='Value',help='This value is calculated using the estate and building area and values'),
-        'floor_acabado'    : fields.char('Acabado',size=64),
-        'floor_parking_ids'    : fields.one2many('rent.floor.parking','parking_floor_id','Parking'),
-        'floor_building_id'   : fields.many2one('rent.building','Building'),
-        'complete_name'    : fields.function(_get_fullname,type='char',method=True,string='Name',help='This name uses the code of the building and the floor name'),
+        'floor_number'      : fields.char('# Floor',size=16,required=True, help='Number of the floor in the building, starts from 0 (Basement)'),
+        'floor_thickness'   : fields.float('Thickness'),
+        'floor_durability'  : fields.integer('Durability', help='Indicate the durability in years'),
+        'floor_area'        : fields.float('Area',required=True),
+        'floor_value'       : fields.function(_calculate_floor_value,type='float',method=True,string='Value',help='This value is calculated using the estate and building area and values'),
+        'floor_acabado'     : fields.char('Acabado',size=64),
+        'floor_parking_ids' : fields.one2many('rent.floor.parking','parking_floor_id','Parking'),
+        'floor_building_id' : fields.many2one('rent.building','Building'),
+        'complete_name'     : fields.function(_get_fullname,type='char',method=True,string='Name',help='This name uses the code of the building and the floor name'),
+        'ref'               : fields.char('ref', size=64),
     }
     _sql_constraints = [
         ('floor_area_gt_zero', 'CHECK (floor_area!=0)', 'The area for the floor cannot be 0!'),
@@ -317,6 +320,7 @@ class rent_floor_local(osv.osv):
     _columns = {
         'local_area'               : fields.function(_local_area,type='float',method=True,string='VRN Dynamic'),
         'local_number'             : fields.char('# Local',required=True, size=64),
++       'ref'                      : fields.char('ref', size=64),
         'local_huella'             : fields.float('Huella',required=True),
         'local_water_meter_number' : fields.char('Water Meter',size=64), 
         'local_light_meter_number' : fields.char('Electric Meter', size=64),
@@ -468,6 +472,7 @@ class rent_floor_parking(osv.osv):
         'parking_large'           : fields.float('Large Meters'),
         'parking_width'           : fields.float('Width Meters'),
         'parking_floor_building'  : fields.related('parking_floor_id','floor_building_id',type='many2one',relation='rent.building',string='Building', readonly=True, store=False),
+        'ref'                     : fields.char('ref', size=64),
     }
     _sql_constraints = [
         ('parking_huella_gt_zero', 'CHECK (parking_area!=0)', 'The huella for the parking cannot be 0!'),
