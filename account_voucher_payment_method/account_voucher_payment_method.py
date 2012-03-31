@@ -210,7 +210,7 @@ class account_voucher_journal_payment(osv.osv):
 			company_id = self.pool.get('res.company').browse(cr,1,1)
 			partner_id = company_id.partner_id
 
-			period_id  = self.pool.get('account.period').search(cr,1,['|',('name','=',voucher.period_id.name), ('code','=',voucher.period_id.code),('company_id','=',company_id.id)])[0]
+			period_id  = self.pool.get('account.period').search(cr,1,['|',('date_start','=',voucher.period_id.date_start), ('date_stop','=',voucher.period_id.date_stop),('company_id','=',company_id.id)])[0]
 
 			period = self.pool.get('account.period').browse(cr,1,period_id)
 			args = {
