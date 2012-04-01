@@ -24,6 +24,7 @@ from tools.translate import _
 import netsvc
 #from tools import debug
 from dateutil import parser
+from datetime import date
 
 class rent_check_invoicing(osv.osv_memory):
 	_name = "rent.check.invoicing"
