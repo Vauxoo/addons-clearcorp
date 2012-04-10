@@ -51,7 +51,7 @@ CENTENAS = (
 def number_to_text_es(number_in,currency,join_dec=' y ',separator=',',decimal_point='.'):
                               
     converted = ''                              
-    if currency = False:
+    if currency == False:
         currency = ''
 
     if type(number_in) != 'str':
