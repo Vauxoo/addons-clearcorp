@@ -1,7 +1,7 @@
 #!/usr/bin/python                   
 # -*- coding: utf-8 -*-
 
-from tools import debug
+#from tools import #debug
 UNIDADES = (
     '',     
     'UN ',  
@@ -64,7 +64,7 @@ def number_to_text_es(number_in,currency,join_dec=' y ',separator=',',decimal_po
     except ValueError:
       print 'The separator used for the thousands its not supported'
     
-    debug(number_str)                                      
+    #debug(number_str)                                      
                                                            
     try:                                                   
       number_int, number_dec = number_str.split(decimal_point)       
