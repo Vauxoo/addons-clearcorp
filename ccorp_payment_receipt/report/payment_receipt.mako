@@ -27,13 +27,13 @@
 			</div>
 			<div class = "detail">
 				<span class="text_doct">${_("Observations")}:</span> <span class = "text_font"> ${check.narration or ''|entity}</span>
-			<!--/div>
+			</div>
 		</div>
-		<hr/-->
+		<!--hr/-->
 		<table id = "validation">
 			<tr>
 				<td  class = "line">
-					<hr/>
+					<!--hr/-->
 				</td>
 				<td class = "payment_method">
 					%if check.journal_id.type == 'cash':
