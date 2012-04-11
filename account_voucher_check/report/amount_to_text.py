@@ -48,7 +48,7 @@ CENTENAS = (
     'NOVECIENTOS '   
 )                    
                      
-def number_to_text_es(number_in,currency,join_dec=' y ',separator=',',decimal_point='.'):
+def number_to_text_es(number_in,currency,join_dec=' Y ',separator=',',decimal_point='.'):
                               
     converted = ''                              
     if currency == False:
