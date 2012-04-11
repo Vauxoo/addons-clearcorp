@@ -44,9 +44,9 @@
 				</td>
 			</tr>
 			<tr id = "val_second">
-				<td class = "line">
+				<!--td class = "line">
 					&nbsp;
-				</td>
+				</td-->
 				<td valign = "top" class = "signature">
 					<span class = "sign_detail">${_("P/")} ${check.company_id.partner_id.name or ''|entity }</span>
 					<div class="sign_line"></div>
