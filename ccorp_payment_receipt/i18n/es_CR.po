@@ -82,5 +82,5 @@ msgstr "FECHA"
 
 #. module: ccorp_payment_receipt
 #: report:report.account.voucher.layout_ccorp:1
-msgid "In words the amount of"
-msgstr "EN LETRAS LA SUMA DE"
+msgid "In words"
+msgstr "EN LETRAS"

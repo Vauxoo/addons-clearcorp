@@ -20,7 +20,7 @@
 				<span class="text_doct">${_("The amount of")}:</span> <span class = "amount_text">${check.currency_id.symbol_prefix or ''|entity } ${formatLang(check.amount)} ${check.currency_id.symbol_suffix or ''|entity }</span>
 			</div>
 			<div class = "detail">
-				<span class="text_doct">${_("In words the amount of")}:</span> <span class = "amount_text">${get_text(check.amount,check.currency_id,check.partner_id.lang) or ''|entity}</span>
+				<span class="text_doct">${_("In words ")}:</span> <span class = "amount_text">${get_text(check.amount,check.currency_id,check.partner_id.lang) or ''|entity}</span>
 			</div>
 			<div class = "detail">
 				<span class="text_doct">${_("Concept of")}:</span> <span class="text_font">${check.name or ''|entity}</span>
@@ -29,11 +29,11 @@
 				<span class="text_doct">${_("Observations")}:</span> <span class = "text_font"> ${check.narration or ''|entity}</span>
 			</div>
 		</div>
-		<hr/>
+		<!--hr/-->
 		<table id = "validation">
 			<tr>
 				<td  class = "line">
-					<hr/>
+					<!--hr/-->
 				</td>
 				<td class = "payment_method">
 					%if check.journal_id.type == 'cash':
