@@ -20,9 +20,19 @@
 					<span class = "amount">${formatLang(check.amount)}</span>
 				</div>
 			</div>
+            %if count_text(check.amount,check.currency_id,check.partner_id.lang,check.company_id) < 50 :
 			<div class = "amount_text">
-				<span class="amount_desc">${get_text(check.amount,check.currency_id,check.partner_id.lang) or ''|entity}</span>
+				<span class="amount_desc">${get_text(check.amount,check.currency_id,check.partner_id.lang,check.company_id) or ''|entity}</span>
 			</div>
+            %elif count_text(check.amount,check.currency_id,check.partner_id.lang,check.company_id) > 50 and get_text(check.amount,check.currency_id,check.partner_id.lang,check.company_id) < 80:
+			<div class = "amount_text">
+				<span class="amount_desc_medium">${get_text(check.amount,check.currency_id,check.partner_id.lang,check.company_id) or ''|entity}</span>
+			</div>
+            %else :
+			<div class = "amount_text">
+				<span class="amount_desc_small">${get_text(check.amount,check.currency_id,check.partner_id.lang,check.company_id) or ''|entity}</span>
+			</div>
+            %endif
 		</div>
 		<div id = "accounting_data">
 			<div id = "document_desc">
