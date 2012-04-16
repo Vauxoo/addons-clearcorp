@@ -104,7 +104,7 @@ def number_to_text_es(number_in,currency,join_dec=' Y ',separator=',',decimal_po
     if (len(number_dec) < 2 ):
       number_dec+='0'         
 
-    has_decimal = float(number_dec) != 0 and join_dec + number_dec + " CENTIMOS" or ' EXACTOS'
+    has_decimal = float(number_dec) != 0 and join_dec + number_dec + "/100" or ' EXACTOS'
     converted += currency +  has_decimal
     
 

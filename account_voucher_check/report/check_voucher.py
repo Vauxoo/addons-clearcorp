@@ -41,31 +41,44 @@ import locale
 
 class check_voucher(report_sxw.rml_parse):
 
-	def __init__(self, cr, uid, name, context):
-		super(check_voucher, self).__init__(cr, uid, name, context=context)
-		self.localcontext.update({
-			'time': time,
-			'cr'  : cr,
-			'uid' : uid,
-			'get_text':self.get_text,
-		})
-		self.context = context
-		self._node = None
+    def __init__(self, cr, uid, name, context):
+        super(check_voucher, self).__init__(cr, uid, name, context=context)
+        self.localcontext.update({
+            'time': time,
+            'cr'  : cr,
+            'uid' : uid,
+            'get_text':self.get_text,
+            'count_text':self.count_text,
+        })
+        self.context = context
+        self._node = None
 
-	def get_text(self,amount,currency,lang):
-		separator = ','
-		decimal_point = '.'
-		if lang:
-			lang_pool = self.pool.get('res.lang')
-			id_lang = lang_pool.search(self.cr,self.uid,[('code','=',lang)])
-			obj_lang = lang_pool.browse(self.cr,self.uid,id_lang)[0]
-			separator = obj_lang  and obj_lang.thousands_sep or separator
-			decimal_point = obj_lang  and obj_lang.decimal_point or decimal_point
-		#debug(separator)
-		#debug(decimal_point)
-		res = number_to_text_es(amount,currency.currency_name,separator=separator,decimal_point=decimal_point)
-		return res
-		
+
+    def get_text(self,amount,currency,lang,company_id):
+        separator = ','
+        decimal_point = '.'
+        name_currency = currency.currency_name
+        if name_currency == False:
+            name_currency = company_id.currency_id.currency_name
+        if name_currency == None:
+            name_currency = company_id.currency_id.currency_name
+        if lang:
+            lang_pool = self.pool.get('res.lang')
+            id_lang = lang_pool.search(self.cr,self.uid,[('code','=',lang)])
+            obj_lang = lang_pool.browse(self.cr,self.uid,id_lang)[0]
+            separator = obj_lang  and obj_lang.thousands_sep or separator
+            decimal_point = obj_lang  and obj_lang.decimal_point or decimal_point
+        #debug(separator)
+        #debug(decimal_point)
+        res = number_to_text_es(amount,name_currency,separator=separator,decimal_point=decimal_point)
+        return res
+        
+        
+        
+    def count_text(self,amount,currency,lang,company_id):
+        res = len(self.get_text(amount,currency,lang,company_id))
+        return res
+        
 report_sxw.report_sxw(
     'report.check.voucher.layout_ccorp',
     'account.voucher',
