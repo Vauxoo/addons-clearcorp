@@ -24,11 +24,24 @@ import os
 import tools
 
 class res_company(osv.osv):
-	_name = "res.company"
-	_description = 'Companies'
-	_inherit = 'res.company'
-	_order = 'name'
-	_columns = {
-		'prefix' : fields.char('Prefijo',size=10),
-	}
+    _name = "res.company"
+    _description = 'Companies'
+    _inherit = 'res.company'
+    _order = 'prefix'
+    _columns = {
+        'prefix' : fields.char('Prefijo',size=10),
+    }
+    
+    def name_get(self, cr, uid, ids, context=None):
+        if not len(ids):
+            return []
+        res = []
+        for obj_company in self.browse(cr, uid, ids, context=context):
+            obj_company_name = obj_company.prefix + ' '  or ''
+            obj_company_name += obj_company.name
+            res.append((obj_company.id,obj_company_name))
+        return res
+    
+    
+    
 res_company()
