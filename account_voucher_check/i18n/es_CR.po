@@ -79,3 +79,8 @@ msgstr "RECIBO DE DINERO"
 #: report:report.account.voucher.layout_ccorp:1
 msgid "Date"
 msgstr "FECHA"
+
+#. module: ccorp_payment_receipt
+#: report:addons/ccorp_payment_receipt/report/payment_receipt.mako:23
+msgid "In words"
+msgstr "EN LETRAS"
