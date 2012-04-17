@@ -56,11 +56,12 @@ class account_account(osv.osv):
                     account = account.parent_id
                 data.append(obj_account.name)
                 data = '/'.join(data)
-                data = prefix + '-' + obj_account.code + ' ' + data
+                data = obj_account.code + ' ' + data
+                data = prefix and prefix + '-' + data or data
             else:
                 data.append(obj_account.name)
                 data = '/'.join(data)
-                data = prefix + ' ' + data
+                data = prefix and prefix + ' ' + data or data
             res.append((obj_account.id, data))
         return res
     

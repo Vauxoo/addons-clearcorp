@@ -37,7 +37,7 @@ class res_company(osv.osv):
             return []
         res = []
         for obj_company in self.browse(cr, uid, ids, context=context):
-            obj_company_name = obj_company.prefix + ' '  or ''
+            obj_company_name = obj_company.prefix and obj_company.prefix + ' '  or ''
             obj_company_name += obj_company.name
             res.append((obj_company.id,obj_company_name))
         return res
