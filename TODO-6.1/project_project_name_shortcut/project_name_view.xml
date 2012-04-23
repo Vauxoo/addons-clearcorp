@@ -8,8 +8,7 @@
 			<field name="inherit_id" ref="project.view_project"/>
 			<field name="arch" type="xml">
 				<data>
-					<xpath expr="//tree/field[@name='name']" position="replace"></xpath>
-					<xpath expr="//tree/field[@name='date']" position="after">
+					<xpath expr="//tree/field[@name='name']" position="replace">
 						<field name="shortcut_name"/>
 					</xpath>
 				</data>
