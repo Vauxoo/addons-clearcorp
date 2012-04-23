@@ -21,7 +21,8 @@
 ##############################################################################
 
 from osv import osv, fields
-from tools import debug
+#from tools import #debug
+
 
 class project_name_shortcut(osv.osv):
     _name = 'project.project'
@@ -34,26 +35,32 @@ class project_name_shortcut(osv.osv):
         for project in self.browse(cr, uid, ids, context=context):
             data = []
             proj = project.parent_id
-            while proj:
-                data.insert(0,(proj.shortcut or proj.name))
-                proj = proj.parent_id
+            while proj :
+                if proj.code != '' and proj.code != False:
+                    data.insert(0,(proj.name))
+                    proj = proj.parent_id
+                    continue
+                else:
+                    data.insert(0,(proj.name))
+                    proj = proj.parent_id
+                
+                
             
             data.append(project.name)
             data = ' / '.join(data)
             res.append((project.id, data))
         return res
-    
+
     def _shortcut_name(self, cr, uid, ids,field_name,arg, context=None):
         res ={}
-        debug(ids)
+        #debug(ids)
         for m in self.browse(cr,uid,ids,context=context):
             res = self.name_get(cr, uid, ids)
             return dict(res)
-            
+
         return res
         
     _columns = {
         'shortcut_name': fields.function(_shortcut_name, method=True, string='Project Name', type='char', size=350),
+        'shortcut': fields.char('shortcut',size=16),
     }
-
-
