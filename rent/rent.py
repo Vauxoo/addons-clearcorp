@@ -935,9 +935,7 @@ class rent_rent(osv.osv):
 		#once we have all that dates we run the method for each one 
 		#NOTE: date_list contains at least the today date
 		for record_date in date_list:
-			debug(record_date)
 			is_required = self._invoice_main_required(cr,uid,rent_ids,'rent',record_date)
-			debug(is_required)
 			self._method_invoice_caller(cr,uid,rent_ids,is_required,'rent',record_date)
 		
 			#after we invocied all the rents, now we can proceed with the maintenance 
@@ -952,13 +950,10 @@ class rent_rent(osv.osv):
 	
 	def _method_invoice_caller (self,cr,uid,rent_ids,is_required,type='rent',current_date=date.today()):
 		res_norm_inv = []
-		debug("CRONO DE EJECUCUIONSSSSSSSSSSSSSSSSSSSSSSSS")
 		for obj_rent in self.browse(cr,uid,rent_ids):
-			debug(is_required[obj_rent.id])
 			if is_required[obj_rent.id]: 
 				#res_norm_inv.append(obj_rent.id)
 				res_norm_inv.append(obj_rent)
-		debug(res_norm_inv)
 		self.rent_calc(cr,uid,res_norm_inv,type,current_date)
 		return True
 	
