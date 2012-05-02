@@ -866,14 +866,14 @@
                                 <field name="rent_rent_main_account_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"  groups="base.group_extended" attrs = "{ 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
                                 <field name="rent_rent_main_acc_int_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" groups="base.group_extended" attrs = "{ 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
                                 <field name="rent_inv_main_account_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" groups="base.group_extended" attrs = "{ 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
-                                <field name = "rent_main_charge_day" attrs = "{'readonly' : ['|',('state','!=','draft')], 'required' : [('state','!=','draft')]}"/>
-                                <field name = "rent_main_invoiced_day" attrs = "{'readonly' : ['|',('state','!=','draft')], 'required' : [('state','!=','draft')]}"/>
-                                <field name = "rent_main_grace_period" attrs = "{'readonly' : ['|',('state','!=','draft')], 'required' : [('state','!=','draft')]}"/>
+                                <field name = "rent_main_charge_day" attrs = "{'required' : [('state','!=','draft')]}"/>
+                                <field name = "rent_main_invoiced_day" attrs = "{'required' : [('state','!=','draft')]}"/>
+                                <field name = "rent_main_grace_period" attrs = "{'required' : [('state','!=','draft')]}"/>
                                 
                             </group>
                             <group col = "4" colspan = "2">
                                 <separator string = "Financial Information" colspan = "4"/>
-                                <field name = "rent_main_amount_base"  attrs = "{'readonly' : ['|',('state','!=','draft'),('rent_main_inc','!=','True')], 'required' : [('state','!=','draft')]}"/>
+                                <field name = "rent_main_amount_base"  attrs = "{'readonly' : [('rent_main_inc','!=','True')], 'required' : [('state','!=','draft')]}"/>
                                 <field name = "rent_main_total"  attrs = "{'readonly' : ['|',('state','!=','draft'),('rent_main_inc','!=','True')], 'required' : [('state','!=','draft')]}"/>
                                 <field name = "rent_main_rise_year2"/>
                                 <field name = "rent_main_performance"/>
