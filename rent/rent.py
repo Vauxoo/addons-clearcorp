@@ -26,6 +26,7 @@ from dateutil import parser
 from datetime import date
 from datetime import timedelta
 import calendar
+import netsvc
 from tools.translate import _
 
 
@@ -1537,7 +1538,8 @@ class rent_rent(osv.osv):
         'rent_include_water'         : fields.boolean('Include water payment',readonly=True, states={'draft':[('readonly',False)]},help="Check if you want to generate an invoice for the water payment"),
         'rent_inv_water_account_id'  : fields.many2one('account.account','Water payment Account',help="This account will be used for invoices of water instead of the default one to value expenses for the current rent",states={'finished':[('readonly',True)]}),
         
-        'company_id'                 : fields.many2one('res.company', 'Company',readonly=True),
+        'company_id'                 : fields.many2one('res.company', 'Company'),
+        'company_id_prefix'          : fields.related('company_id', 'prefix', type='char', string='Company Prefix'),
         'rent_deposit'               : fields.float('Deposit', required=True, states={'finished':[('readonly',True)]}),
         
         'active'                     : fields.boolean('Active', help="If the active field is set to False, it will allow you to hide the resource record without removing it."),
@@ -1563,6 +1565,7 @@ class rent_rent(osv.osv):
         'rent_main_performance' : "%.2f%%" % (0.),
         'rent_modif_date' : date.today(),
         'active': 1,
+        'company_id': lambda self, cr, uid, c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.id,
     }
 
 class rent_rise_estimate(osv.osv):

@@ -930,6 +930,7 @@
             <field name = "type">tree</field>
             <field name = "arch" type = "xml">
                 <tree string = "Rent List" colors="blue:state in ('draft');black:state in ('active');gray:state in ('finished')">
+                    <field name = "company_id_prefix"/>
                     <field name = "rent_rent_client_id"/>
                     <field name = "ref"/>
                     <field name = "name"/>
