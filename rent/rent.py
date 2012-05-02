@@ -505,7 +505,7 @@ class rent_rent_group(osv.osv):
 
 class rent_rent(osv.osv):
     _name = 'rent.rent'
-    _order = 'rent_rent_client_id'
+    _order = 'company_id,rent_rent_client_id'
     
     def onchange_estimations(self,cr,uid,ids,field):
         res = {}
