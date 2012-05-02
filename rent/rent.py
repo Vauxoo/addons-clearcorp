@@ -1538,7 +1538,7 @@ class rent_rent(osv.osv):
         'rent_include_water'         : fields.boolean('Include water payment',readonly=True, states={'draft':[('readonly',False)]},help="Check if you want to generate an invoice for the water payment"),
         'rent_inv_water_account_id'  : fields.many2one('account.account','Water payment Account',help="This account will be used for invoices of water instead of the default one to value expenses for the current rent",states={'finished':[('readonly',True)]}),
         
-        'company_id'                 : fields.many2one('res.company', 'Company'),
+        'company_id'                 : fields.many2one('res.company', 'Company', required=True),
         'company_id_prefix'          : fields.related('company_id', 'prefix', type='char', string='Company Prefix'),
         'rent_deposit'               : fields.float('Deposit', required=True, states={'finished':[('readonly',True)]}),
         
