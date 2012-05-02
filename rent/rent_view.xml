@@ -873,7 +873,7 @@
                             </group>
                             <group col = "4" colspan = "2">
                                 <separator string = "Financial Information" colspan = "4"/>
-                                <field name = "rent_main_amount_base"  attrs = "{'readonly' : [('rent_main_inc','!=','True')], 'required' : [('state','!=','draft')]}"/>
+                                <field name = "rent_main_amount_base"  attrs = "{'required' : [('state','!=','draft')]}"/>
                                 <field name = "rent_main_total"  attrs = "{'readonly' : ['|',('state','!=','draft'),('rent_main_inc','!=','True')], 'required' : [('state','!=','draft')]}"/>
                                 <field name = "rent_main_rise_year2"/>
                                 <field name = "rent_main_performance"/>
