@@ -878,7 +878,7 @@
                                 <field name = "rent_main_rise_year2"/>
                                 <field name = "rent_main_performance"/>
                                 <field name = "rent_main_rise_year3"/>
-                                <field name = "rent_main_rise"  attrs = "{'readonly' : ['|',('state','!=','draft')], 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
+                                <field name = "rent_main_rise"  attrs = "{'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
                                 <field name = "main_currency_id"/>
                                 <field name = "rent_main_show_us_eq"/>
                                 <label string = "  "/>
