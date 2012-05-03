@@ -4,6 +4,7 @@
 #    check_voucher.py
 #    account_voucher_check
 #    First author: Mag Guevara <mag.guevara@clearcorp.co.cr> (ClearCorp S.A.)
+#    Second author: Juan Felipe Muñoz <juan.munoz@clearcorp.co.cr> (ClearCorp S.A.)
 #    Copyright (c) 2010-TODAY ClearCorp S.A. (http://clearcorp.co.cr). All rights reserved.
 #    
 #    Redistribution and use in source and binary forms, with or without modification, are
@@ -49,6 +50,7 @@ class check_voucher(report_sxw.rml_parse):
             'uid' : uid,
             'get_text':self.get_text,
             'count_text':self.count_text,
+            'get_concept':self.get_concept,
         })
         self.context = context
         self._node = None
@@ -77,6 +79,16 @@ class check_voucher(report_sxw.rml_parse):
         
     def count_text(self,amount,currency,lang,company_id):
         res = len(self.get_text(amount,currency,lang,company_id))
+        return res
+        
+        
+    def get_concept(self,moves):
+        res = 'error'
+        for move in moves:
+            move_line = self.pool.get('acccount.move.line').browse(self.cr,self.uid,move.id)
+            invoice = self.pool.get('account.invoice').browse(self.cr,self.uid,move_line.invoice)
+            if invoice.name != ''or invoice.name != False:
+                res = invoice.name
         return res
         
 report_sxw.report_sxw(

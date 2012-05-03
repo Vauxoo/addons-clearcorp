@@ -38,11 +38,15 @@
 			<div id = "document_desc">
 				<p>&nbsp;</p>
 				<div class = "detail_desc">
-					%if check.narration:
-					<span class = "text_font">${check.narration or ''|entity}</span>
-					%else:
-					<span>&nbsp;</span>
+					%if check.name:
+                    <span class = "text_font">${check.name or ''|entity}</span>
+                    %endif
+                    %for line in check.move_ids :
+					%if line.invoice.name:
+                        <span class = "text_font">${ line.invoice.name or ''|entity}</span>
+                        <span>&nbsp;</span>
 					%endif
+                    %endfor
 				</div>
 			</div>
             </br>
@@ -50,7 +54,7 @@
 				<table width = "100%" id = "table_account" cellpadding = "0" cellspacing = "0">
 					<thead><tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr></thead>
 					<tbody>
-					%for line in check.line_cr_ids :
+					%for line in check.move_ids :
 					<tr class = "account_line">
 						<td valign="top" class = "code_cell">
 							${line.account_id.code}
@@ -59,22 +63,22 @@
 							${line.account_id.name}
 						</td>
 						<td valign="top" class = "amount_acc">
-							${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}
+							${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.debit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}
 						</td>
 						<td valign="top" class = "amount_acc">
-							${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}
+							${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}
 						</td>
 					</tr>
 					%endfor
 					%for line in check.line_dr_ids :
-					<tr class = "account_line">
+					<!--tr class = "account_line">
 						<td valign="top" class = "code_cell">${line.account_id.code}</td>
 						<td valign="top" class = "account_id">
 							${line.account_id.name}
 						</td>
 						<td valign="top" class = "amount_acc">${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}</td>
 						<td valign="top" class = "amount_acc">${line.account_id.currency_id.symbol_prefix or ''|entity} ${formatLang(line.account_id.credit)} ${line.account_id.currency_id.symbol_suffix or ''|entity}</td>
-					</tr>
+					</tr-->
 					%endfor
 					</tbody>
 				</table>
