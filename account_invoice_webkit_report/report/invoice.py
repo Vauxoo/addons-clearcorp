@@ -50,5 +50,5 @@ class account_invoice_ccorp(report_sxw.rml_parse):
 report_sxw.report_sxw(
     'report.account.invoice.layout_ccorp',
     'account.invoice',
-    'addons/ccorp_account/report/invoice.mako',
+    'addons/account_invoice_webkit_report/report/invoice.mako',
     parser=account_invoice_ccorp)
