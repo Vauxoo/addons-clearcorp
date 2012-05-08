@@ -20,25 +20,30 @@
 #
 ##############################################################################
 
-
 {
-    "name" : 'NAME',
+    "name" : 'Global invoice discount',
     "version" : '1.0',
-    "author" : 'CLEARCORP S.A.',
+    "author" : 'CLEARCORP S.A',
     #easy, normal, expert
     'complexity': 'normal',
     "description": """
-LONG DESCRIPTION
+Adds a discount feature for invoice.
+
+With it one can add a discount percent to all invoice lines on an invoice.
+It adds the discounted and undiscounted amounts on the invoice totals.
     """,
     "category": 'Accounting & Finance',
     "sequence": 4,
     "website" : "http://clearcorp.co.cr",
     "images" : [],
     "icon" : False,
-    "depends" : [],
+    "depends" : ['account'],
     "init_xml" : [],
     "demo_xml" : [],
-    "update_xml" : [],
+    "update_xml" : [
+        'account_invoice_global_discount_wizard.xml',
+        'account_invoice_global_discount_view.xml',
+        ],
     "test" : [],
     "auto_install": False,
     "application": False,
