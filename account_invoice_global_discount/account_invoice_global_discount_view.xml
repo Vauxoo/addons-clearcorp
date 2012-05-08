@@ -84,24 +84,15 @@
 		<field name="inherit_id" ref="account.invoice_form"/>
 		<field name="type">form</field>
 		<field name="arch" type="xml">
-			<xpath expr="/form/notebook/page/group/button[@name='button_reset_taxes']" position="replace">
-                <button colspan="2" name="%(invoice_discount)d" states="draft" string="Apply Discount" type="action"/>
-                <button colspan="2" name="button_reset_taxes" states="draft" string="Compute Totals" type="object"/>
-			</xpath>
-		</field>
-	</record>
-	<record id="invoice_form_ccorp2" model="ir.ui.view">
-		<field name="name">account.invoice.form_ccorp2</field>
-		<field name="model">account.invoice</field>
-		<field name="inherit_id" ref="account.invoice_form"/>
-		<field name="type">form</field>
-		<field name="arch" type="xml">
-			<xpath expr="/form/notebook/page/group/field[@name='amount_untaxed']" position="replace">
-                <label colspan="2"/>
+            <xpath expr="/form/notebook/page/group/field[@name='amount_untaxed']" position="replace">
                 <field name="amount_untaxed_not_discounted"/>
+                <group colspan="2" col="1">
+                    <button colspan="2" name="%(invoice_discount)d" states="draft" string="Apply Discount" type="action"/>
+                </group>
                 <field name="invoice_discount"/>
+                <label colspan="2" string=""/>
                 <field name="amount_discounted"/>
-			</xpath>
+            </xpath>
 		</field>
 	</record>
 
@@ -120,4 +111,5 @@
 			</field>
 		</field>
 	</record>
-</data></openerp>
+</data>
+</openerp>
