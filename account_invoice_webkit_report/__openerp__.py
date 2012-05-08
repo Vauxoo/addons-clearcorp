@@ -35,7 +35,9 @@ Invoice webkit report
     "images" : [],
     "icon" : False,
     "depends" : [
-        'report_webkit',],
+        'report_webkit',
+        'account_invoice_global_discount',
+        ],
     "init_xml" : [],
     "demo_xml" : [],
     "update_xml" : ['ccorp_account_webkit_report.xml'],
