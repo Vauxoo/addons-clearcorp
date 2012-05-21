@@ -5,7 +5,7 @@
 				id="sale.report_sale_order" 
 				model="sale.order" 
 				name="sale.order.layout_ccorp"  
-				file="ccorp_sale/report/sale_order.mako" 
+				file="sale_order_ccorp_report/report/sale_order.mako" 
 				string="Orden de venta" 
 				report_type="webkit"
 				/>
