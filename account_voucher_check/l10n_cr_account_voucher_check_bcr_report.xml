@@ -1,0 +1,197 @@
+<?xml version="1.0"?>
+<openerp>
+    <data >
+        <record id="webkit_header_l10n_cr_account_voucher_check_bcr" model="ir.header_webkit">
+            <field name="name">Imprimir Cheque BCR</field>
+            <field name="orientation">Portrait</field>
+            <field name="format">Letter</field>
+            <field eval="0.50" name="margin_top"/>
+            <field eval="0.0" name="margin_bottom"/>
+            <field eval="0.10" name="margin_left"/>
+            <field eval="0.10" name="margin_right"/>
+            <field name="html"><![CDATA[<html> </html>]]></field>
+            <field name="css"><![CDATA[
+body {
+    /*margin-top : 10px;cambio de 20 a 10*/
+}
+
+#wrapper{
+
+}
+
+#document_data{
+    /*padding : 5px;*/
+    padding-top : 15px;
+    width : 100%;
+    height : 185px;/*cambio de 210 a 200*/
+}
+
+#date {
+    margin : 20px 0px 5px 350px;/*cambio de 400 a 200*/
+}
+
+#detail {
+    margin-top : 13px;
+    width : 100%;
+    
+}
+
+.amount_detail {
+    margin : 0px 0px 0px 375px;/*cambio de 400 a 200*/
+}
+
+#accounting_data {
+    /*margin-right : 100px;*/
+    
+}
+
+#document_desc {
+    height : 90px;/*cambio de 110 a 90*/
+    margin-bottom : 10px;/*cambio de 7 a 3*/
+    width : 100%;
+}
+
+#accounts{
+    margin-top : 4px;/*cambio de 8 a 2*/
+    margin-bottom : 7px;/*cambio de 13 a 7*/
+    height : 250px;/*cambio de 290 a 250*/
+    width : 82%;
+    /*width : 660px; /*643*/
+}
+
+#table_account{
+    border-collapse: collapse;
+}
+
+#table_account td {
+    padding: 3px;
+}
+
+#table_account tr.account_line td {
+    border: 0px solid black;
+    border-bottom-width: 1px;
+    font-family : sans-serif;
+    font-size : 13px;
+}
+
+#footer_data{}
+
+.detail_desc{
+    font-family : sans-serif;
+    font-size : 13px;
+    font-style : italic;
+}
+
+.text_font{
+    font-family : sans-serif;
+    font-size : 13px;
+}
+
+.amount{
+    font-family : sans-serif;
+    font-size : 13px;
+    font-style : italic;
+}
+
+.account_line{
+    font-family : sans-serif;
+    font-size : 13px;
+}
+.detail_line{
+    width : 60%;/*cambio de 70 a 30*/
+    float : left;
+    margin-left : 50px;/*cambio de 70 a 30*/
+}
+.amount_text{
+    /*margin : 5px;*/
+    width : 70%;
+    margin-top : 15px;
+    margin-left : 50px;/*cambio de 70 a 30*/
+    word-spacing:-1px;
+}
+
+
+.account_id{
+    width : 288px;
+    text-align : left;
+    word-spacing:-1px;
+}
+
+.code_cell {
+    width : 120px;/*125*/
+    text-align : left;
+}
+
+.code_div {
+    float : left;
+    width : 120px;
+    
+}
+
+.amount_acc {
+    width : 120px;/*125*/
+    text-align : right;
+    word-spacing:-1px;
+}
+
+.made_by{
+    float : left;
+    width : 85px;
+    margin-left : 5px;
+    font-family : sans-serif;
+    font-size : 13px;
+    text-align : center;
+}
+
+#receipt {
+    float : left;
+    margin-left : 15px;
+}
+
+#related{
+    float : left;
+}
+
+.sub_receipt{
+    width : 140px;
+    font-family : sans-serif;
+    font-size : 10px;
+    text-align : center;
+}
+
+ td {border-collapse: collapse; }
+ 
+.amount_desc {
+    font-family : sans-serif;
+    font-size : 13px;
+    word-spacing: -2px;
+ }
+
+.amount_desc_medium {
+    font-family : sans-serif;
+    font-size : 10px;
+    word-spacing: -2px;
+ }
+
+.amount_desc_small {
+    font-family : sans-serif;
+    font-size : 8.2px;
+    word-spacing: 0px;
+ }
+                 ]]> 
+            </field>
+        </record>
+        <report auto="False"
+                id="webkit_report_l10n_cr_account_voucher_check_bcr"
+                model="account.voucher"
+                name="webkit_report_l10n_cr_account_voucher_check_bcr"
+                file="account_voucher_check/report/l10n_cr_account_voucher_check_bcr.mako"
+                string="Imprimir Cheque BCR"
+                report_type="webkit"
+               
+        />
+        <record id="webkit_report_l10n_cr_account_voucher_check_bcr" model="ir.actions.report.xml">
+            <field name="webkit_header" ref="webkit_header_l10n_cr_account_voucher_check_bcr" />
+        </record>
+    </data>
+</openerp>

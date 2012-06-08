@@ -32,4 +32,4 @@
 #    
 ##############################################################################
 
-import check_voucher
+import l10n_cr_account_voucher_check_bcr

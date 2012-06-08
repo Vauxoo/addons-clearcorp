@@ -36,7 +36,7 @@
 import time
 import pooler
 from report import report_sxw
-from amount_to_text import number_to_text_es
+from l10n_cr_account_voucher_check_bcr_amount_to_text import number_to_text_es
 import locale
 #from tools import #debug
 
@@ -92,8 +92,8 @@ class check_voucher(report_sxw.rml_parse):
         return res
         
 report_sxw.report_sxw(
-    'report.check.voucher.layout_ccorp',
+    'report.webkit_report_l10n_cr_account_voucher_check_bcr',
     'account.voucher',
-    'addons/account_voucher_check/report/check_voucher.mako',
+    'addons/account_voucher_check/report/l10n_cr_account_voucher_check_bcr.mako',
     parser=check_voucher
 )

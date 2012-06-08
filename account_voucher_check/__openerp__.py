@@ -32,12 +32,12 @@
 #    
 ##############################################################################
 {
-	"name"        : "Voucher Check",
+	"name"        : "Voucher Check BCR",
 	"author"      : "ClearCorp S.A.",
 	"version"     : "0.1",
 	"depends"     : ["base","account","report_webkit","base_currency_symbol"],
 	"init_xml"    : [],
-	"update_xml"  : ['account_voucher_check_view.xml','account_voucher_check_report.xml',],
+	"update_xml"  : ['l10n_cr_account_voucher_check_bcr_view.xml','l10n_cr_account_voucher_check_bcr_report.xml',],
 	"category"    : "Accounting",
 	"active"      : False,
 	"instalable"  : True,
