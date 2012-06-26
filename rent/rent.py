@@ -1747,7 +1747,7 @@ class rent_invoice_line(osv.osv):
         return super(rent_invoice_line,self).create(cr,uid,vals,context)
     
     _columns = {
-        'invoice_type'    : fields.selection([('rent','Rent'),('product','Product')],'Type',help = 'Select one of this to determine the type of invoice to create'),
+        'invoice_type'    : fields.selection([('rent','Rent'),('product','Product')],'Type',required=True, help = 'Select one of this to determine the type of invoice to create'),
         'invoice_rent_id'    : fields.many2one('rent.rent','Rent id'),
     }
     _defaults = {
