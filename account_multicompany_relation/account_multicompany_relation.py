@@ -30,23 +30,21 @@ class account_multicompany_relation(osv.osv):
         'origin_journal'    :    fields.many2one('account.journal', 'Original Journal',help='Indicate the original journal where the transaction is taking place'),
         'targ_journal'      :    fields.many2one('account.journal', 'Target Journal',help='Indicate the original account where the transaction is taking place'),
     }
+
+    _sql_constraints = [
+        (
+            'unique_name', 
+            'unique(name)',
+            'The name must be unique'
+        ),
+        (   
+            'unique_journal_account_origins', 
+            'unique(origin_account,origin_journal)', 
+            'Already exist a relation to this diary and account (origins)'
+        )
+    ]
+
 account_multicompany_relation()
-
-class account_journal(osv.osv):
-    _name = 'account.journal'
-    _inherit = 'account.journal'
-    _columns = {
-        'journal_mirror'   :   fields.many2one('account.multicompany.relation','Mirror Relation'),
-    }
-account_journal()
-
-class account_account(osv.osv):
-    _name = 'account.account'
-    _inherit = 'account.account'
-    _columns = {
-        'account_mirror'   :   fields.many2one('account.multicompany.relation','Mirror Relation'),
-    }
-account_account()
 
 class account_voucher_journal_payment(osv.osv):
     _name = 'account.voucher'
@@ -56,9 +54,11 @@ class account_voucher_journal_payment(osv.osv):
     def proforma_voucher(self, cr, uid, ids, context=None):
         result = super(account_voucher_journal_payment, self).action_move_line_create(cr, uid, ids, context=context)
         voucher = self.browse(cr,1,ids,context=context)[0]
-        if voucher.journal_id.journal_mirror:
-            mirror_journal = voucher.journal_id.journal_mirror
-
+        cuenta = voucher.account_id.id
+        diario = voucher.journal_id.id
+        mirror_journal_id = self.pool.get('account.multicompany.relation').search(cr, 1, [('origin_account', '=', cuenta), ('origin_journal', '=', diario)], context=context)[0]
+        if mirror_journal_id:
+            mirror_journal = self.pool.get('account.multicompany.relation').browse(cr, 1, [mirror_journal_id], context=context)[0]
             origin_journal = mirror_journal.origin_journal
             origin_account = mirror_journal.origin_account
             targ_journal =  mirror_journal.targ_journal
@@ -143,7 +143,9 @@ class account_voucher_journal_payment(osv.osv):
                         }
 
                         self.pool.get('account.move.line').create(cr, 1, move_line_two)
-                        self.pool.get('account.move').post(cr, 1, [move_id], context={})
+                        
+                        if (targ_journal.entry_posted):
+                            self.pool.get('account.move').post(cr, 1, [move_id], context={})
         return result
 
 account_voucher_journal_payment()
