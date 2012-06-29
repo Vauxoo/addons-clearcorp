@@ -53,99 +53,118 @@ class account_voucher_journal_payment(osv.osv):
 
     def proforma_voucher(self, cr, uid, ids, context=None):
         result = super(account_voucher_journal_payment, self).action_move_line_create(cr, uid, ids, context=context)
+
+        # Initialize voucher variables and check if voucher has a move, a journal and an account
+        # If not, exit and return original result
         voucher = self.browse(cr,1,ids,context=context)[0]
-        voucher_account = voucher.account_id.id
-        voucher_journal = voucher.journal_id.id
-        mirror_journal_id = self.pool.get('account.multicompany.relation').search(cr, 1, [('origin_account', '=', voucher_account), ('origin_journal', '=', voucher_journal)], context=context)[0]
-        if mirror_journal_id:
-            mirror_journal = self.pool.get('account.multicompany.relation').browse(cr, 1, [mirror_journal_id], context=context)[0]
-            origin_journal = mirror_journal.origin_journal
-            origin_account = mirror_journal.origin_account
-            targ_journal =  mirror_journal.targ_journal
-            targ_account = mirror_journal.targ_account
+        if not voucher.move_id:
+            return result
+        if voucher and voucher.account_id and voucher.journal_id:
+            voucher_account = voucher.account_id.id
+            voucher_journal = voucher.journal_id.id
+        else:
+            return result
 
-            if voucher.move_id:
-                original_move = voucher.move_id
-                
-                if original_move.line_id:
-                    list_ = []
-                    lines = original_move.line_id
-                    for line in lines:
-                        if line.account_id and line.account_id.id == origin_account.id:
-                            list_.append(line)
-                
-                    if len(list_) == 1:
-                        #Set period for target move with the correct company
-                        if context == None:
-                            context_copy = {'company_id': targ_account.company_id.id}
-                        else:
-                            context_copy = copy(context)
-                            context_copy.update({'company_id': targ_account.company_id.id})
-                        periods = self.pool.get('account.period').find(cr, 1, dt=original_move.date, context=context_copy)
-                        if periods:
-                            move_period = periods[0]
+        # Search for a compliant mirror relation, if none found exit returning the original result
+        mirror_journal_list = self.pool.get('account.multicompany.relation').search(cr, 1, [('origin_account', '=', voucher_account), ('origin_journal', '=', voucher_journal)], context=context)
+        if len(mirror_journal_list) > 0:
+            mirror_journal_id = mirror_journal_list[0]
+        else:
+            return result
 
-                        move = {
-                            'name':'auto: ' + original_move.name,
-                            'ref':original_move.ref,
-                            'journal_id':targ_journal.id,
-                            'period_id':move_period or False,
-                            'to_check':False,
-                            'partner_id':original_move.partner_id.id,
-                            'date':original_move.date,
-                            'narration':original_move.narration,
-                            'company_id':targ_account.company_id.id,
-                        }
-                        move_id = self.pool.get('account.move').create(cr, 1, move)
-            
-                        move_line_original = list_[0]
+        # Read mirror relation data and check if mirror origin account is in the voucher move
+        # If not exit returning the original result
+        mirror_journal = self.pool.get('account.multicompany.relation').browse(cr, 1, [mirror_journal_id], context=context)[0]
+        origin_journal = mirror_journal.origin_journal
+        origin_account = mirror_journal.origin_account
+        targ_journal =  mirror_journal.targ_journal
+        targ_account = mirror_journal.targ_account
 
-                        move_line_one = {
-                            'name':move_line_original.name,
-                            'debit':move_line_original.credit,
-                            'credit':move_line_original.debit,
-                            'account_id':targ_account.id,
-                            'move_id': move_id,
-                            'amount_currency':move_line_original.amount_currency * -1,
-                            'period_id':move_period or False,
-                            'journal_id':targ_journal.id,
-                            'partner_id':move_line_original.partner_id.id,
-                            'currency_id':move_line_original.currency_id.id,                   
-                            'date_maturity':move_line_original.date_maturity,
-                            'date':move_line_original.date,
-                            'date_created':move_line_original.date_created,
-                            'state':'valid',
-                            'company_id':targ_account.company_id.id,
-                        }
+        original_move = voucher.move_id
+        
+        if not original_move.line_id:
+            return result
 
-                        self.pool.get('account.move.line').create(cr, 1, move_line_one)
-                        if move_line_original.debit != 0.0:
-                            move_line_two_account_id = targ_journal.default_credit_account_id
-                        else:
-                            move_line_two_account_id = targ_journal.default_debit_account_id
+        list_ = []
+        lines = original_move.line_id
+        for line in lines:
+            if line.account_id and line.account_id.id == origin_account.id:
+                list_.append(line)
 
-                        move_line_two = {
-                            'name':move_line_original.name,
-                            'debit':move_line_original.debit,
-                            'credit':move_line_original.credit,
-                            'account_id':move_line_two_account_id.id,
-                            'move_id': move_id,
-                            'amount_currency':move_line_original.amount_currency,
-                            'journal_id':targ_journal.id,
-                            'period_id':move_period or False,
-                            'partner_id':move_line_original.partner_id.id,
-                            'currency_id':move_line_original.currency_id.id,                   
-                            'date_maturity':move_line_original.date_maturity,
-                            'date':move_line_original.date,
-                            'date_created':move_line_original.date_created,
-                            'state':'valid',
-                            'company_id':targ_account.company_id.id,
-                        }
+        if len(list_) != 1:
+            return result
 
-                        self.pool.get('account.move.line').create(cr, 1, move_line_two)
-                        
-                        if (targ_journal.entry_posted):
-                            self.pool.get('account.move').post(cr, 1, [move_id], context={})
+        #Set period for target move with the correct company
+        if context == None:
+            context_copy = {'company_id': targ_account.company_id.id}
+        else:
+            context_copy = copy(context)
+            context_copy.update({'company_id': targ_account.company_id.id})
+        periods = self.pool.get('account.period').find(cr, 1, dt=original_move.date, context=context_copy)
+        if periods:
+            move_period = periods[0]
+
+        move = {
+            'name':'auto: ' + original_move.name,
+            'ref':original_move.ref,
+            'journal_id':targ_journal.id,
+            'period_id':move_period or False,
+            'to_check':False,
+            'partner_id':original_move.partner_id.id,
+            'date':original_move.date,
+            'narration':original_move.narration,
+            'company_id':targ_account.company_id.id,
+        }
+        move_id = self.pool.get('account.move').create(cr, 1, move)
+
+        move_line_original = list_[0]
+
+        move_line_one = {
+            'name':move_line_original.name,
+            'debit':move_line_original.credit,
+            'credit':move_line_original.debit,
+            'account_id':targ_account.id,
+            'move_id': move_id,
+            'amount_currency':move_line_original.amount_currency * -1,
+            'period_id':move_period or False,
+            'journal_id':targ_journal.id,
+            'partner_id':move_line_original.partner_id.id,
+            'currency_id':move_line_original.currency_id.id,                   
+            'date_maturity':move_line_original.date_maturity,
+            'date':move_line_original.date,
+            'date_created':move_line_original.date_created,
+            'state':'valid',
+            'company_id':targ_account.company_id.id,
+        }
+
+        self.pool.get('account.move.line').create(cr, 1, move_line_one)
+        if move_line_original.debit != 0.0:
+            move_line_two_account_id = targ_journal.default_credit_account_id
+        else:
+            move_line_two_account_id = targ_journal.default_debit_account_id
+
+        move_line_two = {
+            'name':move_line_original.name,
+            'debit':move_line_original.debit,
+            'credit':move_line_original.credit,
+            'account_id':move_line_two_account_id.id,
+            'move_id': move_id,
+            'amount_currency':move_line_original.amount_currency,
+            'journal_id':targ_journal.id,
+            'period_id':move_period or False,
+            'partner_id':move_line_original.partner_id.id,
+            'currency_id':move_line_original.currency_id.id,                   
+            'date_maturity':move_line_original.date_maturity,
+            'date':move_line_original.date,
+            'date_created':move_line_original.date_created,
+            'state':'valid',
+            'company_id':targ_account.company_id.id,
+        }
+
+        self.pool.get('account.move.line').create(cr, 1, move_line_two)
+        
+        if (targ_journal.entry_posted):
+            self.pool.get('account.move').post(cr, 1, [move_id], context={})
         return result
 
 account_voucher_journal_payment()
