@@ -106,7 +106,7 @@ class AccountVoucher(orm.Model):
             move_period = periods[0]
 
         move = {
-            'name':'auto: ' + original_move.name,
+            'name':'MCR: ' + original_move.name,
             'ref':original_move.ref,
             'journal_id':targ_journal.id,
             'period_id':move_period or False,
