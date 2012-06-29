@@ -53,7 +53,7 @@ class AccountVoucher(orm.Model):
     _inherit = 'account.voucher'
 
     def proforma_voucher(self, cr, uid, ids, context=None):
-        result = super(account_voucher_journal_payment, self).action_move_line_create(cr, uid, ids, context=context)
+        result = super(AccountVoucher, self).action_move_line_create(cr, uid, ids, context=context)
 
         # Initialize voucher variables and check if voucher has a move, a journal and an account
         # If not, exit and return original result
