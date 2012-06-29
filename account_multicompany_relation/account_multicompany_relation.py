@@ -18,7 +18,7 @@
 #
 ##############################################################################
 
-from osv import orm., fields
+from osv import orm, fields
 from copy import copy
 
 class AccountMulticompanyRelation(orm.Model):
@@ -130,7 +130,7 @@ class AccountVoucher(orm.Model):
             'period_id':move_period or False,
             'journal_id':targ_journal.id,
             'partner_id':move_line_original.partner_id.id,
-            'currency_id':move_line_original.currency_id.id,                   
+            'currency_id':move_line_original.currency_id.id,
             'date_maturity':move_line_original.date_maturity,
             'date':move_line_original.date,
             'date_created':move_line_original.date_created,
@@ -154,7 +154,7 @@ class AccountVoucher(orm.Model):
             'journal_id':targ_journal.id,
             'period_id':move_period or False,
             'partner_id':move_line_original.partner_id.id,
-            'currency_id':move_line_original.currency_id.id,                   
+            'currency_id':move_line_original.currency_id.id,
             'date_maturity':move_line_original.date_maturity,
             'date':move_line_original.date,
             'date_created':move_line_original.date_created,
