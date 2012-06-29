@@ -18,38 +18,39 @@
 #
 ##############################################################################
 
-from osv import osv, fields
+from osv import orm., fields
 from copy import copy
 
-class account_multicompany_relation(osv.osv):
+class AccountMulticompanyRelation(orm.Model):
+
     _name = "account.multicompany.relation"
+    _description = "Account multicompany relation"
+
     _columns = {
-        'name'              :    fields.char('Name',size=64, required=True,help='Name for the mirror object relation'),
-        'origin_account'    :    fields.many2one('account.account', 'Original Account',help='Indicate the original account where the transaction is taking place'),
-        'targ_account'      :    fields.many2one('account.account', 'Target Account',help='Indicate the target account where the transaction of the original account has to be seen, this is an account from another company'),
-        'origin_journal'    :    fields.many2one('account.journal', 'Original Journal',help='Indicate the original journal where the transaction is taking place'),
-        'targ_journal'      :    fields.many2one('account.journal', 'Target Journal',help='Indicate the original account where the transaction is taking place'),
+        'name'              : fields.char('Name',size=64,required=True,help='Name for the mirror object relation'),
+        'origin_account'    : fields.many2one('account.account','Original Account',required=True,help='Indicate the original account where the transaction is taking place'),
+        'targ_account'      : fields.many2one('account.account','Target Account',required=True,help='Indicate the target account where the transaction of the original account has to be seen, this is an account from another company'),
+        'origin_journal'    : fields.many2one('account.journal','Original Journal',required=True,help='Indicate the original journal where the transaction is taking place'),
+        'targ_journal'      : fields.many2one('account.journal','Target Journal',required=True,help='Indicate the original account where the transaction is taking place'),
     }
 
     _sql_constraints = [
         (
-            'unique_name', 
+            'unique_name',
             'unique(name)',
             'The name must be unique'
         ),
-        (   
-            'unique_journal_account_origins', 
-            'unique(origin_account,origin_journal)', 
-            'Already exist a relation to this diary and account (origins)'
+        (
+            'unique_journal_account_origins',
+            'unique(origin_account,origin_journal)',
+            'A relation exists already with this origin journal and origin account'
         )
     ]
 
-account_multicompany_relation()
 
-class account_voucher_journal_payment(osv.osv):
-    _name = 'account.voucher'
+class AccountVoucher(orm.Model):
+
     _inherit = 'account.voucher'
-    _description = 'Accounting Voucher'
 
     def proforma_voucher(self, cr, uid, ids, context=None):
         result = super(account_voucher_journal_payment, self).action_move_line_create(cr, uid, ids, context=context)
@@ -166,5 +167,3 @@ class account_voucher_journal_payment(osv.osv):
         if (targ_journal.entry_posted):
             self.pool.get('account.move').post(cr, 1, [move_id], context={})
         return result
-
-account_voucher_journal_payment()
