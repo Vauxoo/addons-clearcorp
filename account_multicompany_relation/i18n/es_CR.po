@@ -54,7 +54,7 @@ msgstr "Cuenta"
 #: view:account.multicompany.relation:0
 #: model:ir.actions.act_window,name:account_multicompany_relation.action_account_multi_relation_fix
 msgid "Account Multicompany Relation"
-msgstr "Cuenta Relación Multiempresa"
+msgstr "Cuenta Relación Multicompañía"
 
 #. module: account_multicompany_relation
 #: field:account.multicompany.relation,name:0
@@ -84,7 +84,7 @@ msgstr "Cuenta Destino"
 #. module: account_multicompany_relation
 #: model:ir.ui.menu,name:account_multicompany_relation.account_multi_relation_menu
 msgid "Relation Multicompany"
-msgstr "Relación Multiempresa"
+msgstr "Relación Multicompañía"
 
 #. module: account_multicompany_relation
 #: field:account.multicompany.relation,origin_account:0
@@ -138,5 +138,5 @@ msgstr "¡Error de configuración! "
 #. module: account_multicompany_relation
 #: help:account.multicompany.relation,targ_account:0
 msgid "Indicate the target account where the transaction of the original account has to be seen, this is an account from another company"
-msgstr "Indique la cuenta destino, donde la transacción de la cuenta original tiene que ser visto, se trata de una cuenta de otra empresa"
+msgstr "Indique la cuenta destino, donde la transacción de la cuenta original tiene que ser visto, se trata de una cuenta de otra compañía"
 
