@@ -21,26 +21,24 @@
 ##############################################################################
 
 import netsvc
-from osv import fields, osv
+from osv import fields, orm
 import tools
 from tools.translate import _
 
-class account_invoice(osv.osv):
+class AccountInvoice(orm.Model):
     _inherit = 'account.invoice'
-    _name = 'account.invoice'
-    _description = 'Invoice'
     
     def onchange_partner_id(self, cr, uid, ids, type, partner_id,\
             date_invoice=False, payment_term=False, partner_bank_id=False, company_id=False):
         
-        result = super(account_invoice, self).onchange_partner_id(cr, uid, ids, type, partner_id, date_invoice, payment_term, partner_bank_id, company_id)
+        result = super(AccountInvoice, self).onchange_partner_id(cr, uid, ids, type, partner_id, date_invoice, payment_term, partner_bank_id, company_id)
         
         del result['value']['account_id']
         
         return result
 
     def onchange_journal_id(self, cr, uid, ids, journal_id=False, context=None):
-        result = super(account_invoice, self).onchange_journal_id(cr, uid, ids, journal_id, context)
+        result = super(AccountInvoice, self).onchange_journal_id(cr, uid, ids, journal_id, context)
         
         journal = self.pool.get('account.journal').browse(cr, uid, journal_id, context=context)
         
@@ -56,11 +54,58 @@ class account_invoice(osv.osv):
         result['value']['account_id'] = acc_id
         
         return result
+    
+    def create(self, cr, user, vals, context=None):
+        journal_id = vals['journal_id']
+        
+        journal = self.pool.get('account.journal').browse(cr, user, journal_id, context=context)
+        
+        if journal.type == 'sale':
+            acc_id = journal.default_receivable_account_id.id
+        elif journal.type == 'purchase':
+            acc_id = journal.default_payable_account_id.id
+        elif journal.type == 'sale_refund':
+            acc_id = journal.default_payable_account_id.id
+        elif journal.type == 'purchase_refund':
+            acc_id = journal.default_receivable_account_id.id
+            
+        currency_id = journal.currency and journal.currency.id or journal.company_id.currency_id.id
+        
+        if not 'account_id' in vals:
+            vals['account_id'] = acc_id
+            
+        if not 'currency_id' in vals:
+            vals['currency_id'] = currency_id
+        
+        return super(AccountInvoice, self).create(cr, user, vals, context=context)
+    
+    def write(self, cr, user, ids, vals, context=None):
+        if 'journal_id' in vals:
+            journal_id = vals['journal_id']
+            
+            journal = self.pool.get('account.journal').browse(cr, user, journal_id, context=context)
+            
+            if journal.type == 'sale':
+                acc_id = journal.default_receivable_account_id.id
+            elif journal.type == 'purchase':
+                acc_id = journal.default_payable_account_id.id
+            elif journal.type == 'sale_refund':
+                acc_id = journal.default_payable_account_id.id
+            elif journal.type == 'purchase_refund':
+                acc_id = journal.default_receivable_account_id.id
+                
+            currency_id = journal.currency and journal.currency.id or journal.company_id.currency_id.id
+            
+            if not 'account_id' in vals:
+                vals['account_id'] = acc_id
+                
+            if not 'currency_id' in vals:
+                vals['currency_id'] = currency_id
+        
+        return super(AccountInvoice, self).write(cr, user, ids, vals, context=context)
 
-class account_journal(osv.osv):
+class AccountJournal(orm.Model):
     _inherit = 'account.journal'
-    _name = 'account.journal'
-    _description = 'Journal'
     
     _columns = {
         'default_receivable_account_id': fields.many2one('account.account', 'Default Receivable Account', domain="[('type','!=','view')]", help="It acts as a default receivable account"),
