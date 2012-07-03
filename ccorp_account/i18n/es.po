@@ -1,21 +1,52 @@
 # Spanish translation for openerp-ccorp-addons
-# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
+# Copyright (c) 2012 Rosetta Contributors and Canonical Ltd 2012
 # This file is distributed under the same license as the openerp-ccorp-addons package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: openerp-ccorp-addons\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-08-23 20:49+0000\n"
-"PO-Revision-Date: 2011-11-16 05:10+0000\n"
+"POT-Creation-Date: 2011-10-06 19:15+0000\n"
+"PO-Revision-Date: 2012-07-02 12:04+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-06-24 05:52+0000\n"
-"X-Generator: Launchpad (build 15461)\n"
+"X-Launchpad-Export-Date: 2012-07-03 06:26+0000\n"
+"X-Generator: Launchpad (build 15531)\n"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:93
+#: report:report.account.invoice.layout_ccorp:98
+msgid "Sub Total"
+msgstr ""
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:39
+msgid "Date:"
+msgstr ""
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:36
+msgid "ID Num."
+msgstr ""
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:47
+msgid "Payment tems"
+msgstr ""
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:81
+msgid "Note"
+msgstr ""
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:23
+msgid "Supplier Invoice"
+msgstr "Factura PROVEEDOR"
 
 #. module: ccorp_account
 #: model:ir.module.module,description:ccorp_account.module_meta_information
@@ -27,156 +58,132 @@ msgid ""
 msgstr ""
 
 #. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:63
+msgid "Disc.(%)"
+msgstr ""
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:48
+msgid "Email"
+msgstr ""
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:63
+#: report:report.account.invoice.layout_ccorp:65
+msgid "Total Price"
+msgstr "Precio Total"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:17
+msgid "PROFORMA"
+msgstr ""
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:44
+msgid "Fax"
+msgstr ""
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:94
+msgid "Discount"
+msgstr "Descuento"
+
+#. module: ccorp_account
+#: model:ir.actions.report.xml,name:ccorp_account.account_invoice_ccorp
+msgid "Invoice HTML"
+msgstr ""
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:21
+msgid "Canceled Invoice"
+msgstr ""
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:40
+msgid "Phone"
+msgstr ""
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:107
+msgid "Invoice Note"
+msgstr ""
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:63
+#: report:report.account.invoice.layout_ccorp:65
+msgid "[Code] Description / (Taxes)"
+msgstr ""
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:19
+msgid "Draft Inovice"
+msgstr ""
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:55
+msgid "Address"
+msgstr ""
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:15
+msgid "Electronic Invoice"
+msgstr "Factura Electrónica"
+
+#. module: ccorp_account
+#: report:report.account.invoice.layout_ccorp:95
+#: report:report.account.invoice.layout_ccorp:99
+msgid "Taxes"
+msgstr "Impuestos"
+
+#. module: ccorp_account
 #: model:ir.module.module,shortdesc:ccorp_account.module_meta_information
 msgid "ClearCorp account module modifications"
 msgstr ""
 
 #. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Electronic Invoice"
-msgstr "Factura Electrónica"
-
-#. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "PRO-FORMA"
-msgstr "Proforma"
-
-#. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Draft Invoice"
-msgstr "Factura BORRADOR"
-
-#. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Cancelled Invoice"
-msgstr "Factura CANCELADA"
-
-#. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Supplier Refund"
-msgstr "Nota de crédito PROVEEDOR"
-
-#. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Supplier Invoice"
-msgstr "Factura PROVEEDOR"
-
-#. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Num.: "
+#: report:report.account.invoice.layout_ccorp:110
+msgid "Payment Note"
 msgstr ""
 
 #. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Date: "
+#: report:report.account.invoice.layout_ccorp:25
+msgid "Refund"
 msgstr ""
 
 #. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "ID Num.: "
+#: report:report.account.invoice.layout_ccorp:43
+msgid "Due date"
 msgstr ""
 
 #. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Tel-fax: "
-msgstr "Tel-fax: "
-
-#. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Email: "
+#: report:report.account.invoice.layout_ccorp:63
+#: report:report.account.invoice.layout_ccorp:65
+msgid "Qty"
 msgstr ""
 
 #. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Web: "
-msgstr ""
-
-#. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Address:"
-msgstr "Dirección:"
-
-#. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Phone: "
-msgstr ""
-
-#. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Fax: "
-msgstr ""
-
-#. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Salesman: "
-msgstr ""
-
-#. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Payment tems: "
-msgstr ""
-
-#. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Due date: "
-msgstr ""
-
-#. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Exchange rate: "
-msgstr ""
-
-#. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Page: "
-msgstr ""
-
-#. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Thank you for choosing us."
-msgstr "Gracias por escoger nuestros servicios."
-
-#. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Qty."
-msgstr "Cant."
-
-#. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Description / (Taxes)"
-msgstr ""
-
-#. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Disc."
-msgstr "Desc."
-
-#. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
+#: report:report.account.invoice.layout_ccorp:63
+#: report:report.account.invoice.layout_ccorp:65
 msgid "Unit Price"
 msgstr "Precio Unit."
 
 #. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Total Price"
-msgstr "Precio Total"
+#: view:account.account:0
+msgid "Inactive Accounts"
+msgstr ""
 
 #. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Subtotal"
-msgstr "Subtotal"
+#: report:report.account.invoice.layout_ccorp:27
+msgid "Supplier Refund"
+msgstr "Nota de crédito PROVEEDOR"
 
 #. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Discount"
-msgstr "Descuento"
+#: report:report.account.invoice.layout_ccorp:96
+#: report:report.account.invoice.layout_ccorp:100
+msgid "Total"
+msgstr ""
 
 #. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "Taxes"
-msgstr "Impuestos"
-
-#. module: ccorp_account
-#: rml:account.invoice.layout_ccorp:0
-msgid "TOTAL"
-msgstr "TOTAL"
+#: report:report.account.invoice.layout_ccorp:51
+msgid "Salesman"
+msgstr ""
