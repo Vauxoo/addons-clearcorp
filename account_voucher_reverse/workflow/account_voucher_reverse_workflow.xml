@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="act_reverse" model="workflow.activity">
+            <field name="wkf_id" ref="account_voucher.wkf"/>
+            <field name="name">reverse</field>
+            <field name="flow_stop">True</field>
+            <field name="action">reverse_voucher()</field>
+            <field name="kind">function</field>
+        </record>
+        
+        <record id="account_voucher_done2reverse"  model="workflow.transition">
+            <field name="act_from" ref="account_voucher.act_done" />
+            <field name="act_to" ref="act_reverse" />
+            <!-- <field name="group_id" ref="account.Accountant" /> -->
+            <field name="signal">reverse_voucher</field>
+        </record>
+    
+    </data>
+</openerp>
