@@ -42,90 +42,12 @@ class account_voucher_reverse(osv.osv):
     }
 
     def reverse_voucher(self, cr, uid, ids, context=None):
-
-        self.write(cr, uid, ids, {'state' : 'reverse'}, context=context)
-
-        #To create a move reverse
-        self.account_voucher_move_reverse(cr, uid, ids, context=context)
-        
-        return True
-
-    def account_voucher_move_reverse(self, cr, uid, ids, context=None):
-        # Initialize voucher variables and check if voucher has a move, a journal and an account
-        # If not, exit and return original result
-        voucher = self.browse(cr,uid,ids,context=context)[0]
-        if not voucher.move_id:
-            return False
-
-        original_move = voucher.move_id
-        
-        if not original_move.line_id:
-            return False
-
-        move = {
-            'name':'Reverse: ' + original_move.name,
-            'ref':original_move.ref,
-            'journal_id':original_move.journal_id.id,
-            'period_id':original_move.period_id.id,
-            'to_check':False,
-            'partner_id':original_move.partner_id.id,
-            'date':original_move.date,
-            'narration':original_move.narration,
-            'company_id':original_move.company_id.id,
-        }
-        move_id = self.pool.get('account.move').create(cr, uid, move)
-
-        move_reconcile_obj = self.pool.get('account.move.reconcile')
-
-        lines = original_move.line_id
-        for line in lines:
-            move_line = {
-                'name':line.name,
-                'debit':line.credit,
-                'credit':line.debit,
-                'account_id':line.account_id.id,
-                'move_id': move_id,
-                'amount_currency':line.amount_currency * -1,
-                'period_id':line.period_id.id,
-                'journal_id':line.journal_id.id,
-                'partner_id':line.partner_id.id,
-                'currency_id':line.currency_id.id,
-                'date_maturity':line.date_maturity,
-                'date':line.date,
-                'date_created':line.date_created,
-                'state':'valid',
-                'company_id':line.company_id.id,
-            }
-
-            line_created_id = self.pool.get('account.move.line').create(cr, uid, move_line)
-            
-            if (original_move.journal_id.entry_posted):
-                self.pool.get('account.move').post(cr, uid, [move_id], context={})
-
-            if line.reconcile_id:
-                reconcile = move_reconcile_obj.browse(cr,uid,[line.reconcile_id.id],context=context)[0]
-                if len(reconcile.line_id) > 2:
-                    self.pool.get('account.move.line').write(cr,uid,line.id,{'reconcile_id': False })
-                    for line in reconcile.line_id:
-                        self.pool.get('account.move.line').write(cr,uid,line.id,{'reconcile_id': False,'reconcile_partial_id':line.reconcile_id.id})
-                else:
-                    move_reconcile_obj.unlink(cr,uid,[line.reconcile_id.id],context=context)
-            
-            if line.reconcile_partial_id:
-                reconcile = move_reconcile_obj.browse(cr,uid,[line.reconcile_partial_id.id],context=context)[0]
-                if len(reconcile.line_partial_ids) > 2:
-                    self.pool.get('account.move.line').write(cr,uid,line.id,{'reconcile_partial_id': False })
-                else:
-                    move_reconcile_obj.unlink(cr,uid,[line.reconcile_partial_id.id],context=context)
-
-            if line.account_id.reconcile:
-                reconcile_id = self.pool.get('account.move.reconcile').create(cr, uid, {'type': 'Account Reverse'})
-                self.pool.get('account.move.line').write(cr,uid,[line.id],{'reconcile_id': reconcile_id})
-                self.pool.get('account.move.line').write(cr,uid,[line_created_id],{'reconcile_id': reconcile_id})
-
-        return True
-
-
+        for voucher_id in ids:
+            voucher = self.pool.get('account.voucher').browse(cr, 1, voucher_id, context=context)
+            if voucher.move_id:
+                self.pool.get('account.move').reverse(cr, uid, [voucher.move_id.id], context=context)
+            self.write(cr, uid, [voucher_id], {'state' : 'reverse'}, context=context)
+        return {}
 
 
 

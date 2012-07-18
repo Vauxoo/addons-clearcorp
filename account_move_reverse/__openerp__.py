@@ -19,16 +19,27 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 {
-	"name" : "Account Multicompany Relation",
-	"author" : "CLEARCORP S.A",
-	"version" : "0.1",
-	"depends" : ["account_voucher_reverse"],
-	"init_xml" : [],
-	"update_xml" : [
-		"account_multicompany_relation.xml"
-		],
-	"category" : "",
-	"active": False,
-	"installable": True
+    "name" : "Account Move Reverse",
+    "version" : '1.0',
+    "author" : 'CLEARCORP S.A.',
+    'complexity': 'normal',
+    "description": """
+Module for reverse account move
+    """,
+    "category": 'Accounting & Finance',
+    "sequence": 4,
+    "website" : "http://clearcorp.co.cr",
+    "images" : [],
+    "icon" : False,
+    "depends" : ["account_voucher"],
+    "init_xml" : [],
+    "demo_xml" : [],
+    "update_xml" : [],
+    "test" : [],
+    "auto_install": False,
+    "application": False,
+    "installable": True,
+    'license': 'AGPL-3',
 }
