@@ -14,6 +14,8 @@
                     <field name = "targ_account"/>
                     <field name = "origin_journal"/>
                     <field name = "targ_journal"/>
+                    <field name = "origin_analytic_account"/>
+                    <field name = "targ_analytic_account"/>
                 </form>
             </field>
         </record>
@@ -29,6 +31,8 @@
                     <field name = "targ_account"/>
                     <field name = "origin_journal"/>
                     <field name = "targ_journal"/>
+                    <field name = "origin_analytic_account"/>
+                    <field name = "targ_analytic_account"/>
                 </tree>
             </field>
         </record>

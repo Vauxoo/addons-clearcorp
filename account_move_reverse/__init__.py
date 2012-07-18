@@ -19,16 +19,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-	"name" : "Account Multicompany Relation",
-	"author" : "CLEARCORP S.A",
-	"version" : "0.1",
-	"depends" : ["account_voucher_reverse"],
-	"init_xml" : [],
-	"update_xml" : [
-		"account_multicompany_relation.xml"
-		],
-	"category" : "",
-	"active": False,
-	"installable": True
-}
+
+import account_move_reverse

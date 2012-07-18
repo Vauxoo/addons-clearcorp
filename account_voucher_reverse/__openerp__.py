@@ -33,7 +33,7 @@ Module for reverse account vouchers
     "website" : "http://clearcorp.co.cr",
     "images" : [],
     "icon" : False,
-    "depends" : ["account_voucher"],
+    "depends" : ["account_move_reverse"],
     "init_xml" : [],
     "demo_xml" : [],
     "update_xml" : [
