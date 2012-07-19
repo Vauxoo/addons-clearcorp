@@ -22,7 +22,7 @@
 
 from osv import osv, fields
 
-class account_voucher_reverse(osv.osv):
+class AccountVoucherReverse(osv.osv):
     _name = 'account.voucher'
     _inherit = 'account.voucher'
 

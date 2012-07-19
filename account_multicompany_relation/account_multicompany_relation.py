@@ -22,7 +22,7 @@ from osv import orm, osv, fields
 from copy import copy
 from tools.translate import _
 
-class account_multicompany_relation(orm.Model):
+class AccountMulticompanyRelation(orm.Model):
 
     _name = "account.multicompany.relation"
     _description = "Account multicompany relation"
@@ -83,7 +83,7 @@ class AccountMoveLine(orm.Model):
             'move_mirror_rel_id':False,
         })
 
-class account_move(orm.Model):
+class AccountMove(orm.Model):
 
     _inherit = 'account.move'
 
@@ -129,11 +129,11 @@ class account_move(orm.Model):
                     self.button_cancel(cr,uid,[move_mirror.id],context=context)
                     self.unlink(cr,uid,[move_mirror.id],context=context)
 
-        result = super(account_move, self).button_cancel(cr, uid, ids, context=context)
+        result = super(AccountMove, self).button_cancel(cr, uid, ids, context=context)
         return True
 
     def post(self, cr, uid, ids, context=None):
-        result = super(account_move, self).post(cr, uid, ids, context=context)
+        result = super(AccountMove, self).post(cr, uid, ids, context=context)
 
         for move_id_original in ids:
             if self.pool.get('account.move').search(cr, 1, [('move_reverse_id', '=', move_id_original)], context=context):
@@ -256,6 +256,6 @@ class account_move(orm.Model):
             for line in move.line_id:
                 if line.move_mirror_rel_id:
                     self.pool.get('account.move').button_cancel(cr, 1, [line.move_mirror_rel_id.id])
-                    result = super(account_move, self).unlink(cr, 1, [line.move_mirror_rel_id.id], context=context, check=check)
-        result = super(account_move, self).unlink(cr, 1, ids, context=context, check=check)
+                    result = super(AccountMove, self).unlink(cr, 1, [line.move_mirror_rel_id.id], context=context, check=check)
+        result = super(AccountMove, self).unlink(cr, 1, ids, context=context, check=check)
         return result
