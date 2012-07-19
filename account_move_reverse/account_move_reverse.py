@@ -21,8 +21,9 @@
 ##############################################################################
 
 from osv import orm, osv, fields
+from tools.translate import _
 
-class account_move(orm.Model):
+class AccountMove(orm.Model):
 
     _inherit = 'account.move'
 
@@ -41,8 +42,11 @@ class account_move(orm.Model):
                 raise osv.except_osv(_('Error !'), _('You can not modify a posted entry of this journal !\nYou should set the journal to allow cancelling entries if you want to do that.'))
 
             if move.move_reverse_id:
-                move_reverse = self.browse(cr, uid, move.move_reverse_id.id, context=context)
+                if not move.journal_id.update_reversed:
+                    raise osv.except_osv(_('Error !'), _('You can not modify a posted entry of this journal !\nYou should set the journal to allow cancelling reversed entries if you want to do that.'))
                 
+                move_reverse = self.browse(cr, uid, move.move_reverse_id.id, context=context)
+                line.move_mirror_rel_id
                 for line_reverse in move_reverse.line_id:
                     if line_reverse.reconcile_id:
                         self.pool.get('account.move.reconcile').unlink(cr,uid,[line_reverse.reconcile_id.id],context=context)
@@ -58,6 +62,9 @@ class account_move(orm.Model):
 
         for move_original_id in ids:
             move_original = self.pool.get('account.move').browse(cr, 1, move_original_id, context=context)
+            
+            if move_original.move_reverse_id:
+                continue
 
             move = {
                     'name':'Reverse: ' + move_original.name,
@@ -115,9 +122,19 @@ class account_move(orm.Model):
 
                 if line.account_id.reconcile:
                     reconcile_id = self.pool.get('account.move.reconcile').create(cr, uid, {'type': 'Account Reverse'})
-                    self.pool.get('account.move.line').write(cr,uid,[line.id],{'reconcile_id': reconcile_id})
+                    cr.execute('UPDATE account_move_line '\
+                               'SET reconcile_id=%s '\
+                               'WHERE id IN %s', (reconcile_id, tuple([line.id]),))
+                    #self.pool.get('account.move.line').write(cr,uid,[line.id],{'reconcile_id': reconcile_id})
                     self.pool.get('account.move.line').write(cr,uid,[line_created_id],{'reconcile_id': reconcile_id})
 
             #Posted move reverse
             self.pool.get('account.move').post(cr, 1, [move_id, move_original.id], context={})
         return True
+
+class AccountJournal(orm.Model):
+    _inherit = 'account.journal'
+    
+    _columns = {
+        'update_reversed' : fields.boolean('Allow Cancelling Reversed Entries', help="Check this box if you want to allow the cancellation of the reversed entries related to this journal or of the invoice related to this journal"),
+        }

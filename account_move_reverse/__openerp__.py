@@ -36,7 +36,7 @@ Module for reverse account move
     "depends" : ["account_voucher"],
     "init_xml" : [],
     "demo_xml" : [],
-    "update_xml" : [],
+    "update_xml" : ['account_move_reverse_view.xml'],
     "test" : [],
     "auto_install": False,
     "application": False,
