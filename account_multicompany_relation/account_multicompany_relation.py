@@ -18,8 +18,9 @@
 #
 ##############################################################################
 
-from osv import orm, fields
+from osv import orm, osv, fields
 from copy import copy
+from tools.translate import _
 
 class account_multicompany_relation(orm.Model):
 
@@ -69,19 +70,22 @@ class account_multicompany_relation(orm.Model):
         )
     ]
 
+class AccountMoveLine(orm.Model):
 
-class account_move(orm.Model):
-
-    _inherit = 'account.move'
+    _inherit = 'account.move.line'
     
     _columns = {
                 'move_mirror_rel_id':fields.many2one('account.move','Move Multicompany Relation'),
                 }
-
+    
     def copy(self, cr, uid, id, default={}, context=None):
         default.update({
             'move_mirror_rel_id':False,
         })
+
+class account_move(orm.Model):
+
+    _inherit = 'account.move'
 
     def button_cancel(self, cr, uid, ids, context=None):
         self.pool.get('account.move.reconcile')
@@ -91,33 +95,39 @@ class account_move(orm.Model):
 
             #Set user administrator to run this portion of code
             uid = 1
-            if move.move_mirror_rel_id:
-                move_mirror = self.browse(cr, uid, move.move_mirror_rel_id.id, context=context)
-                if not move_mirror.journal_id.update_posted:
-                    raise osv.except_osv(_('Error !'), _('You can not modify a posted multicompany mirror entry of this journal !\nYou should set the journal to allow cancelling entries if you want to do that.'))
+            for line in move.line_id:
+                if line.move_mirror_rel_id:
+                    move_mirror = self.browse(cr, uid, line.move_mirror_rel_id.id, context=context)
+                    if not move_mirror.journal_id.update_posted:
+                        raise osv.except_osv(_('Error !'), _('You can not modify a posted multicompany mirror entry of this journal !\nYou should set the journal to allow cancelling entries if you want to do that.'))
 
-                move_reconcile_obj = self.pool.get('account.move.reconcile')
-                for line_mirror in move_mirror.line_id:
-                    if line_mirror.reconcile_id:
-                        reconcile = line_mirror.reconcile_id
-                        if len(reconcile.line_id) > 2:
-                            self.pool.get('account.move.line').write(cr,uid,reconcile.line_id,{'reconcile_id': False, 'reconcile_partial_id':reconcile.id})
-                            self.pool.get('account.move.line').write(cr,uid,line_mirror.id,{'reconcile_partial_id': False})
-                        else:
-                            move_reconcile_obj.unlink(cr,uid,[reconcile.id],context=context)
+            move_reconcile_obj = self.pool.get('account.move.reconcile')
 
-                    elif line_mirror.reconcile_partial_id:
-                        reconcile = line_mirror.reconcile_partial_id
-                        if len(reconcile.line_partial_ids) > 2:
-                            self.pool.get('account.move.line').write(cr,uid,line_mirror.id,{'reconcile_partial_id': False })
-                        else:
-                            move_reconcile_obj.unlink(cr,uid,[reconcile.id],context=context)
+            for line in move.line_id:
+                if line.move_mirror_rel_id:
+                    move_mirror = self.browse(cr, uid, line.move_mirror_rel_id.id, context=context)
 
-                cr.execute('UPDATE account_move '\
-                           'SET state=%s '\
-                           'WHERE id IN %s', ('draft', tuple([move_mirror.id]),))
-                self.button_cancel(cr,uid,[move_mirror.id],context=context)
-                self.unlink(cr,uid,[move_mirror.id],context=context)
+                    for line_mirror in move_mirror.line_id:
+                        if line_mirror.reconcile_id:
+                            reconcile = line_mirror.reconcile_id
+                            if len(reconcile.line_id) > 2:
+                                self.pool.get('account.move.line').write(cr,uid,reconcile.line_id,{'reconcile_id': False, 'reconcile_partial_id':reconcile.id})
+                                self.pool.get('account.move.line').write(cr,uid,line_mirror.id,{'reconcile_partial_id': False})
+                            else:
+                                move_reconcile_obj.unlink(cr,uid,[reconcile.id],context=context)
+
+                        elif line_mirror.reconcile_partial_id:
+                            reconcile = line_mirror.reconcile_partial_id
+                            if len(reconcile.line_partial_ids) > 2:
+                                self.pool.get('account.move.line').write(cr,uid,line_mirror.id,{'reconcile_partial_id': False })
+                            else:
+                                move_reconcile_obj.unlink(cr,uid,[reconcile.id],context=context)
+
+                    cr.execute('UPDATE account_move '\
+                               'SET state=%s '\
+                               'WHERE id IN %s', ('draft', tuple([move_mirror.id]),))
+                    self.button_cancel(cr,uid,[move_mirror.id],context=context)
+                    self.unlink(cr,uid,[move_mirror.id],context=context)
 
         result = super(account_move, self).button_cancel(cr, uid, ids, context=context)
         return True
@@ -130,16 +140,17 @@ class account_move(orm.Model):
                 continue
                             
             original_move = self.pool.get('account.move').browse(cr, 1, move_id_original, context=context)
-            move_id = False
-
-            move_lines_ids = self.pool.get('account.move.line').search(cr, 1, [('move_id', '=', move_id_original)], context=context)
-            if move_lines_ids:
-                lines = self.pool.get('account.move.line').browse(cr, 1, move_lines_ids, context=context)
-    
-                mirror_selected = False
             
-                for line in lines:
+            if original_move.line_id:
+                mirror_selected = False
+
+                for line in original_move.line_id:
+                    if line.move_mirror_rel_id:
+                        if original_move.move_reverse_id:
+                            self.pool.get('account.move').reverse(cr, 1, [line.move_mirror_rel_id.id], context={})
+                        continue
                     mirror_selected_list_ids = self.pool.get('account.multicompany.relation').search(cr, 1, [('origin_account', '=', line.account_id.id), ('origin_journal', '=', line.journal_id.id)], context=context)
+                    move_id = False
                     if len(mirror_selected_list_ids) > 0:
                         mirror_selected_list = self.pool.get('account.multicompany.relation').browse(cr, 1, mirror_selected_list_ids, context=context)
     
@@ -183,7 +194,7 @@ class account_move(orm.Model):
                                 'company_id':targ_account.company_id.id,
                                 }
                         move_id = self.pool.get('account.move').create(cr, 1, move)
-                        self.pool.get('account.move').write(cr, uid, [original_move.id], {'move_mirror_rel_id' : move_id})
+                        self.pool.get('account.move.line').write(cr, uid, [line.id], {'move_mirror_rel_id' : move_id})
         
                         analytic_account_id = ''
                         if line.analytic_account_id and line.analytic_account_id == mirror_selected.origin_analytic_account:
@@ -236,14 +247,15 @@ class account_move(orm.Model):
                         
                         #Posted mirror
                         self.pool.get('account.move').post(cr, 1, [move_id], context={})
-            if move_id and original_move.move_reverse_id:
-                self.pool.get('account.move').reverse(cr, 1, [move_id], context={})
+                    if move_id and original_move.move_reverse_id:
+                        self.pool.get('account.move').reverse(cr, 1, [move_id], context={})
         return result
     
     def unlink(self, cr, uid, ids, context=None, check=True):
         for move in self.browse(cr, 1, ids, context=context):
-            if move.move_mirror_rel_id:
-                self.pool.get('account.move').button_cancel(cr, 1, [move.move_mirror_rel_id.id])
-                result = super(account_move, self).unlink(cr, 1, [move.move_mirror_rel_id.id], context=context, check=check)
+            for line in move.line_id:
+                if line.move_mirror_rel_id:
+                    self.pool.get('account.move').button_cancel(cr, 1, [line.move_mirror_rel_id.id])
+                    result = super(account_move, self).unlink(cr, 1, [line.move_mirror_rel_id.id], context=context, check=check)
         result = super(account_move, self).unlink(cr, 1, ids, context=context, check=check)
         return result
