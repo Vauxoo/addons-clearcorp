@@ -55,7 +55,7 @@ class AccountMove(orm.Model):
                            'WHERE id IN %s', ('draft', tuple([move_reverse.id]),))
                 self.unlink(cr,uid,[move_reverse.id],context=context)
 
-        result = super(account_move, self).button_cancel(cr, uid, ids, context=context)
+        result = super(AccountMove, self).button_cancel(cr, uid, ids, context=context)
         return True
 
     def reverse(self, cr, uid, ids, context=None):
