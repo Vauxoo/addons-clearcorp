@@ -47,9 +47,9 @@ class AccountMulticompanyRelation(orm.Model):
 
     def _check_unique_mirror_relation(self, cr, uid, ids, context=None):
         for relation in self.browse(cr, uid, ids, context=context):
-            relation_ids = self.search(cr, uid, [('origin_account','=',relation.origin_account),
-                                                 ('origin_journal','=',relation.origin_journal),
-                                                 ('origin_analytic_account','=',relation.origin_analytic_account)], context=context)
+            relation_ids = self.search(cr, uid, [('origin_account','=',relation.origin_account.id),
+                                                 ('origin_journal','=',relation.origin_journal.id),
+                                                 ('origin_analytic_account','=',relation.origin_analytic_account.id)], context=context)
             if len(relation_ids) >= 2:
                 return False
             elif len(relation_ids) == 1 and not relation_ids[0] == relation.id:
@@ -146,13 +146,13 @@ class AccountMove(orm.Model):
                         continue
                     
                     #Get parent accounts for line account
-                    parent_account_ids = []
-                    parent_account = line.account_id.parent_account_id
+                    parent_account_ids = []                    
+                    parent_account = line.account_id
                     while parent_account:
                         parent_account_ids.append(parent_account.id)
-                        parent_account = parent_account.parent_account_id
-                    account_analytic_id = line.account_analytic_id and line.account_analytic_id.id or False
-                    mirror_selected_list_ids = account_multicompany_relation_obj.search(cr, 1, [('origin_account', 'in', parent_account_ids), ('origin_journal', '=', line.journal_id.id), ('origin_analytic_account', '=', account_analytic_id)], context=context)
+                        parent_account = parent_account.parent_id
+                    analytic_account_id = line.analytic_account_id and line.analytic_account_id.id or False
+                    mirror_selected_list_ids = account_multicompany_relation_obj.search(cr, 1, [('origin_account', 'in', parent_account_ids), ('origin_journal', '=', line.journal_id.id), ('origin_analytic_account', '=', analytic_account_id)], context=context)
                     move_id = False
                     if len(mirror_selected_list_ids) > 0:
                         mirror_selected_list = account_multicompany_relation_obj.browse(cr, 1, mirror_selected_list_ids, context=context)
@@ -199,7 +199,7 @@ class AccountMove(orm.Model):
                             'company_id':targ_account.company_id.id,
                         }
                         move_id = account_move_obj.create(cr, 1, move)
-                        self.pool.get('account.move.line').write(cr, uid, [line.id], {'move_mirror_rel_id' : move_id})
+                        self.pool.get('account.move.line').write(cr, 1, [line.id], {'move_mirror_rel_id' : move_id})
         
                         analytic_account_id = ''
                         if line.analytic_account_id and line.analytic_account_id == mirror_selected.origin_analytic_account:
