@@ -43,30 +43,23 @@ class AccountMulticompanyRelation(orm.Model):
             'unique(name)',
             'The name must be unique'
         ),
-        (
-            'unique_mirror_relation',
-            'unique(origin_account,origin_journal,origin_analytic_account)',
-            'A relation exists already'
-        )
     ]
 
     def _check_unique_mirror_relation(self, cr, uid, ids, context=None):
-        exist = False
-        all_mirrors_ids = self.search(cr, uid, [], context)
-        all_mirrors = self.browse(cr, uid, all_mirrors_ids, context)
-        for mirror_id in ids:
-            mirror = self.browse(cr, uid, mirror_id, context)
-            if not mirror.origin_analytic_account:
-                for current_mirror in all_mirrors:
-                    if current_mirror.origin_account.id == mirror.origin_account.id and current_mirror.origin_journal.id == mirror.origin_journal.id:
-                        if not current_mirror.origin_analytic_account:
-                            return False
+        for relation in self.browse(cr, uid, ids, context=context):
+            relation_ids = self.search(cr, uid, [('origin_account','=',relation.origin_account.id),
+                                                 ('origin_journal','=',relation.origin_journal.id),
+                                                 ('origin_analytic_account','=',relation.origin_analytic_account.id)], context=context)
+            if len(relation_ids) >= 2:
+                return False
+            elif len(relation_ids) == 1 and not relation_ids[0] == relation.id:
+                return False
         return True
 
     _constraints = [
         (
             _check_unique_mirror_relation,
-            'A relation exists already', ['origin_analytic_account']
+            'The same relation already exists', ['origin_account','origin_journal','origin_analytic_account']
         )
     ]
 
@@ -136,95 +129,107 @@ class AccountMove(orm.Model):
         result = super(AccountMove, self).post(cr, uid, ids, context=context)
 
         for move_id_original in ids:
-            if self.pool.get('account.move').search(cr, 1, [('move_reverse_id', '=', move_id_original)], context=context):
+            account_move_obj = self.pool.get('account.move')
+            account_move_line_obj = self.pool.get('account.move.line')
+            account_multicompany_relation_obj = self.pool.get('account.multicompany.relation')
+            #Continue if this is a reversion move
+            if account_move_obj.search(cr, 1, [('move_reverse_id', '=', move_id_original)], context=context):
                 continue
-                            
-            original_move = self.pool.get('account.move').browse(cr, 1, move_id_original, context=context)
-            
+
+            original_move = account_move_obj.browse(cr, 1, move_id_original, context=context)
             if original_move.line_id:
                 mirror_selected = False
-
                 for line in original_move.line_id:
                     if line.move_mirror_rel_id:
                         if original_move.move_reverse_id:
-                            self.pool.get('account.move').reverse(cr, 1, [line.move_mirror_rel_id.id], context={})
+                            account_move_obj.reverse(cr, 1, [line.move_mirror_rel_id.id], context={})
                         continue
-                    mirror_selected_list_ids = self.pool.get('account.multicompany.relation').search(cr, 1, [('origin_account', '=', line.account_id.id), ('origin_journal', '=', line.journal_id.id)], context=context)
+                    
+                    #Get parent accounts for line account
+                    parent_account_ids = []                    
+                    parent_account = line.account_id
+                    while parent_account:
+                        parent_account_ids.append(parent_account.id)
+                        parent_account = parent_account.parent_id
+                    analytic_account_id = line.analytic_account_id and line.analytic_account_id.id or False
+                    mirror_selected_list_ids = account_multicompany_relation_obj.search(cr, 1, [('origin_account', 'in', parent_account_ids), ('origin_journal', '=', line.journal_id.id), ('origin_analytic_account', '=', analytic_account_id)], context=context)
                     move_id = False
                     if len(mirror_selected_list_ids) > 0:
-                        mirror_selected_list = self.pool.get('account.multicompany.relation').browse(cr, 1, mirror_selected_list_ids, context=context)
-    
-                        for mirror in mirror_selected_list:
-                            if line.account_id and line.account_id.id == mirror.origin_account.id and line.journal_id.id == mirror.origin_journal.id:
-                                if mirror.origin_analytic_account:
-                                    if line.analytic_account_id and line.analytic_account_id.id == mirror.origin_analytic_account:
-                                        mirror_selected = mirror
-                                        break
-                                elif not mirror_selected:
+                        mirror_selected_list = account_multicompany_relation_obj.browse(cr, 1, mirror_selected_list_ids, context=context)
+
+                        mirror_selected = False
+
+                        if len(mirror_selected_list) == 1:
+                            mirror_selected = mirror_selected_list[0]
+                        else:
+                            mirror_index = -1
+                            for mirror in mirror_selected_list:
+                                if mirror_index < 0 or parent_account_ids.index(mirror.origin_account.id) < mirror_index:
+                                    mirror_index = parent_account_ids.index(mirror.origin_account.id)
                                     mirror_selected = mirror
-                    
+
                         if mirror_selected:
                             origin_journal = mirror_selected.origin_journal
                             origin_account = mirror_selected.origin_account
                             targ_journal =  mirror_selected.targ_journal
                             targ_account = mirror_selected.targ_account
                         else:
-                            return result
-                                
+                            continue
+
                         #Set period for target move with the correct company
                         if context == None:
                             context_copy = {'company_id': targ_account.company_id.id}
                         else:
                             context_copy = copy(context)
                             context_copy.update({'company_id': targ_account.company_id.id})
-                
+
                         periods = self.pool.get('account.period').find(cr, 1, dt=original_move.date, context=context_copy)
                         if periods:
                             move_period = periods[0]
-        
+
                         move = {
-                                'name':'MCR: ' + original_move.name,
-                                'ref':original_move.ref,
-                                'journal_id':targ_journal.id,
-                                'period_id':move_period or False,
-                                'to_check':False,
-                                'partner_id':original_move.partner_id.id,
-                                'date':original_move.date,
-                                'narration':original_move.narration,            
-                                'company_id':targ_account.company_id.id,
-                                }
-                        move_id = self.pool.get('account.move').create(cr, 1, move)
-                        self.pool.get('account.move.line').write(cr, uid, [line.id], {'move_mirror_rel_id' : move_id})
+                            'name':'MCR: ' + original_move.name,
+                            'ref':original_move.ref,
+                            'journal_id':targ_journal.id,
+                            'period_id':move_period or False,
+                            'to_check':False,
+                            'partner_id':original_move.partner_id.id,
+                            'date':original_move.date,
+                            'narration':original_move.narration,
+                            'company_id':targ_account.company_id.id,
+                        }
+                        move_id = account_move_obj.create(cr, 1, move)
+                        self.pool.get('account.move.line').write(cr, 1, [line.id], {'move_mirror_rel_id' : move_id})
         
                         analytic_account_id = ''
                         if line.analytic_account_id and line.analytic_account_id == mirror_selected.origin_analytic_account:
                             analytic_account_id = mirror_selected.targ_analytic_account.id
         
                         move_line_one = {
-                                         'name':line.name,
-                                         'debit':line.credit,
-                                         'credit':line.debit,
-                                         'account_id':targ_account.id,
-                                         'move_id': move_id,
-                                         'amount_currency':line.amount_currency * -1,
-                                         'period_id':move_period or False,
-                                         'journal_id':targ_journal.id,
-                                         'partner_id':line.partner_id.id,
-                                         'currency_id':line.currency_id.id,
-                                         'date_maturity':line.date_maturity,
-                                         'date':line.date,
-                                         'date_created':line.date_created,
-                                         'state':'valid',
-                                         'analytic_account_id':analytic_account_id,
-                                         'company_id':targ_account.company_id.id,
-                                         }
-        
-                        self.pool.get('account.move.line').create(cr, 1, move_line_one)
+                            'name':line.name,
+                            'debit':line.credit,
+                            'credit':line.debit,
+                            'account_id':targ_account.id,
+                            'move_id': move_id,
+                            'amount_currency':line.amount_currency * -1,
+                            'period_id':move_period or False,
+                            'journal_id':targ_journal.id,
+                            'partner_id':line.partner_id.id,
+                            'currency_id':line.currency_id.id,
+                            'date_maturity':line.date_maturity,
+                            'date':line.date,
+                            'date_created':line.date_created,
+                            'state':'valid',
+                            'analytic_account_id':analytic_account_id,
+                            'company_id':targ_account.company_id.id,
+                        }
+
+                        account_move_line_obj.create(cr, 1, move_line_one)
                         if line.debit != 0.0:
                             move_line_two_account_id = targ_journal.default_credit_account_id
                         else:
                             move_line_two_account_id = targ_journal.default_debit_account_id
-        
+
                         move_line_two = {
                                          'name':line.name,
                                          'debit':line.debit,
@@ -243,12 +248,12 @@ class AccountMove(orm.Model):
                                          'analytic_account_id':analytic_account_id,
                                          'company_id':targ_account.company_id.id,
                                          }
-                        self.pool.get('account.move.line').create(cr, 1, move_line_two)
-                        
+                        account_move_line_obj.create(cr, 1, move_line_two)
+
                         #Posted mirror
-                        self.pool.get('account.move').post(cr, 1, [move_id], context={})
+                        account_move_obj.post(cr, 1, [move_id], context={})
                     if move_id and original_move.move_reverse_id:
-                        self.pool.get('account.move').reverse(cr, 1, [move_id], context={})
+                        account_move_obj.reverse(cr, 1, [move_id], context={})
         return result
     
     def unlink(self, cr, uid, ids, context=None, check=True):
