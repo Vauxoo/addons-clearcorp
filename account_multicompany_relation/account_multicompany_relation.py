@@ -151,7 +151,8 @@ class AccountMove(orm.Model):
                     while parent_account:
                         parent_account_ids.append(parent_account.id)
                         parent_account = parent_account.parent_account_id
-                    mirror_selected_list_ids = account_multicompany_relation_obj.search(cr, 1, [('origin_account', 'in', parent_account_ids), ('origin_journal', '=', line.journal_id.id)], context=context)
+                    account_analytic_id = line.account_analytic_id and line.account_analytic_id.id or False
+                    mirror_selected_list_ids = account_multicompany_relation_obj.search(cr, 1, [('origin_account', 'in', parent_account_ids), ('origin_journal', '=', line.journal_id.id), ('origin_analytic_account', '=', account_analytic_id)], context=context)
                     move_id = False
                     if len(mirror_selected_list_ids) > 0:
                         mirror_selected_list = account_multicompany_relation_obj.browse(cr, 1, mirror_selected_list_ids, context=context)
