@@ -157,13 +157,15 @@ class AccountMove(orm.Model):
                     if len(mirror_selected_list_ids) > 0:
                         mirror_selected_list = account_multicompany_relation_obj.browse(cr, 1, mirror_selected_list_ids, context=context)
 
-                        for mirror in mirror_selected_list:
-                            if line.account_id and line.account_id.id == mirror.origin_account.id and line.journal_id.id == mirror.origin_journal.id:
-                                if mirror.origin_analytic_account:
-                                    if line.analytic_account_id and line.analytic_account_id.id == mirror.origin_analytic_account:
-                                        mirror_selected = mirror
-                                        break
-                                elif not mirror_selected:
+                        mirror_selected = False
+
+                        if len(mirror_selected_list) == 1:
+                            mirror_selected = mirror_selected_list[0]
+                        else:
+                            mirror_index = -1
+                            for mirror in mirror_selected_list:
+                                if mirror_index < 0 or parent_account_ids.index(mirror.origin_account.id) < mirror_index:
+                                    mirror_index = parent_account_ids.index(mirror.origin_account.id)
                                     mirror_selected = mirror
 
                         if mirror_selected:
