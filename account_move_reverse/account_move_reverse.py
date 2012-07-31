@@ -108,7 +108,10 @@ class AccountMove(orm.Model):
                 if line.reconcile_id:
                     reconcile = line.reconcile_id
                     if len(reconcile.line_id) > 2:
-                        self.pool.get('account.move.line').write(cr,uid,reconcile.line_id,{'reconcile_id': False, 'reconcile_partial_id':reconcile.id})
+                        reconcile_line_ids = []
+                        for line_id in reconcile.line_id:
+                            reconcile_line_ids.append(line_id.id)
+                        self.pool.get('account.move.line').write(cr,uid,reconcile_line_ids,{'reconcile_id': False, 'reconcile_partial_id':reconcile.id})
                         self.pool.get('account.move.line').write(cr,uid,line.id,{'reconcile_partial_id': False})
                     else:
                         move_reconcile_obj.unlink(cr,uid,[reconcile.id],context=context)
