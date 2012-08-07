@@ -2,8 +2,8 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
-#    Addons modules by CLEARCORP
-#    Copyright (C) 2009-TODAY (<http://clearcorp.co.cr>).
+#    Addons modules by CLEARCORP S.A.
+#    Copyright (C) 2009-TODAY CLEARCORP S.A. (<http://clearcorp.co.cr>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -140,8 +140,8 @@ class rent_building(osv.osv):
     _columns = {
         'building_capacity'          : fields.integer('Capacity'),
         'building_date_construction' : fields.date('Construction Date'),
-        'building_elevator'          : fields.boolean('Elevadores',help='Select if the building has at least one elevator'),
-        'building_elevators_number'  : fields.integer('Elvetators number',readonly=True,help='If checkbox of elevators is no selected this will be 0'),
+        'building_elevator'          : fields.boolean('Elevators',help='Select if the building has at least one elevator'),
+        'building_elevators_number'  : fields.integer('Elevators number',readonly=True,help='If checkbox of elevators is no selected this will be 0'),
         'building_stairs'            : fields.boolean('Stairs',help='Select if the building has at least one elevator'),
         'building_stairs_number'     : fields.integer('Stairs number',readonly=True,help='If checkbox of stairs is no selected this will be 0'),
         'name'                       : fields.char('Name', size=40,required=True),
@@ -1469,7 +1469,7 @@ class rent_rent(osv.osv):
         'eqv_currency_id'       : fields.many2one('res.currency', 'Currency Equivalence', required=True,states={'finished':[('readonly',True)]}),
         'rent_estimates_ids'    : fields.one2many('rent.rent.estimate', 'estimate_rent_id','Estimates',states={'finished':[('readonly',True)]}),         
         'rent_historic_ids'     : fields.one2many('rent.rent.anual.value', 'anual_value_rent_id','Historic',readonly=True, domain=[('anual_value_type', '=', 'rent')]),
-        'rent_charge_day'       : fields.integer('Charge Day', required=True,states={'finished':[('readonly',True)]},help='Indica el dia del mes para realizar los cobros del alquiler.'),
+        'rent_charge_day'       : fields.integer('Charge Day', required=True,states={'finished':[('readonly',True)]},help='Indicates the day of the month for rental charges.'),
         'rent_invoice_ids'      : fields.one2many('rent.invoice.rent','invoice_rent_id','Rent Invoices', domain=[('invoice_type', '=', 'rent')],readonly=True),
         'rent_invoiced_day'     : fields.integer('Invoiced Day', required=True,states={'finished':[('readonly',True)]},help='Indicates de how many days before of the charge day will create the invoice'),
         'rent_grace_period'     : fields.integer('Grace Period', required=True,states={'finished':[('readonly',True)]},help='Indicates de how many days after the charge day will allow to paid an invoice without Interest for delay'),
@@ -1514,14 +1514,14 @@ class rent_rent(osv.osv):
         'rent_main_invoice_ids'      : fields.one2many('rent.invoice.rent','invoice_rent_id','Rent Invoices', domain=[('invoice_type', '=', 'main')],readonly=True),
         'rent_main_total'            : fields.float('Total Paid'),
         
-        'main_currency_id'           : fields.many2one('res.currency', 'Currency', required=True,states={'finished':[('readonly',True)]}),
+        'main_currency_id'           : fields.many2one('res.currency', 'Currency', required=False,states={'finished':[('readonly',True)]}),
         'main_eqv_currency_id'       : fields.many2one('res.currency', 'Currency Equivalence', required=True,states={'finished':[('readonly',True)]}),
         
         #'rent_main_total_us'         : fields.float('Total Paid $'),
         'rent_main_historic_ids'     : fields.one2many('rent.rent.anual.value', 'anual_value_rent_id','Historic',readonly=True, domain=[('anual_value_type', '=', 'main')]),      
         'rent_main_company_id'       : fields.many2one('res.company', 'Supplier Company',states={'finished':[('readonly',True)]}),      
         
-        'rent_main_charge_day'       : fields.integer('Charge Day',states={'finished':[('readonly',True)]},help='Indica el dia del mes para realizar los cobros del alquiler.'),
+        'rent_main_charge_day'       : fields.integer('Charge Day',states={'finished':[('readonly',True)]},help='Indicates the day of the month for rental charges.'),
         'rent_main_invoiced_day'     : fields.integer('Invoiced Day',states={'finished':[('readonly',True)]},help='Indicates de how many days before of the charge day will create the invoice'),
         'rent_main_grace_period'     : fields.integer('Grace Period',states={'finished':[('readonly',True)]},help='Indicates de how many days after the charge day will allow to paid an invoice without Interest for delay'),   
         
@@ -1623,7 +1623,7 @@ class rent_rent_estimate(osv.osv):
         'estimate_amountd'           : fields.function(_performance_amount, type='float',method = True,string='Amount $', multi=True),
         'estimate_dollars'           : fields.function(_performance_currency, type='float',method = True,string='s / m2',multi='Currency'),
         'estimate_rent_id'            : fields.many2one('rent.rent','Rent'),
-        'estimate_date'              : fields.date('Fecha'),
+        'estimate_date'              : fields.date('Date'),
         'estimate_state'             : fields.selection([('final','Used'),('recommend','Recommend'),('min','Min'),('norec','Not Recomended')],'Status',readonly=False),
     }
     _order = "estimate_date desc"
@@ -1678,7 +1678,7 @@ class rent_rent_main_estimate(osv.osv):
         'estimate_dollars'           : fields.function(_performance_currency, type='float',method = True,string='s / m2',multi='Currency'),
         
         'estimate_maintenance_id'    : fields.many2one('rent.rent','Rent'),
-        'estimate_date'              : fields.date('Fecha'),
+        'estimate_date'              : fields.date('Date'),
         'estimate_state'             : fields.selection([('final','Used'),('recommend','Recommend'),('min','Min'),('norec','Not Recomended')],'Status',readonly=False),
     }
     _order = "estimate_date desc"

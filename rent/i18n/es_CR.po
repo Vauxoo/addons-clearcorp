@@ -1,25 +1,26 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-#	* rent
+# 	* rent
+# Ronald Rubi <ronald.rubi@clearcorp.co.cr>, 2012.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 6.0.3\n"
-"Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2012-01-10 20:36+0000\n"
-"PO-Revision-Date: 2012-01-10 20:36+0000\n"
-"Last-Translator: <>\n"
-"Language-Team: \n"
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-08-07 17:48+0000\n"
+"PO-Revision-Date: 2012-08-07 12:03-0600\n"
+"Last-Translator: Ronald Rubi <ronald.rubi@clearcorp.co.cr>\n"
+"Language-Team: Inglés <ronald.rubi@clearcorp.co.cr>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
 #. module: rent
-#: help:rent.rent,rent_charge_day:0
-#: help:rent.rent,rent_main_charge_day:0
-msgid "Indica el dia del mes para realizar los cobros del alquiler."
-msgstr "Indica el día del mes para realizar los cobros del alquiler."
+#: model:ir.actions.act_window,name:rent.action_estate_form_view
+#: view:rent.estate:0
+msgid "estate Detail"
+msgstr "Detalle de Terreno"
 
 #. module: rent
 #: view:rent.building:0
@@ -28,13 +29,17 @@ msgstr "Maquinaria"
 
 #. module: rent
 #: help:rent.rent,rent_inv_water_account_id:0
-msgid "This account will be used for invoices of water instead of the default one to value expenses for the current rent"
-msgstr "Esta cuenta será empleada para el pago de agua que se realicen de los alquileres"
+msgid ""
+"This account will be used for invoices of water instead of the default one "
+"to value expenses for the current rent"
+msgstr ""
+"Esta cuenta será empleada para el pago de agua que se realicen de los "
+"alquileres"
 
 #. module: rent
-#: field:rent.building,building_stairs_number:0
-msgid "Stairs number"
-msgstr "Número de Escaleras"
+#: sql_constraint:rent.floor.parking:0 sql_constraint:rent.local.floor:0
+msgid "The side for the local cannot be 0!"
+msgstr "El ancho del local no puede ser 0"
 
 #. module: rent
 #: model:ir.model,name:rent.model_rent_rent_main_estimate
@@ -53,10 +58,7 @@ msgid "Check Rent Invoicing"
 msgstr "Revisar Facturación de Alquileres"
 
 #. module: rent
-#: view:rent.building:0
-#: view:rent.estate:0
-#: view:rent.floor:0
-#: view:rent.rent:0
+#: view:rent.building:0 view:rent.estate:0 view:rent.floor:0 view:rent.rent:0
 msgid "Group By..."
 msgstr "Agrupado por..."
 
@@ -95,7 +97,8 @@ msgstr "Detalle del Local"
 #. module: rent
 #: help:rent.contract.clause,clause_is_basic:0
 msgid "Check if the clause should allways appear on every contract you create"
-msgstr "Seleccione si la cláusula debería aparecer siempre en cada contrato que cree"
+msgstr ""
+"Seleccione si la cláusula debería aparecer siempre en cada contrato que cree"
 
 #. module: rent
 #: model:ir.model,name:rent.model_res_partner_address
@@ -103,8 +106,7 @@ msgid "Partner Addresses"
 msgstr "Direcciones de Empresa"
 
 #. module: rent
-#: view:rent.contract.clause:0
-#: field:rent.contract.clause,clause_body:0
+#: view:rent.contract.clause:0 field:rent.contract.clause,clause_body:0
 msgid "Body"
 msgstr "Cuerpo"
 
@@ -114,16 +116,8 @@ msgid "Finish"
 msgstr "Finalizado"
 
 #. module: rent
-#: model:ir.actions.act_window,help:rent.action_estate_form_view
-msgid "Manage the estates that your company owns, to have them available in your system, an estate is a portion of land commonly used for construction, in some cases it can have more than a single estructure, for example \n"
-"			a building. Here yo can set the main data for the estate and also create the buildings that belongs to it."
-msgstr "Administres los terrenos que la compañía posee, para que se encuentren disponibles en el sistema. Un terreno es una porción de tierra comúnmente utilizada para la construcción, en algunos casos puede poseer una estructura sobre este, por ejemplo\n"
-"			un edificio. Aquí se puede indicar los datos principales del terreno y crear los edificios de este."
-
-#. module: rent
 #: field:rent.rent,rent_main_rise_year3:0
-#: field:rent.rent,rent_main_rise_year3d:0
-#: field:rent.rent,rent_rise_year3d:0
+#: field:rent.rent,rent_main_rise_year3d:0 field:rent.rent,rent_rise_year3d:0
 msgid "Year 3  $"
 msgstr "Año 3"
 
@@ -144,26 +138,20 @@ msgid "Warning !"
 msgstr "Alerta !"
 
 #. module: rent
-#: field:rent.building,building_company_id:0
-#: field:rent.rent,company_id:0
+#: field:rent.building,building_company_id:0 field:rent.rent,company_id:0
 msgid "Company"
 msgstr "Compañía"
 
 #. module: rent
-#: model:ir.actions.act_window,name:rent.action_client_contact_form_view
-msgid "Contacts"
-msgstr "Contactos"
+#: field:rent.rent.estimate,estimate_years:0
+#: field:rent.rent.main.estimate,estimate_years:0
+msgid "Years for reinv."
+msgstr "Años p/rec"
 
 #. module: rent
 #: field:rent.invoice.rent,invoice_number:0
 msgid "Invoice Number"
 msgstr "Factura #"
-
-#. module: rent
-#: view:rent.contract:0
-#: view:rent.contract.clause:0
-msgid "Starting Date: %(sd)s"
-msgstr "Fecha de Inicio: %(sd)s"
 
 #. module: rent
 #: field:rent.rent.estimate,estimate_dollars:0
@@ -182,9 +170,9 @@ msgid "Number of the year as a sequence"
 msgstr "Number of the year as a sequence"
 
 #. module: rent
-#: selection:rent.rent,rent_type:0
-msgid "Others"
-msgstr "Otras Modificaciones"
+#: help:rent.rent,rent_charge_day:0 help:rent.rent,rent_main_charge_day:0
+msgid "Indicates the day of the month for rental charges."
+msgstr "Indica el día del mes para cobros de alquiler."
 
 #. module: rent
 #: field:rent.local.floor,local_floor_front:0
@@ -207,16 +195,18 @@ msgid "Rents Members"
 msgstr "Contratos Registrados"
 
 #. module: rent
-#: view:rent.contract:0
-#: view:rent.contract.clause:0
+#: view:rent.contract:0 view:rent.contract.clause:0
 msgid "Legend"
 msgstr "Leyenda"
 
 #. module: rent
-#: help:rent.rent,rent_grace_period:0
-#: help:rent.rent,rent_main_grace_period:0
-msgid "Indicates de how many days after the charge day will allow to paid an invoice without Interest for delay"
-msgstr "Indica cuanto días después de la fecha de cobro se permitirá el pago de la factura sin aplicar intereses por pago tardío"
+#: help:rent.rent,rent_grace_period:0 help:rent.rent,rent_main_grace_period:0
+msgid ""
+"Indicates de how many days after the charge day will allow to paid an "
+"invoice without Interest for delay"
+msgstr ""
+"Indica cuanto días después de la fecha de cobro se permitirá el pago de la "
+"factura sin aplicar intereses por pago tardío"
 
 #. module: rent
 #: field:rent.rent,rent_inv_water_account_id:0
@@ -224,7 +214,7 @@ msgid "Water payment Account"
 msgstr "Cuenta para pago de agua"
 
 #. module: rent
-#: model:ir.ui.menu,name:rent.rent_building_submenu
+#: model:ir.ui.menu,name:rent.rent_building_submenu view:rent.floor:0
 #: field:rent.floor,floor_building_id:0
 #: field:rent.floor.local,local_building:0
 #: field:rent.floor.parking,parking_floor_building:0
@@ -248,6 +238,11 @@ msgid "The large for the parking cannot be 0!"
 msgstr "El largo del parqueo no puede ser de 0 metros"
 
 #. module: rent
+#: model:res.groups,name:rent.group_rent_manager
+msgid "Rent / Manager"
+msgstr "Rent / Manager"
+
+#. module: rent
 #: view:rent.floor.parking:0
 msgid "Search Parking"
 msgstr "Buscar Parqueo"
@@ -263,16 +258,8 @@ msgid "Force the verficiation of invoices until today"
 msgstr "Forzar la verificación de facturas hasta el día de hoy"
 
 #. module: rent
-#: field:rent.building,building_elevator:0
-msgid "Elevadores"
-msgstr "Elevadores"
-
-#. module: rent
-#: view:rent.floor.local:0
-#: field:rent.floor.local,local_notes:0
-#: view:rent.rent:0
-#: field:rent.rent,main_notes:0
-#: field:rent.rent,rent_notes:0
+#: view:rent.floor.local:0 field:rent.floor.local,local_notes:0
+#: view:rent.rent:0 field:rent.rent,main_notes:0 field:rent.rent,rent_notes:0
 msgid "Notes"
 msgstr "Notas"
 
@@ -288,9 +275,9 @@ msgid "This a percentaje number"
 msgstr "Este es un porcentaje"
 
 #. module: rent
-#: view:rent.rent:0
-msgid "Search Rents"
-msgstr "Buscar Alquileres"
+#: view:rent.floor.local:0 view:rent.local.floor:0
+msgid "Local Details"
+msgstr "Detalle del Local"
 
 #. module: rent
 #: model:ir.actions.act_window,name:rent.action_view_rent_make_group
@@ -302,11 +289,6 @@ msgstr "Crear Grupo"
 #: field:rent.rent.main.estimate,estimate_amountc:0
 msgid "Amount"
 msgstr "Monto ¢"
-
-#. module: rent
-#: help:rent.floor,complete_name:0
-msgid "This name uses the code of the building and the floor name"
-msgstr "Este nombre usa el código del edificio y nombre del piso"
 
 #. module: rent
 #: help:rent.floor,floor_durability:0
@@ -329,9 +311,9 @@ msgid "Rent Reference"
 msgstr "Alquiler Ref."
 
 #. module: rent
-#: field:rent.canton.district,code:0
-msgid "Distric Code"
-msgstr "Código del Distrito"
+#: view:rent.contract:0 view:rent.contract.clause:0
+msgid "Starting Date: %(sd)s"
+msgstr "Fecha de Inicio: %(sd)s"
 
 #. module: rent
 #: view:rent.local.floor:0
@@ -349,20 +331,17 @@ msgid "rent.contract.clause.rel"
 msgstr "rent.contract.clause.rel"
 
 #. module: rent
-#: field:rent.rent,rent_end_date:0
-#: field:rent.rent,rent_main_end_date:0
+#: field:rent.rent,rent_end_date:0 field:rent.rent,rent_main_end_date:0
 msgid "Ending Date"
 msgstr "Fecha de Finalización"
 
 #. module: rent
-#: model:ir.ui.menu,name:rent.rent_rent_submenu
-#: view:rent.rent.group:0
+#: model:ir.ui.menu,name:rent.rent_rent_submenu view:rent.rent.group:0
 msgid "Rents"
 msgstr "Alquileres"
 
 #. module: rent
-#: field:rent.contract,name:0
-#: field:rent.contract.clause,clause_code:0
+#: field:rent.contract,name:0 field:rent.contract.clause,clause_code:0
 #: field:rent.rent,ref:0
 msgid "Reference"
 msgstr "Referencia"
@@ -378,8 +357,7 @@ msgid "Clause"
 msgstr "Cláusula"
 
 #. module: rent
-#: field:rent.floor,floor_number:0
-#: field:rent.floor.parking,parking_floor_id:0
+#: field:rent.floor,floor_number:0 field:rent.floor.parking,parking_floor_id:0
 msgid "# Floor"
 msgstr "# Piso"
 
@@ -405,14 +383,14 @@ msgid "Amount (Foreing)"
 msgstr "Monto (Extranjero)"
 
 #. module: rent
+#: field:rent.building,building_elevator:0
+msgid "Elevators"
+msgstr "Ascensores"
+
+#. module: rent
 #: model:ir.model,name:rent.model_rent_rent_anual_value
 msgid "rent.rent.anual.value"
 msgstr "rent.rent.anual.value"
-
-#. module: rent
-#: view:rent.contract:0
-msgid "Contrato"
-msgstr "Contrato"
 
 #. module: rent
 #: field:rent.rent,rent_invoiced_day:0
@@ -421,8 +399,7 @@ msgid "Invoiced Day"
 msgstr "Días de Anticipación"
 
 #. module: rent
-#: field:rent.rent,rent_main_rise:0
-#: field:rent.rent,rent_rise:0
+#: field:rent.rent,rent_main_rise:0 field:rent.rent,rent_rise:0
 #: field:rent.rent.anual.value,anual_value_rate:0
 msgid "Anual Rise"
 msgstr "Aumento Anual(%)"
@@ -430,7 +407,9 @@ msgstr "Aumento Anual(%)"
 #. module: rent
 #: help:rent.contract.clause,clause_code:0
 msgid "Reference code for the clause, used to create custom contracts"
-msgstr "Referencia al código de la Cláusula, empleado para crear contratos personalizados"
+msgstr ""
+"Referencia al código de la Cláusula, empleado para crear contratos "
+"personalizados"
 
 #. module: rent
 #: model:ir.model,name:rent.model_res_partner
@@ -465,11 +444,9 @@ msgid "Subject"
 msgstr "Asunto"
 
 #. module: rent
-#: view:rent.estate:0
-#: field:rent.estate,estate_rented:0
-#: view:rent.floor.local:0
-#: field:rent.floor.local,local_rented:0
-#: field:rent.floor.parking,parking_rented:0
+#: view:rent.estate:0 field:rent.estate,estate_rented:0
+#: view:rent.floor.local:0 field:rent.floor.local,local_rented:0
+#: view:rent.floor.parking:0 field:rent.floor.parking,parking_rented:0
 msgid "Rented"
 msgstr "Alquilado"
 
@@ -489,16 +466,12 @@ msgid "Sqr Meter Total"
 msgstr "Total m2"
 
 #. module: rent
-#: help:rent.rent,main_notes:0
-#: help:rent.rent,rent_notes:0
+#: help:rent.rent,main_notes:0 help:rent.rent,rent_notes:0
 msgid "Add complementary information about the rent or maintenance"
 msgstr "Información complementaria acerca del alquiler o mantenimiento"
 
 #. module: rent
-#: model:ir.actions.act_window,name:rent.action_canton_district
-#: view:rent.canton.district:0
-#: field:res.partner,client_district:0
-#: field:res.partner.address,district_id:0
+#: field:res.partner,client_district:0 field:res.partner.address,district_id:0
 msgid "District"
 msgstr "Distrito"
 
@@ -528,17 +501,14 @@ msgid "You can not repeat the local at the same floor!"
 msgstr "No se puede repetir el mismo local en el mismo piso!"
 
 #. module: rent
-#: view:rent.rent:0
-#: field:rent.rent,state:0
+#: view:rent.rent:0 field:rent.rent,state:0
 #: field:rent.rent.estimate,estimate_state:0
 #: field:rent.rent.main.estimate,estimate_state:0
 msgid "Status"
 msgstr "Estado"
 
 #. module: rent
-#: view:rent.estate:0
-#: view:rent.floor.local:0
-#: view:rent.floor.parking:0
+#: view:rent.estate:0 view:rent.floor.local:0 view:rent.floor.parking:0
 msgid "Not Rented"
 msgstr "No Alquilado"
 
@@ -553,29 +523,24 @@ msgid "Prev. Value"
 msgstr "Valor Previo"
 
 #. module: rent
-#: view:rent.estate:0
-#: field:rent.estate,estate_location_id:0
+#: view:rent.estate:0 field:rent.estate,estate_location_id:0
 msgid "Location"
 msgstr "Localización"
 
 #. module: rent
-#: field:rent.rent,rent_main_performance:0
-#: field:rent.rent,rent_performance:0
+#: field:rent.rent,rent_main_performance:0 field:rent.rent,rent_performance:0
 msgid "Performance"
 msgstr "Rendimiento"
 
 #. module: rent
 #: field:account.invoice.line,invoice_type:0
-#: field:rent.invoice.rent,invoice_type:0
-#: view:rent.rent:0
-#: field:rent.rent,rent_type:0
-#: field:rent.rent.anual.value,anual_value_type:0
+#: field:rent.invoice.rent,invoice_type:0 view:rent.rent:0
+#: field:rent.rent,rent_type:0 field:rent.rent.anual.value,anual_value_type:0
 msgid "Type"
 msgstr "Tipo"
 
 #. module: rent
-#: view:rent.building:0
-#: view:rent.floor:0
+#: view:rent.building:0 view:rent.floor:0
 msgid "Floor Details"
 msgstr "Detalle del Piso"
 
@@ -585,24 +550,16 @@ msgid "rent.estate"
 msgstr "rent.estate"
 
 #. module: rent
-#: field:rent.building,name:0
-#: field:rent.floor,complete_name:0
-#: field:rent.make.group,name:0
-#: field:rent.rent,name:0
-#: field:rent.rent.group,name:0
-msgid "Name"
-msgstr "Nombre"
-
-#. module: rent
 #: help:rent.rent,rent_inv_main_account_id:0
 #: help:rent.rent,rent_rent_acc_int_id:0
 #: help:rent.rent,rent_rent_main_acc_int_id:0
-msgid "This account will be used for invoices instead of the default one to value expenses for the current rent"
+msgid ""
+"This account will be used for invoices instead of the default one to value "
+"expenses for the current rent"
 msgstr "Esta cuenta será utilizada para las facturas"
 
 #. module: rent
-#: view:rent.estate:0
-#: field:rent.estate,estate_buildings_ids:0
+#: view:rent.estate:0 field:rent.estate,estate_buildings_ids:0
 msgid "Buildings"
 msgstr "Edificios"
 
@@ -612,7 +569,7 @@ msgid "Adendum List"
 msgstr "Lista de Modificaciones"
 
 #. module: rent
-#: code:addons/rent/rent.py:898
+#: code:addons/rent/rent.py:876
 #, python-format
 msgid "There is no purchase journal defined for this company: \"%s\" (id:%d)"
 msgstr "No existe un diario de compras para esta compañía: \"%s\" (id:%d)"
@@ -629,15 +586,14 @@ msgid "Rent Group"
 msgstr "Grupo de Alquileres"
 
 #. module: rent
-#: field:rent.rent,eqv_currency_id:0
-#: field:rent.rent,main_eqv_currency_id:0
+#: field:rent.rent,eqv_currency_id:0 field:rent.rent,main_eqv_currency_id:0
 msgid "Currency Equivalence"
 msgstr "Equivalencia de la moneda"
 
 #. module: rent
-#: model:ir.actions.act_window,help:rent.action_canton
-msgid "If you are working on the Costa Rican market, you can manage the different Canton you are working on from here. Each canton is attached to one province."
-msgstr "Si está trabajando en Costa Rica, puede manejar diferentes cantones en los que se este trabajando. Cada cantón está relacionado con una provincia."
+#: field:rent.building,building_gallery_photo:0
+msgid "Gallery of Photos"
+msgstr "Galería de fotos"
 
 #. module: rent
 #: field:rent.floor.local,local_huella:0
@@ -677,8 +633,7 @@ msgid "Stairs"
 msgstr "Escaleras"
 
 #. module: rent
-#: field:rent.rent,rent_main_start_date:0
-#: field:rent.rent,rent_start_date:0
+#: field:rent.rent,rent_main_start_date:0 field:rent.rent,rent_start_date:0
 msgid "Starting Date"
 msgstr "Fecha de Inicio"
 
@@ -693,31 +648,24 @@ msgid "Various problems with tenant"
 msgstr "Problemas varios con el inquilino"
 
 #. module: rent
-#: field:rent.rent,rent_charge_day:0
-#: field:rent.rent,rent_main_charge_day:0
+#: field:rent.rent,rent_charge_day:0 field:rent.rent,rent_main_charge_day:0
 msgid "Charge Day"
 msgstr "Día de Cobro"
 
 #. module: rent
-#: field:rent.canton,state_id:0
-msgid "Province"
-msgstr "Provincia"
+#: field:rent.building,building_stairs_number:0
+msgid "Stairs number"
+msgstr "Número de Escaleras"
 
 #. module: rent
-#: view:rent.estate:0
-#: view:rent.rent:0
+#: view:rent.estate:0 view:rent.rent:0
 msgid "Compute Values"
 msgstr "Calcular Valores"
 
 #. module: rent
-#: field:rent.building,building_estate_id:0
-msgid "estate"
-msgstr "Terreno"
-
-#. module: rent
-#: field:rent.floor.parking,parking_sqrmeter_price:0
-msgid "Sqr Meter Value"
-msgstr "Valor del m2"
+#: model:res.groups,name:rent.group_rent_user
+msgid "Rent / User"
+msgstr "Rent / User"
 
 #. module: rent
 #: model:ir.model,name:rent.model_rent_local_floor
@@ -725,22 +673,32 @@ msgid "rent.local.floor"
 msgstr "rent.local.floor"
 
 #. module: rent
-#: sql_constraint:rent.floor:0
-msgid "You can not have two floors with the same number at the same building!"
-msgstr "No se pueden tener dos pisos con el mismo número en el mismo edificio!"
+#: model:ir.actions.act_window,help:rent.action_parking_form
+msgid ""
+"Manage every parking that belongs to a determined floor. This is the main "
+"view where you can create a parking record\n"
+"            but you can still do it from the floor form"
+msgstr ""
+"Administrar todos los estacionamientos que pertenecen a un piso determinado. "
+"Esta es la vista principal, donde usted puede crear un registro de "
+"estacionamiento\n"
+"             pero todavía se puede hacer desde el formulario de piso"
 
 #. module: rent
-#: sql_constraint:rent.floor.parking:0
-#: sql_constraint:rent.local.floor:0
-msgid "The side for the local cannot be 0!"
-msgstr "El ancho del local no puede ser 0"
-
-#. module: rent
-#: field:rent.floor,floor_value:0
-#: field:rent.floor.parking,parking_value:0
+#: field:rent.floor,floor_value:0 field:rent.floor.parking,parking_value:0
 #: field:rent.rent.anual.value,anual_value_value:0
 msgid "Value"
 msgstr "Valor"
+
+#. module: rent
+#: view:rent.rent:0
+msgid "Financial Information"
+msgstr "Información financiera"
+
+#. module: rent
+#: report:contract_report:0
+msgid "ARRENDADORA"
+msgstr "ARRENDADORA"
 
 #. module: rent
 #: field:rent.building,building_vrn_per_sqr:0
@@ -749,25 +707,21 @@ msgid "VRN Din/M2"
 msgstr "VRN Din/m2"
 
 #. module: rent
-#: report:contract_report:0
-msgid "ARRENDADORA"
-msgstr "ARRENDADORA"
-
-#. module: rent
 #: field:rent.floor.local,local_photo:0
 msgid "Main photo"
 msgstr "Foto Principal"
 
 #. module: rent
-#: model:ir.actions.act_window,name:rent.action_client_form_view
-msgid "Detalles de Clientes"
-msgstr "Detalles de Clientes"
+#: help:rent.floor,complete_name:0
+msgid "This name uses the code of the building and the floor name"
+msgstr "Este nombre usa el código del edificio y nombre del piso"
 
 #. module: rent
-#: help:rent.rent,rent_inv_account_id:0
-#: help:rent.rent,rent_rent_account_id:0
+#: help:rent.rent,rent_inv_account_id:0 help:rent.rent,rent_rent_account_id:0
 #: help:rent.rent,rent_rent_main_account_id:0
-msgid "This account will be used for invoices instead of the default one to value sales for the current rent"
+msgid ""
+"This account will be used for invoices instead of the default one to value "
+"sales for the current rent"
 msgstr "Esta cuenta será empleada para las facturas que se generen"
 
 #. module: rent
@@ -787,8 +741,7 @@ msgid "Amount per Sqr"
 msgstr "Precio m2"
 
 #. module: rent
-#: sql_constraint:rent.floor:0
-#: sql_constraint:rent.floor.local:0
+#: sql_constraint:rent.floor:0 sql_constraint:rent.floor.local:0
 msgid "The area for the floor cannot be 0!"
 msgstr "El área del piso no puede ser 0!"
 
@@ -804,8 +757,7 @@ msgid "Not Recomended"
 msgstr "No Recomendado"
 
 #. module: rent
-#: field:rent.building,building_value:0
-#: field:rent.estate,estate_value:0
+#: field:rent.building,building_value:0 field:rent.estate,estate_value:0
 #: field:rent.floor.local,local_area:0
 msgid "VRN Dynamic"
 msgstr "VRN Dinámico"
@@ -816,6 +768,12 @@ msgid "Check for Invoices"
 msgstr "Revisar facturación"
 
 #. module: rent
+#: field:rent.building,ref:0 field:rent.estate,ref:0 field:rent.floor,ref:0
+#: field:rent.floor.local,ref:0 field:rent.floor.parking,ref:0
+msgid "ref"
+msgstr "ref"
+
+#. module: rent
 #: view:rent.floor.local:0
 msgid "Price historic"
 msgstr "Historial de Aumentos"
@@ -823,11 +781,10 @@ msgstr "Historial de Aumentos"
 #. module: rent
 #: field:rent.rent.anual.value,anual_value_local_ids:0
 msgid "Local reference"
-msgstr "Local reference"
+msgstr "Referencia del local"
 
 #. module: rent
-#: field:rent.rent,rent_amount_base:0
-#: field:rent.rent,rent_amountd_base:0
+#: field:rent.rent,rent_amount_base:0 field:rent.rent,rent_amountd_base:0
 #: field:rent.rent,rent_main_amount_base:0
 #: field:rent.rent,rent_main_amountd_base:0
 msgid "Final Price $"
@@ -839,7 +796,7 @@ msgid "Durability"
 msgstr "Durabilidad"
 
 #. module: rent
-#: view:rent.invoice.rent:0
+#: view:rent.invoice.rent:0 view:rent.rent:0
 msgid "Invoices"
 msgstr "Facturas"
 
@@ -864,18 +821,10 @@ msgid "Years"
 msgstr "Años"
 
 #. module: rent
-#: field:rent.rent,currency_id:0
-#: field:rent.rent,main_currency_id:0
+#: field:rent.rent,currency_id:0 field:rent.rent,main_currency_id:0
 #: field:rent.rise.estimate,currency_id:0
 msgid "Currency"
 msgstr "Moneda"
-
-#. module: rent
-#: model:ir.actions.act_window,help:rent.action_floor_form
-msgid "Manage every floor that belongs to a determined Building. This is the main view where you can create a floor record\n"
-"			but you can still do it from the building form"
-msgstr "Administre cada piso que pertenece a un edificio. Esta es la principal vista donde puede crear el registro de un piso,\n"
-"			pero de igual forma puede crearlos desde el formulario de los edificios"
 
 #. module: rent
 #: model:ir.ui.menu,name:rent.rent_estate_menu
@@ -886,11 +835,6 @@ msgstr "Bienes Inmuebles"
 #: field:rent.estate,estate_owner_id:0
 msgid "Owner"
 msgstr "Dueño"
-
-#. module: rent
-#: help:rent.canton,code:0
-msgid "The canton code in 4 chars"
-msgstr "El código de canton en 4 caracteres"
 
 #. module: rent
 #: help:rent.floor.parking,parking_rented:0
@@ -914,11 +858,6 @@ msgid "If checkbox of stairs is no selected this will be 0"
 msgstr "Si el checkbox no esta seleccionado. Comienza con 0"
 
 #. module: rent
-#: field:rent.canton.district,name:0
-msgid "Distric Name"
-msgstr "Nombre del Distrito"
-
-#. module: rent
 #: field:rent.building,building_capacity:0
 msgid "Capacity"
 msgstr "Capacidad"
@@ -932,12 +871,6 @@ msgstr "Moneda Extranjera"
 #: report:contract_report:0
 msgid "INQUILINO"
 msgstr "INQUILINO"
-
-#. module: rent
-#: field:rent.rent.estimate,estimate_date:0
-#: field:rent.rent.main.estimate,estimate_date:0
-msgid "Fecha"
-msgstr "Fecha"
 
 #. module: rent
 #: model:ir.model,name:rent.model_rent_rent
@@ -960,23 +893,17 @@ msgid "Cuenta"
 msgstr "Cuenta"
 
 #. module: rent
-#: model:ir.actions.act_window,name:rent.action_canton
-#: view:rent.canton:0
-#: field:rent.canton.district,canton_id:0
-#: field:res.partner,client_canton:0
-#: field:res.partner.address,canton_id:0
+#: field:res.partner,client_canton:0 field:res.partner.address,canton_id:0
 msgid "Canton"
 msgstr "Cantón"
 
 #. module: rent
-#: view:rent.rent:0
-#: selection:rent.rent,state:0
+#: view:rent.rent:0 selection:rent.rent,state:0
 msgid "Draft"
 msgstr "Borrador"
 
 #. module: rent
-#: selection:rent.invoice.rent,invoice_type:0
-#: view:rent.rent:0
+#: selection:rent.invoice.rent,invoice_type:0 view:rent.rent:0
 #: selection:rent.rent.anual.value,anual_value_type:0
 msgid "Maintenance"
 msgstr "Mantenimiento"
@@ -999,9 +926,9 @@ msgid "Calculations Details"
 msgstr "Detalles de Cálculos"
 
 #. module: rent
-#: field:rent.building,building_gallery_photo:0
-msgid "Gallery of Photos"
-msgstr "Galería de fotos"
+#: field:rent.rent,company_id_prefix:0
+msgid "Company Prefix"
+msgstr "Prefijo de la compañía"
 
 #. module: rent
 #: view:rent.floor.local:0
@@ -1014,20 +941,20 @@ msgid "Early Return"
 msgstr "Devolución Anticipada"
 
 #. module: rent
-#: view:rent.rent:0
-msgid "Financial Information"
-msgstr "Información financiera"
+#: model:ir.ui.menu,name:rent.menu_account_customer
+#: model:ir.ui.menu,name:rent.rent_client_menu
+msgid "Customers"
+msgstr "Clientes"
 
 #. module: rent
-#: view:rent.rent.estimate:0
-#: view:rent.rent.main.estimate:0
+#: view:rent.rent.estimate:0 view:rent.rent.main.estimate:0
 msgid "Calculations List"
 msgstr "Lista de cálculos"
 
 #. module: rent
-#: help:rent.canton.district,code:0
-msgid "The district code in 4 chars"
-msgstr "Código del distrito en 4 caracteres"
+#: field:rent.building,building_estate_id:0
+msgid "estate"
+msgstr "Terreno"
 
 #. module: rent
 #: model:ir.actions.act_window,name:rent.action_contract_form_view
@@ -1040,10 +967,8 @@ msgid "rent.floor.local"
 msgstr "rent.floor.local"
 
 #. module: rent
-#: field:rent.building,building_area:0
-#: field:rent.estate,estate_area:0
-#: field:rent.floor,floor_area:0
-#: field:rent.floor.parking,parking_area:0
+#: field:rent.building,building_area:0 field:rent.estate,estate_area:0
+#: field:rent.floor,floor_area:0 field:rent.floor.parking,parking_area:0
 #: field:rent.rent,rent_rent_real_area:0
 msgid "Area"
 msgstr "Área"
@@ -1064,9 +989,25 @@ msgid "Sqr Meter Price"
 msgstr "Precio m2"
 
 #. module: rent
-#: view:rent.floor:0
-msgid "Edificio"
-msgstr "Edificio"
+#: view:rent.rent:0
+msgid "Increases"
+msgstr "Aumentos"
+
+#. module: rent
+#: model:ir.actions.act_window,help:rent.action_estate_form_view
+msgid ""
+"Manage the estates that your company owns, to have them available in your "
+"system, an estate is a portion of land commonly used for construction, in "
+"some cases it can have more than a single estructure, for example \n"
+"            a building. Here yo can set the main data for the estate and "
+"also create the buildings that belongs to it."
+msgstr ""
+"Administrar los bienes adquiridos por su empresa, para tenerlos disponibles "
+"en su sistema, un estado es una porción de tierra de uso común para la "
+"construcción, en algunos casos puede tener más de una estructura única, por "
+"ejemplo\n"
+"            un edificio. Aquí usted puede configurar los datos principales "
+"de la finca y también crear los edificios que pertenecen a la misma."
 
 #. module: rent
 #: view:rent.floor.local:0
@@ -1084,8 +1025,9 @@ msgid "rent.make.group"
 msgstr "rent.make.group"
 
 #. module: rent
-#: field:rent.invoice.log,log_date:0
-#: field:rent.invoice.rent,invoice_date:0
+#: field:rent.invoice.log,log_date:0 field:rent.invoice.rent,invoice_date:0
+#: field:rent.rent.estimate,estimate_date:0
+#: field:rent.rent.main.estimate,estimate_date:0
 msgid "Date"
 msgstr "Fecha"
 
@@ -1095,21 +1037,9 @@ msgid ":"
 msgstr ":"
 
 #. module: rent
-#: view:rent.rent:0
-msgid "Aumentos"
-msgstr "Aumentos"
-
-#. module: rent
-#: view:rent.building:0
-#: view:rent.floor:0
+#: view:rent.building:0 view:rent.floor:0
 msgid "Design Information"
 msgstr "Información de Diseño"
-
-#. module: rent
-#: field:rent.rent.estimate,estimate_years:0
-#: field:rent.rent.main.estimate,estimate_years:0
-msgid "Years for reinv."
-msgstr "Años p/rec"
 
 #. module: rent
 #: model:ir.actions.act_window,name:rent.action_building_form
@@ -1117,8 +1047,7 @@ msgid "building"
 msgstr "Edificio"
 
 #. module: rent
-#: view:rent.rent:0
-#: field:rent.rent,rent_modif_ref:0
+#: view:rent.rent:0 field:rent.rent,rent_modif_ref:0
 msgid "Modifications"
 msgstr "Modificaciones"
 
@@ -1138,10 +1067,9 @@ msgid "The huella for the parking cannot be 0!"
 msgstr "La Huella para el parqueo no puede ser de 0 metros!"
 
 #. module: rent
-#: field:rent.rent,rent_grace_period:0
-#: field:rent.rent,rent_main_grace_period:0
-msgid "Grace Period"
-msgstr "Plazo de pago"
+#: help:rent.building,building_elevators_number:0
+msgid "If checkbox of elevators is no selected this will be 0"
+msgstr "Si el elevador no está seleccionado, siempre será 0"
 
 #. module: rent
 #: sql_constraint:rent.floor.parking:0
@@ -1154,9 +1082,9 @@ msgid "# Local"
 msgstr "# Local"
 
 #. module: rent
-#: model:ir.ui.menu,name:rent.rent_client_menu
-msgid "Clients"
-msgstr "Clientes"
+#: selection:rent.rent,rent_type:0
+msgid "Others"
+msgstr "Otras Modificaciones"
 
 #. module: rent
 #: field:rent.invoice.rent,invouce_residual:0
@@ -1164,15 +1092,12 @@ msgid "Residual"
 msgstr "Saldo Pendiente"
 
 #. module: rent
-#: view:rent.contract:0
-#: selection:rent.rent,rent_type:0
+#: view:rent.contract:0 selection:rent.rent,rent_type:0
 msgid "Contract"
 msgstr "Contratos"
 
 #. module: rent
-#: view:rent.rent:0
-#: field:rent.rent,active:0
-#: selection:rent.rent,state:0
+#: view:rent.rent:0 field:rent.rent,active:0 selection:rent.rent,state:0
 msgid "Active"
 msgstr "Activo"
 
@@ -1182,7 +1107,6 @@ msgid "Ending Motif Description"
 msgstr "Descripción de motivo de fin"
 
 #. module: rent
-#: model:ir.ui.menu,name:rent.rent_client_submenu
 #: field:rent.rent,rent_rent_client_id:0
 msgid "Client"
 msgstr "Cliente"
@@ -1194,12 +1118,15 @@ msgstr "Selecciona si quiere calcular el alquiler"
 
 #. module: rent
 #: help:rent.rent,active:0
-msgid "If the active field is set to False, it will allow you to hide the resource record without removing it."
-msgstr "Si se pone el check, permitirá ocultar el registro sin eliminarlo permanentemente."
+msgid ""
+"If the active field is set to False, it will allow you to hide the resource "
+"record without removing it."
+msgstr ""
+"Si se pone el check, permitirá ocultar el registro sin eliminarlo "
+"permanentemente."
 
 #. module: rent
-#: field:rent.rent,rent_main_show_us_eq:0
-#: field:rent.rent,rent_show_us_eq:0
+#: field:rent.rent,rent_main_show_us_eq:0 field:rent.rent,rent_show_us_eq:0
 msgid "Check USD Currency Equivalent"
 msgstr "Ver equivalencia en otra moneda"
 
@@ -1230,9 +1157,10 @@ msgid "rent.floor"
 msgstr "rent.floor"
 
 #. module: rent
-#: view:rent.contract.clause.rel:0
-msgid "Clausula de Contrato"
-msgstr "Cláusula de Contrato"
+#: field:rent.rent,rent_grace_period:0
+#: field:rent.rent,rent_main_grace_period:0
+msgid "Grace Period"
+msgstr "Plazo de pago"
 
 #. module: rent
 #: field:rent.contract.clause,clause_is_basic:0
@@ -1250,27 +1178,26 @@ msgid "Select one of this to determine the type of invoice to create"
 msgstr "Seleccione una de estas para determinar el tipo de factura a crear"
 
 #. module: rent
-#: model:ir.actions.act_window,name:rent.action_estate_form_view
-#: view:rent.estate:0
-msgid "estate Detail"
-msgstr "Detalle de Terreno"
+#: model:ir.ui.menu,name:rent.rent_estate_submenu
+#: field:rent.rent,rent_rent_estate_id:0
+msgid "Estate"
+msgstr "Terreno"
 
 #. module: rent
-#: field:rent.rent,rent_main_total:0
-#: field:rent.rent,rent_total:0
+#: field:rent.rent,rent_main_total:0 field:rent.rent,rent_total:0
 #: field:rent.rent,rent_total_us:0
 msgid "Total Paid"
 msgstr "Valor del Inmueble"
 
 #. module: rent
-#: field:rent.rent,rent_main_total:0
-msgid "Total Paid"
-msgstr "Valor del Mantenimiento"
-
-#. module: rent
 #: field:rent.rent,rent_rise_year3:0
 msgid "Year 3 $"
 msgstr "Año 3"
+
+#. module: rent
+#: view:rent.rent:0
+msgid "Search Rents"
+msgstr "Buscar Alquileres"
 
 #. module: rent
 #: view:rent.local.floor:0
@@ -1284,10 +1211,8 @@ msgstr "Sequencia"
 
 #. module: rent
 #: field:rent.rent,rent_estimates_ids:0
-#: field:rent.rent,rent_main_estimates_ids:0
-#: view:rent.rent.anual.value:0
-#: view:rent.rent.estimate:0
-#: view:rent.rent.main.estimate.:0
+#: field:rent.rent,rent_main_estimates_ids:0 view:rent.rent.anual.value:0
+#: view:rent.rent.estimate:0 view:rent.rent.main.estimate.:0
 msgid "Estimates"
 msgstr "Estimaciones"
 
@@ -1297,18 +1222,13 @@ msgid "Period"
 msgstr "Periodo"
 
 #. module: rent
-#: view:rent.contract:0
-#: view:rent.contract.clause:0
+#: view:rent.contract:0 view:rent.contract.clause:0
 msgid "Ending Date: %(ed)s"
 msgstr "Fecha de Fin: %(ed)s"
 
 #. module: rent
-#: view:rent.building:0
-#: view:rent.estate:0
-#: view:rent.floor:0
-#: view:rent.floor.local:0
-#: view:rent.floor.parking:0
-#: view:rent.local.floor:0
+#: view:rent.building:0 view:rent.estate:0 view:rent.floor:0
+#: view:rent.floor.local:0 view:rent.floor.parking:0 view:rent.local.floor:0
 #: view:rent.rent:0
 msgid "General Information"
 msgstr "Información General"
@@ -1320,8 +1240,7 @@ msgstr "# Parqueo"
 
 #. module: rent
 #: model:ir.actions.act_window,name:rent.action_floor_form
-#: model:ir.ui.menu,name:rent.rent_floor_submenu
-#: view:rent.building:0
+#: model:ir.ui.menu,name:rent.rent_floor_submenu view:rent.building:0
 #: field:rent.building,building_floors_ids:0
 msgid "Floors"
 msgstr "Pisos"
@@ -1338,8 +1257,7 @@ msgstr "Factura"
 
 #. module: rent
 #: model:ir.actions.act_window,name:rent.action_parking_form
-#: model:ir.ui.menu,name:rent.rent_parking_submenu
-#: view:rent.floor:0
+#: model:ir.ui.menu,name:rent.rent_parking_submenu view:rent.floor:0
 #: field:rent.floor,floor_parking_ids:0
 #: selection:rent.rent,rent_related_real:0
 #: field:rent.rent,rent_rent_parking_id:0
@@ -1357,16 +1275,20 @@ msgid "Close"
 msgstr "Close"
 
 #. module: rent
-#: field:rent.local.floor,local_floor_floor_id:0
-msgid "Level"
-msgstr "Piso"
+#: report:contract_report:0
+msgid "____________________________"
+msgstr "____________________________"
 
 #. module: rent
 #: field:rent.rent,rent_main_rise_year2:0
-#: field:rent.rent,rent_main_rise_year2d:0
-#: field:rent.rent,rent_rise_year2d:0
+#: field:rent.rent,rent_main_rise_year2d:0 field:rent.rent,rent_rise_year2d:0
 msgid "Year 2  $"
 msgstr "Año 2"
+
+#. module: rent
+#: field:rent.building,building_elevators_number:0
+msgid "Elevators number"
+msgstr "Elevators number"
 
 #. module: rent
 #: field:rent.estate,estate_number:0
@@ -1374,9 +1296,9 @@ msgid "# estate"
 msgstr "# Terreno"
 
 #. module: rent
-#: view:rent.rent.group:0
-msgid "Details"
-msgstr "Detalles"
+#: field:rent.floor.parking,parking_sqrmeter_price:0
+msgid "Sqr Meter Value"
+msgstr "Valor del m2"
 
 #. module: rent
 #: view:rent.rent:0
@@ -1384,16 +1306,10 @@ msgid "Information"
 msgstr "Información"
 
 #. module: rent
-#: view:rent.rent.anual.value:0
-#: view:rent.rent.estimate:0
+#: view:rent.rent.anual.value:0 view:rent.rent.estimate:0
 #: view:rent.rent.main.estimate.:0
 msgid "Calculos"
 msgstr "Cálculos"
-
-#. module: rent
-#: field:rent.canton,code:0
-msgid "Canton Code"
-msgstr "Código Cantón"
 
 #. module: rent
 #: field:rent.rise.estimate,rent_id:0
@@ -1406,8 +1322,7 @@ msgid "Large Meters"
 msgstr "Metros de Profundidad"
 
 #. module: rent
-#: view:rent.contract:0
-#: view:rent.contract.clause:0
+#: view:rent.contract:0 view:rent.contract.clause:0
 msgid "Client name : %(cli)s"
 msgstr "Nombre de Cliente : %(cli)s"
 
@@ -1453,19 +1368,19 @@ msgid "Invoice Line"
 msgstr "Línea de factura"
 
 #. module: rent
-#: view:rent.rent:0
-msgid "Facturas"
-msgstr "Facturas"
-
-#. module: rent
-#: field:rent.rent,rent_amountd_per_sqr:0
-msgid "Amount m2 $"
-msgstr "Precio m2"
+#: view:rent.rent.group:0
+msgid "Details"
+msgstr "Detalles"
 
 #. module: rent
 #: view:rent.rent:0
 msgid "Calculations"
 msgstr "Cálculos"
+
+#. module: rent
+#: sql_constraint:rent.floor:0
+msgid "You can not have two floors with the same number at the same building!"
+msgstr "No se pueden tener dos pisos con el mismo número en el mismo edificio!"
 
 #. module: rent
 #: field:rent.rent.estimate,estimate_performance:0
@@ -1474,8 +1389,7 @@ msgid "Performance(%)"
 msgstr "ROI(%)"
 
 #. module: rent
-#: field:rent.rent,rent_invoice_ids:0
-#: field:rent.rent,rent_main_invoice_ids:0
+#: field:rent.rent,rent_invoice_ids:0 field:rent.rent,rent_main_invoice_ids:0
 msgid "Rent Invoices"
 msgstr "Facturas del Alquiler"
 
@@ -1505,20 +1419,15 @@ msgid "Description"
 msgstr "Descripción"
 
 #. module: rent
-#: report:contract_report:0
-msgid "____________________________"
-msgstr "____________________________"
-
-#. module: rent
-#: help:rent.rent,rent_invoiced_day:0
-#: help:rent.rent,rent_main_invoiced_day:0
-msgid "Indicates de how many days before of the charge day will create the invoice"
+#: help:rent.rent,rent_invoiced_day:0 help:rent.rent,rent_main_invoiced_day:0
+msgid ""
+"Indicates de how many days before of the charge day will create the invoice"
 msgstr "Indica cuántos días antes del día de cobro se creará la factura"
 
 #. module: rent
-#: help:rent.building,building_elevators_number:0
-msgid "If checkbox of elevators is no selected this will be 0"
-msgstr "Si el elevador no está seleccionado, siempre será 0"
+#: field:rent.local.floor,local_floor_floor_id:0
+msgid "Level"
+msgstr "Piso"
 
 #. module: rent
 #: report:contract_report:0
@@ -1536,8 +1445,7 @@ msgid "You can not have two buildings with the same code!"
 msgstr "No puede tener dos edificios con el mismo código!"
 
 #. module: rent
-#: view:rent.building:0
-#: view:rent.floor.local:0
+#: view:rent.building:0 view:rent.floor.local:0
 msgid "Photos"
 msgstr "Fotos"
 
@@ -1560,8 +1468,7 @@ msgid "Income Account"
 msgstr "Cuenta de Ingresos"
 
 #. module: rent
-#: help:rent.building,building_elevator:0
-#: help:rent.building,building_stairs:0
+#: help:rent.building,building_elevator:0 help:rent.building,building_stairs:0
 msgid "Select if the building has at least one elevator"
 msgstr "Seleccione si el edificio tiene al menos 1 año y algo."
 
@@ -1574,6 +1481,17 @@ msgstr "Buscar local"
 #: model:ir.model,name:rent.model_rent_invoice_rent
 msgid "rent.invoice.rent"
 msgstr "rent.invoice.rent"
+
+#. module: rent
+#: model:ir.actions.act_window,help:rent.action_floor_form
+msgid ""
+"Manage every floor that belongs to a determined Building. This is the main "
+"view where you can create a floor record\n"
+"            but you can still do it from the building form"
+msgstr ""
+"Manage every floor that belongs to a determined Building. This is the main "
+"view where you can create a floor record\n"
+"            but you can still do it from the building form"
 
 #. module: rent
 #: field:rent.local.floor,local_floor_value:0
@@ -1597,14 +1515,11 @@ msgid "Contract Termination"
 msgstr "Terminación de Contrato"
 
 #. module: rent
-#: field:rent.canton,name:0
-msgid "Canton Name"
-msgstr "Nombre Cantón"
-
-#. module: rent
-#: field:rent.building,building_elevators_number:0
-msgid "Elvetators number"
-msgstr "Número de Elevadores"
+#: field:rent.building,name:0 field:rent.floor,complete_name:0
+#: field:rent.make.group,name:0 field:rent.rent,name:0
+#: field:rent.rent.group,name:0
+msgid "Name"
+msgstr "Nombre"
 
 #. module: rent
 #: selection:rent.rent.estimate,estimate_state:0
@@ -1640,7 +1555,8 @@ msgstr "Compañía Proveedora"
 #. module: rent
 #: help:rent.rent,rent_include_water:0
 msgid "Check if you want to generate an invoice for the water payment"
-msgstr "Seleccione si desea generar facturación de para servicios de agua potable"
+msgstr ""
+"Seleccione si desea generar facturación de para servicios de agua potable"
 
 #. module: rent
 #: view:rent.estate:0
@@ -1653,29 +1569,32 @@ msgid "Rent Detail"
 msgstr "Detalles de Aquileres"
 
 #. module: rent
-#: view:rent.building:0
-#: selection:rent.rent,rent_related_real:0
+#: view:rent.building:0 selection:rent.rent,rent_related_real:0
 msgid "Estates"
 msgstr "Terrenos"
 
 #. module: rent
-#: view:rent.floor.local:0
-#: view:rent.local.floor:0
-msgid "Local Details"
-msgstr "Detalle del Local"
-
-#. module: rent
-#: model:ir.actions.act_window,help:rent.action_building_form
-msgid "Manage every parking that belongs to a determined estate. This is the main view where you can create a building record\n"
-"			but you can still do it from the estate form"
-msgstr "Administre los edificios que pertenecen a un terreno determinado. Esta es la principal vista donde se pueden crear registros de edificios\n"
-"			pero de igual forma se puede hacer desde el formulario del terreno"
-
-#. module: rent
-#: code:addons/rent/rent.py:897
+#: code:addons/rent/rent.py:875
 #, python-format
 msgid "Error !"
 msgstr "Error !"
+
+#. module: rent
+#: field:rent.rent,rent_amountd_per_sqr:0
+msgid "Amount m2 $"
+msgstr "Precio m2"
+
+#. module: rent
+#: model:ir.actions.act_window,help:rent.action_building_form
+msgid ""
+"Manage every parking that belongs to a determined estate. This is the main "
+"view where you can create a building record\n"
+"            but you can still do it from the estate form"
+msgstr ""
+"Administrar todos los estacionamientos que pertenecen a una finca "
+"determinada. Esta es la vista principal, donde usted puede crear un registro "
+"de la construcción\n"
+"            pero usted todavía puede hacerlo de la forma de bienes"
 
 #. module: rent
 #: view:rent.rent:0
@@ -1686,13 +1605,6 @@ msgstr "Aprobado"
 #: field:rent.local.floor,local_floor_side:0
 msgid "Side"
 msgstr "Largo"
-
-#. module: rent
-#: model:ir.actions.act_window,help:rent.action_parking_form
-msgid "Manage every parking that belongs to a determined floor. This is the main view where you can create a parking record\n"
-"			but you can still do it from the floor form"
-msgstr "Administre cada parqueo que pertenece a un determinado piso. Esta es la principal vista donde puede crearlos pero de igual forma\n"
-"			puede hacerlo desde el formulario del piso"
 
 #. module: rent
 #: sql_constraint:rent.floor.parking:0
@@ -1710,28 +1622,29 @@ msgid "Contract reference"
 msgstr "Referencia de Contrato"
 
 #. module: rent
-#: view:rent.contract:0
-#: view:rent.contract.clause:0
-msgid "Use any of the code down to specife where should go special data to be retreived such as partners name, date, and others. Place it in the body of the clause as you need it"
-msgstr "Use cualquier código, empleelos para indicar donde debería datos especiales en clientes, fechas, otros"
+#: view:rent.contract:0 view:rent.contract.clause:0
+msgid ""
+"Use any of the code down to specife where should go special data to be "
+"retreived such as partners name, date, and others. Place it in the body of "
+"the clause as you need it"
+msgstr ""
+"Use cualquier código, empleelos para indicar donde debería datos especiales "
+"en clientes, fechas, otros"
 
 #. module: rent
-#: model:ir.module.module,description:rent.module_meta_information
-msgid "ClearCorp 'rent' module for real estate business.\n"
-"	"
-msgstr "ClearCorp 'rent' module for real estate business.\n"
-"	"
-
-#. module: rent
-#: model:ir.ui.menu,name:rent.rent_estate_submenu
-#: field:rent.rent,rent_rent_estate_id:0
-msgid "Estate"
-msgstr "Terreno"
+#: view:rent.contract.clause.rel:0
+msgid "Contract Clause"
+msgstr "Cláusula de contrato"
 
 #. module: rent
 #: model:ir.actions.act_window,help:rent.action_local_form_view
-msgid "Manage every local that belongs to a determined floor. This is the only view where you can create a floor record"
-msgstr "Administre cada local que pertenece a uno o más pisos de un determinado edificio. Ésta es la única ventana donde usted puede crear un registro de Local"
+msgid ""
+"Manage every local that belongs to a determined floor. This is the only view "
+"where you can create a floor record"
+msgstr ""
+"Administre cada local que pertenece a uno o más pisos de un determinado "
+"edificio. Ésta es la única ventana donde usted puede crear un registro de "
+"Local"
 
 #. module: rent
 #: model:ir.model,name:rent.model_rent_building
@@ -1764,8 +1677,7 @@ msgid "Contract Expiration"
 msgstr "Vencimiento de Contrato"
 
 #. module: rent
-#: view:rent.contract:0
-#: view:rent.contract.clause:0
+#: view:rent.contract:0 view:rent.contract.clause:0
 msgid "Company name: %(com)s"
 msgstr "Nombre de Compañía: %(com)s"
 
@@ -1781,12 +1693,10 @@ msgstr "Lista de Parqueos"
 
 #. module: rent
 #: selection:account.invoice.line,invoice_type:0
-#: model:ir.module.module,shortdesc:rent.module_meta_information
 #: model:ir.ui.menu,name:rent.rent_manager
 #: model:ir.ui.menu,name:rent.rent_rent_menu
 #: field:rent.invoice.rent,invoice_rent_id:0
-#: selection:rent.invoice.rent,invoice_type:0
-#: view:rent.rent:0
+#: selection:rent.invoice.rent,invoice_type:0 view:rent.rent:0
 #: selection:rent.rent.anual.value,anual_value_type:0
 #: field:rent.rent.estimate,estimate_rent_id:0
 #: field:rent.rent.main.estimate,estimate_maintenance_id:0
@@ -1824,8 +1734,7 @@ msgid "Floor Specifications"
 msgstr "Especificaciones de Piso"
 
 #. module: rent
-#: view:rent.contract:0
-#: view:rent.contract.clause:0
+#: view:rent.contract:0 view:rent.contract.clause:0
 msgid "Total paid: %(tot)s"
 msgstr "Total Pago: %(tot)s"
 
@@ -1839,4 +1748,3 @@ msgstr "Locales"
 #: model:ir.model,name:rent.model_rent_canton_district
 msgid "District located in the canton"
 msgstr "Distrito localizado en el cantón"
-

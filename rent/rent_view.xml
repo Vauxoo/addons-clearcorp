@@ -351,7 +351,7 @@
                         <field name="floor_building_id"/>
                     </group>
                     <group expand = "0" string = "Group By...">
-                        <filter string = "Edificio" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'floor_building_id'}"/>
+                        <filter string = "Building" icon = "terp-go-home" domain = "[]" context="{'group_by' : 'floor_building_id'}"/>
                     </group>
                 </search>
             </field>
@@ -774,7 +774,7 @@
                                 <field name="rent_rent_account_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"  groups="base.group_extended"/>
                                 <field name="rent_rent_acc_int_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" groups="base.group_extended"/>
                                 <field name="rent_inv_account_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" groups="base.group_extended"/>
-                                <field name="rent_inv_water_account_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" groups="base.group_extended"/>
+                                <field name="rent_inv_water_account_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" groups="base.group_extended" attrs = "{'readonly' : [('rent_include_water','=',False)],'required':[('rent_include_water','=',True)],'invisible':[('rent_related_real','not in',['local'])]}"/>
                             </group>
                             <group col = "4" colspan = "4">
                                 <field name = "rent_charge_day"/>
@@ -828,10 +828,10 @@
                                 <page string = "Calculations">
                                     <field name = "rent_estimates_ids" nolabel="1"/>
                                 </page>
-                                <page string = "Aumentos" attrs = "{'invisible': [('rent_type','!=','Contract')]}">
+                                <page string = "Increases" attrs = "{'invisible': [('rent_type','!=','Contract')]}">
                                     <field name = "rent_historic_ids" nolabel="1"/>
                                 </page>
-                                <page string = "Facturas" attrs = "{'invisible': [('rent_type','!=','Contract')]}">
+                                <page string = "Invoices" attrs = "{'invisible': [('rent_type','!=','Contract')]}">
                                     <field name = "rent_invoice_ids" nolabel="1"/>
                                 </page>
                                 <page string = "Modifications" attrs = "{'invisible': [('rent_type','!=','Contract')]}">
@@ -857,29 +857,29 @@
                         <page string = "Maintenance">
                             <group col = "4" colspan = "4">
                                 <separator string = "General Information" colspan = "4"/>
-                                <field name = "rent_main_company_id" attrs = "{ 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
-                                <field name = "rent_main_start_date" attrs = "{ 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
-                                <field name = "rent_main_end_date" attrs = "{ 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
+                                <field name = "rent_main_company_id" attrs = "{'readonly' : [('rent_main_inc','=',False)],'required':[('rent_main_inc','=',True)]}"/>
+                                <field name = "rent_main_start_date" attrs = "{'readonly' : [('rent_main_inc','=',False)],'required':[('rent_main_inc','=',True)]}"/>
+                                <field name = "rent_main_end_date" attrs = "{'readonly' : [('rent_main_inc','=',False)],'required':[('rent_main_inc','=',True)]}"/>
                             </group>
                             <group col = "4" colspan = "4">
                                 <separator string = "Accounting" colspan = "4"/>
-                                <field name="rent_rent_main_account_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"  groups="base.group_extended" attrs = "{ 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
-                                <field name="rent_rent_main_acc_int_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" groups="base.group_extended" attrs = "{ 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
-                                <field name="rent_inv_main_account_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" groups="base.group_extended" attrs = "{ 'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
-                                <field name = "rent_main_charge_day" attrs = "{'required' : [('state','!=','draft')]}"/>
-                                <field name = "rent_main_invoiced_day" attrs = "{'required' : [('state','!=','draft')]}"/>
-                                <field name = "rent_main_grace_period" attrs = "{'required' : [('state','!=','draft')]}"/>
+                                <field name="rent_rent_main_account_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"  groups="base.group_extended" attrs = "{'readonly' : [('rent_main_inc','=',False)],'required':[('rent_main_inc','=',True)]}"/>
+                                <field name="rent_rent_main_acc_int_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" groups="base.group_extended" attrs = "{'readonly' : [('rent_main_inc','=',False)],'required':[('rent_main_inc','=',True)]}"/>
+                                <field name="rent_inv_main_account_id" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]" groups="base.group_extended" attrs = "{'readonly' : [('rent_main_inc','=',False)],'required':[('rent_main_inc','=',True)]}"/>
+                                <field name = "rent_main_charge_day" attrs = "{'readonly' : [('rent_main_inc','=',False)],'required':[('rent_main_inc','=',True)]}"/>
+                                <field name = "rent_main_invoiced_day" attrs = "{'readonly' : [('rent_main_inc','=',False)],'required':[('rent_main_inc','=',True)]}"/>
+                                <field name = "rent_main_grace_period" attrs = "{'readonly' : [('rent_main_inc','=',False)],'required':[('rent_main_inc','=',True)]}"/>
                                 
                             </group>
                             <group col = "4" colspan = "2">
                                 <separator string = "Financial Information" colspan = "4"/>
-                                <field name = "rent_main_amount_base"  attrs = "{'required' : [('state','!=','draft')]}"/>
-                                <field name = "rent_main_total"  attrs = "{'readonly' : ['|',('state','!=','draft'),('rent_main_inc','!=','True')], 'required' : [('state','!=','draft')]}"/>
+                                <field name = "rent_main_amount_base" attrs = "{'readonly' : [('rent_main_inc','=',False)],'required':[('rent_main_inc','=',True)]}"/>
+                                <field name = "rent_main_total" attrs = "{'readonly' : [('rent_main_inc','=',False)],'required':[('rent_main_inc','=',True)]}"/>
                                 <field name = "rent_main_rise_year2"/>
                                 <field name = "rent_main_performance"/>
                                 <field name = "rent_main_rise_year3"/>
-                                <field name = "rent_main_rise"  attrs = "{'required' : [('rent_main_inc','=','True'),('state','!=','draft')]}"/>
-                                <field name = "main_currency_id"/>
+                                <field name = "rent_main_rise" attrs = "{'readonly' : [('rent_main_inc','=',False)],'required':[('rent_main_inc','=',True)]}"/>
+                                <field name = "main_currency_id" attrs = "{'readonly' : [('rent_main_inc','=',False)],'required':[('rent_main_inc','=',True)]}"/>
                                 <field name = "rent_main_show_us_eq"/>
                                 <label string = "  "/>
                                 <button name = "calculate_negotiation" string="Compute Values" type="object" icon="terp-stock_format-scientific"/>
@@ -895,10 +895,10 @@
                                 <page string = "Calculations">
                                     <field name = "rent_main_estimates_ids" nolabel="1"  />
                                 </page>
-                                <page string = "Aumentos">
+                                <page string = "Increases">
                                     <field name = "rent_main_historic_ids" nolabel="1"/>
                                 </page>
-                                <page string = "Facturas">
+                                <page string = "Invoices">
                                     <field name = "rent_main_invoice_ids" nolabel="1"/>
                                 </page>
                                 <page string = "Notes">
@@ -1239,7 +1239,7 @@
             <field name = "model">rent.contract</field>
             <field name = "type">form</field>
             <field name = "arch" type = "xml">
-                <form string = "Contrato">
+                <form string = "Contract">
                     <group col = "4" colspan = "4">
                         <separator colspan = "4" string = "General Data"/>
                         <field name = "name"/>
@@ -1372,7 +1372,7 @@
             <field name = "model">rent.contract.clause.rel</field>
             <field name = "type">form</field>
             <field name = "arch" type = "xml">
-                <form string = "Clausula de Contrato">
+                <form string = "Contract Clause">
                     <field name = "sequence"/>
                     <field name = "rent_contract_clause_id"/>
                 </form>
@@ -1384,7 +1384,7 @@
             <field name = "model">rent.contract.clause.rel</field>
             <field name = "type">tree</field>
             <field name = "arch" type = "xml">
-                <tree string = "Clausula de Contrato">
+                <tree string = "Contract Clause">
                     <field name = "sequence"/>
                     <field name = "rent_contract_clause_id"/>
                 </tree>
