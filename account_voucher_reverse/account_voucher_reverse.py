@@ -27,6 +27,7 @@ class AccountVoucherReverse(osv.osv):
     _inherit = 'account.voucher'
 
     _columns = {
+        'move_line_reverse_ids' : fields.related('move_id', 'move_reverse_id', 'line_id', type='one2many', relation='account.move.line', string='Journal Items Reverse', readonly=True),
         'state':fields.selection(
             [('draft','Draft'),
              ('proforma','Pro-forma'),
