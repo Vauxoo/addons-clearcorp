@@ -28,6 +28,8 @@
                                 <field name="credit"/>
                                 <field name="state"/>
                                 <field name="reconcile_id"/>
+                                <field name="amount_currency"/>
+                                <field name="currency_id"/>
                             </tree>
                         </field>
                     </xpath>
@@ -62,6 +64,8 @@
                                 <field name="credit"/>
                                 <field name="state"/>
                                 <field name="reconcile_id"/>
+                                <field name="amount_currency"/>
+                                <field name="currency_id"/>
                             </tree>
                         </field>
                     </xpath>
