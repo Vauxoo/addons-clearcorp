@@ -21,14 +21,16 @@
 ##############################################################################
 from osv import fields, osv
 
-class hr_contract(osv.osv):
+class HrContract(osv.osv):
     _inherit = 'hr.contract'
     
     _columns = {
-        'name': fields.char('Contract Reference', size=64, required=True, readonly=True),
+        'name': fields.char('Contract Reference', size=64, readonly=True),
     }
     
-    _defaults = {
-        'name': lambda self,cr,uid,ctx=None: self.pool.get('ir.sequence').get(cr, uid, 'hr.contract', context=ctx) or '/',
-    }
+    def create(self, cr, uid, vals, context=None):
+        nombre = self.pool.get('ir.sequence').get(cr, uid, 'hr.contract', context=context) or '/'
+        vals['name'] = nombre
+        result = super(HrContract, self).create(cr, uid, vals, context=context)
+        return result
 
