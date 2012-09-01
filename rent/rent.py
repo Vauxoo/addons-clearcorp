@@ -806,7 +806,6 @@ class rent_rent(osv.osv):
 	def _invoice_main_required(self,cr,uid,ids,type='rent',current_date=date.today()):
 		#determines if the ids given require a invoice for the month
 		res = {}
-		debug("CALCULANDO REQUERIDOS################")
 		for obj_rent in self.browse(cr,uid,ids):
 			is_required = False
 			today = current_date
@@ -817,10 +816,8 @@ class rent_rent(osv.osv):
 					invoice_day = (obj_rent.rent_main_invoiced_day <= obj_rent.rent_main_charge_day and obj_rent.rent_main_charge_day - obj_rent.rent_main_invoiced_day or calendar.mdays[today.month] - obj_rent.rent_main_invoiced_day + obj_rent.rent_main_charge_day + 1)
 					inv_rent_list = obj_rent.rent_main_invoice_ids
 			if today.day == invoice_day:
-				debug("ENTRA if")
 				if (type == 'main' and obj_rent.rent_main_inc) or type == 'rent':
 					is_required = True
-					debug(inv_rent_list)
 					for obj_inv_reg in inv_rent_list:						
 						inv_date = parser.parse(obj_inv_reg.invoice_date).date()
 						debug(today)
@@ -837,7 +834,6 @@ class rent_rent(osv.osv):
 							is_required = False
 							break
 			res[obj_rent.id] = is_required
-			debug(res)
 		return res
 	
 	def register_rent_invoice(self,cr,uid,ids,args):
