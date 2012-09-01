@@ -770,7 +770,7 @@ class rent_rent(osv.osv):
 			'fiscal_position': obj_client.property_account_position.id,
 			'payment_term': obj_client.property_payment_term and o.partner_id.property_payment_term.id or False,
 			'company_id': obj_client.company_id.id,
-			'date_invoice' : date.today(),
+			'date_invoice' : today,
 			'date_due' : date_due,
 		}
 		inv_id = self.pool.get('account.invoice').create(cr, uid, inv, {'type':'out_invoice'})
