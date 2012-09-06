@@ -64,7 +64,7 @@ class rent_check_invoicing(osv.osv_memory):
 				return res
 		return res
 		
-	def check_invoicing(self, cr, uid, ids, context=None):
+	def check_invoicing(self, cr, uid, ids=[], context=None):
 		obj_rent = self.pool.get('rent.rent')
 		obj_rent.cron_rent_invoice(cr,uid,ids,context=context)
 		return {'type': 'ir.actions.act_window_close'}
