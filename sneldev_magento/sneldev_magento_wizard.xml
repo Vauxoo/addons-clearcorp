@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <menuitem 
+            id="base.menu_magento" 
+            name="Magento" />
+        <wizard 
+            string="Export categories and products to Magento" 
+            model="product.product"
+            name="sneldev.products.export" 
+            id="wizard_sneldev_products_export" />
+        <menuitem
+            name="Export categories and products to Magento"
+            action="wizard_sneldev_products_export" 
+            type="wizard" 
+            parent="base.menu_magento" 
+            id="base.menu_magento_products_export" />
+        
+        <wizard 
+            string="Export stock to Magento" 
+            model="product.product"
+            name="sneldev.stock.export" 
+            id="wizard_sneldev_stock_export" />
+        <menuitem
+            name="Export stock to Magento"
+            action="wizard_sneldev_stock_export" 
+            type="wizard" 
+            parent="base.menu_magento" 
+            id="base.menu_magento_stock_export" />
+            
+        <wizard 
+            string="Import orders and credit memos from Magento" 
+            model="sale.order"
+            name="sneldev.orders.import" 
+            id="wizard_sneldev_orders_import" />
+        <menuitem
+            name="Import orders from Magento"
+            action="wizard_sneldev_orders_import" 
+            type="wizard" 
+            parent="base.menu_magento" 
+            id="base.menu_magento_orders_import" />
+        <wizard 
+            string="Import categories and products from Magento" 
+            model="product.product"
+            name="sneldev.products.import" 
+            id="wizard_sneldev_products_import" />
+        <menuitem
+            name="Import categories and products from Magento"
+            action="wizard_sneldev_products_import" 
+            type="wizard" 
+            parent="base.menu_magento" 
+            id="base.menu_magento_products_import" />
+        
+        <wizard 
+            string="Import categories from Magento" 
+            model="product.category"
+            name="sneldev.categories.import" 
+            id="wizard_sneldev_categories_import" />
+        <menuitem
+            name="Import categories from Magento"
+            action="wizard_sneldev_categories_import" 
+            type="wizard" 
+            parent="base.menu_magento" 
+            id="base.menu_magento_categories_import" />
+
+        <wizard 
+            string="Initialize stock from Magento" 
+            model="product.product"
+            name="sneldev.stock.init" 
+            id="wizard_sneldev_stock_init" />
+        <menuitem
+            name="Initialize stock from Magento"
+            action="wizard_sneldev_stock_init" 
+            type="wizard" 
+            parent="base.menu_magento" 
+            id="base.menu_magento_stock_init" />
+
+        <wizard 
+            string="Start automatic synchronization" 
+            model="sneldev.magento"
+            name="sneldev.sync.start" 
+            id="wizard_sneldev_sync_start" />
+        <menuitem
+            name="Start automatic synchronization"
+            action="wizard_sneldev_sync_start" 
+            type="wizard" 
+            parent="base.menu_magento" 
+            id="base.menu_magento_sync_start" />
+
+        <wizard 
+            string="Stop automatic synchronization" 
+            model="sneldev.magento"
+            name="sneldev.sync.stop" 
+            id="wizard_sneldev_sync_stop" />
+        <menuitem
+            name="Stop automatic synchronization"
+            action="wizard_sneldev_sync_stop" 
+            type="wizard" 
+            parent="base.menu_magento" 
+            id="base.menu_magento_sync_stop" />
+        
+        <wizard 
+            string="Import customers from magento" 
+            model="res.partner"
+            name="res.partner" 
+            id="wizard_sneldev_customers" />
+        <menuitem
+            name="Import customers from magento"
+            action="wizard_sneldev_customers" 
+            type="wizard" 
+            parent="base.menu_magento" 
+            id="base.menu_magento_customers_import" />
+	</data>
+</openerp>  
