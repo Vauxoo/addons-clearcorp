@@ -41,6 +41,8 @@ from common_tools import *
 import traceback
 from pprint import pprint
 
+from tools.translate import _
+
 log = sneldev_log("magento_export.log");
 
 class sneldev_magento(osv.osv):
@@ -328,8 +330,10 @@ class sneldev_magento(osv.osv):
                     raise osv.except_osv(_('Error !'), _('Error with product import'))
             set_export_finished()
             return 0 
+       
         log.append('Export already running') 
         raise osv.except_osv(_('Error !'), _('Export already running'))  
+    
         return -1
 
             
@@ -658,6 +662,9 @@ class sneldev_magento(osv.osv):
     ##################################################################
     
     def import_customers(self, cr, uid):
+        flag = False
+        list = []
+        
         if (export_is_running() == False):
             try:
                 start_timestamp = str(DateTime.utc())
@@ -722,6 +729,7 @@ class sneldev_magento(osv.osv):
                     
                     if (info_address != []):                               
                         ########## <<<<<<<CUSTOMERS ADDRESS>>>>>>> ##########################
+                        list = []
                         try:
                             info_address = server.call(session, 'customer_address.list', [cust['customer_id']])
                             
@@ -736,18 +744,13 @@ class sneldev_magento(osv.osv):
     
                                 address['street'] = address['street'] + "\n "
                                 address['street'] = address['street'].split('\n')
-    
-                                #Address type (Billing - Shipping)
-                                if address['is_default_shipping']:
-                                    type = 'delivery'
-                                elif address['is_default_billing']:
-                                    type ='invoice'
-                                else:
-                                    type = 'default'
                                 
-                                erp_contact = {  'partner_id' : cust_ids[0],
-                                          #'type' : 'default',
-                                          'type':type,
+                                #if the billing and shipping address are the same...
+                                if address['is_default_shipping'] and address['is_default_billing']:
+                                    flag = True;
+                                    #BILLING
+                                    erp_contact_billing = {  'partner_id' : cust_ids[0],
+                                          'type':'invoice',
                                           'name': address['firstname'] + ' ' + address['lastname'],
                                           'street' : address['street'][0],
                                           'street2' : address['street'][1],
@@ -755,7 +758,44 @@ class sneldev_magento(osv.osv):
                                           'city'   : address['city'],
                                           'country_id' : new_address_country,
                                           'phone' : address['telephone']}
-                        
+    
+                                    #SHIPPING
+                                    erp_contact_shipping = {  'partner_id' : cust_ids[0],
+                                          'type':'delivery',
+                                          'name': address['firstname'] + ' ' + address['lastname'],
+                                          'street' : address['street'][0],
+                                          'street2' : address['street'][1],
+                                          'zip'    : address['postcode'],
+                                          'city'   : address['city'],
+                                          'country_id' : new_address_country,
+                                          'phone' : address['telephone']}
+                                    
+                                    list.append(erp_contact_billing)
+                                    list.append(erp_contact_shipping)
+                                    
+                                #if the billing and shipping address are different ... 
+                                else:
+                                    #Address type (Billing - Shipping)
+                                    if address['is_default_shipping']:
+                                        type = 'delivery'
+                                    elif address['is_default_billing']:
+                                        type ='invoice'
+                                    else:
+                                        type = 'default'
+                                                                                                    
+                                    erp_contact = {  'partner_id' : cust_ids[0],
+                                              #'type' : 'default',
+                                              'type':type,
+                                              'name': address['firstname'] + ' ' + address['lastname'],
+                                              'street' : address['street'][0],
+                                              'street2' : address['street'][1],
+                                              'zip'    : address['postcode'],
+                                              'city'   : address['city'],
+                                              'country_id' : new_address_country,
+                                              'phone' : address['telephone']}
+                                    
+                                    list.append(erp_contact)
+                                    
                                 contact_ids = self.pool.get('res.partner.address').search(cr, uid, [('partner_id', '=', cust_ids[0])])
                                 
                                 if (contact_ids != []):
@@ -766,7 +806,8 @@ class sneldev_magento(osv.osv):
                                 new_contact_ids = []
                                 is_contact_same = False
                   
-                                for new_contact in [erp_contact]:    
+                                #for new_contact in [erp_contact]:
+                                for new_contact in list:    
                                     if (new_contact == {}):
                                         continue      
                                     skip_contact_creation = False
@@ -785,19 +826,22 @@ class sneldev_magento(osv.osv):
                                                     is_contact_same = False
                                                     break
                                                 
-                                    if (is_contact_same == True):
-                                        skip_contact_creation = True
-                                        log.append("\t\tSkipping creation of " + new_contact['type'] + " contact address (already existing)")
-                                        break
+                                        if (is_contact_same == True):
+                                            skip_contact_creation = True
+                                            log.append("\t\tSkipping creation of " + new_contact['type'] + " contact address (already existing)")
+                                            break
                                   
                                     i = i + 1
                               
-                                if (skip_contact_creation == False):
-                                    log.append("\t\tCreation of new " + new_contact['type'] + " contact address")
-                                    id_address = self.pool.get('res.partner.address').create(cr, uid, new_contact)
-                                    new_contact_ids.append(id_address)
-                                else:
-                                    new_contact_ids.append(contact_ids[i])
+                                    if (skip_contact_creation == False):
+                                        log.append("\t\tCreation of new " + new_contact['type'] + " contact address")
+                                        id_address = self.pool.get('res.partner.address').create(cr, uid, new_contact)
+                                        new_contact_ids.append(id_address)
+                                        
+                                        if flag is False:
+                                            list.remove(new_contact)
+                                    else:
+                                        new_contact_ids.append(contact_ids[i])
                                     
                         except:
                             log.append('Cannot get customers, check Magento web user config')

@@ -2,7 +2,7 @@
 <openerp>
     <data>
     	<!-- Magento / View	-->
-      		<record model="ir.actions.act_window" id="action_magento_form">
+			<record model="ir.actions.act_window" id="action_magento_form">
 				<field name="name">Magento</field>
 				<field name="res_model">sneldev.magento</field>
 				<field name="view_mode">tree,form</field>

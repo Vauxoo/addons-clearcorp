@@ -42,7 +42,8 @@ class wiz_sneldev_stock_export(osv.osv_memory):
         if (self.pool.get('sneldev.magento').export_stock(cr, uid) < 0):
             raise osv.except_osv(('Warning'), ('Export failed, please refer to log file for failure details.'))
         
-        return {'type': 'ir.actions.act_window_close'}
+        else:        
+            return {'type': 'ir.actions.act_window_close'}
 
 wiz_sneldev_stock_export()
 
