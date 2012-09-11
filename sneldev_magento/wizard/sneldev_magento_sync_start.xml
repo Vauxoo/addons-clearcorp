@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+		<record id="view_sneldev_sync_start" model="ir.ui.view">
+            <field name="name">Start synchronization</field>
+            <field name="model">sneldev.sync.start</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Start Synchronization">
+                <label string="You will now start the automatic synchronization." colspan="4"/>
+				    <separator colspan="4"/>
+				    <group col="2" colspan="4">
+                		<button icon='gtk-cancel' special="cancel"
+                			string="Cancel" />
+                		<button name="do_sync_start" string="Start"
+                			colspan="1" type="object" icon="gtk-ok" />
+                	</group>
+                </form>
+            </field>
+        </record>
+
+       <act_window name="Start Synchronization"
+    	    res_model="sneldev.sync.start"
+    	    view_mode="form"
+    	    target="new"
+            key2="client_action_multi"
+    	    id="action_sneldev_sync_start"/>
+			
+	</data>
+</openerp>

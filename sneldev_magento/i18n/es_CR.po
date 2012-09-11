@@ -1,0 +1,439 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* sneldev_magento
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-08-20 16:14+0000\n"
+"PO-Revision-Date: 2012-08-20 16:14+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sneldev_magento
+#: sql_constraint:sale.order:0
+msgid "Order Reference must be unique per Company!"
+msgstr "¡La referencia de la compra debe ser única por compañía!"
+
+#. module: sneldev_magento
+#: model:ir.actions.act_window,name:sneldev_magento.action_magento_form
+msgid "Magento"
+msgstr "Magento"
+
+#. module: sneldev_magento
+#: view:sneldev.stock.export:0
+msgid "This wizard will export stock to Magento."
+msgstr "Esta opción exportará las existencias a Magento."
+
+#. module: sneldev_magento
+#: field:sneldev.magento,inital_stock_location:0
+msgid "Location for stock initialization"
+msgstr "Localización para la inicialización de existencias"
+
+#. module: sneldev_magento
+#: view:sneldev.customers.import:0
+msgid "This wizard will import customers from Magento."
+msgstr "Este asistente importará los clientes desde Magento ."
+
+#. module: sneldev_magento
+#: field:sneldev.magento,import_credit_memos:0
+msgid "Import credit memos after importing orders"
+msgstr "Importar notas de crédito después de importar las órdenes"
+
+#. module: sneldev_magento
+#: model:ir.actions.act_window,name:sneldev_magento.action_sneldev_products_import
+msgid "Import Products"
+msgstr "Importar productos"
+
+#. module: sneldev_magento
+#: model:ir.actions.act_window,name:sneldev_magento.action_sneldev_orders_import
+msgid "Import Orders"
+msgstr "Importar órdenes"
+
+#. module: sneldev_magento
+#: view:sneldev.sync.stop:0
+msgid "You will now stop the automatic synchronization."
+msgstr "Se detendrá ahora la sincronización automática."
+
+#. module: sneldev_magento
+#: field:product.category,modified:0
+#: field:product.product,modified:0
+msgid "Modified since last synchronization"
+msgstr "Modificado desde la última sincronización"
+
+#. module: sneldev_magento
+#: field:sneldev.magento,api_pwd:0
+msgid "API Password"
+msgstr "Contraseña API"
+
+#. module: sneldev_magento
+#: field:product.product,qty_magento:0
+msgid "Magento Stock"
+msgstr "Existencias en Magento"
+
+#. module: sneldev_magento
+#: constraint:sneldev.magento:0
+msgid "Only one website supported at this time."
+msgstr "Sólo un sitio web es compatible en este momento."
+
+#. module: sneldev_magento
+#: view:sneldev.orders.import:0
+msgid "This wizard will import orders from Magento. It will first import categories and products."
+msgstr "Este asistente importará las órdenes de Magento. En primer lugar, se importarán las categorías y productos."
+
+#. module: sneldev_magento
+#: field:product.product,export_to_magento:0
+#: field:res.partner,export_to_magento:0
+msgid "Export to Magento"
+msgstr "Exportar a Magento"
+
+#. module: sneldev_magento
+#: view:sneldev.categories.import:0
+#: view:sneldev.customers.import:0
+#: view:sneldev.orders.import:0
+#: view:sneldev.products.import:0
+msgid "Import"
+msgstr "Importar"
+
+#. module: sneldev_magento
+#: model:ir.actions.act_window,name:sneldev_magento.action_sneldev_stock_init
+#: view:sneldev.stock.init:0
+msgid "Initialize stock"
+msgstr "Initializar existencias"
+
+#. module: sneldev_magento
+#: view:sneldev.products.export:0
+msgid "Export products"
+msgstr "Exportar productos"
+
+#. module: sneldev_magento
+#: view:sneldev.magento:0
+msgid "Automatic Synchronization Settings"
+msgstr "Configuración de la sincronización automática"
+
+#. module: sneldev_magento
+#: model:ir.actions.act_window,name:sneldev_magento.action_sneldev_categories_import
+msgid "Compute Categories"
+msgstr "Calcular categorías"
+
+#. module: sneldev_magento
+#: model:ir.actions.act_window,name:sneldev_magento.action_sneldev_customers_import
+#: model:ir.model,name:sneldev_magento.model_sneldev_customers_import
+#: view:sneldev.customers.import:0
+msgid "Import customers"
+msgstr "Importar clientes"
+
+#. module: sneldev_magento
+#: model:ir.model,name:sneldev_magento.model_product_product
+msgid "Product"
+msgstr "Producto"
+
+#. module: sneldev_magento
+#: model:ir.model,name:sneldev_magento.model_product_category
+msgid "Product Category"
+msgstr "Categoría de producto"
+
+#. module: sneldev_magento
+#: field:sneldev.magento,auto_import_credit_memos:0
+msgid "Automatic credit memos import"
+msgstr "Importar automáticamente notas de crédito"
+
+#. module: sneldev_magento
+#: field:product.category,magento_id:0
+#: field:product.product,magento_id:0
+#: field:res.partner,magento_id:0
+#: field:sale.order,magento_id:0
+msgid "Magento ID"
+msgstr "Magento ID"
+
+#. module: sneldev_magento
+#: view:sneldev.products.import:0
+msgid "This wizard will import products from Magento. It will first import categories."
+msgstr "Este asistente importará productos de Magento. En primer lugar, va a importar categorías."
+
+#. module: sneldev_magento
+#: view:sneldev.categories.import:0
+msgid "This wizard will import categories from Magento."
+msgstr "Este asistente importará categorías de Magento."
+
+#. module: sneldev_magento
+#: field:sneldev.magento,auto_invoice_open:0
+msgid "Imported invoices automatically goes to Open state"
+msgstr "Facturas importadas pasarán automáticamente a estado abierto"
+
+#. module: sneldev_magento
+#: field:sneldev.magento,auto_import_orders:0
+msgid "Automatic orders import"
+msgstr "Importar órdenes automáticamente"
+
+#. module: sneldev_magento
+#: view:sneldev.stock.init:0
+msgid "This wizard will create an inventory from Magento stock. This will remove all current stock information in OpenERP !"
+msgstr "Este asistente creará un inventario de las existencias de Magento. Esto eliminará toda la información actual de las existencias en OpenERP!"
+
+#. module: sneldev_magento
+#: field:sneldev.magento,auto_export_stock:0
+msgid "Automatic stock export"
+msgstr "Exportar existencias automáticamente"
+
+#. module: sneldev_magento
+#: field:sneldev.magento,sync_script_pid:0
+msgid "PID of Sync Script"
+msgstr "PID del script Sync"
+
+#. module: sneldev_magento
+#: field:sneldev.magento,sync_sleep:0
+msgid "Time between synchronizations"
+msgstr "Tiempo entre sincronizaciones"
+
+#. module: sneldev_magento
+#: view:sneldev.sync.start:0
+msgid "You will now start the automatic synchronization."
+msgstr "Ahora se iniciará la sincronización automática."
+
+#. module: sneldev_magento
+#: model:ir.model,name:sneldev_magento.model_sneldev_orders_import
+#: model:ir.model,name:sneldev_magento.model_sneldev_products_import
+#: view:sneldev.orders.import:0
+msgid "Import orders"
+msgstr "Importar órdenes"
+
+#. module: sneldev_magento
+#: model:ir.model,name:sneldev_magento.model_sneldev_categories_import
+#: view:sneldev.categories.import:0
+msgid "Import categories"
+msgstr "Importar categorías"
+
+#. module: sneldev_magento
+#: model:ir.model,name:sneldev_magento.model_sneldev_products_export
+msgid "Export orders"
+msgstr "Exportar órdenes"
+
+#. module: sneldev_magento
+#: model:ir.actions.act_window,name:sneldev_magento.action_sneldev_products_export
+msgid "Export Products"
+msgstr "Exportar Productos"
+
+#. module: sneldev_magento
+#: field:sneldev.magento,last_imported_category_timestamp:0
+msgid "Timestamp of latest imported category"
+msgstr "Fecha y hora de la última categoría importada"
+
+#. module: sneldev_magento
+#: model:ir.actions.act_window,name:sneldev_magento.action_sneldev_sync_start
+#: model:ir.model,name:sneldev_magento.model_sneldev_sync_start
+#: view:sneldev.sync.start:0
+msgid "Start Synchronization"
+msgstr "Iniciar sincronización"
+
+#. module: sneldev_magento
+#: model:ir.model,name:sneldev_magento.model_sneldev_stock_export
+#: view:sneldev.stock.export:0
+msgid "Export stock"
+msgstr "Exportar existencias"
+
+#. module: sneldev_magento
+#: field:sneldev.magento,default_category:0
+msgid "Default category for imported products"
+msgstr "Categoría por defecto para productos importados"
+
+#. module: sneldev_magento
+#: field:sneldev.magento,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: sneldev_magento
+#: field:sneldev.magento,sync_status:0
+msgid "Synchronisation status"
+msgstr "Estado de la sincronización"
+
+#. module: sneldev_magento
+#: field:sneldev.magento,api_user:0
+msgid "API User"
+msgstr "Usuario API"
+
+#. module: sneldev_magento
+#: view:sneldev.magento:0
+msgid "Initial Inventory"
+msgstr "Inventario inicial"
+
+#. module: sneldev_magento
+#: view:sneldev.products.export:0
+msgid "This wizard will export products to Magento. It will first export categories."
+msgstr "Este asistente exportar productos a Magento. En primer lugar, se exportará categorías."
+
+#. module: sneldev_magento
+#: model:ir.model,name:sneldev_magento.model_sneldev_magento
+msgid "Magento website infos"
+msgstr "Magento website infos"
+
+#. module: sneldev_magento
+#: model:ir.model,name:sneldev_magento.model_sneldev_stock_init
+msgid "Initialize stock from Magento"
+msgstr "Inicializar existencias desde Magento"
+
+#. module: sneldev_magento
+#: view:sneldev.magento:0
+msgid "Product Import Settings"
+msgstr "Configuración de importación de productos"
+
+#. module: sneldev_magento
+#: field:sneldev.magento,last_imported_product_timestamp:0
+msgid "Timestamp of latest imported product"
+msgstr "Fecha y hora del último producto importado"
+
+#. module: sneldev_magento
+#: code:addons/sneldev_magento/sneldev_magento.py:819
+#, python-format
+msgid "Error"
+msgstr "Error"
+
+#. module: sneldev_magento
+#: view:sneldev.sync.stop:0
+msgid "Stop"
+msgstr "Alto"
+
+#. module: sneldev_magento
+#: field:sneldev.magento,auto_invoice_paid:0
+msgid "Imported invoices automatically goes to Paid state"
+msgstr "Facturas importados automáticamente pasa al estado Pagado"
+
+#. module: sneldev_magento
+#: field:sneldev.magento,payment_journal:0
+msgid "Payment Journal"
+msgstr "Pago del diario"
+
+#. module: sneldev_magento
+#: field:sneldev.magento,shipping_product:0
+msgid "Shipping Product"
+msgstr "Envío del producto"
+
+#. module: sneldev_magento
+#: model:ir.actions.act_window,name:sneldev_magento.action_sneldev_stock_export
+msgid "Export Stock"
+msgstr "Exportar existencias"
+
+#. module: sneldev_magento
+#: model:ir.actions.act_window,name:sneldev_magento.action_sneldev_sync_stop
+#: model:ir.model,name:sneldev_magento.model_sneldev_sync_stop
+#: view:sneldev.sync.stop:0
+msgid "Stop Synchronization"
+msgstr "Detener sincronización"
+
+#. module: sneldev_magento
+#: model:ir.ui.menu,name:sneldev_magento.menu_magento_form
+#: view:sneldev.magento:0
+msgid "Magento Settings"
+msgstr "Configuración"
+
+#. module: sneldev_magento
+#: field:sneldev.magento,auto_import_products:0
+msgid "Automatic products import"
+msgstr "Importación de productos automáticamente"
+
+#. module: sneldev_magento
+#: field:sneldev.magento,auto_script_path:0
+msgid "Syncronization Script Path"
+msgstr "Ruta del script de sincronización"
+
+#. module: sneldev_magento
+#: field:sneldev.magento,auto_export_products:0
+msgid "Automatic products export"
+msgstr "Exportar productos automáticamente"
+
+#. module: sneldev_magento
+#: view:sneldev.stock.init:0
+#: view:sneldev.sync.start:0
+msgid "Start"
+msgstr "Inicio"
+
+#. module: sneldev_magento
+#: field:sneldev.magento,last_imported_invoice_timestamp:0
+msgid "Timestamp of latest imported invoice"
+msgstr "Fecha y hora de la última importación de facturas"
+
+#. module: sneldev_magento
+#: view:sneldev.products.import:0
+msgid "Import products"
+msgstr "Importar productos"
+
+#. module: sneldev_magento
+#: view:sneldev.magento:0
+msgid "Magento website"
+msgstr "Sitio web de Magento"
+
+#. module: sneldev_magento
+#: constraint:product.category:0
+msgid "Error ! You cannot create recursive categories."
+msgstr "¡Error! No puede crear categorías recursivas"
+
+#. module: sneldev_magento
+#: field:sneldev.magento,magento_root_cat_id:0
+msgid "Magento Root category ID"
+msgstr "Magento Root category ID"
+
+#. module: sneldev_magento
+#: field:sneldev.magento,last_creditmemo_id:0
+msgid "Last imported credit memo"
+msgstr "Última importación de notas de crédito"
+
+#. module: sneldev_magento
+#: view:sneldev.magento:0
+msgid "Orders Import Settings"
+msgstr "Configuración de importación de órdenes"
+
+#. module: sneldev_magento
+#: code:addons/sneldev_magento/sneldev_magento.py:819
+#, python-format
+msgid "Import already running"
+msgstr "La importación ya se está ejecutando"
+
+#. module: sneldev_magento
+#: constraint:product.product:0
+msgid "Error: Invalid ean code"
+msgstr "Error: Código EAN erróneo"
+
+#. module: sneldev_magento
+#: view:sneldev.products.export:0
+#: view:sneldev.stock.export:0
+msgid "Export"
+msgstr "Exportar"
+
+#. module: sneldev_magento
+#: field:sneldev.magento,last_invoice_id:0
+msgid "Last imported sale order"
+msgstr "Úlitma orden de compra importada"
+
+#. module: sneldev_magento
+#: model:ir.model,name:sneldev_magento.model_res_partner
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: sneldev_magento
+#: view:sneldev.categories.import:0
+#: view:sneldev.customers.import:0
+#: view:sneldev.orders.import:0
+#: view:sneldev.products.export:0
+#: view:sneldev.products.import:0
+#: view:sneldev.stock.export:0
+#: view:sneldev.stock.init:0
+#: view:sneldev.sync.start:0
+#: view:sneldev.sync.stop:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: sneldev_magento
+#: field:sneldev.magento,url:0
+msgid "Magento base URL"
+msgstr "URL de la tienda de Magento"
+
+#. module: sneldev_magento
+#: model:ir.model,name:sneldev_magento.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+

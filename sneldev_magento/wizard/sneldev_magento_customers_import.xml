@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_sneldev_customers_import" model="ir.ui.view">
+            <field name="name">Import customers</field>
+            <field name="model">sneldev.customers.import</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Import customers">
+                <label string="This wizard will import customers from Magento." colspan="4"/>
+                    <separator colspan="4"/>
+                    <group col="2" colspan="4">
+                        <button icon='gtk-cancel' special="cancel" string="Cancel" />
+                        <button name="do_customers_import" string="Import" colspan="1" type="object" icon="gtk-ok" />
+                    </group>
+                </form>
+            </field>
+        </record>
+
+       <act_window name="Import customers"
+            res_model="sneldev.customers.import"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"
+            id="action_sneldev_customers_import"/>
+	</data>
+</openerp>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+		<record id="view_sneldev_categories_import" model="ir.ui.view">
+            <field name="name">Import categories</field>
+            <field name="model">sneldev.categories.import</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Import categories">
+                <label string="This wizard will import categories from Magento." colspan="4"/>
+				    <separator colspan="4"/>
+				    <group col="2" colspan="4">
+                		<button icon='gtk-cancel' special="cancel"
+                			string="Cancel" />
+                		<button name="do_categories_import" string="Import"
+                			colspan="1" type="object" icon="gtk-ok" />
+                	</group>
+                </form>
+            </field>
+        </record>
+
+       <act_window name="Compute Categories"
+    	    res_model="sneldev.categories.import"
+    	    view_mode="form"
+    	    target="new"
+            key2="client_action_multi"
+    	    id="action_sneldev_categories_import"/>
+			
+	</data>
+</openerp>

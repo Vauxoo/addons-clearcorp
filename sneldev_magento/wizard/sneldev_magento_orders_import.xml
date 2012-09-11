@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+		<record id="view_sneldev_orders_import" model="ir.ui.view">
+            <field name="name">Import orders</field>
+            <field name="model">sneldev.orders.import</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Import orders">
+                <label string="This wizard will import orders from Magento. It will first import categories and products." colspan="4"/>
+				    <separator colspan="4"/>
+				    <group col="2" colspan="4">
+                		<button icon='gtk-cancel' special="cancel"
+                			string="Cancel" />
+                		<button name="do_orders_import" string="Import"
+                			colspan="1" type="object" icon="gtk-ok" />
+                	</group>
+                </form>
+            </field>
+        </record>
+
+       <act_window name="Import Orders"
+    	    res_model="sneldev.orders.import"
+    	    view_mode="form"
+    	    target="new"
+            key2="client_action_multi"
+    	    id="action_sneldev_orders_import"/>
+			
+	</data>
+</openerp>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+		<record id="view_sneldev_products_import" model="ir.ui.view">
+            <field name="name">Import products</field>
+            <field name="model">sneldev.products.import</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Import products">
+                <label string="This wizard will import products from Magento. It will first import categories." colspan="4"/>
+				    <separator colspan="4"/>
+				    <group col="2" colspan="4">
+                		<button icon='gtk-cancel' special="cancel"
+                			string="Cancel" />
+                		<button name="do_products_import" string="Import"
+                			colspan="1" type="object" icon="gtk-ok" />
+                	</group>
+                </form>
+            </field>
+        </record>
+
+       <act_window name="Import Products"
+    	    res_model="sneldev.products.import"
+    	    view_mode="form"
+    	    target="new"
+            key2="client_action_multi"
+    	    id="action_sneldev_products_import"/>
+			
+	</data>
+</openerp>

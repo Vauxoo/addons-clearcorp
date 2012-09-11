@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    	<!-- Magento / View	-->
+			<record model="ir.actions.act_window" id="action_magento_form">
+				<field name="name">Magento</field>
+				<field name="res_model">sneldev.magento</field>
+				<field name="view_mode">tree,form</field>
+			</record>
+
+			<menuitem id="base.menu_magento" name="Magento" web_icon="static/src/img/magento.png" web_icon_hover="static/src/img/magento.png" />
+				<menuitem name="Magento Settings" id="menu_magento_form" parent="base.menu_magento" action="action_magento_form" />
+				
+			<menuitem id="base.import_menu_magento" name="Import" parent="base.menu_magento"/>			
+				<menuitem name="Import categories from Magento" action="action_sneldev_categories_import" parent="base.import_menu_magento" id="base.menu_magento_categories_import" />
+		    	<menuitem name="Import products from Magento" action="action_sneldev_products_import" parent="base.import_menu_magento" id="base.menu_magento_products_import" />
+		    	<menuitem name="Import orders from Magento" action="action_sneldev_orders_import" parent="base.import_menu_magento" id="base.menu_magento_orders_import" />
+		   		<menuitem name="Import customers from Magento" action="action_sneldev_customers_import" parent="base.import_menu_magento" id="base.menu_magento_clients_import" />
+            
+            <menuitem id="base.export_menu_magento" name="Export" parent="base.menu_magento"/>
+           		<menuitem name="Export categories and products to Magento" action="action_sneldev_products_export" parent="base.export_menu_magento" id="base.menu_magento_products_export" />
+		    	<menuitem name="Export stock to Magento" action="action_sneldev_stock_export" parent="base.export_menu_magento" id="base.menu_magento_stock_export" />
+		
+            <menuitem name="Initialize stock from Magento" action="action_sneldev_stock_init" parent="base.menu_magento" id="base.menu_magento_stock_init" />
+		    <menuitem name="Start automatic synchronization" action="action_sneldev_sync_start" parent="base.menu_magento" id="base.menu_magento_sync_start" />
+		    <menuitem name="Stop automatic synchronization" action="action_sneldev_sync_stop" parent="base.menu_magento" id="base.menu_magento_sync_stop" />
+            			
+			<record model="ir.ui.view" id="view_magento_form">
+				<field name="name">sneldev.magento.form</field>
+				<field name="model">sneldev.magento</field>
+				<field name="type">form</field>
+				<field name="arch" type="xml">
+					<form string="Magento website">
+						<separator string="Magento Settings" colspan="4" />
+						<newline />
+						<field name="name" />
+						<field name="url" />
+						<newline />
+						<field name="api_user" />
+						<field name="api_pwd" password="True" />					
+						<separator string="Product Import Settings" colspan="4" />
+						<field name="default_category" />	
+						<separator string="Orders Import Settings" colspan="4" />						
+						<field name="shipping_product" />	
+						<field name="payment_journal" />	
+						<field name="auto_invoice_open" />	
+						<field name="auto_invoice_paid" />						
+						<field name="import_credit_memos" />
+						<separator string="Automatic Synchronization Settings" colspan="4" />
+						<field name="auto_import_products" />	
+						<field name="auto_export_products" />	
+						<field name="auto_export_stock" />	
+						<field name="auto_import_orders" />	
+						<field name="auto_import_credit_memos" />		
+						<newline />				
+						<field name="sync_sleep" />		
+						<newline />	
+						<field name="auto_script_path" />						
+						<separator string="Initial Inventory" colspan="4" />	
+						<!--This field must be required, because it's necessary to init the stock -->					
+						<field name="inital_stock_location" attrs="{'required':True}" />	
+					</form>
+				</field>
+			</record>
+			<record model="ir.ui.view" id="view_magento_tree">
+				<field name="name">sneldev.magento.tree</field>
+				<field name="model">sneldev.magento</field>
+				<field name="type">tree</field>
+				<field name="arch" type="xml">
+					<tree string="Magento website">
+						<field name="name" />
+						<field name="url" />
+					</tree>
+				</field>
+			</record>
+			
+            <record model="ir.ui.view" id="product_product_tree_view_inherited">
+            <field name="name">product.product.tree.inherit</field>
+            <field name="model">product.product</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="product.product_product_tree_view"/>
+            <field name="arch" type="xml">
+                <field name="virtual_available" position="after">
+                    <field name="qty_magento"/>
+                </field>
+            </field>
+            </record>
+
+            <record model="ir.ui.view" id="product_product_tree_view_inherited">
+            <field name="name">product.product.tree.inherit</field>
+            <field name="model">product.product</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="product.product_product_tree_view"/>
+            <field name="arch" type="xml">
+                <field name="variants" position="after">
+                    <field name="export_to_magento"/>
+                </field>
+            </field>
+            </record>
+    
+            <record model="ir.ui.view" id="product_normal_stock_form_inherit_inherit">
+            <field name="name">product.normal.stock.form.inherit.inherit</field>
+            <field name="model">product.product</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock.view_normal_property_acc_form"/>
+            <field name="arch" type="xml">
+                <field name="virtual_available" position="after">
+                    <field name="qty_magento"/>
+                </field>
+            </field>
+            </record>
+    
+            <record model="ir.ui.view" id="product_normal_form_view_inherited">
+            <field name="name">product.normal.form.inherit.inherit</field>
+            <field name="model">product.product</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <field name="variants" position="after">
+                    <field name="export_to_magento"/>
+                </field>
+                <!-- You need this field to be required for the export to run magento
+                     Those products that have no reference (default_code) are not exported -->
+                <field name="default_code" position="attributes">
+                	<attribute name="attrs">{'required':True}</attribute>
+                </field>
+            </field>
+            </record>
+   
+    </data>
+</openerp>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+		<record id="view_sneldev_stock_init" model="ir.ui.view">
+            <field name="name">Initialize stock from Magento</field>
+            <field name="model">sneldev.stock.init</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Initialize stock">
+                <label string="This wizard will create an inventory from Magento stock. This will remove all current stock information in OpenERP !" colspan="4"/>
+				    <separator colspan="4"/>
+				    <group col="2" colspan="4">
+                		<button icon='gtk-cancel' special="cancel"
+                			string="Cancel" />
+                		<button name="do_stock_init" string="Start"
+                			colspan="1" type="object" icon="gtk-ok" />
+                	</group>
+                </form>
+            </field>
+        </record>
+
+       <act_window name="Initialize stock"
+    	    res_model="sneldev.stock.init"
+    	    view_mode="form"
+    	    target="new"
+            key2="client_action_multi"
+    	    id="action_sneldev_stock_init"/>
+			
+	</data>
+</openerp>
