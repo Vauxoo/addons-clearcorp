@@ -18,13 +18,12 @@
 		   		<menuitem name="Import customers from Magento" action="action_sneldev_customers_import" parent="base.import_menu_magento" id="base.menu_magento_clients_import" />
             
             <menuitem id="base.export_menu_magento" name="Export" parent="base.menu_magento"/>
-           		<menuitem name="Export categories and products to Magento" action="action_sneldev_products_export" parent="base.export_menu_magento" id="base.menu_magento_products_export" />
+           		<menuitem name="Export categories to Magento" action="action_sneldev_categories_export" parent="base.export_menu_magento" id="base.menu_magento_categories_export" />
+           		<menuitem name="Export products to Magento" action="action_sneldev_products_export" parent="base.export_menu_magento" id="base.menu_magento_products_export" />
 		    	<menuitem name="Export stock to Magento" action="action_sneldev_stock_export" parent="base.export_menu_magento" id="base.menu_magento_stock_export" />
 		
             <menuitem name="Initialize stock from Magento" action="action_sneldev_stock_init" parent="base.menu_magento" id="base.menu_magento_stock_init" />
-		    <menuitem name="Start automatic synchronization" action="action_sneldev_sync_start" parent="base.menu_magento" id="base.menu_magento_sync_start" />
-		    <menuitem name="Stop automatic synchronization" action="action_sneldev_sync_stop" parent="base.menu_magento" id="base.menu_magento_sync_stop" />
-            			
+		    		   		
 			<record model="ir.ui.view" id="view_magento_form">
 				<field name="name">sneldev.magento.form</field>
 				<field name="model">sneldev.magento</field>
@@ -127,5 +126,16 @@
             </field>
             </record>
    
+   			<record model="ir.ui.view" id="product_category_form_view_inherited">
+            <field name="name">product.category.form.inherit</field>
+            <field name="model">product.category</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.product_category_form_view"/>
+            <field name="arch" type="xml">
+                <field name="type" position="after">
+                    <field name="export_to_magento"/>
+                </field>
+            </field>
+            </record>
     </data>
 </openerp>

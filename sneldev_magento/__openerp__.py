@@ -43,6 +43,7 @@
                      'wizard/sneldev_magento_customers_import.xml',
                      'wizard/sneldev_magento_stock_init.xml',
                      'wizard/sneldev_magento_products_export.xml',
+                     'wizard/sneldev_magento_categories_export.xml',
                      'wizard/sneldev_magento_stock_export.xml',
                      'wizard/sneldev_magento_sync_start.xml',
                      'wizard/sneldev_magento_sync_stop.xml',

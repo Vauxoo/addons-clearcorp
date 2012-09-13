@@ -30,7 +30,7 @@ from osv import osv, fields
 
 class wiz_sneldev_products_export(osv.osv_memory):
     _name = 'sneldev.products.export'
-    _description = 'Export orders'
+    _description = 'Export products'
 
     _columns = {
     }
@@ -39,7 +39,7 @@ class wiz_sneldev_products_export(osv.osv_memory):
     }
 
     def do_products_export(self, cr, uid, ids, context=None):
-        self.pool.get('sneldev.magento').export_categories(cr, uid)
+        #self.pool.get('sneldev.magento').export_categories(cr, uid)
         if (self.pool.get('sneldev.magento').export_products(cr, uid) < 0):
             raise osv.except_osv(('Warning'), ('Export failed, please refer to log file for failure details.'))
         

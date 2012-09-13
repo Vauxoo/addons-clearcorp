@@ -1,4 +1,5 @@
 import export_tools
+import sneldev_magento_categories_export
 import sneldev_magento_products_export
 import sneldev_magento_stock_export
 import sneldev_magento_products_import
