@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+		<record id="view_sneldev_categories_export" model="ir.ui.view">
+            <field name="name">Export categories</field>
+            <field name="model">sneldev.categories.export</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Export categories">
+                <label string="This wizard will export categories to Magento." colspan="4"/>
+				    <separator colspan="4"/>
+				    <group col="2" colspan="4">
+                		<button icon='gtk-cancel' special="cancel"
+                			string="Cancel" />
+                		<button name="do_categories_export" string="Export"
+                			colspan="1" type="object" icon="gtk-ok" />
+                	</group>
+                </form>
+            </field>
+        </record>
+
+       <act_window name="Export categories"
+    	    res_model="sneldev.categories.export"
+    	    view_mode="form"
+    	    target="new"
+            key2="client_action_multi"
+    	    id="action_sneldev_categories_export"/>
+			
+	</data>
+</openerp>
