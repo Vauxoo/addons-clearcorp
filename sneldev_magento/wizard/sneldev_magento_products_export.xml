@@ -7,8 +7,14 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Export products">
-                <label string="This wizard will export products to Magento. It will first export categories." colspan="4"/>
-				    <separator colspan="4"/>
+                <label string="This wizard will export products to Magento. You can choose all products or products by category" colspan="4"/>
+                	<field name="export_type"></field>                
+                	<separator string="Categories" colspan="4" />
+                    <field name="category_ids" nolabel="1" colspan="4" attrs="{'invisible': [('export_type','!=','export_by_category')]}" domain="[('export_to_magento', '=', 'True')]">
+                        <tree string="Categories" editable="top">
+                            <field name="name" />
+                        </tree>
+                    </field>
 				    <group col="2" colspan="4">
                 		<button icon='gtk-cancel' special="cancel"
                 			string="Cancel" />

@@ -236,21 +236,37 @@ class sneldev_magento(osv.osv):
     ##################################################################
     # Products export
     ##################################################################
-    def export_products(self, cr, uid):
+    def export_products(self, cr, uid,cat_ids_selected):
         log.define(self.pool.get('sneldev.logs'), cr, uid)
+        prod_ids = []
+        
         if (export_is_running() == False):
             log.append('===== Product export')
             [status, server, session] = magento_connect(self, cr, uid)
             if not status:
                 log.append('Cannot connect ' + str(server))   
                 set_export_finished()  
-                return -1
-            prod_ids = self.pool.get('product.product').search(cr, uid, [('modified', '=', 'True'),('export_to_magento','=','True')])
+                return -1  
+                     
+            # Ids are changed by those selected.
+            # If cat_ids_selected is empty, the products that will be export are that modified and  have enabled export
+            # If data is to be exported products matching the ids of the selected categories.
+            if len(cat_ids_selected) == 0 :
+                 prod_ids = self.pool.get('product.product').search(cr, uid, [('modified', '=', 'True'),('export_to_magento','=','True')])
+            else:
+                 for cat in cat_ids_selected:
+                     prod_ids = self.pool.get('product.product').search(cr, uid, [('categ_id', '=', cat)])                 
+                 
             prods = self.pool.get('product.product').browse(cr, uid, prod_ids)
             for prod in prods:
                 try:
                     log.append('Product: ' + prod.name)
-                    if prod.code and prod.export_to_magento:
+                    #if prod.code and prod.export_to_magento:
+                    """It replaces the condition "export_to_magento" because in the first filter 
+                    (if selected to export all categories) will bring all the products that are selected for export. 
+                    If exported by categories associated products that match the selected category.
+                    """
+                    if prod.code: 
                         attribute_sets = server.call(session, 'product_attribute_set.list');
                         product_data = {
                             'status': True,
@@ -970,12 +986,12 @@ class sneldev_magento(osv.osv):
                     set_export_finished()  
                     return -1
                 log.append('Logged in to Magento')
-                log.append('Last import from ' + magento_params[0].last_imported_invoice_timestamp)
+                #log.append('Last import from ' + magento_params[0].last_imported_invoice_timestamp)
                 
                 #LAS ORDENES QUE SE IMPORTAN SON AQUELLAS QUE ESTÁN EN ESTADO COMPLETO EN MAGENTO, ES DECIR, AQUELLAS QUE YA FUERON FACTURADAS 
-                #DESDE  
+                #DESDE LA TIENDA VIRTUAL. ESTO SE REEMPLAZA Y SE IMPORTAN TODAS LAS ORDENES, PARA QUE OPENERP REALICE EL PROCESO DE FACTURACION 
                                 
-                #listinvoices = server.call(session, 'sales_order_invoice.list',[{'updated_at': {'from': magento_params[0].last_imported_invoice_timestamp}}])
+                
                 #list_orders = server.call(session, 'sales_order.list',[{'updated_at': {'from': magento_params[0].last_imported_invoice_timestamp}}])
 #                if (magento_params[0].last_invoice_id == -1):
 #                    listinvoices = server.call(session, 'sales_order_invoice.list',[{'updated_at': {'from': '2011-05-01'}}])
@@ -983,22 +999,24 @@ class sneldev_magento(osv.osv):
 #                    listinvoices = server.call(session, 'sales_order_invoice.list',[{'updated_at': {'from': '2011-05-01'}}])
 #                    #listinvoices = server.call(session, 'sales_order_invoice.list',[{'entity_id': {'gt': magento_params[0].last_invoice_id}}])
                 
-                log.append('Looking for orders to import')
-                log.append("Found " + str(len(list_orders)) + " new order(s) created")
+                #log.append('Looking for orders to import')
+                #log.append("Found " + str(len(list_orders)) + " new order(s) created")
 
                 orders_magento=[]
-                for invoice in listinvoices:          
+                #for invoice in listinvoices:
+                list_orders = server.call(session, 'sales_order.list')
+                for order in list_orders:          
                     try:
-                        log.append("Invoice "+ invoice['increment_id'] + " - Order " + invoice['order_id'] + " - Created " + invoice['created_at'])
-                        log.append("\tGetting Info invoice " + str(invoice['increment_id']) )
-                        info_invoice = server.call(session, 'sales_order_invoice.info',[invoice['increment_id']]);
-                        log.append("\tGetting Info order " + str(invoice['order_id']))
-                        try:
-                            info_order = server.call(session, 'sales_order.list', [{'order_id': {'eq': invoice['order_id']}}])
-                            info_order = info_order[0]
-                            info_order = server.call(session, 'sales_order.info',[info_order['increment_id']]);
-                        except:
-                            info_order = server.call(session, 'sales_order.info',[invoice['order_increment_id']]);
+                    #log.append("Invoice "+ invoice['increment_id'] + " - Order " + invoice['order_id'] + " - Created " + invoice['created_at'])
+                    #log.append("\tGetting Info invoice " + str(invoice['increment_id']) )
+                    #info_invoice = server.call(session, 'sales_order_invoice.info',[invoice['increment_id']]);
+                        #log.append("\tGetting Info order " + str(invoice['order_id']))
+                        #try:
+                        #info_order = server.call(session, 'sales_order.list', [{'order_id': {'eq': invoice['order_id']}}])
+                        #info_order = info_order[0]
+                        info_order = server.call(session, 'sales_order.info',[info_order['increment_id']]);
+                        #except:
+                        info_order = server.call(session, 'sales_order.info',[invoice['order_increment_id']]);
                         
                         name_sales_order = str(info_order['increment_id'])
                         name_invoice     = str(info_invoice['increment_id'])

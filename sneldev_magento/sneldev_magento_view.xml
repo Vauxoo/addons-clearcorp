@@ -137,5 +137,21 @@
                 </field>
             </field>
             </record>
+                        
+            <record model="ir.ui.view" id="product_category_search_view_inherited">
+            <field name="name">product.category.search.inherit</field>
+            <field name="model">product.category</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="product.product_category_search_view"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                	<newline/>
+                    <group expand="0" string="Group By..." groups="base.group_extended">
+                   		<filter string="Export to magento" icon="terp-check" domain="[('export_to_magento', '=', 'True')]"/>
+                    	<separator orientation="vertical"/>
+					</group>
+                </field>
+            </field>
+            </record>
     </data>
 </openerp>
