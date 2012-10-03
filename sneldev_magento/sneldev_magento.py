@@ -61,7 +61,7 @@ class sneldev_magento(osv.osv):
         'auto_script_path': fields.char('Syncronization Script Path', size=256),
         'sync_sleep': fields.integer('Time between synchronizations'),
         'sync_script_pid': fields.integer('PID of Sync Script'),
-        'sync_status': fields.char('Synchronisation status', size=128),
+        'sync_status': fields.char('Syncronization status', size=128),
         'shipping_product': fields.many2one('product.product', 'Shipping Product', required=True, change_default=True),
         'default_category': fields.many2one('product.category', 'Default category for imported products', required=True, change_default=True),
         'magento_root_cat_id': fields.integer('Magento Root category ID'),
@@ -75,6 +75,8 @@ class sneldev_magento(osv.osv):
         'auto_invoice_paid': fields.boolean('Imported invoices automatically goes to Paid state'),
         'inital_stock_location': fields.many2one('stock.location', 'Location for stock initialization'),
         'import_credit_memos': fields.boolean('Import credit memos after importing orders'),
+        'last_imported_order_timestamp': fields.char('Timestamp of latest imported order', size=128),
+        
     }
     
     _defaults = {
@@ -88,7 +90,8 @@ class sneldev_magento(osv.osv):
         'last_creditmemo_id' : lambda *a: -1,
         'last_invoice_id': lambda *a: -1,
         'sync_status': lambda *a: 'Idle',
-        'last_imported_invoice_timestamp': lambda *a: '2011-01-01',
+        'last_imported_invoice_timestamp': lambda *a: '2012-01-01',
+        'last_imported_order_timestamp': lambda *a: '2012-01-01',
         'magento_root_cat_id': lambda *a: -1,
         'auto_invoice_open': lambda *a: False,
         'auto_invoice_paid': lambda *a: False,
@@ -184,7 +187,7 @@ class sneldev_magento(osv.osv):
                     log.append('Cannot connect ' + str(server))   
                     set_export_finished()  
                     return -1
-                cat_ids = self.pool.get('product.category').search(cr, uid, [('modified', '=', 'True')])
+                cat_ids = self.pool.get('product.category').search(cr, uid, [('modified', '=', 'True'),('export_to_magento','=','True')])
                 cats = self.pool.get('product.category').browse(cr, uid, cat_ids)
             except: 
                 set_export_finished()  
@@ -236,21 +239,37 @@ class sneldev_magento(osv.osv):
     ##################################################################
     # Products export
     ##################################################################
-    def export_products(self, cr, uid):
+    def export_products(self, cr, uid,cat_ids_selected):
         log.define(self.pool.get('sneldev.logs'), cr, uid)
+        prod_ids = []
+        
         if (export_is_running() == False):
             log.append('===== Product export')
             [status, server, session] = magento_connect(self, cr, uid)
             if not status:
                 log.append('Cannot connect ' + str(server))   
                 set_export_finished()  
-                return -1
-            prod_ids = self.pool.get('product.product').search(cr, uid, [('modified', '=', 'True')])
+                return -1  
+                     
+            # Ids are changed by those selected.
+            # If cat_ids_selected is empty, the products that will be export are that modified and  have enabled export
+            # If data is to be exported products matching the ids of the selected categories.
+            if len(cat_ids_selected) == 0 :
+                 prod_ids = self.pool.get('product.product').search(cr, uid, [('modified', '=', 'True'),('export_to_magento','=','True')])
+            else:
+                 for cat in cat_ids_selected:
+                     prod_ids = self.pool.get('product.product').search(cr, uid, [('categ_id', '=', cat)])                 
+                 
             prods = self.pool.get('product.product').browse(cr, uid, prod_ids)
             for prod in prods:
                 try:
                     log.append('Product: ' + prod.name)
-                    if prod.code and prod.export_to_magento:
+                    #if prod.code and prod.export_to_magento:
+                    """It replaces the condition "export_to_magento" because in the first filter 
+                    (if selected to export all categories) will bring all the products that are selected for export. 
+                    If exported by categories associated products that match the selected category.
+                    """
+                    if prod.code: 
                         attribute_sets = server.call(session, 'product_attribute_set.list');
                         product_data = {
                             'status': True,
@@ -661,227 +680,238 @@ class sneldev_magento(osv.osv):
     # Customer import
     ##################################################################
     
-    def import_customers(self, cr, uid):
+    def import_customers(self, cr, uid,customer_id):
         flag = False
         list = []
-        
-        if (export_is_running() == False):
-            try:
-                start_timestamp = str(DateTime.utc())
-                website_ids = self.pool.get('sneldev.magento').search(cr, uid, [])
-                magento_params = self.pool.get('sneldev.magento').get_magento_params(cr, uid)
-                self.pool = pooler.get_pool(cr.dbname) 
-                [status, server, session] = magento_connect(self, cr, uid)
-                if not status:
-                    log.append('Cannot connect ' + str(server))   
-                    set_export_finished()
-                    return -1
-                log.append('Logged in to Magento')
-            except:
-                log.append('Cannot get customers, check Magento web user config')
-                log.print_traceback()
+        customers = []
+                
+        #if (export_is_running() == False):
+        try:
+            start_timestamp = str(DateTime.utc())
+            website_ids = self.pool.get('sneldev.magento').search(cr, uid, [])
+            magento_params = self.pool.get('sneldev.magento').get_magento_params(cr, uid)
+            self.pool = pooler.get_pool(cr.dbname) 
+            [status, server, session] = magento_connect(self, cr, uid)
+            if not status:
+                log.append('Cannot connect ' + str(server))   
                 set_export_finished()
-                raise osv.except_osv(_('Error !'), _('Cannot get customers, check Magento web user config'))      
-                return -1 
-
+                return -1
+            log.append('Logged in to Magento')
+        except:
+            log.append('Cannot get customers, check Magento web user config')
+            log.print_traceback()
+            set_export_finished()
+            raise osv.except_osv(_('Error !'), _('Cannot get customers, check Magento web user config'))      
+            return -1 
+        
+        if customer_id != '':
+            new_customer = server.call(session,'customer.info',customer_id)
+            customers.append(new_customer)
+        
+        else:
             customers = server.call(session, 'customer.list')
-    
-            for cust in customers:
-                try:
-                    log.append('Loading customers ' + cust['customer_id'])
-                    info_cust = server.call(session, 'customer.info',[cust['customer_id']])
-                    
-                    ##### <<<<< check to see if customer is guest, if so always create >>>>> ######
-                    try:
-                        info_cust['customer_is_guest']
-                    except:
-                        info_cust['customer_is_guest'] = '0'
-                
-                    if info_cust['customer_is_guest'] == '1':
-                        info_cust['customer_id'] = '0'
-                
-                    erp_customer = {
-                        'magento_id' : int(info_cust['customer_id']),
-                        'name' : info_cust['firstname'] + ' ' + info_cust['lastname'],
-                        'email': str(info_cust['email']),
-                        'customer'   : True,
-                        'supplier'   : False,
-                    }
-                                        
-                    if info_cust['customer_is_guest'] == '1':
-                        cust_ids = []
-                    else: 
-                        cust_ids = self.pool.get('res.partner').search(cr, uid, [('magento_id', '=', erp_customer['magento_id'])])
-                        
-                    if cust_ids == []:
-                        cust_ids = [self.pool.get('res.partner').create(cr, uid, erp_customer)]
-                        log.append("\t\tCustomer not found in OpenErp -> creation")
-                    else:
-                        self.pool.get('res.partner').write(cr, uid, [cust_ids[0]], erp_customer  )
-                        log.append("\t\tCustomer exists in OpenErp -> updating its info")
-              
-                    if cust_ids == []:
-                        log.append("\t\tError! Customer not found and creation failed !!!")
-                        return [None , None, None]
-                    ####################################################################################################
-                        
-                    info_address = server.call(session, 'customer_address.list', [cust['customer_id']])
-                    
-                    if (info_address != []):                               
-                        ########## <<<<<<<CUSTOMERS ADDRESS>>>>>>> ##########################
-                        list = []
-                        try:
-                            info_address = server.call(session, 'customer_address.list', [cust['customer_id']])
-                            
-                            for address in info_address:
-                                
-                                try:
-                                    new_address_country = self.pool.get('res.country').name_search(cr, uid, address['country_id'])[0][0]
-                                except:
-                                    new_country = { 'name': address['country_id'],
-                                            'code': address['country_id']}
-                                    address = self.pool.get('res.country').create(cr, uid, new_country)    
-    
-                                address['street'] = address['street'] + "\n "
-                                address['street'] = address['street'].split('\n')
-                                
-                                #if the billing and shipping address are the same...
-                                if address['is_default_shipping'] and address['is_default_billing']:
-                                    flag = True;
-                                    #BILLING
-                                    erp_contact_billing = {  'partner_id' : cust_ids[0],
-                                          'type':'invoice',
-                                          'name': address['firstname'] + ' ' + address['lastname'],
-                                          'street' : address['street'][0],
-                                          'street2' : address['street'][1],
-                                          'zip'    : address['postcode'],
-                                          'city'   : address['city'],
-                                          'country_id' : new_address_country,
-                                          'phone' : address['telephone']}
-    
-                                    #SHIPPING
-                                    erp_contact_shipping = {  'partner_id' : cust_ids[0],
-                                          'type':'delivery',
-                                          'name': address['firstname'] + ' ' + address['lastname'],
-                                          'street' : address['street'][0],
-                                          'street2' : address['street'][1],
-                                          'zip'    : address['postcode'],
-                                          'city'   : address['city'],
-                                          'country_id' : new_address_country,
-                                          'phone' : address['telephone']}
-                                    
-                                    list.append(erp_contact_billing)
-                                    list.append(erp_contact_shipping)
-                                    
-                                #if the billing and shipping address are different ... 
-                                else:
-                                    #Address type (Billing - Shipping)
-                                    if address['is_default_shipping']:
-                                        type = 'delivery'
-                                    elif address['is_default_billing']:
-                                        type ='invoice'
-                                    else:
-                                        type = 'default'
-                                                                                                    
-                                    erp_contact = {  'partner_id' : cust_ids[0],
-                                              #'type' : 'default',
-                                              'type':type,
-                                              'name': address['firstname'] + ' ' + address['lastname'],
-                                              'street' : address['street'][0],
-                                              'street2' : address['street'][1],
-                                              'zip'    : address['postcode'],
-                                              'city'   : address['city'],
-                                              'country_id' : new_address_country,
-                                              'phone' : address['telephone']}
-                                    
-                                    list.append(erp_contact)
-                                    
-                                contact_ids = self.pool.get('res.partner.address').search(cr, uid, [('partner_id', '=', cust_ids[0])])
-                                
-                                if (contact_ids != []):
-                                    contacts = self.pool.get('res.partner.address').browse(cr, uid, contact_ids)
-                                else:
-                                    contacts = []
-        
-                                new_contact_ids = []
-                                is_contact_same = False
-                  
-                                #for new_contact in [erp_contact]:
-                                for new_contact in list:    
-                                    if (new_contact == {}):
-                                        continue      
-                                    skip_contact_creation = False
-                                    i = 0
-                                    
-                                    for _contact in contacts:
-                                        is_contact_same = True
-                                        contact={}
-                                        for key in ['name','street','street2','zip','country_id','city','phone']:
-                                            if (key == 'country_id'):
-                                                if (_contact[key]['id'] != new_contact[key]):
-                                                    is_contact_same = False
-                                                    break
-                                            else:
-                                                if (_contact[key] != new_contact[key]):
-                                                    is_contact_same = False
-                                                    break
-                                                
-                                        if (is_contact_same == True):
-                                            skip_contact_creation = True
-                                            log.append("\t\tSkipping creation of " + new_contact['type'] + " contact address (already existing)")
-                                            break
-                                  
-                                    i = i + 1
-                              
-                                    if (skip_contact_creation == False):
-                                        log.append("\t\tCreation of new " + new_contact['type'] + " contact address")
-                                        id_address = self.pool.get('res.partner.address').create(cr, uid, new_contact)
-                                        new_contact_ids.append(id_address)
-                                        
-                                        if flag is False:
-                                            list.remove(new_contact)
-                                    else:
-                                        new_contact_ids.append(contact_ids[i])
-                                    
-                        except:
-                            log.append('Cannot get customers, check Magento web user config')
-                            log.print_traceback()
-                            set_export_finished()
-                            raise osv.except_osv(_('Error !'), _('Cannot get customers, check Magento web user config'))  
-                            return -1
-                        
-                    else:
-                        contact_ids = self.pool.get('res.partner.address').search(cr, uid, [('partner_id', '=', cust_ids[0])])
-                        
-                        if (contact_ids == []):
-                           erp_contact = {  'partner_id' : cust_ids[0],
-                                'type'       : 'other',
-                                'name'       : info_cust['firstname'] + ' ' + info_cust['lastname'],
-                                'street'     : None,
-                                'street2'    : None,
-                                'zip'        : None,
-                                'city'       : None,
-                                'country_id' : None,
-                                'phone'      : None}
-                           self.pool.get('res.partner.address').create(cr, uid, erp_contact)
-                            
-                except:
-                   log.append('Cannot get customers, check Magento web user config')
-                   log.print_traceback()
-                   set_export_finished() 
-                   raise osv.except_osv(_('Error !'), _('Cannot get customers, check Magento web user config'))                 
 
-            if (customers == []):
-                #self.pool.get('sneldev.magento').write(cr, uid, [website_ids[0]], {'last_imported_product_timestamp':start_timestamp})                                    
-                set_export_finished()
-                log.append("Done")
-                return 0
-        
+        for cust in customers:
+            try:
+                """log.append('Loading customers ' + cust['customer_id'])"""
+                info_cust = server.call(session, 'customer.info',[cust['customer_id']])
+                
+                ##### <<<<< check to see if customer is guest, if so always create >>>>> ######
+                try:
+                    info_cust['customer_is_guest']
+                except:
+                    info_cust['customer_is_guest'] = '0'
+            
+                if info_cust['customer_is_guest'] == '1':
+                    info_cust['customer_id'] = '0'
+            
+                erp_customer = {
+                    'magento_id' : int(info_cust['customer_id']),
+                    'name' : info_cust['firstname'] + ' ' + info_cust['lastname'],
+                    'email': str(info_cust['email']),
+                    'customer'   : True,
+                    'supplier'   : False,
+                }
+                                    
+                if info_cust['customer_is_guest'] == '1':
+                    cust_ids = []
+                else: 
+                    #cust_ids = self.pool.get('res.partner').search(cr, uid, [('magento_id', '=', erp_customer['magento_id']),('email','=',str(info_cust['email']))])
+                    cust_ids = self.pool.get('res.partner').search(cr,uid,[('email','=',info_cust['email'])])
+                    
+                if cust_ids == []:
+                    cust_ids = [self.pool.get('res.partner').create(cr, uid, erp_customer)]
+                    log.append("\t\tCustomer not found in OpenErp -> creation")
+                else:
+                    self.pool.get('res.partner').write(cr, uid, [cust_ids[0]], erp_customer  )
+                    log.append("\t\tCustomer exists in OpenErp -> updating its info")
+          
+                if cust_ids == []:
+                    log.append("\t\tError! Customer not found and creation failed !!!")
+                    return [None , None, None]
+                ####################################################################################################
+                    
+                info_address = server.call(session, 'customer_address.list', [cust['customer_id']])
+                
+                if (info_address != []):                               
+                    ########## <<<<<<<CUSTOMERS ADDRESS>>>>>>> ##########################
+                    list = []
+                    try:
+                        info_address = server.call(session, 'customer_address.list', [cust['customer_id']])
+                        
+                        for address in info_address:
+                            
+                            try:
+                                new_address_country = self.pool.get('res.country').name_search(cr, uid, address['country_id'])[0][0]
+                            except:
+                                new_country = { 'name': address['country_id'],
+                                        'code': address['country_id']}
+                                address = self.pool.get('res.country').create(cr, uid, new_country)    
+
+                            address['street'] = address['street'] + "\n "
+                            address['street'] = address['street'].split('\n')
+                            
+                            #if the billing and shipping address are the same...
+                            if address['is_default_shipping'] and address['is_default_billing']:
+                                flag = True;
+                                #BILLING
+                                erp_contact_billing = {  'partner_id' : cust_ids[0],
+                                      'type':'invoice',
+                                      'name': address['firstname'] + ' ' + address['lastname'],
+                                      'street' : address['street'][0],
+                                      'street2' : address['street'][1],
+                                      'zip'    : address['postcode'],
+                                      'city'   : address['city'],
+                                      'country_id' : new_address_country,
+                                      'phone' : address['telephone'],
+                                      'email': str(info_cust['email'])}
+
+                                #SHIPPING
+                                erp_contact_shipping = {  'partner_id' : cust_ids[0],
+                                      'type':'delivery',
+                                      'name': address['firstname'] + ' ' + address['lastname'],
+                                      'street' : address['street'][0],
+                                      'street2' : address['street'][1],
+                                      'zip'    : address['postcode'],
+                                      'city'   : address['city'],
+                                      'country_id' : new_address_country,
+                                      'phone' : address['telephone'],
+                                      'email': str(info_cust['email'])}
+                                
+                                list.append(erp_contact_billing)
+                                list.append(erp_contact_shipping)
+                                
+                            #if the billing and shipping address are different ... 
+                            else:
+                                #Address type (Billing - Shipping)
+                                if address['is_default_shipping']:
+                                    type = 'delivery'
+                                elif address['is_default_billing']:
+                                    type ='invoice'
+                                else:
+                                    type = 'default'
+                                                                                                
+                                erp_contact = {  'partner_id' : cust_ids[0],
+                                          #'type' : 'default',
+                                          'type':type,
+                                          'name': address['firstname'] + ' ' + address['lastname'],
+                                          'street' : address['street'][0],
+                                          'street2' : address['street'][1],
+                                          'zip'    : address['postcode'],
+                                          'city'   : address['city'],
+                                          'country_id' : new_address_country,
+                                          'phone' : address['telephone'],
+                                          'email': str(info_cust['email'])}
+                                
+                                list.append(erp_contact)
+                                
+                            contact_ids = self.pool.get('res.partner.address').search(cr, uid, [('partner_id', '=', cust_ids[0])])
+                            
+                            if (contact_ids != []):
+                                contacts = self.pool.get('res.partner.address').browse(cr, uid, contact_ids)
+                            else:
+                                contacts = []
+    
+                            new_contact_ids = []
+                            is_contact_same = False
+              
+                            #for new_contact in [erp_contact]:
+                            for new_contact in list:    
+                                if (new_contact == {}):
+                                    continue      
+                                skip_contact_creation = False
+                                i = 0
+                                
+                                for _contact in contacts:
+                                    is_contact_same = True
+                                    contact={}
+                                    for key in ['name','street','street2','zip','country_id','city','phone']:
+                                        if (key == 'country_id'):
+                                            if (_contact[key]['id'] != new_contact[key]):
+                                                is_contact_same = False
+                                                break
+                                        else:
+                                            if (_contact[key] != new_contact[key]):
+                                                is_contact_same = False
+                                                break
+                                            
+                                    if (is_contact_same == True):
+                                        skip_contact_creation = True
+                                        log.append("\t\tSkipping creation of " + new_contact['type'] + " contact address (already existing)")
+                                        break
+                              
+                                i = i + 1
+                          
+                                if (skip_contact_creation == False):
+                                    log.append("\t\tCreation of new " + new_contact['type'] + " contact address")
+                                    id_address = self.pool.get('res.partner.address').create(cr, uid, new_contact)
+                                    new_contact_ids.append(id_address)
+                                    
+                                    if flag is False:
+                                        list.remove(new_contact)
+                                else:
+                                    new_contact_ids.append(contact_ids[i])
+                                
+                    except:
+                        log.append('Cannot get customers, check Magento web user config')
+                        log.print_traceback()
+                        set_export_finished()
+                        raise osv.except_osv(_('Error !'), _('Cannot get customers, check Magento web user config'))  
+                        return -1
+                    
+                else:
+                    contact_ids = self.pool.get('res.partner.address').search(cr, uid, [('partner_id', '=', cust_ids[0])])
+                    
+                    if (contact_ids == []):
+                       erp_contact = {  'partner_id' : cust_ids[0],
+                            'type'       : 'other',
+                            'name'       : info_cust['firstname'] + ' ' + info_cust['lastname'],
+                            'street'     : None,
+                            'street2'    : None,
+                            'zip'        : None,
+                            'city'       : None,
+                            'country_id' : None,
+                            'phone'      : None,
+                            'email': str(info_cust['email'])}
+                       self.pool.get('res.partner.address').create(cr, uid, erp_contact)
+                        
+            except:
+               log.append('Cannot get customers, check Magento web user config')
+               log.print_traceback()
+               set_export_finished() 
+               raise osv.except_osv(_('Error !'), _('Cannot get customers, check Magento web user config'))                 
+
+        if (customers == []):
+            #self.pool.get('sneldev.magento').write(cr, uid, [website_ids[0]], {'last_imported_product_timestamp':start_timestamp})                                    
+            set_export_finished()
+            log.append("Done")
+            return 0
+        """
         else:
             log.append('Import already running') 
             raise osv.except_osv(_('Error'), _('Import already running')% ('error') )
             return -1                           
-    
+        """
     ##################################################################          
     # Initialize OpenERP stock 
     ##################################################################
@@ -952,7 +982,9 @@ class sneldev_magento(osv.osv):
     ##################################################################          
     # Orders import
     ##################################################################
-    def import_orders(self, cr, uid):
+    def import_orders(self, cr, uid,entity_id,increment_id):
+        list_orders = []
+        
         log.define(self.pool.get('sneldev.logs'), cr, uid)
         wf_service = netsvc.LocalService('workflow')
         if (export_is_running() == False):
@@ -962,40 +994,34 @@ class sneldev_magento(osv.osv):
                 ids = self.pool.get('sneldev.magento').search(cr, uid, [])
                 magento_params = self.pool.get('sneldev.magento').get_magento_params(cr, uid)
                 
-                # Get latest sales orders in Magento 
                 self.pool = pooler.get_pool(cr.dbname) 
                 [status, server, session] = magento_connect(self, cr, uid)
                 if not status:
                     log.append('Cannot connect ' + str(server))   
                     set_export_finished()  
                     return -1
-                log.append('Logged in to Magento')
-                log.append('Last import from ' + magento_params[0].last_imported_invoice_timestamp)
-                listinvoices = server.call(session, 'sales_order_invoice.list',[{'updated_at': {'from': magento_params[0].last_imported_invoice_timestamp}}])
-#                if (magento_params[0].last_invoice_id == -1):
-#                    listinvoices = server.call(session, 'sales_order_invoice.list',[{'updated_at': {'from': '2011-05-01'}}])
-#                else:
-#                    listinvoices = server.call(session, 'sales_order_invoice.list',[{'updated_at': {'from': '2011-05-01'}}])
-#                    #listinvoices = server.call(session, 'sales_order_invoice.list',[{'entity_id': {'gt': magento_params[0].last_invoice_id}}])
-                log.append('Looking for invoives to import')
-                log.append("Found " + str(len(listinvoices)) + " new invoice(s) created")
-
-                orders_magento=[]
-                for invoice in listinvoices:          
+                
+                #If the list is empty imports all the orders that have a date greater than the last import.
+                #If the list contains an ID, it means that the module is magento and must import just 
+                #the order that corresponds to the code that comes as parameter.
+                
+                if entity_id == '' and increment_id == '':
+                    # Get latest sales orders in Magento 
+                    list_orders = server.call(session,'sales_order.list',[{'updated_at': {'from': magento_params[0].last_imported_order_timestamp}}])
+                else:
                     try:
-                        log.append("Invoice "+ invoice['increment_id'] + " - Order " + invoice['order_id'] + " - Created " + invoice['created_at'])
-                        log.append("\tGetting Info invoice " + str(invoice['increment_id']) )
-                        info_invoice = server.call(session, 'sales_order_invoice.info',[invoice['increment_id']]);
-                        log.append("\tGetting Info order " + str(invoice['order_id']))
-                        try:
-                            info_order = server.call(session, 'sales_order.list', [{'order_id': {'eq': invoice['order_id']}}])
-                            info_order = info_order[0]
-                            info_order = server.call(session, 'sales_order.info',[info_order['increment_id']]);
-                        except:
-                            info_order = server.call(session, 'sales_order.info',[invoice['order_increment_id']]);
+                        new_order = info_order = server.call(session, 'sales_order.info',entity_id)                                                         
+                        list_orders.append(new_order)
+                    except:
+                        new_order = info_order = server.call(session, 'sales_order.info',increment_id)                                                         
+                        list_orders.append(new_order)
+                    
+                for order in list_orders:          
+                    try:
+                        info_order = server.call(session, 'sales_order.info',[order['increment_id']])
                         
                         name_sales_order = str(info_order['increment_id'])
-                        name_invoice     = str(info_invoice['increment_id'])
+                        
                         id_orders = self.pool.get('sale.order').search(cr, uid, [('magento_id', '=', info_order['order_id'])])
                         if (id_orders != []):
                             log.append("\tSales order " + name_sales_order + " already exists in ERP. Skipping")
@@ -1015,17 +1041,7 @@ class sneldev_magento(osv.osv):
                         failed_order = True
                         continue
             
-#                orders_magento.append( { 'order' : info_order , 'invoice' : info_invoice , 'customer' : info_customer} )   
-#                new_last_invoice_id = magento_params[0].last_invoice_id
-#    
-#                # Import orders one by one
-#                for info in orders_magento:
-                    try:
-#                        info_customer = info['customer']
-#                        info_order = info['order']
-#                        info_invoice = info['invoice']
-#                        new_last_invoice_id = max(int(new_last_invoice_id) , int(info_invoice["invoice_id"]))
-                        
+                    try:                       
                         pricelist_ids = self.pool.get('product.pricelist').search(cr, uid,[])
   
                         if (info_order['customer_is_guest'] == '1'):
@@ -1056,7 +1072,8 @@ class sneldev_magento(osv.osv):
                         # Creating sales order
                         erp_sales_order = { 'name' : name_sales_order,
                                             'order_policy' : 'manual',  
-                                            'client_order_ref' : name_invoice,
+                                            #'client_order_ref' : name_invoice,
+                                            #'client_order_ref' :name_sales_order,
                                             'state' : 'draft',  
                                             'partner_id' : erp_customer_info['id'],
                                             'partner_invoice_id'  : erp_customer_info['billing_id'],
@@ -1064,13 +1081,14 @@ class sneldev_magento(osv.osv):
                                             'partner_shipping_id' : erp_customer_info['shipping_id'],
                                             'pricelist_id'        : pricelist_ids[0],
                                             'magento_id'      : info_order['order_id'],
-                                            'date_order'        : invoice['created_at'][:10],
+                                            'date_order'        : info_order['created_at'][:10],
                                             'note'      : comments
                         }
                         log.append("\tCreation of sales order in OpenErp " + name_sales_order)
                         id_order = self.pool.get('sale.order').create(cr, uid, erp_sales_order)
                         
                         # Sale order lines
+                        #If products are not in openerp not listed in the detail of the bill. Must be found to be detailed on the invoice
                         missing_products_in_openerp = False
                         parents = {}
                         for item in info_order['items']:
@@ -1266,7 +1284,7 @@ class sneldev_magento(osv.osv):
                 if not failed_order:
                     today = str(datetime.date.today())
                     log.append("Update last import : " + today)
-                    self.pool.get('sneldev.magento').write(cr, uid, [magento_params[0].id], {'last_imported_invoice_timestamp':today})
+                    self.pool.get('sneldev.magento').write(cr, uid, [magento_params[0].id], {'last_imported_order_timestamp':today})
 #                    log.append("Last invoice_id " + str(new_last_invoice_id))
 #                    self.pool.get('sneldev.magento').write(cr, uid, [magento_params[0].id], {'last_invoice_id':new_last_invoice_id})
                 set_export_finished()
@@ -1445,11 +1463,13 @@ class product_category(osv.osv):
     _columns = {
       'modified':fields.boolean('Modified since last synchronization'),
       'magento_id':fields.integer('Magento ID'),
+      'export_to_magento': fields.boolean('Export to Magento'),
     }
     
     _defaults = {
         'modified': lambda *a: True,
         'magento_id': lambda *a: -1,
+        'export_to_magento': lambda *a: False,
     }
     
     def write(self, cr, uid, ids, vals, context={}):
@@ -1511,6 +1531,7 @@ class res_partner(osv.osv):
         'magento_id':fields.integer('Magento ID'),
         'email':fields.char('Email', size=128),
         'export_to_magento': fields.boolean('Export to Magento'),    
+        'magento_company':fields.char('Company',size=128),
     }
       
     _defaults = {

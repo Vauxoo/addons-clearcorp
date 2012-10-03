@@ -28,9 +28,9 @@ import os
 from export_tools import *
 from osv import osv, fields
 
-class wiz_sneldev_orders_import(osv.osv_memory):
-    _name = 'sneldev.orders.import'
-    _description = 'Import orders'
+class wiz_sneldev_categories_export(osv.osv_memory):
+    _name = 'sneldev.categories.export'
+    _description = 'Export categories'
 
     _columns = {
     }
@@ -38,20 +38,13 @@ class wiz_sneldev_orders_import(osv.osv_memory):
     _defaults = {
     }
 
-    def do_orders_import(self, cr, uid, ids, context=None):
-        self.pool.get('sneldev.magento').import_categories(cr, uid)
-        self.pool.get('sneldev.magento').import_products(cr, uid)
-        entity_id = '';
-        increment_id = '';
+    def do_categories_export(self, cr, uid, ids, context=None):
+        #self.pool.get('sneldev.magento').export_categories(cr, uid)
+        if (self.pool.get('sneldev.magento').export_categories(cr, uid) < 0):
+            raise osv.except_osv(('Warning'), ('Export failed, please refer to log file for failure details.'))
         
-        if (self.pool.get('sneldev.magento').import_orders(cr, uid,entity_id,increment_id) < 0):
-            raise osv.except_osv(('Warning'), ('Import failed, please refer to log file for failure details.'))
-        
-        if (self.pool.get('sneldev.magento').import_credit_memos(cr, uid) < 0):
-            raise osv.except_osv(('Warning'), ('Import failed, please refer to log file for failure details.'))
-       
         return {'type': 'ir.actions.act_window_close'}
 
-wiz_sneldev_orders_import()
+wiz_sneldev_categories_export()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -30,18 +30,39 @@ from osv import osv, fields
 
 class wiz_sneldev_products_export(osv.osv_memory):
     _name = 'sneldev.products.export'
-    _description = 'Export orders'
+    _description = 'Export products'
 
     _columns = {
+        'category_ids': fields.many2many('product.category', 'catg_id', required=True),
+        'export_type': fields.selection([('all_products','All products'),('export_by_category','Export by category ')], 'Export type', required=True),
     }
 
     _defaults = {
     }
+    
+    def action_add_category(self, cr, uid, ids, context=None):
+        wizard_id = ids[0]
+        wizard = self.browse(cr, uid, wizard_id, context=context)
+        
+        category_ids = []
+        
+        for category in wizard.category_ids:
+            category_ids.append(category.id)
+     
+        return  category_ids  
 
     def do_products_export(self, cr, uid, ids, context=None):
-        self.pool.get('sneldev.magento').export_categories(cr, uid)
-        if (self.pool.get('sneldev.magento').export_products(cr, uid) < 0):
-            raise osv.except_osv(('Warning'), ('Export failed, please refer to log file for failure details.'))
+        wizard_id = ids[0]
+        wizard = self.browse(cr, uid, wizard_id, context=context)
+        cat_ids = []
+        
+        if wizard.export_type == 'export_by_category':
+            cat_ids = self.action_add_category(cr, uid, ids, context)
+            
+        result = self.pool.get('sneldev.magento').export_products(cr, uid,cat_ids)   
+        
+        if result < 0:
+            raise osv.except_osv(('Warning'), ('Export failed, please refer to log file for failure details.'))        
         
         return {'type': 'ir.actions.act_window_close'}
 
