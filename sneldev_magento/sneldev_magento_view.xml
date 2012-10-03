@@ -21,9 +21,7 @@
            		<menuitem name="Export categories to Magento" action="action_sneldev_categories_export" parent="base.export_menu_magento" id="base.menu_magento_categories_export" />
            		<menuitem name="Export products to Magento" action="action_sneldev_products_export" parent="base.export_menu_magento" id="base.menu_magento_products_export" />
 		    	<menuitem name="Export stock to Magento" action="action_sneldev_stock_export" parent="base.export_menu_magento" id="base.menu_magento_stock_export" />
-		
-            <menuitem name="Initialize stock from Magento" action="action_sneldev_stock_init" parent="base.menu_magento" id="base.menu_magento_stock_init" />
-		    		   		
+		  		   		
 			<record model="ir.ui.view" id="view_magento_form">
 				<field name="name">sneldev.magento.form</field>
 				<field name="model">sneldev.magento</field>
@@ -137,7 +135,19 @@
                 </field>
             </field>
             </record>
-                        
+            
+            <record model="ir.ui.view" id="res_partner_form_view_inherited">
+            <field name="name">res.partner.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="email" position="replace">
+                    <field name="email" widget="email" attrs="{'required':True}" />
+                </field>
+            </field>
+            </record>
+                      
             <record model="ir.ui.view" id="product_category_search_view_inherited">
             <field name="name">product.category.search.inherit</field>
             <field name="model">product.category</field>

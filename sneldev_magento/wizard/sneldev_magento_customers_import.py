@@ -38,8 +38,9 @@ class wiz_sneldev_customers_import(osv.osv_memory):
     }
 
     def do_customers_import(self, cr, uid, ids, context=None):
+        customer_id = ''
         try:
-            self.pool.get('sneldev.magento').import_customers(cr, uid)
+            self.pool.get('sneldev.magento').import_customers(cr, uid,customer_id)
         
         except:
             raise osv.except_osv(('Warning'), ('Import failed, please refer to log file for failure details.'))
