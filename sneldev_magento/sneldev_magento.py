@@ -684,6 +684,7 @@ class sneldev_magento(osv.osv):
         flag = False
         list = []
         customers = []
+        magento_company = ''
                 
         #if (export_is_running() == False):
         try:
@@ -731,6 +732,7 @@ class sneldev_magento(osv.osv):
                     'email': str(info_cust['email']),
                     'customer'   : True,
                     'supplier'   : False,
+                    'magento_company': '',
                 }
                                     
                 if info_cust['customer_is_guest'] == '1':
@@ -784,7 +786,8 @@ class sneldev_magento(osv.osv):
                                       'city'   : address['city'],
                                       'country_id' : new_address_country,
                                       'phone' : address['telephone'],
-                                      'email': str(info_cust['email'])}
+                                      'email': str(info_cust['email']),
+                                      'magento_company': address['company']}
 
                                 #SHIPPING
                                 erp_contact_shipping = {  'partner_id' : cust_ids[0],
@@ -796,10 +799,16 @@ class sneldev_magento(osv.osv):
                                       'city'   : address['city'],
                                       'country_id' : new_address_country,
                                       'phone' : address['telephone'],
-                                      'email': str(info_cust['email'])}
+                                      'email': str(info_cust['email']),
+                                      'magento_company': address['company']}
+                                
+                                erp_customer['magento_company'] = address['company']
+                                self.pool.get('res.partner').write(cr, uid, [cust_ids[0]], erp_customer  )
                                 
                                 list.append(erp_contact_billing)
                                 list.append(erp_contact_shipping)
+                                
+                                
                                 
                             #if the billing and shipping address are different ... 
                             else:
@@ -821,10 +830,14 @@ class sneldev_magento(osv.osv):
                                           'city'   : address['city'],
                                           'country_id' : new_address_country,
                                           'phone' : address['telephone'],
-                                          'email': str(info_cust['email'])}
+                                          'email': str(info_cust['email']),
+                                          'magento_company': address['company']}
                                 
-                                list.append(erp_contact)
+                                erp_customer['magento_company'] = address['company']
+                                self.pool.get('res.partner').write(cr, uid, [cust_ids[0]], erp_customer  )
                                 
+                                list.append(erp_contact)                            
+                                 
                             contact_ids = self.pool.get('res.partner.address').search(cr, uid, [('partner_id', '=', cust_ids[0])])
                             
                             if (contact_ids != []):
@@ -892,8 +905,13 @@ class sneldev_magento(osv.osv):
                             'city'       : None,
                             'country_id' : None,
                             'phone'      : None,
-                            'email': str(info_cust['email'])}
+                            'email': str(info_cust['email']),
+                            'magento_company': None}
+                       
                        self.pool.get('res.partner.address').create(cr, uid, erp_contact)
+                      
+                       erp_customer['magento_company'] = None
+                       self.pool.get('res.partner').write(cr, uid, [cust_ids[0]], erp_customer  )
                         
             except:
                log.append('Cannot get customers, check Magento web user config')
@@ -1522,6 +1540,15 @@ class sale_order(osv.osv):
     }
 sale_order()
 
+class res_partner_address(osv.osv):
+    _name = 'res.partner.address'
+    _inherit = 'res.partner.address'
+    
+    _columns = {
+        'magento_company':fields.char('Workplace',size=128)
+    }
+res_partner_address()
+
 # Partner
 class res_partner(osv.osv):
     _name = 'res.partner'
@@ -1531,19 +1558,13 @@ class res_partner(osv.osv):
         'magento_id':fields.integer('Magento ID'),
         'email':fields.char('Email', size=128),
         'export_to_magento': fields.boolean('Export to Magento'),    
-        'magento_company':fields.char('Company',size=128),
+        'magento_company': fields.char('Workplace',size=128),
     }
       
     _defaults = {
         'magento_id': lambda *a: -1,
         'export_to_magento': lambda *a: False,        
     }
-    """
-    def write(self, cr, uid, ids, vals, context={}):
-        if not vals.has_key('modified'):
-            vals['modified'] = True
-        return super(product_product, self).write(cr, uid, ids, vals, context)
-    """
-res_partner()
 
+res_partner()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

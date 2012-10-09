@@ -9,7 +9,9 @@
 			</record>
 
 			<menuitem id="base.menu_magento" name="Magento" web_icon="static/src/img/magento.png" web_icon_hover="static/src/img/magento.png" />
-				<menuitem name="Magento Settings" id="menu_magento_form" parent="base.menu_magento" action="action_magento_form" />
+			
+			<menuitem name="Magento Settings" id="menu_magento_form" parent="base.menu_magento"/>
+				<menuitem id="base.menu_magento_sub_form" action="action_magento_form" parent="menu_magento_form" name="Magento settings"></menuitem>
 				
 			<menuitem id="base.import_menu_magento" name="Import" parent="base.menu_magento"/>			
 				<menuitem name="Import categories from Magento" action="action_sneldev_categories_import" parent="base.import_menu_magento" id="base.menu_magento_categories_import" />
@@ -145,6 +147,9 @@
                 <field name="email" position="replace">
                     <field name="email" widget="email" attrs="{'required':True}" />
                 </field>
+                <field name="email" position="after">
+                    <field name="magento_company"/>
+                </field>
             </field>
             </record>
                       
@@ -163,5 +168,31 @@
                 </field>
             </field>
             </record>
+            
+            <record model="ir.ui.view" id="res_partner_search_view_inherited">
+            <field name="name">res.partner.search.inherited</field>
+            <field name="model">res.partner</field>
+            <field name="type">search</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"></field>
+            <field name="arch" type="xml">
+            	<filter string="Salesman" position="after">
+            		<separator orientation="vertical"/>
+            		<filter string="Workplace" icon="terp-go-home" domain="[]" context="{'group_by':'magento_company'}"/>
+            	</filter>
+            </field>	            
+            </record>
+            
+            <record model="ir.ui.view" id="res_partner_tree_view_inherited">
+            <field name="name">res.partner.tree.inherited</field>
+            <field name="model">res.partner</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="base.view_partner_tree"></field>
+            <field name="arch" type="xml">
+         		<field name="user_id" position="after">
+         			<field name="magento_company"/>
+         		</field>
+         	</field>
+         	</record>
+            
     </data>
 </openerp>
