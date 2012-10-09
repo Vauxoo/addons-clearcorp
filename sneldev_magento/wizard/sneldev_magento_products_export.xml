@@ -10,7 +10,9 @@
                 <label string="This wizard will export products to Magento. You can choose all products or products by category" colspan="4"/>
                 	<field name="export_type"></field>                
                 	<separator string="Categories" colspan="4" />
-                    <field name="category_ids" string="Categories" nolabel="1" colspan="4" attrs="{'invisible': [('export_type','!=','export_by_category')]}" domain="[('export_to_magento', '=', 'True')]">
+                    <field name="category_ids" string="Categories" nolabel="1" colspan="4" 
+                    	attrs="{'required' : [('export_type','=','export_by_category')], 'invisible' : [('export_type','!=','export_by_category')]}"
+                    	domain="[('export_to_magento', '=', 'True')]">
                         <tree string="Categories" editable="top">
                             <field name="name" />
                         </tree>
