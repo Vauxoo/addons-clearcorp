@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <CheckCustomer_CheckCustomerOpenerp>
+            <version>0.0.1</version>
+        </CheckCustomer_CheckCustomerOpenerp>
+    </modules>    
+    <frontend>
+        <routers>
+            <checkcustomer_checkcustomeropenerp>
+                <use>standard</use>
+                    <args>
+                        <module>CheckCustomer_CheckCustomerOpenerp</module>
+                        <frontName>customer</frontName>
+                    </args>
+            </checkcustomer_checkcustomeropenerp>
+        </routers>
+    </frontend>
+    <global>
+        <rewrite>
+            <checkcustomer_checkcustomeropenerp_account>
+                <from><![CDATA[#^/account/#]]></from>
+                <to>/customer/account/</to>
+            </checkcustomer_checkcustomeropenerp_account>
+        </rewrite>
+    </global>
+</config>

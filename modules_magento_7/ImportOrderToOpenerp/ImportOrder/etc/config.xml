@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <!-- The module's node contains basic information about each Magento module -->
+    <modules>
+        <!-- This must exactly match the namespace and module's folder names, with directory separators replaced by underscores -->
+        <ImportOrderToOpenerp_ImportOrder>
+            <!-- The version of our module, starting at 0.0.1 -->
+            <version>0.0.1</version>
+        </ImportOrderToOpenerp_ImportOrder>
+    </modules>
+    <!-- Configure our module's behavior in the global scope -->
+    <global>
+        <!-- Defining models -->
+        <models>
+            <!-- Unique identifier in the model's node. By convention, we put the module's name in lowercase. -->
+            <importordertoopenerp_importorder>
+                <!-- The path to our models directory, with directory separators replaced by underscores -->
+                <class>ImportOrderToOpenerp_ImportOrder_Model</class>
+            </importordertoopenerp_importorder>
+        </models>
+
+        <!-- Defining an event observer -->
+        <events>
+            <!-- The code of the event we want to observe -->
+            <checkout_type_onepage_save_order_after>
+                <!-- Defining an observer for this event -->
+                <observers>
+                    <!-- Unique identifier within the sales_order_save_after node. By convention, we write the module's name in lowercase. -->
+                    <importordertoopenerp_importorder>
+                        <!-- The model to be instantiated -->
+                        <class>importordertoopenerp_importorder/observer</class>
+                        <!-- The method of the class to be called -->
+                        <method>main_import_openerp</method>
+                        <!-- The type of class to instantiate -->
+                        <type>singleton</type>
+                    </importordertoopenerp_importorder>
+                </observers>
+            </checkout_type_onepage_save_order_after>
+        </events>        
+    </global>
+</config>

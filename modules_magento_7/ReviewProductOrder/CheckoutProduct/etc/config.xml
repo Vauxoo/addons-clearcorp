@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <!-- The module's node contains basic information about each Magento module -->
+    <modules>
+        <!-- This must exactly match the namespace and module's folder names, with directory separators replaced by underscores -->
+        <ReviewProductOrder_CheckoutProduct>
+            <!-- The version of our module, starting at 0.0.1 -->
+            <version>0.0.1</version>
+        </ReviewProductOrder_CheckoutProduct>
+    </modules>
+    <!-- Configure our module's behavior in the global scope -->
+    <global>
+        <!-- Defining models -->
+        <models>
+            <!-- Unique identifier in the model's node. By convention, we put the module's name in lowercase. -->
+            <reviewproductorder_checkoutproduct>
+                <!-- The path to our models directory, with directory separators replaced by underscores -->
+                <class>ReviewProductOrder_CheckoutProduct_Model</class>
+            </reviewproductorder_checkoutproduct>
+        </models>
+        <!-- Defining an event observer -->
+        <events>
+            <!-- The code of the event we want to observe -->
+            <sales_order_place_before>
+                <!-- Defining an observer for this event -->
+                <observers>
+                    <!-- Unique identifier within the sales_order_save_after node. By convention, we write the module's name in lowercase. -->
+                    <reviewproductorder_checkoutproduct>
+                        <!-- The model to be instantiated -->
+                        <class>reviewproductorder_checkoutproduct/observer</class>
+                        <!-- The method of the class to be called -->
+                        <method>main</method>
+                        <!-- The type of class to instantiate -->
+                        <type>singleton</type>
+                    </reviewproductorder_checkoutproduct>
+                </observers>
+            </sales_order_place_before>
+        </events>        
+    </global>
+</config>
