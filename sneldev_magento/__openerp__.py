@@ -27,7 +27,7 @@
 ##############################################################################
 {
     "name" : "Magento-OpenERP Interface",
-    "version" : "0.9.2.6",
+    "version" : "1.0",
     "author" : "SnelDev",
     "category" : "Interfaces/CMS & eCommerce",
     "website" : "http://www.sneldev.com/",
@@ -47,7 +47,10 @@
                      'wizard/sneldev_magento_stock_export.xml',
                      'wizard/sneldev_magento_sync_start.xml',
                      'wizard/sneldev_magento_sync_stop.xml',
-                     'sneldev_magento_view.xml'],
+                     'sneldev_magento_view.xml',
+                     'sneldev_magento_menu.xml',
+                     'security/security.xml',
+                     ],
     "active": False,
     "installable": True
 }
