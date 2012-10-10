@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<!-- Module category: Magento -->
+        <record id="module_magento_settings" model="ir.module.category">
+            <field name="name">Magento settings</field>
+            <field name="description">Magento settings</field>
+            <field name="sequence">20</field>
+        </record>
+        
+		<!-- Groups -->
+        <record id="group_magento_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="module_magento_settings"/>
+            <field name="menu_access" eval="[(6,0,[base.menu_magento])]" />
+        </record>        
+        <record id="group_magento_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_magento_settings"/>
+            <field name="implied_ids" eval="[(6,0,[group_magento_user])]" />
+        </record>
+        
+	</data>
+</openerp>
