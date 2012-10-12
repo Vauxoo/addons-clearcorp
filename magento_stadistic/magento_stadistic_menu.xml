@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    	<record model="ir.actions.act_window" id="action_magento_stadistic_graphic_form">
+			<field name="name">Magento stadistic</field>
+			<field name="res_model">magento.stadistic</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form,graph</field>
+		</record>  
+		    	
+    	<menuitem id="base.menu_magento_stadistic" name="Magento stadistic" web_icon="static/src/img/icon.png" web_icon_hover="static/src/img/menu.png" />
+			<menuitem name="Product" id="menu_magento_stadistic_product_form" parent="base.menu_magento_stadistic" />
+				<menuitem id="base.menu_magento_stadistic_product_sub_form" action="action_magento_stadistic_graphic_form" parent="menu_magento_stadistic_product_form" name="Out of stock"></menuitem>	
+	</data>
+</openerp>

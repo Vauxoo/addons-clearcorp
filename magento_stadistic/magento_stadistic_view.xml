@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>    	
+    	<record model="ir.ui.view" id="view_graph_magento_stadistic">
+			<field name="name">magento.stadistic.form</field>
+			<field name="model">magento.stadistic</field>
+			<field name="type">graph</field>
+			<field name="arch" type="xml">
+				<graph string="Product out of stock" type="bar">
+      				<field name="product_ids"/>
+      				<field name="qty_product" operator="+"/>
+				</graph>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_magento_stadistic_form">
+			<field name="name">magento.stadistic.form</field>
+			<field name="model">magento.stadistic</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Product out of stock">
+					<separator string="Product info" colspan="4" />
+					<field name="product_ids" attrs="{'required':True}" />
+					<field name="qty_product" attrs="{'required':True}" />
+					<field name="date_out_of_stock" attrs="{'required':True}"/>
+					<field name="customer_ids" attrs="{'required':True}"/>		
+					<notebook colspan="4">
+						<page string="Customer information">
+							<field colspan="4" mode="tree,form" name="address" nolabel="1" select="1" height="260">
+								<form string="Customer info">
+									<group colspan="4" col="6"> 
+										<field name="name" string="Contact Name"/> 
+										<field domain="[('domain', '=', 'contact')]" name="title" size="0"/> 
+										<field name="function"/> 
+									</group>
+									<newline/> 
+									<group colspan="2" col="4"> 
+										<separator string="Postal Address" colspan="4" col="4"/> 
+										<field name="type" string="Type" colspan="2"/> 
+										<field name="street" colspan="4"/> 
+										<field name="street2" colspan="4"/> 
+										<field name="zip"/> <field name="city"/> 
+										<field name="country_id" completion="1"/> 
+										<field name="state_id"/>
+									 </group> 
+									 <group colspan="2" col="2"> 
+									 	<separator string="Communication" colspan="2" col="2"/> 
+								 		<field name="phone"/> 
+								 		<field name="mobile"/> 
+								 		<field name="fax"/> 
+								 		<field name="email" widget="email"/> 
+									 </group> 
+								</form>
+								<tree string="Partner Contacts"> 
+									<field name="name"/> 
+									<field name="zip"/> 
+									<field name="city"/> 
+									<field name="country_id"/> 
+									<field name="phone"/>
+									 <field name="email"/> 
+									 <field name="type"></field>
+								</tree>
+							</field>
+						</page>
+					</notebook>					 				
+				</form>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="view_magento_stadistic_tree">
+			<field name="name">magento.stadistic.tree</field>
+			<field name="model">magento.stadistic</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				 <tree string="Product out of stock">
+					<field name="product_ids"/>
+					<field name="qty_product"></field>
+					<field name="date_out_of_stock"></field>
+					<field name="customer_ids"/>
+				</tree>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="magento_stadistic_search_view">
+            <field name="name">magento.stadistic.search</field>
+            <field name="model">magento.stadistic</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+				<search string="Product out of stock">
+					<newline/>
+					<field name="product_ids" widget="one2many_list"></field>   
+					<field name="date_out_of_stock" widget="float_time"></field>
+					<newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Product" icon="terp-accessories-archiver" domain="[]" context="{'group_by':'product_ids'}"/>
+                        <separator orientation="vertical"/>
+                        <filter string="Customer" icon="terp-personal" domain="[]" context="{'group_by':'customer_ids'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+				</search>         
+            </field>            
+        </record>
+    </data>
+</openerp>
