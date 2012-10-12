@@ -344,7 +344,7 @@ class rent_local_floor(osv.osv):
     
     def write (self, cr, uid,ids,vals,context=None):
         #Check for the building and the floor so it can't be at diferent places before saving the changes
-        if vals['local_floor_floor_id']:
+        if 'local_floor_floor_id' in vals and vals['local_floor_floor_id']:
             for obj_local_floor in self.browse(cr,uid,ids):
                 for obj_local_floor_check in obj_local_floor.local_local_floor_id.local_local_by_floor_ids:
                     current_floor = self.pool.get('rent.floor').browse(cr,uid,vals['local_floor_floor_id'])
