@@ -36,19 +36,7 @@ class magento_stadistic (osv.osv):
             'CHECK(qty_product > 0)',
             'The quantity of product must be greater than 0.'),
             ]
-    """
-    def onchance_customer(self, cr, uid, ids, customer_ids, context={}):
-        v={}
-        if customer_ids:    
-            id = self.pool.get('res.partner').search(cr,uid,customer_ids)
-            customer = self.pool.get('res.partner').browse(cr,uid,customer_ids)
-            v['address']=customer.address.id
-            if customer.address.id:    
-                v['name']=customer.name.id    
-            
-    
-        return {'value':v}
-    """
+
     def save_product (self,cr,uid,product_id,customer_id,qty_product):
         magento_connect = self.pool.get('sneldev.magento')
         try:
@@ -82,9 +70,10 @@ class magento_stadistic (osv.osv):
             self.pool.get('magento.stadistic').create(cr, uid, product_of_stock)
             
         except:
-            log.append('Cannot create stadistic')
+            #log.append('Cannot create stadistic')
             raise osv.except_osv(_('Error !'), _('Cannot get product, check Magento web user config'))
-            traceback.print_exc(file=sys.stdout)
+            #traceback.print_exc(file=sys.stdout)
+            #log.print_traceback()  
             return -1
     
 magento_stadistic()
