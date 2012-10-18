@@ -94,9 +94,7 @@ class ReviewProductOrder_CheckoutProduct_Model_Observer
         $msg->addParam(php_xmlrpc_encode($customer_id));
         $msg->addParam(php_xmlrpc_encode($qty_product));
         $msg->addParam(new xmlrpcval($order_date,"string"));
-        //$params = date("Ymd\TH:i:s", $order_date);
-        //xmlrpc_set_type($params, 'datetime');
-       // $msg->addParam(php_xmlrpc_encode($params));       
+      
         
         $val = $this->_cache_request($this->url.'object',$msg);        
         //return php_xmlrpc_decode($val);
