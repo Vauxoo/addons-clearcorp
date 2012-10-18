@@ -258,21 +258,7 @@
                     </group>
                     <notebook>
                         <page string = "Floors">
-                            <field name = "building_floors_ids" mode = "form,tree" nolabel = "1">
-                                <form string = "Floor Details">
-                                    <group col = "4" colspan = "2">
-                                        <separator string = "General Information" col = "4" colspan = "4"/>
-                                        <field name = "floor_number"/>
-                                        <field name = "floor_area"/>
-                                        <field name = "floor_value"/>
-                                    </group>
-                                    <group col = "4" colspan = "2">
-                                        <separator string = "Design Information" col = "4" colspan = "4"/>
-                                        <field name = "floor_thickness"/>
-                                        <field name = "floor_durability"/>
-                                        <field name = "floor_acabado"/>
-                                    </group>
-                                </form>
+                            <field name = "building_floors_ids" widget="many2many" mode = "tree" nolabel = "1">
                                 <tree string="Floor Details">
                                     <field name="floor_number"/>
                                     <field name="floor_value"/>
