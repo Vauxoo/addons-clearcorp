@@ -577,6 +577,7 @@ class sneldev_magento(osv.osv):
     # Product import
     ##################################################################
     def import_products(self, cr, uid,product_id):
+        products = []
         log.define(self.pool.get('sneldev.logs'), cr, uid)
         if (export_is_running() == False):
             try:
@@ -601,8 +602,9 @@ class sneldev_magento(osv.osv):
             index = 1
             while True:
                 if product_id != '':
-                    new_product = server.call(sesion,'product.info',product_id)
+                    new_product = server.call(session, 'product.info',[product_id])
                     products.append(new_product)
+                    all_products = products
                 else:
                     stop = index + increment - 1
                     log.append('Products ID from ' + str(index) + ' to ' + str(stop))
@@ -620,7 +622,7 @@ class sneldev_magento(osv.osv):
                         info_product = server.call(session, 'product.info',[prod['product_id']])
                         product = { 'magento_id' : info_product['product_id'],
                           'name' : info_product['name'],
-                          'default_code' : prod['sku'],
+                          'default_code' : info_product['sku'],
                           'modified' : False,
                           'export_to_magento': True,
                         }
@@ -649,6 +651,7 @@ class sneldev_magento(osv.osv):
                         else:
                             log.append('Default category')
                             product['categ_id'] = magento_params[0].default_category.id    
+                       
                         log.append('Updating product ' + product['default_code'] + ' ' + product['name'])
                         prod_ids = self.pool.get('product.product').search(cr, uid, [('magento_id', '=', product['magento_id'])])
                         if prod_ids == []:
@@ -673,9 +676,13 @@ class sneldev_magento(osv.osv):
                     set_export_finished()
                     log.append("Done")
                     return 0
-        log.append('Import already running')
-        raise osv.except_osv(_('Error !'), _('Import already running'))      
-        return -1       
+                else:                    
+                    set_export_finished()
+                    return 0
+        else:          
+            log.append('Import already running')
+            raise osv.except_osv(_('Error !'), _('Import already running'))            
+            return -1       
          
     ##################################################################          
     # Customer import
@@ -707,7 +714,7 @@ class sneldev_magento(osv.osv):
             return -1 
         
         if customer_id != '':
-            new_customer = server.call(session,'customer.info',customer_id)
+            new_customer = server.call(session, 'customer.info',[customer_id])
             customers.append(new_customer)
         
         else:
