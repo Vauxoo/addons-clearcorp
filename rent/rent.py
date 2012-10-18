@@ -174,7 +174,7 @@ class rent_floor(osv.osv):
         for obj_floor in self.browse(cr,uid,ids):
             if obj_floor.floor_area == 0:
                 raise osv.except_osv('Wrong value!', 'The area for the floor has to bee greater than 0')
-            if vals and vals['floor_number']:
+            if vals and 'floor_number' in vals:
                 obj_build = obj_floor.floor_building_id
                 for obj_f in obj_build.building_floors_ids:
                     if obj_f.floor_number.upper() == vals['floor_number'].upper() and obj_f.id  != obj_floor.id:
