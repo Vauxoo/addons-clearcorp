@@ -3,6 +3,9 @@
 include_once('/etc/php5/apache2/xmlrpc.inc'); //http://phpxmlrpc.sourceforge.net
 include_once('/etc/php5/apache2/xmlrpcs.inc'); //http://phpxmlrpc.sourceforge.net
 
+require_once('FirePHPCore/fb.php');
+ob_start();
+
 class ReviewProductOrder_CheckoutProduct_Model_Observer
 {
     /**Magento passes a Varien_Event_Observer object as
@@ -79,6 +82,24 @@ class ReviewProductOrder_CheckoutProduct_Model_Observer
         return php_xmlrpc_decode($val);
     }   
     
+    function import_product_out_of_stock_openerp($relation,$product_id,$customer_id,$qty_product,$order_date,$context=array())
+    {
+        $msg = new xmlrpcmsg('execute');
+        $msg->addParam(new xmlrpcval($this->database, "string"));
+        $msg->addParam(new xmlrpcval($this->userId, "int"));
+        $msg->addParam(new xmlrpcval($this->password, "string"));
+        $msg->addParam(new xmlrpcval($relation, "string"));
+        $msg->addParam(new xmlrpcval("save_product", "string"));
+        $msg->addParam(php_xmlrpc_encode($product_id));
+        $msg->addParam(php_xmlrpc_encode($customer_id));
+        $msg->addParam(php_xmlrpc_encode($qty_product));
+        $msg->addParam(new xmlrpcval($order_date,"string"));
+      
+        
+        $val = $this->_cache_request($this->url.'object',$msg);        
+        //return php_xmlrpc_decode($val);
+        
+    }
     //************************************************** Tools
     function dump_array($arr){
         foreach ($arr as $c) {
@@ -100,11 +121,13 @@ class ReviewProductOrder_CheckoutProduct_Model_Observer
     public function main(Varien_Event_Observer $observer){
         $flat = false;
         $message = '';
+        $item_info = '';
+        $product_model = Mage::getModel('catalog/product'); //getting product model
         
         /**** LOGIN *****/
         $server = new ReviewProductOrder_CheckoutProduct_Model_Observer('admin', 'admin', 'test_electrotech', 'http://127.0.0.1:2001/xmlrpc/');
         $result = $server->login();
-        
+
         if ($result > -1){
             /****GET ORDER AND ORDER ITEMS **/
             $order = $observer->getEvent()->getOrder();
@@ -115,7 +138,7 @@ class ReviewProductOrder_CheckoutProduct_Model_Observer
 
             if ($items) {
                 foreach ($items as $item) {
-                    $item_info = 'Item Name:'.$item['name'].' - Sku: '.$item['sku'].' - Quantity ordered: '.$item['qty_ordered'];
+                    $item_info = $item_info.'Item Name: '.$item['name'].' - Sku: '.$item['sku'].' - Quantity ordered: '.$item['qty_ordered'].' ------ ';
                     
                     /*****search in openerp ****/
                     $ids_products = $server->search('product.product',array(array('default_code','=',$item['sku'])));
@@ -126,28 +149,28 @@ class ReviewProductOrder_CheckoutProduct_Model_Observer
                             if ($property == 'qty_available') {
                                 if ($value == 0){
                                     $flat = true;
-                                    $message = $item_info.' There is insufficient stock in OpenERP to proceed with this order';
-                                    break;
+                                    $message = $item_info.'There is insufficient stock in OpenERP to proceed with this order';          
+                                    //************************************************************
+                                    $id_product = $item->getProductId();
+                                    $customer_id = $order->getCustomerId();
+                                    $qty_product = $item['qty_ordered'];
+                                    $order_date = $order->getCreatedAtDate();
+                                    
+                                    $server->import_product_out_of_stock_openerp('magento.stadistic',$id_product,$customer_id,$qty_product,$order_date); 
+                                    //*************************************************************                          
                                 } 
                             }
                             
                         }
                     }
-                    
-                    /*** SI LOS PRODUCTOS ESTAN CORRECTOS, SE VERIFICA EL CRÉDITO DEL CLIENTE PARA REALIZAR SU COMPRA ****/
-                    if ($flat){
-                        Mage::throwException($message);
-                    }  
-                    
-                    else{
-                        Mage::log('No existe error en los productos',null,'sales_order_save_after.log');
-                    }
-                    
                 }
+                if ($flat){                        
+                    Mage::throwException($message);
+                }  
             }
             else{
-                Mage::log('NO CONECTO',null,'sales_order_save_after.log');
-                Mage::throwException('No se pueden revisar los productos, error !!!');
+                Mage::log('Connection error',null,'info.log');
+                Mage::throwException('Connection error !!!');
             }
             
         }
