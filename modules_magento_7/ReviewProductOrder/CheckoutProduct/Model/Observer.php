@@ -167,15 +167,10 @@ class ReviewProductOrder_CheckoutProduct_Model_Observer
                 if ($flat){                        
                     Mage::throwException($message);
                 }  
-                
-                else{
-                    Mage::log('No existe error en los productos',null,'info.log');
-                    Mage::log($message,null,'info.log');
-                }
             }
             else{
-                Mage::log('NO CONECTO',null,'info.log');
-                Mage::throwException('No se pueden revisar los productos, error !!!');
+                Mage::log('Connection error',null,'info.log');
+                Mage::throwException('Connection error !!!');
             }
             
         }
