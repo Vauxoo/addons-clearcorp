@@ -39,8 +39,10 @@ class wiz_sneldev_products_import(osv.osv_memory):
     }
 
     def do_products_import(self, cr, uid, ids, context=None):
+        product_id = '';
+        
         self.pool.get('sneldev.magento').import_categories(cr, uid)
-        if (self.pool.get('sneldev.magento').import_products(cr, uid) < 0):
+        if (self.pool.get('sneldev.magento').import_products(cr, uid,product_id) < 0):
             raise osv.except_osv(('Warning'), ('Import failed, please refer to log file for failure details.'))
         
         return {'type': 'ir.actions.act_window_close'}
