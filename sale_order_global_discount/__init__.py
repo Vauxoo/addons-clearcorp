@@ -20,5 +20,5 @@
 #
 ##############################################################################
 
-import report
-import sale_order_ccorp_report
+
+import sale_order_global_discount
