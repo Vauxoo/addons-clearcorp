@@ -27,16 +27,14 @@
     'website': 'http://clearcorp.co.cr',
     'category': 'Human Resources',
     'complexity': 'normal',
-    'description': """This module modifies the payroll report
+    'description': """This module modifies the payslip report
     """,
     'depends': [
         'hr_payroll',
     ],
     'init_xml': [],
     'demo_xml': [],
-    'update_xml': [
-                'hr_payroll_report.xml',
-                ],
+    'update_xml': ['hr_payroll_report_report.xml',],
     'license': 'AGPL-3',
     'installable': True,
     'active': False,

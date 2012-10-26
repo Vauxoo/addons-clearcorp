@@ -1,0 +1,130 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* hr_payroll_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-10-26 20:58+0000\n"
+"PO-Revision-Date: 2012-10-26 20:58+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:114
+msgid "Category"
+msgstr "Categoría"
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:49
+msgid "ID card"
+msgstr "Cédula"
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:80
+msgid "Number of days"
+msgstr "Número de días"
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:55
+msgid "Salary structure"
+msgstr "Estructura de salario"
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:74
+msgid "Worked Days"
+msgstr "Días trabajados"
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:98
+msgid "Dont exist extra hours registred"
+msgstr "No existen horas extras registradas"
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:50
+msgid "Bank account"
+msgstr "Cuenta en la que se deposita el salario"
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:81
+msgid "Number of hours"
+msgstr "Número de horas"
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:54
+msgid "Date to"
+msgstr "Fecha final"
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:51
+msgid "Job"
+msgstr "Puesto"
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:140
+msgid "Received and accepted: "
+msgstr "Recibido conforme: "
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:48
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:78
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:112
+msgid "Name"
+msgstr "Nombre"
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:82
+msgid "Contract"
+msgstr "Contrato"
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:108
+msgid "Salary Computation"
+msgstr "Cálculo de nómina"
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:117
+msgid "Amount"
+msgstr "Monto"
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:115
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:79
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:113
+msgid "Code"
+msgstr "Código"
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:52
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:116
+msgid "Rate"
+msgstr "Impuesto"
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:53
+msgid "Date from"
+msgstr "Fecha inicial"
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:140
+msgid "ID card: "
+msgstr "Cédula: "
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:118
+msgid "Total"
+msgstr "Total"
+
