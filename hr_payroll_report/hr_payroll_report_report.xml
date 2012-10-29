@@ -7,7 +7,7 @@
         model="hr.payslip"
         name="hr_payroll_payslip_inherit"
         file="hr_payroll_report/report/hr_payroll_report.mako"
-        string="Nomina del empleado"
+        string="Employee PaySlip"
         report_type="webkit"
        />
        
