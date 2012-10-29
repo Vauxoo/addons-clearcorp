@@ -37,38 +37,35 @@ class hr_payroll_report(report_sxw.rml_parse):
             'get_worked_lines': self.get_worked_lines,
             'get_payslip_lines':self.get_payslip_lines,
             'not_HE':self.not_HE,
+            'not_HN':self.not_HN,
         })
        
     def get_worked_lines(self,cr,uid, payslip_id,contract_structure,context=None):
         worked_line = self.pool.get('hr.payslip.worked_days')
         worked_lines_ids = worked_line.search(cr,uid,[('payslip_id','=',payslip_id)],context)
         worked_lines_object = worked_line.browse(cr,uid,worked_lines_ids,context=context)
-        worked_lines_list = []
-        res = {}
-        
-        for line in worked_lines_object:
-           if contract_structure == 'weekly' and line.code == 'HN':
-               worked_lines_list.append(line)
-           
-           if line.code == 'HE' and contract_structure != 'weekly':
-               worked_lines_list.append(line)
             
-           if line.code != 'HE' and line.code != 'HH':
-               worked_lines_list.append(line)
-
-        return worked_lines_list
+        return worked_lines_object
     
     def not_HE(self,cr,uid,worked_lines_list):
         flag = False
         
         for line in worked_lines_list:
-            if line.code == 'HE':
+            if line.code == 'HE' and line.number_of_hours > 0:
+                flag = True
+        return flag
+    
+    def not_HN(self,cr,uid,worked_lines_list):
+        flag = False
+        
+        for line in worked_lines_list:
+            if line.code == 'HN' and line.number_of_hours > 0:
                 flag = True
         return flag
     
     def get_payslip_lines (self,cr,uid,payslip_id,context=None):
         payslip_line = self.pool.get('hr.payslip.line')
-        payslip_lines_ids = payslip_line.search(cr,uid,[('slip_id','=',payslip_id)],context)
+        payslip_lines_ids = payslip_line.search(cr,uid,[('slip_id','=',payslip_id),('salary_rule_id.appears_on_payslip','=',True)],context)
         payslip_lines_object = payslip_line.browse(cr,uid,payslip_lines_ids,context=context)
         payslip_lines_list = []
         base = 0
@@ -78,13 +75,13 @@ class hr_payroll_report(report_sxw.rml_parse):
                 base = line.total
                 payslip_lines_list.append(line)
             
-            if line.code != 'BASE' and line.code != 'NETO':
+            if line.code != 'BASE' and line.code != 'BRUTO':
                 payslip_lines_list.append(line)
             
-            if line.code == 'NETO' and line.total != base:
+            if line.code == 'BRUTO' and line.total != base:
                 payslip_lines_list.append(line)
         
-        return payslip_lines_object
+        return payslip_lines_list
 
 #the parameters are the report name and module name 
 report_sxw.report_sxw( 'report.hr_payroll_payslip_inherit', 
