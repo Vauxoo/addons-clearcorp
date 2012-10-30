@@ -21,31 +21,4 @@
 ##############################################################################
 
 
-{
-    "name" : 'CLEARCORP Sale Order report',
-    "version" : '2.0',
-    "author" : 'CLEARCORP S.A.',
-    #easy, normal, expert
-    'complexity': 'normal',
-    "description": """
-Sale order report in webkit
-    """,
-    "category": 'Sales',
-    "sequence": 4,
-    "website" : "http://clearcorp.co.cr",
-    "images" : [],
-    "icon" : False,
-    "depends" : [
-        'sale_order_global_discount',
-        'sale_order_extended',
-        'report_webkit',
-        ],
-    "init_xml" : [],
-    "demo_xml" : [],
-    "update_xml" : ['ccorp_sale_webkit_report.xml'],
-    "test" : [],
-    "auto_install": False,
-    "application": False,
-    "installable": True,
-    'license': 'AGPL-3',
-}
+import sale_order_extended

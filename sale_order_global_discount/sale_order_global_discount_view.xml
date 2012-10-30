@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+	<data>
+		<record id="view_order_form_inherit" model="ir.ui.view">
+			<field name="name">sale.order.form.inherit</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_form"/>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<field name="price_subtotal" position="replace">
+						<field name="price_subtotal_not_discounted"/>
+				</field>
+				
+				<field name="amount_untaxed" position="replace">
+						<field name="amount_untaxed_not_discounted" sum="Untaxed amount(Not Discounted)"/>
+				</field>
+				
+				<field name="amount_tax" position="before">
+					<field name="amount_discounted"/>
+				</field>
+				
+			</field>
+		</record>
+	</data>
+</openerp>

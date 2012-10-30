@@ -1,0 +1,131 @@
+ .header {
+				padding : 200px 10px 5px 10px;
+				border:0; margin: 0;
+			}
+			.header-table {
+				width: 100%;
+				padding-top: 8%;
+			}
+			.partner-table {
+				width: 100%;
+				font-family: Arial,Verdana, Sans, Serif;
+				font-size: 12;
+			}
+
+			#data-table {
+				width: 100%;
+				padding-top: 20px;
+				font-family: Arial,Verdana, Sans, Serif;
+				font-size: 10;
+			}
+			#data-table th{
+				border-bottom:2px solid black;
+				text-align:center;
+				font-size:12;
+				font-weight:bold;
+                                /*
+				padding-right:3px;
+				padding-left:3px;
+*/
+			}
+			#data-table thead {
+				display:table-header-group;
+			}
+
+			.title {
+				font-size:16;
+				font-weight: bold;
+			}
+
+			td.company_logo{
+				padding-top: 12px;
+				padding-bottom: 5px;
+			}
+			.company_address{
+				width : 100%;
+				text-align: right;
+				font-family: Arial,Verdana, Sans, Serif;
+				font-size: 13;
+			}
+
+			.company_data {
+				width : 100%;
+				text-align: left;
+				font-family: Arial,Verdana, Sans, Serif;
+				font-size: 13;
+				
+			}
+			
+			.company_footer {
+				font-family: Arial,Verdana, Sans, Serif;
+				font-size: 8.4;
+				font-style : italic;
+			}
+			.footer {
+				border-top: 1px solid black; 
+				width: 100%;
+				border:0; margin: 0;
+				padding-bottom: 300px;
+			}
+
+			.data {
+				padding : 5px 10px 10px 10px;
+				border:0; margin: 0;
+			}
+
+			.footer_table {
+				width: 100%;
+				padding-bottom: 150px;
+				border-top: 1px solid black;
+			}
+			
+			.slogan {
+				font-family: Arial,Verdana, Sans, Serif;
+				font-size: 10;
+				font-style : italic;
+				color : #888888;
+			}
+			
+			#notes_table {
+				font-family: Arial,Verdana, Sans, Serif;
+				font-size: 12;
+				font-style : italic;
+				width:65%;
+				border-collapse:separate;
+				border-spacing:10px;
+			}
+			#notes_table td{
+				background-color: #eee;
+				padding: 10px
+			}
+			
+			.document_data {
+				font-family: Arial,Verdana, Sans, Serif;
+				font-size: 13;
+			}
+			
+			#data-table tbody tr.even td {
+				background-color: #eee;
+			}
+			#data-table tbody tr.odd  td {
+				background-color: #fff;
+			}
+			
+			.notes{
+				padding-top : 0px;
+				margin-left: 5px;
+				font-style : italic;
+			}
+			#desc_col{
+				width : 330px;
+			}
+			#desc_col_po{
+				width : 380px;
+			}
+			#responsibles_table td{
+				padding-top: 20px;
+				font-size: 12;
+			}
+			#custom_footer p{
+				font-size: 10;
+			}

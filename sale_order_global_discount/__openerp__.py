@@ -39,7 +39,7 @@ Customization from sale.order to apply global discounts
         'sale'],
     "init_xml" : [],
     "demo_xml" : [],
-    "update_xml" : [],
+    "update_xml" : ['sale_order_global_discount_view.xml'],
     "test" : [],
     "auto_install": False,
     "application": False,
