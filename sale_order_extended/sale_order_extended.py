@@ -21,31 +21,26 @@
 ##############################################################################
 
 
-{
-    "name" : 'CLEARCORP Sale Order report',
-    "version" : '2.0',
-    "author" : 'CLEARCORP S.A.',
-    #easy, normal, expert
-    'complexity': 'normal',
-    "description": """
-Sale order report in webkit
-    """,
-    "category": 'Sales',
-    "sequence": 4,
-    "website" : "http://clearcorp.co.cr",
-    "images" : [],
-    "icon" : False,
-    "depends" : [
-        'sale_order_global_discount',
-        'sale_order_extended',
-        'report_webkit',
-        ],
-    "init_xml" : [],
-    "demo_xml" : [],
-    "update_xml" : ['ccorp_sale_webkit_report.xml'],
-    "test" : [],
-    "auto_install": False,
-    "application": False,
-    "installable": True,
-    'license': 'AGPL-3',
-}
+from osv import osv
+from osv import fields
+import os
+import tools
+from tools.translate import _
+from tools.safe_eval import safe_eval as eval
+
+class res_company(osv.osv):
+      _inherit = 'res.company'
+      _columns =  {
+        'sale_order_footer': fields.text('Sale Order Footer'),
+        'show_sale_order_footer': fields.boolean('Show Sale Order Footer'),       
+            } 
+      _defaults = {
+        'show_sale_order_footer': False        
+            }
+      
+
+class sale_order(osv.osv):
+      _inherit = 'sale.order'
+      _columns =  {
+        'expiration_date': fields.date('Expiration date'),       
+            } 

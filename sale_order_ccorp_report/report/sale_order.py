@@ -49,6 +49,6 @@ class sale_order_ccorp(report_sxw.rml_parse):
 report_sxw.report_sxw(
     'report.sale.order.layout_ccorp',
     'sale.order',
-    'addons/ccorp_sale/report/sale_order.mako',
+    'addons/sale_order_ccorp_report/report/sale_order.mako',
     parser=sale_order_ccorp
 )

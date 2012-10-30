@@ -28,18 +28,21 @@
 						${formatLang(so.date_order, date=True)|entity}
 					%endif
 				</td>
-				<td>${_("ID Num.")}: ${so.partner_id.ref or '-'|entity}</td>
+				<td>${_("ID Num")}: ${so.partner_id.ref or '-'|entity}</td>
 			</tr>
 			<tr>
 				<td>${so.user_id.name or ''|entity}</td>
 				<td>${_("Phone")}:${so.partner_id.phone or '-'|entity}</td>
 			</tr>
 			<tr>
-				<td>${_("Ref.")}: ${so.client_order_ref != "" and so.client_order_ref or ''|entity}</td>
+				%if so.client_order_ref:
+					<td>${_("Ref.")}: ${so.client_order_ref != "" and so.client_order_ref or ''|entity}</td>
+				%endif
 				<td>${_("Email")}: ${so.partner_id.email or '-'|entity}</td>
 			</tr>
 			<tr>
 				<td>${_("Confirmation date")}: ${(so.date_confirm and formatLang(so.date_confirm,date=True)) or '-'|entity}</td>
+				<td>${_("Expiration date")}: ${(so.expiration_date and formatLang(so.expiration_date,date=True)) or '-'|entity}</td>
 				<td>&nbsp;</td><td>&nbsp;</td>
 			</tr>
 			<tr class = "zone_break"><td>&nbsp;</td><td>&nbsp;</td></tr>
@@ -57,14 +60,24 @@
 				<td>${(so.partner_shipping_id.state_id and format(so.partner_shipping_id.state_id.name) + (so.partner_shipping_id.country_id and ', ' or '') or '') + (so.partner_shipping_id.country_id and format(so.partner_shipping_id.country_id.name) or '')}</td>
 			</tr>
 		</table>
+		
 		<table id="data-table" cellspacing="3">
-			%if discount(so) != 0:
-				<thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Disc.(%)")}</th><th>${_("Unit Price")}</th><th>${_("Total Price")}</th></thead>
+			%if company.show_sale_order_footer :	
+				%if discount(so) != 0:
+					<thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Delay")}</th><th>${_("Disc.(%)")}</th><th>${_("Unit Price")}</th><th>${_("Total Price")}</th></thead>
+				%else:
+					<thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Delay")}</th><th>${_("Unit Price")}</th><th>${_("Total Price")}</th></thead>
+				%endif
 			%else:
-				<thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Unit Price")}</th><th>${_("Total Price")}</th></thead>
+				%if discount(so) != 0:
+					<thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Disc.(%)")}</th><th>${_("Unit Price")}</th><th>${_("Total Price")}</th></thead>
+				%else:
+					<thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Unit Price")}</th><th>${_("Total Price")}</th></thead>
+				%endif
 			%endif
+		
 		<tbody>
-		<%i = 0 %>
+		<%i = 0%>
 		%for line in so.order_line :
 			%if i% 2 == 0:
 				<tr class = "even">
@@ -73,6 +86,9 @@
 			%endif
 				<td valign = "top">${formatLang(line.product_uom_qty)} ${format(line.product_uom.name)}</td>
 				<td valign = "top" id="desc_col">${line.name} ${line.tax_id != [] and (' / (' + (', '.join([ lt.description for lt in line.tax_id ])) + ')') or ''|entity}
+				%if company.show_sale_order_footer:
+					<td valign = "top" style="text-align:right;">${int(line.delay)}d</td>
+				%endif
 					%if line.notes :
 						<br/><span class = "notes"><b>${_("Note")}:</b> ${format(line.notes)}</span>
 					%endif
@@ -81,18 +97,32 @@
 					<td valign = "top">${line.discount and formatLang(line.discount) + '%' or '-'}</td>
 				%endif
 				<td valign = "top" style="text-align:right;">${so.pricelist_id.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_unit)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity }</td>
-				<td valign = "top" style="text-align:right;">${so.pricelist_id.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_subtotal)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity }</td>
+				<td valign = "top" style="text-align:right;">${so.pricelist_id.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_subtotal_not_discounted)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity }</td>
 			</tr>
 		<%i +=1%>
-		%endfor
+		%endfor		
 		%if discount(so) != 0:
-			<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_untaxed)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
-			<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Taxes")}:</b></td><td style="text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_tax)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
-			<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Total")}:</b></td><td style="text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_total)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
+			%if company.show_sale_order_footer :
+				<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_untaxed_not_discounted)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
+				<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Taxes")}:</b></td><td style="text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_tax)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
+				<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Discount")}:</b></td><td style="text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_discounted)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
+				<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Total")}:</b></td><td style="text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_untaxed_not_discounted + so.amount_tax - so.amount_discounted )} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
+			%else:
+				<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_untaxed_not_discounted)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
+				<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Taxes")}:</b></td><td style="text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_tax)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
+				<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Discount")}:</b></td><td style="text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_discounted)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
+				<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Total")}:</b></td><td style="text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_untaxed_not_discounted + so.amount_tax - so.amount_discounted )} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
+			%endif
 		%else:
-			<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_untaxed)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
-			<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Taxes")}:</b></td><td style="text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_tax)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
-			<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Total")}:</b></td><td style="text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_total)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
+			%if company.show_sale_order_footer :
+				<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_untaxed_not_discounted)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
+				<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Taxes")}:</b></td><td style="text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_tax)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
+				<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Total")}:</b></td><td style="text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_untaxed_not_discounted + so.amount_tax)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
+			%else:
+				<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_untaxed_not_discounted)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
+				<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Taxes")}:</b></td><td style="text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_tax)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
+				<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Total")}:</b></td><td style="text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_untaxed_not_discounted + so.amount_tax)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
+			%endif
 		%endif
 		</tbody>
 		</table>
@@ -104,6 +134,17 @@
 				<tr><td><b>${_("Payment Note")}:</b>${format(so.payment_term and so.payment_term.note)}</td></tr>
 			%endif
 		</table>
+		<br>
+		<br>
+		<table id="responsibles_table">
+			<tr><td style="border-top:1px solid"><b>${_("Realized by")}:</b> ${so.user_id.name}</td><td style="border-style:none"/><td style="border-top:1px solid"><b>${_("Authorized by")}:_________________</b></td></tr>	
+			<!--<tr><td style="border-style:none"> ${company.sale_order_footer}</td><td style="border-style:none"/></tr>-->
+		</table>
+		%if company.show_sale_order_footer :
+			<div id="custom_footer">
+				<p>${company.sale_order_footer}</p>
+			<div/>
+		%endif
 	</div>
 	<p style="page-break-after:always"></p>
 %endfor
