@@ -881,7 +881,8 @@ class rent_rent(osv.osv):
         if type=='rent':
             if not first_inv:
                 date_due = (obj_rent.rent_invoiced_day < obj_rent.rent_charge_day and date(today.year,today.month,1) or (today.replace(day=1) + timedelta(days=32)).replace(day=1))
-                date_due = date_due.replace(day=obj_rent.rent_charge_day + obj_rent.rent_grace_period)
+                #It should remove the first day of the month to avoid altering the date (-1)
+                date_due = date_due + timedelta(days=(obj_rent.rent_charge_day + obj_rent.rent_grace_period - 1))
             else:
                 date_due = today +  timedelta(days=obj_rent.rent_grace_period)
         elif type == 'main':
