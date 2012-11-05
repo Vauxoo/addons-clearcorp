@@ -28,13 +28,16 @@ class AccountMulticompanyRelation(orm.Model):
     _description = "Account multicompany relation"
 
     _columns = {
-        'name':fields.char('Name',size=64,required=True,help='Name for the mirror object relation'),
-        'origin_account':fields.many2one('account.account','Original Account',required=True,help='Indicate the original account where the transaction is taking place'),
-        'targ_account':fields.many2one('account.account','Target Account',required=True,help='Indicate the target account where the transaction of the original account has to be seen, this is an account from another company'),
-        'origin_journal':fields.many2one('account.journal','Original Journal',required=True,help='Indicate the original journal where the transaction is taking place'),
-        'targ_journal':fields.many2one('account.journal','Target Journal',required=True,help='Indicate the original account where the transaction is taking place'),
-        'origin_analytic_account':fields.many2one('account.analytic.account','Original Analytic Account',required=False,help='Indicate the original analytic account where the transaction is taking place'),
-        'targ_analytic_account':fields.many2one('account.analytic.account','Target Analytic Account',required=False,help='Indicate the target analytic account where the transaction of the original analytic account has to be seen, this is an analytic account from another company'),
+        'name':fields.char('Name',size=64,required=True,help='Name for the mirror move relation'),
+        'origin_account':fields.many2one('account.account','Origin Account',required=True,help='Indicate the origin move line account where the transaction is taking place.'),
+        'targ_account':fields.many2one('account.account','Target Account',required=True,help='Indicate the target move line account that the mirror move will affect, this account can be in another company.'),
+        'origin_journal':fields.many2one('account.journal','Original Journal',required=True,help='Indicate the origin journal where the transaction is taking place.'),
+        'targ_journal':fields.many2one('account.journal','Target Journal',required=True,help='Indicate the target journal where the mirror move will be created, this journal can be in another company.'),
+        'origin_analytic_account':fields.many2one('account.analytic.account','Origin Analytic Account',required=False,help='Indicate the origin analytic account where the transaction is taking place. Optional.'),
+        'targ_analytic_account':fields.many2one('account.analytic.account','Target Analytic Account',required=False,help='Indicate the target analytic account that the mirror move line will have, this analytic account can be in another company.'),
+        'mirror_move_prefix':fields.char('Move prefix',size=32,required=True,help='Prefix for the mirror move name.'),
+        'inverse_debit_credit':fields.boolean('Inverse debit/credit',help='If set, the debit/credit from the origin move line will be inverted in the target move line. For example, a debit line affecting the origin account in the origin move, will result in a target move with a credit line affecting the target account on the target move.'),
+        'notes':fields.text('Notes'),
     }
 
     _sql_constraints = [
@@ -140,7 +143,9 @@ class AccountMove(orm.Model):
             if original_move.line_id:
                 mirror_selected = False
                 for line in original_move.line_id:
+                    #Test if the line already has a mirror move associated
                     if line.move_mirror_rel_id:
+                        #Reverse the mirror move if the original move is reversed
                         if original_move.move_reverse_id:
                             account_move_obj.reverse(cr, 1, [line.move_mirror_rel_id.id], context={})
                         continue
@@ -173,6 +178,8 @@ class AccountMove(orm.Model):
                             origin_account = mirror_selected.origin_account
                             targ_journal =  mirror_selected.targ_journal
                             targ_account = mirror_selected.targ_account
+                            inverse_debit_credit = mirror_selected.inverse_debit_credit
+                            mirror_move_prefix = mirror_selected.mirror_move_prefix
                         else:
                             continue
 
@@ -188,7 +195,7 @@ class AccountMove(orm.Model):
                             move_period = periods[0]
 
                         move = {
-                            'name':'MCR: ' + original_move.name,
+                            'name':mirror_move_prefix + original_move.name,
                             'ref':original_move.ref,
                             'journal_id':targ_journal.id,
                             'period_id':move_period or False,
@@ -207,8 +214,8 @@ class AccountMove(orm.Model):
         
                         move_line_one = {
                             'name':line.name,
-                            'debit':line.credit,
-                            'credit':line.debit,
+                            'debit':inverse_debit_credit and line.credit or line.debit,
+                            'credit':inverse_debit_credit and line.debit or line.credit,
                             'account_id':targ_account.id,
                             'move_id': move_id,
                             'amount_currency':line.amount_currency * -1,
@@ -232,8 +239,8 @@ class AccountMove(orm.Model):
 
                         move_line_two = {
                                          'name':line.name,
-                                         'debit':line.debit,
-                                         'credit':line.credit,
+                                         'debit':inverse_debit_credit and line.debit or line.credit,
+                                         'credit':inverse_debit_credit and line.credit or line.debit,
                                          'account_id':move_line_two_account_id.id,
                                          'move_id': move_id,
                                          'amount_currency':line.amount_currency,
@@ -245,7 +252,7 @@ class AccountMove(orm.Model):
                                          'date':line.date,
                                          'date_created':line.date_created,
                                          'state':'valid',
-                                         'analytic_account_id':analytic_account_id,
+                                         'analytic_account_id':False,
                                          'company_id':targ_account.company_id.id,
                                          }
                         account_move_line_obj.create(cr, 1, move_line_two)
