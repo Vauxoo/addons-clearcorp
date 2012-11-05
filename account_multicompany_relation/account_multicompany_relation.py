@@ -211,11 +211,17 @@ class AccountMove(orm.Model):
                         analytic_account_id = ''
                         if line.analytic_account_id and line.analytic_account_id == mirror_selected.origin_analytic_account:
                             analytic_account_id = mirror_selected.targ_analytic_account.id
-        
+
+                        if inverse_debit_credit:
+                            line_debit = line.credit
+                            line_credit = line.debit
+                        else:
+                            line_debit = line.debit
+                            line_credit = line.credit
                         move_line_one = {
                             'name':line.name,
-                            'debit':inverse_debit_credit and line.credit or line.debit,
-                            'credit':inverse_debit_credit and line.debit or line.credit,
+                            'debit':line_debit,
+                            'credit':line_credit,
                             'account_id':targ_account.id,
                             'move_id': move_id,
                             'amount_currency':line.amount_currency * -1,
@@ -239,8 +245,8 @@ class AccountMove(orm.Model):
 
                         move_line_two = {
                                          'name':line.name,
-                                         'debit':inverse_debit_credit and line.debit or line.credit,
-                                         'credit':inverse_debit_credit and line.credit or line.debit,
+                                         'debit':line_credit,
+                                         'credit':line_debit,
                                          'account_id':move_line_two_account_id.id,
                                          'move_id': move_id,
                                          'amount_currency':line.amount_currency,
