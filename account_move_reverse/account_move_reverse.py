@@ -46,7 +46,6 @@ class AccountMove(orm.Model):
                     raise osv.except_osv(_('Error !'), _('You can not modify a posted entry of this journal !\nYou should set the journal to allow cancelling reversed entries if you want to do that.'))
                 
                 move_reverse = self.browse(cr, uid, move.move_reverse_id.id, context=context)
-                line.move_mirror_rel_id
                 for line_reverse in move_reverse.line_id:
                     if line_reverse.reconcile_id:
                         self.pool.get('account.move.reconcile').unlink(cr,uid,[line_reverse.reconcile_id.id],context=context)
