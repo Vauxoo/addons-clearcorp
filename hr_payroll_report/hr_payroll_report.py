@@ -20,5 +20,16 @@
 #
 ##############################################################################
 
-import report
-import hr_payroll_report
+from osv import fields,osv
+
+class res_company(osv.osv):
+    _name = 'res.company'
+    _inherit = 'res.company'
+    
+    _columns = {
+            'payslip_footer':fields.text('Payslip footer'),
+    }
+res_company()
+    
+    
+    

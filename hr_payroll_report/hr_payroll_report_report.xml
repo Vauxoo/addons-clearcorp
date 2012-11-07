@@ -8,8 +8,23 @@
         name="hr_payroll_payslip_inherit"
         file="hr_payroll_report/report/hr_payroll_report.mako"
         string="Employee PaySlip"
-        report_type="webkit"
-       />
-       
+        report_type="webkit" />
+              
+       <record id="view_company_form_inherit" model="ir.ui.view">
+            <field name="name">res.company.form.inherit</field>
+            <field name="model">res.company</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <data>                
+                    <page string="Internal Header/Footer" position="after">
+                        <page string="Configuration Report" groups="base.group_extended">
+                            <field colspan="2" name="payslip_footer"/>
+                        </page>
+                    </page>
+                </data>
+            </field>
+        </record>       
     </data>
 </openerp>
+
