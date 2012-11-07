@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 6.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-29 17:11+0000\n"
-"PO-Revision-Date: 2012-10-29 17:11+0000\n"
+"POT-Creation-Date: 2012-11-07 15:51+0000\n"
+"PO-Revision-Date: 2012-11-07 15:51+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,115 +16,140 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: hr_payroll_report
-#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:121
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:131
 msgid "Category"
 msgstr "Categoría"
 
 #. module: hr_payroll_report
-#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:98
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:108
 msgid "DONT EXIST EXTRA HOURS REGISTRED"
 msgstr "NO EXISTEN HORAS EXTRA REGISTRADAS"
 
 #. module: hr_payroll_report
-#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:74
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:84
 msgid "Quantity of hours"
 msgstr "Cantidad de horas"
 
 #. module: hr_payroll_report
-#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:49
-msgid "ID card"
-msgstr "Cédula"
+#: constraint:res.company:0
+msgid "Error! You can not create recursive companies."
+msgstr "¡Error! No puede crear compañías recursivas."
 
 #. module: hr_payroll_report
-#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:80
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:90
 msgid "Number of days"
 msgstr "Número de días"
 
 #. module: hr_payroll_report
-#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:106
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:116
 msgid "DONT EXIST NORMAL HOURS REGISTRED"
 msgstr "NO EXISTEN HORAS NORMALES REGISTRADAS"
 
 #. module: hr_payroll_report
-#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:55
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:76
 msgid "Salary structure"
 msgstr "Estructura de salario"
 
 #. module: hr_payroll_report
-#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:50
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:56
 msgid "Bank account"
 msgstr "Cuenta en la que se deposita el salario"
 
 #. module: hr_payroll_report
-#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:81
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:91
 msgid "Number of hours"
 msgstr "Número de horas"
 
 #. module: hr_payroll_report
-#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:54
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:72
 msgid "Date to"
 msgstr "Fecha final"
 
 #. module: hr_payroll_report
-#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:51
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:60
 msgid "Job"
 msgstr "Puesto"
 
 #. module: hr_payroll_report
-#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:150
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:132
+msgid "Base"
+msgstr "Base"
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:158
 msgid "Received and accepted: "
 msgstr "Recibido conforme: "
 
 #. module: hr_payroll_report
+#: sql_constraint:res.company:0
+msgid "The company name must be unique !"
+msgstr "¡El nombre de la compañía debe ser único!"
+
+#. module: hr_payroll_report
 #: report:addons/hr_payroll_report/report/hr_payroll_report.mako:48
-#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:78
-#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:119
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:88
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:129
 msgid "Name"
 msgstr "Nombre"
 
 #. module: hr_payroll_report
-#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:115
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:52
+msgid "ID card"
+msgstr "Cédula"
+
+#. module: hr_payroll_report
+#: model:ir.model,name:hr_payroll_report.model_res_company
+msgid "Companies"
+msgstr "Compañías"
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:125
 msgid "Salary Computation"
 msgstr "Cálculo de nómina"
 
 #. module: hr_payroll_report
-#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:124
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:133
 msgid "Amount"
 msgstr "Monto"
 
 #. module: hr_payroll_report
-#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:122
-msgid "Quantity"
-msgstr "Cantidad"
+#: view:res.company:0
+msgid "Configuration Report"
+msgstr "Configuración de reporte"
 
 #. module: hr_payroll_report
-#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:79
-#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:120
+#: view:res.company:0
+msgid "Header/Footer"
+msgstr "Cabecera / Pie de página"
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:89
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:130
 msgid "Code"
 msgstr "Código"
 
 #. module: hr_payroll_report
-#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:52
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:64
 msgid "Reference"
 msgstr "Referencia"
 
 #. module: hr_payroll_report
-#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:123
-msgid "Rate"
-msgstr "Impuesto"
-
-#. module: hr_payroll_report
-#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:53
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:68
 msgid "Date from"
 msgstr "Fecha inicial"
 
 #. module: hr_payroll_report
-#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:153
+#: field:res.company,payslip_footer:0
+msgid "Payslip footer"
+msgstr "Pie de página Reporte Nómina de Empleado"
+
+#. module: hr_payroll_report
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:161
 msgid "ID card: "
 msgstr "Cédula: "
 
 #. module: hr_payroll_report
-#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:125
+#: report:addons/hr_payroll_report/report/hr_payroll_report.mako:134
 msgid "Total"
 msgstr "Total"
 
