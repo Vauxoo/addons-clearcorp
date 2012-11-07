@@ -245,4 +245,30 @@ class AccountWebkitReportLibrary(orm.Model):
         
         return res
 
+    def get_account_child_ids(self, cr, uid, account):
+        child_account_ids = []
+        account_account_obj = self.pool.get('account.account')
+        for account in accounts:
+            if account.child_id:
+                for child_account in account.child_id:
+                    child_account_ids.append(self.get_account_child_ids(cr, uid, child_account)
+        return child_account_ids
+        
+    def get_category_accounts(self, cr, uid, company_id):
+        account_account_obj = self.pool.get('account.account')
+        res_company_obj = self.pool.get('res.company')
+        company = res_company_obj.browse(cr, uid, company_id)
+        if company:
+            asset_category_account_id = company['property_asset_view_account']
+            liability_category_account_id = company['property_liability_view_account']
+            equity_category_account_id = company['property_equity_view_account']
+            income_category_account_id = company['property_income_view_account']
+            expense_category_account_id = company['property_expense_view_account']
+        return {
+            'asset':        asset_category_account_id,
+            'liability':    liability_category_account_id,
+            'equity':       equity_category_account_id,
+            'income':       income_category_account_id,
+            'expense':      expense_category_account_id,
+        }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
