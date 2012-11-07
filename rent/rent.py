@@ -919,7 +919,7 @@ class rent_rent(osv.osv):
             'currency_id': (type == 'rent' and obj_rent.currency_id.id or obj_rent.main_currency_id.id),
             'address_invoice_id': obj_client.address[0].id,
             'address_contact_id': obj_client.address[0].id,
-            'journal_id': len(journal_ids) and journal_ids[0] or False,
+            #'journal_id': len(journal_ids) and journal_ids[0] or False,
             'origin': obj_rent.name or desc,
             'invoice_line': il,
             'fiscal_position': obj_client.property_account_position.id,
@@ -928,6 +928,7 @@ class rent_rent(osv.osv):
             'date_invoice' : inv_date or today,
             'date_due' : date_due,
             'period_id' : period_id or False,
+            'journal_id': obj_rent.journal_id.id or False,
         }
         inv_id = self.pool.get('account.invoice').create(cr, uid, inv, {'type':'out_invoice'})
         self.pool.get('account.invoice').button_compute(cr, uid, [inv_id], {'type':'out_invoice'}, set_total=True)
@@ -1433,8 +1434,9 @@ class rent_rent(osv.osv):
         return {'value' : res}
     
     _columns = {
+        'journal_id'            :fields.many2one('account.journal', 'Journal',required=True,states={'finished':[('readonly',True)]}),
         'name'                  : fields.char('Name',size=64,required=True,states={'finished':[('readonly',True)]}),
-        'ref'                  : fields.char('Reference',size=64,states={'finished':[('readonly',True)]}),
+        'ref'                   : fields.char('Reference',size=64,states={'finished':[('readonly',True)]}),
         'rent_rent_client_id'   : fields.many2one('res.partner','Client', required=True, states={'finished':[('readonly',True)]}),
         'rent_end_date'         : fields.date('Ending Date', required=True, states={'finished':[('readonly',True)]}),
         'rent_ending_motif'     : fields.selection([('early','Early Return'),('expiration','Contract Expiration'),('eviction','No payment eviction'), ('others','Various problems with tenant')],'Ending Motif'),
