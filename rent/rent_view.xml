@@ -751,6 +751,7 @@
                         <group colspan = "2" col = "6">
                             <field name = "rent_main_inc"/>
                             <field name = "company_id"/>
+                            <field name = "journal_id"/>
                         </group>
                     </group>
                     <notebook>
