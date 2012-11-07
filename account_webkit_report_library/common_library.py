@@ -154,26 +154,94 @@ class AccountWebkitReportLibrary(orm.Model):
                     
         return move_lines_ids
     
-    def get_account_balance(self, cr, uid, account_ids, field_names, arg=None, context=None,
-                    start_period_id=None, end_period_id=None, period_ids=[], fiscal_year_id=None,
-                    query='', query_params=()):
-        ''' Get the balance for the provided account ids
+    def get_account_balance(self, cr, uid,
+                            account_ids,
+                            field_names,
+                            initial_balance=False,
+                            company_id=False,
+                            fiscal_year_id=False,
+                            all_fiscal_years=False,
+                            state='all',
+                            start_date=False,
+                            end_date=False,
+                            start_period_id=False,
+                            end_period_id=False,
+                            period_ids=False,
+                            journal_ids=False,
+                            chart_account_id=False,
+                            context={}):
+        ''' Get the balance for the provided account ids with the provided filters
         Arguments:
-        `ids`: account ids
-        `field_names`: the fields to compute (a list of any of
-                       'balance', 'debit' and 'credit')
-        `arg`: unused fields.function stuff
+        account_ids:        [int], required, account ids
+        field_names:        ['balance', 'debit', 'credit', 'foreign_balance'], the fields to compute
+        initial_balance:    bool, True if the return must be the initial balance for the period of time specified, not the ending balance.
+        company_id:         int, id for the company
+        fiscal_year_id:     int, id for the fiscal year
+        all_fiscal_years:   bool, True if all fiscal years must be used, including the closed ones. (usefull for receivable for ex.)
+        state:              selection of: draft, posted, all; the state of the move lines used in the calculation
+        start_date:         date string, start date
+        end_date:           date string, end date
+        start_period_id:    int, start period id
+        end_period_id:      int, end period id
+        period_ids:         list of int, list of periods ids used
+        journal_ids:        list of int, list of journal ids used
+        chart_account_id:   int, chart of account used
+        
+        If there is an end_period without a start_period, all precedent moves for the end period will be used.
+        If there isn't a fiscal year, all open fiscal years will be used. To include all closed fiscal years, the all_fiscal_years must be True.
+        '''
+        account_obj = self.pool.get('account.account')
+        if initial_balance:
+            context.update({'initial_bal':initial_balance})
+        if company_id:
+            context.update({'company_id':company_id})
+        if fiscal_year_id:
+            context.update({'fiscalyear':fiscal_year_id})
+        if all_fiscal_years:
+            context.update({'all_fiscalyear':all_fiscal_years})
+        if state:
+            context.update({'state':state})
+        if start_date:
+            context.update({'date_from':start_date})
+        if end_date:
+            context.update({'date_to':end_date})
+        if start_period_id:
+            context.update({'period_from':start_period_id})
+        if end_period_id:
+            context.update({'period_to':end_period_id})
+        if period_ids:
+            context.update({'periods':period_ids})
+        if journal_ids:
+            context.update({'journal_ids':journal_ids})
+        if chart_account_id:
+            context.update({'chart_account_id':chart_account_id})
+        '''
+        Description for the __compute method:
+        Get the balance for the provided account ids with the provided filters
+        Arguments:
+        `account_ids`: list, account ids
+        `field_names`: list, the fields to compute (valid values:
+                       'balance', 'debit', 'credit', foreign_balance)
         `query`: additional query filter (as a string)
         `query_params`: parameters for the provided query string
                         (__compute will handle their escaping) as a
                         tuple
         'context': The context have the filters for the move lines, to see the proper keys and values that should be used check
                    the method _query_get of account_move_line
+                   initial_bal:         bool, True if the return must be the initial balance for the period of time specified, not the ending balance.
+                   company_id:          int, id for the company, if provided only moves for that company will be used
+                   fiscalyear:          int, id for the fiscal year, if provided only moves for that fiscal year will be used
+                   all_fiscalyear:      bool, True if all fiscal years must be used, including the closed ones. (usefull for receivable for ex.)
+                   state:               selection of: draft, posted, all; the state of the move lines used in the calculation
+                   date_from:           date string, start date
+                   date_to:             date string, end date
+                   period_from:         int, start period id
+                   period_to:           int, end period id
+                   periods:             list of int, list of periods ids used
+                   journal_ids:         list of int, list of journal ids used
+                   chart_account_id:    int, chart of account used
         '''
-        account_obj = self.pool.get('account.account')
-        
-        res = account_obj._account_account__compute(cr, uid, account_ids, field_names, arg=arg, context=context,
-                    query=query, query_params=query_params)
+        res = account_obj._account_account__compute(cr, uid, account_ids, field_names, context=context)
         
         return res
 
