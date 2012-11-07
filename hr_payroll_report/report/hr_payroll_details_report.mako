@@ -148,24 +148,6 @@
                     %endfor
                 </div>  
             </div>    
-        <br></br> <br></br> <br></br> <br></br> <br></br><br></br><br></br>
-        <div class="act_as_table data_table" style="margin-top:30px">
-            <div class="act_as_tbody">            
-                <div class="act_as_row" style="vertical-align: bottom">
-                   <div style="padding-bottom:5px">___________________________________________________________</div>
-                </div>
-                <div class="act_as_row" style="vertical-align: bottom">
-                    <div style="padding-bottom:5px"> ${_('Received and accepted: ')}${payslip.employee_id.name}</div>
-                </div>
-                <div class="act_as_row" style="vertical-align: bottom">
-                    <div style="padding-bottom:5px">${_('ID card: ')}${payslip.employee_id.ssnid}</div>
-                </div>
-                <br></br> <br></br><br></br><br></br>
-                 <div class="act_as_row" style="text-align:justify;text-justify:inter-word;">
-                    <div style="padding-bottom:5px">${company.payslip_footer or ''}</div>
-                </div>
-            </div>
-        </div>
         %endfor        
     </div>   
     <p style="page-break-after:always"></p>        
