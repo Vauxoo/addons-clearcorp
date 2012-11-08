@@ -250,7 +250,7 @@ class AccountWebkitReportLibrary(orm.Model):
         account_account_obj = self.pool.get('account.account')
         if account.child_id:
             for child_account in account.child_id:
-                child_account_ids.append(self.get_account_child_ids(cr, uid, child_account))
+                child_account_ids += self.get_account_child_ids(cr, uid, child_account)
         return child_account_ids
         
     def get_category_accounts(self, cr, uid, company_id):
