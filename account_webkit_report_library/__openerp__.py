@@ -36,7 +36,8 @@ It is ment to be used in other modules, it doesn't do anything on its own.
     'init_xml': [],
     'demo_xml' : [],
     'update_xml': [
-                   ],
+        'res_company_view.xml',
+    ],
     'test': [],
     'active': False,
     'installable': True,
