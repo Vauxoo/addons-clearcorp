@@ -246,6 +246,7 @@ class AccountWebkitReportLibrary(orm.Model):
         return res
 
     def get_account_child_ids(self, cr, uid, account):
+        print 'get_account_child_ids', account
         child_account_ids = []
         account_account_obj = self.pool.get('account.account')
         if account.child_id:
