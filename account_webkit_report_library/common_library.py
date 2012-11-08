@@ -243,9 +243,6 @@ class AccountWebkitReportLibrary(orm.Model):
                    journal_ids:         list of int, list of journal ids used
                    chart_account_id:    int, chart of account used
         '''
-        print 'get_account_balance'
-        print context
-        print account_ids
         res = account_obj._account_account__compute(cr, uid, account_ids, field_names, context=context)
         context = context_copy
         
