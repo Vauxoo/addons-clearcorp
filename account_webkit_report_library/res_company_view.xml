@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+       <record id="view_company_form_inherit" model="ir.ui.view">
+            <field name="name">res.company.form.inherit</field>
+            <field name="model">res.company</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.view_company_inherit_1_form"/>
+            <field name="arch" type="xml">
+                <data>                
+                    <field name="property_reserve_and_surplus_account" position="after">
+                        <field name="property_asset_view_account"/>
+                        <field name="property_liability_view_account"/>
+                        <field name="property_equity_view_account"/>
+                        <field name="property_income_view_account"/>
+                        <field name="property_expense_view_account"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+    </data>
+</openerp>
+
