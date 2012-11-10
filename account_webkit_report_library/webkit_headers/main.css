@@ -1,0 +1,148 @@
+/* Generic styles */
+
+body {
+    font-family: Helvetica, Arial;
+    color: black;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    width: 11in;
+    height: 8.5in;
+}
+
+/* div table structure */
+
+.table {
+    display: table;
+    width: 100%;
+    table-layout: auto;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 12px;
+}
+
+.table-row  {
+    display: table-row;
+}
+
+.table-cell {
+    display: table-cell;
+    padding-right: 3px;
+    padding-left: 3px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.table-header {
+    display: table-header-group;
+}
+
+.table-body {
+    display: table-row-group;
+}
+
+.table-footer {
+    display: table-footer-group;
+}
+
+.table-caption {
+    display: table-caption;
+}
+
+.table-colgroup {
+    display: table-column-group;
+}
+
+.table-rowgroup {
+    display: table-row-group;
+    page-break-after: avoid;
+}
+
+/* list-table styles */
+
+.list-table, .list-table .table-row {
+    border-left: 0px;
+    border-right: 0px;
+}
+
+.list-table .table-cell {
+    border: 1px solid lightGrey;
+    text-align: center;
+}
+
+.list_table .act_as_cell{
+    padding-left: 5px;
+    padding-right: 5px;
+    border-left: 1px solid lightGrey;
+    border-right: 1px solid lightGrey;
+}
+.list_table .act_as_cell.first_column {
+    padding-left: 0px;
+    border-left:0px solid lightGrey;
+}
+.list_table .act_as_cell.last_column {
+    padding-right: 0px;
+    border-right:0px solid lightGrey;
+}
+
+/* Table cell styles */
+
+.table .table-row.labels {
+    border-color:gray;
+    border-bottom:1px solid lightGrey;
+    background-color: #555555;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.table .table-row.initial-balance {
+    font-style:italic;
+}
+
+.table .table-row.subtotal {
+    border-color:gray;
+    border-bottom:1px solid lightGrey;
+    background-color: #CCCCCC;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.table .table-row.total {
+    border-top: 1px ridge black;
+    border-bottom: 3px double black;
+    background-color: #777777;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.act_as_cell.main_result {
+    font-weight: bold;
+}
+
+.table .table-row.no-break {
+    page-break-after: avoid;
+}
+
+
+/* Text styles */
+
+.overflow-ellipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.align-left {
+    text-align: left;
+}
+
+.amount {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.no-wrap {
+    white-space: nowrap;
+}
