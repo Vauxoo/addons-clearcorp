@@ -85,6 +85,19 @@ body {
     border-right:0px solid lightGrey;
 }
 
+/* Footer table styles */
+
+.table.footer {
+    border-top: 1px solid #AAAAAA;
+    width: 100%;
+    font-size: 10px;
+    color: #777777;
+}
+
+.table.footer .table-row {
+    border-collapse:collapse;
+}
+
 /* Table cell styles */
 
 .table .table-row.labels {
@@ -136,6 +149,14 @@ body {
 
 .align-left {
     text-align: left;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.align-right {
+    text-align: right;
 }
 
 .amount {

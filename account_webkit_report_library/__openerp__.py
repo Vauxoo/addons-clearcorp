@@ -37,6 +37,7 @@ It is ment to be used in other modules, it doesn't do anything on its own.
     'demo_xml' : [],
     'update_xml': [
         'res_company_view.xml',
+        'webkit_headers/webkit_headers.xml',
     ],
     'test': [],
     'active': False,
