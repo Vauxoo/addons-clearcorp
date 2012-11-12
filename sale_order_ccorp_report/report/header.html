@@ -33,7 +33,7 @@
                                 <td>${company.partner_id.address[0].street or ''|entity}</td>
                             </tr>
                             <tr>
-                                <td>${_("Tel-fax")}: ${company.partner_id.address[0].phone or '-'|entity}</td>
+                                 <td>${_("Tel-fax")}: ${company.partner_id.address[0].phone or '-'|entity} - ${company.partner_id.address[0].fax or '-'|entity}</td>
                                 <td>${company.partner_id.address[0].zip or ''|entity} ${company.partner_id.address[0].city or ''|entity}</td>
                             </tr>
                             <tr>
