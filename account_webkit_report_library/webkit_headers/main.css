@@ -102,7 +102,6 @@ body {
 }
 
 .table.header .table-cell p.company {
-    width: 100%;
     padding: 0px 5px 3px 5px;
     font-size: 14px;
     font-weight: bold;
@@ -167,6 +166,10 @@ body {
 
 .table .table-row.no-break {
     page-break-after: avoid;
+}
+
+.table .table-row.bold {
+    font-weight: bold;
 }
 
 /* Text styles */
