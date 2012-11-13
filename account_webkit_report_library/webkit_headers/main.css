@@ -101,20 +101,20 @@ body {
     padding: 0px 10px 5px 0px;
 }
 
-.table.header .table-cell.company {
+.table.header .table-cell p.company {
     width: 100%;
     padding: 0px 5px 3px 5px;
     font-size: 14px;
     font-weight: bold;
 }
 
-.table.header .table-cell.title {
+.table.header .table-cell p.title {
     padding: 3px 5px 3px 5px;
     font-size: 20px;
     font-weight: bold;
 }
 
-.table.header .table-cell.subtitle {
+.table.header .table-cell p.subtitle {
     padding: 3px 5px 0px 5px;
     font-size: 16px;
     font-weight: bold;
