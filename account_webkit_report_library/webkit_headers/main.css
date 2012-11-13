@@ -90,6 +90,11 @@ body {
 .table.header {
     border: 0px;
     text-align: middle;
+    border-bottom: 1px solid lightGray;
+}
+
+.table.header .table-row {
+    border: 0px;
 }
 
 .table.header .table-cell.logo {
