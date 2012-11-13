@@ -272,6 +272,7 @@ class AccountWebkitReportLibrary(orm.Model):
         return res
 
     def get_account_child_ids(self, cr, uid, account_ids, context={}):
+        print account_ids
         if not isinstance(account_ids, list):
             account_ids = [account_ids]
         return self.pool.get('account.account')._get_children_and_consol(cr, uid, account_ids, context=context)
