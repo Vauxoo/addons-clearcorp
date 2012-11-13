@@ -247,6 +247,28 @@ class AccountWebkitReportLibrary(orm.Model):
         context = context_copy
         
         return res
+        
+    def get_balance_tmp(self, cr, uid, account_ids, field_names, arg=None, context=None,
+                    query='', query_params=()):
+        ''' Get the balance for the provided account ids
+        Arguments:
+        `ids`: account ids
+        `field_names`: the fields to compute (a list of any of
+                       'balance', 'debit' and 'credit')
+        `arg`: unused fields.function stuff
+        `query`: additional query filter (as a string)
+        `query_params`: parameters for the provided query string
+                        (__compute will handle their escaping) as a
+                        tuple
+        'context': The context have the filters for the move lines, to see the proper keys and values that should be used check
+                   the method _query_get of account_move_line
+        '''
+        account_obj = self.pool.get('account.account')
+        
+        res = account_obj._account_account__compute(cr, uid, account_ids, field_names, arg=arg, context=context,
+                    query=query, query_params=query_params)
+        
+        return res
 
     def get_account_child_ids(self, cr, uid, account_ids, context={}):
         if not isinstance(account_ids, list):
