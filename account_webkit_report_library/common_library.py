@@ -191,7 +191,7 @@ class AccountWebkitReportLibrary(orm.Model):
         If there isn't a fiscal year, all open fiscal years will be used. To include all closed fiscal years, the all_fiscal_years must be True.
         '''
         account_obj = self.pool.get('account.account')
-        context_copy = context.copy()
+        context_copy = copy(context)
         context = {}
         if initial_balance:
             context.update({'initial_bal':initial_balance})
