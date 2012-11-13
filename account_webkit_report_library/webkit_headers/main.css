@@ -85,6 +85,36 @@ body {
     border-right:0px solid lightGrey;
 }
 
+/* Header styles */
+
+.table.header {
+    border: 0px;
+    text-align: middle;
+}
+
+.table.header .table-cell.logo {
+    padding: 0px 10px 5px 0px;
+}
+
+.table.header .table-cell.company {
+    width: 100%;
+    padding: 0px 5px 3px 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.table.header .table-cell.title {
+    padding: 3px 5px 3px 5px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.table.header .table-cell.subtitle {
+    padding: 3px 5px 0px 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
 /* Footer table styles */
 
 .table.footer {
@@ -130,14 +160,9 @@ body {
     font-size: 14px;
 }
 
-.act_as_cell.main_result {
-    font-weight: bold;
-}
-
 .table .table-row.no-break {
     page-break-after: avoid;
 }
-
 
 /* Text styles */
 

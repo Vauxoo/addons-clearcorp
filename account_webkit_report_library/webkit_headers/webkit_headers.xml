@@ -54,7 +54,7 @@
         </record>
         
        <record id="webkit_header_clearcorp_official_landscape" model="ir.header_webkit">
-            <field name="name">Portrait CLEARCORP official header</field>
+            <field name="name">Landscape CLEARCORP official header</field>
             <field name="orientation">Landscape</field>
             <field name="format">Letter</field>
             <field name="margin_top">0</field>
