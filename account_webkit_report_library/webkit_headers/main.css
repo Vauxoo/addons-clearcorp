@@ -143,10 +143,11 @@ body {
     color: white;
     font-weight: bold;
     font-size: 14px;
+    text-align: center;
 }
 
 .table .table-row.even {
-    background-color: #CCCCCC;
+    background-color: #E0E0E0;
 }
 
 .table .table-row.initial-balance {
