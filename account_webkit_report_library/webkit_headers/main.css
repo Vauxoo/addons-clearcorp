@@ -1,0 +1,202 @@
+/* Generic styles */
+
+body {
+    font-family: Helvetica, Arial;
+    color: black;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    width: 11in;
+    height: 8.5in;
+}
+
+/* div table structure */
+
+.table {
+    display: table;
+    width: 100%;
+    table-layout: auto;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 12px;
+}
+
+.table-row  {
+    display: table-row;
+}
+
+.table-cell {
+    display: table-cell;
+    padding-right: 3px;
+    padding-left: 3px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.table-header {
+    display: table-header-group;
+}
+
+.table-body {
+    display: table-row-group;
+}
+
+.table-footer {
+    display: table-footer-group;
+}
+
+.table-caption {
+    display: table-caption;
+}
+
+.table-colgroup {
+    display: table-column-group;
+}
+
+.table-rowgroup {
+    display: table-row-group;
+    page-break-after: avoid;
+}
+
+/* list-table styles */
+
+.list-table, .list-table .table-row {
+    border-left: 0px;
+    border-right: 0px;
+}
+
+.list-table .table-cell {
+    border: 1px solid lightGrey;
+    text-align: center;
+}
+
+.list_table .act_as_cell{
+    padding-left: 5px;
+    padding-right: 5px;
+    border-left: 1px solid lightGrey;
+    border-right: 1px solid lightGrey;
+}
+.list_table .act_as_cell.first_column {
+    padding-left: 0px;
+    border-left:0px solid lightGrey;
+}
+.list_table .act_as_cell.last_column {
+    padding-right: 0px;
+    border-right:0px solid lightGrey;
+}
+
+/* Header styles */
+
+.table.header {
+    border: 0px;
+    text-align: middle;
+    border-bottom: 1px solid lightGray;
+}
+
+.table.header .table-row {
+    border: 0px;
+}
+
+.table.header .table-cell.logo {
+    padding: 0px 10px 5px 0px;
+}
+
+.table.header .table-cell p.company {
+    padding: 0px 5px 3px 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.table.header .table-cell p.title {
+    padding: 3px 5px 3px 5px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.table.header .table-cell p.subtitle {
+    padding: 3px 5px 0px 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Footer table styles */
+
+.table.footer {
+    border-top: 1px solid #AAAAAA;
+    width: 100%;
+    font-size: 10px;
+    color: #777777;
+}
+
+.table.footer .table-row {
+    border-collapse:collapse;
+}
+
+/* Table cell styles */
+
+.table .table-row.labels {
+    border-color:gray;
+    border-bottom:1px solid lightGrey;
+    background-color: #555555;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.table .table-row.initial-balance {
+    font-style:italic;
+}
+
+.table .table-row.subtotal {
+    border-color:gray;
+    border-bottom:1px solid lightGrey;
+    background-color: #CCCCCC;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.table .table-row.total {
+    border-top: 1px ridge black;
+    border-bottom: 3px double black;
+    background-color: #777777;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.table .table-row.no-break {
+    page-break-after: avoid;
+}
+
+.table .table-row.bold {
+    font-weight: bold;
+}
+
+/* Text styles */
+
+.overflow-ellipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.align-left {
+    text-align: left;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.amount {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.no-wrap {
+    white-space: nowrap;
+}
