@@ -188,6 +188,15 @@ body {
     font-weight: bold;
 }
 
+.table .table-row.spacer {
+    background-color: white;
+    border-width: 0px;
+}
+
+.table .table-row.spacer .table-cell {
+    column-span: all;
+}
+
 /* Text styles */
 
 .overflow-ellipsis {
