@@ -100,26 +100,34 @@ body {
 }
 
 .table.header .table-cell.logo {
-    padding: 0px 10px 5px 0px;
+    padding: 0px 40px 0px 0px;
+}
+
+.table.header .table-cell.logo img {
+    vertical-align: top;
 }
 
 .table.header .table-cell.text {
-    padding: 0px 5px 3px 5px;
+    padding: 3px 5px 3px 0px;
+    width: 100%;
 }
 
 .table.header .table-cell p.company {
     font-size: 14px;
     font-weight: bold;
+    margin: 4px 0px 4px 0px; 
 }
 
 .table.header .table-cell p.title {
     font-size: 20px;
     font-weight: bold;
+    margin: 6px 0px 6px 0px; 
 }
 
 .table.header .table-cell p.subtitle {
     font-size: 16px;
     font-weight: bold;
+    margin: 4px 0px 4px 0px; 
 }
 
 /* Footer table styles */
