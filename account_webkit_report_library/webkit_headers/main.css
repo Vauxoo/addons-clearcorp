@@ -103,20 +103,21 @@ body {
     padding: 0px 10px 5px 0px;
 }
 
-.table.header .table-cell p.company {
+.table.header .table-cell.text {
     padding: 0px 5px 3px 5px;
+}
+
+.table.header .table-cell p.company {
     font-size: 14px;
     font-weight: bold;
 }
 
 .table.header .table-cell p.title {
-    padding: 3px 5px 3px 5px;
     font-size: 20px;
     font-weight: bold;
 }
 
 .table.header .table-cell p.subtitle {
-    padding: 3px 5px 0px 5px;
     font-size: 16px;
     font-weight: bold;
 }
@@ -160,7 +161,6 @@ body {
     background-color: #CCCCCC;
     font-weight: bold;
     font-size: 14px;
-    margin-bottom: 10px;
 }
 
 .table .table-row.total {
@@ -170,8 +170,6 @@ body {
     color: white;
     font-weight: bold;
     font-size: 14px;
-    margin-top: 10px;
-    margin-bottom: 10px;
 }
 
 .table .table-row.no-break {
