@@ -230,3 +230,8 @@ body {
 .alert {
     color: red;
 }
+
+.total .alert {
+    background-color: red;
+    color: white;
+}

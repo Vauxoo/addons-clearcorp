@@ -192,6 +192,7 @@ class AccountWebkitReportLibrary(orm.Model):
         If there isn't a fiscal year, all open fiscal years will be used. To include all closed fiscal years, the all_fiscal_years must be True.
         '''
         account_obj = self.pool.get('account.account')
+        period_odj = self.pool.get('account.period')
         context_copy = copy.copy(context)
         context = {}
         if initial_balance:
@@ -218,6 +219,10 @@ class AccountWebkitReportLibrary(orm.Model):
             context.update({'journal_ids':journal_ids})
         if chart_account_id:
             context.update({'chart_account_id':chart_account_id})
+        
+        if not period_ids and fiscal_year_id and not start_period_id and end_period_id:
+            end_period = period_obj.browse(cr, uid, end_period_id)
+            period_ids = period_obj.search(cr, uid, ['&',('fiscalyear_id','=',fiscal_year_id),('date_stop', '<=', end_period.date_stop)]
         '''
         Description for the __compute method:
         Get the balance for the provided account ids with the provided filters
