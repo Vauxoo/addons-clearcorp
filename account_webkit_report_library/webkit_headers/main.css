@@ -226,3 +226,7 @@ body {
 .no-wrap {
     white-space: nowrap;
 }
+
+.alert {
+    color: red;
+}
