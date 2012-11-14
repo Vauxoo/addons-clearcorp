@@ -222,7 +222,7 @@ class AccountWebkitReportLibrary(orm.Model):
         
         if not period_ids and fiscal_year_id and not start_period_id and end_period_id:
             end_period = period_obj.browse(cr, uid, end_period_id)
-            period_ids = period_obj.search(cr, uid, ['&',('fiscalyear_id','=',fiscal_year_id),('date_stop', '<=', end_period.date_stop)]
+            period_ids = period_obj.search(cr, uid, ['&',('fiscalyear_id','=',fiscal_year_id),('date_stop', '<=', end_period.date_stop)])
         '''
         Description for the __compute method:
         Get the balance for the provided account ids with the provided filters
