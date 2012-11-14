@@ -195,6 +195,11 @@ class AccountWebkitReportLibrary(orm.Model):
         period_obj = self.pool.get('account.period')
         context_copy = copy.copy(context)
         context = {}
+        
+        if not period_ids and fiscal_year_id and not start_period_id and end_period_id:
+            end_period = period_obj.browse(cr, uid, end_period_id)
+            period_ids = period_obj.search(cr, uid, ['&',('fiscalyear_id','=',fiscal_year_id),('date_stop', '<=', end_period.date_stop)])
+        
         if initial_balance:
             context.update({'initial_bal':initial_balance})
         if company_id:
@@ -220,9 +225,6 @@ class AccountWebkitReportLibrary(orm.Model):
         if chart_account_id:
             context.update({'chart_account_id':chart_account_id})
         
-        if not period_ids and fiscal_year_id and not start_period_id and end_period_id:
-            end_period = period_obj.browse(cr, uid, end_period_id)
-            period_ids = period_obj.search(cr, uid, ['&',('fiscalyear_id','=',fiscal_year_id),('date_stop', '<=', end_period.date_stop)])
         '''
         Description for the __compute method:
         Get the balance for the provided account ids with the provided filters
