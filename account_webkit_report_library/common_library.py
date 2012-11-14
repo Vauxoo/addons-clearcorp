@@ -20,6 +20,7 @@
 #
 ##############################################################################
 
+import copy
 import netsvc
 from osv import fields, orm
 import tools
@@ -191,7 +192,7 @@ class AccountWebkitReportLibrary(orm.Model):
         If there isn't a fiscal year, all open fiscal years will be used. To include all closed fiscal years, the all_fiscal_years must be True.
         '''
         account_obj = self.pool.get('account.account')
-        context_copy = context.copy()
+        context_copy = copy.copy(context)
         context = {}
         if initial_balance:
             context.update({'initial_bal':initial_balance})
@@ -271,7 +272,10 @@ class AccountWebkitReportLibrary(orm.Model):
         return res
 
     def get_account_child_ids(self, cr, uid, account_ids, context={}):
-        if not isinstance(account_ids, list):
+        print account_ids
+        if isinstance(account_ids, orm.browse_record):
+            account_ids = [account_ids.id]
+        elif isinstance(account_ids, int):
             account_ids = [account_ids]
         return self.pool.get('account.account')._get_children_and_consol(cr, uid, account_ids, context=context)
         

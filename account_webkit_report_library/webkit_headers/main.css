@@ -60,27 +60,29 @@ body {
 
 /* list-table styles */
 
-.list-table, .list-table .table-row {
+.table.list-table, .table.list-table .table-row {
     border-left: 0px;
     border-right: 0px;
 }
 
-.list-table .table-cell {
+.table.list-table .table-cell {
     border: 1px solid lightGrey;
     text-align: center;
 }
 
-.list_table .act_as_cell{
+.table.list_table .table-cell{
     padding-left: 5px;
     padding-right: 5px;
     border-left: 1px solid lightGrey;
     border-right: 1px solid lightGrey;
 }
-.list_table .act_as_cell.first_column {
+
+.table.list_table .table-cell.first-column {
     padding-left: 0px;
     border-left:0px solid lightGrey;
 }
-.list_table .act_as_cell.last_column {
+
+.table.list_table .table-cell.last-column {
     padding-right: 0px;
     border-right:0px solid lightGrey;
 }
@@ -98,25 +100,34 @@ body {
 }
 
 .table.header .table-cell.logo {
-    padding: 0px 10px 5px 0px;
+    padding: 0px 40px 0px 0px;
+}
+
+.table.header .table-cell.logo img {
+    vertical-align: top;
+}
+
+.table.header .table-cell.text {
+    padding: 3px 5px 3px 0px;
+    width: 100%;
 }
 
 .table.header .table-cell p.company {
-    padding: 0px 5px 3px 5px;
     font-size: 14px;
     font-weight: bold;
+    margin: 4px 0px 4px 0px; 
 }
 
 .table.header .table-cell p.title {
-    padding: 3px 5px 3px 5px;
     font-size: 20px;
     font-weight: bold;
+    margin: 6px 0px 6px 0px; 
 }
 
 .table.header .table-cell p.subtitle {
-    padding: 3px 5px 0px 5px;
     font-size: 16px;
     font-weight: bold;
+    margin: 4px 0px 4px 0px; 
 }
 
 /* Footer table styles */
@@ -141,6 +152,11 @@ body {
     color: white;
     font-weight: bold;
     font-size: 14px;
+    text-align: center;
+}
+
+.table .table-row.even {
+    background-color: #E0E0E0;
 }
 
 .table .table-row.initial-balance {
@@ -149,15 +165,16 @@ body {
 
 .table .table-row.subtotal {
     border-color:gray;
-    border-bottom:1px solid lightGrey;
+    border-top:2px solid black;
+    border-bottom:2px solid black;
     background-color: #CCCCCC;
     font-weight: bold;
     font-size: 14px;
 }
 
 .table .table-row.total {
-    border-top: 1px ridge black;
-    border-bottom: 3px double black;
+    border-top: 3px ridge black;
+    border-bottom: 3px ridge black;
     background-color: #777777;
     color: white;
     font-weight: bold;
@@ -170,6 +187,15 @@ body {
 
 .table .table-row.bold {
     font-weight: bold;
+}
+
+.table .table-row.spacer {
+    background-color: white;
+    border-width: 0px;
+}
+
+.table .table-row.spacer .table-cell {
+    column-span: all;
 }
 
 /* Text styles */
