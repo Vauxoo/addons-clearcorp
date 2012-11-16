@@ -1,0 +1,124 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* purchase_order_ccorp_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-11-16 22:03+0000\n"
+"PO-Revision-Date: 2012-11-16 22:03+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: purchase_order_ccorp_report
+#: report:addons/purchase_order_ccorp_report/report/purchase_order_report.mako:67
+#: report:addons/purchase_order_ccorp_report/report/purchase_order_report.mako:69
+msgid "[Code] Description / (Taxes)"
+msgstr "[Código] Descripción / (Impuestos)"
+
+#. module: purchase_order_ccorp_report
+#: report:addons/purchase_order_ccorp_report/report/purchase_order_report.mako:94
+msgid "Sub Total"
+msgstr "Subtotal"
+
+#. module: purchase_order_ccorp_report
+#: report:addons/purchase_order_ccorp_report/report/purchase_order_report.mako:27
+msgid "Validated by: "
+msgstr "Validado por: "
+
+#. module: purchase_order_ccorp_report
+#: report:addons/purchase_order_ccorp_report/report/purchase_order_report.mako:96
+msgid "Total"
+msgstr "Total"
+
+#. module: purchase_order_ccorp_report
+#: report:addons/purchase_order_ccorp_report/report/purchase_order_report.mako:67
+msgid "Date Order"
+msgstr "Fecha de la orden"
+
+#. module: purchase_order_ccorp_report
+#: report:addons/purchase_order_ccorp_report/report/purchase_order_report.mako:39
+msgid "Delivery and Invoincing"
+msgstr "Entrega y facturación"
+
+#. module: purchase_order_ccorp_report
+#: report:addons/purchase_order_ccorp_report/report/purchase_order_report.mako:103
+msgid "Authorized by"
+msgstr "Autorizado por"
+
+#. module: purchase_order_ccorp_report
+#: report:addons/purchase_order_ccorp_report/report/purchase_order_report.mako:95
+msgid "Taxes"
+msgstr "Impuestos"
+
+#. module: purchase_order_ccorp_report
+#: report:addons/purchase_order_ccorp_report/report/purchase_order_report.mako:103
+msgid "Validated by"
+msgstr "Validado por"
+
+#. module: purchase_order_ccorp_report
+#: report:addons/purchase_order_ccorp_report/report/purchase_order_report.mako:24
+msgid "Order date: "
+msgstr "Fecha de la orden: "
+
+#. module: purchase_order_ccorp_report
+#: report:addons/purchase_order_ccorp_report/report/purchase_order_report.mako:38
+msgid "Purchase Order"
+msgstr "Pedido de compra"
+
+#. module: purchase_order_ccorp_report
+#: report:addons/purchase_order_ccorp_report/report/purchase_order_report.mako:16
+msgid "Quotation N°"
+msgstr "Cotización N°"
+
+#. module: purchase_order_ccorp_report
+#: report:addons/purchase_order_ccorp_report/report/purchase_order_report.mako:43
+msgid "Expected date: "
+msgstr "Fecha esperada "
+
+#. module: purchase_order_ccorp_report
+#: report:addons/purchase_order_ccorp_report/report/purchase_order_report.mako:30
+msgid "Ref."
+msgstr "Ref."
+
+#. module: purchase_order_ccorp_report
+#: report:addons/purchase_order_ccorp_report/report/purchase_order_report.mako:19
+msgid "Order N°"
+msgstr "Orden N°"
+
+#. module: purchase_order_ccorp_report
+#: report:addons/purchase_order_ccorp_report/report/purchase_order_report.mako:69
+msgid "Date planned"
+msgstr "Date planned"
+
+#. module: purchase_order_ccorp_report
+#: report:addons/purchase_order_ccorp_report/report/purchase_order_report.mako:67
+#: report:addons/purchase_order_ccorp_report/report/purchase_order_report.mako:69
+msgid "Qty"
+msgstr "Cant"
+
+#. module: purchase_order_ccorp_report
+#: report:addons/purchase_order_ccorp_report/report/purchase_order_report.mako:47
+msgid "Date approved: "
+msgstr "Fecha de aprobación: "
+
+#. module: purchase_order_ccorp_report
+#: report:addons/purchase_order_ccorp_report/report/purchase_order_report.mako:33
+msgid "Email"
+msgstr "Correo electrónico"
+
+#. module: purchase_order_ccorp_report
+#: report:addons/purchase_order_ccorp_report/report/purchase_order_report.mako:69
+msgid "Total Price"
+msgstr "Precio total"
+
+#. module: purchase_order_ccorp_report
+#: report:addons/purchase_order_ccorp_report/report/purchase_order_report.mako:69
+msgid "Unit Price"
+msgstr "Precio Unitario"
+
