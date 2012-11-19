@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+      <report auto="False"
+        id="purchase.report_purchase_order"
+        model="purchase.order"
+        name="purchase_order_report_inherit"
+        file="purchase_order_ccorp_report/report/purchase_order_report.mako"
+        string="Purchase Order"
+        report_type="webkit" />
+             
+    </data>
+</openerp>
+
