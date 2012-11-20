@@ -23,9 +23,11 @@
             <tr>
                 <td>${_("Order date: ")}${(purchase_order.date_order and formatLang(purchase_order.date_order,date=True)) or '-'|entity} </td>                    
             </tr>
-            <tr>
-                <td>${_("Validated by: ")}:${purchase_order.validator.name or ''|entity}</td>
-            </tr>
+            %if purchase_order.state != 'draft' :
+                <tr>
+                    <td>${_("Validated by: ")}:${purchase_order.validator.name or ''|entity}</td>
+                </tr>
+            %endif
             <tr>
                  <td>${_("Ref.")}: ${purchase_order.partner_ref != "" and purchase_order.partner_ref or '-'|entity}</td>
             </tr>
@@ -100,8 +102,9 @@
         <br>
         <br>
         <table id="responsibles_table">
-            <tr><td style="border-top:1px solid"><b>${_("Validated by")}:</b> ${purchase_order.validator.name}</td><td style="border-style:none"/><td style="border-top:1px solid"><b>${_("Authorized by")}:_________________</b></td></tr>    
-            <!--<tr><td style="border-style:none"> ${company.sale_order_footer}</td><td style="border-style:none"/></tr>-->
+            %if purchase_order.state != 'draft' :
+                <tr><td style="border-top:1px solid"><b>${_("Validated by")}:</b> ${purchase_order.validator.name}</td><td style="border-style:none"/><td style="border-top:1px solid"><b>${_("Authorized by")}:_________________</b></td></tr>
+            %endif    
         </table>
     </div>
     <p style="page-break-after:always"></p>
