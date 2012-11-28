@@ -22,8 +22,6 @@
 
 import osv
 import copy
-import pprint
-pp = pprint.PrettyPrinter(indent=4).pprint
 from openerp.osv.orm import BaseModel
 
 #First copy the orginal method to avoid recursion
@@ -33,8 +31,6 @@ fields_view_get_original = copy.deepcopy(osv.orm.BaseModel.fields_view_get)
 def fields_view_get2 (self, cr, user, view_id=None, view_type='form', context=None, toolbar=False, submenu=False):
     #Call to the original method to keep the upstream code running and avoid outdates of this module
     result = fields_view_get_original(self, cr, user, view_id, view_type, context, toolbar, submenu)
-    pp (context)
-    pp (result)
     #Check if there is a toolbar key in both dicts: the result and the context
     if "toolbar" in result and "toolbar" in context:
         toolbar = result["toolbar"]
@@ -60,10 +56,6 @@ def fields_view_get2 (self, cr, user, view_id=None, view_type='form', context=No
                 #Remove not listed items in domain
                 if not relate["res_model"] in toolbar_context["relate"]:
                     toolbar["relate"].remove(relate)
-	print "New result"
-	pp (result)
-    else:
-        print "no toolbar"
     return result
 
 #Replacement of the method in the original class
