@@ -36,7 +36,8 @@
     "images" : [],
     "icon" : False,
     "depends" : [
-        'base'],
+        'base',
+        'stock'],
     "init_xml" : [],
     "demo_xml" : [],
     "update_xml" : ['product_cost_group_view.xml',

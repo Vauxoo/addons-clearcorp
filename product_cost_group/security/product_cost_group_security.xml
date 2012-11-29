@@ -3,7 +3,7 @@
 	<data>
 	
 	<record id="group_costs_viewer" model="res.groups">
-		<field name="name"> Ver Costos</field>
+		<field name="name"> View Costs</field>
 	</record>
     
 	</data>
