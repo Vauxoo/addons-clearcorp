@@ -24,7 +24,7 @@
             <field name="arch" type="xml">
                
                 <xpath expr="/form/notebook/page[@string='Information']/group/label[@string='Cost Price :']" position="replace">
-                    <label string="Cost Price :" align="1.0"/>
+                    <label string="Cost Price :" align="1.0" groups="product_cost_group.group_costs_viewer"/>
                 </xpath>
                 <field name="standard_price" position="replace">
                     <field name="standard_price" attrs="{'readonly':[('cost_method','=','average')]}" nolabel= "1" 
