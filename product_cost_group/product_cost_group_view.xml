@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+	<data>
+        <record id="dimmsa_product_product_tree_view" model="ir.ui.view">
+            <field name="name">dimmsa.product.product.tree</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_product_tree_view"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                    <field name="standard_price" position="replace">
+                        <field name="standard_price" groups="product_cost_group.group_costs_viewer"/>
+                    </field>
+            </field>
+        </record>
+        
+        <record id="dimmsa_product_normal_form_view" model="ir.ui.view">
+            <field name="name">dimmsa.product.normal.form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="standard_price" position="replace">
+                    <field name="standard_price" attrs="{'readonly':[('cost_method','=','average')]}"
+                                    groups="product_cost_group.group_costs_viewer"/>
+                </field>               
+            </field>
+        </record>
+        
+	</data>
+</openerp>
