@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+	
+	<record id="group_costs_viewer" model="res.groups">
+		<field name="name"> View Costs</field>
+	</record>
+    
+	</data>
+</openerp>

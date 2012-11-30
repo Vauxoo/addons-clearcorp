@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+        <record id="ccorp_product_product_tree_view" model="ir.ui.view">
+            <field name="name">ccorp.product.product.tree</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_product_tree_view"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                    <field name="standard_price" position="replace">
+                        <field name="standard_price" groups="product_cost_group.group_costs_viewer"/>
+                    </field>
+            </field>
+        </record>
+        
+        
+<!--Inherits from stock.view_product_standard_price_form because of a priority error (product.product.standard.price.form.inherit) -->        
+        <record id="ccorp_product_normal_form_view" model="ir.ui.view">
+            <field name="name">ccorp.product.normal.form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="stock.view_product_standard_price_form"/>
+            <field name="type">form</field>
+            <field eval="1" name="priority"/>
+            <field name="arch" type="xml">
+               
+                <xpath expr="/form/notebook/page[@string='Information']/group/label[@string='Cost Price :']" position="replace">
+                    <label string="Cost Price :" align="1.0" groups="product_cost_group.group_costs_viewer"/>
+                </xpath>
+                <field name="standard_price" position="replace">
+                    <field name="standard_price" attrs="{'readonly':[('cost_method','=','average')]}" nolabel= "1" 
+                        groups="product_cost_group.group_costs_viewer"/>
+                </field>
+                <button name="321" position="replace">
+                        <button name="321" string="Update" type="action" icon="gtk-execute" attrs="{'invisible':[('cost_method','&lt;&gt;','average')]}" 
+                        groups="product_cost_group.group_costs_viewer"/>
+                </button>
+
+                
+            </field>
+        </record>
+        
+	</data>
+</openerp>
