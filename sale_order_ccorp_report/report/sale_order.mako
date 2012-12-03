@@ -7,6 +7,7 @@
 <body class = "data">
 	%for so in objects :
 	<% setLang(so.partner_id.lang) %>
+	<br></br>
 	<div id="wrapper">
 		<table width = "100%" class = "document_data">
 			<tr class = "title">
@@ -103,14 +104,18 @@
 		%endfor		
 		%if discount(so) != 0:
 			%if company.show_sale_order_footer :
+			    <% amount_discount = (so.amount_untaxed_not_discounted - so.amount_discounted) %>
 				<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_untaxed_not_discounted)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
+			    <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Discount")}:</b></td><td style="text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_discounted)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
+				<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Sub Total with discount")}:</b></td><td style="text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(amount_discount)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>                
 				<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Taxes")}:</b></td><td style="text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_tax)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
-				<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Discount")}:</b></td><td style="text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_discounted)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
 				<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Total")}:</b></td><td style="text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_total)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
 			%else:
+			    <% amount_discount = (so.amount_untaxed_not_discounted - so.amount_discounted) %>
 				<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_untaxed_not_discounted)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
-				<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Taxes")}:</b></td><td style="text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_tax)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
 				<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Discount")}:</b></td><td style="text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_discounted)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
+                <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Sub Total with discount")}:</b></td><td style="text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(amount_discount)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
+				<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Taxes")}:</b></td><td style="text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_tax)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
 				<tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Total")}:</b></td><td style="text-align:right">${so.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(so.amount_total)} ${so.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
 			%endif
 		%else:
