@@ -1,7 +1,31 @@
 <?xml version="1.0"?>
 <openerp>
 	<data>
-		<report auto="False" id="account_invoice_ccorp" model="account.invoice" name="account.invoice.layout_ccorp"  file="account_invoice_webkit_report/report/invoice.mako" string="Invoice HTML" report_type="webkit" 				attachment="(object.state in ('open','paid')) and ('Fac.'+(object.number or '').replace('/',''))"
-				attachment_use="1"/>
+		<report auto="False" 
+		    id="account.account_invoices" 
+		    model="account.invoice" 
+		    name="account.invoice.layout_ccorp"  
+		    file="account_invoice_webkit_report/report/invoice.mako" 
+		    string="Invoice HTML" report_type="webkit" 				
+		    attachment="(object.state in ('open','paid')) and ('Fac.'+(object.number or '').replace('/',''))"
+		    attachment_use="1"/>
+				
+				
+	   <record id="view_company_form_inherit" model="ir.ui.view">
+            <field name="name">res.company.form.inherit</field>
+            <field name="model">res.company</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <data>                
+                    <page string="General Information" position="after">
+                        <page string="Configuration Report" groups="base.group_extended">
+                            <separator colspan="4" string="Invoices"/>
+                            <field colspan="4" name="use_email_invoice"/>
+                        </page>
+                    </page>
+                </data>
+            </field>
+        </record> 
 	</data>
 </openerp>

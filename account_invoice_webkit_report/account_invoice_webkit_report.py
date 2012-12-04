@@ -20,5 +20,13 @@
 #
 ##############################################################################
 
-import report
-import account_invoice_webkit_report
+from osv import fields,osv
+
+class res_company(osv.osv):
+    _name = 'res.company'
+    _inherit = 'res.company'
+    
+    _columns = {
+           'use_email_invoice':fields.boolean('Use user email',help="In the invoice, if it is selected appears the user's mail is logged in. If not selected, do not appear any associated email"),
+           }
+res_company()

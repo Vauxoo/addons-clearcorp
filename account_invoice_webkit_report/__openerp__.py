@@ -35,6 +35,7 @@ Invoice webkit report
     "images" : [],
     "icon" : False,
     "depends" : [
+        'base',
         'report_webkit',
         'account_invoice_global_discount',
         ],
