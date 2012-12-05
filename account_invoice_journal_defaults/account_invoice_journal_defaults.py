@@ -56,30 +56,31 @@ class AccountInvoice(orm.Model):
         return result
     
     def create(self, cr, uid, vals, context=None):
-        journal_val_id = vals['journal_id']
-        journal_id = self.pool.get('account.journal').search(cr,uid,[('id','=',journal_val_id)])
-        journal_obj = self.pool.get('account.journal').browse(cr, uid, journal_id, context=context)
-        
-        for journal in journal_obj:
-            if journal.type == 'sale':
-                acc_id = journal.default_receivable_account_id.id
-            elif journal.type == 'purchase':
-                acc_id = journal.default_payable_account_id.id
-            elif journal.type == 'sale_refund':
-                acc_id = journal.default_payable_account_id.id
-            elif journal.type == 'purchase_refund':
-                acc_id = journal.default_receivable_account_id.id
+        if 'journal_id' in vals:
+            journal_val_id = vals['journal_id']
+            journal_id = self.pool.get('account.journal').search(cr,uid,[('id','=',journal_val_id)])
+            journal_obj = self.pool.get('account.journal').browse(cr, uid, journal_id, context=context)
             
-            if journal and journal.id:   
-                currency_id = journal.currency and journal.currency.id or journal.company_id.currency_id.id
-            else:
-                currency_id = False
-                    
-        if not 'account_id' in vals:
-            vals['account_id'] = acc_id
-            
-        if not 'currency_id' in vals:
-            vals['currency_id'] = currency_id
+            for journal in journal_obj:
+                if journal.type == 'sale':
+                    acc_id = journal.default_receivable_account_id.id
+                elif journal.type == 'purchase':
+                    acc_id = journal.default_payable_account_id.id
+                elif journal.type == 'sale_refund':
+                    acc_id = journal.default_payable_account_id.id
+                elif journal.type == 'purchase_refund':
+                    acc_id = journal.default_receivable_account_id.id
+                
+                if journal and journal.id:   
+                    currency_id = journal.currency and journal.currency.id or journal.company_id.currency_id.id
+                else:
+                    currency_id = False
+                        
+            if not 'account_id' in vals:
+                vals['account_id'] = acc_id
+                
+            if not 'currency_id' in vals:
+                vals['currency_id'] = currency_id
         
         return super(AccountInvoice, self).create(cr, uid, vals, context=context)
     
