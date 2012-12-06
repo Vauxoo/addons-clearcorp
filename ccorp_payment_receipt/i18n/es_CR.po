@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 6.0.3\n"
-"Report-Msgid-Bugs-To: support@openerp.com\n"
-"POT-Creation-Date: 2012-01-03 22:28+0000\n"
-"PO-Revision-Date: 2012-01-03 22:28+0000\n"
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-12-06 02:08+0000\n"
+"PO-Revision-Date: 2012-12-06 02:08+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,12 +16,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: ccorp_payment_receipt
-#: report:report.account.voucher.layout_ccorp:39
-msgid "Check No."
-msgstr "CHEQUE No."
-
-#. module: ccorp_payment_receipt
-#: report:report.account.voucher.layout_ccorp:13
+#: report:addons/ccorp_payment_receipt/report/payment_receipt.mako:12
 msgid "No."
 msgstr "No."
 
@@ -31,56 +26,47 @@ msgid "Payment Voucher"
 msgstr "Imprimir Recibo"
 
 #. module: ccorp_payment_receipt
-#: report:report.account.voucher.layout_ccorp:46
+#: report:addons/ccorp_payment_receipt/report/payment_receipt.mako:58
 msgid "AUTORIZADO MEDIANTE OFICIO No.04-00007-97 DE FECHA 30-09-97 DE LA D.G.T.D."
 msgstr "AUTORIZADO MEDIANTE OFICIO No.04-00007-97 DE FECHA 30-09-97 DE LA D.G.T.D."
 
 #. module: ccorp_payment_receipt
-#: report:report.account.voucher.layout_ccorp:23
+#: report:addons/ccorp_payment_receipt/report/payment_receipt.mako:26
 msgid "Concept of"
 msgstr "POR CONCEPTO DE"
 
 #. module: ccorp_payment_receipt
-#: report:report.account.voucher.layout_ccorp:45
+#: report:addons/ccorp_payment_receipt/report/payment_receipt.mako:57
 msgid "LA VALIDEZ DE ESTE RECIBO QUEDA SUJETA A QUE LOS CHEQUES RECIBIDOS SEAN PAGADOS POR EL BANCO A NUESTRA SATISFACCION"
 msgstr "LA VALIDEZ DE ESTE RECIBO QUEDA SUJETA A QUE LOS CHEQUES RECIBIDOS SEAN PAGADOS POR EL BANCO A NUESTRA SATISFACCION"
 
 #. module: ccorp_payment_receipt
-#: report:report.account.voucher.layout_ccorp:37
-msgid "Cash"
-msgstr "EFECTIVO"
-
-#. module: ccorp_payment_receipt
-#: report:report.account.voucher.layout_ccorp:20
+#: report:addons/ccorp_payment_receipt/report/payment_receipt.mako:20
 msgid "The amount of"
 msgstr "LA SUMA DE"
 
 #. module: ccorp_payment_receipt
-#: report:report.account.voucher.layout_ccorp:26
-msgid "Observations"
-msgstr "OBSERVACIONES"
+#: report:addons/ccorp_payment_receipt/report/payment_receipt.mako:23
+msgid "In words"
+msgstr "EN LETRAS"
 
 #. module: ccorp_payment_receipt
-#: report:report.account.voucher.layout_ccorp:49
-msgid "P/"
-msgstr "P/"
-
-#. module: ccorp_payment_receipt
-#: report:report.account.voucher.layout_ccorp:17
-msgid "We recieve from"
-msgstr "RECIBIMOS DE"
-
-#. module: ccorp_payment_receipt
-#: report:report.account.voucher.layout_ccorp:1
-msgid "MONEY RECEIPT"
-msgstr "RECIBO DE DINERO"
-
-#. module: ccorp_payment_receipt
-#: report:report.account.voucher.layout_ccorp:1
+#: report:addons/ccorp_payment_receipt/report/payment_receipt.mako:14
 msgid "Date"
 msgstr "FECHA"
 
 #. module: ccorp_payment_receipt
-#: report:report.account.voucher.layout_ccorp:1
-msgid "In words"
-msgstr "EN LETRAS"
+#: report:addons/ccorp_payment_receipt/report/payment_receipt.mako:51
+msgid "P/"
+msgstr "P/"
+
+#. module: ccorp_payment_receipt
+#: report:addons/ccorp_payment_receipt/report/payment_receipt.mako:17
+msgid "We recieve from"
+msgstr "RECIBIMOS DE"
+
+#. module: ccorp_payment_receipt
+#: report:addons/ccorp_payment_receipt/report/payment_receipt.mako:29
+msgid "Observations"
+msgstr "OBSERVACIONES"
+
