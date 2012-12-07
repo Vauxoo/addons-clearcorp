@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>              
+       <record id="sequence_mrp_production_form_view" model="ir.ui.view">
+            <field name="name">sequence.mrp.production.form</field>
+            <field name="model">mrp.production</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+                <field name="name" position="replace">
+                    <field name="name" readonly="1"/>
+                </field>
+            </field>
+        </record> 
+         
+    </data>
+</openerp>
+
