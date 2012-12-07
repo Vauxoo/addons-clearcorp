@@ -36,6 +36,6 @@ class ccorp_purchase_order_sequence(osv.osv):
         if not 'name' in vals:
             sequence  = self.pool.get('ir.sequence').get(cr, uid, 'purchase.order', context=context) or '/'
             vals['name'] = sequence
-        result = super(ccorp_purchase_order, self).create(cr, uid, vals, context=context)
+        result = super(ccorp_purchase_order_sequence, self).create(cr, uid, vals, context=context)
         return result
 

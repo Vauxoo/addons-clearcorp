@@ -35,6 +35,6 @@ class ccorp_mrp_production_sequence(osv.osv):
         if not 'name' in vals:
             sequence  = self.pool.get('ir.sequence').get(cr, uid, 'mrp.production', context=context) or '/'
             vals['name'] = sequence
-        result = super(ccorp_mrp_production, self).create(cr, uid, vals, context=context)
+        result = super(ccorp_mrp_production_sequence, self).create(cr, uid, vals, context=context)
         return result
 
