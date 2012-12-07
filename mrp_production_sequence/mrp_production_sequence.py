@@ -21,7 +21,7 @@
 ##############################################################################
 from osv import fields, osv
 
-class ccorp_mrp_production(osv.osv):
+class ccorp_mrp_production_sequence(osv.osv):
     _inherit = 'mrp.production'
     
     _columns ={

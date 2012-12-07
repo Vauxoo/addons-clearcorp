@@ -21,7 +21,7 @@
 ##############################################################################
 from osv import fields, osv
 
-class ccorp_purchase_order(osv.osv):
+class ccorp_purchase_order_sequence(osv.osv):
     _inherit = 'purchase.order'
     
     _columns ={

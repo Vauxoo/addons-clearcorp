@@ -21,7 +21,7 @@
 ##############################################################################
 from osv import fields, osv
 
-class ccorp_sale_order(osv.osv):
+class ccorp_sale_order_sequence(osv.osv):
     _inherit = 'sale.order'
     
     _columns ={
@@ -36,6 +36,6 @@ class ccorp_sale_order(osv.osv):
         if not 'name' in vals:
             sequence  = self.pool.get('ir.sequence').get(cr, uid, 'sale.order', context=context) or '/'
             vals['name'] = sequence
-        result = super(ccorp_sale_order, self).create(cr, uid, vals, context=context)
+        result = super(ccorp_sale_order_sequence, self).create(cr, uid, vals, context=context)
         return result
 
