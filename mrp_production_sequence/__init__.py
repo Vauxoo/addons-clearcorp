@@ -19,23 +19,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from osv import fields, osv
-
-class ccorp_sale_order(osv.osv):
-    _inherit = 'sale.order'
-    
-    _columns ={
-        'name': fields.char('Order Reference', size=64,
-            readonly=True, states={'draft': [('readonly', False)]}, select=True),
-        }
-    _defaults = {
-        'name': '',
-        }
-    
-    def create(self, cr, uid, vals, context=None):
-        if not 'name' in vals:
-            sequence  = self.pool.get('ir.sequence').get(cr, uid, 'sale.order', context=context) or '/'
-            vals['name'] = sequence
-        result = super(ccorp_sale_order, self).create(cr, uid, vals, context=context)
-        return result
-
+import mrp_production_sequence

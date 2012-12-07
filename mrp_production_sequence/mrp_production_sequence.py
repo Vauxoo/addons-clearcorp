@@ -21,21 +21,20 @@
 ##############################################################################
 from osv import fields, osv
 
-class ccorp_sale_order(osv.osv):
-    _inherit = 'sale.order'
+class ccorp_mrp_production(osv.osv):
+    _inherit = 'mrp.production'
     
     _columns ={
-        'name': fields.char('Order Reference', size=64,
-            readonly=True, states={'draft': [('readonly', False)]}, select=True),
+        'name': fields.char('Reference', size=64,),
         }
     _defaults = {
         'name': '',
         }
     
-    def create(self, cr, uid, vals, context=None):
+    def create(self, cr, uid, vals, context=None):  
         if not 'name' in vals:
-            sequence  = self.pool.get('ir.sequence').get(cr, uid, 'sale.order', context=context) or '/'
+            sequence  = self.pool.get('ir.sequence').get(cr, uid, 'mrp.production', context=context) or '/'
             vals['name'] = sequence
-        result = super(ccorp_sale_order, self).create(cr, uid, vals, context=context)
+        result = super(ccorp_mrp_production, self).create(cr, uid, vals, context=context)
         return result
 

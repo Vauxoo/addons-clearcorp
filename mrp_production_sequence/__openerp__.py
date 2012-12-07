@@ -19,23 +19,23 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from osv import fields, osv
-
-class ccorp_sale_order(osv.osv):
-    _inherit = 'sale.order'
-    
-    _columns ={
-        'name': fields.char('Order Reference', size=64,
-            readonly=True, states={'draft': [('readonly', False)]}, select=True),
-        }
-    _defaults = {
-        'name': '',
-        }
-    
-    def create(self, cr, uid, vals, context=None):
-        if not 'name' in vals:
-            sequence  = self.pool.get('ir.sequence').get(cr, uid, 'sale.order', context=context) or '/'
-            vals['name'] = sequence
-        result = super(ccorp_sale_order, self).create(cr, uid, vals, context=context)
-        return result
-
+{
+    'name': 'MRP production Sequence',
+    'version': '1.0',
+    'url': 'http://launchpad.net/openerp-ccorp-addons',
+    'author': 'ClearCorp S.A.',
+    'website': 'http://clearcorp.co.cr',
+    'category': 'mrp',
+    'complexity': 'easy',
+    'description': """This module modifies sequence behaviour, generating the sequence number in the create method, to avoid non-consecutive numbers.
+    """,
+    'depends': [
+        'mrp',
+    ],
+    'init_xml': [],
+    'demo_xml': [],
+    'update_xml': ['mrp_production_sequence.xml'],
+    'license': 'AGPL-3',
+    'installable': True,
+    'active': False,
+}
