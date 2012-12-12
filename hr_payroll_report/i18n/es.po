@@ -1,1 +1,1 @@
-/home/diana/Development/openerp/openerp-ccorp-addons/features/6.1-hr_payroll_report/hr_payroll_report/i18n/es_CR.po
+es_CR.po
