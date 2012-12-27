@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_product_form_siesa">
+            <field name="name">product.normal.form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view" />
+            <field name="type">form</field>
+            <field eval="2" name="priority"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page[@string='Information']/group/field[@name='uom_po_id']" position="after">
+                    <separator string="Import Tariff" colspan="2" attrs="{'invisible':[('import_ok','!=','1')]}" groups="purchase.group_purchase_manager"/>
+                    <field name="tariff_id" string="Tariff" attrs="{'invisible':[('import_ok','!=','1')]}" groups="purchase.group_purchase_manager"/>
+                    <field name="tax_total" string="Tariff" attrs="{'invisible':[('import_ok','!=','1')]}" groups="purchase.group_purchase_manager"/>
+                    <field name="import_taxes" string="import_taxes" attrs="{'invisible':[('import_ok','!=','1')]}" groups="purchase.group_purchase_manager"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

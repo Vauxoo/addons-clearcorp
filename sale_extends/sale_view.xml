@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <record id="view_sale_order_form_CC" model="ir.ui.view">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <field name="pricelist_id" position="after">
+                <button name="%(action_sale_change_currency)d" type="action" icon="terp-stock_effects-object-colorize" string="Change" attrs="{'invisible':[('state','!=','draft')]}" groups="account.group_account_user"/>
+            </field>
+            <field name="product_uom_qty" position="replace">
+                <field  context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'shop':parent.shop_id, 'uom':product_uom}" name="product_uom_qty"/>
+            </field>
+            <field name="client_order_ref" position="replace">
+                <field name="client_order_ref" select="1" attrs="{'invisible':[('local','=',False)]}"/>
+                <field name="oc" string="Purchase Order" filename="client_order_ref" attrs="{'invisible':[('local','=',True)]}"/>
+            </field>
+            <field name="user_id" position="replace">
+                <field name="user_id" readonly="1"/>
+                <field name="user_id" groups="base.group_sale_manager"/>
+            </field>
+            <field name="user_id" position="after">
+                <field name="create_user_id"/>
+            </field>
+            <field name="payment_term" position="after">
+                <field name="validez"/>
+                <field name="credit_app"  groups="base.group_sale_manager"/>
+                <field name="local" string='Cliente sin OC'/>
+
+            </field>
+            <xpath expr="/form/notebook/page[@string='Sales Order']/field[@name='order_line']/tree/field[@name='name']" position="after">
+                <field name="part_number" />
+                <field name="delivery_time"/>
+            </xpath>
+            <xpath expr="/form/notebook/page[@string='Sales Order']/field[@name='order_line']/form/notebook/page[@string='Order Line']/group/field[@name='discount']" position="after">
+                <field name="part_number" colspan="3"/>
+                <field name="delivery_time"/>
+            </xpath>
+        </field>
+    </record>
+</data>
+</openerp>

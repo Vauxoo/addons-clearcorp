@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!--Purchase Import Order-->
+        <record id="view_purchase_import_order_filter" model="ir.ui.view">
+            <field name="name">purchase.import.order.list.select</field>
+            <field name="model">purchase.import.order</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Purchase Import">
+                    <field name="name"/>
+                    <field name="create_date"/>
+                    <field name="provenance_id"/>
+                    <newline/>
+                    <group expand="0" string="Group By..." groups="base.group_extended">
+                        <filter string="State" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_purchase_import_order_form" model="ir.ui.view">
+            <field name="name">purchase.import.order.form</field>
+            <field name="model">purchase.import.order</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Purchase Import">
+                    <group col="6" colspan="4">
+                        <field name="name"/>
+                        <field name="create_date"/>
+                        <field name="date_arrive"/>
+                    </group>
+                    <notebook>
+                        <page string="Asigned Invoice">
+                            <group string="Product Invoices" col="4" colspan="4">
+                                <field name="imports_order_id"  nolabel="1" domain="[('type', '=', 'in_invoice'),('state','not in',['draft','cancel'])]">
+                                    <tree string="Products">
+                                        <field name="number"/>
+                                        <field name="partner_id"/>
+                                        <field name="date_invoice"/>
+                                        <field name="currency_id"/>
+                                        <field name="amount_total"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <group string="Orders" col="3" colspan="2">
+                                <newline/>
+                                    <field name="freight_order_id" domain="[('type', '=', 'in_invoice'),('state','not in',['draft','cancel'])]" /><field name="freight_currency" nolabel="1" readonly="1"/>
+                                    <field name="tax_order_id" domain="[('type', '=', 'in_invoice'),('state','not in',['draft','cancel'])]"/><field name="taxes_currency" nolabel="1" readonly="1"/>
+                            </group>
+
+                            <group col="2" string="Freight Details" colspan="2">
+                                <newline/>
+                                <field name="provenance_id"/>
+                                <field name="fob"/>
+                            </group>
+                            <group col="2" string="Import Total (CRC)" colspan="2">
+                                <field name="total_freight"/>
+                                <field name="tax_total"/>
+                                <field name="total_paid"/>
+
+                            </group>
+                            <group col="2" string="State" colspan="2">
+                                <field name="total_products"/>
+                                <group colspan="3">
+                                    <button name="import_approve" states="draft" string="Approve" icon="gtk-go-forward"/>
+                                    <button name="import_confirm" states="confirmed" string="Confirme" icon="gtk-go-forward"/>
+                                    <button name="import_draft" states="cancel" string="Draft" icon="gtk-go-forward"/>
+                                    <button name="import_cancel" states="confirmed" string="Cancel" icon="gtk-cancel"/>
+                                </group>
+                                <newline/>
+                                <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done" statusbar_colors='{"cancel":"red","draft":"blue","confirmed":"blue","done":"blue"}' readonly="1"/>
+                            </group>
+
+                        </page>
+                        <page string="Invoice Lines">
+                            <group>
+                                <field name="lines_id" nolabel="1" readonly="1">
+                                   <tree string="Products">
+                                        <field name="name"/>
+                                        <field name="quantity"/>
+                                        <field name="uos_id"/>
+                                        <field name="price_unit"/>
+                                        <field name="price_subtotal"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Freight">
+                            <group>
+                                <newline/>
+                                <field name="freight" nolabel="1" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Tax">
+                            <group>
+                                <newline/>
+                                <field name="taxes" nolabel="1" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Voucher">
+                            <field colspan="4" mode="form,tree" name="voucher_id" nolabel="1" select="1" height="260"/>
+                        </page>
+                        <page string="Notes">
+                            <field name="note" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_purchase_import_order_tree">
+        <field name="name">purchase.import.order.tree</field>
+        <field name="model">purchase.import.order</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Import Purchase">
+                    <field name="name"/>
+                    <field name="provenance_id"/>
+                    <field name="state"/>
+            </tree>
+        </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_purchase_import_order">
+            <field name="name">Import Purchase</field>
+            <field name="res_model">purchase.import.order</field>
+            <field name="view_type">form</field>
+        </record>
+        <menuitem
+            id="menu_purchase_import_order"
+            name="Import Purchase"
+            parent="purchase.menu_procurement_management"
+            action="action_purchase_import_order"
+            sequence="11"
+        />
+        <!--Purchase Import Order-->
+    </data>
+</openerp>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="wkf_import" model="workflow">
+            <field name="name">purchase.import.order.basic</field>
+            <field name="osv">purchase.import.order</field>
+            <field name="on_create">True</field>
+        </record>
+
+        <record id="act_draft" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_import"/>
+            <field name="flow_start">True</field>
+            <field name="name">draft</field>
+            <field name="action">write({'state':'draft'})</field>
+            <field name="kind">function</field>
+        </record>
+
+        <record id="act_done" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_import"/>
+            <field name="name">done</field>
+            <field name="action">action_set_average_price()</field>
+            <field name="kind">function</field>
+            <field name="flow_stop">True</field>
+        </record>
+
+        <record id="act_confirmed" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_import"/>
+            <field name="name">confirm</field>
+            <field name="action">write({'state':'confirmed'})</field>
+            <field name="kind">function</field>
+        </record>
+
+        <record id="act_cancel" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_import"/>
+            <field name="name">cancel</field>
+            <field name="action">write({'state':'cancel'})</field>
+            <field name="kind">function</field>
+        </record>
+
+        <record id="t2" model="workflow.transition">
+            <field name="act_from" ref="act_draft"/>
+            <field name="act_to" ref="act_confirmed"/>
+            <field name="signal">import_approve</field>
+        </record>
+
+        <record id="t7" model="workflow.transition">
+            <field name="act_from" ref="act_confirmed"/>
+            <field name="act_to" ref="act_done"/>
+            <field name="signal">import_confirm</field>
+        </record>
+
+        <record id="t8" model="workflow.transition">
+            <field name="act_from" ref="act_confirmed"/>
+            <field name="act_to" ref="act_cancel"/>
+            <field name="signal">import_cancel</field>
+        </record>
+
+        <record id="t9" model="workflow.transition">
+            <field name="act_from" ref="act_cancel"/>
+            <field name="act_to" ref="act_draft"/>
+            <field name="signal">import_draft</field>
+        </record>
+    </data>
+</openerp>
