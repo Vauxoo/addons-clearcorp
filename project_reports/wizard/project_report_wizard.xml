@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+    <!-- Project Report -->
+        <record id="project_report_wizard_form_view" model="ir.ui.view">
+            <field name="name">project_report_wizard.form.view</field>
+            <field name="model">project.report.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Project Report">
+                    <separator string="Dates" colspan="4"/>
+                    <field name="date_from" />
+                    <field name="date_to" />                    
+                    <newline/>
+                    <label/>
+                    <newline/>
+                    <button name="action_cancel" type="special" special="cancel" icon="gtk-cancel" string="Cancel" colspan="2" />
+                    <button name="action_validate" type="object" icon="gtk-apply" string="Validate" colspan="2" />
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+
+        <record id="action_project_report_wizard_view" model="ir.actions.act_window">
+            <field name="name">Project Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">project.report.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="project_report_wizard_form_view"/>
+            <field name="target">new</field>
+        </record>
+        
+    </data>
+</openerp>
