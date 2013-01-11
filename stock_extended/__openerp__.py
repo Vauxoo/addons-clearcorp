@@ -26,9 +26,15 @@
     'author': 'ClearCorp S.A.',
     'website': 'http://clearcorp.co.cr',
     'category': 'Warehouse Management',
-    'description': """Add date_done in stock.picking.out.form
+    'description': """Add date_done in stock.picking.in.form
+                    Add supplier reference to purchase.order
+                    Add customer reference to sale.order
     """,
-    'depends': ['stock'],
+    'depends': [
+                'sale',
+                'purchase',
+                'stock'
+                ],
     'init_xml': [],
     'demo_xml': [],
     'update_xml': ['stock_extended_view.xml'],
