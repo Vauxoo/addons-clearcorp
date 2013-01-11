@@ -19,5 +19,15 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from osv import fields, osv
 
-import stock_extended
+class StockPicking(osv.osv):
+    _inherit = 'stock.picking'
+    
+    _columns = {
+        'customer_ref': fields.related('sale_id', 'client_order_ref', type="char", relation="sale.order", string="Customer Reference", store=True),
+        'supplier_ref': fields.related('purchase_id', 'partner_ref', type="char", relation="purchase.order", string="Supplier Reference", store=True),
+        
+    }
+    
+

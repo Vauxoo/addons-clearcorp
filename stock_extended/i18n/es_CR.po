@@ -1,0 +1,37 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* stock_extended
+# Ronald Rubi <ronald.rubi@clearcorp.co.cr>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-01-11 21:32+0000\n"
+"PO-Revision-Date: 2013-01-11 15:36-0600\n"
+"Last-Translator: Ronald Rubi <ronald.rubi@clearcorp.co.cr>\n"
+"Language-Team: Inglés <ronald.rubi@clearcorp.co.cr>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#. module: stock_extended
+#: field:stock.picking,supplier_ref:0
+msgid "Supplier Reference"
+msgstr "Referencia proveedor"
+
+#. module: stock_extended
+#: field:stock.picking,customer_ref:0
+msgid "Customer Reference"
+msgstr "Referencia cliente"
+
+#. module: stock_extended
+#: sql_constraint:stock.picking:0
+msgid "Reference must be unique per Company!"
+msgstr "Referencia debe ser única por compañía!"
+
+#. module: stock_extended
+#: model:ir.model,name:stock_extended.model_stock_picking
+msgid "Picking List"
+msgstr "Albarán"
