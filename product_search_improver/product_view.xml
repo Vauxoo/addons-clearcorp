@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="siesa_product_search_form_view" model="ir.ui.view">
+            <field name="name">product.search.form</field>
+            <field name="model">product.product</field>
+            <field name="type">search</field>
+            <field name="inherit_id" ref="product.product_search_form_view"/>
+            <field name="arch" type="xml">
+                   <field name="name" position="replace">
+                       <field name="name"/>
+                       <field name="part_number"/>
+                       <field name="default_code" string="Código"/>
+                   </field>
+            </field>
+        </record>
+        <record id="siesa_product_product_tree_view" model="ir.ui.view">
+            <field name="name">product.product.tree</field>
+            <field name="model">product.product</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="product.product_product_tree_view"/>
+            <field eval="7" name="priority"/>
+            <field name="arch" type="xml">
+                    <field name="default_code" position="after">
+                        <field name="part_number" />
+                    </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="siesa_view_product_form">
+            <field name="name">product.normal.form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view" />
+            <field name="type">form</field>
+            <field eval="2" name="priority"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/group/group/field[@name='name']" position="after">
+                    <field name="part_number" />
+                </xpath>
+                <xpath expr="/form/group/group/field[@name='purchase_ok']" position="after">
+                    <field name="import_ok"/>
+                </xpath>
+                <xpath expr="/form/notebook/page[@string='Information']/group/field[@name='standard_price']" position="replace">
+                    <field  groups="base.group_sale_manager" name="standard_price" attrs="{'readonly':[('cost_method','=','average')]}"  sequence="3"/>
+                </xpath>
+                <xpath expr="/form/notebook/page[@string='Information']/group/field[@name='uom_po_id']" position="after">
+                     <separator string="Import Product" colspan="2" attrs="{'invisible':[('import_ok','!=','1')]}"/>
+                    <field name="fob_currency_id" string="Import Currency" attrs="{'invisible':[('import_ok','!=','1')]}"/>
+                    <field name="cost_fob" string="Import Cost" attrs="{'invisible':[('import_ok','!=','1')]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
