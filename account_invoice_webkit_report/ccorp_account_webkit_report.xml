@@ -2,7 +2,7 @@
 <openerp>
 	<data>
 	
-	    <record id="account.account_invoices" model="ir.action.report.xml">
+	    <record id="account.account_invoices" model="ir.actions.report.xml">
 		<field name="auto" eval="False" />
 		<field name="model">account.invoice</field>
 		<field name="name">account.invoice.layout_ccorp</field>
