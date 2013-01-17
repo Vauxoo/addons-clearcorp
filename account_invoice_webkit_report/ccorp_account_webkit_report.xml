@@ -2,7 +2,7 @@
 <openerp>
 	<data>
 		<report auto="False" 
-		    id="account.account_invoices" 
+		    id="account_invoice_ccorp" 
 		    model="account.invoice" 
 		    name="account.invoice.layout_ccorp"  
 		    file="account_invoice_webkit_report/report/invoice.mako" 
