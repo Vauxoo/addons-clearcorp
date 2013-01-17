@@ -160,6 +160,8 @@
                             <field name = "payment_method_customer"/>
 							<field name = "payment_method_supplier"/>
 							<field name = "payment_verification"/>
+							<field name = "transfers"/>
+							<field name = "check"/>
 						</group>
 					</field>
 				</data>

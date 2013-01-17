@@ -42,6 +42,9 @@ class account_journal(osv.osv):
 		'payment_method_customer'   : fields.boolean('Payment Method Customer'),
 		'payment_method_supplier'   : fields.boolean('Payment Method Supplier'),
 		'payment_verification'      : fields.boolean('Payment Verification'),
+		'transfers'      : fields.boolean('Transfers'),
+		'check'      : fields.boolean('Check'),
+		
 	}
 account_journal()
 
