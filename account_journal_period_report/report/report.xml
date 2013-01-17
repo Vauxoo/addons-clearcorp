@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>            
+         
+         <record id="account.account_journal" model="ir.actions.report.xml">
+             <field name="report_type">webkit</field>
+             <field name="report_name">account_journal_period_print_inherit</field>
+             <field eval="[(6,0,[])]" name="groups_id"/>
+             <field eval="0" name="multi"/>
+             <field eval="0" name="auto"/>
+             <field eval="1" name="header"/>
+             <field name="model">account.print.journal</field>
+             <field name="type">ir.actions.report.xml</field>
+             <field name="name">Journal</field>
+             <field name="report_rml">account_journal_period_report/report/account_journal_period_report.mako</field>
+             <field name="report_file">account_journal_period_report/report/account_journal_period_report.mako</field>
+         </record>       
+    </data>
+</openerp>
