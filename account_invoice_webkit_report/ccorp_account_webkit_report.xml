@@ -4,9 +4,11 @@
 	
 	    <record id="account.account_invoices" model="ir.actions.report.xml">
 		<field name="auto" eval="False" />
+		<field name="multi" eval="False" />
 		<field name="model">account.invoice</field>
 		<field name="name">account.invoice.layout_ccorp</field>
-		<field name="file">account_invoice_webkit_report/report/invoice.mako</field>
+		<field name="report_file">account_invoice_webkit_report/report/invoice.mako</field>
+		<field name="report_rml">account_invoice_webkit_report/report/invoice.mako</field>
 		<field name="report_type">webkit</field>
 	    </record> 
 				
