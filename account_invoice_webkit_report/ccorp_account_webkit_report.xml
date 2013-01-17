@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <openerp>
 	<data>
-		<report auto="False" 
-		    id="account_invoice_ccorp" 
-		    model="account.invoice" 
-		    name="account.invoice.layout_ccorp"  
-		    file="account_invoice_webkit_report/report/invoice.mako" 
-		    string="Invoice HTML" report_type="webkit" 				
-		    attachment="(object.state in ('open','paid')) and ('Fac.'+(object.number or '').replace('/',''))"
-		    attachment_use="1"/>
+	
+	    <record id="account.account_invoices" model="ir.action.report.xml">
+		<field name="auto" eval="False" />
+		<field name="model">account.invoice</field>
+		<field name="name">account.invoice.layout_ccorp</field>
+		<field name="file">account_invoice_webkit_report/report/invoice.mako</field>
+		<field name="report_type">webkit</field>
+	    </record> 
 				
 				
 	   <record id="view_company_form_inherit" model="ir.ui.view">
@@ -27,5 +27,6 @@
                 </data>
             </field>
         </record> 
+	
 	</data>
 </openerp>
