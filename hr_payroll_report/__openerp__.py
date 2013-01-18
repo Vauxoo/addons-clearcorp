@@ -34,7 +34,10 @@
     ],
     'init_xml': [],
     'demo_xml': [],
-    'update_xml': ['hr_payroll_report_report.xml',],
+    'update_xml': [
+                    'hr_payroll_report_report.xml',
+                    'hr_payroll_report_view.xml',
+                ],
     'license': 'AGPL-3',
     'installable': True,
     'active': False,

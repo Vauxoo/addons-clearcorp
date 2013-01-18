@@ -30,6 +30,14 @@ class res_company(osv.osv):
             'payslip_footer':fields.text('Payslip footer'),
     }
 res_company()
+
+class HrSalaryRule(osv.osv):
+    _inherit = 'hr.salary.rule'
+    _columns = {
+        'appears_on_report': fields.boolean('Appears on Report', help="Used for the display of rule on payslip reports"),
+    }
     
-    
-    
+    _defaults = {
+        'appears_on_report': True,
+    }
+
