@@ -65,7 +65,7 @@ class hr_payroll_report(report_sxw.rml_parse):
     
     def get_payslip_lines (self,cr,uid,payslip_id,context=None):
         payslip_line = self.pool.get('hr.payslip.line')
-        payslip_lines_ids = payslip_line.search(cr,uid,[('slip_id','=',payslip_id),('salary_rule_id.appears_on_payslip','=',True)],context)
+        payslip_lines_ids = payslip_line.search(cr,uid,[('slip_id','=',payslip_id),('salary_rule_id.appears_on_report','=',True)],context)
         payslip_lines_object = payslip_line.browse(cr,uid,payslip_lines_ids,context=context)
         payslip_lines_list = []
         base = 0
