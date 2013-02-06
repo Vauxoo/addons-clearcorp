@@ -38,42 +38,47 @@ class AccountWebkitReportLibrary(orm.Model):
         All of param are objects
     """
     
-    def get_interval_period (self, cr, uid, star_period=None, end_period=None, fiscal_year=None):
+    def get_interval_period (self, cr, uid, start_period=None, end_period=None, fiscal_year=None, initial_balance=False):
         
-        account_period_obj = self.pool.get('account.period')
+        period_obj = self.pool.get('account.period')
         period_list = []
         
-        """If start_period and end_period are selected """        
-        if start_period and end_period and fiscal_year:
-            period_list = account_period_obj.search(cr, uid, [('fiscalyear_id', '=', fiscal_year.id), ('date_start', '>=', start_period.date_start), ('date_end', '<=', end_period.date_start), ('special', '=', False)])
+        #si se solicita el intervalo para obtener el balance inicial
+        if initial_balance:
+            if start_period and end_period:
+                #el start_period_id es el periodo anterior al escogido
+                period_list = period_obj.search(cr, uid, [('fiscalyear_id', '=', fiscal_year),('date_stop','<=',start_period.date_stop)])
+            
+            elif not start_period and end_period:
+                #se busca el primer periodo especial del año
+                period_list = period_obj.search(cr, uid, [('fiscalyear_id','=',fiscal_year),('special','=',True)],order='date_start asc')[0]
         
-        """ If end_period are selected (Without start_period) """
-        if not start_period and end_period and fiscal_year:
-            period_list = account_period_obj.search(cr, uid, [('fiscalyear_id', '=', fiscal_year.id), ('date_start', '<=', end_period.date_start), ('special', '=', False)])
-      
+        #si es un balance "corriente"
+        else:
+            if start_period and end_period:
+                #se buscan los periodos que coincidan con el intervalo
+                period_list =  period_obj.search(cr, uid, [('fiscalyear_id','=',fiscal_year), ('date_start','>=',start_period.date_start),('date_stop','<=',end_period.date_start)])
+            
+            elif not start_period and end_period:
+                #todos los periodos hacia "atras" del periodo final
+                period_list = period_obj.search(cr, uid, [('fiscalyear_id', '=', fiscal_year),('date_stop','<=',end_period.date_stop)])
+                
         return period_list
     
     """
         @param start_period: Initial period, can be optional in the filters
         @param end_period: Final period, is required
         @param fiscal_year: Fiscal year, is required
-        @return: The previous period for the range of periods or for the end_period
+        @return: The previous period for start_period
         All of param are objects
     """              
-    def get_previous_period_initial_balance(self, cr, uid, start_period=None, end_period=None, fiscal_year=None):
+    def get_start_previous_period(self, cr, uid, start_period=None, fiscal_year=None):
         
         account_period_obj = self.pool.get('account.period')
-        period_list = []
         
-        """If start_period and end_period are selected """        
-        if start_period and end_period and fiscal_year:
-            period_list = account_period_obj.search(cr, uid, [('fiscalyear_id', '=', fiscal_year.id), ('date_end', '<', start_period.date_start)])
-        
-        """If only end_period are selected, search special period (the oldest one) """
-        if not start_period and end_period and fiscal_year:
-            period_list = account_period_obj.search(cr, uid, [('fiscalyear_id', '=', fiscal_year.id), ('special','=',True)], order='date_start ASC')[0]
-     
-        return period_list
+        pevious_period = account_period_obj.search(cr, uid, [('fiscalyear_id', '=', fiscal_year.id), ('date_stop', '<', start_period.date_stop)], order='date_stop DESC')[0]
+       
+        return pevious_period
         
     def get_move_lines(self, cr, uid, account_ids, filter_type='', filter_data=None, fiscalyear=None, target_move='all', unreconcile = False, historic_strict=False, special_period =False, context=None):
         ''' Get the move lines of the accounts provided and filtered.
@@ -245,6 +250,7 @@ class AccountWebkitReportLibrary(orm.Model):
                             period_ids=False,
                             journal_ids=False,
                             chart_account_id=False,
+                            filter_type = '',
                             context={}):
         ''' Get the balance for the provided account ids with the provided filters
         Arguments:
@@ -262,6 +268,7 @@ class AccountWebkitReportLibrary(orm.Model):
         period_ids:         list of int, list of periods ids used
         journal_ids:        list of int, list of journal ids used
         chart_account_id:   int, chart of account used
+        filter_type:        string, tipo de filtro seleccionado.
         
         If there is an end_period without a start_period, all precedent moves for the end period will be used.
         If there isn't a fiscal year, all open fiscal years will be used. To include all closed fiscal years, the all_fiscal_years must be True.
@@ -291,7 +298,7 @@ class AccountWebkitReportLibrary(orm.Model):
         """
         TODO: Translate to english
         @author: Diana Rodríguez - Clearcorp
-        Cambio realizdo el 1 de febrero de 2012: 
+        Cambio realizado el 1 de febrero de 2012: 
             La variable initial_balance establece si estamos pidiendo un balance inicial (Valor en True). Si es false, pedimos un balance "corriente"
             Si solicitamos un balance inicial existen dos opciones:
                 con un rango de dos períodos: Se obtiene el anterior al período inicial seleccionado que coincida con el año fiscal. Este es el end_period_id
@@ -300,36 +307,64 @@ class AccountWebkitReportLibrary(orm.Model):
             Si solicitamos un balance "corriente" existen dos opciones:
                 Si son dos, se obtiene la lista de periodos y el año fiscal
                 Si solo es el end_period: El año fiscal y el end_period_id es el que se selecciona.                
-        """       
-        if initial_balance:
-            """ Start period and end period """
-            if start_period_id:
-                start_period = self.pool.get('account.period').browse(cr, uid, start_period_id)
-            if end_period_id:
-                end_period = self.pool.get('account.period').browse(cr, uid, end_period_id)            
-            fiscal_year = self.pool.get('account.fiscalyear').browse(cr,uid,fiscal_year_id)
+        """
         
-            if start_period_id and end_period_id:
-                """ Obtain the previous period of start_period"""
-                previous_start_period = self.get_previous_period_initial_balance(cr, uid, start_period=start_period, end_period =end_period, fiscal_year)
-                end_period_id = previous_start_period.id
-                
-            if not start_period_id and end_period_id:
-                """Interval periods to end_period."""
-                period_list = self.get_interval_period(self,cr,uid,start_period=start_period, end_period =end_period, fiscal_year)
-                for period in period_list:
-                    period_ids.append(period.id)
-                #end_period_id = opening period
-                end_period_id = self.get_interval_period(cr, uid, star_period=start_period, end_period=end_period, fiscal_year=fiscal_year)
+        #fiscal_year        
+        fiscal_year = self.pool.get('account.fiscalyear').browse(cr,uid,fiscal_year_id)
         
         if start_period_id:
-            context.update({'start_period_id':start_period_id})
+            start_period = self.pool.get('account.period').browse(cr,uid,start_period_id)
+        if end_period_id:
+            end_period = self.pool.get('account.period').browse(cr,uid,end_period_id)
+                    
+        #Si el filtro es periodos
+        if filter_type == 'filter_period':
+            #se solicita el balance inicial
+            if initial_balance == True:
+                #si se tienen los dos períodos -> Se calcula la lista de períodos hasta el periodo inicial seleccionado. El start_period_id es el periodo
+                #anterior al periodo inicial seleccionado.
+                if start_period_id and end_period_id:
+                    start_period_id = self.get_start_previous_period(cr, uid, start_period=start_period, fiscal_year=fiscal_year)
+                    start_period = self.pool.get('account.period').browse(cr, uid, start_period_id)
+                    period_ids = self.get_interval_period(cr, uid, start_period=start_period, end_period = end_period, fiscal_year=fiscal_year_id, initial_balance=True)
+                    
+                #Si solamente se selecciona el periodo final -> se obtiene el rango de períodos hasta el final. 
+                #el end_period_id = El periodo de apertura más "antiguo"
+                if (not start_period_id and end_period_id):
+                    period_ids = self.get_interval_period(cr, uid, end_period=end_period, fiscal_year=fiscal_year_id,initial_balance=True)
+                    
+            #Si se quiere un balance corriente
+            else:
+                #solamente se selecciona un periodo : Periodo final
+                if not period_ids and fiscal_year_id and not start_period_id and end_period_id:
+                    end_period = period_obj.browse(cr, uid, end_period_id)
+                    period_ids = period_obj.search(cr, uid, ['&',('fiscalyear_id','=',fiscal_year_id),('date_stop', '<=', end_period.date_stop)], context=context)
+                
+                #Se seleccionan ambos periodos
+                if not period_ids and fiscal_year_id and start_period_id and end_period_id:
+                    start_period = period_obj.browse(cr, uid, start_period_id)
+                    end_period = period_obj.browse(cr, uid, end_period_id)
+                    period_ids = self.get_interval_period(cr, uid, start_period=start_period, end_period=end_period, fiscal_year=fiscal_year_id)
+                
+                #solamente en balance "corriente" se necesita el periodo inicial
+                if start_period_id:
+                    context.update({'period_from':start_period_id})
+        
+        #Si no existen filtros, se busca el primer periodo especial del año fiscal          
+        if filter_type == '':       
+            if initial_balance:
+                period_ids = [self.pool.get('account.period').search(cr, uid, [('fiscalyear_id','=',fiscal_year_id),('special','=',True)],order='date_start asc')[0]]
+            else:
+                period_ids = self.pool.get('account.period').search(cr, uid, [('fiscalyear_id','=', fiscal_year_id)] )        
+        
+        #####################################################################
         
         if end_period_id:
-            context.update({'end_period_id':end_period_id})
+            context.update({'period_to':end_period_id})
         
-        if period_list:
-            context.update({'period_list':period_list})
+        if period_ids:
+            context.update({'periods':period_ids})
+        
         '''
         Description for the __compute method:
         Get the balance for the provided account ids with the provided filters
