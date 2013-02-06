@@ -22,11 +22,24 @@
 
 from osv import osv, fields
 
-class project_report_wizard (osv.osv_memory):
+class Project(osv.osv):
+    _inherit = "project.project"
+    _columns = {
+        'wizard_id' : fields.many2one('project.report.wizard', 'Wizard'),
+    }
+
+class ProjectWork(osv.osv):
+    _inherit = "project.task.work"
+    _columns = {
+        'project': fields.related('task_id', 'project_id', type='many2one', relation='project.project', string='Project', store=False, readonly=True)
+    }
+    
+class project_report_wizard (osv.osv):
     _name = 'project.report.wizard'
     _columns = {
         'date_from' : fields.date('Start Date', required=True),
         'date_to' : fields.date('End Date', required=True),
+        'project_ids' : fields.one2many('project.project', 'wizard_id', 'Projects'),
     }
     
     
@@ -44,7 +57,7 @@ class project_report_wizard (osv.osv_memory):
         datas = {}
         datas['ids'] = context.get('active_ids', [])
         datas['model'] = context.get('active_model', 'ir.ui.menu')
-        datas['form'] = self.read(cr, uid, ids, ['date_from',  'date_to'], context=context)[0]
+        datas['form'] = self.read(cr, uid, ids, ['date_from',  'date_to', 'project_ids'], context=context)[0]
         return self._print_report(cr, uid, ids, datas, context=context)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

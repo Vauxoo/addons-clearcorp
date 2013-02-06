@@ -11,7 +11,14 @@
                 <form string="Project Report">
                     <separator string="Dates" colspan="4"/>
                     <field name="date_from" />
-                    <field name="date_to" />                    
+                    <field name="date_to" />
+                    <newline/>
+                    <separator string="Projects" colspan="4" />
+                    <field name="project_ids" nolabel="1" colspan="4" widget="many2many">
+                        <tree string="Projects" editable="top">
+                            <field name="shortcut_name" />
+                        </tree>
+                    </field>
                     <newline/>
                     <label/>
                     <newline/>

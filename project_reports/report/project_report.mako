@@ -42,7 +42,8 @@
             setLang(user.context_lang)
             start_date = data['form']['date_from']
             end_date = data['form']['date_to']
-            project_task_works = get_project_task_works_by_dates(cr, uid, start_date, end_date)
+            project_ids = data['form']['project_ids']
+            project_task_works = get_project_task_works_by_dates(cr, uid, start_date, end_date, project_ids)
             project_tasks = get_project_tasks(cr, uid, project_task_works)
             projects = get_projects(cr, uid, project_tasks)
             user_hours_total = get_user_hours(cr, uid, project_task_works)
@@ -57,45 +58,53 @@
         %for project in projects:
         <br></br>
             <% total_hours_project = 0.00 %>
-            <div style="font-size: 16px; font-weight: bold; text-align: left;">${project.complete_name or ' '}</div>
+            <div style="font-size: 16px; font-weight: bold; text-align: left;">${project.shortcut_name or ' '}</div>
             %for project_task in project_tasks:
                 <% total_hours_project_task = 0.00 %>
                 %if project_task.project_id.id == project.id:
                     <div class="act_as_table list_table">
                         <div class="act_as_thead">
                             <div class="act_as_row labels" style="font-weight: bold; font-size: 11x;">
-                                <div class="act_as_cell first_column" style="vertical-align: middle; text-align:center;">${_('Task Summary')}</div>
+                                <div class="act_as_cell first_column" style="width:40px; vertical-align: middle; text-align:center;">${_('ID Task')}</div>
+                                <div class="act_as_cell" style="vertical-align: middle; text-align:center;">${_('Task Summary')}</div>
                                 <div class="act_as_cell amount" style="vertical-align: middle; text-align:center;">${_('Description')}</div>
                             </div>
                         </div>
                         <div class="act_as_tbody">  
                             <div class="act_as_row lines">
-                                <div class="act_as_cell">${project_task.name or ' '}</div>
-                                <div class="act_as_cell">${project_task.description or ' '}</div>                    
+                                <div class="act_as_cell" style="width:40px; text-align:center;">${project_task.id_task or ' '}</div>
+                                <div class="act_as_cell" style="text-align:center;">${project_task.name or ' '}</div>
+                                <div class="act_as_cell" style="text-align:justify;">${project_task.description or ' '}</div>                    
                             </div>
                         </div>
                     </div>
-                    <div class="act_as_table data_table " style="width: 500px; margin-left:auto; margin-right:auto;">
+                    <div class="act_as_table data_table " style="width: 650px; margin-left:auto; margin-right:auto;">
                         <div class="act_as_thead" style="align:center">
                             <div class="act_as_row lines">
                                     <div class="act_as_cell" style="text-align:center;"><b>${_('Work Summary ')}</b></div>
-                                    <div class="act_as_cell" style="text-align:center;"><b>${_('Time Spent')}</b></div>
-                                    <div class="act_as_cell" style="text-align:center;"><b>${_('Done by')}</b></div>
+                                    <div class="act_as_cell" style="width:70px; text-align:center;"><b>${_('Date')}</b></div>
+                                    <div class="act_as_cell" style="width:80px; text-align:center;"><b>${_('Time Spent')}</b></div>
+                                    <div class="act_as_cell" style="width:120px; text-align:center;"><b>${_('Done by')}</b></div>
                                 </div>
                             </div>
                             <div class="act_as_tbody">
                                 %for project_task_work in project_task.work_ids:
                                     %if project_task_work in project_task_works:
                                         <div class="act_as_row lines">
-                                            <div class="act_as_cell"style="text-align:center;">${project_task_work.name or ' '}</div>
+                                            <div class="act_as_cell" style="text-align:justify;">${project_task_work.name or ' '}</div>
                                             <% 
+                                                datetime_project_task_work = project_task_work.date
+                                                date_project_task_work_list = datetime_project_task_work.split(' ')
+                                                date_project_task_work = date_project_task_work_list[0]
+                                            
                                                 hours_project_task_work = round(project_task_work.hours, 2)
                                                 total_hours_project_task = total_hours_project_task + project_task_work.hours
                                                 user_hours_project[project_task_work.user_id.name] = user_hours_project[project_task_work.user_id.name] + project_task_work.hours
                                                 user_hours_total[project_task_work.user_id.name] = user_hours_total[project_task_work.user_id.name] + project_task_work.hours
                                             %>
-                                            <div class="act_as_cell"style="text-align:center;">${hours_project_task_work or ' '}</div>                        
-                                            <div class="act_as_cell"style="text-align:center;">${project_task_work.user_id.name or ' '}</div>
+                                            <div class="act_as_cell" style="width:70px; text-align:center;">${date_project_task_work or ' '}</div>
+                                            <div class="act_as_cell" style="width:80px; text-align:center;">${hours_project_task_work or ' '}</div>                        
+                                            <div class="act_as_cell" style="width:120px; text-align:center;">${project_task_work.user_id.name or ' '}</div>
                                         </div>
                                     %endif
                                 %endfor
