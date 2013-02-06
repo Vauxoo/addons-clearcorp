@@ -28,6 +28,7 @@
     'complexity': 'normal',
     "description": """
 This module changes de reference name of the project by a concatenated name using the project code.
+This module added id_task in project task
     """,
     "category": 'Project Management',
     "sequence": 4,
@@ -37,7 +38,7 @@ This module changes de reference name of the project by a concatenated name usin
     "depends" : ['project'],
     "init_xml" : [],
     "demo_xml" : [],
-    "update_xml" : ["project_name_view.xml"],
+    "update_xml" : ["project_extended_view.xml"],
     "test" : [],
     "auto_install": False,
     "application": False,
