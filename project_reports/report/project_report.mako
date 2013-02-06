@@ -65,14 +65,14 @@
                     <div class="act_as_table list_table">
                         <div class="act_as_thead">
                             <div class="act_as_row labels" style="font-weight: bold; font-size: 11x;">
-                                <div class="act_as_cell first_column" style="width:40px; vertical-align: middle; text-align:center;">${_('ID Task')}</div>
+                                <div class="act_as_cell first_column" style="width:40px; vertical-align: middle; text-align:center;">${_('ID')}</div>
                                 <div class="act_as_cell" style="vertical-align: middle; text-align:center;">${_('Task Summary')}</div>
                                 <div class="act_as_cell amount" style="vertical-align: middle; text-align:center;">${_('Description')}</div>
                             </div>
                         </div>
                         <div class="act_as_tbody">  
                             <div class="act_as_row lines">
-                                <div class="act_as_cell" style="width:40px; text-align:center;">${project_task.id_task or ' '}</div>
+                                <div class="act_as_cell" style="width:40px; text-align:center;">${project_task.id or ' '}</div>
                                 <div class="act_as_cell" style="text-align:center;">${project_task.name or ' '}</div>
                                 <div class="act_as_cell" style="text-align:justify;">${project_task.description or ' '}</div>                    
                             </div>
