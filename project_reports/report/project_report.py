@@ -42,9 +42,15 @@ class project_report_report(report_sxw.rml_parse):
             'get_user_hours': self.get_user_hours,
         })
         
-    def get_project_task_works_by_dates(self, cr, uid, start_date, end_date):
+    def get_project_task_works_by_dates(self, cr, uid, start_date, end_date, project_ids=[]):
         project_task_work_obj = self.pool.get('project.task.work')
-        project_task_work_ids = project_task_work_obj.search(cr, uid, [('date','>=',start_date), ('date','<=',end_date)])
+        
+        project_task_work_ids = []
+        if project_ids == []:
+            project_task_work_ids = project_task_work_obj.search(cr, uid, [('date','>=',start_date), ('date','<=',end_date)])
+        else:
+            project_task_work_ids = project_task_work_obj.search(cr, uid, [('date','>=',start_date), ('date','<=',end_date), ('project', 'in', project_ids)])
+        
         project_task_works = project_task_work_obj.browse(cr, uid, project_task_work_ids)
         return project_task_works
         

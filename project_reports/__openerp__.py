@@ -20,7 +20,7 @@
 #
 ##############################################################################
 {
-    'name': 'Project Report',
+    'name': 'Project Reports',
     'version': '1.0',
     'url': 'http://launchpad.net/openerp-ccorp-addons',
     'author': 'ClearCorp S.A.',
@@ -29,9 +29,7 @@
     'complexity': 'normal',
     'description': """This module adds project reports
     """,
-    'depends': [
-                'project',
-                ],
+    'depends': ['project_extended',],
     'init_xml': [],
     'demo_xml': [],
     'update_xml': [
