@@ -20,4 +20,4 @@
 #
 ##############################################################################
 
-import project_name_shortcut
+import project_extended
