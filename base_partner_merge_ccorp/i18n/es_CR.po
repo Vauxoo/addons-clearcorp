@@ -1,0 +1,172 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* base_partner_merge_ccorp
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-02-11 20:48+0000\n"
+"PO-Revision-Date: 2013-02-11 20:48+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: base_partner_merge_ccorp
+#: code:addons/base_partner_merge_ccorp/wizard/base_partner_merge_address_ccorp.py:91
+#, python-format
+msgid "Select Values"
+msgstr "Seleccione los valores a preservar"
+
+#. module: base_partner_merge_ccorp
+#: code:addons/base_partner_merge_ccorp/wizard/base_partner_merge_address_ccorp.py:65
+#, python-format
+msgid "You must select only two addresses"
+msgstr "Sólo puede seleccionar 2 direcciones"
+
+#. module: base_partner_merge_ccorp
+#: code:addons/base_partner_merge_ccorp/wizard/base_partner_merge_address_ccorp.py:124
+#, python-format
+msgid "The same address is selected in both fields."
+msgstr "La misma dirección está en ambos campos."
+
+#. module: base_partner_merge_ccorp
+#: field:base.partner.merge,container:0
+#: field:base.partner.merge.address.values,container:0
+msgid "Fields Container"
+msgstr "Campos contenedores"
+
+#. module: base_partner_merge_ccorp
+#: view:base.partner.merge.address:0
+#: view:base.partner.merge.address.values:0
+#: model:ir.actions.act_window,name:base_partner_merge_ccorp.action_base_partner_merge_address_form
+#: model:ir.ui.menu,name:base_partner_merge_ccorp.menu_base_partner_address_merge
+msgid "Merge Partner Addresses"
+msgstr "Mezclar direcciones de Partner"
+
+#. module: base_partner_merge_ccorp
+#: field:base.partner.merge.address,address_id1:0
+msgid "Address1"
+msgstr "Dirección1"
+
+#. module: base_partner_merge_ccorp
+#: field:base.partner.merge.address,address_id2:0
+msgid "Address2"
+msgstr "Dirección2"
+
+#. module: base_partner_merge_ccorp
+#: model:ir.model,name:base_partner_merge_ccorp.model_base_partner_merge_address_values
+msgid "Merges two Addresses"
+msgstr "Mezcla dos direcciones"
+
+#. module: base_partner_merge_ccorp
+#: code:addons/base_partner_merge_ccorp/wizard/base_partner_merge_ccorp.py:258
+#, python-format
+msgid "You have more than one default type in your addresses.\n"
+" Please change it and test once again!"
+msgstr "Tiene más de un tipo por defecto en sus direcciones.\n"
+" Por favor cámbielo y pruebe nuevamente!"
+
+#. module: base_partner_merge_ccorp
+#: code:addons/base_partner_merge_ccorp/wizard/base_partner_merge_ccorp.py:138
+#: code:addons/base_partner_merge_ccorp/wizard/base_partner_merge_ccorp.py:216
+#, python-format
+msgid "You must select only two partners"
+msgstr "Debe seleccionar sólo 2 partners"
+
+#. module: base_partner_merge_ccorp
+#: view:base.partner.merge.address:0
+msgid "Merge partner addresses"
+msgstr "Mezclar direcciones de Partner"
+
+#. module: base_partner_merge_ccorp
+#: code:addons/base_partner_merge_ccorp/wizard/base_partner_merge_ccorp.py:265
+#, python-format
+msgid "You have to change the type of the default address of one of the partner to avoid having two default addresses"
+msgstr "Debe cambiar el tipo de dirección por defecto de uno de los partner para evitar tener dos direcciones por defecto"
+
+#. module: base_partner_merge_ccorp
+#: code:addons/base_partner_merge_ccorp/wizard/base_partner_merge_address_ccorp.py:80
+#, python-format
+msgid "Selected addresses do not belong to the same partner!"
+msgstr "Las direcciones seleccionadas no pertencen al mismo proveedor !"
+
+#. module: base_partner_merge_ccorp
+#: view:base.partner.merge.address:0
+msgid "_Next"
+msgstr "_Siguiente"
+
+#. module: base_partner_merge_ccorp
+#: model:ir.model,name:base_partner_merge_ccorp.model_base_partner_merge_address
+msgid "Merges two addresses"
+msgstr "Mezcla dos direcciones"
+
+#. module: base_partner_merge_ccorp
+#: view:base.partner.merge:0
+#: view:base.partner.merge.address.values:0
+msgid "Merge"
+msgstr "Mezclar"
+
+#. module: base_partner_merge_ccorp
+#: code:addons/base_partner_merge_ccorp/wizard/base_partner_merge_address_ccorp.py:80
+#, python-format
+msgid "Error"
+msgstr "Error"
+
+#. module: base_partner_merge_ccorp
+#: view:base.partner.merge:0
+#: view:base.partner.merge.address.values:0
+msgid "placeholder"
+msgstr "placeholder"
+
+#. module: base_partner_merge_ccorp
+#: view:base.partner.merge:0
+#: model:ir.actions.act_window,name:base_partner_merge_ccorp.action_base_partner_merge_form
+msgid "Merge Partners"
+msgstr "Mezclar partners"
+
+#. module: base_partner_merge_ccorp
+#: model:ir.actions.act_window,name:base_partner_merge_ccorp.act_base_partner_merge_addresses_link
+msgid "Addresses"
+msgstr "Direcciones"
+
+#. module: base_partner_merge_ccorp
+#: code:addons/base_partner_merge_ccorp/wizard/base_partner_merge_address_ccorp.py:124
+#: code:addons/base_partner_merge_ccorp/wizard/base_partner_merge_ccorp.py:138
+#: code:addons/base_partner_merge_ccorp/wizard/base_partner_merge_ccorp.py:216
+#: code:addons/base_partner_merge_ccorp/wizard/base_partner_merge_ccorp.py:258
+#: code:addons/base_partner_merge_ccorp/wizard/base_partner_merge_ccorp.py:265
+#, python-format
+msgid "Error!"
+msgstr "Error!"
+
+#. module: base_partner_merge_ccorp
+#: model:ir.model,name:base_partner_merge_ccorp.model_base_partner_merge
+msgid "Merges two partners"
+msgstr "Mezcla dos partners"
+
+#. module: base_partner_merge_ccorp
+#: code:addons/base_partner_merge_ccorp/wizard/base_partner_merge_address_ccorp.py:65
+#, python-format
+msgid "Warning!"
+msgstr "Advertencia!"
+
+#. module: base_partner_merge_ccorp
+#: view:base.partner.merge.address:0
+msgid "_Cancel"
+msgstr "_Cancelar"
+
+#. module: base_partner_merge_ccorp
+#: view:base.partner.merge:0
+#: view:base.partner.merge.address.values:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: base_partner_merge_ccorp
+#: model:ir.model,name:base_partner_merge_ccorp.model_res_partner_address
+msgid "Partner Addresses"
+msgstr "Direcciones de partner"
+

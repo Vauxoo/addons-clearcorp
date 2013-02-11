@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="view_base_partner_merge_add_form">
+            <field name="name">base.partner_merge.address.form</field>
+            <field name="model">base.partner.merge.address</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Merge partner addresses">
+                    <separator string="Merge Partner Addresses" colspan="4"/>
+                    <field name="address_id1"/>
+                    <newline/>
+                    <field name="address_id2" context="{'merge':address_id1}"/>
+                    <separator string="" colspan="4"/>
+                    <group colspan="4" col="3">
+                        <label string=""/>
+                        <button special="cancel" string="_Cancel" icon="gtk-cancel"/>
+                        <button name="action_next" string="_Next" type="object" icon="gtk-go-forward"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_base_partner_address_merge_form">
+            <field name="name">base.partner.merge.address.values.form</field>
+            <field name="model">base.partner.merge.address.values</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Merge Partner Addresses">
+                    <separator colspan="4" name="sep_diff"/>
+                    <label string="placeholder"/>
+                    <separator colspan="4"/>
+                    <group col="4" colspan="4">
+                        <button special="cancel" string="Cancel" icon="gtk-cancel"/>
+                        <button name="action_merge" string="Merge" type="object" icon="gtk-ok"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_base_partner_merge_address_form" model="ir.actions.act_window">
+            <field name="name">Merge Partner Addresses</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">base.partner.merge.address</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_base_partner_merge_add_form"/>
+            <field name="target">new</field>
+        </record>
+
+       <menuitem action="action_base_partner_merge_address_form" id="menu_base_partner_address_merge" parent="base.menu_base_config"/>
+
+        <record id="action_base_partner_address_merge_form_values" model="ir.values">
+            <field name="model_id" ref="base.model_res_partner_address" />
+            <field name="object" eval="1" />
+            <field name="name">Merge Partner Addresses</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.act_window,' + str(ref('action_base_partner_merge_address_form'))"/>
+            <field name="key">action</field>
+            <field name="model">res.partner.address</field>
+        </record>
+
+        <!-- Add a link to the addresses on the partners: useful to merge addresses right after a partner merge -->
+        <act_window domain="[('partner_id', '=', active_id)]" id="act_base_partner_merge_addresses_link" name="Addresses" res_model="res.partner.address" src_model="res.partner"/>
+
+    </data>
+</openerp>
