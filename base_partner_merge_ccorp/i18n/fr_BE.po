@@ -1,0 +1,127 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* base_partner_merge
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 5.0.6\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2009-11-25 05:33:56+0000\n"
+"PO-Revision-Date: 2009-11-25 05:33:56+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: base_partner_merge
+#: help:base_partner_address.merge,init,address_id2:0
+msgid "Select second partner address to merge"
+msgstr ""
+
+#. module: base_partner_merge
+#: model:ir.module.module,shortdesc:base_partner_merge.module_meta_information
+msgid "Partner Merger"
+msgstr ""
+
+#. module: base_partner_merge
+#: code:addons/base_partner_merge/wizard/merge_partners.py:0
+#: model:ir.actions.wizard,name:base_partner_merge.wizard_base_partner_merge
+#: model:ir.ui.menu,name:base_partner_merge.menu_wizard_base_partner_merge
+#, python-format
+msgid "Merge Partners"
+msgstr ""
+
+#. module: base_partner_merge
+#: wizard_field:base_partner.merge,init,partner_id2:0
+msgid "Second partner"
+msgstr ""
+
+#. module: base_partner_merge
+#: wizard_view:base_partner.merge,init:0
+msgid "Merge Two Partners"
+msgstr ""
+
+#. module: base_partner_merge
+#: code:addons/base_partner_merge/wizard/merge_partners_address.py:0
+#, python-format
+msgid "Merge Partner Addresses"
+msgstr ""
+
+#. module: base_partner_merge
+#: wizard_field:base_partner_address.merge,init,address_id1:0
+msgid "First address"
+msgstr ""
+
+#. module: base_partner_merge
+#: wizard_field:base_partner_address.merge,init,address_id2:0
+msgid "Second address"
+msgstr ""
+
+#. module: base_partner_merge
+#: wizard_button:base_partner.merge,init,next:0
+#: wizard_button:base_partner_address.merge,init,next:0
+msgid "Next"
+msgstr ""
+
+#. module: base_partner_merge
+#: wizard_button:base_partner.merge,next,next_1:0
+msgid "Create And Open Partner"
+msgstr ""
+
+#. module: base_partner_merge
+#: wizard_field:base_partner.merge,init,partner_id1:0
+msgid "First partner"
+msgstr ""
+
+#. module: base_partner_merge
+#: wizard_button:base_partner_address.merge,next,next_1:0
+msgid "Create And Open Address"
+msgstr ""
+
+#. module: base_partner_merge
+#: help:base_partner.merge,init,partner_id2:0
+msgid "Select second partner to merge"
+msgstr ""
+
+#. module: base_partner_merge
+#: help:base_partner.merge,init,partner_id1:0
+msgid "Select first partner to merge"
+msgstr ""
+
+#. module: base_partner_merge
+#: help:base_partner_address.merge,init,address_id1:0
+msgid "Select first partner address to merge"
+msgstr ""
+
+#. module: base_partner_merge
+#: wizard_button:base_partner.merge,init,end:0
+#: wizard_button:base_partner.merge,next,end:0
+#: wizard_button:base_partner_address.merge,init,end:0
+#: wizard_button:base_partner_address.merge,next,end:0
+msgid "Cancel"
+msgstr ""
+
+#. module: base_partner_merge
+#: wizard_view:base_partner_address.merge,init:0
+msgid "Merge Two Partner Address"
+msgstr ""
+
+#. module: base_partner_merge
+#: model:ir.module.module,description:base_partner_merge.module_meta_information
+msgid "\n"
+"\n"
+"    This Module creates two wizard on:\n"
+"    1. partners\configuration\merge partners => It merge two partners and create new third partner, and deactivate old two partners\n"
+"    2. partners\configuration\merge addresses => It merge two partner addresses and create new third address, and deactivate old two addresses\n"
+"\n"
+"    "
+msgstr ""
+
+#. module: base_partner_merge
+#: model:ir.actions.wizard,name:base_partner_merge.wizard_base_partner_address_merge
+#: model:ir.ui.menu,name:base_partner_merge.menu_wizard_base_partner_address_merge
+msgid "Merge Addresses"
+msgstr ""
+
