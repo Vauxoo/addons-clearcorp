@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>              
+       <record id="archive_purchase_order_form" model="ir.ui.view">
+            <field name="name">archive.purchase.order.form</field>
+            <field name="model">purchase.order</field>
+            <field name="type">form</field>
+            <field name="sequence">15</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page[@string='Purchase Order']/group[2]" position="attributes">
+                    <attribute name="col">12</attribute>
+                </xpath>
+                <field name="state" position="replace">
+                    <field name="state" widget="statusbar" statusbar_visible="archived,draft,approved,done" statusbar_colors='{"except_picking":"red","except_invoice":"red","confirmed":"blue","wait":"blue"}' readonly="1"/>
+                </field>
+                <button name="purchase_cancel" position="before">
+                    <button name="action_archive" states="draft,approved,except_picking,except_invoice,wait" string="Archive" type="object" icon="gtk-directory"/>
+                </button>
+            </field>
+        </record> 
+
+		<record id="archive_view_request_for_quotation_filter" model="ir.ui.view">
+            <field name="name">archive.request.quotation.select</field>
+            <field name="model">purchase.order</field>
+            <field name="type">search</field>
+            <field name="inherit_id" ref="purchase.view_request_for_quotation_filter"/>
+            <field name="arch" type="xml">
+                <filter name="approved" position="after">
+                    <filter icon="gtk-directory" name="archived" string="Archived" domain="[('state','=','archived')]"  help="Archived purchase order"/>
+                </filter>
+            </field>
+        </record> 
+		<record id="archive_view_purchase_quotation_filter" model="ir.ui.view">
+            <field name="name">archive.purchase.order.list.select</field>
+            <field name="model">purchase.order</field>
+            <field name="type">search</field>
+            <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+            <field name="arch" type="xml">
+                <filter name="approved" position="after">
+                    <filter icon="gtk-directory" name="archived" string="Archived" domain="[('state','=','archived')]"  help="Archived purchase order"/>
+                </filter>
+            </field>
+        </record> 
+    </data>
+</openerp>
+
