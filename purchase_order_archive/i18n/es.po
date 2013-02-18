@@ -1,0 +1,1 @@
+/home/willy-gomez/Development/openerp/openerp-ccorp-addons/features/6.1-purchase_order_archive/purchase_order_archive/i18n/es_CR.po
