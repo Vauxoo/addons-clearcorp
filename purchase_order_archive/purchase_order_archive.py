@@ -33,6 +33,7 @@ from tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
 
 
 class ccorp_purchase_order_archive(osv.osv):
+    #Customization for purchase.order adding "archived" state and performing workflow operations for this new state.
     _inherit = 'purchase.order'
     
     STATE_SELECTION = [
@@ -53,6 +54,7 @@ class ccorp_purchase_order_archive(osv.osv):
         
         }
         
+        #Cancel the order and put it into archived status 
     def action_archive(self, cr, uid, ids, context=None):
         wf_service = netsvc.LocalService("workflow")
         for purchase in self.browse(cr, uid, ids, context=context):
@@ -77,7 +79,8 @@ class ccorp_purchase_order_archive(osv.osv):
             self.log(cr, uid, id, message)
         self.write(cr,uid,ids,{'state':'archived'})
         return True
-
+    
+        #Overwrites the unlink, disabling the option of delete the order once archived 
     def unlink(self, cr, uid, ids, context=None):
         purchase_orders = self.read(cr, uid, ids, ['state'], context=context)
         unlink_ids = []
@@ -97,6 +100,7 @@ class ccorp_purchase_order_archive(osv.osv):
 
         return super(ccorp_purchase_order_archive, self).unlink(cr, uid, unlink_ids, context=context)
     
+    #Overwrites the write, disabling the option of modify the order once archived
     def write(self, cr, uid, ids, vals, context=None):
         purchase_orders = self.read(cr, uid, ids, ['state'], context=context)
         unlink_ids = []
