@@ -271,15 +271,17 @@ class base_partner_merge(osv.osv_memory):
         self.custom_updates(cr, uid, part_id, [part1, part2], context)
 
         # For one2many fields on res.partner
-        cr.execute("SELECT name, model "
-                   "FROM ir_model_fields "
-                   "WHERE relation='res.partner' "
-                   "AND ttype NOT IN ('many2many', 'one2many');")
+        cr.execute("SELECT IMF.name, IMF.model "
+                   "FROM ir_model_fields IMF INNER JOIN pg_catalog.pg_class PGC ON PGC.relname = replace(IMF.model, '.', '_' )"
+                   "WHERE IMF.relation='res.partner' "
+                   "AND IMF.ttype NOT IN ('many2many', 'one2many')"
+                   "AND PGC.relkind = 'r';")
+                       
         for name, model_raw in cr.fetchall():
-            if hasattr(pool.get(model_raw), '_auto'):
-                if not pool.get(model_raw)._auto:
-                    continue
-            elif hasattr(pool.get(model_raw), '_check_time'):
+#            if hasattr(pool.get(model_raw), '_auto'):
+#                if not pool.get(model_raw)._auto:
+#                    continue
+            if hasattr(pool.get(model_raw), '_check_time'):
                 continue
             else:
                 if hasattr(pool.get(model_raw), '_columns'):
@@ -287,6 +289,8 @@ class base_partner_merge(osv.osv_memory):
                     if pool.get(model_raw)._columns.get(name, False) and isinstance(pool.get(model_raw)._columns[name], fields.many2one):
                         model = model_raw.replace('.', '_')
                         if name not in ('relation_partner_answer'):
+                            update_query = "update "+model+" set "+name+"="+str(part_id)+" where "+ tools.ustr(name) +" in ("+ tools.ustr(part1) +", "+tools.ustr(part2)+")"
+                            print update_query
                             cr.execute("update "+model+" set "+name+"="+str(part_id)+" where "+ tools.ustr(name) +" in ("+ tools.ustr(part1) +", "+tools.ustr(part2)+")")
 
         return {}
