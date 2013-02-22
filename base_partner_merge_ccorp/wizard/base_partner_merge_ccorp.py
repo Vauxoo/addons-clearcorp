@@ -285,8 +285,6 @@ class base_partner_merge(osv.osv_memory):
                     if pool.get(model_raw)._columns.get(name, False) and isinstance(pool.get(model_raw)._columns[name], fields.many2one):
                         model = model_raw.replace('.', '_')
                         if name not in ('relation_partner_answer'):
-                            update_query = "update "+model+" set "+name+"="+str(part_id)+" where "+ tools.ustr(name) +" in ("+ tools.ustr(part1) +", "+tools.ustr(part2)+")"
-                            print update_query
                             cr.execute("update "+model+" set "+name+"="+str(part_id)+" where "+ tools.ustr(name) +" in ("+ tools.ustr(part1) +", "+tools.ustr(part2)+")")
 
         return {}
