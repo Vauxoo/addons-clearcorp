@@ -278,14 +278,10 @@ class base_partner_merge(osv.osv_memory):
                    "AND PGC.relkind = 'r';")
                        
         for name, model_raw in cr.fetchall():
-#            if hasattr(pool.get(model_raw), '_auto'):
-#                if not pool.get(model_raw)._auto:
-#                    continue
             if hasattr(pool.get(model_raw), '_check_time'):
                 continue
             else:
                 if hasattr(pool.get(model_raw), '_columns'):
-                    from osv import fields
                     if pool.get(model_raw)._columns.get(name, False) and isinstance(pool.get(model_raw)._columns[name], fields.many2one):
                         model = model_raw.replace('.', '_')
                         if name not in ('relation_partner_answer'):

@@ -1,25 +1,24 @@
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2009 Tiny SPRL (<http://tiny.be>). All Rights Reserved
-#    $Id$
+#    Addons modules by CLEARCORP S.A.
+#    Copyright (C) 2009-TODAY CLEARCORP S.A. (<http://clearcorp.co.cr>).
 #
 #    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
+#    GNU Affero General Public License for more details.
 #
-#    You should have received a copy of the GNU General Public License
+#    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-# Fixes, improvements and V6 adaptation by Guewen Baconnier - Camptocamp 2011
 # 
 
 {
@@ -27,6 +26,8 @@
     'version': '1.0',
     'category': 'Generic Modules/Base',
     'description': """
+Originally developed by Tiny SPRL and fixes, improved and V6 adaptated by Guewen Baconnier - Camptocamp 2011
+This module has been adopted by CLEARCORP from the extra-trunk repository
 To merge 2 partners, select them in the list view and execute the Action "Merge Partners".
 To merge 2 addresses, select them in the list view and execute the Action "Merge Partner Addresses" or use the menu item :
  Partners / Configuration / Merge Partner Addresses
@@ -39,7 +40,7 @@ The selected addresses/partners are deactivated and a new one is created with :
  - All the one2many relations (invoices, sale_orders, ...) are updated in order to link to the new resource.
 
     """,
-    'author': 'Tiny-CLEARCORP',
+    'author': 'CLEARCORP',
     'website': 'http://www.clearcorp.co.cr',
     'depends': ['base','base_partner_sequence_ccorp'],
     'init_xml': [],
