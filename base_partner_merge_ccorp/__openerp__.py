@@ -26,7 +26,8 @@
     'version': '1.0',
     'category': 'Generic Modules/Base',
     'description': """
-Originally developed by Tiny SPRL and fixes, improved and V6 adaptated by Guewen Baconnier - Camptocamp 2011
+Originally developed by Tiny SPRL.
+Fixed, improved and adapted to V6 by Guewen Baconnier - Camptocamp 2011
 This module has been adopted by CLEARCORP from the extra-trunk repository
 To merge 2 partners, select them in the list view and execute the Action "Merge Partners".
 To merge 2 addresses, select them in the list view and execute the Action "Merge Partner Addresses" or use the menu item :
