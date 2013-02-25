@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+       <record id="view_res_partner_bank_inherit" model="ir.ui.view">
+            <field name="name">res.partner.bank.inherit</field>
+            <field name="model">res.partner.bank</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_partner_bank_form"/>
+            <field name="arch" type="xml">
+                <data>                
+                    <field name="bank_bic" position="after">    
+                        <field name="parser" /> 
+                    </field>
+                </data>
+            </field>
+        </record>
+    </data>
+</openerp>
