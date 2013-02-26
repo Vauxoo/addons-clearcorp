@@ -25,8 +25,11 @@ class partner_sequence(osv.osv):
     _inherit = 'res.partner'
     
     def create(self, cr, uid, vals, context={}):
-        if vals['ref']== None or vals['ref'] == '':
+        if 'ref' not in vals.keys():
             vals['ref'] = self.pool.get('ir.sequence').get(cr, uid, 'res.partner')
+        else:
+            if vals['ref']== None or vals['ref'] == '':
+                vals['ref'] = self.pool.get('ir.sequence').get(cr, uid, 'res.partner')
         res = super(partner_sequence, self).create(cr, uid, vals, context)
         return res
     _columns = {
