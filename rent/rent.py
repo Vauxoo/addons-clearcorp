@@ -911,7 +911,7 @@ class rent_rent(osv.osv):
         company_id = (type == 'rent' and obj_rent.company_id.id or (obj_rent.rent_main_company_id and obj_rent.rent_main_company_id.id or False))
         
         inv = {
-            'name': desc or obj_rent.name,
+            'description': desc or obj_rent.name,
             'reference': obj_rent.name or desc,
             'account_id': a,
             'type': 'out_invoice',
@@ -1102,7 +1102,7 @@ class rent_rent(osv.osv):
         a = obj_rent.rent_inv_water_account_id.id or obj_rent.rent_inv_account_id.id
         
         inv.update({
-            'name': desc or obj_rent.name,
+            'description': desc or obj_rent.name,
         #    'account_id': a,
             'currency_id': currency,
             'invoice_line': il,
@@ -1781,6 +1781,12 @@ class rent_invoice_log(osv.osv):
         #'log_rent' : fields.many2one('rent.rent','Rent Ref'),
     }
 
+class account_invoice(osv.osv):
+    _inherit = 'account.invoice'
+    _columns = {
+        'description': fields.char('Description', size=64, select=True, readonly=True, states={'draft':[('readonly',False)]}),
+    }
+    
 class rent_contract(osv.osv):
     _name = 'rent.contract'
     
