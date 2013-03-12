@@ -1780,12 +1780,6 @@ class rent_invoice_log(osv.osv):
         'log_desc' : fields.char('Description',size=200),
         #'log_rent' : fields.many2one('rent.rent','Rent Ref'),
     }
-
-class account_invoice(osv.osv):
-    _inherit = 'account.invoice'
-    _columns = {
-        'description': fields.char('Description', size=64, select=True, readonly=True, states={'draft':[('readonly',False)]}),
-    }
     
 class rent_contract(osv.osv):
     _name = 'rent.contract'
