@@ -1217,20 +1217,6 @@
             </field>
         </record>
         
-        <record model = "ir.ui.view" id = "rent_invoice_form_view">
-            <field name = "name">rent.invoice.supplier.form</field>
-            <field name = "model">account.invoice</field>
-            <field name = "type">form</field>
-            <field name = "inherit_id" ref = "account.invoice_supplier_form"/>
-            <field name = "arch" type="xml">
-                <data>
-                    <field name="date_invoice" position="before">
-                        <field name = "description" />
-                    </field>
-                </data>
-            </field>
-        </record>
-        
         <!--
         ======================================
                     CONTRACTS
