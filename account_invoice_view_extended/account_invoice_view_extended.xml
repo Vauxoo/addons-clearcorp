@@ -3,7 +3,7 @@
     <data>
      
         <record model = "ir.ui.view" id = "ccorp_invoice_supplier_form">
-            <field name = "name">rent.invoice.supplier.form</field>
+            <field name = "name">ccorp.invoice.supplier.form</field>
             <field name = "model">account.invoice</field>
             <field name = "type">form</field>
             <field name = "inherit_id" ref = "account.invoice_supplier_form"/>
