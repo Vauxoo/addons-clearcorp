@@ -25,6 +25,8 @@ import pooler
 from report import report_sxw
 import locale
 from account.report.account_journal import journal_print
+from wadllib.application import Parameter
+from symbol import parameters
 
 #la herencia se debe hacer de journal_print (clase original del reporte)
 #para que se llame el init y el set context, y se puedan usar las variables y métodos.
@@ -39,13 +41,34 @@ class account_journal_period_report(journal_print):
 
         self.localcontext.update({
             'get_journal_list': self.get_journal_list,  
-            'get_format_lang_currency': self.pool.get('account.webkit.report.library').format_lang_currency,      
+            'get_format_lang_currency': self.pool.get('account.webkit.report.library').format_lang_currency,  
+            'extract_name_move':self.extract_name_move,  
+            'cr': cr,  
+            'uid': uid,
         })
             
     #Receive the journal_ids and return the full object
     def get_journal_list(self, journal_ids):
         return self.pool.get('account.journal').browse(self.cr, self.uid, journal_ids)     
-
+    
+    ''''
+    This method is created to solve the error when extracting the name move_id (line.move_id.name) fails because of read permissions
+    parameter move_lines are the move_lines that match with the journal and period. Pass from mako. 
+    ''' 
+    def extract_name_move(self, cr, uid, move_lines):
+        move_temp = self.pool.get('account.move')
+        dict_name = {} #dict_name keys is the line id. 
+        
+        for line in move_lines:
+            move_id = move_temp.search(cr, uid, [('id', '=', line.move_id.id)])
+            move_obj = move_temp.browse(cr, uid, move_id)
+            if move_obj[0].name:
+                dict_name[line.id] = move_obj[0].name
+            else:
+                 dict_name[line.id] = move_obj[0].id
+        
+        return dict_name
+            
 #the parameters are the report name and module name 
 report_sxw.report_sxw( 'report.account_journal_period_print_inherit', 
                        'account.print.journal',
