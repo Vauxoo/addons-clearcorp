@@ -52,6 +52,7 @@
            </div>
            <% 
               journal_move_lines = lines(period_id, journal.id)  
+              move_names = extract_name_move(cr, uid, journal_move_lines)
            %>
            <div class="table list">
                 <div class="table-header">
@@ -76,14 +77,10 @@
                        %endif
                     </div>
                 </div>
-                <div class="table-body">                    
+                <div class="table-body"> 
                     %for line in journal_move_lines:
                         <div class="table-row ${row_even and 'even' or 'odd'}">
-                            %if line.move_id.name:
-                                <div class="table-cell first-column">${line.move_id.name} </div>
-                            %else:
-                                <div class="table-cell first-column">${line.move_id.id} </div>
-                            %endif
+                            <div class="table-cell first-column">${move_names[line.id]} </div>
                             <div class="table-cell">${formatLang(line.date,date=True)}</div>
                             <div class="table-cell">${line.account_id.code}</div>
                             <div class="table-cell">${line.partner_id.name or ''}</div>
