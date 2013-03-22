@@ -31,7 +31,7 @@
 import netsvc
 from osv import fields, osv
 
-class res_company(osv.osv):
+class ResCompany(osv.osv):
     """
     override company to add currency udate
     """
@@ -170,5 +170,3 @@ class res_company(osv.osv):
         for comp in compagnies :
             self.write(cr, uid, comp,{'interval_type':interval})
         return {}
-        
-res_company()
