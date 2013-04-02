@@ -912,7 +912,7 @@ class rent_rent(osv.osv):
         company_id = (type == 'rent' and obj_rent.company_id.id or (obj_rent.rent_main_company_id and obj_rent.rent_main_company_id.id or False))
         
         inv = {
-            'description': desc or obj_rent.name,
+            'name': desc or obj_rent.name,
             'reference': obj_rent.name or desc,
             'account_id': a,
             'type': 'out_invoice',
@@ -1103,7 +1103,7 @@ class rent_rent(osv.osv):
         a = obj_rent.rent_inv_water_account_id.id or obj_rent.rent_inv_account_id.id
         
         inv.update({
-            'description': desc or obj_rent.name,
+            'name': desc or obj_rent.name,
         #    'account_id': a,
             'currency_id': currency,
             'invoice_line': il,
