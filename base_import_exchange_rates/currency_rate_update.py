@@ -184,8 +184,9 @@ class Currency_rate_update(osv.osv):
                         for name, rate in res[curr.name].iteritems():
                             rate_ids = rate_obj.search(cr, uid, [('currency_id','=',curr.id),('name','=',name)])
                             if not len(rate_ids):
+                                rate = float(rate)
                                 if curr.import_inverted:
-                                    rate = 1/rate
+                                    rate = 1.0/float(rate)
 
                                 vals = {'currency_id': curr.id, 'rate': rate, 'name': name}
                                 rate_obj.create(cr, uid, vals)
