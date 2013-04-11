@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+       <record id="webkit_header_clearcorp_official_portrait" model="ir.header_webkit">
+            <field name="name">Portrait CLEARCORP official header</field>
+            <field name="orientation">Portrait</field>
+            <field name="format">Letter</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="css"><![CDATA[
+/* Type here the custom styles
+   See the addons/account_webkit_report_library/webkit_headers/main.css
+   for default styles and overwriting. */
+
+
+            ]]></field>
+            <field name="html"><![CDATA[
+<html>
+    <head>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <script type="text/javascript" src="addons/account_webkit_report_library/webkit_headers/main.js"></script>
+        <link rel='stylesheet' href='addons/account_webkit_report_library/webkit_headers/main.css'>
+        <style type="text/css">
+            ${css}
+        </style>
+    </head>
+    <body onload="subst()"></body>
+</html>
+            ]]></field>
+            <field name="footer_html"><![CDATA[
+<html>
+    <head>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <script type="text/javascript" src="addons/account_webkit_report_library/webkit_headers/main.js"></script>
+        <link rel='stylesheet' href='addons/account_webkit_report_library/webkit_headers/main.css'>
+        <style type="text/css">
+            ${css}
+        </style>
+    </head>
+    <% import datetime %>
+    <body onload="subst()">
+        <div class="table footer">
+            <div class="table-row">
+                <div class="table-cell align-left" style="width:33%;">OpenERP: ${formatLang( str(datetime.datetime.today()), date_time=True)}</div>
+                <div class="table-cell align-center" style="width:34%;">${user.name} (${user.login})</div>
+                <div class="table-cell align-right" style="width:33%;">Page <span class="page">.</span> of <span class="topage">.</span></div>
+            </div>
+        </div>
+    </body>
+</html>
+            ]]></field>
+        </record>
+        
+       <record id="webkit_header_clearcorp_official_landscape" model="ir.header_webkit">
+            <field name="name">Landscape CLEARCORP official header</field>
+            <field name="orientation">Landscape</field>
+            <field name="format">Letter</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="css"><![CDATA[
+/* Type here the custom styles
+   See the addons/account_webkit_report_library/webkit_headers/main.css
+   for default styles and overwriting. */
+
+
+            ]]></field>
+            <field name="html"><![CDATA[
+<html>
+    <head>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <script type="text/javascript" src="addons/account_webkit_report_library/webkit_headers/main.js"></script>
+        <link rel='stylesheet' href='addons/account_webkit_report_library/webkit_headers/main.css'>
+        <style type="text/css">
+            ${css}
+        </style>
+    </head>
+    <body onload="subst()"></body>
+</html>
+            ]]></field>
+            <field name="footer_html"><![CDATA[
+<html>
+    <head>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+        <script type="text/javascript" src="addons/account_webkit_report_library/webkit_headers/main.js"></script>
+        <link rel='stylesheet' href='addons/account_webkit_report_library/webkit_headers/main.css'>
+        <style type="text/css">
+            ${css}
+        </style>
+    </head>
+    <% import datetime %>
+    <body onload="subst()">
+        <div class="table footer">
+            <div class="table-row">
+                <div class="table-cell align-left" style="width:33%;">OpenERP: ${formatLang( str(datetime.datetime.today()), date_time=True)}</div>
+                <div class="table-cell align-center" style="width:34%;">${user.name} (${user.login})</div>
+                <div class="table-cell align-right" style="width:33%;">Page <span class="page">.</span> of <span class="topage">.</span></div>
+            </div>
+        </div>
+    </body>
+</html>
+            ]]></field>
+        </record>
+    </data>
+</openerp>
+
