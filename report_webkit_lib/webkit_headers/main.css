@@ -1,0 +1,237 @@
+/* Generic styles */
+
+body {
+    font-family: Helvetica, Arial;
+    color: black;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    width: 11in;
+    height: 8.5in;
+}
+
+/* div table structure */
+
+.table {
+    display: table;
+    width: 100%;
+    table-layout: auto;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 12px;
+}
+
+.table-row  {
+    display: table-row;
+}
+
+.table-cell {
+    display: table-cell;
+    padding-right: 3px;
+    padding-left: 3px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.table-header {
+    display: table-header-group;
+}
+
+.table-body {
+    display: table-row-group;
+}
+
+.table-footer {
+    display: table-footer-group;
+}
+
+.table-caption {
+    display: table-caption;
+}
+
+.table-colgroup {
+    display: table-column-group;
+}
+
+.table-rowgroup {
+    display: table-row-group;
+    page-break-after: avoid;
+}
+
+/* list-table styles */
+
+.table.list-table, .table.list-table .table-row {
+    border-left: 0px;
+    border-right: 0px;
+}
+
+.table.list-table .table-cell {
+    border: 1px solid lightGrey;
+    text-align: center;
+}
+
+.table.list_table .table-cell{
+    padding-left: 5px;
+    padding-right: 5px;
+    border-left: 1px solid lightGrey;
+    border-right: 1px solid lightGrey;
+}
+
+.table.list_table .table-cell.first-column {
+    padding-left: 0px;
+    border-left:0px solid lightGrey;
+}
+
+.table.list_table .table-cell.last-column {
+    padding-right: 0px;
+    border-right:0px solid lightGrey;
+}
+
+/* Header styles */
+
+.table.header {
+    border: 0px;
+    text-align: middle;
+    border-bottom: 1px solid lightGray;
+}
+
+.table.header .table-row {
+    border: 0px;
+}
+
+.table.header .table-cell.logo {
+    padding: 0px 40px 0px 0px;
+}
+
+.table.header .table-cell.logo img {
+    vertical-align: top;
+}
+
+.table.header .table-cell.text {
+    padding: 3px 5px 3px 0px;
+    width: 100%;
+}
+
+.table.header .table-cell p.company {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 4px 0px 4px 0px; 
+}
+
+.table.header .table-cell p.title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 6px 0px 6px 0px; 
+}
+
+.table.header .table-cell p.subtitle {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 4px 0px 4px 0px; 
+}
+
+/* Footer table styles */
+
+.table.footer {
+    border-top: 1px solid #AAAAAA;
+    width: 100%;
+    font-size: 10px;
+    color: #777777;
+}
+
+.table.footer .table-row {
+    border-collapse:collapse;
+}
+
+/* Table cell styles */
+
+.table .table-row.labels {
+    border-color:gray;
+    border-bottom:1px solid lightGrey;
+    background-color: #555555;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+}
+
+.table .table-row.even {
+    background-color: #E0E0E0;
+}
+
+.table .table-row.initial-balance {
+    font-style:italic;
+}
+
+.table .table-row.subtotal {
+    border-color:gray;
+    border-top:2px solid black;
+    border-bottom:2px solid black;
+    background-color: #CCCCCC;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.table .table-row.total {
+    border-top: 3px ridge black;
+    border-bottom: 3px ridge black;
+    background-color: #777777;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.table .table-row.no-break {
+    page-break-after: avoid;
+}
+
+.table .table-row.bold {
+    font-weight: bold;
+}
+
+.table .table-row.spacer {
+    background-color: white;
+    border-width: 0px;
+}
+
+.table .table-row.spacer .table-cell {
+    column-span: all;
+}
+
+/* Text styles */
+
+.overflow-ellipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.align-left {
+    text-align: left;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.amount {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.no-wrap {
+    white-space: nowrap;
+}
+
+.alert {
+    color: red;
+}
+
+.total .alert {
+    background-color: red;
+    color: white;
+}

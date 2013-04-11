@@ -14,13 +14,13 @@
 			<field name = "type">form</field>
 			<field name="inherit_id" ref="report_webkit.currency_del_img"/>
 			<field name = "arch" type = "xml">
-				<data>
-					<field name = "lib_path" position = "after">
+				 <notebook position="inside">
+					<page string = "Company fields for report webkit">
 						<field name = "webkit_footer1"/>
 						<field name = "webkit_footer2"/>
 						<field name = "webkit_footer3"/>
-					</field>
-				</data>
+					</page>
+				</notebook>
 			</field>
 		</record>
 	</data>
