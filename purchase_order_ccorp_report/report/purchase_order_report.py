@@ -31,7 +31,7 @@ class purchase_order_report(report_sxw.rml_parse):
         self.localcontext.update({
             'time': time,
         })
-
+        
 #the parameters are the report name and module name 
 report_sxw.report_sxw('report.purchase_order_report_inherit',
                       'purchase.order',
