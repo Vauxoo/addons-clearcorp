@@ -10,60 +10,53 @@
     <br></br>
     <div id="wrapper">
         <table width = "100%" class = "document_data">
-            <tr class = "title">
+             <tr class = "title">
                 <td class = "document_data">
                     %if purchase_order.state =='draft' :
-                    <span class="title">${_("Quotation N°")} ${purchase_order.name or ''|entity}</span><br/>
+                    <span class="title">${_("Quotation N° ")} ${purchase_order.name or ''|entity}</span><br/>
                     %endif
                     %if purchase_order.state != 'draft' :
-                    <span class="title">${_("Order N°")} ${purchase_order.name or ''|entity}</span><br/>   
+                    <span class="title">${_("Order N° ")} ${purchase_order.name or ''|entity}</span><br/>   
                     %endif
-                </td>               
+                </td>    
+                <td>${_("Purchase Order")}</td>           
             </tr>
-            <tr>
+             <tr>
                 <td>${_("Order date: ")}${(purchase_order.date_order and formatLang(purchase_order.date_order,date=True)) or '-'|entity} </td>                    
+                <td>${purchase_order.partner_id.name or ''}</td>
             </tr>
-            %if purchase_order.state != 'draft' :
-                <tr>
-                    <td>${_("Validated by: ")}:${purchase_order.validator.name or ''|entity}</td>
-                </tr>
-            %endif
+            <tr>  
+                %if purchase_order.state != 'draft' :             
+                    <td>${_("Validated by: ")}${purchase_order.validator.name or ''|entity}</td>               
+                    <td>${purchase_order.partner_address_id.street or '-'}</td>
+                %elif purchase_order.state == 'draft':
+                    <td></td>
+                    <td>${purchase_order.partner_address_id.street2 or '-'}</td>
+                %endif
+            </tr>  
             <tr>
-                 <td>${_("Ref.")}: ${purchase_order.partner_ref != "" and purchase_order.partner_ref or '-'|entity}</td>
+                <td>${_("Ref.")}: ${purchase_order.partner_ref != "" and purchase_order.partner_ref or '-'|entity}</td>
+                <td>${purchase_order.partner_address_id.city or '-'}</td>
             </tr>
-            <tr>                
-                <td>${_("Email")}: ${purchase_order.partner_id.email or '-'|entity}</td>
-                <td>&nbsp;</td><td>&nbsp;</td>
+            <tr>
+                <td>${_("Email")}: ${purchase_order.validator.user_email or '-'|entity}</td>
+                <td>${purchase_order.partner_address_id.country_id.name or '-'}</td>      
             </tr>
+            <tr>
+                <td></td>
+                <td>${purchase_order.partner_address_id.email or '-'}</td>
+            </tr>       
             <tr class = "zone_break"><td>&nbsp;</td><td>&nbsp;</td></tr>
             <tr class = "title">
-                <td>${_("Purchase Order")}</td>
                 <td>${_("Delivery and Invoincing")}</td>
-            </tr>
-            <tr>
-                <td>${purchase_order.partner_id.name or ''}</td>
+            </tr> 
+              <tr>                
                 <td>${_("Expected date: ")}${(purchase_order.minimum_planned_date and formatLang(purchase_order.minimum_planned_date,date=True)) or ''}</td>
             </tr>
             <tr>
-                <td>${purchase_order.partner_address_id.street or ''}</td>
                 <td>${_("Date approved: ")}${(purchase_order.date_approve and formatLang(purchase_order.date_approve,date=True)) or ''}</td>
-            </tr>
-            
-            <tr>   
-                %if purchase_order.partner_address_id.street2 != '':
-                    <td>${purchase_order.partner_address_id.street2 or ''}</td>
-                %endif
-                <td>${purchase_order.dest_address_id.street or ''}</td>
-            </tr>                            
-            <tr>
-                <td>${(purchase_order.partner_address_id.zip and format(purchase_order.partner_address_id.zip) + ((purchase_order.partner_address_id.city or purchase_order.dest_address_id.state_id or  purchase_order.dest_address_id.country_id) and ' ' or '') or '') + (purchase_order.partner_address_id.city and format(purchase_order.partner_address_id.city) or '')}</td>
-                <td>${purchase_order.dest_address_id.street2 or ''}</td>
-            </tr>
-            <tr>
-                <td>${(purchase_order.partner_address_id.state_id and format(purchase_order.partner_address_id.state_id.name) + (purchase_order.partner_address_id.country_id and ', ' or '') or '') + (purchase_order.partner_address_id.country_id and format(purchase_order.partner_address_id.country_id.name) or '')}</td>
-                <td>${(purchase_order.dest_address_id.state_id and format(purchase_order.dest_address_id.state_id.name) + (purchase_order.dest_address_id.country_id and ', ' or '') or '') + (purchase_order.dest_address_id.country_id and format(purchase_order.dest_address_id.country_id.name) or '')}</td>
-            </tr>
-      </table>      
+            </tr>           
+        </table>
         <table id="data-table" cellspacing="3">
             %if purchase_order.state =='draft':
                 <thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Date Order")}</th></thead>
