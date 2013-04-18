@@ -47,6 +47,7 @@ class accountReportbase(report_sxw.rml_parse):
             'get_date_from': self.get_date_from,
             'get_date_to': self.get_date_to,
             'display_target_move':self.get_display_target_move,
+            'get_signatures_report': self.get_signatures_report,
          })
     
     #####################################BASIC FUNCTIONS ##############################
@@ -96,3 +97,10 @@ class accountReportbase(report_sxw.rml_parse):
         else:
             return val
     
+    ##################### SIGNATURES ############################
+     #Return the users that can sign the report.
+    def get_signatures_report(self, cr, uid, report_name):  
+      report_id = self.pool.get('ir.actions.report.xml').search(cr, uid,[('name','=', report_name)])
+      report_obj = self.pool.get('ir.actions.report.xml').browse(cr, uid, report_id)
+      x = report_obj[0].signature_users
+      return report_obj[0].signature_users

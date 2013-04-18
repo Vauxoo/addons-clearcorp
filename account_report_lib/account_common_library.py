@@ -30,7 +30,6 @@ class AccountWebkitReportLibrary(orm.Model):
     _name =  "account.webkit.report.library"
     _description = "Account Webkit Reporting Library"
     
-           
     def get_move_lines(self, cr, uid, account_ids, filter_type='', filter_data=None, fiscalyear=None, target_move='all', unreconcile = False, historic_strict=False, special_period =False, context=None):
         ''' Get the move lines of the accounts provided and filtered.
         Arguments:
