@@ -1,0 +1,72 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* account_report_signatures
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-04-17 21:47+0000\n"
+"PO-Revision-Date: 2013-04-17 21:47+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_report_signatures
+#: field:ir.actions.report.xml,include_signature:0
+msgid "Add signatures to report"
+msgstr "Añadir firmas al reporte"
+
+#. module: account_report_signatures
+#: model:ir.actions.act_window,name:account_report_signatures.action_report_signature
+msgid "Reports signature"
+msgstr "Firmantes del reporte"
+
+#. module: account_report_signatures
+#: field:ir.actions.report.xml,signature_users:0
+msgid "Employees that can signature this report"
+msgstr "Empleados que pueden firmar este reporte"
+
+#. module: account_report_signatures
+#: view:ir.actions.report.xml:0
+msgid "Report signatures"
+msgstr "Firmantes del reporte"
+
+#. module: account_report_signatures
+#: view:ir.actions.report.xml:0
+msgid "Employees"
+msgstr "Empleados"
+
+#. module: account_report_signatures
+#: model:ir.ui.menu,name:account_report_signatures.account_report_signature_menu
+msgid "Configuration signature report"
+msgstr "Configuración de firmas para reportes"
+
+#. module: account_report_signatures
+#: view:ir.actions.report.xml:0
+msgid "Users can signature the report: "
+msgstr "Usuarios que pueden firmar este reporte: "
+
+#. module: account_report_signatures
+#: view:ir.actions.report.xml:0
+msgid "Report Signatures"
+msgstr "Firmantes del reporte"
+
+#. module: account_report_signatures
+#: view:ir.actions.report.xml:0
+msgid "Signatures Report"
+msgstr "Firmantes del reporte"
+
+#. module: account_report_signatures
+#: view:ir.actions.report.xml:0
+msgid "Configuration signature reports"
+msgstr "Configuración de firmas del reporte"
+
+#. module: account_report_signatures
+#: model:ir.model,name:account_report_signatures.model_ir_actions_report_xml
+msgid "ir.actions.report.xml"
+msgstr "ir.acciones.informe.xml"
+

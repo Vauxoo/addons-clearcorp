@@ -1,0 +1,73 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<openerp>
+    <data>
+        <record model = "ir.ui.view" id = "act_report_xml_view_inherit">
+            <field name = "name">ir.actions.report.xml.inherit</field>
+            <field name = "model">ir.actions.report.xml</field>
+            <field name = "type">form</field>
+            <field name="inherit_id" ref="base.act_report_xml_view"/>
+            <field name = "arch" type = "xml">
+                 <notebook position="inside">
+                    <page string = "Configuration signature reports">
+                        <group string="Report Signatures">
+                            <field name = "include_signature"/>
+                       </group>
+                       <group string="Employees">
+                            <field name = "signature_users" widget="many2many_tags"/>
+                       </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+        
+        <!-- New view to add the diferent users that can signature the report -->
+        <record id="act_signature_report_view_form" model="ir.ui.view">
+            <field name="name">ir.actions.report.xml.signatures</field>
+            <field name="model">ir.actions.report.xml</field>
+            <field name="arch" type="xml">
+                <form string="Signatures Report" version="7.0">
+                    <group string="Users can signature the report: ">
+                        <field colspan="4" name="signature_users" nolabel="1" widget="many2many_tags"/>
+                    </group>
+                </form>
+            </field>
+        </record>  
+        
+        <record id="act_report_signature_view_tree" model="ir.ui.view">
+            <field name="name">ir.actions.report.xml.signature.tree</field>
+            <field name="model">ir.actions.report.xml</field>
+            <field name="arch" type="xml">
+                <tree string="Report signatures">
+                    <field name="name"/>
+                    <field name="model"/>
+                    <field name="type"/>
+                    <field name="report_name"/>
+                    <field name="report_type"/>
+                </tree>
+            </field>
+        </record>   
+        
+        <record id="action_report_signature" model="ir.actions.act_window">
+            <field name="name">Reports signature</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ir.actions.report.xml</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="domain">[('include_signature', '=', True)]</field> 
+        </record> 
+
+        <record model="ir.actions.act_window.view" id="action_signature_report_tree">
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="act_report_signature_view_tree"/>
+            <field name="act_window_id" ref="action_report_signature"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_signature_report_form">
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="act_signature_report_view_form"/>
+            <field name="act_window_id" ref="action_report_signature"/>
+        </record>
+             
+        
+    </data>        
+</openerp>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="ir_model_access_signaturereportupdate0" model="ir.model.access">
+            <field name="model_id" ref="model_ir_actions_report_xml"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="&quot;&quot;&quot;Ir action report xml&quot;&quot;&quot;" name="name"/>
+            <field eval="0" name="perm_unlink"/>
+            <field eval="0" name="perm_write"/>
+            <field eval="0" name="perm_create"/>
+            <field name="group_id" ref="account.group_account_invoice"/>
+        </record>
+    </data>
+    <data>
+        <record id="ir_model_access_signaturereportupdate1" model="ir.model.access">
+            <field name="model_id" ref="model_ir_actions_report_xml"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="&quot;&quot;&quot;Ir action report xml&quot;&quot;&quot;" name="name"/>
+            <field eval="1" name="perm_unlink"/>
+            <field eval="1" name="perm_write"/>
+            <field eval="1" name="perm_create"/>
+            <field name="group_id" ref="account.group_account_manager"/>
+        </record>
+    </data>    
+</openerp>
