@@ -1,6 +1,5 @@
 <openerp>
-	<data>
-		
+	<data>		
 		<record id="base_company_prefix.view_company_form" model="ir.ui.view">
 			<field name="name">res.company.form</field>
 			<field name="model">res.company</field>
@@ -17,8 +16,6 @@
 			</field>
 		</record>
         
-        
-        
         <record id="base_company_prefix.view_company_tree" model="ir.ui.view">
 			<field name="name">res.company.tree</field>
 			<field name="model">res.company</field>
@@ -34,8 +31,6 @@
 				
 			</field>
 		</record>
-        
-        
 		
 	</data>
 </openerp>

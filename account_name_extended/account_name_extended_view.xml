@@ -1,0 +1,37 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<openerp>
+    <data>
+
+        <record model = "ir.ui.view" id = "account_rename_tree_view">
+            <field name = "name">account.account.tree</field>
+            <field name = "model">account.account</field>
+            <field name = "type">tree</field>
+            <field name="inherit_id" ref="account.view_account_list"/>
+            <field name = "arch" type = "xml">
+                <data>
+                    <field name = "name" position = "after">
+                        <field name = "shortcut"/>
+                    </field>
+                    <field name = "company_currency_id" position = "after">
+                        <field name = "currency_id"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+        
+        <record model = "ir.ui.view" id = "account_rename_form_view">
+            <field name = "name">account.account.form</field>
+            <field name = "model">account.account</field>
+            <field name = "type">form</field>
+            <field name="inherit_id" ref="account.view_account_form"/>
+            <field name = "arch" type = "xml">
+                <data>
+                    <field name = "user_type" position = "after">
+                        <field name = "shortcut" />
+                    </field>
+                </data>
+            </field>
+        </record>
+    </data>
+</openerp>
+
