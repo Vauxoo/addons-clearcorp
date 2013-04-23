@@ -18,12 +18,11 @@
 #
 ##############################################################################
 
-from osv import osv
-from osv import fields
+from osv import fields, osv, orm
 import os
 import tools
 
-class res_company(osv.osv):
+class res_company(orm.Model):
     _name = "res.company"
     _description = 'Companies'
     _inherit = 'res.company'
@@ -41,7 +40,5 @@ class res_company(osv.osv):
             obj_company_name += obj_company.name
             res.append((obj_company.id,obj_company_name))
         return res
-    
-    
-    
+
 res_company()
