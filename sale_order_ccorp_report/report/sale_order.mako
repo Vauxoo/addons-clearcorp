@@ -27,7 +27,7 @@
                 %if so.client_order_ref:
                     <td>${_("Ref.")}: ${so.client_order_ref != "" and so.client_order_ref or ''|entity}</td>
                 %endif
-                <td>${_("ID Num")}: ${so.partner_id.ref or '-'|entity}</td>
+                <td>${_("Client code")}: ${so.partner_id.ref or '-'|entity}</td>
             </tr>
             <tr>
                 <td>${_("Date:")}

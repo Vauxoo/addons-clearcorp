@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 6.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-24 21:57+0000\n"
-"PO-Revision-Date: 2013-04-24 21:57+0000\n"
+"POT-Creation-Date: 2013-04-24 22:04+0000\n"
+"PO-Revision-Date: 2013-04-24 22:04+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -173,11 +173,6 @@ msgid "Qty"
 msgstr "Cant."
 
 #. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:30
-msgid "ID Num"
-msgstr "Cédula Jurídica"
-
-#. module: sale_order_ccorp_report
 #: report:addons/sale_order_ccorp_report/report/sale_order.mako:16
 msgid "Quotation N°"
 msgstr "N° Cotización"
@@ -189,4 +184,9 @@ msgstr "N° Cotización"
 #: report:addons/sale_order_ccorp_report/report/sale_order.mako:139
 msgid "Total"
 msgstr "Total"
+
+#. module: sale_order_ccorp_report
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:30
+msgid "Client code"
+msgstr "Código cliente"
 
