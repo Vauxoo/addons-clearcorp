@@ -95,7 +95,7 @@
 				    <td valign = "top">${formatLang(line.product_uom_qty)} ${format(line.product_uom.name)}</td>
 				    <td valign = "top" id="desc_col">${line.name} ${line.tax_id != [] and (' / (' + (', '.join([ lt.description for lt in line.tax_id ])) + ')') or ''|entity}
     				%if company.show_sale_order_footer:
-    					<td valign = "top" style="text-align:right;">${int(line.delay)} d</td>
+    					<td valign = "top" style="text-align:right;">${int(line.delay)}${_("days")}</td>
     				%endif    					
 				    </td>
     				%if discount(so) != 0:
