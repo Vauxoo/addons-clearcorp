@@ -27,7 +27,7 @@
                 %if so.client_order_ref:
                     <td>${_("Ref.")}: ${so.client_order_ref != "" and so.client_order_ref or ''|entity}</td>
                 %endif
-                <td>${_("ID Num")}: ${so.partner_id.ref or '-'|entity}</td>
+                <td>${_("Client code")}: ${so.partner_id.ref or '-'|entity}</td>
             </tr>
             <tr>
                 <td>${_("Date:")}
@@ -95,7 +95,7 @@
 				    <td valign = "top">${formatLang(line.product_uom_qty)} ${format(line.product_uom.name)}</td>
 				    <td valign = "top" id="desc_col">${line.name} ${line.tax_id != [] and (' / (' + (', '.join([ lt.description for lt in line.tax_id ])) + ')') or ''|entity}
     				%if company.show_sale_order_footer:
-    					<td valign = "top" style="text-align:right;">${int(line.delay)} d</td>
+    					<td valign = "top" style="text-align:right;">${int(line.delay)}${_("days")}</td>
     				%endif    					
 				    </td>
     				%if discount(so) != 0:
