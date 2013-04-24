@@ -152,7 +152,7 @@ msgstr "Tiempo de entrega."
 #. module: sale_order_ccorp_report
 #: report:addons/sale_order_ccorp_report/report/sale_order.mako:38
 msgid "Contact name"
-msgstr "Contact name"
+msgstr "Nombre del contacto"
 
 #. module: sale_order_ccorp_report
 #: report:addons/sale_order_ccorp_report/report/sale_order.mako:146
