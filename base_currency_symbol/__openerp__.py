@@ -20,5 +20,24 @@
 #
 ##############################################################################
 
-import tools_modules_extended
-import tools_amount_to_text
+{
+	'name': 'Base currency symbol',
+	'version': '1.0',
+	'url': 'http://launchpad.net/openerp-ccorp-addons',
+	'author': 'ClearCorp S.A.',
+	'website': 'http://clearcorp.co.cr',
+	'category': 'General Modules/Base',
+	'description': """Adds symbol to currency:
+					  Use symbol_prefix and symbol_suffix depending on the currency standard.
+				   """,
+	'depends': ['base'],
+	'init_xml': [],
+	'demo_xml': [],
+	'update_xml': [
+		'base_currency_symbol_data.xml',
+		'base_currency_symbol_view.xml',
+		],
+	'license': 'Other OSI approved licence',
+	'installable': True,
+	'active': False,
+}
