@@ -20,5 +20,17 @@
 #
 ##############################################################################
 
-import tools_modules_extended
-import tools_amount_to_text
+from osv import osv,fields
+
+class res_currency(osv.osv):
+	'''
+	Adds symbol fields to currency to provide better reporting.
+	'''
+	_inherit = 'res.currency'
+	
+	_columns = {
+		'symbol_prefix':fields.char('Symbol prefix', size=16, required=False, readonly=False, translate=False, select=2, help="Currency symbol printed BEFORE amount. Include the trailing space if needed."),
+		'symbol_suffix':fields.char('Symbol suffix', size=16, required=False, readonly=False, translate=False, select=2, help="Currency symbol printed AFTER amount. Include the leading space if needed."),
+		'currency_name':fields.char('Currency name', size=16, required=False, readonly=False, translate=False, select=2, help="Name of the currency printed AFTER amount. Allowing to use it at amount to text convertions"),
+	}
+res_currency()

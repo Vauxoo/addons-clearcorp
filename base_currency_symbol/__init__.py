@@ -20,5 +20,4 @@
 #
 ##############################################################################
 
-import tools_modules_extended
-import tools_amount_to_text
+import base_currency_symbol
