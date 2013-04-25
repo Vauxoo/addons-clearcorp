@@ -140,7 +140,7 @@ msgstr "Impuestos"
 
 #. module: sale_order_ccorp_report
 #: report:addons/sale_order_ccorp_report/report/sale_order.mako:149
-msgid "Payment Note"
+msgid "Method of payment"
 msgstr "Forma de pago"
 
 #. module: sale_order_ccorp_report
