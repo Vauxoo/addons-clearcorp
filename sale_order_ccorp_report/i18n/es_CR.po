@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 6.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-24 22:04+0000\n"
-"PO-Revision-Date: 2013-04-24 22:04+0000\n"
+"POT-Creation-Date: 2013-04-25 21:17+0000\n"
+"PO-Revision-Date: 2013-04-25 21:17+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,33 +16,33 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:118
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:125
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:133
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:137
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:117
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:124
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:132
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:136
 msgid "Sub Total"
 msgstr "Subtotal"
 
 #. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:59
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:58
 msgid "Invoice address"
 msgstr "Dirección factura"
 
 #. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:33
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:32
 msgid "Date:"
 msgstr "Fecha:"
 
 #. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:110
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:109
 msgid "Note"
 msgstr "Nota"
 
 #. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:75
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:77
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:81
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:83
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:74
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:76
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:80
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:82
 msgid "Unit Price"
 msgstr "Precio unitario"
 
@@ -52,123 +52,123 @@ msgid "Order N°"
 msgstr "N° Orden"
 
 #. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:75
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:81
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:74
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:80
 msgid "Disc.(%)"
 msgstr "Desc.(%)"
 
 #. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:55
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:54
 msgid "Email"
 msgstr "Correo electrónico"
 
 #. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:41
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:40
 msgid "Expiration date"
 msgstr "Fecha vencimiento"
 
 #. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:51
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:50
 msgid "Fax"
 msgstr "Fax"
 
 #. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:119
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:126
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:118
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:125
 msgid "Discount"
 msgstr "Descuento"
 
 #. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:47
-msgid "Phone"
-msgstr "Tel."
-
-#. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:42
-msgid "Job"
-msgstr "Puesto"
-
-#. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:120
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:127
-msgid "Sub Total with discount"
-msgstr "Sub Total con descuento"
-
-#. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:28
-msgid "Ref."
-msgstr "Ref."
-
-#. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:155
-msgid "Realized by"
-msgstr "Realizado por"
-
-#. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:75
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:77
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:81
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:83
-msgid "[Code] Description / (Taxes)"
-msgstr "[Cod] Descripción / (Imp.)"
-
-#. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:155
-msgid "Authorized by"
-msgstr "Autorizado por"
-
-#. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:75
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:77
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:81
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:83
-msgid "Total Price"
-msgstr "Precio Total"
-
-#. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:59
-msgid "Shipping address"
-msgstr "Dirección envío"
-
-#. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:121
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:128
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:134
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:138
-msgid "Taxes"
-msgstr "Impuestos"
-
-#. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:149
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:148
 msgid "Method of payment"
 msgstr "Forma de pago"
 
 #. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:75
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:77
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:46
+msgid "Phone"
+msgstr "Tel."
+
+#. module: sale_order_ccorp_report
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:41
+msgid "Job"
+msgstr "Puesto"
+
+#. module: sale_order_ccorp_report
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:119
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:126
+msgid "Sub Total with discount"
+msgstr "Sub Total con descuento"
+
+#. module: sale_order_ccorp_report
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:154
+msgid "Realized by"
+msgstr "Realizado por"
+
+#. module: sale_order_ccorp_report
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:74
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:76
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:80
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:82
+msgid "[Code] Description / (Taxes)"
+msgstr "[Cod] Descripción / (Imp.)"
+
+#. module: sale_order_ccorp_report
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:154
+msgid "Authorized by"
+msgstr "Autorizado por"
+
+#. module: sale_order_ccorp_report
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:74
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:76
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:80
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:82
+msgid "Total Price"
+msgstr "Precio Total"
+
+#. module: sale_order_ccorp_report
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:58
+msgid "Shipping address"
+msgstr "Dirección envío"
+
+#. module: sale_order_ccorp_report
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:28
+msgid "Sale Order"
+msgstr "Orden de compra"
+
+#. module: sale_order_ccorp_report
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:120
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:127
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:133
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:137
+msgid "Taxes"
+msgstr "Impuestos"
+
+#. module: sale_order_ccorp_report
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:74
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:76
 msgid "Delay"
 msgstr "Tiempo de entrega."
 
 #. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:38
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:29
 msgid "Contact name"
 msgstr "Nombre del contacto"
 
 #. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:146
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:145
 msgid "Order Notes"
 msgstr "Nota Orden"
 
 #. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:98
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:97
 msgid "days"
 msgstr "día(s)"
 
 #. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:75
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:77
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:81
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:83
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:74
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:76
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:80
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:82
 msgid "Qty"
 msgstr "Cant."
 
@@ -178,15 +178,15 @@ msgid "Quotation N°"
 msgstr "N° Cotización"
 
 #. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:122
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:129
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:135
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:139
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:121
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:128
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:134
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:138
 msgid "Total"
 msgstr "Total"
 
 #. module: sale_order_ccorp_report
-#: report:addons/sale_order_ccorp_report/report/sale_order.mako:30
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:37
 msgid "Client code"
 msgstr "Código cliente"
 
