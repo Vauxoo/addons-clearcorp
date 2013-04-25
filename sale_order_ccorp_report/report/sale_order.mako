@@ -27,7 +27,7 @@
                 %if so.client_order_ref:
                     <td>${_("Ref.")}: ${so.client_order_ref != "" and so.client_order_ref or ''|entity}</td>
                 %endif
-                <td>${_("Client code")}: ${so.partner_id.ref or '-'|entity}</td>
+                 <td>${_("Contact name")}: ${so.partner_order_id.name or '-'|entity}</td>
             </tr>
             <tr>
                 <td>${_("Date:")}
@@ -35,7 +35,7 @@
                         ${formatLang(so.date_order, date=True)|entity}
                     %endif
                 </td>
-                <td>${_("Contact name")}: ${so.partner_order_id.name or '-'|entity}</td>
+                <td>${_("Client code")}: ${so.partner_id.ref or '-'|entity}</td>
             </tr>
             <tr>
                 <td>${_("Expiration date")}: ${(so.expiration_date and formatLang(so.expiration_date,date=True)) or '-'|entity}</td>
