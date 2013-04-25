@@ -146,7 +146,7 @@
 				<tr><td><b>${_("Order Notes")}:</b>${format(so.note)}</td></tr>
 			%endif
 			%if so.payment_term and so.payment_term.note:
-				<tr><td><b>${_("Payment Note")}:</b>${format(so.payment_term and so.payment_term.note)}</td></tr>
+				<tr><td><b>${_("Method of payment")}:</b>${format(so.payment_term and so.payment_term.note)}</td></tr>
 			%endif
 		</table>
 		<br>
