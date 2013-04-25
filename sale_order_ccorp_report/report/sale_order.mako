@@ -24,10 +24,9 @@
                 </td>
             </tr>
             <tr>
-                %if so.client_order_ref:
-                    <td>${_("Ref.")}: ${so.client_order_ref != "" and so.client_order_ref or ''|entity}</td>
-                %endif
-                 <td>${_("Contact name")}: ${so.partner_order_id.name or '-'|entity}</td>
+                
+                <td>${_("Sale Order")} : ${so.client_order_ref != "" and so.client_order_ref or '-'|entity}</td>
+                <td>${_("Contact name")}: ${so.partner_order_id.name or '-'|entity}</td>
             </tr>
             <tr>
                 <td>${_("Date:")}
