@@ -20,6 +20,7 @@
 #
 ##############################################################################
 
+import re
 from osv import osv, fields
 from openerp.tools import translate
 
@@ -61,26 +62,26 @@ class account_account(osv.osv):
     
     #Add the company prefix and the regular expression that permit search include the special characteres.    
     def name_search(self, cr, uid, name, args=None, operator='ilike', context=None, limit=100):
-        regular_expresion = '[-_.\s]*'
-        ids = []
-        list = []
-        account_ids = []
-                
+        ids =  list = account_ids = ids_company = []
+        code = code_regular = new_code = ''        
+        regular_expresion = '%'
+        
         if not args:
             args = []       
             
         if name:           
             company_ids = self.pool.get('res.company').search(cr, uid, [])
-            code_regular = ''
-            code = name.replace('-', '').replace('_','').replace('.','').replace(' ','') #replace special characteres
+            code = name 
+            code = code.replace('-','').replace('_', '').replace('.','').replace(' ','')
+           
             for c in code:
-                code_regular += c + regular_expresion #add the regular expression to the name
-                 
-            ids = self.search(cr, uid, [('code', '=like', code_regular)]+args, limit=limit)
-            if not ids:
-                ids = self.search(cr, uid, [('shortcut', '=', name)]+ args, limit=limit)
-            if not ids:
-                ids = self.search(cr, uid, [('name', operator, name)]+ args, limit=limit)
+                new_code += c + regular_expresion            
+                
+            ids += self.search(cr, uid, [('code', 'ilike', new_code)], limit=limit)
+        
+            ids+= self.search(cr, uid, [('shortcut', '=', name)], limit=limit)
+       
+            ids+= self.search(cr, uid, [('name', operator, name)], limit=limit)
                                        
             for company in self.pool.get('res.company').browse(cr, uid, company_ids):
                 prefix = company.prefix
@@ -90,17 +91,18 @@ class account_account(osv.osv):
                         code = name[len_sub:]   #Create a substring without the prefix
                         new_name = name[len_sub:] #Save the original name without the prefix to search the name and the shortcut
                         
-                        code = code.replace('-', '').replace('_','').replace('.','').replace(' ','')
-                        code_regular_prefix = ''
+                        code.replace('-','').replace('_', '').replace('.','').replace(' ','')
                         
                         for c in code:
-                            code_regular_prefix += c + regular_expresion
+                            code_regular += c + regular_expresion
                         
-                        list += ['&',('company_id','=', company.name), ('code', '=like', code_regular_prefix)]
-                        list += ['&',('company_id','=', company.name), ('shortcut', 'ilike', new_name)]
+                        list += ['&',('company_id','=', company.name), ('code', '=like', code_regular)]                            
+                        list += ['&',('company_id','=', company.name), ('shortcut', '=', new_name)]
                         list += ['&',('company_id','=', company.name), ('name', operator, new_name)]
-                    
-            ids += self.search(cr, uid, list + args, limit=limit)
+                        
+                        ids_company = self.search(cr, uid, list, limit=limit)
+                        ids += ids_company
+
             #If any account are repeat
             for account in ids:
                 if account not in account_ids:
