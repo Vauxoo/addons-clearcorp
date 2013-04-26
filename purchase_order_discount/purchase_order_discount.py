@@ -33,11 +33,11 @@ class purchase_order_line(osv.osv):
     }
     
     _defaults = {
-        'discount': lambda *a: 0.0,        
+        'discount': lambda *a: 0.0,
         }
     
     _sql_constraints = [
-        ('check_discount', 'CHECK (discount > 100)','The line discount must be leaser than 100 !'),
+        ('check_discount', 'CHECK (discount < 100)','The line discount must be leaser than 100 !'),
     ]
     
 purchase_order_line()
@@ -104,7 +104,7 @@ class purchase_order(osv.osv):
                 #-----taxes---------------# 
                 #taxes must be calculate with unit_price - discount
                 price_unit_discount = line.price_unit - (line.price_unit * (line.discount / 100) )
-                for c in self.pool.get('account.tax').compute_all(cr, uid, line.taxes_id, price_unit_discount, line.product_qty, order.partner_address_id.id, line.product_id.id, order.partner_id)['taxes']:
+                for c in self.pool.get('account.tax').compute_all(cr, uid, line.taxes_id, price_unit_discount, line.product_qty, line.product_id.id, order.partner_id)['taxes']:
                    amount_tax += c.get('amount', 0.0)
             
             res[order.id]['amount_untaxed']=cur_obj.round(cr, uid, cur, amount_untaxed_not_discount)
