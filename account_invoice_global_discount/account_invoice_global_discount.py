@@ -18,7 +18,6 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-##############################################################################
 
 from osv import osv,fields
 from tools import config
@@ -103,3 +102,5 @@ class account_invoice_ccorp(osv.osv):
             },
             multi='ccorp'),
     }
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

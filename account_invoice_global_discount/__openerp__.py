@@ -20,5 +20,35 @@
 #
 ##############################################################################
 
-import account_invoice_global_discount
-import wizard
+{
+    "name" : 'Global invoice discount',
+    "version" : '1.0',
+    "author" : 'CLEARCORP S.A',
+    'complexity': 'normal',
+    "description": """
+Adds a discount feature for invoice.
+
+With it one can add a discount percent to all invoice lines on an invoice.
+It adds the discounted and undiscounted amounts on the invoice totals.
+    """,
+    "category": 'Accounting & Finance',
+    "sequence": 4,
+    "website" : "http://clearcorp.co.cr",
+    "images" : [],
+    "icon" : False,
+    "depends" : ['account'],
+    "init_xml" : [],
+    "demo_xml" : [],
+    "update_xml" : [],
+    "data" : [
+        'account_invoice_global_discount_view.xml',
+        'wizard/discount_wizard_view.xml',
+    ],
+    "test" : [],
+    "auto_install": False,
+    "application": False,
+    "installable": True,
+    'license': 'AGPL-3',
+}
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
