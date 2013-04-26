@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <record id="discount_wizard_view" model="ir.ui.view">
+            <field name="name">Discount Wizard View</field>
+            <field name="model">discount.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Discount Wizard" version="7.0">
+                    <field name="discount" />
+                    <footer>
+                        <button name="apply_discount" string="Discount" type="object"/>
+                        or 
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_discount_wizard_view" model="ir.actions.act_window">
+            <field name="name">Action Discount Wizard View</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">discount.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="discount_wizard_view"/>
+            <field name="target">new</field>
+        </record>
+        
+    </data>
+</openerp>
