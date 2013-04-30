@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 6.1\n"
+"Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-04 17:11+0000\n"
-"PO-Revision-Date: 2012-12-04 17:11+0000\n"
+"POT-Creation-Date: 2013-04-30 16:38+0000\n"
+"PO-Revision-Date: 2013-04-30 16:38+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,15 +16,15 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: account_invoice_webkit_report
-#: report:addons/account_invoice_webkit_report/report/invoice.mako:93
-#: report:addons/account_invoice_webkit_report/report/invoice.mako:98
+#: report:addons/account_invoice_webkit_report/report/invoice.mako:94
+#: report:addons/account_invoice_webkit_report/report/invoice.mako:99
 msgid "Sub Total"
-msgstr "Sub Total"
+msgstr "Subtotal"
 
 #. module: account_invoice_webkit_report
 #: field:res.company,use_email_invoice:0
 msgid "Use user email"
-msgstr "Usar email del usuario logueado"
+msgstr "Usar email del usuario"
 
 #. module: account_invoice_webkit_report
 #: report:addons/account_invoice_webkit_report/report/invoice.mako:39
@@ -32,19 +32,14 @@ msgid "Date:"
 msgstr "Fecha:"
 
 #. module: account_invoice_webkit_report
-#: constraint:res.company:0
-msgid "Error! You can not create recursive companies."
-msgstr "¡Error! No puede crear compañías recursivas."
+#: report:addons/account_invoice_webkit_report/report/invoice.mako:36
+msgid "ID Num."
+msgstr "Código cliente"
 
 #. module: account_invoice_webkit_report
 #: report:addons/account_invoice_webkit_report/report/invoice.mako:47
 msgid "Payment tems"
-msgstr "Plazo de pago"
-
-#. module: account_invoice_webkit_report
-#: report:addons/account_invoice_webkit_report/report/invoice.mako:81
-msgid "Note"
-msgstr "Nota"
+msgstr "Condiciones de pago"
 
 #. module: account_invoice_webkit_report
 #: report:addons/account_invoice_webkit_report/report/invoice.mako:23
@@ -65,7 +60,7 @@ msgstr "Desc.(%)"
 #. module: account_invoice_webkit_report
 #: report:addons/account_invoice_webkit_report/report/invoice.mako:48
 msgid "Email"
-msgstr "Email"
+msgstr "Correo electrónico"
 
 #. module: account_invoice_webkit_report
 #: report:addons/account_invoice_webkit_report/report/invoice.mako:63
@@ -86,12 +81,7 @@ msgstr "Fax"
 #. module: account_invoice_webkit_report
 #: report:addons/account_invoice_webkit_report/report/invoice.mako:40
 msgid "Phone"
-msgstr "Phone"
-
-#. module: account_invoice_webkit_report
-#: model:ir.actions.report.xml,name:account_invoice_webkit_report.account_invoice_ccorp
-msgid "Invoice HTML"
-msgstr "Facturas"
+msgstr "Teléfono"
 
 #. module: account_invoice_webkit_report
 #: report:addons/account_invoice_webkit_report/report/invoice.mako:21
@@ -99,12 +89,12 @@ msgid "Canceled Invoice"
 msgstr "Factura cancelada"
 
 #. module: account_invoice_webkit_report
-#: report:addons/account_invoice_webkit_report/report/invoice.mako:94
+#: report:addons/account_invoice_webkit_report/report/invoice.mako:95
 msgid "Discount"
 msgstr "Descuento"
 
 #. module: account_invoice_webkit_report
-#: report:addons/account_invoice_webkit_report/report/invoice.mako:107
+#: report:addons/account_invoice_webkit_report/report/invoice.mako:108
 msgid "Invoice Note"
 msgstr "Nota de factura"
 
@@ -112,22 +102,12 @@ msgstr "Nota de factura"
 #: report:addons/account_invoice_webkit_report/report/invoice.mako:63
 #: report:addons/account_invoice_webkit_report/report/invoice.mako:65
 msgid "[Code] Description / (Taxes)"
-msgstr "[Cód.] Descripción / (Imp.)"
-
-#. module: account_invoice_webkit_report
-#: sql_constraint:res.company:0
-msgid "The company name must be unique !"
-msgstr "¡El nombre de la compañía debe ser único!"
+msgstr "[Código] Descripción / (Impuestos)"
 
 #. module: account_invoice_webkit_report
 #: report:addons/account_invoice_webkit_report/report/invoice.mako:19
 msgid "Draft Inovice"
 msgstr "Factura borrador"
-
-#. module: account_invoice_webkit_report
-#: report:addons/account_invoice_webkit_report/report/invoice.mako:36
-msgid "ID Num."
-msgstr "ID Num."
 
 #. module: account_invoice_webkit_report
 #: report:addons/account_invoice_webkit_report/report/invoice.mako:55
@@ -145,35 +125,35 @@ msgid "Electronic Invoice"
 msgstr "Factura electrónica"
 
 #. module: account_invoice_webkit_report
-#: report:addons/account_invoice_webkit_report/report/invoice.mako:95
-#: report:addons/account_invoice_webkit_report/report/invoice.mako:99
+#: report:addons/account_invoice_webkit_report/report/invoice.mako:96
+#: report:addons/account_invoice_webkit_report/report/invoice.mako:100
 msgid "Taxes"
 msgstr "Impuestos"
 
 #. module: account_invoice_webkit_report
 #: help:res.company,use_email_invoice:0
 msgid "In the invoice, if it is selected appears the user's mail is logged in. If not selected, do not appear any associated email"
-msgstr "En la factura, si está seleccionado aparece el email del usuario logueado. Si no está seleccionado no aparece ningún email"
+msgstr "En la factura, si está seleccionada, aparece el correo del usuario logueado. Si no está seleccionado, no aparece ningún correo asociado."
 
 #. module: account_invoice_webkit_report
 #: view:res.company:0
 msgid "Configuration Report"
-msgstr "Configuración de reportes"
+msgstr "Configuración de reporte"
 
 #. module: account_invoice_webkit_report
-#: report:addons/account_invoice_webkit_report/report/invoice.mako:111
+#: report:addons/account_invoice_webkit_report/report/invoice.mako:112
 msgid "Payment Note"
 msgstr "Nota de pago"
 
 #. module: account_invoice_webkit_report
 #: report:addons/account_invoice_webkit_report/report/invoice.mako:25
 msgid "Refund"
-msgstr "Reembolso"
+msgstr "Nota de crédito"
 
 #. module: account_invoice_webkit_report
 #: report:addons/account_invoice_webkit_report/report/invoice.mako:43
 msgid "Due date"
-msgstr "Vence"
+msgstr "Fecha de vencimiento"
 
 #. module: account_invoice_webkit_report
 #: view:res.company:0
@@ -194,11 +174,11 @@ msgstr "Información general"
 #. module: account_invoice_webkit_report
 #: report:addons/account_invoice_webkit_report/report/invoice.mako:27
 msgid "Supplier Refund"
-msgstr "Reembolso de proveedor"
+msgstr "Nota de débito"
 
 #. module: account_invoice_webkit_report
-#: report:addons/account_invoice_webkit_report/report/invoice.mako:96
-#: report:addons/account_invoice_webkit_report/report/invoice.mako:100
+#: report:addons/account_invoice_webkit_report/report/invoice.mako:97
+#: report:addons/account_invoice_webkit_report/report/invoice.mako:101
 msgid "Total"
 msgstr "Total"
 

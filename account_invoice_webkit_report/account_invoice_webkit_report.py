@@ -29,4 +29,5 @@ class res_company(osv.osv):
     _columns = {
            'use_email_invoice':fields.boolean('Use user email',help="In the invoice, if it is selected appears the user's mail is logged in. If not selected, do not appear any associated email"),
            }
+    
 res_company()
