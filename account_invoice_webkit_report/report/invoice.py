@@ -20,31 +20,22 @@
 #
 ##############################################################################
 
-{
-    "name" : 'Invoice Webkit Report',
-    "version" : '1.0',
-    "author" : 'CLEARCORP S.A',
-    #easy, normal, expert
-    'complexity': 'normal',
-    "description": """
-Invoice webkit report
-    """,
-    "category": 'Accounting & Finance',
-    "sequence": 4,
-    "website" : "http://clearcorp.co.cr",
-    "images" : [],
-    "icon" : False,
-    "depends" : [
-        'base',
-        'report_webkit',
-        'account_invoice_global_discount',
-        ],
-    "init_xml" : [],
-    "demo_xml" : [],
-    "update_xml" : ['ccorp_account_webkit_report.xml'],
-    "test" : [],
-    "auto_install": False,
-    "application": False,
-    "installable": True,
-    'license': 'AGPL-3',
-}
+import time
+import pooler
+import locale
+from report import report_sxw
+
+class account_invoice_ccorp(report_sxw.rml_parse):
+    def __init__(self, cr, uid, name, context):
+        super(account_invoice_ccorp, self).__init__(cr, uid, name, context=context)
+        self.localcontext.update({
+            'time': time,
+            'cr' : cr,
+            'uid': uid,
+        })
+            
+report_sxw.report_sxw(
+    'report.account.invoice.layout_ccorp',
+    'account.invoice',
+    'addons/account_invoice_webkit_report/report/invoice.mako',
+    parser=account_invoice_ccorp)
