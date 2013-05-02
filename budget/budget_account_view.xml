@@ -279,7 +279,7 @@
             <field name="view_id" ref="view_budget_account_tree"/>
         </record>
         <menuitem action="action_budget_account_tree" id="budget_account_menu" name="Budget Accounts" parent="budget.next_id_24" />
-        <menuitem id="budget_import_catalog_wizard_menu" name="Import account catalog from file" parent="budget_account_menu" action="action_budget_import_catalog"/>
+        
         
 <!--Plan Line-->
        <record id="view_budget_plan_line_tree" model="ir.ui.view">
