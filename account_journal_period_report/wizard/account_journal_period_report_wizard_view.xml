@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+       <record id="account_report_print_journal_inherit" model="ir.ui.view">
+            <field name="name">account.report.print.journal.inherit</field>
+            <field name="model">account.print.journal</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.account_report_print_journal"/>
+            <field name="arch" type="xml">
+                <data>                
+                   <field name="fiscalyear_id" position="attributes">
+                       <attribute name="required">True</attribute>
+                   </field>
+                </data>
+            </field>
+        </record> 
+    </data>
+</openerp>

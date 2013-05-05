@@ -52,11 +52,13 @@
 			<field name="target">current</field>
 			<field name="help">Sales payment allows you to register the payments you receive from your customers. In order to record a payment, you must enter the customer, the payment method (=the journal) and the payment amount. OpenERP will propose to you automatically the reconciliation of this payment with the open invoices or sales receipts.</field>
 		</record>
+		
 		<record id="action_vendor_reciept_tree" model="ir.actions.act_window.view">
 			<field eval="1" name="sequence"/>
 			<field name="view_mode">tree</field>
 			<field name="act_window_id" ref="action_vendor_reciept2"/>
 		</record>
+		
 		<record id="action_vendor_reciept_form" model="ir.actions.act_window.view">
 			<field eval="2" name="sequence"/>
 			<field name="view_mode">form</field>
@@ -67,8 +69,7 @@
 		<record id="account_voucher.menu_action_vendor_receipt" model="ir.ui.menu">
 			<field name="action" ref="action_vendor_reciept2"/>
 		</record>
-		
-		
+				
 		<record id="action_vendor_payment2" model="ir.actions.act_window">
 			<field name="name">Supplier Payment</field>
 			<field name="res_model">account.voucher</field>
@@ -80,11 +81,13 @@
 			<field name="target">current</field>
 			<field name="help">The supplier payment form allows you to track the payment you do to your suppliers. When you select a supplier, the payment method and an amount for the payment, OpenERP will propose to reconcile your payment with the open supplier invoices or bills.</field>
 		</record>
+		
 		<record id="action_vendor_payment_tree" model="ir.actions.act_window.view">
 			<field eval="1" name="sequence"/>
 			<field name="view_mode">tree</field>
 			<field name="act_window_id" ref="action_vendor_payment2"/>
 		</record>
+		
 		<record id="action_vendor_payment_form" model="ir.actions.act_window.view">
 			<field eval="2" name="sequence"/>
 			<field name="view_mode">form</field>
@@ -108,12 +111,12 @@
 			<field name = "inherit_id" ref = "account_voucher.view_vendor_receipt_form"/>
 			<field name = "arch" type = "xml">
 				<data>
-						<xpath expr = "//field[@name='line_cr_ids']//field[@name='amount_original']" position = "after">
-							<field name = "currency_id"/>
-						</xpath>
-						<xpath expr = "//field[@name='line_dr_ids']//field[@name='amount_original']" position = "after">
-							<field name = "currency_id"/>
-						</xpath>
+					<xpath expr = "//field[@name='line_cr_ids']//field[@name='amount_original']" position = "after">
+						<field name = "currency_id"/>
+					</xpath>
+					<xpath expr = "//field[@name='line_dr_ids']//field[@name='amount_original']" position = "after">
+						<field name = "currency_id"/>
+					</xpath>
 				</data>
 			</field>
 		</record>
@@ -125,18 +128,12 @@
 			<field name = "inherit_id" ref = "account_voucher.view_vendor_payment_form"/>
 			<field name = "arch" type = "xml">
 				<data>
-						<xpath expr = "//field[@name='line_cr_ids']//field[@name='amount_original']" position = "replace">
-							<field name = "currency_id"/>
-						</xpath>
-						<xpath expr = "//field[@name='line_dr_ids']//field[@name='amount_original']" position = "replace">
-							<field name = "currency_id"/>
-						</xpath>
-						<!--<xpath expr = "//field[@name='line_cr_ids']//field[@name='amount_original']" position = "after">
-							<field name = "currency_id"/>
-						</xpath>
-						<xpath expr = "//field[@name='line_dr_ids']//field[@name='amount_original']" position = "after">
-							<field name = "currency_id"/>
-						</xpath>-->
+					<xpath expr = "//field[@name='line_cr_ids']//field[@name='amount_original']" position = "replace">
+						<field name = "currency_id"/>
+					</xpath>
+					<xpath expr = "//field[@name='line_dr_ids']//field[@name='amount_original']" position = "replace">
+						<field name = "currency_id"/>
+					</xpath>
 				</data>
 			</field>
 		</record>
@@ -155,7 +152,7 @@
 				<data>
 					<field name = "type" position = "after">
 						<group colspan = "2" col = "4">
-							<separator string = "Payment Options"/>
+							<separator string = "Payment Options" colspan="4"/>
                             <newline/>
                             <field name = "payment_method_customer"/>
 							<field name = "payment_method_supplier"/>

@@ -7,7 +7,7 @@
         </style>
     </head>
     <body>
-        <%setLang(user.context_lang)%>
+        <%setLang(user.lang)%>
         <%
             fiscalyear = get_fiscalyear(data)
             company = get_account(data)

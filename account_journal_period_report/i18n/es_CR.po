@@ -1,0 +1,105 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* account_journal_period_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-05-05 03:02+0000\n"
+"PO-Revision-Date: 2013-05-05 03:02+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_journal_period_report
+#: report:addons/account_journal_period_report/report/account_journal_period_report.mako:62
+#: report:addons/account_journal_period_report/report/account_journal_period_report.mako:70
+msgid "Account"
+msgstr "Cuenta"
+
+#. module: account_journal_period_report
+#: report:addons/account_journal_period_report/report/account_journal_period_report.mako:108
+#: report:addons/account_journal_period_report/report/account_journal_period_report.mako:118
+msgid "TOTAL"
+msgstr "TOTAL"
+
+#. module: account_journal_period_report
+#: report:addons/account_journal_period_report/report/account_journal_period_report.mako:31
+msgid "Chart of Accounts: "
+msgstr "Catálogo contable: "
+
+#. module: account_journal_period_report
+#: report:addons/account_journal_period_report/report/account_journal_period_report.mako:33
+msgid "Selected period: "
+msgstr "Períodos seleccionados: "
+
+#. module: account_journal_period_report
+#: report:addons/account_journal_period_report/report/account_journal_period_report.mako:34
+msgid "Entries Sorted By:"
+msgstr "Apuntes ordenados por:"
+
+#. module: account_journal_period_report
+#: report:addons/account_journal_period_report/report/account_journal_period_report.mako:60
+#: report:addons/account_journal_period_report/report/account_journal_period_report.mako:68
+msgid "Move"
+msgstr "Asiento"
+
+#. module: account_journal_period_report
+#: report:addons/account_journal_period_report/report/account_journal_period_report.mako:61
+#: report:addons/account_journal_period_report/report/account_journal_period_report.mako:69
+msgid "Date"
+msgstr "Fecha"
+
+#. module: account_journal_period_report
+#: report:addons/account_journal_period_report/report/account_journal_period_report.mako:66
+#: report:addons/account_journal_period_report/report/account_journal_period_report.mako:74
+msgid "Credit"
+msgstr "Crédito"
+
+#. module: account_journal_period_report
+#: report:addons/account_journal_period_report/report/account_journal_period_report.mako:75
+msgid "Amount Currency"
+msgstr "Monto divisa"
+
+#. module: account_journal_period_report
+#: report:addons/account_journal_period_report/report/account_journal_period_report.mako:24
+msgid "Journal Report "
+msgstr "Reporte de Diario(s) "
+
+#. module: account_journal_period_report
+#: report:addons/account_journal_period_report/report/account_journal_period_report.mako:35
+msgid "Target Moves: "
+msgstr "Movimientos destino: "
+
+#. module: account_journal_period_report
+#: report:addons/account_journal_period_report/report/account_journal_period_report.mako:65
+#: report:addons/account_journal_period_report/report/account_journal_period_report.mako:73
+msgid "Debit"
+msgstr "Débito"
+
+#. module: account_journal_period_report
+#: model:ir.model,name:account_journal_period_report.model_account_print_journal
+msgid "Account Print Journal"
+msgstr "Contabilidad. Imprimir diario"
+
+#. module: account_journal_period_report
+#: report:addons/account_journal_period_report/report/account_journal_period_report.mako:63
+#: report:addons/account_journal_period_report/report/account_journal_period_report.mako:71
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: account_journal_period_report
+#: report:addons/account_journal_period_report/report/account_journal_period_report.mako:64
+#: report:addons/account_journal_period_report/report/account_journal_period_report.mako:72
+msgid "Label"
+msgstr "Etiqueta"
+
+#. module: account_journal_period_report
+#: report:addons/account_journal_period_report/report/account_journal_period_report.mako:32
+msgid "Fiscal Year: "
+msgstr "Año fiscal: "
+
