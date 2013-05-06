@@ -39,19 +39,20 @@ class AccountInvoice(orm.Model):
 
     def onchange_journal_id(self, cr, uid, ids, journal_id=False, context=None):
         result = super(AccountInvoice, self).onchange_journal_id(cr, uid, ids, journal_id, context)
-
-        journal = self.pool.get('account.journal').browse(cr, uid, journal_id, context=context)
-
-        if journal.type == 'sale':
-            acc_id = journal.default_receivable_account_id.id
-        elif journal.type == 'purchase':
-            acc_id = journal.default_payable_account_id.id
-        elif journal.type == 'sale_refund':
-            acc_id = journal.default_payable_account_id.id
-        elif journal.type == 'purchase_refund':
-            acc_id = journal.default_receivable_account_id.id
-
-        result['value']['account_id'] = acc_id
+        
+        if journal_id is not False:
+            journal = self.pool.get('account.journal').browse(cr, uid, journal_id, context=context)
+    
+            if journal.type == 'sale':
+                acc_id = journal.default_receivable_account_id.id
+            elif journal.type == 'purchase':
+                acc_id = journal.default_payable_account_id.id
+            elif journal.type == 'sale_refund':
+                acc_id = journal.default_payable_account_id.id
+            elif journal.type == 'purchase_refund':
+                acc_id = journal.default_receivable_account_id.id
+    
+            result['value']['account_id'] = acc_id
 
         return result
 
@@ -121,8 +122,5 @@ class AccountJournal(orm.Model):
         'default_receivable_account_id': fields.many2one('account.account', 'Default Receivable Account', domain="[('type','!=','view')]", help="It acts as a default receivable account"),
         'default_payable_account_id': fields.many2one('account.account', 'Default Payable Account', domain="[('type','!=','view')]", help="It acts as a default payable account"),
     }
-
-
-
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

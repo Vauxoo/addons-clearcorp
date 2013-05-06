@@ -25,14 +25,12 @@
     'category': 'Accounting & Finance',
     "sequence": 4,
     'complexity': "normal",
-    'description': """
-account_invoice_journal_defaults.
-=======================
-    * Currency changed to readonly
-    * Change button removed
-    * account_id removed in onchange_partner
-    * account_id added in onchange_journal
-    """,
+    'description': '''
+                * Currency changed to readonly
+                * Change button removed
+                * account_id removed in onchange_partner
+                * account_id added in onchange_journal 
+                ''',
     "author" : 'CLEARCORP S.A',
     'website':'http://www.clearcorp.co.cr',
     "depends" : ['account'],

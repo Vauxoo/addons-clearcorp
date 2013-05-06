@@ -1,0 +1,41 @@
+# -*- coding: utf-8 -*-
+##############################################################################
+#
+#    OpenERP, Open Source Management Solution
+#    Addons modules by CLEARCORP S.A.
+#    Copyright (C) 2009-TODAY CLEARCORP S.A. (<http://clearcorp.co.cr>).
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+{
+    'name': 'Account Journal Period Report',
+    'version': '1.0',
+    'url': 'http://launchpad.net/openerp-ccorp-addons',
+    'author': 'ClearCorp S.A.',
+    'website': 'http://clearcorp.co.cr',
+    'category': 'Accounting & Finance',
+    'complexity': 'normal',
+    'description': """This module modifies the account journal period report """,
+    'depends': [
+        'account','account_report_lib',
+    ],
+    'init_xml': [],
+    'demo_xml': [],
+    'update_xml': ['wizard/account_journal_period_report_wizard_view.xml',
+                   'report/report.xml',],
+    'license': 'AGPL-3',
+    'installable': True,
+    'active': False,
+}
