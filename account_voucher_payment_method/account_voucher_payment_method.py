@@ -22,30 +22,14 @@
 
 from osv import osv, fields, orm
 
-class account_journal(osv.osv):
-	_name = "account.journal"
-	_inherit = "account.journal"
-	_columns = {
-		'payment_method_customer'   : fields.boolean('Payment Method Customer'),
-		'payment_method_supplier'   : fields.boolean('Payment Method Supplier'),
-		'payment_verification'      : fields.boolean('Payment Verification'),
-		'transfers'      : fields.boolean('Transfers'),
-		'check'      : fields.boolean('Check'),
-		
-	}
-account_journal()
-
-class account_voucher_journal_payment(osv.osv):
-	_name = 'account.voucher'
-	_inherit = 'account.voucher'
-	_description = 'Accounting Voucher'
-
-	def _compute_writeoff_amount(self, cr, uid, line_dr_ids, line_cr_ids, amount):
-		debit = credit = 0.0
-		for l in line_dr_ids:
-			debit += l['amount']
-		for l in line_cr_ids:
-			credit += l['amount']
-		return abs(amount - abs(credit - debit))
-
-account_voucher_journal_payment()
+class AccountJournal(osv.osv):
+    _name = "account.journal"
+    _inherit = "account.journal"
+    _columns = {
+        'payment_method_customer'   : fields.boolean('Payment Method Customer'),
+        'payment_method_supplier'   : fields.boolean('Payment Method Supplier'),
+        'payment_verification'      : fields.boolean('Payment Verification'),
+        'transfers'      : fields.boolean('Transfers'),
+        'check'      : fields.boolean('Check'),
+        
+    }
