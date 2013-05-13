@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id ="account_report_general_ledger_report_inherit" model="ir.ui.view">
+            <field name="name">General Ledger Report </field>
+            <field name="model">general.ledger.webkit</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account_financial_report_webkit.account_report_general_ledger_view_webkit"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="fiscalyear_id" position="attributes">
+                        <attribute name="required">True</attribute>
+                    </field>
+                </data>
+            </field>
+        </record>
+        
+        <record id="action_general_ledger_report_wizard" model="ir.actions.act_window">
+            <field name="name">General Ledger Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">general.ledger.webkit</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account_report_general_ledger_report_inherit"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</openerp>
