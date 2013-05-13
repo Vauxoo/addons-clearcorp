@@ -87,7 +87,7 @@
                 %endif
                 %if inv.currency_id.position == 'before':
                     <td style="text-align:right;" valign = "top">${inv.currency_id.symbol or ''|entity }&nbsp;${formatLang(line.price_unit)}</td>
-                    <td style="text-align:right;" valign = "top">${inv.currency_id.symbol or ''|entity }&nbsp;${formatLang(line.price_subtotal_not_discounted)} ${inv.currency_id.symbol_suffix or ''|entity }</td> 
+                    <td style="text-align:right;" valign = "top">${inv.currency_id.symbol or ''|entity }&nbsp;${formatLang(line.price_subtotal_not_discounted)}</td> 
                 %else:          
                     <td style="text-align:right;" valign = "top">${formatLang(line.price_unit)}&nbsp;${inv.currency_id.symbol or ''|entity } </td>
                     <td style="text-align:right;" valign = "top">${formatLang(line.price_subtotal_not_discounted)}&nbsp;${inv.currency_id.symbol or ''|entity }</td> 
