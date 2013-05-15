@@ -18,13 +18,14 @@
         %>
        <div class="table header">
            <div class="table-row">
-               <div class="table-cell logo">${helper.embed_logo_by_name('internal_reports_logo', height=100)|n}</div>
+               <div class="table-cell logo">${helper.embed_logo_by_name('default_logo', height=100)|n}</div>
                <br/>
                <div class="table-cell text">
                     <p class="title">${_('Journal Report ')}</p>
                </div>
            </div>
        </div>
+       <br/><br/>
        <div class="table list">
             <div class="table-header">
                 <div class="table-row labels no-wrap">

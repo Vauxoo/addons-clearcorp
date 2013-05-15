@@ -79,6 +79,7 @@ class sale_order(osv.osv):
             else:
                 res[order.id]['order_discount'] = 100 * res[order.id]['amount_discounted'] / res[order.id]['amount_untaxed_not_discounted']
         return res
+    
     def _get_order_ccorp(self, cr, uid, ids, context=None):
         return self.pool.get('sale.order')._get_order(cr, uid, ids, context)
     _columns = {

@@ -40,7 +40,10 @@
         ],
     "init_xml" : [],
     "demo_xml" : [],
-    "update_xml" : ['account_invoice_webkit_report.xml'],
+    "update_xml" : [
+                    'data/account_invoice_webkit_report_header.xml',
+                    'account_invoice_webkit_report.xml',
+                    ],
     "test" : [],
     "auto_install": False,
     "application": False,

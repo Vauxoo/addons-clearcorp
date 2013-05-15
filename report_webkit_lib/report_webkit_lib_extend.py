@@ -20,4 +20,19 @@
 #
 ##############################################################################
 
-import company_webkit
+from osv import osv, fields, orm
+
+class resCompany(orm.Model):
+       #This fields is for the footer configuration for the footer 
+       #for the sale order report and invoice report. 
+    
+      _inherit = 'res.company'
+      
+      _columns =  {
+        'accounts_footer': fields.text('Account for the footer in the report'),
+           
+        } 
+      
+      _defaults = {
+        'accounts_footer':'',
+      }

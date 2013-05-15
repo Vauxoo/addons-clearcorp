@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+	
+	   <record id="sale.report_sale_order" model="ir.actions.report.xml">
+             <field name="report_type">webkit</field>
+             <field name="report_name">sale.order.layout_ccorp</field>
+             <field eval="[(6,0,[])]" name="groups_id"/>
+             <field name="model">sale.order</field>
+             <field name="type">ir.actions.report.xml</field>
+             <field name="name">Quotation / Order</field>
+             <field name="report_rml">sale_order_report/report/sale_order_report.mako</field>
+             <field name="report_file">sale_order_report/report/sale_order_report.mako</field>
+             <field name="webkit_header" ref="sale_order_header_webkit"/>
+         </record>
+         
+	</data>
+</openerp>

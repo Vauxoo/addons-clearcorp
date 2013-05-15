@@ -33,7 +33,9 @@
     'init_xml': [],
     'demo_xml' : [],
     'update_xml': [
-        'webkit_headers/webkit_headers.xml',
+        'data/data.xml',
+        'report_webkit_lib_extended_view.xml',
+        'data/webkit_headers.xml',
     ],
     'test': [],
     'active': False,

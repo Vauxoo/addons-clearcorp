@@ -20,14 +20,29 @@
 #
 ##############################################################################
 
+
 {
-	"name"        : "Company fields for report webkit",
-	"author"      : "ClearCorp S.A.",
-	"version"     : "1.0",
-	"depends"     : ["base","report_webkit"],
-	"init_xml"    : [],
-	"update_xml"  : [],
-	"category"    : "Report",
-	"active"      : False,
-	"instalable"  : True,
+    "name" : 'Sale Order Extended',
+    "version" : '2.0',
+    "author" : 'CLEARCORP S.A.',
+    #easy, normal, expert
+    'complexity': 'normal',
+    "description": """
+        Customization from sale.order to apply due dates in views and reports
+    """,
+    "category": 'Sales',
+    "sequence": 4,
+    "website" : "http://clearcorp.co.cr",
+    "images" : [],
+    "icon" : False,
+    "depends" : [
+        'sale'],
+    "init_xml" : [],
+    "demo_xml" : [],
+    "update_xml" : ['sale_order_extended_view.xml'],
+    "test" : [],
+    "auto_install": False,
+    "application": False,
+    "installable": True,
+    'license': 'AGPL-3',
 }

@@ -20,29 +20,4 @@
 #
 ##############################################################################
 
-
-{
-    "name" : 'CLEARCORP Sale Order Global Discount',
-    "version" : '2.0',
-    "author" : 'CLEARCORP S.A.',
-    #easy, normal, expert
-    'complexity': 'normal',
-    "description": """
-Customization from sale.order to apply global discounts
-    """,
-    "category": 'Sales',
-    "sequence": 4,
-    "website" : "http://clearcorp.co.cr",
-    "images" : [],
-    "icon" : False,
-    "depends" : [
-        'sale'],
-    "init_xml" : [],
-    "demo_xml" : [],
-    "update_xml" : ['sale_order_global_discount_view.xml'],
-    "test" : [],
-    "auto_install": False,
-    "application": False,
-    "installable": True,
-    'license': 'AGPL-3',
-}
+import sale_order_extended
