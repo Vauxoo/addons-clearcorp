@@ -10,6 +10,7 @@
     		<field name="report_file">account_invoice_webkit_report/report/invoice.mako</field>
     		<field name="report_rml">account_invoice_webkit_report/report/invoice.mako</field>
     		<field name="report_type">webkit</field>
+    		<field name="webkit_header" ref="invoice_header_webkit"/>
 	    </record> 
 				
 				
@@ -25,7 +26,7 @@
                             <separator colspan="4" string="Invoices"/>
                             <field colspan="4" name="use_email_invoice"/>
                         </page>
-                    </page>
+                    </page>report_webkit_lib
                 </data>
             </field>
         </record> 

@@ -22,13 +22,13 @@
 
 
 {
-    "name" : 'CLEARCORP Sale Order report',
+    "name" : 'Sale Order Extended',
     "version" : '2.0',
     "author" : 'CLEARCORP S.A.',
     #easy, normal, expert
     'complexity': 'normal',
     "description": """
-Sale order report in webkit
+        Customization from sale.order to apply due dates in views and reports
     """,
     "category": 'Sales',
     "sequence": 4,
@@ -36,13 +36,10 @@ Sale order report in webkit
     "images" : [],
     "icon" : False,
     "depends" : [
-        'sale_order_global_discount',
-        'sale_order_extended',
-        'report_webkit',
-        ],
+        'sale'],
     "init_xml" : [],
     "demo_xml" : [],
-    "update_xml" : ['ccorp_sale_webkit_report.xml'],
+    "update_xml" : ['sale_order_extended_view.xml'],
     "test" : [],
     "auto_install": False,
     "application": False,

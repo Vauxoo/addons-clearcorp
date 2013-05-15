@@ -33,6 +33,8 @@
     'init_xml': [],
     'demo_xml' : [],
     'update_xml': [
+        'data/data.xml',
+        'report_webkit_lib_extended_view.xml',
         'webkit_headers/webkit_headers.xml',
     ],
     'test': [],

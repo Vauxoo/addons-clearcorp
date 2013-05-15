@@ -257,8 +257,18 @@ body {
 <html>
     <head>
         <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
-        <script type="text/javascript" src="addons/account_webkit_report_library/webkit_headers/main.js"></script>
-        <link rel='stylesheet' href='addons/account_webkit_report_library/webkit_headers/main.css'>
+        <script>
+            function subst() {
+            var vars={};
+            var x=document.location.search.substring(1).split('&');
+            for(var i in x) {var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);}
+            var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
+            for(var i in x) {
+            var y = document.getElementsByClassName(x[i]);
+            for(var j=0; j<y.length; ++j) y[j].textContent = vars[x[i]];
+                }
+            }
+        </script>
         <style type="text/css">
             ${css}
         </style>
@@ -270,8 +280,24 @@ body {
 <html>
     <head>
         <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
-        <script type="text/javascript" src="addons/account_webkit_report_library/webkit_headers/main.js"></script>
         <link rel='stylesheet' href='addons/account_webkit_report_library/webkit_headers/main.css'>
+        <script type="text/javascript"> 
+               function subst() {
+                   var vars={};
+                   var x=document.location.search.substring(1).split('&');
+                   for(var i in x) {
+                       var z=x[i].split('=',2);
+                       vars[z[0]] = unescape(z[1]);
+                   }
+                  var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
+                 for(var i in x) {
+                    var y = document.getElementsByClassName(x[i]);
+                    for(var j=0; j<y.length; ++j){
+                         y[j].textContent = vars[x[i]];
+                    }
+               }
+           }
+        </script>
         <style type="text/css">
             ${css}
         </style>
@@ -545,8 +571,23 @@ body {
 <html>
     <head>
         <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
-        <script type="text/javascript" src="addons/account_webkit_report_library/webkit_headers/main.js"></script>
-        <link rel='stylesheet' href='addons/account_webkit_report_library/webkit_headers/main.css'>
+        <script type="text/javascript"> 
+               function subst() {
+                   var vars={};
+                   var x=document.location.search.substring(1).split('&');
+                   for(var i in x) {
+                       var z=x[i].split('=',2);
+                       vars[z[0]] = unescape(z[1]);
+                   }
+                  var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
+                 for(var i in x) {
+                    var y = document.getElementsByClassName(x[i]);
+                    for(var j=0; j<y.length; ++j){
+                         y[j].textContent = vars[x[i]];
+                    }
+               }
+           }
+        </script>
         <style type="text/css">
             ${css}
         </style>
@@ -558,8 +599,23 @@ body {
 <html>
     <head>
         <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
-        <script type="text/javascript" src="addons/account_webkit_report_library/webkit_headers/main.js"></script>
-        <link rel='stylesheet' href='addons/account_webkit_report_library/webkit_headers/main.css'>
+        <script type="text/javascript"> 
+               function subst() {
+                   var vars={};
+                   var x=document.location.search.substring(1).split('&');
+                   for(var i in x) {
+                       var z=x[i].split('=',2);
+                       vars[z[0]] = unescape(z[1]);
+                   }
+                  var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
+                 for(var i in x) {
+                    var y = document.getElementsByClassName(x[i]);
+                    for(var j=0; j<y.length; ++j){
+                         y[j].textContent = vars[x[i]];
+                    }
+               }
+           }
+        </script>
         <style type="text/css">
             ${css}
         </style>
@@ -576,423 +632,6 @@ body {
     </body>
 </html>
             ]]></field>
-        </record>
-        
-        <record id="webkit_header_l10n_cr_account_voucher_check_bcr" model="ir.header_webkit">
-            <field name="name">Check CLEARCORP official header</field>
-            <field name="orientation">Portrait</field>
-            <field name="format">Letter</field>
-            <field eval="0.50" name="margin_top"/>
-            <field eval="0.0" name="margin_bottom"/>
-            <field eval="0.10" name="margin_left"/>
-            <field eval="0.10" name="margin_right"/>
-            <field name="html"><![CDATA[<html> </html>]]></field>
-            <field name="css"><![CDATA[
-body {
-    /*margin-top : 10px;cambio de 20 a 10*/
-}
-
-#wrapper{
-
-}
-
-#document_data{
-    /*padding : 5px;*/
-    padding-top : 15px;
-    width : 100%;
-    height : 185px;/*cambio de 210 a 200*/
-}
-
-#date {
-    margin : 20px 0px 5px 350px;/*cambio de 400 a 200*/
-}
-
-#detail {
-    margin-top : 13px;
-    width : 100%;
-    
-}
-
-.amount_detail {
-    margin : 0px 0px 0px 375px;/*cambio de 400 a 200*/
-}
-
-#accounting_data {
-    /*margin-right : 100px;*/
-    
-}
-
-#document_desc {
-    height : 90px;/*cambio de 110 a 90*/
-    margin-bottom : 10px;/*cambio de 7 a 3*/
-    width : 100%;
-}
-
-#accounts{
-    margin-top : 4px;/*cambio de 8 a 2*/
-    margin-bottom : 7px;/*cambio de 13 a 7*/
-    height : 250px;/*cambio de 290 a 250*/
-    width : 82%;
-    /*width : 660px; /*643*/
-}
-
-#table_account{
-    border-collapse: collapse;
-}
-
-#table_account td {
-    padding: 3px;
-}
-
-#table_account tr.account_line td {
-    border: 0px solid black;
-    border-bottom-width: 1px;
-    font-family : sans-serif;
-    font-size : 13px;
-}
-
-#footer_data{}
-
-.detail_desc{
-    font-family : sans-serif;
-    font-size : 13px;
-    font-style : italic;
-}
-
-.text_font{
-    font-family : sans-serif;
-    font-size : 13px;
-}
-
-.amount{
-    font-family : sans-serif;
-    font-size : 13px;
-    font-style : italic;
-}
-
-.account_line{
-    font-family : sans-serif;
-    font-size : 13px;
-}
-.detail_line{
-    width : 60%;/*cambio de 70 a 30*/
-    float : left;
-    margin-left : 50px;/*cambio de 70 a 30*/
-}
-.amount_text{
-    /*margin : 5px;*/
-    width : 70%;
-    margin-top : 15px;
-    margin-left : 50px;/*cambio de 70 a 30*/
-    word-spacing:-1px;
-}
-
-
-.account_id{
-    width : 288px;
-    text-align : left;
-    word-spacing:-1px;
-}
-
-.code_cell {
-    width : 120px;/*125*/
-    text-align : left;
-}
-
-.code_div {
-    float : left;
-    width : 120px;
-    
-}
-
-.amount_acc {
-    width : 120px;/*125*/
-    text-align : right;
-    word-spacing:-1px;
-}
-
-.made_by{
-    float : left;
-    width : 85px;
-    margin-left : 5px;
-    font-family : sans-serif;
-    font-size : 13px;
-    text-align : center;
-}
-
-#receipt {
-    float : left;
-    margin-left : 15px;
-}
-
-#related{
-    float : left;
-}
-
-.sub_receipt{
-    width : 140px;
-    font-family : sans-serif;
-    font-size : 10px;
-    text-align : center;
-}
-
- td {border-collapse: collapse; }
- 
-.amount_desc {
-    font-family : sans-serif;
-    font-size : 13px;
-    word-spacing: -2px;
- }
-
-.amount_desc_medium {
-    font-family : sans-serif;
-    font-size : 10px;
-    word-spacing: -2px;
- }
-
-.amount_desc_small {
-    font-family : sans-serif;
-    font-size : 8.2px;
-    word-spacing: 0px;
- }
-                 ]]> 
-            </field>
-        </record>
-        
-        <record id="invoice_header_webkit" model="ir.header_webkit">
-            <field name="name">Invoice CLEARCORP official header</field>
-            <field name="orientation">Portrait</field>
-            <field name="format">Letter</field>
-            <field name="margin_top">70.00</field>
-            <field name="margin_bottom">24.00</field>
-            <field name="margin_left">0</field>
-            <field name="margin_right">0</field>
-            <field name="css"><![CDATA[ 
-                            .header {
-                padding : 200px 10px 5px 10px;
-                border:0; margin: 0;
-            }
-            .header-table {
-                width: 100%;
-                padding-top: 8%;
-            }
-            .partner-table {
-                width: 100%;
-                font-family: Arial,Verdana, Sans, Serif;
-                font-size: 12;
-            }
-
-            #data-table {
-                width: 100%;
-                padding-top: 20px;
-                font-family: Arial,Verdana, Sans, Serif;
-                font-size: 12;
-            }
-            #data-table th{
-                border-bottom:2px solid black;
-                text-align:center;
-                font-size:12;
-                font-weight:bold;
-                padding-right:3px;
-                padding-left:3px;
-            }
-            #data-table thead {
-                display:table-header-group;
-            }
-
-            .title {
-                font-size:16;
-                font-weight: bold;
-            }
-
-            td.company_logo{
-                width : 100%;
-                padding-top: 20px;
-                padding-bottom: 5px;
-            }
-            .company_address{
-                width : 100%;
-                text-align: right;
-                font-family: Arial,Verdana, Sans, Serif;
-                font-size: 13;
-            }
-
-            .company_data {
-                width : 100%;
-                text-align: left;
-                font-family: Arial,Verdana, Sans, Serif;
-                font-size: 13;
-                
-            }
-            
-            .company_footer {
-                font-family: Arial,Verdana, Sans, Serif;
-                font-size: 8.4;
-                font-style : italic;
-            }
-            .footer {
-                border-top: 1px solid black; 
-                width: 100%;
-                border:0; margin: 0;
-                padding-bottom: 300px;
-            }
-
-            .data {
-                padding : 5px 10px 10px 10px;
-                border:0; margin: 0;
-            }
-
-            .footer_table {
-                width: 100%;
-                padding-bottom: 150px;
-                border-top: 1px solid black;
-            }
-            
-            .slogan {
-                font-family: Arial,Verdana, Sans, Serif;
-                font-size: 10;
-                font-style : italic;
-                color : #888888;
-            }
-            
-            #notes_table {
-                font-family: Arial,Verdana, Sans, Serif;
-                font-size: 12;
-                font-style : italic;
-                width:65%;
-                border-collapse:separate;
-                border-spacing:10px;
-            }
-            #notes_table td{
-                background-color: #eee;
-                padding: 10px
-            }
-            
-            .document_data {
-                font-family: Arial,Verdana, Sans, Serif;
-                font-size: 13;
-            }
-            
-            #data-table tbody tr.even td {
-                background-color: #eee;
-            }
-            #data-table tbody tr.odd  td {
-                background-color: #fff;
-            }
-            
-            .notes{
-                padding-top : 0px;
-                margin-left: 5px;
-                font-style : italic;
-            }
-            #desc_col{
-                width : 440px;
-            }
-            #desc_col_po{
-                width : 380px;
-            }                
-            ]]>
-            </field>
-            <field name="html"><![CDATA[ 
-<html>
-    <head>
-        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
-        <script>
-            function subst() {
-            var vars={};
-            var x=document.location.search.substring(1).split('&');
-            for(var i in x) {var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);}
-            var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
-            for(var i in x) {
-            var y = document.getElementsByClassName(x[i]);
-            for(var j=0; j<y.length; ++j) y[j].textContent = vars[x[i]];
-                }
-            }
-        </script>
-        <style type="text/css">
-            ${css}
-        </style>
-    </head>
-    <body class = "header" onload="subst()">
-        <table class="header-table" cellspacing = "3">
-            <tbody>
-                <tr>
-                    <td class="company_logo">
-                        ${helper.embed_logo_by_name('invoice_logo', height=80)|n} 
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <table class="company_data">
-                            <tr class = "title">
-                                <td>${company.partner_id.name or '-'}</td>
-                                <td>${_("Address")}</td>
-                            </tr>
-                            <tr>
-                                <td>${_("ID Num")}: ${company.company_registry or '-'}</td>
-                                <td>${company.partner_id.street or '-'}</td>
-                            </tr>
-                            <tr>
-                                <td>${_("Tel-fax")}: ${company.partner_id.phone or '-'}</td>
-                                <td>${company.partner_id.zip or ''} ${company.partner_id.city or ''}</td>
-                            </tr>
-                            <tr>
-                                <td>${_("E-mail")}: ${company.partner_id.email or '-'}</td>
-                                %if company.partner_id.country_id :
-                                    <td>${company.partner_id.state_id.name  or ''|entity}, ${company.partner_id.country_id.name or ''} </td>
-                                %else:
-                                    <td>&nbsp;</td>
-                                %endif
-                            </tr>
-                            <tr>
-                                <td>${_("Web")}: ${company.website or '-'}</td>
-                                <td></td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        
-        <p class = "slogan">${company.rml_header1}</p>
-        <hr />${_debug or ''|n} </body>
-</html>]]></field>
-            <field name="footer_html"><![CDATA[
-<html>
-    <head>
-        <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
-        <script>
-            function subst() {
-            var vars={};
-            var x=document.location.search.substring(1).split('&');
-            for(var i in x) {var z=x[i].split('=',2);vars[z[0]] = unescape(z[1]);}
-            var x=['frompage','topage','page','webpage','section','subsection','subsubsection'];
-            for(var i in x) {
-            var y = document.getElementsByClassName(x[i]);
-            for(var j=0; j<y.length; ++j) y[j].textContent = vars[x[i]];
-                }
-            }
-        </script>
-        <style type="text/css">
-            ${css}
-        </style>
-    </head>
-    <body class = "footer" onload="subst()">
-        <table class = "footer_table">
-            <tr>
-                <td colspan="2"><p class ="company_footer">Favor realizar pagos a nombre de CLEARCORP S.A. cédula jurídica 3-101-578030. CUENTAS BANCARIAS: HSBC ($USD) 07405113481 SINPE 10400740511348127 - HSBC (¢ CRC)
-                                    07405113472 SINPE 10400740511347211</p></td>
-            </tr>
-            <tr>
-                <td colspan="2"><p class ="company_footer">Si realiza el pago en colones (CRC), por favor utilizar el tipo de cambio al día de la fecha de pago del BCCR.</p></td>
-            </tr>
-            <tr>
-                <td><p class ="company_footer">Emitida conforme lo establecido en la resolución de Facturación Electrónica, N° DGT-22-07 del diecisiete de setiembre de dos mil siete de la Dirección General de Tributación </p></td>
-                <td style="text-align:right;font-size:10;">Página&nbsp;<span class="page"/></td><td style="text-align:left;font-size:10;">&nbsp;de&nbsp;<span class="topage"/></td>
-            </tr>
-        </table>
-    </body>
-</html> ]]></field>
         </record>
     </data> 
 </openerp>

@@ -20,29 +20,19 @@
 #
 ##############################################################################
 
+from osv import osv, fields, orm
 
-{
-    "name" : 'CLEARCORP Sale Order Extended',
-    "version" : '2.0',
-    "author" : 'CLEARCORP S.A.',
-    #easy, normal, expert
-    'complexity': 'normal',
-    "description": """
-Customization from sale.order to apply due dates in views and reports, and custom footer for report
-    """,
-    "category": 'Sales',
-    "sequence": 4,
-    "website" : "http://clearcorp.co.cr",
-    "images" : [],
-    "icon" : False,
-    "depends" : [
-        'sale'],
-    "init_xml" : [],
-    "demo_xml" : [],
-    "update_xml" : ['sale_order_extended_view.xml'],
-    "test" : [],
-    "auto_install": False,
-    "application": False,
-    "installable": True,
-    'license': 'AGPL-3',
-}
+class resCompany(orm.Model):
+       #This fields is for the footer configuration for the footer 
+       #for the sale order report and invoice report. 
+    
+      _inherit = 'res.company'
+      
+      _columns =  {
+        'accounts_footer': fields.text('Account for the footer in the report'),
+           
+        } 
+      
+      _defaults = {
+        'accounts_footer':'',
+      }

@@ -20,29 +20,29 @@
 #
 ##############################################################################
 
+
 {
-    "name" : 'Invoice Webkit Report',
-    "version" : '1.0',
-    "author" : 'CLEARCORP S.A',
+    "name" : 'Sale Order report',
+    "version" : '2.0',
+    "author" : 'CLEARCORP S.A.',
     'complexity': 'normal',
     "description": """
-            Invoice webkit report
+Sale order report in webkit
     """,
-    "category": 'Accounting & Finance',
+    "category": 'Sales',
     "sequence": 4,
     "website" : "http://clearcorp.co.cr",
     "images" : [],
     "icon" : False,
     "depends" : [
-        'base',
+        'sale_order_global_discount',
+        'sale_order_extended',
         'account_report_lib',
-        'account_invoice_global_discount',
         ],
     "init_xml" : [],
     "demo_xml" : [],
-    "update_xml" : [
-                    'webkit_header/account_invoice_webkit_report_header.xml',
-                    'account_invoice_webkit_report.xml',
+    "update_xml" : ['webkit_header/sale_order_report_webkit.xml',
+                    'sale_order_report.xml',
                     ],
     "test" : [],
     "auto_install": False,
