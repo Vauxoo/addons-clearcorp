@@ -111,9 +111,10 @@
                             <div class="table-cell" style="width: 100px">${line.name or ''}</div> 
                             %if len(account_conciliation) > 0:
                                 <div class="table-cell" style="width: 70px">
-                                    %for conciliation in account_conciliation[account.id][line.id]:
-                                        ${conciliation or ''}
-                                    %endfor
+                                    %if account.id in account_conciliation.keys() and line.id in account_conciliation.keys():
+                                        conciliation = account_conciliation[account.id][line.id]
+                                    %endif
+                                 ${conciliation or ''}   
                                  </div>
                             %endif 
                             <div class="table-cell amount" style="width: 80px">${formatLang(line.debit)}</div>
