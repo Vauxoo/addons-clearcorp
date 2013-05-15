@@ -41,7 +41,7 @@
     "init_xml" : [],
     "demo_xml" : [],
     "update_xml" : [
-                    'webkit_header/account_invoice_webkit_report_header.xml',
+                    'data/account_invoice_webkit_report_header.xml',
                     'account_invoice_webkit_report.xml',
                     ],
     "test" : [],

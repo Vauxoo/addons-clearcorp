@@ -41,7 +41,7 @@ Sale order report in webkit
         ],
     "init_xml" : [],
     "demo_xml" : [],
-    "update_xml" : ['webkit_header/sale_order_report_webkit.xml',
+    "update_xml" : ['data/sale_order_report_webkit.xml',
                     'sale_order_report.xml',
                     ],
     "test" : [],
