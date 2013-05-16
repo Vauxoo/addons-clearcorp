@@ -186,15 +186,7 @@ class AccountWebkitReportLibrary(orm.Model):
         #**********************************************************************************************#
         
         if unreconcile == False:
-            #order by date ASC or DESC the move_lines 
-            if order_by != None and order_by == 'asc':
-                move_line_ids = move_line_obj.search(cr, uid, list_tuples, order='date asc', context=context)
-                
-            elif order_by != None and order_by == 'desc':
-                move_line_ids = move_line_obj.search(cr, uid, list_tuples, order='date DESC', context=context)
-            
-            else:
-                move_line_ids = move_line_obj.search(cr, uid, list_tuples, context=context)
+            move_line_ids = move_line_obj.search(cr, uid, list_tuples,order = order_by,context=context)
                 
         else:
             #list_tuples + [domain_unreconciled] -> Con esta sintaxis no se altera la variable 
