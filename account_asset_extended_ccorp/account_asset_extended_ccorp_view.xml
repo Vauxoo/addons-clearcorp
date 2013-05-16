@@ -1,0 +1,27 @@
+<openerp>
+    <data>
+        
+        <!--
+            Asset
+        -->
+        <record id="view_account_asset_asset_ccorp_form" model="ir.ui.view">
+            <field name="name">view.account.asset.asset.ccorp.form</field>
+            <field name="model">account.asset.asset</field>
+            <field name="inherit_id" ref="account_asset.view_account_asset_asset_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="/form/sheet/group/group/field[@name='parent_id']" position="after">
+                        <field name="account_invoice_id" readonly="1"/>
+                    </xpath>
+                    <xpath expr="/form/sheet/group/group/field[@name='company_id']" position="after">
+                        <field name="responsible"/>
+                    </xpath>
+                    <xpath expr="/form/sheet/notebook/page/group/group/field[@name='partner_id']" position="after">
+                        <field name="model"/>
+                        <field name="asset_number"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+    </data>
+</openerp>
