@@ -44,19 +44,17 @@ class GeneralLedgerReportWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
             'get_stop_date':self._get_date_to,
             'accounts': self._get_accounts_br,
             'display_target_move': self._get_display_target_move,
-            'extract_name_move': self.extract_name_move,
         })
 
     def get_data(self, cr, uid, data):
         filter_data = []
-        account_list = []
+        account_list = []        
         account_selected = []
-        conciliation_lines = [] 
         
         account_lines = {}
         account_balance = {}
         account_conciliation = {}
-        account_move_line_con = {}
+        move_names = {}
                 
         library_obj = self.pool.get('account.webkit.report.library')
         
@@ -86,215 +84,92 @@ class GeneralLedgerReportWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
         
         #From the wizard can select specific account, extract this accounts
         account_selected = data['form']['account_ids']
-
-        #Prepare the account_id list. 
+        
         if account_selected == []:
-            account_list_ids = library_obj.get_account_child_ids(cr, uid, chart_account.id) #get all the accounts in the chart_account_id
-            account_list_obj = self.pool.get('account.account').browse(cr, uid, account_list_ids)
-            for account in account_list_obj:
-                conciliation_lines = []
-                if  account.type != 'view':
-                    #Get the move_lines for each account.
-                    move_lines = library_obj.get_move_lines(cr, uid,
-                                                            [account.id], 
-                                                            filter_type=filter_type, 
-                                                            filter_data=filter_data, 
-                                                            fiscalyear=fiscalyear, 
-                                                            target_move=target_move,
-                                                            order_by='asc')
-                    if account.id not in account_lines.keys():
-                       account_lines[account] = move_lines
-                    
-                    #Reconcile -> show reconcile in the mako.
-                    '''
-                    First, if the account permit reconcile (reconcile == True), add to the dictionary.
-                    If the account don't allow the reconcile, search if the lines have reconcile_id or partial_reconcile_id
-                    If the account allow the reconcile or the lines have reconcile_id or partial_reconcile_id, add in the dictionary
-                    and show in the mako the column "Reconcile"
-                    
-                    the final result is:
-                       {account_id: {line.id: [conciliation_name]}}
-                    '''
-                    #1. If the account have reconcile, add to the dictionary
-                    if account.reconcile and account.id not in account_conciliation:
-                        account_conciliation[account.id] = []
-                    
-                    #Search if the move_lines have partial or reconcile id
-                    for line in move_lines:
-                        if line.reconcile_id and line.reconcile_id.name != '':
-                            conciliation_lines.append(line.reconcile_id.name)
-                         
-                        elif line.reconcile_partial_id and line.reconcile_partial_id.name != '':
-                            str_name = 'P' + line.reconcile_id.name
-                            conciliation_lines.append(str_name)
-                        
-                        #Add the line.id and the name of the conciliation.
-                        if len(conciliation_lines) > 0: 
-                             account_move_line_con[line.id] = conciliation_lines
-                        
-                        #Clean the name of the conciliation
-                        conciliation_lines = []
-                    
-                    #After the search in each lines, add the dictionary (key: line.id, value: conciliation_name)
-                    #with account.id (key of the principal dictionary) and match the account_id with the conciliation name.                    
-                    if account.id in account_conciliation.keys():
-                        account_conciliation[account.id] = account_move_line_con
-                    
-                    elif account.id not in account_conciliation.keys() and len(account_move_line_con) > 0: 
-                        account_conciliation[account.id] = account_move_line_con
-                        
-            #Get the initial_balance for the account
-            for account in account_list_obj:
-                if  account.type != 'view':
-                    account_list.append(account.id)
-
-            if filter_type == 'filter_date':
-                account_balance = library_obj.get_account_balance(cr, uid, 
-                                                                  account_list,
-                                                                  ['balance'],
-                                                                  initial_balance=True,
-                                                                  company_id=chart_account.company_id.id,
-                                                                  fiscal_year_id = fiscalyear.id,
-                                                                  state = target_move,
-                                                                  start_date = start_date,
-                                                                  stop_date = stop_date,
-                                                                  chart_account_id = chart_account.id,
-                                                                  filter_type=filter_type)
-            elif filter_type == 'filter_period':
-                account_balance = library_obj.get_account_balance(cr, uid, 
-                                                                  account_list,
-                                                                  ['balance'],
-                                                                  initial_balance=True,
-                                                                  company_id=chart_account.company_id.id,
-                                                                  fiscal_year_id = fiscalyear.id,
-                                                                  state = target_move,
-                                                                  start_period_id = start_period.id,
-                                                                  end_period_id = stop_period.id,
-                                                                  chart_account_id = chart_account.id,
-                                                                  filter_type=filter_type)
-            else:
-                account_balance = library_obj.get_account_balance(cr, uid, 
-                                                                  account_list,
-                                                                  ['balance'],
-                                                                  initial_balance=True,
-                                                                  company_id=chart_account.company_id.id,
-                                                                  fiscal_year_id = fiscalyear.id,
-                                                                  state = target_move,
-                                                                  chart_account_id = chart_account.id,
-                                                                  filter_type=filter_type)
-        else:
-            account_list_ids = library_obj.get_account_child_ids(cr, uid, account_selected) #get all the accounts in the chart_account_id
-            account_list_obj = self.pool.get('account.account').browse(cr, uid, account_list_ids)
-            for account in account_list_obj:
-                if  account.type != 'view':
-                     move_lines = library_obj.get_move_lines(cr, uid,
-                                                             [account.id], 
-                                                            filter_type=filter_type, 
-                                                            filter_data=filter_data, 
-                                                            fiscalyear=fiscalyear, 
-                                                            target_move=target_move,
-                                                            order_by='asc')
-                
-                     if account.id not in account_lines.keys():
-                         account_lines[account] = move_lines
-                    
-                     #Reconcile -> show reconcile in the mako.
-                     '''
-                     First, if the account permit reconcile (reconcile == True), add to the dictionary.
-                     If the account don't allow the reconcile, search if the lines have reconcile_id or partial_reconcile_id
-                     If the account allow the reconcile or the lines have reconcile_id or partial_reconcile_id, add in the dictionary
-                     and show in the mako the column "Reconcile"
-                    
-                     the final result is:
-                        {account_id: {line.id: [conciliation_name]}}
-                     '''
-                     #1. If the account have reconcile, add to the dictionary
-                     if account.reconcile and account.id not in account_conciliation:
-                         account_conciliation[account.id] = []
-                    
-                     #Search if the move_lines have partial or reconcile id
-                     for line in move_lines:
-                         if line.reconcile_id and line.reconcile_id.name != '':
-                             conciliation_lines.append(line.reconcile_id.name)
-                         
-                         elif line.reconcile_partial_id and line.reconcile_partial_id.name != '':
-                             str_name = 'P' + line.reconcile_id.name
-                             conciliation_lines.append(str_name)
-                        
-                         #Add the line.id and the name of the conciliation.
-                         if len(conciliation_lines) > 0: 
-                             account_move_line_con[line.id] = conciliation_lines
-                        
-                         #Clean the name of the conciliation
-                         conciliation_lines = []
-                    
-                     #After the search in each lines, add the dictionary (key: line.id, value: conciliation_name)
-                     #with account.id (key of the principal dictionary) and match the account_id with the conciliation name.                    
-                     if account.id in account_conciliation.keys():
-                         account_conciliation[account.id] = account_move_line_con
-                    
-                     elif account.id not in account_conciliation.keys() and len(account_move_line_con) > 0: 
-                         account_conciliation[account.id] = account_move_line_con
-            
-            #Get the initial_balance for the account
-            for account in account_list_obj:
-                if  account.type != 'view':
-                    account_list.append(account.id)
-
-            if filter_type == 'filter_date':
-                account_balance = library_obj.get_account_balance(cr, uid, 
-                                                                  account_list,
-                                                                  ['balance'],
-                                                                  initial_balance=True,
-                                                                  company_id=chart_account.company_id.id,
-                                                                  fiscal_year_id = fiscalyear.id,
-                                                                  state = target_move,
-                                                                  start_date = start_date,
-                                                                  stop_date = stop_date,
-                                                                  chart_account_id = chart_account.id,
-                                                                  filter_type=filter_type)
-            elif filter_type == 'filter_period':
-                account_balance = library_obj.get_account_balance(cr, uid, 
-                                                                  account_list,
-                                                                  ['balance'],
-                                                                  initial_balance=True,
-                                                                  company_id=chart_account.company_id.id,
-                                                                  fiscal_year_id = fiscalyear.id,
-                                                                  state = target_move,
-                                                                  start_period_id = start_period.id,
-                                                                  end_period_id = stop_period.id,
-                                                                  chart_account_id = chart_account.id,
-                                                                  filter_type=filter_type)
-            else:
-                account_balance = library_obj.get_account_balance(cr, uid, 
-                                                                  account_list,
-                                                                  ['balance'],
-                                                                  initial_balance=True,
-                                                                  company_id=chart_account.company_id.id,
-                                                                  fiscal_year_id = fiscalyear.id,
-                                                                  state = target_move,
-                                                                  chart_account_id = chart_account.id,
-                                                                  filter_type=filter_type)
+            account_selected = [chart_account.id]
         
-        return account_lines, account_balance, account_conciliation
-    
-    ''''
-    This method is created to solve the error when extracting the name move_id (line.move_id.name) fails because of read permissions
-    parameter move_lines are the move_lines that match with the journal and period. Pass from mako. 
-    ''' 
-    def extract_name_move(self, cr, uid, move_lines):
-        move_temp = self.pool.get('account.move')
-        dict_name = {} #dict_name keys is the line id. 
+        account_list_ids = library_obj.get_account_child_ids(cr, uid, account_selected) #get all the accounts in the chart_account_id
+        account_list_obj = self.pool.get('account.account').browse(cr, uid, account_list_ids)
+          
+        #Get the move_lines for each account.
+        move_lines = library_obj.get_move_lines(cr, 1,
+                                                account_list_ids, 
+                                                filter_type=filter_type, 
+                                                filter_data=filter_data, 
+                                                fiscalyear=fiscalyear, 
+                                                target_move=target_move,
+                                                order_by='account_id asc, date asc, ref asc')
         
+       
+        #Reconcile -> show reconcile in the mako.
+        '''
+        First, if the account permit reconcile (reconcile == True), add to the dictionary.
+        If the account don't allow the reconcile, search if the lines have reconcile_id or partial_reconcile_id
+        If the account allow the reconcile or the lines have reconcile_id or partial_reconcile_id, add in the dictionary
+        and show in the mako the column "Reconcile"
+        
+        the final result is:
+           {account_id: {line.id: [conciliation_name]}}
+        '''        
+        #Search if the move_lines have partial or reconcile id
         for line in move_lines:
-            move_id = move_temp.search(cr, uid, [('id', '=', line.move_id.id)])
-            move_obj = move_temp.browse(cr, uid, move_id)
-            if move_obj[0].name:
-                dict_name[line.id] = move_obj[0].name
-            else:
-                 dict_name[line.id] = move_obj[0].id
+            move_names[line.id] = line.move_id.name
+            
+            #If the account have reconcile, add to the dictionary              
+            if line.account_id.id not in account_conciliation:
+                account_conciliation[line.account_id.id] = {}
+            
+            if line.reconcile_id and line.reconcile_id.name != '':
+                 account_conciliation[line.account_id.id][line.id] = line.reconcile_id.name
+             
+            elif line.reconcile_partial_id and line.reconcile_partial_id.name != '':
+                str_name = 'P: ' + line.reconcile_id.name
+                #conciliation_lines.append(str_name)
+                account_conciliation[line.account_id.id][line.id] = str_name             
+            
+            if line.account_id.id not in account_lines:
+                account_lines[line.account_id.id] = []
+            
+            account_lines[line.account_id.id].append(line)
+                    
+    
+        if filter_type == 'filter_date':
+            account_balance = library_obj.get_account_balance(cr, uid, 
+                                                              account_list_ids,
+                                                              ['balance'],
+                                                              initial_balance=True,
+                                                              company_id=chart_account.company_id.id,
+                                                              fiscal_year_id = fiscalyear.id,
+                                                              state = target_move,
+                                                              start_date = start_date,
+                                                              stop_date = stop_date,
+                                                              chart_account_id = chart_account.id,
+                                                              filter_type=filter_type)
+        elif filter_type == 'filter_period':
+            account_balance = library_obj.get_account_balance(cr, uid, 
+                                                              account_list_ids,
+                                                              ['balance'],
+                                                              initial_balance=True,
+                                                              company_id=chart_account.company_id.id,
+                                                              fiscal_year_id = fiscalyear.id,
+                                                              state = target_move,
+                                                              start_period_id = start_period.id,
+                                                              end_period_id = stop_period.id,
+                                                              chart_account_id = chart_account.id,
+                                                              filter_type=filter_type)
+        else:
+            account_balance = library_obj.get_account_balance(cr, uid, 
+                                                              account_list_ids,
+                                                          ['balance'],
+                                                          initial_balance=True,
+                                                          company_id=chart_account.company_id.id,
+                                                          fiscal_year_id = fiscalyear.id,
+                                                          state = target_move,
+                                                          chart_account_id = chart_account.id,
+                                                          filter_type=filter_type)
         
-        return dict_name
+        
+        return account_list_obj, account_lines, account_conciliation, account_balance, move_names
     
 report_sxw.report_sxw('report.account_general_ledger_webkit',
                              'account.account',

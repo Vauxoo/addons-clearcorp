@@ -59,103 +59,97 @@
             </div>            
         </div>
         <%
-            account_lines, account_balance, account_conciliation = get_data(cr, uid, data) 
+            account_list_obj, account_lines, account_conciliation, account_balance, move_names = get_data(cr, uid, data) 
         %> 
-        %for account, move_lines in account_lines.items():
+        %for account in account_list_obj:
            <%
-                count = 1
-                cumul_balance_ant = 0
-                cumul_balance_ac = 0
+                cumul_balance = account_balance[account.id]['balance']
                 amount_total_debit = amount_total_credit = amount_total_acum = 0.0
+                print_column = False
+                move_lines = []
            %>
-           <br/><br/>
-           <div class="table header">
-                <div class="table-row">
-                   <div class="table-cell text">
-                        <p class="subtitle">${account.code +' - ' +account.name}</p>
-                        <p class="subtitle">${_('Initial balance:')}&nbsp;&nbsp;${formatLang(account_balance[account.id]['balance'])}</p>
-                   </div>
-                </div>
-           </div>
-           <div class="table list">
-                <div class="table-header">
-                    <div class="table-row labels no-wrap">                       
-                        <div class="table-cell first-column" style="width: 70px">${_('Date')}</div>
-                        <div class="table-cell" style="width: 70px">${_('Period')}</div>
-                        <div class="table-cell" style="width: 70px">${_('Entry')}</div>
-                        <div class="table-cell" style="width: 70px">${_('Journal')}</div>
-                        <div class="table-cell" style="width: 100px">${_('Partner')}</div>                    
-                        <div class="table-cell" style="width: 100px">${_('Label')}</div>
-                        %if len(account_conciliation) > 0:
-                            <div class="table-cell" style="width: 70px">${_('Reconcile')}</div>
-                        %endif
-                        <div class="table-cell" style="width: 80px">${_('Debit')}</div>
-                        <div class="table-cell" style="width: 80px">${_('Credit')}</div>
-                        <div class="table-cell amount last-column" style="width: 80px">${_('Cumul. Bal.')}</div>                        
-                    </div>
-                </div>
-                <div class="table-body"> 
-                    %for line in move_lines:
-                        <% 
-                            move_names = extract_name_move(cr, uid, move_lines)
-                            
-                            amount_total_debit += line.debit
-                            amount_total_credit += line.credit
-                        %>
-                        <div class="table-row ${row_even and 'even' or 'odd'}">
-                            <div class="table-cell first-column" style="width: 70px">${formatLang(line.date, date=True)}</div>
-                            <div class="table-cell" style="width: 70px">${line.period_id.name or ''}</div>
-                            <div class="table-cell" style="width: 70px">${move_names[line.id]}</div>
-                            <div class="table-cell" style="width: 70px">${line.journal_id.name}</div>    
-                            <div class="table-cell" style="width: 100px">${line.partner_id.name or ''}</div>
-                            <div class="table-cell" style="width: 100px">${line.name or ''}</div> 
-                            %if len(account_conciliation) > 0:
-                                <div class="table-cell" style="width: 70px">
-                                    %if account.id in account_conciliation.keys() and line.id in account_conciliation.keys():
-                                        conciliation = account_conciliation[account.id][line.id]
-                                    %endif
-                                 ${conciliation or ''}   
-                                 </div>
-                            %endif 
-                            <div class="table-cell amount" style="width: 80px">${formatLang(line.debit)}</div>
-                            <div class="table-cell amount" style="width: 80px">${formatLang(line.credit)}</div>  
-                            %if count == 1:
-                                <%                                  
-                                    cumul_balance_ant = account_balance[account.id]['balance']
-                                %>
-                                <div class="table-cell amount last-column" style="width: 80px">${formatLang(cumul_balance_ant)}</div>  
-                                <% count +=1 %>           
-                            %else:
-                                <%                                     
-                                   cumul_balance_ac = cumul_balance_ant + line.debit - line.credit
-                                   cumul_balance_ant = cumul_balance_ac
-                                %>
-                                 <div class="table-cell amount last-column" style="width: 80px">${formatLang(cumul_balance_ac)}</div>  
-                                <% count +=1 %>
-                            %endif
-                            
+           %if account.type != 'view':
+               <br/><br/>
+               <div class="table header">
+                    <div class="table-row">
+                       <div class="table-cell text">
+                            <p class="subtitle">${account.code +' - ' +account.name}</p>
+                            <p class="subtitle">${_('Initial balance:')}&nbsp;&nbsp;${formatLang(cumul_balance)}
+                                &nbsp;&nbsp;&nbsp;
+                                ${account.id not in account_lines.keys() and _('No move lines for this account') or ''}
+                            </p>                           
                        </div>
-                   %endfor                   
-                   <div class="table-row spacer">
-                        <div class="table-cell">&nbsp;</div>
-                   </div>
-                    <div class="table-row subtotal">
-                        <div class="table-cell first-column">&nbsp;</div>
-                        <div class="table-cell">&nbsp;</div>
-                        <div class="table-cell">&nbsp;</div>
-                        <div class="table-cell">&nbsp;</div>
-                        <div class="table-cell">&nbsp;</div>
-                        <div class="table-cell">&nbsp;</div>
-                        <div class="table-cell">${_('TOTAL')}</div>
-                        <div class="table-cell amount" >${formatLang(amount_total_debit)}</div>
-                        <div class="table-cell amount" >${formatLang(amount_total_credit)}</div>
-                        <div class="table-cell amount last-column" >${formatLang(cumul_balance_ac)}</div>
                     </div>
-                    <% 
-                       amount_total_debit = amount_total_credit = 0.0
-                    %>
-                </div>
-            </div>     
+               </div>
+               %if account.id in account_lines.keys():
+                   <% move_lines = account_lines[account.id] %>                     
+                       
+                    <div class="table list">
+                        <div class="table-header">
+                            <div class="table-row labels no-wrap">                       
+                                <div class="table-cell first-column" style="width: 70px">${_('Date')}</div>
+                                <div class="table-cell" style="width: 70px">${_('Period')}</div>
+                                <div class="table-cell" style="width: 70px">${_('Entry')}</div>
+                                <div class="table-cell" style="width: 70px">${_('Journal')}</div>
+                                <div class="table-cell" style="width: 100px">${_('Partner')}</div>                    
+                                <div class="table-cell" style="width: 100px">${_('Label')}</div>
+                                %if account.reconcile or (account.id in account_conciliation.keys() and account_conciliation[account.id]):
+                                    <% print_column = True %>
+                                    <div class="table-cell" style="width: 70px">${_('Reconcile')}</div>
+                                %endif
+                                <div class="table-cell" style="width: 80px">${_('Debit')}</div>
+                                <div class="table-cell" style="width: 80px">${_('Credit')}</div>
+                                <div class="table-cell amount last-column" style="width: 80px">${_('Cumul. Bal.')}</div>                        
+                            </div>
+                        </div>                        
+                        <div class="table-body"> 
+                            %for line in move_lines:
+                                <% 
+                                    amount_total_debit += line.debit
+                                    amount_total_credit += line.credit
+                                    cumul_balance = cumul_balance + line.debit - line.credit                               
+                                %>
+                                <div class="table-row ${row_even and 'even' or 'odd'}">
+                                    <div class="table-cell first-column">${formatLang(line.date, date=True)}</div>
+                                    <div class="table-cell">${line.period_id.name or ''}</div>
+                                    <div class="table-cell">${move_names[line.id] or ''}</div>                                    
+                                    <div class="table-cell">${line.journal_id.name}</div>    
+                                    <div class="table-cell">${line.partner_id.name or ''}</div>
+                                    <div class="table-cell">${line.name or ''}</div> 
+                                    %if print_column:
+                                        <div class="table-cell">
+                                            ${line.id in account_conciliation[account.id].keys() and account_conciliation[account.id][line.id] or ''}
+                                        </div>
+                                    %endif 
+                                    <div class="table-cell amount">${formatLang(line.debit)}</div>
+                                    <div class="table-cell amount">${formatLang(line.credit)}</div>                                  
+                                    <div class="table-cell amount last-column">${formatLang(cumul_balance)}</div>  
+                               </div>
+                           %endfor                   
+                           <div class="table-row spacer">
+                                <div class="table-cell">&nbsp;</div>
+                           </div>
+                            <div class="table-row subtotal">
+                                <div class="table-cell first-column">&nbsp;</div>
+                                <div class="table-cell">&nbsp;</div>
+                                <div class="table-cell">&nbsp;</div>
+                                <div class="table-cell">&nbsp;</div>
+                                <div class="table-cell">&nbsp;</div>
+                                %if print_column:
+                                    <div class="table-cell">&nbsp;</div>
+                                %endif
+                                <div class="table-cell">${_('TOTAL')}</div>
+                                <div class="table-cell amount" >${formatLang(amount_total_debit)}</div>
+                                <div class="table-cell amount" >${formatLang(amount_total_credit)}</div>
+                                <div class="table-cell amount last-column" >${formatLang(cumul_balance)}</div>
+                            </div>
+                            <% 
+                               amount_total_debit = amount_total_credit = 0.0
+                            %>
+                        </div>                    
+                    </div>    
+                %endif                             
+            %endif
         %endfor 
     </body>
 </html>
