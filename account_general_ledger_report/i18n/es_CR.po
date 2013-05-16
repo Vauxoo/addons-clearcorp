@@ -1,0 +1,148 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* account_general_ledger_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-05-16 21:14+0000\n"
+"PO-Revision-Date: 2013-05-16 21:14+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_general_ledger_report
+#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:29
+msgid "Filter by: "
+msgstr "Filtrado por: "
+
+#. module: account_general_ledger_report
+#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:95
+msgid "Label"
+msgstr "Etiqueta"
+
+#. module: account_general_ledger_report
+#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:100
+msgid "Debit"
+msgstr "Débito"
+
+#. module: account_general_ledger_report
+#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:77
+msgid "Initial balance:"
+msgstr "Balance inicial:"
+
+#. module: account_general_ledger_report
+#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:57
+msgid "Target moves: "
+msgstr "Movimientos destino: "
+
+#. module: account_general_ledger_report
+#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:79
+msgid "No move lines for this account"
+msgstr "No existen líneas de asiento para esta cuenta"
+
+#. module: account_general_ledger_report
+#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:90
+msgid "Date"
+msgstr "Fecha"
+
+#. module: account_general_ledger_report
+#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:141
+msgid "TOTAL"
+msgstr "TOTAL"
+
+#. module: account_general_ledger_report
+#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:28
+msgid "Fiscal Year: "
+msgstr "Año fiscal: "
+
+#. module: account_general_ledger_report
+#: constraint:general.ledger.webkit:0
+msgid "When no Fiscal year is selected, you must choose to filter by periods or by date."
+msgstr "Cuando no se selecciona ningún año fiscal, se debe elegir para filtrar por períodos o por fecha."
+
+#. module: account_general_ledger_report
+#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:48
+msgid "Accounts: "
+msgstr "Cuentas: "
+
+#. module: account_general_ledger_report
+#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:15
+msgid "General Ledger Report "
+msgstr "Informe del libro mayor"
+
+#. module: account_general_ledger_report
+#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:92
+msgid "Entry"
+msgstr "Asiento"
+
+#. module: account_general_ledger_report
+#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:45
+msgid "No filter"
+msgstr "Sin filtros"
+
+#. module: account_general_ledger_report
+#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:102
+msgid "Cumul. Bal."
+msgstr "Bal Acumul."
+
+#. module: account_general_ledger_report
+#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:101
+msgid "Credit"
+msgstr "Crédito"
+
+#. module: account_general_ledger_report
+#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:42
+msgid "Period: "
+msgstr "Período: "
+
+#. module: account_general_ledger_report
+#: constraint:general.ledger.webkit:0
+msgid "The fiscalyear, periods or chart of account chosen have to belong to the same company."
+msgstr "El año fiscal, períodos o plan contable elegidos deben pertenecer a la misma compañía."
+
+#. module: account_general_ledger_report
+#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:54
+msgid "All"
+msgstr "Todo"
+
+#. module: account_general_ledger_report
+#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:27
+msgid "Chart of Accounts: "
+msgstr "Catálogo de cuentas: "
+
+#. module: account_general_ledger_report
+#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:98
+msgid "Reconcile"
+msgstr "Conciliación"
+
+#. module: account_general_ledger_report
+#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:35
+msgid "Dates: "
+msgstr "Fechas: "
+
+#. module: account_general_ledger_report
+#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:91
+msgid "Period"
+msgstr "Períodos"
+
+#. module: account_general_ledger_report
+#: model:ir.actions.act_window,name:account_general_ledger_report.action_general_ledger_report_wizard
+#: model:ir.model,name:account_general_ledger_report.model_general_ledger_webkit
+msgid "General Ledger Report"
+msgstr "Informe del libro mayor"
+
+#. module: account_general_ledger_report
+#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:94
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: account_general_ledger_report
+#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:93
+msgid "Journal"
+msgstr "Diario"
+

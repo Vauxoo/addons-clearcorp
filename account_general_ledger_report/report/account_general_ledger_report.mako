@@ -87,9 +87,9 @@
                     <div class="table list">
                         <div class="table-header">
                             <div class="table-row labels no-wrap">                       
-                                <div class="table-cell first-column" style="width: 70px">${_('Date')}</div>
-                                <div class="table-cell" style="width: 70px">${_('Period')}</div>
-                                <div class="table-cell" style="width: 70px">${_('Entry')}</div>
+                                <div class="table-cell first-column" style="width: 55px">${_('Date')}</div>
+                                <div class="table-cell" style="width: 55px">${_('Period')}</div>
+                                <div class="table-cell" style="width: 100px">${_('Entry')}</div>
                                 <div class="table-cell" style="width: 70px">${_('Journal')}</div>
                                 <div class="table-cell" style="width: 100px">${_('Partner')}</div>                    
                                 <div class="table-cell" style="width: 100px">${_('Label')}</div>

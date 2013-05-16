@@ -123,7 +123,7 @@ class GeneralLedgerReportWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
                  account_conciliation[line.account_id.id][line.id] = line.reconcile_id.name
              
             elif line.reconcile_partial_id and line.reconcile_partial_id.name != '':
-                str_name = 'P: ' + line.reconcile_id.name
+                str_name = 'P: ' + line.reconcile_partial_id.name
                 #conciliation_lines.append(str_name)
                 account_conciliation[line.account_id.id][line.id] = str_name             
             
@@ -142,7 +142,7 @@ class GeneralLedgerReportWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
                                                               fiscal_year_id = fiscalyear.id,
                                                               state = target_move,
                                                               start_date = start_date,
-                                                              stop_date = stop_date,
+                                                              end_date = stop_date,
                                                               chart_account_id = chart_account.id,
                                                               filter_type=filter_type)
         elif filter_type == 'filter_period':
