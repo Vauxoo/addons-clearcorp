@@ -131,12 +131,15 @@ class GeneralLedgerReportWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
                 account_lines[line.account_id.id] = []
             
             account_lines[line.account_id.id].append(line)
-                    
-    
+        
+        fields = ['balance']            
+        if self._get_amount_currency(data):
+            fields.append('foreign_balance')
+        
         if filter_type == 'filter_date':
             account_balance = library_obj.get_account_balance(cr, uid, 
                                                               account_list_ids,
-                                                              ['balance'],
+                                                              fields,
                                                               initial_balance=True,
                                                               company_id=chart_account.company_id.id,
                                                               fiscal_year_id = fiscalyear.id,
@@ -148,7 +151,7 @@ class GeneralLedgerReportWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
         elif filter_type == 'filter_period':
             account_balance = library_obj.get_account_balance(cr, uid, 
                                                               account_list_ids,
-                                                              ['balance'],
+                                                              fields,
                                                               initial_balance=True,
                                                               company_id=chart_account.company_id.id,
                                                               fiscal_year_id = fiscalyear.id,
