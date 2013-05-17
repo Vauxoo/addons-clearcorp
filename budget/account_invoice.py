@@ -19,10 +19,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from osv import fields, osv
 
-import budget
-import wizard
-import res_partner
-import account_invoice
-import purchase
-import sale
+class account_invoice(osv.osv):
+    _name = 'account.invoice'
+    _inherit = 'account.invoice'
+    
+    _columns= {
+    'budget_program_line': fields.many2one('budget.program.line', 'Budget line'),
+    'budget_move': fields.many2one('budget.move', 'Budget move' )
+    }

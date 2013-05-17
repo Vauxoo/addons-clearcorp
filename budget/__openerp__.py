@@ -28,17 +28,27 @@
     'category': 'Generic Modules/Base',
     'description': """ This module adds the logic for Public Budget management and it's different processes
     """,
-    'depends': ['base'],
+    'depends': [
+        'base',
+        'account',
+        'purchase',
+        'sale'    
+        ],
     'init_xml': ['security/security.xml'],
     'demo_xml': [],
     'data': [
         'budget_workflow.xml',
-        'budget_account_view.xml',
-        'wizard/budget_import_catalog_view.xml'
+        'budget_view.xml',
+        'res_partner_view.xml',
+        'wizard/budget_import_catalog_view.xml',
+        'budget_sequence.xml',
+        'account_invoice_view.xml',
+        'purchase_view.xml',
+        'sale_view.xml'
         ],
     'license': 'AGPL-3',
     'installable': True,
-    'active': True,
+    'active': False,
     'application': True,
 
 }

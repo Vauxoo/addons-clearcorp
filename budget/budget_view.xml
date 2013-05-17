@@ -5,7 +5,7 @@
 <menuitem id="budget_menu" name="Budget"/>
 <menuitem id="budget_main_menu" name="Budget" parent="budget_menu"/>
     <!-- Year-->	
-<record id="view_budget_year_form" model="ir.ui.view">
+		<record id="view_budget_year_form" model="ir.ui.view">
             <field name="name">budget.year.form</field>
             <field name="model">budget.year</field>
             <field name="arch" type="xml">
@@ -208,7 +208,7 @@
             			<group>
             				<field name="name"/>
             				<field name="year_id"/>
-            				<field name="plan_lines"/>
+            				<field name="program_ids"/>
             			</group>
             		</sheet>
                 </form>
@@ -232,7 +232,76 @@
         <menuitem id="next_id_24" name="Planning" parent="budget_main_menu" sequence="4"/>
         <menuitem action="action_budget_plan" id="budget_plan_menu" name="Budget Plans" parent="budget.next_id_24" />
         
-       <!--Account-->        
+       <!--Program-->
+       <record id="view_budget_program_tree" model="ir.ui.view">
+       	 <field name="name">budget.program.tree</field>
+            <field name="model">budget.program</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+            	<tree string="Programs">
+            		<field name="name"/>
+            		<field name="plan_id"/>
+            	</tree>
+         	</field>
+       </record> 
+
+       <record id="view_budget_program_form" model="ir.ui.view">
+       	 <field name="name">budget.program.form</field>
+            <field name="model">budget.program</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+            	<form string="Programs" version="7.0" >
+            		<header>
+                    	<button name="bulk_line_create" string="Create lines from accounts" type="object" class="oe_highlight"/>
+            		</header>
+            		<sheet>
+            			<h1>
+            				<label string=" Budget Program "/>	
+            			</h1>
+            			<group>
+            				<field name="name"/>
+            				<field name="plan_id"/>
+            				<field name="program_lines"/>
+            			</group>
+            		</sheet>
+                </form>
+         </field>
+       </record>    
+       
+		<record id="action_budget_program" model="ir.actions.act_window">
+            <field name="name">Budget Program</field>
+            <field name="res_model">budget.program</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to start a new program.
+              </p><p>
+                Define your company's Budget according to your needs. A
+                budget program allows you to manage your budget for any department or organizational unit. 
+              </p>
+            </field>
+        </record>    
+        <menuitem action="action_budget_program" id="budget_program_menu" name="Budget Programs" parent="budget.next_id_24" />
+         
+       <!--Account-->
+       <record id="budget_account_search_form_view" model="ir.ui.view">
+            <field name="name">budget.account.search.form</field>
+            <field name="model">budget.account</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Account">
+                   <group  expand='0' string='Group by...' >
+                       <filter string='Parent' icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'parent_id'}" />
+                       <separator orientation="vertical"/>
+                       <filter string='Account Type' icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'account_type'}" />
+                       <separator orientation="vertical"/>
+                   </group>
+
+                </search>
+            </field>
+        </record>
+        
        <record id="view_budget_account_tree" model="ir.ui.view">
             <field name="name">budget.account.tree</field>
             <field name="model">budget.account</field>
@@ -281,50 +350,65 @@
         <menuitem action="action_budget_account_tree" id="budget_account_menu" name="Budget Accounts" parent="budget.next_id_24" />
         
         
-<!--Plan Line-->
-       <record id="view_budget_plan_line_tree" model="ir.ui.view">
-       	 <field name="name">budget.plan.line.tree</field>
-            <field name="model">budget.plan.line</field>
+<!--Program Line-->
+		<record id="budget_program_line_search_form_view" model="ir.ui.view">
+            <field name="name">budget.program.line.search.form</field>
+            <field name="model">budget.program.line</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Program Line">
+                   <group  expand='0' string='Group by...' >
+                       <filter string='Program' icon="terp-stock_symbol-selection" domain="[]" context="{'group_by' : 'program_id'}" />
+                       <separator orientation="vertical"/>
+                   </group>
+
+                </search>
+            </field>
+        </record>
+
+       <record id="view_budget_program_line_tree" model="ir.ui.view">
+       	 <field name="name">budget.program.line.tree</field>
+            <field name="model">budget.program.line</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-            	<tree string="Plan lines">
+            	<tree string="Program lines">
             		<field name="name"/>
             		<field name="account_id"/>
-            		<field name="plan_id"/>
+            		<field name="program_id"/>
             		<field name="assigned_ammount"/>
             	</tree>
          	</field>
        </record> 
 
-       <record id="view_budget_plan_line_form" model="ir.ui.view">
-       	 <field name="name">budget.plan.line.form</field>
-            <field name="model">budget.plan.line</field>
+       <record id="view_budget_program_line_form" model="ir.ui.view">
+       	 <field name="name">budget.program.line.form</field>
+            <field name="model">budget.program.line</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-            	<form string="Plan lines" version="7.0" >
+            	<form string="Program lines" version="7.0" >
 
             		<sheet>
             			<h1>
-            				<label string=" Budget Plan Line"/>	
+            				<label string=" Budget Program Line"/>	
             			</h1>
             			<group>
             				<field name="name"/>
             				<field name="account_id" domain="[('account_type','=','budget'), ('active','=','True')]"/>
-            				<field name="plan_id"/>
+            				<field name="program_id"/>
             				<field name="assigned_ammount"/>
             				<field name="execution_percentage" readonly="True" widget="progressbar" />
             				<field name="available_budget"/>
             				<field name="available_cash"/>
-            				<field name="sponsor_id"/>
+            				<field name="sponsor_id" domain="[('sponsor','=','True')]"/>
             			</group>
             		</sheet>
                 </form>
          </field>
        </record>    
        
-		<record id="action_budget_plan_line" model="ir.actions.act_window">
-            <field name="name">Budget Plan Lines</field>
-            <field name="res_model">budget.plan.line</field>
+		<record id="action_budget_program_line" model="ir.actions.act_window">
+            <field name="name">Budget Program Lines</field>
+            <field name="res_model">budget.program.line</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
@@ -336,6 +420,90 @@
               </p>
             </field>
         </record>    
-        <menuitem action="action_budget_plan_line" id="budget_plan_line_menu" name="Budget Plan Lines" parent="budget.next_id_24" />
+        <menuitem action="action_budget_program_line" id="budget_program_line_menu" name="Budget Program Lines" parent="budget.next_id_24" />
+    
+<!-- BUDGET MOVE-->
+       <record id="view_budget_move_tree" model="ir.ui.view">
+       	 <field name="name">budget.move.tree</field>
+            <field name="model">budget.move</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+            	<tree string="Moves">
+            		<field name="code"/>
+            		<field name="program_line_id"/>
+            		<field name="date"/>
+            		<field name="reserved" />
+            		<field name="compromised"/>
+            		<field name="executed"/>
+            		<field name="state"/>
+            	</tree>
+         	</field>
+       </record> 
+
+       <record id="view_budget_move_form" model="ir.ui.view">
+       	 <field name="name">budget.move.form</field>
+            <field name="model">budget.move</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+            	<form string="Budget Move" version="7.0" >
+            		<header>
+        			    <button name="button_cancel" states="draft,reserve" string="Cancel" />
+        			    <button name="button_draft" states="reserved" string="Back to draft"/>
+        	            <button name="button_reserve" states="draft" string="Reserve" />
+            	        <button name="button_compromise" states="reserved" string="Compromise" />
+            	        <button name="button_execute" states="compromised" string="Execute" />
+                    	<field name="state" widget="statusbar" statusbar_visible="draft,reserved,compromised,executed,cancel"/>
+            		</header>
+            		<sheet>
+            			<h1>
+            				<label string=" Budget Moves"/>	
+            			</h1>
+            			<group>
+            				<group>
+	            				<field name="code" readonly="True"/>
+	          			  		<field name="program_line_id"/>
+	          			  	</group>
+							<group>
+	            				<field name="date"/>
+            				</group>
+							<group>
+								<field name="reserved"/>
+								<field name="compromised"/>
+	            				<field name="executed"/>
+							</group>
+            			</group>
+            			<notebook>
+            				<page string="Invoices">
+            					<field name="account_invoice_ids"/>
+            				</page>
+            				<page string="Purchase Orders">
+            					<field name="purchase_order_ids"/>
+            				</page>
+            				<page string="Sale Orders">
+            					<field name="sale_order_ids"/>
+            				</page>
+            			</notebook>
+            		</sheet>
+                </form>
+         </field>
+       </record>    
+       
+		<record id="action_budget_move" model="ir.actions.act_window">
+            <field name="name">Budget Move</field>
+            <field name="res_model">budget.move</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to start a new move.
+              </p><p>
+                Create moves to reserve,compromise or execute currency moves from specified budget plans 
+              </p>
+            </field>
+        </record>
+        <menuitem id="next_id_25" name="Moves" parent="budget_main_menu" sequence="6" />
+        <menuitem action="action_budget_move" id="budget_move_menu" name="Budget Moves" parent="budget.next_id_25"/>
+    
+    
     </data>
 </openerp>

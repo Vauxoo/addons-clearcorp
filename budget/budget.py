@@ -27,8 +27,56 @@ from dateutil.relativedelta import relativedelta
 import time
 import logging
 import netsvc
+import decimal_precision as dp
 
 from osv import fields, osv
+
+
+######################################################
+
+##
+#Program
+## 
+class budget_program(osv.osv):
+    _name = 'budget.program'
+    _description = 'Program'
+
+    _columns ={
+        'name': fields.char('Name', size=64, required=True),
+        'plan_id': fields.many2one('budget.plan', 'Budget Plan'),
+        'program_lines':fields.one2many('budget.program.line','program_id','Lines'),
+        }
+    
+    _sql_constraints = [
+        ('name', 'unique(name,plan_id)','The name must be unique for this budget!'),
+        ]
+    
+    def bulk_line_create(self, cr, uid, ids, context=None):            
+        line_obj = self.pool.get('budget.program.line')
+        account_obj = self.pool.get('budget.account')
+        for program in self.browse(cr, uid, ids, context=context):
+            current_lines = len(program.program_lines)
+            if current_lines > 0:
+                raise osv.except_osv(_('Error!'), _('This program already contains program lines'))   
+            account_ids= account_obj.search(cr,uid,[('active','=','true'),('account_type','=','budget')])
+            for account in account_obj.browse(cr,uid,account_ids):
+                #line_name = program.name +' ' + str_year + ' - ' +account.composite_code
+                line_name = '[' + account.composite_code + ']-' + account.name 
+                line_account_id = account.id
+                line_program_id = program.id
+                line_obj.create(cr,uid,{
+                                        'name':line_name,
+                                        'account_id':line_account_id,
+                                        'program_id':line_program_id,                                                                              
+                                        })
+        return True
+
+######################################################
+
+
+
+
+
 
 ##
 #PLAN
@@ -49,7 +97,7 @@ class budget_plan(osv.osv):
         'year_id': fields.many2one('budget.year','Year',required=True),
         'state':fields.selection(STATE_SELECTION, 'State', readonly=True, 
         help="The state of the bugdet. A budget that is still under planning is in a 'Draft' state. Then the plan has to be confirmed by the user in order to be approved, the state switch to 'Confirmed'. Then the manager must confirm the budget plan to change the state to 'Approved'. If a plan will not be approved it must be cancelled.", select=True),
-        'plan_lines':fields.one2many('budget.plan.line','plan_id','Lines'),
+        'program_ids':fields.one2many('budget.program','plan_id','Programs'),
         }
     
     _defaults ={
@@ -67,22 +115,26 @@ class budget_plan(osv.osv):
     def check_no_orphan_accounts(self, cr, uid, ids, context=None):
         #Verifies that every active budget account is included in the plan 
         for plan_id in ids:
-            query = 'SELECT BA.id, BA.composite_code, BA.name FROM '\
-            'budget_account BA '\
-            'WHERE BA.account_type = \'%(account_type)s\' ' \
-            'AND active = true '\
-            'EXCEPT '\
-            'SELECT BA.id, BA.composite_code , BA.name FROM '\
-            'budget_account BA INNER JOIN budget_plan_line BPL ON BA.ID = BPL.account_id '\
-            'INNER JOIN budget_plan BP ON BPL.plan_id = BP.id '\
-            'WHERE BP.id = %(plan_id)d' % {'plan_id':plan_id, 'account_type':'budget'}
-            cr.execute(query)
-        result = cr.fetchall()
-        account_list = ''
-        if result.__len__() > 0:
-            for line in result:
-                account_list = account_list + '%s - %s \n'  % (line[1],line[2]) 
-            raise osv.except_osv(_('Error!'), _('The following budget accounts are not listed in this plan: \n ' + account_list  ))
+            res = self.read(cr,uid,[plan_id],['program_ids'],context=context)[0]
+            program_ids = res['program_ids']
+            for program_id in program_ids:              
+                query = 'SELECT BA.id, BA.composite_code, BA.name FROM '\
+                'budget_account BA '\
+                'WHERE BA.account_type = \'%(account_type)s\' ' \
+                'AND active = true '\
+                'EXCEPT '\
+                'SELECT BA.id, BA.composite_code , BA.name FROM '\
+                'budget_account BA INNER JOIN budget_program_line BPL ON BA.ID = BPL.account_id '\
+                'INNER JOIN budget_program BP ON BPL.program_id = BP.id '\
+                'WHERE BP.id = %(program_id)d' % {'program_id':program_id, 'account_type':'budget'}
+                cr.execute(query)
+                result = cr.fetchall()
+                account_list = ''
+                if result.__len__() > 0:
+                    for line in result:
+                        account_list = account_list + '%s - %s \n'  % (line[1],line[2])
+                        program_obj = self.pool.get('budget.program').browse(cr,uid,[program_id],context=context)[0] 
+                    raise osv.except_osv(_('Error!'), _('The following budget accounts are not listed in this program: \n '+ program_obj.name+ ": " + account_list   ))
         return True
     
     def check_no_consolidated_orphans(self, cr, uid, ids, context=None):
@@ -126,33 +178,13 @@ class budget_plan(osv.osv):
                 raise osv.except_osv(_('Error!'), _('You cannot delete an approved or closed plan'))
         return super(budget_plan, self).unlink(cr, uid, ids, context=context)
  
+
 ##
-#PLAN LINE
-## 
-  
-    def bulk_line_create(self, cr, uid, ids, context=None):            
-        line_obj = self.pool.get('budget.plan.line')
-        account_obj = self.pool.get('budget.account')
-        for plan in self.browse(cr, uid, ids, context=context):
-            current_lines = len(plan.plan_lines)
-            if current_lines > 0:
-                raise osv.except_osv(_('Error!'), _('This plan already contains plan lines'))   
-            year = plan.year_id           
-            str_year = year.date_start[0:4]
-            account_ids= account_obj.search(cr,uid,[('active','=','true'),('account_type','=','budget')])
-            for account in account_obj.browse(cr,uid,account_ids):
-                line_name = 'LP '+ plan.name +' ' + str_year + ' - ' +account.composite_code
-                line_account_id = account.id
-                line_plan_id = plan.id
-                line_obj.create(cr,uid,{
-                                        'name':line_name,
-                                        'account_id':line_account_id,
-                                        'plan_id':line_plan_id,                                                                              
-                                        }) 
-        
-class budget_plan_line(osv.osv):
-    _name = 'budget.plan.line'
-    _description = 'Plan line'
+#program LINE
+##         
+class budget_program_line(osv.osv):
+    _name = 'budget.program.line'
+    _description = 'Program line'
     
     def get_execution_percentage(self, cr, uid, ids, field_name, args, context=None):
         test = {}
@@ -172,28 +204,63 @@ class budget_plan_line(osv.osv):
             test[id]= 0.0 
         return test
     
+    def get_extensions(self, cr, uid, ids, field_name, args, context=None):
+        test = {}
+        for id in ids:
+            test[id]= 0.0 
+        return test
+    
+    def get_modifications(self, cr, uid, ids, field_name, args, context=None):
+        test = {}
+        for id in ids:
+            test[id]= 0.0 
+        return test
+    
+    def get_reservations(self, cr, uid, ids, field_name, args, context=None):
+        test = {}
+        for id in ids:
+            test[id]= 0.0 
+        return test
+    
+    def get_compromises(self, cr, uid, ids, field_name, args, context=None):
+        test = {}
+        for id in ids:
+            test[id]= 0.0 
+        return test
+    
+    def get_executed(self, cr, uid, ids, field_name, args, context=None):
+        test = {}
+        for id in ids:
+            test[id]= 0.0 
+        return test
+    
     def _check_unused_account(self, cr, uid, ids, context=None):
-        #checks that the selected budget account is not associated to another plan line
-        for line in self.read(cr,uid,ids,['account_id','plan_id']):
+        #checks that the selected budget account is not associated to another program line
+        for line in self.read(cr,uid,ids,['account_id','program_id']):
             cr.execute('SELECT count(1) '\
                         'FROM '+self._table+' '\
                         'WHERE account_id = %s '\
                         'AND id != %s'\
-                        'AND plan_id = %s',(line['account_id'][0],line['id'],line['plan_id'][0]))
+                        'AND program_id = %s',(line['account_id'][0],line['id'],line['program_id'][0]))
             
             if cr.fetchone()[0] > 0:        
-                raise osv.except_osv(_('Error!'), _('There is already a plan line using this budget account'))
+                raise osv.except_osv(_('Error!'), _('There is already a program line using this budget account'))
         return True
         
     
     _columns ={
         'name': fields.char('Name', size=64, required=True),
         'account_id': fields.many2one('budget.account','Budget account',required=True),
-        'plan_id': fields.many2one('budget.plan','Plan',required=True),
+        'program_id': fields.many2one('budget.program','Program',required=True),
         'assigned_ammount': fields.float('Assigned ammount', required=True),
-        'execution_percentage': fields.function(get_execution_percentage, string='Execution Percentage', type="float", store=True),
+        'extended_ammount': fields.function(get_extensions, string='Extensions', type="float", store=True),
+        'modified_ammount': fields.function(get_modifications, string='Modifications', type="float", store=True),
+        'reserved_ammount': fields.function(get_reservations, string='Reservations', type="float", store=True),
+        'compromised_ammount': fields.function(get_compromises, string='Compromises', type="float", store=True),
+        'executed_ammount': fields.function(get_executed, string='Executed', type="float", store=True),
         'available_budget': fields.function(get_available_budget, string='Available budget', type="float", store=True),
         'available_cash': fields.function(get_available_cash, string='Available Cash', type="float", store=True),
+        'execution_percentage': fields.function(get_execution_percentage, string='Execution Percentage', type="float", store=True),
         'sponsor_id':fields.many2one('res.partner','Sponsor'),
         'company_id': fields.many2one('res.company', 'Company', required=True),
         }
@@ -204,19 +271,21 @@ class budget_plan_line(osv.osv):
     }
      
     _constraints = [
-        (_check_unused_account, 'Error!\nThe budget account is related to another plan line.', ['account_id','plan_id']),
+        (_check_unused_account, 'Error!\nThe budget account is related to another program line.', ['account_id','program_id']),
     ]
     _sql_constraints = [
-        ('name_uniq', 'unique(name, company_id)', 'The name of the line must be unique per company!'),
+        ('name_uniq', 'unique(name, program_id,company_id)', 'The name of the line must be unique per company!'),
     ]
     
     def unlink(self, cr, uid, ids, context=None):
         for line in self.browse(cr, uid,ids, context=context):
-            if line.plan_id.state in ('approved','closed'):
+            if line.program_id.plan_id.state in ('approved','closed'):
                 raise osv.except_osv(_('Error!'), _('You cannot delete a line from an approved or closed plan'))
-        return super(budget_plan_line, self).unlink(cr, uid, ids, context=context)
-    
+        return super(budget_program_line, self).unlink(cr, uid, ids, context=context)
 
+##
+#ACCOUNT
+##  
 class budget_account(osv.osv):
     _name = 'budget.account'
     _description = 'Budget Account'
@@ -517,6 +586,97 @@ class budget_period(osv.osv):
             ids = self.search(cr, user, [('name',operator,name)]+ args, limit=limit)
         return self.name_get(cr, user, ids, context=context)
 
+##
+# MOVE
+## 
 
-#class budget_plan(osv.osv):
+class budget_move(osv.osv):
+    _name = "budget.move"
+    _description = "Budget Move"
     
+    STATE_SELECTION = [
+        ('draft', 'Draft'),
+        ('reserved', 'Reserved'),
+        ('compromised', 'Compromised'),
+        ('executed', 'Executed'),
+        ('cancel', 'Canceled'),
+    ]
+        
+        
+    def _compute_executed(self, cr, uid, ids, field_name, args, context=None):
+        test = {}
+        for id in ids:
+            test[id]= 0.0 
+        return test
+    
+    def _check_non_zero(self, cr, uid, ids, context=None):
+        for obj_bm in  self.browse(cr, uid, ids, context=context):
+            if (obj_bm.reserved == 0.0 or obj_bm.reserved == None) and obj_bm.state in ('draft','reserved'):
+                return False
+        return True
+    
+    _columns = {
+        'code': fields.char('Code', size=64, ),
+        'origin': fields.char('Origin', size=64, ),
+        'program_line_id': fields.many2one('budget.program.line', 'Program line', required=True, readonly=True, states={'draft':[('readonly',False)]}, select=True),
+        'date': fields.datetime('Date created', required=True, readonly=True, states={'draft':[('readonly',False)]}),
+        'state':fields.selection(STATE_SELECTION, 'State', readonly=True, 
+        help="The state of the move. A move that is still under planning is in a 'Draft' state. Then the move goes to 'Reserved' state in order to reserve the designated ammount. This move goes to 'Compromised' state when the purchase operation is confirmed. Finally goes to the 'Executed' state where the ammount is finally discounted from the budget available ammount", select=True),
+        'company_id': fields.many2one('res.company', 'Company', required=True),
+        'reserved': fields.float('Reserved', digits=(12,3), readonly=True, states={'draft':[('readonly',False)]}),
+        'compromised': fields.float('Compromised', digits=(12,3), readonly=True, states={'draft':[('readonly',False), ]}),
+        'executed': fields.function(_compute_executed, type='float', method=True, string='Executed',readonly=True ),
+        'account_invoice_ids': fields.one2many('account.invoice', 'budget_move', 'Invoices' ),
+        'purchase_order_ids': fields.one2many('purchase.order', 'budget_move', 'Purchase orders' ),
+        'sale_order_ids': fields.one2many('sale.order', 'budget_move', 'Purchase orders' ),
+        #'type': fields.char()
+    }
+    _defaults = {
+        'state': 'draft',
+        'company_id': lambda self,cr,uid,c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.id,
+        'date': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
+    }
+    _constraints = [
+        (_check_non_zero, 'Error!\n The reserved amount cannot be zero at creation time', ['reserved','state'])
+    ]
+    
+    def create(self, cr, uid, vals, context={}):
+        if 'code' not in vals.keys():
+            vals['code'] = self.pool.get('ir.sequence').get(cr, uid, 'budget.move')
+        else:
+            if vals['code']== None or vals['code'] == '':
+                vals['code'] = self.pool.get('ir.sequence').get(cr, uid, 'budget.move')
+        res = super(budget_move, self).create(cr, uid, vals, context)
+        return res
+    
+    def action_draft(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {'state': 'draft'})
+        return True
+    
+    def action_reserve(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {'state': 'reserved'})
+        return True
+            
+    def action_compromise(self, cr, uid, ids, context=None):
+        for move in self.browse(cr, uid,ids, context=context):
+            self.write(cr, uid, ids, {'state': 'compromised'})
+#TODO: make editable compromised to ensure the real ammount       
+#           self.write(cr, uid, ids, {'compromised': move.reserved, 'reserved': 0.0})
+
+        return True
+            
+    def action_cancel(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {'state': 'cancelled'})
+        return True
+    
+    def name_get(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        res = []    
+        if not len(ids):
+            return res
+            
+        for r in self.read(cr, uid, ids, ['code'], context):
+            rec_name = '%s' % (r['code']) 
+            res.append( (r['id'],rec_name) )
+        return res

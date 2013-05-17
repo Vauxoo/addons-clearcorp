@@ -19,10 +19,23 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from osv import fields, osv
 
-import budget
-import wizard
-import res_partner
-import account_invoice
-import purchase
-import sale
+class purchase_order(osv.osv):
+    _name = 'purchase.order'
+    _inherit = 'purchase.order'
+    
+    _columns= {
+    'budget_program_line': fields.many2one('budget.program.line', 'Budget line'),
+    'budget_move': fields.many2one('budget.move', 'Budget move' )
+    }
+    
+    def create(self, cr, uid, vals, context=None):
+        order =  super(purchase_order, self).create(cr, uid, vals, context=context)
+        obj_order = self.browse(cr,uid,[order],context=context)[0]
+        
+        bud_move_obj = self.pool.get('budget.move')
+        move_id = bud_move_obj.create(cr, uid, {'origin':obj_order.name, 'program_line_id': vals['budget_program_line'],'reserved': obj_order.amount_total }, context=context)
+        self.write(cr, uid,[order],{'budget_move':move_id})
+        
+        return order
