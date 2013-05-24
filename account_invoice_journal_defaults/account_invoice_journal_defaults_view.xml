@@ -10,9 +10,18 @@
             <field name="inherit_id" ref="account.invoice_supplier_form"/>
             <field name="arch" type="xml">
                 <data>                
+                    <field name = "journal_id" position = "replace">
+                         <field name="journal_id" on_change="onchange_journal_id(journal_id, partner_id)" widget="selection"/>
+                    </field>
+                    
+                    <field name = "partner_id" position="replace">
+                        <field string="Supplier" name="partner_id" on_change="onchange_partner_id(type,partner_id,date_invoice,payment_term, partner_bank_id,company_id, journal_id,account_id)" context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1}" options='{"quick_create": false}' domain="[('supplier', '=', True)]"/>                      
+                    </field>
+                    
                     <field name = "currency_id" position = "replace">
                         <field name="currency_id" width="50" readonly="1"/>
                     </field>
+                    
                     <field name = "account_id" position = "replace">
                         <field domain="[('company_id', '=', company_id), ('type', '=', 'payable')]" name="account_id" readonly="1" groups="account.group_account_user"/>
                     </field>
@@ -28,10 +37,19 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="arch" type="xml">
-                <data>                
+                <data>          
+                    <field name="journal_id" position="replace">
+                        <field name="journal_id" groups="base.group_user" on_change="onchange_journal_id(journal_id, context, partner_id)" widget="selection"/>
+                    </field>
+                    
+                    <field name="partner_id" positon="replace">
+                        <field string="Customer" name="partner_id" on_change="onchange_partner_id(type,partner_id,date_invoice,payment_term, partner_bank_id,company_id,journal_id,account_id)" groups="base.group_user" context="{'search_default_customer': 1}" options='{"quick_create": false}' domain="[('customer', '=', True)]"/>
+                    </field>
+                          
                     <field name = "currency_id" position = "replace">
                         <field name="currency_id" width="50" readonly="1"/>
                     </field>
+                    
                     <field name = "account_id" position = "replace">
                         <field domain="[('company_id', '=', company_id),('type','=', 'receivable')]" name="account_id" readonly="1" groups="account.group_account_user"/>
                     </field>
@@ -51,8 +69,8 @@
                     <field name="type" position = "after">
                         <group colspan="2" col="2" attrs="{'invisible':[('type','not in', ('sale', 'purchase', 'sale_refund', 'purchase_refund'))]}">
                             <separator string="Default Accounts Receivable/Payable" colspan="4"/>
-                            <field name="default_receivable_account_id" attrs="{'required':[('type','in', ('sale', 'purchase', 'sale_refund', 'purchase_refund'))]}" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"/>
-                            <field name="default_payable_account_id" attrs="{'required':[('type','in', ('sale', 'purchase', 'sale_refund', 'purchase_refund'))]}" domain="[('type','&lt;&gt;','view'),('type','&lt;&gt;','consolidation')]"/>
+                            <field name="default_receivable_account_id" domain="[('type','=', 'receivable')]"/>
+                            <field name="default_payable_account_id" domain="[('type','=', 'payable')]"/>
                         </group>
                     </field>
                 </data>

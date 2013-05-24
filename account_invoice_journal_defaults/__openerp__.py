@@ -26,10 +26,10 @@
     "sequence": 4,
     'complexity': "normal",
     'description': '''
-                * Currency changed to readonly
-                * Change button removed
-                * account_id removed in onchange_partner
+                * account_id and journal_id added to onchange_partner
                 * account_id added in onchange_journal 
+                * account_id associated with the journal or with the account in the partner
+                * account_id change to read-only                
                 ''',
     "author" : 'CLEARCORP S.A',
     'website':'http://www.clearcorp.co.cr',
