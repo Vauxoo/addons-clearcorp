@@ -54,7 +54,6 @@ class GeneralLedgerReportWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
         account_lines = {}
         account_balance = {}
         account_conciliation = {}
-        move_names = {}
                 
         library_obj = self.pool.get('account.webkit.report.library')
         
@@ -112,9 +111,7 @@ class GeneralLedgerReportWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
            {account_id: {line.id: [conciliation_name]}}
         '''        
         #Search if the move_lines have partial or reconcile id
-        for line in move_lines:
-            move_names[line.id] = line.move_id.name
-            
+        for line in move_lines:           
             #If the account have reconcile, add to the dictionary              
             if line.account_id.id not in account_conciliation:
                 account_conciliation[line.account_id.id] = {}
@@ -163,16 +160,16 @@ class GeneralLedgerReportWebkit(report_sxw.rml_parse, CommonReportHeaderWebkit):
         else:
             account_balance = library_obj.get_account_balance(cr, uid, 
                                                               account_list_ids,
-                                                          ['balance'],
-                                                          initial_balance=True,
-                                                          company_id=chart_account.company_id.id,
-                                                          fiscal_year_id = fiscalyear.id,
-                                                          state = target_move,
-                                                          chart_account_id = chart_account.id,
-                                                          filter_type=filter_type)
+                                                              fields,
+                                                              initial_balance=True,
+                                                              company_id=chart_account.company_id.id,
+                                                              fiscal_year_id = fiscalyear.id,
+                                                              state = target_move,
+                                                              chart_account_id = chart_account.id,
+                                                              filter_type=filter_type)
         
         
-        return account_list_obj, account_lines, account_conciliation, account_balance, move_names
+        return account_list_obj, account_lines, account_conciliation, account_balance
     
 report_sxw.report_sxw('report.account_general_ledger_webkit',
                              'account.account',
