@@ -21,6 +21,7 @@
             fiscalyear = get_fiscalyear(data)
             filter = get_filter(data)
         %>
+        
         <div class="table list">
             <div class="table-header">
                 <div class="table-row labels no-wrap">
@@ -59,12 +60,15 @@
             </div>            
         </div>
         <%
-            account_list_obj, account_lines, account_conciliation, account_balance, move_names = get_data(cr, uid, data) 
+            account_list_obj, account_lines, account_conciliation, account_balance = get_data(cr, uid, data) 
+            cumul_balance_curr = 0.0
         %> 
         %for account in account_list_obj:
            <%
-                cumul_balance = account_balance[account.id]['balance']
-                cumul_balance_curr = account_balance[account.id]['foreign_balance']
+                cumul_balance = account_balance[account.id]['balance'] or 0.0
+                
+                if 'foreign_balance' in account_balance[account.id].keys():
+                    cumul_balance_curr = account_balance[account.id]['foreign_balance']                
                 
                 amount_total_debit = amount_total_credit = amount_total_curr = 0.0
                 print_column = False
@@ -77,8 +81,8 @@
                        <div class="table-cell text">
                             <p class="subtitle">${account.code +' - ' +account.name}</p>
                             <p class="subtitle">${_('Initial balance:')}&nbsp;&nbsp;${formatLang(cumul_balance)}&nbsp;&nbsp;
-                                %if account.currency_id:
-                                    ${account.currency_id.position == 'before' and (account.currency_id.symbol+'&nbsp;') or ''}${formatLang(cumul_balance_curr)}${account.currency_id.position == 'after' and ('&nbsp;'+account.currency_id.symbol) or ''}&nbsp;&nbsp;
+                                %if account.report_currency_id:
+                                    ${account.report_currency_id.position == 'before' and (account.report_currency_id.symbol+'&nbsp;') or ''}${formatLang(cumul_balance_curr)}${account.report_currency_id.position == 'after' and ('&nbsp;'+account.report_currency_id.symbol) or ''}&nbsp;&nbsp;
                                 %endif   
                                 ${account.id not in account_lines.keys() and _('No move lines for this account') or ''}                                
                             </p>                           
@@ -104,7 +108,7 @@
                                 <div class="table-cell amount" style="width: 60px">${_('Debit')}</div>
                                 <div class="table-cell amount" style="width: 60px">${_('Credit')}</div>
                                 <div class="table-cell amount" style="width: 60px">${_('Cumul. Bal.')}</div>                        
-                                %if account.currency_id:
+                                %if account.report_currency_id:
                                     <div class="table-cell amount" style="width: 60px">${_('Curr. Am.')}</div>                                                        
                                     <div class="table-cell amount last-column" style="width: 60px">${_('Curr. Bal.')}</div>                        
                                 %endif
@@ -124,7 +128,7 @@
                                 <div class="table-row ${row_even and 'even' or 'odd'}">
                                     <div class="table-cell first-column">${formatLang(line.date, date=True)}</div>
                                     <div class="table-cell">${line.period_id.name or ''}</div>
-                                    <div class="table-cell">${move_names[line.id] or ''}</div>                                    
+                                    <div class="table-cell">${line.move_id.name or ''}</div>                                    
                                     <div class="table-cell">${line.journal_id.name}</div>    
                                     <div class="table-cell">${line.partner_id.name or ''}</div>
                                     <div class="table-cell">${line.name or ''}</div> 
@@ -136,7 +140,7 @@
                                     <div class="table-cell amount">${formatLang(line.debit)}</div>
                                     <div class="table-cell amount">&nbsp;${formatLang(line.credit)}</div>                                  
                                     <div class="table-cell amount last-column">&nbsp;${formatLang(cumul_balance)}</div> 
-                                    %if account.currency_id:
+                                    %if account.report_currency_id:
                                         <div class="table-cell amount">&nbsp;${line.amount_currency and formatLang(line.amount_currency) or ''}</div>                                                        
                                         <div class="table-cell amount last-column">&nbsp;${formatLang(cumul_balance_curr)}</div>                        
                                     %endif  
@@ -157,7 +161,7 @@
                                 <div class="table-cell">${_('TOTAL')}</div>
                                 <div class="table-cell amount" >${formatLang(amount_total_debit)}</div>
                                 <div class="table-cell amount" >&nbsp;${formatLang(amount_total_credit)}</div>
-                                %if account.currency_id:                                
+                                %if account.report_currency_id:                                
                                     <div class="table-cell amount">&nbsp;${formatLang(cumul_balance)}</div>
                                     <div class="table-cell amount">&nbsp;${formatLang(amount_total_curr)}</div>
                                     <div class="table-cell amount last-column">&nbsp;${formatLang(cumul_balance_curr)}</div>
