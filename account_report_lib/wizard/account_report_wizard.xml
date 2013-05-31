@@ -11,8 +11,8 @@
                    <field name="chart_account_id" widget='selection' on_change="onchange_chart_id(chart_account_id, context)"/>
                    <field name="company_id" invisible="1"/>
                    <field name="fiscalyear_id" domain="[('company_id','=',company_id)]"/>
-                   <field name="target_move"/>
-                </group>
+                   <field name="target_move"/>                   
+                </group>                
                 <notebook tabpos="up" colspan="4">
                     <page string="Filters" name="filters">
                         <group>
@@ -25,10 +25,21 @@
                         <group string="Periods" attrs="{'invisible':[('filter','!=','filter_period')], 'required':[('filter', '=', 'filter_period')]}">
                             <field name="period_from" domain="[('fiscalyear_id', '=', fiscalyear_id)]"/>
                             <field name="period_to" domain="[('fiscalyear_id', '=', fiscalyear_id)]"/>
+                            <field name="special_period" />
                         </group>
                     </page>
                     <page string="Journals" name="journal_ids">
                         <field name="journal_ids"/>
+                    </page>
+                    <page string="Accounts" name="account_ids">
+                        <group>
+                            <field name="account_ids" string="Accounts"/>
+                        </group>
+                    </page>
+                    <page string="Other options">
+                        <group>
+                            <field name="historic_strict" string="Historic strict"/>
+                        </group>
                     </page>
                 </notebook>
                 <footer>
