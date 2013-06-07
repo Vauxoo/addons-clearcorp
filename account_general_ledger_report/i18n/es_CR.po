@@ -246,7 +246,7 @@ msgstr "Cuentas"
 #. module: account_general_ledger_report
 #: selection:general.ledger.wiz,filter:0
 msgid "Periods"
-msgstr "Periods"
+msgstr "Períodos"
 
 #. module: account_general_ledger_report
 #: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:103
