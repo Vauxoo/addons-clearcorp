@@ -43,9 +43,10 @@ class accountCommonwizard (osv.osv_memory):
     
     #This fields are added, because the account.common.report doesn't have this by default
     _columns = {
-        'account_ids': fields.many2one('account.account', 'Accounts'),
+        'account_ids': fields.many2many('account.account', string='Accounts'),
         'historic_strict': fields.boolean('Strict History', help="If selected, will display a historical unreconciled lines, taking into account the end of the period or date selected"),
         'special_period': fields.boolean('Special period', help="Include special period"),    
+        'amount_currency': fields.boolean('With Currency', help="It adds the currency column on report if the currency differs from the company currency."),
     }
     
     #Redefine this method, because in the "original" take both periods (start and end) and some report 
@@ -62,6 +63,7 @@ class accountCommonwizard (osv.osv_memory):
         result['account_ids'] = 'account_ids' in data['form'] and data['form']['account_ids'] or False
         result['historic_strict'] = 'historic_strict' in data['form'] and data['form']['historic_strict'] or False
         result['special_period'] = 'special_period' in data['form'] and data['form']['special_period'] or False
+        result['amount_currency'] = 'amount_currency' in data['form'] and data['form']['amount_currency'] or False
                 
         if data['form']['filter'] == 'filter_date':
             result['date_from'] = data['form']['date_from']
@@ -80,7 +82,8 @@ class accountCommonwizard (osv.osv_memory):
         data = {}
         data['ids'] = context.get('active_ids', [])
         data['model'] = context.get('active_model', 'ir.ui.menu')
-        data['form'] = self.read(cr, uid, ids, ['special_period','historic_strict','account_ids','date_from',  'date_to',  'fiscalyear_id', 'journal_ids', 'period_from', 'period_to',  'filter',  'chart_account_id', 'target_move'], context=context)[0]
+        #include new fields
+        data['form'] = self.read(cr, uid, ids, ['amount_currency','special_period','historic_strict','account_ids','date_from',  'date_to',  'fiscalyear_id', 'journal_ids', 'period_from', 'period_to',  'filter',  'chart_account_id', 'target_move'], context=context)[0]
         #The fields that are relations (many2one, many2many, one2many needs extracted 
         # the id and work with the id in the form
         for field in ['fiscalyear_id', 'chart_account_id', 'period_from', 'period_to','account_ids']:
