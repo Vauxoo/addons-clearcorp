@@ -29,8 +29,8 @@ from openerp.tools.translate import _
 class accountReportbase(report_sxw.rml_parse):
     
     """
-        This class is the base for the parsers. Contains all the basic functions
-        to extract info and the parsers need
+        This class is the base for the reports. Contains all the basic functions
+        to extract info that the reports needs
     """
     def __init__(self, cr, uid, name, context):
         super(accountReportbase, self).__init__(cr, uid, name, context=context)
@@ -46,11 +46,12 @@ class accountReportbase(report_sxw.rml_parse):
             'get_target_move': self.get_target_move,
             'get_date_from': self.get_date_from,
             'get_date_to': self.get_date_to,
-            'get_account_ids': self.get_accounts_ids,
+            'get_accounts_ids': self.get_accounts_ids,
             'get_historic_strict': self.get_historic_strict,
             'get_special_period': self.get_special_period,
             'display_target_move':self.get_display_target_move,
             'get_signatures_report': self.get_signatures_report,
+            'get_amount_currency':self.get_amount_currency,
          })
     
     #####################################BASIC FUNCTIONS ##############################
@@ -105,6 +106,9 @@ class accountReportbase(report_sxw.rml_parse):
     def get_special_period (self, data):
         return self._get_form_param('special_period', data)
     
+    def get_amount_currency (self, data):
+        return self._get_form_param('amount_currency', data)
+    
     ################################## INFO DISPLAY ###########################
     
     def get_display_target_move(self, data):
@@ -121,5 +125,4 @@ class accountReportbase(report_sxw.rml_parse):
     def get_signatures_report(self, cr, uid, report_name):  
       report_id = self.pool.get('ir.actions.report.xml').search(cr, uid,[('name','=', report_name)])
       report_obj = self.pool.get('ir.actions.report.xml').browse(cr, uid, report_id)
-      x = report_obj[0].signature_users
       return report_obj[0].signature_users

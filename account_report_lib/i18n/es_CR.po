@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-29 16:56+0000\n"
-"PO-Revision-Date: 2013-05-29 16:56+0000\n"
+"POT-Creation-Date: 2013-06-07 19:46+0000\n"
+"PO-Revision-Date: 2013-06-07 19:46+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -29,6 +29,11 @@ msgstr "Fechas"
 #: field:res.company,property_liability_view_account:0
 msgid "Liability view account"
 msgstr "Cuenta de pasivo"
+
+#. module: account_report_lib
+#: field:account.account,report_currency_id:0
+msgid "Report Currency"
+msgstr "Moneda en reportes"
 
 #. module: account_report_lib
 #: view:account.report.wiz:0
@@ -64,6 +69,12 @@ msgstr "Período especial"
 #: field:account.report.wiz,company_id:0
 msgid "Company"
 msgstr "Compañía"
+
+#. module: account_report_lib
+#: view:account.report.wiz:0
+#: field:account.report.wiz,amount_currency:0
+msgid "With Currency"
+msgstr "Con moneda"
 
 #. module: account_report_lib
 #: field:res.company,property_equity_view_account:0
@@ -123,7 +134,7 @@ msgstr "Período inicial"
 
 #. module: account_report_lib
 #: selection:account.report.wiz,target_move:0
-#: code:addons/account_report_lib/account_report_base.py:113
+#: code:addons/account_report_lib/account_report_base.py:117
 #, python-format
 msgid "All Posted Entries"
 msgstr "Todos los apuntes publicados"
@@ -159,9 +170,9 @@ msgid "No Filters"
 msgstr "Sin filtros"
 
 #. module: account_report_lib
-#: field:account.account,report_currency_id:0
-msgid "Report Currency"
-msgstr "Moneda en reportes"
+#: view:account.report.wiz:0
+msgid "Advanced options"
+msgstr "Opciones avanzadas"
 
 #. module: account_report_lib
 #: view:res.company:0
@@ -179,11 +190,6 @@ msgid "Start Date"
 msgstr "Fecha de inicio"
 
 #. module: account_report_lib
-#: view:account.report.wiz:0
-msgid "Other options"
-msgstr "Otras opciones"
-
-#. module: account_report_lib
 #: model:ir.actions.act_window,name:account_report_lib.action_account_report_wizard_menu
 msgid "Common Report Wizard"
 msgstr "Asistente de creación de reportes"
@@ -195,6 +201,11 @@ msgid "No period found"
 msgstr "No existe período"
 
 #. module: account_report_lib
+#: help:account.report.wiz,amount_currency:0
+msgid "It adds the currency column on report if the currency differs from the company currency."
+msgstr "Añade una columna de moneda en el reporte si la moneda es diferente de la moneda de la compañía."
+
+#. module: account_report_lib
 #: field:account.report.wiz,target_move:0
 msgid "Target Moves"
 msgstr "Movimientos destino"
@@ -202,7 +213,7 @@ msgstr "Movimientos destino"
 #. module: account_report_lib
 #: field:res.company,property_asset_view_account:0
 msgid "Asset view account"
-msgstr "Asset view account"
+msgstr "Cuenta de activo"
 
 #. module: account_report_lib
 #: help:account.report.wiz,special_period:0
@@ -248,7 +259,7 @@ msgstr "Período contable"
 
 #. module: account_report_lib
 #: selection:account.report.wiz,target_move:0
-#: code:addons/account_report_lib/account_report_base.py:115
+#: code:addons/account_report_lib/account_report_base.py:119
 #, python-format
 msgid "All Entries"
 msgstr "Todos los apuntes"
