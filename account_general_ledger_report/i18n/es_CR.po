@@ -83,7 +83,7 @@ msgstr "Período: "
 #. module: account_general_ledger_report
 #: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:100
 msgid "Period"
-msgstr "Períodos"
+msgstr "Período"
 
 #. module: account_general_ledger_report
 #: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:59
