@@ -21,18 +21,17 @@
 ##############################################################################
 
 {
-	'name': 'Winpdb Debugger connector',
-	'version': '1.0',
-	'author': 'CLEARCORP S.A.',
-	'website': 'http://clearcorp.co.cr',
-	'category': 'Development',
-	'description': """Adds a wizard to start a Winpdb debugger connection.
-	""",
-	'depends': ['base'],
-	'init_xml': ['winpdb_debugger_wizard.xml'],
-	'demo_xml': [],
-	'update_xml': [],
-	'license': 'AGPL-3',
-	'installable': True,
-	'active': False,
+    'name': 'Winpdb Debugger connector',
+    'version': '1.0',
+    'author': 'CLEARCORP S.A.',
+    'website': 'http://clearcorp.co.cr',
+    'category': 'Development',
+    'description': """Adds a wizard to start a Winpdb debugger connection.
+    """,
+    'depends': ['base'],
+    'demo_xml': [],
+    'update_xml': ['winpdb_debugger_wizard.xml'],
+    'license': 'AGPL-3',
+    'installable': True,
+    'active': False,
 }

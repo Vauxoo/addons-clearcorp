@@ -19,9 +19,6 @@
 #
 ##############################################################################
 
-
-import pooler
-import wizard
 import pooler
 import os
 

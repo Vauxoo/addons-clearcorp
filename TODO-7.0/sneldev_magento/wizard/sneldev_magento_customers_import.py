@@ -20,8 +20,6 @@
 ##############################################################################
 
 import pooler
-import wizard
-import pooler
 import os
 
 from export_tools import *
