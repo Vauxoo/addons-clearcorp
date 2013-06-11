@@ -20,9 +20,11 @@
 #
 ##############################################################################
 
-from osv import osv,fields
-from tools.translate import _
-from tools import config
+
+from openerp.osv import osv,fields
+from openerp.tools.translate import _
+from openerp.tools import config
+#~ import pdb;pdb.set_trace()
 
 import rpdb2
 
