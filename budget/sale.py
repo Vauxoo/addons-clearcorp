@@ -26,6 +26,6 @@ class sale_order(osv.osv):
     _inherit = 'sale.order'
     
     _columns= {
-    'budget_program_line': fields.many2one('budget.program.line', 'Budget line'),
-    'budget_move': fields.many2one('budget.move', 'Budget move' )
+    'program_line_id': fields.many2one('budget.program.line', 'Budget line'),
+    'budget_move_id': fields.many2one('budget.move', 'Budget move' )
     }

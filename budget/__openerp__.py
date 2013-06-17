@@ -44,6 +44,7 @@
         'budget_sequence.xml',
         'account_invoice_view.xml',
         'purchase_view.xml',
+        'purchase_workflow.xml',
         'sale_view.xml'
         ],
     'license': 'AGPL-3',

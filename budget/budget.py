@@ -73,11 +73,6 @@ class budget_program(osv.osv):
 
 ######################################################
 
-
-
-
-
-
 ##
 #PLAN
 ## 
@@ -111,6 +106,12 @@ class budget_plan(osv.osv):
     def action_draft(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {'state': 'draft'})
         return True
+    
+    def check_programs(self, cr, uid, ids, context=None):
+        for plan in self.browse(cr, uid, ids,context=context):
+            if plan.program_ids.__len__() == 0:
+                raise osv.except_osv(_('Error!'), _('At least one program should be asociated to this plan\n'))
+        return True 
     
     def check_no_orphan_accounts(self, cr, uid, ids, context=None):
         #Verifies that every active budget account is included in the plan 
@@ -157,8 +158,9 @@ class budget_plan(osv.osv):
     def action_confirm(self, cr, uid, ids, context=None):
         if self.check_no_orphan_accounts(cr, uid, ids, context=context):
             if self.check_no_consolidated_orphans(cr, uid, ids, context=context):
-                self.write(cr, uid, ids, {'state': 'confirmed'})
-                return True     
+                if self.check_programs(cr, uid, ids, context=context):
+                    self.write(cr, uid, ids, {'state': 'confirmed'})
+                    return True     
 
     def action_approve(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {'state': 'approved'})
@@ -604,17 +606,36 @@ class budget_move(osv.osv):
         
         
     def _compute_executed(self, cr, uid, ids, field_name, args, context=None):
-        test = {}
-        for id in ids:
-            test[id]= 0.0 
-        return test
+        res = {}
+        moves = self.browse(cr, uid, ids,context=context) 
+        for move in moves:
+            total = 0.0
+            for invoice in move.account_invoice_ids:
+                if invoice.state == 'open':
+                    total += invoice.amount_total
+            res[move.id]= total 
+        return res
     
     def _check_non_zero(self, cr, uid, ids, context=None):
         for obj_bm in  self.browse(cr, uid, ids, context=context):
-            if (obj_bm.reserved == 0.0 or obj_bm.reserved == None) and obj_bm.state in ('draft','reserved'):
+            if (obj_bm.fixed_ammount == 0.0 or obj_bm.fixed_ammount == None) and obj_bm.standalone_move == True and obj_bm.state in ('draft','reserved'):
                 return False
         return True
     
+    def _calc_reserved(self, cr, uid, ids, field_name, args, context=None):
+        res = {}
+        for bud_move in self.browse(cr, uid, ids, context=context):
+            if bud_move.state in ('reserved','draft'):
+                if bud_move.standalone_move:
+                    res_ammount= bud_move.fixed_ammount
+                else:
+                    purchase_order = bud_move.purchase_order_ids[0]
+                    res_ammount = purchase_order.reserved_ammount
+            else:
+                res_ammount = 0
+            res[bud_move.id] = res_ammount
+        return res
+     
     _columns = {
         'code': fields.char('Code', size=64, ),
         'origin': fields.char('Origin', size=64, ),
@@ -623,12 +644,17 @@ class budget_move(osv.osv):
         'state':fields.selection(STATE_SELECTION, 'State', readonly=True, 
         help="The state of the move. A move that is still under planning is in a 'Draft' state. Then the move goes to 'Reserved' state in order to reserve the designated ammount. This move goes to 'Compromised' state when the purchase operation is confirmed. Finally goes to the 'Executed' state where the ammount is finally discounted from the budget available ammount", select=True),
         'company_id': fields.many2one('res.company', 'Company', required=True),
-        'reserved': fields.float('Reserved', digits=(12,3), readonly=True, states={'draft':[('readonly',False)]}),
-        'compromised': fields.float('Compromised', digits=(12,3), readonly=True, states={'draft':[('readonly',False), ]}),
-        'executed': fields.function(_compute_executed, type='float', method=True, string='Executed',readonly=True ),
-        'account_invoice_ids': fields.one2many('account.invoice', 'budget_move', 'Invoices' ),
-        'purchase_order_ids': fields.one2many('purchase.order', 'budget_move', 'Purchase orders' ),
-        'sale_order_ids': fields.one2many('sale.order', 'budget_move', 'Purchase orders' ),
+        'fixed_ammount' : fields.float('Fixed Ammount', digits=(12,3), readonly=True, states={'draft':[('readonly',False)]}),
+        'standalone_move' : fields.boolean('Standalone move', readonly=True, states={'draft':[('readonly',False)]} ),
+        'arch_reserved':fields.float('Original Reserved', digits=(12,3),),
+        'reserved': fields.function(_calc_reserved, type='float', method=True, string='Reserved',readonly=True, store=True),
+        'arch_compromised':fields.float('Original compromised', digits=(12,3),),
+#TODO: to make it functional
+        'compromised': fields.float('Compromised', digits=(12,3), readonly=True,),
+        'executed': fields.function(_compute_executed, type='float', method=True, string='Executed',readonly=True, store=True ),
+        'account_invoice_ids': fields.one2many('account.invoice', 'budget_move_id', 'Invoices' ),
+        'purchase_order_ids': fields.one2many('purchase.order', 'budget_move_id', 'Purchase orders' ),
+        'sale_order_ids': fields.one2many('sale.order', 'budget_move_id', 'Purchase orders' ),
         #'type': fields.char()
     }
     _defaults = {
@@ -660,9 +686,11 @@ class budget_move(osv.osv):
     def action_compromise(self, cr, uid, ids, context=None):
         for move in self.browse(cr, uid,ids, context=context):
             self.write(cr, uid, ids, {'state': 'compromised'})
-#TODO: make editable compromised to ensure the real ammount       
-#           self.write(cr, uid, ids, {'compromised': move.reserved, 'reserved': 0.0})
-
+            self.write(cr, uid, ids, {'arch_compromised': move.compromised, })
+        return True
+    
+    def action_execute(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {'state': 'executed'})
         return True
             
     def action_cancel(self, cr, uid, ids, context=None):

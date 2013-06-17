@@ -9,8 +9,8 @@
 	            <field name="arch" type="xml">
 	                <data>
 	                    <field name="client_order_ref" position="after" >
-	                    	<field name="budget_program_line" />
-	                    	<field name="budget_move" />
+	                    	<field name="program_line_id" />
+	                    	<field name="budget_move_id" />
 	                    </field>
 	                </data>
 	            </field>

@@ -26,6 +26,10 @@ class account_invoice(osv.osv):
     _inherit = 'account.invoice'
     
     _columns= {
-    'budget_program_line': fields.many2one('budget.program.line', 'Budget line'),
-    'budget_move': fields.many2one('budget.move', 'Budget move' )
+    'program_line_id': fields.many2one('budget.program.line', 'Budget line'),
+    'budget_move_id': fields.many2one('budget.move', 'Budget move' ),
+    'from_order': fields.boolean('From order')
+    }
+    _defaults={
+     'from_order': False          
     }

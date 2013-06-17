@@ -8,10 +8,41 @@
 	            <field name="inherit_id" ref="purchase.purchase_order_form"/>
 	            <field name="arch" type="xml">
 	                <data>
-	                    <field name="origin" position="after" >
-	                    	<field name="budget_program_line" />
-	                    	<field name="budget_move" />
-	                    </field>
+	                	<xpath expr="/form/header/button[@name='print_quotation' and @states='draft']" position="after">
+	                		<button name="publish_bill" states="draft" string="Publish bill"/>
+	                		<button name="review_bids" states="published" string="Set to review"/>
+	                		<button name="grant_bill" states="review" string="Grant bill"/>
+	                		<button name="mark_deserted" states="review" string="Mark as Deserted"/>
+	                		<button name="deserted_draft" states="deserted,ineffectual" string="Set to Draft"/>
+	                		<button name="deserted_cancel" states="deserted,ineffectual" string="Cancel"/>
+	                		<button name="mark_ineffectual" states="awarded" string="Mark ineffectual"/>	
+	                		<button name="mark_done" states="final_approval" string="Mark as Done"/>
+	                		<button name="mark_void" states="final_approval" string="Mark as Void"/>
+	                		
+	                	</xpath>
+	                	<xpath expr="/form/header/button[@name='wkf_send_rfq' and @states='draft']" position="replace"/>			
+	                	<xpath expr="/form/header/button[@name='wkf_send_rfq' and @states='sent']" position="replace"/>
+	                	<xpath expr="/form/header/button[@name='wkf_send_rfq' and @states='confirmed']" position="replace"/>
+	                	<xpath expr="/form/header/button[@name='purchase_confirm' and @states='draft']" position="attributes">
+	                		<attribute name="states" >awarded</attribute>
+	                		<attribute name="string" >Confirm Order</attribute>
+	                	</xpath>
+	                	<xpath expr="/form/header/field[@name='state']" position="replace">
+	                		<field name="state" widget="statusbar" statusbar_visible="draft,published,review,awarded,approved,done" statusbar_colors='{"except_picking":"red","except_invoice":"red","confirmed":"blue"}' readonly="1"/>
+	                	</xpath>
+	                	
+	                	
+	                	<page string="Purchase Order" position="after">
+	                		<page string="Budget Info">
+		                    	<group>
+			                    	<field name="plan_id" on_change="onchange_plan(plan_id)"/>
+			                    	<field name="program_id" on_change="onchange_program(program_id)"/>
+			                    	<field name="program_line_id"/>
+			                    	<field name="reserved_ammount"/>
+			                    	<field name="budget_move_id"/>
+		                    	</group>
+		                    </page>
+	                    </page>
 	                </data>
 	            </field>
 	     </record>

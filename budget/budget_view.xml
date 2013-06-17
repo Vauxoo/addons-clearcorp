@@ -465,6 +465,8 @@
 	          			  	</group>
 							<group>
 	            				<field name="date"/>
+	            				<field name="standalone_move"/>
+	            				<field name="fixed_ammount" attrs="{'required':[('standalone_move','=',True)], 'invisible':[('standalone_move','=',False)] }" />
             				</group>
 							<group>
 								<field name="reserved"/>
