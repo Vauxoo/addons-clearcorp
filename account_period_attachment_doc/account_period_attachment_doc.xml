@@ -1,0 +1,94 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<openerp>
+    <data>
+         <!-- Period -->
+        <record id="view_account_period_form_inherit_doc" model="ir.ui.view">
+            <field name = "name">account.period.form.inherit.doc</field>
+            <field name = "model">account.period</field>
+            <field name = "type">form</field> 
+            <field name = "inherit_id" ref="account.view_account_period_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/header" position="replace">
+                    <header>
+                        <field name="state" widget="statusbar" nolabel="1"/>
+                    </header>
+                </xpath>                
+                 <field name="name" position="attributes">
+                    <attribute name= "readonly">1</attribute>
+                 </field>
+                 <field name="fiscalyear_id" position="attributes">
+                    <attribute name= "readonly">1</attribute>
+                 </field>
+                 <field name="date_start" position="attributes">
+                    <attribute name= "readonly">1</attribute>
+                 </field>
+                 <field name="date_stop" position="attributes">
+                    <attribute name= "readonly">1</attribute>
+                 </field>
+                 <field name="code" position="attributes">
+                    <attribute name= "readonly">1</attribute>
+                 </field>
+                 <field name="special" position="attributes">
+                    <attribute name= "readonly">1</attribute>
+                 </field>
+                 <field name="company_id" position="attributes">
+                    <attribute name= "readonly">1</attribute>
+                 </field>
+                 
+                 <xpath expr="/form/sheet" position="inside">
+                    <group>
+                        <separator colspan="4" string="Attachments"/>
+                        <field name="file_ids" nolabel="1">
+                            <tree editable="bottom" string="Attachments">
+                                <field name="datas_fname" />
+                                <field name="datas" filename="datas_fname"/>                                
+                            </tree>
+                        </field>
+                    </group>
+                 </xpath>
+            </field>
+        </record>
+        
+        <record id="view_account_period_tree" model="ir.ui.view">
+            <field name="name">account.period.tree</field>
+            <field name="model">account.period</field>
+            <field name="arch" type="xml">
+              <tree colors="blue:state == 'draft';gray:state == 'done' " string="Period">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="date_start"/>
+                    <field name="date_stop"/>
+                    <field name="special"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_account_period_search_inherit_doc" model="ir.ui.view">
+            <field name="name">account.period.search.inherit.doc</field>
+            <field name="model">account.period</field>
+            <field name="arch" type="xml">
+                <search string="Search Period">
+                    <field name="name" filter_domain="['|', ('name','ilike',self), ('code','ilike',self)]" string="Period"/>
+                    <filter string="To Close" name="draft" domain="[('state','=','draft')]" icon="terp-dialog-close"/>
+                </search>
+            </field>
+        </record>
+        
+        <record id="action_account_period_inherit_doc" model="ir.actions.act_window">
+            <field name="name">Attachment Documents for Periods</field>
+            <field name="res_model">account.period</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_draft': 1}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to add a attachment to fiscal period.
+              </p>
+            </field>
+        </record>
+        
+        <menuitem id="menu_action_account_period_inherit_doc" action="action_account_period_inherit_doc" parent="account.menu_finance_periodical_processing" sequence="200"/>
+        
+    </data>
+</openerp>
