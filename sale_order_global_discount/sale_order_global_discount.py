@@ -61,7 +61,7 @@ class sale_order(osv.osv):
         for c in self.pool.get('account.tax').compute_all(cr, uid, line.tax_id, line.price_unit, line.product_uom_qty, line.order_id.partner_invoice_id.id, line.product_id, line.order_id.partner_id)['taxes']:
             val += c.get('amount', 0.0)
         return val
-
+    
     def _amount_all_ccorp(self, cr, uid, ids, field_name, arg, context=None):
         cur_obj = self.pool.get('res.currency')
         res = {}
@@ -79,8 +79,10 @@ class sale_order(osv.osv):
             else:
                 res[order.id]['order_discount'] = 100 * res[order.id]['amount_discounted'] / res[order.id]['amount_untaxed_not_discounted']
         return res
+    
     def _get_order_ccorp(self, cr, uid, ids, context=None):
         return self.pool.get('sale.order')._get_order(cr, uid, ids, context)
+        
     _columns = {
         'order_discount': fields.function(_amount_all_ccorp, digits_compute= dp.get_precision('Sale Price'), string='Untaxed Amount',
             store = {
@@ -102,5 +104,11 @@ class sale_order(osv.osv):
             multi='sums'),
                 }
     
+    def button_dummy(self, cr, uid, ids, context=None):
+        obj_sale_order_line = self.pool.get('sale.order.line')
+        for sale in self.browse(cr, uid, ids, context=context):
+            for line in sale.order_line:
+                obj_sale_order_line.write(cr, uid, [line.id], {'id': line.id}, context=context)
+        return super(sale_order, self).button_dummy(cr, uid, ids, context=context)
     
     
