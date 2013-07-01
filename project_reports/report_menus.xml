@@ -3,7 +3,7 @@
     <data>
 
         <menuitem icon="STOCK_PRINT" name="Project Report"
-            parent="project.project_report_task" action="action_project_report_wizard_view"
+            parent="base.menu_project_report" action="action_project_report_wizard_view"
             id="ccorp_project_report"/>
         
     </data>

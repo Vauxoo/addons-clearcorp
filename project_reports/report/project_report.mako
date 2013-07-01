@@ -2,30 +2,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <style type="text/css">
-            .account_level_1 {
-                text-transform: uppercase;
-                font-size: 15px;
-                background-color:#F0F0F0;
-            }
-
-            .account_level_2 {
-                font-size: 12px;
-                background-color:#F0F0F0;
-            }
-
-            .regular_account_type {
-                font-weight: normal;
-            }
-
-            .view_account_type {
-                font-weight: bold;
-            }
-
-            .account_level_consol {
-                font-weight: normal;
-                font-style: italic;
-            }
-
             ${css}
 
             .list_table .act_as_row {
@@ -37,9 +13,9 @@
     </head>
     <body class = "data">
         <%
-            import copy
+            import copy            
+            setLang(user.lang)
             
-            setLang(user.context_lang)
             start_date = data['form']['date_from']
             end_date = data['form']['date_to']
             project_ids = data['form']['project_ids']
