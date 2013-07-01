@@ -21,8 +21,6 @@
 ##############################################################################
 
 from osv import osv, fields
-#from tools import #debug
-
 
 class project_name_shortcut(osv.osv):
     _name = 'project.project'
@@ -53,7 +51,6 @@ class project_name_shortcut(osv.osv):
 
     def _shortcut_name(self, cr, uid, ids,field_name,arg, context=None):
         res ={}
-        #debug(ids)
         for m in self.browse(cr,uid,ids,context=context):
             res = self.name_get(cr, uid, ids)
             return dict(res)
@@ -63,12 +60,4 @@ class project_name_shortcut(osv.osv):
     _columns = {
         'shortcut_name': fields.function(_shortcut_name, method=True, string='Project Name', type='char', size=350),
         'shortcut': fields.char('shortcut',size=16),
-    }
-    
-
-class Task(osv.osv):
-    _inherit = 'project.task'
-    
-    _columns = {
-        'id_task': fields.char('ID task',size=16),
     }
