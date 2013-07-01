@@ -16,19 +16,5 @@
             </field>
         </record>
         
-        <record id="view_task_form2_extended" model="ir.ui.view">
-            <field name="name">view.task.form2.extended</field>
-            <field name="model">project.task</field>
-            <field name="type">form</field>
-            <field name="inherit_id" ref="project.view_task_form2"/>
-            <field name="arch" type="xml">
-                <data>
-                    <xpath expr="//form/group/field[@name='total_hours']" position="after">
-                        <field name="id_task"/>
-                    </xpath>
-                </data>
-            </field>
-        </record>
-        
     </data>
 </openerp>
