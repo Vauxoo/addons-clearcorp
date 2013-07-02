@@ -1,0 +1,41 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<openerp>
+    <data>
+
+        <!--
+        ======================================
+        Res Currency
+        ======================================
+        -->
+        
+        <record model = "ir.ui.view" id = "view_currency_tree_sequence">
+            <field name = "name">view.currency.tree.sequence</field>
+            <field name = "model">res.currency</field>
+            <field name = "type">tree</field>
+            <field name="inherit_id" ref="base.view_currency_tree"/>
+            <field name = "arch" type = "xml">
+                <data>
+                    <field name = "active" position = "after">
+                        <field name = "sequence" invisible="1"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+        
+        <record model = "ir.ui.view" id = "view_currency_form_sequence">
+            <field name = "name">view.currency.form.sequence</field>
+            <field name = "model">res.currency</field>
+            <field name = "type">form</field>
+            <field name="inherit_id" ref="base.view_currency_form"/>
+            <field name = "arch" type = "xml">
+                <data>
+                    <field name = "active" position = "after">
+                        <field name = "sequence" />
+                    </field>
+                </data>
+            </field>
+        </record>
+        
+    </data>
+</openerp>
+
