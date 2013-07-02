@@ -114,7 +114,9 @@ class SaleOrder(osv.osv):
             multi='sums'),
                 }
     
-    def button_dummy(self, cr, uid, ids, context=None):
+    def button_dummy(self, cr, uid, ids, context={}):
+        if context is None:
+            context = {}
         #To recalculate function fields
         for sale in self.browse(cr, uid, ids, context=context):
             context.update({'second_time': True})
@@ -127,7 +129,7 @@ class SaleOrder(osv.osv):
         self.button_dummy(cr, uid, [sale_id], context=context)
         return sale_id
     
-    def write(self, cr, uid, ids, vals, context=None):
+    def write(self, cr, uid, ids, vals, context={}):
         if 'second_time' not in context:
              self.button_dummy(cr, uid, ids, context=context)
         else:
