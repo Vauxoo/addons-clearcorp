@@ -30,6 +30,8 @@ from tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT, fl
 import decimal_precision as dp
 import netsvc
 
+from openerp.addons.sale.sale import sale_order_line as sale_order_line_parent
+
 class sale_order_line(osv.osv):
     _inherit = 'sale.order.line'
     _description = 'Order Line'
@@ -46,13 +48,21 @@ class sale_order_line(osv.osv):
             cur = line.order_id.pricelist_id.currency_id
             res[line.id] = cur_obj.round(cr, uid, cur, taxes['total'])
         return res
-
-    _columns = {
-        'price_subtotal_not_discounted': fields.function(_amount_line_no_discount, string='Subtotal', digits_compute= dp.get_precision('Sale Price')),
         
+    _columns = {
+        'price_subtotal_not_discounted': fields.function(_amount_line_no_discount, digits_compute= dp.get_precision('Sale Price'), string='Subtotal',
+            store = {
+                'sale.order.line': (lambda self, cr, uid, ids, c={}: ids, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 5),
+            }),
     }
     
-class sale_order(osv.osv):
+    def button_dummy(self, cr, uid, ids, context=None):
+        #To recalculate function fields
+        for line in self.browse(cr, uid, ids, context=context):
+            self.write(cr, uid, [line.id], {'id': line.id}, context=context)
+        return True
+    
+class SaleOrder(osv.osv):
     _inherit = 'sale.order'
     _description = 'Sales Order'
     
@@ -105,10 +115,21 @@ class sale_order(osv.osv):
                 }
     
     def button_dummy(self, cr, uid, ids, context=None):
-        obj_sale_order_line = self.pool.get('sale.order.line')
+        #To recalculate function fields
         for sale in self.browse(cr, uid, ids, context=context):
-            for line in sale.order_line:
-                obj_sale_order_line.write(cr, uid, [line.id], {'id': line.id}, context=context)
-        return super(sale_order, self).button_dummy(cr, uid, ids, context=context)
+            context.update({'second_time': True})
+            self.write(cr, uid, [sale.id], {}, context=context)
+        super(SaleOrder, self).button_dummy(cr, uid, ids, context=context)
+        return True
     
+    def create(self, cr, uid, vals, context=None):
+        sale_id = super(SaleOrder, self).create(cr, uid, vals, context=context)
+        self.button_dummy(cr, uid, [sale_id], context=context)
+        return sale_id
     
+    def write(self, cr, uid, ids, vals, context=None):
+        if 'second_time' not in context:
+             self.button_dummy(cr, uid, ids, context=context)
+        else:
+            del context['second_time']
+        return super(SaleOrder, self).write(cr, uid, ids, vals, context=context)
