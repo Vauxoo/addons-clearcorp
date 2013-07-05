@@ -128,6 +128,8 @@ class SaleOrder(osv.osv):
         return sale_id
     
     def write(self, cr, uid, ids, vals, context={}):
+        if context is None:
+            context = {}
         if 'second_time' not in context:
              self.button_dummy(cr, uid, ids, context=context)
         else:
