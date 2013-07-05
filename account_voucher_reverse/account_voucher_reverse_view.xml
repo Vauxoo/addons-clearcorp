@@ -8,13 +8,13 @@
             <field name="inherit_id" ref="account_voucher.view_vendor_receipt_form"/>
             <field name="arch" type="xml">
                 <data>
-                  <xpath expr = "/form/group/field[@name='state']" position = "after">
-                        <button name="reverse_voucher" string="Reverse" type="object" states="posted" invisible="context.get('line_type', False)" icon="STOCK_REVERT_TO_SAVED" confirm="Are you sure to reverse this record ?"/>
+                  <xpath expr = "/form/header/field[@name='state']" position = "before">
+                        <button name="reverse_voucher" string="Reverse" type="object" states="posted" invisible="context.get('line_type', False)" confirm="Are you sure to reverse this record ?"/>
                     </xpath>
-                    <xpath expr = "/form/notebook/page[@string='Journal Items']" position = "attributes">
+                    <xpath expr = "/form/sheet/notebook/page[@string='Journal Items']" position = "attributes">
                         <attribute name="attrs">{'invisible': [('state','in',['draft', 'proforma', 'cancel'])]}</attribute>
                     </xpath>
-                    <xpath expr = "/form/notebook/page/field[@name='move_ids']" position = "after">
+                    <xpath expr = "/form/sheet/notebook/page[@string='Journal Items']/field[@name='move_ids']" position = "after">
                         <field name="move_line_reverse_ids" colspan="4" nolabel="1" readonly="1" attrs = "{'invisible' : [('state','!=','reverse')]}" >
                             <tree string="Journal Items Reverse">
                                 <field name="move_id"/>
@@ -44,13 +44,13 @@
             <field name="inherit_id" ref="account_voucher.view_vendor_payment_form"/>
             <field name="arch" type="xml">
                 <data>
-                    <xpath expr = "/form/group/field[@name='state']" position = "after">
+                    <xpath expr = "/form/header/field[@name='state']" position = "before">
                         <button name="reverse_voucher" string="Reverse" type="object" states="posted" invisible="context.get('line_type', False)" icon="STOCK_REVERT_TO_SAVED" confirm="Are you sure to reverse this record ?"/>
                     </xpath>
-                    <xpath expr = "/form/notebook/page[@string='Journal Items']" position="attributes">
+                    <xpath expr = "/form/sheet/notebook/page[@string='Journal Items']" position="attributes">
                         <attribute name="attrs">{'invisible': [('state','in',['draft', 'proforma', 'cancel'])]}</attribute>
                     </xpath>
-                    <xpath expr = "/form/notebook/page/field[@name='move_ids']" position = "after">
+                    <xpath expr = "/form/sheet/notebook/page[@string='Journal Items']/field[@name='move_ids']" position = "after">
                         <field name="move_line_reverse_ids" colspan="4" nolabel="1" readonly="1" attrs = "{'invisible' : [('state','!=','reverse')]}" >
                             <tree string="Journal Items Reverse">
                                 <field name="move_id"/>

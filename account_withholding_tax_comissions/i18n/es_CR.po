@@ -1,0 +1,236 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* account_withholding_tax_comissions
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-07-05 20:45+0000\n"
+"PO-Revision-Date: 2013-07-05 20:45+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_withholding_tax_comissions
+#: view:account.withholding.tax:0
+msgid "Tipo"
+msgstr "Tipo"
+
+#. module: account_withholding_tax_comissions
+#: selection:account.withholding.tax,type:0
+msgid "Percent"
+msgstr "Porcentaje"
+
+#. module: account_withholding_tax_comissions
+#: view:account.withholding.tax:0
+msgid "Group By..."
+msgstr "Agrupar por..."
+
+#. module: account_withholding_tax_comissions
+#: field:account.withholding.tax,type:0
+msgid "Withholding Tax Type"
+msgstr "Tipo de retención"
+
+#. module: account_withholding_tax_comissions
+#: constraint:account.journal:0
+msgid "Withholding tax can not be the same for required and optional!"
+msgstr "Las retenciones no pueden ser las mismas en requeridas y opcionales!"
+
+#. module: account_withholding_tax_comissions
+#: field:account.voucher,withholding_move_line_ids_reverse:0
+msgid "Account Move Lines Reverse Withholding Tax"
+msgstr "Apuntes Contables de Retenciones Reversas"
+
+#. module: account_withholding_tax_comissions
+#: view:account.journal:0
+msgid "Cash Registers"
+msgstr "Registros de caja"
+
+#. module: account_withholding_tax_comissions
+#: field:account.withholding.tax,amount:0
+msgid "Amount/Percentage"
+msgstr "Monto/Porcentaje"
+
+#. module: account_withholding_tax_comissions
+#: sql_constraint:account.withholding.tax:0
+msgid "Unfortunately this name is already used, please choose a unique one"
+msgstr "Este nombre ya se encuentra asignado, por favor escoja un nombre único"
+
+#. module: account_withholding_tax_comissions
+#: field:account.voucher,withholding_move_line_ids:0
+msgid "Account Move Lines Withholding Tax"
+msgstr "Apuntes contables de Retenciones"
+
+#. module: account_withholding_tax_comissions
+#: field:account.withholding.tax,journal_id:0
+#: model:ir.model,name:account_withholding_tax_comissions.model_account_journal
+msgid "Journal"
+msgstr "Diario"
+
+#. module: account_withholding_tax_comissions
+#: constraint:account.withholding.tax:0
+msgid "Error!\n"
+" The journal select must have default debit and default credit account"
+msgstr "Error!\n"
+" El diario seleccionado debe tener una cuenta de débito y crédito por defecto"
+
+#. module: account_withholding_tax_comissions
+#: field:account.journal,withholding_tax_required:0
+#: field:account.voucher,withholding_tax_required:0
+#: field:account.voucher,withholding_tax_required_view:0
+msgid "Required Withholding Tax"
+msgstr "Retenciones obligatorias"
+
+#. module: account_withholding_tax_comissions
+#: constraint:account.withholding.tax:0
+msgid "Error!\n"
+"The amount are invalid. Negative numbers and percentage over 100 are not allowed."
+msgstr "Error!\n"
+"El monto es inválido. No se permiten números negativos y porcentajes mayores a 100%"
+
+#. module: account_withholding_tax_comissions
+#: view:account.voucher:0
+msgid "Journal Items"
+msgstr "Apuntes contables"
+
+#. module: account_withholding_tax_comissions
+#: model:ir.actions.act_window,help:account_withholding_tax_comissions.action_account_withholding_tax_tree
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                Click to record a new withholding tax\n"
+"              </p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
+"                Empiece aquí para añadir una nueva retención\n"
+"              </p>\n"
+"            "
+
+#. module: account_withholding_tax_comissions
+#: view:account.withholding.tax:0
+msgid "Value"
+msgstr "Valor"
+
+#. module: account_withholding_tax_comissions
+#: model:ir.actions.act_window,name:account_withholding_tax_comissions.action_account_withholding_tax_tree
+#: model:ir.ui.menu,name:account_withholding_tax_comissions.menu_action_withholding_tax_tree
+msgid "Withholding Tax"
+msgstr "Retenciones"
+
+#. module: account_withholding_tax_comissions
+#: view:account.withholding.tax:0
+#: field:account.withholding.tax,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: account_withholding_tax_comissions
+#: help:account.withholding.tax,type:0
+msgid "Select here the kind of withholding tax. If you select percentage, you can't exceed 100%"
+msgstr "Seleccione el tipo de retención. Si selecciona porcentage, no puede exceder el 100%"
+
+#. module: account_withholding_tax_comissions
+#: model:ir.model,name:account_withholding_tax_comissions.model_account_withholding_tax
+msgid "Account Withholding Tax"
+msgstr "Account Withholding Tax"
+
+#. module: account_withholding_tax_comissions
+#: field:account.journal,withholding_tax_optional:0
+#: field:account.voucher,withholding_tax_optional:0
+msgid "Optional Withholding Tax"
+msgstr "Retenciones opcionales"
+
+#. module: account_withholding_tax_comissions
+#: view:account.voucher:0
+msgid "Journal Items Reverse Withholding Tax"
+msgstr "Apuntes contables Retenciones Reversos"
+
+#. module: account_withholding_tax_comissions
+#: view:account.withholding.tax:0
+msgid "Values"
+msgstr "Valores"
+
+#. module: account_withholding_tax_comissions
+#: view:account.journal:0
+#: view:account.voucher:0
+msgid "Optional withholding tax"
+msgstr "Retenciones opcionales"
+
+#. module: account_withholding_tax_comissions
+#: view:account.voucher:0
+msgid "Journal Items Withholding Tax"
+msgstr "Apuntes Contables Retenciones"
+
+#. module: account_withholding_tax_comissions
+#: view:account.journal:0
+msgid "Withholding tax"
+msgstr "Retenciones"
+
+#. module: account_withholding_tax_comissions
+#: field:account.voucher,withholding_move_ids:0
+msgid "Withholding Move"
+msgstr "Asiento de retención"
+
+#. module: account_withholding_tax_comissions
+#: sql_constraint:account.withholding.tax:0
+msgid "Unfortunately this code is already used, please choose a unique one"
+msgstr "Este código ya se encuentra en uso, por favor escoja uno diferente"
+
+#. module: account_withholding_tax_comissions
+#: view:account.withholding.tax:0
+#: field:account.withholding.tax,code:0
+msgid "Code"
+msgstr "Código"
+
+#. module: account_withholding_tax_comissions
+#: model:ir.model,name:account_withholding_tax_comissions.model_account_move
+msgid "Account Entry"
+msgstr "Asiento contable"
+
+#. module: account_withholding_tax_comissions
+#: view:account.voucher:0
+msgid "Journal Items Withholding Tax Reverse"
+msgstr "Apuntes Contables Retenciones Reversos"
+
+#. module: account_withholding_tax_comissions
+#: model:ir.model,name:account_withholding_tax_comissions.model_account_voucher
+msgid "Accounting Voucher"
+msgstr "Comprobantes contables"
+
+#. module: account_withholding_tax_comissions
+#: constraint:account.voucher:0
+msgid "Withholding tax can not be the same for required and optional !"
+msgstr "Retenciones no pueden ser las mismas en requeridas y opcionales !"
+
+#. module: account_withholding_tax_comissions
+#: selection:account.withholding.tax,type:0
+msgid "Numeric"
+msgstr "Numérico"
+
+#. module: account_withholding_tax_comissions
+#: view:account.withholding.tax:0
+msgid "General"
+msgstr "General"
+
+#. module: account_withholding_tax_comissions
+#: view:account.withholding.tax:0
+msgid "Search Withholding Tax"
+msgstr "Buscar Retenciones"
+
+#. module: account_withholding_tax_comissions
+#: view:account.journal:0
+#: view:account.voucher:0
+msgid "Required withholding tax"
+msgstr "Retenciones obligatorias"
+
+#. module: account_withholding_tax_comissions
+#: field:account.move,withholding_voucher_id:0
+msgid "Account voucher"
+msgstr "Asiento"
+
+#. module: account_withholding_tax_comissions
+#: view:account.withholding.tax:0
+msgid "Withholding Taxes"
+msgstr "Retenciones"
+

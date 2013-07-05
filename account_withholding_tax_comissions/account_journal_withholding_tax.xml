@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+         <record id="view_account_journal_form_inherit" model="ir.ui.view">
+            <field name="name">view.account.journal.form.inherit</field>
+            <field name="model">account.journal</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                 <data>
+                    <page string="Cash Registers" position="after">
+                        <page string="Withholding tax">
+                            <group>
+                                <separator colspan="4" string="Required withholding tax"/>
+                                <field name="withholding_tax_required" nolabel="1"/>
+                                <separator colspan="4" string="Optional withholding tax"/>
+                                <field name="withholding_tax_optional" nolabel="1"/>
+                            </group>
+                        </page>     
+                    </page>              
+                </data>
+            </field>
+        </record>
+    </data>
+</openerp>
