@@ -41,7 +41,7 @@ class accountVoucherinherit(orm.Model):
             
         return res       
     
-    #Get move_lines for withholding tax
+    #Get move_lines reverse for withholding tax reverse
     def _get_withholding_move_lines_reverse(self, cr, uid, ids, *a):
         res = {}
         move_ids = []
