@@ -30,7 +30,7 @@ class AccountWebkitReportLibrary(orm.Model):
     _name =  "account.webkit.report.library"
     _description = "Account Webkit Reporting Library"
     
-    def get_move_lines(self, cr, uid, account_ids, filter_type='', filter_data=None, fiscalyear=None, target_move='all', unreconcile = False, historic_strict=False, special_period =False, context=None):
+    def get_move_lines(self, cr, uid, account_ids, filter_type='', filter_data=None, fiscalyear=None, target_move='all', unreconcile = False, historic_strict=False, special_period =False, order_by=None, context=None):
         ''' Get the move lines of the accounts provided and filtered.
         Arguments:
         'account_ids': List of accounts ids.
@@ -41,6 +41,7 @@ class AccountWebkitReportLibrary(orm.Model):
         'target_move': Target moves of the report, possibles values: 'all' or 'posted'.
         'unreconcile': If True then get the move lines unreconciled.
         'historic_strict': Used when unreconcile = True, forces to include move lines that where not reconciled at the end date of the filter but are now.
+        'order_by': Used to the lines return order by specific order. asc or desc are the acepted words.  
          
         '''
         #TODO: Translate comments to english
@@ -131,11 +132,11 @@ class AccountWebkitReportLibrary(orm.Model):
                 periods_ids = self.pool.get('account.period').search(cr, uid, [('special', '=', False),('fiscalyear_id', '=', fiscalyear.id)], context=context)
             domain_period = ('period_id.id', 'in', periods_ids)
             list_tuples.append(domain_period)
-                
+                    
         #**********************************************************************************************#
         
         if unreconcile == False:
-            move_line_ids = move_line_obj.search(cr, uid, list_tuples, context=context)
+            move_line_ids = move_line_obj.search(cr, uid, list_tuples,order = order_by,context=context)
                 
         else:
             #list_tuples + [domain_unreconciled] -> Con esta sintaxis no se altera la variable 

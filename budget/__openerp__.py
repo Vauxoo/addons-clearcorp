@@ -32,7 +32,10 @@
         'base',
         'account',
         'purchase',
-        'sale'    
+        'sale',
+        'purchase_order_discount',
+        'hr_payroll',
+        'hr_expense',    
         ],
     'init_xml': ['security/security.xml'],
     'demo_xml': [],

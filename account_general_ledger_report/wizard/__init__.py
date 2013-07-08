@@ -19,28 +19,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': 'account_invoice_journal_defaults',
-    'version': '1.0',
-    'category': 'Accounting & Finance',
-    "sequence": 4,
-    'complexity': "normal",
-    'description': '''
-                * account_id and journal_id added to onchange_partner
-                * account_id added in onchange_journal 
-                * account_id associated with the journal or with the account in the partner
-                * account_id change to read-only                
-                ''',
-    "author" : 'CLEARCORP S.A',
-    'website':'http://www.clearcorp.co.cr',
-    "depends" : ['account'],
-    'update_xml': [
-        'account_invoice_journal_defaults_view.xml',
-        ],
-    "auto_install": False,
-    "application": False,
-    "installable": True,
-    'license': 'AGPL-3',
-}
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+import account_general_ledger_report_wizard

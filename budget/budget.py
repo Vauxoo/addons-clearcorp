@@ -254,12 +254,12 @@ class budget_program_line(osv.osv):
         'name': fields.char('Name', size=64, required=True),
         'account_id': fields.many2one('budget.account','Budget account',required=True),
         'program_id': fields.many2one('budget.program','Program',required=True),
-        'assigned_ammount': fields.float('Assigned ammount', required=True),
-        'extended_ammount': fields.function(get_extensions, string='Extensions', type="float", store=True),
-        'modified_ammount': fields.function(get_modifications, string='Modifications', type="float", store=True),
-        'reserved_ammount': fields.function(get_reservations, string='Reservations', type="float", store=True),
-        'compromised_ammount': fields.function(get_compromises, string='Compromises', type="float", store=True),
-        'executed_ammount': fields.function(get_executed, string='Executed', type="float", store=True),
+        'assigned_amount': fields.float('Assigned amount', digits_compute=dp.get_precision('Account'), required=True),
+        'extended_amount': fields.function(get_extensions, string='Extensions', type="float", store=True),
+        'modified_amount': fields.function(get_modifications, string='Modifications', type="float", store=True),
+        'reserved_amount': fields.function(get_reservations, string='Reservations', type="float", store=True),
+        'compromised_amount': fields.function(get_compromises, string='Compromises', type="float", store=True),
+        'executed_amount': fields.function(get_executed, string='Executed', type="float", store=True),
         'available_budget': fields.function(get_available_budget, string='Available budget', type="float", store=True),
         'available_cash': fields.function(get_available_cash, string='Available Cash', type="float", store=True),
         'execution_percentage': fields.function(get_execution_percentage, string='Execution Percentage', type="float", store=True),
@@ -268,7 +268,7 @@ class budget_program_line(osv.osv):
         }
     
     _defaults = {
-        'assigned_ammount': 0.0,         
+        'assigned_amount': 0.0,         
         'company_id': lambda self,cr,uid,c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.id,
     }
      
@@ -603,22 +603,32 @@ class budget_move(osv.osv):
         ('executed', 'Executed'),
         ('cancel', 'Canceled'),
     ]
-        
+    
+    MOVE_TYPE = [
+    ('invoice_in','Purchase invoice'),
+    ('invoice_out','Sale invoice'),
+    ('manual_invoice','Manual invoice'),
+    ('expense','Expense'),
+    ('payroll','Payroll'),
+    ('manual','From account move'),
+    ]
         
     def _compute_executed(self, cr, uid, ids, field_name, args, context=None):
         res = {}
-        moves = self.browse(cr, uid, ids,context=context) 
-        for move in moves:
-            total = 0.0
-            for invoice in move.account_invoice_ids:
-                if invoice.state == 'open':
-                    total += invoice.amount_total
-            res[move.id]= total 
+#        moves = self.browse(cr, uid, ids,context=context) 
+#        for move in moves:
+#            total = 0.0
+#            for invoice in move.account_invoice_ids:
+#                if invoice.state == 'open':
+#                    total += invoice.amount_total
+#            res[move.id]= total
+        for id in ids:
+            res[id]= 0 
         return res
     
     def _check_non_zero(self, cr, uid, ids, context=None):
         for obj_bm in  self.browse(cr, uid, ids, context=context):
-            if (obj_bm.fixed_ammount == 0.0 or obj_bm.fixed_ammount == None) and obj_bm.standalone_move == True and obj_bm.state in ('draft','reserved'):
+            if (obj_bm.fixed_amount == 0.0 or obj_bm.fixed_amount == None) and obj_bm.standalone_move == True and obj_bm.state in ('draft','reserved'):
                 return False
         return True
     
@@ -627,35 +637,37 @@ class budget_move(osv.osv):
         for bud_move in self.browse(cr, uid, ids, context=context):
             if bud_move.state in ('reserved','draft'):
                 if bud_move.standalone_move:
-                    res_ammount= bud_move.fixed_ammount
+                    res_amount= bud_move.fixed_amount
                 else:
-                    purchase_order = bud_move.purchase_order_ids[0]
-                    res_ammount = purchase_order.reserved_ammount
+                    res_amount=0
+                    for line in bud_move.move_lines:
+                        res_amount += line.fixed_amount
             else:
-                res_ammount = 0
-            res[bud_move.id] = res_ammount
+                res_amount = 0
+            res[bud_move.id] = res_amount
         return res
      
     _columns = {
         'code': fields.char('Code', size=64, ),
         'origin': fields.char('Origin', size=64, ),
-        'program_line_id': fields.many2one('budget.program.line', 'Program line', required=True, readonly=True, states={'draft':[('readonly',False)]}, select=True),
+       # 'program_line_id': fields.many2one('budget.program.line', 'Program line', required=True, readonly=True, states={'draft':[('readonly',False)]}, select=True),
         'date': fields.datetime('Date created', required=True, readonly=True, states={'draft':[('readonly',False)]}),
         'state':fields.selection(STATE_SELECTION, 'State', readonly=True, 
-        help="The state of the move. A move that is still under planning is in a 'Draft' state. Then the move goes to 'Reserved' state in order to reserve the designated ammount. This move goes to 'Compromised' state when the purchase operation is confirmed. Finally goes to the 'Executed' state where the ammount is finally discounted from the budget available ammount", select=True),
+        help="The state of the move. A move that is still under planning is in a 'Draft' state. Then the move goes to 'Reserved' state in order to reserve the designated amount. This move goes to 'Compromised' state when the purchase operation is confirmed. Finally goes to the 'Executed' state where the amount is finally discounted from the budget available amount", select=True),
         'company_id': fields.many2one('res.company', 'Company', required=True),
-        'fixed_ammount' : fields.float('Fixed Ammount', digits=(12,3), readonly=True, states={'draft':[('readonly',False)]}),
+        'fixed_amount' : fields.float('Fixed amount', digits_compute=dp.get_precision('Account'), readonly=True, states={'draft':[('readonly',False)]}),
         'standalone_move' : fields.boolean('Standalone move', readonly=True, states={'draft':[('readonly',False)]} ),
-        'arch_reserved':fields.float('Original Reserved', digits=(12,3),),
+        'arch_reserved':fields.float('Original Reserved', digits_compute=dp.get_precision('Account'),),
         'reserved': fields.function(_calc_reserved, type='float', method=True, string='Reserved',readonly=True, store=True),
-        'arch_compromised':fields.float('Original compromised', digits=(12,3),),
+        'arch_compromised':fields.float('Original compromised',digits_compute=dp.get_precision('Account'),),
 #TODO: to make it functional
-        'compromised': fields.float('Compromised', digits=(12,3), readonly=True,),
+        'compromised': fields.float('Compromised', digits_compute=dp.get_precision('Account'), readonly=True,),
         'executed': fields.function(_compute_executed, type='float', method=True, string='Executed',readonly=True, store=True ),
-        'account_invoice_ids': fields.one2many('account.invoice', 'budget_move_id', 'Invoices' ),
+        #'account_invoice_ids': fields.one2many('account.invoice', 'budget_move_id', 'Invoices' ),
         'purchase_order_ids': fields.one2many('purchase.order', 'budget_move_id', 'Purchase orders' ),
         'sale_order_ids': fields.one2many('sale.order', 'budget_move_id', 'Purchase orders' ),
-        #'type': fields.char()
+        'move_lines': fields.one2many('budget.move.line', 'budget_move_id', 'Move lines' ),
+        'type': fields.selection(MOVE_TYPE, 'Move Type', readonly=True),
     }
     _defaults = {
         'state': 'draft',
@@ -674,7 +686,7 @@ class budget_move(osv.osv):
                 vals['code'] = self.pool.get('ir.sequence').get(cr, uid, 'budget.move')
         res = super(budget_move, self).create(cr, uid, vals, context)
         return res
-    
+
     def action_draft(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {'state': 'draft'})
         return True
@@ -708,3 +720,101 @@ class budget_move(osv.osv):
             rec_name = '%s' % (r['code']) 
             res.append( (r['id'],rec_name) )
         return res
+
+class budget_move_line(osv.osv):
+    _name = "budget.move.line"
+    _description = "Budget Move Line"
+    
+    def _compute_executed(self, cr, uid, ids, field_name, args, context=None):
+#        obj_bar = self.pool.get('budget.account.reconcile')
+#        res = {}
+#        lines = self.browse(cr, uid, ids,context=context) 
+#        for line in lines:
+#            total = 0.0
+#            for bar_line in obj_bar.search(cr,uid,[('budget_move_line_id','=',line.id)]):
+#                    total += bar_line.amount
+#            res[line.id]= total 
+        res = {}
+        lines = self.browse(cr, uid, ids,context=context) 
+        for line in lines:
+            total = 0.0
+            res[line.id]= 0.0 
+        return res
+    
+    def _compute_compromised(self, cr, uid, ids, field_name, args, context=None):
+        res = {}
+#        moves = self.browse(cr, uid, ids,context=context) 
+#        for move in moves:
+#            total = 0.0
+#            for invoice in move.account_invoice_ids:
+#                if invoice.state == 'open':
+#                    total += invoice.amount_total
+#            res[move.id]= total
+        lines = self.browse(cr, uid, ids,context=context) 
+        for line in lines:
+            total = 0.0
+            res[line.id]= 0.0 
+        return res
+    
+    def _calc_reserved(self, cr, uid, ids, field_name, args, context=None):
+        res = {}
+#        for bud_move in self.browse(cr, uid, ids, context=context):
+#            if bud_move.state in ('reserved','draft'):
+#                if bud_move.standalone_move:
+#                    res_amount= bud_move.fixed_amount
+#                else:
+#                    purchase_order = bud_move.purchase_order_ids[0]
+#                    res_amount = purchase_order.reserved_amount
+#            else:
+#                res_amount = 0
+#            res[bud_move.id] = res_amount
+        
+        return res
+
+    _columns = {
+        'origin': fields.char('Origin', size=64, ),
+        'budget_move_id': fields.many2one('budget.move', 'Budget Move', required=True),
+        'program_line_id': fields.many2one('budget.program.line', 'Program line', required=True, readonly=True, select=True),
+        'date': fields.datetime('Date created', required=True, readonly=True),
+        'fixed_amount': fields.float('Original amount',digits_compute=dp.get_precision('Account'),),
+        'reserved': fields.function(_calc_reserved, type='float', method=True, string='Reserved',readonly=True, store=True),
+        'compromised': fields.function(_compute_compromised, type='float', method=True, string='Compromised',readonly=True, store=True),
+        'executed': fields.function(_compute_executed, type='float', method=True, string='Executed',readonly=True, store=True),
+        'po_line_id': fields.many2one('purchase.order.line', 'Purchase order line', ),
+        'so_line_id': fields.many2one('sale.order.line', 'Sale order line', ),
+        'inv_line_id': fields.many2one('account.invoice.line', 'Invoice line', ),
+        #'expense_line_id': fields.many2one('hr.expense.line', 'Expense line', ),
+        #'payslip_line_id': fields.many2one('hr.payslip.line', 'Payslip line', ),
+        'move_line_id': fields.many2one('account.move.line', 'Move line', ),
+        'type': fields.related('budget_move_id', 'type', type='selection', relation='budget.move', string='Type', store=True, readonly=True)
+    }
+    _defaults = {
+        'date': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
+    }
+    
+    def write(self, cr, uid, ids, vals, context=None):
+        bud_move_obj = self.pool.get('budget.move')
+        super(budget_move_line, self).write(cr, uid, ids, vals, context=context)
+        for line in self.browse(cr, uid, ids, context=context):
+            move_id =line.budget_move_id.id
+            bud_move_obj.write(cr,uid, [move_id], {'date':line.budget_move_id.date},context=context)
+        
+    
+class budget_account_reconcile(osv.osv):
+    _name = "budget.account.reconcile"
+    _description = "Budget Account Reconcile"
+    
+    _columns = {
+         'budget_move_line_id': fields.many2one('budget.move.line', 'Budget Move Line', required=True, ),
+         'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', required=True, ),
+         'account_move_reconcile_id': fields.many2one('account.move.reconcile', 'Account Move Reconcile', required=True, ),
+         'amount': fields.float('Amount', digits_compute=dp.get_precision('Account'), required=True),
+    }
+    
+    
+    
+    
+    
+    
+    
+    

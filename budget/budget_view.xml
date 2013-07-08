@@ -375,7 +375,7 @@
             		<field name="name"/>
             		<field name="account_id"/>
             		<field name="program_id"/>
-            		<field name="assigned_ammount"/>
+            		<field name="assigned_amount"/>
             	</tree>
          	</field>
        </record> 
@@ -395,7 +395,7 @@
             				<field name="name"/>
             				<field name="account_id" domain="[('account_type','=','budget'), ('active','=','True')]"/>
             				<field name="program_id"/>
-            				<field name="assigned_ammount"/>
+            				<field name="assigned_amount"/>
             				<field name="execution_percentage" readonly="True" widget="progressbar" />
             				<field name="available_budget"/>
             				<field name="available_cash"/>
@@ -430,7 +430,7 @@
             <field name="arch" type="xml">
             	<tree string="Moves">
             		<field name="code"/>
-            		<field name="program_line_id"/>
+            		<!--<field name="program_line_id"/>-->
             		<field name="date"/>
             		<field name="reserved" />
             		<field name="compromised"/>
@@ -461,12 +461,14 @@
             			<group>
             				<group>
 	            				<field name="code" readonly="True"/>
-	          			  		<field name="program_line_id"/>
+	            				<field name="origin" readonly="True"/>
+	            				<!--<field name="purchase_order_ids" attrs="{ 'invisible':[('purchase_order_ids','=',False)] }" widget="one2one_list" class="oe_inline"/>
+	            				<field name="sale_order_ids" attrs="{ 'invisible':[('sale_order_ids','=', False)] } " widget="one2one_list" class="oe_inline"/>-->	
 	          			  	</group>
 							<group>
 	            				<field name="date"/>
 	            				<field name="standalone_move"/>
-	            				<field name="fixed_ammount" attrs="{'required':[('standalone_move','=',True)], 'invisible':[('standalone_move','=',False)] }" />
+	            				<field name="fixed_amount" attrs="{'required':[('standalone_move','=',True)], 'invisible':[('standalone_move','=',False)] }" />
             				</group>
 							<group>
 								<field name="reserved"/>
@@ -475,7 +477,17 @@
 							</group>
             			</group>
             			<notebook>
-            				<page string="Invoices">
+            				<page string="Move lines">
+            					<field name="move_lines">
+            						<tree>
+            							<field name="origin"/>
+            							<field name="program_line_id"/>
+            							<field name="date"/>
+            							<field name="fixed_amount" string="Amount" readonly="True"/>
+            						</tree>
+            					</field>		
+            				</page>
+            				<!--<page string="Invoices">
             					<field name="account_invoice_ids"/>
             				</page>
             				<page string="Purchase Orders">
@@ -483,7 +495,7 @@
             				</page>
             				<page string="Sale Orders">
             					<field name="sale_order_ids"/>
-            				</page>
+            				</page>-->
             			</notebook>
             		</sheet>
                 </form>

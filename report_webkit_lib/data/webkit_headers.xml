@@ -10,6 +10,7 @@
             <field name="margin_left">0</field>
             <field name="margin_right">0</field>
             <field name="css"><![CDATA[
+
 /* Type here the custom styles
    See the addons/account_webkit_report_library/webkit_headers/main.css
    for default styles and overwriting. */
@@ -159,6 +160,62 @@ body {
     border-collapse:collapse;
 }
 
+/* Table result */
+
+.table.result {
+    display: table;
+    width: 50%;
+    table-layout: auto;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+    align:center;
+}
+
+.table.result table-row  {
+    display: table-row;
+}
+
+.table.result table-cell {
+    display: table-cell;
+    padding-right: 3px;
+    padding-left: 3px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.table.result .table-row.blank {
+    border-color:gray;
+    background-color: #FFFFFF;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+}
+
+.table.result .table-row.labels {
+    border-color:gray;
+    border-bottom:1px solid lightGrey;
+    background-color: #555555;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+}
+
+.table.result .table-cell.amount {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.table.result .table-cell.amount alert {
+    background-color: white;
+    color: red;
+    border-bottom:1px solid lightGrey;
+    border-top:1px solid lightGrey;
+    border-left:1px solid lightGrey;
+    border-right:1px solid lightGrey;
+}
+
 /* Table cell styles */
 
 .table .table-row.labels {
@@ -250,9 +307,7 @@ body {
 .total .alert {
     background-color: red;
     color: white;
-}
-
-            ]]></field>
+}]]></field>
             <field name="html"><![CDATA[
 <html>
     <head>

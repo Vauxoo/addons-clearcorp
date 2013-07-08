@@ -2,7 +2,8 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2010 Tiny SPRL (<http://tiny.be>).
+#    Addons modules by CLEARCORP
+#    Copyright (C) 2009-TODAY (<http://clearcorp.co.cr>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,28 +20,18 @@
 #
 ##############################################################################
 
-import pooler
-import os
-
-from export_tools import *
-from osv import osv, fields
-
-class wiz_sneldev_categories_import(osv.osv_memory):
-    _name = 'sneldev.categories.import'
-    _description = 'Import categories'
-
-    _columns = {
-    }
-
-    _defaults = {
-    }
-
-    def do_categories_import(self, cr, uid, ids, context=None):
-        if (self.pool.get('sneldev.magento').import_categories(cr, uid) < 0):
-            raise osv.except_osv(('Warning'), ('Import failed, please refer to log file for failure details.'))
-        
-        return {'type': 'ir.actions.act_window_close'}
-
-wiz_sneldev_categories_import()
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+{
+    'name': 'Winpdb Debugger connector',
+    'version': '1.0',
+    'author': 'CLEARCORP S.A.',
+    'website': 'http://clearcorp.co.cr',
+    'category': 'Development',
+    'description': """Adds a wizard to start a Winpdb debugger connection.
+    """,
+    'depends': ['base'],
+    'demo_xml': [],
+    'update_xml': ['winpdb_debugger_wizard.xml'],
+    'license': 'AGPL-3',
+    'installable': True,
+    'active': False,
+}

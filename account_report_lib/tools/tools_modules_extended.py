@@ -23,20 +23,34 @@
 from osv import fields, orm, osv
 from tools.translate import _
 
-class toolsModulesextended(orm.Model):
+class toolsModulesextendedAccount(orm.Model):
 
     """
-        This class extend functions of other models.
-    """
-    _name = "account.period"
-    _inherit = "account.period"
+        This class extend functions of account.account model.
+    """    
     
+    _name = "account.account"
+    _inherit = "account.account"
+        
+    _columns = {
+        'report_currency_id': fields.many2one('res.currency', 'Report Currency', help="Currency to show in the reports."),
+    }
+    
+
+class toolsModulesextendedAccountPeriod(orm.Model):
+
+    """
+        This class extend functions of account.period model.
+    """    
+    _name = "account.period"
+    _inherit = "account.period"    
     
     """
         @param start_period: Initial period, can be optional in the filters
         @param end_period: Final period, is required
         @param fiscal_year: Fiscal year, is required
         @return: A id list of periods
+    
         All of param are objects
     """
     

@@ -2,8 +2,8 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
-#    Addons modules by CLEARCORP
-#    Copyright (C) 2009-TODAY (<http://clearcorp.co.cr>).
+#    Addons modules by CLEARCORP S.A.
+#    Copyright (C) 2009-TODAY CLEARCORP S.A. (<http://clearcorp.co.cr>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,19 +20,5 @@
 #
 ##############################################################################
 
-{
-	'name': 'Winpdb Debugger connector',
-	'version': '1.0',
-	'author': 'CLEARCORP S.A.',
-	'website': 'http://clearcorp.co.cr',
-	'category': 'Development',
-	'description': """Adds a wizard to start a Winpdb debugger connection.
-	""",
-	'depends': ['base'],
-	'init_xml': ['winpdb_debugger_wizard.xml'],
-	'demo_xml': [],
-	'update_xml': [],
-	'license': 'AGPL-3',
-	'installable': True,
-	'active': False,
-}
+import report
+import wizard

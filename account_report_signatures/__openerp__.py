@@ -31,7 +31,7 @@
     'depends': ['base', 'account','hr'],
     'init_xml': [],
     'demo_xml': [],
-    'data': [ 'security/hr_security.xml',
+    'data': [ 'security/account_report_signatures_security.xml',
               'account_report_signatures.xml',
               'account_report_signature_menu.xml'],
     'license': 'Other OSI approved licence',

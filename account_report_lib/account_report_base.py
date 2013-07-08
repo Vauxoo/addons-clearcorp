@@ -29,8 +29,8 @@ from openerp.tools.translate import _
 class accountReportbase(report_sxw.rml_parse):
     
     """
-        This class is the base for the parsers. Contains all the basic functions
-        to extract info and the parsers need
+        This class is the base for the reports. Contains all the basic functions
+        to extract info that the reports needs
     """
     def __init__(self, cr, uid, name, context):
         super(accountReportbase, self).__init__(cr, uid, name, context=context)
@@ -46,19 +46,30 @@ class accountReportbase(report_sxw.rml_parse):
             'get_target_move': self.get_target_move,
             'get_date_from': self.get_date_from,
             'get_date_to': self.get_date_to,
+            'get_accounts_ids': self.get_accounts_ids,
+            'get_historic_strict': self.get_historic_strict,
+            'get_special_period': self.get_special_period,
             'display_target_move':self.get_display_target_move,
             'get_signatures_report': self.get_signatures_report,
+            'get_amount_currency':self.get_amount_currency,
          })
     
     #####################################BASIC FUNCTIONS ##############################
     
     #Basic function that extract the id of the wizard and return the object (model)
+    
+    '''
+        The method _get_info return a browse (return the complete model)
+    '''
     def _get_info(self, data, field, model):
         info = data.get('form', {}).get(field)
         if info:
             return self.pool.get(model).browse(self.cr, self.uid, info)
         return False
     
+    '''
+        The method _get_form_param return the real value in the wizard. 
+    '''
     def _get_form_param(self, param, data, default=False):
         return data.get('form', {}).get(param, default)
     
@@ -86,6 +97,18 @@ class accountReportbase(report_sxw.rml_parse):
     def get_date_to(self, data):
         return self._get_form_param('date_to', data)
     
+    def get_accounts_ids (self, data):
+        return self._get_info(data,'account_ids', 'account.account')
+    
+    def get_historic_strict (self, data):
+        return self._get_form_param('historic_strict', data)
+    
+    def get_special_period (self, data):
+        return self._get_form_param('special_period', data)
+    
+    def get_amount_currency (self, data):
+        return self._get_form_param('amount_currency', data)
+    
     ################################## INFO DISPLAY ###########################
     
     def get_display_target_move(self, data):
@@ -102,5 +125,4 @@ class accountReportbase(report_sxw.rml_parse):
     def get_signatures_report(self, cr, uid, report_name):  
       report_id = self.pool.get('ir.actions.report.xml').search(cr, uid,[('name','=', report_name)])
       report_obj = self.pool.get('ir.actions.report.xml').browse(cr, uid, report_id)
-      x = report_obj[0].signature_users
       return report_obj[0].signature_users
