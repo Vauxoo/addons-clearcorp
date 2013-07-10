@@ -16,5 +16,32 @@
             </field>
         </record>
         
+        <!-- TODO
+        <record id="view_project_kanban_inherited" model="ir.ui.view">
+            <field name="name">project.project.kanban.inherited</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_kanban"/>
+            <field name="arch" type="xml">
+                <field name="name" position="replace">
+                    <field name="shortcut_name"/>
+                </field>
+            </field>
+        </record>
+        -->
+        
+        <record id="view_task_form2_inherit" model="ir.ui.view">
+            <field name="name">project.task.form.inherit</field>
+            <field name="model">project.task</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//form/sheet/group/group/field[@name='planned_hours']" position="after">
+                        <field name="number" readonly="1"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+        
     </data>
 </openerp>

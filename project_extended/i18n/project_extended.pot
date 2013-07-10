@@ -1,0 +1,42 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* project_extended
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-07-10 21:33+0000\n"
+"PO-Revision-Date: 2013-07-10 21:33+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: project_extended
+#: model:ir.model,name:project_extended.model_project_project
+msgid "Project"
+msgstr ""
+
+#. module: project_extended
+#: field:project.project,shortcut_name:0
+msgid "Project Name"
+msgstr ""
+
+#. module: project_extended
+#: model:ir.model,name:project_extended.model_project_task
+msgid "Task"
+msgstr ""
+
+#. module: project_extended
+#: field:project.task,number:0
+msgid "Number"
+msgstr ""
+
+#. module: project_extended
+#: field:project.project,ir_sequence_id:0
+msgid "Sequence"
+msgstr ""
+

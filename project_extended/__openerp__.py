@@ -21,7 +21,7 @@
 ##############################################################################
 
 {
-    "name" : 'Project name shortcut',
+    "name" : 'Project extended',
     "version" : '1.0',
     "author" : 'CLEARCORP S.A',
     #easy, normal, expert
@@ -35,7 +35,7 @@ This module added id_task in project task
     "website" : "http://clearcorp.co.cr",
     "images" : [],
     "icon" : False,
-    "depends" : ['project'],
+    "depends" : ['base','project'],
     "init_xml" : [],
     "demo_xml" : [],
     "update_xml" : ["project_extended_view.xml"],
