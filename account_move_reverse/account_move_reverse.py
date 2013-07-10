@@ -27,9 +27,22 @@ class AccountMove(orm.Model):
 
     _inherit = 'account.move'
 
+    #Add a reversed and reversion state to account.move.
+    #Reversed state is for moves that have been reverted.
+    #Reversion state is for moves that are created based on another move. It's the move reverse.
     _columns = {
-                'move_reverse_id':fields.many2one('account.move','Move Reverse'),
-                }
+        'move_reverse_id':fields.many2one('account.move','Move Reverse'),
+        'state': fields.selection(
+                    [('draft','Unposted'), 
+                     ('posted','Posted'),
+                     ('reversed','Reversed'),
+                     ('reversion','Reversion')], 
+                    'Status', required=True, readonly=True, 
+                   help='All manually created new journal entries are usually in the status \'Unposted\', but you can set the option to skip that status on the related journal. \
+                        \n* In that case, they will behave as journal entries automatically created by the system on document validation (invoices, bank statements...) and will be created in \'Posted\' status. \
+                        \n* The \'Reversed\' state is used the move have a move reversed \
+                        \n* The \'Reversion\' state is used when the move is a move reverse that is created when the move is reverse.'),
+    }
 
     def copy(self, cr, uid, id, default={}, context=None):
         default.update({
@@ -132,7 +145,21 @@ class AccountMove(orm.Model):
 
             #Posted move reverse
             self.pool.get('account.move').post(cr, 1, [move_id, move_original.id], context={})
+            
+            #Change in move state 8/7/2013 -> Diana Rodriguez
+            '''
+                A move that is reversed can't reverse again. A move that is create from a move is a reversion
+                and also can't reverse again. Write the states of move_id (reversion) and move_original (reversed).
+            '''
+            self.write(cr, uid, [move_id], {'state' : 'reversion'}, context=context) 
+            self.write(cr, uid, [move_original.id], {'state' : 'reversed'}, context=context)
+            
         return True
+    
+    #Action that is call in button.
+    def reverse_move_button(self, cr, uid, ids, context):
+        return self.reverse(cr, uid, ids,context=context)
+
 
 class AccountJournal(orm.Model):
     _inherit = 'account.journal'
