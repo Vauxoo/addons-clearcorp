@@ -22,8 +22,7 @@
 
 from osv import osv, fields
 
-class project_name_shortcut(osv.osv):
-    _name = 'project.project'
+class project(osv.osv):
     _inherit = 'project.project'
     
     def name_get(self, cr, uid, ids, context=None):
@@ -33,9 +32,9 @@ class project_name_shortcut(osv.osv):
         for project in self.browse(cr, uid, ids, context=context):
             data = []
             proj = project.parent_id
-            while proj :
+            while proj and proj.parent_id:
                 if proj.code != '' and proj.code != False:
-                    data.insert(0,(proj.name))
+                    data.insert(0,(proj.code))
                     proj = proj.parent_id
                     continue
                 else:
@@ -59,5 +58,47 @@ class project_name_shortcut(osv.osv):
         
     _columns = {
         'shortcut_name': fields.function(_shortcut_name, method=True, string='Project Name', type='char', size=350),
-        'shortcut': fields.char('shortcut',size=16),
+        'ir_sequence_id': fields.many2one('ir.sequence', 'Sequence'),
     }
+    
+    def create(self, cr, uid, vals, context=None):
+        ir_sequence_obj = self.pool.get('ir.sequence')        
+        project_id = super(project, self).create(cr, uid, vals, context)
+        sequence_name = "Project " + vals['name'] + " " + str(project_id)
+        ir_sequence_id = ir_sequence_obj.create(cr, uid, {'name': sequence_name}, context)
+        self.write(cr, uid, project_id, {'ir_sequence_id': ir_sequence_id }, context)
+        return project_id
+    
+    def unlink(self, cr, uid, ids, context=None):
+        ir_sequence_ids = []
+        ir_sequence_obj = self.pool.get('ir.sequence')       
+        for proj in self.browse(cr, uid, ids, context=context):
+            if proj.ir_sequence_id:
+                ir_sequence_ids.append(proj.ir_sequence_id.id)
+        res =  super(project, self).unlink(cr, uid, ids, context=context)
+        ir_sequence_obj.unlink(cr, uid, ir_sequence_ids, context=context)
+        return res
+        
+class task(osv.osv):
+    _inherit = 'project.task'
+        
+    _columns = {
+        'number': fields.char('Number', size=16),
+        'project_id': fields.many2one('project.project', 'Project', required=True, ondelete='set null', select="1", track_visibility='onchange'),
+    }
+    
+    def get_number_sequence(self, cr, uid, project_id, context=None):
+        ir_sequence_obj = self.pool.get('ir.sequence')
+        project_obj = self.pool.get('project.project')        
+        project = project_obj.browse(cr, uid, project_id, context)
+        return ir_sequence_obj.next_by_id(cr, uid, project.ir_sequence_id.id, context)
+        
+    def create(self, cr, uid, vals, context={}):
+        if 'number' not in vals or vals['number']== None or vals['number'] == '':
+            vals.update({'number': self.get_number_sequence(cr, uid, vals['project_id'], context)})
+        return super(task, self).create(cr, uid, vals, context)
+    
+    def write(self, cr, uid, ids, vals, context=None):
+        if 'project_id' in vals:
+            vals.update({'number': self.get_number_sequence(cr, uid, vals['project_id'], context)})
+        return super(task, self).write(cr, uid, ids, vals, context)
