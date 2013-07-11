@@ -64,7 +64,8 @@ class project(osv.osv):
     def create(self, cr, uid, vals, context=None):
         ir_sequence_obj = self.pool.get('ir.sequence')        
         project_id = super(project, self).create(cr, uid, vals, context)
-        sequence_name = "Project " + vals['name'] + " " + str(project_id)
+        shortcut_name_dict = self._shortcut_name(cr, uid, [project_id], None, None)
+        sequence_name = "Project_" + str(project_id) + " " + shortcut_name_dict[project_id]
         ir_sequence_id = ir_sequence_obj.create(cr, uid, {'name': sequence_name}, context)
         self.write(cr, uid, project_id, {'ir_sequence_id': ir_sequence_id }, context)
         return project_id
