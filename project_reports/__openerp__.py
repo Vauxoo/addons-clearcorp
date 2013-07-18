@@ -29,7 +29,11 @@
     'complexity': 'normal',
     'description': """This module adds project reports
     """,
-    'depends': ['project_extended',],
+    'depends': [
+                    'pad_project',
+                    'report_webkit_lib',
+                    'project_extended',
+                    ],
     'init_xml': [],
     'demo_xml': [],
     'update_xml': [
