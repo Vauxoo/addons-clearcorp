@@ -40,6 +40,7 @@ class project_report_report(report_sxw.rml_parse):
             'get_project_tasks': self.get_project_tasks,
             'get_projects': self.get_projects,
             'get_user_hours': self.get_user_hours,
+            'get_description_pad': self.get_description_pad,
         })
         
     def get_project_task_works_by_dates(self, cr, uid, start_date, end_date, project_ids=[]):
@@ -74,6 +75,9 @@ class project_report_report(report_sxw.rml_parse):
             if project_task_work.user_id.name not in user_hours and project_task_work.task_id.project_id:
                 user_hours[project_task_work.user_id.name] = 0.00
         return user_hours
+    
+    def get_description_pad(self, cr, uid, url):
+        return self.pool.get('pad.common').pad_get_content(cr, uid, url)
 
 report_sxw.report_sxw('report.project_report_report', 
         'project.project',
