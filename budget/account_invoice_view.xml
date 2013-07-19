@@ -10,9 +10,11 @@
 	                <data>
 	                    <field name="journal_id" position="after" >
 	                    	<field name="budget_move_id" />
+	                    	<field name="from_order" readonly="True" />
 	                    </field>
 	                    <xpath expr="/form/sheet/notebook/page[@string='Invoice']/field/tree/field[@name='price_unit']" position="after">
-	                		<field name="program_line_id"/>
+	                		<field name="invoice_from_order" invisible="True"/>
+	                		<field name="program_line_id" attrs="{ 'invisible':[('invoice_from_order','=',True),] }"/>
 	                	</xpath>
 	                </data>
 	            </field>
@@ -27,27 +29,15 @@
 	                <data>
 	                    <field name="account_id" position="after" >
 	                    	<field name="budget_move_id" />
+	                    	<field name="from_order" readonly="True" />
 	                    </field>
 	                    
 	                    <xpath expr="/form/sheet/notebook/page[@string='Invoice Lines']/field/tree/field[@name='price_unit']" position="after">
-	                		<field name="program_line_id"/>
+	                		<field name="invoice_from_order" invisible="True"/>
+	                		<field name="program_line_id" attrs="{ 'invisible':[('invoice_from_order','=',True),] }"/>
 	                	</xpath>
 	                </data>
 	            </field>
-	     </record>
-	     
-	    <!-- <record id="budget_account_invoice_line_form" model="ir.ui.view" >
-	            <field name="name">budget.account.invoice.line.form</field>
-	            <field name="model">account.invoice.line</field>
-	            <field name="type">form</field>
-	            <field name="inherit_id" ref="account.invoice_line_form"/>
-	            <field name="arch" type="xml">
-	                <data>
-	                    <field name="account_id" position="after">
-	                    	<field name="budget_move_id" />
-	                    </field>
-	                </data>
-	            </field>
-	     </record>-->
+	     </record>	
 	 </data>
 </openerp>	 

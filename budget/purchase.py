@@ -29,7 +29,9 @@ class purchase_order(osv.osv):
     _inherit = 'purchase.order'
     
     STATE_SELECTION = [
-        ('draft', 'Draft PO'),
+        ('draft', 'Budget Request'),
+        ('budget_approval', 'Waiting Approval'),
+        ('budget_approved', 'Draft Bill'),
         ('sent', 'RFQ Sent'),
         ('published', 'Bill published'),
         ('review', 'Bid review'),
@@ -47,10 +49,10 @@ class purchase_order(osv.osv):
     ]
     
     _columns = {
-        'plan_id' : fields.many2one('budget.plan', 'Budget'),
-        'program_id' : fields.many2one('budget.program', 'Program'),
-        'program_line_id': fields.many2one('budget.program.line', 'Program line', required=True, readonly=True, states={'draft':[('readonly',False)]}, select=True),
-        'reserved_amount' : fields.float('Reserved', digits=(12,3), readonly=True, required=True, states={'draft':[('readonly',False)]}),
+        #'plan_id' : fields.many2one('budget.plan', 'Budget'),
+        #'program_id' : fields.many2one('budget.program', 'Program'),
+        #'program_line_id': fields.many2one('budget.program.line', 'Program line', required=True, readonly=True, states={'draft':[('readonly',False)]}, select=True),
+        'reserved_amount' : fields.float('Reserved', digits=(12,3), readonly=True, ),
         'budget_move_id': fields.many2one('budget.move', 'Budget move'),
         'state': fields.selection(STATE_SELECTION, 'Status', readonly=True, help="The status of the purchase order or the quotation request. A quotation is a purchase order in a 'Draft' status. Then the order has to be confirmed by the user, the status switch to 'Confirmed'. Then the supplier must confirm the order to change the status to 'Approved'. When the purchase order is paid and received, the status becomes 'Done'. If a cancel action occurs in the invoice or in the reception of goods, the status becomes in exception.", select=True),
         'partner_id':fields.many2one('res.partner', 'Supplier', states={'confirmed':[('readonly',True)], 'approved':[('readonly',True)],'done':[('readonly',True)]},
@@ -68,6 +70,9 @@ class purchase_order(osv.osv):
         acc_inv_mov = self.pool.get('account.invoice')
         res = False
         for id in ids:
+            if context is None:
+                context = {}
+            context.update({'from_order' : True,})
             invoice_id = super(purchase_order, self).action_invoice_create(cr, uid, ids, context=context)
             acc_inv_mov.write(cr, uid, [invoice_id],{'from_order': True})
             for purchase in self.browse(cr, uid, [id],context=context):
@@ -78,11 +83,23 @@ class purchase_order(osv.osv):
                 res = invoice_id
         return res     
     
-    def action_publish(self, cr, uid, ids, context=None):
+    def action_mark_budget_approval(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {'state': 'budget_approval'})
+        return True
+    
+    def action_approve_budget(self, cr, uid, ids, context=None):
         obj_bud_mov = self.pool.get('budget.move')
         for purchase in self.browse(cr, uid, ids, context=context):
-            move_id = purchase.budget_move_id.id
-            obj_bud_mov.action_reserve(cr,uid, [move_id],context=context)
+            reserved_amount = purchase.amount_total
+            if reserved_amount != 0.0:
+                move_id = purchase.budget_move_id.id
+                obj_bud_mov.action_reserve(cr,uid, [move_id],context=context)
+                self.write(cr, uid, [purchase.id], {'state': 'budget_approved', 'reserved_amount': reserved_amount})
+            else:
+                raise osv.except_osv(_('Error!'), _('You cant order '))   
+        return True
+    
+    def action_publish(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {'state': 'published'})
         return True
     
@@ -142,7 +159,7 @@ class purchase_order(osv.osv):
     
     def create_budget_move(self,cr, uid, vals, context=None):
         bud_move_obj = self.pool.get('budget.move')
-        move_id = bud_move_obj.create(cr, uid, { 'type':'invoice_in' , 'program_line_id': vals['program_line_id'],'arch_reserved': vals['reserved_amount']}, context=context)
+        move_id = bud_move_obj.create(cr, uid, { 'type':'invoice_in' ,}, context=context)
         return move_id
     
     def create(self, cr, uid, vals, context=None):
@@ -151,7 +168,7 @@ class purchase_order(osv.osv):
         vals['budget_move_id'] = move_id
         order_id =  super(purchase_order, self).create(cr, uid, vals, context=context)
         for order in self.browse(cr,uid,[order_id], context=context):
-            obj_bud_move.write(cr, uid, [move_id], {'origin': order.name }, context=context)
+            obj_bud_move.write(cr, uid, [move_id], {'origin': order.name,}, context=context)
         return order_id
     
     def write(self, cr, uid, ids, vals, context=None):
@@ -217,7 +234,7 @@ class purchase_order_line(osv.osv):
             search_result = bud_line_obj.search(cr, uid,[('po_line_id','=', line.id)], context=context) 
             bud_line_id = search_result[0]
             if bud_line_id:
-                bud_line_obj.write(cr, uid, [bud_line_id], {'program_line_id': line.program_line_id, 'fixed_amount':line.subtotal_discounted_taxed})
+                bud_line_obj.write(cr, uid, [bud_line_id], {'program_line_id': line.program_line_id.id, 'fixed_amount':line.subtotal_discounted_taxed})
         return result  
    
         

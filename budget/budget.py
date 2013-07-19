@@ -607,7 +607,8 @@ class budget_move(osv.osv):
     MOVE_TYPE = [
     ('invoice_in','Purchase invoice'),
     ('invoice_out','Sale invoice'),
-    ('manual_invoice','Manual invoice'),
+    ('manual_invoice_in','Manual purchase invoice'),
+    ('manual_invoice_out','Manual sale invoice'),
     ('expense','Expense'),
     ('payroll','Payroll'),
     ('manual','From account move'),
@@ -650,7 +651,7 @@ class budget_move(osv.osv):
     _columns = {
         'code': fields.char('Code', size=64, ),
         'origin': fields.char('Origin', size=64, ),
-       # 'program_line_id': fields.many2one('budget.program.line', 'Program line', required=True, readonly=True, states={'draft':[('readonly',False)]}, select=True),
+        'program_line_id': fields.many2one('budget.program.line', 'Program line', required=True, readonly=True, states={'draft':[('readonly',False)]}, select=True),
         'date': fields.datetime('Date created', required=True, readonly=True, states={'draft':[('readonly',False)]}),
         'state':fields.selection(STATE_SELECTION, 'State', readonly=True, 
         help="The state of the move. A move that is still under planning is in a 'Draft' state. Then the move goes to 'Reserved' state in order to reserve the designated amount. This move goes to 'Compromised' state when the purchase operation is confirmed. Finally goes to the 'Executed' state where the amount is finally discounted from the budget available amount", select=True),

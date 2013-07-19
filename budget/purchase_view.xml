@@ -9,7 +9,9 @@
 	            <field name="arch" type="xml">
 	                <data>
 	                	<xpath expr="/form/header/button[@name='print_quotation' and @states='draft']" position="after">
-	                		<button name="publish_bill" states="draft" string="Publish bill"/>
+	                		<button name="budget_approval" states="draft" string="Mark for approval" class="oe_highlight"/>
+	                		<button name="approve_budget" states="budget_approval" string="Approve request"/>
+	                		<button name="publish_bill" states="budget_approved" string="Publish bill" attrs="{'invisible': [('state','in',('draft','sent','budget_approval'))]}"/>
 	                		<button name="review_bids" states="published" string="Set to review"/>
 	                		<button name="grant_bill" states="review" string="Grant bill"/>
 	                		<button name="mark_deserted" states="review" string="Mark as Deserted"/>
@@ -27,8 +29,17 @@
 	                		<attribute name="states" >awarded</attribute>
 	                		<attribute name="string" >Confirm Order</attribute>
 	                	</xpath>
+	                	
+	                	<label string="Request for Quotation " position="replace">
+	                		<label string="Request for Quotation " attrs="{'invisible': [('state','not in',('draft','budget_approval','sent'))]}"/>
+	                	</label>
+	                	
+	                	<label string="Purchase Order " position="replace">
+	                		<label string="Purchase Order " attrs="{'invisible': [('state','in',('draft','budget_approval','sent'))]}"/>
+	                	</label>
+	                	 
 	                	<xpath expr="/form/header/field[@name='state']" position="replace">
-	                		<field name="state" widget="statusbar" statusbar_visible="draft,published,review,awarded,approved,done" statusbar_colors='{"except_picking":"red","except_invoice":"red","confirmed":"blue"}' readonly="1"/>
+	                		<field name="state" widget="statusbar" statusbar_visible="draft,budget_approved,published,review,awarded,approved,done" statusbar_colors='{"except_picking":"red","except_invoice":"red","confirmed":"blue"}' readonly="1"/>
 	                	</xpath>
 	                	
 	                	<xpath expr="/form/sheet/notebook/page[@string='Purchase Order']/field[@name='order_line']/tree/field[@name='product_uom']" position="after">
@@ -38,9 +49,9 @@
 	                	<page string="Purchase Order" position="after">
 	                		<page string="Budget Info">
 		                    	<group>
-			                    	<field name="plan_id" on_change="onchange_plan(plan_id)"/>
+			                    	<!--<field name="plan_id" on_change="onchange_plan(plan_id)"/>
 			                    	<field name="program_id" on_change="onchange_program(program_id)"/>
-			                    	<field name="program_line_id"/>
+			                    	<field name="program_line_id"/>-->
 			                    	<field name="reserved_amount"/>
 			                    	<field name="budget_move_id"/>
 		                    	</group>
@@ -63,6 +74,27 @@
 	                </data>
 	            </field>
 		</record>
+        
+        <record id="purchase.purchase_rfq" model="ir.actions.act_window">
+            <field name="domain">[('state','in',('draft','budget_approval','sent','confirmed'))]</field>
+        </record>
+        <record id="purchase.purchase_form_action" model="ir.actions.act_window">
+            <field name="domain">[('state','not in',('draft','sent','budget_approval','confirmed'))]</field>
+        </record>
+        
+        <record id="budget_view_purchase_order_filter" model="ir.ui.view">
+            <field name="name">budget.purchase.order.list.select</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+            <field name="arch" type="xml">
+            	<xpath expr="/search/filter[@name='draft']" position="attributes">
+            		<attribute name="domain">[('state','in',('draft','budget_approval'))]</attribute>
+            	</xpath>
+            	<xpath expr="/search/filter[@name='approved']" position="attributes">
+            		<attribute name="domain">[('state','not in',('draft','budget_approval','cancel'))]</attribute>
+            	</xpath>
+            </field>
+        </record>
 			
 	</data>
 </openerp>

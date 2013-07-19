@@ -36,6 +36,7 @@ class sale_order(osv.osv):
         acc_inv_mov = self.pool.get('account.invoice')
         res = False
         for id in ids:
+            context.update({'from_order' : True,})
             invoice_id = super(sale_order, self).action_invoice_create(cr, uid, ids, grouped, states, date_invoice, context=context)
             acc_inv_mov.write(cr, uid, [invoice_id],{'from_order': True})
             for sale in self.browse(cr, uid, [id],context=context):
@@ -103,7 +104,7 @@ class sale_order_line(osv.osv):
         bud_line_obj.create(cr, uid, {'budget_move_id': move_id,
                                          'origin' : order_line.name,
                                          'program_line_id': vals['program_line_id'], 
-                                         'fixed_amount': order_line.subtotal_discounted_taxed  , #should be negative because is an income
+                                         'fixed_amount': order_line.subtotal_discounted_taxed * -1 , #should be negative because it is an income
                                          'so_line_id': line_id,
                                           }, context=context)
         return line_id
