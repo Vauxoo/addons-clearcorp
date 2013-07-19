@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record id="view_account_journal_form_inherit" model="ir.ui.view">
+            <field name="name">account.journal.form</field>
+            <field name="model">account.journal</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <field name="entry_posted" position="after">
+                    <field name="update_reversed"/>
+                </field>
+            </field>
+        </record>
+        
+        <!-- Account Move -->
+        <record id="view_move_form_inherit" model="ir.ui.view">
+            <field name="name">account.move.form.inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr = "/form/header/field[@name='state']" position = "before">
+                    <button name="reverse_move_button" string="Reverse" type="object" states="posted" confirm="Are you sure to reverse this record ?" groups="account.group_account_invoice"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id = "view_account_move_filter_inherit" model="ir.ui.view">
+            <field name="name">account.move.select.inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_account_move_filter"/>
+            <field name="arch" type="xml">
+                <filter string="Posted" position="after">
+                    <filter icon="terp-camera_test" string="Reversed" domain="[('state','=','reversed')]" help="Reversed Journal Entries"/>
+                    <filter icon="terp-camera_test" string="Reversion" domain="[('state','=','reversion')]" help="Reversion Journal Entries"/>
+                </filter>
+            </field>
+        </record>
+    </data>
+</openerp>

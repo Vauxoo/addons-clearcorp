@@ -6,24 +6,24 @@
         <record id="project_report_wizard_form_view" model="ir.ui.view">
             <field name="name">project_report_wizard.form.view</field>
             <field name="model">project.report.wizard</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Project Report">
-                    <separator string="Dates" colspan="4"/>
-                    <field name="date_from" />
-                    <field name="date_to" />
-                    <newline/>
+                <form string="Project Report" version="7.0">
+                    <separator string="Dates" />
+                    <group col="4">
+                       <field name="date_from"/>
+                       <field name="date_to"/>
+                    </group>
                     <separator string="Projects" colspan="4" />
                     <field name="project_ids" nolabel="1" colspan="4" widget="many2many">
                         <tree string="Projects" editable="top">
                             <field name="shortcut_name" />
                         </tree>
                     </field>
-                    <newline/>
-                    <label/>
-                    <newline/>
-                    <button name="action_cancel" type="special" special="cancel" icon="gtk-cancel" string="Cancel" colspan="2" />
-                    <button name="action_validate" type="object" icon="gtk-apply" string="Validate" colspan="2" />
+                    <footer>
+                        <button name="action_validate" string="Validate" type="object"/>
+                        or 
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
                 </form>
             </field>
         </record>

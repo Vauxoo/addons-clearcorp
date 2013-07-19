@@ -19,29 +19,31 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 {
-    "name" : 'Project name shortcut',
-    "version" : '1.0',
-    "author" : 'CLEARCORP S.A',
-    #easy, normal, expert
+    'name': 'Project Reports',
+    'version': '1.0',
+    'url': 'http://launchpad.net/openerp-ccorp-addons',
+    'author': 'ClearCorp S.A.',
+    'website': 'http://clearcorp.co.cr',
+    'category': 'Project Management',
     'complexity': 'normal',
-    "description": """
-This module changes de reference name of the project by a concatenated name using the project code.
-This module added id_task in project task
+    'description': """This module adds project reports
     """,
-    "category": 'Project Management',
-    "sequence": 4,
-    "website" : "http://clearcorp.co.cr",
-    "images" : [],
-    "icon" : False,
-    "depends" : ['project'],
-    "init_xml" : [],
-    "demo_xml" : [],
-    "update_xml" : ["project_extended_view.xml"],
-    "test" : [],
-    "auto_install": False,
-    "application": False,
-    "installable": True,
+    'depends': [
+                    'pad_project',
+                    'report_webkit_lib',
+                    'project_extended',
+                    ],
+    'init_xml': [],
+    'demo_xml': [],
+    'update_xml': [
+                    'report/report.xml',
+                    'wizard/project_report_wizard.xml',
+                    'report_menus.xml',
+                    ],
     'license': 'AGPL-3',
+    'installable': True,
+    'active': False,
 }
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
