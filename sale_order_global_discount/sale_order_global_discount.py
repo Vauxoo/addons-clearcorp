@@ -111,11 +111,13 @@ class SaleOrder(osv.osv):
             },
             multi='sums'),
                 }
-    
+        
     def button_dummy(self, cr, uid, ids, context={}):
         if context is None:
             context = {}
         #To recalculate function fields
+        if isinstance(ids, int):
+            ids = [ids]
         for sale in self.browse(cr, uid, ids, context=context):
             context.update({'second_time': True})
             self.write(cr, uid, [sale.id], {}, context=context)
