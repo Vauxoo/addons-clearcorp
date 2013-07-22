@@ -32,14 +32,13 @@ class res_currency_rate(osv.osv):
         """
            This function returns rate of the day, if not found, returns the previous day.
         """
-        #TODO: Change recursion to sql. The search would return the last.
-        rate_ids = self.search(cr, uid, [('currency_id','=',currency_id),('name','=',name)])
-        if rate_ids == []:
-            date_object = datetime.strptime(name, "%Y-%m-%d") + timedelta(days=-1)
-            name = date_object.date().strftime("%Y-%m-%d")
-            self.get_res_currency_rate(cr, uid, currency_id, name, context)
-        #return the last item
-        return rate_ids[-1]
+        currency_rate_ids = self.search(cr, uid, [('currency_id','=',currency_id), ('name', '<=', name)], limit=1, order='name desc')
+        if currency_rate_ids == []:
+            currency_rate_ids = self.search(cr, uid, [('currency_id','=',currency_id), ('name', '>', name)], limit=1, order='name asc')
+        if currency_rate_ids == []:
+            return 0
+        currency_rate = self.browse(cr, uid, currency_rate_ids[0], context=context)
+        return currency_rate.rate
 
 class ResCurrency(osv.osv):
     _name = "res.currency"
@@ -57,6 +56,8 @@ class ResCurrency(osv.osv):
         ('res_currency_sequence', 'unique(sequence)', 'Sequence must be unique per currency!'),
     ]
     
+    _order = 'sequence'
+    
     def copy(self, cr, uid, id, default=None, context=None):
         default = default or {}
         default.update({
@@ -64,30 +65,20 @@ class ResCurrency(osv.osv):
         })
         return super(ResCurrency, self).copy(cr, uid, id, default, context)
     
-    #TODO get_exchange_rate:
-    """
     def get_exchange_rate(self, cr, uid, res_currency_initial, res_currency_finally, name, context=None):
         """
-        #   :param name: date of exchange rate
+        :param name: date of exchange rate
         """
-        res_currency_rate_obj = self.pool.get('res_currency_rate')
+        res_currency_rate_obj = self.pool.get('res.currency.rate')
         result = 0.00
         
         res_currency_base_id = self.search(cr, uid, [('base', '=', True)])
         res_currency_base = self.browse(cr, uid, res_currency_base_id)[0]
         
         if res_currency_initial.id == res_currency_base.id:
-            if res_currency_initial.sequence < res_currency_finally.sequence:
-                result = 1 / res_currency_rate_obj.get_res_currency_rate(self, cr, uid, res_currency_finally.id, name, context=context)
-            else:
-                result = res_currency_rate_obj.get_res_currency_rate(self, cr, uid, res_currency_finally.id, name, context=context)
-        
+            result = res_currency_rate_obj.get_res_currency_rate(cr, uid, res_currency_finally.id, name, context=context)
         else:
             currency_rate_initial = res_currency_rate_obj.get_res_currency_rate(self, cr, uid, res_currency_initial.id, name, context=context)
             currency_rate_finally = res_currency_rate_obj.get_res_currency_rate(self, cr, uid, res_currency_finally.id, name, context=context)
             result = currency_rate_initial * currency_rate_finally
         return result
-    """
-            
-                
-                
