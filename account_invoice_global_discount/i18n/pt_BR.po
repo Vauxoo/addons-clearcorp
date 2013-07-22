@@ -1,0 +1,92 @@
+# Brazilian Portuguese translation for openerp-ccorp-addons
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the openerp-ccorp-addons package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openerp-ccorp-addons\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-08-15 05:20+0000\n"
+"PO-Revision-Date: 2013-07-21 01:04+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-07-22 05:54+0000\n"
+"X-Generator: Launchpad (build 16696)\n"
+
+#. module: account_invoice_global_discount
+#: view:account.invoice:0
+msgid "Compute Totals"
+msgstr "Calcule Totais"
+
+#. module: account_invoice_global_discount
+#: view:account.invoice:0
+msgid "Discounted amount"
+msgstr "Valor descontado"
+
+#. module: account_invoice_global_discount
+#: wizard_field:invoice.discount,init,discount:0
+msgid "Discount percentage"
+msgstr "Percentual de desconto"
+
+#. module: account_invoice_global_discount
+#: model:ir.module.module,shortdesc:account_invoice_global_discount.module_meta_information
+msgid "Global invoice discount"
+msgstr "Desconto da fatura global"
+
+#. module: account_invoice_global_discount
+#: model:ir.module.module,description:account_invoice_global_discount.module_meta_information
+msgid ""
+"Adds a discount feature for invoice.\n"
+"    With it one can add a discount percent to all invoice lines on an "
+"invoice.\n"
+"    It adds the discounted and undiscounted amounts on the invoice totals.\n"
+"    "
+msgstr ""
+"Adiciona um recurso desconto da fatura.\n"
+"    Com ele pode-se adicionar um por cento de desconto para todas as linhas "
+"da fatura em uma fatura.\n"
+"    Ele adiciona os valores descontados e não descontado sobre o total da "
+"fatura.\n"
+"    "
+
+#. module: account_invoice_global_discount
+#: field:account.invoice,amount_discounted:0
+#: model:ir.actions.wizard,name:account_invoice_global_discount.invoice_discount
+msgid "Discount"
+msgstr "Desconto"
+
+#. module: account_invoice_global_discount
+#: wizard_view:invoice.discount,init:0
+msgid "Discount:"
+msgstr "Desconto:"
+
+#. module: account_invoice_global_discount
+#: view:account.invoice:0
+msgid "Untaxed amount"
+msgstr "Montante não tributado"
+
+#. module: account_invoice_global_discount
+#: wizard_button:invoice.discount,init,end:0
+msgid "Cancel"
+msgstr "Cancel"
+
+#. module: account_invoice_global_discount
+#: view:account.invoice:0
+#: wizard_button:invoice.discount,init,apply_discount:0
+msgid "Apply Discount"
+msgstr "Aplicar desconto"
+
+#. module: account_invoice_global_discount
+#: field:account.invoice,amount_untaxed_not_discounted:0
+#: field:account.invoice.line,price_subtotal_not_discounted:0
+msgid "Subtotal"
+msgstr "Subtotal"
+
+#. module: account_invoice_global_discount
+#: field:account.invoice,invoice_discount:0
+msgid "Discount (%)"
+msgstr "Desconto (%)"
