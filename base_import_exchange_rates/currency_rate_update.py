@@ -153,9 +153,12 @@ class Currency_rate_update(osv.osv):
 
     def run_currency_update(self, cr, uid):
         "update currency at the given frequence"
-        factory = Currency_getter_factory()
         curr_obj = self.pool.get('res.currency')
         rate_obj = self.pool.get('res.currency.rate')
+        
+        factory = Currency_getter_factory()
+        res_currency_base_id = curr_obj.search(cr, uid, [('base', '=', True)])
+        res_currency_base = curr_obj.browse(cr, uid, res_currency_base_id)[0]
         companies = self.pool.get('res.company').search(cr, uid, [])
         for comp in self.pool.get('res.company').browse(cr, uid, companies):
             ##the multi company currency can beset or no so we handle
@@ -185,7 +188,7 @@ class Currency_rate_update(osv.osv):
                             rate_ids = rate_obj.search(cr, uid, [('currency_id','=',curr.id),('name','=',name)])
                             if not len(rate_ids):
                                 rate = float(rate)
-                                if curr.import_inverted:
+                                if curr.sequence > res_currency_base.sequence:
                                     rate = 1.0/float(rate)
 
                                 vals = {'currency_id': curr.id, 'rate': rate, 'name': name}
