@@ -22,23 +22,6 @@
 
 from osv import osv, fields
 from tools.translate import _
-from datetime import datetime, date, timedelta
-
-class res_currency_rate(osv.osv):
-    _name = "res.currency.rate"
-    _inherit = "res.currency.rate"
-    
-    def get_res_currency_rate(self, cr, uid, currency_id, name, context=None):
-        """
-           This function returns rate of the day, if not found, returns the previous day.
-        """
-        currency_rate_ids = self.search(cr, uid, [('currency_id','=',currency_id), ('name', '<=', name)], limit=1, order='name desc')
-        if currency_rate_ids == []:
-            currency_rate_ids = self.search(cr, uid, [('currency_id','=',currency_id), ('name', '>', name)], limit=1, order='name asc')
-        if currency_rate_ids == []:
-            return 0
-        currency_rate = self.browse(cr, uid, currency_rate_ids[0], context=context)
-        return currency_rate.rate
 
 class ResCurrency(osv.osv):
     _name = "res.currency"
@@ -76,9 +59,10 @@ class ResCurrency(osv.osv):
         res_currency_base = self.browse(cr, uid, res_currency_base_id)[0]
         
         if res_currency_initial.id == res_currency_base.id:
-            result = res_currency_rate_obj.get_res_currency_rate(cr, uid, res_currency_finally.id, name, context=context)
+            exchange_rate_dict = self.pool.get('res.currency')._current_rate(cr, uid, [res_currency_finally.id], name, arg=None, context=context)
+            result = exchange_rate_dict[res_currency_finally.id]
         else:
-            currency_rate_initial = res_currency_rate_obj.get_res_currency_rate(self, cr, uid, res_currency_initial.id, name, context=context)
-            currency_rate_finally = res_currency_rate_obj.get_res_currency_rate(self, cr, uid, res_currency_finally.id, name, context=context)
+            currency_rate_initial = self.pool.get('res.currency')._current_rate(cr, uid, [res_currency_initial.id], name, arg=None, context=context)[res_currency_initial.id]
+            currency_rate_finally = self.pool.get('res.currency')._current_rate(cr, uid, [res_currency_finally.id], name, arg=None, context=context)[res_currency_finally.id]
             result = currency_rate_initial * currency_rate_finally
         return result
