@@ -1,0 +1,287 @@
+# Brazilian Portuguese translation for openerp-ccorp-addons
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the openerp-ccorp-addons package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openerp-ccorp-addons\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-07-19 22:21+0000\n"
+"PO-Revision-Date: 2013-07-28 11:43+0000\n"
+"Last-Translator: Claudio de Araujo Santos <claudioaraujosantos@gmail.com>\n"
+"Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-07-29 05:51+0000\n"
+"X-Generator: Launchpad (build 16700)\n"
+
+#. module: account_multicompany_relation
+#: field:account.multicompany.relation,targ_analytic_account:0
+msgid "Target Analytic Account"
+msgstr "Alvo Conta Analitica"
+
+#. module: account_multicompany_relation
+#: constraint:account.move:0
+msgid ""
+"You can not create more than one move per period on centralized journal"
+msgstr ""
+"Você não pode criar mais do que um movimento por período centralizado em "
+"revista"
+
+#. module: account_multicompany_relation
+#: constraint:account.multicompany.relation:0
+#: sql_constraint:account.multicompany.relation:0
+msgid "A relation exists already"
+msgstr "Existe uma relação já"
+
+#. module: account_multicompany_relation
+#: constraint:account.move.line:0
+msgid "Company must be the same for its related account and period."
+msgstr "Empresa deve ser o mesmo para a sua conta e período relacionado."
+
+#. module: account_multicompany_relation
+#: model:ir.model,name:account_multicompany_relation.model_account_multicompany_relation
+msgid "account.multicompany.relation"
+msgstr "account.multicompany.relation"
+
+#. module: account_multicompany_relation
+#: help:account.multicompany.relation,origin_analytic_account:0
+msgid ""
+"Indicate the original analytic account where the transaction is taking place"
+msgstr "Indique a conta analítica original onde a transação está ocorrendo"
+
+#. module: account_multicompany_relation
+#: sql_constraint:account.account:0
+msgid "The code of the account must be unique per company !"
+msgstr "O código da conta deve ser única por empresa!"
+
+#. module: account_multicompany_relation
+#: help:account.multicompany.relation,name:0
+msgid "Name for the mirror object relation"
+msgstr "Nome para a relação de objeto espelho"
+
+#. module: account_multicompany_relation
+#: code:addons/account_multicompany_relation/account_multicompany_relation.py:94
+#, python-format
+msgid ""
+"You can not modify a posted entry of this journal !\n"
+"You should set the journal to allow cancelling entries if you want to do "
+"that."
+msgstr ""
+"Você não pode modificar uma entrada postou desta revista! \n"
+"Você deve definir a revista para permitir o cancelamento entradas se você "
+"quiser fazer isso."
+
+#. module: account_multicompany_relation
+#: field:account.multicompany.relation,targ_journal:0
+msgid "Target Journal"
+msgstr "Relatorio Alvo"
+
+#. module: account_multicompany_relation
+#: code:addons/account_multicompany_relation/account_multicompany_relation.py:94
+#: code:addons/account_multicompany_relation/account_multicompany_relation.py:102
+#, python-format
+msgid "Error !"
+msgstr "Erro!"
+
+#. module: account_multicompany_relation
+#: model:ir.model,name:account_multicompany_relation.model_account_journal
+msgid "Journal"
+msgstr "Diário"
+
+#. module: account_multicompany_relation
+#: model:ir.model,name:account_multicompany_relation.model_account_move_line
+msgid "Journal Items"
+msgstr "Itens do Diário"
+
+#. module: account_multicompany_relation
+#: constraint:account.move.line:0
+msgid "You can not create journal items on an account of type view."
+msgstr ""
+"Você não pode criar itens de jornal sobre uma conta do tipo de exibição."
+
+#. module: account_multicompany_relation
+#: model:ir.model,name:account_multicompany_relation.model_account_account
+msgid "Account"
+msgstr "Conta"
+
+#. module: account_multicompany_relation
+#: code:addons/account_multicompany_relation/account_multicompany_relation.py:102
+#, python-format
+msgid ""
+"You can not modify a posted multicompany mirror entry of this journal !\n"
+"You should set the journal to allow cancelling entries if you want to do "
+"that."
+msgstr ""
+"Você não pode modificar uma entrada de espelho multiempresa publicado da "
+"revista! \n"
+"Você deve definir a revista para permitir o cancelamento entradas se você "
+"quiser fazer isso."
+
+#. module: account_multicompany_relation
+#: view:account.multicompany.relation:0
+#: model:ir.actions.act_window,name:account_multicompany_relation.action_account_multi_relation_fix
+msgid "Account Multicompany Relation"
+msgstr "Conta multiempresa Relação"
+
+#. module: account_multicompany_relation
+#: field:account.multicompany.relation,name:0
+msgid "Name"
+msgstr "Nome"
+
+#. module: account_multicompany_relation
+#: help:account.multicompany.relation,targ_analytic_account:0
+msgid ""
+"Indicate the target analytic account where the transaction of the original "
+"analytic account has to be seen, this is an analytic account from another "
+"company"
+msgstr ""
+"Indique a conta analítica alvo onde a transação da conta analítica original "
+"tem de ser visto, este é um relato analítico de outra empresa"
+
+#. module: account_multicompany_relation
+#: constraint:account.move.line:0
+msgid "You can not create journal items on closed account."
+msgstr "Você não pode criar itens de jornal por conta fechada."
+
+#. module: account_multicompany_relation
+#: sql_constraint:account.multicompany.relation:0
+msgid "The name must be unique"
+msgstr "O nome deve ser único"
+
+#. module: account_multicompany_relation
+#: field:account.multicompany.relation,origin_journal:0
+msgid "Original Journal"
+msgstr "Relatório originais"
+
+#. module: account_multicompany_relation
+#: constraint:account.journal:0
+msgid ""
+"Configuration error! The currency chosen should be shared by the default "
+"accounts too."
+msgstr ""
+"Erro de configuração! A moeda escolhida deve ser compartilhado pelas contas "
+"padrão também."
+
+#. module: account_multicompany_relation
+#: field:account.multicompany.relation,targ_account:0
+msgid "Target Account"
+msgstr "Conta-Alvo"
+
+#. module: account_multicompany_relation
+#: model:ir.ui.menu,name:account_multicompany_relation.account_multi_relation_menu
+msgid "Relation Multicompany"
+msgstr "Multiempresa Relação"
+
+#. module: account_multicompany_relation
+#: field:account.multicompany.relation,origin_account:0
+msgid "Original Account"
+msgstr "Conta Original"
+
+#. module: account_multicompany_relation
+#: help:account.multicompany.relation,origin_journal:0
+msgid "Indicate the original journal where the transaction is taking place"
+msgstr "Indique a revista original onde a transação está ocorrendo"
+
+#. module: account_multicompany_relation
+#: field:account.move.line,move_mirror_rel_id:0
+msgid "Move Multicompany Relation"
+msgstr "Mova Relação multiempresa"
+
+#. module: account_multicompany_relation
+#: help:account.multicompany.relation,origin_account:0
+#: help:account.multicompany.relation,targ_journal:0
+msgid "Indicate the original account where the transaction is taking place"
+msgstr "Indique a conta original onde a transação está ocorrendo"
+
+#. module: account_multicompany_relation
+#: model:ir.model,name:account_multicompany_relation.model_account_move
+msgid "Account Entry"
+msgstr "Lançamento Contábil"
+
+#. module: account_multicompany_relation
+#: constraint:account.account:0
+msgid "Error ! You can not create recursive accounts."
+msgstr "Error ! You can not create recursive accounts."
+
+#. module: account_multicompany_relation
+#: constraint:account.account:0
+msgid ""
+"Configuration Error! \n"
+"You can not select an account type with a deferral method different of "
+"\"Unreconciled\" for accounts with internal type \"Payable/Receivable\"! "
+msgstr ""
+"Erro de configuração! \n"
+"Você não pode selecionar um tipo de conta com um método de diferimento "
+"diferente de \"Unreconciled\" para contas com tipo interno \"Pagar / "
+"Receber\"! "
+
+#. module: account_multicompany_relation
+#: model:ir.model,name:account_multicompany_relation.model_account_voucher
+msgid "Accounting Voucher"
+msgstr "Comprovante de Contabilidade"
+
+#. module: account_multicompany_relation
+#: sql_constraint:account.journal:0
+msgid "The name of the journal must be unique per company !"
+msgstr "O nome do periódico deve ser único por empresa!"
+
+#. module: account_multicompany_relation
+#: constraint:account.move.line:0
+msgid ""
+"The selected account of your Journal Entry forces to provide a secondary "
+"currency. You should remove the secondary currency on the account or select "
+"a multi-currency view on the journal."
+msgstr ""
+"A conta selecionada de suas forças de Lançamentos para fornecer uma moeda "
+"secundária. Você deve remover a moeda secundária na conta ou selecione uma "
+"visão multi-moeda na revista."
+
+#. module: account_multicompany_relation
+#: constraint:account.move.line:0
+msgid ""
+"The date of your Journal Entry is not in the defined period! You should "
+"change the date or remove this constraint from the journal."
+msgstr ""
+"A data de sua entrada de diário não está no período definido! Você deve "
+"alterar a data ou remover essa restrição da revista."
+
+#. module: account_multicompany_relation
+#: sql_constraint:account.journal:0
+msgid "The code of the journal must be unique per company !"
+msgstr "O código da revista deve ser exclusivo para cada empresa!"
+
+#. module: account_multicompany_relation
+#: constraint:account.account:0
+msgid ""
+"Configuration Error! \n"
+"You can not define children to an account with internal type different of "
+"\"View\"! "
+msgstr ""
+"Erro de configuração! \n"
+"Você não pode definir as crianças a uma conta com tipo interno diferente de "
+"\"View\"! "
+
+#. module: account_multicompany_relation
+#: sql_constraint:account.move.line:0
+msgid "Wrong credit or debit value in accounting entry !"
+msgstr "Valor do crédito errado ou débito na entrada de contabilidade!"
+
+#. module: account_multicompany_relation
+#: field:account.multicompany.relation,origin_analytic_account:0
+msgid "Original Analytic Account"
+msgstr "Conta Analitica Original"
+
+#. module: account_multicompany_relation
+#: help:account.multicompany.relation,targ_account:0
+msgid ""
+"Indicate the target account where the transaction of the original account "
+"has to be seen, this is an account from another company"
+msgstr ""
+"Indique a conta de destino, onde a transação da conta original tem que ser "
+"visto, esta é uma conta de outra empresa"
+
+#~ msgid "Already exist a relation to this diary and account (origins)"
+#~ msgstr "Já existe uma relação com este diário e conta (origens)"

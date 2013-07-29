@@ -1,0 +1,99 @@
+# Brazilian Portuguese translation for openerp-ccorp-addons
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the openerp-ccorp-addons package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openerp-ccorp-addons\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-02-14 20:34+0000\n"
+"PO-Revision-Date: 2013-07-28 11:38+0000\n"
+"Last-Translator: Claudio de Araujo Santos <claudioaraujosantos@gmail.com>\n"
+"Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-07-29 05:51+0000\n"
+"X-Generator: Launchpad (build 16700)\n"
+
+#. module: purchase_order_archive
+#: sql_constraint:purchase.order:0
+msgid "Order Reference must be unique per Company!"
+msgstr "Referência à ordem deve ser exclusivo por Empresa!"
+
+#. module: purchase_order_archive
+#: view:purchase.order:0
+msgid "Archived"
+msgstr "Arquivada"
+
+#. module: purchase_order_archive
+#: code:addons/purchase_order_archive/purchase_order_archive.py:88
+#, python-format
+msgid "An archived purchase order cannot be deleted!"
+msgstr "Uma ordem de compra arquivados não podem ser apagados!"
+
+#. module: purchase_order_archive
+#: code:addons/purchase_order_archive/purchase_order_archive.py:70
+#, python-format
+msgid "You must first cancel all invoices related to this purchase order."
+msgstr ""
+"Primeiro, você deve cancelar todas as facturas relacionadas com este pedido "
+"de compra."
+
+#. module: purchase_order_archive
+#: code:addons/purchase_order_archive/purchase_order_archive.py:90
+#, python-format
+msgid "In order to delete a purchase order, it must be cancelled first!"
+msgstr ""
+"Para excluir uma ordem de compra, ele deve ser cancelado em primeiro lugar!"
+
+#. module: purchase_order_archive
+#: model:ir.model,name:purchase_order_archive.model_purchase_order
+msgid "Purchase Order"
+msgstr "Ordem de Compra"
+
+#. module: purchase_order_archive
+#: view:purchase.order:0
+msgid "Archived purchase order"
+msgstr "Ordem de compra arquivados"
+
+#. module: purchase_order_archive
+#: code:addons/purchase_order_archive/purchase_order_archive.py:63
+#, python-format
+msgid "You must first cancel all receptions related to this purchase order."
+msgstr ""
+"Primeiro, você deve cancelar todos os eventos relacionados a este pedido de "
+"compra."
+
+#. module: purchase_order_archive
+#: code:addons/purchase_order_archive/purchase_order_archive.py:105
+#, python-format
+msgid "An archived purchase order cannot be edited!"
+msgstr "Uma ordem de compra arquivados não podem ser editados!"
+
+#. module: purchase_order_archive
+#: code:addons/purchase_order_archive/purchase_order_archive.py:88
+#: code:addons/purchase_order_archive/purchase_order_archive.py:90
+#: code:addons/purchase_order_archive/purchase_order_archive.py:105
+#, python-format
+msgid "Invalid action !"
+msgstr "Ação Inválida!"
+
+#. module: purchase_order_archive
+#: code:addons/purchase_order_archive/purchase_order_archive.py:62
+#: code:addons/purchase_order_archive/purchase_order_archive.py:69
+#, python-format
+msgid "Unable to archive this purchase order!"
+msgstr "Incapaz de arquivar este pedido de compra!"
+
+#. module: purchase_order_archive
+#: code:addons/purchase_order_archive/purchase_order_archive.py:76
+#, python-format
+msgid "Purchase order '%s' is archived."
+msgstr "ordem de compra '%s' é arquivado."
+
+#. module: purchase_order_archive
+#: view:purchase.order:0
+msgid "Archive"
+msgstr "Arquivo"

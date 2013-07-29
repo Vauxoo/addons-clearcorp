@@ -1,0 +1,39 @@
+# Brazilian Portuguese translation for openerp-ccorp-addons
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the openerp-ccorp-addons package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openerp-ccorp-addons\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2009-11-25 05:34+0000\n"
+"PO-Revision-Date: 2013-07-28 11:35+0000\n"
+"Last-Translator: Claudio de Araujo Santos <claudioaraujosantos@gmail.com>\n"
+"Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-07-29 05:51+0000\n"
+"X-Generator: Launchpad (build 16700)\n"
+
+#. module: base_partner_sequence
+#: model:ir.module.module,description:base_partner_sequence.module_meta_information
+msgid ""
+"\n"
+"        This module adds the possibility to define a sequence for\n"
+"        the partner code. This code is then set as default when you\n"
+"        create a new partner, using the defined sequence.\n"
+"    "
+msgstr ""
+"\n"
+"        Este módulo adiciona a possibilidade de definir uma sequência de\n"
+"        o código do parceiro. Este código é então definido como padrão "
+"quando você\n"
+"        criar um novo parceiro, usando a seqüência definida.\n"
+"    "
+
+#. module: base_partner_sequence
+#: model:ir.module.module,shortdesc:base_partner_sequence.module_meta_information
+msgid "Add an automatic sequence on partners"
+msgstr "Adicionar uma seqüência automática de parceiros"

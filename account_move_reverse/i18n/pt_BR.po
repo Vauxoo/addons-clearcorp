@@ -1,0 +1,105 @@
+# Brazilian Portuguese translation for openerp-ccorp-addons
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the openerp-ccorp-addons package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openerp-ccorp-addons\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-07-19 22:20+0000\n"
+"PO-Revision-Date: 2013-07-28 11:34+0000\n"
+"Last-Translator: Claudio de Araujo Santos <claudioaraujosantos@gmail.com>\n"
+"Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-07-29 05:51+0000\n"
+"X-Generator: Launchpad (build 16700)\n"
+
+#. module: account_move_reverse
+#: constraint:account.move:0
+msgid ""
+"You can not create more than one move per period on centralized journal"
+msgstr ""
+"Você não pode criar mais do que um movimento por período centralizado em "
+"revista"
+
+#. module: account_move_reverse
+#: code:addons/account_move_reverse/account_move_reverse.py:42
+#: code:addons/account_move_reverse/account_move_reverse.py:46
+#, python-format
+msgid "Error !"
+msgstr "Erro!"
+
+#. module: account_move_reverse
+#: model:ir.model,name:account_move_reverse.model_account_journal
+msgid "Journal"
+msgstr "Diário"
+
+#. module: account_move_reverse
+#: field:account.move,move_reverse_id:0
+msgid "Move Reverse"
+msgstr "Mova Reverso"
+
+#. module: account_move_reverse
+#: field:account.journal,update_reversed:0
+msgid "Allow Cancelling Reversed Entries"
+msgstr "Permitir cancelamento de entradas invertidas"
+
+#. module: account_move_reverse
+#: sql_constraint:account.journal:0
+msgid "The name of the journal must be unique per company !"
+msgstr "O nome do periódico deve ser único por empresa!"
+
+#. module: account_move_reverse
+#: code:addons/account_move_reverse/account_move_reverse.py:46
+#, python-format
+msgid ""
+"You can not modify a posted entry of this journal !\n"
+"You should set the journal to allow cancelling reversed entries if you want "
+"to do that."
+msgstr ""
+"Você não pode modificar uma entrada postou desta revista! \n"
+"Você deve definir a revista para permitir o cancelamento entradas "
+"invertidas, se você quiser fazer isso."
+
+#. module: account_move_reverse
+#: constraint:account.journal:0
+msgid ""
+"Configuration error! The currency chosen should be shared by the default "
+"accounts too."
+msgstr ""
+"Erro de configuração! A moeda escolhida deve ser compartilhado pelas contas "
+"padrão também."
+
+#. module: account_move_reverse
+#: sql_constraint:account.journal:0
+msgid "The code of the journal must be unique per company !"
+msgstr "O código da revista deve ser exclusivo para cada empresa!"
+
+#. module: account_move_reverse
+#: model:ir.model,name:account_move_reverse.model_account_move
+msgid "Account Entry"
+msgstr "Conta Lançamento"
+
+#. module: account_move_reverse
+#: help:account.journal,update_reversed:0
+msgid ""
+"Check this box if you want to allow the cancellation of the reversed entries "
+"related to this journal or of the invoice related to this journal"
+msgstr ""
+"Marque esta caixa se você deseja permitir o cancelamento das entradas "
+"invertidas relacionadas a este jornal ou da factura relativa a este jornal"
+
+#. module: account_move_reverse
+#: code:addons/account_move_reverse/account_move_reverse.py:42
+#, python-format
+msgid ""
+"You can not modify a posted entry of this journal !\n"
+"You should set the journal to allow cancelling entries if you want to do "
+"that."
+msgstr ""
+"Você não pode modificar uma entrada postou desta revista! \n"
+"Você deve definir a revista para permitir o cancelamento entradas se você "
+"quiser fazer isso."

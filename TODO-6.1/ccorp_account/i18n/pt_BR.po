@@ -1,0 +1,186 @@
+# Brazilian Portuguese translation for openerp-ccorp-addons
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the openerp-ccorp-addons package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openerp-ccorp-addons\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-08-23 20:49+0000\n"
+"PO-Revision-Date: 2013-07-28 11:25+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-07-29 05:51+0000\n"
+"X-Generator: Launchpad (build 16700)\n"
+
+#. module: ccorp_account
+#: model:ir.module.module,description:ccorp_account.module_meta_information
+msgid ""
+"ClearCorp 'account' modifications:\n"
+"    Reports:\n"
+"      * Invoice\n"
+"    "
+msgstr ""
+"'Conta' ClearCorp modificações:\n"
+"    Relatórios:\n"
+"      * Nota Fiscal\n"
+"    "
+
+#. module: ccorp_account
+#: model:ir.module.module,shortdesc:ccorp_account.module_meta_information
+msgid "ClearCorp account module modifications"
+msgstr "Conta ClearCorp modificações módulo"
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Electronic Invoice"
+msgstr "Nota Fiscal Eletrônica"
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "PRO-FORMA"
+msgstr "Pro-forma"
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Draft Invoice"
+msgstr "Projeto Nota Fiscal"
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Cancelled Invoice"
+msgstr "Fatura Cancelada"
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Supplier Refund"
+msgstr "Reembolso supplier"
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Supplier Invoice"
+msgstr "Fatura Fornecedor"
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Num.: "
+msgstr "Num.: "
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Date: "
+msgstr "Data: "
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "ID Num.: "
+msgstr "Num ID.: "
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Tel-fax: "
+msgstr "Tel-fax: "
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Email: "
+msgstr "E-mail: "
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Web: "
+msgstr "Web: "
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Address:"
+msgstr "Endereço:"
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Phone: "
+msgstr "Telefone: "
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Fax: "
+msgstr "Fax: "
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Salesman: "
+msgstr "Vendedor: "
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Payment tems: "
+msgstr "Tems de pagamento: "
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Due date: "
+msgstr "Data de vencimento: "
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Exchange rate: "
+msgstr "Taxa de câmbio: "
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Page: "
+msgstr "Página: "
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Thank you for choosing us."
+msgstr "Obrigado por nos escolher."
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Qty."
+msgstr "Qtde."
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Description / (Taxes)"
+msgstr "Descrição / (Impostos)"
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Disc."
+msgstr "Desc."
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Unit Price"
+msgstr "Preço unitário"
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Total Price"
+msgstr "Preço Total"
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Subtotal"
+msgstr "Subtotal"
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Discount"
+msgstr "Desconto"
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "Taxes"
+msgstr "Impostos"
+
+#. module: ccorp_account
+#: rml:account.invoice.layout_ccorp:0
+msgid "TOTAL"
+msgstr "TOTAL"
