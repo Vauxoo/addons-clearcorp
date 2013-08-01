@@ -2,12 +2,13 @@
 <openerp>
     <data>
         <record id="view_budget_import_catalog" model="ir.ui.view">
-            <field name="name">Import Account Catalog</field>
+            <field name="name">budget.import.catalog.wizard</field>
             <field name="model">budget.import.catalog</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Import Account Catalog">
                     <separator colspan="4" string="This wizard will import a budget account tree"/>
+                    <field name="parent_account" colspan="4"/>
                     <field name="catalog_file" colspan="4"/>
                     <separator colspan="4"/>
                     <group colspan="2" col="4">
@@ -28,6 +29,6 @@
             <field name="context">{}</field>
             <field name="target">new</field>
         </record>
-        <menuitem id="budget_import_catalog_wizard_menu" name="Import account catalog from file" parent="budget_account_menu" action="action_budget_import_catalog"/>
+        <menuitem id="budget_import_catalog_wizard_menu_list" name="Import account catalog from file" parent="budget_account_list_menu" action="action_budget_import_catalog"/>
     </data>
 </openerp>

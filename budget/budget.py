@@ -34,44 +34,7 @@ from osv import fields, osv
 
 ######################################################
 
-##
-#Program
-## 
-class budget_program(osv.osv):
-    _name = 'budget.program'
-    _description = 'Program'
 
-    _columns ={
-        'name': fields.char('Name', size=64, required=True),
-        'plan_id': fields.many2one('budget.plan', 'Budget Plan'),
-        'program_lines':fields.one2many('budget.program.line','program_id','Lines'),
-        }
-    
-    _sql_constraints = [
-        ('name', 'unique(name,plan_id)','The name must be unique for this budget!'),
-        ]
-    
-    def bulk_line_create(self, cr, uid, ids, context=None):            
-        line_obj = self.pool.get('budget.program.line')
-        account_obj = self.pool.get('budget.account')
-        for program in self.browse(cr, uid, ids, context=context):
-            current_lines = len(program.program_lines)
-            if current_lines > 0:
-                raise osv.except_osv(_('Error!'), _('This program already contains program lines'))   
-            account_ids= account_obj.search(cr,uid,[('active','=','true'),('account_type','=','budget')])
-            for account in account_obj.browse(cr,uid,account_ids):
-                #line_name = program.name +' ' + str_year + ' - ' +account.composite_code
-                line_name = '[' + account.composite_code + ']-' + account.name 
-                line_account_id = account.id
-                line_program_id = program.id
-                line_obj.create(cr,uid,{
-                                        'name':line_name,
-                                        'account_id':line_account_id,
-                                        'program_id':line_program_id,                                                                              
-                                        })
-        return True
-
-######################################################
 
 ##
 #PLAN
@@ -119,12 +82,21 @@ class budget_plan(osv.osv):
             res = self.read(cr,uid,[plan_id],['program_ids'],context=context)[0]
             program_ids = res['program_ids']
             for program_id in program_ids:              
-                query = 'SELECT BA.id, BA.composite_code, BA.name FROM '\
+#                query = 'SELECT BA.id, BA.composite_code, BA.name FROM '\
+#                'budget_account BA '\
+#                'WHERE BA.account_type = \'%(account_type)s\' ' \
+#                'AND active = true '\
+#                'EXCEPT '\
+#                'SELECT BA.id, BA.composite_code , BA.name FROM '\
+#                'budget_account BA INNER JOIN budget_program_line BPL ON BA.ID = BPL.account_id '\
+#                'INNER JOIN budget_program BP ON BPL.program_id = BP.id '\
+#                'WHERE BP.id = %(program_id)d' % {'program_id':program_id, 'account_type':'budget'}
+                query = 'SELECT BA.id, BA.code, BA.name FROM '\
                 'budget_account BA '\
                 'WHERE BA.account_type = \'%(account_type)s\' ' \
                 'AND active = true '\
                 'EXCEPT '\
-                'SELECT BA.id, BA.composite_code , BA.name FROM '\
+                'SELECT BA.id, BA.code , BA.name FROM '\
                 'budget_account BA INNER JOIN budget_program_line BPL ON BA.ID = BPL.account_id '\
                 'INNER JOIN budget_program BP ON BPL.program_id = BP.id '\
                 'WHERE BP.id = %(program_id)d' % {'program_id':program_id, 'account_type':'budget'}
@@ -139,7 +111,14 @@ class budget_plan(osv.osv):
         return True
     
     def check_no_consolidated_orphans(self, cr, uid, ids, context=None):
-        query = 'SELECT composite_code, name FROM budget_account '\
+#        query = 'SELECT composite_code, name FROM budget_account '\
+#                'WHERE id IN( '\
+#                'SELECT id FROM budget_account '\
+#                'WHERE account_type = \'budget\' '\
+#                'EXCEPT '\
+#                'SELECT DISTINCT consol_child_id '\
+#                'FROM budget_account_consol_rel) '
+        query = 'SELECT code, name FROM budget_account '\
                 'WHERE id IN( '\
                 'SELECT id FROM budget_account '\
                 'WHERE account_type = \'budget\' '\
@@ -180,6 +159,75 @@ class budget_plan(osv.osv):
                 raise osv.except_osv(_('Error!'), _('You cannot delete an approved or closed plan'))
         return super(budget_plan, self).unlink(cr, uid, ids, context=context)
  
+ 
+ 
+##
+#Program
+## 
+class budget_program(osv.osv):
+    _name = 'budget.program'
+    _description = 'Program'
+
+    _columns ={
+        'code': fields.char('Code', size=64),
+        'name': fields.char('Name', size=64, required=True),
+        'plan_id': fields.many2one('budget.plan', 'Budget plan', required=True),
+        'program_lines':fields.one2many('budget.program.line','program_id','Lines'),
+        'previous_program_id': fields.many2one('budget.program', 'Previous program'),
+        }
+    
+    _sql_constraints = [
+        ('name', 'unique(name,plan_id)','The name must be unique for this budget!'),
+        ]
+    
+#    def bulk_line_create(self, cr, uid, ids, context=None):            
+#        line_obj = self.pool.get('budget.program.line')
+#        account_obj = self.pool.get('budget.account')
+#        for program in self.browse(cr, uid, ids, context=context):
+#            current_lines = len(program.program_lines)
+#            if current_lines > 0:
+#                raise osv.except_osv(_('Error!'), _('This program already contains program lines'))   
+#            account_ids= account_obj.search(cr,uid,[('active','=','true'),('account_type','=','budget')])
+#            for account in account_obj.browse(cr,uid,account_ids):
+##                line_name = '[' + account.composite_code + ']-' + account.name 
+#                line_name = '[' + account.code + ']-' + account.name
+#                line_account_id = account.id
+#                line_program_id = program.id
+#                line_obj.create(cr,uid,{
+#                                        'name':line_name,
+#                                        'account_id':line_account_id,
+#                                        'program_id':line_program_id,                                                                              
+#                                        })
+#        return True
+    def make_composite_name(self,cr,uid,str):
+        lst = []
+        composite_name = ""
+        space_pos = str.find(' ')
+        if space_pos != -1:
+            lst.append(str[0:space_pos])
+            lst.append(str[space_pos+1:len(str)-1])
+        else:
+            lst.append(str[0:len(str)-1])  
+        for word in lst:
+            if len(word)>=3:
+                composite_name = composite_name + word[0:3] +'-'
+            else:
+                composite_name = composite_name + word +'-'
+        return composite_name[0:-1]
+
+
+    def create(self, cr, uid, vals, context={}):
+       plan_obj = self.pool.get('budget.plan')
+       plan = plan_obj.browse(cr, uid, [vals['plan_id']],context=context)[0]
+       
+       code = plan.year_id.code + '-' +  self.make_composite_name(cr,uid,vals['name'])
+       vals['code'] = code
+       res = super(budget_program, self).create(cr, uid, vals, context)
+       return res
+
+
+
+######################################################
 
 ##
 #program LINE
@@ -187,6 +235,54 @@ class budget_plan(osv.osv):
 class budget_program_line(osv.osv):
     _name = 'budget.program.line'
     _description = 'Program line'
+    _order = "parent_left"
+    _parent_order = "name"
+    _parent_store = True   
+
+    def _get_children_and_consol(self, cr, uid, ids, context=None):
+        #this function search for all the children and all consolidated children (recursively) of the given account ids
+        ids2 = self.search(cr, uid, [('parent_id', 'child_of', ids)], context=context)
+        ids3 = []
+        for rec in self.browse(cr, uid, ids2, context=context):
+            for child in rec.child_consol_ids:
+                ids3.append(child.id)
+        if ids3:
+            ids3 = self._get_children_and_consol(cr, uid, ids3, context)
+        return ids2 + ids3
+
+    def get_assigned(self, cr, uid, ids, field_name, args, context=None):
+        test = {}
+        for line in self.browse(cr, uid, ids,context=context):
+            children_and_consolidated = self._get_children_and_consol(cr, uid,[line.id],context=context)
+            request = ("SELECT SUM(assigned_amount) " +\
+                           " FROM budget_program_line l" \
+                           " WHERE l.id IN %s ")
+            params = (tuple(children_and_consolidated),)
+            cr.execute(request, params)
+            result = cr.fetchall()
+        
+            if len(result) > 0:
+                for row in result:
+                    test[line.id]=row[0]                
+        return test
+    
+    
+    #            total = 0.0
+#            if line.child_parent_ids:
+#                for child in line.child_parent_ids:
+#                    total += child.total_assigned
+#            elif line.child_consol_ids:
+#                for consol_child in line.child_consol_ids:
+#                    total += consol_child.assigned_amount
+#            else:
+#                total = line.assigned_amount
+#            test[line.id]= total 
+    
+    def get_extensions(self, cr, uid, ids, field_name, args, context=None):
+        test = {}
+        for id in ids:
+            test[id]= 0.0 
+        return test
     
     def get_execution_percentage(self, cr, uid, ids, field_name, args, context=None):
         test = {}
@@ -201,12 +297,6 @@ class budget_program_line(osv.osv):
         return test
     
     def get_available_cash(self, cr, uid, ids, field_name, args, context=None):
-        test = {}
-        for id in ids:
-            test[id]= 0.0 
-        return test
-    
-    def get_extensions(self, cr, uid, ids, field_name, args, context=None):
         test = {}
         for id in ids:
             test[id]= 0.0 
@@ -249,22 +339,43 @@ class budget_program_line(osv.osv):
                 raise osv.except_osv(_('Error!'), _('There is already a program line using this budget account'))
         return True
         
+    def _get_child_ids(self, cr, uid, ids, field_name, arg, context=None):
+        result = {}
+        for record in self.browse(cr, uid, ids, context=context):
+            if record.child_parent_ids:
+                result[record.id] = [x.id for x in record.child_parent_ids]
+            else:
+                result[record.id] = []
+
+            if record.child_consol_ids:
+                for acc in record.child_consol_ids:
+                    if acc.id not in result[record.id]:
+                        result[record.id].append(acc.id)
+        return result
     
     _columns ={
-        'name': fields.char('Name', size=64, required=True),
-        'account_id': fields.many2one('budget.account','Budget account',required=True),
-        'program_id': fields.many2one('budget.program','Program',required=True),
-        'assigned_amount': fields.float('Assigned amount', digits_compute=dp.get_precision('Account'), required=True),
-        'extended_amount': fields.function(get_extensions, string='Extensions', type="float", store=True),
-        'modified_amount': fields.function(get_modifications, string='Modifications', type="float", store=True),
-        'reserved_amount': fields.function(get_reservations, string='Reservations', type="float", store=True),
-        'compromised_amount': fields.function(get_compromises, string='Compromises', type="float", store=True),
-        'executed_amount': fields.function(get_executed, string='Executed', type="float", store=True),
-        'available_budget': fields.function(get_available_budget, string='Available budget', type="float", store=True),
-        'available_cash': fields.function(get_available_cash, string='Available Cash', type="float", store=True),
-        'execution_percentage': fields.function(get_execution_percentage, string='Execution Percentage', type="float", store=True),
+        'name':fields.char('Name', size=64, required=True),
+        'parent_id': fields.many2one('budget.program.line', 'Parent line', ondelete='cascade'),
+        'account_id':fields.many2one('budget.account','Budget account',required=True),
+        'program_id':fields.many2one('budget.program','Program',required=True),
+        'assigned_amount':fields.float('Assigned amount', digits_compute=dp.get_precision('Account'), required=True),
+        'type':fields.related('account_id','account_type', type='char', relation='budget.account', string='Line Type', store=True,readonly=True  ),
+        'total_assigned':fields.function(get_assigned, string='Assigned', type="float", ),
+        'extended_amount':fields.function(get_extensions, string='Extensions', type="float", store=True),
+        'modified_amount':fields.function(get_modifications, string='Modifications', type="float", store=True),
+        'reserved_amount':fields.function(get_reservations, string='Reservations', type="float", store=True),
+        'compromised_amount':fields.function(get_compromises, string='Compromises', type="float", store=True),
+        'executed_amount':fields.function(get_executed, string='Executed', type="float", store=True),
+        'available_budget':fields.function(get_available_budget, string='Available budget', type="float", store=True),
+        'available_cash':fields.function(get_available_cash, string='Available Cash', type="float", store=True),
+        'execution_percentage':fields.function(get_execution_percentage, string='Execution Percentage', type="float", store=True),
         'sponsor_id':fields.many2one('res.partner','Sponsor'),
-        'company_id': fields.many2one('res.company', 'Company', required=True),
+        'company_id':fields.many2one('res.company', 'Company', required=True),
+        'parent_left': fields.integer('Parent Left', select=1),
+        'parent_right': fields.integer('Parent Right', select=1),
+        'child_parent_ids': fields.one2many('budget.program.line','parent_id','Children'),
+        'child_consol_ids': fields.many2many('budget.program.line', 'budget_program_line_consol_rel', 'parent_id' ,'consol_child_id' , 'Consolidated Children'),
+        'child_id': fields.function(_get_child_ids, type='many2many', relation="budget.account", string="Child Accounts"),
         }
     
     _defaults = {
@@ -291,10 +402,9 @@ class budget_program_line(osv.osv):
 class budget_account(osv.osv):
     _name = 'budget.account'
     _description = 'Budget Account'
-    _order = "composite_code"
-    #_parent_order = "composite_code"
-    #_parent_store = True    
-    _order = 'composite_code'
+    _order = "parent_left"
+    _parent_order = "code"
+    _parent_store = True   
 
     def check_cycle(self, cr, uid, ids, context=None):
         """ climbs the ``self._table.parent_id`` chains for 100 levels or
@@ -349,11 +459,60 @@ class budget_account(osv.osv):
             res[acc_id] = code[:-1]
         return res
         
+    def _get_child_ids(self, cr, uid, ids, field_name, arg, context=None):
+        result = {}
+        for record in self.browse(cr, uid, ids, context=context):
+            if record.child_parent_ids:
+                result[record.id] = [x.id for x in record.child_parent_ids]
+            else:
+                result[record.id] = []
+
+            if record.child_consol_ids:
+                for acc in record.child_consol_ids:
+                    if acc.id not in result[record.id]:
+                        result[record.id].append(acc.id)
+        return result
+    
+    def _get_level(self, cr, uid, ids, field_name, arg, context=None):
+        res = {}
+        for account in self.browse(cr, uid, ids, context=context):
+            #we may not know the level of the parent at the time of computation, so we
+            # can't simply do res[account.id] = account.parent_id.level + 1
+            level = 0
+            parent = account.parent_id
+            while parent:
+                level += 1
+                parent = parent.parent_id
+            res[account.id] = level
+        return res
+    
+    def _get_children_and_consol(self, cr, uid, ids, context=None):
+        #this function search for all the children and all consolidated children (recursively) of the given account ids
+        ids2 = self.search(cr, uid, [('parent_id', 'child_of', ids)], context=context)
+        ids3 = []
+        for rec in self.browse(cr, uid, ids2, context=context):
+            for child in rec.child_consol_ids:
+                ids3.append(child.id)
+        if ids3:
+            ids3 = self._get_children_and_consol(cr, uid, ids3, context)
+        return ids2 + ids3
+    
+    def _get_all_children(self, cr, uid, ids, context=None):
+        return self.search(cr, uid, [('parent_id', 'in', ids),'|',('active','=',True), ('active', '=',False)], context=context)
+        
+
+    def on_change_active(self, cr, uid, ids, active, context=None):
+        if ids:
+            return {'value': {},
+                    'warning':{'title':'Warning','message':'This action will be applied to ALL children accounts'}}
+        else:
+            return {'value': {}}
+    
     _columns ={
         'active':fields.boolean('Active'),
         'code': fields.char('Code', size=64, required=True, select=1),
         'name': fields.char('Name', size=256,),
-        'composite_code': fields.function(get_composite_code, string='Full Code', type="char", store=True),
+        #'composite_code': fields.function(get_composite_code, string='Full Code', type="char", store=True),
         'account_type': fields.selection([
             ('budget', 'Budget Entry'),# CP
             ('view', 'Budget View'), # VP
@@ -363,15 +522,28 @@ class budget_account(osv.osv):
             "different types of accounts: view can not have journal items, consolidation are accounts that "\
             "can have children accounts for consolidations and can only have institutional views as parent, "\
             "institutional can have only consolidation childs"),
-        'parent_id': fields.many2one('budget.account','Parent'),
+        'parent_id': fields.many2one('budget.account','Parent', ondelete="cascade"),
         'company_id': fields.many2one('res.company', 'Company', required=True),
+        'child_parent_ids': fields.one2many('budget.account','parent_id','Children'),
         'child_consol_ids': fields.many2many('budget.account', 'budget_account_consol_rel', 'parent_id' ,'consol_child_id' , 'Consolidated Children'),
+        'child_id': fields.function(_get_child_ids, type='many2many', relation="budget.account", string="Child Accounts"),
+        'allows_reimbursement':fields.boolean('Allows reimbursement'),
+        'allows_reduction':fields.boolean('Allows reduction'),
+        'parent_left': fields.integer('Parent Left', select=1),
+        'parent_right': fields.integer('Parent Right', select=1),
+        'level': fields.function(_get_level, string='Level', method=True, type='integer',
+             store={
+                    'budget.account': (_get_children_and_consol, ['level', 'parent_id'], 10),
+                   })
         }
     
     _defaults = {
         'account_type': 'budget',
         'active': True,
         'company_id': lambda s, cr, uid, c: s.pool.get('res.company')._company_default_get(cr, uid, 'account.account', context=c),
+        'allows_reimbursement': False,
+        'allows_reduction': False,
+        
     }
     
     _check_recursion = check_cycle
@@ -384,7 +556,7 @@ class budget_account(osv.osv):
     _sql_constraints =[
         ('check_unique_budget_account','unique (parent_id,code,company_id)','The code is defined for another account with the same parent' )
     ]
-      
+    
     def copy(self, cr, uid, id, default=None, context=None):
         if default is None:
             default = {}
@@ -397,9 +569,9 @@ class budget_account(osv.osv):
         res = []    
         if not len(ids):
             return res
-            
-        for r in self.read(cr, uid, ids, ['composite_code','name'], context):
-            rec_name = '[%s] %s' % (r['composite_code'], r['name']) 
+        
+        for r in self.read(cr, uid, ids, ['code','name'], context):
+            rec_name = '[%s] %s' % (r['code'], r['name'])
             res.append( (r['id'],rec_name) )
         return res
 
@@ -409,7 +581,8 @@ class budget_account(osv.osv):
 
         if name and operator in ('=', 'ilike', '=ilike', 'like'):
             """We need all the partners that match with the ref or name (or a part of them)"""
-            ids = self.search(cr, uid, ['|',('composite_code', 'ilike', name),('name','ilike',name)] + args, limit=limit, context=context)
+#            ids = self.search(cr, uid, ['|',('composite_code', 'ilike', name),('name','ilike',name)] + args, limit=limit, context=context)
+            ids = self.search(cr, uid, ['|',('code', 'ilike', name),('name','ilike',name)] + args, limit=limit, context=context)
             if ids and len(ids) > 0:
                 return self.name_get(cr, uid, ids, context)
         return super(budget_account,self).name_search(cr, uid, name, args, operator=operator, context=context, limit=limit)
@@ -426,6 +599,38 @@ class budget_account(osv.osv):
                 parent = parent.parent_id
             res[account.id] = level
         return res
+    
+    def _used_by_program_line(self,cr,uid, account_id,context=None):
+        obj_prog_line = self.pool.get('budget.program.line')
+        ocurrences = obj_prog_line.search(cr,uid,[('account_id', '=', account_id)], context=context)
+        if len(ocurrences) > 0:
+            return True
+        else:
+            return False
+        
+    def unlink(self, cr, uid, ids, context=None):
+        for account in self.browse(cr, uid,ids, context=context):
+            if self._used_by_program_line(cr, uid, account.id, context=context):
+                raise osv.except_osv(_('Error!'), _('You cannot delete an account used by a program line'))
+            else:
+                return super(budget_account, self).unlink(cr, uid, ids, context=context)
+    
+#    def _cascade_activate_deactivate(self, cr, uid, ids, val, context=None):
+#        for account in self.browse(cr, uid, ids, context=context):
+#            children = self._get_children(cr, uid, [account.id], context=context)
+#            self.write(cr, uid, children, { 'active':val }, context)
+#            
+    def write(self, cr, uid, ids, vals, context=None):
+        for account in self.browse(cr, uid,ids, context=context):
+            if 'code' in vals.keys() or 'name' in vals.keys():
+                if self._used_by_program_line(cr, uid, account.id, context=context):
+                    raise osv.except_osv(_('Error!'), _('You cannot overwrite the code or the name of an account used by a program line'))
+            if 'active' in vals.keys():
+                children = self._get_all_children(cr,uid,[account.id],context=context)
+                self.write(cr, uid, children, {'active':vals['active']},context=context)
+        return super(budget_account, self).write(cr, uid, ids, vals, context=context)
+        
+            
 
 ##
 #YEAR
@@ -600,6 +805,7 @@ class budget_move(osv.osv):
         ('draft', 'Draft'),
         ('reserved', 'Reserved'),
         ('compromised', 'Compromised'),
+        ('in_execution', 'In Execution'),
         ('executed', 'Executed'),
         ('cancel', 'Canceled'),
     ]
@@ -612,19 +818,18 @@ class budget_move(osv.osv):
     ('expense','Expense'),
     ('payroll','Payroll'),
     ('manual','From account move'),
+    ('modification','Modification'),
+    ('extension','Extension'),
+    ('opening','Opening'),
     ]
         
     def _compute_executed(self, cr, uid, ids, field_name, args, context=None):
         res = {}
-#        moves = self.browse(cr, uid, ids,context=context) 
-#        for move in moves:
-#            total = 0.0
-#            for invoice in move.account_invoice_ids:
-#                if invoice.state == 'open':
-#                    total += invoice.amount_total
-#            res[move.id]= total
-        for id in ids:
-            res[id]= 0 
+        total=0.0
+        for move in self.browse(cr, uid, ids,context=context):
+            for line in move.move_lines:
+                total += line.executed 
+            res[move.id]= total 
         return res
     
     def _check_non_zero(self, cr, uid, ids, context=None):
@@ -702,13 +907,17 @@ class budget_move(osv.osv):
             self.write(cr, uid, ids, {'arch_compromised': move.compromised, })
         return True
     
-    def action_execute(self, cr, uid, ids, context=None):
-        self.write(cr, uid, ids, {'state': 'executed'})
-        return True
-            
-    def action_cancel(self, cr, uid, ids, context=None):
-        self.write(cr, uid, ids, {'state': 'cancelled'})
-        return True
+#    def action_in_execution(self, cr, uid, ids, context=None):
+#        self.write(cr, uid, ids, {'state': 'in_execution'})
+#        return True
+#    
+#    def action_execute(self, cr, uid, ids, context=None):
+#        self.write(cr, uid, ids, {'state': 'executed'})
+#        return True
+#            
+#    def action_cancel(self, cr, uid, ids, context=None):
+#        self.write(cr, uid, ids, {'state': 'cancelled'})
+#        return True
     
     def name_get(self, cr, uid, ids, context=None):
         if context is None:
@@ -721,6 +930,14 @@ class budget_move(osv.osv):
             rec_name = '%s' % (r['code']) 
             res.append( (r['id'],rec_name) )
         return res
+    
+    def is_executed(self, cr, uid, ids, *args):
+        for move in self.browse(cr, uid, ids, context=context):
+            if move.type =='opening':
+                if move.state == 'in_execution':
+                    return True
+        return False
+            
 
 class budget_move_line(osv.osv):
     _name = "budget.move.line"
@@ -739,7 +956,10 @@ class budget_move_line(osv.osv):
         lines = self.browse(cr, uid, ids,context=context) 
         for line in lines:
             total = 0.0
-            res[line.id]= 0.0 
+            if line.state == 'executed':
+                if line.type == 'opening':
+                    total = line.fixed_amount
+            res[line.id]= total 
         return res
     
     def _compute_compromised(self, cr, uid, ids, field_name, args, context=None):
@@ -787,7 +1007,8 @@ class budget_move_line(osv.osv):
         #'expense_line_id': fields.many2one('hr.expense.line', 'Expense line', ),
         #'payslip_line_id': fields.many2one('hr.payslip.line', 'Payslip line', ),
         'move_line_id': fields.many2one('account.move.line', 'Move line', ),
-        'type': fields.related('budget_move_id', 'type', type='selection', relation='budget.move', string='Type', store=True, readonly=True)
+        'type': fields.related('budget_move_id', 'type', type='char', relation='budget.move', string='Type', store=True, readonly=True),
+        'state': fields.related('budget_move_id', 'state', type='char', relation='budget.move', string='State', store=True, readonly=True)
     }
     _defaults = {
         'date': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),

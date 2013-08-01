@@ -108,12 +108,19 @@
             <field name="action">action_compromise()</field>
         </record>
         
+        <record id="act_bud_mov_in_execution" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_budget_move"/>
+            <field name="name">in_execution</field>
+            <field name="kind">function</field>
+            <field name="action">write({'state':'in_execution'})</field>
+        </record>
+        
         <record id="act_bud_mov_executed" model="workflow.activity">
             <field name="wkf_id" ref="wkf_budget_move"/>
             <field name="flow_stop">True</field>
             <field name="name">executed</field>
             <field name="kind">function</field>
-            <field name="action">action_execute()</field>
+            <field name="action">write({'state':'executed'})</field>
         </record>
         
         <record id="act_bud_mov_canceled" model="workflow.activity">
@@ -121,7 +128,7 @@
             <field name="flow_stop">True</field>
             <field name="name">canceled</field>
             <field name="kind">function</field>
-            <field name="action">action_cancel()</field>
+            <field name="action">write({'state':'cancelled'})</field>
         </record>
         
         	<!--Transitions-->
@@ -138,10 +145,22 @@
             <field name="signal">button_compromise</field>
         </record>
         
-        <record id="trans_bud_mov_compromised_executed" model="workflow.transition">
+        <record id="trans_bud_mov_compromised_in_execution" model="workflow.transition">
             <field name="act_from" ref="act_bud_mov_compromised"/>
-            <field name="act_to" ref="act_bud_mov_executed"/>
+            <field name="act_to" ref="act_bud_mov_in_execution"/>
             <field name="signal">button_execute</field>
+        </record>
+        
+        <record id="trans_bud_mov_in_execution_executed" model="workflow.transition">
+            <field name="act_from" ref="act_bud_mov_in_execution"/>
+            <field name="act_to" ref="act_bud_mov_executed"/>
+            <field name="condition">is_executed()</field>
+        </record>
+        
+        <record id="trans_bud_mov_executed_in_execution" model="workflow.transition">
+            <field name="act_from" ref="act_bud_mov_executed"/>
+            <field name="act_to" ref="act_bud_mov_in_execution"/>
+            <field name="condition">not is_executed()</field>
         </record>
         
         <record id="trans_bud_mov_reserved_canceled" model="workflow.transition">

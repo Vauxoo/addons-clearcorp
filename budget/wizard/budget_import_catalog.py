@@ -30,23 +30,32 @@ class budget_import_catalog(osv.osv_memory):
     _name = 'budget.import.catalog'
     
     _columns = {
+        'parent_account': fields.many2one('budget.account', 'Catalog parent', domain=[('account_type','in',('view','institutional')), ('parent_id','=',False), ('active','=','True')]),
         'catalog_file':fields.binary('File', filters = '*.csv')
+        
     }
     
-    def get_parent_code(self,cr,uid, code):
+#    def get_parent_code(self,cr,uid, code):
+#        dot_right = code.rfind('.')
+#        if dot_right == -1:
+#            return code
+#        else:
+#            return code[0:dot_right]
+#        
+    def is_root(self,cr,uid, code):
         dot_right = code.rfind('.')
         if dot_right == -1:
-            return code
+            return True
         else:
-            return code[0:dot_right]
-        
-    def get_short_code(self,cr,uid, code):
-        dot_right = code.rfind('.')
-        last_ind = len(code)
-        if dot_right == -1:
-            return code
-        else:
-            return code[dot_right+1:last_ind]
+            return False
+#        
+#    def get_short_code(self,cr,uid, code):
+#        dot_right = code.rfind('.')
+#        last_ind = len(code)
+#        if dot_right == -1:
+#            return code
+#        else:
+#            return code[dot_right+1:last_ind]
         
     def search_account_id(self,cr,uid,code, dict_list):
         ##params
@@ -68,27 +77,34 @@ class budget_import_catalog(osv.osv_memory):
             data = self.browse(cr, uid, ids, context=context)[0]
             file_str = base64.decodestring(data.catalog_file)
             line_list = file_str.split('\n')
+            root_account = data.parent_account #allows to set a parent for an entire catalog
             for line in line_list:
                 account = { }
                 params_list = line.split(';')
-                if len(params_list) == 3:
+                params_list = [x.strip() for x in params_list if x != ""]
+                if len(params_list) > 0:
                     logger.info("account code: %s" % params_list )
-                    short_code = self.get_short_code(cr, uid, params_list[0]) 
-                    parent_code = self.get_parent_code(cr, uid, params_list[0])
+                   # short_code = self.get_short_code(cr, uid, params_list[0]) 
+                   # parent_code = self.get_parent_code(cr, uid, params_list[0])
+                    parent_code = params_list[1]
                     parent_id = self.search_account_id(cr, uid, parent_code, account_list)
                     if parent_id != -1:
                         account['parent_id'] = parent_id
                     else:
-                        account['parent_id'] = False
-                    account['code'] = short_code
-                    account['name'] = params_list[1]
-                    account['account_type'] = params_list[2]
+                        if root_account:
+                            account['parent_id'] = root_account.id
+                        else:
+                            account['parent_id'] = False
+                            
+                    account['code'] = params_list[0]
+                    account['name'] = params_list[2]
+                    account['account_type'] = params_list[3]
                     
                     account_id = account_obj.create(cr,uid,account)
-                    account['code'] = params_list[0]
                     account['id'] = account_id
                     #appending at the begining of the list to improve search timing
                     account_list.insert(0, account)
+            return True
         except TypeError, err:
              raise osv.except_osv(_('Error!'), _('Please specify a .csv file'))
         except IOError, err:
