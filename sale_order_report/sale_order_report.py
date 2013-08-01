@@ -20,5 +20,22 @@
 #
 ##############################################################################
 
-import sale_order_report
-import report
+from osv import fields, osv
+import netsvc
+
+class sale_order(osv.osv):
+    _inherit = "sale.order"
+    
+    def print_quotation(self, cr, uid, ids, context=None):
+        '''
+        This function prints the sales order and mark it as sent, so that we can see more easily the next step of the workflow
+        '''
+        assert len(ids) == 1, 'This option should only be used for a single id at a time'
+        wf_service = netsvc.LocalService("workflow")
+        wf_service.trg_validate(uid, 'sale.order', ids[0], 'quotation_sent', cr)
+        datas = {
+                 'model': 'sale.order',
+                 'ids': ids,
+                 'form': self.read(cr, uid, ids[0], context=context),
+        }
+        return {'type': 'ir.actions.report.xml', 'report_name': 'sale.order.layout_ccorp', 'datas': datas, 'nodestroy': True}
