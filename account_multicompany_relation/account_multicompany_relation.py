@@ -84,46 +84,48 @@ class AccountMove(orm.Model):
     _inherit = 'account.move'
 
     def button_cancel(self, cr, uid, ids, context=None):
-        self.pool.get('account.move.reconcile')
+        move_reconcile_obj = self.pool.get('account.move.reconcile')
+        move_line_obj = self.pool.get('account.move.line')
         for move in self.browse(cr, uid, ids, context=context):
             if not move.journal_id.update_posted:
                 raise osv.except_osv(_('Error !'), _('You can not modify a posted entry of this journal !\nYou should set the journal to allow cancelling entries if you want to do that.'))
 
             #Set user administrator to run this portion of code
-            uid = 1
+            uid_admin = 1
             for line in move.line_id:
                 if line.move_mirror_rel_id:
-                    move_mirror = self.browse(cr, uid, line.move_mirror_rel_id.id, context=context)
+                    move_mirror = self.browse(cr, uid_admin, line.move_mirror_rel_id.id, context=context)
                     if not move_mirror.journal_id.update_posted:
                         raise osv.except_osv(_('Error !'), _('You can not modify a posted multicompany mirror entry of this journal !\nYou should set the journal to allow cancelling entries if you want to do that.'))
 
-            move_reconcile_obj = self.pool.get('account.move.reconcile')
+            
 
             for line in move.line_id:
                 if line.move_mirror_rel_id:
-                    move_mirror = self.browse(cr, uid, line.move_mirror_rel_id.id, context=context)
+                    move_mirror = self.browse(cr, uid_admin, line.move_mirror_rel_id.id, context=context)
 
                     for line_mirror in move_mirror.line_id:
                         if line_mirror.reconcile_id:
                             reconcile = line_mirror.reconcile_id
                             if len(reconcile.line_id) > 2:
-                                self.pool.get('account.move.line').write(cr,uid,reconcile.line_id,{'reconcile_id': False, 'reconcile_partial_id':reconcile.id})
-                                self.pool.get('account.move.line').write(cr,uid,line_mirror.id,{'reconcile_partial_id': False})
+                                reconcile_line_ids = move_line_obj.search(cr, uid_admin, [('reconcile_id','=',reconcile.id)])
+                                move_line_obj.write(cr,uid_admin,reconcile_line_ids,{'reconcile_id': False, 'reconcile_partial_id':reconcile.id})
+                                move_line_obj.write(cr,uid_admin,line_mirror.id,{'reconcile_partial_id': False})
                             else:
-                                move_reconcile_obj.unlink(cr,uid,[reconcile.id],context=context)
+                                move_reconcile_obj.unlink(cr,uid_admin,[reconcile.id],context=context)
 
                         elif line_mirror.reconcile_partial_id:
                             reconcile = line_mirror.reconcile_partial_id
                             if len(reconcile.line_partial_ids) > 2:
-                                self.pool.get('account.move.line').write(cr,uid,line_mirror.id,{'reconcile_partial_id': False })
+                                move_line_obj.write(cr,uid_admin,line_mirror.id,{'reconcile_partial_id': False })
                             else:
-                                move_reconcile_obj.unlink(cr,uid,[reconcile.id],context=context)
+                                move_reconcile_obj.unlink(cr,uid_admin,[reconcile.id],context=context)
 
                     cr.execute('UPDATE account_move '\
                                'SET state=%s '\
                                'WHERE id IN %s', ('draft', tuple([move_mirror.id]),))
-                    self.button_cancel(cr,uid,[move_mirror.id],context=context)
-                    self.unlink(cr,uid,[move_mirror.id],context=context)
+                    self.button_cancel(cr,uid_admin,[move_mirror.id],context=context)
+                    self.unlink(cr,uid_admin,[move_mirror.id],context=context)
 
         result = super(AccountMove, self).button_cancel(cr, uid, ids, context=context)
         return True
