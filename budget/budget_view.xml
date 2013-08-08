@@ -58,7 +58,7 @@
             </field>
         </record>
         
- 	<record id="view_budget_year_search" model="ir.ui.view">
+        <record id="view_budget_year_search" model="ir.ui.view">
             <field name="name">budget.year.search</field>
             <field name="model">budget.year</field>
             <field name="arch" type="xml">
@@ -73,7 +73,7 @@
                 </search>
             </field>
         </record>
-       <record id="action_budget_year" model="ir.actions.act_window">
+        <record id="action_budget_year" model="ir.actions.act_window">
             <field name="name">Budget Years</field>
             <field name="res_model">budget.year</field>
             <field name="view_type">form</field>
@@ -130,7 +130,6 @@
                 </form>
             </field>
         </record>
-        
         <record id="view_budget_period_tree" model="ir.ui.view">
             <field name="name">budget.period.tree</field>
             <field name="model">budget.period</field>
@@ -145,7 +144,6 @@
                 </tree>
             </field>
         </record>
-        
         <record id="view_budget_period_search" model="ir.ui.view">
             <field name="name">budget.period.search</field>
             <field name="model">budget.period</field>
@@ -301,6 +299,7 @@
             <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Program Line">
+                   <field name="name"/> 
                    <group  expand='0' string='Group by...' >
                        <filter string='Program' icon="terp-stock_symbol-selection" domain="[]" context="{'group_by' : 'program_id'}" />
                        <separator orientation="vertical"/>
@@ -316,7 +315,7 @@
             <field name="type">tree</field>
             <field name="field_parent">child_id</field>
             <field name="arch" type="xml">
-            	<tree string="Program lines" colors="blue:type == 'view';green:type == 'institutional';black:type == 'budget';goldenrod:type =='consolidation'">
+            	<tree string="Program lines" toolbar="True" colors="blue:type == 'view';green:type == 'institutional';black:type == 'budget';goldenrod:type =='consolidation'">
             		<field name="name"/>
             		<field name="type" invisible="True" />
             		<field name="total_assigned"/>
@@ -398,6 +397,7 @@
             <field name="res_model">budget.program.line</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="budget_program_line_search_form_view"/>
             <field name="view_id" ref="view_budget_program_line_list"/>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -419,6 +419,7 @@
             <field name="arch" type="xml">
                 <search string="Account">
                    <group  expand='0' string='Group by...' >
+                   	   <field name="name"/> 
                        <filter string='Parent' icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'parent_id'}" />
                        <separator orientation="vertical"/>
                        <filter string='Account Type' icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'account_type'}" />
@@ -434,7 +435,7 @@
             <field name="type">tree</field>
             <field name="field_parent">child_id</field>
             <field name="arch" type="xml">
-                <tree string="Budget accounts" colors="blue:account_type == 'view';green:account_type == 'institutional';black:account_type == 'budget';goldenrod:account_type =='consolidation'">
+                <tree string="Budget accounts" toolbar="True" colors="blue:account_type == 'view';green:account_type == 'institutional';black:account_type == 'budget';goldenrod:account_type =='consolidation'">
                     <field name="code"/>
                     <field name="name"/>
                     <field name="account_type"/>
@@ -502,14 +503,14 @@
             <field name="name">Budget Accounts List</field>
             <field name="res_model">budget.account</field>
             <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
             <field name="view_id" ref="view_budget_account_list"/>
+            <field name="search_view_id" ref="budget_account_search_form_view"/>
+            
         </record>
         
         <menuitem action="action_budget_account_list" id="budget_account_list_menu" name="Budget Accounts List" parent="budget.next_id_24" />
-        
-        
-
-    
+            
 <!-- BUDGET MOVE-->
        <record id="view_budget_move_tree" model="ir.ui.view">
        	 <field name="name">budget.move.tree</field>
@@ -556,7 +557,7 @@
 							<group>
 	            				<field name="date"/>
 	            				<field name="standalone_move"/>
-	            				<field name="fixed_amount" attrs="{'required':[('standalone_move','=',True)], 'invisible':[('standalone_move','=',False)] }" />
+	            				<field name="fixed_amount" readonly="True" />
             				</group>
 							<group>
 								<field name="reserved"/>
@@ -575,15 +576,6 @@
             						</tree>
             					</field>		
             				</page>
-            				<!--<page string="Invoices">
-            					<field name="account_invoice_ids"/>
-            				</page>
-            				<page string="Purchase Orders">
-            					<field name="purchase_order_ids"/>
-            				</page>
-            				<page string="Sale Orders">
-            					<field name="sale_order_ids"/>
-            				</page>-->
             			</notebook>
             		</sheet>
                 </form>
@@ -596,6 +588,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
+            <field name="view_id" ref="view_budget_move_tree"/>
               <p class="oe_view_nocontent_create">
                 Click to start a new move.
               </p><p>
@@ -606,6 +599,135 @@
         <menuitem id="next_id_25" name="Moves" parent="budget_main_menu" sequence="6" />
         <menuitem action="action_budget_move" id="budget_move_menu" name="Budget Moves" parent="budget.next_id_25"/>
     
+    
+    
+    <!-- BUDGET MOVE MANUAL (extension, modification and opening)-->
+       <record id="view_budget_move_manual_tree" model="ir.ui.view">
+       	 <field name="name">budget.move.manual.tree</field>
+            <field name="model">budget.move</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+            	<tree string="Moves">
+            		<field name="code"/>
+            		<field name="date"/>
+            		<field name="reserved" />
+            		<field name="compromised"/>
+            		<field name="executed"/>
+            		<field name="state"/>
+            	</tree>
+         	</field>
+       </record> 
+
+       <record id="view_budget_move_manual_form" model="ir.ui.view">
+       	 <field name="name">budget.move.manual.form</field>
+            <field name="model">budget.move</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+            	<form string="Budget Move" version="7.0" >
+            		<header>
+            	        <button name="button_execute" states="draft" string="Execute" />
+                    	<field name="state" widget="statusbar" statusbar_visible="draft,executed"/>
+            		</header>
+            		<sheet>
+            			<h1>
+            				<label string=" Budget Moves"/>	
+            			</h1>
+            			<group>
+            				<group>
+	            				<field name="code" readonly="True"/>
+	            				<field name="origin"/>
+	      						<field name="type" required="True"/>
+	          			  	</group>
+							<group>
+	            				<field name="date"/>
+	            				<field name="standalone_move"  readonly="True"/>
+	            				<field name="fixed_amount" readonly="True"/>
+	            				<button name="dummy_button" type="object" string="recalculate" />
+            				</group>
+							<group>
+								<field name="reserved"/>
+								<field name="compromised"/>
+	            				<field name="executed"/>
+							</group>
+            			</group>
+            			<notebook>
+            				<page string="Move lines">
+            					<field name="move_lines" on_change="on_change_move_line(move_lines)" attrs="{'readonly':[('state', '&lt;&gt;','draft')]}">
+            						<tree>
+            							<field name="origin"/>
+            							<field name="program_line_id"/>
+            							<field name="date"/>
+            							<field name="fixed_amount" string="Amount"/>
+            						</tree>
+            					</field>		
+            				</page>
+            			</notebook>
+            		</sheet>
+                </form>
+         </field>
+       </record>
+       
+       <record id="view_budget_move_line_form" model="ir.ui.view">
+       	 <field name="name">budget.move.line.form</field>
+            <field name="model">budget.move.line</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+            	<form string="Budget Move Line" version="7.0" >
+            		<sheet>
+            			<h1>
+            				<label string="Budget move line"/>	
+            			</h1>
+            			<group>
+            				<field name="program_line_id" domain="[('type','=','budget')]"/>
+            				<!--attrs="{'readonly':['|','&amp;',('type', 'in',('opening','extension','modification')), ('state','&lt;&gt;','draft'), ('type', 'not in',('opening','extension','modification'))], 'required':[('type', 'in',('opening','extension','modification')), ('state','=','draft')]}"-->
+            				<field name="date"/>  
+            				<field name="fixed_amount" required="True" />
+            				<field name="type" invisible="True" />
+            				<field name="state" invisible="True" />
+							<field name="reserved"/>
+							<field name="compromised"/>
+            				<field name="executed"/>
+            			</group>
+            		</sheet>
+                </form>
+         </field>
+       </record>    
+ 
+		<record id="action_budget_manual_move" model="ir.actions.act_window">
+            <field name="name">Manual Moves</field>
+            <field name="res_model">budget.move</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <!--<field name="view_id" ref="view_budget_move_manual_tree"/>-->
+            <field name="context">{'standalone_move':True, 'manual':True}</field>
+            <field name="domain">[('type', 'in',('opening','extension','modification'))]</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to start a new move.
+              </p><p>
+                Create moves to execute currency moves from specified budget plans 
+              </p>
+            </field>
+        </record>
+        
+       <record id="action_budget_manual_move_view1" model="ir.actions.act_window.view">
+           <field eval="1" name="sequence"/>
+           <field name="view_mode">tree</field>
+           <field name="view_id" ref="view_budget_move_manual_tree"/>
+           <field name="act_window_id" ref="action_budget_manual_move"/>
+       </record>
+
+       <record id="action_budget_manual_move_view2" model="ir.actions.act_window.view">
+           <field eval="2" name="sequence"/>
+           <field name="view_mode">form</field>
+           <field name="view_id" ref="view_budget_move_manual_form"/>
+           <field name="act_window_id" ref="action_budget_manual_move"/>
+       </record> 
+           
+        
+        
+        <menuitem action="action_budget_manual_move" id="budget_move_manual_menu" name="Extensions,reserves and openings" parent="budget.next_id_25"/>
+
     
     </data>
 </openerp>

@@ -32,30 +32,14 @@ class budget_import_catalog(osv.osv_memory):
     _columns = {
         'parent_account': fields.many2one('budget.account', 'Catalog parent', domain=[('account_type','in',('view','institutional')), ('parent_id','=',False), ('active','=','True')]),
         'catalog_file':fields.binary('File', filters = '*.csv')
-        
-    }
-    
-#    def get_parent_code(self,cr,uid, code):
-#        dot_right = code.rfind('.')
-#        if dot_right == -1:
-#            return code
-#        else:
-#            return code[0:dot_right]
-#        
+        }
+         
     def is_root(self,cr,uid, code):
         dot_right = code.rfind('.')
         if dot_right == -1:
             return True
         else:
             return False
-#        
-#    def get_short_code(self,cr,uid, code):
-#        dot_right = code.rfind('.')
-#        last_ind = len(code)
-#        if dot_right == -1:
-#            return code
-#        else:
-#            return code[dot_right+1:last_ind]
         
     def search_account_id(self,cr,uid,code, dict_list):
         ##params
