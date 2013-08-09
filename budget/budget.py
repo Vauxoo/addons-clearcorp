@@ -965,13 +965,31 @@ class budget_move(osv.osv):
     }
     
     def _check_values(self, cr, uid, ids, context=None):
+        list_line_ids_repeat = []
+        
         for move in self.browse(cr, uid, ids, context=context):
             if  move.type in ('invoice_in','manual_invoice_in','expense','payroll','manual', 'opening') and move.fixed_amount <= 0:
                 return [False,'The reserved amount must be positive']
             if  move.type in ('invoice_out','manual_invoice_out','extension') and move.fixed_amount >= 0:
                 return [False,'The reserved amount must be negative']
             if  move.type in ('modifications') and move.fixed_amount != 0:
-                return [False,'The the sum of addition and substractions from program lines must be zero']
+                return [False,'The sum of addition and substractions from program lines must be zero']
+            
+            #Check if exist a repeat program_line
+            if move.standalone_move == True:                
+                for line in move.move_lines:
+                    list_line_ids_repeat.append(line.program_line_id.id)
+                
+                list_line_ids = list(set(list_line_ids_repeat)) #Delete repeated items
+                
+                if len(list_line_ids_repeat) > len(list_line_ids):
+                    return [False,'Exist some program lines repeated']
+            
+            #Check amount for each move_line
+            for line in move.move_lines:
+                if line.program_line_id.available_cash > move.fixed_amount:
+                    return [False,'A program line exceded available cash for this budget']
+                        
         return [True,'']
     
     def create(self, cr, uid, vals, context={}):
@@ -993,9 +1011,6 @@ class budget_move(osv.osv):
                 vals['fixed_amount'] = res_amount
                 return super(budget_move,self).write(cr, uid, ids, {'fixed_amount':res_amount}, context=context)
         
-            
-                    
-    
     def on_change_move_line(self, cr, uid, ids, move_lines, context=None):
         res={}
         res_amount=0.0
