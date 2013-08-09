@@ -278,7 +278,17 @@ class budget_program_line(osv.osv):
             test[id]= 0.0 
         return test
    
+   
+#   Se debe manejar 2 tipos de disponible: 
+#    1-) Inicial +- Modificaciones y extraordinarios - Compromisos - Reserva - Ejecutado = Disponible. 
+#    2-) Inicial +- Modificaciones y Extraordinarios - Ejecutado = Disponible
+   
     def get_available_budget(self, cr, uid, ids, field_name, args, context=None):
+        #Inicial +- Modificaciones y extraordinarios - Compromisos - Reserva - Ejecutado = Disponible.
+#        test = {}
+#        for line in self.browse(cr, uid, ids, context=None):
+#            test[line.id]= line.assigned_amount + line.modified_amount - line.compromised_amount - line.reserved_amount - line.executed_amount
+#        return test
         test = {}
         for id in ids:
             test[id]= 0.0 
@@ -308,7 +318,6 @@ class budget_program_line(osv.osv):
             test[id]= 0.0 
         return test
     
-
     def __compute(self, cr, uid, ids, field_names, args, context=None):
         
         children_and_consolidated = self._get_children_and_consol(cr, uid, ids, context=context)
@@ -318,40 +327,38 @@ class budget_program_line(osv.osv):
         if children_and_consolidated:
             
             mapping={ 
+                     'assigned':'coalesce(SUM(BPL.assigned_amount),0.0) AS assigned_amount',
                      'executed':'COALESCE(SUM(BML.executed),0.0) AS executed_amount',
                      'reserved':'COALESCE(SUM(BML.reserved),0.0) AS reserved_amount',
                      'compromised':'COALESCE(SUM(BML.compromised),0.0) AS compromised_amount',
                 }
-            
-            for line in self.browse(cr, uid, ids,context=context):
-                children_and_consolidated = self._get_children_and_consol(cr, uid,[line.id],context=context)
-                request = ('SELECT BPL.id, ' +\
-                           ', '.join(mapping.values()) +
-                            ' FROM budget_program_line BPL'\
-                            ' LEFT OUTER JOIN budget_move_line BML ON BPL.id = BML.program_line_id'\
-                            ' WHERE BPL.id IN %s'\
-                            ' GROUP BY BPL.id') 
-                params = (tuple(ids),)
-                cr.execute(request, params)
-                for row in cr.dictfetchall():
-                    prg_lines[row['id']] = row
-    
-                # consolidate accounts with direct children
-                children_and_consolidated.reverse()
-                brs = list(self.browse(cr, uid, children_and_consolidated, context=context))
-                sums = {}
-                currency_obj = self.pool.get('res.currency')
-                while brs:
-                    current = brs.pop(0)
-                    
-                    for fn in field_names:
-                        sums.setdefault(current.id, {})[fn] = prg_lines.get(current.id, {}).get(fn, 0.0)
-                        for child in current.child_id:
-                            if child.company_id.currency_id.id == current.company_id.currency_id.id:
-                                sums[current.id][fn] += sums[child.id][fn]
+            request = ('SELECT BPL.id, ' +\
+                       ', '.join(mapping.values()) +
+                        ' FROM budget_program_line BPL'\
+                        ' LEFT OUTER JOIN budget_move_line BML ON BPL.id = BML.program_line_id'\
+                        ' WHERE BPL.id IN %s'\
+                        ' GROUP BY BPL.id') 
+#                params = (tuple(ids),)
+            params = (tuple(children_and_consolidated),)
+            cr.execute(request, params)
+            for row in cr.dictfetchall():
+                prg_lines[row['id']] = row
 
-                for id in ids:
-                    res[id] = sums.get(id, null_result)
+            children_and_consolidated.reverse()
+            brs = list(self.browse(cr, uid, children_and_consolidated, context=context))
+            sums = {}
+            currency_obj = self.pool.get('res.currency')
+            while brs:
+                current = brs.pop(0)
+                
+                for fn in field_names:
+                    sums.setdefault(current.id, {})[fn] = prg_lines.get(current.id, {}).get(fn, 0.0)
+                    for child in current.child_id:
+                        if child.company_id.currency_id.id == current.company_id.currency_id.id:
+                            sums[current.id][fn] += sums[child.id][fn]
+
+            for id in ids:
+                res[id] = sums.get(id, null_result)
         else:
             for id in ids:
                 res[id] = null_result
@@ -403,8 +410,8 @@ class budget_program_line(osv.osv):
         'reserved_amount':fields.function(__compute, string='Reservations', type="float",multi=True),
         'compromised_amount':fields.function(__compute, string='Compromises', type="float", multi=True),
         'executed_amount':fields.function(__compute, string='Executed', type="float",multi=True),
-        'available_budget':fields.function(get_available_budget, string='Available budget', type="float", store=True),
-        'available_cash':fields.function(get_available_cash, string='Available Cash', type="float", store=True),
+        'available_budget':fields.function(get_available_budget, string='Available Budget', type="float"),
+        'available_cash':fields.function(get_available_cash, string='Available Cash', type="float"),
         'execution_percentage':fields.function(get_execution_percentage, string='Execution Percentage', type="float", store=True),
         'sponsor_id':fields.many2one('res.partner','Sponsor'),
         'company_id':fields.many2one('res.company', 'Company', required=True),
