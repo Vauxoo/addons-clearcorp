@@ -536,11 +536,13 @@
             <field name="arch" type="xml">
             	<form string="Budget Move" version="7.0" >
             		<header>
-        			    <button name="button_cancel" states="draft,reserve" string="Cancel" />
-        			    <button name="button_draft" states="reserved" string="Back to draft"/>
-        	            <button name="button_reserve" states="draft" string="Reserve" />
-            	        <button name="button_compromise" states="reserved" string="Compromise" />
-            	        <button name="button_execute" states="compromised" string="Execute" />
+            		    <!-- 
+            			    <button name="button_cancel" states="draft,reserve" string="Cancel" />
+            			    <button name="button_draft" states="reserved" string="Back to draft"/>
+                            <button name="button_reserve" states="draft" string="Reserve" />
+                	        <button name="button_compromise" states="reserved" string="Compromise" />
+                	        <button name="button_execute" states="compromised" string="Execute" />
+            	        -->
                     	<field name="state" widget="statusbar" statusbar_visible="draft,reserved,compromised,executed,cancel"/>
             		</header>
             		<sheet>
@@ -555,8 +557,8 @@
 	            				<field name="sale_order_ids" attrs="{ 'invisible':[('sale_order_ids','=', False)] } " widget="one2one_list" class="oe_inline"/>-->	
 	          			  	</group>
 							<group>
-	            				<field name="date"/>
-	            				<field name="standalone_move"/>
+	            				<field name="date" readonly="True"/>
+	            				<field name="standalone_move" readonly="True"/>
 	            				<field name="fixed_amount" readonly="True" />
             				</group>
 							<group>
@@ -567,7 +569,7 @@
             			</group>
             			<notebook>
             				<page string="Move lines">
-            					<field name="move_lines">
+            					<field name="move_lines" readonly="True">
             						<tree>
             							<field name="origin"/>
             							<field name="program_line_id"/>
@@ -597,8 +599,22 @@
             </field>
         </record>
         <menuitem id="next_id_25" name="Moves" parent="budget_main_menu" sequence="6" />
-        <menuitem action="action_budget_move" id="budget_move_menu" name="Budget Moves" parent="budget.next_id_25"/>
-    
+        
+        <record id="action_budget_move_view1" model="ir.actions.act_window.view">
+           <field eval="1" name="sequence"/>
+           <field name="view_mode">tree</field>
+           <field name="view_id" ref="view_budget_move_tree"/>
+           <field name="act_window_id" ref="action_budget_move"/>
+       </record>       
+
+       <record id="action_budget_move_view2" model="ir.actions.act_window.view">
+           <field eval="2" name="sequence"/>
+           <field name="view_mode">form</field>
+           <field name="view_id" ref="view_budget_move_form"/>
+           <field name="act_window_id" ref="action_budget_move"/>
+       </record> 
+       
+        <menuitem action="action_budget_move" id="budget_move_menu" name="Budget Moves" parent="budget.next_id_25"/>    
     
     
     <!-- BUDGET MOVE MANUAL (extension, modification and opening)-->
@@ -716,6 +732,7 @@
            <field name="view_id" ref="view_budget_move_manual_tree"/>
            <field name="act_window_id" ref="action_budget_manual_move"/>
        </record>
+       
 
        <record id="action_budget_manual_move_view2" model="ir.actions.act_window.view">
            <field eval="2" name="sequence"/>
@@ -723,10 +740,8 @@
            <field name="view_id" ref="view_budget_move_manual_form"/>
            <field name="act_window_id" ref="action_budget_manual_move"/>
        </record> 
-           
         
-        
-        <menuitem action="action_budget_manual_move" id="budget_move_manual_menu" name="Extensions,reserves and openings" parent="budget.next_id_25"/>
+       <menuitem action="action_budget_manual_move" id="budget_move_manual_menu" name="Extensions,reserves and openings" parent="budget.next_id_25"/>
 
     
     </data>
