@@ -51,7 +51,7 @@ class purchase_order(osv.osv):
         
         """
         You have to make a super original method and 
-        updated invoice lines with the discount that lines has 
+        update invoice lines with the discount that lines has 
         on the purchase order. You can not directly update the discount 
         because the discount is calculated on the invoice
         """
@@ -59,9 +59,9 @@ class purchase_order(osv.osv):
         account_invoice_obj = self.pool.get('account.invoice')        
         account_invoice_line_obj = self.pool.get('account.invoice.line')
       
-        res = super(purchase_order, self).action_invoice_create(cr, uid, ids, context)
-        invoice_lines_ids = account_invoice_line_obj.search(cr,uid,[('invoice_id','=',res)],context)
-        invoice_lines = account_invoice_line_obj.browse(cr,uid,invoice_lines_ids,context)
+        res = super(purchase_order, self).action_invoice_create(cr, uid, ids, context=context)
+        invoice_lines_ids = account_invoice_line_obj.search(cr,uid,[('invoice_id','=',res)],context=context)
+        invoice_lines = account_invoice_line_obj.browse(cr,uid,invoice_lines_ids,context=context)
         
         for purchase in self.browse(cr, uid, ids, context=context):
             #zip is a function that enables iterating through two lists simultaneously.

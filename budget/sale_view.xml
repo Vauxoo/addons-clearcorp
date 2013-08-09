@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+		<record id="budget_sale_order_form" model="ir.ui.view">
+	            <field name="name">budget.sale.order.form</field>
+	            <field name="model">sale.order</field>
+	            <field name="type">form</field>
+	            <field name="inherit_id" ref="sale.view_order_form"/>
+	            <field name="arch" type="xml">
+	                <data>
+	                    <field name="client_order_ref" position="after">
+	                    	<field name="budget_move_id" readonly="True"/>
+	                    </field>
+	                    
+	                    <xpath expr="/form/sheet/notebook/page[@string='Order Lines']/field[@name='order_line']/form/group/group/field[@name='price_unit']" position="after">
+	                		<field name="program_line_id"/>
+	                	</xpath>
+	                	
+	                	<xpath expr="/form/sheet/notebook/page[@string='Order Lines']/field[@name='order_line']/tree/field[@name='price_unit']" position="after">
+	                		<field name="program_line_id"/>
+	                	</xpath>
+	                </data>
+	            </field>
+	     </record>
+	 </data>
+</openerp>

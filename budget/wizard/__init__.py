@@ -21,3 +21,4 @@
 ##############################################################################
 
 import budget_import_catalog
+import budget_program_populate

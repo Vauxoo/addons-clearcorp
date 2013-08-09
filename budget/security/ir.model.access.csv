@@ -1,4 +1,11 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_budget_account,budget.account,model_budget_account,budget.group_budget_user,1,0,0,0
 access_budget_account,budget.account,model_budget_account,budget.group_budget_manager,1,1,1,1
-
+access_budget_program,budget.program,model_budget_program,budget.group_budget_user,1,0,0,0
+access_budget_program,budget.program,model_budget_program,budget.group_budget_manager,1,1,1,1
+access_program_line,budget.program.line,model_budget_program_line,budget.group_budget_user,1,0,0,0
+access_program_line,budget.program.line,model_budget_program_line,budget.group_budget_manager,1,1,1,1
+access_budget_move,budget.move,model_budget_move,budget.group_budget_user,1,0,0,0
+access_budget_move,budget.move,model_budget_move,budget.group_budget_manager,1,1,1,1
+access_budget_move_line,budget.move.line,model_budget_move_line,budget.group_budget_user,1,0,0,0
+access_budget_move_line,budget.move.line,model_budget_move_line,budget.group_budget_manager,1,1,1,1
