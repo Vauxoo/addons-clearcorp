@@ -257,12 +257,12 @@
             				<label string=" Budget Program "/>	
             			</h1>
             			<group>
-            				<field name="code"/>
-            				<field name="name"/>
+            				<field name="code" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+            				<field name="name" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
                				<field name="previous_program_id"/>
-            				<field name="plan_id"/>
+            				<field name="plan_id" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
             				<field name="program_lines" domain="[('account_type','=','budget'),]">
-            					<tree string="Program lines" colors="blue:type=='view'; green:type=='institutional'; black:type=='budget'; goldenrod:type =='consolidation'">
+            					<tree string="Program lines" colors="blue:type=='view'; green:type=='institutional'; black:type=='budget'; goldenrod:type =='consolidation'" attrs="{'readonly':[('state', '!=', 'draft')]}">
 				            		<field name="name"/>
 				            		<field name="account_id"/>
 				            		<field name="type" invisible="True"/>
@@ -315,7 +315,7 @@
             <field name="type">tree</field>
             <field name="field_parent">child_id</field>
             <field name="arch" type="xml">
-            	<tree string="Program lines" toolbar="True" colors="blue:type == 'view';green:type == 'institutional';black:type == 'budget';goldenrod:type =='consolidation'">
+            	<tree string="Program lines"  colors="blue:type == 'view';green:type == 'institutional';black:type == 'budget';goldenrod:type =='consolidation'">
             		<field name="name"/>
             		<field name="type" invisible="True" />
             		<field name="total_assigned"/>
@@ -363,11 +363,12 @@
             				<label string=" Budget Program Line"/>	
             			</h1>
             			<group>
-            				<field name="name"/>
+            				<field name="state" invisible="True"/>
+            				<field name="name" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
             				<field name="account_id" domain="[('account_type','=','budget'), ('active','=','True')]"/>
-            				<field name="program_id"/>
+            				<field name="program_id" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
             				<field name="type"/>
-            				<field name="assigned_amount" attrs="{'invisible':[('type', '!=', 'budget')]}"/>
+            				<field name="assigned_amount" attrs="{'invisible':[('type', '!=', 'budget')],'readonly':[('state', '!=', 'draft')]}"/>
             				<field name="total_assigned" attrs="{'invisible':[('type', '=', 'budget')]}"/>
             				<field name="extended_amount"/>
             				<field name="modified_amount"/>
@@ -700,6 +701,8 @@
             				<field name="fixed_amount" required="True" />
             				<field name="type" invisible="True" />
             				<field name="state" invisible="True" />
+            				<field name="modified"/>
+            				<field name="extended"/>
 							<field name="reserved"/>
 							<field name="compromised"/>
             				<field name="executed"/>
