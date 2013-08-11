@@ -463,6 +463,13 @@ class budget_program_line(osv.osv):
             if line.program_id.plan_id.state in ('approved','closed'):
                 raise osv.except_osv(_('Error!'), _('You cannot delete a line from an approved or closed plan'))
         return super(budget_program_line, self).unlink(cr, uid, ids, context=context)
+    
+    
+    def write(self, cr ,uid, ids, vals,context=None):
+        for line in self.browse(cr, uid,ids, context=context):
+            if line.program_id.plan_id.state in ('approved','closed'):
+                raise osv.except_osv(_('Error!'), _('You cannot modify a line from an approved or closed plan'))
+        return super(budget_program_line, self).write(cr, uid, ids, vals, context=context)
 
 ##
 #ACCOUNT
@@ -1185,8 +1192,13 @@ class budget_move_line(osv.osv):
         for obj_bm in  self.browse(cr, uid, ids, context=context):
             if (obj_bm.fixed_amount == 0.0 or obj_bm.fixed_amount == None) and obj_bm.standalone_move == True and obj_bm.state in ('draft','reserved'):
                 return False
-        return True  
+        return True
     
+    def _check_plan_state(self, cr, uid, ids, context=None):
+        for line in self.browse(cr,uid,ids,context=context):
+            if line.program_line_id.state != 'approved':
+                return False
+        return True
     
     
     _columns = {
