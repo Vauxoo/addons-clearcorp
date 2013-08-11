@@ -23,6 +23,6 @@
 import budget
 import wizard
 import res_partner
-import account_invoice
-import purchase
-import sale
+#import account_invoice
+#import purchase
+#import sale

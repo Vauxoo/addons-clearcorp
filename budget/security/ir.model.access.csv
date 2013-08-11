@@ -9,3 +9,9 @@ access_budget_move,budget.move,model_budget_move,budget.group_budget_user,1,0,0,
 access_budget_move,budget.move,model_budget_move,budget.group_budget_manager,1,1,1,1
 access_budget_move_line,budget.move.line,model_budget_move_line,budget.group_budget_user,1,0,0,0
 access_budget_move_line,budget.move.line,model_budget_move_line,budget.group_budget_manager,1,1,1,1
+access_budget_plan,budget.plan,model_budget_plan,budget.group_budget_user,1,0,0,0
+access_budget_plan,budget.plan,model_budget_plan,budget.group_budget_manager,1,1,1,1
+access_budget_year,budget.year,model_budget_year,budget.group_budget_user,1,0,0,0
+access_budget_year,budget.year,model_budget_year,budget.group_budget_manager,1,1,1,1
+access_budget_period,budget.period,model_budget_period,budget.group_budget_user,1,0,0,0
+access_budget_period,budget.period,model_budget_period,budget.group_budget_manager,1,1,1,1

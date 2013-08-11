@@ -422,7 +422,7 @@ class budget_program_line(osv.osv):
         'name':fields.char('Name', size=64, required=True),
         'parent_id': fields.many2one('budget.program.line', 'Parent line', ondelete='cascade'),
         'account_id':fields.many2one('budget.account','Budget account',required=True),
-        'program_id':fields.many2one('budget.program','Program',required=True),
+        'program_id':fields.many2one('budget.program','Program',required=True, on_delete='cascade'),
         'assigned_amount':fields.float('Assigned amount', digits_compute=dp.get_precision('Account'), required=True),
         'type':fields.related('account_id','account_type', type='char', relation='budget.account', string='Line Type', store=True,readonly=True  ),
         'state':fields.related('program_id','plan_id','state', type='char', relation='budget.plan', store=True,readonly=True ),
@@ -981,8 +981,8 @@ class budget_move(osv.osv):
         'compromised': fields.float('Compromised', digits_compute=dp.get_precision('Account'), readonly=True,),
         'executed': fields.function(_compute_executed, type='float', method=True, string='Executed',readonly=True, store=True ),
         #'account_invoice_ids': fields.one2many('account.invoice', 'budget_move_id', 'Invoices' ),
-        'purchase_order_ids': fields.one2many('purchase.order', 'budget_move_id', 'Purchase orders' ),
-        'sale_order_ids': fields.one2many('sale.order', 'budget_move_id', 'Purchase orders' ),
+        #'purchase_order_ids': fields.one2many('purchase.order', 'budget_move_id', 'Purchase orders' ),
+        #'sale_order_ids': fields.one2many('sale.order', 'budget_move_id', 'Purchase orders' ),
         'move_lines': fields.one2many('budget.move.line', 'budget_move_id', 'Move lines' ),
         'type': fields.selection(_select_types, 'Move Type', required=True, readonly=True, states={'draft':[('readonly',False)]}),
     }
@@ -1236,17 +1236,17 @@ class budget_move_line(osv.osv):
             move_id =line.budget_move_id.id
             #bud_move_obj.write(cr,uid, [move_id], {'date':line.budget_move_id.date},context=context)
         
-    
-class budget_account_reconcile(osv.osv):
-    _name = "budget.account.reconcile"
-    _description = "Budget Account Reconcile"
-    
-    _columns = {
-         'budget_move_line_id': fields.many2one('budget.move.line', 'Budget Move Line', required=True, ),
-         'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', required=True, ),
-         'account_move_reconcile_id': fields.many2one('account.move.reconcile', 'Account Move Reconcile', required=True, ),
-         'amount': fields.float('Amount', digits_compute=dp.get_precision('Account'), required=True),
-    }
+#    
+#class budget_account_reconcile(osv.osv):
+#    _name = "budget.account.reconcile"
+#    _description = "Budget Account Reconcile"
+#    
+#    _columns = {
+#         'budget_move_line_id': fields.many2one('budget.move.line', 'Budget Move Line', required=True, ),
+#         'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', required=True, ),
+#         'account_move_reconcile_id': fields.many2one('account.move.reconcile', 'Account Move Reconcile', required=True, ),
+#         'amount': fields.float('Amount', digits_compute=dp.get_precision('Account'), required=True),
+#    }
     
     
     

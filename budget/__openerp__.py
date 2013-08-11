@@ -45,12 +45,11 @@
         'budget_view.xml',
         'wizard/budget_import_catalog_view.xml',
         'res_partner_view.xml',
-        'security/security.xml',
         'budget_sequence.xml',
-        'account_invoice_view.xml',
-        'purchase_view.xml',
-        'purchase_workflow.xml',
-        'sale_view.xml'
+#        'account_invoice_view.xml',
+#        'purchase_view.xml',
+#        'purchase_workflow.xml',
+#        'sale_view.xml'
         ],
     'license': 'AGPL-3',
     'installable': True,
