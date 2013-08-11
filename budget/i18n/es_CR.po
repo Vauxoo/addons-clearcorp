@@ -1,0 +1,1288 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* budget
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-08-11 00:06+0000\n"
+"PO-Revision-Date: 2013-08-11 00:06+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: budget
+#: field:budget.account,child_id:0
+#: field:budget.program.line,child_id:0
+msgid "Child Accounts"
+msgstr "Cuentas Hijas"
+
+#. module: budget
+#: field:budget.program.line,assigned_amount:0
+msgid "Assigned amount"
+msgstr "Monto asignado"
+
+#. module: budget
+#: code:addons/budget/budget.py:659
+#, python-format
+msgid "You cannot delete an account used by a program line"
+msgstr "No se puede eliminar una cuenta que es usada por una línea de programa"
+
+#. module: budget
+#: model:ir.actions.act_window,help:budget.action_budget_move
+msgid "<field name=\"view_id\" ref=\"view_budget_move_tree\"/>\n"
+"              <p class=\"oe_view_nocontent_create\">\n"
+"                Click to start a new move.\n"
+"              </p><p>\n"
+"                Create moves to reserve,compromise or execute currency moves from specified budget plans \n"
+"              </p>\n"
+"            "
+msgstr "<field name=\"view_id\" ref=\"view_budget_move_tree\"/>\n"
+"              <p class=\"oe_view_nocontent_create\">\n"
+"                Click para crear un nuevo asiento.\n"
+"              </p><p>\n"
+"                Crea movimientos para reservar, comprometer, o ejectuar movimientos de dinero desde un plan presupuestario \n"
+"              </p>\n"
+"            "
+
+#. module: budget
+#: model:ir.actions.act_window,name:budget.action_budget_import_catalog
+msgid "Import Catalog"
+msgstr "Importar catálogo"
+
+#. module: budget
+#: view:budget.year:0
+msgid "Group By..."
+msgstr "Agrupar por..."
+
+#. module: budget
+#: model:ir.ui.menu,name:budget.budget_move_menu
+msgid "Budget Moves"
+msgstr "Asientos presupuestarios"
+
+#. module: budget
+#: field:budget.move,arch_reserved:0
+msgid "Original Reserved"
+msgstr "Original Reservado"
+
+#. module: budget
+#: view:budget.plan:0
+msgid "Back to draft"
+msgstr "Volver a borrador"
+
+#. module: budget
+#: view:budget.program.populate:0
+msgid "This wizard will crate program lines from a given account catalog"
+msgstr "Este asistente creará líneas de programa a partir de un catálogo contable."
+
+#. module: budget
+#: field:budget.program.line,compromised_amount:0
+msgid "Compromises"
+msgstr "Comprometidos"
+
+#. module: budget
+#: constraint:budget.year:0
+msgid "Error!\n"
+"The start date of a Budget year must precede its end date."
+msgstr "Error!\n"
+"La fecha de inicio del Año Presupuestario debe preceder a la fecha de finalización. "
+
+#. module: budget
+#: view:budget.account:0
+#: field:budget.account,parent_id:0
+msgid "Parent"
+msgstr "Padre"
+
+#. module: budget
+#: code:addons/budget/budget.py:752
+#, python-format
+msgid "There is no budget year defined for this date.\n"
+"Please create one from the configuration of the accounting menu."
+msgstr "No existe un Año Presupuestario definido para esta fecha.\n"
+"Por favor cree uno desde la opción Configuración en el menú de Contabilidad."
+
+#. module: budget
+#: field:budget.account,company_id:0
+#: field:budget.move,company_id:0
+#: field:budget.period,company_id:0
+#: field:budget.program.line,company_id:0
+#: field:budget.year,company_id:0
+msgid "Company"
+msgstr "Compañía"
+
+#. module: budget
+#: field:budget.account.reconcile,budget_move_line_id:0
+#: view:budget.move.line:0
+#: model:ir.model,name:budget.model_budget_move_line
+msgid "Budget Move Line"
+msgstr "Línea de asiento de Presupuesto"
+
+#. module: budget
+#: field:budget.move.line,move_line_id:0
+msgid "Move line"
+msgstr "Línea de asiento"
+
+#. module: budget
+#: constraint:budget.account:0
+msgid "Error!\n"
+"You can create only 1 top level institutional view."
+msgstr "Error!\n"
+"Sólo se puede crear 1 Vista Institucional sin padres."
+
+#. module: budget
+#: view:budget.move:0
+msgid " Budget Moves"
+msgstr " Asientos presupuestarios"
+
+#. module: budget
+#: field:budget.move,compromised:0
+#: selection:budget.move,state:0
+#: field:budget.move.line,compromised:0
+msgid "Compromised"
+msgstr "Comprometido"
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Publish bill"
+msgstr "Publicar cartel"
+
+#. module: budget
+#: view:budget.program.line:0
+msgid " Budget Program Line"
+msgstr " Línea de programa de Presupuesto"
+
+#. module: budget
+#: field:purchase.order.line,subtotal_discounted_taxed:0
+#: field:sale.order.line,subtotal_discounted_taxed:0
+msgid "Subtotal"
+msgstr "Subtotal"
+
+#. module: budget
+#: selection:budget.plan,state:0
+msgid "Approved"
+msgstr "Aprobado"
+
+#. module: budget
+#: code:addons/budget/budget.py:672
+#, python-format
+msgid "You cannot overwrite the code or the name of an account used by a program line"
+msgstr "No se puede sobreescribir el código o el nombre de una cuenta que utiliza una línea de programa"
+
+#. module: budget
+#: constraint:budget.period:0
+msgid "Error!\n"
+"The period is invalid. Either some periods are overlapping or the period's dates are not matching the scope of the budget year."
+msgstr "Error!\n"
+"El período es inválido. Algunos períodos están traslapados o las fechas de los períodos no coinciden con el alcance del Año Presupuestario"
+
+#. module: budget
+#: view:budget.account:0
+msgid "Account"
+msgstr "Cuenta"
+
+#. module: budget
+#: model:ir.model,name:budget.model_budget_program_populate
+msgid "budget.program.populate"
+msgstr "budget.program.populate"
+
+#. module: budget
+#: view:budget.move:0
+#: field:budget.move.line,budget_move_id:0
+#: model:ir.actions.act_window,name:budget.action_budget_move
+#: model:ir.model,name:budget.model_budget_move
+msgid "Budget Move"
+msgstr "Asiento de Presupuesto"
+
+#. module: budget
+#: view:budget.year:0
+msgid "Create Monthly Periods"
+msgstr "Crear períodos mensuales"
+
+#. module: budget
+#: model:ir.actions.act_window,name:budget.action_budget_year
+#: model:ir.ui.menu,name:budget.menu_action_budget_year
+msgid "Budget Years"
+msgstr "Años Presupuestarios"
+
+#. module: budget
+#: field:budget.plan,program_ids:0
+#: view:budget.program:0
+msgid "Programs"
+msgstr "Programas"
+
+#. module: budget
+#: model:ir.model,name:budget.model_budget_account
+msgid "Budget Account"
+msgstr "Cuentas Presupuestarias"
+
+#. module: budget
+#: model:ir.model,name:budget.model_purchase_order
+#: view:purchase.order:0
+msgid "Purchase Order"
+msgstr "Pedido de compra"
+
+#. module: budget
+#: code:addons/budget/budget.py:76
+#: code:addons/budget/budget.py:110
+#: code:addons/budget/budget.py:134
+#: code:addons/budget/budget.py:159
+#: code:addons/budget/budget.py:383
+#: code:addons/budget/budget.py:442
+#: code:addons/budget/budget.py:659
+#: code:addons/budget/budget.py:672
+#: code:addons/budget/budget.py:752
+#: code:addons/budget/budget.py:1034
+#: code:addons/budget/budget.py:1048
+#: code:addons/budget/purchase.py:99
+#: code:addons/budget/purchase.py:114
+#: code:addons/budget/wizard/budget_import_catalog.py:93
+#: code:addons/budget/wizard/budget_import_catalog.py:96
+#: code:addons/budget/wizard/budget_program_populate.py:69
+#, python-format
+msgid "Error!"
+msgstr "Error!"
+
+#. module: budget
+#: field:budget.account.reconcile,amount:0
+#: view:budget.move:0
+msgid "Amount"
+msgstr "Monto"
+
+#. module: budget
+#: field:budget.program.line,extended_amount:0
+msgid "Extensions"
+msgstr "Extensiones"
+
+#. module: budget
+#: help:budget.plan,state:0
+msgid "The state of the bugdet. A budget that is still under planning is in a 'Draft' state. Then the plan has to be confirmed by the user in order to be approved, the state switch to 'Confirmed'. Then the manager must confirm the budget plan to change the state to 'Approved'. If a plan will not be approved it must be cancelled."
+msgstr "El estado del Presupuesto. Un presupuesto que está bajo planeamiento está en estado 'Borrador'. Luego, el plan debe ser confirmado por el usuario con el fin de ser aprobado, el estado cambia a 'Confirmado'. Luego, el administrador debe confirmar si el presupuesto cambia el estado a 'Aprobado'. Si un plan no será aprobado, debe ser cancelado."
+
+#. module: budget
+#: selection:budget.plan,state:0
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#. module: budget
+#: model:res.groups,name:budget.group_budget_user
+msgid "Budget User"
+msgstr "Usuario de presupuesto"
+
+#. module: budget
+#: model:ir.actions.act_window,help:budget.action_budget_plan
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                Click to start a new plan.\n"
+"              </p><p>\n"
+"                Define your company's Budget according to your needs. A\n"
+"                budget plan allows you to distribute your resources into each budget entry \n"
+"              </p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
+"                Click para iniciar un nuevo plan.\n"
+"              </p><p>\n"
+"                Defina la compañía del Presupuesto de acuerdo con sus necesidades. Un\n"
+"                plan de presupuesto permite que se distribuyan los recursos en cada partida presupuestaria \n"
+"              </p>\n"
+"            "
+
+#. module: budget
+#: model:ir.ui.menu,name:budget.budget_import_catalog_wizard_menu_list
+msgid "Import account catalog from file"
+msgstr "Importar catálogo contable desde un archivo"
+
+#. module: budget
+#: field:budget.move,origin:0
+#: field:budget.move.line,origin:0
+msgid "Origin"
+msgstr "Origen"
+
+#. module: budget
+#: constraint:budget.account:0
+msgid "Error!\n"
+"You cannot create recursive account templates."
+msgstr "Error!\n"
+"No se pueden crear plantillas de cuentas recursivas "
+
+#. module: budget
+#: field:budget.move,executed:0
+#: selection:budget.move,state:0
+#: field:budget.move.line,executed:0
+#: field:budget.program.line,executed_amount:0
+msgid "Executed"
+msgstr "Ejecutado"
+
+#. module: budget
+#: code:addons/budget/wizard/budget_import_catalog.py:96
+#, python-format
+msgid "The file name is too long"
+msgstr "El nombre del archivo es muy largo"
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Request for Quotation "
+msgstr "Solicitud de presupuesto "
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Mark as Done"
+msgstr "Marcar como listo"
+
+#. module: budget
+#: code:addons/budget/purchase.py:99
+#, python-format
+msgid "You cant order "
+msgstr "You cant order "
+
+#. module: budget
+#: field:budget.program.line,execution_percentage:0
+msgid "Execution Percentage"
+msgstr "Porcentaje en ejecución"
+
+#. module: budget
+#: model:ir.ui.menu,name:budget.next_id_24
+msgid "Planning"
+msgstr "Planificación"
+
+#. module: budget
+#: view:budget.period:0
+msgid "Budget Period "
+msgstr "Período presupuestario "
+
+#. module: budget
+#: model:ir.actions.act_window,name:budget.action_budget_program
+msgid "Budget Program"
+msgstr "Programa presupuestario"
+
+#. module: budget
+#: model:ir.model,name:budget.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: budget
+#: model:ir.model,name:budget.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea pedido de venta"
+
+#. module: budget
+#: view:purchase.order:0
+msgid "[('state','not in',('draft','budget_approval','cancel'))]"
+msgstr "[('state','not in',('draft','budget_approval','cancel'))]"
+
+#. module: budget
+#: view:purchase.order:0
+msgid "awarded"
+msgstr "otorgado"
+
+#. module: budget
+#: model:ir.model,name:budget.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Línea pedido de compra"
+
+#. module: budget
+#: field:budget.program.line,available_cash:0
+msgid "Available Cash"
+msgstr "Efectivo disponible"
+
+#. module: budget
+#: view:budget.program.populate:0
+msgid "Create program lines from catalog"
+msgstr "Crear líneas de programa desde catálogo"
+
+#. module: budget
+#: field:budget.move.line,po_line_id:0
+msgid "Purchase order line"
+msgstr "Línea de orden de compra"
+
+#. module: budget
+#: field:budget.move.line,inv_line_id:0
+msgid "Invoice line"
+msgstr "Línea de factura"
+
+#. module: budget
+#: selection:budget.account,account_type:0
+msgid "Consolidation Entry"
+msgstr "Partida de consolidación"
+
+#. module: budget
+#: field:budget.move,state:0
+#: field:budget.move.line,state:0
+#: field:budget.plan,state:0
+msgid "State"
+msgstr "Estado"
+
+#. module: budget
+#: field:budget.program.line,type:0
+msgid "Line Type"
+msgstr "Tipo de línea"
+
+#. module: budget
+#: help:budget.period,state:0
+msgid "When monthly periods are created. The status is 'Draft'. At the end of monthly period it is in 'Done' status."
+msgstr "Cuando los períodos mensuales son creados. El estado es 'Borrador'. Al final del período mensual que se encuentra en estado 'Listo'."
+
+#. module: budget
+#: field:budget.period,budgetyear_id:0
+#: view:budget.year:0
+#: field:budget.year,name:0
+#: model:ir.model,name:budget.model_budget_year
+msgid "Budget Year"
+msgstr "Año Presupuestario"
+
+#. module: budget
+#: view:budget.move:0
+msgid "recalculate"
+msgstr "recalcular"
+
+#. module: budget
+#: view:budget.account:0
+msgid "Account Type"
+msgstr "Tipo de cuenta"
+
+#. module: budget
+#: field:budget.move.line,type:0
+msgid "Type"
+msgstr "Tipo"
+
+#. module: budget
+#: field:budget.period,date_start:0
+msgid "Start of Period"
+msgstr "Inicio de período"
+
+#. module: budget
+#: help:budget.account,account_type:0
+msgid "The 'Internal Type' is used for features available on different types of accounts: view can not have journal items, consolidation are accounts that can have children accounts for consolidations and can only have institutional views as parent, institutional can have only consolidation childs"
+msgstr "El 'Tipo Interno' es usado para funciones disponibles en diferentes tipos de cuentas: Vistas no pueden tener asientos, consolidación son las cuentas que pueden tener cuentas hijas para consolidaciones y pueden solamente tener vistas institucionales como padres, institucionales pueden tener solamente hijos consolidados"
+
+#. module: budget
+#: code:addons/budget/budget.py:76
+#, python-format
+msgid "At least one program should be asociated to this plan\n"
+""
+msgstr "Al menos un programa debe estar asociado a este plan\n"
+""
+
+#. module: budget
+#: field:budget.account,child_consol_ids:0
+#: field:budget.program.line,child_consol_ids:0
+msgid "Consolidated Children"
+msgstr "Hijos consolidados"
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Set to review"
+msgstr "En revisión"
+
+#. module: budget
+#: field:budget.account,allows_reduction:0
+msgid "Allows reduction"
+msgstr "Permite reducción"
+
+#. module: budget
+#: field:budget.move,purchase_order_ids:0
+#: field:budget.move,sale_order_ids:0
+msgid "Purchase orders"
+msgstr "Órdenes de compra"
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Confirm Order"
+msgstr "Confirmar pedido"
+
+#. module: budget
+#: sql_constraint:budget.account:0
+msgid "The code is defined for another account with the same parent"
+msgstr "El código está definido por otra cuenta con el mismo padre"
+
+#. module: budget
+#: sql_constraint:budget.plan:0
+msgid "The name must be unique !"
+msgstr "El nombre debe ser único !"
+
+#. module: budget
+#: field:budget.move,arch_compromised:0
+msgid "Original compromised"
+msgstr "Original comprometido"
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Mark ineffectual"
+msgstr "Marcar como ineficaz"
+
+#. module: budget
+#: view:budget.period:0
+msgid "To Close"
+msgstr "Para cerrar"
+
+#. module: budget
+#: field:budget.program.line,sponsor_id:0
+#: field:res.partner,sponsor:0
+msgid "Sponsor"
+msgstr "Patrocinador"
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Budget Info"
+msgstr "Información Presupuestaria"
+
+#. module: budget
+#: selection:budget.account,account_type:0
+msgid "Budget View"
+msgstr "Vista Presupuestaria"
+
+#. module: budget
+#: field:budget.program,previous_program_id:0
+msgid "Previous program"
+msgstr "Programa anterior"
+
+#. module: budget
+#: model:ir.ui.menu,name:budget.budget_main_menu
+#: model:ir.ui.menu,name:budget.budget_menu
+msgid "Budget"
+msgstr "Presupuesto"
+
+#. module: budget
+#: view:budget.program.line:0
+msgid "Program Line"
+msgstr "Línea de Programa"
+
+#. module: budget
+#: model:ir.actions.act_window,help:budget.action_budget_program_line_list
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                Click to start a new plan line.\n"
+"              </p><p>\n"
+"                Define your company's Budget according to your needs. A\n"
+"                budget plan allows you to distribute your resources into each budget entry \n"
+"              </p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
+"                Click para iniciar una nueva línea de programa.\n"
+"              </p><p>\n"
+"                Defina la compañía del Presupuesto de acuerdo con sus necesidades. Un\n"
+"                plan de presupuesto permite que se distribuyan los recursos en cada partida presupuestaria \n"
+"              </p>\n"
+"            "
+
+#. module: budget
+#: field:budget.program.line,available_budget:0
+msgid "Available Budget"
+msgstr "Presupuesto disponible"
+
+#. module: budget
+#: constraint:budget.period:0
+msgid "Error!\n"
+"The duration of the Period(s) is/are invalid."
+msgstr "Error!\n"
+"La duración de los período(s) es/son inválidos."
+
+#. module: budget
+#: view:budget.program:0
+#: view:budget.program.line:0
+msgid "Program lines"
+msgstr "Líneas de programa"
+
+#. module: budget
+#: model:ir.actions.act_window,help:budget.action_budget_year
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                Click to start a new budget year.\n"
+"              </p><p>\n"
+"                Define your company's Budget according to your needs. A\n"
+"                budget year is a period at the end of which a company's\n"
+"                accounts are made up (usually 12 months). The budget year is\n"
+"                usually referred to by the date in which it ends. For example,\n"
+"                if a company's budget year ends November 30, 2011, then\n"
+"                everything between December 1, 2010 and November 30, 2011\n"
+"                would be referred to as FY 2011.\n"
+"              </p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
+"                Click para iniciar un nuevo Año Presupuestario.\n"
+"              </p><p>\n"
+"               Defina el presupuesto de su empresa de acuerdo a sus necesidades. Un\n"
+"				año presupuestario es un periodo del cual al final las cuentas\n"
+"               de una empresa están compuestas de (normalmente 12 meses). El año presupuestario es,\n"
+"				por lo general, referido a la fecha en que termina. Por ejemplo,\n"
+"				si el año el presupuesto de una compañía termina el 30 de noviembre del 2011, luego\n"
+"				todo lo comprendido el 1 de diciembre de 2010 y 30 de noviembre 2011\n"
+"				será referido como el año fiscal 2011.\n"
+"              </p>\n"
+"            "
+
+#. module: budget
+#: view:budget.account:0
+msgid "Budget accounts"
+msgstr "Cuentas presupuestarias"
+
+#. module: budget
+#: view:budget.import.catalog:0
+msgid "This wizard will import a budget account tree"
+msgstr "Este asistente importará un árbol de cuentas presupuestarias"
+
+#. module: budget
+#: field:budget.program,plan_id:0
+msgid "Budget plan"
+msgstr "Plan presupuestario"
+
+#. module: budget
+#: field:budget.move,date:0
+#: field:budget.move.line,date:0
+msgid "Date created"
+msgstr "Fecha de creación"
+
+#. module: budget
+#: code:addons/budget/budget.py:159
+#, python-format
+msgid "You cannot delete an approved or closed plan"
+msgstr "No se puede eliminar un plan aprobado o cerrado"
+
+#. module: budget
+#: field:budget.period,name:0
+msgid "Period Name"
+msgstr "Nombre del período"
+
+#. module: budget
+#: selection:budget.move,state:0
+msgid "In Execution"
+msgstr "En ejecución"
+
+#. module: budget
+#: view:budget.move.line:0
+msgid "Budget move line"
+msgstr "Línea de asiento presupuestaria"
+
+#. module: budget
+#: model:ir.model,name:budget.model_account_invoice_line
+msgid "Invoice Line"
+msgstr "Línea de factura"
+
+#. module: budget
+#: model:ir.actions.act_window,name:budget.action_budget_program_populate
+msgid "Create lines from catalog"
+msgstr "Crear líneas desde un catálogo"
+
+#. module: budget
+#: selection:budget.move,state:0
+msgid "Canceled"
+msgstr "Cancelado"
+
+#. module: budget
+#: field:budget.year,date_start:0
+msgid "Start Date"
+msgstr "Fecha de inicio"
+
+#. module: budget
+#: field:budget.move,standalone_move:0
+msgid "Standalone move"
+msgstr "Movimiento manual"
+
+#. module: budget
+#: view:budget.year:0
+msgid "Create 3 Months Periods"
+msgstr "Crear períodos de 3 meses"
+
+#. module: budget
+#: view:budget.program.line:0
+#: field:budget.program.line,program_id:0
+#: model:ir.model,name:budget.model_budget_program
+msgid "Program"
+msgstr "Programa"
+
+#. module: budget
+#: selection:budget.move,state:0
+#: selection:budget.plan,state:0
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Set to Draft"
+msgstr "En borrador"
+
+#. module: budget
+#: selection:budget.period,state:0
+#: selection:budget.plan,state:0
+#: view:budget.year:0
+#: selection:budget.year,state:0
+msgid "Closed"
+msgstr "Cerrado"
+
+#. module: budget
+#: sql_constraint:budget.period:0
+msgid "The name of the period must be unique per company!"
+msgstr "El nombre del período debe ser único por compañía!"
+
+#. module: budget
+#: code:addons/budget/budget.py:110
+#, python-format
+msgid "The following budget accounts are not listed in this program: \n"
+" : "
+msgstr "Las siguientes cuentas de presupuesto no están inscritas en este programa: \n"
+" : "
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Approve request"
+msgstr "Solicitud aprobada"
+
+#. module: budget
+#: view:budget.year:0
+msgid "Fiscalyear"
+msgstr "Año fiscal"
+
+#. module: budget
+#: field:budget.period,state:0
+#: view:budget.year:0
+#: field:budget.year,state:0
+msgid "Status"
+msgstr "Estado"
+
+#. module: budget
+#: selection:budget.account,account_type:0
+msgid "Budget Entry"
+msgstr "Partida presupuestaria"
+
+#. module: budget
+#: view:purchase.order:0
+msgid "[('state','in',('draft','budget_approval'))]"
+msgstr "[('state','in',('draft','budget_approval'))]"
+
+#. module: budget
+#: field:budget.move,fixed_amount:0
+msgid "Fixed amount"
+msgstr "Monto fijo"
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Purchase Order "
+msgstr "Pedido de compra "
+
+#. module: budget
+#: view:budget.plan:0
+msgid "Close Plan"
+msgstr "Plan cerrado"
+
+#. module: budget
+#: model:ir.model,name:budget.model_budget_account_reconcile
+msgid "Budget Account Reconcile"
+msgstr "Cuenta presupuestaria de conciliación"
+
+#. module: budget
+#: model:ir.model,name:budget.model_budget_period
+msgid "Budget period"
+msgstr "Período presupuestario"
+
+#. module: budget
+#: model:ir.model,name:budget.model_budget_plan
+msgid "Plan"
+msgstr "Plan"
+
+#. module: budget
+#: field:budget.account,active:0
+msgid "Active"
+msgstr "Activo"
+
+#. module: budget
+#: view:budget.year:0
+msgid "Budget year"
+msgstr "Año presupuestario"
+
+#. module: budget
+#: view:budget.account:0
+#: model:ir.actions.act_window,name:budget.action_budget_account_tree
+#: model:ir.ui.menu,name:budget.budget_account_tree_menu
+msgid "Budget Accounts"
+msgstr "Cuentas presupuestarias"
+
+#. module: budget
+#: view:budget.year:0
+msgid " Budget Year "
+msgstr " Año presupuestario "
+
+#. module: budget
+#: field:budget.move,type:0
+msgid "Move Type"
+msgstr "Tipo de asiento"
+
+#. module: budget
+#: model:res.groups,name:budget.group_budget_manager
+msgid "Budget Manager"
+msgstr "Administrador de presupuesto"
+
+#. module: budget
+#: field:budget.program.line,modified_amount:0
+msgid "Modifications"
+msgstr "Modificado"
+
+#. module: budget
+#: field:budget.program.line,reserved_amount:0
+msgid "Reservations"
+msgstr "Reservado"
+
+#. module: budget
+#: view:budget.plan:0
+msgid "Apply for approval"
+msgstr "Aplicar para aprobación"
+
+#. module: budget
+#: model:ir.ui.menu,name:budget.budget_move_manual_menu
+msgid "Extensions,reserves and openings"
+msgstr "Extensiones, reservas y aperturas"
+
+#. module: budget
+#: view:budget.import.catalog:0
+msgid "Import Account Catalog"
+msgstr "Importar catálogo contable"
+
+#. module: budget
+#: model:ir.actions.act_window,name:budget.action_budget_program_line_tree
+#: model:ir.ui.menu,name:budget.budget_program_line_tree_menu
+msgid "Program Lines Tree"
+msgstr "Árbol de Líneas de Programa"
+
+#. module: budget
+#: field:budget.account,allows_reimbursement:0
+msgid "Allows reimbursement"
+msgstr "Permitir reembolso"
+
+#. module: budget
+#: code:addons/budget/wizard/budget_program_populate.py:69
+#, python-format
+msgid "This program already contains program lines"
+msgstr "Este programa ya contiene líneas de programa"
+
+#. module: budget
+#: view:budget.program:0
+msgid "Create lines from accounts"
+msgstr "Crear líneas desde cuentas"
+
+#. module: budget
+#: field:budget.move.line,fixed_amount:0
+msgid "Original amount"
+msgstr "Monto original"
+
+#. module: budget
+#: model:ir.ui.menu,name:budget.budget_program_menu
+msgid "Budget Programs"
+msgstr "Programas presupuestarios"
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Mark for approval"
+msgstr "Marcar para aprobación"
+
+#. module: budget
+#: code:addons/budget/budget.py:134
+#, python-format
+msgid "The following budget accounts are not consolidated children of any consolidation view: \n"
+" "
+msgstr "Las siguientes cuentas presupuestarias no son hijos consolidados de ninguna vista consolidada: \n"
+" "
+
+#. module: budget
+#: field:budget.move.line,so_line_id:0
+msgid "Sale order line"
+msgstr "Línea de orden de venta"
+
+#. module: budget
+#: view:budget.period:0
+msgid "Re-Open Period"
+msgstr "Re-abrir período"
+
+#. module: budget
+#: field:budget.account,code:0
+#: field:budget.move,code:0
+#: field:budget.period,code:0
+#: field:budget.program,code:0
+#: field:budget.year,code:0
+msgid "Code"
+msgstr "Código"
+
+#. module: budget
+#: model:ir.actions.act_window,help:budget.action_budget_period
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                Click to add a budget period.\n"
+"              </p><p>\n"
+"                A budget period typically is a month or a quarter.\n"
+"              </p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
+"                Click para añadir un período presupuestario.\n"
+"              </p><p>\n"
+"                Un período presupuestario es comúnmente un mes o un trimestre.\n"
+"              </p>\n"
+"            "
+
+#. module: budget
+#: field:budget.program.line,account_id:0
+msgid "Budget account"
+msgstr "Cuenta presupuestaria"
+
+#. module: budget
+#: view:budget.period:0
+#: view:budget.year:0
+msgid "Period"
+msgstr "Período"
+
+#. module: budget
+#: field:account.invoice.line,program_line_id:0
+#: field:budget.move,program_line_id:0
+#: field:budget.move.line,program_line_id:0
+#: model:ir.model,name:budget.model_budget_program_line
+#: field:purchase.order.line,program_line_id:0
+#: field:sale.order.line,program_line_id:0
+msgid "Program line"
+msgstr "Línea de programa"
+
+#. module: budget
+#: field:budget.program.line,total_assigned:0
+msgid "Assigned"
+msgstr "Asignado"
+
+#. module: budget
+#: view:budget.period:0
+msgid "Budget Period"
+msgstr "Período presupuestario"
+
+#. module: budget
+#: field:budget.year,period_ids:0
+#: model:ir.actions.act_window,name:budget.action_budget_period
+#: model:ir.ui.menu,name:budget.menu_action_budget_period
+#: model:ir.ui.menu,name:budget.next_id_23
+msgid "Periods"
+msgstr "Períodos"
+
+#. module: budget
+#: model:ir.model,name:budget.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: budget
+#: model:ir.actions.act_window,name:budget.action_budget_account_list
+#: model:ir.ui.menu,name:budget.budget_account_list_menu
+msgid "Budget Accounts List"
+msgstr "Lista de Cuentas Presupuestarias"
+
+#. module: budget
+#: view:budget.import.catalog:0
+#: view:budget.plan:0
+#: view:budget.program.populate:0
+#: view:purchase.order:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: budget
+#: model:ir.model,name:budget.model_budget_import_catalog
+msgid "budget.import.catalog"
+msgstr "budget.import.catalog"
+
+#. module: budget
+#: view:budget.move:0
+#: model:ir.ui.menu,name:budget.next_id_25
+msgid "Moves"
+msgstr "Asientos"
+
+#. module: budget
+#: selection:budget.period,state:0
+#: view:budget.year:0
+#: selection:budget.year,state:0
+msgid "Open"
+msgstr "Abierto"
+
+#. module: budget
+#: field:budget.account,child_parent_ids:0
+#: field:budget.program.line,child_parent_ids:0
+msgid "Children"
+msgstr "Hijos"
+
+#. module: budget
+#: model:ir.actions.act_window,help:budget.action_budget_manual_move
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                Click to start a new move.\n"
+"              </p><p>\n"
+"                Create moves to execute currency moves from specified budget plans \n"
+"              </p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
+"                Click para añadir un nuevo asiento.\n"
+"              </p><p>\n"
+"                Crea asientos para ejecutar movimientos de dinero desde planes presupuestarios específicos \n"
+"              </p>\n"
+"            "
+
+#. module: budget
+#: view:budget.move:0
+msgid "Execute"
+msgstr "Ejecutar"
+
+#. module: budget
+#: field:budget.account,parent_left:0
+#: field:budget.program.line,parent_left:0
+msgid "Parent Left"
+msgstr "Parent Left"
+
+#. module: budget
+#: view:budget.program.populate:0
+msgid "Create lines"
+msgstr "Crear líneas"
+
+#. module: budget
+#: field:account.invoice,from_order:0
+#: field:account.invoice.line,invoice_from_order:0
+msgid "From order"
+msgstr "Desde orden"
+
+#. module: budget
+#: field:budget.account.reconcile,account_move_line_id:0
+msgid "Account Move Line"
+msgstr "Líneas de asiento"
+
+#. module: budget
+#: code:addons/budget/budget.py:383
+#, python-format
+msgid "There is already a program line using this budget account"
+msgstr "Ya existe una línea de programa utilizando esta cuenta presupuestaria"
+
+#. module: budget
+#: field:budget.program.line,parent_id:0
+msgid "Parent line"
+msgstr "Línea padre"
+
+#. module: budget
+#: view:budget.account:0
+msgid " Budget Account "
+msgstr " Cuenta Presupuestaria "
+
+#. module: budget
+#: code:addons/budget/wizard/budget_import_catalog.py:93
+#, python-format
+msgid "Please specify a .csv file"
+msgstr "Por favor especifice un .csv file"
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Mark as Void"
+msgstr "Marcar como anulado"
+
+#. module: budget
+#: view:budget.year:0
+msgid "Search Budget year"
+msgstr "Buscar año presupuestario"
+
+#. module: budget
+#: view:budget.plan:0
+msgid "Plans"
+msgstr "Planes"
+
+#. module: budget
+#: view:budget.account:0
+#: view:budget.program.line:0
+msgid "Group by..."
+msgstr "Agrupar por..."
+
+#. module: budget
+#: model:ir.actions.act_window,name:budget.action_budget_manual_move
+msgid "Manual Moves"
+msgstr "Asientos manuales"
+
+#. module: budget
+#: field:budget.account,parent_right:0
+#: field:budget.program.line,parent_right:0
+msgid "Parent Right"
+msgstr "Parent Right"
+
+#. module: budget
+#: field:budget.account,level:0
+msgid "Level"
+msgstr "Nivel"
+
+#. module: budget
+#: field:budget.account,account_type:0
+msgid "Internal Type"
+msgstr "Tipo interno"
+
+#. module: budget
+#: view:budget.program:0
+msgid " Budget Program "
+msgstr " Programa presupuestario "
+
+#. module: budget
+#: field:budget.period,date_stop:0
+msgid "End of Period"
+msgstr "Final de período"
+
+#. module: budget
+#: view:budget.period:0
+msgid "Search Period"
+msgstr "Buscar período"
+
+#. module: budget
+#: help:budget.move,state:0
+msgid "The state of the move. A move that is still under planning is in a 'Draft' state. Then the move goes to 'Reserved' state in order to reserve the designated amount. This move goes to 'Compromised' state when the purchase operation is confirmed. Finally goes to the 'Executed' state where the amount is finally discounted from the budget available amount"
+msgstr "El estado de un asiento. Un asiento que se está planificando se encuentra en estado 'Borrador'. Luego el asiento pasa a estado 'Reservado' para reservar el monto designado. Este asiento pasa a estado 'Comprometido' cuando la operación de compra es confirmada. Finalmente, pasa a estado 'Ejecutado' donde el monto es finalmente descontado del monto disponible del presupuesto"
+
+#. module: budget
+#: code:addons/budget/budget.py:442
+#, python-format
+msgid "You cannot delete a line from an approved or closed plan"
+msgstr "No se pueden borrar líneas de un plan aprobado o cerrado"
+
+#. module: budget
+#: field:budget.year,date_stop:0
+msgid "End Date"
+msgstr "Fecha final"
+
+#. module: budget
+#: field:budget.account,name:0
+#: field:budget.plan,name:0
+#: field:budget.program,name:0
+#: field:budget.program.line,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Mark as Deserted"
+msgstr "Marcar como desierto"
+
+#. module: budget
+#: view:budget.plan:0
+msgid "Approve Plan"
+msgstr "Plan Aprobado"
+
+#. module: budget
+#: view:budget.move:0
+#: field:budget.move,move_lines:0
+msgid "Move lines"
+msgstr "Líneas de asiento"
+
+#. module: budget
+#: field:budget.plan,year_id:0
+msgid "Year"
+msgstr "Año"
+
+#. module: budget
+#: field:budget.program,program_lines:0
+msgid "Lines"
+msgstr "Líneas"
+
+#. module: budget
+#: sql_constraint:budget.program:0
+msgid "The name must be unique for this budget!"
+msgstr "El nombre debe ser único para este presupuesto!"
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Grant bill"
+msgstr "Cartel de concesión"
+
+#. module: budget
+#: code:addons/budget/purchase.py:114
+#, python-format
+msgid "You cannot confirm a purchase order without any purchase order line."
+msgstr "Usted no puede confirmar una orden de compra que no tenga líneas de orden de compra."
+
+#. module: budget
+#: field:budget.import.catalog,parent_account:0
+#: field:budget.program.populate,parent_account:0
+msgid "Catalog parent"
+msgstr "Catálogo padre"
+
+#. module: budget
+#: constraint:budget.program.line:0
+msgid "Error!\n"
+"The budget account is related to another program line."
+msgstr "Error!\n"
+"La cuenta presupuestaria está relacionado con otra línea de programa"
+
+#. module: budget
+#: selection:budget.plan,state:0
+msgid "Waiting Approval"
+msgstr "Esperando aprobación"
+
+#. module: budget
+#: selection:budget.account,account_type:0
+msgid "Institutional View"
+msgstr "Vista Institucinal"
+
+#. module: budget
+#: model:ir.actions.act_window,name:budget.action_budget_plan
+#: model:ir.ui.menu,name:budget.budget_plan_menu
+msgid "Budget Plans"
+msgstr "Planes prespuestarios"
+
+#. module: budget
+#: field:budget.move,reserved:0
+#: selection:budget.move,state:0
+#: field:budget.move.line,reserved:0
+#: field:purchase.order,reserved_amount:0
+msgid "Reserved"
+msgstr "Reservado"
+
+#. module: budget
+#: field:account.invoice,budget_move_id:0
+#: field:purchase.order,budget_move_id:0
+#: field:sale.order,budget_move_id:0
+msgid "Budget move"
+msgstr "Asiento presupuestario"
+
+#. module: budget
+#: view:budget.plan:0
+msgid " Budget Plan "
+msgstr " Plan presupuestario "
+
+#. module: budget
+#: model:ir.actions.act_window,help:budget.action_budget_program
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                Click to start a new program.\n"
+"              </p><p>\n"
+"                Define your company's Budget according to your needs. A\n"
+"                budget program allows you to manage your budget for any department or organizational unit. \n"
+"              </p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
+"                Click para iniciar un nuevo programa.\n"
+"              </p><p>\n"
+"                Defina el presupuesto para su compañía de acuerdo a sus necesidades. Un\n"
+"                programa presupuestario le permite manejar su presupuesto para cualquier departamento o organización. \n"
+"              </p>\n"
+"            "
+
+#. module: budget
+#: sql_constraint:budget.program.line:0
+msgid "The name of the line must be unique per company!"
+msgstr "El nombre de la línea debe ser único por compañía!"
+
+#. module: budget
+#: field:budget.account.reconcile,account_move_reconcile_id:0
+msgid "Account Move Reconcile"
+msgstr "Asiento de conciliación"
+
+#. module: budget
+#: view:budget.import.catalog:0
+msgid "Import catalog"
+msgstr "Importar catálogo"
+
+#. module: budget
+#: model:ir.actions.act_window,name:budget.action_budget_program_line_list
+#: model:ir.ui.menu,name:budget.budget_program_line_list_menu
+msgid "Program Lines List"
+msgstr "Lista de líneas de programa"
+
+#. module: budget
+#: field:budget.import.catalog,catalog_file:0
+msgid "File"
+msgstr "Archivo"
+
+#. module: budget
+#: model:ir.model,name:budget.model_res_partner
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: budget
+#: view:budget.period:0
+msgid "Duration"
+msgstr "Duración"
+
