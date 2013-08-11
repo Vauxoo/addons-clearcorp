@@ -2,7 +2,7 @@
 <openerp>
     <data>
     	
-<menuitem id="budget_menu" name="Budget"/>
+<menuitem id="budget_menu" name="Budget" groups="budget.group_budget_user"/>
 <menuitem id="budget_main_menu" name="Budget" parent="budget_menu"/>
     <!-- Year-->	
 		<record id="view_budget_year_form" model="ir.ui.view">
@@ -227,7 +227,7 @@
               </p>
             </field>
         </record>    
-        <menuitem id="next_id_24" name="Planning" parent="budget_main_menu" sequence="4"/>
+        <menuitem id="next_id_24" name="Planning" parent="budget_main_menu" sequence="4" />
         <menuitem action="action_budget_plan" id="budget_plan_menu" name="Budget Plans" parent="budget.next_id_24" />
         
        <!--Program-->
@@ -257,12 +257,13 @@
             				<label string=" Budget Program "/>	
             			</h1>
             			<group>
-            				<field name="code"/>
-            				<field name="name"/>
+            				<field name="state" invisible="True"/>
+            				<field name="code" readonly="True"/>
+            				<field name="name" />
                				<field name="previous_program_id"/>
-            				<field name="plan_id"/>
+            				<field name="plan_id" />
             				<field name="program_lines" domain="[('account_type','=','budget'),]">
-            					<tree string="Program lines" colors="blue:type=='view'; green:type=='institutional'; black:type=='budget'; goldenrod:type =='consolidation'">
+            					<tree string="Program lines" colors="blue:type=='view'; green:type=='institutional'; black:type=='budget'; goldenrod:type =='consolidation'">			            		
 				            		<field name="name"/>
 				            		<field name="account_id"/>
 				            		<field name="type" invisible="True"/>
@@ -315,7 +316,7 @@
             <field name="type">tree</field>
             <field name="field_parent">child_id</field>
             <field name="arch" type="xml">
-            	<tree string="Program lines" toolbar="True" colors="blue:type == 'view';green:type == 'institutional';black:type == 'budget';goldenrod:type =='consolidation'">
+            	<tree string="Program lines"  colors="blue:type == 'view';green:type == 'institutional';black:type == 'budget';goldenrod:type =='consolidation'">
             		<field name="name"/>
             		<field name="type" invisible="True" />
             		<field name="total_assigned"/>
@@ -363,11 +364,12 @@
             				<label string=" Budget Program Line"/>	
             			</h1>
             			<group>
-            				<field name="name"/>
+            				<field name="state" invisible="True"/>
+            				<field name="name" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
             				<field name="account_id" domain="[('account_type','=','budget'), ('active','=','True')]"/>
-            				<field name="program_id"/>
+            				<field name="program_id" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
             				<field name="type"/>
-            				<field name="assigned_amount" attrs="{'invisible':[('type', '!=', 'budget')]}"/>
+            				<field name="assigned_amount" attrs="{'invisible':[('type', '!=', 'budget')],'readonly':[('state', '!=', 'draft')]}"/>
             				<field name="total_assigned" attrs="{'invisible':[('type', '=', 'budget')]}"/>
             				<field name="extended_amount"/>
             				<field name="modified_amount"/>
@@ -408,8 +410,8 @@
               </p>
             </field>
         </record>  
-        <menuitem action="action_budget_program_line_tree" id="budget_program_line_tree_menu" name="Program Lines Tree" parent="budget.next_id_24" />
-        <menuitem action="action_budget_program_line_list" id="budget_program_line_list_menu" name="Program Lines List" parent="budget.next_id_24" />
+        <menuitem action="action_budget_program_line_tree" id="budget_program_line_tree_menu" name="Program Lines Tree"  parent="budget.next_id_24" />
+        <menuitem action="action_budget_program_line_list" id="budget_program_line_list_menu" name="Program Lines List"  parent="budget.next_id_24" />
          
        <!--Account-->
        <record id="budget_account_search_form_view" model="ir.ui.view">
@@ -497,7 +499,7 @@
             <field name="view_id" ref="view_budget_account_tree"/>
             <field name="domain">[('parent_id','=',False)]</field>
         </record>
-        <menuitem action="action_budget_account_tree" id="budget_account_tree_menu" name="Budget Accounts" parent="budget.next_id_24" />
+        <menuitem action="action_budget_account_tree" id="budget_account_tree_menu" name="Budget Accounts"  parent="budget.next_id_24" />
         
         <record id="action_budget_account_list" model="ir.actions.act_window">
             <field name="name">Budget Accounts List</field>
@@ -509,7 +511,7 @@
             
         </record>
         
-        <menuitem action="action_budget_account_list" id="budget_account_list_menu" name="Budget Accounts List" parent="budget.next_id_24" />
+        <menuitem action="action_budget_account_list" id="budget_account_list_menu" name="Budget Accounts List"  parent="budget.next_id_24" />
             
 <!-- BUDGET MOVE-->
        <record id="view_budget_move_tree" model="ir.ui.view">
@@ -598,7 +600,7 @@
               </p>
             </field>
         </record>
-        <menuitem id="next_id_25" name="Moves" parent="budget_main_menu" sequence="6" />
+        <menuitem id="next_id_25" name="Moves" parent="budget_main_menu" sequence="6"  />
         
         <record id="action_budget_move_view1" model="ir.actions.act_window.view">
            <field eval="1" name="sequence"/>
@@ -614,7 +616,7 @@
            <field name="act_window_id" ref="action_budget_move"/>
        </record> 
        
-        <menuitem action="action_budget_move" id="budget_move_menu" name="Budget Moves" parent="budget.next_id_25"/>    
+        <menuitem action="action_budget_move" id="budget_move_menu" name="Budget Moves"  parent="budget.next_id_25"/>    
     
     
     <!-- BUDGET MOVE MANUAL (extension, modification and opening)-->
@@ -700,6 +702,8 @@
             				<field name="fixed_amount" required="True" />
             				<field name="type" invisible="True" />
             				<field name="state" invisible="True" />
+            				<field name="modified"/>
+            				<field name="extended"/>
 							<field name="reserved"/>
 							<field name="compromised"/>
             				<field name="executed"/>
@@ -741,7 +745,7 @@
            <field name="act_window_id" ref="action_budget_manual_move"/>
        </record> 
         
-       <menuitem action="action_budget_manual_move" id="budget_move_manual_menu" name="Extensions,reserves and openings" parent="budget.next_id_25"/>
+       <menuitem action="action_budget_manual_move" id="budget_move_manual_menu" name="Extensions,reserves and openings"  parent="budget.next_id_25"/>
 
     
     </data>
