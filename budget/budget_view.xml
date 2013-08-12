@@ -2,7 +2,7 @@
 <openerp>
     <data>
     	
-<menuitem id="budget_menu" name="Budget" groups="budget.group_budget_user"/>
+<menuitem id="budget_menu" name="Budget" groups="budget.group_budget_user" />
 <menuitem id="budget_main_menu" name="Budget" parent="budget_menu"/>
     <!-- Year-->	
 		<record id="view_budget_year_form" model="ir.ui.view">
