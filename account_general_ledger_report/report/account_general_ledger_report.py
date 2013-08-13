@@ -26,13 +26,13 @@ from report import report_sxw
 
 class GeneralLedgerReportWebkit(accountReportbase):
 
-    def __init__(self, cursor, uid, name, context):
-        super(GeneralLedgerReportWebkit, self).__init__(cursor, uid, name, context=context)
+    def __init__(self, cr, uid, name, context):
+        super(GeneralLedgerReportWebkit, self).__init__(cr, uid, name, context=context)
         self.pool = pooler.get_pool(self.cr.dbname)
         self.cursor = self.cr
 
         self.localcontext.update({
-            'cr': cursor,
+            'cr': cr,
             'uid': uid,
             'get_chart_account_id': self.get_chart_account_id,
             'get_fiscalyear': self.get_fiscalyear,
@@ -77,7 +77,7 @@ class GeneralLedgerReportWebkit(accountReportbase):
         target_move = self.get_target_move(data)
         
         #From the wizard can select specific account, extract this accounts
-        account_selected = self.get_accounts_ids(data)
+        account_selected = self.get_accounts_ids(cr, uid, data)
         
         if not account_selected:
             account_selected = [chart_account.id]

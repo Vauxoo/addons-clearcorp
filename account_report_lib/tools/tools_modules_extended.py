@@ -23,6 +23,17 @@
 from osv import fields, orm, osv
 from tools.translate import _
 
+class toolsModulesextendedAccountFinancialReport(orm.Model):
+    """
+        This class extend functions of account.financial.report model.
+    """  
+    _name = "account.financial.report"
+    _inherit = "account.financial.report"
+    
+    _columns = {
+        'account_type': fields.many2many('account.financial.report.type', 'account_financial_report_type_rel', string = "Base Catalog Account Type"),
+    }
+
 class toolsModulesextendedAccount(orm.Model):
 
     """
@@ -35,7 +46,7 @@ class toolsModulesextendedAccount(orm.Model):
     _columns = {
         'report_currency_id': fields.many2one('res.currency', 'Report Currency', help="Currency to show in the reports."),
     }
-    
+
 
 class toolsModulesextendedAccountPeriod(orm.Model):
 

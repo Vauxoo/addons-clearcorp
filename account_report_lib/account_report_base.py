@@ -52,6 +52,7 @@ class accountReportbase(report_sxw.rml_parse):
             'display_target_move':self.get_display_target_move,
             'get_signatures_report': self.get_signatures_report,
             'get_amount_currency':self.get_amount_currency,
+            'get_account_base_report':self.get_account_base_report,
          })
     
     #####################################BASIC FUNCTIONS ##############################
@@ -72,6 +73,8 @@ class accountReportbase(report_sxw.rml_parse):
     '''
     def _get_form_param(self, param, data, default=False):
         return data.get('form', {}).get(param, default)
+    
+    #########################################################################
     
     def get_start_period(self, data):
         return self._get_info(data,'period_from', 'account.period')
@@ -97,7 +100,11 @@ class accountReportbase(report_sxw.rml_parse):
     def get_date_to(self, data):
         return self._get_form_param('date_to', data)
     
-    def get_accounts_ids (self, data):
+    #Case special for conciliation bank -> account_ids is an unicode.
+    def get_accounts_ids (self, cr, uid, data):
+        if isinstance(data['form']['account_ids'], unicode):
+            return self.pool.get('account.account').browse(cr, uid, [int(data['form']['account_ids'])])[0]
+        
         return self._get_info(data,'account_ids', 'account.account')
     
     def get_historic_strict (self, data):
@@ -108,6 +115,9 @@ class accountReportbase(report_sxw.rml_parse):
     
     def get_amount_currency (self, data):
         return self._get_form_param('amount_currency', data)
+    
+    def get_account_base_report(self, data):
+        return self._get_info(data, 'account_base_report', 'account.financial.report')
     
     ################################## INFO DISPLAY ###########################
     
