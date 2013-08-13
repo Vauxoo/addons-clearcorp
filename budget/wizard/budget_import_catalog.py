@@ -86,6 +86,10 @@ class budget_import_catalog(osv.osv_memory):
                     
                     account_id = account_obj.create(cr,uid,account)
                     account['id'] = account_id
+                    
+                    if account['account_type'] == 'consolidation':
+                        for bud_account_id in account_obj.search(cr, uid, [('code', '=', account['code']),('account_type','=','budget')], context=context):
+                            account_obj.write(cr, uid, [account_id],{ 'child_consol_ids':[(4,bud_account_id)]}, context=context)
                     #appending at the begining of the list to improve search timing
                     account_list.insert(0, account)
             return True
