@@ -174,7 +174,7 @@ class budget_program(osv.osv):
         'plan_id': fields.many2one('budget.plan', 'Budget plan', required=True),
         'program_lines':fields.one2many('budget.program.line','program_id','Lines'),
         'previous_program_id': fields.many2one('budget.program', 'Previous program'),
-        'state':fields.related('plan_id','state', type='char', relation='budget.plan', store=True,readonly=True ),
+        'state':fields.related('plan_id','state', type='char', relation='budget.plan',readonly=True ),
         }
     
     _sql_constraints = [
@@ -425,7 +425,7 @@ class budget_program_line(osv.osv):
         'program_id':fields.many2one('budget.program','Program',required=True, on_delete='cascade'),
         'assigned_amount':fields.float('Assigned amount', digits_compute=dp.get_precision('Account'), required=True),
         'type':fields.related('account_id','account_type', type='char', relation='budget.account', string='Line Type', store=True,readonly=True  ),
-        'state':fields.related('program_id','plan_id','state', type='char', relation='budget.plan', store=True,readonly=True ),
+        'state':fields.related('program_id','plan_id','state', type='char', relation='budget.plan',readonly=True ),
         'total_assigned':fields.function(__compute, string='Assigned', type="float", multi=True),
         'extended_amount':fields.function(__compute, string='Extensions', type="float", multi=True),
         'modified_amount':fields.function(__compute, string='Modifications', type="float", multi=True),
@@ -778,7 +778,7 @@ class budget_year(osv.osv):
         ids = self.search(cr, uid, args, context=context)
         if not ids:
             if exception:
-                raise osv.except_osv(_('Error!'), _('There is no budget year defined for this date.\nPlease create one from the configuration of the accounting menu.'))
+                raise osv.except_osv(_('Error!'), _('There is no budget year defined for this date.\nPlease create one from the configuration of the budget menu.'))
             else:
                 return []
         return ids
@@ -939,23 +939,23 @@ class budget_move(osv.osv):
         if context == None:
             context={}
         if context.get('standalone_move',False):
-            return [('modification','Modification'),
-                ('extension','Extension'),
-                ('opening','Opening'),
+            return [('modification',_('Modification')),
+                ('extension',_('Extension')),
+                ('opening',_('Opening')),
                 ]
         
         else:
             return [
-                ('invoice_in','Purchase invoice'),
-                ('invoice_out','Sale invoice'),
-                ('manual_invoice_in','Manual purchase invoice'),
-                ('manual_invoice_out','Manual sale invoice'),
-                ('expense','Expense'),
-                ('payroll','Payroll'),
-                ('manual','From account move'),
-                ('modification','Modification'),
-                ('extension','Extension'),
-                ('opening','Opening'),
+                ('invoice_in',_('Purchase invoice')),
+                ('invoice_out',_('Sale invoice')),
+                ('manual_invoice_in',_('Manual purchase invoice')),
+                ('manual_invoice_out',_('Manual sale invoice')),
+                ('expense',_('Expense')),
+                ('payroll',_('Payroll')),
+                ('manual',_('From account move')),
+                ('modification',_('Modification')),
+                ('extension',_('Extension')),
+                ('opening',_('Opening')),
                 ]
             
     def _check_manual(self, cr, uid, context=None):
@@ -1143,6 +1143,12 @@ class budget_move_line(osv.osv):
             res[line.id]= total 
         return res
     
+    def on_change_program_line(self, cr, uid, ids, program_line, context=None):
+        for line in self.pool.get('budget.program.line').browse(cr, uid,[program_line], context=context):
+            return {'value': {'line_available':line.available_budget},}
+        return {'value': {}}
+    
+    
     def _compute_compromised(self, cr, uid, ids, field_name, args, context=None):
         res = {}
 #        moves = self.browse(cr, uid, ids,context=context) 
@@ -1207,6 +1213,8 @@ class budget_move_line(osv.osv):
         'program_line_id': fields.many2one('budget.program.line', 'Program line', required=True),
         'date': fields.datetime('Date created', required=True,),
         'fixed_amount': fields.float('Original amount',digits_compute=dp.get_precision('Account'),),
+        #'line_available':fields.function(_line_available, type='float',method=True, string='Line Available')
+        'line_available':fields.float('Line available',digits_compute=dp.get_precision('Account'),readonly=True),
         'modified': fields.function(_compute_modified, type='float', method=True, string='Modified',readonly=True, store=True),
         'extended': fields.function(_compute_extended, type='float', method=True, string='Extended',readonly=True, store=True),
         'reserved': fields.function(_compute_reserved, type='float', method=True, string='Reserved',readonly=True, store=True),

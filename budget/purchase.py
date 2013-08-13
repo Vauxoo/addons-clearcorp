@@ -96,7 +96,7 @@ class purchase_order(osv.osv):
                 obj_bud_mov.action_reserve(cr,uid, [move_id],context=context)
                 self.write(cr, uid, [purchase.id], {'state': 'budget_approved', 'reserved_amount': reserved_amount})
             else:
-                raise osv.except_osv(_('Error!'), _('You cant order '))   
+                raise osv.except_osv(_('Error!'), _('You cannot approve order an order with amount zero '))   
         return True
     
     def action_publish(self, cr, uid, ids, context=None):
