@@ -24,4 +24,3 @@ import account_report_base
 import account_common_library
 import account_financial_report_build
 import tools
-import res_company
