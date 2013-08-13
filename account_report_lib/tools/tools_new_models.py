@@ -20,26 +20,18 @@
 #
 ##############################################################################
 
+from osv import fields, orm, osv
+from tools.translate import _
 
-{
-    'name': 'Account Report Library',
-    'description': """ Generic module that is the base for the reports. """,
-    'version': '1.0',
-    'author': 'CLEARCORP S.A.',
-    'category': 'Hidden',
-    'website': "http://clearcorp.co.cr",
-    'images': [],
-    'depends': ['account', 'report_webkit_lib'],
-    'init_xml': [],
-    'demo' : [],
-    'data': [
-             'security/ir.model.access.csv',
-             'data/account_base_type.xml',
-             'tools/tools_modules_extended.xml',
-             'wizard/account_report_wizard.xml',
-             ],
-    'test': [],
-    'active': False,
-    'installable': True,
-    'license': 'AGPL-3',
-}
+class accountFinancialreportType(orm.Model):
+
+    _name = "account.financial.report.type"
+    _description = "Account Financial Report Type"
+    
+    _columns = {
+            'name': fields.char('Type Name', size=128), 
+            'code': fields.char('Code', size=128),  
+            }
+    
+    
+    

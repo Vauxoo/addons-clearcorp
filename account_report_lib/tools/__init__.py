@@ -20,5 +20,6 @@
 #
 ##############################################################################
 
+import tools_new_models
 import tools_modules_extended
 import tools_amount_to_text

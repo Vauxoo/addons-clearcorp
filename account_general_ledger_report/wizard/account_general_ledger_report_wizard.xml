@@ -39,7 +39,12 @@
                     <field name="special_period" position="attributes">
                         <attribute name="attrs">{'invisible': True}</attribute>
                     </field>
-                    <page string="Journals" position="replace"/>                   
+                    <group string="Journals" position="attributes">                   
+                        <attribute name="attrs">{'invisible': True}</attribute>
+                    </group>
+                     <group string="Account Financial Report" position="attributes">                   
+                        <attribute name="attrs">{'invisible': True}</attribute>
+                    </group>
                 </data>
             </field>
         </record>

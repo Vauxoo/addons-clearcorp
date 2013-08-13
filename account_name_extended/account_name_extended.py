@@ -199,10 +199,10 @@ class account_account(osv.osv):
             if len(search_domains) > 1:
                 search_domain = ['|'] + search_domain
             
-            account_ids = self.pool.get('account.account').search(cr, uid, search_domain, limit=limit, context=context)
+            account_ids = self.pool.get('account.account').search(cr, uid, search_domain + args, limit=limit, context=context)
         
         else:
-            account_ids = self.pool.get('account.account').search(cr, uid, [], limit=limit, context=context)
+            account_ids = self.pool.get('account.account').search(cr, uid, [] +args, limit=limit, context=context)
         
         return self.name_get(cr, uid, account_ids, context=context) #search the names that match with the ids.
 

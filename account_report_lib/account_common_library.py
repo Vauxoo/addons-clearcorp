@@ -393,6 +393,9 @@ class AccountWebkitReportLibrary(orm.Model):
             'income':       income_category_account_id,
             'expense':      expense_category_account_id,
         }
+    
+    #Return the account.financial.report associate to the situation balance report
+    
         
     #devuelve el monto de la moneda más el símbolo en la posición que se indica    
     def format_lang_currency (self, cr, uid, amount_currency, currency):
@@ -431,6 +434,7 @@ class AccountWebkitReportLibrary(orm.Model):
             if account not in res.keys():
                 res [account] = {'debit': debit, 'credit': credit}
         
-        return res
+        return res   
+   
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -48,8 +48,8 @@
                         %endif
                     </div>
                     <div class="table-cell" style="width: 70px">${_('Accounts: ')}<br/>
-                         %if get_accounts_ids(data):
-                           %for account in get_accounts_ids(data):
+                         %if get_accounts_ids(cr, uid, data):
+                           %for account in get_accounts_ids(cr, uid, data):
                                 ${(account.code) + ','}<br/>
                            %endfor
                         %else:
