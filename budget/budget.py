@@ -923,15 +923,6 @@ class budget_move(osv.osv):
                 res_amount = 0
             res[bud_move.id] = res_amount
         return res
-     
-#    def on_change_origin(self, cr, uid, ids,standalone_move, context=None):
-#        if standalone_move:
-#            return {'value': {'type':[ ('modification','Modification'),
-#                ('extension','Extension'),
-#                ('opening','Opening'),
-#                ] },}
-#        else: 
-#            return {'value': {},}
 
     def _select_types(self,cr,uid,context=None):
         #In case that the move is created from the view "view_budget_move_manual_form", modifies the selectable types
@@ -1021,6 +1012,9 @@ class budget_move(osv.osv):
                         return [False, _('An extension amount cannot be negative')]
                 elif line.type =='modification':
                     if (line.fixed_amount < 0) & (line.program_line_id.available_cash < abs(line.fixed_amount)):
+                        return [False, _('The amount to substract from ') + line.program_line_id.name + _(' is greater than the available ')]
+                elif line.type =='opening':
+                    if line.program_line_id.available_cash < line.fixed_amount:
                         return [False, _('The amount to substract from ') + line.program_line_id.name + _(' is greater than the available ')]
         return [True,'']
     
@@ -1121,11 +1115,11 @@ class budget_move(osv.osv):
     def dummy_button(self,cr,uid, ids,context=None):
         return True   
     
-#    def unlink(self, cr, uid, ids, context=None):
-#        for move in self.browse(cr, uid, ids, context=context):
-#            if move.state != 'draft':
-#                raise osv.except_osv(_('Error!'), _('Orders in state other than draft cannot be deleted \n'))
-#        super(budget_move,self).unlink(cr, uid, ids, context=context)
+    def unlink(self, cr, uid, ids, context=None):
+        for move in self.browse(cr, uid, ids, context=context):
+            if move.state != 'draft':
+                raise osv.except_osv(_('Error!'), _('Orders in state other than draft cannot be deleted \n'))
+        super(budget_move,self).unlink(cr, uid, ids, context=context)
 
 
 class budget_move_line(osv.osv):
