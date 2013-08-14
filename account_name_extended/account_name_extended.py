@@ -203,8 +203,11 @@ class account_account(osv.osv):
                     search_domain.append('&')
                     search_domain += temp_domain
             
-            if len(search_domains) > 1:
+            number_or = (len(search_domains) / 2) - 1
+            cont = 0
+            while cont < number_or:
                 search_domain = ['|'] + search_domain
+                cont += 1
             
             account_ids = self.pool.get('account.account').search(cr, uid, search_domain + args, limit=limit, context=context)
         
