@@ -34,7 +34,14 @@ class account_account(osv.osv):
         if not ids:
             return []
         res = []
-        for obj_account in self.browse(cr,uid,ids):
+        
+        #Avoid problem when only an account is selected
+        if isinstance(ids, int):
+            accounts = [self.browse(cr,uid,ids)]        
+        else:
+            accounts = self.browse(cr,uid,ids)
+        
+        for obj_account in accounts:
             obj_company = self.pool.get('res.company').browse(cr,uid,obj_account.company_id.id)
             #If the company of the account have prefix, add in the account's name. 
             prefix= obj_company.prefix
@@ -347,10 +354,10 @@ class account_journal(osv.osv):
             if len(search_domains) > 1:
                 search_domain = ['|'] + search_domain
                     
-            journal_ids = self.pool.get('account.journal').search(cr, uid, search_domain, limit=limit, context=context)
+            journal_ids = self.pool.get('account.journal').search(cr, uid, search_domain + args, limit=limit, context=context)
             
         else:
-            journal_ids = self.pool.get('account.journal').search(cr, uid, [], limit=limit, context=context)
+            journal_ids = self.pool.get('account.journal').search(cr, uid, [] + args, limit=limit, context=context)
     
         return self.name_get(cr, uid, journal_ids, context=context) #search the names that match with the ids.
                    
