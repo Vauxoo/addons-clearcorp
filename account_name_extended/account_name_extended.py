@@ -221,7 +221,9 @@ class account_journal(osv.osv):
     _inherit = "account.journal"    
     
     #Add the company prefix to the journal name.
+    
     def name_get(self, cr, user, ids, context=None):
+        
         if not ids:
             return []
         if isinstance(ids, (int, long)):
@@ -239,8 +241,9 @@ class account_journal(osv.osv):
             data = ' - '.join(data)
             data = prefix and prefix + ' ' + data or data
             res.append((rs.id, data))
-            
+        
         return res
+    
     
     #Add company prefix to the journal search. 
     def name_search(self, cr, uid, name, args=None, operator='ilike', context=None, limit=100):
@@ -339,7 +342,7 @@ class account_journal(osv.osv):
                     if domain['name']:
                         temp_domain.append(('name', operator, domain['name']))
                 
-                
+            
                 #Depend of the quantity of domain, add the & or the '|'    
                 #A diferencia de la cuenta, cualquiera puede coincidir por lo que se cambia el '&' por el '|'
                 if len(temp_domain) == 1:
@@ -351,11 +354,14 @@ class account_journal(osv.osv):
                 
                 else:
                     search_domain.append('|')
-                    search_domain.append('|')
+                    search_domain.append('&')
                     search_domain += temp_domain
-
-            if len(search_domains) > 1:
+            
+            number_or = (len(search_domains) / 2) - 1
+            cont = 0
+            while cont < number_or:
                 search_domain = ['|'] + search_domain
+                cont += 1
                     
             journal_ids = self.pool.get('account.journal').search(cr, uid, search_domain + args, limit=limit, context=context)
             
@@ -363,7 +369,6 @@ class account_journal(osv.osv):
             journal_ids = self.pool.get('account.journal').search(cr, uid, [] + args, limit=limit, context=context)
     
         return self.name_get(cr, uid, journal_ids, context=context) #search the names that match with the ids.
-                   
                         
 class account_fiscalyear(osv.osv):
     '''
