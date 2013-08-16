@@ -1,0 +1,20 @@
+<openerp>
+    <data>
+        
+        <!--
+            Account
+        -->
+        <record id="view_account_ccorp_form" model="ir.ui.view">
+            <field name="name">view.account.ccorp.form</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="reconcile" position="after">
+                        <field name="moves_cash"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+    </data>
+</openerp>
