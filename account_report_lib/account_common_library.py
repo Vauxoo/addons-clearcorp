@@ -278,7 +278,7 @@ class AccountWebkitReportLibrary(orm.Model):
                     start_period_id = self.pool.get('account.period').get_start_previous_period(cr, uid, start_period=start_period, fiscal_year=fiscal_year)
                     start_period = self.pool.get('account.period').browse(cr, uid, start_period_id)
                     period_ids = self.pool.get('account.period').get_interval_period(cr, uid, start_period=start_period, end_period = end_period, fiscal_year=fiscal_year_id, initial_balance=True)
-                    
+                                       
                 #Si solamente se selecciona el periodo final -> se obtiene el rango de períodos hasta el final. 
                 #el end_period_id = El periodo de apertura más "antiguo"
                 if (not start_period_id and end_period_id):
@@ -393,10 +393,7 @@ class AccountWebkitReportLibrary(orm.Model):
             'income':       income_category_account_id,
             'expense':      expense_category_account_id,
         }
-    
-    #Return the account.financial.report associate to the situation balance report
-    
-        
+
     #devuelve el monto de la moneda más el símbolo en la posición que se indica    
     def format_lang_currency (self, cr, uid, amount_currency, currency):
         format_currency = ''
@@ -411,30 +408,6 @@ class AccountWebkitReportLibrary(orm.Model):
             
         return format_currency  
     
-    #Calculate the debit and credit based on the move_lines of the account.
-    def calculate_debit_credit_for_account(self, cr, uid, account_ids, filter_type='', filter_data=None, fiscalyear=None, target_move='all', unreconcile = False, historic_strict=False, special_period =False, context=None):
-        debit = credit = 0.0
-        res = {}
-        
-        for account in account_ids:
-            debit = credit = 0.0
-            move_lines = self.get_move_lines(cr, uid, account_ids = [account], 
-                                             filter_type=filter_type, 
-                                             filter_data=filter_data, 
-                                             fiscalyear=fiscalyear, 
-                                             target_move=target_move, 
-                                             unreconcile=unreconcile, 
-                                             historic_strict=historic_strict, 
-                                             special_period=special_period, 
-                                             context=context)
-            for line in move_lines:
-                debit += line.debit
-                credit += line.credit
-            
-            if account not in res.keys():
-                res [account] = {'debit': debit, 'credit': credit}
-        
-        return res   
-   
+
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

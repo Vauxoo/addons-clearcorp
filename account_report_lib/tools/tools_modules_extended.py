@@ -32,7 +32,7 @@ class toolsModulesextendedAccountFinancialReport(orm.Model):
     
     _columns = {
         'account_type': fields.many2many('account.financial.report.type', 'account_financial_report_type_rel', string = "Base Catalog Account Type"),
-    }
+     }
 
 class toolsModulesextendedAccount(orm.Model):
 
