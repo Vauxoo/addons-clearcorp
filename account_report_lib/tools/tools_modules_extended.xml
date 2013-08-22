@@ -27,7 +27,6 @@
                     <field name="account_type" widget="many2many_tags" attrs="{'invisible':[('type','!=','sum')], 'required':[('type','=','sum')]}"/>
                  </field>                    
             </field>
-       </record>
-       
+       </record>       
     </data>
 </openerp>

@@ -44,24 +44,19 @@ class AccountWebkitReportLibrary(orm.Model):
         'order_by': Used to the lines return order by specific order. asc or desc are the acepted words.  
          
         '''
-        #TODO: Translate comments to english
         """
-            Cambio realizado el 9 de enero de 2012 (Diana Rodriguez)
+            Previosly, method get_move_lines only was used in Conciliation Bank Report. This report doesn't used start period as parameter, so method
+            didn't include start_period in method get_move_lines. start_period parameter is necessary for many reports, for example in Bank Account Balance Report.
+            For that reason, it's neccesary maked a change in Conciliation Bank Report, that change is initialize start_period in None and changes Conciliation
+            Bank report doesn't consider start_period as parameter.
             
-            Anteriormente, el método get_move_lines (del objeto account.webkit.report.library, librería estándar de los reportes, 
-            sólo se utilizaba en el reporte de Conciliación bancaria. El reporte de conciliación bancaria no recibe el período de inicio
-            por lo que el método de get_move_lines no contempla el período de inicio, necesario en el reporte de saldo de cuenta de bancos.
-            Se realiza el cambio tanto en el reporte de conciliación bancaria para que el período inicial no se tome en cuenta (inicializado en None)
-            y en la librería se especifica que si se encuentra en None no lo tome en cuenta y que si trae información lo utilice dentro del filtro
-            para sacar el rango de periodos que se digita en el wizard. 
+            In standard library it's necessary, also, specified if start_period is None, doesn't consider as parameter or if it has information, take as 
+            start_period parameter and put with other filters in method. start_period is used to build periods range and pass it to method.
             
-            Se modifica tanto el reporte de conciliación bancaria, como la librería, para que el método funcione solamente con un período final o bien
-            con un rango de períodos, como trabaja el reporte de saldo de cuenta de bancos. 
+            It modifies Conciliation Bank Report and standard library for both work only with final period or with a range of periods (as Bank Account Balance Report).
+            In the case of dates, it works at the same way (The balances of Bank Account Balance Report takes start_date as parameter)
             
-            Para el caso de las fechas, se trabaja de la misma forma. (El saldo de cuentas de bancos si toma la fecha de inicio)
-      
-            Para eliminar la secuencias de ifs, se construye un dominio para pasárselo una única vez y realizar el llamado de la búsqueda de las
-            líneas. 
+            If's sequences were eliminated and they were replaced for a unique domain. This action increase method's preformance   
         """
            
         account_obj = self.pool.get('account.account')
@@ -69,13 +64,13 @@ class AccountWebkitReportLibrary(orm.Model):
         move_line_ids = []
         list_tuples = []
        
-        #los dominios se construyen de una lista con tuplas. Se arma el dominio que se necesita.
-        #EL DOMINIO QUE SE CONSTRUYE ES PARA EL OBJETO account.move.line (sacar las líneas que coincidan 
-        #con el dominio final) 
+#        search domains are constructed in a list of tuples. It makes a search domaind depend of parameters
+#        search domain is builted for get account.move.lines that match with final search domain.
         
-        #*******************************CONSTRUCCION DE DOMINIO DE BUSQUEDA ***************************#
-        #si para los campos filter_data, filter_type no hay datos y el año fiscal no existe
-        #se sacan las cuentas con los ids y el target_move seleccionado.        
+        #*******************************BUILD SEARCH DOMAINS***************************#
+#       if filter_data and filter_type are None (they don't have data) and fiscal_year doesn't exist
+#       the method takes accounts that match with target_move parameter.
+ 
         #********account_ids ******#
         domain = ('account_id', 'in', account_ids)
         list_tuples.append(domain)        
@@ -87,7 +82,7 @@ class AccountWebkitReportLibrary(orm.Model):
         
         #********Filter by date, period or filter_type = '' *********#
         if filter_type == 'filter_date':
-            if filter_data[0] is None: #si solamente se toma la fecha final para sacar el reporte.
+            if filter_data[0] is None: #it takes only final_date.
                 date_stop = filter_data[1]
                 domain = ('date', '<=', date_stop)
                 list_tuples.append(domain)
@@ -101,7 +96,7 @@ class AccountWebkitReportLibrary(orm.Model):
             period_domain_list = []
             date_stop = ('date_stop', '<=', filter_data[1].date_stop)
             period_domain_list.append(date_stop)
-            #Se debe tomar en cuenta el año fiscal y si es especial o no.
+            #It is considered fiscal_year and special_period.
             if fiscalyear:
                 fiscal_year = ('fiscalyear_id', '=', fiscalyear.id)
                 period_domain_list.append(fiscal_year)
@@ -112,19 +107,19 @@ class AccountWebkitReportLibrary(orm.Model):
             period_domain_list.append(special)
             
             if filter_data[0]: 
-                #el reporte de saldo de bancos si toma el período de inicio 
+                #This case is for reports that take initial_period or initial_date as parameter
                 date_start = ('date_start', '>=', filter_data[0].date_start)
                 period_domain_list.append(date_start)
             
-            #al final toma en cuenta año fiscal, periodos especiales y los períodos de inicio y fin           
+            #In final search domain, it takes fiscal_year, special periods, and start/end period
             periods_ids = self.pool.get('account.period').search(cr, uid,period_domain_list, context=context)
                 
-            #se obtienen los períodos con los ids anteriores.
+            #Get periods with previous ids.
             domain_period = ('period_id.id', 'in', periods_ids)
             list_tuples.append(domain_period)
         
-        #si no existe el filtro, pero existe el año fiscal se sacan los periodos que coincidan con ese año.
-        #el parámetro special indica si se deben tomar o no encuenta períodos especiales del año fiscal.
+        #If filter doesn't exist, but fiscal_year exist, get periods that match with fiscal_year
+        #special_period parameter indicates that special periods are considered.
         elif filter_type == '' and fiscalyear:
             if special_period is True:
                 periods_ids = self.pool.get('account.period').search(cr, uid, [('special', '=', True),('fiscalyear_id', '=', fiscalyear.id)], context=context)
@@ -139,38 +134,37 @@ class AccountWebkitReportLibrary(orm.Model):
             move_line_ids = move_line_obj.search(cr, uid, list_tuples,order = order_by,context=context)
                 
         else:
-            #list_tuples + [domain_unreconciled] -> Con esta sintaxis no se altera la variable 
-            #list_tuples, el + hace una lista completa con la variable domain_unreconciled. Se
-            #deben agregar los [] para que quede con formato de lista.
+            #list_tuples + [domain_unreconciled] -> With this syntax doesn't change the variable
+            #list_tuples, the + makes a complete list with domain_unreconciled. Add [] for make as a format list.
             
-            #Primero se sacan los ids de las lineas no conciliadas.
+            #First, move line ids without reconcile_id (without conciliation)
             domain_unreconciled = ('reconcile_id', '=', None)      
             unreconciled_move_line_ids = move_line_obj.search(cr, uid, list_tuples + [domain_unreconciled], context=context)
             
-            #historic_strict si se requiere un corte histórico extricto en la conciliación
-            #si no se obtienen las lineas que estan sin conciliar a la fecha en la que se solicita
-            #el reporte.  
+            #historict_strict = If user needs a historic strict (this option obtains all move lines
+            #without conciliation to the date requested in report.)  
             if historic_strict == False:
                 move_line_ids = unreconciled_move_line_ids
+                
+            #Mark historic_strict as True
             else: 
-                #Se obtiene la fecha máxima de conciliación, para obtener como parámetro de donde 
-                #sacar las lineas  
+                #Get maximal conciliation date to get move lines.
                 if filter_type == 'filter_date':
-                    #la fecha máxima es la fecha final seleccionada
+                    #maximal conciliation date is date selected
                     max_reconciled_date = filter_data[1]    
                 elif filter_type == 'filter_period':
-                    #la fecha máxima es la fecha final del período seleccionado
+                    #maximal conciliation date is final date of selected period
                     max_reconciled_date = filter_data[1].date_stop
                 elif fiscalyear:
-                    #si existe año fiscal, se saca la fecha final del año fiscal
+                    #If only fiscalyear exists, it takes end_date as maximal conciliation date
                     max_reconciled_date = fiscalyear.date_end
                 else:
                     max_reconciled_date = False
                 
-                #Si existe una fecha máxima seleccionada, se sacan las líneas sin conciliar.
-                #esto es para comparar las líneas conciliadas con las líneas sin conciliar.
-                #si existe alguna linea sin conciliar que sea mayor a la fecha máxima de conciliación,
-                #se debe agregar como una línea sin conciliar.
+                #If maximal date exists, get move lines without conciliation
+                #It is to compare unreconciled lines vrs reconciled lines.
+                #If any date_crete in unreconciled lines is more than maximal date of conciliation,
+                # add in list of unreconciled lines.
                 if max_reconciled_date:
                     domain_reconciled = ('reconcile_id', '<>', None)  
                     reconciled_move_line_ids = move_line_obj.search(cr, uid, list_tuples + [domain_reconciled], context=context)
@@ -247,17 +241,14 @@ class AccountWebkitReportLibrary(orm.Model):
             context.update({'chart_account_id':chart_account_id})
                 
         """
-        TODO: Translate to english
-        @author: Diana Rodríguez - Clearcorp
-        Cambio realizado el 1 de febrero de 2012: 
-            La variable initial_balance establece si estamos pidiendo un balance inicial (Valor en True). Si es false, pedimos un balance "corriente"
-            Si solicitamos un balance inicial existen dos opciones:
-                con un rango de dos períodos: Se obtiene el anterior al período inicial seleccionado que coincida con el año fiscal. Este es el end_period_id
-                con solamente el período final: Se obtiene una lista de períodos hasta el período final, se pasa como el period_ids. El end_period_id es el de apertura
+            Variable initial_balance = True, if it is necessary get initial balance. If initial_balance is false is an "ordinary" balance.
+            If user needs initial balance, there are two options:
+                1. Get initial balance with a range of periods: Gets previous period to period selected and previous period needs match with fiscal year (end_period_id variable).
+                2. Get initial balance with only end period: Gets a period list until final period, those ids are period_ids variable. end_period_id is open period. 
             
-            Si solicitamos un balance "corriente" existen dos opciones:
-                Si son dos, se obtiene la lista de periodos y el año fiscal
-                Si solo es el end_period: El año fiscal y el end_period_id es el que se selecciona.                
+            If user needs ordinary balance, there are two options:
+                1. If start period and end period exist, get periods list between them and fiscal_year
+                2. If only exist end_period: Get fiscal_year and end_period_id is period selected.
         """
         
         #fiscal_year        
@@ -268,40 +259,39 @@ class AccountWebkitReportLibrary(orm.Model):
         if end_period_id:
             end_period = self.pool.get('account.period').browse(cr,uid,end_period_id)
                     
-        #Si el filtro es periodos
         if filter_type == 'filter_period':
-            #se solicita el balance inicial
+            #Get initial_balance
             if initial_balance == True:
-                #si se tienen los dos períodos -> Se calcula la lista de períodos hasta el periodo inicial seleccionado. El start_period_id es el periodo
-                #anterior al periodo inicial seleccionado.
+                # If start period and end period exist -> Calculate the list of periods until the initial period selected. The start_period_id 
+                # is period before period selected.
                 if start_period_id and end_period_id:
                     start_period_id = self.pool.get('account.period').get_start_previous_period(cr, uid, start_period=start_period, fiscal_year=fiscal_year)
                     start_period = self.pool.get('account.period').browse(cr, uid, start_period_id)
                     period_ids = self.pool.get('account.period').get_interval_period(cr, uid, start_period=start_period, end_period = end_period, fiscal_year=fiscal_year_id, initial_balance=True)
-                    
-                #Si solamente se selecciona el periodo final -> se obtiene el rango de períodos hasta el final. 
-                #el end_period_id = El periodo de apertura más "antiguo"
+                                       
+                # If only final period is selected -> Get range of periods until the period end.
+                # end_period_id = The "oldest" opening period in fiscal_year
                 if (not start_period_id and end_period_id):
                     period_ids = self.get_interval_period(cr, uid, end_period=end_period, fiscal_year=fiscal_year_id,initial_balance=True)
                     
-            #Si se quiere un balance corriente
+            #Ordinary balance
             else:
-                #solamente se selecciona un periodo : Periodo final
+                #only select a period: End period
                 if not period_ids and fiscal_year_id and not start_period_id and end_period_id:
                     end_period = period_obj.browse(cr, uid, end_period_id)
                     period_ids = period_obj.search(cr, uid, ['&',('fiscalyear_id','=',fiscal_year_id),('date_stop', '<=', end_period.date_stop)], context=context)
                 
-                #Se seleccionan ambos periodos
+                #Selected both periods
                 if not period_ids and fiscal_year_id and start_period_id and end_period_id:
                     start_period = period_obj.browse(cr, uid, start_period_id)
                     end_period = period_obj.browse(cr, uid, end_period_id)
                     period_ids = self.get_interval_period(cr, uid, start_period=start_period, end_period=end_period, fiscal_year=fiscal_year_id)
                 
-                #solamente en balance "corriente" se necesita el periodo inicial
+                #Only ordinary period needs start_period.
                 if start_period_id:
                     context.update({'period_from':start_period_id})
         
-        #Si no existen filtros, se busca el primer periodo especial del año fiscal          
+        # If there are no filters, find the first special period of fiscal       
         if filter_type == '':       
             if initial_balance:
                 period_ids = [self.pool.get('account.period').search(cr, uid, [('fiscalyear_id','=',fiscal_year_id),('special','=',True)],order='date_start asc')[0]]
@@ -375,29 +365,8 @@ class AccountWebkitReportLibrary(orm.Model):
         elif isinstance(account_ids, int):
             account_ids = [account_ids]
         return self.pool.get('account.account')._get_children_and_consol(cr, uid, account_ids, context=context)
-        
-    def get_category_accounts(self, cr, uid, company_id):
-        account_account_obj = self.pool.get('account.account')
-        res_company_obj = self.pool.get('res.company')
-        company = res_company_obj.browse(cr, uid, company_id)
-        if company:
-            asset_category_account_id = company['property_asset_view_account']
-            liability_category_account_id = company['property_liability_view_account']
-            equity_category_account_id = company['property_equity_view_account']
-            income_category_account_id = company['property_income_view_account']
-            expense_category_account_id = company['property_expense_view_account']
-        return {
-            'asset':        asset_category_account_id,
-            'liability':    liability_category_account_id,
-            'equity':       equity_category_account_id,
-            'income':       income_category_account_id,
-            'expense':      expense_category_account_id,
-        }
     
-    #Return the account.financial.report associate to the situation balance report
-    
-        
-    #devuelve el monto de la moneda más el símbolo en la posición que se indica    
+    # returns amount of the currency symbol + position    
     def format_lang_currency (self, cr, uid, amount_currency, currency):
         format_currency = ''
         
@@ -409,32 +378,6 @@ class AccountWebkitReportLibrary(orm.Model):
         else:
             format_currency = amount_currency
             
-        return format_currency  
-    
-    #Calculate the debit and credit based on the move_lines of the account.
-    def calculate_debit_credit_for_account(self, cr, uid, account_ids, filter_type='', filter_data=None, fiscalyear=None, target_move='all', unreconcile = False, historic_strict=False, special_period =False, context=None):
-        debit = credit = 0.0
-        res = {}
-        
-        for account in account_ids:
-            debit = credit = 0.0
-            move_lines = self.get_move_lines(cr, uid, account_ids = [account], 
-                                             filter_type=filter_type, 
-                                             filter_data=filter_data, 
-                                             fiscalyear=fiscalyear, 
-                                             target_move=target_move, 
-                                             unreconcile=unreconcile, 
-                                             historic_strict=historic_strict, 
-                                             special_period=special_period, 
-                                             context=context)
-            for line in move_lines:
-                debit += line.debit
-                credit += line.credit
-            
-            if account not in res.keys():
-                res [account] = {'debit': debit, 'credit': credit}
-        
-        return res   
-   
+        return format_currency
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

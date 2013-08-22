@@ -26,10 +26,9 @@
                             <separator colspan="4" string="Invoices"/>
                             <field colspan="4" name="use_email_invoice"/>
                         </page>
-                    </page>report_webkit_lib
+                    </page>
                 </data>
             </field>
-        </record> 
-	
+        </record> 	
 	</data>
 </openerp>
