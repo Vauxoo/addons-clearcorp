@@ -15,6 +15,11 @@
             <field name="name">Estado de Resultados</field>
             <field name="code">PROSTA</field>
         </record>
-
+        
+        <record id="account_financial_report_type_equity" model="account.financial.report.type">
+            <field name="name">Estado de Cambios de Patrimonio</field>
+            <field name="code">STCHEQ</field>
+        </record>
+        
     </data>
 </openerp>
