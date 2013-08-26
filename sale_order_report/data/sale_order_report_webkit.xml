@@ -166,7 +166,7 @@
         <table class="header-table" cellspacing = "3">
             <tbody>
                 <tr>
-                    <td class="company_logo">${helper.embed_logo_by_name('default_logo', height=94)|n}</td>
+                    <td class="company_logo">${helper.embed_logo_by_name('default_logo', height=40, width=250)|n}</td>
                     <td>
                         <table class="company_data">
                             <tr class = "title">
@@ -174,11 +174,11 @@
                                 <td>${_("Address")}</td>
                             </tr>
                             <tr>
-                                <td>${_("ID Num")}: ${company.company_registry | entity}</td>
+                                <td>${_("Tax ID")}: ${company.company_registry | entity}</td>
                                 <td>${company.partner_id.street or ''|entity}</td>
                             </tr>
                             <tr>
-                                 <td>${_("Tel-fax")}: ${company.partner_id.phone or '-'|entity} - ${company.partner_id.fax or '-'|entity}</td>
+                                 <td>${_("Tel-fax")}: ${company.partner_id.phone or '-'|entity}</td>
                                 <td>${company.partner_id.zip or ''|entity} ${company.partner_id.city or ''|entity}</td>
                             </tr>
                             <tr>

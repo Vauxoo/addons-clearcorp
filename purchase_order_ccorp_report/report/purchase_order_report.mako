@@ -7,7 +7,6 @@
 <body class = "data">
     %for purchase_order in objects :
     <% setLang(purchase_order.partner_id.lang) %>
-    <br></br>
     <div id="wrapper">
         <table width = "100%" class = "document_data">
             <tr class = "title">
@@ -45,22 +44,22 @@
                 <td>${_("Expected date: ")}${(purchase_order.minimum_planned_date and formatLang(purchase_order.minimum_planned_date,date=True)) or ''}</td>
             </tr>
             <tr>
-                <td>${purchase_order.partner_address_id.street or ''}</td>
+                <td>${purchase_order.partner_id.street or ''}</td>
                 <td>${_("Date approved: ")}${(purchase_order.date_approve and formatLang(purchase_order.date_approve,date=True)) or ''}</td>
             </tr>
             
             <tr>   
-                %if purchase_order.partner_address_id.street2 != '':
-                    <td>${purchase_order.partner_address_id.street2 or ''}</td>
+                %if purchase_order.partner_id.street2 != '':
+                    <td>${purchase_order.partner_id.street2 or ''}</td>
                 %endif
                 <td>${purchase_order.dest_address_id.street or ''}</td>
             </tr>                            
             <tr>
-                <td>${(purchase_order.partner_address_id.zip and format(purchase_order.partner_address_id.zip) + ((purchase_order.partner_address_id.city or purchase_order.dest_address_id.state_id or  purchase_order.dest_address_id.country_id) and ' ' or '') or '') + (purchase_order.partner_address_id.city and format(purchase_order.partner_address_id.city) or '')}</td>
+                <td>${((purchase_order.partner_id.city or purchase_order.dest_address_id.state_id or  purchase_order.dest_address_id.country_id) and ' ' or '') + (purchase_order.partner_id.city and format(purchase_order.partner_id.city) or '')}</td>
                 <td>${purchase_order.dest_address_id.street2 or ''}</td>
             </tr>
             <tr>
-                <td>${(purchase_order.partner_address_id.state_id and format(purchase_order.partner_address_id.state_id.name) + (purchase_order.partner_address_id.country_id and ', ' or '') or '') + (purchase_order.partner_address_id.country_id and format(purchase_order.partner_address_id.country_id.name) or '')}</td>
+                <td>${(purchase_order.partner_id.state_id and format(purchase_order.partner_id.state_id.name) + (purchase_order.partner_id.country_id and ', ' or '') or '') + (purchase_order.partner_id.country_id and format(purchase_order.partner_id.country_id.name) or '')}</td>
                 <td>${(purchase_order.dest_address_id.state_id and format(purchase_order.dest_address_id.state_id.name) + (purchase_order.dest_address_id.country_id and ', ' or '') or '') + (purchase_order.dest_address_id.country_id and format(purchase_order.dest_address_id.country_id.name) or '')}</td>
             </tr>
       </table>      
@@ -85,19 +84,30 @@
                 %else:                  
                     <td valign = "top">${line.date_planned}</td>
                 %endif
-                %if purchase_order.state !='draft':             
-                    <td valign = "top" style="text-align:right;">${purchase_order.pricelist_id.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_unit)} ${purchase_order.pricelist_id.currency_id.symbol_suffix or ''|entity }</td>
-                    <td valign = "top" style="text-align:right;">${purchase_order.pricelist_id.currency_id.symbol_prefix or ''|entity } ${formatLang(line.price_subtotal)} ${purchase_order.pricelist_id.currency_id.symbol_suffix or ''|entity }</td>
+                %if purchase_order.state !='draft':  
+                    %if purchase_order.pricelist_id.currency_id.position == 'before':           
+                        <td valign = "top" style="text-align:right;">${purchase_order.pricelist_id.currency_id.symbol or ''|entity } ${formatLang(line.price_unit)}</td>
+                        <td valign = "top" style="text-align:right;">${purchase_order.pricelist_id.currency_id.symbol or ''|entity } ${formatLang(line.price_subtotal)}</td>
+                    %else:
+                        <td valign = "top" style="text-align:right;">${formatLang(line.price_unit)}${purchase_order.pricelist_id.currency_id.symbol or ''|entity } </td>
+                        <td valign = "top" style="text-align:right;">${formatLang(line.price_subtotal)}${purchase_order.pricelist_id.currency_id.symbol or ''|entity } </td>      
+                    %endif                    
                 %endif
             </tr>
         <%i +=1%>
         %endfor
         %if purchase_order.state != 'draft' :
-            <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${purchase_order.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(purchase_order.amount_untaxed)} ${purchase_order.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
-            <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Discount")}:</b></td><td style="text-align:right">${purchase_order.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(purchase_order.amount_discount)} ${purchase_order.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
-            <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Subtotal with discount")}:</b></td><td style="text-align:right">${purchase_order.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(purchase_order.amount_subtotal_discount)} ${purchase_order.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>                        
-            <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Taxes")}:</b></td><td style="text-align:right">${purchase_order.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(purchase_order.amount_tax)} ${purchase_order.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
-            <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Total")}:</b></td><td style="text-align:right">${purchase_order.pricelist_id.currency_id.symbol_prefix or ''|entity} ${formatLang(purchase_order.amount_total)} ${purchase_order.pricelist_id.currency_id.symbol_suffix or ''|entity}</td></tr>
+            %if purchase_order.currency_id.position == 'before':
+                <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${purchase_order.pricelist_id.currency_id.symbol or ''|entity} ${formatLang(purchase_order.amount_untaxed)}</td></tr>
+                <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Discount")}:</b></td><td style="text-align:right">${purchase_order.pricelist_id.currency_id.symbol or ''|entity} ${formatLang(purchase_order.amount_discount)}</td></tr>
+                <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Taxes")}:</b></td><td style="text-align:right">${purchase_order.pricelist_id.currency_id.symbol or ''|entity} ${formatLang(purchase_order.amount_tax)}</td></tr>
+                <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Total")}:</b></td><td style="text-align:right">${purchase_order.pricelist_id.currency_id.symbol or ''|entity} ${formatLang(purchase_order.amount_total)}</td></tr>
+            %else:
+                <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${formatLang(purchase_order.amount_untaxed)} ${purchase_order.pricelist_id.currency_id.symbol or ''|entity}</td></tr>
+                <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Discount")}:</b></td><td style="text-align:right">${formatLang(purchase_order.amount_discount)} ${purchase_order.pricelist_id.currency_id.symbol or ''|entity}</td></tr>
+                <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Taxes")}:</b></td><td style="text-align:right">${formatLang(purchase_order.amount_tax)} ${purchase_order.pricelist_id.currency_id.symbol or ''|entity}</td></tr>
+                <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Total")}:</b></td><td style="text-align:right">${formatLang(purchase_order.amount_total)} ${purchase_order.pricelist_id.currency_id.symbol or ''|entity}</td></tr> 
+            %endif
         %endif         
         </tbody>
         </table>

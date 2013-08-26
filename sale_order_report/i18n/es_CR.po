@@ -163,6 +163,11 @@ msgid "ID Num"
 msgstr "Cód. Cliente."
 
 #. module: sale_order_ccorp_report
+#: report:addons/sale_order_ccorp_report/report/sale_order.mako:31
+msgid "Tax ID"
+msgstr "Ced. Jurídica"
+
+#. module: sale_order_ccorp_report
 #: report:addons/sale_order_ccorp_report/report/sale_order.mako:15
 msgid "Quotation N°"
 msgstr "N° Cotización"

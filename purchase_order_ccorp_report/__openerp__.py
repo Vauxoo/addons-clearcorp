@@ -30,10 +30,14 @@
     'description': """This module modifies the purchase order Request for Quotation report """,
     'depends': [
         'purchase',
+        'purchase_order_discount',
     ],
     'init_xml': [],
     'demo_xml': [],
-    'update_xml': ['purchase_order_ccorp_report.xml',],
+    'update_xml': [
+                   'data/purchase_order_report_webkit.xml',
+                   'purchase_order_ccorp_report.xml',
+                   ],
     'license': 'AGPL-3',
     'installable': True,
     'active': False,

@@ -61,9 +61,9 @@
 		</table>		
 		<table id="data-table" cellspacing="3">
 			%if discount(so) != 0:
-				<thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Delay")}</th><th>${_("Disc.(%)")}</th><th>${_("Unit Price")}</th><th>${_("Total Price")}</th></thead>
+				<thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Disc.(%)")}</th><th>${_("Unit Price")}</th><th>${_("Total Price")}</th></thead>
 			%else:
-				<thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Delay")}</th><th>${_("Unit Price")}</th><th>${_("Total Price")}</th></thead>
+				<thead><th>${_("Qty")}</th><th>${_("[Code] Description / (Taxes)")}</th><th>${_("Unit Price")}</th><th>${_("Total Price")}</th></thead>
 			%endif
     		<tbody>
         		<%i = 0%>
@@ -75,7 +75,6 @@
         			%endif
         				<td valign = "top">${formatLang(line.product_uom_qty)} ${format(line.product_uom.name)}</td>
         				<td valign = "top" id="desc_col">${line.name} ${line.tax_id != [] and (' / (' + (', '.join([ lt.name for lt in line.tax_id ])) + ')') or ''|entity}
-      					<td valign = "top" style="text-align:right;">${int(line.delay)}d</td>
         				%if discount(so) != 0:
         					<td valign = "top">${line.discount and formatLang(line.discount) + '%' or '-'}</td>
         				%endif
@@ -92,28 +91,26 @@
         		%if discount(so) != 0: 
                   %if so.currency_id.position == 'before':  
                       <% amount_discount = (so.amount_untaxed_not_discounted - so.amount_discounted) %>
-                      <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${so.currency_id.symbol or ''}&nbsp;${formatLang(so.amount_untaxed_not_discounted)}</td></tr>
-                      <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><td style="border-style:none"/><b>${_("Discount")}:</b></td><td style="text-align:right">${so.currency_id.symbol or ''}&nbsp;${formatLang(so.amount_discounted)}</td></tr>
-                      <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><b>${_("Sub Total with discount")}:</b></td><td style="text-align:right">${so.currency_id.symbol or ''}&nbsp;${formatLang(amount_discount)}</td></tr>
-                      <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><td style="border-style:none"/><b>${_("Taxes")}:</b></td><td style="text-align:right">${so.currency_id.symbol or ''}&nbsp;${formatLang(so.amount_tax)}</td></tr>
-                      <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><td style="border-style:none"/><b>${_("Total")}:</b></td><td style="text-align:right">${so.currency_id.symbol or ''}&nbsp;${formatLang(so.amount_total)}</td></tr>
+                      <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${so.currency_id.symbol or ''}&nbsp;${formatLang(so.amount_untaxed_not_discounted)}</td></tr>
+                      <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><td style="border-style:none"/><b>${_("Discount")}:</b></td><td style="text-align:right">${so.currency_id.symbol or ''}&nbsp;${formatLang(so.amount_discounted)}</td></tr>
+                      <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><td style="border-style:none"/><b>${_("Taxes")}:</b></td><td style="text-align:right">${so.currency_id.symbol or ''}&nbsp;${formatLang(so.amount_tax)}</td></tr>
+                      <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><td style="border-style:none"/><b>${_("Total")}:</b></td><td style="text-align:right">${so.currency_id.symbol or ''}&nbsp;${formatLang(so.amount_total)}</td></tr>
                   %else:
                       <% amount_discount = (so.amount_untaxed_not_discounted - so.amount_discounted) %>
-                      <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${formatLang(so.amount_untaxed_not_discounted)}&nbsp;${so.currency_id.symbol or ''}</td></tr>
-                      <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><b>${_("Discount")}:</b></td><td style="text-align:right">${so.currency_id.symbol or ''}&nbsp;${formatLang(so.amount_discounted)}</td></tr>
-                      <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><b>${_("Sub Total with discount")}:</b></td><td style="text-align:right">${formatLang(amount_discount)}&nbsp;${so.currency_id.symbol or ''}</td></tr>
-                      <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><td style="border-style:none"/><b>${_("Taxes")}:</b></td><td style="text-align:right">${formatLang(so.amount_tax)}&nbsp;${so.currency_id.symbol or ''}</td></tr>
-                      <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><td style="border-style:none"/><b>${_("Total")}:</b></td><td style="text-align:right">${formatLang(so.amount_total)}&nbsp;${so.currency_id.symbol or ''}</td></tr>
+                      <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${formatLang(so.amount_untaxed_not_discounted)}&nbsp;${so.currency_id.symbol or ''}</td></tr>
+                      <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><b>${_("Discount")}:</b></td><td style="text-align:right">${so.currency_id.symbol or ''}&nbsp;${formatLang(so.amount_discounted)}</td></tr>
+                      <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><td style="border-style:none"/><b>${_("Taxes")}:</b></td><td style="text-align:right">${formatLang(so.amount_tax)}&nbsp;${so.currency_id.symbol or ''}</td></tr>
+                      <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><td style="border-style:none"/><b>${_("Total")}:</b></td><td style="text-align:right">${formatLang(so.amount_total)}&nbsp;${so.currency_id.symbol or ''}</td></tr>
                   %endif
                 %else:
                      %if so.currency_id.position == 'before':
-                          <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${so.currency_id.symbol or ''}&nbsp;${formatLang(so.amount_untaxed_not_discounted)}</td></tr>
-                          <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Taxes")}:</b></td><td style="text-align:right">${so.currency_id.symbol or ''}&nbsp;${formatLang(so.amount_tax)}</td></tr>
-                          <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Total")}:</b></td><td style="text-align:right">${so.currency_id.symbol or ''}&nbsp;${formatLang(so.amount_total)}</td></tr>
+                          <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${so.currency_id.symbol or ''}&nbsp;${formatLang(so.amount_untaxed_not_discounted)}</td></tr>
+                          <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Taxes")}:</b></td><td style="text-align:right">${so.currency_id.symbol or ''}&nbsp;${formatLang(so.amount_tax)}</td></tr>
+                          <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Total")}:</b></td><td style="text-align:right">${so.currency_id.symbol or ''}&nbsp;${formatLang(so.amount_total)}</td></tr>
                      %else:
-                          <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${formatLang(so.amount_untaxed_not_discounted)}&nbsp;${so.currency_id.symbol or ''}</td></tr>
-                          <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Taxes")}:</b></td><td style="text-align:right">${formatLang(so.amount_tax)}&nbsp;${so.currency_id.symbol or ''}</td></tr>
-                          <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><td style="border-style:none"/><b>${_("Total")}:</b></td><td style="text-align:right">${formatLang(so.amount_total)}&nbsp;${so.currency_id.symbol or ''}</td></tr>
+                          <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-top:2px solid"><b>${_("Sub Total")}:</b></td><td style="border-top:2px solid;text-align:right">${formatLang(so.amount_untaxed_not_discounted)}&nbsp;${so.currency_id.symbol or ''}</td></tr>
+                          <tr><td style="border-style:none"/><td style="border-style:none"/><td style="border-style:none"><b>${_("Taxes")}:</b></td><td style="text-align:right">${formatLang(so.amount_tax)}&nbsp;${so.currency_id.symbol or ''}</td></tr>
+                          <tr><td style="border-style:none"/><td style="border-style:none"><td style="border-style:none"/><b>${_("Total")}:</b></td><td style="text-align:right">${formatLang(so.amount_total)}&nbsp;${so.currency_id.symbol or ''}</td></tr>
                      %endif
         		%endif
     		</tbody>
