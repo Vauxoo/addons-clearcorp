@@ -19,26 +19,23 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': 'Purchase Order Report',
-    'version': '1.0',
-    'url': 'http://launchpad.net/openerp-ccorp-addons',
-    'author': 'ClearCorp S.A.',
-    'website': 'http://clearcorp.co.cr',
-    'category': 'Purchase Management',
-    'complexity': 'normal',
-    'description': """This module modifies the purchase order Request for Quotation report """,
-    'depends': [
-        'purchase',
-        'purchase_order_discount',
-    ],
-    'init_xml': [],
-    'demo_xml': [],
-    'update_xml': [
-                   'data/purchase_order_report_webkit.xml',
-                   'purchase_order_ccorp_report.xml',
-                   ],
-    'license': 'AGPL-3',
-    'installable': True,
-    'active': False,
-}
+
+import time
+import pooler
+from report import report_sxw
+import locale
+
+class purchase_order_report(report_sxw.rml_parse):
+    def __init__(self, cr, uid, name, context):
+        super(purchase_order_report, self).__init__(cr, uid, name, context=context)
+        self.localcontext.update({
+            'time': time,
+        })
+
+#the parameters are the report name and module name 
+report_sxw.report_sxw('report.purchase_order_report_inherit',
+                      'purchase.order',
+                      'addons/purchase_order_report/report/purchase_order_report.mako',
+                      parser=purchase_order_report)
+    
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
