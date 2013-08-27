@@ -20,7 +20,7 @@
 #
 ##############################################################################
 {
-    'name': 'Payslip rules by contract',
+    'name': 'Hr Contract Extended',
     'version': '1.0',
     'url': 'http://launchpad.net/openerp-ccorp-addons',
     'author': 'ClearCorp S.A.',
@@ -34,7 +34,10 @@
     ],
     'init_xml': [],
     'demo_xml': [],
-    'update_xml': ['hr_salary_rule_by_contract_view.xml'],
+    'data': [
+                'security/ir.model.access.csv',
+                'hr_contract_extended_view.xml',
+                ],
     'license': 'AGPL-3',
     'installable': True,
     'active': False,

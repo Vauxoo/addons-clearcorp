@@ -19,4 +19,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import hr_salary_rule_by_contract
+import hr_contract_extended
