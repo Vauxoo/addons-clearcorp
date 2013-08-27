@@ -31,6 +31,7 @@
     """,
     'depends': [
         'hr_payroll',
+        'report_webkit_lib',
     ],
     'init_xml': [],
     'demo_xml': [],
