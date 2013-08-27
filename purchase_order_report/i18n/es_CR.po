@@ -1,0 +1,138 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* purcharse_order_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-12-12 16:45+0000\n"
+"PO-Revision-Date: 2012-12-12 16:45+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: purchase_order_report
+#: report:addons/purchase_order_report/report/purchase_order_report.mako:96
+msgid "Sub Total"
+msgstr "Subtotal"
+
+#. module: purcharse_order_report
+#: report:addons/purcharse_order_report/report/purchase_order_report.mako:41
+msgid "Delivery and Invoincing"
+msgstr "Entrega y facturación"
+
+#. module: purcharse_order_report
+#: report:addons/purcharse_order_report/report/purchase_order_report.mako:108
+msgid "Authorized by"
+msgstr "Autorizado por"
+
+#. module: purcharse_order_report
+#: report:addons/purcharse_order_report/report/purchase_order_report.mako:71
+msgid "Unit Price"
+msgstr "Precio Unitario"
+
+#. module: purcharse_order_report
+#: report:addons/purcharse_order_report/report/purchase_order_report.mako:19
+msgid "Order N°"
+msgstr "Orden N°"
+
+#. module: purcharse_order_report
+#: report:addons/purcharse_order_report/report/purchase_order_report.mako:98
+msgid "Subtotal with discount"
+msgstr "Subtotal con descuento"
+
+#. module: purcharse_order_report
+#: report:addons/purcharse_order_report/report/purchase_order_report.mako:35
+msgid "Email"
+msgstr "Correo electrónico"
+
+#. module: purcharse_order_report
+#: report:addons/purcharse_order_report/report/purchase_order_report.mako:71
+msgid "Total Price"
+msgstr "Precio total"
+
+#. module: purcharse_order_report
+#: report:addons/purcharse_order_report/report/purchase_order_report.mako:24
+msgid "Order date: "
+msgstr "Fecha de la orden: "
+
+#. module: purcharse_order_report
+#: report:addons/purcharse_order_report/report/purchase_order_report.mako:97
+msgid "Discount"
+msgstr "Descuento"
+
+#. module: purcharse_order_report
+#: report:addons/purcharse_order_report/report/purchase_order_report.mako:32
+msgid "Ref."
+msgstr "Ref."
+
+#. module: purcharse_order_report
+#: report:addons/purcharse_order_report/report/purchase_order_report.mako:45
+msgid "Expected date: "
+msgstr "Fecha esperada "
+
+#. module: purcharse_order_report
+#: report:addons/purcharse_order_report/report/purchase_order_report.mako:69
+#: report:addons/purcharse_order_report/report/purchase_order_report.mako:71
+msgid "[Code] Description / (Taxes)"
+msgstr "[Código] Descripción / (Impuestos)"
+
+#. module: purcharse_order_report
+#: report:addons/purcharse_order_report/report/purchase_order_report.mako:99
+msgid "Taxes"
+msgstr "Impuestos"
+
+#. module: purcharse_order_report
+#: report:addons/purcharse_order_report/report/purchase_order_report.mako:40
+msgid "Purchase Order"
+msgstr "Pedido de compra"
+
+#. module: purcharse_order_report
+#: report:addons/purcharse_order_report/report/purchase_order_report.mako:49
+msgid "Date approved: "
+msgstr "Fecha de aprobación: "
+
+#. module: purcharse_order_report
+#: report:addons/purcharse_order_report/report/purchase_order_report.mako:28
+msgid "Validated by: "
+msgstr "Validado por: "
+
+#. module: purcharse_order_report
+#: report:addons/purcharse_order_report/report/purchase_order_report.mako:69
+msgid "Date Order"
+msgstr "Fecha de la orden"
+
+#. module: purcharse_order_report
+#: report:addons/purcharse_order_report/report/purchase_order_report.mako:69
+#: report:addons/purcharse_order_report/report/purchase_order_report.mako:71
+msgid "Qty"
+msgstr "Cant"
+
+#. module: purcharse_order_report
+#: report:addons/purcharse_order_report/report/purchase_order_report.mako:16
+msgid "Quotation N°"
+msgstr "Cotización N°"
+
+#. module: purcharse_order_report
+#: report:addons/purcharse_order_report/report/purchase_order_report.mako:108
+msgid "Validated by"
+msgstr "Validado por"
+
+#. module: purcharse_order_report
+#: report:addons/purcharse_order_report/report/purchase_order_report.mako:71
+msgid "Date planned"
+msgstr "Fecha planeada"
+
+#. module: purcharse_order_report
+#: report:addons/purcharse_order_report/report/purchase_order_report.mako:100
+msgid "Total"
+msgstr "Total"
+
+#. module: purcharse_order_report
+#: report:addons/purcharse_order_report/report/purchase_order_report.mako:31
+msgid "Tax ID"
+msgstr "Ced. Jurídica"

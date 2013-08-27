@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
-        <record id="sale_order_header_webkit" model="ir.header_webkit">
-        <field name="name">Sale order CLEARCORP official header</field>
+        <record id="purchase_order_header_webkit" model="ir.header_webkit">
+        <field name="name">Purchase order CLEARCORP official header</field>
         <field name="orientation">Portrait</field>
         <field name="format">Letter</field>
         <field name="margin_top">55.00</field>
