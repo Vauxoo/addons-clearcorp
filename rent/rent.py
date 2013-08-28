@@ -500,14 +500,10 @@ class rent_rent(osv.osv):
 		#obj_rent = self.browse(cr,uid,ids)[0]
 		debug(obj_rent)
 		if obj_rent:
-			vals = {}			
+			vals = {}
 			is_registrated = False
 			current_date = parser.parse(obj_rent.rent_start_date).date()
 			current_date = current_date.replace(year=date.today().year)
-	#		current_date = current_date.replace(day=31,month=12)
-	#		end_date = parser.parse(obj_rent.rent_end_date).date()
-	#		if end_date <= current_date:
-	#			current_date = end_date
 			for obj_historic in obj_rent.rent_historic:
 				debug(current_date.isoformat())
 				debug(obj_historic.anual_value_date)
@@ -525,13 +521,45 @@ class rent_rent(osv.osv):
 			if obj_rent.rent_related_real == 'local':
 				vals['anual_value_local'] = obj_rent.rent_rent_local
 			if not is_registrated:
-				vals['rent_historic'] = [(0,0,{'anual_value_rent':obj_rent.id,'anual_value_value':years_val,'anual_value_prev_value' : prev_value,'anual_value_rate' : obj_rent.rent_rise, 'anual_value_date' : current_date})]
+				vals['rent_historic'] = [(0,0,{'anual_value_rent':obj_rent.id,'anual_value_value':years_val,'anual_value_prev_value' : prev_value,'anual_value_rate' : obj_rent.rent_rise, 'anual_value_date' : current_date, 'anual_value_type' : 'main'})]
 			else:
 				vals['rent_historic'] = [(1,match_historic.id,{'anual_value_value':obj_rent.rent_amount_base,'anual_value_rate' : obj_rent.rent_rise})]
 			debug(vals)
 			obj_rent.write(vals)
 		return True
-		
+	
+	def register_main_historic(self,cr,uid,obj_rent):
+		debug('HISTORIC MAIN+===================')
+		#obj_rent = self.browse(cr,uid,ids)[0]
+		debug(obj_rent)
+		if obj_rent:
+			vals = {}
+			is_registrated = False
+			current_date = parser.parse(obj_rent.rent_main_start_date).date()
+			current_date = current_date.replace(year=date.today().year)
+			for obj_historic in obj_rent.rent_main_historic_ids:
+				debug(current_date.isoformat())
+				debug(obj_historic.anual_value_date)
+				if obj_historic.anual_value_date == current_date.isoformat():
+					is_registrated = True
+					match_historic = obj_historic
+					break
+			#We need to update the amount_base of the rent, so we ca
+			#charge the next part with the rate included
+			percentaje = obj_rent.rent_main_rise.split('%')[0]
+			prev_value = obj_rent.rent_main_amount_base
+			years_val = obj_rent.rent_main_amount_base * (1 + float(percentaje) / 100)
+			#obj_rent.write({'rent_amount_base' : years_val})
+			vals['rent_main_amount_base'] = years_val
+			if obj_rent.rent_related_real == 'local':
+				vals['anual_value_local'] = obj_rent.rent_rent_local
+			if not is_registrated:
+				vals['rent_main_historic_ids'] = [(0,0,{'anual_value_rent':obj_rent.id,'anual_value_value':years_val,'anual_value_prev_value' : prev_value,'anual_value_rate' : obj_rent.rent_rise, 'anual_value_date' : current_date, 'anual_value_type' : 'main'})]
+			else:
+				vals['rent_historic'] = [(1,match_historic.id,{'anual_value_value':obj_rent.rent_amount_base,'anual_value_rate' : obj_rent.rent_rise})]
+			debug(vals)
+			obj_rent.write(vals)
+		return True
 	def _performance_per_sqr(self,cr,uid,ids,field_name,args,context):
 		res = {}
 		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
@@ -780,7 +808,8 @@ class rent_rent(osv.osv):
 				#charge the next part with the rate included
 				if type=='rent':
 					self.register_historic(cr,uid,obj_rent)
-				
+				elif type=='main':
+					self.register_main_historic(cr,uid,obj_rent)
 				obj_rent = self.browse(cr,uid,obj_rent.id)
 				res_dob_inv.append(self._invoice_data(cr,uid,ids,obj_rent,{'init_date': rise_date, 'end_date' : charge_date.replace(day=calendar.mdays[charge_date.month])},type))
 			else:
@@ -969,7 +998,7 @@ class rent_rent(osv.osv):
 		'rent_modif_ref'        : fields.many2one('rent.rent', 'Modifications',ondelete='cascade'),
 		'currency_id'           : fields.many2one('res.currency', 'Currency', required=True, readonly=True, states={'draft':[('readonly',False)]}),
 		'rent_estimates'        : fields.one2many('rent.rent.estimate', 'estimate_rent','Estimates',states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),         
-		'rent_historic'         : fields.one2many('rent.rent.anual.value', 'anual_value_rent','Historic',readonly=True),
+		'rent_historic'         : fields.one2many('rent.rent.anual.value', 'anual_value_rent','Historic',readonly=True, domain=[('anual_value_type', '=', 'rent')]),
 		'rent_charge_day'       : fields.integer('Charge Day',help='Indica el dia del mes para realizar los cobros del alquiler.'),
 		'rent_invoice_ids'      : fields.one2many('rent.invoice.rent','invoice_rent_id','Rent Invoices', domain=[('invoice_type', '=', 'rent')]),
 		'rent_invoiced_day'     : fields.integer('Invoiced Day',help='Indicates de how many days before of the charge day will create the invoice'),
@@ -1007,6 +1036,7 @@ class rent_rent(osv.osv):
 		'rent_main_invoice_ids'      : fields.one2many('rent.invoice.rent','invoice_rent_id','Rent Invoices', domain=[('invoice_type', '=', 'main')]),
 		'rent_main_total'            : fields.float('Total Paid'),
 		'rent_main_total_us'         : fields.float('Total Paid $'),
+		'rent_main_historic_ids'     : fields.one2many('rent.rent.anual.value', 'anual_value_rent','Historic',readonly=True, domain=[('anual_value_type', '=', 'main')]),
 		#'rent_main_historic'         : fields.one2many('rent.rent.anual.value', 'anual_value_rent','Historic',readonly=True),         
 		'rent_main_company_id'       : fields.many2one('res.company', 'Supplier Company'),      
 		
@@ -1172,6 +1202,7 @@ class rent_rent_anual_value(osv.osv):
 		'anual_value_date'    : fields.date('Period'),
 		'anual_value_rate'    : fields.char('Anual Rise',size=64),
 		'anual_value_local'    : fields.many2one('rent.floor.local','Local reference'),
+		'anual_value_type'    : fields.selection([('main','Maintenance'),('rent','Rent')],'Type'),
 	}
 	
 rent_rent_anual_value()
