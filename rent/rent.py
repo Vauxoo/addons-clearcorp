@@ -548,7 +548,7 @@ class rent_rent(osv.osv):
 			#charge the next part with the rate included
 			amount_base = obj_rent.rent_main_amount_base
 			rise = obj_rent.rent_main_rise
-			percentaje = rise('%')[0]
+			percentaje = rise.split('%')[0]
 			prev_value = amount_base
 			years_val = amount_base * (1 + float(percentaje) / 100)
 			#obj_rent.write({'rent_amount_base' : years_val})
