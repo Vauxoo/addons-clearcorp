@@ -285,7 +285,7 @@ class AccountWebkitReportLibrary(orm.Model):
                 if not period_ids and fiscal_year_id and start_period_id and end_period_id:
                     start_period = period_obj.browse(cr, uid, start_period_id)
                     end_period = period_obj.browse(cr, uid, end_period_id)
-                    period_ids = self.get_interval_period(cr, uid, start_period=start_period, end_period=end_period, fiscal_year=fiscal_year_id)
+                    period_ids = period_obj.get_interval_period(cr, uid, start_period=start_period, end_period=end_period, fiscal_year=fiscal_year_id)
                 
                 #Only ordinary period needs start_period.
                 if start_period_id:

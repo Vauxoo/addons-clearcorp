@@ -112,14 +112,8 @@ class toolsModulesextendedAccountPeriod(orm.Model):
     def get_opening_period(self, cr, uid, select_period, context=None):
         fiscalyear = select_period.fiscalyear_id
         period_obj = self.pool.get('account.period')
-        special_period_ids = period_obj.search(cr, uid, ['&',('fiscalyear_id','=',fiscalyear.id),('special','=',True)], context=context)
-        special_periods = period_obj.browse(cr, uid, special_period_ids, context=context)
-        opening_period = False
-        for period in special_periods:
-            if not opening_period:
-                opening_period = period
-            elif opening_period.date_start > period.date_start:
-                opening_period = period
+        opening_period_id = period_obj.search(cr, uid, [('fiscalyear_id','=',fiscalyear.id),('special','=',True)], order='date_start asc', context=context)[0]
+        opening_period = period_obj.browse(cr, uid, opening_period_id, context=context)
         return opening_period
 
 
