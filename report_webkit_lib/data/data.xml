@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <openerp>
-    <data>
+    <data noupdate="1">
        <!-- Create a image by default, then set the correct image -->
        <record id="ir_header_img_default" model="ir.header_img">
             <field eval="&quot;&quot;&quot;jpeg&quot;&quot;&quot;" name="type"/>

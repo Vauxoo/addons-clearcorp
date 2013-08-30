@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <openerp>
-    <data>
+    <data noupdate="1">
        <record id="webkit_header_clearcorp_official_portrait" model="ir.header_webkit">
             <field name="name">Portrait CLEARCORP official header</field>
             <field name="orientation">Portrait</field>
