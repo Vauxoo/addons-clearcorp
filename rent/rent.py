@@ -942,10 +942,10 @@ class rent_rent(osv.osv):
 	
 	def _rent_main_performance(self,cr,uid,ids,field_name,args,context):
 		res = {}
-		#for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
-		#	total = 1
-		#	if obj_rent.rent_main_total:
-		#		res[obj_rent.id] = "%.2f%%" % ((obj_rent.rent_main_amount_base * 12) /  ( or ) * 100) 
+		for obj_rent in self.pool.get('rent.rent').browse(cr,uid,ids):
+			total = 1
+			if obj_rent.rent_main_total:
+				res[obj_rent.id] = "%.2f%%" % ((obj_rent.rent_main_amount_base * 12) /  (obj_rent.rent_main_total== 0 and 1 or obj_rent.rent_main_total) * 100) 
 		return 0
 		
 	def _rent_main_amount_years(self,cr,uid,ids,field_name,args,contexto):
@@ -1037,7 +1037,7 @@ class rent_rent(osv.osv):
 		'rent_main_estimates'        : fields.one2many('rent.rent.main.estimate', 'estimate_maintenance','Estimates',states={'active':[('readonly',True)], 'finished':[('readonly',True)]}),
 		'rent_main_invoice_ids'      : fields.one2many('rent.invoice.rent','invoice_rent_id','Rent Invoices', domain=[('invoice_type', '=', 'main')]),
 		'rent_main_total'            : fields.float('Total Paid'),
-		'rent_main_total_us'         : fields.float('Total Paid $'),
+		#'rent_main_total_us'         : fields.float('Total Paid $'),
 		'rent_main_historic_ids'     : fields.one2many('rent.rent.anual.value', 'anual_value_rent','Historic',readonly=True, domain=[('anual_value_type', '=', 'main')]),
 		#'rent_main_historic'         : fields.one2many('rent.rent.anual.value', 'anual_value_rent','Historic',readonly=True),         
 		'rent_main_company_id'       : fields.many2one('res.company', 'Supplier Company'),      

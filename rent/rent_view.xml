@@ -751,10 +751,9 @@
 								<label string = "  "/>
 								<button name = "calculate_negotiation" string="Compute Values" type="object" icon="terp-stock_format-scientific"/>
 							</group>
-							<group col = "4" colspan = "2" attrs = "{'invisible': [('rent_main_show_us_eq','!=','True')]}">
+							<group col = "2" colspan = "2" attrs = "{'invisible': [('rent_main_show_us_eq','!=','True')]}">
 								<separator string = "USD Currency Equivalence" colspan = "4"/>
 								<field name = "rent_main_amountd_base"/>
-								<field name = "rent_main_total_us"/>
 								<field name = "rent_main_rise_year2d"/>
 								<field name = "rent_main_rise_year3d"/>
 							</group>
