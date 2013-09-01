@@ -946,7 +946,7 @@ class rent_rent(osv.osv):
 			total = 1
 			if obj_rent.rent_main_total:
 				res[obj_rent.id] = "%.2f%%" % ((obj_rent.rent_main_amount_base * 12) /  (obj_rent.rent_main_total== 0 and 1 or obj_rent.rent_main_total) * 100) 
-		return 0
+		return res
 		
 	def _rent_main_amount_years(self,cr,uid,ids,field_name,args,contexto):
 		res = {}
