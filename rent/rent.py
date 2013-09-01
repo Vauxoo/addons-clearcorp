@@ -403,9 +403,9 @@ class rent_rent(osv.osv):
 		debug("==========ESTIMACIONES====")
 		debug(field)
 		obj_sorted = sorted(field,key=lambda estimate: estimate.estimate_performance,reverse=True)
-		vals = {}
 		priority = 1
 		for obj_record in obj_sorted:
+			vals = {}
 			if obj_record.estimate_state != 'final':
 				if priority == 1:
 					vals['estimate_state'] = 'recommend'
