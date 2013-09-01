@@ -1162,7 +1162,7 @@ class rent_rent_main_estimate(osv.osv):
 			rate_us = 1
 			total = obj_estimate.estimate_maintenance.rent_main_total
 			amounts_val['estimate_amountc'] = (total * (obj_estimate.estimate_performance/100.00)  / 12) / rate_us
-			amounts_val['estimate_amountd'] = (ototal * (obj_estimate.estimate_performance/100.00)  / 12) / rate_cr
+			amounts_val['estimate_amountd'] = (total * (obj_estimate.estimate_performance/100.00)  / 12) / rate_cr
 			res[obj_estimate.id] = amounts_val
 		return res
 	def _performance_currency(self,cr,uid,ids,field_name,args,contexto):
