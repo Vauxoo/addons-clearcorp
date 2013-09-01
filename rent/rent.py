@@ -1153,7 +1153,7 @@ class rent_rent_main_estimate(osv.osv):
 		res = {}
 		amount = 0
 		for obj_estimate in self.pool.get('rent.rent.main.estimate').browse(cr,uid,ids):
-			obj_rent = obj_estimate.estimate_rent
+			obj_rent = obj_estimate.estimate_maintenance
 			amounts_val = {}
 			
 			currency_id = obj_rent.currency_id
@@ -1167,7 +1167,7 @@ class rent_rent_main_estimate(osv.osv):
 	def _performance_currency(self,cr,uid,ids,field_name,args,contexto):
 		res = {}
 		for obj_estimate in self.pool.get('rent.rent.main.estimate').browse(cr,uid,ids):
-			obj_rent = obj_estimate.estimate_rent
+			obj_rent = obj_estimate.estimate_maintenance
 			
 			currencies_val = {}
 			valor = obj_rent._get_total_area(obj_rent.id,None,None)[obj_rent.id]
