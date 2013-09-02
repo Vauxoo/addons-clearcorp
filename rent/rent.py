@@ -1739,14 +1739,13 @@ class rent_invoice_line(osv.osv):
     def create(self, cr, uid,vals, context=None):
         #Check for the area before creating the object
         #invoice_line = vals['invoice_line']
-        if 'invoice_rent_id' in vals and vals['invoice_rent_id']:
-            vals['invoice_rent_id'] = vals['invoice_rent_id'][0]
-        elif 'invoice_type' in vals and vals['invoice_type'] == 'rent':
-            p_invoice_rent_id = vals['invoice_rent_id'][0]
-            vals['invoice_rent_id'] = p_invoice_rent_id
-            return super(rent_invoice_line,self).create(cr,uid,vals,context)
-                    
+        if 'invoice_type' in vals and vals['invoice_type'] == 'rent' and 'invoice_rent_id' in vals and vals['invoice_rent_id']:
+            if isinstance(vals['invoice_rent_id'], int):
+                vals['invoice_rent_id'] = vals['invoice_rent_id']
+            else:
+                vals['invoice_rent_id'] = vals['invoice_rent_id'][0]
             
+        
             #raise osv.except_osv('Wrong value!', 'The area for the estate has to bee greater than 0')
         return super(rent_invoice_line,self).create(cr,uid,vals,context)
     
