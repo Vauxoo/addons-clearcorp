@@ -1739,7 +1739,7 @@ class rent_invoice_line(osv.osv):
     def create(self, cr, uid,vals, context=None):
         #Check for the area before creating the object
         #invoice_line = vals['invoice_line']
-        if 'invoice_rent_id' in vals:
+        if 'invoice_rent_id' in vals and vals['invoice_rent_id']:
             vals['invoice_rent_id'] = vals['invoice_rent_id'][0]
         elif 'invoice_type' in vals and vals['invoice_type'] == 'rent':
             p_invoice_rent_id = vals['invoice_rent_id'][0]
