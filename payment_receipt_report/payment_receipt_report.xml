@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+		<report 
+		    auto="False" 		  
+		    id="account_voucher_ccorp" 
+		    model="account.voucher" 
+            name="account.voucher.layout_ccorp"  
+            file="payment_receipt_report/report/payment_receipt_report.mako" 
+            string="Payment Voucher" 
+            report_type="webkit" 
+            webkit_header="payment_receipt_header_webkit"/>
+	</data>
+</openerp>
