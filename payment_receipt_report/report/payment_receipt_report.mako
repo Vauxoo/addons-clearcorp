@@ -54,8 +54,7 @@
 			</tr>
 			<tr id = "val_second">
 				<td class = "info" colspan = "2">
-					<p class = "info_detail">${_("LA VALIDEZ DE ESTE RECIBO QUEDA SUJETA A QUE LOS CHEQUES RECIBIDOS SEAN PAGADOS POR EL BANCO A NUESTRA SATISFACCION")}</p>
-					<p class = "info_detail">${_("AUTORIZADO MEDIANTE OFICIO No.04-00007-97 DE FECHA 30-09-97 DE LA D.G.T.D.")}</p>
+					<p class = "info_detail">${_("THE VALIDITY OF THIS RECEIPT IS SUBJECT RECEIVED CHECKS TO BE PAID BY THE BANK TO OUR SATISFACTION")}</p>
 				</td>				
 			</tr>
 		</table>
