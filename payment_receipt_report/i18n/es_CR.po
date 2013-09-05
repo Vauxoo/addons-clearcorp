@@ -1,0 +1,67 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* payment_receipt_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-09-04 15:42+0000\n"
+"PO-Revision-Date: 2013-09-04 15:42+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: payment_receipt_report
+#: report:addons/payment_receipt_report/report/payment_receipt_report.mako:12
+msgid "No."
+msgstr "No."
+
+#. module: payment_receipt_report
+#: model:ir.actions.report.xml,name:payment_receipt_report.account_voucher_ccorp
+msgid "Payment Voucher"
+msgstr "Comprobante de pago"
+
+#. module: payment_receipt_report
+#: report:addons/payment_receipt_report/report/payment_receipt_report.mako:26
+msgid "Concept of"
+msgstr "Por concepto de"
+
+#. module: payment_receipt_report
+#: report:addons/payment_receipt_report/report/payment_receipt_report.mako:23
+msgid "In words"
+msgstr "En palabras"
+
+#. module: payment_receipt_report
+#: report:addons/payment_receipt_report/report/payment_receipt_report.mako:20
+msgid "The amount of"
+msgstr "El monto de"
+
+#. module: payment_receipt_report
+#: report:addons/payment_receipt_report/report/payment_receipt_report.mako:29
+msgid "Observations"
+msgstr "Observaciones"
+
+#. module: payment_receipt_report
+#: report:addons/payment_receipt_report/report/payment_receipt_report.mako:57
+msgid "THE VALIDITY OF THIS RECEIPT IS SUBJECT RECEIVED CHECKS TO BE PAID BY THE BANK TO OUR SATISFACTION"
+msgstr "LA VALIDEZ DE ESTE RECIBO QUEDA SUJETA A QUE LOS CHEQUES RECIBIDOS SEAN PAGADOS POR EL BANCO A NUESTRA SATISFACCIÓN"
+
+#. module: payment_receipt_report
+#: report:addons/payment_receipt_report/report/payment_receipt_report.mako:14
+msgid "Date"
+msgstr "Fecha"
+
+#. module: payment_receipt_report
+#: report:addons/payment_receipt_report/report/payment_receipt_report.mako:51
+msgid "P/"
+msgstr "P/"
+
+#. module: payment_receipt_report
+#: report:addons/payment_receipt_report/report/payment_receipt_report.mako:17
+msgid "We recieve from"
+msgstr "Recibimos de"
+
