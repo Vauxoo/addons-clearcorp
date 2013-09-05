@@ -56,11 +56,6 @@ msgid "Date"
 msgstr "Fecha"
 
 #. module: payment_receipt_report
-#: report:addons/payment_receipt_report/report/payment_receipt_report.mako:58
-msgid "AUTHORIZED BY OFFICE No.04-00007-97 30/09/97 DATE OF D.G.T.D."
-msgstr "AUTORIZADO MEDIANTE OFICIO No.04-00007-97 DE FECHA 30-09-97 DE LA D.G.T.D."
-
-#. module: payment_receipt_report
 #: report:addons/payment_receipt_report/report/payment_receipt_report.mako:51
 msgid "P/"
 msgstr "P/"
