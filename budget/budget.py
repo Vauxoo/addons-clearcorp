@@ -855,6 +855,15 @@ class budget_move(osv.osv):
             res[move.id]= total 
         return res
     
+    def _compute_compromised(self, cr, uid, ids, field_name, args, context=None):
+        res = {}
+        total=0.0
+        for move in self.browse(cr, uid, ids,context=context):
+            for line in move.move_lines:
+                total += line.compromised 
+            res[move.id]= total 
+        return res
+    
     def _check_non_zero(self, cr, uid, ids, context=None):
         for obj_bm in  self.browse(cr, uid, ids, context=context):
             if (obj_bm.fixed_amount == 0.0 or obj_bm.fixed_amount == None) and obj_bm.standalone_move == True and obj_bm.state in ('draft','reserved'):
@@ -918,7 +927,7 @@ class budget_move(osv.osv):
         'reserved': fields.function(_calc_reserved, type='float', method=True, string='Reserved',readonly=True, store=True),
         'arch_compromised':fields.float('Original compromised',digits_compute=dp.get_precision('Account'),),
 #TODO: to make it functional
-        'compromised': fields.float('Compromised', digits_compute=dp.get_precision('Account'), readonly=True,),
+        'compromised': fields.function(_compute_compromised, type='float', method=True, string='Compromised',readonly=True, store=True ),
         'executed': fields.function(_compute_executed, type='float', method=True, string='Executed',readonly=True, store=True ),
         'account_invoice_ids': fields.one2many('account.invoice', 'budget_move_id', 'Invoices' ),
         #'purchase_order_ids': fields.one2many('purchase.order', 'budget_move_id', 'Purchase orders' ),
@@ -1058,12 +1067,18 @@ class budget_move(osv.osv):
             if move.type in ('opening','extension','modification'):
                 if move.state == 'in_execution':
                     return True
+            if move.type in ('manual_invoice_out'):
+                if move.executed == move.fixed_ammount:
+                    return True
         return False
     
     def is_in_execution(self, cr, uid, ids, *args):
         for move in self.browse(cr, uid, ids,):
             if move.type in ('opening','extension','modification'):
                     return False
+            if move.type in ('manual_invoice_out'):
+                if move.executed != move.fixed_ammount:
+                    return True
         return False
     
     def dummy_button(self,cr,uid, ids,context=None):
@@ -1080,24 +1095,24 @@ class budget_move_line(osv.osv):
     _name = "budget.move.line"
     _description = "Budget Move Line"
     
-    def _compute_executed(self, cr, uid, ids, field_name, args, context=None):
-        res = {}
-        bar_obj = self.pool.get('budget.account.reconcile')
-        
-        lines = self.browse(cr, uid, ids,context=context) 
-        for line in lines:
-            total = 0.0
-            if line.state in ('executed','in_execution'):
-                if line.type == 'opening':
-                    total = line.fixed_amount
-                    
-                elif line.type == 'manual_invoice_in':
-                    line_ids_bar = bar_obj.search(cr, uid, [('budget_move_line_id','=', line.id)], context=context)
-                    for bar_line in bar_obj.browse(cr, uid, line_ids_bar):
-                        total += bar_line.amount
-                        
-            res[line.id]= total 
-        return res
+#    def _compute_executed(self, cr, uid, ids, field_name, args, context=None):
+#        res = {}
+#        bar_obj = self.pool.get('budget.account.reconcile')
+#        
+#        lines = self.browse(cr, uid, ids,context=context) 
+#        for line in lines:
+#            total = 0.0
+#            if line.state in ('executed','in_execution'):
+#                if line.type == 'opening':
+#                    total = line.fixed_amount
+#                    
+#                elif line.type == 'manual_invoice_in':
+#                    line_ids_bar = bar_obj.search(cr, uid, [('budget_move_line_id','=', line.id)], context=context)
+#                    for bar_line in bar_obj.browse(cr, uid, line_ids_bar):
+#                        total += bar_line.amount
+#                        
+#            res[line.id]= total 
+#        return res
     
     def on_change_program_line(self, cr, uid, ids, program_line, context=None):
         for line in self.pool.get('budget.program.line').browse(cr, uid,[program_line], context=context):
@@ -1105,20 +1120,40 @@ class budget_move_line(osv.osv):
         return {'value': {}}
     
     
-    def _compute_compromised(self, cr, uid, ids, field_name, args, context=None):
-        res = {}
-#        moves = self.browse(cr, uid, ids,context=context) 
-#        for move in moves:
+#    def _compute_compromised(self, cr, uid, ids, field_name, args, context=None):
+#        res = {}
+#        lines = self.browse(cr, uid, ids,context=context) 
+#        for line in lines:
 #            total = 0.0
-#            for invoice in move.account_invoice_ids:
-#                if invoice.state == 'open':
-#                    total += invoice.amount_total
-#            res[move.id]= total
-        lines = self.browse(cr, uid, ids,context=context) 
+#            res[line.id]= 0.0 
+#        return res
+    
+    def _compute_compromised_executed(self, cr, uid, ids, field_names, args, context=None):
+        bar_obj = self.pool.get('budget.account.reconcile')
+        fields = ['compromised', 'executed']
+        res = {}
+        lines = self.browse(cr, uid, ids,context=context)
+         
         for line in lines:
-            total = 0.0
-            res[line.id]= 0.0 
+            res[line.id] = {}
+            executed = 0.0
+            compromised = 0.0
+            if line.state in ('executed','in_execution'):
+                if line.type == 'opening':
+                    executed = line.fixed_amount
+                    
+                elif line.type == 'manual_invoice_in':
+                    line_ids_bar = bar_obj.search(cr, uid, [('budget_move_line_id','=', line.id)], context=context)
+                    for bar_line in bar_obj.browse(cr, uid, line_ids_bar):
+                        executed += bar_line.amount
+                        
+            if line.state in ('compromised','executed','in_execution'):
+                compromised = line.fixed_amount - executed
+                
+            res[line.id]['executed'] = executed
+            res[line.id]['compromised'] = compromised 
         return res
+    
     
     def _compute_reserved(self, cr, uid, ids, field_name, args, context=None):
         res = {}
@@ -1176,8 +1211,8 @@ class budget_move_line(osv.osv):
         'modified': fields.function(_compute_modified, type='float', method=True, string='Modified',readonly=True, store=True),
         'extended': fields.function(_compute_extended, type='float', method=True, string='Extended',readonly=True, store=True),
         'reserved': fields.function(_compute_reserved, type='float', method=True, string='Reserved',readonly=True, store=True),
-        'compromised': fields.function(_compute_compromised, type='float', method=True, string='Compromised', readonly=True, store=True),
-        'executed': fields.function(_compute_executed, type='float', method=True, string='Executed',readonly=True, store=True),
+        'compromised': fields.function(_compute_compromised_executed, type='float', method=True, multi=True, string='Compromised', readonly=True, store=True),
+        'executed': fields.function(_compute_compromised_executed, type='float', method=True, multi=True, string='Executed',readonly=True, store=True),
         'po_line_id': fields.many2one('purchase.order.line', 'Purchase order line', ),
         'so_line_id': fields.many2one('sale.order.line', 'Sale order line', ),
         'inv_line_id': fields.many2one('account.invoice.line', 'Invoice line', ),
@@ -1198,9 +1233,9 @@ class budget_move_line(osv.osv):
     def write(self, cr, uid, ids, vals, context=None):
         bud_move_obj = self.pool.get('budget.move')
         super(budget_move_line, self).write(cr, uid, ids, vals, context=context)
-        for line in self.browse(cr, uid, ids, context=context):
-            move_id =line.budget_move_id.id
-            #bud_move_obj.write(cr,uid, [move_id], {'date':line.budget_move_id.date},context=context)
+#        for line in self.browse(cr, uid, ids, context=context):
+#            move_id =line.budget_move_id.id
+#            bud_move_obj.write(cr,uid, [move_id], {'date':line.budget_move_id.date},context=context)
         
 
 class budget_account_reconcile(osv.osv):
@@ -1215,7 +1250,13 @@ class budget_account_reconcile(osv.osv):
          'amount': fields.float('Amount', digits_compute=dp.get_precision('Account'), required=True),
     }
     
-    
+    def clean_reconcile_entries(self, cr, uid, move_line_ids, context=None):
+        lines = []
+        for move_line_id in move_line_ids:
+            result = self.search(cr ,uid, [('account_move_line_id','=', move_line_id)], context=context)
+            lines += result
+        self.unlink(cr, uid, lines,context=context)
+        return True
     
     
     

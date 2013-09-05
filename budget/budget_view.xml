@@ -578,6 +578,8 @@
             							<field name="program_line_id"/>
             							<field name="date"/>
             							<field name="fixed_amount" string="Amount" readonly="True"/>
+            							<field name="compromised" readonly="True"/>
+            							<field name="executed" readonly="True"/>
             						</tree>
             					</field>		
             				</page>

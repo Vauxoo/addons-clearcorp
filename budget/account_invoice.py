@@ -117,7 +117,7 @@ class account_invoice(osv.osv):
         line_obj = self.pool.get('account.invoice.line')
         bud_move_obj = self.pool.get('budget.move')
         for invoice in self.browse(cr, uid, ids, context=context):
-            bud_move_obj.action_reserve(cr, uid, [invoice.budget_move_id.id],context=context )
+            bud_move_obj.action_in_execution(cr, uid, [invoice.budget_move_id.id],context=context )
         return super(account_invoice,self).invoice_validate(cr, uid, ids, context=context)
     
     
