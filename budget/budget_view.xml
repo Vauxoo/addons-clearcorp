@@ -521,8 +521,8 @@
             <field name="arch" type="xml">
             	<tree string="Moves">
             		<field name="code"/>
-            		<!--<field name="program_line_id"/>-->
             		<field name="date"/>
+            		<field name="type" />
             		<field name="reserved" />
             		<field name="compromised"/>
             		<field name="executed"/>
@@ -545,7 +545,7 @@
                 	        <button name="button_compromise" states="reserved" string="Compromise" />
                 	        <button name="button_execute" states="compromised" string="Execute" />
             	        -->
-                    	<field name="state" widget="statusbar" statusbar_visible="draft,reserved,compromised,executed,cancel"/>
+                    	<field name="state" widget="statusbar" statusbar_visible="draft,reserved,compromised,executed"/>
             		</header>
             		<sheet>
             			<h1>
@@ -555,6 +555,7 @@
             				<group>
 	            				<field name="code" readonly="True"/>
 	            				<field name="origin" readonly="True"/>
+	            				<field name="type" required="True" readonly="True"/>
 	            				<!--<field name="purchase_order_ids" attrs="{ 'invisible':[('purchase_order_ids','=',False)] }" widget="one2one_list" class="oe_inline"/>
 	            				<field name="sale_order_ids" attrs="{ 'invisible':[('sale_order_ids','=', False)] } " widget="one2one_list" class="oe_inline"/>-->	
 	          			  	</group>
@@ -577,6 +578,8 @@
             							<field name="program_line_id"/>
             							<field name="date"/>
             							<field name="fixed_amount" string="Amount" readonly="True"/>
+            							<field name="compromised" readonly="True"/>
+            							<field name="executed" readonly="True"/>
             						</tree>
             					</field>		
             				</page>
@@ -628,6 +631,7 @@
             	<tree string="Moves">
             		<field name="code"/>
             		<field name="date"/>
+            		<field name="type" />
             		<field name="reserved" />
             		<field name="compromised"/>
             		<field name="executed"/>

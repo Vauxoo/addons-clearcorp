@@ -7,6 +7,7 @@ access_budget_move_line_manager,budget.move.line,model_budget_move_line,budget.g
 access_budget_plan_manager,budget.plan,model_budget_plan,budget.group_budget_manager,1,1,1,1
 access_budget_year_manager,budget.year,model_budget_year,budget.group_budget_manager,1,1,1,1
 access_budget_period_manager,budget.period,model_budget_period,budget.group_budget_manager,1,1,1,1
+access_account_move_line_distribution_manager,account.move.line.distribution,model_account_move_line_distribution,budget.group_budget_manager,1,1,1,1
 access_budget_account_user,budget.account,model_budget_account,budget.group_budget_user,1,0,0,0
 access_budget_program_user,budget.program,model_budget_program,budget.group_budget_user,1,0,0,0
 access_program_line_user,budget.program.line,model_budget_program_line,budget.group_budget_user,1,0,0,0
@@ -15,3 +16,4 @@ access_budget_move_line_user,budget.move.line,model_budget_move_line,budget.grou
 access_budget_plan_user,budget.plan,model_budget_plan,budget.group_budget_user,1,0,0,0
 access_budget_year_user,budget.year,model_budget_year,budget.group_budget_user,1,0,0,0
 access_budget_period_user,budget.period,model_budget_period,budget.group_budget_user,1,0,0,0
+access_account_move_line_distribution_user,account.move.line.distribution,model_account_move_line_distribution,budget.group_budget_user,1,0,0,0
