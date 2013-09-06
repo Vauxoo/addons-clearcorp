@@ -545,7 +545,7 @@
                 	        <button name="button_compromise" states="reserved" string="Compromise" />
                 	        <button name="button_execute" states="compromised" string="Execute" />
             	        -->
-                    	<field name="state" widget="statusbar" statusbar_visible="draft,reserved,compromised,executed,cancel"/>
+                    	<field name="state" widget="statusbar" statusbar_visible="draft,reserved,compromised,executed"/>
             		</header>
             		<sheet>
             			<h1>

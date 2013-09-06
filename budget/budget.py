@@ -1067,7 +1067,7 @@ class budget_move(osv.osv):
             if move.type in ('opening','extension','modification'):
                 if move.state == 'in_execution':
                     return True
-            if move.type in ('manual_invoice_out'):
+            if move.type in ('manual_invoice_in'):
                 if move.executed == move.fixed_ammount:
                     return True
         return False
@@ -1076,7 +1076,7 @@ class budget_move(osv.osv):
         for move in self.browse(cr, uid, ids,):
             if move.type in ('opening','extension','modification'):
                     return False
-            if move.type in ('manual_invoice_out'):
+            if move.type in ('manual_invoice_in'):
                 if move.executed != move.fixed_ammount:
                     return True
         return False
