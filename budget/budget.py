@@ -1097,7 +1097,7 @@ class budget_move_line(osv.osv):
     
 #    def _compute_executed(self, cr, uid, ids, field_name, args, context=None):
 #        res = {}
-#        bar_obj = self.pool.get('budget.account.reconcile')
+#        amld = self.pool.get('budget.account.reconcile')
 #        
 #        lines = self.browse(cr, uid, ids,context=context) 
 #        for line in lines:
@@ -1107,8 +1107,8 @@ class budget_move_line(osv.osv):
 #                    total = line.fixed_amount
 #                    
 #                elif line.type == 'manual_invoice_in':
-#                    line_ids_bar = bar_obj.search(cr, uid, [('budget_move_line_id','=', line.id)], context=context)
-#                    for bar_line in bar_obj.browse(cr, uid, line_ids_bar):
+#                    line_ids_bar = amld.search(cr, uid, [('budget_move_line_id','=', line.id)], context=context)
+#                    for bar_line in amld.browse(cr, uid, line_ids_bar):
 #                        total += bar_line.amount
 #                        
 #            res[line.id]= total 
@@ -1129,7 +1129,7 @@ class budget_move_line(osv.osv):
 #        return res
     
     def _compute_compromised_executed(self, cr, uid, ids, field_names, args, context=None):
-        bar_obj = self.pool.get('budget.account.reconcile')
+        amld = self.pool.get('account_move_line_distribution')
         fields = ['compromised', 'executed']
         res = {}
         lines = self.browse(cr, uid, ids,context=context)
@@ -1143,8 +1143,8 @@ class budget_move_line(osv.osv):
                     executed = line.fixed_amount
                     
                 elif line.type == 'manual_invoice_in':
-                    line_ids_bar = bar_obj.search(cr, uid, [('budget_move_line_id','=', line.id)], context=context)
-                    for bar_line in bar_obj.browse(cr, uid, line_ids_bar):
+                    line_ids_bar = amld.search(cr, uid, [('budget_move_line_id','=', line.id)], context=context)
+                    for bar_line in amld.browse(cr, uid, line_ids_bar):
                         executed += bar_line.amount
                         
             if line.state in ('compromised','executed','in_execution'):
@@ -1238,16 +1238,37 @@ class budget_move_line(osv.osv):
 #            bud_move_obj.write(cr,uid, [move_id], {'date':line.budget_move_id.date},context=context)
         
 
-class budget_account_reconcile(osv.osv):
-    _name = "budget.account.reconcile"
-    _description = "Budget Account Reconcile"
+#class budget_account_reconcile(osv.osv):
+#    _name = "budget.account.reconcile"
+#    _description = "Budget Account Reconcile"
+#    
+#    _columns = {
+#         'budget_move_id': fields.many2one('budget.move', 'Budget Move', required=True, ),       
+#         'budget_move_line_id': fields.many2one('budget.move.line', 'Budget Move Line', required=True, ),
+#         'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', required=True, ),
+#         'account_move_reconcile_id': fields.many2one('account.move.reconcile', 'Account Move Reconcile', required=True, ),
+#         'amount': fields.float('Amount', digits_compute=dp.get_precision('Account'), required=True),
+#    }
+#    
+#    def clean_reconcile_entries(self, cr, uid, move_line_ids, context=None):
+#        lines = []
+#        for move_line_id in move_line_ids:
+#            result = self.search(cr ,uid, [('account_move_line_id','=', move_line_id)], context=context)
+#            lines += result
+#        self.unlink(cr, uid, lines,context=context)
+#        return True
     
-    _columns = {
-         'budget_move_id': fields.many2one('budget.move', 'Budget Move', required=True, ),       
-         'budget_move_line_id': fields.many2one('budget.move.line', 'Budget Move Line', required=True, ),
+class account_move_line_distribution(osv.osv):
+    _name = "account.move.line.distribution"
+    _description = "Account move line distribution"
+    
+    _columns = {       
+         'target_budget_move_line_id': fields.many2one('budget.move.line', 'Budget Move Line', required=True, ),
          'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', required=True, ),
          'account_move_reconcile_id': fields.many2one('account.move.reconcile', 'Account Move Reconcile', required=True, ),
-         'amount': fields.float('Amount', digits_compute=dp.get_precision('Account'), required=True),
+         'distribution_percentage': fields.float('Distribution Percentage', required=True,),
+         'distribution_amount': fields.float('Distribution Percentage', digits_compute=dp.get_precision('Account'), required=True),
+         'reconcile_ids': fields.many2many('account.move.reconcile','bud_reconcile_distribution_ids', digits_compute=dp.get_precision('Account'), required=True),
     }
     
     def clean_reconcile_entries(self, cr, uid, move_line_ids, context=None):
@@ -1258,8 +1279,9 @@ class budget_account_reconcile(osv.osv):
         self.unlink(cr, uid, lines,context=context)
         return True
     
+    #_constraint: sum distribution_amont por account_move_line_id debe ser igual al total
+    #             solo un target para cada distribution
     
-    
-    
+
     
     

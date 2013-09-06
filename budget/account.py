@@ -114,7 +114,7 @@ class account_move_reconcile(osv.osv):
         acc_inv_obj = self.pool.get('account.invoice')
         acc_vouch_obj = self.pool.get('account.voucher')
         move_line_obj = self.pool.get('account.move.line')
-        bar_obj = self.pool.get('budget.account.reconcile')
+        amld = self.pool.get('account.move.line.distribution')
         bud_move_obj = self.pool.get('budget.move')
         bud_move_line_obj = self.pool.get('budget.move.line')
         
@@ -137,10 +137,10 @@ class account_move_reconcile(osv.osv):
         i=0
         sum = 0
         for line in bud_move.move_lines:
-            bar_obj.clean_reconcile_entries(cr, uid, [payment_move_line_id], context=None)
+            amld.clean_reconcile_entries(cr, uid, [payment_move_line_id], context=None)
             if i < len(bud_move.move_lines)-1:
                 perc = line.fixed_amount/bud_move.fixed_amount or 0
-                bar_obj.create(cr, uid, {'budget_move_id': bud_move.id,
+                amld.create(cr, uid, {'budget_move_id': bud_move.id,
                                          'budget_move_line_id': line.id,
                                          'account_move_line_id': payment_move_line_id,
                                          'account_move_reconcile_id': payment_reconcile_id,
@@ -149,7 +149,7 @@ class account_move_reconcile(osv.osv):
                 sum += amount * perc
                 i+=1
                 
-            bar_obj.create(cr, uid, {'budget_move_id': bud_move.id,
+            amld.create(cr, uid, {'budget_move_id': bud_move.id,
                                          'budget_move_line_id': bud_move.move_lines[i].id,
                                          'account_move_line_id': payment_move_line_id,
                                          'account_move_reconcile_id': payment_reconcile_id,
@@ -187,22 +187,40 @@ class account_move_reconcile(osv.osv):
             
             cash_moves = self.split_move_noncash(cr, uid, move_ids, context=context)
             
-            if 'cash' in cash_moves.values() or passing_through:
+            if 'cash' in cash_moves.values():
                 for move in acc_move_obj.browse( cr, uid, move_ids, context=context):
                     if cash_moves[move.id] == 'cash':                                      #if it moves cash and
                         voucher_id = self.move_in_voucher(cr, uid, [move.id], context=context)
-                        if voucher_id != -1:                                               #is a voucher
-                            classified_reconciled_lines = self.split_debit_credit(cr, uid, reconcile_line_ids, context)
-                            for line in move.line_id:
-                                reconcile_id = line.reconcile_id or line.reconcile_partial_id
-                                if line.id in reconcile_line_ids:
-                                    reconcile_counterpart_ids = self.get_counterparts(cr, uid, line.id, classified_reconciled_lines, context)
-                                    for counter_id in reconcile_counterpart_ids:
-                                         move_counter_id = self.line_in_move(cr, uid, [counter_id], context)
-                                         invoice_id = self.move_in_invoice(cr, uid, [move_counter_id], context=context)
-                                         if invoice_id != -1:
-                                             self.create_budget_account_reconcile(cr, uid, invoice_id, line.id, reconcile_id.id, local_trace_reconciled_ids, context=context)
+                        #if voucher_id != -1:                                               #is a voucher
+                        classified_reconciled_lines = self.split_debit_credit(cr, uid, reconcile_line_ids, context)
+                        for line in move.line_id:
+                            reconcile_id = line.reconcile_id or line.reconcile_partial_id
+                            if line.id in reconcile_line_ids:
+                                reconcile_counterpart_ids = self.get_counterparts(cr, uid, line.id, classified_reconciled_lines, context)
+                                for counter_id in reconcile_counterpart_ids:
+                                     move_counter_id = self.line_in_move(cr, uid, [counter_id], context)
+                                     invoice_id = self.move_in_invoice(cr, uid, [move_counter_id], context=context)
+                                     if invoice_id != -1:
+                                         self.create_budget_account_reconcile(cr, uid, invoice_id, line.id, reconcile_id.id, local_trace_reconciled_ids, context=context)
+                                     else:
+                                        print ("else if no t in invoice")
+                                         
+                        
+            elif passing_through:
+                print ("TODO PASS THROUGH")
                                              
-
+class account_move_line(osv.osv):
+    _inherit = 'account.move.line'
+    
+    OPTIONS=[('liquid',''),
+             ('void',''),
+             ('move',''),]
+    
+    _columns = {
+        'distribution_ids' : fields.one2many('account.move.line.distribution','account_move_line_id','Distributions'),
+        'budget_type': fields.selection(OPTIONS,'budget_type', readonly=True, ) 
+               }
+    
+    
                     
             
