@@ -219,8 +219,4 @@ class account_move_line(osv.osv):
     _columns = {
         'distribution_ids' : fields.one2many('account.move.line.distribution','account_move_line_id','Distributions'),
         'budget_type': fields.selection(OPTIONS,'budget_type', readonly=True, ) 
-               }
-    
-    
-                    
-            
+    }
