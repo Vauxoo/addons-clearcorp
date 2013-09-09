@@ -29,7 +29,7 @@ import logging
 import netsvc
 import decimal_precision as dp
 
-from osv import fields, osv
+from osv import fields, osv, orm
 
 
 ######################################################
@@ -1129,7 +1129,7 @@ class budget_move_line(osv.osv):
 #        return res
     
     def _compute_compromised_executed(self, cr, uid, ids, field_names, args, context=None):
-        amld = self.pool.get('account_move_line_distribution')
+        amld = self.pool.get('account.move.line.distribution')
         fields = ['compromised', 'executed']
         res = {}
         lines = self.browse(cr, uid, ids,context=context)
@@ -1143,7 +1143,7 @@ class budget_move_line(osv.osv):
                     executed = line.fixed_amount
                     
                 elif line.type == 'manual_invoice_in':
-                    line_ids_bar = amld.search(cr, uid, [('budget_move_line_id','=', line.id)], context=context)
+                    line_ids_bar = amld.search(cr, uid, [('account_move_line_id','=', line.id)], context=context)
                     for bar_line in amld.browse(cr, uid, line_ids_bar):
                         executed += bar_line.amount
                         
@@ -1203,6 +1203,8 @@ class budget_move_line(osv.osv):
     _columns = {
         'origin': fields.char('Origin', size=64, ),
         'budget_move_id': fields.many2one('budget.move', 'Budget Move', required=True, ondelete='cascade'),
+        'name': fields.related('budget_move_id', 'code', type='char', size=128, string = 'Budget Move Name'),
+        'code': fields.related('origin', type='char', size=64, string = 'Budget Line Origin'),
         'program_line_id': fields.many2one('budget.program.line', 'Program line', required=True),
         'date': fields.datetime('Date created', required=True,),
         'fixed_amount': fields.float('Original amount',digits_compute=dp.get_precision('Account'),),
@@ -1258,19 +1260,40 @@ class budget_move_line(osv.osv):
 #        self.unlink(cr, uid, lines,context=context)
 #        return True
     
-class account_move_line_distribution(osv.osv):
+class account_move_line_distribution(orm.Model):
+    
     _name = "account.move.line.distribution"
     _description = "Account move line distribution"
     
-    _columns = {       
-         'target_budget_move_line_id': fields.many2one('budget.move.line', 'Budget Move Line', required=True, ),
-         'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', required=True, ),
-         'account_move_reconcile_id': fields.many2one('account.move.reconcile', 'Account Move Reconcile', required=True, ),
-         'distribution_percentage': fields.float('Distribution Percentage', required=True,),
-         'distribution_amount': fields.float('Distribution Percentage', digits_compute=dp.get_precision('Account'), required=True),
-         'reconcile_ids': fields.many2many('account.move.reconcile','bud_reconcile_distribution_ids', digits_compute=dp.get_precision('Account'), required=True),
+    _columns = {         
+         'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', required=True,),
+         'distribution_percentage': fields.float('Distribution Percentage', required=True, digits_compute=dp.get_precision('Account'),),
+         'distribution_amount': fields.float('Distribution Amount', digits_compute=dp.get_precision('Account'), required=True),
+         'target_budget_move_line_id': fields.many2one('budget.move.line', 'Target Budget Move Line',),
+         'target_account_move_line_id': fields.many2one('account.move.line', 'Target Budget Move Line'),
+         'reconcile_ids': fields.many2many('account.move.reconcile','bud_reconcile_distribution_ids',),
+         'type': fields.selection([('manual', 'Manual'),('auto', 'Automatic')], 'Distribution Type', select=True),
+    }
+
+    _defaults = {
+        'type': 'manual', 
+        'distribution_amount': 0.0,
+        'distribution_percentage': 0.0,
     }
     
+    #A distribution line only has one target. This target can be a move_line or a budget_line
+    def _check_target_move_line (self, cr, uid, ids, context=None):
+        distribution_line_obj = self.browse(cr, uid, ids[0],context)
+        
+        if distribution_line_obj.target_budget_move_line_id and distribution_line_obj.target_account_move_line_id:
+            return False
+        else:
+            return True
+    
+    _constraints = [
+        (_check_target_move_line,'A Distribution Line only has one target. A target can be a move line or a budget move line',['target_budget_move_line_id', 'target_account_move_line_id']),
+    ]
+        
     def clean_reconcile_entries(self, cr, uid, move_line_ids, context=None):
         lines = []
         for move_line_id in move_line_ids:
