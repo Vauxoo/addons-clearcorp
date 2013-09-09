@@ -873,15 +873,31 @@ class budget_move(osv.osv):
     def _calc_reserved(self, cr, uid, ids, field_name, args, context=None):
         res = {}
         for bud_move in self.browse(cr, uid, ids, context=context):
+            res_amount = 0
             if bud_move.state == 'reserved':       
-                res_amount=0
                 for line in bud_move.move_lines:
-                    res_amount += line.fixed_amount
+                    res_amount += line.reserved
             else:
                 res_amount = 0
             res[bud_move.id] = res_amount
         return res
-
+    
+    def _calc_reversed(self, cr, uid, ids, field_name, args, context=None):
+        res = {}
+        for bud_move in self.browse(cr, uid, ids, context=context):
+            res_amount = 0    
+            for line in bud_move.move_lines:
+                res_amount += line.reversed
+            res[bud_move.id] = res_amount
+        return res
+    
+    def recalculate_values(self, cr, uid, ids, context=None):
+        mov_line_obj = self.pool.get('budget.move.line')
+        for move in self.browse(cr ,uid, ids, context=context):
+            for line in move.move_lines:
+                mov_line_obj.write(cr, uid, line.id, {'date' : line.date}, context=context)
+            self.write(cr, uid, ids, {'code':move.code}, context=context) 
+    
     def _select_types(self,cr,uid,context=None):
         #In case that the move is created from the view "view_budget_move_manual_form", modifies the selectable types
         #reducing them to modification, extension and opening
@@ -925,6 +941,7 @@ class budget_move(osv.osv):
         'standalone_move' : fields.boolean('Standalone move', readonly=True, states={'draft':[('readonly',False)]} ),
         'arch_reserved':fields.float('Original Reserved', digits_compute=dp.get_precision('Account'),),
         'reserved': fields.function(_calc_reserved, type='float', method=True, string='Reserved',readonly=True, store=True),
+        'reversed': fields.function(_calc_reversed, type='float', method=True, string='Reversed',readonly=True, store=True),
         'arch_compromised':fields.float('Original compromised',digits_compute=dp.get_precision('Account'),),
 #TODO: to make it functional
         'compromised': fields.function(_compute_compromised, type='float', method=True, string='Compromised',readonly=True, store=True ),
@@ -1015,10 +1032,7 @@ class budget_move(osv.osv):
         obj_mov_line = self.pool.get('budget.move.line')
         if result[0]:
             self.write(cr, uid, ids, {'state': 'reserved'})
-            for move in self.browse(cr, uid, ids, context=context):
-                for line in move.move_lines:
-                    obj_mov_line.write(cr, uid, [line.id],{'date':line.date }, context=context)
-                self.write(cr, uid, [move.id], {'state': 'reserved'})
+            self.recalculate_values(cr, uid, ids, context=context)
         else:
             raise osv.except_osv(_('Error!'), result[1])
         return True
@@ -1033,6 +1047,7 @@ class budget_move(osv.osv):
         result = self._check_values(cr, uid, ids, context)
         if result[0]:
             self.write(cr, uid, ids, {'state': 'in_execution'})
+            self.recalculate_values(cr, uid, ids, context=context)
         else:
             raise osv.except_osv(_('Error!'), result[1])
         return True
@@ -1068,7 +1083,7 @@ class budget_move(osv.osv):
                 if move.state == 'in_execution':
                     return True
             if move.type in ('manual_invoice_in'):
-                if move.executed == move.fixed_ammount:
+                if move.executed == move.fixed_amount - move.reversed:
                     return True
         return False
     
@@ -1077,7 +1092,7 @@ class budget_move(osv.osv):
             if move.type in ('opening','extension','modification'):
                     return False
             if move.type in ('manual_invoice_in'):
-                if move.executed != move.fixed_ammount:
+                if move.executed != move.fixed_amount - move.reversed:
                     return True
         return False
     
@@ -1095,41 +1110,13 @@ class budget_move_line(osv.osv):
     _name = "budget.move.line"
     _description = "Budget Move Line"
     
-#    def _compute_executed(self, cr, uid, ids, field_name, args, context=None):
-#        res = {}
-#        amld = self.pool.get('budget.account.reconcile')
-#        
-#        lines = self.browse(cr, uid, ids,context=context) 
-#        for line in lines:
-#            total = 0.0
-#            if line.state in ('executed','in_execution'):
-#                if line.type == 'opening':
-#                    total = line.fixed_amount
-#                    
-#                elif line.type == 'manual_invoice_in':
-#                    line_ids_bar = amld.search(cr, uid, [('budget_move_line_id','=', line.id)], context=context)
-#                    for bar_line in amld.browse(cr, uid, line_ids_bar):
-#                        total += bar_line.amount
-#                        
-#            res[line.id]= total 
-#        return res
-    
     def on_change_program_line(self, cr, uid, ids, program_line, context=None):
         for line in self.pool.get('budget.program.line').browse(cr, uid,[program_line], context=context):
             return {'value': {'line_available':line.available_budget},}
         return {'value': {}}
     
-    
-#    def _compute_compromised(self, cr, uid, ids, field_name, args, context=None):
-#        res = {}
-#        lines = self.browse(cr, uid, ids,context=context) 
-#        for line in lines:
-#            total = 0.0
-#            res[line.id]= 0.0 
-#        return res
-    
     def _compute_compromised_executed(self, cr, uid, ids, field_names, args, context=None):
-        amld = self.pool.get('account_move_line_distribution')
+        amld = self.pool.get('account.move.line.distribution')
         fields = ['compromised', 'executed']
         res = {}
         lines = self.browse(cr, uid, ids,context=context)
@@ -1143,12 +1130,12 @@ class budget_move_line(osv.osv):
                     executed = line.fixed_amount
                     
                 elif line.type == 'manual_invoice_in':
-                    line_ids_bar = amld.search(cr, uid, [('budget_move_line_id','=', line.id)], context=context)
+                    line_ids_bar = amld.search(cr, uid, [('target_budget_move_line_id','=', line.id)], context=context)
                     for bar_line in amld.browse(cr, uid, line_ids_bar):
                         executed += bar_line.amount
-                        
+                    
             if line.state in ('compromised','executed','in_execution'):
-                compromised = line.fixed_amount - executed
+                compromised = line.fixed_amount - executed - line.reversed
                 
             res[line.id]['executed'] = executed
             res[line.id]['compromised'] = compromised 
@@ -1161,7 +1148,7 @@ class budget_move_line(osv.osv):
         for line in lines:
             total = 0.0
             if line.state == 'reserved':
-                    total = line.fixed_amount
+                    total = line.fixed_amount - line.reversed
             res[line.id]= total 
         return res
     
@@ -1211,6 +1198,7 @@ class budget_move_line(osv.osv):
         'modified': fields.function(_compute_modified, type='float', method=True, string='Modified',readonly=True, store=True),
         'extended': fields.function(_compute_extended, type='float', method=True, string='Extended',readonly=True, store=True),
         'reserved': fields.function(_compute_reserved, type='float', method=True, string='Reserved',readonly=True, store=True),
+        'reversed': fields.float('Reversed',digits_compute=dp.get_precision('Account'),),
         'compromised': fields.function(_compute_compromised_executed, type='float', method=True, multi=True, string='Compromised', readonly=True, store=True),
         'executed': fields.function(_compute_compromised_executed, type='float', method=True, multi=True, string='Executed',readonly=True, store=True),
         'po_line_id': fields.many2one('purchase.order.line', 'Purchase order line', ),
@@ -1224,6 +1212,7 @@ class budget_move_line(osv.osv):
     }
     _defaults = {
         'date': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
+        'reversed': 0.0
         }
     
     _constraints=[

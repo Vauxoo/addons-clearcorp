@@ -221,6 +221,11 @@ class account_move_line(osv.osv):
         'budget_type': fields.selection(OPTIONS,'budget_type', readonly=True, ) 
                }
     
+class account_account(osv.osv):
+    _inherit = 'account.account'
     
+    _columns = {
+        'default_budget_program_line' : fields.many2one('budget.program.line','Default budget program line'),
+        }
                     
             

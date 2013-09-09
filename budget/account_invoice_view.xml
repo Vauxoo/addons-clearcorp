@@ -48,6 +48,12 @@
 	            <field name="inherit_id" ref="account.view_invoice_line_form"/>
 	            <field name="arch" type="xml">
 	                <data>
+	                	<field name="account_id" position="attributes" >
+	                		<attribute name="on_change">on_change_account_id(account_id)</attribute>
+	                	</field>
+	                	
+	                	
+	                	
 	                    <field name="discount" position="after" >
 	                    	<field name="invoice_from_order" invisible="True"/>
 	                    	<field name="program_line_id" domain="[('type','=','budget')]" on_change="on_change_program_line(program_line_id)" attrs="{ 'required':[('invoice_from_order','=',False),] }"/>
