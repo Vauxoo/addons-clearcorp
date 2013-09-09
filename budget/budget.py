@@ -609,19 +609,6 @@ class budget_account(osv.osv):
             if ids and len(ids) > 0:
                 return self.name_get(cr, uid, ids, context)
         return super(budget_account,self).name_search(cr, uid, name, args, operator=operator, context=context, limit=limit)
- 
-    def _get_level(self, cr, uid, ids, field_name, arg, context=None):
-        res = {}
-        for account in self.browse(cr, uid, ids, context=context):
-            #we may not know the level of the parent at the time of computation, so we
-            # can't simply do res[account.id] = account.parent_id.level + 1
-            level = 0
-            parent = account.parent_id
-            while parent:
-                level += 1
-                parent = parent.parent_id
-            res[account.id] = level
-        return res
     
     def _used_by_program_line(self,cr,uid, account_id,context=None):
         obj_prog_line = self.pool.get('budget.program.line')
@@ -630,7 +617,7 @@ class budget_account(osv.osv):
             return True
         else:
             return False
-        
+    
     def unlink(self, cr, uid, ids, context=None):
         for account in self.browse(cr, uid,ids, context=context):
             if self._used_by_program_line(cr, uid, account.id, context=context):
@@ -1266,8 +1253,8 @@ class account_move_line_distribution(osv.osv):
          'target_budget_move_line_id': fields.many2one('budget.move.line', 'Budget Move Line', required=True, ),
          'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', required=True, ),
          'account_move_reconcile_id': fields.many2one('account.move.reconcile', 'Account Move Reconcile', required=True, ),
-         'distribution_percentage': fields.float('Distribution Percentage', required=True,),
-         'distribution_amount': fields.float('Distribution Percentage', digits_compute=dp.get_precision('Account'), required=True),
+         'distribution_percentage': fields.float('Distribution Percentage', digits_compute=(3,2), required=True,),
+         'distribution_amount': fields.float('Distribution Amount', digits_compute=dp.get_precision('Account'), required=True),
          'reconcile_ids': fields.many2many('account.move.reconcile','bud_reconcile_distribution_ids', digits_compute=dp.get_precision('Account'), required=True),
     }
     
