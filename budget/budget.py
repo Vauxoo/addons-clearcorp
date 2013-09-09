@@ -1130,7 +1130,6 @@ class budget_move_line(osv.osv):
                     executed = line.fixed_amount
                     
                 elif line.type == 'manual_invoice_in':
-                    #line_ids_bar = amld.search(cr, uid, [('account_move_line_id','=', line.id)], context=context)
                     line_ids_bar = amld.search(cr, uid, [('target_budget_move_line_id','=', line.id)], context=context)
                     for bar_line in amld.browse(cr, uid, line_ids_bar):
                         executed += bar_line.amount
@@ -1253,18 +1252,7 @@ class budget_move_line(osv.osv):
 class account_move_line_distribution(orm.Model):
     _name = "account.move.line.distribution"
     _description = "Account move line distribution"
-    
-    _columns = {       
-         'target_budget_move_line_id': fields.many2one('budget.move.line', 'Budget Move Line', required=True, ),
-         'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', required=True, ),
-         'account_move_reconcile_id': fields.many2one('account.move.reconcile', 'Account Move Reconcile', required=True, ),
-         'distribution_percentage': fields.float('Distribution Percentage', required=True,),
-         'distribution_amount': fields.float('Distribution Percentage', digits_compute=dp.get_precision('Account'), required=True),
-         'reconcile_ids': fields.many2many('account.move.reconcile','bud_reconcile_distribution_ids', digits_compute=dp.get_precision('Account'), required=True),
-    }
-    
-    """
-    #DIANA COLUMNS
+
     _columns = {         
          'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', required=True,),
          'distribution_percentage': fields.float('Distribution Percentage', required=True, digits_compute=dp.get_precision('Account'),),
@@ -1293,7 +1281,7 @@ class account_move_line_distribution(orm.Model):
     _constraints = [
         (_check_target_move_line,'A Distribution Line only has one target. A target can be a move line or a budget move line',['target_budget_move_line_id', 'target_account_move_line_id']),
     ]
-    """
+
     def clean_reconcile_entries(self, cr, uid, move_line_ids, context=None):
         lines = []
         for move_line_id in move_line_ids:
@@ -1301,10 +1289,3 @@ class account_move_line_distribution(orm.Model):
             lines += result
         self.unlink(cr, uid, lines,context=context)
         return True
-    
-    #_constraint: sum distribution_amont por account_move_line_id debe ser igual al total
-    #             solo un target para cada distribution
-    
-
-    
-    
