@@ -1261,6 +1261,7 @@ class account_move_line_distribution(orm.Model):
          'target_account_move_line_id': fields.many2one('account.move.line', 'Target Budget Move Line'),
          'reconcile_ids': fields.many2many('account.move.reconcile','bud_reconcile_distribution_ids',),
          'type': fields.selection([('manual', 'Manual'),('auto', 'Automatic')], 'Distribution Type', select=True),
+         'account_move_line_type': fields.selection([('liquid', 'Liquid'),('void', 'Void')], 'Budget Type', select=True),
     }
     
     _defaults = {
