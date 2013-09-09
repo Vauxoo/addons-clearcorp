@@ -1200,7 +1200,7 @@ class budget_move_line(osv.osv):
         'budget_move_id': fields.many2one('budget.move', 'Budget Move', required=True, ondelete='cascade'),
         #'name': fields.related('budget_move_id', 'code', type='char', size=128, string = 'Budget Move Name'),
         'name': fields.function(_line_name, type='char', method=True, string='Name',readonly=True, store=True),
-        'code': fields.related('origin', type='char', size=64, string = 'Budget Line Origin'),
+        'code': fields.related('origin', type='char', size=64, string = 'Origin'),
         'program_line_id': fields.many2one('budget.program.line', 'Program line', required=True),
         'date': fields.datetime('Date created', required=True,),
         'fixed_amount': fields.float('Original amount',digits_compute=dp.get_precision('Account'),),

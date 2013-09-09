@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-09 15:18+0000\n"
-"PO-Revision-Date: 2013-09-09 15:18+0000\n"
+"POT-Creation-Date: 2013-09-09 15:58+0000\n"
+"PO-Revision-Date: 2013-09-09 15:58+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -716,7 +716,7 @@ msgstr "Factura de cliente"
 #: field:account.move.line.distribution,target_account_move_line_id:0
 #: field:account.move.line.distribution,target_budget_move_line_id:0
 msgid "Target Budget Move Line"
-msgstr "Target Budget Move Line"
+msgstr "Linea de movimiento presupuestario"
 
 #. module: budget
 #: field:budget.move,standalone_move:0
@@ -1092,7 +1092,7 @@ msgstr "Ejecutar"
 #: field:budget.account,parent_left:0
 #: field:budget.program.line,parent_left:0
 msgid "Parent Left"
-msgstr "Parent Left"
+msgstr "Padre izquierdo"
 
 #. module: budget
 #: view:budget.program.populate:0
@@ -1184,7 +1184,7 @@ msgstr "Movimientos manuales"
 #: field:budget.account,parent_right:0
 #: field:budget.program.line,parent_right:0
 msgid "Parent Right"
-msgstr "Parent Right"
+msgstr "Padre derecho"
 
 #. module: budget
 #: field:budget.account,level:0
@@ -1438,7 +1438,7 @@ msgstr "Lista de líneas de programa"
 #. module: budget
 #: field:budget.move.line,code:0
 msgid "Budget Line Origin"
-msgstr "Budget Line Origin"
+msgstr "Origen"
 
 #. module: budget
 #: field:budget.import.catalog,catalog_file:0
