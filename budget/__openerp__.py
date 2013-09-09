@@ -49,6 +49,7 @@
         'budget_sequence.xml',
         'account_invoice_view.xml',
         'account_view.xml',
+        'account_move_line.xml',
 #        'purchase_view.xml',
 #        'purchase_workflow.xml',
 #        'sale_view.xml'

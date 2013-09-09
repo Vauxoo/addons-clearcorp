@@ -40,57 +40,30 @@ class account_invoice(osv.osv):
      'from_order': _check_from_order          
     }
     
-    def create_budget_move(self,cr, uid, vals, context=None):
+#    def create_budget_move(self,cr, uid, vals, context=None):
+#        bud_move_obj = self.pool.get('budget.move')
+#        type=''
+#        
+#        if context.get('type',"") in ('in_invoice','out_refund'):
+#            type = 'manual_invoice_in'
+#        if context.get('type',"") in ('out_invoice','in_refund'):
+#            type = 'manual_invoice_out'
+#        move_id = bud_move_obj.create(cr, uid, { 'type': type }, context=context)
+#        return move_id
+
+    def create_budget_move(self,cr, uid, ids, context=None):
         bud_move_obj = self.pool.get('budget.move')
-        type=''
-        
-        if context.get('type',"") in ('in_invoice','out_refund'):
-            type = 'manual_invoice_in'
-        if context.get('type',"") in ('out_invoice','in_refund'):
-            type = 'manual_invoice_out'
+        acc_inv_obj = self.pool.get('account.invoice')
+        for invoice in acc_inv_obj.browse(cr, uid, ids, context=context):
+            if invoice.type in ('in_invoice','out_refund'):
+                type = 'manual_invoice_in'
+            if invoice.type in ('out_invoice','in_refund'):
+                type = 'manual_invoice_out'
         move_id = bud_move_obj.create(cr, uid, { 'type': type }, context=context)
         return move_id
+
     
-    def create(self, cr, uid, vals, context=None):
-        order_id = None
-        if not self._check_from_order(cr, uid, context=context):
-            obj_bud_move = self.pool.get('budget.move')
-            move_id = self.create_budget_move(cr, uid, vals, context=context)
-            vals['budget_move_id'] = move_id
-            order_id =  super(account_invoice, self).create(cr, uid, vals, context=context)
-            for order in self.browse(cr,uid,[order_id], context=context):
-                for line in order.invoice_line:
-                    if not line.invoice_id.from_order:
-                        self.create_budget_move_line(cr, uid, line.id, context=context)
-            obj_bud_move.write(cr, uid, [move_id], {'origin': order.name , 'fixed_amount':order.amount_total}, context=context)
-        else:
-            order_id =  super(account_invoice, self).create(cr, uid, vals, context=context)
-        return order_id
-    
-    def write(self, cr, uid, ids, vals, context=None):
-        bud_move_obj = self.pool.get('budget.move')
-        bud_line_obj = self.pool.get('budget.move.line')
-        result = super(account_invoice, self).write(cr, uid, ids, vals, context=context)
-        for order in self.browse(cr, uid, ids, context=context):
-            move_id = order.budget_move_id.id
-            for line in order.invoice_line:
-                search_result = bud_line_obj.search(cr, uid,[('inv_line_id','=', line.id)], context=context) 
-                if search_result:
-                    bud_line_id = search_result[0]
-                    fixed_amount = 0.0
-                    if order.type in ('in_invoice','out_refund'):
-                        fixed_amount = line.subtotal_discounted_taxed
-                    if order.type in ('out_invoice','in_refund'):
-                        fixed_amount = line.subtotal_discounted_taxed * -1
-                    bud_line_obj.write(cr, uid, [bud_line_id], {'program_line_id': line.program_line_id.id, 'fixed_amount':fixed_amount})
-                else:
-                    self.create_budget_move_line(cr, uid, line.id, context=context)
-            if move_id:
-                bud_move_obj.write(cr,uid, [move_id], {'date':order.budget_move_id.date, 'fixed_amount':order.amount_total},context=context)
-        return result
-    
-    def create_budget_move_line(self,cr, uid, line_id, context=None):
-        
+    def create_budget_move_line(self,cr, uid, line_id, context=None):    
         acc_inv_obj = self.pool.get('account.invoice')
         inv_line_obj = self.pool.get('account.invoice.line')
         bud_move_obj = self.pool.get('budget.move')
@@ -112,14 +85,66 @@ class account_invoice(osv.osv):
                                          'inv_line_id': line_id,
                                           }, context=context)
         return line_id
+ 
     
+#    def create(self, cr, uid, vals, context=None):
+#        order_id = None
+#        if not self._check_from_order(cr, uid, context=context):
+#            obj_bud_move = self.pool.get('budget.move')
+#            move_id = self.create_budget_move(cr, uid, vals, context=context)
+#            vals['budget_move_id'] = move_id
+#            order_id =  super(account_invoice, self).create(cr, uid, vals, context=context)
+#            for order in self.browse(cr,uid,[order_id], context=context):
+#                for line in order.invoice_line:
+#                    if not line.invoice_id.from_order:
+#                        self.create_budget_move_line(cr, uid, line.id, context=context)
+#            obj_bud_move.write(cr, uid, [move_id], {'origin': order.name , 'fixed_amount':order.amount_total}, context=context)
+#        else:
+#            order_id =  super(account_invoice, self).create(cr, uid, vals, context=context)
+#        return order_id
+    
+#    def write(self, cr, uid, ids, vals, context=None):
+#        bud_move_obj = self.pool.get('budget.move')
+#        bud_line_obj = self.pool.get('budget.move.line')
+#        result = super(account_invoice, self).write(cr, uid, ids, vals, context=context)
+#        for order in self.browse(cr, uid, ids, context=context):
+#            move_id = order.budget_move_id.id
+#            for line in order.invoice_line:
+#                search_result = bud_line_obj.search(cr, uid,[('inv_line_id','=', line.id)], context=context) 
+#                if search_result:
+#                    bud_line_id = search_result[0]
+#                    fixed_amount = 0.0
+#                    if order.type in ('in_invoice','out_refund'):
+#                        fixed_amount = line.subtotal_discounted_taxed
+#                    if order.type in ('out_invoice','in_refund'):
+#                        fixed_amount = line.subtotal_discounted_taxed * -1
+#                    bud_line_obj.write(cr, uid, [bud_line_id], {'program_line_id': line.program_line_id.id, 'fixed_amount':fixed_amount})
+#                else:
+#                    self.create_budget_move_line(cr, uid, line.id, context=context)
+#            if move_id:
+#                bud_move_obj.write(cr,uid, [move_id], {'date':order.budget_move_id.date, 'fixed_amount':order.amount_total},context=context)
+#        return result
+#    
+      
+#    def invoice_validate(self, cr, uid, ids, context=None):
+#        line_obj = self.pool.get('account.invoice.line')
+#        bud_move_obj = self.pool.get('budget.move')
+#        for invoice in self.browse(cr, uid, ids, context=context):
+#            bud_move_obj.action_in_execution(cr, uid, [invoice.budget_move_id.id],context=context )
+#        return super(account_invoice,self).invoice_validate(cr, uid, ids, context=context)
+#    
     def invoice_validate(self, cr, uid, ids, context=None):
-        line_obj = self.pool.get('account.invoice.line')
-        bud_move_obj = self.pool.get('budget.move')
-        for invoice in self.browse(cr, uid, ids, context=context):
-            bud_move_obj.action_in_execution(cr, uid, [invoice.budget_move_id.id],context=context )
-        return super(account_invoice,self).invoice_validate(cr, uid, ids, context=context)
-    
+        obj_bud_move = self.pool.get('budget.move')
+        if not self._check_from_order(cr, uid, context=context):    
+            for order in self.browse(cr,uid,ids, context=context):
+                move_id = self.create_budget_move(cr, uid, ids, context=context)
+                self.write(cr, uid, [order.id], {'budget_move_id' :move_id }, context=context)
+                for line in order.invoice_line:
+                    if not line.invoice_id.from_order:
+                        self.create_budget_move_line(cr, uid, line.id, context=context)
+                obj_bud_move.write(cr, uid, [move_id], {'origin': order.name , 'fixed_amount':order.amount_total, 'arch_compromised':order.amount_total}, context=context)
+                obj_bud_move.action_in_execution(cr, uid, [order.budget_move_id.id],context=context )
+        return super(account_invoice,self).invoice_validate(cr, uid, ids, context=context)    
     
 class account_invoice_line(osv.osv):
     _name = 'account.invoice.line'
@@ -138,6 +163,13 @@ class account_invoice_line(osv.osv):
     def on_change_program_line(self, cr, uid, ids, program_line, context=None):
         for line in self.pool.get('budget.program.line').browse(cr, uid,[program_line], context=context):
             return {'value': {'line_available':line.available_budget},}
+        return {'value': {}}
+    
+    def on_change_account_id(self, cr, uid, ids, account_id, context=None):
+        if account_id:
+            for account in self.pool.get('account.account').browse(cr, uid,[account_id], context=context):
+                if account.default_budget_program_line.id:
+                    return {'value': {'program_line_id':account.default_budget_program_line.id},}
         return {'value': {}}
     
     def _subtotal_discounted_taxed(self, cr, uid, ids, field_name, args, context=None):

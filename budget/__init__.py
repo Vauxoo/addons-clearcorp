@@ -20,6 +20,7 @@
 #
 ##############################################################################
 
+import account_move
 import budget
 import wizard
 import res_partner

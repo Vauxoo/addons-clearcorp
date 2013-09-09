@@ -29,7 +29,7 @@ import logging
 import netsvc
 import decimal_precision as dp
 
-from osv import fields, osv
+from osv import fields, osv, orm
 
 
 ######################################################
@@ -609,6 +609,19 @@ class budget_account(osv.osv):
             if ids and len(ids) > 0:
                 return self.name_get(cr, uid, ids, context)
         return super(budget_account,self).name_search(cr, uid, name, args, operator=operator, context=context, limit=limit)
+ 
+    def _get_level(self, cr, uid, ids, field_name, arg, context=None):
+        res = {}
+        for account in self.browse(cr, uid, ids, context=context):
+            #we may not know the level of the parent at the time of computation, so we
+            # can't simply do res[account.id] = account.parent_id.level + 1
+            level = 0
+            parent = account.parent_id
+            while parent:
+                level += 1
+                parent = parent.parent_id
+            res[account.id] = level
+        return res
     
     def _used_by_program_line(self,cr,uid, account_id,context=None):
         obj_prog_line = self.pool.get('budget.program.line')
@@ -617,7 +630,7 @@ class budget_account(osv.osv):
             return True
         else:
             return False
-    
+        
     def unlink(self, cr, uid, ids, context=None):
         for account in self.browse(cr, uid,ids, context=context):
             if self._used_by_program_line(cr, uid, account.id, context=context):
@@ -860,15 +873,31 @@ class budget_move(osv.osv):
     def _calc_reserved(self, cr, uid, ids, field_name, args, context=None):
         res = {}
         for bud_move in self.browse(cr, uid, ids, context=context):
+            res_amount = 0
             if bud_move.state == 'reserved':       
-                res_amount=0
                 for line in bud_move.move_lines:
-                    res_amount += line.fixed_amount
+                    res_amount += line.reserved
             else:
                 res_amount = 0
             res[bud_move.id] = res_amount
         return res
-
+    
+    def _calc_reversed(self, cr, uid, ids, field_name, args, context=None):
+        res = {}
+        for bud_move in self.browse(cr, uid, ids, context=context):
+            res_amount = 0    
+            for line in bud_move.move_lines:
+                res_amount += line.reversed
+            res[bud_move.id] = res_amount
+        return res
+    
+    def recalculate_values(self, cr, uid, ids, context=None):
+        mov_line_obj = self.pool.get('budget.move.line')
+        for move in self.browse(cr ,uid, ids, context=context):
+            for line in move.move_lines:
+                mov_line_obj.write(cr, uid, line.id, {'date' : line.date}, context=context)
+            self.write(cr, uid, ids, {'code':move.code}, context=context) 
+    
     def _select_types(self,cr,uid,context=None):
         #In case that the move is created from the view "view_budget_move_manual_form", modifies the selectable types
         #reducing them to modification, extension and opening
@@ -912,6 +941,7 @@ class budget_move(osv.osv):
         'standalone_move' : fields.boolean('Standalone move', readonly=True, states={'draft':[('readonly',False)]} ),
         'arch_reserved':fields.float('Original Reserved', digits_compute=dp.get_precision('Account'),),
         'reserved': fields.function(_calc_reserved, type='float', method=True, string='Reserved',readonly=True, store=True),
+        'reversed': fields.function(_calc_reversed, type='float', method=True, string='Reversed',readonly=True, store=True),
         'arch_compromised':fields.float('Original compromised',digits_compute=dp.get_precision('Account'),),
 #TODO: to make it functional
         'compromised': fields.function(_compute_compromised, type='float', method=True, string='Compromised',readonly=True, store=True ),
@@ -1002,10 +1032,7 @@ class budget_move(osv.osv):
         obj_mov_line = self.pool.get('budget.move.line')
         if result[0]:
             self.write(cr, uid, ids, {'state': 'reserved'})
-            for move in self.browse(cr, uid, ids, context=context):
-                for line in move.move_lines:
-                    obj_mov_line.write(cr, uid, [line.id],{'date':line.date }, context=context)
-                self.write(cr, uid, [move.id], {'state': 'reserved'})
+            self.recalculate_values(cr, uid, ids, context=context)
         else:
             raise osv.except_osv(_('Error!'), result[1])
         return True
@@ -1020,6 +1047,7 @@ class budget_move(osv.osv):
         result = self._check_values(cr, uid, ids, context)
         if result[0]:
             self.write(cr, uid, ids, {'state': 'in_execution'})
+            self.recalculate_values(cr, uid, ids, context=context)
         else:
             raise osv.except_osv(_('Error!'), result[1])
         return True
@@ -1055,7 +1083,7 @@ class budget_move(osv.osv):
                 if move.state == 'in_execution':
                     return True
             if move.type in ('manual_invoice_in'):
-                if move.executed == move.fixed_ammount:
+                if move.executed == move.fixed_amount - move.reversed:
                     return True
         return False
     
@@ -1064,7 +1092,7 @@ class budget_move(osv.osv):
             if move.type in ('opening','extension','modification'):
                     return False
             if move.type in ('manual_invoice_in'):
-                if move.executed != move.fixed_ammount:
+                if move.executed != move.fixed_amount - move.reversed:
                     return True
         return False
     
@@ -1082,41 +1110,13 @@ class budget_move_line(osv.osv):
     _name = "budget.move.line"
     _description = "Budget Move Line"
     
-#    def _compute_executed(self, cr, uid, ids, field_name, args, context=None):
-#        res = {}
-#        amld = self.pool.get('budget.account.reconcile')
-#        
-#        lines = self.browse(cr, uid, ids,context=context) 
-#        for line in lines:
-#            total = 0.0
-#            if line.state in ('executed','in_execution'):
-#                if line.type == 'opening':
-#                    total = line.fixed_amount
-#                    
-#                elif line.type == 'manual_invoice_in':
-#                    line_ids_bar = amld.search(cr, uid, [('budget_move_line_id','=', line.id)], context=context)
-#                    for bar_line in amld.browse(cr, uid, line_ids_bar):
-#                        total += bar_line.amount
-#                        
-#            res[line.id]= total 
-#        return res
-    
     def on_change_program_line(self, cr, uid, ids, program_line, context=None):
         for line in self.pool.get('budget.program.line').browse(cr, uid,[program_line], context=context):
             return {'value': {'line_available':line.available_budget},}
         return {'value': {}}
     
-    
-#    def _compute_compromised(self, cr, uid, ids, field_name, args, context=None):
-#        res = {}
-#        lines = self.browse(cr, uid, ids,context=context) 
-#        for line in lines:
-#            total = 0.0
-#            res[line.id]= 0.0 
-#        return res
-    
     def _compute_compromised_executed(self, cr, uid, ids, field_names, args, context=None):
-        amld = self.pool.get('account_move_line_distribution')
+        amld = self.pool.get('account.move.line.distribution')
         fields = ['compromised', 'executed']
         res = {}
         lines = self.browse(cr, uid, ids,context=context)
@@ -1130,12 +1130,12 @@ class budget_move_line(osv.osv):
                     executed = line.fixed_amount
                     
                 elif line.type == 'manual_invoice_in':
-                    line_ids_bar = amld.search(cr, uid, [('budget_move_line_id','=', line.id)], context=context)
+                    line_ids_bar = amld.search(cr, uid, [('target_budget_move_line_id','=', line.id)], context=context)
                     for bar_line in amld.browse(cr, uid, line_ids_bar):
                         executed += bar_line.amount
-                        
+                    
             if line.state in ('compromised','executed','in_execution'):
-                compromised = line.fixed_amount - executed
+                compromised = line.fixed_amount - executed - line.reversed
                 
             res[line.id]['executed'] = executed
             res[line.id]['compromised'] = compromised 
@@ -1148,7 +1148,7 @@ class budget_move_line(osv.osv):
         for line in lines:
             total = 0.0
             if line.state == 'reserved':
-                    total = line.fixed_amount
+                    total = line.fixed_amount - line.reversed
             res[line.id]= total 
         return res
     
@@ -1190,6 +1190,8 @@ class budget_move_line(osv.osv):
     _columns = {
         'origin': fields.char('Origin', size=64, ),
         'budget_move_id': fields.many2one('budget.move', 'Budget Move', required=True, ondelete='cascade'),
+        'name': fields.related('budget_move_id', 'code', type='char', size=128, string = 'Budget Move Name'),
+        'code': fields.related('origin', type='char', size=64, string = 'Budget Line Origin'),
         'program_line_id': fields.many2one('budget.program.line', 'Program line', required=True),
         'date': fields.datetime('Date created', required=True,),
         'fixed_amount': fields.float('Original amount',digits_compute=dp.get_precision('Account'),),
@@ -1198,6 +1200,7 @@ class budget_move_line(osv.osv):
         'modified': fields.function(_compute_modified, type='float', method=True, string='Modified',readonly=True, store=True),
         'extended': fields.function(_compute_extended, type='float', method=True, string='Extended',readonly=True, store=True),
         'reserved': fields.function(_compute_reserved, type='float', method=True, string='Reserved',readonly=True, store=True),
+        'reversed': fields.float('Reversed',digits_compute=dp.get_precision('Account'),),
         'compromised': fields.function(_compute_compromised_executed, type='float', method=True, multi=True, string='Compromised', readonly=True, store=True),
         'executed': fields.function(_compute_compromised_executed, type='float', method=True, multi=True, string='Executed',readonly=True, store=True),
         'po_line_id': fields.many2one('purchase.order.line', 'Purchase order line', ),
@@ -1211,6 +1214,7 @@ class budget_move_line(osv.osv):
     }
     _defaults = {
         'date': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
+        'reversed': 0.0
         }
     
     _constraints=[
@@ -1245,19 +1249,39 @@ class budget_move_line(osv.osv):
 #        self.unlink(cr, uid, lines,context=context)
 #        return True
     
-class account_move_line_distribution(osv.osv):
+class account_move_line_distribution(orm.Model):
     _name = "account.move.line.distribution"
     _description = "Account move line distribution"
-    
-    _columns = {       
-         'target_budget_move_line_id': fields.many2one('budget.move.line', 'Budget Move Line', required=True, ),
-         'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', required=True, ),
-         'account_move_reconcile_id': fields.many2one('account.move.reconcile', 'Account Move Reconcile', required=True, ),
-         'distribution_percentage': fields.float('Distribution Percentage', digits_compute=(3,2), required=True,),
+
+    _columns = {         
+         'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', required=True,),
+         'distribution_percentage': fields.float('Distribution Percentage', required=True, digits_compute=dp.get_precision('Account'),),
          'distribution_amount': fields.float('Distribution Amount', digits_compute=dp.get_precision('Account'), required=True),
-         'reconcile_ids': fields.many2many('account.move.reconcile','bud_reconcile_distribution_ids', digits_compute=dp.get_precision('Account'), required=True),
+         'target_budget_move_line_id': fields.many2one('budget.move.line', 'Target Budget Move Line',),
+         'target_account_move_line_id': fields.many2one('account.move.line', 'Target Budget Move Line'),
+         'reconcile_ids': fields.many2many('account.move.reconcile','bud_reconcile_distribution_ids',),
+         'type': fields.selection([('manual', 'Manual'),('auto', 'Automatic')], 'Distribution Type', select=True),
     }
     
+    _defaults = {
+        'type': 'manual', 
+        'distribution_amount': 0.0,
+        'distribution_percentage': 0.0,
+    }
+    
+    #A distribution line only has one target. This target can be a move_line or a budget_line
+    def _check_target_move_line (self, cr, uid, ids, context=None):
+        distribution_line_obj = self.browse(cr, uid, ids[0],context)
+        
+        if distribution_line_obj.target_budget_move_line_id and distribution_line_obj.target_account_move_line_id:
+            return False
+        else:
+            return True
+    
+    _constraints = [
+        (_check_target_move_line,'A Distribution Line only has one target. A target can be a move line or a budget move line',['target_budget_move_line_id', 'target_account_move_line_id']),
+    ]
+
     def clean_reconcile_entries(self, cr, uid, move_line_ids, context=None):
         lines = []
         for move_line_id in move_line_ids:
@@ -1265,10 +1289,3 @@ class account_move_line_distribution(osv.osv):
             lines += result
         self.unlink(cr, uid, lines,context=context)
         return True
-    
-    #_constraint: sum distribution_amont por account_move_line_id debe ser igual al total
-    #             solo un target para cada distribution
-    
-
-    
-    
