@@ -78,13 +78,14 @@ class account_invoice(osv.osv):
         if invoice.type in ('out_invoice','in_refund'):
             fixed_amount = invoice_line.subtotal_discounted_taxed * -1 #should be negative because it is an income
             
-        bud_line_obj.create(cr, uid, {'budget_move_id': move_id,
+        bud_line = bud_line_obj.create(cr, uid, {'budget_move_id': move_id,
                                          'origin' : invoice_line.name,
                                          'program_line_id': invoice_line.program_line_id.id, 
                                          'fixed_amount': fixed_amount , 
                                          'inv_line_id': line_id,
+                                         'account_move_id': invoice.move_id.id
                                           }, context=context)
-        return line_id
+        return bud_line
  
     
 #    def create(self, cr, uid, vals, context=None):
@@ -135,13 +136,14 @@ class account_invoice(osv.osv):
 #    
     def invoice_validate(self, cr, uid, ids, context=None):
         obj_bud_move = self.pool.get('budget.move')
+        obj_account_move_line = self.pool.get('')
         if not self._check_from_order(cr, uid, context=context):    
             for order in self.browse(cr,uid,ids, context=context):
                 move_id = self.create_budget_move(cr, uid, ids, context=context)
                 self.write(cr, uid, [order.id], {'budget_move_id' :move_id }, context=context)
                 for line in order.invoice_line:
                     if not line.invoice_id.from_order:
-                        self.create_budget_move_line(cr, uid, line.id, context=context)
+                        created_line_id = self.create_budget_move_line(cr, uid, line.id, context=context)
                 obj_bud_move.write(cr, uid, [move_id], {'origin': order.name , 'fixed_amount':order.amount_total, 'arch_compromised':order.amount_total}, context=context)
                 obj_bud_move.action_in_execution(cr, uid, [order.budget_move_id.id],context=context )
         return super(account_invoice,self).invoice_validate(cr, uid, ids, context=context)    
