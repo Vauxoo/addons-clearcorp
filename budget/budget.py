@@ -834,16 +834,16 @@ class budget_move(osv.osv):
     ]
     
     MOVE_TYPE = [
-    ('invoice_in','Purchase invoice'),
-    ('invoice_out','Sale invoice'),
-    ('manual_invoice_in','Manual purchase invoice'),
-    ('manual_invoice_out','Manual sale invoice'),
-    ('expense','Expense'),
-    ('payroll','Payroll'),
-    ('manual','From account move'),
-    ('modification','Modification'),
-    ('extension','Extension'),
-    ('opening','Opening'),
+    ('invoice_in',_('Purchase invoice')),
+    ('invoice_out',_('Sale invoice')),
+    ('manual_invoice_in',_('Manual purchase invoice')),
+    ('manual_invoice_out',_('Manual sale invoice')),
+    ('expense',_('Expense')),
+    ('payroll',_('Payroll')),
+    ('manual',_('From account move')),
+    ('modification',_('Modification')),
+    ('extension',_('Extension')),
+    ('opening',_('Opening')),
     ]
         
     def _compute_executed(self, cr, uid, ids, field_name, args, context=None):
@@ -1185,17 +1185,25 @@ class budget_move_line(osv.osv):
             if line.program_line_id.state != 'approved':
                 return False
         return True
+        
+    def _line_name(self, cr, uid, ids, field_name, args, context=None):
+        res = {}
+        lines = self.browse(cr, uid, ids,context=context) 
+        for line in lines:
+            name = line.budget_move_id.code+ "\\" + line.origin 
+            res[line.id]= name 
+        return res
     
     
     _columns = {
         'origin': fields.char('Origin', size=64, ),
         'budget_move_id': fields.many2one('budget.move', 'Budget Move', required=True, ondelete='cascade'),
-        'name': fields.related('budget_move_id', 'code', type='char', size=128, string = 'Budget Move Name'),
+        #'name': fields.related('budget_move_id', 'code', type='char', size=128, string = 'Budget Move Name'),
+        'name': fields.function(_line_name, type='char', method=True, string='Name',readonly=True, store=True),
         'code': fields.related('origin', type='char', size=64, string = 'Budget Line Origin'),
         'program_line_id': fields.many2one('budget.program.line', 'Program line', required=True),
         'date': fields.datetime('Date created', required=True,),
         'fixed_amount': fields.float('Original amount',digits_compute=dp.get_precision('Account'),),
-        #'line_available':fields.function(_line_available, type='float',method=True, string='Line Available')
         'line_available':fields.float('Line available',digits_compute=dp.get_precision('Account'),readonly=True),
         'modified': fields.function(_compute_modified, type='float', method=True, string='Modified',readonly=True, store=True),
         'extended': fields.function(_compute_extended, type='float', method=True, string='Extended',readonly=True, store=True),
