@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-09 15:58+0000\n"
-"PO-Revision-Date: 2013-09-09 15:58+0000\n"
+"POT-Creation-Date: 2013-09-09 17:26+0000\n"
+"PO-Revision-Date: 2013-09-09 17:26+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -86,6 +86,11 @@ msgstr "Volver a borrador"
 #: view:budget.program.populate:0
 msgid "This wizard will crate program lines from a given account catalog"
 msgstr "Este asistente creará líneas de programa a partir de un catálogo contable."
+
+#. module: budget
+#: field:account.move.line.distribution,account_move_line_type:0
+msgid "Account move line type"
+msgstr "Tipo de linea de asiento"
 
 #. module: budget
 #: field:budget.program.line,compromised_amount:0
@@ -278,6 +283,7 @@ msgstr "Importar catálogo contable desde un archivo"
 
 #. module: budget
 #: field:budget.move,origin:0
+#: field:budget.move.line,code:0
 #: field:budget.move.line,origin:0
 msgid "Origin"
 msgstr "Orígen"
@@ -880,6 +886,11 @@ msgid "Extensions,reserves and openings"
 msgstr "Extensiones, reservas y aperturas"
 
 #. module: budget
+#: selection:account.move.line.distribution,account_move_line_type:0
+msgid "Liquid"
+msgstr "Líquido"
+
+#. module: budget
 #: code:addons/budget/budget.py:987
 #, python-format
 msgid "An extension amount cannot be negative"
@@ -918,6 +929,11 @@ msgid "Original amount"
 msgstr "Monto original"
 
 #. module: budget
+#: field:budget.move.line,account_move_id:0
+msgid "Account Move"
+msgstr "Asiento"
+
+#. module: budget
 #: model:ir.ui.menu,name:budget.budget_program_menu
 msgid "Budget Programs"
 msgstr "Programas presupuestarios"
@@ -942,6 +958,11 @@ msgstr "Órdenes en otro estado que no sea borrador no pueden ser borradas\n"
 #: field:budget.move.line,so_line_id:0
 msgid "Sale order line"
 msgstr "Línea de orden de venta"
+
+#. module: budget
+#: selection:account.move.line.distribution,account_move_line_type:0
+msgid "Void"
+msgstr "Anulado"
 
 #. module: budget
 #: view:budget.period:0
@@ -1252,11 +1273,6 @@ msgid "budget.import.catalog"
 msgstr "budget.import.catalog"
 
 #. module: budget
-#: view:account.move.line:0
-msgid "Distribution Budget Lines"
-msgstr "Líneas de distribución para presupuesto"
-
-#. module: budget
 #: code:addons/budget/budget.py:413
 #, python-format
 msgid "You cannot delete a line from an approved or closed plan"
@@ -1436,9 +1452,9 @@ msgid "Program Lines List"
 msgstr "Lista de líneas de programa"
 
 #. module: budget
-#: field:budget.move.line,code:0
-msgid "Budget Line Origin"
-msgstr "Origen"
+#: view:account.move.line:0
+msgid "Distribution Budget Lines"
+msgstr "Líneas de distribución para presupuesto"
 
 #. module: budget
 #: field:budget.import.catalog,catalog_file:0
