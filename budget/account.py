@@ -385,5 +385,5 @@ class Account(osv.Model):
     _inherit = 'account.account'
     
     _columns = {
-        'budget_liquid': fields.boolean('Liquid for budget', help="Mark this if this account is treated as liquid for the budget moves.")
-                }
+        'default_budget_program_line' : fields.many2one('budget.program.line','Default budget program line'),
+    }
