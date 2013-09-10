@@ -35,7 +35,8 @@
         'sale',
         'purchase_order_discount',
         'hr_payroll',
-        'hr_expense',    
+        'hr_expense',
+        'account_account_extended_ccorp'    
         ],
     'data': [
         'security/security.xml',
@@ -46,7 +47,9 @@
         'wizard/budget_import_catalog_view.xml',
         'res_partner_view.xml',
         'budget_sequence.xml',
-#        'account_invoice_view.xml',
+        'account_invoice_view.xml',
+        'account_view.xml',
+        'account_move_line.xml',
 #        'purchase_view.xml',
 #        'purchase_workflow.xml',
 #        'sale_view.xml'
