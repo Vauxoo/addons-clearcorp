@@ -47,7 +47,7 @@ class accountMove(orm.Model):
             move_lines = obj_move_line.search(cr, uid, [('move_id','=',move.id)])
             
             for line in obj_move_line.browse(cr, uid, move_lines):
-                if line.budget_type == 'liquid' or line.budget_type == 'void':
+                if line.account_id.moves_cash:
                      check_lines.append(line)
         
             #Check amount in line.distribution (if there exist any line.id)
