@@ -242,7 +242,10 @@ class budget_program_line(osv.osv):
 
     def _get_children_and_consol(self, cr, uid, ids, context=None):
         #this function search for all the children and all consolidated children (recursively) of the given line ids
-        ids2 = self.search(cr, uid, [('parent_id', 'child_of', ids)], context=context)
+        if ids:
+            ids2 = self.search(cr, uid, [('parent_id', 'child_of', ids)], context=context)
+        else:
+            ids2 = []
         ids3 = []
         for rec in self.browse(cr, uid, ids2, context=context):
             for child in rec.child_consol_ids:
@@ -848,8 +851,8 @@ class budget_move(osv.osv):
         
     def _compute_executed(self, cr, uid, ids, field_name, args, context=None):
         res = {}
-        total=0.0
         for move in self.browse(cr, uid, ids,context=context):
+            total=0.0
             for line in move.move_lines:
                 total += line.executed 
             res[move.id]= total 
@@ -857,8 +860,8 @@ class budget_move(osv.osv):
     
     def _compute_compromised(self, cr, uid, ids, field_name, args, context=None):
         res = {}
-        total=0.0
         for move in self.browse(cr, uid, ids,context=context):
+            total=0.0
             for line in move.move_lines:
                 total += line.compromised 
             res[move.id]= total 
@@ -896,7 +899,7 @@ class budget_move(osv.osv):
         for move in self.browse(cr ,uid, ids, context=context):
             for line in move.move_lines:
                 mov_line_obj.write(cr, uid, line.id, {'date' : line.date}, context=context)
-            self.write(cr, uid, ids, {'code':move.code}, context=context) 
+            self.write(cr, uid, ids, {'executed': move.code}, context=context) 
     
     def _select_types(self,cr,uid,context=None):
         #In case that the move is created from the view "view_budget_move_manual_form", modifies the selectable types
@@ -928,7 +931,39 @@ class budget_move(osv.osv):
             return True
         else:
             return False
-     
+    
+    def _get_budget_moves_from_dist(self, cr, uid, ids, context=None):
+        if ids:
+            dist_obj = self.pool.get('account.move.line.distribution')
+            dists = dist_obj.browse(cr, uid, ids, context = context)
+            budget_move_ids = []
+            for dist in dists:
+                if dist.target_budget_move_line_id and \
+                    dist.target_budget_move_line_id.budget_move_id and \
+                    dist.target_budget_move_line_id.budget_move_id.id not in budget_move_ids:
+                    budget_move_ids.append(dist.target_budget_move_line_id.budget_move_id.id)
+            return budget_move_ids
+        return []
+    
+    def _get_budget_moves_from_lines(self, cr, uid, ids, context=None):
+        if ids:
+            lines_obj = self.pool.get('budget.move.line')
+            lines = lines_obj.browse(cr, uid, ids, context = context)
+            budget_move_ids = []
+            for line in lines:
+                if line.budget_move_id and line.budget_move_id.id not in budget_move_ids:
+                    budget_move_ids.append(line.budget_move_id.id)
+            return budget_move_ids
+        return []
+    
+    # Store triggers for functional fields
+    STORE = {
+        'budget.move':                      (lambda self, cr, uid, ids, context={}: ids, [], 10),
+        'account.move.line.distribution':   (_get_budget_moves_from_dist, [], 10),
+        'budget.move.line':                 (_get_budget_moves_from_lines, [], 10),
+         
+    }
+    
     _columns = {
         'code': fields.char('Code', size=64, ),
         'origin': fields.char('Origin', size=64, readonly=True, states={'draft':[('readonly',False)]}),
@@ -940,12 +975,12 @@ class budget_move(osv.osv):
         'fixed_amount' : fields.float('Fixed amount', digits_compute=dp.get_precision('Account'),),
         'standalone_move' : fields.boolean('Standalone move', readonly=True, states={'draft':[('readonly',False)]} ),
         'arch_reserved':fields.float('Original Reserved', digits_compute=dp.get_precision('Account'),),
-        'reserved': fields.function(_calc_reserved, type='float', method=True, string='Reserved',readonly=True, store=True),
-        'reversed': fields.function(_calc_reversed, type='float', method=True, string='Reversed',readonly=True, store=True),
+        'reserved': fields.function(_calc_reserved, type='float', method=True, string='Reserved',readonly=True, store=STORE),
+        'reversed': fields.function(_calc_reversed, type='float', method=True, string='Reversed',readonly=True, store=STORE),
         'arch_compromised':fields.float('Original compromised',digits_compute=dp.get_precision('Account'),),
 #TODO: to make it functional
-        'compromised': fields.function(_compute_compromised, type='float', method=True, string='Compromised',readonly=True, store=True ),
-        'executed': fields.function(_compute_executed, type='float', method=True, string='Executed',readonly=True, store=True ),
+        'compromised': fields.function(_compute_compromised, type='float', method=True, string='Compromised',readonly=True, store=STORE ),
+        'executed': fields.function(_compute_executed, type='float', method=True, string='Executed',readonly=True, store=STORE ),
         'account_invoice_ids': fields.one2many('account.invoice', 'budget_move_id', 'Invoices' ),
         #'purchase_order_ids': fields.one2many('purchase.order', 'budget_move_id', 'Purchase orders' ),
         #'sale_order_ids': fields.one2many('sale.order', 'budget_move_id', 'Purchase orders' ),
@@ -1134,7 +1169,7 @@ class budget_move_line(osv.osv):
                 elif line.type == 'manual_invoice_in':
                     line_ids_bar = amld.search(cr, uid, [('target_budget_move_line_id','=', line.id),('account_move_line_type','=','liquid')], context=context)
                     for bar_line in amld.browse(cr, uid, line_ids_bar, context=context):
-                        executed += bar_line.amount
+                        executed += bar_line.distribution_amount
             
             void_line_ids_amld = amld.search(cr, uid, [('target_budget_move_line_id','=', line.id),('account_move_line_type','=','void')], context=context)
             for void_line in amld.browse(cr, uid, void_line_ids_amld, context=context):
@@ -1275,12 +1310,12 @@ class account_move_line_distribution(orm.Model):
     _description = "Account move line distribution"
 
     _columns = {         
-         'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', required=True,),
+         'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', required=True, ondelete="cascade"),
          'distribution_percentage': fields.float('Distribution Percentage', required=True, digits_compute=dp.get_precision('Account'),),
          'distribution_amount': fields.float('Distribution Amount', digits_compute=dp.get_precision('Account'), required=True),
          'target_budget_move_line_id': fields.many2one('budget.move.line', 'Target Budget Move Line',),
          'target_account_move_line_id': fields.many2one('account.move.line', 'Target Budget Move Line'),
-         'reconcile_ids': fields.many2many('account.move.reconcile','bud_reconcile_distribution_ids',),
+         'reconcile_ids': fields.many2many('account.move.reconcile','bud_reconcile_distribution_ids'),
          'type': fields.selection([('manual', 'Manual'),('auto', 'Automatic')], 'Distribution Type', select=True),
          'account_move_line_type': fields.selection([('liquid', 'Liquid'),('void', 'Void')], 'Budget Type', select=True),
     }
