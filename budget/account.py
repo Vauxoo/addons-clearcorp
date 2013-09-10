@@ -337,7 +337,7 @@ class AccountMoveReconcile(osv.Model):
                     'distribution_amount':          distribution_amount,
                     'distribution_percentage':      100 * distribution_amount / original_amount_to_dist,
                     'target_budget_move_line_id':   line.id,
-                    'reconcile_ids':                (6, 0, new_reconcile_ids),
+                    'reconcile_ids':                [(6, 0, new_reconcile_ids)],
                     'type':                         'auto',
                     'account_move_line_type':       'liquid',
                 }
@@ -352,7 +352,7 @@ class AccountMoveReconcile(osv.Model):
                     'distribution_amount':          distribution_amount,
                     'distribution_percentage':      100 * distribution_amount / original_amount_to_dist,
                     'target_account_move_line_id':  line.id,
-                    'reconcile_ids':                (6, 0, new_reconcile_ids),
+                    'reconcile_ids':                [(6, 0, new_reconcile_ids)],
                     'type':                         'auto',
                 }
                 liquid_res.append(dist_obj.create(cr, uid, vals, context = context))
@@ -476,7 +476,7 @@ class AccountMoveReconcile(osv.Model):
                     'distribution_amount':          distribution_amount,
                     'distribution_percentage':      100 * distribution_amount / original_amount_to_dist,
                     'target_budget_move_line_id':   line.id,
-                    'reconcile_ids':                (6, 0, new_reconcile_ids),
+                    'reconcile_ids':                [(6, 0, new_reconcile_ids)],
                     'type':                         'auto',
                     'account_move_line_type':       'liquid',
                 }
