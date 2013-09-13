@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-13 19:30+0000\n"
-"PO-Revision-Date: 2013-09-13 19:30+0000\n"
+"POT-Creation-Date: 2013-09-13 19:54+0000\n"
+"PO-Revision-Date: 2013-09-13 19:54+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -74,13 +74,8 @@ msgstr "Logros Académicos"
 
 #. module: hr_contract_extended
 #: view:hr.contract:0
-msgid "year(s) -"
-msgstr "año(s) -"
-
-#. module: hr_contract_extended
-#: view:hr.contract:0
-msgid "month(s) -"
-msgstr "mes(es) -"
+msgid "year(s) - "
+msgstr "año(s) - "
 
 #. module: hr_contract_extended
 #: field:hr.contract.academic.achievement,date_obtained:0
@@ -97,6 +92,11 @@ msgstr "Reglas de Salario"
 #: field:hr.contract.academic.achievement,institution:0
 msgid "Institution"
 msgstr "Institución"
+
+#. module: hr_contract_extended
+#: view:hr.contract:0
+msgid "month(s) - "
+msgstr "mes(es) - "
 
 #. module: hr_contract_extended
 #: field:hr.contract,duration_years:0

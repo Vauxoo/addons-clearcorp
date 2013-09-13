@@ -12,7 +12,12 @@
                 <xpath expr="//field[@name='working_hours']" position="before">
                     <label for="duration_years" string="Time Worked"/>
                     <div>
-                        <field name="duration_years" class="oe_inline" nolabel="1"/>year(s) - <field name="duration_months" class="oe_inline" nolabel="1"/>month(s) - <field name="duration_days" class="oe_inline" nolabel="1"/>day(s)
+                        <field name="duration_years" class="oe_inline" nolabel="1"/>
+                        <label string="year(s) - "/>
+                        <field name="duration_months" class="oe_inline" nolabel="1"/>
+                        <label string="month(s) - "/>
+                        <field name="duration_days" class="oe_inline" nolabel="1"/>
+                        <label string="day(s)"/>
                     </div>
                 </xpath>
                  <xpath expr="//page[@string='Information']" position="after">
