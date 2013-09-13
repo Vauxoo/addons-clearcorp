@@ -68,19 +68,19 @@ class HrSalaryRule(osv.osv):
 
 class HrContract(osv.osv):
     
-    def _days_between(self, start_date, end_date):
+    def _days_between(self, start_date):
         start_date = datetime.strptime(start_date, "%Y-%m-%d")
-        end_date = datetime.strptime(end_date, "%Y-%m-%d")
+        end_date = datetime.today()
         return relativedelta(end_date, start_date).days
     
-    def _months_between(self, start_date, end_date):
+    def _months_between(self, start_date):
         start_date = datetime.strptime(start_date, "%Y-%m-%d")
-        end_date = datetime.strptime(end_date, "%Y-%m-%d")
+        end_date = datetime.today()
         return relativedelta(end_date, start_date).months
     
-    def _years_between(self, start_date, end_date):
+    def _years_between(self, start_date):
         start_date = datetime.strptime(start_date, "%Y-%m-%d")
-        end_date = datetime.strptime(end_date, "%Y-%m-%d")
+        end_date = datetime.today()
         return relativedelta(end_date, start_date).years
     
     
@@ -90,9 +90,9 @@ class HrContract(osv.osv):
         for contract in contracts:
             
             res[contract.id] = {
-                'duration_years': self._years_between(contract.date_start, contract.date_end),
-                'duration_months': self._months_between(contract.date_start, contract.date_end),
-                'duration_days': self._days_between(contract.date_start, contract.date_end),
+                'duration_years': self._years_between(contract.date_start),
+                'duration_months': self._months_between(contract.date_start),
+                'duration_days': self._days_between(contract.date_start),
             }
         return res
     
