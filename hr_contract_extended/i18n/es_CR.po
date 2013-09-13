@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-27 17:31+0000\n"
-"PO-Revision-Date: 2013-08-27 17:31+0000\n"
+"POT-Creation-Date: 2013-09-13 19:54+0000\n"
+"PO-Revision-Date: 2013-09-13 19:54+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,14 +16,34 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: hr_contract_extended
+#: view:hr.contract:0
+msgid "day(s)"
+msgstr "día(s)"
+
+#. module: hr_contract_extended
 #: model:ir.model,name:hr_contract_extended.model_hr_contract_academic_achievement
 msgid "Hr Contract Academic Achievement"
 msgstr "Hr Contrat Logros Académicos"
 
 #. module: hr_contract_extended
+#: view:hr.contract:0
+msgid "Time Worked"
+msgstr "Tiempo Laborado"
+
+#. module: hr_contract_extended
 #: field:hr.contract.academic.achievement,degree_obtained:0
 msgid "Degree Obtained"
 msgstr "Título Obtenido"
+
+#. module: hr_contract_extended
+#: field:hr.contract,duration_months:0
+msgid "Months"
+msgstr "Meses"
+
+#. module: hr_contract_extended
+#: field:hr.contract,duration_days:0
+msgid "Days"
+msgstr "Días"
 
 #. module: hr_contract_extended
 #: field:hr.salary.rule,contract_id:0
@@ -53,6 +73,11 @@ msgid "Academic Achievements"
 msgstr "Logros Académicos"
 
 #. module: hr_contract_extended
+#: view:hr.contract:0
+msgid "year(s) - "
+msgstr "año(s) - "
+
+#. module: hr_contract_extended
 #: field:hr.contract.academic.achievement,date_obtained:0
 msgid "Date Obtained"
 msgstr "Fecha de Obtención"
@@ -67,3 +92,14 @@ msgstr "Reglas de Salario"
 #: field:hr.contract.academic.achievement,institution:0
 msgid "Institution"
 msgstr "Institución"
+
+#. module: hr_contract_extended
+#: view:hr.contract:0
+msgid "month(s) - "
+msgstr "mes(es) - "
+
+#. module: hr_contract_extended
+#: field:hr.contract,duration_years:0
+msgid "Years"
+msgstr "Años"
+
