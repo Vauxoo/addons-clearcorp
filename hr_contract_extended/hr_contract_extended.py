@@ -19,7 +19,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from osv import fields, osv
+from openerp.osv import fields, osv
+from dateutil.relativedelta import relativedelta
+from datetime import datetime
+
 
 class HrContractAcademicAchievement(osv.osv):
     _name = 'hr.contract.academic.achievement'
@@ -64,11 +67,43 @@ class HrSalaryRule(osv.osv):
         return res
 
 class HrContract(osv.osv):
+    
+    def _days_between(self, start_date, end_date):
+        start_date = datetime.strptime(start_date, "%Y-%m-%d")
+        end_date = datetime.strptime(end_date, "%Y-%m-%d")
+        return relativedelta(end_date, start_date).days
+    
+    def _months_between(self, start_date, end_date):
+        start_date = datetime.strptime(start_date, "%Y-%m-%d")
+        end_date = datetime.strptime(end_date, "%Y-%m-%d")
+        return relativedelta(end_date, start_date).months
+    
+    def _years_between(self, start_date, end_date):
+        start_date = datetime.strptime(start_date, "%Y-%m-%d")
+        end_date = datetime.strptime(end_date, "%Y-%m-%d")
+        return relativedelta(end_date, start_date).years
+    
+    
+    def _compute_duration(self, cr, uid, ids, field_name, arg, context={}):
+        res = {}
+        contracts = self.browse(cr, uid, ids, context=context)
+        for contract in contracts:
+            
+            res[contract.id] = {
+                'duration_years': self._years_between(contract.date_start, contract.date_end),
+                'duration_months': self._months_between(contract.date_start, contract.date_end),
+                'duration_days': self._days_between(contract.date_start, contract.date_end),
+            }
+        return res
+    
     _inherit = 'hr.contract'
     
     _columns = {
         'hr_salary_rule_ids':fields.one2many('hr.salary.rule', 'contract_id', 'Salary Rules'),
         'academic_achievement':fields.one2many('hr.contract.academic.achievement', 'contract_academic_achievement', 'Academic Achievements'),
+        'duration_years': fields.function(_compute_duration, type="integer", string="Years", multi="sums"),
+        'duration_months': fields.function(_compute_duration, type="integer", string="Months", multi="sums"),
+        'duration_days': fields.function(_compute_duration, type="integer", string="Days", multi="sums"),
     }
     
     def unlink(self, cr, uid, ids, context=None):
