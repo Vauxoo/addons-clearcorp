@@ -82,15 +82,6 @@ class budget_plan(osv.osv):
             res = self.read(cr,uid,[plan_id],['program_ids'],context=context)[0]
             program_ids = res['program_ids']
             for program_id in program_ids:              
-#                query = 'SELECT BA.id, BA.composite_code, BA.name FROM '\
-#                'budget_account BA '\
-#                'WHERE BA.account_type = \'%(account_type)s\' ' \
-#                'AND active = true '\
-#                'EXCEPT '\
-#                'SELECT BA.id, BA.composite_code , BA.name FROM '\
-#                'budget_account BA INNER JOIN budget_program_line BPL ON BA.ID = BPL.account_id '\
-#                'INNER JOIN budget_program BP ON BPL.program_id = BP.id '\
-#                'WHERE BP.id = %(program_id)d' % {'program_id':program_id, 'account_type':'budget'}
                 query = 'SELECT BA.id, BA.code, BA.name FROM '\
                 'budget_account BA '\
                 'WHERE BA.account_type = \'%(account_type)s\' ' \
@@ -111,13 +102,6 @@ class budget_plan(osv.osv):
         return True
     
     def check_no_consolidated_orphans(self, cr, uid, ids, context=None):
-#        query = 'SELECT composite_code, name FROM budget_account '\
-#                'WHERE id IN( '\
-#                'SELECT id FROM budget_account '\
-#                'WHERE account_type = \'budget\' '\
-#                'EXCEPT '\
-#                'SELECT DISTINCT consol_child_id '\
-#                'FROM budget_account_consol_rel) '
         query = 'SELECT code, name FROM budget_account '\
                 'WHERE id IN( '\
                 'SELECT id FROM budget_account '\
@@ -135,8 +119,6 @@ class budget_plan(osv.osv):
         return True 
     
     def action_confirm(self, cr, uid, ids, context=None):
-#        if self.check_no_orphan_accounts(cr, uid, ids, context=context):
-#            if self.check_no_consolidated_orphans(cr, uid, ids, context=context):
          if self.check_programs(cr, uid, ids, context=context):
              self.write(cr, uid, ids, {'state': 'confirmed'})
              return True     
@@ -849,6 +831,18 @@ class budget_move(osv.osv):
     ('opening',_('Opening')),
     ]
         
+    def distribution_get(self, cr, uid, ids, *args):
+        amld_obj = self.pool.get('account.move.line.distribution')
+        result = []
+        search_ids= []
+        for move in self.browse(cr, uid, ids):
+            for bud_move_line in move.move_lines:
+                
+                search_ids = amld_obj.search(cr, uid, [('target_budget_move_line_id','=', bud_move_line.id)])
+            result=result + search_ids
+        return result
+
+ 
     def _compute_executed(self, cr, uid, ids, field_name, args, context=None):
         res = {}
         for move in self.browse(cr, uid, ids,context=context):
@@ -899,7 +893,7 @@ class budget_move(osv.osv):
         for move in self.browse(cr ,uid, ids, context=context):
             for line in move.move_lines:
                 mov_line_obj.write(cr, uid, line.id, {'date' : line.date}, context=context)
-            self.write(cr, uid, ids, {'executed': move.code}, context=context) 
+            self.write(cr, uid, ids, {'code': move.code}, context=context) 
     
     def _select_types(self,cr,uid,context=None):
         #In case that the move is created from the view "view_budget_move_manual_form", modifies the selectable types
@@ -1092,7 +1086,7 @@ class budget_move(osv.osv):
         for move in self.browse(cr, uid,ids, context=context):
             self.write(cr, uid, [move.id], {'state': 'executed'})
             for line in move.move_lines:
-                obj_mov_line.write(cr, uid, [line.id],{'date':line.date }, context=context)
+                self.recalculate_values(cr, uid, ids, context=context)
             self.write(cr, uid, [move.id], {'state': 'executed'})
         return True
 #            
@@ -1121,6 +1115,10 @@ class budget_move(osv.osv):
                 if move.executed == move.fixed_amount - move.reversed:
                     return True
         return False
+    
+            #    <!--<field name="trigger_model">account.move.line.distrbution</field>
+            #<field name="trigger_expr_id">action_executed()</field>-->
+    
     
     def is_in_execution(self, cr, uid, ids, *args):
         for move in self.browse(cr, uid, ids,):

@@ -20,6 +20,7 @@
 #
 ##############################################################################
 from osv import fields, osv
+from openerp import netsvc
 import decimal_precision as dp
 from tools.translate import _
 from datetime import datetime
@@ -30,6 +31,7 @@ class AccountMoveReconcile(osv.Model):
     
     def unlink(self, cr, uid, ids, context={}):
         dist_obj = self.pool.get('account.move.line.distribution')
+        wf_service = netsvc.LocalService("workflow")
         dist_ids = dist_obj.search(cr, uid, [('reconcile_ids.id','in',ids)], context=context)
         dists = dist_obj.browse(cr, uid, dist_ids, context=context)
         budget_move_ids = []
@@ -39,8 +41,11 @@ class AccountMoveReconcile(osv.Model):
                 dist.target_budget_move_line_id.budget_move_id.id not in budget_move_ids:
                 budget_move_ids.append(dist.target_budget_move_line_id.budget_move_id.id)
         dist_obj.unlink(cr, uid, dist_ids, context=context)
+        
         if budget_move_ids:
             self.pool.get('budget.move').recalculate_values(cr, uid, budget_move_ids, context=context)
+#        for dist_id in dist_ids:
+#            wf_service.trg_trigger(uid, 'account.move.line.distribution', dist_id, cr)
         return super(AccountMoveReconcile, self).unlink(cr, uid, ids, context=context)
     
     def create(self, cr, uid, vals, context=None):
