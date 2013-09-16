@@ -117,7 +117,7 @@
         
         <record id="act_bud_mov_executed" model="workflow.activity">
             <field name="wkf_id" ref="wkf_budget_move"/>
-            <field name="flow_stop">True</field>
+            <!--<field name="flow_stop">True</field>-->
             <field name="name">executed</field>
             <field name="kind">function</field>
             <field name="action">action_execute()</field>
@@ -125,7 +125,7 @@
         
         <record id="act_bud_mov_canceled" model="workflow.activity">
             <field name="wkf_id" ref="wkf_budget_move"/>
-            <field name="flow_stop">True</field>
+            <!--<field name="flow_stop">True</field>-->
             <field name="name">canceled</field>
             <field name="kind">function</field>
             <field name="action">write({'state':'cancelled'})</field>
@@ -166,6 +166,8 @@
         <record id="trans_bud_mov_executed_in_execution" model="workflow.transition">
             <field name="act_from" ref="act_bud_mov_executed"/>
             <field name="act_to" ref="act_bud_mov_in_execution"/>
+            <field name="trigger_model">account.move.line.distribution</field>
+            <field name="trigger_expr_id">distribution_get()</field>
             <field name="condition">is_in_execution()</field>
         </record>
         
