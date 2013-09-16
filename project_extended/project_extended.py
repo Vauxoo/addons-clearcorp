@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from osv import osv, fields
+from openerp.osv import osv, fields
 
 class project(osv.osv):
     _inherit = 'project.project'
@@ -103,3 +103,10 @@ class task(osv.osv):
         if 'project_id' in vals:
             vals.update({'number': self.get_number_sequence(cr, uid, vals['project_id'], context)})
         return super(task, self).write(cr, uid, ids, vals, context)
+    
+class proyectCategory(osv.Model):
+    _inherit="project.category"
+    
+    _columns = {
+                'tag_code': fields.char(size=10, string="Tag Code", required=True)
+                }

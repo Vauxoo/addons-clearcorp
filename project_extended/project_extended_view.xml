@@ -43,5 +43,46 @@
             </field>
         </record>
         
+        <!--project.task search form-->
+        <!--project.task search by priority and tag-->
+        <record id="project_extended_project_task_search_view" model="ir.ui.view" >
+            <field name="name">project.extended.project.task.search.view</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_search_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@string='Group By...']/filter[@name='group_stage_id']" position="after">
+                    <filter string="Priority" name="group_priority" icon="terp-personal" domain="[]"  context="{'group_by':'priority'}"/>
+                    <!--<filter string="Filter by category" domain="[('categ_ids','=','')]"  help="Filter by tag" icon="terp-personal"/>-->
+                </xpath>
+            </field>
+        </record>
+        
+        <!--project.category views-->    
+        <!--project.category inherited form view-->   
+        <record id="project_extended_project_category_form_view" model="ir.ui.view">
+            <field name="name">project.extended.project.category.form.view</field>
+            <field name="model">project.category</field>
+            <field name="inherit_id" ref="project.project_category_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="tag_code"/>
+                    <separator colspan="2"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <!--project.category tree view-->
+        <record id="project_extended_project_category_tree_view" model="ir.ui.view">
+            <field name="name">project.extended.project.category.tree.view</field>
+            <field name="model">project.category</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Tags">
+                    <field name="tag_code"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        
     </data>
 </openerp>
