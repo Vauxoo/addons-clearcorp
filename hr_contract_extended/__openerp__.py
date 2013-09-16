@@ -35,8 +35,9 @@
     'init_xml': [],
     'demo_xml': [],
     'data': [
-                'security/ir.model.access.csv',
                 'hr_contract_extended_view.xml',
+                'security/hr_contract_extended_security.xml',
+                'security/ir.model.access.csv',
                 ],
     'license': 'AGPL-3',
     'installable': True,
