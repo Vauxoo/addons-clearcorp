@@ -43,6 +43,8 @@
         <record id="hr_payroll.action_salary_rule_form" model="ir.actions.act_window">
             <field name="domain">[('parent_rule_id','=',False), ('contract_id','=',False)]</field>
         </record>
+        
+        <menuitem action="hr_contract.action_hr_contract" id="hr_contract.hr_menu_contract" parent="hr.menu_hr_main" name="Contracts" sequence="4" groups="base.group_user"/>
 
     </data>
 </openerp>
