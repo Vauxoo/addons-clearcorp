@@ -52,7 +52,6 @@
             <field name="arch" type="xml">
                 <xpath expr="//group[@string='Group By...']/filter[@name='group_stage_id']" position="after">
                     <filter string="Priority" name="group_priority" icon="terp-personal" domain="[]"  context="{'group_by':'priority'}"/>
-                    <!--<filter string="Filter by category" domain="[('categ_ids','=','')]"  help="Filter by tag" icon="terp-personal"/>-->
                 </xpath>
             </field>
         </record>
