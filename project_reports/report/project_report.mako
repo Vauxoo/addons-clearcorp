@@ -48,7 +48,7 @@
                             <div class="table-row ${row_even and 'even' or 'odd'}">
                                 <div class="table-cell" style="width:10%; text-align:center; border:silver 1px solid;">${project_task.number or ' '}</div>
                                 <div class="table-cell" style="width:35%; border:silver 1px solid;">${project_task.name or ' '}</div>
-                                <div class="table-cell" style="width:55%; border:silver 1px solid;">${description_pad or ' '}</div>                    
+                                <div class="table-cell" style="width:55%; border:silver 1px solid;">${description_pad or description or ' '}</div>                    
                             </div>
                         </div>
                     </div>
