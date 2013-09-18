@@ -28,14 +28,10 @@ class AccountAssetAsset(osv.osv):
     _columns = {
         'account_invoice_line_id': fields.many2one('account.invoice.line', 'Invoice Line'),
         'account_invoice_id': fields.related('account_invoice_line_id', 'invoice_id', type="many2one", relation="account.invoice", string="Invoice", store=False),
-        'responsible' : fields.many2one('res.users', 'Responsible', readonly=True),
+        'responsible' : fields.many2one('res.partner', 'Responsible', required=True),
         'model': fields.char('Model', size=64),
         'asset_number': fields.char('Asset Number', size=64),
     }
-    
-    def create(self, cr, uid, vals, context=None):
-        vals['responsible'] = uid
-        return super(AccountAssetAsset, self).create(cr, uid, vals, context=context)
 
 class AccountInvoiceLine(osv.osv):
 
