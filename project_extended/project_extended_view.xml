@@ -43,6 +43,19 @@
             </field>
         </record>
         
+        <!--project.project search form-->
+        <!--project.project search by shortcut_name-->
+        <record id="project_extended_project_project_search_view" model="ir.ui.view" >
+            <field name="name">project.extended.project.project.search.view</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_project_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search[@string='Search Project']/field[@name='name']" position="replace">
+                    <field name="shortcut_name" string="Project Shortcut Name"/>
+                </xpath>
+            </field>
+        </record>
+        
         <!--project.task search form-->
         <!--project.task search by priority and tag-->
         <record id="project_extended_project_task_search_view" model="ir.ui.view" >
