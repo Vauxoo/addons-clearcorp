@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-17 22:26+0000\n"
-"PO-Revision-Date: 2013-09-17 22:26+0000\n"
+"POT-Creation-Date: 2013-09-18 18:15+0000\n"
+"PO-Revision-Date: 2013-09-18 18:15+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -49,6 +49,11 @@ msgstr "Número"
 #: view:project.task:0
 msgid "Priority"
 msgstr "Prioridad"
+
+#. module: project_extended
+#: view:project.project:0
+msgid "Project Shortcut Name"
+msgstr "Nombre del proyecto"
 
 #. module: project_extended
 #: model:ir.model,name:project_extended.model_project_category
