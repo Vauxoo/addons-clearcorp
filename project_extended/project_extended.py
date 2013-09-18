@@ -25,10 +25,10 @@ from openerp.osv import osv, fields
 class project(osv.osv):
     _inherit = 'project.project'
     
-    def name_get(self, cr, uid, ids, context=None):
-        if not ids:
-            return []
+    def name_get(self, cr, uid, ids=[], context=None):
         res = []
+        if isinstance(ids, int):
+            ids = [ids]
         for project in self.browse(cr, uid, ids, context=context):
             data = []
             proj = project.parent_id
