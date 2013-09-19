@@ -166,7 +166,7 @@
         <table class="header-table" cellspacing = "3">
             <tbody>
                 <tr>
-                    <td class="company_logo">${helper.embed_logo_by_name('default_logo', height=40, width=250)|n}</td>
+                    <td class="company_logo">${helper.embed_logo_by_name('default_logo', height=40, width=150)|n}</td>
                     <td>
                         <table class="company_data">
                             <tr class = "title">

@@ -20,34 +20,24 @@
 #
 ##############################################################################
 
-{
-    "name" : 'Invoice Webkit Report',
-    "version" : '1.0',
-    "author" : 'CLEARCORP S.A',
-    'complexity': 'normal',
-    "description": """
-            Invoice webkit report
-    """,
-    "category": 'Accounting & Finance',
-    "sequence": 4,
-    "website" : "http://clearcorp.co.cr",
-    "images" : [],
-    "icon" : False,
-    "depends" : [
-        'base',
-        'account_report_lib',
-        'account_invoice_global_discount',
-        ],
-    "init_xml" : [],
-    "demo_xml" : [],
-    "update_xml" : [
-                    'data/account_invoice_webkit_report_header.xml',
-                    'account_invoice_webkit_report.xml',
-                    'report/report.xml'
-                    ],
-    "test" : [],
-    "auto_install": False,
-    "application": False,
-    "installable": True,
-    'license': 'AGPL-3',
-}
+from osv import fields, orm
+
+class purchaseOrderinherit(orm.Model):
+    _inherit = "purchase.order"
+    
+    #Overwrite this method to call purchase_order_report_inherit, change original report
+    def print_quotation(self, cr, uid, ids, context=None):
+        '''
+        This function prints the request for quotation and mark it as sent, so that we can see more easily the next step of the workflow
+        '''
+        assert len(ids) == 1, 'This option should only be used for a single id at a time'
+        wf_service = netsvc.LocalService("workflow")
+        wf_service.trg_validate(uid, 'purchase.order', ids[0], 'send_rfq', cr)
+        datas = {
+                 'model': 'purchase.order',
+                 'ids': ids,
+                 'form': self.read(cr, uid, ids[0], context=context),
+        }
+        return {'type': 'ir.actions.report.xml', 'report_name': 'purchase_order_report_inherit', 'datas': datas, 'nodestroy': True}
+    
+    

@@ -14,7 +14,7 @@
                     %if inv.type == 'out_invoice' and (inv.state == 'open' or inv.state == 'paid') :
                     <span class="title">${_("Electronic Invoice")} ${inv.number or ''|entity}</span>
                     %elif inv.type == 'out_invoice' and inv.state == 'proforma2' :
-                    <span class="title">${_("PROFORMA")} ${inv.number or ''|entity}</span>
+                    <span class="title">${_("Proforma")} ${inv.number or ''|entity}</span>
                     %elif inv.type == 'out_invoice' and inv.state == 'draft' :
                     <span class="title">${_("Draft Inovice")} ${inv.number or ''|entity}</span>
                     %elif inv.type == 'out_invoice' and inv.state == 'cancel':

@@ -19,35 +19,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-{
-    "name" : 'Invoice Webkit Report',
-    "version" : '1.0',
-    "author" : 'CLEARCORP S.A',
-    'complexity': 'normal',
-    "description": """
-            Invoice webkit report
-    """,
-    "category": 'Accounting & Finance',
-    "sequence": 4,
-    "website" : "http://clearcorp.co.cr",
-    "images" : [],
-    "icon" : False,
-    "depends" : [
-        'base',
-        'account_report_lib',
-        'account_invoice_global_discount',
-        ],
-    "init_xml" : [],
-    "demo_xml" : [],
-    "update_xml" : [
-                    'data/account_invoice_webkit_report_header.xml',
-                    'account_invoice_webkit_report.xml',
-                    'report/report.xml'
-                    ],
-    "test" : [],
-    "auto_install": False,
-    "application": False,
-    "installable": True,
-    'license': 'AGPL-3',
-}
+import cash_flow_report_wizard

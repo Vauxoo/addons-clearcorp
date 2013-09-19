@@ -166,25 +166,25 @@
         <table class="header-table" cellspacing = "3">
             <tbody>
                 <tr>
-                    <td class="company_logo">${helper.embed_logo_by_name('default_logo', height=40, width=250)|n}</td>
+                    <td class="company_logo">${helper.embed_logo_by_name('default_logo', height=40, width=150)|n}</td>
                     <td>
                         <table class="company_data">
                             <tr class = "title">
-                                <td>${company.partner_id.name |entity}</td>
+                                <td>${company.partner_id.name or '-'|entity}</td>
                                 <td>${_("Address")}</td>
                             </tr>
                             <tr>
-                                <td>${_("Tax ID")}: ${company.company_registry | entity}</td>
-                                <td>${company.partner_id.street or ''|entity}</td>
+                                <td>${_("Tax ID")}: ${company.company_registry or '-' | entity}</td>
+                                <td>${company.partner_id.street or '-'|entity}</td>
                             </tr>
                             <tr>
                                  <td>${_("Tel-fax")}: ${company.partner_id.phone or '-'|entity}</td>
-                                <td>${company.partner_id.zip or ''|entity} ${company.partner_id.city or ''|entity}</td>
+                                <td>${company.partner_id.zip or '-'|entity} ${company.partner_id.city or '-'|entity}</td>
                             </tr>
                             <tr>
                                 <td>${_("E-mail")}: ${company.partner_id.email or '-'|entity}</td>
                                 %if company.partner_id.country_id :
-                                    <td>${company.partner_id.state_id.name  or ''|entity}, ${company.partner_id.country_id.name or ''|entity} </td>
+                                    <td>${company.partner_id.state_id.name  or '-'|entity}, ${company.partner_id.country_id.name or '-'|entity} </td>
                                 %else:
                                     <td>&nbsp;</td>
                                 %endif

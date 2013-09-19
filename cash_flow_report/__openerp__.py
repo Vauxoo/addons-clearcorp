@@ -19,23 +19,30 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-import time
-import pooler
-import locale
-from report import report_sxw
-
-class account_invoice_ccorp(report_sxw.rml_parse):
-    def __init__(self, cr, uid, name, context):
-        super(account_invoice_ccorp, self).__init__(cr, uid, name, context=context)
-        self.localcontext.update({
-            'time': time,
-            'cr' : cr,
-            'uid': uid,
-        })
-            
-report_sxw.report_sxw(
-    'report.account.invoice.layout_ccorp',
-    'account.invoice',
-    'addons/account_invoice_webkit_report/report/invoice.mako',
-    parser=account_invoice_ccorp)
+{
+    "name" : 'Cash Flow Report',
+    "version" : '1.0',
+    "author" : 'CLEARCORP S.A.',
+    'complexity': 'normal',
+    "description": 
+        """
+            Cash Flow report in Webkit. This report allows you to monitor company activities that move cash flow 
+        """,
+    'category': 'Accounting & Finance',
+    "website" : "http://clearcorp.co.cr",
+    "depends" : [
+            'account',
+            'account_report_lib',
+            'account_account_extended_ccorp',
+        ],
+    "update_xml" : [
+                    'report/report.xml',
+                    'wizard/cash_flow_report_wizard.xml',
+                    'cash_flow_type.xml',
+                    'report_menus.xml',
+                    ],
+    "auto_install": False,
+    "application": False,
+    "installable": True,
+    'license': 'AGPL-3',
+}
