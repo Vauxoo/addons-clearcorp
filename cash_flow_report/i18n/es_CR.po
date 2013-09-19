@@ -39,11 +39,6 @@ msgid "Account Move Line"
 msgstr "Línea de Asiento"
 
 #. module: cash_flow_report
-#: view:cash.flow.report.wiz:0
-msgid "{'required':[('filter', '=', 'filter_date')]}"
-msgstr "{'required':[('filter', '=', 'filter_date')]}"
-
-#. module: cash_flow_report
 #: model:ir.model,name:cash_flow_report.model_account_move_reconcile
 msgid "Account Reconciliation"
 msgstr "Conciliación"
@@ -67,20 +62,12 @@ msgstr "Filtro por fechas"
 msgid "Type"
 msgstr "Tipo"
 
-#. module: cash_flow_report
-#: help:cash.flow.report.wiz,historic_strict:0
-msgid "If selected, will display a historical unreconciled lines, taking into account the end of the period or date selected"
-msgstr "If selected, will display a historical unreconciled lines, taking into account the end of the period or date selected"
 
 #. module: cash_flow_report
 #: field:account.cash.flow.distribution,target_account_move_line:0
 msgid "Target Account Move Line"
 msgstr "Contrapartida de Línea de Asiento"
 
-#. module: cash_flow_report
-#: field:cash.flow.report.wiz,special_period:0
-msgid "Special period"
-msgstr "Special period"
 
 #. module: cash_flow_report
 #: model:ir.actions.act_window,help:cash_flow_report.action_cash_flow_type_tree
@@ -99,24 +86,9 @@ msgid "Company"
 msgstr "Compañía"
 
 #. module: cash_flow_report
-#: field:cash.flow.report.wiz,amount_currency:0
-msgid "With Currency"
-msgstr "With Currency"
-
-#. module: cash_flow_report
 #: field:account.cash.flow.distribution,distribution_amount:0
 msgid "Distribution Amount"
 msgstr "Monto de Distribución"
-
-#. module: cash_flow_report
-#: view:cash.flow.report.wiz:0
-msgid "{'required':[('filter', '=', 'filter_period')]}"
-msgstr "{'required':[('filter', '=', 'filter_period')]}"
-
-#. module: cash_flow_report
-#: view:cash.flow.report.wiz:0
-msgid "[('fiscalyear_id', '=', fiscalyear_id), ('special', '=', False)]"
-msgstr "[('fiscalyear_id', '=', fiscalyear_id), ('special', '=', False)]"
 
 #. module: cash_flow_report
 #: model:ir.actions.act_window,name:cash_flow_report.action_cash_flow_report_menu_webkit
@@ -147,7 +119,7 @@ msgstr "Conciliaciones"
 #. module: cash_flow_report
 #: view:cash.flow.report.wiz:0
 msgid "This report allows you to print or generate a pdf of your cash flow"
-msgstr "This report allows you to print or generate a pdf of your cash flow"
+msgstr "Este asistente le permite imprimir o generar un pdf del flujo de efectivo"
 
 #. module: cash_flow_report
 #: report:addons/cash_flow_report/report/cash_flow_report.mako:37
@@ -182,11 +154,6 @@ msgid "Name"
 msgstr "Nombre"
 
 #. module: cash_flow_report
-#: view:cash.flow.report.wiz:0
-msgid "{'invisible': True}"
-msgstr "{'invisible': True}"
-
-#. module: cash_flow_report
 #: field:account.account,cash_flow_type:0
 #: model:ir.actions.act_window,name:cash_flow_report.action_cash_flow_type_tree
 #: model:ir.model,name:cash_flow_report.model_cash_flow_type
@@ -206,19 +173,9 @@ msgid "Financing"
 msgstr "Financiamiento"
 
 #. module: cash_flow_report
-#: view:cash.flow.report.wiz:0
-msgid "{'required': True}"
-msgstr "{'required': True}"
-
-#. module: cash_flow_report
 #: help:cash.flow.report.wiz,fiscalyear_id:0
 msgid "Keep empty for all open fiscal year"
 msgstr "Mantener vacío para todo lo abierto en el año fiscal"
-
-#. module: cash_flow_report
-#: help:cash.flow.report.wiz,amount_currency:0
-msgid "It adds the currency column on report if the currency differs from the company currency."
-msgstr "It adds the currency column on report if the currency differs from the company currency."
 
 #. module: cash_flow_report
 #: field:cash.flow.report.wiz,period_to:0
@@ -234,16 +191,6 @@ msgstr "Crédito"
 #: report:addons/cash_flow_report/report/cash_flow_report.mako:79
 msgid "Amount"
 msgstr "Monto"
-
-#. module: cash_flow_report
-#: view:cash.flow.report.wiz:0
-msgid "True"
-msgstr "True"
-
-#. module: cash_flow_report
-#: field:cash.flow.report.wiz,historic_strict:0
-msgid "Strict History"
-msgstr "Strict History"
 
 #. module: cash_flow_report
 #: selection:cash.flow.report.wiz,filter:0
@@ -310,30 +257,14 @@ msgid "Periods Filter"
 msgstr "Filtro por períodos"
 
 #. module: cash_flow_report
-#: field:cash.flow.report.wiz,account_base_report:0
-msgid "Account Base Report"
-msgstr "Account Base Report"
-
-#. module: cash_flow_report
 #: model:ir.model,name:cash_flow_report.model_cash_flow_report_wiz
 msgid "Cash Flow Report Wizard"
 msgstr "Generar Reporte de Flujo de Efectivo"
 
 #. module: cash_flow_report
-#: view:cash.flow.type:0
-msgid "Search Withholding Tax"
-msgstr "Search Withholding Tax"
-
-#. module: cash_flow_report
 #: help:cash.flow.report.wiz,special_period:0
 msgid "Include special period"
 msgstr "Include special period"
-
-#. module: cash_flow_report
-#: view:cash.flow.report.wiz:0
-#: field:cash.flow.report.wiz,account_ids:0
-msgid "Accounts"
-msgstr "Accounts"
 
 #. module: cash_flow_report
 #: selection:cash.flow.report.wiz,filter:0
