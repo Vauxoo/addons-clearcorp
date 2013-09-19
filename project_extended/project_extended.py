@@ -53,11 +53,10 @@ class project(osv.osv):
         for m in self.browse(cr,uid,ids,context=context):
             res = self.name_get(cr, uid, ids)
             return dict(res)
-
         return res
         
     _columns = {
-        'shortcut_name': fields.function(_shortcut_name, method=True, string='Project Name', type='char', size=350),
+        'shortcut_name': fields.function(_shortcut_name, method=True, store=True, string='Project Name', type='char', size=350),
         'ir_sequence_id': fields.many2one('ir.sequence', 'Sequence'),
     }
     
