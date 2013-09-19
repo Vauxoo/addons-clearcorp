@@ -11,6 +11,7 @@
                 <data>
                     <xpath expr="//tree/field[@name='name']" position="replace">
                         <field name="shortcut_name"/>
+                        <field name="date_start" invisible="1"/>
                     </xpath>
                 </data>
             </field>
@@ -52,6 +53,9 @@
             <field name="arch" type="xml">
                 <xpath expr="//search[@string='Search Project']/field[@name='name']" position="replace">
                     <field name="shortcut_name" string="Project Shortcut Name"/>
+                </xpath>
+                <xpath expr="//group/filter[@name='Parent']" position="after">
+                    <filter string="Year" name="group_date_start" icon="terp-personal" domain="[]"  context="{'group_by':'date_start'}"/>
                 </xpath>
             </field>
         </record>
