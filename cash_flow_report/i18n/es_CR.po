@@ -262,11 +262,6 @@ msgid "Cash Flow Report Wizard"
 msgstr "Generar Reporte de Flujo de Efectivo"
 
 #. module: cash_flow_report
-#: help:cash.flow.report.wiz,special_period:0
-msgid "Include special period"
-msgstr "Include special period"
-
-#. module: cash_flow_report
 #: selection:cash.flow.report.wiz,filter:0
 msgid "Periods"
 msgstr "Períodos"
@@ -286,11 +281,6 @@ msgstr "Operación"
 #: help:cash.flow.report.wiz,chart_account_id:0
 msgid "Select Charts of Accounts"
 msgstr "Catálogo de Cuentas Seleccionado"
-
-#. module: cash_flow_report
-#: view:cash.flow.report.wiz:0
-msgid "Account Financial Report"
-msgstr "Account Financial Report"
 
 #. module: cash_flow_report
 #: report:addons/cash_flow_report/report/cash_flow_report.mako:66
