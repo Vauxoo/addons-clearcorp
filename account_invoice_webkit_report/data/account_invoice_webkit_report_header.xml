@@ -160,7 +160,7 @@
             <tbody>
                 <tr>
                     <td class="company_logo">
-                        ${helper.embed_logo_by_name('default_logo', height=80)|n} 
+                        ${helper.embed_logo_by_name('default_logo', height=40, width=150)|n} 
                     </td>
                 </tr>
                 <tr>
