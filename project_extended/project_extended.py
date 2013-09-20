@@ -92,18 +92,21 @@ class task(osv.osv):
                     if planned_hours:
                         date_start = datetime.strptime(date_start,'%Y-%m-%d %H:%M:%S')
                         date_deadline = datetime.strptime(date_deadline,'%Y-%m-%d')
-                        left_hours = relativedelta(date_deadline, date_start).hours                    
-                        p_left = 1 - (left_hours/planned_hours)
+                        total_time = relativedelta(date_deadline, date_start).hours
+                        left_hours = relativedelta(date_deadline, datetime.today()).hours                    
+                        p_left = (left_hours/total_time)
                         if p_left >= 0.70:
-                            return '4'
-                        elif p_left > 0.30:
-                            return '3'
-                        else:
                             return '2'
+                        elif p_left > 0.50:
+                            return '3'
+                        elif p_left > 0.30:
+                            return '4'
+                        else:
+                            return '7'
                         return '9'
                     else:
-                        #Not planned hours available COLOR: AQUA
-                        return '5'
+                        #Not planned hours available COLOR: PURPLE
+                        return '8'
                 else:
                     #TODO
                     return '0'
