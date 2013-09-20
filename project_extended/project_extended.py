@@ -21,6 +21,8 @@
 ##############################################################################
 
 from openerp.osv import osv, fields
+from dateutil.relativedelta import relativedelta
+from datetime import datetime
 
 class project(osv.osv):
     _inherit = 'project.project'
@@ -80,12 +82,53 @@ class project(osv.osv):
         return res
         
 class task(osv.osv):
+    def _get_color_code(self, date_start, date_deadline, planned_hours, state):
+        if state == 'done':
+            #Done task COLOR: GRAY
+            return '1'
+        else:
+            if date_deadline:
+                if date_start:
+                    if planned_hours:
+                        date_start = datetime.strptime(date_start,'%Y-%m-%d %H:%M:%S')
+                        date_deadline = datetime.strptime(date_deadline,'%Y-%m-%d')
+                        left_hours = relativedelta(date_deadline, date_start).hours                    
+                        p_left = 1 - (left_hours/planned_hours)
+                        if p_left >= 0.70:
+                            return '4'
+                        elif p_left > 0.30:
+                            return '3'
+                        else:
+                            return '2'
+                        return '9'
+                    else:
+                        #Not planned hours available COLOR: AQUA
+                        return '5'
+                else:
+                    #TODO
+                    return '0'
+            else:
+                #No deadline available COLOR: WHITE
+                return '0'
+        
+        
+    def _compute_color(self, cr, uid, ids, field_name, args, context={}):
+        res ={}
+        for task in self.browse(cr,uid,ids,context=context):
+            res[task.id] = self._get_color_code(task.date_start, task.date_deadline, task.planned_hours, task.state)
+        return res
+        
     _inherit = 'project.task'
         
     _columns = {
         'number': fields.char('Number', size=16),
         'project_id': fields.many2one('project.project', 'Project', required=True, ondelete='set null', select="1", track_visibility='onchange'),
+        'color': fields.function(_compute_color, type='integer', string='Color Index')
     }
+    
+    _defaults = {
+                 'date_start' : fields.datetime.now(),
+                 }
     
     def get_number_sequence(self, cr, uid, project_id, context=None):
         ir_sequence_obj = self.pool.get('ir.sequence')
