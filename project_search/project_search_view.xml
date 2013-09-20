@@ -3,14 +3,14 @@
     <data>
         <!--project.project search form-->
         <!--project.project search by shortcut_name-->
-        <record id="project_search_project_project_search_view" model="ir.ui.view" >
+        <record id="project_extended_project_project_search_view" model="ir.ui.view" >
             <field name="name">project.extended.project.project.search.view</field>
             <field name="model">project.project</field>
             <field name="priority" eval="20"/>
             <field name="inherit_id" ref="project.view_project_project_filter"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='shortcut_name']" position="after">
-                    <filter string="Operational" name="filter_operational" icon="terp-check" domain="[('tasks','!=','None'),('issue_count','>','0')]"/>
+                    <filter string="Operational" name="filter_operational" icon="terp-check" domain="['|',('tasks','!=','None'),('related_issues','>','0')]"/>
                     <separator/>
                 </xpath>
             </field>

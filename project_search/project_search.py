@@ -22,15 +22,19 @@
 
 from openerp.osv import osv, fields
 
-'''class project_project (osv.Model):
-    def _search_related_issues(self, cr, uid, ids, field_name, arg, context={}):
-        projects = self.browse(cr, uid, context=context)
-        issue_obj = self.pool.get('project.issue')
-        for project in projects:
-            issue_obj.search
+class project_project (osv.Model):
+    
+    def _search_related_issues(self, cr, uid, ids, field_name, arg, context=None):
+        res = dict.fromkeys(ids, 0)
+        issue_ids = self.pool.get('project.issue').search(cr, uid, [('project_id', 'in', ids)])
+        for issue in self.pool.get('project.issue').browse(cr, uid, issue_ids, context):
+            if issue.state not in ('done', 'cancelled'):
+                res[issue.project_id.id] += 1
+        print res
+        return res
     
     _inherit = 'project.project'
     
     _columns = {
-                'related_issues': fields.function(_search_related_issues, type='one2many')
-                }'''
+                'related_issues': fields.function(_search_related_issues, type='integer', store=True)
+                }
