@@ -28,14 +28,17 @@
     'website': 'http://clearcorp.co.cr',
     'category': 'Accounting & Finance',
     'description': """
-Extends account account
-==========================================
-Adds a boolean attribute to diferentiate accounts that move cash
+Extends account account and account move line
+===============================================
+Adds a boolean attribute to diferentiate accounts that move cash.
+Adds filters to account move line: Currency and account type
 """,
     'depends': ['account'],
     'init_xml': [],
     'demo_xml': [],
-    'data': ['account_account_extended_ccorp_view.xml'],
+    'data': [
+             'account_account_extended_ccorp_view.xml',
+             'account_move_line_extended.xml'],
     'license': 'AGPL-3',
     'installable': True,
     'active': False,

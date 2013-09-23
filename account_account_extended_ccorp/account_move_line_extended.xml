@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+        <record id="view_move_line_filter_inherit" model="ir.ui.view">
+            <field name="name">view.move.line.filter.inherit</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_account_move_line_filter"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="name" position="after">
+                        <field name="account_type" context="{'account_type':self}" widget="selection"/>
+                    </field>
+                    <group string="Group By..." position="inside">
+                        <filter string="Currency" icon="terp-stock_symbol-selection" domain="" context="{'group_by':'currency_filter'}"/> 
+                        <filter string="Account Type" icon="terp-stock_symbol-selection" domain="" context="{'group_by':'account_type'}"/>           
+                    </group>
+                </data>
+            </field>
+        </record>
+        
+        <record id="view_move_line_tree_inherit" model="ir.ui.view">
+            <field name="name">view.move.line.tree.inherit</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_tree"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="reconcile" position="after">
+                        <field name="currency_filter"/>
+                        <field name="account_type"/>
+                    </field>
+                </data>
+            </field>
+        </record>
+    </data>
+</openerp>
