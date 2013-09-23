@@ -30,7 +30,6 @@ class project_project (osv.Model):
         for issue in self.pool.get('project.issue').browse(cr, uid, issue_ids, context):
             if issue.state not in ('done', 'cancelled'):
                 res[issue.project_id.id] += 1
-        print res
         return res
     
     _inherit = 'project.project'

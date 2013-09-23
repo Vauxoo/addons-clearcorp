@@ -10,7 +10,8 @@
             <field name="inherit_id" ref="project.view_project_project_filter"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='shortcut_name']" position="after">
-                    <filter string="Operational" name="filter_operational" icon="terp-check" domain="['|',('tasks','!=','None'),('related_issues','>','0')]"/>
+                    <!-- TODO FILTER IF TASKS ARE DONE -->
+                    <filter string="Operational" name="filter_operational" icon="terp-check" domain="[('planned_hours','>','0'),('state','!=','close'),'|',('tasks','!=','None'),('related_issues','>','0')]"/>
                     <separator/>
                 </xpath>
             </field>
