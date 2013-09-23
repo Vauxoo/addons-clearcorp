@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-16 20:51+0000\n"
-"PO-Revision-Date: 2013-08-16 20:51+0000\n"
+"POT-Creation-Date: 2013-09-20 22:09+0000\n"
+"PO-Revision-Date: 2013-09-20 22:09+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -23,5 +23,27 @@ msgstr "Mueve efectivo"
 #. module: account_account_extended_ccorp
 #: model:ir.model,name:account_account_extended_ccorp.model_account_account
 msgid "Account"
-msgstr "Account"
+msgstr "Cuenta"
+
+#. module: account_account_extended_ccorp
+#: view:account.move.line:0
+msgid "Group By..."
+msgstr "Agrupar por..."
+
+#. module: account_account_extended_ccorp
+#: view:account.move.line:0
+#: field:account.move.line,currency_filter:0
+msgid "Currency"
+msgstr "Divisa"
+
+#. module: account_account_extended_ccorp
+#: model:ir.model,name:account_account_extended_ccorp.model_account_move_line
+msgid "Journal Items"
+msgstr "Elementos diario"
+
+#. module: account_account_extended_ccorp
+#: view:account.move.line:0
+#: field:account.move.line,account_type:0
+msgid "Account Type"
+msgstr "Tipo de Cuenta"
 
