@@ -94,12 +94,12 @@ class task(osv.osv):
                         date_deadline = datetime.strptime(date_deadline,'%Y-%m-%d')
                         total_time = relativedelta(date_deadline, date_start).hours
                         left_hours = relativedelta(date_deadline, datetime.today()).hours                    
-                        p_left = (left_hours/total_time)
-                        if p_left >= 0.70:
+                        percentage_left = (left_hours/total_time)
+                        if percentage_left >= 0.70:
                             return '2'
-                        elif p_left > 0.50:
+                        elif percentage_left > 0.50:
                             return '3'
-                        elif p_left > 0.30:
+                        elif percentage_left > 0.30:
                             return '4'
                         else:
                             return '7'
