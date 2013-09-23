@@ -11,7 +11,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='shortcut_name']" position="after">
                     <!-- TODO FILTER IF TASKS ARE DONE -->
-                    <filter string="Operational" name="filter_operational" icon="terp-check" domain="[('planned_hours','>','0'),('state','!=','close'),'|',('tasks','!=','None'),('related_issues','>','0')]"/>
+                    <filter string="Operational" name="filter_operational" icon="terp-check" domain="[('planned_hours','>','0'),('state','!=','close'),'|',('related_tasks','>','0'),('related_issues','>','0')]"/>
                     <separator/>
                 </xpath>
             </field>
