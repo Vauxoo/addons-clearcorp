@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!--project.project search form-->
+        <!--project.project search by shortcut_name-->
+        <record id="project_extended_project_project_search_view" model="ir.ui.view" >
+            <field name="name">project.extended.project.project.search.view</field>
+            <field name="model">project.project</field>
+            <field name="priority" eval="20"/>
+            <field name="inherit_id" ref="project.view_project_project_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='shortcut_name']" position="after">
+                    <!-- TODO FILTER IF TASKS ARE DONE -->
+                    <filter string="Operational" name="filter_operational" icon="terp-check" domain="[('planned_hours','>','0'),('state','!=','close'),'|',('related_tasks','>','0'),('related_issues','>','0')]"/>
+                    <separator/>
+                </xpath>
+            </field>
+        </record>        
+    </data>
+</openerp>
