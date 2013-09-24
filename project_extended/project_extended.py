@@ -96,19 +96,24 @@ class task(osv.osv):
                         left_hours = relativedelta(date_deadline, datetime.today()).hours                    
                         percentage_left = (left_hours/total_time)
                         if percentage_left >= 0.70:
-                            return '2'
-                        elif percentage_left > 0.50:
-                            return '3'
-                        elif percentage_left > 0.30:
-                            return '4'
-                        else:
+                            #COLOR: BLUE
                             return '7'
+                        elif percentage_left >= 0.50:
+                            #COLOR: GREEN
+                            return '4'
+                        elif percentage_left >= 0.30:
+                            #COLOR: ORANGE
+                            return '3'
+                        else:
+                            #COLOR: RED
+                            return '2'
+                        #COLOR: PINK
                         return '9'
                     else:
                         #Not planned hours available COLOR: PURPLE
                         return '8'
                 else:
-                    #TODO
+                    #TODO COLOR: WHITE
                     return '0'
             else:
                 #No deadline available COLOR: WHITE
