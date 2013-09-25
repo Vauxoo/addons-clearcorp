@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+	<data>
+		<!--Activities-->
+		<record id="hr_expense.act_draft" model="workflow.activity">
+            <field name="wkf_id" ref="hr_expense.wkf_expenses"/>
+            <field name="flow_start">True</field>
+            <field name="name">draft</field>
+            <field name="kind">function</field>
+            <field name="action">expense_draft()</field>
+        </record>
+	</data>
+</openerp>
