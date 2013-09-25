@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <!-- VIEWS -->
+        <!-- configuration views -->
+        <!-- configuration_form_view -->
+        <record model="ir.ui.view" id="personnelactions_config_form_view">
+            <field name="name">personnelactions.config.form.view</field>
+            <field name="model">hr.personnelactions.config</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form string="Personnel Actions Configuration" version="7.0">
+                <header>
+                </header>
+                <sheet>
+                    <group colspan="2" col="2">
+	                    <field name="key"/>
+	                    <field name="action_type_id"/>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- configuration_tree_view -->
+        <record model="ir.ui.view" id="personnelactions_config_tree_view">
+            <field name="name">personnelactions.config.tree.view</field>
+            <field name="model">hr.personnelactions.config</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Personnel Actions Configuration">
+                    <field name="key"/>
+                    <field name="action_type_id"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- personnel_action views -->
+        <!-- personnel_action_form_view -->
+        <record model="ir.ui.view" id="personnelactions_personnelaction_form_view">
+            <field name="name">personnelactions.personnelaction.form.view</field>
+            <field name="model">hr.personnelactions.personnelaction</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form string="Personnel Actions" version="7.0">
+                <header>
+                </header>
+                <sheet>
+                    <label for="title" class="oe_edit_only" string="Title" />
+                    <h1><field name="title" placeholder="Title..." colspan="4"/></h1>
+                    <separator/>
+                    <separator string="General Information"/>
+                    <group colspan="4" col="5">
+                        <label for="employee_id" string="Employee" colspan="2"/>
+                        <label for="type_id" string="Type" colspan="2"/>
+                        <label for="date" string="Date"/>
+                        <field name="employee_id" colspan="2" nolabel="1"/>
+                        <field name="type_id" colspan="2" nolabel="1"/>
+                        <field name="date" nolabel="1"/>
+                        <label for="description" string="Description"/>
+                        <field name="description" colspan="5" nolabel="1"/>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- personnel_action_tree_view -->
+        <record model="ir.ui.view" id="personnelactions_personnelaction_tree_view">
+            <field name="name">personnelactions.personnelaction.tree.view</field>
+            <field name="model">hr.personnelactions.personnelaction</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Personnel Actions">
+                    <field name="employee_id"/>
+                    <field name="type_id"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- personnel_action_search_view -->
+        <record model="ir.ui.view" id="personnelactions_personnelaction_search_view">
+            <field name="name">personnelactions.personnelaction.search.view</field>
+            <field name="model">hr.personnelactions.personnelaction</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <search string="Personnel Actions">
+                    <field name="employee_id" string="Employee"/>
+                    <field name="type_id" string="Action Type"/>
+                    <separator/>
+                    <group expand="0" string="Group by...">
+                        <filter string="Date" icon="terp-go-month" domain="[]" context="{'group_by':'date'}"/>
+                        <filter string="Action Type" icon="terp-go-month" domain="[]" context="{'group_by':'type_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- ACTIONS -->
+        <!-- action_module_config -->
+        <record model="ir.actions.act_window" id="action_module_config">
+            <field name="name">Personnel Actions Configuration</field>
+            <field name="res_model">hr.personnelactions.config</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create new personnel configuration</p>
+            </field>
+        </record>
+        
+        <!-- action_action_type -->
+        <record model="ir.actions.act_window" id="action_action_type">
+            <field name="name">Personnel Action Types</field>
+            <field name="res_model">hr.personnelactions.actiontype</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create new personnel action type</p>
+            </field>
+        </record>
+        
+        <!-- action_personnel_action -->
+        <record model="ir.actions.act_window" id="action_personnel_action">
+            <field name="name">Personnel Actions</field>
+            <field name="res_model">hr.personnelactions.personnelaction</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create new personnel action</p>
+            </field>
+        </record>
+    </data>
+</openerp>
