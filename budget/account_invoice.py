@@ -40,17 +40,7 @@ class account_invoice(osv.osv):
     _defaults={
      'from_order': _check_from_order          
     }
-    
-#    def create_budget_move(self,cr, uid, vals, context=None):
-#        bud_move_obj = self.pool.get('budget.move')
-#        type=''
-#        
-#        if context.get('type',"") in ('in_invoice','out_refund'):
-#            type = 'manual_invoice_in'
-#        if context.get('type',"") in ('out_invoice','in_refund'):
-#            type = 'manual_invoice_out'
-#        move_id = bud_move_obj.create(cr, uid, { 'type': type }, context=context)
-#        return move_id
+
 
     def create_budget_move(self,cr, uid, ids, context=None):
         bud_move_obj = self.pool.get('budget.move')

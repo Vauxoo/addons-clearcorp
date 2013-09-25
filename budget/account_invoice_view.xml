@@ -14,7 +14,7 @@
 	                    </field>
 	                    <xpath expr="/form/sheet/notebook/page[@string='Invoice']/field/tree/field[@name='price_unit']" position="after">
 	                		<field name="invoice_from_order" invisible="True"/>
-	                		<field name="program_line_id" attrs="{ 'invisible':[('invoice_from_order','=',True),] }"/>
+	                		<field name="program_line_id" domain="[('type','=','budget')]" attrs="{ 'invisible':[('invoice_from_order','=',True),] }"/>
 	                	</xpath>
 	                </data>
 	            </field>
@@ -34,7 +34,7 @@
 	                    
 	                    <xpath expr="/form/sheet/notebook/page[@string='Invoice Lines']/field/tree/field[@name='price_unit']" position="after">
 	                		<field name="invoice_from_order" invisible="True"/>
-	                		<field name="program_line_id" attrs="{ 'required':[('invoice_from_order','=',False)] }"/>
+	                		<field name="program_line_id" domain="[('type','=','budget')]" attrs="{ 'required':[('invoice_from_order','=',False)] }"/>
 	                	</xpath>
 	                </data>
 	            </field>

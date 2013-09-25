@@ -50,6 +50,8 @@
         'account_invoice_view.xml',
         'account_view.xml',
         'account_move_line.xml',
+        'hr_expense_view.xml',
+        'hr_expense_workflow.xml',
 #        'purchase_view.xml',
 #        'purchase_workflow.xml',
 #        'sale_view.xml'

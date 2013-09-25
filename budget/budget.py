@@ -893,7 +893,7 @@ class budget_move(osv.osv):
         for move in self.browse(cr ,uid, ids, context=context):
             for line in move.move_lines:
                 mov_line_obj.write(cr, uid, line.id, {'date' : line.date}, context=context)
-            self.write(cr, uid, ids, {'code': move.code}, context=context) 
+            self.write(cr, uid, ids, {'date': move.date}, context=context) 
     
     def _select_types(self,cr,uid,context=None):
         #In case that the move is created from the view "view_budget_move_manual_form", modifies the selectable types
@@ -1017,7 +1017,7 @@ class budget_move(osv.osv):
                 elif line.type =='modification':
                     if (line.fixed_amount < 0) & (line.program_line_id.available_budget < abs(line.fixed_amount)):
                         return [False, _('The amount to substract from ') + line.program_line_id.name + _(' is greater than the available ')]
-                elif line.type in ('opening','manual_invoice_in'):
+                elif line.type in ('opening','manual_invoice_in', 'expense'):
                     if line.program_line_id.available_budget < line.fixed_amount:
                         return [False, _('The amount to substract from ') + line.program_line_id.name + _(' is greater than the available ')]
         return [True,'']
@@ -1089,10 +1089,10 @@ class budget_move(osv.osv):
                 self.recalculate_values(cr, uid, ids, context=context)
             self.write(cr, uid, [move.id], {'state': 'executed'})
         return True
-#            
-#    def action_cancel(self, cr, uid, ids, context=None):
-#        self.write(cr, uid, ids, {'state': 'cancelled'})
-#        return True
+            
+    def action_cancel(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {'state': 'cancel'})
+        return True
     
     def name_get(self, cr, uid, ids, context=None):
         if context is None:
@@ -1164,7 +1164,7 @@ class budget_move_line(osv.osv):
                 if line.type == 'opening':
                     executed = line.fixed_amount
                     
-                elif line.type == 'manual_invoice_in':
+                elif line.type in ('manual_invoice_in','expense'):
                     line_ids_bar = amld.search(cr, uid, [('target_budget_move_line_id','=', line.id),('account_move_line_type','=','liquid')], context=context)
                     for bar_line in amld.browse(cr, uid, line_ids_bar, context=context):
                         executed += bar_line.distribution_amount
@@ -1259,7 +1259,7 @@ class budget_move_line(osv.osv):
         'po_line_id': fields.many2one('purchase.order.line', 'Purchase order line', ),
         'so_line_id': fields.many2one('sale.order.line', 'Sale order line', ),
         'inv_line_id': fields.many2one('account.invoice.line', 'Invoice line', ),
-        #'expense_line_id': fields.many2one('hr.expense.line', 'Expense line', ),
+        'expense_line_id': fields.many2one('hr.expense.line', 'Expense line', ),
         #'payslip_line_id': fields.many2one('hr.payslip.line', 'Payslip line', ),
         'move_line_id': fields.many2one('account.move.line', 'Move line', ),
         'account_move_id': fields.many2one('account.move', 'Account Move', ),

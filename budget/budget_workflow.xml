@@ -128,7 +128,7 @@
             <!--<field name="flow_stop">True</field>-->
             <field name="name">canceled</field>
             <field name="kind">function</field>
-            <field name="action">write({'state':'cancelled'})</field>
+            <field name="action">action_cancel()</field>
         </record>
         
         	<!--Transitions-->
@@ -175,6 +175,12 @@
             <field name="act_from" ref="act_bud_mov_reserved"/>
             <field name="act_to" ref="act_bud_mov_canceled"/>
             <field name="signal">button_cancel</field>
+        </record>
+        
+        <record id="trans_bud_mov_canceled_draft" model="workflow.transition">
+            <field name="act_from" ref="act_bud_mov_canceled"/>
+            <field name="act_to" ref="act_bud_mov_draft"/>
+            <field name="signal">button_draft</field>
         </record>
         	
 	</data>
