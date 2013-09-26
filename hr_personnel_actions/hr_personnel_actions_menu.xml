@@ -16,7 +16,7 @@
             
          <menuitem id="menu_module_config"
             parent="hr.menu_hr_configuration"
-            name="Personnel Action Configuration"
+            name="Personnel Actions Configuration"
             sequence="101"
             action="action_module_config"/>
     </data>

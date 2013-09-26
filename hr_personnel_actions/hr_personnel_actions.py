@@ -22,7 +22,7 @@
 from openerp.osv import osv, fields
 from tools.translate import _
 
-class type(osv.Model):
+class personnelActionsType(osv.Model):
     _name = 'hr.personnel.actions.type'
     
     _rec_name = 'type'
@@ -31,7 +31,7 @@ class type(osv.Model):
                 'type': fields.char(string='Type', size=128, translate=True),
                 }
 
-class configuration(osv.Model):
+class personnelActionsConfiguration(osv.Model):
     _name = 'hr.personnel.actions.configuration'
     
     _rec_name = 'key'
@@ -49,7 +49,7 @@ class configuration(osv.Model):
                         ('unique_configuration_key','UNIQUE(key)','Keys cannot be duplicated'),
                         ]
 
-class personnelAction(osv.Model):
+class personnelActionsPersonnelAction(osv.Model):
     _name = 'hr.personnel.actions.personnel.action'
     
     _columns = {
@@ -60,93 +60,53 @@ class personnelAction(osv.Model):
                 'employee_id': fields.many2one('hr.employee', string = 'Employee', required =True, select=True),
                 }
     
-class contract(osv.Model):
+class hrContract(osv.Model):
     _inherit = 'hr.contract'
     
+    def _write_personnel_action(self, cr, uid, ids, context, var_contract, configuration_obj, configuration_id, message_new, message_old, new_value, old_value):
+        if configuration_id:
+            configuration = configuration_obj.browse(cr, uid, configuration_id[0], context=context)
+            contracts = self.browse(cr, uid, ids, context=context)
+            new_action = {
+                          'date': fields.datetime.now(),
+                          'title': _('Contract Modifications'),
+                          'description': message_new + (' %s. %s %s.' % (new_value, message_old, old_value)),
+                          'type_id': configuration.action_type_id.id,
+                          'employee_id': var_contract.employee_id.id,
+                          }
+            action_obj = self.pool.get('hr.personnel.actions.personnel.action')
+            action_obj.create(cr, uid, new_action, context=context)
+        #TODO
+        #else:
+            #log or inform error couldn't create the action
+    
     def write(self, cr, uid, ids, values, context=None):
-        if 'wage' in values:
-            configuration_obj = self.pool.get('hr.personnel.actions.configuration')
-            configuration_id = configuration_obj.search(cr, uid, [('key','=','contract_wage')], context=context)
-            if configuration_id:
-                configuration = configuration_obj.browse(cr, uid, configuration_id[0], context=context)
-                contracts = self.browse(cr, uid, ids, context=context)
-                for var_contract in contracts:
-                    new_action = {
-                                  'date': fields.datetime.now(),
-                                  'title': _('Contract Modifications'),
-                                  'description': _('Wage has been modified. The new value for wage is:') +
-                                  (' %s. ' % values['wage']) + _('The old value was:') +
-                                  (' %s.' % var_contract.wage),
-                                  'type_id': configuration.action_type_id.id,
-                                  'employee_id': var_contract.employee_id.id,
-                                  }
-                    action_obj = self.pool.get('hr.personnel.actions.personnel.action')
-                    action_obj.create(cr, uid, new_action, context=context)
-            #TODO
-            #else:
-                #log or inform error couldn't create the action
-        if 'date_start' in values:
-            configuration_obj = self.pool.get('hr.personnel.actions.configuration')
-            configuration_id = configuration_obj.search(cr, uid, [('key','=','contract_duration')], context=context)
-            if configuration_id:
-                configuration = configuration_obj.browse(cr, uid, configuration_id[0], context=context)
-                contracts = self.browse(cr, uid, ids, context=context)
-                for var_contract in contracts:
-                    new_action = {
-                                  'date': fields.datetime.now(),
-                                  'title': _('Contract Modifications'),
-                                  'description': _('Duration has been modified. The new value for start date is:') +
-                                  (' %s. ' %values['date_start']) + _('The old value was:') +
-                                  (' %s.' % var_contract.date_start),
-                                  'type_id': configuration.action_type_id.id,
-                                  'employee_id': var_contract.employee_id.id,
-                                  }
-                    action_obj = self.pool.get('hr.personnel.actions.personnel.action')
-                    action_obj.create(cr, uid, new_action, context=context)
-            #TODO
-            #else:
-                #log or inform error couldn't create the action
-        if 'date_end' in values:
-            configuration_obj = self.pool.get('hr.personnel.actions.configuration')
-            configuration_id = configuration_obj.search(cr, uid, [('key','=','contract_duration')], context=context)
-            if configuration_id:
-                configuration = configuration_obj.browse(cr, uid, configuration_id[0], context=context)
-                contracts = self.browse(cr, uid, ids, context=context)
-                for var_contract in contracts:
-                    new_action = {
-                                  'date': fields.datetime.now(),
-                                  'title': _('Contract Modifications'),
-                                  'description': _('Duration has been modified. The new value for end date is:') +
-                                  (' %s. ' %values['date_end']) + _('The old value was:') +
-                                  (' %s.' % var_contract.date_end),
-                                  'type_id': configuration.action_type_id.id,
-                                  'employee_id': var_contract.employee_id.id,
-                                  }
-                    action_obj = self.pool.get('hr.personnel.actions.personnel.action')
-                    action_obj.create(cr, uid, new_action, context=context)
-            #TODO
-            #else:
-                #log or inform error couldn't create the action
-        if 'struct_id' in values:
-            configuration_obj = self.pool.get('hr.personnel.actions.configuration')
-            configuration_id = configuration_obj.search(cr, uid, [('key','=','contract_payroll')], context=context)
-            if configuration_id:
-                configuration = configuration_obj.browse(cr, uid, configuration_id[0], context=context)
-                contracts = self.browse(cr, uid, ids, context=context)
-                for var_contract in contracts:
-                    struct_id_name = self.pool.get('hr.payroll.structure').browse(cr, uid, values['struct_id'], context=context).name
-                    new_action = {
-                                  'date': fields.datetime.now(),
-                                  'title': _('Contract Modifications'),
-                                  'description': _('The salary structure has been modified. The new value is:') +
-                                  (' %s. ' % struct_id_name) + _('The old value was:') +
-                                  (' %s.' % var_contract.struct_id.name),
-                                  'type_id': configuration.action_type_id.id,
-                                  'employee_id': var_contract.employee_id.id,
-                                  }
-                    action_obj = self.pool.get('hr.personnel.actions.personnel.action')
-                    action_obj.create(cr, uid, new_action, context=context)
-            #TODO
-            #else:
-                #log or inform error couldn't create the action
-        return super(contract, self).write(cr,uid,ids,values,context=context)
+        contracts = self.browse(cr, uid, ids, context=context)
+        message_old = _('The old value was:')
+        for var_contract in contracts:
+            if 'wage' in values:
+                configuration_obj = self.pool.get('hr.personnel.actions.configuration')
+                configuration_id = configuration_obj.search(cr, uid, [('key','=','contract_wage')], context=context)
+                message_new = _('Wage has been modified. The new value for wage is:')
+                self._write_personnel_action(cr,uid,ids,context,var_contract,configuration_obj,configuration_id,message_new,message_old,values['wage'],var_contract.wage)
+                
+            if 'date_start' in values:
+                configuration_obj = self.pool.get('hr.personnel.actions.configuration')
+                configuration_id = configuration_obj.search(cr, uid, [('key','=','contract_duration')], context=context)
+                message_new = _('Duration has been modified. The new value for start date is:')
+                self._write_personnel_action(cr,uid,ids,context,var_contract,configuration_obj,configuration_id,message_new,message_old,values['date_start'],var_contract.date_start)
+                
+            if 'date_end' in values:
+                configuration_obj = self.pool.get('hr.personnel.actions.configuration')
+                configuration_id = configuration_obj.search(cr, uid, [('key','=','contract_duration')], context=context)
+                message_new = _('Duration has been modified. The new value for end date is:')
+                self._write_personnel_action(cr,uid,ids,context,var_contract,configuration_obj,configuration_id,message_new,message_old,values['date_end'],var_contract.date_end)
+                
+            if 'struct_id' in values:
+                configuration_obj = self.pool.get('hr.personnel.actions.configuration')
+                configuration_id = configuration_obj.search(cr, uid, [('key','=','contract_payroll')], context=context)
+                message_new = _('The salary structure has been modified. The new value is:')
+                struct_id_name = self.pool.get('hr.payroll.structure').browse(cr, uid, values['struct_id'], context=context).name
+                self._write_personnel_action(cr,uid,ids,context,var_contract,configuration_obj,configuration_id,message_new,message_old,struct_id_name,var_contract.struct_id.name)
+                
+        return super(hrContract, self).write(cr,uid,ids,values,context=context)

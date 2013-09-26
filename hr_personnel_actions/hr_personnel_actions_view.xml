@@ -91,6 +91,7 @@
                     <field name="type_id" string="Action Type"/>
                     <separator/>
                     <group expand="0" string="Group by...">
+                        <filter string="Employee" icon="terp-go-month" domain="[]" context="{'group_by':'employee_id'}"/>
                         <filter string="Date" icon="terp-go-month" domain="[]" context="{'group_by':'date'}"/>
                         <filter string="Action Type" icon="terp-go-month" domain="[]" context="{'group_by':'type_id'}"/>
                     </group>
