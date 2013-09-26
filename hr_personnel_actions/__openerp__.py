@@ -37,9 +37,9 @@ LONG DESCRIPTION
                  'hr_payroll',
                  'hr_contract',],
     "data" : [
-              'hr_personnelactions_view.xml',
-              'hr_personnelactions_menu.xml',
-              'hr_personnelactions_data.xml',
+              'hr_personnel_actions_view.xml',
+              'hr_personnel_actions_menu.xml',
+              'hr_personnel_actions_data.xml',
               ],
     "init_xml" : [],
     "demo_xml" : [],

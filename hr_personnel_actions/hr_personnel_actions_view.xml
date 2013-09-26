@@ -5,9 +5,9 @@
         <!-- VIEWS -->
         <!-- configuration views -->
         <!-- configuration_form_view -->
-        <record model="ir.ui.view" id="personnelactions_config_form_view">
-            <field name="name">personnelactions.config.form.view</field>
-            <field name="model">hr.personnelactions.config</field>
+        <record model="ir.ui.view" id="personnel_actions_configuration_form_view">
+            <field name="name">personnel_actions.configuration.form.view</field>
+            <field name="model">hr.personnel.actions.configuration</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
                 <form string="Personnel Actions Configuration" version="7.0">
@@ -24,9 +24,9 @@
         </record>
         
         <!-- configuration_tree_view -->
-        <record model="ir.ui.view" id="personnelactions_config_tree_view">
-            <field name="name">personnelactions.config.tree.view</field>
-            <field name="model">hr.personnelactions.config</field>
+        <record model="ir.ui.view" id="personnel_actions_configuration_tree_view">
+            <field name="name">personnel.actions.configuration.tree.view</field>
+            <field name="model">hr.personnel.actions.configuration</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
                 <tree string="Personnel Actions Configuration">
@@ -38,9 +38,9 @@
         
         <!-- personnel_action views -->
         <!-- personnel_action_form_view -->
-        <record model="ir.ui.view" id="personnelactions_personnelaction_form_view">
-            <field name="name">personnelactions.personnelaction.form.view</field>
-            <field name="model">hr.personnelactions.personnelaction</field>
+        <record model="ir.ui.view" id="personnel_actions_personnel_action_form_view">
+            <field name="name">personnel.actions.personnel.action.form.view</field>
+            <field name="model">hr.personnel.actions.personnel.action</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
                 <form string="Personnel Actions" version="7.0">
@@ -67,9 +67,9 @@
         </record>
         
         <!-- personnel_action_tree_view -->
-        <record model="ir.ui.view" id="personnelactions_personnelaction_tree_view">
-            <field name="name">personnelactions.personnelaction.tree.view</field>
-            <field name="model">hr.personnelactions.personnelaction</field>
+        <record model="ir.ui.view" id="personnel_actions_personnel_action_tree_view">
+            <field name="name">personnel.actions.personnel.action.tree.view</field>
+            <field name="model">hr.personnel.actions.personnel.action</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
                 <tree string="Personnel Actions">
@@ -81,9 +81,9 @@
         </record>
         
         <!-- personnel_action_search_view -->
-        <record model="ir.ui.view" id="personnelactions_personnelaction_search_view">
-            <field name="name">personnelactions.personnelaction.search.view</field>
-            <field name="model">hr.personnelactions.personnelaction</field>
+        <record model="ir.ui.view" id="personnel_actions_personnel_action_search_view">
+            <field name="name">personnel.actions.personnel.action.search.view</field>
+            <field name="model">hr.personnel.actions.personnel.action</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
                 <search string="Personnel Actions">
@@ -102,7 +102,7 @@
         <!-- action_module_config -->
         <record model="ir.actions.act_window" id="action_module_config">
             <field name="name">Personnel Actions Configuration</field>
-            <field name="res_model">hr.personnelactions.config</field>
+            <field name="res_model">hr.personnel.actions.configuration</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create new personnel configuration</p>
@@ -112,7 +112,7 @@
         <!-- action_action_type -->
         <record model="ir.actions.act_window" id="action_action_type">
             <field name="name">Personnel Action Types</field>
-            <field name="res_model">hr.personnelactions.actiontype</field>
+            <field name="res_model">hr.personnel.actions.type</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create new personnel action type</p>
@@ -122,7 +122,7 @@
         <!-- action_personnel_action -->
         <record model="ir.actions.act_window" id="action_personnel_action">
             <field name="name">Personnel Actions</field>
-            <field name="res_model">hr.personnelactions.personnelaction</field>
+            <field name="res_model">hr.personnel.actions.personnel.action</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create new personnel action</p>
