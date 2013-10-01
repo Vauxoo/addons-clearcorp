@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <menuitem id="menu_action_personnel_action"
+            parent="hr.menu_hr_main"
+            name="Personnel Action"
+            sequence="100"
+            action="action_personnel_action"/>
+            
+        <menuitem id="menu_action_type"
+            parent="hr.menu_hr_configuration"
+            name="Types of Actions"
+            sequence="100"
+            action="action_action_type"/>
+            
+         <menuitem id="menu_module_config"
+            parent="hr.menu_hr_configuration"
+            name="Personnel Actions Configuration"
+            sequence="101"
+            action="action_module_config"/>
+    </data>
+</openerp>
