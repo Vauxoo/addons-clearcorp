@@ -31,6 +31,3 @@ class Parser(report_sxw.rml_parse):
             'random':random,
             'hello_world':self.hello_world,
         })"""
-
-    def hello_world(self, name):
-        return "Hello, %s!" % name

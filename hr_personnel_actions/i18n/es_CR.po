@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-01 17:46+0000\n"
-"PO-Revision-Date: 2013-10-01 17:46+0000\n"
+"POT-Creation-Date: 2013-10-01 20:06+0000\n"
+"PO-Revision-Date: 2013-10-01 20:06+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgid "Contract Payroll"
 msgstr "Nómina del Contrato"
 
 #. module: hr_personnel_actions
-#: code:addons/hr_personnel_actions/hr_personnel_actions.py:102
+#: code:addons/hr_personnel_actions/hr_personnel_actions.py:101
 #, python-format
 msgid "Duration has been modified. The new value for end date is:"
 msgstr "La duración ha sido modificada. El nuevo valor para la fecha final es:"
@@ -113,7 +113,7 @@ msgstr "<p class=\"oe_view_nocontent_create\">Crear nuevo tipo de acción de per
 "            "
 
 #. module: hr_personnel_actions
-#: code:addons/hr_personnel_actions/hr_personnel_actions.py:85
+#: code:addons/hr_personnel_actions/hr_personnel_actions.py:84
 #, python-format
 msgid "The old value was:"
 msgstr "El antiguo valor era"
@@ -186,25 +186,37 @@ msgid "General Information"
 msgstr "Información General"
 
 #. module: hr_personnel_actions
+#: code:addons/hr_personnel_actions/hr_personnel_actions.py:80
+#, python-format
+msgid "Personnel Actions Error"
+msgstr "Error Acciones de Personal"
+
+#. module: hr_personnel_actions
 #: field:hr.personnel.actions.configuration,action_type_id:0
 #: view:hr.personnel.actions.personnel.action:0
 msgid "Action Type"
 msgstr "Tipo de Acción"
 
 #. module: hr_personnel_actions
-#: code:addons/hr_personnel_actions/hr_personnel_actions.py:90
+#: code:addons/hr_personnel_actions/hr_personnel_actions.py:80
+#, python-format
+msgid "System cannot create the respective personnel action"
+msgstr "El sistema no puede crear la acción de personal respectiva"
+
+#. module: hr_personnel_actions
+#: code:addons/hr_personnel_actions/hr_personnel_actions.py:89
 #, python-format
 msgid "Wage has been modified. The new value for wage is:"
 msgstr "El salario ha sido modificado. El nuevo valor para el salario es:"
 
 #. module: hr_personnel_actions
-#: code:addons/hr_personnel_actions/hr_personnel_actions.py:96
+#: code:addons/hr_personnel_actions/hr_personnel_actions.py:95
 #, python-format
 msgid "Duration has been modified. The new value for start date is:"
 msgstr "La duración ha sido modificada. El nuevo valor para la fecha inicial es:"
 
 #. module: hr_personnel_actions
-#: code:addons/hr_personnel_actions/hr_personnel_actions.py:108
+#: code:addons/hr_personnel_actions/hr_personnel_actions.py:107
 #, python-format
 msgid "The salary structure has been modified. The new value is:"
 msgstr "La estructura salarial ha sido modificada. El nuevo valor es:"

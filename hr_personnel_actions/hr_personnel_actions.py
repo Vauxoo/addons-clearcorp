@@ -76,9 +76,8 @@ class hrContract(osv.Model):
                           }
             action_obj = self.pool.get('hr.personnel.actions.personnel.action')
             action_obj.create(cr, uid, new_action, context=context)
-        #TODO
-        #else:
-            #log or inform error couldn't create the action
+        else:
+            raise osv.except_osv(_('Personnel Actions Error'), _('System cannot create the respective personnel action'))
     
     def write(self, cr, uid, ids, values, context=None):
         contracts = self.browse(cr, uid, ids, context=context)
