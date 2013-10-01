@@ -99,6 +99,24 @@
             </field>
         </record>
         
+        <!-- personnel_action views -->
+        <!-- personnel_action_form_view -->
+        <record model="ir.ui.view" id="personnel_actions_hr_employee_form_view">
+            <field name="name">personnel.actions.hr.employee.form.view</field>
+            <field name="model">hr.employee</field>
+            <field name="priority" eval="16"/>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@string='HR Settings']" position="after">
+                    <page string="Personnel Actions">
+                        <group string="Personnel Actions" name="personnel_actions_group">
+                            <field name="personnel_action_ids" nolabel="1"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        
         <!-- ACTIONS -->
         <!-- action_module_config -->
         <record model="ir.actions.act_window" id="action_module_config">

@@ -20,4 +20,4 @@
 #
 ##############################################################################
 
-import hr_personnel_actions
+import hr_personnel_actions, report

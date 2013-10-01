@@ -20,36 +20,17 @@
 #
 ##############################################################################
 
-{
-    "name" : 'Personnel Actions',
-    "version" : '1.0',
-    "author" : 'CLEARCORP S.A.',
-    'complexity': 'normal',
-    "description": """
-LONG DESCRIPTION
-    """,
-    "category": 'Human Resources',
-    "sequence": 4,
-    "website" : "http://clearcorp.co.cr",
-    "images" : [],
-    "icon" : False,
-    "depends" : ['hr_holidays',
-                 'hr_payroll',
-                 'hr_contract',
-                 'report_aeroo_ooo',
-                 ],
-    "data" : [
-              'hr_personnel_actions_view.xml',
-              'hr_personnel_actions_menu.xml',
-              'hr_personnel_actions_data.xml',
-              'report/report_data.xml',
-              ],
-    "init_xml" : [],
-    "demo_xml" : [],
-    "update_xml" : [],
-    "test" : [],
-    "auto_install": False,
-    "application": False,
-    "installable": True,
-    'license': 'AGPL-3',
-}
+from report import report_sxw
+from report.report_sxw import rml_parse
+
+class Parser(report_sxw.rml_parse):
+    def __init__(self, cr, uid, name, context):
+        super(Parser, self).__init__(cr, uid, name, context)
+        """self.localcontext.update({
+            'lorem':lorem.do_lorem,
+            'random':random,
+            'hello_world':self.hello_world,
+        })"""
+
+    def hello_world(self, name):
+        return "Hello, %s!" % name

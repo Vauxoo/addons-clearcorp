@@ -110,3 +110,10 @@ class hrContract(osv.Model):
                 self._write_personnel_action(cr,uid,ids,context,var_contract,configuration_obj,configuration_id,message_new,message_old,struct_id_name,var_contract.struct_id.name)
                 
         return super(hrContract, self).write(cr,uid,ids,values,context=context)
+    
+class hrEmployee(osv.Model):
+    _inherit = "hr.employee"
+    
+    _columns = {
+                'personnel_action_ids': fields.one2many('hr.personnel.actions.personnel.action', 'employee_id', string="Personnel Actions")
+                }

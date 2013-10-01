@@ -11,6 +11,14 @@
             <field name="type">Contract Payroll</field>
         </record>
         
+        <record id="personnel_type_admonishment" model="hr.personnel.actions.type">
+            <field name="type">Employee Admonishment</field>
+        </record>
+        
+        <record id="personnel_type_fines" model="hr.personnel.actions.type">
+            <field name="type">Employee Fines</field>
+        </record>
+        
         <record id="personnel_config_contract_creation" model="hr.personnel.actions.configuration">
             <field name="key">contract_duration</field>
             <field name="action_type_id" eval="ref('personnel_type_contract')"/>

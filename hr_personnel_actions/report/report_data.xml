@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="personnel_action_report_id" model="ir.actions.report.xml">
+            <field name="name">Personnel Actions Report</field>
+            <field name="type">ir.actions.report.xml</field>
+            <field name="model">hr.personnel.actions.personnel.action</field>
+            <field name="report_name">personnel_actions_report</field>
+            <field name="report_type">aeroo</field>
+            <field name="in_format">oo-odt</field>
+            <field name="out_format" eval="ref('report_aeroo_ooo.report_mimetypes_pdf_ods')"/>
+            <field name="parser_loc">hr_personnel_actions/report/parser.py</field>
+            <field name="report_rml">hr_personnel_actions/report/template_all.odt</field>
+            <field name="parser_state">loc</field>
+            <field name="tml_source">file</field>
+        </record>
+        
+        <record id="user_personnel_action_report_id" model="ir.actions.report.xml">
+            <field name="name">User Personnel Actions Report</field>
+            <field name="type">ir.actions.report.xml</field>
+            <field name="model">hr.employee</field>
+            <field name="report_name">user_personnel_actions_report</field>
+            <field name="report_type">aeroo</field>
+            <field name="in_format">oo-odt</field>
+            <field name="out_format" eval="ref('report_aeroo_ooo.report_mimetypes_pdf_ods')"/>
+            <field name="parser_loc">hr_personnel_actions/report/parser.py</field>
+            <field name="report_rml">hr_personnel_actions/report/template_user.odt</field>
+            <field name="parser_state">loc</field>
+            <field name="tml_source">file</field>
+        </record>
+        
+        <ir_set>
+            <field eval="'action'" name="key"/>
+            <field eval="'client_print_multi'" name="key2"/>
+            <field eval="['hr.personnel.actions.personnel.action']" name="models"/>
+            <field name="name">Personnel Actions Report</field>
+            <field eval="'ir.actions.report.xml,'+str(personnel_action_report_id)" name="value"/>
+            <field eval="True" name="isobject"/>
+            <field eval="True" name="replace"/>
+        </ir_set>
+        
+        <ir_set>
+            <field eval="'action'" name="key"/>
+            <field eval="'client_print_multi'" name="key2"/>
+            <field eval="['hr.employee']" name="models"/>
+            <field name="name">User Personnel Actions Report</field>
+            <field eval="'ir.actions.report.xml,'+str(user_personnel_action_report_id)" name="value"/>
+            <field eval="True" name="isobject"/>
+            <field eval="True" name="replace"/>
+        </ir_set>
+    </data>
+</openerp>
