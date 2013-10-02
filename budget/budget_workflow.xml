@@ -161,14 +161,16 @@
             <field name="act_from" ref="act_bud_mov_in_execution"/>
             <field name="act_to" ref="act_bud_mov_executed"/>
             <field name="condition">is_executed()</field>
+            <field name="signal">button_check_execution</field>
         </record>
         
         <record id="trans_bud_mov_executed_in_execution" model="workflow.transition">
             <field name="act_from" ref="act_bud_mov_executed"/>
             <field name="act_to" ref="act_bud_mov_in_execution"/>
-            <field name="trigger_model">account.move.line.distribution</field>
-            <field name="trigger_expr_id">distribution_get()</field>
+            <!--<field name="trigger_model">account.move.line.distribution</field>
+            <field name="trigger_expr_id">distribution_get()</field>-->
             <field name="condition">is_in_execution()</field>
+            <field name="signal">button_check_execution</field>
         </record>
         
         <record id="trans_bud_mov_reserved_canceled" model="workflow.transition">

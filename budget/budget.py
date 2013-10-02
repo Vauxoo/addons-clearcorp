@@ -1107,12 +1107,24 @@ class budget_move(osv.osv):
         return res
     
     def is_executed(self, cr, uid, ids, *args):
+        dist_obj = self.pool.get('account.move.line.distribution') 
+        executed = 0.0
+        void = 0.0
         for move in self.browse(cr, uid, ids,):
             if move.type in ('opening','extension','modification'):
                 if move.state == 'in_execution':
                     return True
-            if move.type in ('manual_invoice_in'):
-                if move.executed == move.fixed_amount - move.reversed:
+            if move.type in ('manual_invoice_in','expense'):
+                distr_line_ids = []
+                for line in move.move_lines:
+                    distr_line_ids += dist_obj.search(cr, uid,[('target_budget_move_line_id','=',line.id)])
+                for dist in dist_obj.browse(cr, uid, distr_line_ids):
+                    if dist.account_move_line_type =='liquid':
+                        executed += dist.distribution_amount
+                    elif dist.account_move_line_type =='void':
+                        void += dist.distribution_amount
+                        
+                if executed == move.fixed_amount - void:
                     return True
         return False
     
@@ -1121,11 +1133,23 @@ class budget_move(osv.osv):
     
     
     def is_in_execution(self, cr, uid, ids, *args):
+        dist_obj = self.pool.get('account.move.line.distribution') 
+        executed = 0.0
+        void = 0.0
         for move in self.browse(cr, uid, ids,):
             if move.type in ('opening','extension','modification'):
                     return False
-            if move.type in ('manual_invoice_in'):
-                if move.executed != move.fixed_amount - move.reversed:
+            if move.type in ('manual_invoice_in','expense'):
+                distr_line_ids = []
+                for line in move.move_lines:
+                    distr_line_ids += dist_obj.search(cr, uid,[('target_budget_move_line_id','=',line.id)])
+                for dist in dist_obj.browse(cr, uid, distr_line_ids):
+                    if dist.account_move_line_type =='liquid':
+                        executed += dist.distribution_amount
+                    elif dist.account_move_line_type =='void':
+                        void += dist.distribution_amount
+                        
+                if executed != move.fixed_amount - void:
                     return True
         return False
     
