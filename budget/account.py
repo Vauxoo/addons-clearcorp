@@ -48,6 +48,30 @@ class AccountMoveReconcile(osv.Model):
             for mov_id in budget_move_ids:
                 bud_mov_obj._workflow_signal(cr, uid, [mov_id], 'button_check_execution', context=context)
         return super(AccountMoveReconcile, self).unlink(cr, uid, ids, context=context)
+
+#    def unlink(self, cr, uid, ids, context={}):
+#        dist_obj = self.pool.get('account.move.line.distribution')
+#        bud_mov_obj = self.pool.get('budget.move')
+#        wf_service = netsvc.LocalService("workflow")
+#        for reconcile_id in ids:
+#            budget_move_ids = []
+#            dist_ids = dist_obj.search(cr, uid, [('reconcile_ids.id','=',reconcile_id)], context=context)
+#            dists = dist_obj.browse(cr, uid, dist_ids, context=context)
+#            for dist in dists:
+#                if dist.target_budget_move_line_id and \
+#                    dist.target_budget_move_line_id.budget_move_id and \
+#                    dist.target_budget_move_line_id.budget_move_id.id not in budget_move_ids:
+#                    budget_move_ids.append(dist.target_budget_move_line_id.budget_move_id.id)
+#                if len(dist.reconcile_ids) == 1:
+#                    dist_obj.unlink(cr, uid, [dist.id], context=context)
+#                else:
+#                    dist_obj.write(cr ,uid, [dist.id], {'reconcile_ids':[(3,reconcile_id)]}) 
+#        
+#        if budget_move_ids:
+#            bud_mov_obj.recalculate_values(cr, uid, budget_move_ids, context=context)
+#            for mov_id in budget_move_ids:
+#                bud_mov_obj._workflow_signal(cr, uid, [mov_id], 'button_check_execution', context=context)
+#        return super(AccountMoveReconcile, self).unlink(cr, uid, ids, context=context)
     
     def create(self, cr, uid, vals, context=None):
         reconcile_id = super(AccountMoveReconcile, self).create(cr, uid, vals, context=context)
