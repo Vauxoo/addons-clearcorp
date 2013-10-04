@@ -31,6 +31,7 @@ class AccountMoveReconcile(osv.Model):
     
     def unlink(self, cr, uid, ids, context={}):
         dist_obj = self.pool.get('account.move.line.distribution')
+        bud_mov_obj = self.pool.get('budget.move')
         wf_service = netsvc.LocalService("workflow")
         dist_ids = dist_obj.search(cr, uid, [('reconcile_ids.id','in',ids)], context=context)
         dists = dist_obj.browse(cr, uid, dist_ids, context=context)
@@ -43,9 +44,9 @@ class AccountMoveReconcile(osv.Model):
         dist_obj.unlink(cr, uid, dist_ids, context=context)
         
         if budget_move_ids:
-            self.pool.get('budget.move').recalculate_values(cr, uid, budget_move_ids, context=context)
-#        for dist_id in dist_ids:
-#            wf_service.trg_trigger(uid, 'account.move.line.distribution', dist_id, cr)
+            bud_mov_obj.recalculate_values(cr, uid, budget_move_ids, context=context)
+            for mov_id in budget_move_ids:
+                bud_mov_obj._workflow_signal(cr, uid, [mov_id], 'button_check_execution', context=context)
         return super(AccountMoveReconcile, self).unlink(cr, uid, ids, context=context)
     
     def create(self, cr, uid, vals, context=None):
@@ -148,7 +149,7 @@ class AccountMoveReconcile(osv.Model):
         i=0
         sum = 0
         for line in bud_move.move_lines:
-            amld.clean_reconcile_entries(cr, uid, [payment_move_line_id], context=None)
+ #           amld.clean_reconcile_entries(cr, uid, [payment_move_line_id], context=None)
             if i < len(bud_move.move_lines)-1:
                 perc = line.fixed_amount/bud_move.fixed_amount or 0
                 amld.create(cr, uid, {'budget_move_id': bud_move.id,
@@ -167,7 +168,8 @@ class AccountMoveReconcile(osv.Model):
                                          'amount' : amount - sum
                                          })
             bud_move_line_obj.write(cr, uid, [line.id],{'date': line.date}, context=context)
-        bud_move_obj.write(cr, uid , [bud_move.id], {'code': bud_move.code}, context=context) 
+        bud_move_obj.write(cr, uid , [bud_move.id], {'code': bud_move.code}, context=context)
+        
     
     def _get_move_counterparts(self, cr, uid, line, context={}):
         is_debit = True if line.debit else False
@@ -226,6 +228,8 @@ class AccountMoveReconcile(osv.Model):
         Returns the list of account.move.line.distribution created, or an empty list.
         """
         
+        dist_obj = self.pool.get('account.move.line.distribution')
+        
         # Check if not first call and void type line. This kind of lines only can be navigated when called first by the main method.
         if actual_line and actual_line.move_id.budget_type == 'void':
             return []
@@ -236,6 +240,8 @@ class AccountMoveReconcile(osv.Model):
         
         # Check for first call
         if not actual_line:
+            dist_search = dist_obj.search(cr, uid, [('account_move_line_id','=',original_line.id)],context=context)
+            dist_obj.unlink(cr,uid,dist_search,context=context)
             actual_line = original_line
             amount_to_dist = original_line.debit + original_line.credit
             original_amount_to_dist = amount_to_dist
@@ -317,10 +323,11 @@ class AccountMoveReconcile(osv.Model):
         liquid_res = []
         budget_distributed = 0.0
         liquid_distributed = 0.0
+        bud_move_obj = self.pool.get('budget.move')
         if budget_lines or liquid_lines:
             # Write dists and build lists
             
-            dist_obj = self.pool.get('account.move.line.distribution')
+            #dist_obj = self.pool.get('account.move.line.distribution')
             
             # Budget list
             budget_total = 0.0
@@ -347,6 +354,8 @@ class AccountMoveReconcile(osv.Model):
                     'account_move_line_type':       'liquid',
                 }
                 budget_res.append(dist_obj.create(cr, uid, vals, context = context))
+                bud_move_obj._workflow_signal(cr, uid, [line.budget_move_id.id], 'button_check_execution', context=context)
+                
             
             # Liquid list
             for line in liquid_lines.values():
@@ -361,6 +370,7 @@ class AccountMoveReconcile(osv.Model):
                     'type':                         'auto',
                 }
                 liquid_res.append(dist_obj.create(cr, uid, vals, context = context))
+                bud_move_obj._workflow_signal(cr, uid, [line.budget_move_id.id], 'button_check_execution', context=context)
             
         distributed_amount = budget_distributed + liquid_distributed
         
@@ -465,6 +475,7 @@ class AccountMoveReconcile(osv.Model):
             budget_total = 0.0
             budget_budget_move_line_ids = []
             budget_budget_move_lines = []
+            bud_move_obj = self.pool.get('budget.move')
             for line in budget_lines.values():
                 budget_budget_move_lines += (line.move_id.budget_move_line_ids if line.move_id.budget_move_line_ids else [])
             for line in budget_budget_move_lines:
@@ -486,6 +497,7 @@ class AccountMoveReconcile(osv.Model):
                     'account_move_line_type':       'liquid',
                 }
                 budget_res.append(dist_obj.create(cr, uid, vals, context = context))
+                bud_move_obj._workflow_signal(cr, uid, [line.budget_move_id.id], 'button_check_execution', context=context)
         
         distributed_amount = budget_distributed
         
