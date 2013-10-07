@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-09 17:26+0000\n"
-"PO-Revision-Date: 2013-09-09 17:26+0000\n"
+"POT-Creation-Date: 2013-10-03 20:44+0000\n"
+"PO-Revision-Date: 2013-10-03 20:44+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -27,7 +27,12 @@ msgid "Assigned amount"
 msgstr "Monto asignado"
 
 #. module: budget
-#: code:addons/budget/budget.py:637
+#: model:ir.model,name:budget.model_hr_expense_line
+msgid "Expense Line"
+msgstr "Línea de gasto"
+
+#. module: budget
+#: code:addons/budget/budget.py:622
 #, python-format
 msgid "You cannot delete an account used by a program line"
 msgstr "No se puede eliminar una cuenta que es usada por una línea de programa"
@@ -70,9 +75,9 @@ msgid "Original Reserved"
 msgstr "Original Reservado"
 
 #. module: budget
-#: code:addons/budget/budget.py:844
-#: code:addons/budget/budget.py:907
-#: code:addons/budget/budget.py:921
+#: code:addons/budget/budget.py:829
+#: code:addons/budget/budget.py:904
+#: code:addons/budget/budget.py:918
 #, python-format
 msgid "Modification"
 msgstr "Modificación"
@@ -86,11 +91,6 @@ msgstr "Volver a borrador"
 #: view:budget.program.populate:0
 msgid "This wizard will crate program lines from a given account catalog"
 msgstr "Este asistente creará líneas de programa a partir de un catálogo contable."
-
-#. module: budget
-#: field:account.move.line.distribution,account_move_line_type:0
-msgid "Account move line type"
-msgstr "Tipo de linea de asiento"
 
 #. module: budget
 #: field:budget.program.line,compromised_amount:0
@@ -182,7 +182,7 @@ msgid "Approved"
 msgstr "Aprobado"
 
 #. module: budget
-#: code:addons/budget/budget.py:650
+#: code:addons/budget/budget.py:635
 #, python-format
 msgid "You cannot overwrite the code or the name of an account used by a program line"
 msgstr "No se puede sobreescribir el código o el nombre de una cuenta utilizada por una línea de programa"
@@ -232,6 +232,13 @@ msgstr "Programas"
 #: model:ir.model,name:budget.model_budget_account
 msgid "Budget Account"
 msgstr "Cuentas Presupuestarias"
+
+#. module: budget
+#: constraint:budget.account:0
+msgid "Error!\n"
+"You cannot create recursive account templates."
+msgstr "Error!\n"
+"No se pueden crear plantillas de cuentas recursivas "
 
 #. module: budget
 #: view:budget.plan:0
@@ -289,11 +296,9 @@ msgid "Origin"
 msgstr "Orígen"
 
 #. module: budget
-#: constraint:budget.account:0
-msgid "Error!\n"
-"You cannot create recursive account templates."
-msgstr "Error!\n"
-"No se pueden crear plantillas de cuentas recursivas "
+#: field:account.move.line.distribution,account_move_line_type:0
+msgid "Budget Type"
+msgstr "Tipo de presupuesto"
 
 #. module: budget
 #: field:account.account,default_budget_program_line:0
@@ -301,10 +306,10 @@ msgid "Default budget program line"
 msgstr "Linea de presupuesto por defecto"
 
 #. module: budget
-#: code:addons/budget/wizard/budget_import_catalog.py:100
-#, python-format
-msgid "The file name is too long"
-msgstr "El nombre del archivo es muy largo"
+#: view:budget.account:0
+#: view:budget.program.line:0
+msgid "Group by..."
+msgstr "Agrupar por..."
 
 #. module: budget
 #: field:budget.program.line,execution_percentage:0
@@ -322,8 +327,8 @@ msgid "Budget Period "
 msgstr "Período presupuestario "
 
 #. module: budget
-#: code:addons/budget/budget.py:840
-#: code:addons/budget/budget.py:917
+#: code:addons/budget/budget.py:825
+#: code:addons/budget/budget.py:914
 #, python-format
 msgid "Manual sale invoice"
 msgstr "Factura cliente manual"
@@ -339,8 +344,8 @@ msgid "Distributions"
 msgstr "Distribuciones"
 
 #. module: budget
-#: code:addons/budget/budget.py:990
-#: code:addons/budget/budget.py:993
+#: code:addons/budget/budget.py:1019
+#: code:addons/budget/budget.py:1022
 #, python-format
 msgid " is greater than the available "
 msgstr " es mayor que el disponible "
@@ -349,6 +354,12 @@ msgstr " es mayor que el disponible "
 #: view:budget.plan:0
 msgid "No further moves will be created for this plan if it is closed, Will you proceed?"
 msgstr "No se crearán más movimientos para este plan si se cierra, ¿Continuar?"
+
+#. module: budget
+#: code:addons/budget/wizard/budget_import_catalog.py:100
+#, python-format
+msgid "The file name is too long"
+msgstr "El nombre del archivo es muy largo"
 
 #. module: budget
 #: field:budget.program.line,available_cash:0
@@ -384,7 +395,7 @@ msgid "Consolidation Entry"
 msgstr "Partida de consolidación"
 
 #. module: budget
-#: code:addons/budget/budget.py:967
+#: code:addons/budget/budget.py:996
 #, python-format
 msgid "The reserved amount must be positive"
 msgstr "El monto a reservar debe ser positivo"
@@ -420,6 +431,7 @@ msgid "recalculate"
 msgstr "recalcular"
 
 #. module: budget
+#: field:account.move.line,account_type:0
 #: view:budget.account:0
 msgid "Account Type"
 msgstr "Tipo de cuenta"
@@ -502,15 +514,15 @@ msgid "Sponsor"
 msgstr "Patrocinador"
 
 #. module: budget
-#: code:addons/budget/budget.py:981
+#: code:addons/budget/budget.py:1010
 #, python-format
 msgid "Program lines in budget move lines cannot be repeated"
 msgstr "Las lineas de programa no se pueden repetir en las lineas de movimiento"
 
 #. module: budget
-#: code:addons/budget/budget.py:845
-#: code:addons/budget/budget.py:908
-#: code:addons/budget/budget.py:922
+#: code:addons/budget/budget.py:830
+#: code:addons/budget/budget.py:905
+#: code:addons/budget/budget.py:919
 #, python-format
 msgid "Extension"
 msgstr "Extensión"
@@ -630,8 +642,9 @@ msgid "Budget accounts"
 msgstr "Cuentas presupuestarias"
 
 #. module: budget
-#: code:addons/budget/budget.py:841
-#: code:addons/budget/budget.py:918
+#: code:addons/budget/budget.py:826
+#: code:addons/budget/budget.py:915
+#: model:ir.model,name:budget.model_hr_expense_expense
 #, python-format
 msgid "Expense"
 msgstr "Gasto"
@@ -653,7 +666,7 @@ msgid "Date created"
 msgstr "Fecha de creación"
 
 #. module: budget
-#: code:addons/budget/budget.py:159
+#: code:addons/budget/budget.py:141
 #, python-format
 msgid "You cannot delete an approved or closed plan"
 msgstr "No se puede eliminar un plan aprobado o cerrado"
@@ -664,8 +677,8 @@ msgid "Invoices"
 msgstr "Facturas"
 
 #. module: budget
-#: code:addons/budget/budget.py:839
-#: code:addons/budget/budget.py:916
+#: code:addons/budget/budget.py:824
+#: code:addons/budget/budget.py:913
 #, python-format
 msgid "Manual purchase invoice"
 msgstr "Facturas de proveedor manuales"
@@ -691,9 +704,14 @@ msgid "Create lines from catalog"
 msgstr "Crear líneas desde un catálogo"
 
 #. module: budget
-#: selection:budget.move,state:0
-msgid "Canceled"
-msgstr "Cancelado"
+#: field:account.move.line,currency_filter:0
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: budget
+#: view:hr.expense.expense:0
+msgid "on_change_currency(currency_id)"
+msgstr "on_change_currency(currency_id)"
 
 #. module: budget
 #: field:budget.year,date_start:0
@@ -701,19 +719,19 @@ msgid "Start Date"
 msgstr "Fecha de inicio"
 
 #. module: budget
-#: code:addons/budget/budget.py:971
+#: code:addons/budget/budget.py:1000
 #, python-format
 msgid "The sum of addition and sustractions from program lines must be zero"
 msgstr "La suma de sumas y restas de líneas de programa debe ser cero"
 
 #. module: budget
-#: field:account.move.line,budget_type:0
+#: field:account.move,budget_type:0
 msgid "budget_type"
 msgstr "budget_type"
 
 #. module: budget
-#: code:addons/budget/budget.py:838
-#: code:addons/budget/budget.py:915
+#: code:addons/budget/budget.py:823
+#: code:addons/budget/budget.py:912
 #, python-format
 msgid "Sale invoice"
 msgstr "Factura de cliente"
@@ -763,12 +781,17 @@ msgid "The name of the period must be unique per company!"
 msgstr "El nombre del período debe ser único por compañía!"
 
 #. module: budget
-#: code:addons/budget/budget.py:110
+#: code:addons/budget/budget.py:101
 #, python-format
 msgid "The following budget accounts are not listed in this program: \n"
 " : "
 msgstr "Las siguientes cuentas de presupuesto no están inscritas en este programa: \n"
 " : "
+
+#. module: budget
+#: selection:account.move,budget_type:0
+msgid "Voids budget move"
+msgstr "Rectifica movimientos de presupuesto"
 
 #. module: budget
 #: view:budget.year:0
@@ -788,8 +811,8 @@ msgid "Budget Entry"
 msgstr "Partida presupuestaria"
 
 #. module: budget
-#: code:addons/budget/budget.py:843
-#: code:addons/budget/budget.py:920
+#: code:addons/budget/budget.py:828
+#: code:addons/budget/budget.py:917
 #, python-format
 msgid "From account move"
 msgstr "Desde asiento contable"
@@ -807,21 +830,16 @@ msgid "Fixed amount"
 msgstr "Monto fijo"
 
 #. module: budget
-#: code:addons/budget/budget.py:990
-#: code:addons/budget/budget.py:993
-#, python-format
-msgid "The amount to substract from "
-msgstr "El monto a sustraer de "
-
-#. module: budget
 #: view:budget.plan:0
 msgid "Close Plan"
 msgstr "Cerrar plan"
 
 #. module: budget
-#: model:ir.model,name:budget.model_budget_account_reconcile
-msgid "Budget Account Reconcile"
-msgstr "Budget Account Reconcile"
+#: code:addons/budget/budget.py:1019
+#: code:addons/budget/budget.py:1022
+#, python-format
+msgid "The amount to substract from "
+msgstr "El monto a sustraer de "
 
 #. module: budget
 #: model:ir.model,name:budget.model_budget_period
@@ -891,7 +909,7 @@ msgid "Liquid"
 msgstr "Líquido"
 
 #. module: budget
-#: code:addons/budget/budget.py:987
+#: code:addons/budget/budget.py:1016
 #, python-format
 msgid "An extension amount cannot be negative"
 msgstr "Un monto de extensión no puede ser negativo"
@@ -939,7 +957,7 @@ msgid "Budget Programs"
 msgstr "Programas presupuestarios"
 
 #. module: budget
-#: code:addons/budget/budget.py:134
+#: code:addons/budget/budget.py:118
 #, python-format
 msgid "The following budget accounts are not consolidated children of any consolidation view: \n"
 " "
@@ -947,7 +965,7 @@ msgstr "Las siguientes cuentas presupuestarias no son hijos consolidados de ning
 " "
 
 #. module: budget
-#: code:addons/budget/budget.py:1105
+#: code:addons/budget/budget.py:1162
 #, python-format
 msgid "Orders in state other than draft cannot be deleted \n"
 ""
@@ -1008,6 +1026,7 @@ msgstr "Período"
 #: field:account.invoice.line,program_line_id:0
 #: field:budget.move,program_line_id:0
 #: field:budget.move.line,program_line_id:0
+#: field:hr.expense.line,program_line_id:0
 #: model:ir.model,name:budget.model_budget_program_line
 msgid "Program line"
 msgstr "Línea de programa"
@@ -1090,6 +1109,11 @@ msgid "Modified"
 msgstr "Modificado"
 
 #. module: budget
+#: field:account.move,budget_move_line_ids:0
+msgid "Budget move lines"
+msgstr "Lineas de movimiento presupuestario"
+
+#. module: budget
 #: model:ir.actions.act_window,help:budget.action_budget_manual_move
 msgid "<p class=\"oe_view_nocontent_create\">\n"
 "                Click to start a new move.\n"
@@ -1132,7 +1156,7 @@ msgid "Account Move Line"
 msgstr "Apunte contable"
 
 #. module: budget
-#: code:addons/budget/budget.py:353
+#: code:addons/budget/budget.py:338
 #, python-format
 msgid "There is already a program line using this budget account"
 msgstr "Ya existe una línea de programa utilizando esta cuenta presupuestaria"
@@ -1148,14 +1172,14 @@ msgid " Budget Account "
 msgstr " Cuenta Presupuestaria "
 
 #. module: budget
-#: code:addons/budget/budget.py:837
-#: code:addons/budget/budget.py:914
+#: code:addons/budget/budget.py:822
+#: code:addons/budget/budget.py:911
 #, python-format
 msgid "Purchase invoice"
 msgstr "Factura de proveedor"
 
 #. module: budget
-#: code:addons/budget/budget.py:730
+#: code:addons/budget/budget.py:715
 #, python-format
 msgid "There is no budget year defined for this date.\n"
 "Please create one from the configuration of the budget menu."
@@ -1165,6 +1189,7 @@ msgstr "No existe un Año Presupuestario definido para esta fecha.\n"
 #. module: budget
 #: field:account.invoice.line,line_available:0
 #: field:budget.move.line,line_available:0
+#: field:hr.expense.line,line_available:0
 msgid "Line available"
 msgstr "Disponible en partida"
 
@@ -1191,10 +1216,14 @@ msgid "Plans"
 msgstr "Planes"
 
 #. module: budget
-#: view:budget.account:0
-#: view:budget.program.line:0
-msgid "Group by..."
-msgstr "Agrupar por..."
+#: field:budget.move.line,expense_line_id:0
+msgid "Expense line"
+msgstr "Línea de gasto"
+
+#. module: budget
+#: selection:budget.move,state:0
+msgid "Canceled"
+msgstr "Cancelado"
 
 #. module: budget
 #: model:ir.actions.act_window,name:budget.action_budget_manual_move
@@ -1213,8 +1242,8 @@ msgid "Level"
 msgstr "Nivel"
 
 #. module: budget
-#: code:addons/budget/budget.py:842
-#: code:addons/budget/budget.py:919
+#: code:addons/budget/budget.py:827
+#: code:addons/budget/budget.py:916
 #, python-format
 msgid "Payroll"
 msgstr "Planillas"
@@ -1232,7 +1261,7 @@ msgstr "Error!\n"
 " El plan para esta línea de programa debe de estar en estado aprobado"
 
 #. module: budget
-#: code:addons/budget/budget.py:969
+#: code:addons/budget/budget.py:998
 #, python-format
 msgid "The reserved amount must be negative"
 msgstr "El monto reservado debe ser negativo"
@@ -1273,7 +1302,7 @@ msgid "budget.import.catalog"
 msgstr "budget.import.catalog"
 
 #. module: budget
-#: code:addons/budget/budget.py:413
+#: code:addons/budget/budget.py:398
 #, python-format
 msgid "You cannot delete a line from an approved or closed plan"
 msgstr "No se pueden borrar líneas de un plan aprobado o cerrado"
@@ -1319,7 +1348,7 @@ msgid "Lines"
 msgstr "Líneas"
 
 #. module: budget
-#: code:addons/budget/budget.py:420
+#: code:addons/budget/budget.py:405
 #, python-format
 msgid "You cannot modify a line from an approved or closed plan"
 msgstr "No se ueden modificar lineas de un plan en estado cerrado o aprobado"
@@ -1377,6 +1406,8 @@ msgstr "Asiento contable"
 
 #. module: budget
 #: field:account.invoice,budget_move_id:0
+#: selection:account.move,budget_type:0
+#: field:hr.expense.expense,budget_move_id:0
 msgid "Budget move"
 msgstr "Budget move"
 
@@ -1389,18 +1420,19 @@ msgstr "Apunte contable de distribución"
 #: code:addons/budget/account_move.py:34
 #: code:addons/budget/account_move.py:100
 #: code:addons/budget/budget.py:76
-#: code:addons/budget/budget.py:110
-#: code:addons/budget/budget.py:134
-#: code:addons/budget/budget.py:159
-#: code:addons/budget/budget.py:353
-#: code:addons/budget/budget.py:413
-#: code:addons/budget/budget.py:420
-#: code:addons/budget/budget.py:637
-#: code:addons/budget/budget.py:650
-#: code:addons/budget/budget.py:730
-#: code:addons/budget/budget.py:1037
-#: code:addons/budget/budget.py:1052
-#: code:addons/budget/budget.py:1105
+#: code:addons/budget/budget.py:101
+#: code:addons/budget/budget.py:118
+#: code:addons/budget/budget.py:141
+#: code:addons/budget/budget.py:338
+#: code:addons/budget/budget.py:398
+#: code:addons/budget/budget.py:405
+#: code:addons/budget/budget.py:622
+#: code:addons/budget/budget.py:635
+#: code:addons/budget/budget.py:715
+#: code:addons/budget/budget.py:1066
+#: code:addons/budget/budget.py:1081
+#: code:addons/budget/budget.py:1162
+#: code:addons/budget/hr_expense.py:228
 #: code:addons/budget/purchase.py:99
 #: code:addons/budget/purchase.py:114
 #: code:addons/budget/wizard/budget_import_catalog.py:97
@@ -1428,9 +1460,9 @@ msgstr "<p class=\"oe_view_nocontent_create\">\n"
 "            "
 
 #. module: budget
-#: code:addons/budget/budget.py:846
-#: code:addons/budget/budget.py:909
-#: code:addons/budget/budget.py:923
+#: code:addons/budget/budget.py:831
+#: code:addons/budget/budget.py:906
+#: code:addons/budget/budget.py:920
 #, python-format
 msgid "Opening"
 msgstr "Apertura"

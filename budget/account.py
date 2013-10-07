@@ -48,6 +48,30 @@ class AccountMoveReconcile(osv.Model):
             for mov_id in budget_move_ids:
                 bud_mov_obj._workflow_signal(cr, uid, [mov_id], 'button_check_execution', context=context)
         return super(AccountMoveReconcile, self).unlink(cr, uid, ids, context=context)
+
+#    def unlink(self, cr, uid, ids, context={}):
+#        dist_obj = self.pool.get('account.move.line.distribution')
+#        bud_mov_obj = self.pool.get('budget.move')
+#        wf_service = netsvc.LocalService("workflow")
+#        for reconcile_id in ids:
+#            budget_move_ids = []
+#            dist_ids = dist_obj.search(cr, uid, [('reconcile_ids.id','=',reconcile_id)], context=context)
+#            dists = dist_obj.browse(cr, uid, dist_ids, context=context)
+#            for dist in dists:
+#                if dist.target_budget_move_line_id and \
+#                    dist.target_budget_move_line_id.budget_move_id and \
+#                    dist.target_budget_move_line_id.budget_move_id.id not in budget_move_ids:
+#                    budget_move_ids.append(dist.target_budget_move_line_id.budget_move_id.id)
+#                if len(dist.reconcile_ids) == 1:
+#                    dist_obj.unlink(cr, uid, [dist.id], context=context)
+#                else:
+#                    dist_obj.write(cr ,uid, [dist.id], {'reconcile_ids':[(3,reconcile_id)]}) 
+#        
+#        if budget_move_ids:
+#            bud_mov_obj.recalculate_values(cr, uid, budget_move_ids, context=context)
+#            for mov_id in budget_move_ids:
+#                bud_mov_obj._workflow_signal(cr, uid, [mov_id], 'button_check_execution', context=context)
+#        return super(AccountMoveReconcile, self).unlink(cr, uid, ids, context=context)
     
     def create(self, cr, uid, vals, context=None):
         reconcile_id = super(AccountMoveReconcile, self).create(cr, uid, vals, context=context)
@@ -337,9 +361,9 @@ class AccountMoveReconcile(osv.Model):
                 budget_budget_move_lines += (line.move_id.budget_move_line_ids if line.move_id.budget_move_line_ids else [])
             for line in budget_budget_move_lines:
                 budget_budget_move_line_ids.append(line.id)
-                budget_total += line.compromised
+                budget_total += line.fixed_amount
             for line in budget_budget_move_lines:
-                distribution_amount = line.compromised
+                distribution_amount = line.fixed_amount
                 # If the resulting total of budget plus liquid lines is more than available, the amount has to be fractioned.
                 if budget_total + liquid_amount_to_dist > amount_to_dist:
                     distribution_amount = distribution_amount * amount_to_dist / budget_total + liquid_amount_to_dist
@@ -541,7 +565,7 @@ class AccountMoveReconcile(osv.Model):
                     dist_obj.unlink(cr, uid, dist_ids, context=context)
                     return []
                 elif last_dist.target_budget_move_line_id and \
-                    vals['distribution_amount'] > last_dist.target_budget_move_line_id.compromised:
+                    distribution_amount > last_dist.target_budget_move_line_id.fixed_amount:
                     # New value is bigger than allowed value
                     dist_obj.unlink(cr, uid, dist_ids, context=context)
                     return []
@@ -556,6 +580,8 @@ class AccountMoveReconcile(osv.Model):
                     vals['distribution_percentage'] = 100 - (distribution_percentage - last_dist_distribution_percentage)
             elif distribution_percentage < 100:
                 vals['distribution_percentage'] = 100 - (distribution_percentage - last_dist_distribution_percentage)
+#            else:
+#                vals['distribution_percentage'] = last_dist_distribution_percentage
             
             dist_obj.write(cr, uid, last_dist.id, vals, context=context)
             return dist_ids

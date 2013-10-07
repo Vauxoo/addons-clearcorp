@@ -149,8 +149,9 @@ class hr_expense_line(osv.osv):
     _inherit = 'hr.expense.line'
     
     def on_change_program_line(self, cr, uid, ids, program_line, context=None):
-        for line in self.pool.get('budget.program.line').browse(cr, uid,[program_line], context=context):
-            return {'value': {'line_available':line.available_budget},}
+        if program_line:
+            for line in self.pool.get('budget.program.line').browse(cr, uid,[program_line], context=context):
+                return {'value': {'line_available':line.available_budget},}
         return {'value': {}}
     
     def _check_available(self, cr, uid, ids, field_name, args, context=None):
@@ -169,7 +170,7 @@ class hr_expense_line(osv.osv):
     _columns = {
                 'program_line_id': fields.many2one('budget.program.line', 'Program line', ),
                 #'line_available':fields.float('Line available',digits_compute=dp.get_precision('Account')),
-                 'line_available': fields.function(_check_available,  type='float', method=True, string='Line available',readonly=True),  
+                'line_available': fields.function(_check_available,  type='float', method=True, string='Line available',readonly=True),
                 }   
     
     def create_budget_move_line(self, cr, uid, line_id, context=None):    
