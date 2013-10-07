@@ -170,7 +170,7 @@ class hr_expense_line(osv.osv):
     _columns = {
                 'program_line_id': fields.many2one('budget.program.line', 'Program line', ),
                 #'line_available':fields.float('Line available',digits_compute=dp.get_precision('Account')),
-                 'line_available': fields.function(_check_available,  type='float', method=True, string='Line available',readonly=True),  
+                'line_available': fields.function(_check_available,  type='float', method=True, string='Line available',readonly=True),
                 }   
     
     def create_budget_move_line(self, cr, uid, line_id, context=None):    
