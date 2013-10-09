@@ -52,8 +52,13 @@ class personnelActionsConfiguration(osv.Model):
 class personnelActionsPersonnelAction(osv.Model):
     _name = 'hr.personnel.actions.personnel.action'
     
+    def create(self, cr ,uid, values, context=None):
+        values['sequence'] = self.pool.get('ir.sequence').get(cr, uid, 'personnel.actions')
+        return super(personnelActionsPersonnelAction,self).create(cr, uid, values, context=context)
+    
     _columns = {
                 'date': fields.datetime('Date', required=True),
+                'sequence': fields.char('Sequence', size=128, readonly=True),
                 'title': fields.char(string='Title', size=128, required=True),
                 'description': fields.text('Description'),
                 'type_id': fields.many2one('hr.personnel.actions.type', string='Type', required=True, select=True),
