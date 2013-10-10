@@ -79,7 +79,7 @@
                     </div>
                 </div>   
             </div>        
-            <br></br><br></br>
+            <br></br>
             ##Worked days
             <% worked_lines_ids = get_worked_lines(cr,uid,payslip.id,payslip.contract_id.schedule_pay) %>
             <div style="font-size: 16px; font-weight: bold; text-align: left;"> ${_('Quantity of hours')} </div>
@@ -122,7 +122,7 @@
                     %endif
                 </div> 
             </div>
-            <br></br><br></br>
+            <br></br>
             ##Salary Computation
             <div style="font-size: 16px; font-weight: bold; text-align: left;">${_('Salary Computation')} </div>
             <div class="act_as_table list_table">
@@ -150,7 +150,7 @@
                     %endfor
                 </div>  
             </div>    
-            <br></br> <br></br> <br></br>
+            <br></br> <br></br></br>
             <div class="act_as_table data_table" style="margin-top:30px">
                 <div class="act_as_tbody">            
                     <div class="act_as_row" style="vertical-align: bottom">
@@ -162,7 +162,7 @@
                     <div class="act_as_row" style="vertical-align: bottom">
                         <div style="padding-bottom:5px">${_('ID card: ')}${payslip.employee_id.ssnid}</div>
                     </div>
-                    <br></br> <br></br><br></br><br></br>
+                    <br></br> <br></br><br>
                     <div class="act_as_row" style="text-align:justify;text-justify:inter-word;">
                         <div style="padding-bottom:5px">${company.payslip_footer or ''}</div>
                     </div>
