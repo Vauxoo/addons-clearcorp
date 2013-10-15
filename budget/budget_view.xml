@@ -92,8 +92,7 @@
               </p>
             </field>
         </record>
-        <menuitem id="next_id_23" name="Periods" parent="budget_main_menu" sequence="5" />
-        <menuitem id="menu_action_budget_year" action="action_budget_year" parent="budget.next_id_23"/>
+        
         	
     	
       	<!-- Period -->
@@ -168,7 +167,7 @@
               </p>
             </field>
         </record>
-        <menuitem id="menu_action_budget_period" action="action_budget_period" parent="budget.next_id_23" groups="base.group_no_one"/>
+        
         
        <!--Plan-->
        <record id="view_budget_plan_tree" model="ir.ui.view">
@@ -228,7 +227,7 @@
             </field>
         </record>    
         <menuitem id="next_id_24" name="Planning" parent="budget_main_menu" sequence="4" />
-        <menuitem action="action_budget_plan" id="budget_plan_menu" name="Budget Plans" parent="budget.next_id_24" />
+        
         
        <!--Program-->
        <record id="view_budget_program_tree" model="ir.ui.view">
@@ -291,7 +290,7 @@
               </p>
             </field>
         </record>    
-        <menuitem action="action_budget_program" id="budget_program_menu" name="Budget Programs" parent="budget.next_id_24" />
+        
         
         <!--Program Line-->
 		<record id="budget_program_line_search_form_view" model="ir.ui.view">
@@ -391,7 +390,7 @@
             <field name="res_model">budget.program.line</field>
             <field name="view_type">tree</field>
             <field name="view_id" ref="view_budget_program_line_tree"/>
-            <field name="domain">[('parent_id','=',False)]</field>
+            <field name="domain">[ ('parent_id','=',False) ]</field>
         </record>
             
         <record id="action_budget_program_line_list" model="ir.actions.act_window">
@@ -411,7 +410,7 @@
             </field>
         </record>  
         <menuitem action="action_budget_program_line_tree" id="budget_program_line_tree_menu" name="Program Lines Tree"  parent="budget.next_id_24" />
-        <menuitem action="action_budget_program_line_list" id="budget_program_line_list_menu" name="Program Lines List"  parent="budget.next_id_24" />
+        
          
        <!--Account-->
        <record id="budget_account_search_form_view" model="ir.ui.view">
@@ -499,7 +498,7 @@
             <field name="view_id" ref="view_budget_account_tree"/>
             <field name="domain">[('parent_id','=',False)]</field>
         </record>
-        <menuitem action="action_budget_account_tree" id="budget_account_tree_menu" name="Budget Accounts"  parent="budget.next_id_24" />
+        
         
         <record id="action_budget_account_list" model="ir.actions.act_window">
             <field name="name">Budget Accounts List</field>
@@ -510,8 +509,8 @@
             <field name="search_view_id" ref="budget_account_search_form_view"/>
             
         </record>
+        <menuitem action="action_budget_account_tree" id="budget_account_tree_menu" name="Budget Accounts"  parent="budget.next_id_24" />
         
-        <menuitem action="action_budget_account_list" id="budget_account_list_menu" name="Budget Accounts List"  parent="budget.next_id_24" />
             
 <!-- BUDGET MOVE-->
        <record id="view_budget_move_tree" model="ir.ui.view">
@@ -720,7 +719,7 @@
          </field>
        </record>    
  
-		<record id="action_budget_manual_move" model="ir.actions.act_window">
+	   <record id="action_budget_manual_move" model="ir.actions.act_window">
             <field name="name">Manual Moves</field>
             <field name="res_model">budget.move</field>
             <field name="view_type">form</field>
@@ -744,7 +743,6 @@
            <field name="act_window_id" ref="action_budget_manual_move"/>
        </record>
        
-
        <record id="action_budget_manual_move_view2" model="ir.actions.act_window.view">
            <field eval="2" name="sequence"/>
            <field name="view_mode">form</field>
@@ -753,7 +751,18 @@
        </record> 
         
        <menuitem action="action_budget_manual_move" id="budget_move_manual_menu" name="Extensions,reserves and openings"  parent="budget.next_id_25"/>
-
+       
+       <menuitem id="next_id_26" name="Configuration" parent="budget_main_menu" sequence="20" />
+	       <menuitem id="next_id_27" name="Planning" parent="next_id_26" />
+				<menuitem action="action_budget_plan" id="budget_plan_menu" name="Budget Plans" parent="budget.next_id_27" />
+				<menuitem action="action_budget_program" id="budget_program_menu" name="Budget Programs" parent="budget.next_id_27" />
+				<menuitem action="action_budget_program_line_list" id="budget_program_line_list_menu" name="Program Lines List"  parent="budget.next_id_27" />
+				<menuitem action="action_budget_account_list" id="budget_account_list_menu" name="Budget Accounts List"  parent="budget.next_id_27" />
+				
+			
+			<menuitem id="next_id_28" name="Periods" parent="next_id_26" />
+	        	<menuitem id="menu_action_budget_year" action="action_budget_year" parent="budget.next_id_28"/>
+	        	<menuitem id="menu_action_budget_period" action="action_budget_period" parent="budget.next_id_28" groups="base.group_no_one"/>
     
     </data>
 </openerp>

@@ -376,6 +376,7 @@ class budget_program_line(osv.osv):
         'child_parent_ids': fields.one2many('budget.program.line','parent_id','Children'),
         'child_consol_ids': fields.many2many('budget.program.line', 'budget_program_line_consol_rel', 'parent_id' ,'consol_child_id' , 'Consolidated Children'),
         'child_id': fields.function(_get_child_ids, type='many2many', relation="budget.program.line", string="Child Accounts"),
+        #'bud_move_lines': fields.one2many('budget.move.line','program_line_id','Related move lines'),
         #'currency_id':fields.many2one('res.currency', string='Currency', readonly=True)
         }
     
@@ -1302,31 +1303,7 @@ class budget_move_line(osv.osv):
     def write(self, cr, uid, ids, vals, context=None):
         bud_move_obj = self.pool.get('budget.move')
         super(budget_move_line, self).write(cr, uid, ids, vals, context=context)
-#        for line in self.browse(cr, uid, ids, context=context):
-#            move_id =line.budget_move_id.id
-#            bud_move_obj.write(cr,uid, [move_id], {'date':line.budget_move_id.date},context=context)
-        
 
-#class budget_account_reconcile(osv.osv):
-#    _name = "budget.account.reconcile"
-#    _description = "Budget Account Reconcile"
-#    
-#    _columns = {
-#         'budget_move_id': fields.many2one('budget.move', 'Budget Move', required=True, ),       
-#         'budget_move_line_id': fields.many2one('budget.move.line', 'Budget Move Line', required=True, ),
-#         'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', required=True, ),
-#         'account_move_reconcile_id': fields.many2one('account.move.reconcile', 'Account Move Reconcile', required=True, ),
-#         'amount': fields.float('Amount', digits_compute=dp.get_precision('Account'), required=True),
-#    }
-#    
-#    def clean_reconcile_entries(self, cr, uid, move_line_ids, context=None):
-#        lines = []
-#        for move_line_id in move_line_ids:
-#            result = self.search(cr ,uid, [('account_move_line_id','=', move_line_id)], context=context)
-#            lines += result
-#        self.unlink(cr, uid, lines,context=context)
-#        return True
-    
 class account_move_line_distribution(orm.Model):
     _name = "account.move.line.distribution"
     _description = "Account move line distribution"
@@ -1368,3 +1345,12 @@ class account_move_line_distribution(orm.Model):
             lines += result
         self.unlink(cr, uid, lines,context=context)
         return True
+
+    
+    
+    
+    
+    
+    
+    
+    
