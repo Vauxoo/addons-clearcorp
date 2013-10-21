@@ -48,6 +48,7 @@ class AccountMove(orm.Model):
         default.update({
             'move_reverse_id':False,
         })
+        return super(AccountMove, self).copy(cr, uid, id, default, context)
 
     def button_cancel(self, cr, uid, ids, context=None):
         for move in self.browse(cr, uid, ids, context=context):
