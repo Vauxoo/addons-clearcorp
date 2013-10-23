@@ -43,12 +43,11 @@
                                 <div class="table-cell" style="width:55%;">${_('Description')}</div>
                             </div>
                         </div>
-                        <%  description_pad = get_description_pad(cr, uid, project_task.description_pad) %>
                         <div class="table-body">
                             <div class="table-row ${row_even and 'even' or 'odd'}">
                                 <div class="table-cell" style="width:10%; text-align:center; border:silver 1px solid;">${project_task.number or ' '}</div>
                                 <div class="table-cell" style="width:35%; border:silver 1px solid;">${project_task.name or ' '}</div>
-                                <div class="table-cell" style="width:55%; border:silver 1px solid;">${description_pad or project_task.description or ' '}</div>                    
+                                <div class="table-cell" style="width:55%; border:silver 1px solid;">${project_task.description or ' '}</div>                    
                             </div>
                         </div>
                     </div>
