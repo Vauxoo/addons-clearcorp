@@ -30,7 +30,6 @@
     'description': """This module adds project reports
     """,
     'depends': [
-                    'pad_project',
                     'report_webkit_lib',
                     'project_extended',
                     ],
