@@ -99,23 +99,23 @@ class AccountMoveReconcile(osv.Model):
         result ['credit'] = credit
         return result
     
-    def split_move_noncash(self,cr, uid, move_ids,context=None):
-        #Classifies every move line of the account move in cash or non cash
-        #for a move, returns a dictionary, with the id of the move line as the key and 'cash' or 'non_cash' for values
-        result ={}
-#        acc_move_line = self.pool.get('account.move.line')
-        acc_move_obj = self.pool.get('account.move')
-        
-        for move in acc_move_obj.browse(cr, uid, move_ids, context=context):
-            cash = False
-            for line in move.line_id:
-                if line.account_id.moves_cash:
-                    cash = True
-            if cash:    
-                result[move.id] = 'cash'
-            else:
-                result[move.id] = 'non_cash'
-        return result
+#    def split_move_noncash(self,cr, uid, move_ids,context=None):
+#        #Classifies every move line of the account move in cash or non cash
+#        #for a move, returns a dictionary, with the id of the move line as the key and 'cash' or 'non_cash' for values
+#        result ={}
+##        acc_move_line = self.pool.get('account.move.line')
+#        acc_move_obj = self.pool.get('account.move')
+#        
+#        for move in acc_move_obj.browse(cr, uid, move_ids, context=context):
+#            cash = False
+#            for line in move.line_id:
+#                if line.account_id.moves_cash:
+#                    cash = True
+#            if cash:    
+#                result[move.id] = 'cash'
+#            else:
+#                result[move.id] = 'non_cash'
+#        return result
     
     def move_in_voucher(self,cr, uid, move_ids, context=None):
         #Checks if a move is in a voucher, returns the id of the voucher or -1 in case that is not in any

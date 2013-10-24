@@ -1,1 +1,4 @@
 .~lock*
+.project
+.pydevproject
+.settings

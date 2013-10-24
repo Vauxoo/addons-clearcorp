@@ -36,7 +36,8 @@
         'purchase_order_discount',
         'hr_payroll',
         'hr_expense',
-        'account_account_extended_ccorp'    
+        'account_account_extended_ccorp',
+        'expense_line_partner'
         ],
     'data': [
         'security/security.xml',

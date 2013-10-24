@@ -88,7 +88,7 @@ class hr_expense_expense(osv.osv):
             super(hr_expense_expense,self).expense_confirm(cr, uid, [exp.id], context=context)
             
             move_id = exp.budget_move_id.id
-            self.write(cr, uid, [exp.id], {'budget_move_id' : move_id})
+            self.write(cr, uid, [exp.id], {'budget_move_id' : move_id})                  
             
     def expense_canceled(self, cr, uid, ids, context=None):
         bud_move_obj = self.pool.get('budget.move')
@@ -119,9 +119,126 @@ class hr_expense_expense(osv.osv):
                 mov_line_obj.write(cr, uid, [bud_mov_line.id], {'account_move_id' : acc_move_id}, context=context)
             bud_move_obj._workflow_signal(cr, uid, [exp.budget_move_id.id], 'button_compromise', context=context)
             bud_move_obj._workflow_signal(cr, uid, [exp.budget_move_id.id], 'button_execute', context=context)
+            
+            exp_lines = exp.line_ids
+            taxes_per_line = self.tax_per_exp_line(cr, uid, exp_lines, context=context)
+            acc_move = exp.account_move_id
+            assigned_exp_lines = [] #list of associated expense lines with account move lines
+            assigned_tax_exp_lines = [] #list of expense lines whose tax has been associated with account move lines
+            for acc_move_line in acc_move.line_id:
+                for exp_line in exp_lines:
+                    exp_acc = exp_line.product_id.property_account_expense or exp_line.product_id.categ_id.property_account_expense_categ
+                    exp_name = exp_line.name
+                    exp_amount = exp_line.total_amount
+                    acc_move_line_amount = abs(acc_move_line.debit - acc_move_line.credit) or abs(acc_move_line.amount_currency)
+                    
+                    if exp_name.find(acc_move_line.name) != -1 and exp_amount == acc_move_line_amount and \
+                    exp_acc.id == acc_move_line.account_id.id  and exp_line.id not in assigned_exp_lines:
+                        bud_move_id = mov_line_obj.search(cr, uid, [('expense_line_id','=',exp_line.id)], context=context)[0]
+                        if bud_move_id:
+                            mov_line_obj.write(cr ,uid, [bud_move_id], {'move_line_id':acc_move_line.id})
+                            assigned_exp_lines.append(exp_line.id)
+                    if not acc_move_line.product_id: 
+                        if exp_line.id not in assigned_tax_exp_lines:
+                            exp_line_taxes = taxes_per_line.get(exp_line.id,[])
+                            for tax_amount in exp_line_taxes:
+                                fixed_amount = abs(acc_move_line.debit - acc_move_line.credit) or abs(acc_move_line.amount_currency)
+                                if fixed_amount == tax_amount:
+                                    #bud_mov_id = exp_line.expense_id.budget_move_id or exp_line.expense_id.budget_move_id.id
+                                    
+                                    bud_line = mov_line_obj.create(cr, uid, {'budget_move_id': exp_line.expense_id.budget_move_id.id,
+                                                 'origin' : _('Tax of: ') + exp_line.name[:54],
+                                                 'program_line_id': exp_line.program_line_id.id,
+                                                 'fixed_amount': abs(acc_move_line.debit - acc_move_line.credit) or abs(acc_move_line.amount_currency),
+                                                 #'expense_line_id': line_id,
+                                                 'move_line_id': acc_move_line.id,
+                                                 'account_move_id': acc_move.id
+                                                  }, context=context)
+                                    assigned_tax_exp_lines.append(exp_line.id)
+                                    
+                                    ##TODO: Crear restricciones de impuestos de compra en productos o cuentas para evitar descomprometer 
+                            
         return result
                 
+    def tax_per_exp_line(self, cr, uid, expense_lines, context=None):
+        res = []
+        tax_obj = self.pool.get('account.tax')
+        cur_obj = self.pool.get('res.currency')
+        mapping = {}
+        
+        if context is None:
+            context = {}
+
+        for line in expense_lines:
+            exp = line.expense_id
+            company_currency = exp.company_id.currency_id.id
+            ###
+            mres = self.move_line_get_item(cr, uid, line, context)
+            if not mres:
+                continue
+            res.append(mres)
+            ###
+            tax_code_found= False
             
+            #Calculate tax according to default tax on product
+            taxes = []
+            #Taken from product_id_onchange in account.invoice
+            if line.product_id:
+                fposition_id = False
+                fpos_obj = self.pool.get('account.fiscal.position')
+                fpos = fposition_id and fpos_obj.browse(cr, uid, fposition_id, context=context) or False
+                product = line.product_id
+                taxes = product.supplier_taxes_id
+                #If taxes are not related to the product, maybe they are in the account
+                if not taxes:
+                    a = product.property_account_expense.id
+                    if not a:
+                        a = product.categ_id.property_account_expense_categ.id
+                    a = fpos_obj.map_account(cr, uid, fpos, a)
+                    taxes = a and self.pool.get('account.account').browse(cr, uid, a, context=context).tax_ids or False
+                tax_id = fpos_obj.map_tax(cr, uid, fpos, taxes)
+            if not taxes:
+                continue
+            #Calculating tax on the line and creating move?
+            for tax in tax_obj.compute_all(cr, uid, taxes,
+                    line.unit_amount ,
+                    line.unit_quantity, line.product_id,
+                    exp.user_id.partner_id)['taxes']:
+                
+                line_tax_amounts =[]
+                
+                tax_code_id = tax['base_code_id']
+                tax_amount = line.total_amount * tax['base_sign']
+                if tax_code_found:
+                    if not tax_code_id:
+                        continue
+                    res.append(self.move_line_get_item(cr, uid, line, context))
+                    res[-1]['price'] = 0.0
+                    res[-1]['account_analytic_id'] = False
+                elif not tax_code_id:
+                    continue
+                tax_code_found = True
+                res[-1]['tax_code_id'] = tax_code_id
+                res[-1]['tax_amount'] = cur_obj.compute(cr, uid, exp.currency_id.id, company_currency, tax_amount, context={'date': exp.date_confirm})
+                ## 
+                is_price_include = tax_obj.read(cr,uid,tax['id'],['price_include'],context)['price_include']
+                if is_price_include:
+                    ## We need to deduce the price for the tax
+                    res[-1]['price'] = res[-1]['price']  - (tax['amount'] * tax['base_sign'] or 0.0)
+                assoc_tax = {
+                             'type':'tax',
+                             'name':tax['name'],
+                             'price_unit': tax['price_unit'],
+                             'quantity': 1,
+                             'price':  tax['amount'] * tax['base_sign'] or 0.0,
+                             'account_id': tax['account_collected_id'] or mres['account_id'],
+                             'tax_code_id': tax['tax_code_id'],
+                             'tax_amount': tax['amount'] * tax['base_sign'],
+                             }
+                line_tax_amounts.append(assoc_tax['tax_amount'])
+                res.append(assoc_tax)
+            mapping[line.id]=line_tax_amounts
+        return mapping
             
 #    def expense_accept(self, cr, uid, ids, context=None):        
 #        bud_move_obj = self.pool.get('budget.move')
@@ -129,14 +246,7 @@ class hr_expense_expense(osv.osv):
 #            super(hr_expense_expense,self).expense_accept(cr, uid, [exp.id], context=context)
 #            move_id = exp.budget_move_id.id 
 #            bud_move_obj._workflow_signal(cr, uid, [move_id], 'button_reserve', context=context)   
-    
-#    def on_change_currency(self, cr, uid, ids, currency_id, context=None):
-#        if ids:
-#            return {'value': {},
-#                    'warning':{'title':'Warning','message':'Budget uses the currency of the company, if you use other, you should change the unit price'}}
-#        else:
-#            return {'value': {}}
-#        
+        
     def on_change_currency(self, cr, uid, ids, currency_id, context=None):
         if ids:
             return {'value': {},
@@ -154,6 +264,17 @@ class hr_expense_line(osv.osv):
                 return {'value': {'line_available':line.available_budget},}
         return {'value': {}}
     
+    def _check_no_taxes(self, cr, uid, ids, context=None):
+        for line in self.browse(cr,uid,ids,context=context):
+            product = line.product_id
+            if product.supplier_taxes_id:
+                return False
+            if product.property_account_expense and product.property_account_expense.tax_ids:
+                return False
+            elif product.categ_id.property_account_expense_categ and product.categ_id.property_account_expense_categ.tax_ids:
+                return False
+        return True
+    
     def _check_available(self, cr, uid, ids, field_name, args, context=None):
         bud_line_obj = self.pool.get('budget.move.line')
         result ={}
@@ -161,19 +282,19 @@ class hr_expense_line(osv.osv):
             for exp_line_id in ids:    
                 bud_line_ids = bud_line_obj.search(cr, uid, [('expense_line_id','=', exp_line_id)], context=context)
                 for bud_line in bud_line_obj.browse(cr, uid,bud_line_ids, context=context):
-                    result[exp_line_id] = bud_line.program_line_id.available_budget    
+                    result[exp_line_id] = bud_line.program_line_id.available_budget
         return result
     
-#    def _set_available(self, cr, uid, ids, field_name, field_value, arg, context):
-#        return True
-    
-    _columns = {
-                'program_line_id': fields.many2one('budget.program.line', 'Program line', ),
+    _columns = {'program_line_id': fields.many2one('budget.program.line', 'Program line', ),
                 #'line_available':fields.float('Line available',digits_compute=dp.get_precision('Account')),
                 'line_available': fields.function(_check_available,  type='float', method=True, string='Line available',readonly=True),
-                }   
+                }
     
-    def create_budget_move_line(self, cr, uid, line_id, context=None):    
+    _constraints=[
+        (_check_no_taxes, 'Error!\n There is a tax defined for this product, its account or the account of the product category. \n The tax must be included in the price of the expense product.', []),
+        ]
+    
+    def create_budget_move_line(self, cr, uid, line_id, context=None):
         exp_obj = self.pool.get('hr.expense.expense')
        # acc_move_obj = self.pool.get('account.move')
         exp_line_obj = self.pool.get('hr.expense.line')
