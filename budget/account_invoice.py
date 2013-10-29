@@ -54,36 +54,40 @@ class account_invoice(osv.osv):
         return move_id
 
     
-    def create_budget_move_line(self, cr, uid, line_id, context=None):    
+    def create_budget_move_line_from_invoice(self, cr, uid, line_id, is_tax=False, context=None):    
         acc_inv_obj = self.pool.get('account.invoice')
         acc_move_obj = self.pool.get('account.move')
         inv_line_obj = self.pool.get('account.invoice.line')
         bud_move_obj = self.pool.get('budget.move')
         bud_line_obj = self.pool.get('budget.move.line')
         fixed_amount = 0.0
+        
         invoice_line = inv_line_obj.browse(cr, uid, [line_id], context=context)[0]
         invoice = acc_inv_obj.browse(cr, uid, [invoice_line.invoice_id.id], context=context)[0]
+        
         move_id = invoice.budget_move_id.id
         refund = False
         budget_type = ""
+        vals = {'budget_move_id': move_id,
+                                         'origin' : invoice_line.name,
+                                         'program_line_id': invoice_line.program_line_id.id,
+                                         'account_move_id': invoice.move_id.id
+                                          }
         
         if invoice.type in ('in_invoice', 'out_refund'):
-            fixed_amount = invoice_line.subtotal_discounted_taxed
+            fixed_amount = invoice_line.price_subtotal
+            vals['inv_line_id']= line_id
             if invoice.type == 'out_refund':
                 refund = True
         if invoice.type in ('out_invoice', 'in_refund'):
-            fixed_amount = invoice_line.subtotal_discounted_taxed * -1  # should be negative because it is an income
+            fixed_amount = invoice_line.price_subtotal *-1  # should be negative because it is an income
+            vals['inv_line_id']= line_id
             if invoice.type == 'in_refund':
                 refund = True
+        vals['fixed_amount']=fixed_amount
         
-            
-        bud_line = bud_line_obj.create(cr, uid, {'budget_move_id': move_id,
-                                         'origin' : invoice_line.name,
-                                         'program_line_id': invoice_line.program_line_id.id,
-                                         'fixed_amount': fixed_amount ,
-                                         'inv_line_id': line_id,
-                                         'account_move_id': invoice.move_id.id
-                                          }, context=context)
+        bud_line = bud_line_obj.create(cr, uid, vals, context=context)
+        
         if refund :
             budget_type = 'void'
         else:
@@ -93,19 +97,93 @@ class account_invoice(osv.osv):
         
         return bud_line
  
+ ##
+    def create_budget_move_line_from_tax(self, cr, uid, line_id, context=None):
+        acc_inv_obj = self.pool.get('account.invoice')
+        acc_inv_tax_obj = self.pool.get('account.invoice.tax')
+        acc_move_obj = self.pool.get('account.move')
+        inv_line_obj = self.pool.get('account.invoice.line')
+        bud_move_obj = self.pool.get('budget.move')
+        bud_line_obj = self.pool.get('budget.move.line')
+        fixed_amount = 0.0
+        tax_line = acc_inv_tax_obj.browse(cr, uid, [line_id], context=context)[0]
+        invoice = acc_inv_obj.browse(cr, uid, [tax_line.invoice_id.id], context=context)[0]
+        move_id = invoice.budget_move_id.id
+        refund = False
+        budget_type = ""
+        vals = {'budget_move_id': move_id,
+                                         'origin' : tax_line.name,
+                                         'account_move_id': invoice.move_id.id
+                                          }
+        if invoice.type in ('in_invoice', 'out_refund'):
+            fixed_amount = tax_line.tax_amount
+            vals['tax_line_id']=line_id
+            if invoice.type == 'out_refund':
+                refund = True
+        if invoice.type in ('out_invoice', 'in_refund'):
+            fixed_amount = tax_line.tax_amount *-1
+            vals['tax_line_id']= line_id
+            if invoice.type == 'in_refund':
+                refund = True
+        invoice_lines = tax_line.invoice_id.invoice_line
+        
+        for inv_line in invoice_lines:
+            if tax_line.base_amount == inv_line.price_subtotal:
+                vals['program_line_id'] = inv_line.program_line_id.id
+        
+        vals['fixed_amount']=fixed_amount
+        bud_line = bud_line_obj.create(cr, uid, vals, context=context)
+        if refund :
+            budget_type = 'void'
+        else:
+            budget_type = 'budget'
+        
+        acc_move_obj.write(cr , uid, [invoice.move_id.id], {'budget_type': budget_type}, context=context)
+        
+        return bud_line
+ ##
+ 
     def invoice_validate(self, cr, uid, ids, context=None):
         obj_bud_move = self.pool.get('budget.move')
+        obj_bud_move_line = self.pool.get('budget.move.line')
         validate_result = super(account_invoice,self).invoice_validate(cr, uid, ids, context=context)
         
         if not self._check_from_order(cr, uid, context=context):    
             for order in self.browse(cr,uid,ids, context=context):
                 move_id = self.create_budget_move(cr, uid, ids, context=context)
                 self.write(cr, uid, [order.id], {'budget_move_id' :move_id }, context=context)
+                #creating budget move lines per invoice line
                 for line in order.invoice_line:
                     if not line.invoice_id.from_order:
-                        created_line_id = self.create_budget_move_line(cr, uid, line.id, context=context)
+                        created_line_id = self.create_budget_move_line_from_invoice(cr, uid, line.id, context=context)
+                
+                #creating budget move lines per tax line
+                for line in order.tax_line:
+                    if not line.invoice_id.from_order:
+                        created_line_id = self.create_budget_move_line_from_tax(cr, uid, line.id, context=context)
+                        
                 obj_bud_move.write(cr, uid, [move_id], {'origin': order.name , 'fixed_amount':order.amount_total, 'arch_compromised':order.amount_total}, context=context)
-                #cr.commit()
+                
+                #Associating 
+                bud_lines_ids = obj_bud_move_line.search(cr, uid, [('budget_move_id','=', move_id)], context=context)
+                bud_lines = obj_bud_move_line.browse(cr, uid, bud_lines_ids, context=context)
+                move_lines = order.move_id.line_id
+                assigned_mov_lines= []
+                
+                for bud_line in bud_lines:
+                    for move_line in move_lines:
+                        fixed_amount = abs(move_line.debit - move_line.credit) or abs(move_line.amount_currency)
+                        account_id = 0
+                        if bud_line.inv_line_id and bud_line.inv_line_id.account_id:
+                            account_id = bud_line.inv_line_id.account_id.id
+                        elif bud_line.tax_line_id and bud_line.tax_line_id.account_id:
+                            account_id = bud_line.tax_line_id.account_id.id
+                            
+                        if move_line.id not in assigned_mov_lines and bud_line.origin.find(move_line.name) != -1 and bud_line.fixed_amount == fixed_amount and \
+                            account_id == move_line.account_id.id :
+                            obj_bud_move_line.write(cr, uid, [bud_line.id],{'move_line_id':move_line.id})
+                            assigned_mov_lines.append(move_line.id)
+                
                 obj_bud_move._workflow_signal(cr, uid, [move_id], 'button_execute', context=context)
         return validate_result     
     

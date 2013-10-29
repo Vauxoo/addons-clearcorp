@@ -155,8 +155,6 @@ class hr_expense_expense(osv.osv):
                                                  'account_move_id': acc_move.id
                                                   }, context=context)
                                     assigned_tax_exp_lines.append(exp_line.id)
-                                    
-                                    ##TODO: Crear restricciones de impuestos de compra en productos o cuentas para evitar descomprometer 
                             
         return result
                 
@@ -353,15 +351,3 @@ class hr_expense_line(osv.osv):
             write_result=super(hr_expense_line,self).write(cr, uid, ids, vals, context=None)
         return write_result
         
-        
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    

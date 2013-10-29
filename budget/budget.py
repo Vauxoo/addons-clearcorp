@@ -1285,6 +1285,7 @@ class budget_move_line(osv.osv):
         'so_line_id': fields.many2one('sale.order.line', 'Sale order line', ),
         'inv_line_id': fields.many2one('account.invoice.line', 'Invoice line', ),
         'expense_line_id': fields.many2one('hr.expense.line', 'Expense line', ),
+        'tax_line_id': fields.many2one('account.invoice.tax', 'Invoice tax line', ),
         #'payslip_line_id': fields.many2one('hr.payslip.line', 'Payslip line', ),
         'move_line_id': fields.many2one('account.move.line', 'Move line', ),
         'account_move_id': fields.many2one('account.move', 'Account Move', ),
