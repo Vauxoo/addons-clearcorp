@@ -714,6 +714,19 @@
 							<field name="compromised"/>
             				<field name="executed"/>
             			</group>
+            			<notebook>
+            			     <page string="Budget Move Lines Distribution">
+            			         <field name="type_distribution" invisible="True"/>
+            			         <field name="buget_move_line_dist" widget="one2many_list" colspan="4" attrs="{'readonly': [('type_distribution', '=', 'auto')]}" nolabel="1">
+            			             <tree colors="blue:type == 'auto';red:type == 'manual'"  string="Distribution Budget Lines" editable="bottom" >
+                			             <field name="account_move_line_id" />
+                			             <field name="distribution_amount" />
+                			             <field name="distribution_percentage" />
+                			             <field name="target_account_move_line_id" />
+                			         </tree>
+            			         </field>
+            			     </page>
+            			</notebook> 
             		</sheet>
                 </form>
          </field>
