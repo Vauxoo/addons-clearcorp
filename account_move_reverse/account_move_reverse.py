@@ -61,6 +61,7 @@ class AccountMove(orm.Model):
     def reverse(self, cr, uid, ids, context=None):
 
         for move_original_id in ids:
+            new_reconcile_line_ids = []
             move_original = self.pool.get('account.move').browse(cr, 1, move_original_id, context=context)
             
             if move_original.move_reverse_id:
@@ -110,9 +111,15 @@ class AccountMove(orm.Model):
                     if len(reconcile.line_id) > 2:
                         reconcile_line_ids = []
                         for line_id in reconcile.line_id:
-                            reconcile_line_ids.append(line_id.id)
-                        self.pool.get('account.move.line').write(cr,uid,reconcile_line_ids,{'reconcile_id': False, 'reconcile_partial_id':reconcile.id})
-                        self.pool.get('account.move.line').write(cr,uid,line.id,{'reconcile_partial_id': False})
+                            if line_id.id not in new_reconcile_line_ids:
+                                reconcile_line_ids.append(line_id.id)
+                        if len(reconcile_line_ids) > 2:
+                            self.pool.get('account.move.line').write(cr,uid,reconcile_line_ids,{'reconcile_id': False, 'reconcile_partial_id':reconcile.id})
+                            self.pool.get('account.move.line').write(cr,uid,line.id,{'reconcile_partial_id': False})
+                        else:
+                            move_reconcile_obj.unlink(cr,uid,[reconcile.id],context=context)
+                        new_reconcile_line_ids.append(line.id) #Workaround, commit database
+                        
                     else:
                         move_reconcile_obj.unlink(cr,uid,[reconcile.id],context=context)
 
@@ -125,9 +132,11 @@ class AccountMove(orm.Model):
 
                 if line.account_id.reconcile:
                     reconcile_id = self.pool.get('account.move.reconcile').create(cr, uid, {'type': 'Account Reverse'})
+                    
+                    #The move don't support write this line
                     cr.execute('UPDATE account_move_line '\
                                'SET reconcile_id=%s '\
-                               'WHERE id IN %s', (reconcile_id, tuple([line.id]),))
+                               'WHERE id IN %s', (reconcile_id, tuple([line.id]),))                    
                     #self.pool.get('account.move.line').write(cr,uid,[line.id],{'reconcile_id': reconcile_id})
                     self.pool.get('account.move.line').write(cr,uid,[line_created_id],{'reconcile_id': reconcile_id})
 
