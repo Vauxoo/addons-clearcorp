@@ -54,13 +54,15 @@
     
     
     """,
-    'depends': ['account'],
+    'depends': [
+        'account',
+        'res_currency_sequence',
+        ],
     'init_xml': ['security/security.xml'],
     'demo_xml': [],
     'update_xml': [
         'currency_rate_update.xml',
         'company_view.xml',
-        'res_currency_view.xml',
         ],
     'license': 'Other OSI approved licence',
     'installable': True,
