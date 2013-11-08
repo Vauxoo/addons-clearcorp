@@ -851,6 +851,7 @@ class rent_rent(osv.osv):
             'uos_id': False,
             'invoice_line_tax_id': [(6, 0, [])],
             'account_analytic_id': False,
+            'invoice_type': 'rent',
             'invoice_rent_id': obj_rent.id or args.get('rent_id', False),
         })
     
