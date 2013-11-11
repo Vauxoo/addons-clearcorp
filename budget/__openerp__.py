@@ -53,8 +53,8 @@
         'account_move_line.xml',
         'hr_expense_view.xml',
         'hr_expense_workflow.xml',
-#        'purchase_view.xml',
-#        'purchase_workflow.xml',
+        'purchase_view.xml',
+        'purchase_workflow.xml',
 #        'sale_view.xml'
         ],
     'license': 'AGPL-3',

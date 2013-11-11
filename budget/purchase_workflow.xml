@@ -100,8 +100,8 @@
             <field name="signal">approve_budget</field>
         </record>
         
-        <record id="trans_budget_approval_published" model="workflow.transition">
-            <field name="act_from" ref="act_budget_approval"/>
+        <record id="trans_budget_approved_published" model="workflow.transition">
+            <field name="act_from" ref="act_budget_approved"/>
             <field name="act_to" ref="act_published"/>
             <field name="signal">publish_bill</field>
         </record>

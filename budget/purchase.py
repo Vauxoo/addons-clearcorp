@@ -67,6 +67,7 @@ class purchase_order(osv.osv):
     
     def action_invoice_create(self, cr, uid, ids, context=None):
         obj_bud_mov = self.pool.get('budget.move')
+        obj_bud_line = self.pool.get('budget.move.line')
         acc_inv_mov = self.pool.get('account.invoice')
         res = False
         for id in ids:
@@ -76,10 +77,25 @@ class purchase_order(osv.osv):
             invoice_id = super(purchase_order, self).action_invoice_create(cr, uid, ids, context=context)
             acc_inv_mov.write(cr, uid, [invoice_id],{'from_order': True})
             for purchase in self.browse(cr, uid, [id],context=context):
-            
                 move_id = purchase.budget_move_id.id
-                #obj_bud_mov.write(cr,uid, [purchase.budget_move_id.id],{'account_invoice_ids': [(4, invoice_id)]}, context=context)
-                obj_bud_mov.action_execute(cr,uid, [move_id],context=context)
+                for po_line in purchase.order_line:
+                    asoc_bud_line_id = obj_bud_line.search(cr, uid, [('po_line_id','=',po_line.id), ('budget_move_id','=',move_id)])
+                    inv_line = po_line.invoice_lines[0]
+                    acc_move_lines = inv_line.invoice_id.move_lines
+                    assigned_mov_lines= []
+                
+                    for bud_line in asoc_bud_line_id:
+                        for move_line in acc_move_lines:
+                            fixed_amount = abs(move_line.debit - move_line.credit) or abs(move_line.amount_currency)
+                            account_id = 0
+                            account_id = inv_line.account_id.id
+                            if move_line.id not in assigned_mov_lines and bud_line.origin.find(move_line.name) != -1 and bud_line.fixed_amount == fixed_amount and \
+                                account_id == move_line.account_id.id :
+                                obj_bud_move_line.write(cr, uid, [bud_line.id],{'move_line_id':move_line.id})
+                                assigned_mov_lines.append(move_line.id)
+
+#                obj_bud_mov.action_execute(cr,uid, [move_id],context=context)
+                obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_execute', context=context)
                 res = invoice_id
         return res     
     
@@ -93,7 +109,8 @@ class purchase_order(osv.osv):
             reserved_amount = purchase.amount_total
             if reserved_amount != 0.0:
                 move_id = purchase.budget_move_id.id
-                obj_bud_mov.action_reserve(cr,uid, [move_id],context=context)
+                #obj_bud_mov.action_reserve(cr,uid, [move_id],context=context)
+                obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_reserve', context=context)
                 self.write(cr, uid, [purchase.id], {'state': 'budget_approved', 'reserved_amount': reserved_amount})
             else:
                 raise osv.except_osv(_('Error!'), _('You cannot approve order an order with amount zero '))   
@@ -113,7 +130,7 @@ class purchase_order(osv.osv):
             if not purchase.order_line:
                 raise osv.except_osv(_('Error!'),_('You cannot confirm a purchase order without any purchase order line.'))
             move_id = purchase.budget_move_id.id
-            obj_bud_mov.action_compromise(cr,uid, [move_id],context=context)
+            obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_compromise', context=context)
         self.write(cr, uid, ids, {'state': 'awarded'})
         return True
     
@@ -121,7 +138,8 @@ class purchase_order(osv.osv):
         obj_bud_mov = self.pool.get('budget.move')
         for purchase in self.browse(cr, uid, ids, context=context):
             move_id = purchase.budget_move_id.id
-            bud_move.action_draft(cr,uid, [move_id],context=context)
+            #bud_move.action_draft(cr,uid, [move_id],context=context)
+            obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_draft', context=context)
         self.write(cr, uid, ids, {'state': 'deserted'})
         return True
     
@@ -129,7 +147,8 @@ class purchase_order(osv.osv):
         obj_bud_mov = self.pool.get('budget.move')
         for purchase in self.browse(cr, uid, ids, context=context):
             move_id = purchase.budget_move_id.id
-            obj_bud_mov.action_draft(cr,uid, [move_id],context=context)
+            #obj_bud_mov.action_draft(cr,uid, [move_id],context=context)
+            obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_draft', context=context)
         self.write(cr, uid, ids, {'state': 'ineffectual'})
         return True
     
@@ -154,7 +173,9 @@ class purchase_order(osv.osv):
             bud_move = purchase.budget_move_id
             if bud_move:
                 move_id = purchase.budget_move_id.id
-                obj_bud_mov.action_draft(cr,uid, [move_id],context=context)
+                #obj_bud_mov.action_draft(cr,uid, [move_id],context=context)
+                obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_draft', context=context)
+
         self.write(cr, uid, ids, {'state': 'draft'})
     
     def create_budget_move(self,cr, uid, vals, context=None):
@@ -196,12 +217,82 @@ class purchase_order_line(osv.osv):
             amount_discounted_taxed = self.pool.get('account.tax').compute_all(cr, uid, line.taxes_id, price_unit_discount, line.product_qty, line.product_id.id, line.order_id.partner_id)['total_included']
             res[line.id]= amount_discounted_taxed
         return res
-                                
+       
+    def on_change_program_line(self, cr, uid, ids, program_line, context=None):
+        if program_line:
+            for line in self.pool.get('budget.program.line').browse(cr, uid,[program_line], context=context):
+                return {'value': {'line_available':line.available_budget},}
+        return {'value': {}}
+    
+    def _check_no_taxes(self, cr, uid, ids, context=None):
+        for line in self.browse(cr,uid,ids,context=context):
+            product = line.product_id
+            if product.supplier_taxes_id:
+                return False
+            if product.property_account_expense and product.property_account_expense.tax_ids:
+                return False
+            elif product.categ_id.property_account_expense_categ and product.categ_id.property_account_expense_categ.tax_ids:
+                return False
+        return True
+    
+    def _check_available(self, cr, uid, ids, field_name, args, context=None):
+        bud_line_obj = self.pool.get('budget.move.line')
+        result ={}
+        if ids: 
+            for po_line_id in ids:    
+                bud_line_ids = bud_line_obj.search(cr, uid, [('po_line_id','=', po_line_id)], context=context)
+                for bud_line in bud_line_obj.browse(cr, uid,bud_line_ids, context=context):
+                    result[po_line_id] = bud_line.program_line_id.available_budget
+        return result
+                             
     _columns = {    
     'program_line_id': fields.many2one('budget.program.line', 'Program line', required=True),
+    'line_available': fields.function(_check_available,  type='float', method=True, string='Line available',readonly=True),
     'subtotal_discounted_taxed': fields.function(_subtotal_discounted_taxed, digits_compute= dp.get_precision('Account'), string='Subtotal', ),
     }
-    
+
+    _constraints=[
+        (_check_no_taxes, 'Error!\n There is a tax defined for this product, its account or the account of the product category. \n The tax must be included in the price of the product.', []),
+        ]
+
+#*************************************************************************************
+# Methods used to create budget move lines for the tax amount of each purchase order line
+#*************************************************************************************
+#    def create_bud_tax_line(self, cr, uid, line_id,vals=None, context=None):
+#        bud_line_obj = self.pool.get('budget.move.line')
+#        tax_obj = self.pool.get('account.tax')
+#        order_line = self.browse(cr, uid, [line_id], context=context)[0]
+#        move_id = order_line.order_id.budget_move_id.id
+#        program_line_id = vals['program_line_id'] if vals else order_line.program_line_id.id
+#        for tax in tax_obj.compute_all(cr, uid, order_line.taxes_id, order_line.price_unit, order_line.product_qty, order_line.product_id, order_line.partner_id)['taxes']:
+#            bud_line_obj.create(cr, uid, {'budget_move_id': move_id,
+#                                         'origin' : 'Taxes of: ' + order_line.name,
+#                                         'program_line_id': program_line_id, 
+#                                         'fixed_amount': tax.get('amount', 0.0),
+#                                         'po_line_id': order_line.id,
+#                                          }, context=context)
+
+#    def write(self, cr, uid, ids, vals, context=None):
+#        bud_line_obj = self.pool.get('budget.move.line')
+#        bud_move_obj = self.pool.get('budget.move')
+#        result = False
+#        for line in self.browse(cr, uid, ids, context=context):
+#            search_result = bud_line_obj.search(cr, uid,[('po_line_id','=', line.id)], context=context) 
+#            bud_lines = bud_line_obj.browse(cr, uid, search_result, context=context)
+#            #deleting tax lines
+#            for bud_line in bud_lines: 
+#                if bud_line.fixed_amount != line.price_subtotal:
+#                    bud_line_obj.unlink(cr, uid, [bud_line.id], context=context)
+#            #processing PO lines and re-creating taxes
+#            for bud_line in bud_lines: 
+#                if bud_line.fixed_amount == line.price_subtotal:
+#                    result = super(purchase_order_line, self).write(cr, uid, [line.id], vals, context=context)
+#                    updated_fields = self.read(cr, uid,[line.id], ['program_line_id', 'price_subtotal'], context=context)[0]
+#                    bud_line_obj.write(cr, uid, [bud_line.id], {'program_line_id': updated_fields['program_line_id'][0], 'fixed_amount':updated_fields['price_subtotal']})
+#                    self.create_bud_tax_line(cr, uid, line.id, context=None)     
+#        return result  
+   
+
     def create_budget_move_line(self,cr, uid, vals, line_id, context=None):
         
         purch_order_obj = self.pool.get('purchase.order')
@@ -213,28 +304,50 @@ class purchase_order_line(osv.osv):
         order = purch_order_obj.browse(cr, uid, [po_id], context=context)[0]
         order_line = purch_line_obj.browse(cr, uid, [line_id], context=context)[0]
         move_id = order.budget_move_id.id
-        bud_line_obj.create(cr, uid, {'budget_move_id': move_id,
+        
+        
+        new_line_id=bud_line_obj.create(cr, uid, {'budget_move_id': move_id,
                                          'origin' : order_line.name,
                                          'program_line_id': vals['program_line_id'], 
-                                         'fixed_amount': order_line.subtotal_discounted_taxed,
+                                         'fixed_amount': order_line.price_subtotal,
                                          'po_line_id': line_id,
                                           }, context=context)
-        return line_id
-    
+        bud_move_obj.recalculate_values(cr, uid, [move_id], context=context)
+        return new_line_id
+  
+    def check_budget_from_po_line(self, cr, uid, po_line_ids, context=None):
+        bud_move_obj = self.pool.get('budget.move')
+        for order_line in self.browse(cr, uid, po_line_ids, context=context):
+            result = bud_move_obj._check_values(cr, uid, [order_line.order_id.budget_move_id.id], context)
+            if result[0]:
+                return True
+            else:
+                raise osv.except_osv(_('Error!'), result[1])
+            return True
+            
+  
     def create(self, cr, uid, vals, context=None):
         line_id =  super(purchase_order_line, self).create(cr, uid, vals, context=context)
-        self.create_budget_move_line(cr, uid, vals, line_id, context=context)
+        bud_line_id = self.create_budget_move_line(cr, uid, vals, line_id, context=context)
+        self.check_budget_from_po_line(cr, uid, [line_id], context)
         return line_id
-#    
+#
     def write(self, cr, uid, ids, vals, context=None):
-        
         bud_line_obj = self.pool.get('budget.move.line')
-        result = super(purchase_order_line, self).write(cr, uid, ids, vals, context=context) 
+        bud_move_obj = self.pool.get('budget.move')
+        result = False
+        moves_to_update = []
         for line in self.browse(cr, uid, ids, context=context):
             search_result = bud_line_obj.search(cr, uid,[('po_line_id','=', line.id)], context=context) 
-            bud_line_id = search_result[0]
-            if bud_line_id:
-                bud_line_obj.write(cr, uid, [bud_line_id], {'program_line_id': line.program_line_id.id, 'fixed_amount':line.subtotal_discounted_taxed})
+            bud_lines = bud_line_obj.browse(cr, uid, search_result, context=context)
+            for bud_line in bud_lines: 
+                if bud_line.fixed_amount == line.price_subtotal:
+                    result = super(purchase_order_line, self).write(cr, uid, [line.id], vals, context=context)
+                    updated_fields = self.read(cr, uid,[line.id], ['program_line_id', 'price_subtotal'], context=context)[0]
+                    bud_line_obj.write(cr, uid, [bud_line.id], {'program_line_id': updated_fields['program_line_id'][0], 'fixed_amount':updated_fields['price_subtotal']})
+                    moves_to_update.append(bud_line.budget_move_id.id)
+        bud_move_obj.recalculate_values(cr, uid, moves_to_update, context=context)
+        self.check_budget_from_po_line(cr, uid, ids, context)
         return result  
    
         

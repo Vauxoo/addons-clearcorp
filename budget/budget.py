@@ -891,10 +891,12 @@ class budget_move(osv.osv):
     
     def recalculate_values(self, cr, uid, ids, context=None):
         mov_line_obj = self.pool.get('budget.move.line')
-        for move in self.browse(cr ,uid, ids, context=context):
+        for move in self.browse(cr, uid, ids, context=context):
+            move_fixed_total = 0.0
             for line in move.move_lines:
                 mov_line_obj.write(cr, uid, line.id, {'date' : line.date}, context=context)
-            self.write(cr, uid, ids, {'date': move.date}, context=context) 
+                move_fixed_total += line.fixed_amount
+            self.write(cr, uid, ids, {'date': move.date, 'fixed_amount': move_fixed_total}, context=context) 
     
     def _select_types(self,cr,uid,context=None):
         #In case that the move is created from the view "view_budget_move_manual_form", modifies the selectable types
@@ -998,9 +1000,9 @@ class budget_move(osv.osv):
             if  move.type in ('invoice_out','manual_invoice_out') and move.fixed_amount >= 0:
                 return [False,_('The reserved amount must be negative')]
             if  move.type in ('modifications') and move.fixed_amount != 0:
-                return [False,_('The sum of addition and sustractions from program lines must be zero')]
+                return [False,_('The sum of addition and subtractions from program lines must be zero')]
             
-            #Check if exist a repeat program_line
+            #Check if exist a repeated program_line
             if move.standalone_move == True:                
                 for line in move.move_lines:
                     list_line_ids_repeat.append(line.program_line_id.id)
@@ -1018,7 +1020,7 @@ class budget_move(osv.osv):
                 elif line.type =='modification':
                     if (line.fixed_amount < 0) & (line.program_line_id.available_budget < abs(line.fixed_amount)):
                         return [False, _('The amount to substract from ') + line.program_line_id.name + _(' is greater than the available ')]
-                elif line.type in ('opening','manual_invoice_in', 'expense'):
+                elif line.type in ('opening','manual_invoice_in', 'expense', 'invoice_in'):
                     if line.program_line_id.available_budget < line.fixed_amount:
                         return [False, _('The amount to substract from ') + line.program_line_id.name + _(' is greater than the available ')]
         return [True,'']
@@ -1070,6 +1072,7 @@ class budget_move(osv.osv):
     def action_compromise(self, cr, uid, ids, context=None):
         for move in self.browse(cr, uid,ids, context=context):
             self.write(cr, uid, ids, {'state': 'compromised'})
+            self.recalculate_values(cr, uid, ids, context=context)
             self.write(cr, uid, ids, {'arch_compromised': move.compromised, })
         return True
     
@@ -1189,7 +1192,7 @@ class budget_move_line(osv.osv):
                 if line.type == 'opening':
                     executed = line.fixed_amount
                     
-                elif line.type in ('manual_invoice_in','expense'):
+                elif line.type in ('manual_invoice_in','expense','invoice_in'):
                     line_ids_bar = amld.search(cr, uid, [('target_budget_move_line_id','=', line.id),('account_move_line_type','=','liquid')], context=context)
                     for bar_line in amld.browse(cr, uid, line_ids_bar, context=context):
                         executed += bar_line.distribution_amount

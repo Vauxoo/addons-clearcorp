@@ -27,5 +27,5 @@ import res_partner
 import account_invoice
 import account
 import hr_expense
-#import purchase
+import purchase
 #import sale

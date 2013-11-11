@@ -409,7 +409,7 @@
               </p>
             </field>
         </record>  
-        <menuitem action="action_budget_program_line_tree" id="budget_program_line_tree_menu" name="Program Lines Tree"  parent="budget.next_id_24" />
+        <menuitem action="action_budget_program_line_tree" id="budget_program_line_tree_menu" name="Program Lines Tree"  parent="budget.next_id_24" sequence="20"/>
         
          
        <!--Account-->
