@@ -27,10 +27,15 @@ class account_invoice(osv.osv):
     _name = 'account.invoice'
     _inherit = 'account.invoice'
     
-    def _check_from_order(self, cr, uid, context=None):
+    def _check_from_order(self, cr, uid, ids=None,context=None):
         if context is None:
             context = {}
-        res = context.get('from_order', False)
+            res = False
+        if ids:
+            for invoice in self.browse(cr, uid, ids, context=context):
+                return invoice.from_order
+        else:
+            res = context.get('from_order', False)
         return res
 
     _columns= {
@@ -38,7 +43,7 @@ class account_invoice(osv.osv):
     'from_order': fields.boolean('From order')
     }
     _defaults={
-     'from_order': _check_from_order          
+     'from_order': _check_from_order
     }
 
 
@@ -147,8 +152,7 @@ class account_invoice(osv.osv):
         obj_bud_move = self.pool.get('budget.move')
         obj_bud_move_line = self.pool.get('budget.move.line')
         validate_result = super(account_invoice,self).invoice_validate(cr, uid, ids, context=context)
-        
-        if not self._check_from_order(cr, uid, context=context):    
+        if not self._check_from_order(cr, uid, ids, context=context):
             for order in self.browse(cr,uid,ids, context=context):
                 move_id = self.create_budget_move(cr, uid, ids, context=context)
                 self.write(cr, uid, [order.id], {'budget_move_id' :move_id }, context=context)
@@ -185,6 +189,30 @@ class account_invoice(osv.osv):
                             assigned_mov_lines.append(move_line.id)
                 
                 obj_bud_move._workflow_signal(cr, uid, [move_id], 'button_execute', context=context)
+        else:
+            for invoice in self.browse(cr,uid,ids, context=context):
+                for inv_line in invoice.invoice_line:
+                    bud_line_id = obj_bud_move_line.search(cr,uid, [('inv_line_id', '=', inv_line.id)], context=context)
+                    bud_line = obj_bud_move_line.browse(cr, uid, bud_line_id, context = context)[0]
+                    move_id = bud_line.budget_move_id.id
+                    move_lines = invoice.move_id.line_id
+                    assigned_mov_lines = []
+                    
+                    for move_line in move_lines:
+                        fixed_amount = abs(move_line.debit - move_line.credit) or abs(move_line.amount_currency)
+                        account_id = 0
+                        if bud_line.inv_line_id and bud_line.inv_line_id.account_id:
+                            account_id = bud_line.inv_line_id.account_id.id
+                        elif bud_line.tax_line_id and bud_line.tax_line_id.account_id:
+                            account_id = bud_line.tax_line_id.account_id.id
+                            
+                        if move_line.id not in assigned_mov_lines and bud_line.fixed_amount == fixed_amount and \
+                            account_id == move_line.account_id.id :
+                            obj_bud_move_line.write(cr, uid, [bud_line.id],{'move_line_id':move_line.id})
+                            assigned_mov_lines.append(move_line.id)
+                
+                obj_bud_move._workflow_signal(cr, uid, [move_id], 'button_execute', context=context)
+                    
         return validate_result     
     
 class account_invoice_line(osv.osv):
@@ -229,7 +257,7 @@ class account_invoice_line(osv.osv):
     
     _columns= {
     'program_line_id': fields.many2one('budget.program.line', 'Program line', ),
-    'invoice_from_order': fields.function(_check_from_order, type='boolean', method=True, string='From order',readonly=True, store=True),
+    'invoice_from_order': fields.function(_check_from_order, type='boolean', method=True, string='From order',readonly=True,),
     'line_available':fields.float('Line available',digits_compute=dp.get_precision('Account'),readonly=True),
     'subtotal_discounted_taxed': fields.function(_subtotal_discounted_taxed, digits_compute= dp.get_precision('Account'), string='Subtotal', ),
     }
