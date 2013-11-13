@@ -681,7 +681,9 @@ class AccountMoveLine(osv.Model):
     _inherit = 'account.move.line'
     
     _columns = {
-        'distribution_ids' : fields.one2many('account.move.line.distribution', 'account_move_line_id', 'Distributions'),
+        #=======account move line distributions
+        'account_move_line_dist': fields.one2many('account.move.line.distribution','target_account_move_line_id', 'Account Move Line Distributions'),
+        'type_distribution':fields.related('account_move_line_dist','type', type="selection", relation="account.move.line.distribution", string="Distribution type")
     }
 
 class AccountMove(osv.Model):
