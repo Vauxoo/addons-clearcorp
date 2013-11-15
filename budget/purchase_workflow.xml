@@ -148,17 +148,23 @@
             <field name="signal">mark_ineffectual</field>
         </record>
         
+        <record id="trans_ineffectual_awarded" model="workflow.transition">
+            <field name="act_from" ref="act_ineffectual"/>
+            <field name="act_to" ref="act_awarded"/>
+            <field name="signal">grant_bill</field>
+        </record>
+        
         <record id="trans_ineffectual_cancel" model="workflow.transition">
             <field name="act_from" ref="act_ineffectual"/>
             <field name="act_to" ref="purchase.act_cancel"/>
             <field name="signal">deserted_cancel</field>
         </record>
         
-        <record id="trans_ineffectual_draft" model="workflow.transition">
+        <!--<record id="trans_ineffectual_draft" model="workflow.transition">
             <field name="act_from" ref="act_ineffectual"/>
-            <field name="act_to" ref="act_awarded"/>
+            <field name="act_to" ref="act_draft"/>
             <field name="signal">deserted_draft</field>
-        </record>
+     	</record>-->
         
         <record id="purchase.trans_invoice_end_done" model="workflow.transition">
             <field name="act_from" ref="purchase.act_invoice_end"/>
@@ -178,6 +184,18 @@
         
         <record id="trans_final_approval_void" model="workflow.transition">
             <field name="act_from" ref="act_final_approval"/>
+            <field name="act_to" ref="act_void"/>
+            <field name="signal">mark_void</field>
+        </record>
+        
+        <record id="trans_exc_pic_void" model="workflow.transition">
+            <field name="act_from" ref="purchase.act_except_picking"/>
+            <field name="act_to" ref="act_void"/>
+            <field name="signal">mark_void</field>
+        </record>
+        
+        <record id="trans_exc_inv_void" model="workflow.transition">
+            <field name="act_from" ref="purchase.act_except_invoice"/>
             <field name="act_to" ref="act_void"/>
             <field name="signal">mark_void</field>
         </record>

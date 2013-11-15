@@ -29,24 +29,23 @@ class purchase_order(osv.osv):
     _inherit = 'purchase.order'
     
     STATE_SELECTION = [
-        ('draft', 'Budget Request'),
-        ('budget_approval', 'Waiting Approval'),
-        ('budget_approved', 'Draft Bill'),
-        ('sent', 'RFQ Sent'),
-        ('published', 'Bill published'),
-        ('review', 'Bid review'),
-        ('deserted', 'Deserted'),
-        ('awarded', 'Awarded'),
-        ('ineffectual', 'Ineffectual'),
-        ('confirmed', 'Waiting Approval'),
-        ('approved', 'Purchase Order'),
-        ('except_picking', 'Shipping Exception'),
-        ('except_invoice', 'Invoice Exception'),
-        ('final_approval', 'Final Approval'),
-        ('done', 'Done'),
-        ('void', 'Anulled'),
-        ('cancel', 'Cancelled')
-    ]
+        ('draft', _('Budget Request')),
+        ('budget_approval', _('Waiting Approval')),
+        ('budget_approved', _('Draft Bill')),
+        ('sent', _('RFQ Sent')),
+        ('published', _('Bill published')),
+        ('review', _('Bid review')),
+        ('deserted', _('Deserted')),
+        ('awarded', _('Awarded')),
+        ('ineffectual', _('Ineffectual')),
+        ('confirmed', _('Waiting Approval')),
+        ('approved', _('Purchase Order')),
+        ('except_picking', _('Shipping Exception')),
+        ('except_invoice', _('Invoice Exception')),
+        ('final_approval', _('Final Approval')),
+        ('done', _('Done')),
+        ('void', _('Anulled')),
+        ('cancel', _('Cancelled'))]
     
     _columns = {
         #'plan_id' : fields.many2one('budget.plan', 'Budget'),
@@ -159,8 +158,7 @@ class purchase_order(osv.osv):
         obj_bud_mov = self.pool.get('budget.move')
         for purchase in self.browse(cr, uid, ids, context=context):
             move_id = purchase.budget_move_id.id
-            #bud_move.action_draft(cr,uid, [move_id],context=context)
-            obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_draft', context=context)
+            obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_cancel', context=context)
         self.write(cr, uid, ids, {'state': 'deserted'})
         return True
     
@@ -168,8 +166,7 @@ class purchase_order(osv.osv):
         obj_bud_mov = self.pool.get('budget.move')
         for purchase in self.browse(cr, uid, ids, context=context):
             move_id = purchase.budget_move_id.id
-            #obj_bud_mov.action_draft(cr,uid, [move_id],context=context)
-            obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_draft', context=context)
+            #obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_cancel', context=context) #En inefectual el move debería seguir en ejecución y se anula lo comprometido?
         self.write(cr, uid, ids, {'state': 'ineffectual'})
         return True
     
@@ -178,7 +175,14 @@ class purchase_order(osv.osv):
         return True
     
     def action_void(self, cr, uid, ids, context=None):
+        amld_obj = self.pool.get('account.move.line.distribution')
         self.write(cr, uid, ids, {'state': 'void'})
+        for purchase in self.browse(cr, uid, ids, context=context):
+            bud_move = purchase.budget_move_id
+            if bud_move:
+                for bud_line in bud_move.move_lines:
+                     amld_obj.create(cr, uid, {'distribution_percentage':100.0, 'distribution_amount':bud_line.compromised, 'target_budget_move_line_id':bud_line.id, 'account_move_line_type': 'void'})
+            obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_execute', context=context)
         return True
     
     def action_cancel(self, cr, uid, ids, context=None):

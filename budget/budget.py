@@ -1096,6 +1096,7 @@ class budget_move(osv.osv):
             
     def action_cancel(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {'state': 'cancel'})
+        self.recalculate_values(cr, uid, ids, context=context)
         return True
     
     def name_get(self, cr, uid, ids, context=None):
@@ -1316,7 +1317,8 @@ class account_move_line_distribution(orm.Model):
     _description = "Account move line distribution"
 
     _columns = {         
-         'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', required=True, ondelete="cascade"),
+         #'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', required=True, ondelete="cascade"),
+         'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', ondelete="cascade"),
          'distribution_percentage': fields.float('Distribution Percentage', required=True, digits_compute=dp.get_precision('Account'),),
          'distribution_amount': fields.float('Distribution Amount', digits_compute=dp.get_precision('Account'), required=True),
          'target_budget_move_line_id': fields.many2one('budget.move.line', 'Target Budget Move Line',),

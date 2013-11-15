@@ -24,6 +24,16 @@ from openerp.osv import fields, osv, orm
 class accountMove(orm.Model):
     _inherit = "account.move"
     
+    OPTIONS = [
+        ('void', 'Voids budget move'),
+        ('budget', 'Budget move'),
+    ]
+    
+    _columns = {
+        'budget_move_line_ids':  fields.one2many('budget.move.line', 'account_move_id', 'Budget move lines'),
+        'budget_type': fields.selection(OPTIONS, 'budget_type', readonly=True),
+    }
+    
     def post(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
@@ -107,3 +117,13 @@ class accountMove(orm.Model):
                            'WHERE id IN %s',
                            ('posted', tuple(valid_moves),))
         return True
+
+
+class AccountMoveLine(osv.Model):
+    _inherit = 'account.move.line'
+    
+    _columns = {
+        #=======account move line distributions
+        'account_move_line_dist': fields.one2many('account.move.line.distribution','target_account_move_line_id', 'Account Move Line Distributions'),
+        'type_distribution':fields.related('account_move_line_dist','type', type="selection", relation="account.move.line.distribution", string="Distribution type")
+    }
