@@ -64,39 +64,6 @@ class purchase_order(osv.osv):
     def onchange_program(self, cr, uid, ids,program_id, context=None):
         return {'domain': {'program_line_id': [('program_id','=',program_id),], }}
     
-#    def action_invoice_create(self, cr, uid, ids, context=None):
-#        obj_bud_mov = self.pool.get('budget.move')
-#        obj_bud_line = self.pool.get('budget.move.line')
-#        acc_inv_mov = self.pool.get('account.invoice')
-#        res = False
-#        for id in ids:
-#            if context is None:
-#                context = {}
-#            context.update({'from_order' : True,})
-#            invoice_id = super(purchase_order, self).action_invoice_create(cr, uid, ids, context=context)
-#            acc_inv_mov.write(cr, uid, [invoice_id],{'from_order': True})
-#            for purchase in self.browse(cr, uid, [id],context=context):
-#                move_id = purchase.budget_move_id.id
-#                for po_line in purchase.order_line:
-#                    asoc_bud_line_id = obj_bud_line.search(cr, uid, [('po_line_id','=',po_line.id), ('budget_move_id','=',move_id)])
-#                    inv_line = po_line.invoice_lines[0]
-#                    acc_move_lines = inv_line.invoice_id.move_lines
-#                    assigned_mov_lines= []
-#                
-#                    for bud_line in asoc_bud_line_id:
-#                        for move_line in acc_move_lines:
-#                            fixed_amount = abs(move_line.debit - move_line.credit) or abs(move_line.amount_currency)
-#                            account_id = 0
-#                            account_id = inv_line.account_id.id
-#                            if move_line.id not in assigned_mov_lines and bud_line.origin.find(move_line.name) != -1 and bud_line.fixed_amount == fixed_amount and \
-#                                account_id == move_line.account_id.id :
-#                                obj_bud_move_line.write(cr, uid, [bud_line.id],{'move_line_id':move_line.id})
-#                                assigned_mov_lines.append(move_line.id)
-#
-##                obj_bud_mov.action_execute(cr,uid, [move_id],context=context)
-#                obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_execute', context=context)
-#                res = invoice_id
-#        return res
     def action_invoice_create(self, cr, uid, ids, context=None):
         obj_bud_mov = self.pool.get('budget.move')
         obj_bud_line = self.pool.get('budget.move.line')
@@ -189,7 +156,8 @@ class purchase_order(osv.osv):
         obj_bud_mov = self.pool.get('budget.move')
         for purchase in self.browse(cr, uid, ids, context=context):
             bud_move = purchase.budget_move_id
-            obj_bud_mov.action_cancel(cr,uid, [move_id],context=context)
+            move_id = bud_move.id
+            obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_cancel', context=context)
         super(purchase_order, self).action_cancel(cr, uid, ids, context=context)
     
     def action_draft(self, cr, uid, ids, context=None):

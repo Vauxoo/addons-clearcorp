@@ -10,6 +10,14 @@
             <field name="action">action_draft()</field>
         </record>
         
+        <record id="purchase.act_cancel" model="workflow.activity">
+            <field name="wkf_id" ref="purchase.purchase_order"/>
+            <field name="name">cancel</field>
+            <field name="kind">function</field>
+            <field name="flow_stop">True</field>
+            <field name="action">action_cancel()</field>
+        </record>
+        
         <record id="act_budget_approval" model="workflow.activity">
             <field name="wkf_id" ref="purchase.purchase_order"/>
             <field name="name">budget_approval</field>
@@ -94,6 +102,12 @@
             <field name="signal">budget_approval</field>
         </record>
         
+        <record id="trans_budget_approval_draft" model="workflow.transition">
+            <field name="act_from" ref="act_budget_approval"/>
+            <field name="act_to" ref="purchase.act_draft"/>
+            <field name="signal">draft</field>
+        </record>
+        
         <record id="trans_budget_approval_budget_approved" model="workflow.transition">
             <field name="act_from" ref="act_budget_approval"/>
             <field name="act_to" ref="act_budget_approved"/>
@@ -133,13 +147,13 @@
         <record id="trans_deserted_draft" model="workflow.transition">
             <field name="act_from" ref="act_deserted"/>
             <field name="act_to" ref="purchase.act_draft"/>
-            <field name="signal">deserted_draft</field>
+            <field name="signal">draft</field>
         </record>
         
         <record id="trans_deserted_cancel" model="workflow.transition">
             <field name="act_from" ref="act_deserted"/>
             <field name="act_to" ref="purchase.act_cancel"/>
-            <field name="signal">deserted_cancel</field>
+            <field name="signal">cancel</field>
         </record>
         
         <record id="trans_awarded_ineffectual" model="workflow.transition">
@@ -157,14 +171,8 @@
         <record id="trans_ineffectual_cancel" model="workflow.transition">
             <field name="act_from" ref="act_ineffectual"/>
             <field name="act_to" ref="purchase.act_cancel"/>
-            <field name="signal">deserted_cancel</field>
+            <field name="signal">cancel</field>
         </record>
-        
-        <!--<record id="trans_ineffectual_draft" model="workflow.transition">
-            <field name="act_from" ref="act_ineffectual"/>
-            <field name="act_to" ref="act_draft"/>
-            <field name="signal">deserted_draft</field>
-     	</record>-->
         
         <record id="purchase.trans_invoice_end_done" model="workflow.transition">
             <field name="act_from" ref="purchase.act_invoice_end"/>
@@ -182,8 +190,26 @@
             <field name="signal">mark_done</field>
         </record>
         
+        <record id="trans_approved_void" model="workflow.transition">
+            <field name="act_from" ref="act_final_approval"/>
+            <field name="act_to" ref="act_void"/>
+            <field name="signal">mark_void</field>
+        </record>
+        
         <record id="trans_final_approval_void" model="workflow.transition">
             <field name="act_from" ref="act_final_approval"/>
+            <field name="act_to" ref="act_void"/>
+            <field name="signal">mark_void</field>
+        </record>
+        
+        <record id="trans_picking_void" model="workflow.transition">
+            <field name="act_from" ref="purchase.act_picking"/>
+            <field name="act_to" ref="act_void"/>
+            <field name="signal">mark_void</field>
+        </record>
+        
+        <record id="trans_invoice_void" model="workflow.transition">
+            <field name="act_from" ref="purchase.act_invoice"/>
             <field name="act_to" ref="act_void"/>
             <field name="signal">mark_void</field>
         </record>

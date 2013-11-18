@@ -253,6 +253,7 @@ class AccountMoveReconcile(osv.Model):
         """
         
         dist_obj = self.pool.get('account.move.line.distribution')
+        budget_move_line_obj = self.pool.get('budget.move.line')
         
         # Check if not first call and void type line. This kind of lines only can be navigated when called first by the main method.
         if actual_line and actual_line.move_id.budget_type == 'void':
@@ -297,8 +298,10 @@ class AccountMoveReconcile(osv.Model):
         
         for counterpart in counterparts:
             if counterpart.id not in checked_lines:
-                if counterpart.move_id.budget_type == 'budget':
-                    budget_lines[counterpart.id] = counterpart
+                # Check if there are any budget move lines associated with this counterpart
+                budget_move_lines_found = budget_move_line_obj.search(cr, uid, [('move_line_id','=',counterpart.id)], context=context)
+                if budget_move_lines_found:
+                    budget_lines[counterpart.id] = budget_move_lines_found
                     budget_amounts[counterpart.id] = counterpart.debit + counterpart.credit
                     budget_total += counterpart.debit + counterpart.credit
                     amount_total += counterpart.debit + counterpart.credit
@@ -357,8 +360,8 @@ class AccountMoveReconcile(osv.Model):
             budget_total = 0.0
             budget_budget_move_line_ids = []
             budget_budget_move_lines = []
-            for line in budget_lines.values():
-                budget_budget_move_lines += (line.move_id.budget_move_line_ids if line.move_id.budget_move_line_ids else [])
+            for lines in budget_lines.values():
+                budget_budget_move_lines += lines
             for line in budget_budget_move_lines:
                 budget_budget_move_line_ids.append(line.id)
                 budget_total += line.fixed_amount
@@ -412,6 +415,8 @@ class AccountMoveReconcile(osv.Model):
         Returns the list of account.move.line.distribution created, or an empty list.
         """
         
+        budget_move_line_obj = self.pool.get('budget.move.line')
+        
         # Check if not first call and void type line. This kind of lines only can be navigated when called first by the main method.
         if actual_line and actual_line.move_id.budget_type == 'void':
             return []
@@ -450,8 +455,10 @@ class AccountMoveReconcile(osv.Model):
         
         for counterpart in counterparts:
             if counterpart.id not in checked_lines:
-                if counterpart.move_id.budget_type == 'budget':
-                    budget_lines[counterpart.id] = counterpart
+                # Check if there are any budget move lines associated with this counterpart
+                budget_move_lines_found = budget_move_line_obj.search(cr, uid, [('move_line_id','=',counterpart.id)], context=context)
+                if budget_move_lines_found:
+                    budget_lines[counterpart.id] = budget_move_lines_found
                     budget_amounts[counterpart.id] = counterpart.debit + counterpart.credit
                     budget_total += counterpart.debit + counterpart.credit
                     amount_total += counterpart.debit + counterpart.credit
@@ -500,8 +507,8 @@ class AccountMoveReconcile(osv.Model):
             budget_budget_move_line_ids = []
             budget_budget_move_lines = []
             bud_move_obj = self.pool.get('budget.move')
-            for line in budget_lines.values():
-                budget_budget_move_lines += (line.move_id.budget_move_line_ids if line.move_id.budget_move_line_ids else [])
+            for lines in budget_lines.values():
+                budget_budget_move_lines += lines
             for line in budget_budget_move_lines:
                 budget_budget_move_line_ids.append(line.id)
                 budget_total += line.compromised
