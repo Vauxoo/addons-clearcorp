@@ -584,6 +584,16 @@
             						</tree>
             					</field>		
             				</page>
+            				<page string="Budget Move Lines Distribution">
+                                 <field name="budget_move_line_dist" widget="one2many_list" colspan="4" nolabel="1">
+                                     <tree string="Distribution Budget Lines" editable="bottom">
+                                         <field name="account_move_line_id" domain="[('budget_move_lines','!=', None), ('distribution_percentage_sum', '&lt;', 100)]" attrs="{'required':'True'}"/>
+                                         <field name="distribution_amount" />
+                                         <field name="distribution_percentage" />
+                                         <field name="target_budget_move_line_id" attrs="{ 'required':'True'}" domain="[('budget_move_id', '=', parent.id)]"/>
+                                     </tree>
+                                 </field>
+                             </page>
             			</notebook>
             		</sheet>
                 </form>
@@ -716,16 +726,16 @@
             			</group>
             			<notebook>
             			     <page string="Budget Move Lines Distribution">
-            			         <field name="type_distribution" invisible="True"/>
-            			         <field name="buget_move_line_dist" widget="one2many_list" colspan="4" attrs="{'readonly': [('type_distribution', '=', 'auto')]}" nolabel="1">
-            			             <tree colors="blue:type == 'auto';red:type == 'manual'"  string="Distribution Budget Lines" editable="bottom" >
-                			             <field name="account_move_line_id" />
-                			             <field name="distribution_amount" />
-                			             <field name="distribution_percentage" />
-                			             <field name="target_account_move_line_id" />
-                			         </tree>
-            			         </field>
-            			     </page>
+                                 <field name="type_distribution" invisible="True"/>
+                                 <field name="budget_move_line_dist" widget="one2many_list" colspan="4" attrs="{'readonly': [('type_distribution', '=', 'auto')]}" nolabel="1">
+                                     <tree colors="blue:type == 'auto';red:type == 'manual'"  string="Distribution Budget Lines" editable="bottom" >
+                                         <field name="account_move_line_id" />
+                                         <field name="distribution_amount" />
+                                         <field name="distribution_percentage"/>
+                                         <field name="target_account_move_line_id" />
+                                     </tree>
+                                 </field>
+                             </page>
             			</notebook> 
             		</sheet>
                 </form>
