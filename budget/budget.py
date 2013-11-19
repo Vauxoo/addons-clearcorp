@@ -982,6 +982,7 @@ class budget_move(osv.osv):
         #'purchase_order_ids': fields.one2many('purchase.order', 'budget_move_id', 'Purchase orders' ),
         #'sale_order_ids': fields.one2many('sale.order', 'budget_move_id', 'Purchase orders' ),
         'move_lines': fields.one2many('budget.move.line', 'budget_move_id', 'Move lines' ),
+        'budget_move_line_dist': fields.related('move_lines', 'budget_move_line_dist', type='one2many', relation="account.move.line.distribution", string='Account Move Line Distribution'),
         'type': fields.selection(_select_types, 'Move Type', required=True, readonly=True, states={'draft':[('readonly',False)]}),
     }
     _defaults = {
@@ -1296,8 +1297,8 @@ class budget_move_line(osv.osv):
         'type': fields.related('budget_move_id', 'type', type='char', relation='budget.move', string='Type', readonly=True),
         'state': fields.related('budget_move_id', 'state', type='char', relation='budget.move', string='State',  readonly=True),
         #=======bugdet move line distributions
-        'buget_move_line_dist': fields.one2many('account.move.line.distribution','target_budget_move_line_id', 'Budget Move Line Distributions'),
-        'type_distribution':fields.related('buget_move_line_dist','type', type="selection", relation="account.move.line.distribution", string="Distribution type")
+        'budget_move_line_dist': fields.one2many('account.move.line.distribution','target_budget_move_line_id', 'Budget Move Line Distributions'),
+        'type_distribution':fields.related('budget_move_line_dist','type', type="selection", relation="account.move.line.distribution", string="Distribution type")
     }
     _defaults = {
         'date': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
@@ -1343,8 +1344,59 @@ class account_move_line_distribution(orm.Model):
         else:
             return True
     
+    #======== Distribution amount must be less than compromised amount in budget move line
+    def _check_distribution_amount_budget(self, cr, uid, ids, context=None):
+        
+        for distribution in self.browse(cr,uid,ids,context=context):
+            if distribution.distribution_amount > distribution.target_budget_move_line_id.compromised:
+                return False
+            return True  
+    
+    #======== Check distribution percentage. Use distribution_percentage_sum in account.move.line to check 
+    def _check_distribution_percentage(self, cr, uid, ids, context=None):          
+        
+        for distribution in self.browse(cr, uid, ids, context=context):
+            #distribution_percentage_sum compute all the percentages for a specific move line. 
+            line_percentage = distribution.account_move_line_id.distribution_percentage_sum or 0.0
+            line_percentage_remaining = 100 - line_percentage
+            
+            if distribution.distribution_percentage > line_percentage_remaining:
+                return False
+            
+            return True
+        
+    #========= Check distribution percentage. Use distribution_amount_sum in account.move.line to check 
+    def _check_distribution_amount(self, cr, uid, ids, context=None):          
+        amount = 0.0
+        
+        for distribution in self.browse(cr, uid, ids, context=context):
+            #==== distribution_amount_sum compute all the percentages for a specific move line. 
+            x = distribution.account_move_line_id
+            y = distribution.account_move_line_id.id
+            line_amount_dis = distribution.account_move_line_id.distribution_amount_sum or 0.0
+            
+            #=====Find amount for the move_line
+            if distribution.account_move_line_id.credit > 0:
+                amount = distribution.account_move_line_id.credit
+            if distribution.account_move_line_id.debit > 0:
+                amount = distribution.account_move_line_id.debit
+            if distribution.account_move_line_id.credit == 0 and distribution.account_move_line_id.debit == 0:
+                amount = distribution.account_move_line_id.fixed_amount
+            
+            #====Check which is the remaining between the amount line and sum of amount in distributions. 
+            amount_remaining = amount - line_amount_dis
+            
+            if distribution.distribution_amount > amount_remaining:
+                return False            
+            return True
+    
+    #==================================================================================
     _constraints = [
         (_check_target_move_line,'A Distribution Line only has one target. A target can be a move line or a budget move line',['target_budget_move_line_id', 'target_account_move_line_id']),
+        (_check_distribution_amount_budget, 'The distribution amount can not be greater than compromised amount in budget move line selected', ['distribution_amount']),
+        (_check_distribution_percentage, 'The distribution percentage can not be greater than sum of all percentage for the account move line selected', ['account_move_line_id']),    
+        (_check_distribution_amount, 'The distribution amount can not be greater than maximum amount of remaining amount for account move line selected', ['distribution_amount']),    
+
     ]
 
     def clean_reconcile_entries(self, cr, uid, move_line_ids, context=None):
@@ -1355,11 +1407,14 @@ class account_move_line_distribution(orm.Model):
         self.unlink(cr, uid, lines,context=context)
         return True
 
-    
-    
-    
-    
-    
+    def _account_move_lines_mod(self, cr, uid, ids, context=None):
+        list = []
+        for line in self.browse(cr, uid, ids, context=context):
+            list.append(line.account_move_line_id.id)
+        return list
+     
+   
+            
     
     
     

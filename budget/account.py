@@ -359,9 +359,13 @@ class AccountMoveReconcile(osv.Model):
             # Budget list
             budget_total = 0.0
             budget_budget_move_line_ids = []
+            budget_budget_move_lines_ids = []
             budget_budget_move_lines = []
+            #lines is an int (id)
             for lines in budget_lines.values():
-                budget_budget_move_lines += lines
+                budget_budget_move_lines_ids += lines
+            #Browse record: lines is an int not a object! 
+            budget_budget_move_lines = self.pool.get('budget.move.line').browse(cr,uid, budget_budget_move_lines_ids,context=context)
             for line in budget_budget_move_lines:
                 budget_budget_move_line_ids.append(line.id)
                 budget_total += line.fixed_amount

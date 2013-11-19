@@ -27,7 +27,7 @@ class account_invoice(osv.osv):
     _name = 'account.invoice'
     _inherit = 'account.invoice'
     
-    def _check_from_order(self, cr, uid, ids=None,context=None):
+    def _check_from_order(self, cr, uid, context=None, ids=None):
         if context is None:
             context = {}
             res = False
@@ -152,7 +152,7 @@ class account_invoice(osv.osv):
         obj_bud_move = self.pool.get('budget.move')
         obj_bud_move_line = self.pool.get('budget.move.line')
         validate_result = super(account_invoice,self).invoice_validate(cr, uid, ids, context=context)
-        if not self._check_from_order(cr, uid, ids, context=context):
+        if not self._check_from_order(cr, uid, context=context, ids=ids):
             for order in self.browse(cr,uid,ids, context=context):
                 move_id = self.create_budget_move(cr, uid, ids, context=context)
                 self.write(cr, uid, [order.id], {'budget_move_id' :move_id }, context=context)

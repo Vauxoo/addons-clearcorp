@@ -12,11 +12,11 @@
                         <page string="Distribution Budget Move Lines">
                             <field name="type_distribution" invisible="True"/>
                             <field name="account_move_line_dist" widget="one2many_list"  nolabel="1" colspan="4" attrs="{'readonly': [('type_distribution', '=', 'auto')]}">
-                                <tree colors="blue:type == 'auto';red:type == 'manual'"  string="Distribution Budget Move Lines" editable="bottom">
-                                    <field name="account_move_line_id" />                                    
+                                <tree colors="blue:type == 'auto';red:type == 'manual'"  string="Distribution Budget Move Lines" editable="bottom">                                 
+                                    <field name="account_move_line_id" domain="[('id','=', parent.id)]" attrs="{'readonly':'True'}"/>
                                     <field name="distribution_percentage" />
                                     <field name="distribution_amount" />
-                                    <field name="target_budget_move_line_id" />
+                                    <field name="target_budget_move_line_id" attrs="{'required':'True'}" domain="['|', ('compromised','&gt;',0.0), ('reserved','&gt;',0.0)]"/>
                                 </tree>
                             </field>
                         </page>
