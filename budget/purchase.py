@@ -368,7 +368,7 @@ class purchase_line_invoice(osv.osv_memory):
                 inv_line = po_line.invoice_lines[0]
                 obj_bud_line.write(cr, uid, [asoc_bud_line_id],{'inv_line_id': inv_line.id}, context=context)
                 move_id = po_line.order_id.budget_move_id.id
-                invoice_obj.write(cr, uid, [po_line.order_id.id], context=context)
+                invoice_obj.write(cr, uid, [po_line.order_id.id], {'budget_move_id': move_id, 'from_order':True}, context=context)
                 obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_execute', context=context)
         return result
         

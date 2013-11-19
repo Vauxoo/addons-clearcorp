@@ -19,7 +19,7 @@
 	                		<button name="cancel" states="deserted,ineffectual" string="Cancel"/>
 	                		<button name="mark_ineffectual" states="awarded" string="Mark ineffectual"/>	
 	                		<button name="mark_done" states="final_approval" string="Mark as Done"/>
-	                		<button name="mark_void" states="approved,final_approval,except_picking,except_invoice" string="Mark as Void"/>
+	                		<!--<button name="mark_void" states="approved,final_approval,except_picking,except_invoice" string="Mark as Void"/>-->
 	                		
 	                	</xpath>
 	                	<xpath expr="/form/header/button[@name='wkf_send_rfq' and @states='draft']" position="replace"/>			

@@ -28,4 +28,5 @@ import account_invoice
 import account
 import hr_expense
 import purchase
+import stock
 #import sale
