@@ -1296,7 +1296,7 @@ class budget_move_line(osv.osv):
         'type': fields.related('budget_move_id', 'type', type='char', relation='budget.move', string='Type', readonly=True),
         'state': fields.related('budget_move_id', 'state', type='char', relation='budget.move', string='State',  readonly=True),
         #=======bugdet move line distributions
-        'buget_move_line_dist': fields.one2many('account.move.line.distribution','target_budget_move_line_id', 'Budget Move Line Distributions'),
+        'budget_move_line_dist': fields.one2many('account.move.line.distribution','target_budget_move_line_id', 'Budget Move Line Distributions'),
         'type_distribution':fields.related('buget_move_line_dist','type', type="selection", relation="account.move.line.distribution", string="Distribution type")
     }
     _defaults = {
@@ -1355,11 +1355,6 @@ class account_move_line_distribution(orm.Model):
         self.unlink(cr, uid, lines,context=context)
         return True
 
-    
-    
-    
-    
-    
     
     
     
