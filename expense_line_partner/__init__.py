@@ -20,13 +20,6 @@
 #
 ##############################################################################
 
-import account_move
-import budget
-import wizard
-import res_partner
-import account_invoice
-import account
-import hr_expense
-import purchase
-import stock
-#import sale
+import expense_line_partner
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

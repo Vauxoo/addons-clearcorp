@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+	<data>
+		 <record id="expense_line_partner_view_expenses_form" model="ir.ui.view" >
+	            <field name="name">expense.line.partner.hr.expense.form</field>
+	            <field name="model">hr.expense.expense</field>
+	            <field name="inherit_id" ref="hr_expense.view_expenses_form"/>
+	            <field name="priority" eval="20"/>
+	            <field name="arch" type="xml">
+	                <data>
+		                <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/form[@string='Expense Lines']/group/group/field[@name='ref']" position="after">
+		                	<field name="res_partner_id" required="True"/>
+		                </xpath>
+		                
+		                <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree/field[@name='ref']" position="after">
+		                	<field name="res_partner_id" required="True"/>
+		                </xpath>
+	            	</data>    
+	            </field>
+	     </record>
+	     
+	     <record id="expense_line_partner_expenses_line_tree" model="ir.ui.view" >
+	            <field name="name">expense.line.partner.hr.expense.line.tree</field>
+	            <field name="model">hr.expense.line</field>
+	            <field name="inherit_id" ref="hr_expense.view_expenses_line_tree"/>
+	            <field name="priority" eval="20"/>
+	            <field name="arch" type="xml">
+	                <data>
+	                    <field name="ref" position="after" >
+	                    	<field name="res_partner_id" required="True"/>
+ 	                    </field>
+	            	</data>    
+	            </field>
+	     </record>
+	</data>
+</openerp>

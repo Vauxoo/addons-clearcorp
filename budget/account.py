@@ -48,6 +48,30 @@ class AccountMoveReconcile(osv.Model):
             for mov_id in budget_move_ids:
                 bud_mov_obj._workflow_signal(cr, uid, [mov_id], 'button_check_execution', context=context)
         return super(AccountMoveReconcile, self).unlink(cr, uid, ids, context=context)
+
+#    def unlink(self, cr, uid, ids, context={}):
+#        dist_obj = self.pool.get('account.move.line.distribution')
+#        bud_mov_obj = self.pool.get('budget.move')
+#        wf_service = netsvc.LocalService("workflow")
+#        for reconcile_id in ids:
+#            budget_move_ids = []
+#            dist_ids = dist_obj.search(cr, uid, [('reconcile_ids.id','=',reconcile_id)], context=context)
+#            dists = dist_obj.browse(cr, uid, dist_ids, context=context)
+#            for dist in dists:
+#                if dist.target_budget_move_line_id and \
+#                    dist.target_budget_move_line_id.budget_move_id and \
+#                    dist.target_budget_move_line_id.budget_move_id.id not in budget_move_ids:
+#                    budget_move_ids.append(dist.target_budget_move_line_id.budget_move_id.id)
+#                if len(dist.reconcile_ids) == 1:
+#                    dist_obj.unlink(cr, uid, [dist.id], context=context)
+#                else:
+#                    dist_obj.write(cr ,uid, [dist.id], {'reconcile_ids':[(3,reconcile_id)]}) 
+#        
+#        if budget_move_ids:
+#            bud_mov_obj.recalculate_values(cr, uid, budget_move_ids, context=context)
+#            for mov_id in budget_move_ids:
+#                bud_mov_obj._workflow_signal(cr, uid, [mov_id], 'button_check_execution', context=context)
+#        return super(AccountMoveReconcile, self).unlink(cr, uid, ids, context=context)
     
     def create(self, cr, uid, vals, context=None):
         reconcile_id = super(AccountMoveReconcile, self).create(cr, uid, vals, context=context)
@@ -75,23 +99,23 @@ class AccountMoveReconcile(osv.Model):
         result ['credit'] = credit
         return result
     
-    def split_move_noncash(self,cr, uid, move_ids,context=None):
-        #Classifies every move line of the account move in cash or non cash
-        #for a move, returns a dictionary, with the id of the move line as the key and 'cash' or 'non_cash' for values
-        result ={}
-#        acc_move_line = self.pool.get('account.move.line')
-        acc_move_obj = self.pool.get('account.move')
-        
-        for move in acc_move_obj.browse(cr, uid, move_ids, context=context):
-            cash = False
-            for line in move.line_id:
-                if line.account_id.moves_cash:
-                    cash = True
-            if cash:    
-                result[move.id] = 'cash'
-            else:
-                result[move.id] = 'non_cash'
-        return result
+#    def split_move_noncash(self,cr, uid, move_ids,context=None):
+#        #Classifies every move line of the account move in cash or non cash
+#        #for a move, returns a dictionary, with the id of the move line as the key and 'cash' or 'non_cash' for values
+#        result ={}
+##        acc_move_line = self.pool.get('account.move.line')
+#        acc_move_obj = self.pool.get('account.move')
+#        
+#        for move in acc_move_obj.browse(cr, uid, move_ids, context=context):
+#            cash = False
+#            for line in move.line_id:
+#                if line.account_id.moves_cash:
+#                    cash = True
+#            if cash:    
+#                result[move.id] = 'cash'
+#            else:
+#                result[move.id] = 'non_cash'
+#        return result
     
     def move_in_voucher(self,cr, uid, move_ids, context=None):
         #Checks if a move is in a voucher, returns the id of the voucher or -1 in case that is not in any
@@ -229,6 +253,7 @@ class AccountMoveReconcile(osv.Model):
         """
         
         dist_obj = self.pool.get('account.move.line.distribution')
+        budget_move_line_obj = self.pool.get('budget.move.line')
         
         # Check if not first call and void type line. This kind of lines only can be navigated when called first by the main method.
         if actual_line and actual_line.move_id.budget_type == 'void':
@@ -273,8 +298,10 @@ class AccountMoveReconcile(osv.Model):
         
         for counterpart in counterparts:
             if counterpart.id not in checked_lines:
-                if counterpart.move_id.budget_type == 'budget':
-                    budget_lines[counterpart.id] = counterpart
+                # Check if there are any budget move lines associated with this counterpart
+                budget_move_lines_found = budget_move_line_obj.search(cr, uid, [('move_line_id','=',counterpart.id)], context=context)
+                if budget_move_lines_found:
+                    budget_lines[counterpart.id] = budget_move_lines_found
                     budget_amounts[counterpart.id] = counterpart.debit + counterpart.credit
                     budget_total += counterpart.debit + counterpart.credit
                     amount_total += counterpart.debit + counterpart.credit
@@ -332,14 +359,18 @@ class AccountMoveReconcile(osv.Model):
             # Budget list
             budget_total = 0.0
             budget_budget_move_line_ids = []
+            budget_budget_move_lines_ids = []
             budget_budget_move_lines = []
-            for line in budget_lines.values():
-                budget_budget_move_lines += (line.move_id.budget_move_line_ids if line.move_id.budget_move_line_ids else [])
+            #lines is an int (id)
+            for lines in budget_lines.values():
+                budget_budget_move_lines_ids += lines
+            #Browse record: lines is an int not a object! 
+            budget_budget_move_lines = self.pool.get('budget.move.line').browse(cr,uid, budget_budget_move_lines_ids,context=context)
             for line in budget_budget_move_lines:
                 budget_budget_move_line_ids.append(line.id)
-                budget_total += line.compromised
+                budget_total += line.fixed_amount
             for line in budget_budget_move_lines:
-                distribution_amount = line.compromised
+                distribution_amount = line.fixed_amount
                 # If the resulting total of budget plus liquid lines is more than available, the amount has to be fractioned.
                 if budget_total + liquid_amount_to_dist > amount_to_dist:
                     distribution_amount = distribution_amount * amount_to_dist / budget_total + liquid_amount_to_dist
@@ -388,6 +419,8 @@ class AccountMoveReconcile(osv.Model):
         Returns the list of account.move.line.distribution created, or an empty list.
         """
         
+        budget_move_line_obj = self.pool.get('budget.move.line')
+        
         # Check if not first call and void type line. This kind of lines only can be navigated when called first by the main method.
         if actual_line and actual_line.move_id.budget_type == 'void':
             return []
@@ -426,8 +459,10 @@ class AccountMoveReconcile(osv.Model):
         
         for counterpart in counterparts:
             if counterpart.id not in checked_lines:
-                if counterpart.move_id.budget_type == 'budget':
-                    budget_lines[counterpart.id] = counterpart
+                # Check if there are any budget move lines associated with this counterpart
+                budget_move_lines_found = budget_move_line_obj.search(cr, uid, [('move_line_id','=',counterpart.id)], context=context)
+                if budget_move_lines_found:
+                    budget_lines[counterpart.id] = budget_move_lines_found
                     budget_amounts[counterpart.id] = counterpart.debit + counterpart.credit
                     budget_total += counterpart.debit + counterpart.credit
                     amount_total += counterpart.debit + counterpart.credit
@@ -476,8 +511,8 @@ class AccountMoveReconcile(osv.Model):
             budget_budget_move_line_ids = []
             budget_budget_move_lines = []
             bud_move_obj = self.pool.get('budget.move')
-            for line in budget_lines.values():
-                budget_budget_move_lines += (line.move_id.budget_move_line_ids if line.move_id.budget_move_line_ids else [])
+            for lines in budget_lines.values():
+                budget_budget_move_lines += lines
             for line in budget_budget_move_lines:
                 budget_budget_move_line_ids.append(line.id)
                 budget_total += line.compromised
@@ -541,7 +576,7 @@ class AccountMoveReconcile(osv.Model):
                     dist_obj.unlink(cr, uid, dist_ids, context=context)
                     return []
                 elif last_dist.target_budget_move_line_id and \
-                    vals['distribution_amount'] > last_dist.target_budget_move_line_id.compromised:
+                    distribution_amount > last_dist.target_budget_move_line_id.fixed_amount:
                     # New value is bigger than allowed value
                     dist_obj.unlink(cr, uid, dist_ids, context=context)
                     return []
@@ -556,6 +591,8 @@ class AccountMoveReconcile(osv.Model):
                     vals['distribution_percentage'] = 100 - (distribution_percentage - last_dist_distribution_percentage)
             elif distribution_percentage < 100:
                 vals['distribution_percentage'] = 100 - (distribution_percentage - last_dist_distribution_percentage)
+#            else:
+#                vals['distribution_percentage'] = last_dist_distribution_percentage
             
             dist_obj.write(cr, uid, last_dist.id, vals, context=context)
             return dist_ids
@@ -651,25 +688,6 @@ class AccountMoveReconcile(osv.Model):
 #             elif passing_through:
 #                 print ("TODO PASS THROUGH")
 
-class AccountMoveLine(osv.Model):
-    _inherit = 'account.move.line'
-    
-    _columns = {
-        'distribution_ids' : fields.one2many('account.move.line.distribution', 'account_move_line_id', 'Distributions'),
-    }
-
-class AccountMove(osv.Model):
-    _inherit = 'account.move'
-    
-    OPTIONS = [
-        ('void', 'Voids budget move'),
-        ('budget', 'Budget move'),
-    ]
-    
-    _columns = {
-        'budget_move_line_ids':  fields.one2many('budget.move.line', 'account_move_id', 'Budget move lines'),
-        'budget_type': fields.selection(OPTIONS, 'budget_type', readonly=True),
-    }
 
 class Account(osv.Model):
     _inherit = 'account.account'

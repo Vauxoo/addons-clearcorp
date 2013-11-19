@@ -24,6 +24,16 @@ from openerp.osv import fields, osv, orm
 class accountMove(orm.Model):
     _inherit = "account.move"
     
+    OPTIONS = [
+        ('void', 'Voids budget move'),
+        ('budget', 'Budget move'),
+    ]
+    
+    _columns = {
+        'budget_move_line_ids':  fields.one2many('budget.move.line', 'account_move_id', 'Budget move lines'),
+        'budget_type': fields.selection(OPTIONS, 'budget_type', readonly=True),
+    }
+    
     def post(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
@@ -107,3 +117,74 @@ class accountMove(orm.Model):
                            'WHERE id IN %s',
                            ('posted', tuple(valid_moves),))
         return True
+
+
+class AccountMoveLine(osv.Model):
+    _inherit = 'account.move.line'
+    
+    #===========================================================================
+    # 
+    # distribution_percentage_sum compute the percentage for the account.move.line.
+    # Check the account.move.line.distribution and sum where id is the same for
+    # account.move.line.
+    # 
+    # distribution_amount_sum compute the amount for the account.move.line.
+    # Check the account.move.line.distribution and sum where id is the same for
+    # account.move.line.
+    # 
+    #_account_move_lines_mod method return the account.move.line id's where the
+    # store apply the change. This method is necessary to create a store. This
+    # help to compute in a "automatic way" those fields (percentage and sum) and
+    # is more easy to get this values from those fields. 
+    #
+    #===========================================================================
+    
+    def _sum_distribution_per(self, cr, uid, ids, field_name, args, context=None):
+        res = {}       
+        query = 'SELECT amld.id, SUM(amld.distribution_percentage) AS dis_per FROM '\
+        'account_move_line_distribution amld '\
+        'WHERE amld.id =  %s GROUP BY amld.id' % tuple(ids)
+        cr.execute(query)
+        for row in cr.dictfetchall():
+            res[row['id']] = row['dis_per']        
+        return res
+    
+    def _sum_distribution_amount(self, cr, uid, ids, field_name, args, context=None):
+        res = {}       
+        query = 'SELECT amld.id, SUM(amld.distribution_amount) AS dis_amount FROM '\
+        'account_move_line_distribution amld '\
+        'WHERE amld.id =  %s GROUP BY amld.id' % tuple(ids)
+        cr.execute(query)
+        for row in cr.dictfetchall():
+            res[row['id']] = row['dis_amount']        
+        return res
+           
+    def _account_move_lines_mod(self, cr, uid, amld_ids, context=None):
+        list = []
+        amld_obj = self.pool.get('account.move.line.distribution')
+        
+        for line in amld_obj.browse(cr, uid, amld_ids, context=context):
+            list.append(line.account_move_line_id.id)
+        return list
+    
+    _columns = {
+        #=======Budget Move Line
+        'budget_move_lines': fields.one2many('budget.move.line','move_line_id', 'Budget Move Lines'),
+        
+        #=======Percentage y amount distribution
+        'distribution_percentage_sum': fields.function(_sum_distribution_per, type="float", method=True, string="Distributed percentage",
+                                                   store={'account.move.line.distribution': (_account_move_lines_mod, ['distribution_percentage'], 10)}),        
+        'distribution_amount_sum': fields.function(_sum_distribution_amount, type="float", method=True, string="Distributed amount",
+                                                   store={'account.move.line.distribution': (_account_move_lines_mod, ['distribution_amount'], 10)}),        
+        
+        #=======account move line distributions
+        'account_move_line_dist': fields.one2many('account.move.line.distribution','account_move_line_id', 'Account Move Line Distributions'),
+        'type_distribution':fields.related('account_move_line_dist','type', type="selection", relation="account.move.line.distribution", string="Distribution type")
+    }
+    
+    _defaults = {
+        'distribution_percentage_sum': 0.0, 
+        'distribution_amount_sum': 0.0,
+    }
+    
+    

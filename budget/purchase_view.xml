@@ -11,15 +11,15 @@
 	                	<xpath expr="/form/header/button[@name='print_quotation' and @states='draft']" position="after">
 	                		<button name="budget_approval" states="draft" string="Mark for approval" class="oe_highlight"/>
 	                		<button name="approve_budget" states="budget_approval" string="Approve request"/>
-	                		<button name="publish_bill" states="budget_approved" string="Publish bill" attrs="{'invisible': [('state','in',('draft','sent','budget_approval'))]}"/>
+	                		<button name="publish_bill" states="budget_approved" string="Publish bill" />
 	                		<button name="review_bids" states="published" string="Set to review"/>
-	                		<button name="grant_bill" states="review" string="Grant bill"/>
+	                		<button name="grant_bill" states="review, ineffectual" string="Grant bill"/>
 	                		<button name="mark_deserted" states="review" string="Mark as Deserted"/>
-	                		<button name="deserted_draft" states="deserted,ineffectual" string="Set to Draft"/>
-	                		<button name="deserted_cancel" states="deserted,ineffectual" string="Cancel"/>
+	                		<button name="draft" states="deserted,ineffectual,budget_approval" string="Set to Draft"/>
+	                		<button name="cancel" states="deserted,ineffectual" string="Cancel"/>
 	                		<button name="mark_ineffectual" states="awarded" string="Mark ineffectual"/>	
 	                		<button name="mark_done" states="final_approval" string="Mark as Done"/>
-	                		<button name="mark_void" states="final_approval" string="Mark as Void"/>
+	                		<!--<button name="mark_void" states="approved,final_approval,except_picking,except_invoice" string="Mark as Void"/>-->
 	                		
 	                	</xpath>
 	                	<xpath expr="/form/header/button[@name='wkf_send_rfq' and @states='draft']" position="replace"/>			
@@ -42,8 +42,14 @@
 	                		<field name="state" widget="statusbar" statusbar_visible="draft,budget_approved,published,review,awarded,approved,done" statusbar_colors='{"except_picking":"red","except_invoice":"red","confirmed":"blue"}' readonly="1"/>
 	                	</xpath>
 	                	
+	                	<xpath expr="/form/sheet/notebook/page[@string='Purchase Order']/field[@name='order_line']/tree/field[@name='taxes_id']" position="attributes">
+	                		<attribute name="invisible">True</attribute>
+
+	                	</xpath>
+	                	
 	                	<xpath expr="/form/sheet/notebook/page[@string='Purchase Order']/field[@name='order_line']/tree/field[@name='product_uom']" position="after">
-	                		<field name="program_line_id" />
+	                		<field name="program_line_id" domain="[('type','=','budget')]" on_change="on_change_program_line(program_line_id)" required="True"/>
+	                    	<field name="line_available" readonly="True"/>
 	                	</xpath>
 	                	
 	                	<page string="Purchase Order" position="after">
@@ -69,11 +75,17 @@
 	            <field name="arch" type="xml">
 	                <data>
 	                	<xpath expr="/form/sheet/group/group/field[@name='price_unit']" position="after">
-	                		<field name="program_line_id"/>
+	                		<field name="program_line_id" domain="[('type','=','budget')]" on_change="on_change_program_line(program_line_id)" required="True"/>
+	                    	<field name="line_available" readonly="True"/>
 	                	</xpath>
+	                	<field name="taxes_id" position="attributes">
+		            		<attribute name="invisible">True</attribute>
+		            	</field>
 	                </data>
 	            </field>
 		</record>
+        
+        
         
         <record id="purchase.purchase_rfq" model="ir.actions.act_window">
             <field name="domain">[('state','in',('draft','budget_approval','sent','confirmed'))]</field>

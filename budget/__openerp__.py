@@ -36,7 +36,8 @@
         'purchase_order_discount',
         'hr_payroll',
         'hr_expense',
-        'account_account_extended_ccorp'    
+        'account_account_extended_ccorp',
+        'expense_line_partner'
         ],
     'data': [
         'security/security.xml',
@@ -52,8 +53,8 @@
         'account_move_line.xml',
         'hr_expense_view.xml',
         'hr_expense_workflow.xml',
-#        'purchase_view.xml',
-#        'purchase_workflow.xml',
+        'purchase_view.xml',
+        'purchase_workflow.xml',
 #        'sale_view.xml'
         ],
     'license': 'AGPL-3',

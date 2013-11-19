@@ -179,6 +179,19 @@
             <field name="signal">button_cancel</field>
         </record>
         
+        <record id="trans_bud_mov_compromised_canceled" model="workflow.transition">
+            <field name="act_from" ref="act_bud_mov_compromised"/>
+            <field name="act_to" ref="act_bud_mov_canceled"/>
+            <field name="signal">button_cancel</field>
+        </record>
+        
+        <record id="trans_bud_mov_in_execution_canceled" model="workflow.transition">
+            <field name="act_from" ref="act_bud_mov_in_execution"/>
+            <field name="act_to" ref="act_bud_mov_canceled"/>
+            <field name="signal">button_cancel</field>
+        </record>
+        
+        
         <record id="trans_bud_mov_canceled_draft" model="workflow.transition">
             <field name="act_from" ref="act_bud_mov_canceled"/>
             <field name="act_to" ref="act_bud_mov_draft"/>

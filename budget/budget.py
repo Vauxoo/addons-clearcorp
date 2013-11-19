@@ -376,6 +376,7 @@ class budget_program_line(osv.osv):
         'child_parent_ids': fields.one2many('budget.program.line','parent_id','Children'),
         'child_consol_ids': fields.many2many('budget.program.line', 'budget_program_line_consol_rel', 'parent_id' ,'consol_child_id' , 'Consolidated Children'),
         'child_id': fields.function(_get_child_ids, type='many2many', relation="budget.program.line", string="Child Accounts"),
+        #'bud_move_lines': fields.one2many('budget.move.line','program_line_id','Related move lines'),
         #'currency_id':fields.many2one('res.currency', string='Currency', readonly=True)
         }
     
@@ -890,10 +891,12 @@ class budget_move(osv.osv):
     
     def recalculate_values(self, cr, uid, ids, context=None):
         mov_line_obj = self.pool.get('budget.move.line')
-        for move in self.browse(cr ,uid, ids, context=context):
+        for move in self.browse(cr, uid, ids, context=context):
+            move_fixed_total = 0.0
             for line in move.move_lines:
                 mov_line_obj.write(cr, uid, line.id, {'date' : line.date}, context=context)
-            self.write(cr, uid, ids, {'date': move.date}, context=context) 
+                move_fixed_total += line.fixed_amount
+            self.write(cr, uid, ids, {'date': move.date, 'fixed_amount': move_fixed_total}, context=context) 
     
     def _select_types(self,cr,uid,context=None):
         #In case that the move is created from the view "view_budget_move_manual_form", modifies the selectable types
@@ -979,6 +982,7 @@ class budget_move(osv.osv):
         #'purchase_order_ids': fields.one2many('purchase.order', 'budget_move_id', 'Purchase orders' ),
         #'sale_order_ids': fields.one2many('sale.order', 'budget_move_id', 'Purchase orders' ),
         'move_lines': fields.one2many('budget.move.line', 'budget_move_id', 'Move lines' ),
+        'budget_move_line_dist': fields.related('move_lines', 'budget_move_line_dist', type='one2many', relation="account.move.line.distribution", string='Account Move Line Distribution'),
         'type': fields.selection(_select_types, 'Move Type', required=True, readonly=True, states={'draft':[('readonly',False)]}),
     }
     _defaults = {
@@ -997,9 +1001,9 @@ class budget_move(osv.osv):
             if  move.type in ('invoice_out','manual_invoice_out') and move.fixed_amount >= 0:
                 return [False,_('The reserved amount must be negative')]
             if  move.type in ('modifications') and move.fixed_amount != 0:
-                return [False,_('The sum of addition and sustractions from program lines must be zero')]
+                return [False,_('The sum of addition and subtractions from program lines must be zero')]
             
-            #Check if exist a repeat program_line
+            #Check if exist a repeated program_line
             if move.standalone_move == True:                
                 for line in move.move_lines:
                     list_line_ids_repeat.append(line.program_line_id.id)
@@ -1017,7 +1021,7 @@ class budget_move(osv.osv):
                 elif line.type =='modification':
                     if (line.fixed_amount < 0) & (line.program_line_id.available_budget < abs(line.fixed_amount)):
                         return [False, _('The amount to substract from ') + line.program_line_id.name + _(' is greater than the available ')]
-                elif line.type in ('opening','manual_invoice_in', 'expense'):
+                elif line.type in ('opening','manual_invoice_in', 'expense', 'invoice_in'):
                     if line.program_line_id.available_budget < line.fixed_amount:
                         return [False, _('The amount to substract from ') + line.program_line_id.name + _(' is greater than the available ')]
         return [True,'']
@@ -1069,6 +1073,7 @@ class budget_move(osv.osv):
     def action_compromise(self, cr, uid, ids, context=None):
         for move in self.browse(cr, uid,ids, context=context):
             self.write(cr, uid, ids, {'state': 'compromised'})
+            self.recalculate_values(cr, uid, ids, context=context)
             self.write(cr, uid, ids, {'arch_compromised': move.compromised, })
         return True
     
@@ -1092,6 +1097,7 @@ class budget_move(osv.osv):
             
     def action_cancel(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {'state': 'cancel'})
+        self.recalculate_values(cr, uid, ids, context=context)
         return True
     
     def name_get(self, cr, uid, ids, context=None):
@@ -1172,7 +1178,7 @@ class budget_move_line(osv.osv):
             return {'value': {'line_available':line.available_budget},}
         return {'value': {}}
     
-    def _compute(self, cr, uid, ids, field_names, args, context=None):
+    def _compute(self, cr, uid, ids, field_names, args, context=None, ignore_dist_ids=[]):
         amld = self.pool.get('account.move.line.distribution')
         fields = ['compromised', 'executed','reversed', 'reserved']
         res = {}
@@ -1188,13 +1194,17 @@ class budget_move_line(osv.osv):
                 if line.type == 'opening':
                     executed = line.fixed_amount
                     
-                elif line.type in ('manual_invoice_in','expense'):
+                elif line.type in ('manual_invoice_in','expense','invoice_in'):
                     line_ids_bar = amld.search(cr, uid, [('target_budget_move_line_id','=', line.id),('account_move_line_type','=','liquid')], context=context)
                     for bar_line in amld.browse(cr, uid, line_ids_bar, context=context):
+                        if bar_line.id in ignore_dist_ids:
+                            continue
                         executed += bar_line.distribution_amount
             
             void_line_ids_amld = amld.search(cr, uid, [('target_budget_move_line_id','=', line.id),('account_move_line_type','=','void')], context=context)
             for void_line in amld.browse(cr, uid, void_line_ids_amld, context=context):
+                if void_line.id in ignore_dist_ids:
+                    continue
                 reversed += void_line
                         
             if line.state in ('compromised','executed','in_execution'):
@@ -1221,6 +1231,10 @@ class budget_move_line(osv.osv):
 #            res[line.id]= total 
 #        return res
 #    
+
+    def compute(self, cr, uid, ids, field_names, args, context=None, ignore_dist_ids=[]):
+        return self._compute(cr, uid, ids, field_names, args, context, ignore_dist_ids)
+
     def _compute_modified(self, cr, uid, ids, field_name, args, context=None):
         res = {}
         lines = self.browse(cr, uid, ids,context=context) 
@@ -1284,11 +1298,15 @@ class budget_move_line(osv.osv):
         'so_line_id': fields.many2one('sale.order.line', 'Sale order line', ),
         'inv_line_id': fields.many2one('account.invoice.line', 'Invoice line', ),
         'expense_line_id': fields.many2one('hr.expense.line', 'Expense line', ),
+        'tax_line_id': fields.many2one('account.invoice.tax', 'Invoice tax line', ),
         #'payslip_line_id': fields.many2one('hr.payslip.line', 'Payslip line', ),
         'move_line_id': fields.many2one('account.move.line', 'Move line', ),
         'account_move_id': fields.many2one('account.move', 'Account Move', ),
         'type': fields.related('budget_move_id', 'type', type='char', relation='budget.move', string='Type', readonly=True),
-        'state': fields.related('budget_move_id', 'state', type='char', relation='budget.move', string='State',  readonly=True)
+        'state': fields.related('budget_move_id', 'state', type='char', relation='budget.move', string='State',  readonly=True),
+        #=======bugdet move line distributions
+        'budget_move_line_dist': fields.one2many('account.move.line.distribution','target_budget_move_line_id', 'Budget Move Line Distributions'),
+        'type_distribution':fields.related('budget_move_line_dist','type', type="selection", relation="account.move.line.distribution", string="Distribution type")
     }
     _defaults = {
         'date': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
@@ -1302,37 +1320,14 @@ class budget_move_line(osv.osv):
     def write(self, cr, uid, ids, vals, context=None):
         bud_move_obj = self.pool.get('budget.move')
         super(budget_move_line, self).write(cr, uid, ids, vals, context=context)
-#        for line in self.browse(cr, uid, ids, context=context):
-#            move_id =line.budget_move_id.id
-#            bud_move_obj.write(cr,uid, [move_id], {'date':line.budget_move_id.date},context=context)
-        
 
-#class budget_account_reconcile(osv.osv):
-#    _name = "budget.account.reconcile"
-#    _description = "Budget Account Reconcile"
-#    
-#    _columns = {
-#         'budget_move_id': fields.many2one('budget.move', 'Budget Move', required=True, ),       
-#         'budget_move_line_id': fields.many2one('budget.move.line', 'Budget Move Line', required=True, ),
-#         'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', required=True, ),
-#         'account_move_reconcile_id': fields.many2one('account.move.reconcile', 'Account Move Reconcile', required=True, ),
-#         'amount': fields.float('Amount', digits_compute=dp.get_precision('Account'), required=True),
-#    }
-#    
-#    def clean_reconcile_entries(self, cr, uid, move_line_ids, context=None):
-#        lines = []
-#        for move_line_id in move_line_ids:
-#            result = self.search(cr ,uid, [('account_move_line_id','=', move_line_id)], context=context)
-#            lines += result
-#        self.unlink(cr, uid, lines,context=context)
-#        return True
-    
 class account_move_line_distribution(orm.Model):
     _name = "account.move.line.distribution"
     _description = "Account move line distribution"
 
     _columns = {         
-         'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', required=True, ondelete="cascade"),
+         #'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', required=True, ondelete="cascade"),
+         'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', ondelete="cascade"),
          'distribution_percentage': fields.float('Distribution Percentage', required=True, digits_compute=dp.get_precision('Account'),),
          'distribution_amount': fields.float('Distribution Amount', digits_compute=dp.get_precision('Account'), required=True),
          'target_budget_move_line_id': fields.many2one('budget.move.line', 'Target Budget Move Line',),
@@ -1357,8 +1352,62 @@ class account_move_line_distribution(orm.Model):
         else:
             return True
     
+    #======== Distribution amount must be less than compromised amount in budget move line
+    def _check_distribution_amount_budget(self, cr, uid, ids, context=None):
+        
+        
+        for distribution in self.browse(cr,uid,ids,context=context):
+            computes = self.pool.get('budget.move.line').compute(cr, uid, [distribution.target_budget_move_line_id.id], ['compromised'], None, context=context, ignore_dist_ids=[distribution.id])
+            compromised = round(computes[distribution.target_budget_move_line_id.id]['compromised'], self.pool.get('decimal.precision').precision_get(cr, uid, 'Account'))
+            if distribution.distribution_amount > compromised:
+                return False
+            return True  
+    
+    #======== Check distribution percentage. Use distribution_percentage_sum in account.move.line to check 
+    def _check_distribution_percentage(self, cr, uid, ids, context=None):          
+        
+        for distribution in self.browse(cr, uid, ids, context=context):
+            #distribution_percentage_sum compute all the percentages for a specific move line. 
+            line_percentage = distribution.account_move_line_id.distribution_percentage_sum or 0.0
+            line_percentage_remaining = 100 - line_percentage
+            
+            if distribution.distribution_percentage > line_percentage_remaining:
+                return False
+            
+            return True
+        
+    #========= Check distribution percentage. Use distribution_amount_sum in account.move.line to check 
+    def _check_distribution_amount(self, cr, uid, ids, context=None):          
+        amount = 0.0
+        
+        for distribution in self.browse(cr, uid, ids, context=context):
+            #==== distribution_amount_sum compute all the percentages for a specific move line. 
+            x = distribution.account_move_line_id
+            y = distribution.account_move_line_id.id
+            line_amount_dis = distribution.account_move_line_id.distribution_amount_sum or 0.0
+            
+            #=====Find amount for the move_line
+            if distribution.account_move_line_id.credit > 0:
+                amount = distribution.account_move_line_id.credit
+            if distribution.account_move_line_id.debit > 0:
+                amount = distribution.account_move_line_id.debit
+            if distribution.account_move_line_id.credit == 0 and distribution.account_move_line_id.debit == 0:
+                amount = distribution.account_move_line_id.fixed_amount
+            
+            #====Check which is the remaining between the amount line and sum of amount in distributions. 
+            amount_remaining = amount - line_amount_dis
+            
+            if distribution.distribution_amount > amount_remaining:
+                return False            
+            return True
+    
+    #==================================================================================
     _constraints = [
         (_check_target_move_line,'A Distribution Line only has one target. A target can be a move line or a budget move line',['target_budget_move_line_id', 'target_account_move_line_id']),
+        (_check_distribution_amount_budget, 'The distribution amount can not be greater than compromised amount in budget move line selected', ['distribution_amount']),
+        (_check_distribution_percentage, 'The distribution percentage can not be greater than sum of all percentage for the account move line selected', ['account_move_line_id']),    
+        (_check_distribution_amount, 'The distribution amount can not be greater than maximum amount of remaining amount for account move line selected', ['distribution_amount']),    
+
     ]
 
     def clean_reconcile_entries(self, cr, uid, move_line_ids, context=None):
@@ -1368,3 +1417,14 @@ class account_move_line_distribution(orm.Model):
             lines += result
         self.unlink(cr, uid, lines,context=context)
         return True
+
+    def _account_move_lines_mod(self, cr, uid, ids, context=None):
+        list = []
+        for line in self.browse(cr, uid, ids, context=context):
+            list.append(line.account_move_line_id.id)
+        return list
+     
+   
+            
+    
+

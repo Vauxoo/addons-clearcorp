@@ -20,13 +20,27 @@
 #
 ##############################################################################
 
-import account_move
-import budget
-import wizard
-import res_partner
-import account_invoice
-import account
-import hr_expense
-import purchase
-import stock
-#import sale
+{
+    'name': 'Expense line partner',
+    'version': '1.0',
+    'author' : 'CLEARCORP S.A.',
+    'complexity': 'normal',
+    'website': 'http://clearcorp.co.cr',
+    'category': 'Human Resources',
+    'description': """
+Extends hr_expense
+===============================================
+Adds partner field to choose supplier for a given expense line, At the account move line creation, sets 
+the chosen partner for that given line instead of the hr_expense supplier  
+""",
+    'depends': ['hr_expense'],
+    'init_xml': [],
+    'demo_xml': [],
+    'data': [
+             'expense_line_partner_view.xml'],
+    'license': 'AGPL-3',
+    'installable': True,
+    'active': False,
+}
+
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
