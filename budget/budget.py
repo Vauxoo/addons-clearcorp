@@ -1178,7 +1178,7 @@ class budget_move_line(osv.osv):
             return {'value': {'line_available':line.available_budget},}
         return {'value': {}}
     
-    def _compute(self, cr, uid, ids, field_names, args, context=None):
+    def _compute(self, cr, uid, ids, field_names, args, context=None, ignore_dist_ids=[]):
         amld = self.pool.get('account.move.line.distribution')
         fields = ['compromised', 'executed','reversed', 'reserved']
         res = {}
@@ -1197,10 +1197,14 @@ class budget_move_line(osv.osv):
                 elif line.type in ('manual_invoice_in','expense','invoice_in'):
                     line_ids_bar = amld.search(cr, uid, [('target_budget_move_line_id','=', line.id),('account_move_line_type','=','liquid')], context=context)
                     for bar_line in amld.browse(cr, uid, line_ids_bar, context=context):
+                        if bar_line.id in ignore_dist_ids:
+                            continue
                         executed += bar_line.distribution_amount
             
             void_line_ids_amld = amld.search(cr, uid, [('target_budget_move_line_id','=', line.id),('account_move_line_type','=','void')], context=context)
             for void_line in amld.browse(cr, uid, void_line_ids_amld, context=context):
+                if void_line.id in ignore_dist_ids:
+                    continue
                 reversed += void_line
                         
             if line.state in ('compromised','executed','in_execution'):
@@ -1227,6 +1231,10 @@ class budget_move_line(osv.osv):
 #            res[line.id]= total 
 #        return res
 #    
+
+    def compute(self, cr, uid, ids, field_names, args, context=None, ignore_dist_ids=[]):
+        return self._compute(cr, uid, ids, field_names, args, context, ignore_dist_ids)
+
     def _compute_modified(self, cr, uid, ids, field_name, args, context=None):
         res = {}
         lines = self.browse(cr, uid, ids,context=context) 
@@ -1347,8 +1355,11 @@ class account_move_line_distribution(orm.Model):
     #======== Distribution amount must be less than compromised amount in budget move line
     def _check_distribution_amount_budget(self, cr, uid, ids, context=None):
         
+        
         for distribution in self.browse(cr,uid,ids,context=context):
-            if distribution.distribution_amount > distribution.target_budget_move_line_id.compromised:
+            computes = self.pool.get('budget.move.line').compute(cr, uid, [distribution.target_budget_move_line_id.id], ['compromised'], None, context=context, ignore_dist_ids=[distribution.id])
+            compromised = round(computes[distribution.target_budget_move_line_id.id]['compromised'], self.pool.get('decimal.precision').precision_get(cr, uid, 'Account'))
+            if distribution.distribution_amount > compromised:
                 return False
             return True  
     
