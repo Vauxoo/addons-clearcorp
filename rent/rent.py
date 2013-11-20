@@ -1745,7 +1745,8 @@ class rent_invoice_line(osv.osv):
                 vals['invoice_rent_id'] = vals['invoice_rent_id']
             else:
                 vals['invoice_rent_id'] = vals['invoice_rent_id'][0]
-            
+        if 'invoice_type' in vals and vals['invoice_type'] == 'product' and 'invoice_rent_id' in vals and vals['invoice_rent_id']:
+            del vals['invoice_rent_id']
         
             #raise osv.except_osv('Wrong value!', 'The area for the estate has to bee greater than 0')
         return super(rent_invoice_line,self).create(cr,uid,vals,context)
