@@ -7,8 +7,12 @@
             model = "account.invoice"
             name = "account.invoice.layout_ccorp"
             file = "account_invoice_webkit_report/report/account_invoice_report.mako"
-            string = "Account Invoice"
+            string = "Invoices"
             report_type = "webkit"
-            webkit_header = "invoice_header_webkit"/>        
+            webkit_header = "invoice_header_webkit"
+            attachment ="(object.state in ('open','paid')) and ('INV'+(object.number or '').replace('/','')+'.pdf')"        
+            attachment_use ="True"
+            usage="default"
+          />
     </data>            
 </openerp>
