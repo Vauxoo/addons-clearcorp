@@ -20,14 +20,13 @@
 #
 ##############################################################################
 
-import account_move
-import budget
-import wizard
-import res_partner
-import account_invoice
-import account
-import hr_expense
-import purchase
-import stock
-import hr_payroll
-#import sale
+from openerp.osv import fields, osv
+
+class hrSalaryruleInherit(osv.osv):
+    
+    _inherit = 'hr.salary.rule'
+    
+    _columns = {
+        'budget_program_lines': fields.many2one('budget.program.line','Budget Program Line')
+    }
+    
