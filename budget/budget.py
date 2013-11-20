@@ -1306,7 +1306,9 @@ class budget_move_line(osv.osv):
         'state': fields.related('budget_move_id', 'state', type='char', relation='budget.move', string='State',  readonly=True),
         #=======bugdet move line distributions
         'budget_move_line_dist': fields.one2many('account.move.line.distribution','target_budget_move_line_id', 'Budget Move Line Distributions'),
-        'type_distribution':fields.related('budget_move_line_dist','type', type="selection", relation="account.move.line.distribution", string="Distribution type")
+        'type_distribution':fields.related('budget_move_line_dist','type', type="selection", relation="account.move.line.distribution", string="Distribution type"),
+        #=======Payslip lines
+        'payslip_lines': fields.many2one('hr.payslip.line', 'Payslip Lines'),
     }
     _defaults = {
         'date': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
