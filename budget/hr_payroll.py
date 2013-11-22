@@ -27,8 +27,8 @@ class hrSalaryruleInherit(osv.osv):
     _inherit = 'hr.salary.rule'
     
     _columns = {
-        'debit_budget_program_line': fields.many2one('budget.program.line','Debit Budget Program Line' ),
-        'credit_budget_program_line': fields.many2one('budget.program.line','Credit Budget Program Line')
+        'debit_budget_program_line': fields.many2one('budget.program.line','Debit Budget Program Line', ),
+        'credit_budget_program_line': fields.many2one('budget.program.line','Credit Budget Program Line',)
     }
     
 class hr_payslip(osv.osv):
@@ -109,21 +109,21 @@ class hr_payslip(osv.osv):
                             vals['payslip_line_id'] = payslip_line.id
                             vals['move_line_id'] = move_line.id
                             obj_bud_line.create(cr, uid, vals, context=context )
-                            
-                            
-            bud_move_id = obj_bud_mov.write(cr, uid, [bud_move_id], {'fixed_amount':payslip.total}, context=context)
-        ###########################
-        for payslip_line in payslip.line_ids:
-                if payslip_line.salary_rule_id.budget_program_line:
-                    vals={}
-                    payslip_total+=payslip_line.total
-                    vals['fixed_amount'] = payslip_line.total
-                    vals['program_line_id'] = payslip_line.salary_rule_id.budget_program_line
-                    vals['origin'] = payslip_line.name
-                    vals['budget_move_id'] = bud_move_id
-                    vals['payslip_line_id'] = payslip_line.id
-                    obj_bud_line.create(cr, uid, vals, context=context )
-            bud_move_id = obj_bud_mov.write(cr, uid, [bud_move_id], {'fixed_amount':payslip.total}, context=context)
+            obj_bud_mov.write(cr, uid, [bud_move_id], {'fixed_amount':payslip_total}, context=context)
+            obj_bud_mov._workflow_signal(cr, uid, [bud_move_id], 'button_compromise', context=context)
+            obj_bud_mov._workflow_signal(cr, uid, [bud_move_id], 'button_execute', context=context)
+            
+#        ###########################
+#        for payslip_line in payslip.line_ids:
+#                if payslip_line.salary_rule_id.budget_program_line:
+#                    vals={}
+#                    payslip_total+=payslip_line.total
+#                    vals['fixed_amount'] = payslip_line.total
+#                    vals['program_line_id'] = payslip_line.salary_rule_id.budget_program_line
+#                    vals['origin'] = payslip_line.name
+#                    vals['budget_move_id'] = bud_move_id
+#                    vals['payslip_line_id'] = payslip_line.id
+#                    obj_bud_line.create(cr, uid, vals, context=context )
+#        bud_move_id = obj_bud_mov.write(cr, uid, [bud_move_id], {'fixed_amount':payslip.total}, context=context)
         ###
         return result
-            
