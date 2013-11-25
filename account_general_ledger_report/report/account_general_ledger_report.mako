@@ -65,6 +65,7 @@
         %> 
         %for account in account_list_obj:
            <%
+                cumul_balance = cumul_balance_curr = 0.0
                 cumul_balance = account_balance[account.id]['balance'] or 0.0
                 
                 if 'foreign_balance' in account_balance[account.id].keys():
@@ -121,6 +122,7 @@
                                     amount_total_credit += line.credit
                                     
                                     cumul_balance = cumul_balance + line.debit - line.credit      
+                                    
                                     if line.amount_currency:                         
                                         cumul_balance_curr = cumul_balance_curr + line.amount_currency
                                         amount_total_curr += line.amount_currency
