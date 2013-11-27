@@ -108,6 +108,17 @@ class HrContract(osv.osv):
         'duration_days': fields.function(_compute_duration, type="integer", string="Days", multi="sums"),
     }
     
+    def write(self, cr, uid, ids, vals, context={}):
+        salary_rule_obj = self.pool.get('hr.salary.rule')
+        payroll_struct_obj = self.pool.get('hr.payroll.structure')
+        if 'struct_id' in vals:
+            for contract in self.browse(cr, uid, ids, context=context):
+                if contract.hr_salary_rule_ids:
+                    for salary_rule in contract.hr_salary_rule_ids: 
+                        payroll_struct_obj.write(cr, uid, contract.struct_id.id, {'rule_ids': [(3,salary_rule.id)]}, context)
+                        payroll_struct_obj.write(cr, uid, vals['struct_id'], {'rule_ids': [(4,salary_rule.id)]}, context)
+        return super(HrContract, self).write(cr, uid, ids, vals, context)
+    
     def unlink(self, cr, uid, ids, context=None):
         salary_rule_obj = self.pool.get('hr.salary.rule')
         for contract in self.browse(cr, uid, ids, context=context):
