@@ -584,13 +584,14 @@
             						</tree>
             					</field>		
             				</page>
-            				<page string="Budget Move Lines Distribution">
-                                 <field name="budget_move_line_dist" widget="one2many_list" colspan="4" nolabel="1">
+            				<page string="Move line distributions">
+                                 <field name="budget_move_line_dist"  colspan="4" nolabel="1"> <!--widget="one2many_list"-->
                                      <tree string="Distribution Budget Lines" editable="bottom">
-                                         <field name="account_move_line_id" domain="[('budget_move_lines','!=', None), ('distribution_percentage_sum', '&lt;', 100)]" attrs="{'required':'True'}"/>
-                                         <field name="distribution_amount" />
-                                         <field name="distribution_percentage" />
-                                         <field name="target_budget_move_line_id" attrs="{ 'required':'True'}" domain="[('budget_move_id', '=', parent.id)]"/>
+                                         <field name="type" invisible="1"/>
+                                         <field name="account_move_line_id" domain="[('budget_move_lines','!=', None), ('distribution_percentage_sum', '&lt;', 100), ('distribution_percentage_sum', '&gt;',0)]" attrs="{ 'required':'True' , 'readonly':[('type','=','auto')]}"/>
+                                         <field name="distribution_amount" attrs="{ 'readonly':[('type','=','auto')]}"/>
+                                         <field name="distribution_percentage" attrs="{ 'readonly':[('type','=','auto')]}"/>
+                                         <field name="target_budget_move_line_id" attrs="{ 'required':'True' , 'readonly':[('type','=','auto')]}" domain="[('budget_move_id', '=', parent.id)]"/>
                                      </tree>
                                  </field>
                              </page>
@@ -605,6 +606,7 @@
             <field name="res_model">budget.move</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
+            <field name="context">{'distribution_type': 'manual'}</field>
             <field name="help" type="html">
             <field name="view_id" ref="view_budget_move_tree"/>
               <p class="oe_view_nocontent_create">

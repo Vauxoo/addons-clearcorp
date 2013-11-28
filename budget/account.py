@@ -638,55 +638,6 @@ class AccountMoveReconcile(osv.Model):
                     budget_move_obj.recalculate_values(cr, uid, budget_move_ids, context = context)
         return res
     
-#     def on_create_budget_check(self, cr, uid, ids, visited_reconciles,trace_reconciled_ids, passing_through, context=None):
-#         voucher_obj = self.pool.get('account.voucher')
-#         acc_move_obj = self.pool.get('account.move')
-#         voucher_present = False
-#         invoice_present = False
-#         
-#         for reconcile in self.browse(cr, uid, ids, context=context):
-#             local_trace_reconciled_ids = trace_reconciled_ids
-#             local_trace_reconciled_ids.append(reconcile.id)
-#             local_visited_reconciles = visited_reconciles
-#             lines = []
-#             line_ids = []
-#             move_ids = []
-#              
-#             #choosing between partial or total reconcile
-#             if reconcile.line_id:
-#                 lines = reconcile.line_id
-#             elif reconcile.line_partial_ids:
-#                 lines = reconcile.line_partial_ids
-#              
-#             #getting move_line_ids from reconcile lines
-#             reconcile_line_ids =  map(lambda x: x.id, lines)
-#             #getting move_ids from reconcile lines
-#             move_ids = map(lambda x: x.move_id.id, lines)
-#              
-#              
-#             cash_moves = self.split_move_noncash(cr, uid, move_ids, context=context)
-#              
-#             if 'cash' in cash_moves.values():
-#                 for move in acc_move_obj.browse( cr, uid, move_ids, context=context):
-#                     if cash_moves[move.id] == 'cash':                                      #if it moves cash and
-#                         voucher_id = self.move_in_voucher(cr, uid, [move.id], context=context)
-#                         #if voucher_id != -1:                                               #is a voucher
-#                         classified_reconciled_lines = self.split_debit_credit(cr, uid, reconcile_line_ids, context)
-#                         for line in move.line_id:
-#                             reconcile_id = line.reconcile_id or line.reconcile_partial_id
-#                             if line.id in reconcile_line_ids:
-#                                 reconcile_counterpart_ids = self.get_counterparts(cr, uid, line.id, classified_reconciled_lines, context)
-#                                 for counter_id in reconcile_counterpart_ids:
-#                                      move_counter_id = self.line_in_move(cr, uid, [counter_id], context)
-#                                      invoice_id = self.move_in_invoice(cr, uid, [move_counter_id], context=context)
-#                                      if invoice_id != -1:
-#                                          self.create_budget_account_reconcile(cr, uid, invoice_id, line.id, reconcile_id.id, local_trace_reconciled_ids, context=context)
-#                                      else:
-#                                         print ("else if no t in invoice")
-#                                            
-#                           
-#             elif passing_through:
-#                 print ("TODO PASS THROUGH")
 
 
 class Account(osv.Model):

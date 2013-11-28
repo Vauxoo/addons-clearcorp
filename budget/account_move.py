@@ -20,6 +20,7 @@
 #
 ##############################################################################
 from openerp.osv import fields, osv, orm
+from tools.translate import _
 
 class accountMove(orm.Model):
     _inherit = "account.move"
@@ -141,16 +142,21 @@ class AccountMoveLine(osv.Model):
     
     def _sum_distribution_per(self, cr, uid, ids, field_name, args, context=None):
         res = {}       
+        for id in ids:
+            res[id] =0.0
         query = 'SELECT amld.id, SUM(amld.distribution_percentage) AS dis_per FROM '\
         'account_move_line_distribution amld '\
-        'WHERE amld.id =  %s GROUP BY amld.id' % tuple(ids)
-        cr.execute(query)
+        'WHERE amld.id IN %s GROUP BY amld.id'
+        params = (tuple(ids),)
+        cr.execute(query,params)
         for row in cr.dictfetchall():
             res[row['id']] = row['dis_per']        
         return res
     
     def _sum_distribution_amount(self, cr, uid, ids, field_name, args, context=None):
-        res = {}       
+        res = {}
+        for id in ids:
+            res[id] =0.0      
         query = 'SELECT amld.id, SUM(amld.distribution_amount) AS dis_amount FROM '\
         'account_move_line_distribution amld '\
         'WHERE amld.id =  %s GROUP BY amld.id' % tuple(ids)
@@ -167,15 +173,38 @@ class AccountMoveLine(osv.Model):
             list.append(line.account_move_line_id.id)
         return list
     
+    def name_get(self, cr, uid, ids, context=None):
+        if not ids:
+            return []
+        result = []
+        for line in self.browse(cr, uid, ids, context=context):
+            new_line = ""
+            deb=""
+            cred = ""
+            am_curr = ""
+            
+            if line.debit:
+                deb= _( "D:") + str(round(line.debit, self.pool.get('decimal.precision').precision_get(cr, uid, 'Account')))
+            if line.credit:
+                cred= _( "C:") + str(round(line.credit, self.pool.get('decimal.precision').precision_get(cr, uid, 'Account')))
+            if line.amount_currency:
+                am_curr= _( "AC:") + str(round(line.amount_currency, self.pool.get('decimal.precision').precision_get(cr, uid, 'Account')))
+                
+            if line.ref:
+                result.append((line.id, (line.move_id.name or '')+' ('+line.ref+')'+" "+ deb +" "+ cred +" "+ am_curr))
+            else:
+                result.append((line.id, line.move_id.name +" "+ deb +" "+ cred +" "+ am_curr))
+        return result
+    
     _columns = {
         #=======Budget Move Line
         'budget_move_lines': fields.one2many('budget.move.line','move_line_id', 'Budget Move Lines'),
         
         #=======Percentage y amount distribution
         'distribution_percentage_sum': fields.function(_sum_distribution_per, type="float", method=True, string="Distributed percentage",
-                                                   store={'account.move.line.distribution': (_account_move_lines_mod, ['distribution_percentage'], 10)}),        
+                                                   store={'account.move.line.distribution': (_account_move_lines_mod, ['distribution_amount','distribution_percentage'], 10)}),        
         'distribution_amount_sum': fields.function(_sum_distribution_amount, type="float", method=True, string="Distributed amount",
-                                                   store={'account.move.line.distribution': (_account_move_lines_mod, ['distribution_amount'], 10)}),        
+                                                   store={'account.move.line.distribution': (_account_move_lines_mod, ['distribution_amount','distribution_percentage'], 10)}),        
         
         #=======account move line distributions
         'account_move_line_dist': fields.one2many('account.move.line.distribution','account_move_line_id', 'Account Move Line Distributions'),

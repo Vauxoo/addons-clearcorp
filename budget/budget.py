@@ -996,7 +996,9 @@ class budget_move(osv.osv):
         list_line_ids_repeat = []
         
         for move in self.browse(cr, uid, ids, context=context):
-            if  move.type in ('invoice_in','manual_invoice_in','expense','payroll','manual', 'opening','extension') and move.fixed_amount <= 0:
+            if  move.type in ('invoice_in','manual_invoice_in','expense','manual', 'opening','extension') and move.fixed_amount <= 0:
+                return [False,_('The reserved amount must be positive')]
+            if  move.type in ('payroll') and move.fixed_amount < 0:
                 return [False,_('The reserved amount must be positive')]
             if  move.type in ('invoice_out','manual_invoice_out') and move.fixed_amount >= 0:
                 return [False,_('The reserved amount must be negative')]
@@ -1222,7 +1224,7 @@ class budget_move_line(osv.osv):
     
 #    
 #    def _compute_reserved(self, cr, uid, ids, field_name, args, context=None):
-#        res = {}
+#        res = {}distribution_percentage_sum
 #        lines = self.browse(cr, uid, ids,context=context) 
 #        for line in lines:
 #            total = 0.0
@@ -1426,7 +1428,14 @@ class account_move_line_distribution(orm.Model):
             list.append(line.account_move_line_id.id)
         return list
      
-   
+    def create(self, cr, uid, vals, context=None):
+        if context:
+            dist_type = context.get('distribution_type','auto')
+        else:
+            dist_type = 'auto'
+        vals['type'] = dist_type
+        res = super(account_move_line_distribution, self).create(cr, uid, vals, context)
+        return res
             
     
 
