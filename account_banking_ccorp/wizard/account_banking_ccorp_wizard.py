@@ -196,7 +196,6 @@ class bankImportWizard(osv.TransientModel):
         if hasattr(parser, 'country_code'):
             bank_country_code = parser.country_code
         # Caching
-        #error_accounts = {} REVISAR ELIMINAR
         info = {}
         imported_statement_ids = []
         transaction_ids = []
@@ -325,49 +324,7 @@ class bankImportWizard(osv.TransientModel):
             
         #recompute statement end_balance for validation
         statement_obj.button_dummy(cr, uid, imported_statement_ids, context=context)
-
-            # Original code. Didn't take workflow logistics into account...
-            #
-            #cursor.execute(
-            #    "UPDATE payment_order o "
-            #    "SET state = 'done', "
-            #        "date_done = '%s' "
-            #    "FROM payment_line l "
-            #    "WHERE o.state = 'sent' "
-            #      "AND o.id = l.order_id "
-            #      "AND l.id NOT IN ("
-            #        "SELECT DISTINCT id FROM payment_line "
-            #        "WHERE date_done IS NULL "
-            #          "AND id IN (%s)"
-            #       ")" % (
-            #           time.strftime('%Y-%m-%d'),
-            #           ','.join([str(x) for x in payment_line_ids])
-            #       )
-            #)
-        #REVISAR eliminar comentado
-        '''report = [
-            '%s: %s' % (_('Total number of statements'),
-                        results.stat_skipped_cnt + results.stat_loaded_cnt),
-            '%s: %s' % (_('Total number of transactions'),
-                        results.trans_skipped_cnt + results.trans_loaded_cnt),
-            '%s: %s' % (_('Number of errors found'),
-                        results.error_cnt),
-            '%s: %s' % (_('Number of statements skipped due to errors'),
-                        results.stat_skipped_cnt),
-            '%s: %s' % (_('Number of transactions skipped due to errors'),
-                        results.trans_skipped_cnt),
-            '%s: %s' % (_('Number of statements loaded'),
-                        results.stat_loaded_cnt),
-            '%s: %s' % (_('Number of transactions loaded'),
-                        results.trans_loaded_cnt),
-            '%s: %s' % (_('Number of transactions matched'),
-                        results.trans_matched_cnt),
-            '%s: %s' % (_('Number of bank costs invoices created'),
-                        results.bank_costs_invoice_cnt),
-            '',
-            '%s:' % ('Error report'),
-            '',
-        ]'''
+        
         # Update Imported File
         state = 'ready'
         statement_file_obj.write(cr, uid, import_id, dict(state = state), context)
