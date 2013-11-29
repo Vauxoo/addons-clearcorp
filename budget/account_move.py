@@ -35,6 +35,42 @@ class accountMove(orm.Model):
         'budget_type': fields.selection(OPTIONS, 'budget_type', readonly=True),
     }
     
+    def check_moves_budget(self, cr, uid, ids, context=None):
+        moves = self.browse(cr, uid, ids, context=context)
+        res = False
+        for move in moves:
+            for move_line in move.line_id:
+                if move_line.program_line_id:
+                    return True
+        return res
+    
+    def create_budget_moves(self, cr, uid, ids, context=None):
+        bud_mov_obj = self.pool.get('budget.move')
+        bud_line_obj = self.pool.get('budget.move.line')
+        acc_mov_obj = self.pool.get('account.move')
+        moves = self.browse(cr, uid, ids, context=context)
+        created_move_ids =[] 
+        for move in moves:
+            bud_move_id = bud_move_obj.create(cr, uid, { 'type':'manual' ,'origin':move.name}, context=context)
+            acc_mov_obj.write(cr, uid, [move.id], {'budget_type': 'budget'}, context=context)
+            created_move_ids.append(bud_move_id)
+            for move_line in move.line_id:
+                if move_line.program_line_id:
+                    amount = 0.0
+                    if move_line.credit > 0.0:
+                        amount = move_line.credit *-1
+                    if move_line.debit > 0.0:
+                        amount = move_line.debit
+                    new_line_id=bud_line_obj.create(cr, uid, {'budget_move_id': bud_move_id,
+                                         'origin' : line.name,
+                                         'program_line_id': move_line.program_line_id, 
+                                         'fixed_amount': amount,
+                                         'move_line_id': move_line.id,
+                                          }, context=context)
+            bud_move_obj._workflow_signal(cr, uid, [bud_move_id], 'button_execute', context=context)
+            bud_move_obj.recalculate_values(cr, uid, [bud_move_id], context=context)
+ 
+    
     def post(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
@@ -46,6 +82,7 @@ class accountMove(orm.Model):
 
         obj_sequence = self.pool.get('ir.sequence')
         
+        self.create_budget_moves(cr, uid, ids, context=context)
         #=============================================================================#
         check_lines = []
         next_step = False
@@ -117,6 +154,7 @@ class accountMove(orm.Model):
                            'SET state=%s '\
                            'WHERE id IN %s',
                            ('posted', tuple(valid_moves),))
+                
         return True
 
 
