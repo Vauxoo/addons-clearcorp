@@ -996,7 +996,7 @@ class budget_move(osv.osv):
         list_line_ids_repeat = []
         
         for move in self.browse(cr, uid, ids, context=context):
-            if  move.type in ('invoice_in','manual_invoice_in','expense','manual', 'opening','extension') and move.fixed_amount <= 0:
+            if  move.type in ('invoice_in','manual_invoice_in','expense', 'opening','extension') and move.fixed_amount <= 0:
                 return [False,_('The reserved amount must be positive')]
             if  move.type in ('payroll') and move.fixed_amount < 0:
                 return [False,_('The reserved amount must be positive')]

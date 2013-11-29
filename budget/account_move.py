@@ -40,7 +40,7 @@ class accountMove(orm.Model):
         res = False
         for move in moves:
             for move_line in move.line_id:
-                if move_line.program_line_id:
+                if move_line.budget_program_line:
                     return True
         return res
     
@@ -51,24 +51,25 @@ class accountMove(orm.Model):
         moves = self.browse(cr, uid, ids, context=context)
         created_move_ids =[] 
         for move in moves:
-            bud_move_id = bud_move_obj.create(cr, uid, { 'type':'manual' ,'origin':move.name}, context=context)
-            acc_mov_obj.write(cr, uid, [move.id], {'budget_type': 'budget'}, context=context)
-            created_move_ids.append(bud_move_id)
-            for move_line in move.line_id:
-                if move_line.program_line_id:
-                    amount = 0.0
-                    if move_line.credit > 0.0:
-                        amount = move_line.credit *-1
-                    if move_line.debit > 0.0:
-                        amount = move_line.debit
-                    new_line_id=bud_line_obj.create(cr, uid, {'budget_move_id': bud_move_id,
-                                         'origin' : line.name,
-                                         'program_line_id': move_line.program_line_id, 
-                                         'fixed_amount': amount,
-                                         'move_line_id': move_line.id,
-                                          }, context=context)
-            bud_move_obj._workflow_signal(cr, uid, [bud_move_id], 'button_execute', context=context)
-            bud_move_obj.recalculate_values(cr, uid, [bud_move_id], context=context)
+            if self.check_moves_budget(cr, uid, [move.id], context=context):
+                bud_move_id = bud_mov_obj.create(cr, uid, { 'type':'manual' ,'origin':move.name}, context=context)
+                acc_mov_obj.write(cr, uid, [move.id], {'budget_type': 'budget'}, context=context)
+                created_move_ids.append(bud_move_id)
+                for move_line in move.line_id:
+                    if move_line.budget_program_line:
+                        amount = 0.0
+                        if move_line.credit > 0.0:
+                            amount = move_line.credit *-1
+                        if move_line.debit > 0.0:
+                            amount = move_line.debit
+                        new_line_id=bud_line_obj.create(cr, uid, {'budget_move_id': bud_move_id,
+                                             'origin' : move_line.name,
+                                             'program_line_id': move_line.budget_program_line.id, 
+                                             'fixed_amount': amount,
+                                             'move_line_id': move_line.id,
+                                              }, context=context)
+                bud_mov_obj._workflow_signal(cr, uid, [bud_move_id], 'button_execute', context=context)
+                bud_mov_obj.recalculate_values(cr, uid, [bud_move_id], context=context)
  
     
     def post(self, cr, uid, ids, context=None):
@@ -79,7 +80,7 @@ class accountMove(orm.Model):
 
         if not valid_moves:
             raise osv.except_osv(_('Error!'), _('You cannot validate a non-balanced entry.\nMake sure you have configured payment terms properly.\nThe latest payment term line should be of the "Balance" type.'))
-
+        
         obj_sequence = self.pool.get('ir.sequence')
         
         self.create_budget_moves(cr, uid, ids, context=context)

@@ -193,7 +193,6 @@ class AccountMoveReconcile(osv.Model):
                                          })
             bud_move_line_obj.write(cr, uid, [line.id],{'date': line.date}, context=context)
         bud_move_obj.write(cr, uid , [bud_move.id], {'code': bud_move.code}, context=context)
-        
     
     def _get_move_counterparts(self, cr, uid, line, context={}):
         is_debit = True if line.debit else False
