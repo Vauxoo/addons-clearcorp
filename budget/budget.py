@@ -996,7 +996,9 @@ class budget_move(osv.osv):
         list_line_ids_repeat = []
         
         for move in self.browse(cr, uid, ids, context=context):
-            if  move.type in ('invoice_in','manual_invoice_in','expense','payroll','manual', 'opening','extension') and move.fixed_amount <= 0:
+            if  move.type in ('invoice_in','manual_invoice_in','expense', 'opening','extension') and move.fixed_amount <= 0:
+                return [False,_('The reserved amount must be positive')]
+            if  move.type in ('payroll') and move.fixed_amount < 0:
                 return [False,_('The reserved amount must be positive')]
             if  move.type in ('invoice_out','manual_invoice_out') and move.fixed_amount >= 0:
                 return [False,_('The reserved amount must be negative')]
@@ -1021,7 +1023,7 @@ class budget_move(osv.osv):
                 elif line.type =='modification':
                     if (line.fixed_amount < 0) & (line.program_line_id.available_budget < abs(line.fixed_amount)):
                         return [False, _('The amount to substract from ') + line.program_line_id.name + _(' is greater than the available ')]
-                elif line.type in ('opening','manual_invoice_in', 'expense', 'invoice_in'):
+                elif line.type in ('opening','manual_invoice_in', 'expense', 'invoice_in', 'manual'):
                     if line.program_line_id.available_budget < line.fixed_amount:
                         return [False, _('The amount to substract from ') + line.program_line_id.name + _(' is greater than the available ')]
         return [True,'']
@@ -1120,7 +1122,7 @@ class budget_move(osv.osv):
             if move.type in ('opening','extension','modification'):
                 if move.state == 'in_execution':
                     return True
-            if move.type in ('manual_invoice_in','expense','invoice_in', 'payroll'):
+            if move.type in ('manual_invoice_in','expense','invoice_in', 'payroll', 'manual'):
                 distr_line_ids = []
                 for line in move.move_lines:
                     distr_line_ids += dist_obj.search(cr, uid,[('target_budget_move_line_id','=',line.id)])
@@ -1145,7 +1147,7 @@ class budget_move(osv.osv):
         for move in self.browse(cr, uid, ids,):
             if move.type in ('opening','extension','modification'):
                     return False
-            if move.type in ('manual_invoice_in','expense','invoice_in', 'payroll'):
+            if move.type in ('manual_invoice_in','expense','invoice_in', 'payroll', 'manual'):
                 distr_line_ids = []
                 for line in move.move_lines:
                     distr_line_ids += dist_obj.search(cr, uid,[('target_budget_move_line_id','=',line.id)])
@@ -1194,7 +1196,7 @@ class budget_move_line(osv.osv):
                 if line.type == 'opening':
                     executed = line.fixed_amount
                     
-                elif line.type in ('manual_invoice_in','expense','invoice_in','payroll'):
+                elif line.type in ('manual_invoice_in','expense','invoice_in','payroll','manual'):
                     line_ids_bar = amld.search(cr, uid, [('target_budget_move_line_id','=', line.id),('account_move_line_type','=','liquid')], context=context)
                     for bar_line in amld.browse(cr, uid, line_ids_bar, context=context):
                         if bar_line.id in ignore_dist_ids:
@@ -1222,7 +1224,7 @@ class budget_move_line(osv.osv):
     
 #    
 #    def _compute_reserved(self, cr, uid, ids, field_name, args, context=None):
-#        res = {}
+#        res = {}distribution_percentage_sum
 #        lines = self.browse(cr, uid, ids,context=context) 
 #        for line in lines:
 #            total = 0.0
@@ -1425,8 +1427,16 @@ class account_move_line_distribution(orm.Model):
         for line in self.browse(cr, uid, ids, context=context):
             list.append(line.account_move_line_id.id)
         return list
-     
-   
+        
+    def create(self, cr, uid, vals, context=None):
+        if context:
+            dist_type = context.get('distribution_type','auto')
+        else:
+            dist_type = 'auto'
+        vals['type'] = dist_type
+        res = super(account_move_line_distribution, self).create(cr, uid, vals, context)
+        return res   
+
             
     
 

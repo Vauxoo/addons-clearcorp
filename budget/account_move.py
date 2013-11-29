@@ -20,6 +20,7 @@
 #
 ##############################################################################
 from openerp.osv import fields, osv, orm
+from tools.translate import _
 
 class accountMove(orm.Model):
     _inherit = "account.move"
@@ -34,6 +35,43 @@ class accountMove(orm.Model):
         'budget_type': fields.selection(OPTIONS, 'budget_type', readonly=True),
     }
     
+    def check_moves_budget(self, cr, uid, ids, context=None):
+        moves = self.browse(cr, uid, ids, context=context)
+        res = False
+        for move in moves:
+            for move_line in move.line_id:
+                if move_line.budget_program_line:
+                    return True
+        return res
+    
+    def create_budget_moves(self, cr, uid, ids, context=None):
+        bud_mov_obj = self.pool.get('budget.move')
+        bud_line_obj = self.pool.get('budget.move.line')
+        acc_mov_obj = self.pool.get('account.move')
+        moves = self.browse(cr, uid, ids, context=context)
+        created_move_ids =[] 
+        for move in moves:
+            if self.check_moves_budget(cr, uid, [move.id], context=context):
+                bud_move_id = bud_mov_obj.create(cr, uid, { 'type':'manual' ,'origin':move.name}, context=context)
+                acc_mov_obj.write(cr, uid, [move.id], {'budget_type': 'budget'}, context=context)
+                created_move_ids.append(bud_move_id)
+                for move_line in move.line_id:
+                    if move_line.budget_program_line:
+                        amount = 0.0
+                        if move_line.credit > 0.0:
+                            amount = move_line.credit *-1
+                        if move_line.debit > 0.0:
+                            amount = move_line.debit
+                        new_line_id=bud_line_obj.create(cr, uid, {'budget_move_id': bud_move_id,
+                                             'origin' : move_line.name,
+                                             'program_line_id': move_line.budget_program_line.id, 
+                                             'fixed_amount': amount,
+                                             'move_line_id': move_line.id,
+                                              }, context=context)
+                bud_mov_obj._workflow_signal(cr, uid, [bud_move_id], 'button_execute', context=context)
+                bud_mov_obj.recalculate_values(cr, uid, [bud_move_id], context=context)
+ 
+    
     def post(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
@@ -42,9 +80,10 @@ class accountMove(orm.Model):
 
         if not valid_moves:
             raise osv.except_osv(_('Error!'), _('You cannot validate a non-balanced entry.\nMake sure you have configured payment terms properly.\nThe latest payment term line should be of the "Balance" type.'))
-
+        
         obj_sequence = self.pool.get('ir.sequence')
         
+        self.create_budget_moves(cr, uid, ids, context=context)
         #=============================================================================#
         check_lines = []
         next_step = False
@@ -116,6 +155,7 @@ class accountMove(orm.Model):
                            'SET state=%s '\
                            'WHERE id IN %s',
                            ('posted', tuple(valid_moves),))
+                
         return True
 
 
@@ -141,16 +181,21 @@ class AccountMoveLine(osv.Model):
     
     def _sum_distribution_per(self, cr, uid, ids, field_name, args, context=None):
         res = {}       
+        for id in ids:
+            res[id] =0.0
         query = 'SELECT amld.id, SUM(amld.distribution_percentage) AS dis_per FROM '\
         'account_move_line_distribution amld '\
-        'WHERE amld.id =  %s GROUP BY amld.id' % tuple(ids)
-        cr.execute(query)
+        'WHERE amld.id IN %s GROUP BY amld.id'
+        params = (tuple(ids),)
+        cr.execute(query,params)
         for row in cr.dictfetchall():
             res[row['id']] = row['dis_per']        
         return res
     
     def _sum_distribution_amount(self, cr, uid, ids, field_name, args, context=None):
-        res = {}       
+        res = {}
+        for id in ids:
+            res[id] =0.0      
         query = 'SELECT amld.id, SUM(amld.distribution_amount) AS dis_amount FROM '\
         'account_move_line_distribution amld '\
         'WHERE amld.id =  %s GROUP BY amld.id' % tuple(ids)
@@ -167,19 +212,45 @@ class AccountMoveLine(osv.Model):
             list.append(line.account_move_line_id.id)
         return list
     
+    def name_get(self, cr, uid, ids, context=None):
+        if not ids:
+            return []
+        result = []
+        for line in self.browse(cr, uid, ids, context=context):
+            new_line = ""
+            deb=""
+            cred = ""
+            am_curr = ""
+            
+            if line.debit:
+                deb= _( "D:") + str(round(line.debit, self.pool.get('decimal.precision').precision_get(cr, uid, 'Account')))
+            if line.credit:
+                cred= _( "C:") + str(round(line.credit, self.pool.get('decimal.precision').precision_get(cr, uid, 'Account')))
+            if line.amount_currency:
+                am_curr= _( "AC:") + str(round(line.amount_currency, self.pool.get('decimal.precision').precision_get(cr, uid, 'Account')))
+                
+            if line.ref:
+                result.append((line.id, (line.move_id.name or '')+' ('+line.ref+')'+" "+ deb +" "+ cred +" "+ am_curr))
+            else:
+                result.append((line.id, line.move_id.name +" "+ deb +" "+ cred +" "+ am_curr))
+        return result
+    
     _columns = {
         #=======Budget Move Line
         'budget_move_lines': fields.one2many('budget.move.line','move_line_id', 'Budget Move Lines'),
         
         #=======Percentage y amount distribution
         'distribution_percentage_sum': fields.function(_sum_distribution_per, type="float", method=True, string="Distributed percentage",
-                                                   store={'account.move.line.distribution': (_account_move_lines_mod, ['distribution_percentage'], 10)}),        
+                                                   store={'account.move.line.distribution': (_account_move_lines_mod, ['distribution_amount','distribution_percentage'], 10)}),        
         'distribution_amount_sum': fields.function(_sum_distribution_amount, type="float", method=True, string="Distributed amount",
-                                                   store={'account.move.line.distribution': (_account_move_lines_mod, ['distribution_amount'], 10)}),        
+                                                   store={'account.move.line.distribution': (_account_move_lines_mod, ['distribution_amount','distribution_percentage'], 10)}),        
         
         #=======account move line distributions
         'account_move_line_dist': fields.one2many('account.move.line.distribution','account_move_line_id', 'Account Move Line Distributions'),
-        'type_distribution':fields.related('account_move_line_dist','type', type="selection", relation="account.move.line.distribution", string="Distribution type")
+        'type_distribution':fields.related('account_move_line_dist','type', type="selection", relation="account.move.line.distribution", string="Distribution type"),
+        
+        #======budget program line
+        'budget_program_line': fields.many2one('budget.program.line', 'Budget Program Line'),
     }
     
     _defaults = {

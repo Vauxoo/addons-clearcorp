@@ -61,35 +61,46 @@ class hr_payslip(osv.osv):
                 move_line_account_id = move_line.account_id.id
                 if move_line_debit + move_line_credit == 0.0:
                     continue
-                    
+                
+                if move_line.debit:
+                    is_debit = True
+                else:
+                    is_debit = False
+
                 for payslip_line in payslip.line_ids:
-                        is_debit =False
+                        if is_debit:
+                            payslip_line_debit_account_id = payslip_line.salary_rule_id.account_debit.id
+                            payslip_line_credit_account_id = None
+                            if not payslip_line.salary_rule_id.debit_budget_program_line:
+                                continue
+                            payslip_line_debit_budget_program_id = payslip_line.salary_rule_id.debit_budget_program_line.id
+                            payslip_line_credit_budget_program_id = None
+                        else:
+                            payslip_line_debit_account_id = None
+                            payslip_line_credit_account_id = payslip_line.salary_rule_id.account_credit.id
+                            if not payslip_line.salary_rule_id.credit_budget_program_line:
+                                continue
+                            payslip_line_debit_budget_program_id = None
+                            payslip_line_credit_budget_program_id = payslip_line.salary_rule_id.credit_budget_program_line.id
+
                         payslip_line_amount = payslip_line.total
                         payslip_line_name = payslip_line.name
                         
-                        if payslip_line_amount == move_line_debit:
-                            is_debit =True
-                        if payslip_line_amount == move_line_credit:
-                            is_debit =False
-                        else:
-                            continue
+
+                        print payslip_line_amount
+                        print move_line_debit
+                        print move_line_credit
                         
                         if move_line_name != payslip_line_name :
                             continue
                              
-                        payslip_line_credit_account_id = payslip_line.salary_rule_id.account_credit.id
-                        payslip_line_credit_budget_program_id = payslip_line.salary_rule_id.credit_budget_program_line.id
-                        
-                        payslip_line_debit_account_id = payslip_line.salary_rule_id.account_debit.id
-                        payslip_line_debit_budget_program_id = payslip_line.salary_rule_id.debit_budget_program_line.id
                          
-                        
                         if not is_debit and\
                          payslip_line_credit_account_id == move_line_account_id and\
                          payslip_line_credit_budget_program_id:
                             vals={}
                             payslip_total+= move_line_credit
-                            vals['fixed_amount'] = move_line_credit
+                            vals['fixed_amount'] = move_line_credit * -1
                             vals['program_line_id'] = payslip_line_credit_budget_program_id
                             vals['origin'] = payslip_line.name
                             vals['budget_move_id'] = bud_move_id
@@ -101,8 +112,8 @@ class hr_payslip(osv.osv):
                          payslip_line_debit_account_id == move_line_account_id and\
                          payslip_line_debit_budget_program_id:
                             vals={}
-                            payslip_total+= abs(move_line_debit)* -1
-                            vals['fixed_amount'] = move_line_credit
+                            payslip_total+= move_line_debit
+                            vals['fixed_amount'] = move_line_debit
                             vals['program_line_id'] = payslip_line_debit_budget_program_id
                             vals['origin'] = payslip_line.name
                             vals['budget_move_id'] = bud_move_id
@@ -112,6 +123,7 @@ class hr_payslip(osv.osv):
             obj_bud_mov.write(cr, uid, [bud_move_id], {'fixed_amount':payslip_total}, context=context)
             obj_bud_mov._workflow_signal(cr, uid, [bud_move_id], 'button_compromise', context=context)
             obj_bud_mov._workflow_signal(cr, uid, [bud_move_id], 'button_execute', context=context)
+
             
 #        ###########################
 #        for payslip_line in payslip.line_ids:
