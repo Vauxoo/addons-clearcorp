@@ -58,7 +58,7 @@ msgstr "<field name=\"view_id\" ref=\"view_budget_move_tree\"/>\n"
 #: code:addons/budget/budget.py:1004
 #, python-format
 msgid "The sum of addition and subtractions from program lines must be zero"
-msgstr "The sum of addition and subtractions from program lines must be zero"
+msgstr "La suma de las adiciones y sustracciones de las lineas de programa debe ser cero"
 
 #. module: budget
 #: code:addons/budget/purchase.py:39
@@ -607,7 +607,7 @@ msgstr "Hijos consolidados"
 #. module: budget
 #: view:purchase.order:0
 msgid "Set to review"
-msgstr "Set to review"
+msgstr "Poner en revisión"
 
 #. module: budget
 #: field:budget.account,allows_reduction:0
@@ -658,7 +658,7 @@ msgstr "Para cerrar"
 #: code:addons/budget/purchase.py:34
 #, python-format
 msgid "Draft Bill"
-msgstr "Draft Bill"
+msgstr "Cartel en borrador"
 
 #. module: budget
 #: field:budget.program.line,sponsor_id:0
@@ -691,7 +691,7 @@ msgstr "Vista Presupuestaria"
 #: code:addons/budget/purchase.py:47
 #, python-format
 msgid "Anulled"
-msgstr "Anulled"
+msgstr "Anulado"
 
 #. module: budget
 #: field:budget.program,previous_program_id:0
@@ -1138,7 +1138,7 @@ msgstr "Permitir reembolso"
 #: code:addons/budget/purchase.py:38
 #, python-format
 msgid "Deserted"
-msgstr "Deserted"
+msgstr "Desierto"
 
 #. module: budget
 #: model:ir.model,name:budget.model_account_move_line
@@ -1413,7 +1413,7 @@ msgstr " Cuenta Presupuestaria "
 #. module: budget
 #: view:purchase.order:0
 msgid "Mark as Done"
-msgstr "Mark as Done"
+msgstr "Marcar como realizado"
 
 #. module: budget
 #: code:addons/budget/budget.py:823
@@ -1487,8 +1487,8 @@ msgid "Error!\n"
 " There is a tax defined for this product, its account or the account of the product category. \n"
 " The tax must be included in the price of the expense product."
 msgstr "Error!\n"
-" There is a tax defined for this product, its account or the account of the product category. \n"
-" The tax must be included in the price of the expense product."
+" Hay un impuesto definido para este producto, su cuenta O la cuenta de la categoría del producto. \n"
+" El impuesto debe estar incluido en el precio del producto del gasto."
 
 #. module: budget
 #: field:budget.account,parent_right:0
@@ -1589,7 +1589,7 @@ msgstr "Líneas analíticas"
 #. module: budget
 #: view:purchase.order:0
 msgid "Mark as Deserted"
-msgstr "Mark as Deserted"
+msgstr "Marcar como desierto"
 
 #. module: budget
 #: view:budget.plan:0
@@ -1626,17 +1626,17 @@ msgstr "El nombre debe ser único para este presupuesto!"
 #. module: budget
 #: field:budget.move.line,tax_line_id:0
 msgid "Invoice tax line"
-msgstr "Invoice tax line"
+msgstr "Linea de impuesto de factura"
 
 #. module: budget
 #: view:purchase.order:0
 msgid "Grant bill"
-msgstr "Grant bill"
+msgstr "Adjudicar Cartel"
 
 #. module: budget
 #: field:account.move.line,budget_move_lines:0
 msgid "Budget Move Lines"
-msgstr "Budget Move Lines"
+msgstr "Lineas de movimiento presupuestario"
 
 #. module: budget
 #: code:addons/budget/purchase.py:118
@@ -1741,7 +1741,7 @@ msgstr "<p class=\"oe_view_nocontent_create\">\n"
 #. module: budget
 #: constraint:account.move.line.distribution:0
 msgid "The distribution amount can not be greater than maximum amount of remaining amount for account move line selected"
-msgstr "The distribution amount can not be greater than maximum amount of remaining amount for account move line selected"
+msgstr "El monto de la distribución no puede ser mayor al restante de la linea de asiento"
 
 #. module: budget
 #: code:addons/budget/budget.py:832
@@ -1771,7 +1771,7 @@ msgstr "Lista de líneas de programa"
 #: code:addons/budget/purchase.py:40
 #, python-format
 msgid "Ineffectual"
-msgstr "Ineffectual"
+msgstr "Insubsistente"
 
 #. module: budget
 #: view:budget.move:0
@@ -1788,7 +1788,7 @@ msgstr "Archivo"
 #: code:addons/budget/purchase.py:45
 #, python-format
 msgid "Final Approval"
-msgstr "Final Approval"
+msgstr "Aprobación final"
 
 #. module: budget
 #: view:budget.period:0
