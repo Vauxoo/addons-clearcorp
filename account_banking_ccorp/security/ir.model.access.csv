@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_user_imported_file,account.banking.ccorp.imported.file,model_account_banking_ccorp_imported_file,account.group_account_user,1,1,1,1
+access_account_user_import_transaction,account.banking.ccorp.bank.import.transaction,model_account_banking_ccorp_bank_import_transaction,account.group_account_user,1,1,1,1
