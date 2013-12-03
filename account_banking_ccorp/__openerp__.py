@@ -33,6 +33,7 @@
                 'base_iban',
                 ],
     'data': [
+             'security/ir.model.access.csv',
              'view/account_banking_ccorp_view.xml',
              'wizard/account_banking_ccorp_wizard_view.xml',
              ],
