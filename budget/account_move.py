@@ -31,7 +31,8 @@ class accountMove(orm.Model):
     ]
     
     _columns = {
-        'budget_move_line_ids':  fields.one2many('budget.move.line', 'account_move_id', 'Budget move lines'),
+        #'budget_move_line_ids':  fields.one2many('budget.move.line', 'account_move_id', 'Budget move lines'),
+        'budget_move_id': fields.many2one('budget.move', 'Budget move'),
         'budget_type': fields.selection(OPTIONS, 'budget_type', readonly=True),
     }
     
@@ -53,7 +54,7 @@ class accountMove(orm.Model):
         for move in moves:
             if self.check_moves_budget(cr, uid, [move.id], context=context):
                 bud_move_id = bud_mov_obj.create(cr, uid, { 'type':'manual' ,'origin':move.name}, context=context)
-                acc_mov_obj.write(cr, uid, [move.id], {'budget_type': 'budget'}, context=context)
+                acc_mov_obj.write(cr, uid, [move.id], {'budget_type': 'budget', 'budget_move_id':bud_move_id}, context=context)
                 created_move_ids.append(bud_move_id)
                 for move_line in move.line_id:
                     if move_line.budget_program_line:
@@ -71,7 +72,6 @@ class accountMove(orm.Model):
                 bud_mov_obj._workflow_signal(cr, uid, [bud_move_id], 'button_execute', context=context)
                 bud_mov_obj.recalculate_values(cr, uid, [bud_move_id], context=context)
  
-    
     def post(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
@@ -158,6 +158,19 @@ class accountMove(orm.Model):
                 
         return True
 
+    def button_cancel(self, cr, uid, ids, context=None):
+        amld_obj=self.pool.get('account.move.line.distribution')
+        bud_mov_obj=self.pool.get('budget.move')
+        for acc_move in self.browse(cr, uid, ids, context=context):
+            bud_move_id = acc_move.budget_move_id.id
+            if bud_move_id:
+                bud_mov_obj._workflow_signal(cr, uid, [bud_move_id], 'button_cancel', context=context)
+                bud_mov_obj._workflow_signal(cr, uid, [bud_move_id], 'button_draft', context=context)
+                bud_mov_obj.unlink(cr, uid, [bud_move_id], context=context)
+        #amld_obj.search(cr, uid,['|', ('target_account_move_line_id','in', ids), ('account_move_line_id','in', ids)])
+        
+        super(accountMove, self).button_cancel(cr, uid, ids, context=context)
+        return True
 
 class AccountMoveLine(osv.Model):
     _inherit = 'account.move.line'

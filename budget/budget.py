@@ -963,6 +963,7 @@ class budget_move(osv.osv):
     
     _columns = {
         'code': fields.char('Code', size=64, ),
+        'name':fields.related('code', type='char'),
         'origin': fields.char('Origin', size=64, readonly=True, states={'draft':[('readonly',False)]}),
         'program_line_id': fields.many2one('budget.program.line', 'Program line', readonly=True, states={'draft':[('readonly',False)]},),
         'date': fields.datetime('Date created', required=True, readonly=True, states={'draft':[('readonly',False)]}),
