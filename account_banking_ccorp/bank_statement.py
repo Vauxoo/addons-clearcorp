@@ -40,7 +40,7 @@ class accountBankStatement(osv.Model):
         4. Ordering is based on auto generated id.
     '''
     _inherit = 'account.bank.statement'
-    _order = 'id'
+    _order = 'date'
     
     def _check_company_id(self, cr, uid, ids, context=None):
         """
