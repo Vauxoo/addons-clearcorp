@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-12 22:21+0000\n"
-"PO-Revision-Date: 2013-08-12 22:21+0000\n"
+"POT-Creation-Date: 2013-12-02 16:42+0000\n"
+"PO-Revision-Date: 2013-12-02 16:42+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -24,16 +24,6 @@ msgstr "Nombre del tipo"
 #: model:ir.model,name:account_report_lib.model_account_financial_report_type
 msgid "Account Financial Report Type"
 msgstr "Tipo de Informe Financiero"
-
-#. module: account_report_lib
-#: field:res.company,property_expense_view_account:0
-msgid "Expense view account"
-msgstr "Cuenta de gasto"
-
-#. module: account_report_lib
-#: field:res.company,property_equity_view_account:0
-msgid "Equity view account"
-msgstr "Cuenta de patrimonio"
 
 #. module: account_report_lib
 #: help:account.report.wiz,amount_currency:0
@@ -54,11 +44,6 @@ msgstr "Tipo de cuenta de la base del catálogo"
 #: help:account.report.wiz,historic_strict:0
 msgid "If selected, will display a historical unreconciled lines, taking into account the end of the period or date selected"
 msgstr "Si se selecciona, se mostrarán las líneas sin conciliar históricas, teniendo en cuenta el final del período o la fecha seleccionada"
-
-#. module: account_report_lib
-#: field:res.company,property_liability_view_account:0
-msgid "Liability view account"
-msgstr "Cuenta de pasivo"
 
 #. module: account_report_lib
 #: help:account.account,report_currency_id:0
@@ -86,11 +71,6 @@ msgid "Special period"
 msgstr "Período especial"
 
 #. module: account_report_lib
-#: field:account.report.wiz,target_move:0
-msgid "Target Moves"
-msgstr "Movimientos destino"
-
-#. module: account_report_lib
 #: model:ir.model,name:account_report_lib.model_account_period
 msgid "Account period"
 msgstr "Período contable"
@@ -112,20 +92,15 @@ msgid "Chart of Account"
 msgstr "Catálogo de cuentas"
 
 #. module: account_report_lib
-#: view:res.company:0
-msgid "Configuration"
-msgstr "Configuración"
-
-#. module: account_report_lib
 #: view:account.report.wiz:0
 #: field:account.report.wiz,journal_ids:0
 msgid "Journals"
 msgstr "Diarios"
 
 #. module: account_report_lib
-#: field:res.company,property_income_view_account:0
-msgid "Income view account"
-msgstr "Cuenta de ingreso"
+#: field:account.report.wiz,target_move:0
+msgid "Target Moves"
+msgstr "Movimientos destino"
 
 #. module: account_report_lib
 #: view:account.report.wiz:0
@@ -154,7 +129,7 @@ msgstr "Período inicial"
 
 #. module: account_report_lib
 #: selection:account.report.wiz,target_move:0
-#: code:addons/account_report_lib/account_report_base.py:127
+#: code:addons/account_report_lib/account_report_base.py:145
 #, python-format
 msgid "All Posted Entries"
 msgstr "Todos los apuntes publicados"
@@ -200,11 +175,6 @@ msgid "Advanced options"
 msgstr "Opciones avanzadas"
 
 #. module: account_report_lib
-#: view:res.company:0
-msgid "Account Report Configuration"
-msgstr "Configuración de cuentas para los reportes"
-
-#. module: account_report_lib
 #: model:ir.model,name:account_report_lib.model_account_report_wiz
 msgid "Account Common Wizard"
 msgstr "Asistente común para las cuentas"
@@ -230,10 +200,15 @@ msgid "Common Report Wizard"
 msgstr "Asistente de creación de reportes"
 
 #. module: account_report_lib
-#: code:addons/account_report_lib/tools/tools_modules_extended.py:192
+#: code:addons/account_report_lib/tools/tools_modules_extended.py:170
 #, python-format
 msgid "No period found"
 msgstr "No existe período"
+
+#. module: account_report_lib
+#: field:account.report.wiz,out_format:0
+msgid "Print Format"
+msgstr "Formato de impresión"
 
 #. module: account_report_lib
 #: field:account.report.wiz,account_base_report:0
@@ -244,11 +219,6 @@ msgstr "Informe financiero base"
 #: model:ir.model,name:account_report_lib.model_account_financial_report
 msgid "Account Report"
 msgstr "Informe financiero"
-
-#. module: account_report_lib
-#: field:res.company,property_asset_view_account:0
-msgid "Asset view account"
-msgstr "Cuenta de activo"
 
 #. module: account_report_lib
 #: help:account.report.wiz,special_period:0
@@ -293,7 +263,7 @@ msgstr "Compañía"
 
 #. module: account_report_lib
 #: selection:account.report.wiz,target_move:0
-#: code:addons/account_report_lib/account_report_base.py:129
+#: code:addons/account_report_lib/account_report_base.py:147
 #, python-format
 msgid "All Entries"
 msgstr "Todos los apuntes"

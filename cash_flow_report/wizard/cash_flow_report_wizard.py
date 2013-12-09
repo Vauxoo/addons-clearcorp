@@ -28,13 +28,61 @@ class cashFlowreportWizard(osv.osv_memory):
     _name = "cash.flow.report.wiz"
     _description = "Cash Flow Report Wizard"
 
-    def _print_report(self, cursor, uid, ids, data, context=None):
+    def _print_report(self, cr, uid, ids, data, context=None):
+        mimetype = self.pool.get('report.mimetypes')
+        report_obj = self.pool.get('ir.actions.report.xml')
+        report_name = ''
+      
         context = context or {}
+            
+        #=======================================================================
+        # onchange_in_format method changes variable out_format depending of 
+        # which in_format is choosed. 
+        # If out_format is pdf -> call record in odt format and if it's choosed
+        # ods or xls -> call record in ods format.
+        # ods and xls format are editable format, because they are arranged 
+        # to be changed by user and, for example, user can check and change info.    
+        #=======================================================================
+       
+        #=======================================================================
+        # If mimetype is PDF -> out_format = PDF (search odt record)
+        # If mimetype is xls or ods -> search ods record. 
+        # If record doesn't exist, return a error.
+        #=======================================================================
+        
+        #=======================================================================
+        # Create two differents records for each format, depends of the out_format
+        # selected, choose one of this records
+        #=======================================================================
+        
+        #1. Find out_format selected
+        out_format_obj = mimetype.browse(cr, uid, [int(data['form']['out_format'])], context)[0]
 
-        return {
-            'type': 'ir.actions.report.xml',
-            'report_name': 'cash_flow_report',
-            'datas': data
+        #2. Check out_format and set report_name for each format
+        if out_format_obj.code == 'oo-pdf':
+            report_name = 'cash_flow_report_odt' 
+           
+        elif out_format_obj.code == 'oo-xls' or out_format_obj.code == 'oo-ods': 
+            report_name = 'cash_flow_report_ods'
+        
+        # If there not exist name, it's because not exist a record for this format   
+        if report_name == '':
+            raise osv.except_osv(_('Error !'), _('There is no template defined for the selected format. Check if aeroo report exist.'))
+                
+        else:
+            #Search record that match with the name, and get some extra information
+            report_xml_id = report_obj.search(cr, uid, [('report_name','=', report_name)],context=context)
+            report_xml = report_obj.browse(cr, uid, report_xml_id, context=context)[0]
+            data.update({'model': report_xml.model, 'report_type':'aeroo', 'id': report_xml.id})
+            
+            #Write out_format choosed in wizard
+            report_xml.write({'out_format': out_format_obj.id}, context=context)
+           
+            return {
+                'type': 'ir.actions.report.xml',
+                'report_name': report_name,
+                'datas': data,
+                'context':context
             }
-
+      
     

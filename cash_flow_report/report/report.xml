@@ -1,15 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>            
-        <record id="cash_flow_report" model="ir.actions.report.xml">
-             <field name="report_type">webkit</field>             
-             <field name="report_name">cash_flow_report</field>
-             <field name="model">cash.flow.type</field>
-             <field name="type">ir.actions.report.xml</field>
-             <field name="name">Cash Flow Report</field>
-             <field name="report_rml">cash_flow_report/report/cash_flow_report.mako</field>
-             <field name="report_file">cash_flow_report/report/cash_flow_report.mako</field>
-             <field name="webkit_header" ref="report_webkit_lib.webkit_header_clearcorp_official_portrait" />              
+
+       <!--This record is create to delete webkit record for profit statement report 
+        It's inoffensive after delete the report with webkit type.
+        
+        It's necessary to delete this record, because if exist two reports (aeroo and webkit)
+        the wizard prints webkit report type-->
+        
+       <delete model="ir.actions.report.xml" search="[('report_name','=','cash_flow_report'),('report_type','=','webkit')]" />
+        
+       <!-- ===================================================================================== -->
+         
+         <record id="cash_flow_report_odt" model="ir.actions.report.xml">
+            <field name="name">Cash Flow Report</field>
+            <field name="type">ir.actions.report.xml</field>
+            <field name="model">cash.flow.type</field>
+            <field name="report_name">cash_flow_report_odt</field>
+            <field name="report_type">aeroo</field>
+            <field name="in_format">oo-odt</field>
+            <field name="out_format">1</field><!--Must be code of mimetypes (report_mimetypes on database)-->
+            <field name="parser_loc">cash_flow_report/report/cash_flow_report.py</field>
+            <field name="report_rml">cash_flow_report/report/cash_flow_report.odt</field>
+            <field name="parser_state">loc</field>
+            <field name="tml_source">file</field>
         </record>
+        
+        <record id="cash_flow_report_ods" model="ir.actions.report.xml">
+            <field name="name">Cash Flow Report</field>
+            <field name="type">ir.actions.report.xml</field>
+            <field name="model">cash.flow.type</field>
+            <field name="report_name">cash_flow_report_ods</field>
+            <field name="report_type">aeroo</field>
+            <field name="in_format">oo-ods</field>
+            <field name="out_format">2</field><!--Must be code of mimetypes (report_mimetypes on database)-->
+            <field name="parser_loc">cash_flow_report/report/cash_flow_report.py</field>
+            <field name="report_rml">cash_flow_report/report/cash_flow_report.ods</field>
+            <field name="parser_state">loc</field>
+            <field name="tml_source">file</field>
+        </record>  
+        
     </data>
 </openerp>

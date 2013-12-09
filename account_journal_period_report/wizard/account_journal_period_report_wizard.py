@@ -20,37 +20,73 @@
 #
 ##############################################################################
 
-from osv import fields, osv
+from osv import fields, osv, orm
 
-class account_journal_period_report_inherit(osv.osv_memory):
+class AccountJournalReportWizard(orm.Model):
 
-    _inherit = "account.print.journal"
-    _name = "account.print.journal"
-    _description = "Account Print Journal"
+    _inherit = "account.report.wiz"
+    _name = "account.journal.wiz"
+    _description = "Account Journal Report Wizard"
     
-    def pre_print_report(self, cr, uid, ids, data, context=None):
-        #TODO Pass comments to english
-        """
-            account.print.journal wizard ya es una herencia del account_common_report. En este wizard se agrega el
-            campo sort_selection. Se presenta un error al leer este parámetro, ya que no se pasa de manera correcta
-            por lo que se hace un read del campo, para leer de nuevo el parámetro y pasarlo de forma correcta.
-            Con esto se soluciona el error.
-        """
-        data = super(account_journal_period_report_inherit, self).pre_print_report(cr, uid, ids, data, context)
-        if context is None:
-            context = {}
-        vals = self.read(cr, uid, ids,
-                         ['sort_selection',],
-                         context=context)[0]
-        data['form'].update(vals)
-        return data
-
-    def _print_report(self, cursor, uid, ids, data, context=None):
+    _columns = {
+       #Redefine filter, use only date and period
+       'filter': fields.selection([('filter_date', 'Date'), ('filter_period', 'Periods')], "Filter by"),       
+    }
+    
+    def _print_report(self, cr, uid, ids, data, context=None):
+        mimetype = self.pool.get('report.mimetypes')
+        report_obj = self.pool.get('ir.actions.report.xml')
+        report_name = ''
+      
         context = context or {}
-        # we update form with display account value        
-        data = self.pre_print_report(cursor, uid, ids, data, context=context)
-                
-        return {'type': 'ir.actions.report.xml',
-                'report_name': 'account_journal_period_print_inherit',
-                'datas': data}
+            
+        #=======================================================================
+        # onchange_in_format method changes variable out_format depending of 
+        # which in_format is choosed. 
+        # If out_format is pdf -> call record in odt format and if it's choosed
+        # ods or xls -> call record in ods format.
+        # ods and xls format are editable format, because they are arranged 
+        # to be changed by user and, for example, user can check and change info.    
+        #=======================================================================
+       
+        #=======================================================================
+        # If mimetype is PDF -> out_format = PDF (search odt record)
+        # If mimetype is xls or ods -> search ods record. 
+        # If record doesn't exist, return a error.
+        #=======================================================================
+        
+        #=======================================================================
+        # Create two differents records for each format, depends of the out_format
+        # selected, choose one of this records
+        #=======================================================================
+        
+        #1. Find out_format selected
+        out_format_obj = mimetype.browse(cr, uid, [int(data['form']['out_format'])], context)[0]
 
+        #2. Check out_format and set report_name for each format
+        if out_format_obj.code == 'oo-pdf':
+            report_name = 'account_journal_period_print_inherit_odt' 
+           
+        elif out_format_obj.code == 'oo-xls' or out_format_obj.code == 'oo-ods': 
+            report_name = 'account_journal_period_print_inherit_ods'
+        
+        # If there not exist name, it's because not exist a record for this format   
+        if report_name == '':
+            raise osv.except_osv(_('Error !'), _('There is no template defined for the selected format. Check if aeroo report exist.'))
+                
+        else:
+            #Search record that match with the name, and get some extra information
+            report_xml_id = report_obj.search(cr, uid, [('report_name','=', report_name)],context=context)
+            report_xml = report_obj.browse(cr, uid, report_xml_id, context=context)[0]
+            data.update({'model': report_xml.model, 'report_type':'aeroo', 'id': report_xml.id})
+            
+            #Write out_format choosed in wizard
+            report_xml.write({'out_format': out_format_obj.id}, context=context)
+           
+            return {
+                'type': 'ir.actions.report.xml',
+                'report_name': report_name,
+                'datas': data,
+                'context':context
+            }
+      
