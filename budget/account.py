@@ -370,14 +370,17 @@ class AccountMoveReconcile(osv.Model):
                 budget_total += line.fixed_amount
             for line in budget_budget_move_lines:
                 distribution_amount = line.fixed_amount
+                signed_dist_amount = distribution_amount 
                 # If the resulting total of budget plus liquid lines is more than available, the amount has to be fractioned.
                 if budget_total + liquid_amount_to_dist > amount_to_dist:
                     distribution_amount = distribution_amount * amount_to_dist / budget_total + liquid_amount_to_dist
+                if line.fixed_amount < 0:
+                    signed_dist_amount = abs(distribution_amount) * -1 
                 budget_distributed += distribution_amount
                 vals = {
                     'account_move_line_id':         original_line.id,
-                    'distribution_amount':          distribution_amount,
-                    'distribution_percentage':      100 * distribution_amount / original_amount_to_dist,
+                    'distribution_amount':          signed_dist_amount,
+                    'distribution_percentage':      100 * abs(distribution_amount) / abs(original_amount_to_dist),
                     'target_budget_move_line_id':   line.id,
                     'reconcile_ids':                [(6, 0, new_reconcile_ids)],
                     'type':                         'auto',
@@ -390,11 +393,14 @@ class AccountMoveReconcile(osv.Model):
             # Liquid list
             for line in liquid_lines.values():
                 distribution_amount = liquid_amounts[line.id]
+                signed_dist_amount = distribution_amount
+                if line.fixed_amount < 0:
+                    signed_dist_amount = abs(distribution_amount) * -1 
                 liquid_distributed += distribution_amount
                 vals = {
                     'account_move_line_id':         original_line.id,
-                    'distribution_amount':          distribution_amount,
-                    'distribution_percentage':      100 * distribution_amount / original_amount_to_dist,
+                    'distribution_amount':          signed_dist_amount,
+                    'distribution_percentage':      100 * abs(distribution_amount) / abs(original_amount_to_dist),
                     'target_account_move_line_id':  line.id,
                     'reconcile_ids':                [(6, 0, new_reconcile_ids)],
                     'type':                         'auto',
@@ -557,14 +563,17 @@ class AccountMoveReconcile(osv.Model):
             amount = line.debit + line.credit
             
             vals = {}
-            if distribution_amount > amount:
-                if (distribution_amount - amount) > last_dist_distribution_amount:
+            if abs(distribution_amount) > amount:
+                if (abs(distribution_amount) - amount) > abs(last_dist_distribution_amount):
                     # Bad dists, the difference is bigger than the adjustment line (last line)
                     dist_obj.unlink(cr, uid, dist_ids, context=context)
                     return []
                 else:
                     # Adjust difference
-                    vals['distribution_amount'] = amount - (distribution_amount - last_dist_distribution_amount)
+                    if distribution_amount > 0:
+                        vals['distribution_amount'] = amount - (distribution_amount - last_dist_distribution_amount)
+                    else:
+                        vals['distribution_amount'] = amount - (distribution_amount - last_dist_distribution_amount)
             elif distribution_amount < amount:
                 vals['distribution_amount'] = amount - (distribution_amount - last_dist_distribution_amount)
             

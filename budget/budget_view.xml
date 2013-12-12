@@ -5,7 +5,7 @@
 <menuitem id="budget_menu" name="Budget" groups="budget.group_budget_user" />
 <menuitem id="budget_main_menu" name="Budget" parent="budget_menu"/>
     <!-- Year-->	
-		<record id="view_budget_year_form" model="ir.ui.view">
+	<!--	<record id="view_budget_year_form" model="ir.ui.view">
             <field name="name">budget.year.form</field>
             <field name="model">budget.year</field>
             <field name="arch" type="xml">
@@ -92,11 +92,11 @@
               </p>
             </field>
         </record>
-        
+        -->
         	
     	
       	<!-- Period -->
-
+<!--
         <record id="view_budget_period_form" model="ir.ui.view">
             <field name="name">budget.period.form</field>
             <field name="model">budget.period</field>
@@ -167,7 +167,7 @@
               </p>
             </field>
         </record>
-        
+        -->
         
        <!--Plan-->
        <record id="view_budget_plan_tree" model="ir.ui.view">
@@ -177,7 +177,7 @@
             <field name="arch" type="xml">
             	<tree string="Plans" colors="gray:state in ('closed','cancel');blue:state == 'confirmed';red:state =='draft'">
             		<field name="name"/>
-            		<field name="year_id"/>
+            <!--		<field name="year_id"/>-->
             		<field name="state"/>
             	</tree>
          	</field>
@@ -204,7 +204,8 @@
             			</h1>
             			<group>
             				<field name="name"/>
-            				<field name="year_id"/>
+            				<field name="date_start"/>
+            				<field name="date_stop"/>
             				<field name="program_ids"/>
             			</group>
             		</sheet>
@@ -258,7 +259,7 @@
             			<group>
             				<field name="state" invisible="True"/>
             				<field name="code" readonly="True"/>
-            				<field name="name" />
+            				<field name="name"/>
                				<field name="previous_program_id"/>
             				<field name="plan_id" />
             				<field name="program_lines" domain="[('account_type','=','budget'),]">
@@ -555,6 +556,7 @@
 	            				<field name="code" readonly="True"/>
 	            				<field name="origin" readonly="True"/>
 	            				<field name="type" required="True" readonly="True"/>
+	            				<field name="previous_move_id"/>
 	            				<!--<field name="purchase_order_ids" attrs="{ 'invisible':[('purchase_order_ids','=',False)] }" widget="one2one_list" class="oe_inline"/>
 	            				<field name="sale_order_ids" attrs="{ 'invisible':[('sale_order_ids','=', False)] } " widget="one2one_list" class="oe_inline"/>-->	
 	          			  	</group>
@@ -672,6 +674,7 @@
 	            				<field name="code" readonly="True"/>
 	            				<field name="origin"/>
 	      						<field name="type" required="True"/>
+	      						<field name="previous_move_id"/>
 	          			  	</group>
 							<group>
 	            				<field name="date"/>
@@ -785,9 +788,9 @@
 				<menuitem action="action_budget_account_list" id="budget_account_list_menu" name="Budget Accounts List"  parent="budget.next_id_27" />
 				
 			
-			<menuitem id="next_id_28" name="Periods" parent="next_id_26" />
+			<!--menuitem id="next_id_28" name="Periods" parent="next_id_26" />
 	        	<menuitem id="menu_action_budget_year" action="action_budget_year" parent="budget.next_id_28"/>
-	        	<menuitem id="menu_action_budget_period" action="action_budget_period" parent="budget.next_id_28" groups="base.group_no_one"/>
+	        	<menuitem id="menu_action_budget_period" action="action_budget_period" parent="budget.next_id_28" groups="base.group_no_one"/>-->
     
     </data>
 </openerp>

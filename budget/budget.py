@@ -50,9 +50,27 @@ class budget_plan(osv.osv):
         ('closed', 'Closed'),
         ('cancel', 'Cancelled'),
     ]
+    
+    def _check_duration(self, cr, uid, ids, context=None):
+        selected_plans = self.browse(cr, uid, ids, context=context)
+        all_plan_ids = self.search(cr, uid, [], context=context)
+        plans = self.browse(cr, uid, all_plan_ids, context=context)
+        
+        for selected_plan in selected_plans:
+            if selected_plan.date_stop < selected_plan.date_start:
+                return False
+            for plan in plans:
+                if selected_plan.date_start >= plan.date_start and selected_plan.date_start <= plan.date_stop: ##Start date overlapped
+                    return False 
+                if selected_plan.date_stop >= plan.date_start and selected_plan.date_stop <= plan.date_stop: ##stop date overlapped
+                    return False
+        return True
+
     _columns ={
         'name': fields.char('Name', size=64, required=True),
-        'year_id': fields.many2one('budget.year','Year',required=True),
+#        'year_id': fields.many2one('budget.year','Year',required=True),
+        'date_start': fields.date('Start Date', required=True),
+        'date_stop': fields.date('End Date', required=True),
         'state':fields.selection(STATE_SELECTION, 'State', readonly=True, 
         help="The state of the bugdet. A budget that is still under planning is in a 'Draft' state. Then the plan has to be confirmed by the user in order to be approved, the state switch to 'Confirmed'. Then the manager must confirm the budget plan to change the state to 'Approved'. If a plan will not be approved it must be cancelled.", select=True),
         'program_ids':fields.one2many('budget.program','plan_id','Programs'),
@@ -62,6 +80,9 @@ class budget_plan(osv.osv):
         'state': 'draft'
         }
     
+    _constraints = [
+        (_check_duration, 'Error!\nThe start date of the plan must precede its end date.', ['date_start','date_stop'])
+    ]
     _sql_constraints = [
         ('name', 'unique(name)','The name must be unique !'),
         ]
@@ -376,6 +397,7 @@ class budget_program_line(osv.osv):
         'child_parent_ids': fields.one2many('budget.program.line','parent_id','Children'),
         'child_consol_ids': fields.many2many('budget.program.line', 'budget_program_line_consol_rel', 'parent_id' ,'consol_child_id' , 'Consolidated Children'),
         'child_id': fields.function(_get_child_ids, type='many2many', relation="budget.program.line", string="Child Accounts"),
+        'previous_year_line_id': fields.many2one('budget.program.line','Previous year line'),
         #'bud_move_lines': fields.one2many('budget.move.line','program_line_id','Related move lines'),
         #'currency_id':fields.many2one('res.currency', string='Currency', readonly=True)
         }
@@ -392,6 +414,36 @@ class budget_program_line(osv.osv):
     _sql_constraints = [
         ('name_uniq', 'unique(name, program_id,company_id)', 'The name of the line must be unique per company!'),
     ]
+    
+    def get_previous_year_line(self, cr, uid, ids, context=None):
+        for line in self.browse(cr, uid, ids, context=context):
+            current_bud_year = datetime.strptime(line.program_id.plan_id.year_id.date.stop , '%Y-%m-%d')
+            previous_year = current_bud_year + relativedelta(years = -1)
+            
+            '''
+                        ds = datetime.strptime(fy.date_start, '%Y-%m-%d')
+
+            while ds.strftime('%Y-%m-%d') < fy.date_stop:
+                de = ds + relativedelta(months=interval, days=-1)
+
+                if de.strftime('%Y-%m-%d') > fy.date_stop:
+                    de = datetime.strptime(fy.date_stop, '%Y-%m-%d')
+
+                period_obj.create(cr, uid, {
+                    'name': ds.strftime('%m/%Y'),
+                    'code': ds.strftime('%m/%Y'),
+                    'date_start': ds.strftime('%Y-%m-%d'),
+                    'date_stop': de.strftime('%Y-%m-%d'),
+                    'budgetyear_id': fy.id,
+                })
+                ds = ds + relativedelta(months=interval)
+            '''
+        
+    def create(self, cr, uid, vals, context={}):
+        if 'previous_year_line' not in vals.keys():
+            vals['code'] = self.pool.get('ir.sequence').get(cr, uid, 'budget.move')
+        res = super(budget_move_line, self).create(cr, uid, vals, context)
+        return res
     
     def unlink(self, cr, uid, ids, context=None):
         for line in self.browse(cr, uid,ids, context=context):
@@ -644,163 +696,163 @@ class budget_account(osv.osv):
 ##
 #YEAR
 ## 
-class budget_year(osv.osv):
-    _name = "budget.year"
-    _description = "Budget Year"
-    _columns = {
-        'name': fields.char('Budget Year', size=64, required=True),
-        'code': fields.char('Code', size=6, required=True),
-        'company_id': fields.many2one('res.company', 'Company', required=True),
-        'date_start': fields.date('Start Date', required=True),
-        'date_stop': fields.date('End Date', required=True),
-        'period_ids': fields.one2many('budget.period', 'budgetyear_id', 'Periods'),
-        'state': fields.selection([('draft','Open'), ('done','Closed')], 'Status', readonly=True),
-    }
-    _defaults = {
-        'state': 'draft',
-        'company_id': lambda self,cr,uid,c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.id,
-    }
-    _order = "date_start, id"
-
-
-    def _check_duration(self, cr, uid, ids, context=None):
-        obj_fy = self.browse(cr, uid, ids[0], context=context)
-        if obj_fy.date_stop < obj_fy.date_start:
-            return False
-        return True
-
-    _constraints = [
-        (_check_duration, 'Error!\nThe start date of a Budget year must precede its end date.', ['date_start','date_stop'])
-    ]
-    def create_period3(self, cr, uid, ids, context=None):
-        return self.create_period(cr, uid, ids, context, 3)
-
-    def create_period(self, cr, uid, ids, context=None, interval=1):
-        period_obj = self.pool.get('budget.period')
-        for fy in self.browse(cr, uid, ids, context=context):
-            ds = datetime.strptime(fy.date_start, '%Y-%m-%d')
-
-            while ds.strftime('%Y-%m-%d') < fy.date_stop:
-                de = ds + relativedelta(months=interval, days=-1)
-
-                if de.strftime('%Y-%m-%d') > fy.date_stop:
-                    de = datetime.strptime(fy.date_stop, '%Y-%m-%d')
-
-                period_obj.create(cr, uid, {
-                    'name': ds.strftime('%m/%Y'),
-                    'code': ds.strftime('%m/%Y'),
-                    'date_start': ds.strftime('%Y-%m-%d'),
-                    'date_stop': de.strftime('%Y-%m-%d'),
-                    'budgetyear_id': fy.id,
-                })
-                ds = ds + relativedelta(months=interval)
-        return True
-
-    def find(self, cr, uid, dt=None, exception=True, context=None):
-        res = self.finds(cr, uid, dt, exception, context=context)
-        return res and res[0] or False
-
-    def finds(self, cr, uid, dt=None, exception=True, context=None):
-        if context is None: context = {}
-        if not dt:
-            dt = fields.date.context_today(self,cr,uid,context=context)
-        args = [('date_start', '<=' ,dt), ('date_stop', '>=', dt)]
-        if context.get('company_id', False):
-            company_id = context['company_id']
-        else:
-            company_id = self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id.id
-        args.append(('company_id', '=', company_id))
-        ids = self.search(cr, uid, args, context=context)
-        if not ids:
-            if exception:
-                raise osv.except_osv(_('Error!'), _('There is no budget year defined for this date.\nPlease create one from the configuration of the budget menu.'))
-            else:
-                return []
-        return ids
-
-    def name_search(self, cr, user, name, args=None, operator='ilike', context=None, limit=80):
-        if args is None:
-            args = []
-        if context is None:
-            context = {}
-        ids = []
-        if name:
-            ids = self.search(cr, user, [('code', 'ilike', name)]+ args, limit=limit)
-        if not ids:
-            ids = self.search(cr, user, [('name', operator, name)]+ args, limit=limit)
-        return self.name_get(cr, user, ids, context=context)
-    
+#class budget_year(osv.osv):
+#    _name = "budget.year"
+#    _description = "Budget Year"
+#    _columns = {
+#        'name': fields.char('Budget Year', size=64, required=True),
+#        'code': fields.char('Code', size=6, required=True),
+#        'company_id': fields.many2one('res.company', 'Company', required=True),
+#        'date_start': fields.date('Start Date', required=True),
+#        'date_stop': fields.date('End Date', required=True),
+#        'period_ids': fields.one2many('budget.period', 'budgetyear_id', 'Periods'),
+#        'state': fields.selection([('draft','Open'), ('done','Closed')], 'Status', readonly=True),
+#    }
+#    _defaults = {
+#        'state': 'draft',
+#        'company_id': lambda self,cr,uid,c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.id,
+#    }
+#    _order = "date_start, id"
+#
+#
+#    def _check_duration(self, cr, uid, ids, context=None):
+#        obj_fy = self.browse(cr, uid, ids[0], context=context)
+#        if obj_fy.date_stop < obj_fy.date_start:
+#            return False
+#        return True
+#
+#    _constraints = [
+#        (_check_duration, 'Error!\nThe start date of a Budget year must precede its end date.', ['date_start','date_stop'])
+#    ]
+#    def create_period3(self, cr, uid, ids, context=None):
+#        return self.create_period(cr, uid, ids, context, 3)
+#
+#    def create_period(self, cr, uid, ids, context=None, interval=1):
+#        period_obj = self.pool.get('budget.period')
+#        for fy in self.browse(cr, uid, ids, context=context):
+#            ds = datetime.strptime(fy.date_start, '%Y-%m-%d')
+#
+#            while ds.strftime('%Y-%m-%d') < fy.date_stop:
+#                de = ds + relativedelta(months=interval, days=-1)
+#
+#                if de.strftime('%Y-%m-%d') > fy.date_stop:
+#                    de = datetime.strptime(fy.date_stop, '%Y-%m-%d')
+#
+#                period_obj.create(cr, uid, {
+#                    'name': ds.strftime('%m/%Y'),
+#                    'code': ds.strftime('%m/%Y'),
+#                    'date_start': ds.strftime('%Y-%m-%d'),
+#                    'date_stop': de.strftime('%Y-%m-%d'),
+#                    'budgetyear_id': fy.id,
+#                })
+#                ds = ds + relativedelta(months=interval)
+#        return True
+#
+#    def find(self, cr, uid, dt=None, exception=True, context=None):
+#        res = self.finds(cr, uid, dt, exception, context=context)
+#        return res and res[0] or False
+#
+#    def finds(self, cr, uid, dt=None, exception=True, context=None):
+#        if context is None: context = {}
+#        if not dt:
+#            dt = fields.date.context_today(self,cr,uid,context=context)
+#        args = [('date_start', '<=' ,dt), ('date_stop', '>=', dt)]
+#        if context.get('company_id', False):
+#            company_id = context['company_id']
+#        else:
+#            company_id = self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id.id
+#        args.append(('company_id', '=', company_id))
+#        ids = self.search(cr, uid, args, context=context)
+#        if not ids:
+#            if exception:
+#                raise osv.except_osv(_('Error!'), _('There is no budget year defined for this date.\nPlease create one from the configuration of the budget menu.'))
+#            else:
+#                return []
+#        return ids
+#
+#    def name_search(self, cr, user, name, args=None, operator='ilike', context=None, limit=80):
+#        if args is None:
+#            args = []
+#        if context is None:
+#            context = {}
+#        ids = []
+#        if name:
+#            ids = self.search(cr, user, [('code', 'ilike', name)]+ args, limit=limit)
+#        if not ids:
+#            ids = self.search(cr, user, [('name', operator, name)]+ args, limit=limit)
+#        return self.name_get(cr, user, ids, context=context)
+#    
 ##
 #PERIOD
 ## 
-class budget_period(osv.osv):
-    _name = "budget.period"
-    _description = "Budget period"
-    _columns = {
-        'name': fields.char('Period Name', size=64, required=True),
-        'code': fields.char('Code', size=12),
-        'date_start': fields.date('Start of Period', required=True, states={'done':[('readonly',True)]}),
-        'date_stop': fields.date('End of Period', required=True, states={'done':[('readonly',True)]}),
-        'budgetyear_id': fields.many2one('budget.year', 'Budget Year', required=True, states={'done':[('readonly',True)]}, select=True),
-        'state': fields.selection([('draft','Open'), ('done','Closed')], 'Status', readonly=True,
-                                  help='When monthly periods are created. The status is \'Draft\'. At the end of monthly period it is in \'Done\' status.'),
-        'company_id': fields.related('budgetyear_id', 'company_id', type='many2one', relation='res.company', string='Company', store=True, readonly=True)
-    }
-    _defaults = {
-        'state': 'draft',
-    }
-    _order = "date_start"
-    _sql_constraints = [
-        ('name_company_uniq', 'unique(name, company_id)', 'The name of the period must be unique per company!'),
-    ]
-
-    def _check_duration(self,cr,uid,ids,context=None):
-        obj_period = self.browse(cr, uid, ids[0], context=context)
-        if obj_period.date_stop < obj_period.date_start:
-            return False
-        return True
-
-    def _check_year_limit(self,cr,uid,ids,context=None):
-        for obj_period in self.browse(cr, uid, ids, context=context):
-            if obj_period.budgetyear_id.date_stop < obj_period.date_stop or \
-               obj_period.budgetyear_id.date_stop < obj_period.date_start or \
-               obj_period.budgetyear_id.date_start > obj_period.date_start or \
-               obj_period.budgetyear_id.date_start > obj_period.date_stop:
-                return False
-
-            pids = self.search(cr, uid, [('date_stop','>=',obj_period.date_start),('date_start','<=',obj_period.date_stop),('id','<>',obj_period.id)])
-            for period in self.browse(cr, uid, pids):
-                if period.budgetyear_id.company_id.id==obj_period.budgetyear_id.company_id.id:
-                    return False
-        return True
-
-    _constraints = [
-        (_check_duration, 'Error!\nThe duration of the Period(s) is/are invalid.', ['date_stop']),
-        (_check_year_limit, 'Error!\nThe period is invalid. Either some periods are overlapping or the period\'s dates are not matching the scope of the budget year.', ['date_stop'])
-    ]
-
-    def next(self, cr, uid, period, step, context=None):
-        ids = self.search(cr, uid, [('date_start','>',period.date_start)])
-        if len(ids)>=step:
-            return ids[step-1]
-        return False
-    
-    def action_draft(self, cr, uid, ids, *args):
-        mode = 'draft'
-        cr.execute('update budget_period set state=%s where id in %s', (mode, tuple(ids),))
-        return True
-
-    def name_search(self, cr, user, name, args=None, operator='ilike', context=None, limit=100):
-        if args is None:
-            args = []
-        if context is None:
-            context = {}
-        ids = []
-        if name:
-            ids = self.search(cr, user, [('code','ilike',name)]+ args, limit=limit)
-        if not ids:
-            ids = self.search(cr, user, [('name',operator,name)]+ args, limit=limit)
-        return self.name_get(cr, user, ids, context=context)
+#class budget_period(osv.osv):
+#    _name = "budget.period"
+#    _description = "Budget period"
+#    _columns = {
+#        'name': fields.char('Period Name', size=64, required=True),
+#        'code': fields.char('Code', size=12),
+#        'date_start': fields.date('Start of Period', required=True, states={'done':[('readonly',True)]}),
+#        'date_stop': fields.date('End of Period', required=True, states={'done':[('readonly',True)]}),
+#        'budgetyear_id': fields.many2one('budget.year', 'Budget Year', required=True, states={'done':[('readonly',True)]}, select=True),
+#        'state': fields.selection([('draft','Open'), ('done','Closed')], 'Status', readonly=True,
+#                                  help='When monthly periods are created. The status is \'Draft\'. At the end of monthly period it is in \'Done\' status.'),
+#        'company_id': fields.related('budgetyear_id', 'company_id', type='many2one', relation='res.company', string='Company', store=True, readonly=True)
+#    }
+#    _defaults = {
+#        'state': 'draft',
+#    }
+#    _order = "date_start"
+#    _sql_constraints = [
+#        ('name_company_uniq', 'unique(name, company_id)', 'The name of the period must be unique per company!'),
+#    ]
+#
+#    def _check_duration(self,cr,uid,ids,context=None):
+#        obj_period = self.browse(cr, uid, ids[0], context=context)
+#        if obj_period.date_stop < obj_period.date_start:
+#            return False
+#        return True
+#
+#    def _check_year_limit(self,cr,uid,ids,context=None):
+#        for obj_period in self.browse(cr, uid, ids, context=context):
+#            if obj_period.budgetyear_id.date_stop < obj_period.date_stop or \
+#               obj_period.budgetyear_id.date_stop < obj_period.date_start or \
+#               obj_period.budgetyear_id.date_start > obj_period.date_start or \
+#               obj_period.budgetyear_id.date_start > obj_period.date_stop:
+#                return False
+#
+#            pids = self.search(cr, uid, [('date_stop','>=',obj_period.date_start),('date_start','<=',obj_period.date_stop),('id','<>',obj_period.id)])
+#            for period in self.browse(cr, uid, pids):
+#                if period.budgetyear_id.company_id.id==obj_period.budgetyear_id.company_id.id:
+#                    return False
+#        return True
+#
+#    _constraints = [
+#        (_check_duration, 'Error!\nThe duration of the Period(s) is/are invalid.', ['date_stop']),
+#        (_check_year_limit, 'Error!\nThe period is invalid. Either some periods are overlapping or the period\'s dates are not matching the scope of the budget year.', ['date_stop'])
+#    ]
+#
+#    def next(self, cr, uid, period, step, context=None):
+#        ids = self.search(cr, uid, [('date_start','>',period.date_start)])
+#        if len(ids)>=step:
+#            return ids[step-1]
+#        return False
+#    
+#    def action_draft(self, cr, uid, ids, *args):
+#        mode = 'draft'
+#        cr.execute('update budget_period set state=%s where id in %s', (mode, tuple(ids),))
+#        return True
+#
+#    def name_search(self, cr, user, name, args=None, operator='ilike', context=None, limit=100):
+#        if args is None:
+#            args = []
+#        if context is None:
+#            context = {}
+#        ids = []
+#        if name:
+#            ids = self.search(cr, user, [('code','ilike',name)]+ args, limit=limit)
+#        if not ids:
+#            ids = self.search(cr, user, [('name',operator,name)]+ args, limit=limit)
+#        return self.name_get(cr, user, ids, context=context)
 
 ##
 # MOVE
@@ -985,6 +1037,7 @@ class budget_move(osv.osv):
         'move_lines': fields.one2many('budget.move.line', 'budget_move_id', 'Move lines' ),
         'budget_move_line_dist': fields.related('move_lines', 'budget_move_line_dist', type='one2many', relation="account.move.line.distribution", string='Account Move Line Distribution'),
         'type': fields.selection(_select_types, 'Move Type', required=True, readonly=True, states={'draft':[('readonly',False)]}),
+        'previous_move_id': fields.many2one('budget.move', 'Previous move'),
     }
     _defaults = {
         'state': 'draft',
@@ -1312,6 +1365,8 @@ class budget_move_line(osv.osv):
         'type_distribution':fields.related('budget_move_line_dist','type', type="selection", relation="account.move.line.distribution", string="Distribution type"),
         #=======Payslip lines
         'payslip_lines': fields.many2one('hr.payslip.line', 'Payslip Lines'),
+        'previous_move_line_id': fields.many2one('budget.move', 'Previous move line'),
+
     }
     _defaults = {
         'date': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
@@ -1364,7 +1419,7 @@ class account_move_line_distribution(orm.Model):
         for distribution in self.browse(cr,uid,ids,context=context):
             computes = self.pool.get('budget.move.line').compute(cr, uid, [distribution.target_budget_move_line_id.id], ['compromised'], None, context=context, ignore_dist_ids=[distribution.id])
             compromised = round(computes[distribution.target_budget_move_line_id.id]['compromised'], self.pool.get('decimal.precision').precision_get(cr, uid, 'Account'))
-            if distribution.distribution_amount > compromised:
+            if abs(distribution.distribution_amount) > abs(compromised):
                 return False
             return True  
     
