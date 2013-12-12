@@ -10,7 +10,8 @@
                     <group colspan="4" states="init,ready,error">
                         <separator colspan="4" string="Select the processing details:"/>
                         <field name="company" colspan="4"/>
-                        <field name="account_bank" colspan="4" required="True" on_change="onchange_account_parser(account_bank, context)"/>
+                        <field name="account_bank" colspan="4" required="True"
+                        on_change="onchange_account_parser(account_bank, context)" domain="[('company_id','=',company)]"/>
                         <field name="parser" colspan="4" invisible="True" required="True"/>
                         <field name="date_from" colspan="4" attrs="{'invisible':[('parser','!=','Davivienda-Parser'),('parser','!=','BNCR-Parser'),('parser','!=','Lafise-Parser')], 'required':['|','|',('parser','=','Davivienda-Parser'),('parser','=','BNCR-Parser'),('parser','=','Lafise-Parser')]}"/>
                         <field name="date_to" colspan="4" attrs="{'invisible':[('parser','!=','Davivienda-Parser'),('parser','!=','BNCR-Parser'),('parser','!=','Lafise-Parser')], 'required':['|','|',('parser','=','Davivienda-Parser'),('parser','=','BNCR-Parser'),('parser','=','Lafise-Parser')]}"/>   
