@@ -42,7 +42,7 @@
                         <field name="journal_id" groups="base.group_user" on_change="onchange_journal_id(journal_id, context, partner_id)" widget="selection"/>
                     </field>
                     
-                    <field name="partner_id" positon="replace">
+                    <field name="partner_id" position="replace">
                         <field string="Customer" name="partner_id" on_change="onchange_partner_id(type,partner_id,date_invoice,payment_term, partner_bank_id,company_id,journal_id,account_id)" groups="base.group_user" context="{'search_default_customer': 1}" options='{"quick_create": false}' domain="[('customer', '=', True)]"/>
                     </field>
                           
