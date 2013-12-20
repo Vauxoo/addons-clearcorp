@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+    <record model="ir.ui.view" id="view_asset_asset_report_extended_tree">
+        <field name="name">asset.asset.report.extended.tree</field>
+        <field name="model">asset.asset.report.extended</field>
+        <field name="arch" type="xml">
+            <tree string="Assets Analysis" create="false">
+                <field name="asset_category_id"/>
+                <field name="asset_id"/>
+                <field name="invoice_id"/>
+                <field name="supplier_id"/>
+                <field name="model"/>
+                <field name="asset_number"/>
+                <field name="gross_value"/>
+                <field name="salvage_value"/>
+                <field name="depreciation"/>
+                <field name="value_residual"/>
+                <field name="responsible_id"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="view_asset_report_extended">
+        <field name="name">asset.report.extended.graph</field>
+        <field name="model">asset.asset.report.extended</field>
+        <field name="arch" type="xml">
+            <graph string="Residual Value per Category" type="pie">
+                <field name="asset_category_id"/>
+                <field name="value_residual"/>
+            </graph>
+        </field>
+    </record>
+    
+    <record id="view_asset_report_extended_search" model="ir.ui.view">
+        <field name="name">asset.report.extended.search</field>
+        <field name="model">asset.asset.report.extended</field>
+        <field name="arch" type="xml">
+            <search string="Assets Analysis Extended">
+                <field name="asset_id"/>
+                <field name="asset_category_id"/>
+                <group expand="1" string="Group By...">
+                    <filter string="Asset Category" name="asset_category" icon="terp-stock_symbol-selection" context="{'group_by':'asset_category_id'}"/>
+                    <filter string="Supplier" name="supplier" icon="terp-go-home" context="{'group_by':'supplier_id'}"/>
+                    <filter string="Invoice" name="invoice" icon="terp-stock_symbol-selection" context="{'group_by':'invoice_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    
+    <record model="ir.actions.act_window" id="action_asset_report_extended">    
+        <field name="name">Assets Analysis Extended</field>
+        <field name="res_model">asset.asset.report.extended</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form,graph</field>
+        <field name="search_view_id" ref="view_asset_report_extended_search"/>
+        <field name="context">{ 'search_default_asset_category':1}</field>
+        <field name="help" type="html">
+          <p>
+            From this report, you can have an overview on all depreciation. The
+            tool search can also be used to personalise your Assets reports and
+            so, match this analysis to your needs;
+          </p>
+        </field>
+    </record>
+    
+    <menuitem action="action_asset_report_extended"
+              id="menu_action_asset_report_extended"
+              parent="account.menu_finance_reporting"/>
+</data>
+</openerp>

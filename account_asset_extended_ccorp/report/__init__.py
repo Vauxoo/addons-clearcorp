@@ -20,7 +20,6 @@
 #
 ##############################################################################
 
-import account_asset_extended_ccorp
-import report
+import extended_asset_report
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
