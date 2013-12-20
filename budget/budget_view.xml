@@ -250,7 +250,7 @@
             <field name="arch" type="xml">
             	<form string="Programs" version="7.0" >
             		<header>
-                    	<button name="budget.action_budget_program_populate" type="action" string="Create lines from accounts" class="oe_highlight" />
+                    	<button name="budget.action_budget_program_populate" type="action" confirm="If you have not set a previous program for this program, new program lines won't inherit their previous program lines, do you want to continue? " string="Create lines from accounts" class="oe_highlight" />
             		</header>
             		<sheet>
             			<h1>
@@ -302,7 +302,7 @@
                 <search string="Program Line">
                    <field name="name"/> 
                    <group  expand='0' string='Group by...' >
-                       <filter string='Program' icon="terp-stock_symbol-selection" domain="[]" context="{'group_by' : 'program_id'}" />
+                       <filter name="group_program" string='Program' context="{'group_by':'program_id'}" />
                        <separator orientation="vertical"/>
                    </group>
 
@@ -318,6 +318,7 @@
             <field name="arch" type="xml">
             	<tree string="Program lines"  colors="blue:type == 'view';green:type == 'institutional';black:type == 'budget';goldenrod:type =='consolidation'">
             		<field name="name"/>
+            		<field name="program_id" invisible="True"/>
             		<field name="type" invisible="True" />
             		<field name="total_assigned"/>
             		<field name="extended_amount"/>
@@ -338,6 +339,7 @@
             <field name="arch" type="xml">
             	<tree string="Program lines" colors="blue:type == 'view';green:type == 'institutional';black:type == 'budget';goldenrod:type =='consolidation'">
             		<field name="name"/>
+            		<field name="program_id" invisible="True"/>
             		<field name="type" invisible="True" />
             		<field name="total_assigned"/>
             		<field name="extended_amount"/>
@@ -365,6 +367,7 @@
             			</h1>
             			<group>
             				<field name="state" invisible="True"/>
+            				<field name="previous_year_line_id" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
             				<field name="name" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
             				<field name="account_id" domain="[('account_type','=','budget'), ('active','=','True')]"/>
             				<field name="program_id" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
@@ -401,6 +404,7 @@
             <field name="view_mode">tree,form</field>
             <field name="search_view_id" ref="budget_program_line_search_form_view"/>
             <field name="view_id" ref="view_budget_program_line_list"/>
+            <field name="context">{'search_default_group_program':1}</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
                 Click to start a new plan line.

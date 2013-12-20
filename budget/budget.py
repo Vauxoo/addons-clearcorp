@@ -57,12 +57,29 @@ class budget_plan(osv.osv):
         plans = self.browse(cr, uid, all_plan_ids, context=context)
         
         for selected_plan in selected_plans:
-            if selected_plan.date_stop < selected_plan.date_start:
+            if selected_plan.date_stop <= selected_plan.date_start:
                 return False
+        return True
+    
+    def _check_start_overlapping(self, cr, uid, ids, context=None):
+        selected_plans = self.browse(cr, uid, ids, context=context)
+        all_plan_ids = self.search(cr, uid, [], context=context)
+        plans = self.browse(cr, uid, all_plan_ids, context=context)
+        
+        for selected_plan in selected_plans:
             for plan in plans:
-                if selected_plan.date_start >= plan.date_start and selected_plan.date_start <= plan.date_stop: ##Start date overlapped
+                if selected_plan.id != plan.id and selected_plan.date_start >= plan.date_start and selected_plan.date_start <= plan.date_stop: ##Start date overlapped
                     return False 
-                if selected_plan.date_stop >= plan.date_start and selected_plan.date_stop <= plan.date_stop: ##stop date overlapped
+        return True
+    
+    def _check_stop_overlapping(self, cr, uid, ids, context=None):
+        selected_plans = self.browse(cr, uid, ids, context=context)
+        all_plan_ids = self.search(cr, uid, [], context=context)
+        plans = self.browse(cr, uid, all_plan_ids, context=context)
+        
+        for selected_plan in selected_plans:
+            for plan in plans: 
+                if selected_plan.id != plan.id and selected_plan.date_stop >= plan.date_start and selected_plan.date_stop <= plan.date_stop: ##stop date overlapped
                     return False
         return True
 
@@ -72,7 +89,7 @@ class budget_plan(osv.osv):
         'date_start': fields.date('Start Date', required=True),
         'date_stop': fields.date('End Date', required=True),
         'state':fields.selection(STATE_SELECTION, 'State', readonly=True, 
-        help="The state of the bugdet. A budget that is still under planning is in a 'Draft' state. Then the plan has to be confirmed by the user in order to be approved, the state switch to 'Confirmed'. Then the manager must confirm the budget plan to change the state to 'Approved'. If a plan will not be approved it must be cancelled.", select=True),
+        help="The state of the budget. A budget that is still under planning is in a 'Draft' state. Then the plan has to be confirmed by the user in order to be approved, the state switch to 'Confirmed'. Then the manager must confirm the budget plan to change the state to 'Approved'. If a plan will not be approved it must be cancelled.", select=True),
         'program_ids':fields.one2many('budget.program','plan_id','Programs'),
         }
     
@@ -81,7 +98,9 @@ class budget_plan(osv.osv):
         }
     
     _constraints = [
-        (_check_duration, 'Error!\nThe start date of the plan must precede its end date.', ['date_start','date_stop'])
+        (_check_duration, 'Error!\nThe start date of the plan must precede its end date', ['date_start','date_stop']),
+        (_check_start_overlapping, 'Error!\nThe start date of the plan must not overlap with another plan', ['date_start']),
+        (_check_stop_overlapping, 'Error!\nThe stop date of the plan must not overlap with another plan', ['date_stop'])
     ]
     _sql_constraints = [
         ('name', 'unique(name)','The name must be unique !'),
@@ -183,26 +202,21 @@ class budget_program(osv.osv):
     _sql_constraints = [
         ('name', 'unique(name,plan_id)','The name must be unique for this budget!'),
         ]
+    def name_get(self, cr, uid, ids, context=None):
+        if context is None:
+            context = {}
+        res = []
+        if not len(ids):
+            return res
+        
+        for r in self.browse(cr, uid, ids, context):
+            name = r.name
+            stop_date = datetime.strptime(r.plan_id.date_stop, '%Y-%m-%d')
+            year =datetime.strftime(stop_date, '%Y')
+            rec_name = '%s(%s)' % (name, year)
+            res.append( (r['id'],rec_name) )
+        return res
     
-#    def bulk_line_create(self, cr, uid, ids, context=None):            
-#        line_obj = self.pool.get('budget.program.line')
-#        account_obj = self.pool.get('budget.account')
-#        for program in self.browse(cr, uid, ids, context=context):
-#            current_lines = len(program.program_lines)
-#            if current_lines > 0:
-#                raise osv.except_osv(_('Error!'), _('This program already contains program lines'))   
-#            account_ids= account_obj.search(cr,uid,[('active','=','true'),('account_type','=','budget')])
-#            for account in account_obj.browse(cr,uid,account_ids):
-##                line_name = '[' + account.composite_code + ']-' + account.name 
-#                line_name = '[' + account.code + ']-' + account.name
-#                line_account_id = account.id
-#                line_program_id = program.id
-#                line_obj.create(cr,uid,{
-#                                        'name':line_name,
-#                                        'account_id':line_account_id,
-#                                        'program_id':line_program_id,                                                                              
-#                                        })
-#        return True
     def make_composite_name(self,cr,uid,str):
         lst = []
         composite_name = ""
@@ -223,8 +237,9 @@ class budget_program(osv.osv):
     def create(self, cr, uid, vals, context={}):
        plan_obj = self.pool.get('budget.plan')
        plan = plan_obj.browse(cr, uid, [vals['plan_id']],context=context)[0]
-       
-       code = plan.year_id.code + '-' +  self.make_composite_name(cr,uid,vals['name'])
+       stop_date = datetime.strptime(plan.date_stop, '%Y-%m-%d')
+       year =datetime.strftime(stop_date, '%Y')
+       code = year + '-' +  self.make_composite_name(cr,uid,vals['name'])
        vals['code'] = code
        res = super(budget_program, self).create(cr, uid, vals, context)
        return res
@@ -377,7 +392,7 @@ class budget_program_line(osv.osv):
         'name':fields.char('Name', size=64, required=True),
         'parent_id': fields.many2one('budget.program.line', 'Parent line', ondelete='cascade'),
         'account_id':fields.many2one('budget.account','Budget account',required=True),
-        'program_id':fields.many2one('budget.program','Program',required=True, on_delete='cascade'),
+        'program_id':fields.many2one('budget.program','Program',required=True, ondelete='cascade'),
         'assigned_amount':fields.float('Assigned amount', digits_compute=dp.get_precision('Account'), required=True),
         'type':fields.related('account_id','account_type', type='char', relation='budget.account', string='Line Type', store=True,readonly=True  ),
         'state':fields.related('program_id','plan_id','state', type='char', relation='budget.plan',readonly=True ),
@@ -440,9 +455,9 @@ class budget_program_line(osv.osv):
             '''
         
     def create(self, cr, uid, vals, context={}):
-        if 'previous_year_line' not in vals.keys():
-            vals['code'] = self.pool.get('ir.sequence').get(cr, uid, 'budget.move')
-        res = super(budget_move_line, self).create(cr, uid, vals, context)
+#        if 'previous_year_line_id' not in vals.keys():
+#            vals['previous_year_line_id'] = self.pool.get('ir.sequence').get(cr, uid, 'budget.move')
+        res = super(budget_program_line, self).create(cr, uid, vals, context)
         return res
     
     def unlink(self, cr, uid, ids, context=None):
