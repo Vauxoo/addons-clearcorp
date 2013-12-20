@@ -42,14 +42,14 @@ msgstr "Factura"
 #. module: account_asset_extended_ccorp
 #: field:asset.asset.report.extended,value_residual:0
 msgid "Residual Value"
-msgstr "Valor Residual"
+msgstr "Valor residual"
 
 #. module: account_asset_extended_ccorp
 #: view:asset.asset.report.extended:0
 #: model:ir.actions.act_window,name:account_asset_extended_ccorp.action_asset_report_extended
 #: model:ir.ui.menu,name:account_asset_extended_ccorp.menu_action_asset_report_extended
 msgid "Assets Analysis Extended"
-msgstr "Análisis de Activos Extendido"
+msgstr "Análisis de activos extendido"
 
 #. module: account_asset_extended_ccorp
 #: field:asset.asset.report.extended,depreciation:0
@@ -65,7 +65,7 @@ msgstr "Línea factura"
 #. module: account_asset_extended_ccorp
 #: view:asset.asset.report.extended:0
 msgid "Assets Analysis"
-msgstr "Análisis de Activos"
+msgstr "Análisis de activos"
 
 #. module: account_asset_extended_ccorp
 #: view:asset.asset.report.extended:0
@@ -75,12 +75,12 @@ msgstr "Agrupar por..."
 #. module: account_asset_extended_ccorp
 #: field:asset.asset.report.extended,salvage_value:0
 msgid "Salvage Amount"
-msgstr "Valor de Salvaguarda"
+msgstr "Valor de salvaguarda"
 
 #. module: account_asset_extended_ccorp
 #: field:asset.asset.report.extended,gross_value:0
 msgid "Gross Amount"
-msgstr "Valor Bruto"
+msgstr "Valor bruto"
 
 #. module: account_asset_extended_ccorp
 #: field:account.invoice.line,asset_ids:0
@@ -93,13 +93,13 @@ msgstr "Activo"
 #: view:asset.asset.report.extended:0
 #: field:asset.asset.report.extended,asset_category_id:0
 msgid "Asset Category"
-msgstr "Categoría de Activo"
+msgstr "Categoría de activo"
 
 #. module: account_asset_extended_ccorp
 #: field:account.asset.asset,asset_number:0
 #: field:asset.asset.report.extended,asset_number:0
 msgid "Asset Number"
-msgstr "Número de Activo"
+msgstr "Número de activo"
 
 #. module: account_asset_extended_ccorp
 #: view:asset.asset.report.extended:0
@@ -116,9 +116,9 @@ msgstr "Modelo"
 #. module: account_asset_extended_ccorp
 #: field:asset.asset.report.extended,name:0
 msgid "Asset Name"
-msgstr "Nombre de Activo"
+msgstr "Nombre de activo"
 
 #. module: account_asset_extended_ccorp
 #: view:asset.asset.report.extended:0
 msgid "Residual Value per Category"
-msgstr "Valor Residual por Categoría"
+msgstr "Valor residual por categoría"
