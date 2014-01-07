@@ -38,6 +38,7 @@ Modify in the creation of several assets on an invoice line.
     'init_xml': [],
     'demo_xml': [],
     'data': [
+             'security/ir.model.access.csv',
              'account_asset_extended_ccorp_view.xml',
              'report/extended_asset_report_view.xml',
              ],
