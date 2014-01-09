@@ -14,7 +14,10 @@
                     </xpath>
                     <field name="chart_account_id" position="attributes">
                         <attribute name="attrs">{'required': True}</attribute>                      
-                    </field>                    
+                    </field>                        
+                    <field name="out_format" position="attributes">
+                        <attribute name="attrs">{'required': True}</attribute>
+                    </field>                
                     <field name="fiscalyear_id" position="attributes">
                         <attribute name="attrs">{'required': True}</attribute>
                     </field>
@@ -24,18 +27,20 @@
                     <field name="historic_strict" position="attributes">
                         <attribute name="attrs">{'invisible': True}</attribute>
                     </field>
-                    <field name="period_from" position="replace">
-                         <field name="period_from" domain="[('special', '=', False)]" attrs="{'required':[('filter', '=', 'filter_period')]}"/>
+                    <field name="period_from" position="attributes">
+                         <attribute name="domain">[('special', '=', False),('fiscalyear_id', '=', fiscalyear_id)]</attribute>
+                         <attribute name="attrs">{'required': [('filter', '=', 'filter_period')]}</attribute>
+                    </field>
+                     <field name="period_to" position="attributes">
+                        <attribute name="domain">[('special', '=', False),('fiscalyear_id', '=', fiscalyear_id)]</attribute>
+                        <attribute name="attrs">{'required': [('filter', '=', 'filter_period')]}</attribute>
                     </field>
                     <field name="date_from" position="attributes">
                         <attribute name="attrs">{'required': [('filter', '=', 'filter_date')]}</attribute>
                     </field>
-                     <field name="period_to" position="replace">
-                        <field name="period_to" domain="[('special', '=', False)]" attrs="{'required':[('filter', '=', 'filter_period')]}"/>
-                    </field>
                     <field name="date_to" position="attributes">
                         <attribute name="attrs">{'required': [('filter', '=', 'filter_date')]}</attribute>
-                    </field>
+                    </field>                    
                     <field name="special_period" position="attributes">
                         <attribute name="attrs">{'invisible': True}</attribute>
                     </field>

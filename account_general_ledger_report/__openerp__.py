@@ -21,27 +21,22 @@
 ##############################################################################
 
 {
-    'name': 'General Ledger Report Webkit',
+    'name': 'General Ledger Report',
     'version': '1.0',
-    'url': 'http://launchpad.net/openerp-ccorp-addons',
-    'author': 'ClearCorp S.A.',
-    'website': 'http://clearcorp.co.cr',
+    'author': 'CLEARCORP S.A.',
     'category': 'Accounting & Finance',
-    'complexity': 'normal',
-    'description': """This module modifies the general ledger report""",
-    'depends': [
-        'account',
-        'account_report_lib',
-        'account_report_signatures'
-        ],
-    'init_xml': [],
-    'demo_xml': [],
-    'update_xml': [
-                   'report/report.xml',
-                   'wizard/account_general_ledger_report_wizard.xml',
-                   'report_menus.xml',
-                   ],
-    'license': 'AGPL-3',
-    'installable': True,
+    'description': """
+General Ledger Report.
+======================
+This module modifies the general ledger report""",    
+    'website': 'http://clearcorp.co.cr',
+    'depends': ['account_report_lib',],
+    'data': [
+               'report/report.xml',
+               'wizard/account_general_ledger_report_wizard.xml',
+               'report_menus.xml',
+            ],
     'active': False,
+    'installable': True,    
+    'license': 'AGPL-3',
 }

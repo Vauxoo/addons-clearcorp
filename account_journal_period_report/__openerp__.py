@@ -20,22 +20,22 @@
 #
 ##############################################################################
 {
-    'name': 'Account Journal Period Report',
+    'name': 'Account Journal Report',
     'version': '1.0',
-    'url': 'http://launchpad.net/openerp-ccorp-addons',
-    'author': 'ClearCorp S.A.',
-    'website': 'http://clearcorp.co.cr',
+    'author': 'CLEARCORP S.A.',
     'category': 'Accounting & Finance',
-    'complexity': 'normal',
-    'description': """This module modifies the account journal period report """,
-    'depends': [
-        'account','account_report_lib',
-    ],
-    'init_xml': [],
-    'demo_xml': [],
-    'update_xml': ['wizard/account_journal_period_report_wizard_view.xml',
-                   'report/report.xml',],
-    'license': 'AGPL-3',
-    'installable': True,
+    'description': """
+Account Journal Report.
+==============================
+This module modifies the account journal period report """,
+    'website': 'http://clearcorp.co.cr',
+    'depends': ['account','account_report_lib',],
+    'data': [
+             'wizard/account_journal_period_report_wizard_view.xml',
+             'report/report.xml',
+             'report_menus.xml',
+            ],
     'active': False,
+    'installable': True,    
+    'license': 'AGPL-3',
 }

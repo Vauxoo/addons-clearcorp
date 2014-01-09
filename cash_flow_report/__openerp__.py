@@ -23,26 +23,20 @@
     "name" : 'Cash Flow Report',
     "version" : '1.0',
     "author" : 'CLEARCORP S.A.',
-    'complexity': 'normal',
-    "description": 
-        """
-            Cash Flow report in Webkit. This report allows you to monitor company activities that move cash flow 
-        """,
     'category': 'Accounting & Finance',
+    "description": """
+Cash Flow Report:
+=================
+Cash Flow report in Webkit. This report allows you to monitor company activities that move cash flow """,
     "website" : "http://clearcorp.co.cr",
-    "depends" : [
-            'account',
-            'account_report_lib',
-            'account_account_extended_ccorp',
-        ],
-    "update_xml" : [
-                    'report/report.xml',
-                    'wizard/cash_flow_report_wizard.xml',
-                    'cash_flow_type.xml',
-                    'report_menus.xml',
-                    ],
-    "auto_install": False,
-    "application": False,
-    "installable": True,
+    "depends" : ['account_report_lib', 'account_account_extended_ccorp',],
+    "data" : [
+                'report/report.xml',
+                'wizard/cash_flow_report_wizard.xml',
+                'cash_flow_type.xml',
+                'report_menus.xml',
+             ],
+    'active': False,
+    'installable': True,    
     'license': 'AGPL-3',
 }

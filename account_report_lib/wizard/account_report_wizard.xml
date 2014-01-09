@@ -6,13 +6,18 @@
             <field name="model">account.report.wiz</field>
             <field name="arch" type="xml">
                 <form string="Report Options" version="7.0">
+                    <field name="company_id" invisible="1"/>
                     <label string=""/>  <!-- binding for inherited views -->
-                    <group col="6" string="General Options">
-                       <field name="chart_account_id" widget='selection' on_change="onchange_chart_id(chart_account_id, context)"/>
-                       <field name="company_id" invisible="1"/>
-                       <field name="fiscalyear_id" domain="[('company_id','=',company_id)]"/>
-                       <field name="target_move"/>                   
+                    <group col="4" string="General Options">
+                       <field name="chart_account_id" widget='selection' on_change="onchange_chart_id(chart_account_id, context)"/>                       
+                       <field name="fiscalyear_id" domain="[('company_id','=',company_id)]" on_change="onchange_filter(filter, fiscalyear_id)"/>
+                       <field name="target_move"/> 
+                       <field name="out_format"/> 
                     </group>            
+                    <!--This field is invisible by default, because not all the report use it -->     
+                    <group col="4">
+                        <field name="sort_selection" string="Entries Sorted by" attrs="{'invisible': True }" colspan="4"/>              
+                    </group>
                     <group col="4" string="Account Financial Report">
                         <field name="account_base_report"  widget='selection'/>
                     </group>             
@@ -23,7 +28,7 @@
                             <field name="date_to" />
                         </group>
                         <group colspan="4" name="Periods" attrs="{'invisible':[('filter','!=','filter_period')], 'required':[('filter', '=', 'filter_period')]}">
-                            <field name="period_from" domain="[('fiscalyear_id', '=', fiscalyear_id)]"/>
+                            <field name="period_from" domain="[('fiscalyear_id', '=', fiscalyear_id)]" />
                             <field name="period_to" domain="[('fiscalyear_id', '=', fiscalyear_id)]"/>
                             <field name="special_period" />
                         </group>
@@ -38,6 +43,7 @@
                         <field name="historic_strict" string="Historic strict"/>            
                         <field name="amount_currency" string="With Currency"/>  
                    </group>             
+                   
                     <footer>
                         <button name="check_report" string="Print" type="object" default_focus="1" class="oe_highlight"/>
                         or 
