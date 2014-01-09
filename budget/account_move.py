@@ -156,8 +156,7 @@ class accountMove(orm.Model):
                            'WHERE id IN %s',
                            ('posted', tuple(valid_moves),))
                 
-        return True
-
+        return super(accountMove, self).post(cr, uid, ids, context=context) 
 
 class AccountMoveLine(osv.Model):
     _inherit = 'account.move.line'
