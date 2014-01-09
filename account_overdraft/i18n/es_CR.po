@@ -1,0 +1,109 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* account_overdraft
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-01-09 20:06+0000\n"
+"PO-Revision-Date: 2014-01-09 20:06+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_overdraft
+#: view:account.move:0
+msgid "Follow this project to automatically track the events associated to tasks and issues of this project."
+msgstr "Siga este proyecto para seguir automáticamente los eventos asociados a las tareas y temas de este proyecto."
+
+#. module: account_overdraft
+#: model:ir.model,name:account_overdraft.model_account_account
+msgid "Account"
+msgstr "Cuenta"
+
+#. module: account_overdraft
+#: model:ir.model,name:account_overdraft.model_account_move
+msgid "Account Entry"
+msgstr "Asiento contable"
+
+#. module: account_overdraft
+#: field:account.account,overdraft:0
+msgid "Alert overdraft"
+msgstr "Alertar sobregiro"
+
+#. module: account_overdraft
+#: code:addons/account_overdraft/account_move_inherit.py:103
+#: code:addons/account_overdraft/account_move_inherit.py:108
+#, python-format
+msgid "The account move %s overdraft the account %s %s."
+msgstr "El asiento contable %s sobregiró la cuenta %s %s."
+
+#. module: account_overdraft
+#: model:mail.message.subtype,name:account_overdraft.overdraft_subtype
+msgid "Overdraft"
+msgstr "Sobregiro"
+
+#. module: account_overdraft
+#: field:account.account,standard_balance:0
+msgid "Normal Balance"
+msgstr "Balance Normal"
+
+#. module: account_overdraft
+#: field:account.move,message_ids:0
+msgid "Messages"
+msgstr "Mensajes"
+
+#. module: account_overdraft
+#: help:account.move,message_ids:0
+msgid "Messages and communication history"
+msgstr "Mensajes y historial de comunicación"
+
+#. module: account_overdraft
+#: selection:account.account,standard_balance:0
+msgid "Credit"
+msgstr "Crédito"
+
+#. module: account_overdraft
+#: help:account.move,message_summary:0
+msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr "Contiene el resumen Chatter (número de mensajes, ...). Este resumen es directamente en formato HTML con el fin de insertarse en las vistas de kanban."
+
+#. module: account_overdraft
+#: field:account.move,message_unread:0
+msgid "Unread Messages"
+msgstr "Mensajes no leídos"
+
+#. module: account_overdraft
+#: field:account.move,message_follower_ids:0
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: account_overdraft
+#: constraint:account.move:0
+msgid "You cannot create more than one move per period on a centralized journal."
+msgstr "No puede crear más de un movimiento por periodo en un diario centralizado."
+
+#. module: account_overdraft
+#: selection:account.account,standard_balance:0
+msgid "Debit"
+msgstr "Débito"
+
+#. module: account_overdraft
+#: field:account.move,message_is_follower:0
+msgid "Is a Follower"
+msgstr "Es seguidor"
+
+#. module: account_overdraft
+#: field:account.move,message_summary:0
+msgid "Summary"
+msgstr "Resumen"
+
+#. module: account_overdraft
+#: help:account.move,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr "Si está marcado, los nuevos mensajes requieren su atención"
+
