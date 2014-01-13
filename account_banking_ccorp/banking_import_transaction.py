@@ -1247,7 +1247,7 @@ class bankImportTransaction(osv.Model):
                 raise osv.except_osv(
                     _('ERROR!'),
                     _('No period defined for date %(date)') %
-                    {'date': transactions.effective_date})
+                    {'date': transaction.effective_date})
             # When bank costs are part of transaction itself, split it.
             if transaction.type != bt.BANK_COSTS and transaction.provision_costs:
                 # Create new transaction for bank costs
