@@ -21,6 +21,7 @@
 ##############################################################################
 
 from osv import fields, orm
+import netsvc
 
 class purchaseOrderinherit(orm.Model):
     _inherit = "purchase.order"

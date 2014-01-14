@@ -84,10 +84,10 @@ class budget_plan(osv.osv):
         return True
 
     _columns ={
-        'name': fields.char('Name', size=64, required=True),
+        'name': fields.char('Name', size=64, required=True, states={'draft':[('readonly',False)]}),
 #        'year_id': fields.many2one('budget.year','Year',required=True),
-        'date_start': fields.date('Start Date', required=True),
-        'date_stop': fields.date('End Date', required=True),
+        'date_start': fields.date('Start Date', required=True,states={'draft':[('readonly',False)]}),
+        'date_stop': fields.date('End Date', required=True, states={'draft':[('readonly',False)]}),
         'state':fields.selection(STATE_SELECTION, 'State', readonly=True, 
         help="The state of the budget. A budget that is still under planning is in a 'Draft' state. Then the plan has to be confirmed by the user in order to be approved, the state switch to 'Confirmed'. Then the manager must confirm the budget plan to change the state to 'Approved'. If a plan will not be approved it must be cancelled.", select=True),
         'program_ids':fields.one2many('budget.program','plan_id','Programs'),
@@ -168,7 +168,8 @@ class budget_plan(osv.osv):
         return True
     
     def action_close(self, cr, uid, ids, context=None):
-        self.write(cr, uid, ids, {'state': 'closed'})
+        self.write(cr, uid, ids, {'state': 'closed'}, context=context)
+        self.close_plan(cr, uid, ids, context=context)
         return True
     
     def action_cancel(self, cr, uid, ids, context=None):
@@ -180,9 +181,30 @@ class budget_plan(osv.osv):
             if plan.state in ('approved','closed'):
                 raise osv.except_osv(_('Error!'), _('You cannot delete an approved or closed plan'))
         return super(budget_plan, self).unlink(cr, uid, ids, context=context)
- 
- 
- 
+    
+    def close_plan(self, cr, uid, ids, context=None):
+        bud_move_obj= self.pool.get('budget.move')
+        
+        for plan in self.browse(cr, uid, ids, context=context):
+            closeable_move_ids = self.get_budget_moves_for_close(cr, uid, plan.id, context=context)
+            bud_move_obj.process_for_close(cr, uid, closeable_move_ids, plan.id, context=context)
+            obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_close', context=context)
+
+    def get_budget_moves_for_close(self, cr, uid, plan_id, context=None):
+        query = 'SELECT DISTINCT BM.id FROM budget_move BM '\
+                'INNER JOIN budget_move_line BML ON BML.budget_move_id=BM.id '\
+                'INNER JOIN budget_program_line BPL ON BPL.id=BML.program_line_id '\
+                'INNER JOIN budget_program BPR ON BPR.id=BPL.program_id '\
+                'INNER JOIN budget_plan BP ON BP.id=BPR.plan_id '\
+                'WHERE BM.state IN %s'\
+                'AND BP.id = %d'
+        params = (plan_id , ('draft', 'reserved', 'compromised', 'in_execution'))
+        cr.execute(query,params)
+        result = [] 
+        for line in cr.fetchall():
+            result.append(line[0])
+        return result
+    
 ##
 #Program
 ## 
@@ -413,12 +435,11 @@ class budget_program_line(osv.osv):
         'child_consol_ids': fields.many2many('budget.program.line', 'budget_program_line_consol_rel', 'parent_id' ,'consol_child_id' , 'Consolidated Children'),
         'child_id': fields.function(_get_child_ids, type='many2many', relation="budget.program.line", string="Child Accounts"),
         'previous_year_line_id': fields.many2one('budget.program.line','Previous year line'),
-        #'bud_move_lines': fields.one2many('budget.move.line','program_line_id','Related move lines'),
         #'currency_id':fields.many2one('res.currency', string='Currency', readonly=True)
         }
     
     _defaults = {
-        'assigned_amount': 0.0,         
+        'assigned_amount': 0.0,
         'company_id': lambda self,cr,uid,c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.id,
         #'currency_id': lambda self,cr,uid,c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.currency_id,
     }
@@ -429,30 +450,26 @@ class budget_program_line(osv.osv):
     _sql_constraints = [
         ('name_uniq', 'unique(name, program_id,company_id)', 'The name of the line must be unique per company!'),
     ]
-    
-    def get_previous_year_line(self, cr, uid, ids, context=None):
+    def get_next_year_line(self, cr, uid, ids, context=None):
+        res = {}
         for line in self.browse(cr, uid, ids, context=context):
-            current_bud_year = datetime.strptime(line.program_id.plan_id.year_id.date.stop , '%Y-%m-%d')
-            previous_year = current_bud_year + relativedelta(years = -1)
+            result = self.search(cr, uid, [('previous_year_line_id','=',line.id)],context=context)
+            if result:
+                res[str(line.id)]=result[0]
+            else:
+                res[str(line.id)]=None
+        return res
+    
+    def set_previous_year_line(self, cr, uid, ids, context=None):
+        modified_ids = []
+        for line in self.browse(cr, uid, ids, context=context):
+            previous_program_lines = self.search(cr, uid, [('program_id','=',line.program_id.previous_program_id.id),('account_id','=',line.account_id.id),],context=context)
             
-            '''
-                        ds = datetime.strptime(fy.date_start, '%Y-%m-%d')
+            if previous_program_lines:
+                self.write(cr, uid, [line.id], {'previous_year_line_id':previous_program_lines[0]}, context=context)
+                modified_ids.append(line.id)
+        return modified_ids
 
-            while ds.strftime('%Y-%m-%d') < fy.date_stop:
-                de = ds + relativedelta(months=interval, days=-1)
-
-                if de.strftime('%Y-%m-%d') > fy.date_stop:
-                    de = datetime.strptime(fy.date_stop, '%Y-%m-%d')
-
-                period_obj.create(cr, uid, {
-                    'name': ds.strftime('%m/%Y'),
-                    'code': ds.strftime('%m/%Y'),
-                    'date_start': ds.strftime('%Y-%m-%d'),
-                    'date_stop': de.strftime('%Y-%m-%d'),
-                    'budgetyear_id': fy.id,
-                })
-                ds = ds + relativedelta(months=interval)
-            '''
         
     def create(self, cr, uid, vals, context={}):
 #        if 'previous_year_line_id' not in vals.keys():
@@ -883,6 +900,7 @@ class budget_move(osv.osv):
         ('compromised', 'Compromised'),
         ('in_execution', 'In Execution'),
         ('executed', 'Executed'),
+        ('transferred', 'Transferred'),
         ('cancel', 'Canceled'),
     ]
     
@@ -1025,7 +1043,6 @@ class budget_move(osv.osv):
         'budget.move':                      (lambda self, cr, uid, ids, context={}: ids, [], 10),
         'account.move.line.distribution':   (_get_budget_moves_from_dist, [], 10),
         'budget.move.line':                 (_get_budget_moves_from_lines, [], 10),
-         
     }
     
     _columns = {
@@ -1061,6 +1078,76 @@ class budget_move(osv.osv):
         'standalone_move':_check_manual
     }
     
+    def transfer_to_next_year(cr, uid, move_ids, plan_id, context=None):
+        MOVE_RELATED_MODELS=['account.invoice',
+                               'account.move',
+                               'hr.expense.expense',
+                               'hr.payslip',
+                               'purchase.order',
+                               ]
+        obj_bud_line= self.pool.get('budget.move.line')
+        for move in self.browse(cr, uid, move_ids, context=context):
+            vals={'code':move.code,
+                  'origin':move.origin,
+                  'company_id': move.company_id,
+                  'fixed_amount':move.fixed_amount,
+                  'standalone_move':move.standalone_move,
+                  'arch_reserved':move.arch_reserved,
+                  'arch_compromised':move.arch_compromised,
+                  'type':move.type,
+                  'previous_move_id':move.id
+                  }
+            new_move_id = self.create(cr, uid, vals, context=context)
+            for line in move.move_lines:
+
+                if line.executed != line.fixed_amount:
+                    prog_line_id=line.program_line_id.id
+                    next_prog_line = obj_bud_line.get_next_year_line(self, cr, uid,  [prog_line_id], context=context)[prog_line_id]
+                    if next_prog_line:
+                        line_vals={
+                                   'origin':line.origin,
+                                   'budget_move_id':new_move_id,
+                                   'program_line_id':next_prog_line[0],
+                                   'date':line.date,
+                                   'fixed_amount':line.fixed_amount,
+                                   'line_available':line.line_available,
+                                   'po_line_id': line.po_line_id.id,
+                                   'so_line_id': line.so_line_id.id,
+                                   'inv_line_id': line.inv_line_id.id,
+                                   'expense_line_id': line.expense_line_id.id,
+                                   'tax_line_id': line.tax_line_id.id,
+                                   'payslip_line_id': line.payslip_line_id.id,
+                                   'move_line_id': line.move_line_id.id,
+                                   'account_move_id': line.account_move_id.id,
+                                   }
+                        new_move_line_id = obj_bud_line.create(cr, uid, vals, context=context)
+                        fields_to_blank ={
+                                   'po_line_id': None,
+                                   'so_line_id': None,
+                                   'inv_line_id': None,
+                                   'expense_line_id': None,
+                                   'tax_line_id': None,
+                                   'payslip_line_id': None,
+                                   'move_line_id': None,
+                                   'account_move_id': None,
+                                   }
+                        obj_bud_line.write(cr, uid, [line.id], fields_to_blank, context=context)
+            self.replace_budget_move(cr, uid, move.id, new_move_id, MOVE_RELATED_MODELS,context=context )
+            
+    def replace_budget_move(self, cr, uid, old_id, new_id, models,context=None ):
+        for model in models:
+            obj=self.pool.get(model)
+            search_result = obj.search(cr, uid, [('budget_move_id','=',old_id)], context=context)
+            obj.write(cr, uid, search_result, {'budget_move_id': new_id})
+    
+    def process_for_close(self, cr, uid, closeable_move_ids, plan_id, context=None):
+        for move in self.browse(cr, uid, closeable_move_ids, context=context):
+            if move.state in ('draft', 'reserved'):
+                self._workflow_signal(cr, uid, [move.id], 'button_cancel', context=context)
+            if move.state in ('compromised', 'in_execution'):
+                self.transfer_to_next_year(cr, uid, [move.id], plan_id, context=context)
+                self._workflow_signal(cr, uid, [move.id], 'button_transfer', context=context)
+
     def _check_values(self, cr, uid, ids, context=None):
         list_line_ids_repeat = []
         
@@ -1169,6 +1256,11 @@ class budget_move(osv.osv):
     def action_cancel(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {'state': 'cancel'})
         self.recalculate_values(cr, uid, ids, context=context)
+        return True
+    
+    def action_transfer(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {'state': 'transferred'})
+        #self.recalculate_values(cr, uid, ids, context=context)
         return True
     
     def name_get(self, cr, uid, ids, context=None):
@@ -1379,7 +1471,7 @@ class budget_move_line(osv.osv):
         'budget_move_line_dist': fields.one2many('account.move.line.distribution','target_budget_move_line_id', 'Budget Move Line Distributions'),
         'type_distribution':fields.related('budget_move_line_dist','type', type="selection", relation="account.move.line.distribution", string="Distribution type"),
         #=======Payslip lines
-        'payslip_lines': fields.many2one('hr.payslip.line', 'Payslip Lines'),
+        #'payslip_lines': fields.many2one('hr.payslip.line', 'Payslip Lines'),
         'previous_move_line_id': fields.many2one('budget.move', 'Previous move line'),
 
     }
