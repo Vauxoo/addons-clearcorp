@@ -19,8 +19,20 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-import account_asset_extended_ccorp
-import report
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+{
+    'name': 'Account Overdraft',
+    'version': '1.0',
+    'author': 'CLEARCORP S.A.',
+    'category': 'Accounting & Finance',
+    'description': """
+Account Overdraft.
+==================
+This module can generate alerts for accounts that have overdrafts on debit and credit amounts""",    
+    'website': 'http://clearcorp.co.cr',
+    'depends': ['account',],
+    'data': ['data/data.xml',
+             'account_overdraft_view.xml'],
+    'active': False,
+    'installable': True,    
+    'license': 'AGPL-3',
+}

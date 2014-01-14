@@ -26,17 +26,36 @@ from openerp.osv import fields, osv, orm
 
 from openerp.addons.account_report_lib.account_report_base import accountReportbase
 
-class cashFlowreport(accountReportbase):
+class Parser(accountReportbase):
     
     def __init__(self, cr, uid, name, context):      
-        super(cashFlowreport, self).__init__(cr, uid, name, context=context)
+        super(Parser, self).__init__(cr, uid, name, context=context)
         self.localcontext.update({
             'cr': cr,
             'uid':uid,
             'pool': pooler,
+            'context': context,
             'get_data':self.get_data,
+            
+             #====================SET AND GET METHODS ===========================
+            'storage':{},
+            'set_data_template': self.set_data_template,
+            #===================================================================
         })
-
+    
+    def set_data_template(self, cr, uid, data,context):
+        
+        cash_flow_amounts, cash_flow_types, total_by_type = self.get_data(cr, uid, data,context)
+        
+        dict_update = {
+                       'cash_flow_amounts': cash_flow_amounts,
+                       'cash_flow_types':cash_flow_types,
+                       'total_by_type':total_by_type                       
+                       }
+        
+        self.localcontext['storage'].update(dict_update)
+        return False
+    
     #1. Report parameters
     def get_report_parameters(self, cr, uid, data, context):
         
@@ -210,10 +229,4 @@ class cashFlowreport(accountReportbase):
                                }
 
         return cash_flow_amounts, cash_flow_types, total_by_type
-
-report_sxw.report_sxw(
-    'report.cash_flow_report',
-    'cash.flow.type',
-    'addons/cash_flow_report/report/cash_flow_report.mako',
-    parser=cashFlowreport)
     

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data noupdate="1">
+        <record id="overdraft_subtype" model="mail.message.subtype">
+            <field name="name">Overdraft</field>
+            <field name="res_model">account.move</field>            
+            <field name="type_default">True</field>
+        </record>
+    </data>
+</openerp>

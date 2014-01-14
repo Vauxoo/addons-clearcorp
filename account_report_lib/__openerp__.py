@@ -19,17 +19,27 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-
 {
     'name': 'Account Report Library',
-    'description': """ Generic module that is the base for the reports. """,
+    'description': """ 
+Generic module that is the base for the reports. 
+================================================
+
+Observations about aeroo_reports module:
+----------------------------------------
+    * To obtain formats doc, xls and pdf you need to install report_aeroo_ooo
+    * All templates comes from a odt or ods file.    
+    """,
     'version': '1.0',
     'author': 'CLEARCORP S.A.',
     'category': 'Hidden',
     'website': "http://clearcorp.co.cr",
     'images': [],
-    'depends': ['account', 'report_webkit_lib'],
+    'depends': [
+                'account', 
+                'report_webkit_lib',
+                'report_aeroo',
+                'report_aeroo_ooo',],
     'init_xml': [],
     'demo' : [],
     'data': [

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-07 21:22+0000\n"
-"PO-Revision-Date: 2013-06-07 21:22+0000\n"
+"POT-Creation-Date: 2013-12-02 21:27+0000\n"
+"PO-Revision-Date: 2013-12-02 21:27+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,29 +21,20 @@ msgid "This report allows you to print or generate a pdf of your General Ledger"
 msgstr "Este reporte permite imprimir o generar un pdf del Libro mayor"
 
 #. module: account_general_ledger_report
-#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:31
-msgid "Filter by: "
-msgstr "Filtrado por: "
-
-#. module: account_general_ledger_report
 #: field:general.ledger.wiz,amount_currency:0
 msgid "With Currency"
 msgstr "Con moneda"
 
 #. module: account_general_ledger_report
-#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:104
-msgid "Label"
-msgstr "Etiqueta"
+#: help:general.ledger.wiz,amount_currency:0
+msgid "It adds the currency column on report if the currency differs from the company currency."
+msgstr "Añade una columna de moneda en el reporte si la moneda es diferente de la moneda de la compañía"
 
 #. module: account_general_ledger_report
-#: field:general.ledger.wiz,period_from:0
-msgid "Start Period"
-msgstr "Período inicial"
-
-#. module: account_general_ledger_report
-#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:109
-msgid "Debit"
-msgstr "Débito"
+#: code:addons/account_general_ledger_report/wizard/account_general_ledger_report_wizard.py:70
+#, python-format
+msgid "There is no template defined for the selected format. Check if aeroo report exist."
+msgstr "No existe una plantilla definida para el formato seleccionado. Debe existir un reporte de tipo aeroo."
 
 #. module: account_general_ledger_report
 #: view:general.ledger.wiz:0
@@ -54,6 +45,12 @@ msgstr "Libro mayor"
 #: help:general.ledger.wiz,historic_strict:0
 msgid "If selected, will display a historical unreconciled lines, taking into account the end of the period or date selected"
 msgstr "Si está selecciondo, desplegará las líneas no conciliadas históricas, dentro de la cuenta al final del período o de la fecha seleccionada"
+
+#. module: account_general_ledger_report
+#: code:addons/account_general_ledger_report/wizard/account_general_ledger_report_wizard.py:70
+#, python-format
+msgid "Error !"
+msgstr "Error !"
 
 #. module: account_general_ledger_report
 #: field:general.ledger.wiz,special_period:0
@@ -71,32 +68,11 @@ msgid "General Ledger Report Wizard"
 msgstr "Asistente para el Libro Mayor"
 
 #. module: account_general_ledger_report
-#: help:general.ledger.wiz,special_period:0
-msgid "Include special period"
-msgstr "Includir períodos especiales"
+#: model:ir.actions.act_window,name:account_general_ledger_report.action_general_ledger_report_wizard
+msgid "General Ledger Report"
+msgstr "Informe del libro mayor"
 
 #. module: account_general_ledger_report
-#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:44
-msgid "Period: "
-msgstr "Período: "
-
-#. module: account_general_ledger_report
-#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:100
-msgid "Period"
-msgstr "Período"
-
-#. module: account_general_ledger_report
-#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:59
-msgid "Target moves: "
-msgstr "Movimientos destino: "
-
-#. module: account_general_ledger_report
-#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:113
-msgid "Curr. Am."
-msgstr "Mon. M."
-
-#. module: account_general_ledger_report
-#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:99
 #: selection:general.ledger.wiz,filter:0
 msgid "Date"
 msgstr "Fecha"
@@ -107,25 +83,15 @@ msgid "Chart of Account"
 msgstr "Catálogo de Cuentas"
 
 #. module: account_general_ledger_report
-#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:162
-msgid "TOTAL"
-msgstr "TOTAL"
-
-#. module: account_general_ledger_report
 #: view:general.ledger.wiz:0
 #: field:general.ledger.wiz,journal_ids:0
 msgid "Journals"
 msgstr "Diarios"
 
 #. module: account_general_ledger_report
-#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:114
-msgid "Curr. Bal."
-msgstr "Bal. M."
-
-#. module: account_general_ledger_report
-#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:30
-msgid "Fiscal Year: "
-msgstr "Año fiscal: "
+#: field:general.ledger.wiz,target_move:0
+msgid "Target Moves"
+msgstr "Movimientos destino"
 
 #. module: account_general_ledger_report
 #: help:general.ledger.wiz,chart_account_id:0
@@ -133,40 +99,19 @@ msgid "Select Charts of Accounts"
 msgstr "Selecccione el catálogo contable"
 
 #. module: account_general_ledger_report
-#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:50
-msgid "Accounts: "
-msgstr "Cuentas: "
-
-#. module: account_general_ledger_report
 #: field:general.ledger.wiz,date_to:0
 msgid "End Date"
 msgstr "Fecha final"
 
 #. module: account_general_ledger_report
-#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:15
-msgid "General Ledger Report "
-msgstr "Informe del libro mayor"
+#: field:general.ledger.wiz,period_from:0
+msgid "Start Period"
+msgstr "Período inicial"
 
 #. module: account_general_ledger_report
 #: selection:general.ledger.wiz,target_move:0
 msgid "All Posted Entries"
 msgstr "Todos los apuntes publicados"
-
-
-#. module: account_general_ledger_report
-#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:88
-msgid "No move lines for this account"
-msgstr "No existen líneas de asiento para esta cuenta"
-
-#. module: account_general_ledger_report
-#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:47
-msgid "No filter"
-msgstr "Sin filtros"
-
-#. module: account_general_ledger_report
-#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:111
-msgid "Cumul. Bal."
-msgstr "Bal Acumul."
 
 #. module: account_general_ledger_report
 #: help:general.ledger.wiz,fiscalyear_id:0
@@ -177,11 +122,6 @@ msgstr "Mantener vacío para todos los años fiscales abiertos"
 #: field:general.ledger.wiz,period_to:0
 msgid "End Period"
 msgstr "Período final"
-
-#. module: account_general_ledger_report
-#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:110
-msgid "Credit"
-msgstr "Crédito"
 
 #. module: account_general_ledger_report
 #: field:general.ledger.wiz,fiscalyear_id:0
@@ -199,44 +139,24 @@ msgid "No Filters"
 msgstr "Sin filtros"
 
 #. module: account_general_ledger_report
-#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:101
-msgid "Entry"
-msgstr "Asiento"
+#: field:general.ledger.wiz,filter:0
+msgid "Filter by"
+msgstr "Filtrar por"
 
 #. module: account_general_ledger_report
-#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:56
-msgid "All"
-msgstr "Todo"
+#: field:general.ledger.wiz,out_format:0
+msgid "Print Format"
+msgstr "Formato de impresión"
 
 #. module: account_general_ledger_report
-#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:29
-msgid "Chart of Accounts: "
-msgstr "Catálogo de cuentas: "
+#: field:general.ledger.wiz,account_base_report:0
+msgid "Account Base Report"
+msgstr "Account Base Report"
 
 #. module: account_general_ledger_report
-#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:107
-msgid "Reconcile"
-msgstr "Conciliación"
-
-#. module: account_general_ledger_report
-#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:37
-msgid "Dates: "
-msgstr "Fechas: "
-
-#. module: account_general_ledger_report
-#: help:general.ledger.wiz,amount_currency:0
-msgid "It adds the currency column on report if the currency differs from the company currency."
-msgstr "Añade una columna de moneda en el reporte si la moneda es diferente de la moneda de la compañía"
-
-#. module: account_general_ledger_report
-#: field:general.ledger.wiz,target_move:0
-msgid "Target Moves"
-msgstr "Movimientos destino"
-
-#. module: account_general_ledger_report
-#: model:ir.actions.act_window,name:account_general_ledger_report.action_general_ledger_report_wizard
-msgid "General Ledger Report"
-msgstr "Informe del libro mayor"
+#: help:general.ledger.wiz,special_period:0
+msgid "Include special period"
+msgstr "Includir períodos especiales"
 
 #. module: account_general_ledger_report
 #: field:general.ledger.wiz,account_ids:0
@@ -249,32 +169,17 @@ msgid "Periods"
 msgstr "Períodos"
 
 #. module: account_general_ledger_report
-#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:103
-msgid "Partner"
-msgstr "Empresa"
-
-#. module: account_general_ledger_report
 #: field:general.ledger.wiz,date_from:0
 msgid "Start Date"
 msgstr "Fecha inicial"
 
 #. module: account_general_ledger_report
-#: field:general.ledger.wiz,filter:0
-msgid "Filter by"
-msgstr "Filtrar por"
-
-#. module: account_general_ledger_report
-#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:84
-msgid "Initial balance:"
-msgstr "Balance inicial:"
+#: view:general.ledger.wiz:0
+msgid "Account Financial Report"
+msgstr "Account Financial Report"
 
 #. module: account_general_ledger_report
 #: selection:general.ledger.wiz,target_move:0
 msgid "All Entries"
 msgstr "Todos los apuntes"
-
-#. module: account_general_ledger_report
-#: report:addons/account_general_ledger_report/report/account_general_ledger_report.mako:102
-msgid "Journal"
-msgstr "Diario"
 

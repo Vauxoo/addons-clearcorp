@@ -20,9 +20,9 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv
+from openerp.osv import fields, osv, orm
 
-class accountCommonwizard (osv.osv_memory):
+class accountCommonwizard (orm.Model):
     
     """
         This class is the base for the wizard report. If is necessary
@@ -40,14 +40,82 @@ class accountCommonwizard (osv.osv_memory):
     _inherit = "account.common.report"
     _description = "Account Common Wizard"
     
-    #This fields are added, because the account.common.report doesn't have this by default
+    """
+        With the inclusion of reports aeroo project, include the variable "out_format" which allows printing in different formats 
+        (including those of Microsoft xls, doc and PDF). It is the inclusion of these formats as a requirement for printing
+        accounting reports
+        
+        The options for this variable are: 
+            * PDF (this format call internally a odt template, pdf isn't a editable document)
+            * XLS and ODS: This format provide a editable document (internally call a ods template)
+        
+        Include two new methods: _out_format_get and in_format_get. Both extract report's name from context and get compatibles
+        formats for report. in_format_get is implemented in each wizard.  
+    """
     
+    #===========================================================================
+    # For field out_format, it has three options: PDF, XLS and ODS. This options
+    # provide a editable and no-editable document. If user needs to edit some 
+    # account financial report, then use options xls or ods. If user doesn't need 
+    # to edit the report, use option PDF.
+    #===========================================================================    
+    
+    #===========================================================================
+    # The out_format need to work two record for each report.    
+    # This is because with aeroo reports the ods template is very complicated 
+    # to word, specially with images and styles. 
+    # 
+    # So, to convert to pdf, it's necessary create a record with a odt file 
+    # (as a template) and to convert to ods or xls, it's necessary create a 
+    # record with a ods file (as a template). 
+    # 
+    # The idea is that user use odt or xls file for "work" in report, for example, 
+    # recalculate values or compute again the results. 
+    # The method search by report's name (set in context)
+    #
+    # out_format search in list of records. One of them must match with in_format,
+    # for example, if out_format = PDF, it must exist a record where in_format = odt.
+    # If out_format is xls or ods, it must exist a record where in_format = ods. 
+    #
+    # in_format ensures that exist a template created in system. This "checking"
+    # is made in each wizard for each report, because it's necessary report's name.
+    #===========================================================================
+    
+    def out_format_get (self, cr, uid, context={}):
+        obj = self.pool.get('report.mimetypes')
+        ids = []
+        list = []
+        
+        ids = obj.search(cr, uid, ['|', '|',('code','=','oo-xls'), ('code','=','oo-ods'),('code','=','oo-pdf')])
+        #only include format pdf that match with ods format.
+        for type in obj.browse(cr, uid, ids, context=context):
+            if type.code == 'oo-pdf' and type.compatible_types == 'oo-odt':
+                list.append(type.id)
+            elif type.code == 'oo-xls' or type.code == 'oo-ods':
+                list.append(type.id)
+
+        # If read method isn't call, the value for out_format "disappear",
+        # the value is preserved, but disappears from the screen (a rare bug)
+        res = obj.read(cr, uid, list, ['name'], context)
+        return [(str(r['id']), r['name']) for r in res]    
+
+    #=======================================================
+    
+    #This fields are added, because the account.common.report doesn't have this by default    
     _columns = {
         'account_ids': fields.many2many('account.account', string='Accounts'),
+        'journal_ids': fields.many2many('account.journal', string='Journals',), #redefined journal_ids, remove required atribute
         'historic_strict': fields.boolean('Strict History', help="If selected, will display a historical unreconciled lines, taking into account the end of the period or date selected"),
         'special_period': fields.boolean('Special period', help="Include special period"),    
         'amount_currency': fields.boolean('With Currency', help="It adds the currency column on report if the currency differs from the company currency."),
         'account_base_report':fields.many2one('account.financial.report', string="Account Base Report"), #Filter by account.financial.report only that are sum (view)
+        'out_format': fields.selection(out_format_get, 'Print Format'),
+        #This field could be redefined by another wizards, they could add more options
+        'sort_selection': fields.selection([('date', 'Date'), ('name', 'Name'),], 'Entries Sorted by',),
+    }
+    
+    _defaults = {
+        'journal_ids':[],
     }
     
     #Redefine this method, because in the "original" take both periods (start and end) and some report 
@@ -66,6 +134,8 @@ class accountCommonwizard (osv.osv_memory):
         result['special_period'] = 'special_period' in data['form'] and data['form']['special_period'] or False
         result['amount_currency'] = 'amount_currency' in data['form'] and data['form']['amount_currency'] or False
         result['account_base_report'] = 'account_base_report' in data['form'] and data['form']['account_base_report'] or False
+        result['out_format'] = 'out_format' in data['form'] and data['form']['out_format'] or False
+        result['sort_selection'] = 'sort_selection' in data['form'] and data['form']['sort_selection'] or False
       
         if data['form']['filter'] == 'filter_date':
             result['date_from'] = data['form']['date_from']
@@ -84,11 +154,14 @@ class accountCommonwizard (osv.osv_memory):
         data = {}
         data['ids'] = context.get('active_ids', [])
         data['model'] = context.get('active_model', 'ir.ui.menu')
+        data['report_name'] = context.get('report_name',False) # -> Include report's name to include print formats
+        
         #include new fields
-        data['form'] = self.read(cr, uid, ids, ['account_base_report','amount_currency','special_period','historic_strict','account_ids','date_from',  'date_to',  'fiscalyear_id', 'journal_ids', 'period_from', 'period_to',  'filter',  'chart_account_id', 'target_move'], context=context)[0]
-        #The fields that are relations (many2one, many2many, one2many needs extracted 
+        data['form'] = self.read(cr, uid, ids, ['account_base_report','amount_currency','special_period','historic_strict','account_ids','date_from',  'date_to',  'fiscalyear_id', 'journal_ids', 'period_from', 'period_to',  'filter',  'chart_account_id', 'target_move', 'out_format','sort_selection'], context=context)[0]
+        # The fields that are relations (many2one, many2many, one2many needs extracted 
         # the id and work with the id in the form)
-        for field in ['fiscalyear_id', 'chart_account_id', 'period_from', 'period_to','account_ids','account_base_report']:
+        # Also, selection fields, because they are a tuple with id, name.
+        for field in ['fiscalyear_id', 'chart_account_id', 'period_from', 'period_to','account_ids','account_base_report','out_format','journal_ids','sort_selection']:
             if isinstance(data['form'][field], tuple):
                 data['form'][field] = data['form'][field][0]
 

@@ -24,22 +24,156 @@ import pooler
 from openerp.addons.account_report_lib.account_report_base import accountReportbase
 from report import report_sxw
 
-class GeneralLedgerReportWebkit(accountReportbase):
+class Parser(accountReportbase):
 
     def __init__(self, cr, uid, name, context):
-        super(GeneralLedgerReportWebkit, self).__init__(cr, uid, name, context=context)
+        super(Parser, self).__init__(cr, uid, name, context=context)
         self.pool = pooler.get_pool(self.cr.dbname)
         self.cursor = self.cr
 
         self.localcontext.update({
             'cr': cr,
             'uid': uid,
-            'get_chart_account_id': self.get_chart_account_id,
-            'get_fiscalyear': self.get_fiscalyear,
-            'get_filter': self.get_filter,
-            'get_accounts_ids': self.get_accounts_ids,
-            'get_data':self.get_data,           
+            'get_data':self.get_data,            
+               
+            #====================SET AND GET METHODS ===========================
+            'storage':{},
+            'cumul_balance': None,
+            'cumul_balance_curr': None,
+            'set_data_template': self.set_data_template,
+            'get_data_template': self.get_data_template,
+            'get_cumul_balance': self.get_cumul_balance,
+            'get_cumul_balance_foreing_curr': self.get_cumul_balance_foreing_curr,
+            'get_total_cumul_balance':self.get_total_cumul_balance,
+            'get_total_cumul_balance_curr':self.get_total_cumul_balance_curr,
+            'compute_cumul_balance': self.compute_cumul_balance,
+            'compute_cumul_balance_foreign': self.compute_cumul_balance_foreign,
+            'compute_debit':self.compute_debit,
+            'compute_credit':self.compute_credit,
+            'compute_amount_total_curr':self.compute_amount_total_curr,
+            #===================================================================
+            
+            #=====================DISPLAY DATA==================================
+            'account_has_reconcile_column': self.account_has_reconcile_column,
+            'account_has_currrency_id': self.account_has_currrency_id, 
+            
+            #====================RESET VALUES ==========================#
+            'reset_balances': self.reset_balances, 
         })
+    
+    #set data to use in odt template. 
+    def set_data_template(self, cr, uid, data):        
+        
+        account_list_obj, account_lines, account_conciliation, account_balance = self.get_data(cr, uid, data)
+        
+        dict_update = {
+                       'account_list_obj': account_list_obj,
+                       'account_lines': account_lines,
+                       'account_conciliation': account_conciliation, 
+                       'account_balance': account_balance,
+                      }
+        
+        self.localcontext['storage'].update(dict_update)
+        return False
+    
+    #Return the cumul_balance for a specific account. Return cumul_balance
+    #variable from localcontext
+    def get_total_cumul_balance(self):
+        return self.localcontext['cumul_balance']
+    
+    #Return the cumul_balance_curr for a specific account. Return cumul_balance_curr
+    #variable from localcontext
+    def get_total_cumul_balance_curr(self):
+        return self.localcontext['cumul_balance_curr']
+    
+    #Return the acumulated balance for a specific account.
+    """@param account: account is a browse record. It's comming for the odt template """
+    def get_cumul_balance(self, account):
+       account_balance = self.localcontext['storage']['account_balance']
+       return account_balance[account.id]['balance'] or 0.0
+   
+    #Return the acumulated balance for a foreign account.   
+    """@param account: account is a browse record. It's comming for the odt template """
+    def get_cumul_balance_foreing_curr(self, account):
+        account_balance = self.localcontext['storage']['account_balance']
+        if 'foreign_balance' in account_balance[account.id].keys():
+            return account_balance[account.id]['foreign_balance']   
+        else:
+            return 0.0
+        
+    #===THIS METHODS ARE FOR DISPLAY DIFFERENTS HEADERS DEPENDS OF VALUES IN ACCOUNT    
+    #Has_reconcile
+    def account_has_reconcile_column(self, account):
+        if account.reconcile or (account.id in self.localcontext['storage']['account_conciliation'].keys() and self.localcontext['storage']['account_conciliation'][account.id]):
+            return True
+        return False
+    
+    #Has_foreing_currency
+    def account_has_currrency_id (self, account):
+        if account.report_currency_id:
+            return True
+        return False
+    
+    #==== THIS METHODS ARE TO COMPUTE TEMPORALLY VARIABLES IN ODT TEMPLATE=====
+    def compute_cumul_balance(self, account, line):   
+        # The first time, cumul_balance takes balance for account, 
+        # then, get this value and compute with debit and credit values from line.
+        cumul_balance = self.localcontext['cumul_balance']
+        
+        if cumul_balance:
+            cumul_balance = cumul_balance + line.debit - line.credit
+            self.localcontext['cumul_balance'] = cumul_balance
+        
+        else:
+            cumul_balance = self.get_cumul_balance(account)
+            cumul_balance = cumul_balance + line.debit - line.credit
+            self.localcontext['cumul_balance'] = cumul_balance
+        
+        return cumul_balance
+    
+    def compute_cumul_balance_foreign(self, account, line):
+        # The first time, cumul_balance takes balance for account, 
+        # then, get this value and compute with debit and credit values from line.
+        cumul_balance_curr = self.localcontext['cumul_balance_curr']
+        
+        if cumul_balance_curr:
+            cumul_balance_curr = cumul_balance_curr + line.debit - line.credit
+            self.localcontext['cumul_balance_curr'] = cumul_balance_curr
+        
+        else:
+            cumul_balance_curr = self.get_cumul_balance_foreing_curr(account)
+            cumul_balance_curr = cumul_balance_curr + line.debit - line.credit
+            self.localcontext['cumul_balance_curr'] = cumul_balance_curr
+        
+        return cumul_balance_curr
+    
+    #====== COMPUTE EACH TOTAL FOR EACH COLUMN ======#
+    def compute_amount_total_curr(self, move_lines):
+        total = 0.0        
+        for line in move_lines:
+            total += line.amount_currency        
+        return total
+    
+    def compute_debit (self, move_lines):
+        total = 0.0        
+        for line in move_lines:
+            total += line.debit
+        return total
+    
+    def compute_credit (self, move_lines):
+        total = 0.0        
+        for line in move_lines:
+            total += line.credit
+        return total
+    
+    #======METHODS TO RESET VALUES ====#
+    def reset_balances(self):
+        self.localcontext['cumul_balance'] = None
+        self.localcontext['cumul_balance_curr'] = None
+        
+        return True
+               
+   #==========================================================================
 
     def get_data(self, cr, uid, data):
         filter_data = []
@@ -172,8 +306,3 @@ class GeneralLedgerReportWebkit(accountReportbase):
         
         
         return account_list_obj, account_lines, account_conciliation, account_balance
-    
-report_sxw.report_sxw('report.account_general_ledger_webkit',
-                             'account.account',
-                             'addons/account_general_ledger_report/report/account_general_ledger_report.mako',
-                             parser=GeneralLedgerReportWebkit)

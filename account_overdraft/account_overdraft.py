@@ -20,7 +20,14 @@
 #
 ##############################################################################
 
-import account_asset_extended_ccorp
-import report
+from osv import osv,fields, orm
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+class accountAccountoverdraft(orm.Model):
+    
+    _inherit = 'account.account'
+    
+    _columns = {
+        'standard_balance': fields.selection([('credit','Credit'), ('debit','Debit')], 'Normal Balance',),
+        'overdraft': fields.boolean('Alert overdraft'),
+    }
+    

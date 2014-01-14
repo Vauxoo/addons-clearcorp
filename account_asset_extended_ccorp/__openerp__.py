@@ -37,7 +37,11 @@ Modify in the creation of several assets on an invoice line.
     'depends': ['account_asset'],
     'init_xml': [],
     'demo_xml': [],
-    'data': ['account_asset_extended_ccorp_view.xml'],
+    'data': [
+             'security/ir.model.access.csv',
+             'account_asset_extended_ccorp_view.xml',
+             'report/extended_asset_report_view.xml',
+             ],
     'license': 'AGPL-3',
     'installable': True,
     'active': False,
