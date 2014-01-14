@@ -255,7 +255,6 @@ class budget_program(osv.osv):
                 composite_name = composite_name + word +'-'
         return composite_name[0:-1]
 
-
     def create(self, cr, uid, vals, context={}):
        plan_obj = self.pool.get('budget.plan')
        plan = plan_obj.browse(cr, uid, [vals['plan_id']],context=context)[0]
@@ -263,10 +262,24 @@ class budget_program(osv.osv):
        year =datetime.strftime(stop_date, '%Y')
        code = year + '-' +  self.make_composite_name(cr,uid,vals['name'])
        vals['code'] = code
+
+		if plan.state in ('approved', 'closed'):
+           raise osv.except_osv(_('Error!'), _('You cannot create a program with a approved or closed plan'))
+       
        res = super(budget_program, self).create(cr, uid, vals, context)
        return res
 
-
+    def unlink(self, cr, uid, ids, context=None):
+        for program in self.browse(cr, uid,ids, context=context):
+            if program.plan_id.state in ('approved','closed'):
+                raise osv.except_osv(_('Error!'), _('You cannot delete a program that is associated with an approved or closed plan '))
+        return super(budget_program, self).unlink(cr, uid, ids, context=context)
+    
+    def write(self, cr, uid, ids, vals, context=None):
+        for program in self.browse(cr, uid,ids, context=context):
+            if program.plan_id.state in ('approved', 'closed'):
+                raise osv.except_osv(_('Error!'), _('You cannot modify a program with a approved or closed plan'))
+        return super(budget_program, self).write(cr, uid, ids, context=context)
 
 ######################################################
 
@@ -489,7 +502,16 @@ class budget_program_line(osv.osv):
             if line.program_id.plan_id.state in ('approved','closed'):
                 raise osv.except_osv(_('Error!'), _('You cannot modify a line from an approved or closed plan'))
         return super(budget_program_line, self).write(cr, uid, ids, vals, context=context)
-
+    
+    def create(self, cr, uid, vals, context={}):
+       program_obj = self.pool.get('budget.program')
+       program = program_obj.browse(cr, uid, [vals['program_id']],context=context)[0]
+       
+       if program.plan_id.state in ('approved', 'closed'):
+           raise osv.except_osv(_('Error!'), _('You cannot create a line from an approved or closed plan'))
+           
+       return super(budget_program_line, self).create(cr, uid, vals, context)
+   
 ##
 #ACCOUNT
 ##  
@@ -1184,12 +1206,26 @@ class budget_move(osv.osv):
                         return [False, _('The amount to substract from ') + line.program_line_id.name + _(' is greater than the available ')]
         return [True,'']
     
-    def create(self, cr, uid, vals, context={}):
+   def create(self, cr, uid, vals, context={}):
+        bud_program_lines_obj = self.pool.get('budget.program.line')
+        bud_program_lines = []
+        
         if 'code' not in vals.keys():
             vals['code'] = self.pool.get('ir.sequence').get(cr, uid, 'budget.move')
         else:
             if vals['code']== None or vals['code'] == '':
                 vals['code'] = self.pool.get('ir.sequence').get(cr, uid, 'budget.move')
+        
+        #Extract program_line_id from values (move_lines is a budget move line list)
+        for bud_line in vals['move_lines']:
+            #position 3 is a dictionary, extract program_line_id value
+            program_line_id = bud_line[2]['program_line_id']
+            bud_program_lines.append(program_line_id)
+                
+        for line in bud_program_lines_obj.browse(cr, uid, bud_program_lines, context=context):
+            if line.program_id.plan_id.state in ('approved','closed'):
+                raise osv.except_osv(_('Error!'), _('You cannot create a budget move that have associated budget move lines with a approved or closed budget plan'))
+        
         res = super(budget_move, self).create(cr, uid, vals, context)
         return res
     
@@ -1329,7 +1365,11 @@ class budget_move(osv.osv):
         for move in self.browse(cr, uid, ids, context=context):
             if move.state != 'draft':
                 raise osv.except_osv(_('Error!'), _('Orders in state other than draft cannot be deleted \n'))
-        super(budget_move,self).unlink(cr, uid, ids, context=context)
+	    	for line in move.move_lines:
+                if line.program_line_id.program_id.plan_id.state in ('approved','closed'):
+                    raise osv.except_osv(_('Error!'), _('You cannot delete a budget move budget move that have associated budget lines with a approved or closed budget plan'))
+           
+		super(budget_move,self).unlink(cr, uid, ids, context=context)
 
 
 class budget_move_line(osv.osv):
@@ -1484,9 +1524,30 @@ class budget_move_line(osv.osv):
         (_check_plan_state, 'Error!\n The plan for this program line must be in approved state', ['fixed_amount','type']),
         ]
     
+    def create(self, cr, uid, vals, context={}):
+        program_obj = self.pool.get('budget.program')
+        program = program_obj.browse(cr, uid, [vals['program_id']],context=context)[0]
+       
+        if program.plan_id.state in ('approved', 'closed'):
+           raise osv.except_osv(_('Error!'), _('You cannot create a budget move line from an approved or closed plan'))
+           
+        return super(budget_program_line, self).create(cr, uid, vals, context)
+       
     def write(self, cr, uid, ids, vals, context=None):
         bud_move_obj = self.pool.get('budget.move')
+        
+        for bud_move_line in browse(cr, uid, ids, context=context):
+             if bud_move_line.budget_move_id.program_line_id.program_id.plan_id.state in ('approved','closed'):
+                raise osv.except_osv(_('Error!'), _('You cannot create a budget move with a approved or closed plan'))
+                    
         super(budget_move_line, self).write(cr, uid, ids, vals, context=context)
+
+    def unlink(self, cr, uid, ids, context=None):
+        for bud_move_line in browse(cr, uid, ids, context=context):
+             if bud_move_line.budget_move_id.program_line_id.program_id.plan_id.state in ('approved','closed'):
+                raise osv.except_osv(_('Error!'), _('You cannot create a budget move with a approved or closed plan'))
+                    
+        super(budget_move_line, self).unlink(cr, uid, ids, vals, context=context)
 
 class account_move_line_distribution(orm.Model):
     _name = "account.move.line.distribution"
@@ -1509,7 +1570,36 @@ class account_move_line_distribution(orm.Model):
         'distribution_amount': 0.0,
         'distribution_percentage': 0.0,
     }
+
+    #====== Check the plan for distribution line
+    def get_plan_for_distributions(self, cr, uid, dist_ids, context=None):
+       query = 'SELECT AMLD.id AS dist_id, BP.id AS plan_id FROM account_move_line_distribution AMLD '\
+               'INNER JOIN budget_move_line BML ON AMLD.target_budget_move_line_id = BML.id '\
+               'INNER JOIN  budget_move BM ON BML.budget_move_id=BM.id '\
+               'INNER JOIN budget_program_line BPL ON BPL.id=BML.program_line_id '\
+               'INNER JOIN budget_program BPR ON BPR.id=BPL.program_id '\
+               'INNER JOIN budget_plan BP ON BP.id=BPR.plan_id '\
+               'WHERE BP.id IN %s'
+       params = (tuple(dist_ids),)
+       cr.execute(query,params)
+       result = cr.dictfetchall()
+       
+       return result
     
+    def _check_plan_distribution_line(self, cr, uid, ids, context=None):
+        
+        plan_obj = self.pool.get('budget.plan')
+        
+        #Get plan for distribution lines 
+        result = self.get_plan_for_distributions(cr, uid, ids, context)
+                
+        #Check plan's state
+        for dist_id, plan_id in result.iteritems():
+            plan = plan_obj.browse(cr, uid, plan_id, context=context)[0]
+            if plan_id.state in ('approved','closed'):
+                 return False
+        return True
+
     #A distribution line only has one target. This target can be a move_line or a budget_line
     def _check_target_move_line (self, cr, uid, ids, context=None):
         distribution_line_obj = self.browse(cr, uid, ids[0],context)
@@ -1521,8 +1611,6 @@ class account_move_line_distribution(orm.Model):
     
     #======== Distribution amount must be less than compromised amount in budget move line
     def _check_distribution_amount_budget(self, cr, uid, ids, context=None):
-        
-        
         for distribution in self.browse(cr,uid,ids,context=context):
             computes = self.pool.get('budget.move.line').compute(cr, uid, [distribution.target_budget_move_line_id.id], ['compromised'], None, context=context, ignore_dist_ids=[distribution.id])
             compromised = round(computes[distribution.target_budget_move_line_id.id]['compromised'], self.pool.get('decimal.precision').precision_get(cr, uid, 'Account'))
@@ -1574,7 +1662,7 @@ class account_move_line_distribution(orm.Model):
         (_check_distribution_amount_budget, 'The distribution amount can not be greater than compromised amount in budget move line selected', ['distribution_amount']),
         (_check_distribution_percentage, 'The distribution percentage can not be greater than sum of all percentage for the account move line selected', ['account_move_line_id']),    
         (_check_distribution_amount, 'The distribution amount can not be greater than maximum amount of remaining amount for account move line selected', ['distribution_amount']),    
-
+        (_check_plan_distribution_line, 'You cannot create a distribution with a approved or closed plan'),    
     ]
 
     def clean_reconcile_entries(self, cr, uid, move_line_ids, context=None):
@@ -1597,9 +1685,36 @@ class account_move_line_distribution(orm.Model):
         else:
             dist_type = 'auto'
         vals['type'] = dist_type
+
         res = super(account_move_line_distribution, self).create(cr, uid, vals, context)
         return res   
 
-            
+    def write(self, cr, uid, ids, vals, context=None):       
+        plan_obj = self.pool.get('budget.plan')
+        
+        #Get plan for distribution lines 
+        result = self.get_plan_for_distributions(cr, uid, ids, context)
+                
+        #Check plan's state
+        for dist_id, plan_id in result.iteritems():
+            plan = plan_obj.browse(cr, uid, plan_id, context=context)[0]
+            if plan_id.state in ('approved','closed'):
+                 raise osv.except_osv(_('Error!'), _('You cannot modify a distribution with a approved or closed plan'))
+                    
+        super(budget_move_line, self).write(cr, uid, ids, vals, context=context)
+    
+    def unlink(self, cr, uid, ids, context=None):
+        plan_obj = self.pool.get('budget.plan')
+        
+        #Get plan for distribution lines 
+        result = self.get_plan_for_distributions(cr, uid, ids, context)
+                
+        #Check plan's state
+        for dist_id, plan_id in result.iteritems():
+            plan = plan_obj.browse(cr, uid, plan_id, context=context)[0]
+            if plan_id.state in ('approved','closed'):
+                 raise osv.except_osv(_('Error!'), _('You cannot delete a distribution with a approved or closed plan'))
+                                        
+        super(budget_move_line, self).unlink(cr, uid, ids, vals, context=context)   
     
 

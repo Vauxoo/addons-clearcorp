@@ -156,7 +156,7 @@ class accountMove(orm.Model):
                            'WHERE id IN %s',
                            ('posted', tuple(valid_moves),))
                 
-        return True
+        return super(accountMove, self).post(cr, uid, ids, context=context) 
 
     def button_cancel(self, cr, uid, ids, context=None):
         amld_obj=self.pool.get('account.move.line.distribution')
