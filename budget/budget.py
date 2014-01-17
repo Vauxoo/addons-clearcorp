@@ -168,8 +168,8 @@ class budget_plan(osv.osv):
         return True
     
     def action_close(self, cr, uid, ids, context=None):
-        self.write(cr, uid, ids, {'state': 'closed'}, context=context)
         self.close_plan(cr, uid, ids, context=context)
+        self.write(cr, uid, ids, {'state': 'closed'}, context=context)
         return True
     
     def action_cancel(self, cr, uid, ids, context=None):
@@ -188,7 +188,7 @@ class budget_plan(osv.osv):
         for plan in self.browse(cr, uid, ids, context=context):
             closeable_move_ids = self.get_budget_moves_for_close(cr, uid, plan.id, context=context)
             bud_move_obj.process_for_close(cr, uid, closeable_move_ids, plan.id, context=context)
-            obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_close', context=context)
+            bud_move_obj._workflow_signal(cr, uid, [plan.id], 'button_close', context=context)
 
     def get_budget_moves_for_close(self, cr, uid, plan_id, context=None):
         query = 'SELECT DISTINCT BM.id FROM budget_move BM '\
@@ -197,8 +197,8 @@ class budget_plan(osv.osv):
                 'INNER JOIN budget_program BPR ON BPR.id=BPL.program_id '\
                 'INNER JOIN budget_plan BP ON BP.id=BPR.plan_id '\
                 'WHERE BM.state IN %s'\
-                'AND BP.id = %d'
-        params = (plan_id , ('draft', 'reserved', 'compromised', 'in_execution'))
+                'AND BP.id = %s'
+        params = (('draft', 'reserved', 'compromised', 'in_execution'), plan_id)
         cr.execute(query,params)
         result = [] 
         for line in cr.fetchall():
@@ -263,7 +263,7 @@ class budget_program(osv.osv):
        code = year + '-' +  self.make_composite_name(cr,uid,vals['name'])
        vals['code'] = code
 
-		if plan.state in ('approved', 'closed'):
+       if plan.state in ('approved', 'closed'):
            raise osv.except_osv(_('Error!'), _('You cannot create a program with a approved or closed plan'))
        
        res = super(budget_program, self).create(cr, uid, vals, context)
@@ -279,7 +279,7 @@ class budget_program(osv.osv):
         for program in self.browse(cr, uid,ids, context=context):
             if program.plan_id.state in ('approved', 'closed'):
                 raise osv.except_osv(_('Error!'), _('You cannot modify a program with a approved or closed plan'))
-        return super(budget_program, self).write(cr, uid, ids, context=context)
+        return super(budget_program, self).write(cr, uid, ids, vals, context=context)
 
 ######################################################
 
@@ -468,9 +468,9 @@ class budget_program_line(osv.osv):
         for line in self.browse(cr, uid, ids, context=context):
             result = self.search(cr, uid, [('previous_year_line_id','=',line.id)],context=context)
             if result:
-                res[str(line.id)]=result[0]
+                res[line.id]=result[0]
             else:
-                res[str(line.id)]=None
+                res[line.id]=None
         return res
     
     def set_previous_year_line(self, cr, uid, ids, context=None):
@@ -1001,7 +1001,7 @@ class budget_move(osv.osv):
         for move in self.browse(cr, uid, ids, context=context):
             move_fixed_total = 0.0
             for line in move.move_lines:
-                mov_line_obj.write(cr, uid, line.id, {'date' : line.date}, context=context)
+                mov_line_obj.write(cr, uid, [line.id], {'date' : line.date}, context=context)
                 move_fixed_total += line.fixed_amount
             self.write(cr, uid, ids, {'date': move.date, 'fixed_amount': move_fixed_total}, context=context) 
     
@@ -1092,6 +1092,7 @@ class budget_move(osv.osv):
         'budget_move_line_dist': fields.related('move_lines', 'budget_move_line_dist', type='one2many', relation="account.move.line.distribution", string='Account Move Line Distribution'),
         'type': fields.selection(_select_types, 'Move Type', required=True, readonly=True, states={'draft':[('readonly',False)]}),
         'previous_move_id': fields.many2one('budget.move', 'Previous move'),
+        'from_migration':fields.boolean('Created from migration')
     }
     _defaults = {
         'state': 'draft',
@@ -1100,7 +1101,7 @@ class budget_move(osv.osv):
         'standalone_move':_check_manual
     }
     
-    def transfer_to_next_year(cr, uid, move_ids, plan_id, context=None):
+    def transfer_to_next_year(self, cr, uid, move_ids, plan_id, context=None):
         MOVE_RELATED_MODELS=['account.invoice',
                                'account.move',
                                'hr.expense.expense',
@@ -1108,28 +1109,29 @@ class budget_move(osv.osv):
                                'purchase.order',
                                ]
         obj_bud_line= self.pool.get('budget.move.line')
+        obj_prog_line= self.pool.get('budget.program.line')
         for move in self.browse(cr, uid, move_ids, context=context):
-            vals={'code':move.code,
+            vals={#'code':move.code,
                   'origin':move.origin,
-                  'company_id': move.company_id,
+                  'company_id': move.company_id.id,
                   'fixed_amount':move.fixed_amount,
                   'standalone_move':move.standalone_move,
                   'arch_reserved':move.arch_reserved,
                   'arch_compromised':move.arch_compromised,
                   'type':move.type,
-                  'previous_move_id':move.id
+                  'previous_move_id':move.id,
+                  'from_migration':True
                   }
             new_move_id = self.create(cr, uid, vals, context=context)
             for line in move.move_lines:
-
                 if line.executed != line.fixed_amount:
                     prog_line_id=line.program_line_id.id
-                    next_prog_line = obj_bud_line.get_next_year_line(self, cr, uid,  [prog_line_id], context=context)[prog_line_id]
+                    next_prog_line = obj_prog_line.get_next_year_line(cr, uid,  [prog_line_id], context=context)[prog_line_id]
                     if next_prog_line:
                         line_vals={
                                    'origin':line.origin,
                                    'budget_move_id':new_move_id,
-                                   'program_line_id':next_prog_line[0],
+                                   'program_line_id':next_prog_line,
                                    'date':line.date,
                                    'fixed_amount':line.fixed_amount,
                                    'line_available':line.line_available,
@@ -1142,7 +1144,7 @@ class budget_move(osv.osv):
                                    'move_line_id': line.move_line_id.id,
                                    'account_move_id': line.account_move_id.id,
                                    }
-                        new_move_line_id = obj_bud_line.create(cr, uid, vals, context=context)
+                        new_move_line_id = obj_bud_line.create(cr, uid, line_vals, context=context)
                         fields_to_blank ={
                                    'po_line_id': None,
                                    'so_line_id': None,
@@ -1155,6 +1157,12 @@ class budget_move(osv.osv):
                                    }
                         obj_bud_line.write(cr, uid, [line.id], fields_to_blank, context=context)
             self.replace_budget_move(cr, uid, move.id, new_move_id, MOVE_RELATED_MODELS,context=context )
+    
+            if move.state == 'compromised':
+                self._workflow_signal(cr, uid, [new_move_id], 'button_reserve', context=context)
+                self._workflow_signal(cr, uid, [new_move_id], 'button_compromise', context=context)
+            if move.state == 'in_execution':
+                self._workflow_signal(cr, uid, [new_move_id], 'button_execute', context=context)
             
     def replace_budget_move(self, cr, uid, old_id, new_id, models,context=None ):
         for model in models:
@@ -1206,7 +1214,7 @@ class budget_move(osv.osv):
                         return [False, _('The amount to substract from ') + line.program_line_id.name + _(' is greater than the available ')]
         return [True,'']
     
-   def create(self, cr, uid, vals, context={}):
+    def create(self, cr, uid, vals, context={}):
         bud_program_lines_obj = self.pool.get('budget.program.line')
         bud_program_lines = []
         
@@ -1217,7 +1225,7 @@ class budget_move(osv.osv):
                 vals['code'] = self.pool.get('ir.sequence').get(cr, uid, 'budget.move')
         
         #Extract program_line_id from values (move_lines is a budget move line list)
-        for bud_line in vals['move_lines']:
+        for bud_line in vals.get('move_lines',[]):
             #position 3 is a dictionary, extract program_line_id value
             program_line_id = bud_line[2]['program_line_id']
             bud_program_lines.append(program_line_id)
@@ -1365,7 +1373,7 @@ class budget_move(osv.osv):
         for move in self.browse(cr, uid, ids, context=context):
             if move.state != 'draft':
                 raise osv.except_osv(_('Error!'), _('Orders in state other than draft cannot be deleted \n'))
-	    	for line in move.move_lines:
+            for line in move.move_lines:
                 if line.program_line_id.program_id.plan_id.state in ('approved','closed'):
                     raise osv.except_osv(_('Error!'), _('You cannot delete a budget move budget move that have associated budget lines with a approved or closed budget plan'))
            
@@ -1409,10 +1417,13 @@ class budget_move_line(osv.osv):
                 if void_line.id in ignore_dist_ids:
                     continue
                 reversed += void_line
+            
+            if line.previous_move_line_id:
+                executed = executed + line.previous_move_line_id.executed
+                reversed = reversed + line.previous_move_line_id.reversed
                         
             if line.state in ('compromised','executed','in_execution'):
                 compromised = line.fixed_amount - executed - line.reversed
-            
             
             if line.state == 'reserved':
                     reserved = line.fixed_amount - reversed
@@ -1469,7 +1480,8 @@ class budget_move_line(osv.osv):
     def _check_plan_state(self, cr, uid, ids, context=None):
         for line in self.browse(cr,uid,ids,context=context):
             if line.program_line_id.state != 'approved':
-                return False
+                if not line.from_migration:
+                    return False
         return True
         
     def _line_name(self, cr, uid, ids, field_name, args, context=None):
@@ -1513,11 +1525,13 @@ class budget_move_line(osv.osv):
         #=======Payslip lines
         #'payslip_lines': fields.many2one('hr.payslip.line', 'Payslip Lines'),
         'previous_move_line_id': fields.many2one('budget.move', 'Previous move line'),
+        'from_migration':fields.related('budget_move_id','from_migration', relation='budget.move', string='Transferred', readonly=True)
 
     }
     _defaults = {
         'date': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
-        'reversed': 0.0
+        'reversed': 0.0,
+        'from_migration':False
         }
     
     _constraints=[
@@ -1525,28 +1539,25 @@ class budget_move_line(osv.osv):
         ]
     
     def create(self, cr, uid, vals, context={}):
-        program_obj = self.pool.get('budget.program')
-        program = program_obj.browse(cr, uid, [vals['program_id']],context=context)[0]
+        program_line_obj = self.pool.get('budget.program.line')
+        program_line = program_line_obj.browse(cr, uid, [vals['program_line_id']],context=context)[0]
        
-        if program.plan_id.state in ('approved', 'closed'):
-           raise osv.except_osv(_('Error!'), _('You cannot create a budget move line from an approved or closed plan'))
-           
-        return super(budget_program_line, self).create(cr, uid, vals, context)
+        if program_line.program_id.plan_id.state in ('cancel', 'closed'):
+           raise osv.except_osv(_('Error!'), _('You cannot create a budget move line from an cancel or closed plan'))
+        return super(budget_move_line, self).create(cr, uid, vals, context)
        
     def write(self, cr, uid, ids, vals, context=None):
         bud_move_obj = self.pool.get('budget.move')
         
-        for bud_move_line in browse(cr, uid, ids, context=context):
-             if bud_move_line.budget_move_id.program_line_id.program_id.plan_id.state in ('approved','closed'):
-                raise osv.except_osv(_('Error!'), _('You cannot create a budget move with a approved or closed plan'))
-                    
+        for bud_move_line in self.browse(cr, uid, ids, context=context):
+             if bud_move_line.program_line_id.program_id.plan_id.state in ('cancel','closed'):
+                raise osv.except_osv(_('Error!'), _('You cannot create a budget move with a canceled or closed plan'))
         super(budget_move_line, self).write(cr, uid, ids, vals, context=context)
 
     def unlink(self, cr, uid, ids, context=None):
-        for bud_move_line in browse(cr, uid, ids, context=context):
-             if bud_move_line.budget_move_id.program_line_id.program_id.plan_id.state in ('approved','closed'):
-                raise osv.except_osv(_('Error!'), _('You cannot create a budget move with a approved or closed plan'))
-                    
+        for bud_move_line in self.browse(cr, uid, ids, context=context):
+             if bud_move_line.program_line_id.program_id.plan_id.state in ('cancel','closed'):
+                raise osv.except_osv(_('Error!'), _('You cannot create a budget move with a canceled or closed plan'))
         super(budget_move_line, self).unlink(cr, uid, ids, vals, context=context)
 
 class account_move_line_distribution(orm.Model):
@@ -1579,7 +1590,7 @@ class account_move_line_distribution(orm.Model):
                'INNER JOIN budget_program_line BPL ON BPL.id=BML.program_line_id '\
                'INNER JOIN budget_program BPR ON BPR.id=BPL.program_id '\
                'INNER JOIN budget_plan BP ON BP.id=BPR.plan_id '\
-               'WHERE BP.id IN %s'
+               'WHERE AMLD.id IN %s'
        params = (tuple(dist_ids),)
        cr.execute(query,params)
        result = cr.dictfetchall()
@@ -1594,9 +1605,9 @@ class account_move_line_distribution(orm.Model):
         result = self.get_plan_for_distributions(cr, uid, ids, context)
                 
         #Check plan's state
-        for dist_id, plan_id in result.iteritems():
-            plan = plan_obj.browse(cr, uid, plan_id, context=context)[0]
-            if plan_id.state in ('approved','closed'):
+        for dist_id in result:
+            plan = plan_obj.browse(cr, uid, [dist_id['plan_id']], context=context)[0]
+            if plan.state in ('closed'):
                  return False
         return True
 
@@ -1662,7 +1673,7 @@ class account_move_line_distribution(orm.Model):
         (_check_distribution_amount_budget, 'The distribution amount can not be greater than compromised amount in budget move line selected', ['distribution_amount']),
         (_check_distribution_percentage, 'The distribution percentage can not be greater than sum of all percentage for the account move line selected', ['account_move_line_id']),    
         (_check_distribution_amount, 'The distribution amount can not be greater than maximum amount of remaining amount for account move line selected', ['distribution_amount']),    
-        (_check_plan_distribution_line, 'You cannot create a distribution with a approved or closed plan'),    
+        (_check_plan_distribution_line, 'You cannot create a distribution with a approved or closed plan',['distribution_amount']),    
     ]
 
     def clean_reconcile_entries(self, cr, uid, move_line_ids, context=None):
@@ -1685,7 +1696,6 @@ class account_move_line_distribution(orm.Model):
         else:
             dist_type = 'auto'
         vals['type'] = dist_type
-
         res = super(account_move_line_distribution, self).create(cr, uid, vals, context)
         return res   
 
@@ -1695,26 +1705,27 @@ class account_move_line_distribution(orm.Model):
         #Get plan for distribution lines 
         result = self.get_plan_for_distributions(cr, uid, ids, context)
                 
+
         #Check plan's state
-        for dist_id, plan_id in result.iteritems():
-            plan = plan_obj.browse(cr, uid, plan_id, context=context)[0]
-            if plan_id.state in ('approved','closed'):
-                 raise osv.except_osv(_('Error!'), _('You cannot modify a distribution with a approved or closed plan'))
+        for dist_id in result:
+            plan = plan_obj.browse(cr, uid, [dist_id['plan_id']], context=context)[0]
+            if plan.state in ('closed'):
+                 raise osv.except_osv(_('Error!'), _('You cannot modify a distribution with a closed plan'))
                     
-        super(budget_move_line, self).write(cr, uid, ids, vals, context=context)
+        super(account_move_line_distribution, self).write(cr, uid, ids, vals, context=context)
     
     def unlink(self, cr, uid, ids, context=None):
         plan_obj = self.pool.get('budget.plan')
         
         #Get plan for distribution lines 
-        result = self.get_plan_for_distributions(cr, uid, ids, context)
-                
-        #Check plan's state
-        for dist_id, plan_id in result.iteritems():
-            plan = plan_obj.browse(cr, uid, plan_id, context=context)[0]
-            if plan_id.state in ('approved','closed'):
-                 raise osv.except_osv(_('Error!'), _('You cannot delete a distribution with a approved or closed plan'))
-                                        
-        super(budget_move_line, self).unlink(cr, uid, ids, vals, context=context)   
+        if ids:
+            result = self.get_plan_for_distributions(cr, uid, ids, context)
+                    
+            #Check plan's state
+            for dist_id in result:
+                plan = plan_obj.browse(cr, uid, [dist_id['plan_id']], context=context)[0]
+                if plan.state in ('closed'):
+                     raise osv.except_osv(_('Error!'), _('You cannot delete a distribution with a closed plan'))
+        super(account_move_line_distribution, self).unlink(cr, uid, ids, context=context)   
     
 

@@ -193,7 +193,6 @@
         			    <button name="button_cancel" states="draft,confirmed" string="Cancel" />
         	            <button name="button_confirm" states="draft" string="Apply for approval" />
             	        <button name="button_approve" states="confirmed" string="Approve Plan" />
-            	        <button name="button_transfer" states="" string="Approve Plan" />
                 	    <button name="button_close" states="approved" confirm="No further moves will be created for this plan if it is closed, Will you proceed?" string="Close Plan"/>
                     	<button name="button_draft" states="confirmed" string="Back to draft"/>
                     	<field name="state" widget="statusbar" statusbar_visible="draft,confirmed,approved,closed" statusbar_colors='{"closed":"gray","cancel":"gray","confirmed":"blue"}'/>

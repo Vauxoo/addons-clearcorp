@@ -352,16 +352,17 @@ class AccountMoveReconcile(osv.Model):
                 budget_total += line.fixed_amount
             for line in budget_budget_move_lines:
                 distribution_amount = line.fixed_amount
-                signed_dist_amount = distribution_amount 
+                ##signed_dist_amount = distribution_amount 
                 # If the resulting total of budget plus liquid lines is more than available, the amount has to be fractioned.
                 if budget_total + liquid_amount_to_dist > amount_to_dist:
                     distribution_amount = distribution_amount * amount_to_dist / budget_total + liquid_amount_to_dist
-                if line.fixed_amount < 0:
-                    signed_dist_amount = abs(distribution_amount) * -1 
+#                if line.fixed_amount < 0:
+#                    signed_dist_amount = abs(distribution_amount) * -1 
                 budget_distributed += distribution_amount
                 vals = {
                     'account_move_line_id':         original_line.id,
-                    'distribution_amount':          signed_dist_amount,
+                    #'distribution_amount':          signed_dist_amount,distribution_amount
+                    'distribution_amount':          distribution_amount,
                     'distribution_percentage':      100 * abs(distribution_amount) / abs(original_amount_to_dist),
                     'target_budget_move_line_id':   line.id,
                     'reconcile_ids':                [(6, 0, new_reconcile_ids)],
@@ -584,7 +585,7 @@ class AccountMoveReconcile(osv.Model):
 #            else:
 #                vals['distribution_percentage'] = last_dist_distribution_percentage
             
-            dist_obj.write(cr, uid, last_dist.id, vals, context=context)
+            dist_obj.write(cr, uid, [last_dist.id], vals, context=context)
             return dist_ids
     
     def reconcile_budget_check(self, cr, uid, ids, context={}):
