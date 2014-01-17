@@ -31,6 +31,7 @@ This module modifies the account journal period report """,
     'website': 'http://clearcorp.co.cr',
     'depends': ['account','account_report_lib',],
     'data': [
+             'security/ir.model.access.csv',
              'wizard/account_journal_period_report_wizard_view.xml',
              'report/report.xml',
              'report_menus.xml',

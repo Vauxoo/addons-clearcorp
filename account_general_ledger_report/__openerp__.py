@@ -32,6 +32,7 @@ This module modifies the general ledger report""",
     'website': 'http://clearcorp.co.cr',
     'depends': ['account_report_lib',],
     'data': [
+               'security/ir.model.access.csv',
                'report/report.xml',
                'wizard/account_general_ledger_report_wizard.xml',
                'report_menus.xml',
