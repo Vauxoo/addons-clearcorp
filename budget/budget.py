@@ -1143,6 +1143,7 @@ class budget_move(osv.osv):
                                    'payslip_line_id': line.payslip_line_id.id,
                                    'move_line_id': line.move_line_id.id,
                                    'account_move_id': line.account_move_id.id,
+                                   'previous_move_line_id':line.id
                                    }
                         new_move_line_id = obj_bud_line.create(cr, uid, line_vals, context=context)
                         fields_to_blank ={
@@ -1401,7 +1402,7 @@ class budget_move_line(osv.osv):
             compromised = 0.0
             reversed = 0.0
             reserved = 0.0
-            if line.state in ('executed','in_execution'):
+            if line.state in ('executed','in_execution','transferred'):
                 if line.type == 'opening':
                     executed = line.fixed_amount
                     
@@ -1422,7 +1423,7 @@ class budget_move_line(osv.osv):
                 executed = executed + line.previous_move_line_id.executed
                 reversed = reversed + line.previous_move_line_id.reversed
                         
-            if line.state in ('compromised','executed','in_execution'):
+            if line.state in ('compromised','executed','in_execution','transferred'):
                 compromised = line.fixed_amount - executed - line.reversed
             
             if line.state == 'reserved':
@@ -1716,8 +1717,8 @@ class account_move_line_distribution(orm.Model):
     
     def unlink(self, cr, uid, ids, context=None):
         plan_obj = self.pool.get('budget.plan')
-        
-        #Get plan for distribution lines 
+        super(account_move_line_distribution, self).unlink(cr, uid, ids, context=context)
+                #Get plan for distribution lines 
         if ids:
             result = self.get_plan_for_distributions(cr, uid, ids, context)
                     
@@ -1725,7 +1726,6 @@ class account_move_line_distribution(orm.Model):
             for dist_id in result:
                 plan = plan_obj.browse(cr, uid, [dist_id['plan_id']], context=context)[0]
                 if plan.state in ('closed'):
-                     raise osv.except_osv(_('Error!'), _('You cannot delete a distribution with a closed plan'))
-        super(account_move_line_distribution, self).unlink(cr, uid, ids, context=context)   
+                     raise osv.except_osv(_('Error!'), _('You cannot delete a distribution with a closed plan'))   
     
 

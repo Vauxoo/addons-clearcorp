@@ -72,10 +72,47 @@ class AccountMoveReconcile(osv.Model):
 #            for mov_id in budget_move_ids:
 #                bud_mov_obj._workflow_signal(cr, uid, [mov_id], 'button_check_execution', context=context)
 #        return super(AccountMoveReconcile, self).unlink(cr, uid, ids, context=context)
+
+
+    def check_incremental_reconcile(self, cr, uid, vals, context=None):
+        #Checks for every account move line, that if the AML(account move line) has a reconcile (partial or complete), each AML of the given reconcile must be e included in the new reconcile.
+        acc_move_line_obj=self.pool.get('account.move.line')
+        acc_move_line_tuples=[]
+        acc_move_line_ids=[]
+        previous_reconciles = []
+        
+        if vals.get('line_id', False):
+            acc_move_line_tuples=vals.get('line_id', False)
+        if vals.get('line_partial_ids', False):
+            acc_move_line_tuples=vals.get('line_partial_ids', False)
+
+        for tuple in acc_move_line_tuples:
+            if tuple[0]== 4:
+                acc_move_line_ids.append(tuple[1])
+
+        for acc_move_line in acc_move_line_obj.browse(cr, uid, acc_move_line_ids, context=context):
+             previous_reconcile = acc_move_line.reconcile_id
+             previous_partial_reconcile = acc_move_line.reconcile_partial_id
+             
+             if previous_reconcile:
+                 for aml in previous_reconcile.line_id:
+                     if aml.id not in acc_move_line_ids:
+                         return False
+             elif previous_partial_reconcile:
+                 for aml in previous_partial_reconcile.line_partial_ids:
+                     if aml.id not in acc_move_line_ids:
+                         return False
+        #set(a).issubset(set(b))
+        return True
+        
+        
     
     def create(self, cr, uid, vals, context=None):
-        reconcile_id = super(AccountMoveReconcile, self).create(cr, uid, vals, context=context)
-        self.reconcile_budget_check(cr, uid, [reconcile_id], context=context)
+        if self.check_incremental_reconcile(cr, uid, vals, context=context):
+            reconcile_id = super(AccountMoveReconcile, self).create(cr, uid, vals, context=context)
+            self.reconcile_budget_check(cr, uid, [reconcile_id], context=context)
+        else:
+            raise osv.except_osv(_('Error!'), _('If any account move line in the new reconcile belongs to an older reconcile, every account move line of the previous reconcile must be included')) 
         return reconcile_id
     
     def split_debit_credit(self,cr, uid, move_line_ids,context=None):
