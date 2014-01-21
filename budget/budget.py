@@ -168,6 +168,13 @@ class budget_plan(osv.osv):
         return True
     
     def action_close(self, cr, uid, ids, context=None):
+        period_obj = self.pool.get('account.period')
+        
+        for plan in self.browse(cr, uid, ids, context=context):
+           period_ids = period_obj.search(cr, uid, [('date_start', '>=', plan.date_start), ('date_stop', '<=', plan.date_stop), ('special', '=', False)], context=context)
+           for period in period_obj.browse(cr, uid, period_ids,context=context):
+               if period.state != 'done':
+                   raise osv.except_osv(_('Error!'), _('You cannot close a plan that it has a period in draft state.\nThe period %s is in draft state.') % (period.name,))
         self.close_plan(cr, uid, ids, context=context)
         self.write(cr, uid, ids, {'state': 'closed'}, context=context)
         return True
