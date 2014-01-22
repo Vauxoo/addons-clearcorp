@@ -1489,7 +1489,10 @@ class budget_move_line(osv.osv):
         for line in self.browse(cr,uid,ids,context=context):
             if line.program_line_id.state != 'approved':
                 if not line.from_migration:
-                    return False
+                    next_line = self.get_next_year_line(cr, uid, [line.id], context=context)[line.id]
+                    if not next_line:
+                        return False
+                
         return True
         
     def _line_name(self, cr, uid, ids, field_name, args, context=None):
@@ -1546,6 +1549,16 @@ class budget_move_line(osv.osv):
         (_check_plan_state, 'Error!\n The plan for this program line must be in approved state', ['fixed_amount','type']),
         ]
     
+    def get_next_year_line(self, cr, uid, ids, context=None):
+        res = {}
+        for line in self.browse(cr, uid, ids, context=context):
+            result = self.search(cr, uid, [('previous_move_line_id','=',line.id)],context=context)
+            if result:
+                res[line.id]=result[0]
+            else:
+                res[line.id]=None
+        return res
+    
     def create(self, cr, uid, vals, context={}):
         program_line_obj = self.pool.get('budget.program.line')
         program_line = program_line_obj.browse(cr, uid, [vals['program_line_id']],context=context)[0]
@@ -1559,8 +1572,18 @@ class budget_move_line(osv.osv):
         
         for bud_move_line in self.browse(cr, uid, ids, context=context):
              if bud_move_line.program_line_id.program_id.plan_id.state in ('cancel','closed'):
-                raise osv.except_osv(_('Error!'), _('You cannot create a budget move with a canceled or closed plan'))
+                 next_line = self.get_next_year_line(cr, uid, [bud_move_line.id], context=context)[bud_move_line.id]
+                 if not next_line:
+                     raise osv.except_osv(_('Error!'), _('You cannot create a budget move line with a canceled or closed plan'))
+            
         super(budget_move_line, self).write(cr, uid, ids, vals, context=context)
+        
+        next_year_lines = self.get_next_year_line(cr, uid, ids, context=context)
+        for line_id in next_year_lines.keys():
+            if next_year_lines[line_id]:
+                next_line =self.browse(cr, uid, [next_year_lines[line_id]], context=context)[0]
+                bud_move_obj.recalculate_values(cr, uid,[next_line.budget_move_id.id], context=context)
+    
 
     def unlink(self, cr, uid, ids, context=None):
         for bud_move_line in self.browse(cr, uid, ids, context=context):
@@ -1613,6 +1636,9 @@ class account_move_line_distribution(orm.Model):
         result = self.get_plan_for_distributions(cr, uid, ids, context)
                 
         #Check plan's state
+        
+####        else:
+####            raise osv.except_osv(_('Error!'), _('If any account move line in the new reconcile belongs to an older reconcile, every account move line of the previous reconcile must be included'))
         for dist_id in result:
             plan = plan_obj.browse(cr, uid, [dist_id['plan_id']], context=context)[0]
             if plan.state in ('closed'):
@@ -1722,10 +1748,9 @@ class account_move_line_distribution(orm.Model):
                     
         super(account_move_line_distribution, self).write(cr, uid, ids, vals, context=context)
     
-    def unlink(self, cr, uid, ids, context=None):
+    def unlink(self, cr, uid, ids, context=None,is_incremental=False):
         plan_obj = self.pool.get('budget.plan')
-        super(account_move_line_distribution, self).unlink(cr, uid, ids, context=context)
-                #Get plan for distribution lines 
+        bud_move_obj = self.pool.get('budget.move')
         if ids:
             result = self.get_plan_for_distributions(cr, uid, ids, context)
                     
@@ -1733,6 +1758,15 @@ class account_move_line_distribution(orm.Model):
             for dist_id in result:
                 plan = plan_obj.browse(cr, uid, [dist_id['plan_id']], context=context)[0]
                 if plan.state in ('closed'):
-                     raise osv.except_osv(_('Error!'), _('You cannot delete a distribution with a closed plan'))   
+                    if not is_incremental:
+                        raise osv.except_osv(_('Error!'), _('You cannot delete a distribution with a closed plan'))   
+            move_ids=[]
+            for dist in self.browse(cr, uid, ids, context=context):
+                if dist.target_budget_move_line_id:
+                    move_ids.append(dist.target_budget_move_line_id.budget_move_id.id)
+            super(account_move_line_distribution, self).unlink(cr, uid, ids, context=context)
+            bud_move_obj.recalculate_values(cr, uid,move_ids, context=context)
+                #Get plan for distribution lines 
+        
     
 

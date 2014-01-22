@@ -108,11 +108,9 @@ class AccountMoveReconcile(osv.Model):
         
     
     def create(self, cr, uid, vals, context=None):
-        if self.check_incremental_reconcile(cr, uid, vals, context=context):
-            reconcile_id = super(AccountMoveReconcile, self).create(cr, uid, vals, context=context)
-            self.reconcile_budget_check(cr, uid, [reconcile_id], context=context)
-        else:
-            raise osv.except_osv(_('Error!'), _('If any account move line in the new reconcile belongs to an older reconcile, every account move line of the previous reconcile must be included')) 
+        is_incremental = self.check_incremental_reconcile(cr, uid, vals, context=context)
+        reconcile_id = super(AccountMoveReconcile, self).create(cr, uid, vals, context=context)
+        self.reconcile_budget_check(cr, uid, [reconcile_id], context=context, is_incremental=is_incremental) 
         return reconcile_id
     
     def split_debit_credit(self,cr, uid, move_line_ids,context=None):
@@ -262,7 +260,7 @@ class AccountMoveReconcile(osv.Model):
             return True
         return False
     
-    def _recursive_liquid_get_auto_distribution(self, cr, uid, original_line, actual_line = None, checked_lines = [], amount_to_dist = 0.0, original_amount_to_dist = 0.0, reconcile_ids = [], continue_reconcile = False, context={}):
+    def _recursive_liquid_get_auto_distribution(self, cr, uid, original_line, actual_line = None, checked_lines = [], amount_to_dist = 0.0, original_amount_to_dist = 0.0, reconcile_ids = [], continue_reconcile = False, context={},is_incremental=False):
         """
         Receives an account.move.line that moves liquid and was found creating a reconcile.
         This method starts at this line and "travels" through the moves and reconciles line counterparts
@@ -284,7 +282,8 @@ class AccountMoveReconcile(osv.Model):
         # Check for first call
         if not actual_line:
             dist_search = dist_obj.search(cr, uid, [('account_move_line_id','=',original_line.id)],context=context)
-            dist_obj.unlink(cr,uid,dist_search,context=context)
+            #if self.check_incremental_reconcile(cr, uid, vals, context=context):
+            dist_obj.unlink(cr,uid,dist_search,context=context,is_incremental=is_incremental)
             actual_line = original_line
             amount_to_dist = original_line.debit + original_line.credit
             original_amount_to_dist = amount_to_dist
@@ -625,7 +624,7 @@ class AccountMoveReconcile(osv.Model):
             dist_obj.write(cr, uid, [last_dist.id], vals, context=context)
             return dist_ids
     
-    def reconcile_budget_check(self, cr, uid, ids, context={}):
+    def reconcile_budget_check(self, cr, uid, ids, context={}, is_incremental=False):
         done_lines = []
         res = {}
         for reconcile in self.browse(cr, uid, ids, context=context):
@@ -641,12 +640,12 @@ class AccountMoveReconcile(osv.Model):
             # Check if the account if marked as moves_cash
             for line in move_lines:
                 if (line.id not in done_lines) and line.account_id and line.account_id.moves_cash:
-                    dist_ids = self._recursive_liquid_get_auto_distribution(cr, uid, line, context=context)
+                    dist_ids = self._recursive_liquid_get_auto_distribution(cr, uid, line, context=context, is_incremental=is_incremental)
                     checked_dist_ids = self._check_auto_distributions(cr, uid, line, dist_ids, context=context)
                     if checked_dist_ids:
                         res[line.id] = checked_dist_ids
                 elif (line.id not in done_lines) and line.move_id.budget_type == 'void':
-                    dist_ids = self._recursive_void_get_auto_distribution(cr, uid, line, context=context)
+                    dist_ids = self._recursive_void_get_auto_distribution(cr, uid, line, context=context, is_incremental=is_incremental)
                     checked_dist_ids = self._check_auto_distributions(cr, uid, line, dist_ids, context=context)
                     if checked_dist_ids:
                         res[line.id] = checked_dist_ids
