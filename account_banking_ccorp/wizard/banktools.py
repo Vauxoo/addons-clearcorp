@@ -143,26 +143,22 @@ def get_partner(pool, cr, uid, name, address, postal_code, city,
     return partner_ids and partner_ids[0] or False
 
 
-def get_company_bank_account(pool, cr, uid, account_number, currency, company):
+def get_company_bank_account(pool, cr, uid, account_number, currency, company, bank_accounts):
     '''
     Get the matching bank account for this company. Currency is the ISO code
     for the requested currency.
     '''
     results = struct()
-    bank_accounts = get_bank_accounts(pool, cr, uid, account_number, fail=True)#REVISAR Metodo
+    '''bank_accounts = get_bank_accounts(pool, cr, uid, account_number, fail=True)'''
     if not bank_accounts:
         return False
-    elif len(bank_accounts) != 1:
-        raise Exception(
-            _('More than one bank account was found with the same number %(account_no)s') %
-            dict(account_no = account_number))
-    if bank_accounts[0].partner_id.id != company.partner_id.id:
+    if bank_accounts.partner_id.id != company.partner_id.id:
         raise Exception(
             _('Account %(account_no)s is not owned by %(partner)s') %
             dict(account_no = account_number, partner = company.partner_id.name))
-    results.account = bank_accounts[0]
+    results.account = bank_accounts
     bank_settings_obj = pool.get('res.partner.bank')
-    bank_accounts = bank_accounts[0]
+    bank_accounts = bank_accounts
     results.company_id = company
     results.journal_id = bank_accounts.journal_id
      # Take currency from bank_account or from company

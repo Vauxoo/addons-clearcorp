@@ -1097,7 +1097,7 @@ class bankImportTransaction(osv.Model):
             retval['reference'] = move_lines[0].ref
         return retval
 
-    def match(self, cr, uid, ids, context=None):
+    def match(self, cr, uid, ids, bank_account, context=None):
         if not ids:
             return True
         #Needed Objects
@@ -1204,7 +1204,7 @@ class bankImportTransaction(osv.Model):
                 account_info = get_company_bank_account(self.pool, cr, uid,
                                                         transaction.local_account,
                                                         transaction.local_currency,
-                                                        company)
+                                                        company, bank_account)
                 if not account_info:
                     raise osv.except_osv(
                         _('ERROR!'),
