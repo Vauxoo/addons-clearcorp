@@ -39,6 +39,8 @@ from osv import fields, osv, orm
 ##
 #PLAN
 ## 
+
+
 class budget_plan(osv.osv):
     _name = 'budget.plan'
     _description = 'Plan'

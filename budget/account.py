@@ -20,19 +20,30 @@
 #
 ##############################################################################
 from osv import fields, osv
-from openerp import netsvc
 import decimal_precision as dp
 from tools.translate import _
 from datetime import datetime
 from copy import copy
 
+class BudgetDistributionError(osv.except_osv):
+    name =""
+    value = ""
+    move_id=0 
+    def __init__(self, name, value, move_id):
+        self.value = name
+        self.value = value
+        self.move_id =move_id
+        osv.except_osv.__init__(self, name, value)
+
+        osv.except_osv
 class AccountMoveReconcile(osv.Model):
     _inherit = 'account.move.reconcile'
+    
+
     
     def unlink(self, cr, uid, ids, context={}):
         dist_obj = self.pool.get('account.move.line.distribution')
         bud_mov_obj = self.pool.get('budget.move')
-        wf_service = netsvc.LocalService("workflow")
         dist_ids = dist_obj.search(cr, uid, [('reconcile_ids.id','in',ids)], context=context)
         dists = dist_obj.browse(cr, uid, dist_ids, context=context)
         budget_move_ids = []
@@ -108,9 +119,14 @@ class AccountMoveReconcile(osv.Model):
         
     
     def create(self, cr, uid, vals, context=None):
+        account_move_obj= self.pool.get('account.move')
         is_incremental = self.check_incremental_reconcile(cr, uid, vals, context=context)
         reconcile_id = super(AccountMoveReconcile, self).create(cr, uid, vals, context=context)
-        self.reconcile_budget_check(cr, uid, [reconcile_id], context=context, is_incremental=is_incremental) 
+        try:
+            self.reconcile_budget_check(cr, uid, [reconcile_id], context=context, is_incremental=is_incremental) 
+        except BudgetDistributionError, error:
+            msg= _('Budget distributions cannot be created automatically for this reconcile')
+            account_move_obj.message_post(cr, uid, [error.move_id], body=msg, context=context)
         return reconcile_id
     
     def split_debit_credit(self,cr, uid, move_line_ids,context=None):
@@ -214,6 +230,17 @@ class AccountMoveReconcile(osv.Model):
     def _get_move_counterparts(self, cr, uid, line, context={}):
         is_debit = True if line.debit else False
         res = []
+        debit_bud= False
+        credit_bud=False
+        
+        for move_line in line.move_id.line_id:
+            if move_line.credit and move_line.budget_program_line:
+                credit_bud = True
+            if move_line.debit and move_line.budget_program_line:
+                debit_bud = True
+        if credit_bud and debit_bud:
+            raise BudgetDistributionError(_('Error'), _('Budget distributions cannot be created automatically for this reconcile'), line.move_id.id)
+        
         for move_line in line.move_id.line_id:
             if (is_debit and move_line.credit) or (not is_debit and move_line.debit):
                 res.append(move_line)
@@ -381,16 +408,16 @@ class AccountMoveReconcile(osv.Model):
             #lines is an int (id)
             for lines in budget_lines.values():
                 budget_budget_move_lines_ids += lines
-            #Browse record: lines is an int not a object! 
+            #Browse record: lines is an int not an object! 
             budget_budget_move_lines = self.pool.get('budget.move.line').browse(cr,uid, budget_budget_move_lines_ids,context=context)
             for line in budget_budget_move_lines:
                 budget_budget_move_line_ids.append(line.id)
                 budget_total += line.fixed_amount
             for line in budget_budget_move_lines:
                 distribution_amount = line.fixed_amount
-                ##signed_dist_amount = distribution_amount 
+                signed_dist_amount = distribution_amount 
                 # If the resulting total of budget plus liquid lines is more than available, the amount has to be fractioned.
-                if budget_total + liquid_amount_to_dist > amount_to_dist:
+                if abs(budget_total) + liquid_amount_to_dist > amount_to_dist:
                     distribution_amount = distribution_amount * amount_to_dist / budget_total + liquid_amount_to_dist
 #                if line.fixed_amount < 0:
 #                    signed_dist_amount = abs(distribution_amount) * -1 

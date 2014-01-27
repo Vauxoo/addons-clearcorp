@@ -73,7 +73,13 @@
             	</field>
                 <xpath expr="/form/sheet[@string='Journal Entries']/notebook/page[@string='Journal Items']/field[@name='line_id']/tree[@string='Journal Items']/field[@name='account_id']" position="after">
                     <field name="budget_program_line" domain="[('type','=','budget')]"/>
-                </xpath>     
+                </xpath>    
+                <xpath expr="/form/sheet[@string='Journal Entries']" position="after">
+                        <div class="oe_chatter">
+                            <field name="message_follower_ids" widget="mail_followers" help="Follow this project to automatically track the events associated to tasks and issues of this project." groups="base.group_user"/>
+                            <field name="message_ids" widget="mail_thread"/>
+                        </div>                        
+                    </xpath> 
             </field>
         </record>        
         

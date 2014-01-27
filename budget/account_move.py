@@ -23,7 +23,8 @@ from openerp.osv import fields, osv, orm
 from tools.translate import _
 
 class accountMove(orm.Model):
-    _inherit = "account.move"
+    _name = "account.move"
+    _inherit = ['account.move', 'mail.thread']
     
     OPTIONS = [
         ('void', 'Voids budget move'),
