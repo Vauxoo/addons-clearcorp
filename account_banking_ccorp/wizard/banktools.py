@@ -82,7 +82,7 @@ def get_period(pool, cursor, uid, date, company):
 
 def get_bank_accounts(pool, cr, uid, account_number, fail=False):
     '''
-    Get the bank account with account number account_number
+    Get the bank account related to the given account number
     '''
     # No need to search for nothing
     if not account_number:
