@@ -130,7 +130,7 @@ class bankImportWizard(osv.TransientModel):
                 {'parser': parser_code}
             )
         # Get the user and company
-        #Fix the problem with permission of the user REVISAR
+        #Fix the problem with permission of the user
         user = user_obj.browse(cr, uid, uid, context)
         company = bank_import_wizard.company
         '''
@@ -180,7 +180,8 @@ class bankImportWizard(osv.TransientModel):
         #Call the parser's parse method.
         statements = parser.parse(cr, statements_file, account_number = account_number, 
                                   local_currency = local_currency, date_from_str = date_from_str, 
-                                  date_to_str = date_to_str,ending_balance = ending_balance)
+                                  date_to_str = date_to_str,ending_balance = ending_balance,
+                                  real_account= bank_import_wizard.account_bank.acc_number)
         if any([x for x in statements if not x.is_valid()]):
             raise osv.except_osv(
                 _('ERROR!'),
@@ -214,7 +215,7 @@ class bankImportWizard(osv.TransientModel):
                 try:
                     account_info = get_company_bank_account(
                     self.pool, cr, uid, statement.local_account,
-                    statement.local_currency, company)
+                    statement.local_currency, company, bank_import_wizard.account_bank)
                 except Exception as exception_obj:
                     msg = exception_obj.args
                     raise osv.except_osv(_('ERROR!'),msg)
@@ -320,7 +321,7 @@ class bankImportWizard(osv.TransientModel):
                          _('ERROR!'),
                          _('Failed to create an import transaction resource'))
                     
-        import_transaction_obj.match(cr, uid, transaction_ids, context=context)
+        import_transaction_obj.match(cr, uid, transaction_ids, bank_import_wizard.account_bank, context=context)
             
         #recompute statement end_balance for validation
         statement_obj.button_dummy(cr, uid, imported_statement_ids, context=context)
@@ -400,11 +401,6 @@ class bankImportWizard(osv.TransientModel):
         if account_bank:
             account_parser = self.pool.get('res.partner.bank').browse(cr, uid, account_bank, context=context).parser_types
         return {'value':{'parser': account_parser}}
-            
-    '''REVISAR eliminar
-    def _default_parser_type(self, cr, uid, context=None):
-        types = models.parser_type.get_parser_types()
-        return types and types[0][0] or False'''
     
     def extract_number( self, account_number ):
         '''

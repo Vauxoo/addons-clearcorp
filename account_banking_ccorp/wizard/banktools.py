@@ -27,7 +27,6 @@ from account_banking_ccorp.struct import struct
 
 __all__ = [
     'get_period', 
-    'get_bank_accounts',
     'get_partner',
     'get_country_id',
     'get_company_bank_account',
@@ -80,23 +79,6 @@ def get_period(pool, cursor, uid, date, company):
             dict(company_name=company.name, date=date))
     return period_ids[0]
 
-def get_bank_accounts(pool, cr, uid, account_number, fail=False):
-    '''
-    Get the bank account with account number account_number
-    '''
-    # No need to search for nothing
-    if not account_number:
-        return []
-    partner_bank_obj = pool.get('res.partner.bank')
-    bank_account_ids = partner_bank_obj.search(cr, uid, [('acc_number', '=', account_number)])
-    if not bank_account_ids:
-        if not fail:
-            raise Exception(
-                _('Bank account %(account_no)s was not found in the database') %
-                dict(account_no=account_number),)
-        return []
-    return partner_bank_obj.browse(cr, uid, bank_account_ids)
-
 def _has_attr(obj, attr):
     # Needed for dangling addresses and a weird exception scheme in
     # OpenERP's orm.
@@ -142,27 +124,21 @@ def get_partner(pool, cr, uid, name, address, postal_code, city,
         partner_ids = [x['id'] for x in partners]
     return partner_ids and partner_ids[0] or False
 
-
-def get_company_bank_account(pool, cr, uid, account_number, currency, company):
+def get_company_bank_account(pool, cr, uid, account_number, currency, company, bank_accounts):
     '''
     Get the matching bank account for this company. Currency is the ISO code
     for the requested currency.
     '''
     results = struct()
-    bank_accounts = get_bank_accounts(pool, cr, uid, account_number, fail=True)#REVISAR Metodo
     if not bank_accounts:
         return False
-    elif len(bank_accounts) != 1:
-        raise Exception(
-            _('More than one bank account was found with the same number %(account_no)s') %
-            dict(account_no = account_number))
-    if bank_accounts[0].partner_id.id != company.partner_id.id:
+    if bank_accounts.partner_id.id != company.partner_id.id:
         raise Exception(
             _('Account %(account_no)s is not owned by %(partner)s') %
             dict(account_no = account_number, partner = company.partner_id.name))
-    results.account = bank_accounts[0]
+    results.account = bank_accounts
     bank_settings_obj = pool.get('res.partner.bank')
-    bank_accounts = bank_accounts[0]
+    bank_accounts = bank_accounts
     results.company_id = company
     results.journal_id = bank_accounts.journal_id
      # Take currency from bank_account or from company
