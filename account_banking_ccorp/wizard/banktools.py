@@ -27,7 +27,6 @@ from account_banking_ccorp.struct import struct
 
 __all__ = [
     'get_period', 
-    'get_bank_accounts',
     'get_partner',
     'get_country_id',
     'get_company_bank_account',
