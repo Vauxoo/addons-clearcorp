@@ -130,7 +130,7 @@ class bankImportWizard(osv.TransientModel):
                 {'parser': parser_code}
             )
         # Get the user and company
-        #Fix the problem with permission of the user REVISAR
+        #Fix the problem with permission of the user
         user = user_obj.browse(cr, uid, uid, context)
         company = bank_import_wizard.company
         '''
@@ -401,11 +401,6 @@ class bankImportWizard(osv.TransientModel):
         if account_bank:
             account_parser = self.pool.get('res.partner.bank').browse(cr, uid, account_bank, context=context).parser_types
         return {'value':{'parser': account_parser}}
-            
-    '''REVISAR eliminar
-    def _default_parser_type(self, cr, uid, context=None):
-        types = models.parser_type.get_parser_types()
-        return types and types[0][0] or False'''
     
     def extract_number( self, account_number ):
         '''

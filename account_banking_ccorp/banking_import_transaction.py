@@ -999,7 +999,7 @@ class bankImportTransaction(osv.Model):
         if len(candidates) == 1:
             candidate = candidates[0]
             # Check cache to prevent multiple matching of a single payment
-            move_info = self._get_move_info(cr, uid, [candidate.id])#REVISAR METODO
+            move_info = self._get_move_info(cr, uid, [candidate.id])
             move_info.update({
                     'match_type': 'move',
                     })
@@ -1150,11 +1150,6 @@ class bankImportTransaction(osv.Model):
                 raise osv.except_osv(
                     _("Cannot perform match"),
                     _("Cannot perform match on a confirmed transaction"))
-            '''#if transaction.local_account in error_accounts:#REVISAR debe eliminarse
-                #results['trans_skipped_cnt'] += 1
-                #if not injected:
-                    #i += 1
-                #continue'''
             # First check if any transit move lines are waiting
             if not move_info:
                 account_obj = self.pool.get('account.account')
@@ -1372,9 +1367,6 @@ class bankImportTransaction(osv.Model):
                 values['partner_id'] = False
             if not values['partner_id'] and partner_ids and len(partner_ids) == 1:
                 values['partner_id'] = partner_ids[0]
-            #if (not values['partner_bank_id'] and partner_banks and
-                #len(partner_banks) == 1):
-                #values['partner_bank_id'] = partner_banks[0].id REVISAR
 
             if not transaction.statement_line_id:
                 values.update(dict(
@@ -1869,14 +1861,6 @@ class account_bank_statement_line(osv.Model):
                           "journal!") % (st_line.statement_id.journal_id.name,))
             if not st_line.amount:
                 continue
-            #REVISAR 
-            '''if not st_line.period_id:
-                self.write(
-                    cr, uid, [st_line.id], {
-                        'period_id': self._get_period(
-                            cr, uid, {'date': st_line.date})
-                        })
-                st_line.refresh()'''
             # Generate the statement number, if it is not already done
             st = st_line.statement_id
             company_id = self.pool.get('res.company').browse(cr, uid, st.journal_id.company_id.id)

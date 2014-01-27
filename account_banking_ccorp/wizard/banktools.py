@@ -80,23 +80,6 @@ def get_period(pool, cursor, uid, date, company):
             dict(company_name=company.name, date=date))
     return period_ids[0]
 
-def get_bank_accounts(pool, cr, uid, account_number, fail=False):
-    '''
-    Get the bank account with account number account_number
-    '''
-    # No need to search for nothing
-    if not account_number:
-        return []
-    partner_bank_obj = pool.get('res.partner.bank')
-    bank_account_ids = partner_bank_obj.search(cr, uid, [('acc_number', '=', account_number)])
-    if not bank_account_ids:
-        if not fail:
-            raise Exception(
-                _('Bank account %(account_no)s was not found in the database') %
-                dict(account_no=account_number),)
-        return []
-    return partner_bank_obj.browse(cr, uid, bank_account_ids)
-
 def _has_attr(obj, attr):
     # Needed for dangling addresses and a weird exception scheme in
     # OpenERP's orm.
@@ -142,14 +125,12 @@ def get_partner(pool, cr, uid, name, address, postal_code, city,
         partner_ids = [x['id'] for x in partners]
     return partner_ids and partner_ids[0] or False
 
-
 def get_company_bank_account(pool, cr, uid, account_number, currency, company, bank_accounts):
     '''
     Get the matching bank account for this company. Currency is the ISO code
     for the requested currency.
     '''
     results = struct()
-    '''bank_accounts = get_bank_accounts(pool, cr, uid, account_number, fail=True)'''
     if not bank_accounts:
         return False
     if bank_accounts.partner_id.id != company.partner_id.id:
