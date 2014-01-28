@@ -451,8 +451,8 @@ class AccountWebkitReportLibrary(orm.Model):
         if currency:
             if currency.symbol_prefix:
                 format_currency =  currency.symbol_prefix + ' ' + amount_currency
-            elif currency.symbol_sufix:
-                format_currency = amount_currency + ' ' +  currency.symbol_sufix
+            elif currency.symbol_suffix:
+                format_currency = amount_currency + ' ' +  currency.symbol_suffix
             else:
                 format_currency = amount_currency
         else:
