@@ -276,12 +276,8 @@ class bankImportWizard(osv.TransientModel):
             if not period_ids:
                 raise osv.except_osv(
                     _('ERROR!'),
-                    _('No period found covering statement date %(date)s, '
-                      'statement %(id)') %
-                    {
-                     'date': statement.date,
-                     'id': statement.id,
-                     })
+                    _('No period found covering statement date %s, '
+                      'statement %s') % (statement.date.strftime('%Y-%m-%d'), statement.id))
             # Create the bank statement record
             statement_id = statement_obj.create(cr, uid, dict(
                 name = statement.id,

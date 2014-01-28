@@ -26,7 +26,8 @@ from account_banking_ccorp import sepa
 from account_banking_ccorp.struct import struct
 
 __all__ = [
-    'get_period', 
+    'get_period',
+    'get_bank_accounts',
     'get_partner',
     'get_country_id',
     'get_company_bank_account',
@@ -78,6 +79,23 @@ def get_period(pool, cursor, uid, date, company):
             _('Multiple overlapping periods for date %(date)s and company %(company_name)s') %
             dict(company_name=company.name, date=date))
     return period_ids[0]
+
+def get_bank_accounts(pool, cr, uid, account_number, fail=False):
+    '''
+    Get the bank account related to the given account number
+    '''
+    # No need to search for nothing
+    if not account_number:
+        return []
+    partner_bank_obj = pool.get('res.partner.bank')
+    bank_account_ids = partner_bank_obj.search(cr, uid, [('acc_number', '=', account_number)])
+    if not bank_account_ids:
+        if not fail:
+            raise Exception(
+                _('Bank account %(account_no)s was not found in the database') %
+                dict(account_no=account_number),)
+        return []
+    return partner_bank_obj.browse(cr, uid, bank_account_ids)
 
 def _has_attr(obj, attr):
     # Needed for dangling addresses and a weird exception scheme in
