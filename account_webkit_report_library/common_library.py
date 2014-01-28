@@ -449,10 +449,12 @@ class AccountWebkitReportLibrary(orm.Model):
         format_currency = ''
         
         if currency:
-           if currency.symbol_prefix:
+            if currency.symbol_prefix:
                 format_currency =  currency.symbol_prefix + ' ' + amount_currency
-           else:
-                format_currency = amount_currency+ ' ' +  currency.symbol_sufix
+            elif currency.symbol_sufix:
+                format_currency = amount_currency + ' ' +  currency.symbol_sufix
+            else:
+                format_currency = amount_currency
         else:
             format_currency = amount_currency
             
