@@ -37,6 +37,13 @@ class accountMove(orm.Model):
         'budget_type': fields.selection(OPTIONS, 'budget_type', readonly=True),
     }
     
+    def copy(self, cr, uid, id, default, context=None):
+       default = {} if default is None else default.copy()
+       default.update({
+            'budget_move_id':False
+        })
+       return super(accountMove, self).copy(cr, uid, id, default, context)
+    
     def check_moves_budget(self, cr, uid, ids, context=None):
         moves = self.browse(cr, uid, ids, context=context)
         res = False
@@ -249,6 +256,20 @@ class AccountMoveLine(osv.Model):
                 result.append((line.id, line.move_id.name +" "+ deb +" "+ cred +" "+ am_curr))
         return result
     
+    def copy(self, cr, uid, id, default, context=None):
+       default = {} if default is None else default.copy()
+       default.update({
+            'budget_move_lines':False
+        })
+       return super(AccountMoveLine, self).copy(cr, uid, id, default, context)
+        
+        
+    def copy_data(self, cr, uid, id, default=None, context=None):
+        default = {} if default is None else default.copy()
+        default.update({
+            'budget_move_lines':False
+            })
+        return super(AccountMoveLine, self).copy_data(cr, uid, id, default, context)
     _columns = {
         #=======Budget Move Line
         'budget_move_lines': fields.one2many('budget.move.line','move_line_id', 'Budget Move Lines'),

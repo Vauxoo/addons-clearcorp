@@ -265,7 +265,7 @@ class AccountMoveReconcile(osv.Model):
                 if (is_debit and move_line.credit) or (not is_debit and move_line.debit):
                     res.append(move_line)
         return reconcile_ids, res
-    
+    #TODO algo
     def _adjust_distributed_values(self, cr, uid, dist_ids, amount, context = {}):
         dist_obj = self.pool.get('account.move.line.distribution')
         distributed_amount = 0.0
