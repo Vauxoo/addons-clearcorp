@@ -24,7 +24,7 @@ from openerp.osv import osv, fields
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
 
-class project(osv.osv):
+class project(osv.Model):
     _inherit = 'project.project'
     
     def name_get(self, cr, uid, ids=[], context=None):
@@ -80,6 +80,20 @@ class project(osv.osv):
         res =  super(project, self).unlink(cr, uid, ids, context=context)
         ir_sequence_obj.unlink(cr, uid, ir_sequence_ids, context=context)
         return res
+    
+    def name_search(self, cr, uid, name='', args=None, operator='ilike', context=None, limit=50):
+        ids = []
+        
+        if name:
+            ids = self.search(cr, uid,
+                              ['|',('shortcut_name',operator,name),
+                               '|', ('name',operator,name),
+                               ('code',operator,name)] + args,
+                              limit=limit, context=context)
+        else:
+            ids  = self.search(cr, uid, args, limit=limit, context=context)
+        
+        return self.name_get(cr, uid, ids, context=context)
         
 class task(osv.osv):
     def _get_color_code(self, date_start, date_deadline, planned_hours, state):

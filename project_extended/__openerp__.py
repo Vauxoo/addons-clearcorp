@@ -21,20 +21,18 @@
 ##############################################################################
 
 {
-    "name" : 'Project extended',
+    "name" : 'Project Extended',
     "version" : '1.0',
     "author" : 'CLEARCORP S.A',
-    #easy, normal, expert
-    'complexity': 'normal',
+    'complexity': 'easy',
     "description": """
-This module changes de reference name of the project by a concatenated name using the project code.
+This module changes the reference name of the project by a concatenated name using the project code.
 This module added id_task in project task
     """,
     "category": 'Project Management',
     "sequence": 4,
     "website" : "http://clearcorp.co.cr",
     "images" : [],
-    "icon" : False,
     "depends" : ['base','project'],
     "init_xml" : [],
     "demo_xml" : [],

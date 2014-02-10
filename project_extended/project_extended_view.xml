@@ -17,18 +17,17 @@
             </field>
         </record>
         
-        <!-- TODO
-        <record id="view_project_kanban_inherited" model="ir.ui.view">
-            <field name="name">project.project.kanban.inherited</field>
+        <!-- kanban -->
+        <record id="view_project_kanban" model="ir.ui.view">
+            <field name="name">view.project.kanban</field>
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.view_project_kanban"/>
             <field name="arch" type="xml">
-                <field name="name" position="replace">
+                <xpath expr="//kanban/templates/t/div/div[@class='oe_kanban_content']/h4/field[@name='name']" position="replace">
                     <field name="shortcut_name"/>
-                </field>
+                </xpath>
             </field>
         </record>
-        -->
         
         <record id="view_task_form2_inherit" model="ir.ui.view">
             <field name="name">project.task.form.inherit</field>
@@ -52,8 +51,14 @@
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.view_project_project_filter"/>
             <field name="arch" type="xml">
+                <xpath expr="//search[@string='Search Project']/filter[@name='Template']" position="after">
+                    <separator/>
+                    <filter icon="terp-check" string="Using Tasks" name="UseTasks" domain="[('use_tasks','=','True')]" help="Projects using Tasks"/>
+                </xpath>
                 <xpath expr="//search[@string='Search Project']/field[@name='name']" position="replace">
-                    <field name="shortcut_name" string="Project Shortcut Name"/>
+                    <field name="shortcut_name"
+                        string="Project Name"
+                        filter_domain="['|',('name','ilike',self),'|',('shortcut_name','ilike',self),('code','ilike',self)]"/>
                 </xpath>
                 <xpath expr="//group/filter[@name='Parent']" position="after">
                     <filter string="Period" name="group_date_start" icon="terp-personal" domain="[]"  context="{'group_by':'date_start'}"/>
@@ -71,6 +76,21 @@
             <field name="arch" type="xml">
                 <xpath expr="//group[@string='Group By...']/filter[@name='group_stage_id']" position="after">
                     <filter string="Priority" name="group_priority" icon="terp-personal" domain="[]"  context="{'group_by':'priority'}"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- form -->
+        <record id="view_task_form" model="ir.ui.view" >
+            <field name="name">view.task.form</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/group/field[@name='project_id']" position="replace">
+                    <field name="project_id" 
+                        on_change="onchange_project(project_id)"
+                        context="{'default_use_tasks':1}"
+                        domain="[('use_tasks','=','True')]"/>
                 </xpath>
             </field>
         </record>
@@ -163,6 +183,12 @@
                     <field name="name"/>
                 </tree>
             </field>
+        </record>
+        
+        <!-- Actions -->
+        <!-- project.project -->
+        <record id="project.open_view_project_all" model="ir.actions.act_window">
+            <field name="context">{'search_default_Current': 1, 'search_default_UseTasks': 1}</field>
         </record>
         
     </data>
