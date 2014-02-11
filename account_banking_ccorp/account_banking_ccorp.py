@@ -41,7 +41,7 @@ class resPartnerBank(osv.Model):
                                 help=_("Parser type used to import bank statements file")),
                 'default_credit_account_id': fields.many2one(
                                              'account.account', 'Default credit account',
-                                             select=True, required=True),
+                                             select=True),
                 'default_debit_account_id': fields.many2one('account.account', 'Default debit account',
-                                                            select=True, required=True),
+                                                            select=True),
                 }
