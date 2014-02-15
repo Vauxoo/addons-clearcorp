@@ -48,16 +48,13 @@
 	                	</xpath>
 	                	
 	                	<xpath expr="/form/sheet/notebook/page[@string='Purchase Order']/field[@name='order_line']/tree/field[@name='product_uom']" position="after">
-	                		<field name="program_line_id" domain="[('type','=','budget')]" on_change="on_change_program_line(program_line_id)" required="True"/>
+	                		<field name="program_line_id" domain="[('type','=','budget'), ('active_for_view','=',True)]" on_change="on_change_program_line(program_line_id)" required="True"/>
 	                    	<field name="line_available" readonly="True"/>
 	                	</xpath>
 	                	
 	                	<page string="Purchase Order" position="after">
 	                		<page string="Budget Info">
 		                    	<group>
-			                    	<!--<field name="plan_id" on_change="onchange_plan(plan_id)"/>
-			                    	<field name="program_id" on_change="onchange_program(program_id)"/>
-			                    	<field name="program_line_id"/>-->
 			                    	<field name="reserved_amount"/>
 			                    	<field name="budget_move_id"/>
 		                    	</group>
@@ -75,7 +72,7 @@
 	            <field name="arch" type="xml">
 	                <data>
 	                	<xpath expr="/form/sheet/group/group/field[@name='price_unit']" position="after">
-	                		<field name="program_line_id" domain="[('type','=','budget')]" on_change="on_change_program_line(program_line_id)" required="True"/>
+	                		<field name="program_line_id" domain="[('type','=','budget'), ('active_for_view','=',True)]" on_change="on_change_program_line(program_line_id)" required="True"/>
 	                    	<field name="line_available" readonly="True"/>
 	                	</xpath>
 	                	<field name="taxes_id" position="attributes">

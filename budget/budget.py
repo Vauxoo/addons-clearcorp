@@ -197,7 +197,34 @@ class budget_plan(osv.osv):
         for plan in self.browse(cr, uid, ids, context=context):
             closeable_move_ids = self.get_budget_moves_for_close(cr, uid, plan.id, context=context)
             bud_move_obj.process_for_close(cr, uid, closeable_move_ids, plan.id, context=context)
+            self.move_default_bud_program_line(cr, uid, ids , context=context)
             bud_move_obj._workflow_signal(cr, uid, [plan.id], 'button_close', context=context)
+            self.hide_program_lines(cr, uid, ids , context=context)
+
+    def hide_program_lines(self, cr, uid, plan_ids , context=None):
+        mod_prog_lines=[]
+        prog_line_obj= self.pool.get('budget.program.line')
+        for plan_id in plan_ids:
+            pl_search = prog_line_obj.search(cr, uid, [('program_id.plan_id.id', '=', plan_id )],context=context)
+            prog_line_obj.write(cr, uid, pl_search, {'active_for_view':False})
+            mod_prog_lines.append(pl_search)
+        return mod_prog_lines
+
+
+    def move_default_bud_program_line(self, cr, uid, plan_ids , context=None):
+        mod_accounts=[]
+        prog_line_obj= self.pool.get('budget.program.line')
+        account_obj = self.pool.get('account.account')
+        for plan_id in plan_ids:
+            account_search = account_obj.search(cr, uid, [('default_budget_program_line','!=', None), ('default_budget_program_line.program_id.plan_id.id', '=', plan_id )],context=context)
+            accounts=account_obj.browse(cr, uid, account_search,context=context)
+            for acc in accounts: 
+                next_program_line_id= prog_line_obj.get_next_year_line(cr, uid, [acc.default_budget_program_line.id], context=context)[acc.default_budget_program_line.id]
+                if next_program_line_id:
+                    account_obj.write(cr, uid, [acc.id], {'default_budget_program_line':next_program_line_id})
+                    mod_accounts.append(acc.id)
+        return mod_accounts
+
 
     def get_budget_moves_for_close(self, cr, uid, plan_id, context=None):
         query = 'SELECT DISTINCT BM.id FROM budget_move BM '\
@@ -457,12 +484,14 @@ class budget_program_line(osv.osv):
         'child_consol_ids': fields.many2many('budget.program.line', 'budget_program_line_consol_rel', 'parent_id' ,'consol_child_id' , 'Consolidated Children'),
         'child_id': fields.function(_get_child_ids, type='many2many', relation="budget.program.line", string="Child Accounts"),
         'previous_year_line_id': fields.many2one('budget.program.line','Previous year line'),
+        'active_for_view': fields.boolean('Active')
         #'currency_id':fields.many2one('res.currency', string='Currency', readonly=True)
         }
     
     _defaults = {
         'assigned_amount': 0.0,
         'company_id': lambda self,cr,uid,c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.id,
+        'active_for_view': True
         #'currency_id': lambda self,cr,uid,c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.currency_id,
     }
      
@@ -491,14 +520,7 @@ class budget_program_line(osv.osv):
                 self.write(cr, uid, [line.id], {'previous_year_line_id':previous_program_lines[0]}, context=context)
                 modified_ids.append(line.id)
         return modified_ids
-
-        
-    def create(self, cr, uid, vals, context={}):
-#        if 'previous_year_line_id' not in vals.keys():
-#            vals['previous_year_line_id'] = self.pool.get('ir.sequence').get(cr, uid, 'budget.move')
-        res = super(budget_program_line, self).create(cr, uid, vals, context)
-        return res
-    
+ 
     def unlink(self, cr, uid, ids, context=None):
         for line in self.browse(cr, uid,ids, context=context):
             if line.program_id.plan_id.state in ('approved','closed'):
@@ -509,7 +531,10 @@ class budget_program_line(osv.osv):
     def write(self, cr ,uid, ids, vals,context=None):
         for line in self.browse(cr, uid,ids, context=context):
             if line.program_id.plan_id.state in ('approved','closed'):
-                raise osv.except_osv(_('Error!'), _('You cannot modify a line from an approved or closed plan'))
+               if len(vals) == 1 and 'active_for_view' in vals.keys():
+                   pass  
+               else:
+                   raise osv.except_osv(_('Error!'), _('You cannot modify a line from an approved or closed plan'))
         return super(budget_program_line, self).write(cr, uid, ids, vals, context=context)
     
     def create(self, cr, uid, vals, context={}):

@@ -412,20 +412,23 @@ class AccountMoveReconcile(osv.Model):
             budget_budget_move_lines = self.pool.get('budget.move.line').browse(cr,uid, budget_budget_move_lines_ids,context=context)
             for line in budget_budget_move_lines:
                 budget_budget_move_line_ids.append(line.id)
-                budget_total += line.fixed_amount
+                budget_total += abs(line.fixed_amount)
             for line in budget_budget_move_lines:
-                distribution_amount = line.fixed_amount
-                signed_dist_amount = distribution_amount 
+                distribution_amount = abs(line.fixed_amount)
+                
                 # If the resulting total of budget plus liquid lines is more than available, the amount has to be fractioned.
                 if abs(budget_total) + liquid_amount_to_dist > amount_to_dist:
                     distribution_amount = distribution_amount * amount_to_dist / budget_total + liquid_amount_to_dist
-#                if line.fixed_amount < 0:
-#                    signed_dist_amount = abs(distribution_amount) * -1 
+                
+                if line.fixed_amount < 0:
+                    signed_dist_amount = distribution_amount * -1
+                else:
+                    signed_dist_amount = distribution_amount
                 budget_distributed += distribution_amount
                 vals = {
                     'account_move_line_id':         original_line.id,
-                    #'distribution_amount':          signed_dist_amount,distribution_amount
-                    'distribution_amount':          distribution_amount,
+                    'distribution_amount':          signed_dist_amount,
+                    #'distribution_amount':          distribution_amount,
                     'distribution_percentage':      100 * abs(distribution_amount) / abs(original_amount_to_dist),
                     'target_budget_move_line_id':   line.id,
                     'reconcile_ids':                [(6, 0, new_reconcile_ids)],
@@ -439,9 +442,10 @@ class AccountMoveReconcile(osv.Model):
             # Liquid list
             for line in liquid_lines.values():
                 distribution_amount = liquid_amounts[line.id]
-                signed_dist_amount = distribution_amount
                 if line.fixed_amount < 0:
-                    signed_dist_amount = abs(distribution_amount) * -1 
+                    signed_dist_amount = distribution_amount * -1
+                else:
+                    signed_dist_amount = distribution_amount
                 liquid_distributed += distribution_amount
                 vals = {
                     'account_move_line_id':         original_line.id,
@@ -566,17 +570,21 @@ class AccountMoveReconcile(osv.Model):
                 budget_budget_move_lines += lines
             for line in budget_budget_move_lines:
                 budget_budget_move_line_ids.append(line.id)
-                budget_total += line.compromised
+                budget_total +=  abs(line.compromised)
             for line in budget_budget_move_lines:
-                distribution_amount = line.compromised
+                distribution_amount =  abs(line.compromised)
                 # If the resulting total of budget plus liquid lines is more than available, the amount has to be fractioned.
                 if budget_total > amount_to_dist:
                     distribution_amount = distribution_amount * amount_to_dist / budget_total
+                if line.fixed_amount < 0:
+                    signed_dist_amount = distribution_amount * -1
+                else:
+                    signed_dist_amount = distribution_amount
                 budget_distributed += distribution_amount
                 vals = {
                     'account_move_line_id':         original_line.id,
-                    'distribution_amount':          distribution_amount,
-                    'distribution_percentage':      100 * distribution_amount / original_amount_to_dist,
+                    'distribution_amount':          signed_dist_amount,
+                    'distribution_percentage':      100 * abs(distribution_amount) / abs(original_amount_to_dist),
                     'target_budget_move_line_id':   line.id,
                     'reconcile_ids':                [(6, 0, new_reconcile_ids)],
                     'type':                         'auto',
@@ -617,20 +625,23 @@ class AccountMoveReconcile(osv.Model):
                 else:
                     # Adjust difference
                     if distribution_amount > 0:
-                        vals['distribution_amount'] = amount - (distribution_amount - last_dist_distribution_amount)
+                        vals['distribution_amount'] = amount - (abs(distribution_amount) - abs(last_dist_distribution_amount))
                     else:
-                        vals['distribution_amount'] = amount - (distribution_amount - last_dist_distribution_amount)
+                        vals['distribution_amount'] = -(amount - (abs(distribution_amount) - abs(last_dist_distribution_amount)))
             elif distribution_amount < amount:
-                vals['distribution_amount'] = amount - (distribution_amount - last_dist_distribution_amount)
+                if distribution_amount > 0:
+                    vals['distribution_amount'] = amount - (abs(distribution_amount) - abs(last_dist_distribution_amount))
+                else:
+                    vals['distribution_amount'] = -(amount - (abs(distribution_amount) - abs(last_dist_distribution_amount)))
             
             if 'distribution_amount' in vals:
                 if last_dist.target_account_move_line_id and \
-                    vals['distribution_amount'] > (last_dist.target_account_move_line_id.debit + last_dist.target_account_move_line_id.credit):
+                    abs(vals['distribution_amount']) > (last_dist.target_account_move_line_id.debit + last_dist.target_account_move_line_id.credit):
                     # New value is bigger than allowed value
                     dist_obj.unlink(cr, uid, dist_ids, context=context)
                     return []
                 elif last_dist.target_budget_move_line_id and \
-                    distribution_amount > last_dist.target_budget_move_line_id.fixed_amount:
+                    abs(distribution_amount) > abs(last_dist.target_budget_move_line_id.fixed_amount):
                     # New value is bigger than allowed value
                     dist_obj.unlink(cr, uid, dist_ids, context=context)
                     return []

@@ -32,7 +32,7 @@
             <field name="inherit_id" ref="account.view_move_line_form"/>
             <field name="arch" type="xml">
                 <field name="account_id" position="after">
-                    <field name="budget_program_line" widget="selection" readonly="1"/>
+                    <field name="budget_program_line" domain="[('type','=','budget'), ('active_for_view','=',True)]" widget="selection" readonly="1"/>
                 </field>
             </field>
         </record>
@@ -44,7 +44,7 @@
             <field name="inherit_id" ref="account.view_move_line_form2"/>
             <field name="arch" type="xml">
                 <field name="account_id" position="after">
-                    <field name="budget_program_line" widget="selection" readonly="1"/>
+                    <field name="budget_program_line" domain="[('type','=','budget'), ('active_for_view','=',True)]" widget="selection" readonly="1"/>
                 </field>
             </field>
         </record>

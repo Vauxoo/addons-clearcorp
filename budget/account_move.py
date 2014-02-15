@@ -79,6 +79,15 @@ class accountMove(orm.Model):
                                               }, context=context)
                 bud_mov_obj._workflow_signal(cr, uid, [bud_move_id], 'button_execute', context=context)
                 bud_mov_obj.recalculate_values(cr, uid, [bud_move_id], context=context)
+        return created_move_ids
+    
+    def rewrite_bud_move_names(self, cr, uid, acc_ids, context=None):
+        bud_mov_obj = self.pool.get('budget.move')
+        acc_mov_obj = self.pool.get('account.move')
+        moves = self.browse(cr, uid, acc_ids, context=context) 
+        for move in moves:
+            if move.budget_move_id:
+                bud_mov_obj.write(cr, uid, [move.id],{'origin' : move_line.name,})
  
     def post(self, cr, uid, ids, context=None):
         if context is None:
@@ -91,7 +100,7 @@ class accountMove(orm.Model):
         
         obj_sequence = self.pool.get('ir.sequence')
         
-        self.create_budget_moves(cr, uid, ids, context=context)
+        created_move_ids =  self.create_budget_moves(cr, uid, ids, context=context)
         #=============================================================================#
         check_lines = []
         next_step = False
@@ -163,8 +172,9 @@ class accountMove(orm.Model):
                            'SET state=%s '\
                            'WHERE id IN %s',
                            ('posted', tuple(valid_moves),))
-                
-        return super(accountMove, self).post(cr, uid, ids, context=context) 
+        super_result = super(accountMove, self).post(cr, uid, ids, context=context)
+        self.rewrite_bud_move_names(cr, uid, ids, context=context)
+        return super_result
 
     def button_cancel(self, cr, uid, ids, context=None):
         amld_obj=self.pool.get('account.move.line.distribution')
@@ -219,10 +229,10 @@ class AccountMoveLine(osv.Model):
             res[id] =0.0      
         query = 'SELECT amld.id, SUM(amld.distribution_amount) AS dis_amount FROM '\
         'account_move_line_distribution amld '\
-        'WHERE amld.id =  %s GROUP BY amld.id' % tuple(ids)
+        'WHERE amld.id =  %s GROUP BY amld.id' % id
         cr.execute(query)
         for row in cr.dictfetchall():
-            res[row['id']] = row['dis_amount']        
+            res[row['id']] = abs(row['dis_amount'])        
         return res
            
     def _account_move_lines_mod(self, cr, uid, amld_ids, context=None):
