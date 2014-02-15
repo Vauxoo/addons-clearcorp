@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        <record id="product_ir_sequence_type" model="ir.sequence.type">
+            <field name="code">product.product</field>
+            <field name="name">Product Code</field>
+        </record>
+        
+        <record id="product_sequence" model="ir.sequence">
+            <field name="code">product.product</field>
+            <field name="name">Codigo de productos</field>
+            <field name="implementation">no_gap</field>
+            <field name="padding">6</field>
+            <field name="number_increment">1</field>
+            <field name="prefix">PRO-</field>
+        </record>
+    </data>
+</openerp>

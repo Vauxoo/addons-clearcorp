@@ -19,27 +19,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-{
-    "name" : 'Project Extended',
-    "version" : '1.0',
-    "author" : 'CLEARCORP S.A',
-    'complexity': 'easy',
-    "description": """
-This module changes the reference name of the project by a concatenated name using the project code.
-This module added id_task in project task
-    """,
-    "category": 'Project Management',
-    "sequence": 4,
-    "website" : "http://clearcorp.co.cr",
-    "images" : [],
-    "depends" : ['base','project'],
-    "init_xml" : [],
-    "demo_xml" : [],
-    "update_xml" : ["project_extended_view.xml"],
-    "test" : [],
-    "auto_install": False,
-    "application": False,
-    "installable": True,
-    'license': 'AGPL-3',
-}
+import product_sequence_ccorp

@@ -20,26 +20,18 @@
 #
 ##############################################################################
 
-{
-    "name" : 'Project Extended',
-    "version" : '1.0',
-    "author" : 'CLEARCORP S.A',
-    'complexity': 'easy',
-    "description": """
-This module changes the reference name of the project by a concatenated name using the project code.
-This module added id_task in project task
-    """,
-    "category": 'Project Management',
-    "sequence": 4,
-    "website" : "http://clearcorp.co.cr",
-    "images" : [],
-    "depends" : ['base','project'],
-    "init_xml" : [],
-    "demo_xml" : [],
-    "update_xml" : ["project_extended_view.xml"],
-    "test" : [],
-    "auto_install": False,
-    "application": False,
-    "installable": True,
-    'license': 'AGPL-3',
-}
+import netsvc
+from osv import fields, osv
+import tools
+from tools.translate import _
+
+class ProductProduct(osv.osv):
+    _inherit = 'product.product'
+    
+    def create(self, cr, uid, vals, context=None):
+        if vals['default_code'] is False:
+            default_code = self.pool.get('ir.sequence').get(cr, uid, 'product.product', context=context) or '/'
+            vals['default_code'] = default_code
+        result = super(ProductProduct, self).create(cr, uid, vals, context=context)
+        return result
+
