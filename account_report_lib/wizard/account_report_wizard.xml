@@ -13,7 +13,7 @@
                        <field name="fiscalyear_id" domain="[('company_id','=',company_id)]" on_change="onchange_filter(filter, fiscalyear_id)"/>
                        <field name="target_move"/> 
                        <field name="out_format"/> 
-                    </group>            
+                   </group>            
                     <!--This field is invisible by default, because not all the report use it -->     
                     <group col="4">
                         <field name="sort_selection" string="Entries Sorted by" attrs="{'invisible': True }" colspan="4"/>              
@@ -35,6 +35,9 @@
                     </group>                  
                    <group col="4" string="Accounts">
                         <field name="account_ids"/>
+                   </group>
+                   <group col="4" string="Partners">
+                        <field name="res_partners_ids"/>
                    </group>
                    <group col="4" string="Journals">
                         <field name="journal_ids"/>

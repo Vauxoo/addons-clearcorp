@@ -478,3 +478,98 @@ class AccountWebkitReportLibrary(orm.Model):
         move_lines = move_line_ids and move_line_obj.browse(cr, uid, move_line_ids, context=context) or []
         
         return move_lines
+    
+    def get_move_lines_partner(self, cr, uid, partner_ids, account_ids, filter_type='', filter_data=None, fiscalyear=None, target_move='all', special_period =False, order_by=None, context=None):
+        
+        ''' 
+        Get the move lines of the journal provided and filtered.
+        
+        Arguments:
+        'partner_ids': List of partner ids.
+        'filter_type': Filter used, possibles values: 'filter_date', 'filter_period' or ''.
+        'filter_data': If filter is by date then filter_data is a list of strings with the initial date and the ending date, if filter is by period then
+                       filter_data is a list of browse record with the initial period and the ending period.
+        'fiscalyear':  Browse record of the fiscal year selected.
+        'target_move': Target moves of the report, possibles values: 'all' or 'posted'.
+        'order_by': Used to the lines return order by specific order. asc or desc are the accepted words. Also, we can specified which field is going to be used
+         
+        '''
+        move_line_obj = self.pool.get('account.move.line')
+        move_line_ids = []
+        list_tuples = []
+       
+        #===============================================================================
+        # search domains are constructed in a list of tuples. It makes a search domaind depend of parameters
+        # search domain is builted for get account.move.lines that match with final search domain.
+        #        
+        # *******************************BUILD SEARCH DOMAINS***************************#
+        # if filter_data and filter_type are None (they don't have data) and fiscal_year doesn't exist
+        # the method takes accounts that match with target_move parameter.
+        #===============================================================================
+ 
+        #********partner_ids ******#
+        domain = ('partner_id', 'in', partner_ids)
+        list_tuples.append(domain)        
+        
+        #*******account_ids ******#
+        domain = ('account_id', 'in', account_ids)
+        list_tuples.append(domain) 
+        
+        #********target_mvove ******#
+        if not target_move == 'all':
+            domain = ('move_id.state', '=', target_move)
+            list_tuples.append(domain)        
+        
+        #********Filter by date, period or filter_type = '' *********#
+        if filter_type == 'filter_date':
+            if filter_data[0] is None: #it takes only final_date.
+                date_stop = filter_data[1]
+                domain = ('date', '<=', date_stop)
+                list_tuples.append(domain)
+            else:
+                domain_start_date = ('date', '>=', filter_data[0])
+                domain_stop_date = ('date', '<=', filter_data[1])
+                list_tuples.append(domain_start_date)
+                list_tuples.append(domain_stop_date)                
+
+        elif filter_type == 'filter_period':
+            period_domain_list = []
+            date_stop = ('date_stop', '<=', filter_data[1].date_stop)
+            period_domain_list.append(date_stop)
+            #It is considered fiscal_year and special_period.
+            if fiscalyear:
+                fiscal_year = ('fiscalyear_id', '=', fiscalyear.id)
+                period_domain_list.append(fiscal_year)
+            if special_period == False:
+                special = ('special', '=', False)
+            else:
+                special = ('special', '=', True)
+            period_domain_list.append(special)
+            
+            if filter_data[0]: 
+                #This case is for reports that take initial_period or initial_date as parameter
+                date_start = ('date_start', '>=', filter_data[0].date_start)
+                period_domain_list.append(date_start)
+            
+            #In final search domain, it takes fiscal_year, special periods, and start/end period
+            periods_ids = self.pool.get('account.period').search(cr, uid,period_domain_list, context=context)
+                
+            #Get periods with previous ids.
+            domain_period = ('period_id.id', 'in', periods_ids)
+            list_tuples.append(domain_period)
+        
+        #If filter doesn't exist, but fiscal_year exist, get periods that match with fiscal_year
+        #special_period parameter indicates that special periods are considered.
+        elif filter_type == '' and fiscalyear:
+            if special_period is True:
+                periods_ids = self.pool.get('account.period').search(cr, uid, [('special', '=', True),('fiscalyear_id', '=', fiscalyear.id)], context=context)
+            else:
+                periods_ids = self.pool.get('account.period').search(cr, uid, [('special', '=', False),('fiscalyear_id', '=', fiscalyear.id)], context=context)
+            domain_period = ('period_id.id', 'in', periods_ids)
+            list_tuples.append(domain_period)
+            
+        #********PASS ALL THE PARMETERS IN LIST_TUPLES AND CALL SEARCH METHOD*********************#
+        move_line_ids = move_line_obj.search(cr, uid, list_tuples, order = order_by, context=context)
+        move_lines = move_line_ids and move_line_obj.browse(cr, uid, move_line_ids, context=context) or []
+        
+        return move_lines
