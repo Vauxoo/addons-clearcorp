@@ -50,6 +50,9 @@
                      <group string="Account Financial Report" position="attributes">                   
                         <attribute name="attrs">{'invisible': True}</attribute>
                     </group>
+                    <field name="account_ids" position="replace">
+                        <field name="account_ids" nolabel="1"/>
+                    </field>
                 </data>
             </field>
         </record>
