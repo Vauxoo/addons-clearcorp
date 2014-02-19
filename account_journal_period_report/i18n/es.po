@@ -1,0 +1,192 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* account_journal_period_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-02-18 21:07+0000\n"
+"PO-Revision-Date: 2014-02-18 21:07+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_journal_period_report
+#: field:account.journal.wiz,account_base_report:0
+msgid "Account Base Report"
+msgstr "Informe Finaciero Base"
+
+#. module: account_journal_period_report
+#: code:addons/account_journal_period_report/wizard/account_journal_period_report_wizard.py:75
+#, python-format
+msgid "There is no template defined for the selected format. Check if aeroo report exist."
+msgstr "No existe una plantilla definida para el formato seleccionado. Debe existir un reporte de tipo aeroo."
+
+#. module: account_journal_period_report
+#: help:account.journal.wiz,historic_strict:0
+msgid "If selected, will display a historical unreconciled lines, taking into account the end of the period or date selected"
+msgstr "Si está selecciondo, desplegará las líneas no conciliadas históricas, dentro de la cuenta al final del período o de la fecha seleccionada"
+
+#. module: account_journal_period_report
+#: code:addons/account_journal_period_report/wizard/account_journal_period_report_wizard.py:75
+#, python-format
+msgid "Error !"
+msgstr "Error !"
+
+#. module: account_journal_period_report
+#: field:account.journal.wiz,special_period:0
+msgid "Special period"
+msgstr "Período Especial"
+
+#. module: account_journal_period_report
+#: view:account.journal.wiz:0
+#: field:account.journal.wiz,sort_selection:0
+msgid "Entries Sorted by"
+msgstr "Diarios ordenados por"
+
+#. module: account_journal_period_report
+#: field:account.journal.wiz,company_id:0
+msgid "Company"
+msgstr "Compañía"
+
+#. module: account_journal_period_report
+#: field:account.journal.wiz,amount_currency:0
+msgid "With Currency"
+msgstr "Con moneda"
+
+#. module: account_journal_period_report
+#: selection:account.journal.wiz,filter:0
+#: selection:account.journal.wiz,sort_selection:0
+msgid "Date"
+msgstr "Fecha"
+
+#. module: account_journal_period_report
+#: field:account.journal.wiz,chart_account_id:0
+msgid "Chart of Account"
+msgstr "Catálogo Contable"
+
+#. module: account_journal_period_report
+#: field:account.journal.wiz,journal_ids:0
+msgid "Journals"
+msgstr "Diarios"
+
+#. module: account_journal_period_report
+#: field:account.journal.wiz,target_move:0
+msgid "Target Moves"
+msgstr "Movimiento Destino"
+
+#. module: account_journal_period_report
+#: view:account.journal.wiz:0
+msgid "Account Journal"
+msgstr "Diarios"
+
+#. module: account_journal_period_report
+#: field:account.journal.wiz,date_to:0
+msgid "End Date"
+msgstr "Fecha Final"
+
+#. module: account_journal_period_report
+#: field:account.journal.wiz,period_from:0
+msgid "Start Period"
+msgstr "Período Inicial"
+
+#. module: account_journal_period_report
+#: selection:account.journal.wiz,sort_selection:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: account_journal_period_report
+#: selection:account.journal.wiz,target_move:0
+msgid "All Posted Entries"
+msgstr "Todos los apuntes publicados"
+
+#. module: account_journal_period_report
+#: help:account.journal.wiz,fiscalyear_id:0
+msgid "Keep empty for all open fiscal year"
+msgstr "Mantener vacío para todos los años fiscales abiertos"
+
+#. module: account_journal_period_report
+#: field:account.journal.wiz,period_to:0
+msgid "End Period"
+msgstr "Período Final"
+
+#. module: account_journal_period_report
+#: model:ir.actions.act_window,name:account_journal_period_report.action_account_journal_report_wizard
+msgid "Account Journal Report"
+msgstr "Reporte de Diarios"
+
+#. module: account_journal_period_report
+#: field:account.journal.wiz,fiscalyear_id:0
+msgid "Fiscal Year"
+msgstr "Año Fiscal"
+
+#. module: account_journal_period_report
+#: model:ir.model,name:account_journal_period_report.model_account_journal_wiz
+msgid "Account Journal Report Wizard"
+msgstr "Asistente para el Reporte de Diarios"
+
+#. module: account_journal_period_report
+#: view:account.journal.wiz:0
+msgid "This report allows you to print or generate a pdf of your Account Journal Report"
+msgstr "Este reporte permite imprimir o generar un pdf del Reporte de Diarios"
+
+#. module: account_journal_period_report
+#: field:account.journal.wiz,filter:0
+msgid "Filter by"
+msgstr "Filtrado por"
+
+#. module: account_journal_period_report
+#: field:account.journal.wiz,out_format:0
+msgid "Print Format"
+msgstr "Formato de impresión"
+
+#. module: account_journal_period_report
+#: help:account.journal.wiz,amount_currency:0
+msgid "It adds the currency column on report if the currency differs from the company currency."
+msgstr "Añade una columna de moneda en el reporte si la moneda es diferente de la moneda de la compañía."
+
+#. module: account_journal_period_report
+#: help:account.journal.wiz,special_period:0
+msgid "Include special period"
+msgstr "Includir período especial"
+
+#. module: account_journal_period_report
+#: view:account.journal.wiz:0
+#: field:account.journal.wiz,account_ids:0
+msgid "Accounts"
+msgstr "Cuentas"
+
+#. module: account_journal_period_report
+#: selection:account.journal.wiz,filter:0
+msgid "Periods"
+msgstr "Períodos"
+
+#. module: account_journal_period_report
+#: field:account.journal.wiz,date_from:0
+msgid "Start Date"
+msgstr "Fecha Inicial"
+
+#. module: account_journal_period_report
+#: help:account.journal.wiz,chart_account_id:0
+msgid "Select Charts of Accounts"
+msgstr "Seleccionar Catálogo Contable"
+
+#. module: account_journal_period_report
+#: view:account.journal.wiz:0
+msgid "Account Financial Report"
+msgstr "Informe Financiero"
+
+#. module: account_journal_period_report
+#: selection:account.journal.wiz,target_move:0
+msgid "All Entries"
+msgstr "Todos los apuntes"
+
+#. module: account_journal_period_report
+#: field:account.journal.wiz,historic_strict:0
+msgid "Strict History"
+msgstr "Histórico Estricto"
+

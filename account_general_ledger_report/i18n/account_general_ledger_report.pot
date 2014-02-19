@@ -1,0 +1,221 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* account_general_ledger_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-02-18 20:57+0000\n"
+"PO-Revision-Date: 2014-02-18 20:57+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_general_ledger_report
+#: view:general.ledger.wiz:0
+msgid "This report allows you to print or generate a pdf of your General Ledger"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: field:general.ledger.wiz,amount_currency:0
+msgid "With Currency"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: help:general.ledger.wiz,amount_currency:0
+msgid "It adds the currency column on report if the currency differs from the company currency."
+msgstr ""
+
+#. module: account_general_ledger_report
+#: view:general.ledger.wiz:0
+msgid "[('special', '=', False),('fiscalyear_id', '=', fiscalyear_id)]"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: code:addons/account_general_ledger_report/wizard/account_general_ledger_report_wizard.py:70
+#, python-format
+msgid "There is no template defined for the selected format. Check if aeroo report exist."
+msgstr ""
+
+#. module: account_general_ledger_report
+#: view:general.ledger.wiz:0
+msgid "General Ledger"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: help:general.ledger.wiz,historic_strict:0
+msgid "If selected, will display a historical unreconciled lines, taking into account the end of the period or date selected"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: code:addons/account_general_ledger_report/wizard/account_general_ledger_report_wizard.py:70
+#, python-format
+msgid "Error !"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: field:general.ledger.wiz,special_period:0
+msgid "Special period"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: field:general.ledger.wiz,sort_selection:0
+msgid "Entries Sorted by"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: field:general.ledger.wiz,company_id:0
+msgid "Company"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: model:ir.model,name:account_general_ledger_report.model_general_ledger_wiz
+msgid "General Ledger Report Wizard"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: model:ir.actions.act_window,name:account_general_ledger_report.action_general_ledger_report_wizard
+msgid "General Ledger Report"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: selection:general.ledger.wiz,filter:0
+#: selection:general.ledger.wiz,sort_selection:0
+msgid "Date"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: field:general.ledger.wiz,chart_account_id:0
+msgid "Chart of Account"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: view:general.ledger.wiz:0
+#: field:general.ledger.wiz,journal_ids:0
+msgid "Journals"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: field:general.ledger.wiz,target_move:0
+msgid "Target Moves"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: help:general.ledger.wiz,chart_account_id:0
+msgid "Select Charts of Accounts"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: field:general.ledger.wiz,date_to:0
+msgid "End Date"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: field:general.ledger.wiz,period_from:0
+msgid "Start Period"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: selection:general.ledger.wiz,sort_selection:0
+msgid "Name"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: view:general.ledger.wiz:0
+msgid "{'invisible': True}"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: selection:general.ledger.wiz,target_move:0
+msgid "All Posted Entries"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: view:general.ledger.wiz:0
+msgid "{'required': [('filter', '=', 'filter_date')]}"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: view:general.ledger.wiz:0
+msgid "{'required': [('filter', '=', 'filter_period')]}"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: view:general.ledger.wiz:0
+msgid "{'required': True}"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: help:general.ledger.wiz,fiscalyear_id:0
+msgid "Keep empty for all open fiscal year"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: field:general.ledger.wiz,period_to:0
+msgid "End Period"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: field:general.ledger.wiz,fiscalyear_id:0
+msgid "Fiscal Year"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: field:general.ledger.wiz,historic_strict:0
+msgid "Strict History"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: selection:general.ledger.wiz,filter:0
+msgid "No Filters"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: field:general.ledger.wiz,filter:0
+msgid "Filter by"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: field:general.ledger.wiz,out_format:0
+msgid "Print Format"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: field:general.ledger.wiz,account_base_report:0
+msgid "Account Base Report"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: help:general.ledger.wiz,special_period:0
+msgid "Include special period"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: field:general.ledger.wiz,account_ids:0
+msgid "Accounts"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: selection:general.ledger.wiz,filter:0
+msgid "Periods"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: field:general.ledger.wiz,date_from:0
+msgid "Start Date"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: view:general.ledger.wiz:0
+msgid "Account Financial Report"
+msgstr ""
+
+#. module: account_general_ledger_report
+#: selection:general.ledger.wiz,target_move:0
+msgid "All Entries"
+msgstr ""
+

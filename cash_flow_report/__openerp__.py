@@ -33,9 +33,9 @@ Cash Flow report in Webkit. This report allows you to monitor company activities
     "data" : [
                 'security/ir.model.access.csv',
                 'wizard/cash_flow_report_wizard.xml',
-                'report/report.xml',                
+                'report/report.xml',
                 'cash_flow_type.xml',
-                'report_menus.xml',
+                'report_menus.xml',        
              ],
     'active': False,
     'installable': True,    
