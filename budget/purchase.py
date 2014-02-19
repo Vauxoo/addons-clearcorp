@@ -29,23 +29,23 @@ class purchase_order(osv.osv):
     _inherit = 'purchase.order'
     
     STATE_SELECTION = [
-        ('draft', _('Budget Request')),
-        ('budget_approval', _('Waiting Approval')),
-        ('budget_approved', _('Draft Bill')),
-        ('sent', _('RFQ Sent')),
-        ('published', _('Bill published')),
-        ('review', _('Bid review')),
-        ('deserted', _('Deserted')),
-        ('awarded', _('Awarded')),
-        ('ineffectual', _('Ineffectual')),
-        ('confirmed', _('Waiting Approval')),
-        ('approved', _('Purchase Order')),
-        ('except_picking', _('Shipping Exception')),
-        ('except_invoice', _('Invoice Exception')),
-        ('final_approval', _('Final Approval')),
-        ('done', _('Done')),
-        ('void', _('Anulled')),
-        ('cancel', _('Cancelled'))]
+        ('draft', 'Budget Request'),
+        ('budget_approval', 'Waiting Approval'),
+        ('budget_approved', 'Draft Bill'),
+        ('sent', 'RFQ Sent'),
+        ('published', 'Bill published'),
+        ('review', 'Bid review'),
+        ('deserted', 'Deserted'),
+        ('awarded', 'Awarded'),
+        ('ineffectual', 'Ineffectual'),
+        ('confirmed', 'Waiting Approval'),
+        ('approved', 'Purchase Order'),
+        ('except_picking', 'Shipping Exception'),
+        ('except_invoice', 'Invoice Exception'),
+        ('final_approval', 'Final Approval'),
+        ('done', 'Done'),
+        ('void', 'Anulled'),
+        ('cancel', 'Cancelled')]
     
     _columns = {
         #'plan_id' : fields.many2one('budget.plan', 'Budget'),

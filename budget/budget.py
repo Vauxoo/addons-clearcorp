@@ -1376,10 +1376,6 @@ class budget_move(osv.osv):
                     return True
         return False
     
-            #    <!--<field name="trigger_model">account.move.line.distrbution</field>
-            #<field name="trigger_expr_id">action_executed()</field>-->
-    
-    
     def is_in_execution(self, cr, uid, ids, *args):
         dist_obj = self.pool.get('account.move.line.distribution') 
         executed = 0.0
