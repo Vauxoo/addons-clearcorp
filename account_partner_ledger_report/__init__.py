@@ -19,25 +19,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name" : 'Cash Flow Report',
-    "version" : '1.0',
-    "author" : 'CLEARCORP S.A.',
-    'category': 'Accounting & Finance',
-    "description": """
-Cash Flow Report:
-===================
-Cash Flow report in Webkit. This report allows you to monitor company activities that move cash flow """,
-    "website" : "http://clearcorp.co.cr",
-    "depends" : ['account_report_lib', 'account_account_extended_ccorp',],
-    "data" : [
-                'security/ir.model.access.csv',
-                'wizard/cash_flow_report_wizard.xml',
-                'report/report.xml',                
-                'cash_flow_type.xml',
-                'report_menus.xml',
-             ],
-    'active': False,
-    'installable': True,    
-    'license': 'AGPL-3',
-}
+
+import report
+import wizard

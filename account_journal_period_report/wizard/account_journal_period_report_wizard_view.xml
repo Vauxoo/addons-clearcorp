@@ -56,6 +56,9 @@
                     <field name="journal_ids" position="replace">
                         <field name="journal_ids" nolabel="1" required="1"/>
                     </field>
+                    <group string="Partners" position="attributes">                   
+                        <attribute name="attrs">{'invisible': True}</attribute>
+                    </group>
                 </data>
             </field>
         </record>

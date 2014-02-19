@@ -20,23 +20,22 @@
 #
 ##############################################################################
 {
-    "name" : 'Cash Flow Report',
-    "version" : '1.0',
-    "author" : 'CLEARCORP S.A.',
+    'name': 'Partner Ledger Report',
+    'version': '1.0',
+    'author': 'CLEARCORP S.A.',
     'category': 'Accounting & Finance',
-    "description": """
-Cash Flow Report:
-===================
-Cash Flow report in Webkit. This report allows you to monitor company activities that move cash flow """,
-    "website" : "http://clearcorp.co.cr",
-    "depends" : ['account_report_lib', 'account_account_extended_ccorp',],
-    "data" : [
-                'security/ir.model.access.csv',
-                'wizard/cash_flow_report_wizard.xml',
-                'report/report.xml',                
-                'cash_flow_type.xml',
-                'report_menus.xml',
-             ],
+    'description': """
+Partner Ledger Report.
+==============================
+This module modifies the partner ledger report """,
+    'website': 'http://clearcorp.co.cr',
+    'depends': ['account','account_report_lib',],
+    'data': [
+             'security/ir.model.access.csv',
+             'wizard/account_partner_ledger_report_wizard_view.xml',
+             'report/report.xml',
+             'report_menus.xml',
+            ],
     'active': False,
     'installable': True,    
     'license': 'AGPL-3',

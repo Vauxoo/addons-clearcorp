@@ -1,0 +1,199 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* account_partner_ledger_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-02-14 20:59+0000\n"
+"PO-Revision-Date: 2014-02-14 20:59+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_partner_ledger_report
+#: view:partner.ledger.wiz:0
+msgid "Account Partner Ledger"
+msgstr "Libro Mayor de Empresa"
+
+#. module: account_partner_ledger_report
+#: field:partner.ledger.wiz,res_partners_ids:0
+msgid "Partners"
+msgstr "Empresas"
+
+#. module: account_partner_ledger_report
+#: code:addons/account_partner_ledger_report/report/account_partner_ledger_report.py:71
+#, python-format
+msgid "Payable accounts"
+msgstr "Cuentas por pagar"
+
+#. module: account_partner_ledger_report
+#: view:partner.ledger.wiz:0
+msgid "This report allows you to print or generate a pdf of your Account Partner Ledger Report"
+msgstr "Este reporte le permite imprimir o generar un pdf del Libro Mayor de Empresas"
+
+#. module: account_partner_ledger_report
+#: help:partner.ledger.wiz,amount_currency:0
+msgid "It adds the currency column on report if the currency differs from the company currency."
+msgstr "Añade una columna de moneda en el reporte si la moneda es diferente de la de la compañía."
+
+#. module: account_partner_ledger_report
+#: code:addons/account_partner_ledger_report/report/account_partner_ledger_report.py:73
+#, python-format
+msgid "Payable and Receivable accounts"
+msgstr "Cuentas por pagar y cobrar"
+
+#. module: account_partner_ledger_report
+#: code:addons/account_partner_ledger_report/wizard/account_partner_ledger_report_wizard.py:78
+#, python-format
+msgid "There is no template defined for the selected format. Check if aeroo report exist."
+msgstr "No existe una plantilla definida para el formato seleccionado. Revisar si el reporte de aeroo existe."
+
+#. module: account_partner_ledger_report
+#: code:addons/account_partner_ledger_report/report/account_partner_ledger_report.py:69
+#, python-format
+msgid "Receivable accounts"
+msgstr "Cuentas por cobrar"
+
+#. module: account_partner_ledger_report
+#: code:addons/account_partner_ledger_report/wizard/account_partner_ledger_report_wizard.py:78
+#, python-format
+msgid "Error !"
+msgstr "Error !"
+
+#. module: account_partner_ledger_report
+#: field:partner.ledger.wiz,company_id:0
+msgid "Company"
+msgstr "Compañía"
+
+#. module: account_partner_ledger_report
+#: field:partner.ledger.wiz,amount_currency:0
+msgid "With Currency"
+msgstr "Con Moneda"
+
+#. module: account_partner_ledger_report
+#: selection:partner.ledger.wiz,filter:0
+#: selection:partner.ledger.wiz,sort_selection:0
+msgid "Date"
+msgstr "Fecha"
+
+#. module: account_partner_ledger_report
+#: field:partner.ledger.wiz,chart_account_id:0
+msgid "Chart of Account"
+msgstr "Catálogo de Cuentas"
+
+#. module: account_partner_ledger_report
+#: field:partner.ledger.wiz,account_type:0
+msgid "Account type"
+msgstr "Tipo de cuenta"
+
+#. module: account_partner_ledger_report
+#: view:partner.ledger.wiz:0
+#: field:partner.ledger.wiz,journal_ids:0
+msgid "Journals"
+msgstr "Diarios"
+
+#. module: account_partner_ledger_report
+#: field:partner.ledger.wiz,target_move:0
+msgid "Target Moves"
+msgstr "Movimientos destion"
+
+#. module: account_partner_ledger_report
+#: selection:partner.ledger.wiz,account_type:0
+msgid "Receivable and Payable Accounts"
+msgstr "Cuentas por cobrar y pagar"
+
+#. module: account_partner_ledger_report
+#: help:partner.ledger.wiz,chart_account_id:0
+msgid "Select Charts of Accounts"
+msgstr "Selecccionar el catálogo de cuentas"
+
+#. module: account_partner_ledger_report
+#: field:partner.ledger.wiz,date_to:0
+msgid "End Date"
+msgstr "Fecha final"
+
+#. module: account_partner_ledger_report
+#: field:partner.ledger.wiz,period_from:0
+msgid "Start Period"
+msgstr "Período Inicial"
+
+#. module: account_partner_ledger_report
+#: selection:partner.ledger.wiz,sort_selection:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: account_partner_ledger_report
+#: selection:partner.ledger.wiz,target_move:0
+msgid "All Posted Entries"
+msgstr "Todos los apuntes publicados"
+
+#. module: account_partner_ledger_report
+#: model:ir.model,name:account_partner_ledger_report.model_partner_ledger_wiz
+msgid "Account Journal Report Wizard"
+msgstr "Asistente para el Reporte de Diarios"
+
+#. module: account_partner_ledger_report
+#: field:partner.ledger.wiz,period_to:0
+msgid "End Period"
+msgstr "Período final"
+
+#. module: account_partner_ledger_report
+#: field:partner.ledger.wiz,fiscalyear_id:0
+msgid "Fiscal Year"
+msgstr "Año fiscal"
+
+#. module: account_partner_ledger_report
+#: selection:partner.ledger.wiz,account_type:0
+msgid "Receivable Accounts"
+msgstr "Cuentas por cobrar"
+
+#. module: account_partner_ledger_report
+#: field:partner.ledger.wiz,filter:0
+msgid "Filter by"
+msgstr "Filtrado por"
+
+#. module: account_partner_ledger_report
+#: selection:partner.ledger.wiz,account_type:0
+msgid "Payable Accounts"
+msgstr "Cuentas por pagar"
+
+#. module: account_partner_ledger_report
+#: field:partner.ledger.wiz,account_base_report:0
+msgid "Account Base Report"
+msgstr "Reporte Financiero Base"
+
+#. module: account_partner_ledger_report
+#: model:ir.actions.act_window,name:account_partner_ledger_report.action_account_partner_ledger_report_wizard
+msgid "Account Partner Ledger Report"
+msgstr "Reporte Libro Mayor de Empresa"
+
+#. module: account_partner_ledger_report
+#: view:partner.ledger.wiz:0
+#: field:partner.ledger.wiz,account_ids:0
+msgid "Accounts"
+msgstr "Cuentas"
+
+#. module: account_partner_ledger_report
+#: selection:partner.ledger.wiz,filter:0
+msgid "Periods"
+msgstr "Períodos"
+
+#. module: account_partner_ledger_report
+#: field:partner.ledger.wiz,date_from:0
+msgid "Start Date"
+msgstr "Fecha inicial"
+
+#. module: account_partner_ledger_report
+#: field:partner.ledger.wiz,out_format:0
+msgid "Print Format"
+msgstr "Formato de impresión"
+
+#. module: account_partner_ledger_report
+#: selection:partner.ledger.wiz,target_move:0
+msgid "All Entries"
+msgstr "Todos los apuntes"
