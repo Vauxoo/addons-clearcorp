@@ -23,7 +23,8 @@ from openerp.osv import fields, osv, orm
 from tools.translate import _
 
 class accountMove(orm.Model):
-    _inherit = "account.move"
+    _name = "account.move"
+    _inherit = ['account.move', 'mail.thread']
     
     OPTIONS = [
         ('void', 'Voids budget move'),
@@ -31,9 +32,16 @@ class accountMove(orm.Model):
     ]
     
     _columns = {
-        'budget_move_line_ids':  fields.one2many('budget.move.line', 'account_move_id', 'Budget move lines'),
+        'budget_move_id': fields.many2one('budget.move', 'Budget move'),
         'budget_type': fields.selection(OPTIONS, 'budget_type', readonly=True),
     }
+    
+    def copy(self, cr, uid, id, default, context=None):
+       default = {} if default is None else default.copy()
+       default.update({
+            'budget_move_id':False
+        })
+       return super(accountMove, self).copy(cr, uid, id, default, context)
     
     def check_moves_budget(self, cr, uid, ids, context=None):
         moves = self.browse(cr, uid, ids, context=context)
@@ -53,7 +61,7 @@ class accountMove(orm.Model):
         for move in moves:
             if self.check_moves_budget(cr, uid, [move.id], context=context):
                 bud_move_id = bud_mov_obj.create(cr, uid, { 'type':'manual' ,'origin':move.name}, context=context)
-                acc_mov_obj.write(cr, uid, [move.id], {'budget_type': 'budget'}, context=context)
+                acc_mov_obj.write(cr, uid, [move.id], {'budget_type': 'budget', 'budget_move_id':bud_move_id}, context=context)
                 created_move_ids.append(bud_move_id)
                 for move_line in move.line_id:
                     if move_line.budget_program_line:
@@ -70,8 +78,16 @@ class accountMove(orm.Model):
                                               }, context=context)
                 bud_mov_obj._workflow_signal(cr, uid, [bud_move_id], 'button_execute', context=context)
                 bud_mov_obj.recalculate_values(cr, uid, [bud_move_id], context=context)
- 
+        return created_move_ids
     
+    def rewrite_bud_move_names(self, cr, uid, acc_ids, context=None):
+        bud_mov_obj = self.pool.get('budget.move')
+        acc_mov_obj = self.pool.get('account.move')
+        moves = self.browse(cr, uid, acc_ids, context=context) 
+        for move in moves:
+            if move.budget_move_id:
+                bud_mov_obj.write(cr, uid, [move.id],{'origin' : move_line.name,})
+ 
     def post(self, cr, uid, ids, context=None):
         if context is None:
             context = {}
@@ -83,7 +99,7 @@ class accountMove(orm.Model):
         
         obj_sequence = self.pool.get('ir.sequence')
         
-        self.create_budget_moves(cr, uid, ids, context=context)
+        created_move_ids =  self.create_budget_moves(cr, uid, ids, context=context)
         #=============================================================================#
         check_lines = []
         next_step = False
@@ -155,9 +171,21 @@ class accountMove(orm.Model):
                            'SET state=%s '\
                            'WHERE id IN %s',
                            ('posted', tuple(valid_moves),))
-                
-        return True
+        super_result = super(accountMove, self).post(cr, uid, ids, context=context)
+        self.rewrite_bud_move_names(cr, uid, ids, context=context)
+        return super_result
 
+    def button_cancel(self, cr, uid, ids, context=None):
+        amld_obj=self.pool.get('account.move.line.distribution')
+        bud_mov_obj=self.pool.get('budget.move')
+        for acc_move in self.browse(cr, uid, ids, context=context):
+            bud_move_id = acc_move.budget_move_id.id
+            if bud_move_id:
+                bud_mov_obj._workflow_signal(cr, uid, [bud_move_id], 'button_cancel', context=context)
+                bud_mov_obj._workflow_signal(cr, uid, [bud_move_id], 'button_draft', context=context)
+                bud_mov_obj.unlink(cr, uid, [bud_move_id], context=context)        
+        super(accountMove, self).button_cancel(cr, uid, ids, context=context)
+        return True
 
 class AccountMoveLine(osv.Model):
     _inherit = 'account.move.line'
@@ -198,10 +226,10 @@ class AccountMoveLine(osv.Model):
             res[id] =0.0      
         query = 'SELECT amld.id, SUM(amld.distribution_amount) AS dis_amount FROM '\
         'account_move_line_distribution amld '\
-        'WHERE amld.id =  %s GROUP BY amld.id' % tuple(ids)
+        'WHERE amld.id =  %s GROUP BY amld.id' % id
         cr.execute(query)
         for row in cr.dictfetchall():
-            res[row['id']] = row['dis_amount']        
+            res[row['id']] = abs(row['dis_amount'])        
         return res
            
     def _account_move_lines_mod(self, cr, uid, amld_ids, context=None):
@@ -235,6 +263,20 @@ class AccountMoveLine(osv.Model):
                 result.append((line.id, line.move_id.name +" "+ deb +" "+ cred +" "+ am_curr))
         return result
     
+    def copy(self, cr, uid, id, default, context=None):
+       default = {} if default is None else default.copy()
+       default.update({
+            'budget_move_lines':False
+        })
+       return super(AccountMoveLine, self).copy(cr, uid, id, default, context)
+        
+        
+    def copy_data(self, cr, uid, id, default=None, context=None):
+        default = {} if default is None else default.copy()
+        default.update({
+            'budget_move_lines':False
+            })
+        return super(AccountMoveLine, self).copy_data(cr, uid, id, default, context)
     _columns = {
         #=======Budget Move Line
         'budget_move_lines': fields.one2many('budget.move.line','move_line_id', 'Budget Move Lines'),

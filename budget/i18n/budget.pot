@@ -1,0 +1,1799 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* budget
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-02-18 21:26+0000\n"
+"PO-Revision-Date: 2014-02-18 21:26+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: budget
+#: field:budget.account,child_id:0
+#: field:budget.program.line,child_id:0
+msgid "Child Accounts"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:1770
+#, python-format
+msgid "You cannot modify a distribution with a closed plan"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/account_period.py:53
+#, python-format
+msgid "All entry lines must be distributed in a 100 percentage. The move line with reference: '%s' is not completely distributed"
+msgstr ""
+
+#. module: budget
+#: field:budget.program.line,assigned_amount:0
+msgid "Assigned amount"
+msgstr ""
+
+#. module: budget
+#: model:ir.model,name:budget.model_hr_expense_line
+msgid "Expense Line"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:763
+#, python-format
+msgid "You cannot delete an account used by a program line"
+msgstr ""
+
+#. module: budget
+#: model:ir.actions.act_window,help:budget.action_budget_move
+msgid "<field name=\"view_id\" ref=\"view_budget_move_tree\"/>\n"
+"              <p class=\"oe_view_nocontent_create\">\n"
+"                Click to start a new move.\n"
+"              </p><p>\n"
+"                Create moves to reserve,compromise or execute currency moves from specified budget plans \n"
+"              </p>\n"
+"            "
+msgstr ""
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Set to review"
+msgstr ""
+
+#. module: budget
+#: view:budget.program:0
+msgid "If you have not set a previous program for this program, new program lines won't inherit their previous program lines, do you want to continue? "
+msgstr ""
+
+#. module: budget
+#: model:ir.actions.act_window,name:budget.action_budget_import_catalog
+msgid "Import Catalog"
+msgstr ""
+
+#. module: budget
+#: field:budget.move.line,budget_move_line_dist:0
+msgid "Budget Move Line Distributions"
+msgstr ""
+
+#. module: budget
+#: model:ir.ui.menu,name:budget.budget_move_menu
+msgid "Budget Moves"
+msgstr ""
+
+#. module: budget
+#: field:budget.move,arch_reserved:0
+msgid "Original Reserved"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:971
+#: code:addons/budget/budget.py:1048
+#: code:addons/budget/budget.py:1062
+#, python-format
+msgid "Modification"
+msgstr ""
+
+#. module: budget
+#: view:budget.plan:0
+msgid "Back to draft"
+msgstr ""
+
+#. module: budget
+#: view:budget.move.line:0
+msgid "Budget Move Lines Distribution"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/wizard/budget_import_catalog.py:100
+#, python-format
+msgid "The file name is too long"
+msgstr ""
+
+#. module: budget
+#: field:budget.program.line,compromised_amount:0
+msgid "Compromises"
+msgstr ""
+
+#. module: budget
+#: constraint:account.move.line.distribution:0
+msgid "You cannot create a distribution with a approved or closed plan"
+msgstr ""
+
+#. module: budget
+#: view:budget.account:0
+#: field:budget.account,parent_id:0
+msgid "Parent"
+msgstr ""
+
+#. module: budget
+#: field:account.move,message_unread:0
+msgid "Unread Messages"
+msgstr ""
+
+#. module: budget
+#: model:ir.actions.act_window,help:budget.action_budget_plan
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                Click to start a new plan.\n"
+"              </p><p>\n"
+"                Define your company's Budget according to your needs. A\n"
+"                budget plan allows you to distribute your resources into each budget entry \n"
+"              </p>\n"
+"            "
+msgstr ""
+
+#. module: budget
+#: field:budget.account,company_id:0
+#: field:budget.move,company_id:0
+#: field:budget.program.line,company_id:0
+msgid "Company"
+msgstr ""
+
+#. module: budget
+#: view:budget.move.line:0
+#: model:ir.model,name:budget.model_budget_move_line
+msgid "Budget Move Line"
+msgstr ""
+
+#. module: budget
+#: field:budget.move.line,move_line_id:0
+msgid "Move line"
+msgstr ""
+
+#. module: budget
+#: model:ir.ui.menu,name:budget.budget_import_catalog_wizard_menu_list
+msgid "Import account catalog from file"
+msgstr ""
+
+#. module: budget
+#: constraint:budget.plan:0
+msgid "Error!\n"
+"The start date of the plan must precede its end date"
+msgstr ""
+
+#. module: budget
+#: constraint:budget.account:0
+msgid "Error!\n"
+"You can create only 1 top level institutional view."
+msgstr ""
+
+#. module: budget
+#: view:budget.move:0
+msgid " Budget Moves"
+msgstr ""
+
+#. module: budget
+#: field:budget.move,compromised:0
+#: selection:budget.move,state:0
+#: field:budget.move.line,compromised:0
+msgid "Compromised"
+msgstr ""
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Publish bill"
+msgstr ""
+
+#. module: budget
+#: view:budget.program.line:0
+msgid " Budget Program Line"
+msgstr ""
+
+#. module: budget
+#: model:ir.model,name:budget.model_hr_payslip
+msgid "Pay Slip"
+msgstr ""
+
+#. module: budget
+#: selection:budget.plan,state:0
+msgid "Approved"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:1409
+#, python-format
+msgid "You cannot delete a budget move budget move that have associated budget lines with a approved or closed budget plan"
+msgstr ""
+
+#. module: budget
+#: view:budget.account:0
+#: model:ir.model,name:budget.model_account_account
+msgid "Account"
+msgstr ""
+
+#. module: budget
+#: field:account.move.line.distribution,type:0
+msgid "Distribution Type"
+msgstr ""
+
+#. module: budget
+#: model:ir.model,name:budget.model_budget_program_populate
+msgid "budget.program.populate"
+msgstr ""
+
+#. module: budget
+#: view:budget.move:0
+#: field:budget.move.line,budget_move_id:0
+#: model:ir.actions.act_window,name:budget.action_budget_move
+#: model:ir.model,name:budget.model_budget_move
+msgid "Budget Move"
+msgstr ""
+
+#. module: budget
+#: field:budget.move,budget_move_line_dist:0
+msgid "Account Move Line Distribution"
+msgstr ""
+
+#. module: budget
+#: field:budget.account,level:0
+msgid "Level"
+msgstr ""
+
+#. module: budget
+#: field:budget.plan,program_ids:0
+#: view:budget.program:0
+msgid "Programs"
+msgstr ""
+
+#. module: budget
+#: view:account.move.line:0
+msgid "Distribution Budget Move Lines"
+msgstr ""
+
+#. module: budget
+#: model:ir.model,name:budget.model_budget_account
+msgid "Budget Account"
+msgstr ""
+
+#. module: budget
+#: constraint:budget.account:0
+msgid "Error!\n"
+"You cannot create recursive account templates."
+msgstr ""
+
+#. module: budget
+#: model:ir.model,name:budget.model_purchase_order
+#: view:purchase.order:0
+msgid "Purchase Order"
+msgstr ""
+
+#. module: budget
+#: view:budget.move:0
+#: field:budget.move,move_lines:0
+msgid "Move lines"
+msgstr ""
+
+#. module: budget
+#: view:budget.plan:0
+msgid " Budget Plan "
+msgstr ""
+
+#. module: budget
+#: view:budget.move:0
+msgid "Amount"
+msgstr ""
+
+#. module: budget
+#: field:budget.move,executed:0
+#: selection:budget.move,state:0
+#: field:budget.move.line,executed:0
+#: field:budget.program.line,executed_amount:0
+msgid "Executed"
+msgstr ""
+
+#. module: budget
+#: field:budget.program.line,extended_amount:0
+msgid "Extensions"
+msgstr ""
+
+#. module: budget
+#: constraint:account.move:0
+msgid "You cannot create more than one move per period on a centralized journal."
+msgstr ""
+
+#. module: budget
+#: model:ir.model,name:budget.model_hr_salary_rule
+msgid "hr.salary.rule"
+msgstr ""
+
+#. module: budget
+#: selection:budget.plan,state:0
+msgid "Cancelled"
+msgstr ""
+
+#. module: budget
+#: selection:account.move.line.distribution,type:0
+msgid "Automatic"
+msgstr ""
+
+#. module: budget
+#: help:account.move,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr ""
+
+#. module: budget
+#: model:ir.model,name:budget.model_account_period_close
+msgid "period close"
+msgstr ""
+
+#. module: budget
+#: field:budget.move,origin:0
+#: field:budget.move.line,code:0
+#: field:budget.move.line,origin:0
+msgid "Origin"
+msgstr ""
+
+#. module: budget
+#: field:account.move.line.distribution,account_move_line_type:0
+msgid "Budget Type"
+msgstr ""
+
+#. module: budget
+#: field:account.account,default_budget_program_line:0
+msgid "Default budget program line"
+msgstr ""
+
+#. module: budget
+#: view:purchase.order:0
+msgid "[('state','in',('draft','budget_approval'))]"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:311
+#, python-format
+msgid "You cannot delete a program that is associated with an approved or closed plan "
+msgstr ""
+
+#. module: budget
+#: view:budget.account:0
+#: view:budget.program.line:0
+msgid "Group by..."
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:1600
+#, python-format
+msgid "You cannot create a budget move line with a canceled or closed plan"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/account_period.py:53
+#, python-format
+msgid "Invalid Action!"
+msgstr ""
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Request for Quotation "
+msgstr ""
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Mark as Done"
+msgstr ""
+
+#. module: budget
+#: field:budget.program.line,execution_percentage:0
+msgid "Execution Percentage"
+msgstr ""
+
+#. module: budget
+#: model:ir.ui.menu,name:budget.next_id_24
+#: model:ir.ui.menu,name:budget.next_id_27
+msgid "Planning"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:967
+#: code:addons/budget/budget.py:1058
+#, python-format
+msgid "Manual sale invoice"
+msgstr ""
+
+#. module: budget
+#: model:ir.actions.act_window,name:budget.action_budget_program
+msgid "Budget Program"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:1246
+#: code:addons/budget/budget.py:1249
+#, python-format
+msgid " is greater than the available "
+msgstr ""
+
+#. module: budget
+#: view:budget.plan:0
+msgid "No further moves will be created for this plan if it is closed, Will you proceed?"
+msgstr ""
+
+#. module: budget
+#: view:purchase.order:0
+msgid "[('state','not in',('draft','budget_approval','cancel'))]"
+msgstr ""
+
+#. module: budget
+#: view:purchase.order:0
+msgid "awarded"
+msgstr ""
+
+#. module: budget
+#: model:ir.model,name:budget.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/wizard/budget_import_catalog.py:97
+#, python-format
+msgid "Please specify a .csv file"
+msgstr ""
+
+#. module: budget
+#: field:budget.program.line,available_cash:0
+msgid "Available Cash"
+msgstr ""
+
+#. module: budget
+#: selection:budget.plan,state:0
+msgid "Closed"
+msgstr ""
+
+#. module: budget
+#: view:budget.program.populate:0
+msgid "Create program lines from catalog"
+msgstr ""
+
+#. module: budget
+#: field:budget.move.line,po_line_id:0
+msgid "Purchase order line"
+msgstr ""
+
+#. module: budget
+#: field:budget.move.line,inv_line_id:0
+msgid "Invoice line"
+msgstr ""
+
+#. module: budget
+#: selection:budget.account,account_type:0
+msgid "Consolidation Entry"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:143
+#, python-format
+msgid "The following budget accounts are not listed in this program: \n"
+" : "
+msgstr ""
+
+#. module: budget
+#: field:budget.move,state:0
+#: field:budget.move.line,state:0
+#: field:budget.plan,state:0
+msgid "State"
+msgstr ""
+
+#. module: budget
+#: field:budget.program.line,type:0
+msgid "Line Type"
+msgstr ""
+
+#. module: budget
+#: field:account.move,message_follower_ids:0
+msgid "Followers"
+msgstr ""
+
+#. module: budget
+#: model:ir.model,name:budget.model_stock_picking
+msgid "Picking List"
+msgstr ""
+
+#. module: budget
+#: view:budget.move:0
+msgid "recalculate"
+msgstr ""
+
+#. module: budget
+#: view:budget.account:0
+msgid "Account Type"
+msgstr ""
+
+#. module: budget
+#: field:budget.move.line,type:0
+msgid "Type"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:1221
+#: code:addons/budget/budget.py:1223
+#, python-format
+msgid "The reserved amount must be positive"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/purchase.py:103
+#, python-format
+msgid "You cannot approve an order with amount zero "
+msgstr ""
+
+#. module: budget
+#: help:budget.account,account_type:0
+msgid "The 'Internal Type' is used for features available on different types of accounts: view can not have journal items, consolidation are accounts that can have children accounts for consolidations and can only have institutional views as parent, institutional can have only consolidation childs"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:191
+#, python-format
+msgid "You cannot delete an approved or closed plan"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:972
+#: code:addons/budget/budget.py:1049
+#: code:addons/budget/budget.py:1063
+#, python-format
+msgid "Extension"
+msgstr ""
+
+#. module: budget
+#: constraint:account.move.line.distribution:0
+msgid "The distribution percentage can not be greater than sum of all percentage for the account move line selected"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:118
+#, python-format
+msgid "At least one program should be asociated to this plan\n"
+""
+msgstr ""
+
+#. module: budget
+#: field:budget.account,child_consol_ids:0
+#: field:budget.program.line,child_consol_ids:0
+msgid "Consolidated Children"
+msgstr ""
+
+#. module: budget
+#: field:hr.salary.rule,debit_budget_program_line:0
+msgid "Debit Budget Program Line"
+msgstr ""
+
+#. module: budget
+#: field:budget.account,allows_reduction:0
+msgid "Allows reduction"
+msgstr ""
+
+#. module: budget
+#: selection:budget.plan,state:0
+msgid "Waiting Approval"
+msgstr ""
+
+#. module: budget
+#: field:account.move.line,distribution_percentage_sum:0
+msgid "Distributed percentage"
+msgstr ""
+
+#. module: budget
+#: view:account.invoice.line:0
+msgid "on_change_account_id(account_id)"
+msgstr ""
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Confirm Order"
+msgstr ""
+
+#. module: budget
+#: sql_constraint:budget.account:0
+msgid "The code is defined for another account with the same parent"
+msgstr ""
+
+#. module: budget
+#: sql_constraint:budget.plan:0
+msgid "The name must be unique !"
+msgstr ""
+
+#. module: budget
+#: model:ir.ui.menu,name:budget.next_id_26
+msgid "Configuration"
+msgstr ""
+
+#. module: budget
+#: view:purchase.order:0
+#: view:purchase.order.line:0
+msgid "True"
+msgstr ""
+
+#. module: budget
+#: model:ir.module.category,description:budget.module_budget_category
+msgid "Helps you handle your Budget, if you are an administrator you will be able to execute budget."
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:1237
+#, python-format
+msgid "Program lines in budget move lines cannot be repeated"
+msgstr ""
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Budget Info"
+msgstr ""
+
+#. module: budget
+#: selection:budget.account,account_type:0
+msgid "Budget View"
+msgstr ""
+
+#. module: budget
+#: view:hr.salary.rule:0
+msgid "Budget Program Lines"
+msgstr ""
+
+#. module: budget
+#: field:budget.program,previous_program_id:0
+msgid "Previous program"
+msgstr ""
+
+#. module: budget
+#: selection:account.move.line.distribution,type:0
+msgid "Manual"
+msgstr ""
+
+#. module: budget
+#: constraint:account.move.line.distribution:0
+msgid "A Distribution Line only has one target. A target can be a move line or a budget move line"
+msgstr ""
+
+#. module: budget
+#: view:budget.program.line:0
+msgid "Program Line"
+msgstr ""
+
+#. module: budget
+#: model:ir.module.category,name:budget.module_budget_category
+#: model:ir.ui.menu,name:budget.budget_main_menu
+#: model:ir.ui.menu,name:budget.budget_menu
+msgid "Budget"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:776
+#, python-format
+msgid "You cannot overwrite the code or the name of an account used by a program line"
+msgstr ""
+
+#. module: budget
+#: field:budget.move,reversed:0
+#: field:budget.move.line,reversed:0
+msgid "Reversed"
+msgstr ""
+
+#. module: budget
+#: field:budget.move.line,extended:0
+msgid "Extended"
+msgstr ""
+
+#. module: budget
+#: field:budget.program.line,available_budget:0
+msgid "Available Budget"
+msgstr ""
+
+#. module: budget
+#: field:account.move,budget_type:0
+msgid "budget_type"
+msgstr ""
+
+#. module: budget
+#: model:ir.model,name:budget.model_res_partner
+msgid "Partner"
+msgstr ""
+
+#. module: budget
+#: view:budget.program:0
+#: view:budget.program.line:0
+msgid "Program lines"
+msgstr ""
+
+#. module: budget
+#: view:budget.account:0
+msgid "Budget accounts"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:968
+#: code:addons/budget/budget.py:1059
+#: model:ir.model,name:budget.model_hr_expense_expense
+#, python-format
+msgid "Expense"
+msgstr ""
+
+#. module: budget
+#: model:ir.model,name:budget.model_budget_import_catalog
+msgid "budget.import.catalog"
+msgstr ""
+
+#. module: budget
+#: field:budget.program,plan_id:0
+msgid "Budget plan"
+msgstr ""
+
+#. module: budget
+#: field:budget.move,date:0
+#: field:budget.move.line,date:0
+msgid "Date created"
+msgstr ""
+
+#. module: budget
+#: help:account.move,message_summary:0
+msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr ""
+
+#. module: budget
+#: field:budget.move,account_invoice_ids:0
+msgid "Invoices"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:966
+#: code:addons/budget/budget.py:1057
+#, python-format
+msgid "Manual purchase invoice"
+msgstr ""
+
+#. module: budget
+#: selection:budget.move,state:0
+msgid "In Execution"
+msgstr ""
+
+#. module: budget
+#: view:budget.move.line:0
+msgid "Budget move line"
+msgstr ""
+
+#. module: budget
+#: constraint:purchase.order.line:0
+msgid "Error!\n"
+" There is a tax defined for this product, its account or the account of the product category. \n"
+" The tax must be included in the price of the product."
+msgstr ""
+
+#. module: budget
+#: model:ir.actions.act_window,name:budget.action_budget_program_populate
+msgid "Create lines from catalog"
+msgstr ""
+
+#. module: budget
+#: selection:budget.move,state:0
+msgid "Canceled"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:303
+#, python-format
+msgid "You cannot create a program with a approved or closed plan"
+msgstr ""
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Mark ineffectual"
+msgstr ""
+
+#. module: budget
+#: view:hr.expense.expense:0
+msgid "on_change_currency(currency_id)"
+msgstr ""
+
+#. module: budget
+#: field:budget.plan,date_start:0
+msgid "Start Date"
+msgstr ""
+
+#. module: budget
+#: model:ir.actions.act_window,help:budget.action_budget_program_line_list
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                Click to start a new programgm line.\n"
+"              </p><p>\n"
+"                Define your company's Budget according to your needs. A\n"
+"                budget plan allows you to distribute your resources into each budget entry \n"
+"              </p>\n"
+"            "
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:317
+#, python-format
+msgid "You cannot modify a program with a approved or closed plan"
+msgstr ""
+
+#. module: budget
+#: field:budget.move,from_migration:0
+msgid "Created from migration"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:1270
+#, python-format
+msgid "You cannot create a budget move that have associated budget move lines with a approved or closed budget plan"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:965
+#: code:addons/budget/budget.py:1056
+#, python-format
+msgid "Sale invoice"
+msgstr ""
+
+#. module: budget
+#: field:account.move.line.distribution,target_account_move_line_id:0
+#: field:account.move.line.distribution,target_budget_move_line_id:0
+msgid "Target Budget Move Line"
+msgstr ""
+
+#. module: budget
+#: field:budget.move,standalone_move:0
+msgid "Standalone move"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/hr_expense.py:150
+#, python-format
+msgid "Tax of: "
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:1227
+#, python-format
+msgid "The sum of addition and subtractions from program lines must be zero"
+msgstr ""
+
+#. module: budget
+#: view:budget.program.line:0
+#: field:budget.program.line,program_id:0
+#: model:ir.model,name:budget.model_budget_program
+msgid "Program"
+msgstr ""
+
+#. module: budget
+#: selection:budget.move,state:0
+#: selection:budget.plan,state:0
+msgid "Draft"
+msgstr ""
+
+#. module: budget
+#: field:account.move.line.distribution,distribution_percentage:0
+msgid "Distribution Percentage"
+msgstr ""
+
+#. module: budget
+#: model:ir.model,name:budget.model_account_move_reconcile
+msgid "Account Reconciliation"
+msgstr ""
+
+#. module: budget
+#: constraint:account.move.line.distribution:0
+msgid "The distribution amount can not be greater than compromised amount in budget move line selected"
+msgstr ""
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Approve request"
+msgstr ""
+
+#. module: budget
+#: selection:account.move,budget_type:0
+msgid "Voids budget move"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:1614
+#, python-format
+msgid "You cannot create a budget move with a canceled or closed plan"
+msgstr ""
+
+#. module: budget
+#: selection:budget.account,account_type:0
+msgid "Budget Entry"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:970
+#: code:addons/budget/budget.py:1061
+#, python-format
+msgid "From account move"
+msgstr ""
+
+#. module: budget
+#: constraint:account.move.line.distribution:0
+msgid "The distribution amount can not be greater than maximum amount of remaining amount for account move line selected"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:1590
+#, python-format
+msgid "You cannot create a budget move line from an cancel or closed plan"
+msgstr ""
+
+#. module: budget
+#: field:account.move.line.distribution,reconcile_ids:0
+#: field:budget.move,name:0
+#: field:budget.program,state:0
+#: field:budget.program.line,state:0
+msgid "unknown"
+msgstr ""
+
+#. module: budget
+#: field:budget.move,fixed_amount:0
+msgid "Fixed amount"
+msgstr ""
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Purchase Order "
+msgstr ""
+
+#. module: budget
+#: view:budget.move:0
+msgid "Move line distributions"
+msgstr ""
+
+#. module: budget
+#: field:budget.program.line,previous_year_line_id:0
+msgid "Previous year line"
+msgstr ""
+
+#. module: budget
+#: view:budget.plan:0
+msgid "Close Plan"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/account_move.py:259
+#, python-format
+msgid "C:"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:1246
+#: code:addons/budget/budget.py:1249
+#, python-format
+msgid "The amount to substract from "
+msgstr ""
+
+#. module: budget
+#: field:account.move,message_is_follower:0
+msgid "Is a Follower"
+msgstr ""
+
+#. module: budget
+#: model:ir.model,name:budget.model_budget_plan
+msgid "Plan"
+msgstr ""
+
+#. module: budget
+#: field:budget.account,active:0
+#: field:budget.program.line,active_for_view:0
+msgid "Active"
+msgstr ""
+
+#. module: budget
+#: view:budget.account:0
+#: model:ir.actions.act_window,name:budget.action_budget_account_tree
+#: model:ir.ui.menu,name:budget.budget_account_tree_menu
+msgid "Budget Accounts"
+msgstr ""
+
+#. module: budget
+#: field:budget.move,type:0
+msgid "Move Type"
+msgstr ""
+
+#. module: budget
+#: model:res.groups,name:budget.group_budget_user
+msgid "User"
+msgstr ""
+
+#. module: budget
+#: view:budget.import.catalog:0
+msgid "This wizard will import a budget account tree"
+msgstr ""
+
+#. module: budget
+#: field:budget.program.line,modified_amount:0
+msgid "Modifications"
+msgstr ""
+
+#. module: budget
+#: field:budget.program.line,reserved_amount:0
+msgid "Reservations"
+msgstr ""
+
+#. module: budget
+#: view:budget.plan:0
+msgid "Apply for approval"
+msgstr ""
+
+#. module: budget
+#: model:ir.ui.menu,name:budget.budget_move_manual_menu
+msgid "Extensions,reserves and openings"
+msgstr ""
+
+#. module: budget
+#: selection:account.move.line.distribution,account_move_line_type:0
+msgid "Liquid"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:1243
+#, python-format
+msgid "An extension amount cannot be negative"
+msgstr ""
+
+#. module: budget
+#: field:account.move.line,distribution_amount_sum:0
+msgid "Distributed amount"
+msgstr ""
+
+#. module: budget
+#: model:ir.actions.act_window,name:budget.action_budget_program_line_tree
+#: model:ir.ui.menu,name:budget.budget_program_line_tree_menu
+msgid "Program Lines Tree"
+msgstr ""
+
+#. module: budget
+#: field:budget.account,allows_reimbursement:0
+msgid "Allows reimbursement"
+msgstr ""
+
+#. module: budget
+#: field:account.move,message_summary:0
+msgid "Summary"
+msgstr ""
+
+#. module: budget
+#: field:account.move.line,budget_program_line:0
+msgid "Budget Program Line"
+msgstr ""
+
+#. module: budget
+#: model:ir.model,name:budget.model_account_move_line
+msgid "Journal Items"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/account_move.py:166
+#, python-format
+msgid "Please define a sequence on the journal."
+msgstr ""
+
+#. module: budget
+#: view:budget.program:0
+msgid "Create lines from accounts"
+msgstr ""
+
+#. module: budget
+#: field:budget.move.line,fixed_amount:0
+msgid "Original amount"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/account.py:242
+#, python-format
+msgid "Error"
+msgstr ""
+
+#. module: budget
+#: field:budget.move.line,account_move_id:0
+msgid "Account Move"
+msgstr ""
+
+#. module: budget
+#: model:ir.ui.menu,name:budget.budget_program_menu
+msgid "Budget Programs"
+msgstr ""
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Mark for approval"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:160
+#, python-format
+msgid "The following budget accounts are not consolidated children of any consolidation view: \n"
+" "
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:1406
+#, python-format
+msgid "Orders in state other than draft cannot be deleted \n"
+""
+msgstr ""
+
+#. module: budget
+#: field:budget.move.line,so_line_id:0
+msgid "Sale order line"
+msgstr ""
+
+#. module: budget
+#: selection:account.move.line.distribution,account_move_line_type:0
+msgid "Void"
+msgstr ""
+
+#. module: budget
+#: field:budget.account,code:0
+#: field:budget.move,code:0
+#: field:budget.program,code:0
+msgid "Code"
+msgstr ""
+
+#. module: budget
+#: field:account.move.line,account_move_line_dist:0
+msgid "Account Move Line Distributions"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:179
+#, python-format
+msgid "You cannot close a plan that has a period in draft state.\n"
+"The period %s is in draft state."
+msgstr ""
+
+#. module: budget
+#: field:account.invoice.line,subtotal_discounted_taxed:0
+#: field:purchase.order.line,subtotal_discounted_taxed:0
+msgid "Subtotal"
+msgstr ""
+
+#. module: budget
+#: field:budget.program.line,account_id:0
+msgid "Budget account"
+msgstr ""
+
+#. module: budget
+#: view:budget.program.populate:0
+msgid "This wizard will crate program lines from a given account catalog"
+msgstr ""
+
+#. module: budget
+#: field:account.invoice.line,program_line_id:0
+#: field:budget.move,program_line_id:0
+#: field:budget.move.line,program_line_id:0
+#: field:hr.expense.line,program_line_id:0
+#: model:ir.model,name:budget.model_budget_program_line
+#: field:purchase.order.line,program_line_id:0
+msgid "Program line"
+msgstr ""
+
+#. module: budget
+#: field:budget.program.line,total_assigned:0
+msgid "Assigned"
+msgstr ""
+
+#. module: budget
+#: field:budget.program.line,sponsor_id:0
+#: field:res.partner,sponsor:0
+msgid "Sponsor"
+msgstr ""
+
+#. module: budget
+#: model:ir.model,name:budget.model_account_invoice
+msgid "Invoice"
+msgstr ""
+
+#. module: budget
+#: model:ir.actions.act_window,name:budget.action_budget_account_list
+#: model:ir.ui.menu,name:budget.budget_account_list_menu
+msgid "Budget Accounts List"
+msgstr ""
+
+#. module: budget
+#: view:budget.import.catalog:0
+#: view:budget.plan:0
+#: view:budget.program.populate:0
+#: view:purchase.order:0
+msgid "Cancel"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/account_move.py:261
+#, python-format
+msgid "AC:"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/account_move.py:99
+#, python-format
+msgid "You cannot validate a non-balanced entry.\n"
+"Make sure you have configured payment terms properly.\n"
+"The latest payment term line should be of the \"Balance\" type."
+msgstr ""
+
+#. module: budget
+#: view:budget.move:0
+#: model:ir.ui.menu,name:budget.next_id_25
+msgid "Moves"
+msgstr ""
+
+#. module: budget
+#: field:budget.account,child_parent_ids:0
+#: field:budget.program.line,child_parent_ids:0
+msgid "Children"
+msgstr ""
+
+#. module: budget
+#: constraint:budget.plan:0
+msgid "Error!\n"
+"The start date of the plan must not overlap with another plan"
+msgstr ""
+
+#. module: budget
+#: field:budget.move,reserved:0
+#: selection:budget.move,state:0
+#: field:budget.move.line,reserved:0
+#: field:purchase.order,reserved_amount:0
+msgid "Reserved"
+msgstr ""
+
+#. module: budget
+#: field:budget.move.line,modified:0
+msgid "Modified"
+msgstr ""
+
+#. module: budget
+#: field:budget.move.line,payslip_line_id:0
+msgid "Payslip line"
+msgstr ""
+
+#. module: budget
+#: model:ir.model,name:budget.model_purchase_order_line_invoice
+msgid "Purchase Order Line Make Invoice"
+msgstr ""
+
+#. module: budget
+#: model:ir.actions.act_window,help:budget.action_budget_manual_move
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                Click to start a new move.\n"
+"              </p><p>\n"
+"                Create moves to execute currency moves from specified budget plans \n"
+"              </p>\n"
+"            "
+msgstr ""
+
+#. module: budget
+#: view:budget.move:0
+msgid "Execute"
+msgstr ""
+
+#. module: budget
+#: model:ir.model,name:budget.model_account_invoice_line
+msgid "Invoice Line"
+msgstr ""
+
+#. module: budget
+#: field:budget.account,parent_left:0
+#: field:budget.program.line,parent_left:0
+msgid "Parent Left"
+msgstr ""
+
+#. module: budget
+#: view:budget.program.populate:0
+msgid "Create lines"
+msgstr ""
+
+#. module: budget
+#: field:account.invoice,from_order:0
+#: field:account.invoice.line,invoice_from_order:0
+msgid "From order"
+msgstr ""
+
+#. module: budget
+#: field:account.move.line.distribution,account_move_line_id:0
+msgid "Account Move Line"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:445
+#, python-format
+msgid "There is already a program line using this budget account"
+msgstr ""
+
+#. module: budget
+#: field:budget.program.line,parent_id:0
+msgid "Parent line"
+msgstr ""
+
+#. module: budget
+#: view:budget.account:0
+msgid " Budget Account "
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:964
+#: code:addons/budget/budget.py:1055
+#, python-format
+msgid "Purchase invoice"
+msgstr ""
+
+#. module: budget
+#: field:account.invoice.line,line_available:0
+#: field:budget.move.line,line_available:0
+#: field:hr.expense.line,line_available:0
+#: field:purchase.order.line,line_available:0
+msgid "Line available"
+msgstr ""
+
+#. module: budget
+#: view:account.move:0
+msgid "Follow this project to automatically track the events associated to tasks and issues of this project."
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/wizard/budget_program_populate.py:74
+#, python-format
+msgid "This program already contains program lines"
+msgstr ""
+
+#. module: budget
+#: field:account.move.line,type_distribution:0
+#: field:budget.move.line,type_distribution:0
+msgid "Distribution type"
+msgstr ""
+
+#. module: budget
+#: view:budget.plan:0
+msgid "Plans"
+msgstr ""
+
+#. module: budget
+#: field:budget.move.line,expense_line_id:0
+msgid "Expense line"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/account.py:128
+#: code:addons/budget/account.py:242
+#, python-format
+msgid "Budget distributions cannot be created automatically for this reconcile"
+msgstr ""
+
+#. module: budget
+#: model:ir.actions.act_window,name:budget.action_budget_manual_move
+msgid "Manual Moves"
+msgstr ""
+
+#. module: budget
+#: constraint:hr.expense.line:0
+msgid "Error!\n"
+" There is a tax defined for this product, its account or the account of the product category. \n"
+" The tax must be included in the price of the expense product."
+msgstr ""
+
+#. module: budget
+#: field:budget.account,parent_right:0
+#: field:budget.program.line,parent_right:0
+msgid "Parent Right"
+msgstr ""
+
+#. module: budget
+#: field:budget.move,arch_compromised:0
+msgid "Original compromised"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:969
+#: code:addons/budget/budget.py:1060
+#, python-format
+msgid "Payroll"
+msgstr ""
+
+#. module: budget
+#: field:account.move.line.distribution,distribution_amount:0
+msgid "Distribution Amount"
+msgstr ""
+
+#. module: budget
+#: constraint:budget.move.line:0
+msgid "Error!\n"
+" The plan for this program line must be in approved state"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:1225
+#, python-format
+msgid "The reserved amount must be negative"
+msgstr ""
+
+#. module: budget
+#: field:budget.move.line,previous_move_line_id:0
+msgid "Previous move line"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:545
+#, python-format
+msgid "You cannot create a line from an approved or closed plan"
+msgstr ""
+
+#. module: budget
+#: field:budget.account,account_type:0
+msgid "Internal Type"
+msgstr ""
+
+#. module: budget
+#: view:budget.program:0
+msgid " Budget Program "
+msgstr ""
+
+#. module: budget
+#: view:budget.import.catalog:0
+msgid "Import Account Catalog"
+msgstr ""
+
+#. module: budget
+#: field:budget.move,previous_move_id:0
+msgid "Previous move"
+msgstr ""
+
+#. module: budget
+#: help:budget.move,state:0
+msgid "The state of the move. A move that is still under planning is in a 'Draft' state. Then the move goes to 'Reserved' state in order to reserve the designated amount. This move goes to 'Compromised' state when the purchase operation is confirmed. Finally goes to the 'Executed' state where the amount is finally discounted from the budget available amount"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:527
+#, python-format
+msgid "You cannot delete a line from an approved or closed plan"
+msgstr ""
+
+#. module: budget
+#: field:budget.plan,date_stop:0
+msgid "End Date"
+msgstr ""
+
+#. module: budget
+#: field:budget.account,name:0
+#: field:budget.move.line,name:0
+#: field:budget.plan,name:0
+#: field:budget.program,name:0
+#: field:budget.program.line,name:0
+msgid "Name"
+msgstr ""
+
+#. module: budget
+#: view:account.move.line:0
+msgid "Analytic Lines"
+msgstr ""
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Mark as Deserted"
+msgstr ""
+
+#. module: budget
+#: view:budget.plan:0
+msgid "Approve Plan"
+msgstr ""
+
+#. module: budget
+#: field:account.move,message_ids:0
+msgid "Messages"
+msgstr ""
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Set to Draft"
+msgstr ""
+
+#. module: budget
+#: field:budget.program,program_lines:0
+msgid "Lines"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:537
+#, python-format
+msgid "You cannot modify a line from an approved or closed plan"
+msgstr ""
+
+#. module: budget
+#: selection:budget.move,state:0
+#: field:budget.move.line,from_migration:0
+msgid "Transferred"
+msgstr ""
+
+#. module: budget
+#: sql_constraint:budget.program:0
+msgid "The name must be unique for this budget!"
+msgstr ""
+
+#. module: budget
+#: view:purchase.order:0
+msgid "Grant bill"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:1785
+#, python-format
+msgid "You cannot delete a distribution with a closed plan"
+msgstr ""
+
+#. module: budget
+#: field:account.move.line,budget_move_lines:0
+msgid "Budget Move Lines"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/purchase.py:118
+#, python-format
+msgid "You cannot confirm a purchase order without any purchase order line."
+msgstr ""
+
+#. module: budget
+#: field:budget.import.catalog,parent_account:0
+#: field:budget.program.populate,parent_account:0
+msgid "Catalog parent"
+msgstr ""
+
+#. module: budget
+#: constraint:budget.program.line:0
+msgid "Error!\n"
+"The budget account is related to another program line."
+msgstr ""
+
+#. module: budget
+#: help:account.move,message_ids:0
+msgid "Messages and communication history"
+msgstr ""
+
+#. module: budget
+#: selection:budget.account,account_type:0
+msgid "Institutional View"
+msgstr ""
+
+#. module: budget
+#: model:ir.actions.act_window,name:budget.action_budget_plan
+#: model:ir.ui.menu,name:budget.budget_plan_menu
+msgid "Budget Plans"
+msgstr ""
+
+#. module: budget
+#: model:ir.model,name:budget.model_account_move
+msgid "Account Entry"
+msgstr ""
+
+#. module: budget
+#: field:account.invoice,budget_move_id:0
+#: field:account.move,budget_move_id:0
+#: selection:account.move,budget_type:0
+#: field:hr.expense.expense,budget_move_id:0
+#: field:hr.payslip,budget_move_id:0
+#: field:purchase.order,budget_move_id:0
+msgid "Budget move"
+msgstr ""
+
+#. module: budget
+#: model:ir.model,name:budget.model_account_move_line_distribution
+msgid "Account move line distribution"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/account_move.py:99
+#: code:addons/budget/account_move.py:166
+#: code:addons/budget/budget.py:118
+#: code:addons/budget/budget.py:143
+#: code:addons/budget/budget.py:160
+#: code:addons/budget/budget.py:179
+#: code:addons/budget/budget.py:191
+#: code:addons/budget/budget.py:303
+#: code:addons/budget/budget.py:311
+#: code:addons/budget/budget.py:317
+#: code:addons/budget/budget.py:445
+#: code:addons/budget/budget.py:527
+#: code:addons/budget/budget.py:537
+#: code:addons/budget/budget.py:545
+#: code:addons/budget/budget.py:763
+#: code:addons/budget/budget.py:776
+#: code:addons/budget/budget.py:1270
+#: code:addons/budget/budget.py:1307
+#: code:addons/budget/budget.py:1323
+#: code:addons/budget/budget.py:1406
+#: code:addons/budget/budget.py:1409
+#: code:addons/budget/budget.py:1590
+#: code:addons/budget/budget.py:1600
+#: code:addons/budget/budget.py:1614
+#: code:addons/budget/budget.py:1770
+#: code:addons/budget/budget.py:1785
+#: code:addons/budget/hr_expense.py:348
+#: code:addons/budget/purchase.py:103
+#: code:addons/budget/purchase.py:118
+#: code:addons/budget/purchase.py:318
+#: code:addons/budget/wizard/budget_import_catalog.py:97
+#: code:addons/budget/wizard/budget_import_catalog.py:100
+#: code:addons/budget/wizard/budget_program_populate.py:74
+#, python-format
+msgid "Error!"
+msgstr ""
+
+#. module: budget
+#: model:res.groups,name:budget.group_budget_viewer
+msgid "Viewer"
+msgstr ""
+
+#. module: budget
+#: model:ir.actions.act_window,help:budget.action_budget_program
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                Click to start a new program.\n"
+"              </p><p>\n"
+"                Define your company's Budget according to your needs. A\n"
+"                budget program allows you to manage your budget for any department or organizational unit. \n"
+"              </p>\n"
+"            "
+msgstr ""
+
+#. module: budget
+#: field:hr.salary.rule,credit_budget_program_line:0
+msgid "Credit Budget Program Line"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/budget.py:973
+#: code:addons/budget/budget.py:1050
+#: code:addons/budget/budget.py:1064
+#, python-format
+msgid "Opening"
+msgstr ""
+
+#. module: budget
+#: sql_constraint:budget.program.line:0
+msgid "The name of the line must be unique per company!"
+msgstr ""
+
+#. module: budget
+#: help:budget.plan,state:0
+msgid "The state of the budget. A budget that is still under planning is in a 'Draft' state. Then the plan has to be confirmed by the user in order to be approved, the state switch to 'Confirmed'. Then the manager must confirm the budget plan to change the state to 'Approved'. If a plan will not be approved it must be cancelled."
+msgstr ""
+
+#. module: budget
+#: view:budget.import.catalog:0
+msgid "Import catalog"
+msgstr ""
+
+#. module: budget
+#: model:ir.actions.act_window,name:budget.action_budget_program_line_list
+#: model:ir.ui.menu,name:budget.budget_program_line_list_menu
+msgid "Program Lines List"
+msgstr ""
+
+#. module: budget
+#: model:res.groups,name:budget.group_budget_manager
+msgid "Manager"
+msgstr ""
+
+#. module: budget
+#: code:addons/budget/account_move.py:257
+#, python-format
+msgid "D:"
+msgstr ""
+
+#. module: budget
+#: view:budget.move:0
+#: view:budget.move.line:0
+msgid "Distribution Budget Lines"
+msgstr ""
+
+#. module: budget
+#: field:budget.import.catalog,catalog_file:0
+msgid "File"
+msgstr ""
+
+#. module: budget
+#: field:budget.move.line,tax_line_id:0
+msgid "Invoice tax line"
+msgstr ""
+
+#. module: budget
+#: constraint:budget.plan:0
+msgid "Error!\n"
+"The stop date of the plan must not overlap with another plan"
+msgstr ""
+
+
+#. module: budget
+#: selection:purchase.order,state:0
+msgid "Budget Request"
+msgstr ""
+
+#. module: budget
+#: selection:purchase.order,state:0
+msgid "Waiting approval"
+msgstr ""
+
+#. module: budget
+#: selection:purchase.order,state:0
+msgid "Draft Bill"
+msgstr ""
+
+#. module: budget
+#: selection:purchase.order,state:0
+msgid "Bill published"
+msgstr ""
+
+#. module: budget
+#: selection:purchase.order,state:0
+msgid "Bid review"
+msgstr ""
+
+#. module: budget
+#: selection:purchase.order,state:0
+msgid "Deserted"
+msgstr ""
+
+#. module: budget
+#: selection:purchase.order,state:0
+msgid "Awarded"
+msgstr ""
+
+#. module: budget
+#: selection:purchase.order,state:0
+msgid "Ineffectual"
+msgstr ""
+
+#. module: budget
+#: selection:purchase.order,state:0
+msgid "Purchase Order"
+msgstr ""
+
+#. module: budget
+#: selection:purchase.order,state:0
+msgid "Shipping Exception"
+msgstr ""
+
+#. module: budget
+#: selection:purchase.order,state:0
+msgid "Invoice Exception"
+msgstr ""
+
+#. module: budget
+#: selection:purchase.order,state:0
+msgid "Final Approval"
+msgstr ""
+
+#. module: budget
+#: selection:purchase.order,state:0
+msgid "Done"
+msgstr ""
+
+#. module: budget
+#: selection:purchase.order,state:0
+msgid "Anulled"
+msgstr ""
+
+#. module: budget
+#: selection:purchase.order,state:0
+msgid "Cancelled"
+msgstr ""

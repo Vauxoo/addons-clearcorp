@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
     			<data>
     				<field name="active" position="after">
-    					<field name="default_budget_program_line"/>
+    					<field name="default_budget_program_line" domain="[('type','=','budget'), ('active_for_view','=',True)]"/>
 	                </field>			
     			</data>
     		</field>

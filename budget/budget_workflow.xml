@@ -35,7 +35,7 @@
             <field name="name">closed</field>
             <field name="kind">function</field>
             <field name="action">action_close()</field>
-            <field name="flow_stop">True</field>
+            <field name="flow_stop">False</field>
         </record>
         
         <record id="act_bud_pl_cancel" model="workflow.activity">
@@ -43,7 +43,7 @@
             <field name="name">cancel</field>
             <field name="kind">function</field>
             <field name="action">action_cancel()</field>
-            <field name="flow_stop">True</field>
+            <field name="flow_stop">False</field>
         </record>
     
         <record id="trans_bud_pl_draft_confirmed" model="workflow.transition">
@@ -117,15 +117,22 @@
         
         <record id="act_bud_mov_executed" model="workflow.activity">
             <field name="wkf_id" ref="wkf_budget_move"/>
-            <!--<field name="flow_stop">True</field>-->
+            <field name="flow_stop">False</field>
             <field name="name">executed</field>
             <field name="kind">function</field>
             <field name="action">action_execute()</field>
         </record>
         
+        <record id="act_bud_mov_transferred" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_budget_move"/>
+            <field name="name">transferred</field>
+            <field name="kind">function</field>
+            <field name="action">action_transfer()</field>
+        </record>
+        
         <record id="act_bud_mov_canceled" model="workflow.activity">
             <field name="wkf_id" ref="wkf_budget_move"/>
-            <!--<field name="flow_stop">True</field>-->
+            <field name="flow_stop">False</field>
             <field name="name">canceled</field>
             <field name="kind">function</field>
             <field name="action">action_cancel()</field>
@@ -167,8 +174,6 @@
         <record id="trans_bud_mov_executed_in_execution" model="workflow.transition">
             <field name="act_from" ref="act_bud_mov_executed"/>
             <field name="act_to" ref="act_bud_mov_in_execution"/>
-            <!--<field name="trigger_model">account.move.line.distribution</field>
-            <field name="trigger_expr_id">distribution_get()</field>-->
             <field name="condition">is_in_execution()</field>
             <field name="signal">button_check_execution</field>
         </record>
@@ -191,11 +196,34 @@
             <field name="signal">button_cancel</field>
         </record>
         
-        
         <record id="trans_bud_mov_canceled_draft" model="workflow.transition">
             <field name="act_from" ref="act_bud_mov_canceled"/>
             <field name="act_to" ref="act_bud_mov_draft"/>
             <field name="signal">button_draft</field>
+        </record>
+        
+        <record id="trans_bud_mov_draft_transferred" model="workflow.transition">
+            <field name="act_from" ref="act_bud_mov_draft"/>
+            <field name="act_to" ref="act_bud_mov_transferred"/>
+            <field name="signal">button_transfer</field>
+        </record>
+        
+        <record id="trans_bud_mov_reserved_transferred" model="workflow.transition">
+            <field name="act_from" ref="act_bud_mov_reserved"/>
+            <field name="act_to" ref="act_bud_mov_transferred"/>
+            <field name="signal">button_transfer</field>
+        </record>
+        
+        <record id="trans_bud_mov_compromised_transferred" model="workflow.transition">
+            <field name="act_from" ref="act_bud_mov_compromised"/>
+            <field name="act_to" ref="act_bud_mov_transferred"/>
+            <field name="signal">button_transfer</field>
+        </record>
+        
+        <record id="trans_bud_mov_in_execution_transferred" model="workflow.transition">
+            <field name="act_from" ref="act_bud_mov_in_execution"/>
+            <field name="act_to" ref="act_bud_mov_transferred"/>
+            <field name="signal">button_transfer</field>
         </record>
         	
 	</data>
