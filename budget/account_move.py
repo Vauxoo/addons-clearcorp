@@ -32,7 +32,6 @@ class accountMove(orm.Model):
     ]
     
     _columns = {
-        #'budget_move_line_ids':  fields.one2many('budget.move.line', 'account_move_id', 'Budget move lines'),
         'budget_move_id': fields.many2one('budget.move', 'Budget move'),
         'budget_type': fields.selection(OPTIONS, 'budget_type', readonly=True),
     }
@@ -184,9 +183,7 @@ class accountMove(orm.Model):
             if bud_move_id:
                 bud_mov_obj._workflow_signal(cr, uid, [bud_move_id], 'button_cancel', context=context)
                 bud_mov_obj._workflow_signal(cr, uid, [bud_move_id], 'button_draft', context=context)
-                bud_mov_obj.unlink(cr, uid, [bud_move_id], context=context)
-        #amld_obj.search(cr, uid,['|', ('target_account_move_line_id','in', ids), ('account_move_line_id','in', ids)])
-        
+                bud_mov_obj.unlink(cr, uid, [bud_move_id], context=context)        
         super(accountMove, self).button_cancel(cr, uid, ids, context=context)
         return True
 

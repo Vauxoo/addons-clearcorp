@@ -48,9 +48,6 @@ class purchase_order(osv.osv):
         ('cancel', 'Cancelled')]
     
     _columns = {
-        #'plan_id' : fields.many2one('budget.plan', 'Budget'),
-        #'program_id' : fields.many2one('budget.program', 'Program'),
-        #'program_line_id': fields.many2one('budget.program.line', 'Program line', required=True, readonly=True, states={'draft':[('readonly',False)]}, select=True),
         'reserved_amount' : fields.float('Reserved', digits=(12,3), readonly=True, ),
         'budget_move_id': fields.many2one('budget.move', 'Budget move'),
         'state': fields.selection(STATE_SELECTION, 'Status', readonly=True, help="The status of the purchase order or the quotation request. A quotation is a purchase order in a 'Draft' status. Then the order has to be confirmed by the user, the status switch to 'Confirmed'. Then the supplier must confirm the order to change the status to 'Approved'. When the purchase order is paid and received, the status becomes 'Done'. If a cancel action occurs in the invoice or in the reception of goods, the status becomes in exception.", select=True),
@@ -73,7 +70,6 @@ class purchase_order(osv.osv):
         for id in ids:
             if context is None:
                 context = {}
-            #context.update({'from_order' : True,})
             invoice_id = super(purchase_order, self).action_invoice_create(cr, uid, ids, context=context)
             acc_inv_mov.write(cr, uid, [invoice_id],{'from_order': True})
             for purchase in self.browse(cr, uid, [id],context=context):
@@ -96,7 +92,6 @@ class purchase_order(osv.osv):
             reserved_amount = purchase.amount_total
             if reserved_amount != 0.0:
                 move_id = purchase.budget_move_id.id
-                #obj_bud_mov.action_reserve(cr,uid, [move_id],context=context)
                 obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_reserve', context=context)
                 self.write(cr, uid, [purchase.id], {'state': 'budget_approved', 'reserved_amount': reserved_amount})
             else:
@@ -133,7 +128,7 @@ class purchase_order(osv.osv):
         obj_bud_mov = self.pool.get('budget.move')
         for purchase in self.browse(cr, uid, ids, context=context):
             move_id = purchase.budget_move_id.id
-            #obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_cancel', context=context) #En inefectual el move debería seguir en ejecución y se anula lo comprometido?
+            obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_cancel', context=context) 
         self.write(cr, uid, ids, {'state': 'ineffectual'})
         return True
     
@@ -166,7 +161,6 @@ class purchase_order(osv.osv):
             bud_move = purchase.budget_move_id
             if bud_move:
                 move_id = purchase.budget_move_id.id
-                #obj_bud_mov.action_draft(cr,uid, [move_id],context=context)
                 obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_draft', context=context)
 
         self.write(cr, uid, ids, {'state': 'draft'})

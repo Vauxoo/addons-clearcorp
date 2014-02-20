@@ -41,7 +41,6 @@ class sale_order(osv.osv):
             acc_inv_mov.write(cr, uid, [invoice_id],{'from_order': True})
             for sale in self.browse(cr, uid, [id],context=context):
                 move_id = sale.budget_move_id.id
-                #obj_bud_mov.write(cr,uid, [sale.budget_move_id.id],{'account_invoice_ids': [(4, invoice_id)]}, context=context)
                 obj_bud_mov.action_execute(cr,uid, [move_id],context=context)
                 res = invoice_id
         return res

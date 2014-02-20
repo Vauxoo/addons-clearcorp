@@ -60,31 +60,6 @@ class AccountMoveReconcile(osv.Model):
                 bud_mov_obj._workflow_signal(cr, uid, [mov_id], 'button_check_execution', context=context)
         return super(AccountMoveReconcile, self).unlink(cr, uid, ids, context=context)
 
-#    def unlink(self, cr, uid, ids, context={}):
-#        dist_obj = self.pool.get('account.move.line.distribution')
-#        bud_mov_obj = self.pool.get('budget.move')
-#        wf_service = netsvc.LocalService("workflow")
-#        for reconcile_id in ids:
-#            budget_move_ids = []
-#            dist_ids = dist_obj.search(cr, uid, [('reconcile_ids.id','=',reconcile_id)], context=context)
-#            dists = dist_obj.browse(cr, uid, dist_ids, context=context)
-#            for dist in dists:
-#                if dist.target_budget_move_line_id and \
-#                    dist.target_budget_move_line_id.budget_move_id and \
-#                    dist.target_budget_move_line_id.budget_move_id.id not in budget_move_ids:
-#                    budget_move_ids.append(dist.target_budget_move_line_id.budget_move_id.id)
-#                if len(dist.reconcile_ids) == 1:
-#                    dist_obj.unlink(cr, uid, [dist.id], context=context)
-#                else:
-#                    dist_obj.write(cr ,uid, [dist.id], {'reconcile_ids':[(3,reconcile_id)]}) 
-#        
-#        if budget_move_ids:
-#            bud_mov_obj.recalculate_values(cr, uid, budget_move_ids, context=context)
-#            for mov_id in budget_move_ids:
-#                bud_mov_obj._workflow_signal(cr, uid, [mov_id], 'button_check_execution', context=context)
-#        return super(AccountMoveReconcile, self).unlink(cr, uid, ids, context=context)
-
-
     def check_incremental_reconcile(self, cr, uid, vals, context=None):
         #Checks for every account move line, that if the AML(account move line) has a reconcile (partial or complete), each AML of the given reconcile must be e included in the new reconcile.
         acc_move_line_obj=self.pool.get('account.move.line')
@@ -113,7 +88,6 @@ class AccountMoveReconcile(osv.Model):
                  for aml in previous_partial_reconcile.line_partial_ids:
                      if aml.id not in acc_move_line_ids:
                          return False
-        #set(a).issubset(set(b))
         return True
         
         
@@ -198,15 +172,15 @@ class AccountMoveReconcile(osv.Model):
                 amount = line.amount_currency
                 currency_id = line.currency_id
         if currency_id:
-            print 'TODO'
-            #amount = how to get the equivalent in system currency?         
+            pass
+            #TODO
+            #Distributions work only with system currency, if it is necesary to work with other currency, logic MUST be implemented from recursive distribution algorithms first        
         invoice = acc_inv_obj.browse(cr, uid,[invoice_id],context = context)[0]
         
         bud_move = invoice.budget_move_id
         i=0
         sum = 0
         for line in bud_move.move_lines:
- #           amld.clean_reconcile_entries(cr, uid, [payment_move_line_id], context=None)
             if i < len(bud_move.move_lines)-1:
                 perc = line.fixed_amount/bud_move.fixed_amount or 0
                 amld.create(cr, uid, {'budget_move_id': bud_move.id,
@@ -265,7 +239,7 @@ class AccountMoveReconcile(osv.Model):
                 if (is_debit and move_line.credit) or (not is_debit and move_line.debit):
                     res.append(move_line)
         return reconcile_ids, res
-    #TODO algo
+    
     def _adjust_distributed_values(self, cr, uid, dist_ids, amount, context = {}):
         dist_obj = self.pool.get('account.move.line.distribution')
         distributed_amount = 0.0
@@ -309,7 +283,6 @@ class AccountMoveReconcile(osv.Model):
         # Check for first call
         if not actual_line:
             dist_search = dist_obj.search(cr, uid, [('account_move_line_id','=',original_line.id)],context=context)
-            #if self.check_incremental_reconcile(cr, uid, vals, context=context):
             dist_obj.unlink(cr,uid,dist_search,context=context,is_incremental=is_incremental)
             actual_line = original_line
             amount_to_dist = original_line.debit + original_line.credit
@@ -428,7 +401,6 @@ class AccountMoveReconcile(osv.Model):
                 vals = {
                     'account_move_line_id':         original_line.id,
                     'distribution_amount':          signed_dist_amount,
-                    #'distribution_amount':          distribution_amount,
                     'distribution_percentage':      100 * abs(distribution_amount) / abs(original_amount_to_dist),
                     'target_budget_move_line_id':   line.id,
                     'reconcile_ids':                [(6, 0, new_reconcile_ids)],
@@ -656,9 +628,7 @@ class AccountMoveReconcile(osv.Model):
                     vals['distribution_percentage'] = 100 - (distribution_percentage - last_dist_distribution_percentage)
             elif distribution_percentage < 100:
                 vals['distribution_percentage'] = 100 - (distribution_percentage - last_dist_distribution_percentage)
-#            else:
-#                vals['distribution_percentage'] = last_dist_distribution_percentage
-            
+
             dist_obj.write(cr, uid, [last_dist.id], vals, context=context)
             return dist_ids
     

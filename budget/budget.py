@@ -87,7 +87,6 @@ class budget_plan(osv.osv):
 
     _columns ={
         'name': fields.char('Name', size=64, required=True, states={'draft':[('readonly',False)]}),
-#        'year_id': fields.many2one('budget.year','Year',required=True),
         'date_start': fields.date('Start Date', required=True,states={'draft':[('readonly',False)]}),
         'date_stop': fields.date('End Date', required=True, states={'draft':[('readonly',False)]}),
         'state':fields.selection(STATE_SELECTION, 'State', readonly=True, 
@@ -343,23 +342,6 @@ class budget_program_line(osv.osv):
             ids3 = self._get_children_and_consol(cr, uid, ids3, context)
         return ids2 + ids3
 
-#    def get_assigned(self, cr, uid, ids, field_name, args, context=None):
-#        test = {}
-#        for line in self.browse(cr, uid, ids,context=context):
-#            children_and_consolidated = self._get_children_and_consol(cr, uid,[line.id],context=context)
-#            request = ("SELECT SUM(assigned_amount) " +\
-#                           " FROM budget_program_line l" \
-#                           " WHERE l.id IN %s ")
-#            params = (tuple(children_and_consolidated),)
-#            cr.execute(request, params)
-#            result = cr.fetchall()
-#        
-#            if len(result) > 0:
-#                for row in result:
-#                    test[line.id]=row[0]                
-#        return test
-    
-
     def add_unique(self,list_to_add, list):
         for item in list_to_add:
             if item not in list:
@@ -389,7 +371,6 @@ class budget_program_line(osv.osv):
                     ' LEFT OUTER JOIN budget_move_line BML ON BPL.id = BML.program_line_id'\
                     ' WHERE BPL.id IN %s'\
                     ' GROUP BY BPL.id') 
-#                params = (tuple(ids),)
             params = (tuple(children_and_consolidated),)
             cr.execute(request, params)
             for row in cr.dictfetchall():
@@ -426,12 +407,6 @@ class budget_program_line(osv.osv):
                 res[id] = null_result
         return res
 
-        
-#            if len(result) > 0:
-#                for row in result:
-#                    test[line.id]=row[0]                
-#        return test
-    
     def _check_unused_account(self, cr, uid, ids, context=None):
         #checks that the selected budget account is not associated to another program line
         for line in self.read(cr,uid,ids,['account_id','program_id']):
@@ -485,14 +460,12 @@ class budget_program_line(osv.osv):
         'child_id': fields.function(_get_child_ids, type='many2many', relation="budget.program.line", string="Child Accounts"),
         'previous_year_line_id': fields.many2one('budget.program.line','Previous year line'),
         'active_for_view': fields.boolean('Active')
-        #'currency_id':fields.many2one('res.currency', string='Currency', readonly=True)
         }
     
     _defaults = {
         'assigned_amount': 0.0,
         'company_id': lambda self,cr,uid,c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.id,
         'active_for_view': True
-        #'currency_id': lambda self,cr,uid,c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.currency_id,
     }
      
     _constraints = [
@@ -662,7 +635,6 @@ class budget_account(osv.osv):
         'active':fields.boolean('Active'),
         'code': fields.char('Code', size=64, required=True, select=1),
         'name': fields.char('Name', size=256,),
-        #'composite_code': fields.function(get_composite_code, string='Full Code', type="char", store=True),
         'account_type': fields.selection([
             ('budget', 'Budget Entry'),# CP
             ('view', 'Budget View'), # VP
@@ -730,7 +702,6 @@ class budget_account(osv.osv):
             args = []
         if name and operator in ('=', 'ilike', '=ilike', 'like'):
             """We need all the partners that match with the ref or name (or a part of them)"""
-#            ids = self.search(cr, uid, ['|',('composite_code', 'ilike', name),('name','ilike',name)] + args, limit=limit, context=context)
             ids = self.search(cr, uid, ['|',('code', 'ilike', name),('name','ilike',name)] + args, limit=limit, context=context)
             if ids and len(ids) > 0:
                 return self.name_get(cr, uid, ids, context)
@@ -763,12 +734,7 @@ class budget_account(osv.osv):
                 raise osv.except_osv(_('Error!'), _('You cannot delete an account used by a program line'))
             else:
                 return super(budget_account, self).unlink(cr, uid, ids, context=context)
-    
-#    def _cascade_activate_deactivate(self, cr, uid, ids, val, context=None):
-#        for account in self.browse(cr, uid, ids, context=context):
-#            children = self._get_children(cr, uid, [account.id], context=context)
-#            self.write(cr, uid, children, { 'active':val }, context)
-#            
+              
     def write(self, cr, uid, ids, vals, context=None):
         for account in self.browse(cr, uid,ids, context=context):
             if 'code' in vals.keys() or 'name' in vals.keys():
@@ -779,168 +745,6 @@ class budget_account(osv.osv):
                 self.write(cr, uid, children, {'active':vals['active']},context=context)
         return super(budget_account, self).write(cr, uid, ids, vals, context=context)
         
-            
-
-##
-#YEAR
-## 
-#class budget_year(osv.osv):
-#    _name = "budget.year"
-#    _description = "Budget Year"
-#    _columns = {
-#        'name': fields.char('Budget Year', size=64, required=True),
-#        'code': fields.char('Code', size=6, required=True),
-#        'company_id': fields.many2one('res.company', 'Company', required=True),
-#        'date_start': fields.date('Start Date', required=True),
-#        'date_stop': fields.date('End Date', required=True),
-#        'period_ids': fields.one2many('budget.period', 'budgetyear_id', 'Periods'),
-#        'state': fields.selection([('draft','Open'), ('done','Closed')], 'Status', readonly=True),
-#    }
-#    _defaults = {
-#        'state': 'draft',
-#        'company_id': lambda self,cr,uid,c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.id,
-#    }
-#    _order = "date_start, id"
-#
-#
-#    def _check_duration(self, cr, uid, ids, context=None):
-#        obj_fy = self.browse(cr, uid, ids[0], context=context)
-#        if obj_fy.date_stop < obj_fy.date_start:
-#            return False
-#        return True
-#
-#    _constraints = [
-#        (_check_duration, 'Error!\nThe start date of a Budget year must precede its end date.', ['date_start','date_stop'])
-#    ]
-#    def create_period3(self, cr, uid, ids, context=None):
-#        return self.create_period(cr, uid, ids, context, 3)
-#
-#    def create_period(self, cr, uid, ids, context=None, interval=1):
-#        period_obj = self.pool.get('budget.period')
-#        for fy in self.browse(cr, uid, ids, context=context):
-#            ds = datetime.strptime(fy.date_start, '%Y-%m-%d')
-#
-#            while ds.strftime('%Y-%m-%d') < fy.date_stop:
-#                de = ds + relativedelta(months=interval, days=-1)
-#
-#                if de.strftime('%Y-%m-%d') > fy.date_stop:
-#                    de = datetime.strptime(fy.date_stop, '%Y-%m-%d')
-#
-#                period_obj.create(cr, uid, {
-#                    'name': ds.strftime('%m/%Y'),
-#                    'code': ds.strftime('%m/%Y'),
-#                    'date_start': ds.strftime('%Y-%m-%d'),
-#                    'date_stop': de.strftime('%Y-%m-%d'),
-#                    'budgetyear_id': fy.id,
-#                })
-#                ds = ds + relativedelta(months=interval)
-#        return True
-#
-#    def find(self, cr, uid, dt=None, exception=True, context=None):
-#        res = self.finds(cr, uid, dt, exception, context=context)
-#        return res and res[0] or False
-#
-#    def finds(self, cr, uid, dt=None, exception=True, context=None):
-#        if context is None: context = {}
-#        if not dt:
-#            dt = fields.date.context_today(self,cr,uid,context=context)
-#        args = [('date_start', '<=' ,dt), ('date_stop', '>=', dt)]
-#        if context.get('company_id', False):
-#            company_id = context['company_id']
-#        else:
-#            company_id = self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id.id
-#        args.append(('company_id', '=', company_id))
-#        ids = self.search(cr, uid, args, context=context)
-#        if not ids:
-#            if exception:
-#                raise osv.except_osv(_('Error!'), _('There is no budget year defined for this date.\nPlease create one from the configuration of the budget menu.'))
-#            else:
-#                return []
-#        return ids
-#
-#    def name_search(self, cr, user, name, args=None, operator='ilike', context=None, limit=80):
-#        if args is None:
-#            args = []
-#        if context is None:
-#            context = {}
-#        ids = []
-#        if name:
-#            ids = self.search(cr, user, [('code', 'ilike', name)]+ args, limit=limit)
-#        if not ids:
-#            ids = self.search(cr, user, [('name', operator, name)]+ args, limit=limit)
-#        return self.name_get(cr, user, ids, context=context)
-#    
-##
-#PERIOD
-## 
-#class budget_period(osv.osv):
-#    _name = "budget.period"
-#    _description = "Budget period"
-#    _columns = {
-#        'name': fields.char('Period Name', size=64, required=True),
-#        'code': fields.char('Code', size=12),
-#        'date_start': fields.date('Start of Period', required=True, states={'done':[('readonly',True)]}),
-#        'date_stop': fields.date('End of Period', required=True, states={'done':[('readonly',True)]}),
-#        'budgetyear_id': fields.many2one('budget.year', 'Budget Year', required=True, states={'done':[('readonly',True)]}, select=True),
-#        'state': fields.selection([('draft','Open'), ('done','Closed')], 'Status', readonly=True,
-#                                  help='When monthly periods are created. The status is \'Draft\'. At the end of monthly period it is in \'Done\' status.'),
-#        'company_id': fields.related('budgetyear_id', 'company_id', type='many2one', relation='res.company', string='Company', store=True, readonly=True)
-#    }
-#    _defaults = {
-#        'state': 'draft',
-#    }
-#    _order = "date_start"
-#    _sql_constraints = [
-#        ('name_company_uniq', 'unique(name, company_id)', 'The name of the period must be unique per company!'),
-#    ]
-#
-#    def _check_duration(self,cr,uid,ids,context=None):
-#        obj_period = self.browse(cr, uid, ids[0], context=context)
-#        if obj_period.date_stop < obj_period.date_start:
-#            return False
-#        return True
-#
-#    def _check_year_limit(self,cr,uid,ids,context=None):
-#        for obj_period in self.browse(cr, uid, ids, context=context):
-#            if obj_period.budgetyear_id.date_stop < obj_period.date_stop or \
-#               obj_period.budgetyear_id.date_stop < obj_period.date_start or \
-#               obj_period.budgetyear_id.date_start > obj_period.date_start or \
-#               obj_period.budgetyear_id.date_start > obj_period.date_stop:
-#                return False
-#
-#            pids = self.search(cr, uid, [('date_stop','>=',obj_period.date_start),('date_start','<=',obj_period.date_stop),('id','<>',obj_period.id)])
-#            for period in self.browse(cr, uid, pids):
-#                if period.budgetyear_id.company_id.id==obj_period.budgetyear_id.company_id.id:
-#                    return False
-#        return True
-#
-#    _constraints = [
-#        (_check_duration, 'Error!\nThe duration of the Period(s) is/are invalid.', ['date_stop']),
-#        (_check_year_limit, 'Error!\nThe period is invalid. Either some periods are overlapping or the period\'s dates are not matching the scope of the budget year.', ['date_stop'])
-#    ]
-#
-#    def next(self, cr, uid, period, step, context=None):
-#        ids = self.search(cr, uid, [('date_start','>',period.date_start)])
-#        if len(ids)>=step:
-#            return ids[step-1]
-#        return False
-#    
-#    def action_draft(self, cr, uid, ids, *args):
-#        mode = 'draft'
-#        cr.execute('update budget_period set state=%s where id in %s', (mode, tuple(ids),))
-#        return True
-#
-#    def name_search(self, cr, user, name, args=None, operator='ilike', context=None, limit=100):
-#        if args is None:
-#            args = []
-#        if context is None:
-#            context = {}
-#        ids = []
-#        if name:
-#            ids = self.search(cr, user, [('code','ilike',name)]+ args, limit=limit)
-#        if not ids:
-#            ids = self.search(cr, user, [('name',operator,name)]+ args, limit=limit)
-#        return self.name_get(cr, user, ids, context=context)
 
 ##
 # MOVE
@@ -1116,12 +920,9 @@ class budget_move(osv.osv):
         'reserved': fields.function(_calc_reserved, type='float', method=True, string='Reserved',readonly=True, store=STORE),
         'reversed': fields.function(_calc_reversed, type='float', method=True, string='Reversed',readonly=True, store=STORE),
         'arch_compromised':fields.float('Original compromised',digits_compute=dp.get_precision('Account'),),
-#TODO: to make it functional
         'compromised': fields.function(_compute_compromised, type='float', method=True, string='Compromised',readonly=True, store=STORE ),
         'executed': fields.function(_compute_executed, type='float', method=True, string='Executed',readonly=True, store=STORE ),
         'account_invoice_ids': fields.one2many('account.invoice', 'budget_move_id', 'Invoices' ),
-        #'purchase_order_ids': fields.one2many('purchase.order', 'budget_move_id', 'Purchase orders' ),
-        #'sale_order_ids': fields.one2many('sale.order', 'budget_move_id', 'Purchase orders' ),
         'move_lines': fields.one2many('budget.move.line', 'budget_move_id', 'Move lines' ),
         'budget_move_line_dist': fields.related('move_lines', 'budget_move_line_dist', type='one2many', relation="account.move.line.distribution", string='Account Move Line Distribution'),
         'type': fields.selection(_select_types, 'Move Type', required=True, readonly=True, states={'draft':[('readonly',False)]}),
@@ -1145,7 +946,7 @@ class budget_move(osv.osv):
         obj_bud_line= self.pool.get('budget.move.line')
         obj_prog_line= self.pool.get('budget.program.line')
         for move in self.browse(cr, uid, move_ids, context=context):
-            vals={#'code':move.code,
+            vals={
                   'origin':move.origin,
                   'company_id': move.company_id.id,
                   'fixed_amount':move.fixed_amount,
@@ -1290,7 +1091,6 @@ class budget_move(osv.osv):
                 res_amount=0.0
                 for line in move.move_lines:
                         res_amount += line.fixed_amount
-                #self.write(cr, uid, [move.id], {'fixed_amount':res_amount}, context=context)
         return {'value':{ 'fixed_amount':res_amount }}
             
     def action_draft(self, cr, uid, ids, context=None):
@@ -1339,7 +1139,6 @@ class budget_move(osv.osv):
     
     def action_transfer(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {'state': 'transferred'})
-        #self.recalculate_values(cr, uid, ids, context=context)
         return True
     
     def name_get(self, cr, uid, ids, context=None):
@@ -1465,18 +1264,6 @@ class budget_move_line(osv.osv):
             res[line.id]['reserved'] = reserved 
         return res
     
-#    
-#    def _compute_reserved(self, cr, uid, ids, field_name, args, context=None):
-#        res = {}distribution_percentage_sum
-#        lines = self.browse(cr, uid, ids,context=context) 
-#        for line in lines:
-#            total = 0.0
-#            if line.state == 'reserved':
-#                    total = line.fixed_amount - line.reversed
-#            res[line.id]= total 
-#        return res
-#    
-
     def compute(self, cr, uid, ids, field_names, args, context=None, ignore_dist_ids=[]):
         return self._compute(cr, uid, ids, field_names, args, context, ignore_dist_ids)
 
@@ -1530,7 +1317,6 @@ class budget_move_line(osv.osv):
     _columns = {
         'origin': fields.char('Origin', size=64, ),
         'budget_move_id': fields.many2one('budget.move', 'Budget Move', required=True, ondelete='cascade'),
-        #'name': fields.related('budget_move_id', 'code', type='char', size=128, string = 'Budget Move Name'),
         'name': fields.function(_line_name, type='char', method=True, string='Name',readonly=True, store=True),
         'code': fields.related('origin', type='char', size=64, string = 'Origin'),
         'program_line_id': fields.many2one('budget.program.line', 'Program line', required=True),
@@ -1557,7 +1343,6 @@ class budget_move_line(osv.osv):
         'budget_move_line_dist': fields.one2many('account.move.line.distribution','target_budget_move_line_id', 'Budget Move Line Distributions'),
         'type_distribution':fields.related('budget_move_line_dist','type', type="selection", relation="account.move.line.distribution", string="Distribution type"),
         #=======Payslip lines
-        #'payslip_lines': fields.many2one('hr.payslip.line', 'Payslip Lines'),
         'previous_move_line_id': fields.many2one('budget.move', 'Previous move line'),
         'from_migration':fields.related('budget_move_id','from_migration', relation='budget.move', string='Transferred', readonly=True)
 
@@ -1619,7 +1404,6 @@ class account_move_line_distribution(orm.Model):
     _description = "Account move line distribution"
 
     _columns = {         
-         #'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', required=True, ondelete="cascade"),
          'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', ondelete="cascade"),
          'distribution_percentage': fields.float('Distribution Percentage', required=True, digits_compute=dp.get_precision('Account'),),
          'distribution_amount': fields.float('Distribution Amount', digits_compute=dp.get_precision('Account'), required=True),
@@ -1659,9 +1443,6 @@ class account_move_line_distribution(orm.Model):
         result = self.get_plan_for_distributions(cr, uid, ids, context)
                 
         #Check plan's state
-        
-####        else:
-####            raise osv.except_osv(_('Error!'), _('If any account move line in the new reconcile belongs to an older reconcile, every account move line of the previous reconcile must be included'))
         for dist_id in result:
             plan = plan_obj.browse(cr, uid, [dist_id['plan_id']], context=context)[0]
             if plan.state in ('closed'):
@@ -1789,7 +1570,7 @@ class account_move_line_distribution(orm.Model):
                     move_ids.append(dist.target_budget_move_line_id.budget_move_id.id)
             super(account_move_line_distribution, self).unlink(cr, uid, ids, context=context)
             bud_move_obj.recalculate_values(cr, uid,move_ids, context=context)
-                #Get plan for distribution lines 
+               
         
     
 

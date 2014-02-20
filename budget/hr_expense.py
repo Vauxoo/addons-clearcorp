@@ -35,7 +35,6 @@ class hr_expense_expense(osv.osv):
     
     def create_budget_move_line(self, cr, uid, line_id, context=None):    
         exp_obj = self.pool.get('hr.expense.expense')
-       # acc_move_obj = self.pool.get('account.move')
         exp_line_obj = self.pool.get('hr.expense.line')
         bud_move_obj = self.pool.get('budget.move')
         bud_line_obj = self.pool.get('budget.move.line')
@@ -49,7 +48,6 @@ class hr_expense_expense(osv.osv):
                                          'program_line_id': expense_line.program_line_id.id,
                                          'fixed_amount': fixed_amount ,
                                          'expense_line_id': line_id,
-                                        # 'account_move_id': expense.move_id.id
                                           }, context=context)
         return bud_line
     
@@ -143,9 +141,7 @@ class hr_expense_expense(osv.osv):
                             exp_line_taxes = taxes_per_line.get(exp_line.id,[])
                             for tax_amount in exp_line_taxes:
                                 fixed_amount = abs(acc_move_line.debit - acc_move_line.credit) or abs(acc_move_line.amount_currency)
-                                if fixed_amount == tax_amount:
-                                    #bud_mov_id = exp_line.expense_id.budget_move_id or exp_line.expense_id.budget_move_id.id
-                                    
+                                if fixed_amount == tax_amount:                                    
                                     bud_line = mov_line_obj.create(cr, uid, {'budget_move_id': exp_line.expense_id.budget_move_id.id,
                                                  'origin' : _('Tax of: ') + exp_line.name[:54],
                                                  'program_line_id': exp_line.program_line_id.id,
@@ -237,13 +233,6 @@ class hr_expense_expense(osv.osv):
                 res.append(assoc_tax)
             mapping[line.id]=line_tax_amounts
         return mapping
-            
-#    def expense_accept(self, cr, uid, ids, context=None):        
-#        bud_move_obj = self.pool.get('budget.move')
-#        for exp in self.browse(cr, uid, ids, context=context) :
-#            super(hr_expense_expense,self).expense_accept(cr, uid, [exp.id], context=context)
-#            move_id = exp.budget_move_id.id 
-#            bud_move_obj._workflow_signal(cr, uid, [move_id], 'button_reserve', context=context)   
         
     def on_change_currency(self, cr, uid, ids, currency_id, context=None):
         if ids:
@@ -284,7 +273,6 @@ class hr_expense_line(osv.osv):
         return result
     
     _columns = {'program_line_id': fields.many2one('budget.program.line', 'Program line', ),
-                #'line_available':fields.float('Line available',digits_compute=dp.get_precision('Account')),
                 'line_available': fields.function(_check_available,  type='float', method=True, string='Line available',readonly=True),
                 }
     
@@ -294,7 +282,6 @@ class hr_expense_line(osv.osv):
     
     def create_budget_move_line(self, cr, uid, line_id, context=None):
         exp_obj = self.pool.get('hr.expense.expense')
-       # acc_move_obj = self.pool.get('account.move')
         exp_line_obj = self.pool.get('hr.expense.line')
         bud_move_obj = self.pool.get('budget.move')
         bud_line_obj = self.pool.get('budget.move.line')
@@ -308,7 +295,6 @@ class hr_expense_line(osv.osv):
                                          'program_line_id': expense_line.program_line_id.id,
                                          'fixed_amount': fixed_amount ,
                                          'expense_line_id': line_id,
-                                        # 'account_move_id': expense.move_id.id
                                           }, context=context)
         bud_move_obj.recalculate_values(cr, uid, [move_id], context=context)
         return bud_line

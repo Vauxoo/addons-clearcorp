@@ -13,7 +13,6 @@
             <field name="arch" type="xml">
             	<tree string="Plans" colors="gray:state in ('closed','cancel');blue:state == 'confirmed';red:state =='draft'">
             		<field name="name"/>
-            <!--		<field name="year_id"/>-->
             		<field name="state"/>
             	</tree>
          	</field>
@@ -377,13 +376,6 @@
             <field name="arch" type="xml">
             	<form string="Budget Move" version="7.0" >
             		<header>
-            		    <!-- 
-            			    <button name="button_cancel" states="draft,reserve" string="Cancel" />
-            			    <button name="button_draft" states="reserved" string="Back to draft"/>
-                            <button name="button_reserve" states="draft" string="Reserve" />
-                	        <button name="button_compromise" states="reserved" string="Compromise" />
-                	        <button name="button_execute" states="compromised" string="Execute" />
-            	        -->
                     	<field name="state" widget="statusbar" statusbar_visible="draft,reserved,compromised,executed"/>
             		</header>
             		<sheet>
@@ -555,7 +547,6 @@
             			<group>
             				<field name="program_line_id" domain="[('type','=','budget')]" on_change="on_change_program_line(program_line_id)"/>
             				<field name="line_available"/>
-            				<!--attrs="{'readonly':['|','&amp;',('type', 'in',('opening','extension','modification')), ('state','&lt;&gt;','draft'), ('type', 'not in',('opening','extension','modification'))], 'required':[('type', 'in',('opening','extension','modification')), ('state','=','draft')]}"-->
             				<field name="date"/>  
             				<field name="fixed_amount" required="True" />
             				<field name="type" invisible="True" />
@@ -589,7 +580,6 @@
             <field name="res_model">budget.move</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <!--<field name="view_id" ref="view_budget_move_manual_tree"/>-->
             <field name="context">{'standalone_move':True, 'manual':True}</field>
             <field name="domain">[('type', 'in',('opening','extension','modification'))]</field>
             <field name="help" type="html">
