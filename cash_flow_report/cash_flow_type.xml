@@ -73,8 +73,17 @@
             </field>
         </record>
         
-        <menuitem id="menu_action_cash_flow_type" name="Cash Flow Types" parent="account.menu_finance_configuration" sequence="13"/> 
-        <menuitem action="action_cash_flow_type_tree" id="menu_action_cash_flow_type_tree" parent="menu_action_cash_flow_type"/> 
+        <menuitem 
+            name="Cash Flow Type"
+            id="menu_cash_flow_type" 
+            parent="account.menu_finance_configuration"/>            
+            
+        <menuitem 
+            action="action_cash_flow_type_tree" 
+            id="menu_cash_flow_type_child" 
+            parent="menu_cash_flow_type"/>    
+            
+         
         
     </data>
 </openerp>

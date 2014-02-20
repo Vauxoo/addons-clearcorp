@@ -5,6 +5,6 @@
               name="Cash Flow Report"  
               parent="account.final_accounting_reports" 
               action="action_cash_flow_report_menu_webkit"  
-              id="menu_cash_flow_report"/>        
+              id="menu_cash_flow_report"/>     
     </data>
 </openerp>

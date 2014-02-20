@@ -19,23 +19,22 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 {
-    'name': 'General Ledger Report',
+    'name': 'Partner Ledger Report',
     'version': '1.0',
     'author': 'CLEARCORP S.A.',
     'category': 'Accounting & Finance',
     'description': """
-General Ledger Report.
-==========================
-This module modifies the general ledger report""",    
+Partner Ledger Report.
+==============================
+This module modifies the partner ledger report """,
     'website': 'http://clearcorp.co.cr',
-    'depends': ['account_report_lib',],
+    'depends': ['account','account_report_lib',],
     'data': [
-               'security/ir.model.access.csv',
-               'report/report.xml',
-               'wizard/account_general_ledger_report_wizard.xml',
-               'report_menus.xml',
+             'security/ir.model.access.csv',
+             'wizard/account_partner_ledger_report_wizard_view.xml',
+             'report/report.xml',
+             'report_menus.xml',
             ],
     'active': False,
     'installable': True,    
