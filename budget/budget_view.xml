@@ -2,7 +2,7 @@
 <openerp>
     <data>
     	
-<menuitem id="budget_menu" name="Budget" groups="budget.group_budget_user" />
+<menuitem id="budget_menu" name="Budget" groups="budget.group_budget_viewer" />
 <menuitem id="budget_main_menu" name="Budget" parent="budget_menu"/>
         
        <!--Plan-->
@@ -455,7 +455,7 @@
               </p>
             </field>
         </record>
-        <menuitem id="next_id_25" name="Moves" parent="budget_main_menu" sequence="6"  />
+        <menuitem id="next_id_25" name="Moves" parent="budget_main_menu" sequence="6" groups="budget.group_budget_viewer"/>
         
         <record id="action_budget_move_view1" model="ir.actions.act_window.view">
            <field eval="1" name="sequence"/>
@@ -471,7 +471,7 @@
            <field name="act_window_id" ref="action_budget_move"/>
        </record> 
        
-        <menuitem action="action_budget_move" id="budget_move_menu" name="Budget Moves"  parent="budget.next_id_25" groups="budget.group_budget_user"/>    
+        <menuitem action="action_budget_move" id="budget_move_menu" name="Budget Moves"  parent="budget.next_id_25" groups="budget.group_budget_viewer"/>    
     
     
     <!-- BUDGET MOVE MANUAL (extension, modification and opening)-->
@@ -615,19 +615,14 @@
            <field name="act_window_id" ref="action_budget_manual_move"/>
        </record> 
         
-       <menuitem action="action_budget_manual_move" id="budget_move_manual_menu" name="Extensions,reserves and openings"  parent="budget.next_id_25" groups="budget.group_budget_manager"/>
+       <menuitem action="action_budget_manual_move" id="budget_move_manual_menu" name="Extensions,reserves and openings"  parent="budget.next_id_25" groups="budget.group_budget_viewer"/>
        
-       <menuitem id="next_id_26" name="Configuration" parent="budget_main_menu" sequence="20" groups="budget.group_budget_manager"/>
+       <menuitem id="next_id_26" name="Configuration" parent="budget_main_menu" sequence="20" groups="budget.group_budget_viewer"/>
 	       <menuitem id="next_id_27" name="Planning" parent="next_id_26" />
 				<menuitem action="action_budget_plan" id="budget_plan_menu" name="Budget Plans" parent="budget.next_id_27" />
 				<menuitem action="action_budget_program" id="budget_program_menu" name="Budget Programs" parent="budget.next_id_27" />
 				<menuitem action="action_budget_program_line_list" id="budget_program_line_list_menu" name="Program Lines List"  parent="budget.next_id_27" />
 				<menuitem action="action_budget_account_list" id="budget_account_list_menu" name="Budget Accounts List"  parent="budget.next_id_27" />
-				
-			
-			<!--menuitem id="next_id_28" name="Periods" parent="next_id_26" />
-	        	<menuitem id="menu_action_budget_year" action="action_budget_year" parent="budget.next_id_28"/>
-	        	<menuitem id="menu_action_budget_period" action="action_budget_period" parent="budget.next_id_28" groups="base.group_no_one"/>-->
     
     </data>
 </openerp>

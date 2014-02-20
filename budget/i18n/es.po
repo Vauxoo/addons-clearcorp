@@ -1202,7 +1202,7 @@ msgstr "Monto distribuido"
 #: model:ir.actions.act_window,name:budget.action_budget_program_line_tree
 #: model:ir.ui.menu,name:budget.budget_program_line_tree_menu
 msgid "Program Lines Tree"
-msgstr "Árbol de Líneas de Programa"
+msgstr "Árbol de líneas de programa"
 
 #. module: budget
 #: field:budget.account,allows_reimbursement:0
@@ -1362,7 +1362,7 @@ msgstr "Factura"
 #: model:ir.actions.act_window,name:budget.action_budget_account_list
 #: model:ir.ui.menu,name:budget.budget_account_list_menu
 msgid "Budget Accounts List"
-msgstr "Lista de Cuentas Presupuestarias"
+msgstr "Lista de cuentas presupuestarias"
 
 #. module: budget
 #: view:budget.import.catalog:0 view:budget.plan:0
