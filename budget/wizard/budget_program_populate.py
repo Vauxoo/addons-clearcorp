@@ -34,7 +34,7 @@ class budget_program_populate(osv.osv_memory):
         
     }
 
-    def create_prog_line(self, cr, uid, program_id, program_code, parent_account_id=None, parent_line_id=None, context=None ):
+    def create_prog_line(self, cr, uid, program_id, program_code, parent_account_id=None, parent_line_id=None, previous_program_id=None,context=None ):
         prog_obj = self.pool.get('budget.program')
         line_obj = self.pool.get('budget.program.line')
         account_obj = self.pool.get('budget.account')
@@ -43,8 +43,13 @@ class budget_program_populate(osv.osv_memory):
             if account.child_parent_ids:
                 for child in account.child_parent_ids:
                     line_name = program_code + ' - [' + child.code + ']-' + child.name
-                    new_line = line_obj.create(cr, uid, {'parent_id':parent_line_id, 'account_id':child.id, 'program_id':program_id, 'name':line_name},context=context )
-                    self.create_prog_line(cr, uid, program_id, program_code, child.id, new_line, context=context )
+                    previous_program_lines = line_obj.search(cr, uid, [('program_id','=',previous_program_id),('account_id','=',child.id),],context=context)
+                    vals = {'parent_id':parent_line_id, 'account_id':child.id, 'program_id':program_id, 'name':line_name}
+                    if previous_program_lines:
+                        vals['previous_year_line_id'] = previous_program_lines[0]
+                    new_line = line_obj.create(cr, uid, vals,context=context )
+                    program = prog_obj.browse(cr,uid,[program_id],context=context)[0]
+                    self.create_prog_line(cr, uid, program_id, program_code, child.id, new_line, previous_program_id=program.previous_program_id.id, context=context )
             if account.child_consol_ids:
                 program = prog_obj.browse(cr,uid,[program_id],context=context)[0]
                 parent_line = line_obj.browse(cr, uid, [parent_line_id],context=context)[0]
@@ -58,7 +63,7 @@ class budget_program_populate(osv.osv_memory):
                     #self.create_prog_line(cr, uid, program_id, program_code, child.id, new_line, context=context)
         return True
     
-    def bulk_line_create(self, cr, uid, ids, context=None):            
+    def bulk_line_create(self, cr, uid, ids, context=None):
         prog_obj = self.pool.get('budget.program')
         line_obj = self.pool.get('budget.program.line')
         account_obj = self.pool.get('budget.account')
@@ -69,7 +74,7 @@ class budget_program_populate(osv.osv_memory):
                 raise osv.except_osv(_('Error!'), _('This program already contains program lines'))
             line_name = program.code + ' - [' + data.parent_account.code + ']-' + data.parent_account.name
             new_line = line_obj.create(cr, uid, {'account_id':data.parent_account.id, 'program_id':program.id, 'name':line_name} )
-            self.create_prog_line(cr, uid, program.id, program.code, data.parent_account.id, new_line ,context=context)
+            self.create_prog_line(cr, uid, program.id, program.code, data.parent_account.id, new_line , previous_program_id=program.previous_program_id.id, context=context)
         return True
             
             

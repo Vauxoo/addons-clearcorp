@@ -54,7 +54,10 @@
                     
                     <group string="Account Financial Report" position="attributes">
                         <attribute name="attrs">{'invisible': True}</attribute>
-                    </group>                    
+                    </group>   
+                    <group string="Partners" position="attributes">                   
+                        <attribute name="attrs">{'invisible': True}</attribute>
+                    </group>                 
                </data>
             </field>
         </record>

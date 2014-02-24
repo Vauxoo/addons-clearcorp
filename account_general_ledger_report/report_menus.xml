@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data>
-        
+    <data>        
           <menuitem icon="STOCK_PRINT" 
             name="General Ledger"
             parent="account.final_accounting_reports" 
             action="action_general_ledger_report_wizard"
-            groups="account.group_account_user,account.group_account_manager"
-            id="account.menu_general_ledger"/>
-                    
+            id="account.menu_general_ledger"/>                    
     </data>
 </openerp>

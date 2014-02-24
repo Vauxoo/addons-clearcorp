@@ -19,16 +19,24 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-import account_move
-import budget
-import wizard
-import res_partner
-import account_invoice
-import account
-import hr_expense
-import purchase
-import stock
-import hr_payroll
-import account_period
-#import sale
+{
+    'name': 'Partner Ledger Report',
+    'version': '1.0',
+    'author': 'CLEARCORP S.A.',
+    'category': 'Accounting & Finance',
+    'description': """
+Partner Ledger Report.
+==============================
+This module modifies the partner ledger report """,
+    'website': 'http://clearcorp.co.cr',
+    'depends': ['account','account_report_lib',],
+    'data': [
+             'security/ir.model.access.csv',
+             'wizard/account_partner_ledger_report_wizard_view.xml',
+             'report/report.xml',
+             'report_menus.xml',
+            ],
+    'active': False,
+    'installable': True,    
+    'license': 'AGPL-3',
+}

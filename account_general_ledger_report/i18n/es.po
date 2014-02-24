@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-02 21:27+0000\n"
-"PO-Revision-Date: 2013-12-02 21:27+0000\n"
+"POT-Creation-Date: 2014-02-18 20:57+0000\n"
+"PO-Revision-Date: 2014-02-18 20:57+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -58,6 +58,11 @@ msgid "Special period"
 msgstr "Período especial"
 
 #. module: account_general_ledger_report
+#: field:general.ledger.wiz,sort_selection:0
+msgid "Entries Sorted by"
+msgstr "Entradas ordenadas por"
+
+#. module: account_general_ledger_report
 #: field:general.ledger.wiz,company_id:0
 msgid "Company"
 msgstr "Compañía"
@@ -74,6 +79,7 @@ msgstr "Informe del libro mayor"
 
 #. module: account_general_ledger_report
 #: selection:general.ledger.wiz,filter:0
+#: selection:general.ledger.wiz,sort_selection:0
 msgid "Date"
 msgstr "Fecha"
 
@@ -107,6 +113,11 @@ msgstr "Fecha final"
 #: field:general.ledger.wiz,period_from:0
 msgid "Start Period"
 msgstr "Período inicial"
+
+#. module: account_general_ledger_report
+#: selection:general.ledger.wiz,sort_selection:0
+msgid "Name"
+msgstr "Name"
 
 #. module: account_general_ledger_report
 #: selection:general.ledger.wiz,target_move:0
@@ -151,7 +162,7 @@ msgstr "Formato de impresión"
 #. module: account_general_ledger_report
 #: field:general.ledger.wiz,account_base_report:0
 msgid "Account Base Report"
-msgstr "Account Base Report"
+msgstr "Informe financiero base"
 
 #. module: account_general_ledger_report
 #: help:general.ledger.wiz,special_period:0
@@ -176,7 +187,7 @@ msgstr "Fecha inicial"
 #. module: account_general_ledger_report
 #: view:general.ledger.wiz:0
 msgid "Account Financial Report"
-msgstr "Account Financial Report"
+msgstr "Informe Financiero"
 
 #. module: account_general_ledger_report
 #: selection:general.ledger.wiz,target_move:0

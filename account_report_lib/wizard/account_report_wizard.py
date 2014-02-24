@@ -105,17 +105,19 @@ class accountCommonwizard (orm.Model):
     _columns = {
         'account_ids': fields.many2many('account.account', string='Accounts'),
         'journal_ids': fields.many2many('account.journal', string='Journals',), #redefined journal_ids, remove required atribute
+        'res_partners_ids': fields.many2many('res.partner', string='Partners',), 
         'historic_strict': fields.boolean('Strict History', help="If selected, will display a historical unreconciled lines, taking into account the end of the period or date selected"),
         'special_period': fields.boolean('Special period', help="Include special period"),    
         'amount_currency': fields.boolean('With Currency', help="It adds the currency column on report if the currency differs from the company currency."),
         'account_base_report':fields.many2one('account.financial.report', string="Account Base Report"), #Filter by account.financial.report only that are sum (view)
         'out_format': fields.selection(out_format_get, 'Print Format'),
         #This field could be redefined by another wizards, they could add more options
-        'sort_selection': fields.selection([('date', 'Date'), ('name', 'Name'),], 'Entries Sorted by',),
+        'sort_selection': fields.selection([('date', 'Date'), ('name', 'Name'),], 'Entries Sorted by',),        
     }
     
     _defaults = {
         'journal_ids':[],
+        'res_partners_ids':[],
     }
     
     #Redefine this method, because in the "original" take both periods (start and end) and some report 
@@ -136,7 +138,9 @@ class accountCommonwizard (orm.Model):
         result['account_base_report'] = 'account_base_report' in data['form'] and data['form']['account_base_report'] or False
         result['out_format'] = 'out_format' in data['form'] and data['form']['out_format'] or False
         result['sort_selection'] = 'sort_selection' in data['form'] and data['form']['sort_selection'] or False
-      
+        result['res_partners_ids'] = 'res_partners_ids' in data['form'] and data['form']['res_partners_ids'] or False
+        result['account_type'] = 'account_type' in data['form'] and data['form']['account_type'] or False
+              
         if data['form']['filter'] == 'filter_date':
             result['date_from'] = data['form']['date_from']
             result['date_to'] = data['form']['date_to']
@@ -157,11 +161,11 @@ class accountCommonwizard (orm.Model):
         data['report_name'] = context.get('report_name',False) # -> Include report's name to include print formats
         
         #include new fields
-        data['form'] = self.read(cr, uid, ids, ['account_base_report','amount_currency','special_period','historic_strict','account_ids','date_from',  'date_to',  'fiscalyear_id', 'journal_ids', 'period_from', 'period_to',  'filter',  'chart_account_id', 'target_move', 'out_format','sort_selection'], context=context)[0]
+        data['form'] = self.read(cr, uid, ids, ['account_base_report','amount_currency','special_period','historic_strict','account_ids','date_from',  'date_to',  'fiscalyear_id', 'journal_ids', 'period_from', 'period_to',  'filter',  'chart_account_id', 'target_move', 'out_format','sort_selection', 'res_partners_ids','account_type'], context=context)[0]
         # The fields that are relations (many2one, many2many, one2many needs extracted 
         # the id and work with the id in the form)
         # Also, selection fields, because they are a tuple with id, name.
-        for field in ['fiscalyear_id', 'chart_account_id', 'period_from', 'period_to','account_ids','account_base_report','out_format','journal_ids','sort_selection']:
+        for field in ['fiscalyear_id', 'chart_account_id', 'period_from', 'period_to','account_ids','account_base_report','out_format','journal_ids','sort_selection','res_partners_ids']:
             if isinstance(data['form'][field], tuple):
                 data['form'][field] = data['form'][field][0]
 

@@ -20,15 +20,5 @@
 #
 ##############################################################################
 
-import account_move
-import budget
+import report
 import wizard
-import res_partner
-import account_invoice
-import account
-import hr_expense
-import purchase
-import stock
-import hr_payroll
-import account_period
-#import sale

@@ -27,7 +27,7 @@
     'category': 'Accounting & Finance',
     'description': """
 General Ledger Report.
-======================
+==========================
 This module modifies the general ledger report""",    
     'website': 'http://clearcorp.co.cr',
     'depends': ['account_report_lib',],

@@ -62,6 +62,7 @@ class accountReportbase(report_sxw.rml_parse, WebKitHelper):
             'get_date_to': self.get_date_to,
             'get_accounts_ids': self.get_accounts_ids,
             'get_journal_ids': self.get_journal_ids,
+            'get_partner_ids':self.get_partner_ids,
             'get_historic_strict': self.get_historic_strict,
             'get_special_period': self.get_special_period,
             'display_target_move':self.get_display_target_move,
@@ -146,6 +147,9 @@ class accountReportbase(report_sxw.rml_parse, WebKitHelper):
     def get_sort_selection(self, data):
         return self._get_form_param('sort_selection', data)
     
+    def get_partner_ids(self, data):
+        return self._get_info(data, 'res_partners_ids', 'res.partner')    
+
     ################################## INFO DISPLAY ###########################
     
     def get_display_target_move(self, data):
@@ -165,7 +169,7 @@ class accountReportbase(report_sxw.rml_parse, WebKitHelper):
             return _('Name')
         else:
             return val
-    
+       
     ##################### SIGNATURES ############################
      #Return the users that can sign the report.
     def get_signatures_report(self, cr, uid, report_name):  
