@@ -23,6 +23,15 @@
 from openerp.osv import osv, fields
 from datetime import datetime
 
+# Mapping between task priority and
+# feature priority
+PRIORITY = {
+            1: '3',
+            2: '2',
+            3: '1',
+            4: '0',
+            }
+
 '''class taskType(osv.Model):
     
     _name = 'project.scrum.task.type'
@@ -222,7 +231,7 @@ class feature(osv.Model):
                     help='Contact or person responsible of keeping the '
                     'business perspective in scrum projects.'),
                 'priority': fields.selection([(1,'Low'),(2,'Medium'),(3,'High'),
-                    (4,'Very High')], string='Priority'),
+                    (4,'Very High')], string='Priority', required=True),
                 'sprint_ids': fields.many2many(
                     'project.scrum.sprint', readonly=True, 
                     rel='project_scrum_sprint_backlog',
@@ -240,8 +249,7 @@ class feature(osv.Model):
                 'remaining_hours': fields.function(
                     _remaining_hours, type='float', string='Remaining Hour(s)',
                     help='Difference between planned hours and spent hours.'),
-                'progress': fields.function(
-                    _progress, type='float', string='Progress (%)'),
+                'progress': fields.function(_progress, type='float', string='Progress (%)'),
                 'state': fields.selection([('draft','New'), ('open','In Progress'), 
                     ('cancelled', 'Cancelled'),('done','Done'),],
                     'Status', required=True),
@@ -262,6 +270,7 @@ class feature(osv.Model):
             res.append((r['id'], name))
         return res
     
+# TODO: reevaluate tasks when do_reopen is called
 class sprint(osv.Model):
     
     _name = 'project.scrum.sprint'
@@ -346,16 +355,67 @@ class sprint(osv.Model):
                 }
     
     def set_open(self, cr, uid, ids, context=None):
+        task_ids = [x.id for x in self.browse(cr, uid, ids[0], context=context).task_ids]
+        res = task_obj = self.pool.get('project.task').do_reopen(cr,uid,task_ids,context=context)
+        if not res:
+                raise osv.except_osv('Error','This sprint cannot be opened. Please'
+                                     'check if all tasks can be reevaluated normally.')
         return self.write(cr, uid, ids, {'state':'open'}, context=context)
     
     def set_close(self, cr, uid, ids, context=None):
+        tasks = self.browse(cr, uid, ids[0], context=context).task_ids
+        task_obj = self.pool.get('project.task')
+        for task in tasks:
+            res = task_obj.action_close(cr,uid,[task.id],context=context)
+            if not res:
+                raise osv.except_osv('Error','This sprint cannot be closed. Please'
+                                     'check if all tasks can be closed normally.')
         return self.write(cr, uid, ids, {'state':'close'}, context=context)
     
     def set_pending(self, cr, uid, ids, context=None):
+        task_ids = [x.id for x in self.browse(cr, uid, ids[0], context=context).task_ids]
+        res = task_obj = self.pool.get('project.task').do_pending(cr,uid,task_ids,context=context)
+        if not res:
+                raise osv.except_osv('Error','This sprint cannot be set as pending. Please'
+                                     'check if all tasks can be changed to pending normally.')
         return self.write(cr, uid, ids, {'state':'pending'}, context=context)
     
     def set_cancel(self, cr, uid, ids, context=None):
+        task_ids = [x.id for x in self.browse(cr, uid, ids[0], context=context).task_ids]
+        res = task_obj = self.pool.get('project.task').do_cancel(cr,uid,task_ids,context=context)
+        if not res:
+                raise osv.except_osv('Error','This sprint cannot be cancelled. Please'
+                                     'check if all tasks can be cancelled normally.')
         return self.write(cr, uid, ids, {'state':'cancelled'}, context=context)
+    
+    def tasks_from_features(self, cr, uid, ids, context=None):
+        sprint = self.browse(cr, uid, ids[0], context=context)
+        if sprint.task_from_features:
+            raise osv.except_osv('Error','All task were created before.')
+        task_obj = self.pool.get('project.task')
+        for feature in sprint.feature_ids:
+            values = {
+                      'project_id': sprint.project_id.id,
+                      'product_backlog_id': sprint.product_backlog_id.id,
+                      'release_backlog_id': sprint.release_backlog_id.id,
+                      'sprint_id': sprint.id,
+                      'feature_id': feature.id,
+                      'user_id': uid,
+                      'planned_hours': feature.expected_hours,
+                      'date_deadline': sprint.deadline,
+                      'priority': PRIORITY[feature.priority],
+                      'description': feature.description,
+                      'name': 'Task for: ' + feature.code + '' + feature.name,
+                      }
+            task_obj.create(cr, uid, values, context=context)
+        self.write(cr, uid, ids[0], {'task_from_features': True}, context=context)
+        return True
+    
+    def set_features_done(self, cr, uid, ids, context=None):
+        sprint = self.browse(cr, uid, ids[0], context=context)
+        for feature in sprint.feature_ids:
+            feature.write({'state': 'done'}, context=context)
+        return True
     
     def _check_deadline(self, cr, uid, ids, context=None):
         sprints =self.browse(cr, uid, ids, context=context)
@@ -395,6 +455,7 @@ class sprint(osv.Model):
                 'state': fields.selection([('draft','New'), ('open','In Progress'), 
                     ('cancelled', 'Cancelled'),('pending','Pending'),('close','Closed')],
                     'Status', required=True),
+                'task_from_features': fields.boolean('Tasks from features', readonly=True),
                 }
     
     _defaults = {
@@ -409,6 +470,7 @@ class sprint(osv.Model):
     
 # TODO: add work hours + date to task date_end
 # TODO: create tasks from features
+# TODO: fix domain in user_id
 class task(osv.Model):
     
     _inherit = 'project.task'
@@ -427,23 +489,59 @@ class task(osv.Model):
             return datetime.strftime(date_end,'%Y-%m-%d %H:%M:%S')
         return date_end
     
-    def onchange_sprint(self, cr, uid, ids, sprint_id, context=None):
-        domain = {'feature_id': []}
+    def onchange_product(self, cr, uid, ids, product_id, release_id, context=None):
         value = {
-                 'feature_id': False,
+                 'release_backlog_id': False,
+                 }
+        if product_id:
+            product_obj = self.pool.get('project.scrum.release.backlog')
+            product = product_obj.browse(cr,uid,product_id,context=context)
+            if release_id:
+                if release_id in product.release_backlog_ids:
+                    return {}
+        return {
+                'value': value
+                }
+    
+    def onchange_release(self, cr, uid, ids, release_id, sprint_id, context=None):
+        value = {
+                 'sprint_id': False,
+                 }
+        if release_id:
+            release_obj = self.pool.get('project.scrum.release.backlog')
+            release = release_obj.browse(cr,uid,release_id,context=context)
+            if sprint_id:
+                if sprint_id in release.sprint_ids:
+                    return {}
+        return {
+                'value': value
+                }
+    
+    def onchange_sprint(self, cr, uid, ids, sprint_id, feature_id, user_id, context=None):
+        value = {
                  'date_deadline': False,
                  }
+        domain = {
+                  'user_id': []
+                  }
         if sprint_id:
-            l = []
             sprint_obj = self.pool.get('project.scrum.sprint')
             sprint = sprint_obj.browse(cr,uid,sprint_id,context=context)
-            for feature in sprint.feature_ids:
-                l.append(feature.id)
-            domain['feature_id'] = [('id','in',l)]
             value['date_deadline'] = sprint.deadline
+            member_ids = [x.id for x in sprint.member_ids]
+            domain['user_id'] = [('id','in',member_ids)]
+            if feature_id:
+                if not feature_id in sprint.feature_ids:
+                    value['feature_id'] = False
+            if user_id:
+                if not user_id in sprint.member_ids:
+                    value['user_id'] = False
+        else:
+            value['feature_id'] = False
+            value['user_id'] = False
         return {
                 'domain': domain,
-                'value': value
+                'value': value,
                 }
         
     def onchange_feature(self, cr, uid, ids, feature_id, context=None):
@@ -451,17 +549,27 @@ class task(osv.Model):
             feature = self.pool.get('project.scrum.feature').browse(
                 cr,uid,feature_id,context=context)
             return {
-                    'value': {'planned_hours': feature.expected_hours}
+                    'value': {
+                              'planned_hours': feature.expected_hours,
+                              'priority': PRIORITY[feature.priority],
+                              }
                     }
         return {
-                'value': {'feature_id': False}
+                'value': {
+                          'planned_hours': False,
+                          'priority': '2',
+                          }
                 }
     
     _columns = {
+                'product_backlog_id': fields.many2one('project.scrum.product.backlog', string='Product Backlog',
+                    domain="[('project_id','=',project_id),('state','=','open')]"),
+                'release_backlog_id': fields.many2one('project.scrum.release.backlog', string='Release Backlog',
+                    domain="[('product_backlog_id','=',product_backlog_id),('state','=','open')]"),
                 'sprint_id': fields.many2one('project.scrum.sprint', string='Sprint',
-                                             required=True),
+                    domain ="[('release_backlog_id','=',release_backlog_id),('state','=','open')]"),
                 'feature_id': fields.many2one('project.scrum.feature', string='Feature',
-                                              required=True),
+                    domain="[('sprint_ids','=',sprint_id),('state','=','open')]"),
                 }
     
     _defaults = {

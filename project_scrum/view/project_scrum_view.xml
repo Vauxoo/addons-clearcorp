@@ -28,8 +28,12 @@
             <field name="inherit_id" ref="project.view_task_form2"/>
             <field name="arch" type="xml">
                 <xpath expr="//form/sheet/group/group/field[@name='project_id']" position="after">
+                    <field name="product_backlog_id"
+                        on_change="onchange_product(product_backlog_id, release_backlog_id)"/>
+                    <field name="release_backlog_id"
+                        on_change="onchange_release(release_backlog_id, sprint_id)"/>
                     <field name="sprint_id"
-                        on_change="onchange_sprint(sprint_id)"/>
+                        on_change="onchange_sprint(sprint_id, feature_id, user_id)"/>
                     <field name="feature_id"
                         on_change="onchange_feature(feature_id)"/>
                 </xpath>
@@ -385,6 +389,7 @@
         
         <!-- project.scrum.sprint -->
         <!-- form -->
+        <!-- TODO: set product and release backlog ids as readonly when not draft -->
         <record id="view_sprint_form" model="ir.ui.view">
             <field name="name">view.sprint.form</field>
             <field name="model">project.scrum.sprint</field>
@@ -395,20 +400,44 @@
                     <header>
                         <button name="set_open" type="object"
                             string="Open" class="oe_highlight"
-                            states ="draft,cancelled,pending,close"/>
+                            states ="cancelled,pending,close"/>
+                        <button name="set_open" type="object"
+                            string="Open" class="oe_highlight"
+                            states ="draft"
+                            confirm="Are you sure you want to open this 
+                            sprint? Once opened you will not be able to
+                            add more features instead you must open 
+                            a sprint."/>
                         <button name="set_close" type="object" 
                             string="Close" class="oe_highlight"
-                            states ="open"/>
+                            states ="open"
+                            confirm="Are you sure you want to close this 
+                            sprint? All elements related to this sprint 
+                            will be closed too."/>
                         <button name="set_pending" type="object" string="Set as Pending"
-                            states ="open"/>
+                            states ="open"
+                            confirm="Are you sure you want to set as pending this 
+                            sprint? All elements related to this sprint 
+                            will be set as pending too."/>
                         <button name="set_cancel" type="object" string="Cancel"
-                            states ="open,pending"/>
+                            states ="open,pending"
+                            confirm="Are you sure you want to cancel this 
+                            sprint? All elements related to this sprint 
+                            will be cancelled too."/>
                         <field name="project_id" invisible="True"/>
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
                         <div class="oe_right oe_button_box" name="buttons" groups="base.group_user">
-                            <button name="tasks" string="Create Tasks" type="object"/>
+                            <button name="tasks_from_features" string="Create Tasks" type="object"
+                                attrs="{'invisible':['|',('state','=','cancelled'),'|',
+                                    ('state','=','draft'),('state','=','close')]}"
+                                confirm="Are you sure you want to create a task for each
+                                feature related to this sprint?"/>
+                            <button name="set_features_done" string="Features Done" type="object"
+                                attrs="{'invisible':['!',('state','=','close')]}"
+                                confirm="Are you sure you want to mark all features
+                                related to this sprint as done?"/>
                         </div>
                         <div class="oe_title">
                             <label for="name" class="oe_edit_only"/>
@@ -434,20 +463,22 @@
                             </group>
                         </group>
                         <notebook>
-                            <page string="Features" name="features">
-                                <field name="feature_ids"
-                                    attrs="{'readonly':['!',('state','=','draft')]}"/>
-                            </page>
                             <page string="Tasks" name="tasks">
                                 <field name="task_ids"
                                     attrs="{'readonly':['|',('state','=','cancelled'),'|',
                                     ('state','=','draft'),('state','=','close')]}"/>
                             </page>
+                            <page string="Features" name="features">
+                                <field name="feature_ids"
+                                    attrs="{'readonly':['!',('state','=','draft')]}"/>
+                            </page>
                             <page string="Team Members" name="team_members">
                                 <field name="member_ids">
-                                    <field name="name"/>
-                                    <field name="company_id"/>
-                                    <field name="email"/>
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="company_id"/>
+                                        <field name="email"/>
+                                    </tree>
                                 </field>
                             </page>
                         </notebook>
@@ -463,11 +494,14 @@
             <field name="type">tree</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
-                <tree string="Sprint">
+                <tree string="Sprint" 
+                    colors="grey:state in ('cancelled','done');blue:state == 'pending';
+                        red:(deadline&lt;date_end) and (state in ('draft','pending','open'))">
                     <field name="name"/>
                     <field name="product_backlog_id"/>
                     <field name="release_backlog_id"/>
                     <field name="member_ids" invisible="True"/>
+                    <field name="state" invisible="True"/>
                     <field name="expected_hours"/>
                     <field name="effective_hours"/>
                     <field name="remaining_hours"/>
@@ -527,7 +561,7 @@
                     <filter string="Closed" name="closed" domain="[('state','=','close')]"/>
                     <separator/>
                     <filter string="My Sprints" name="my_sprints"
-                        domain="['|',(uid,'in','member_ids'),('user_id','=',uid)]"/>
+                        domain="['|',('member_ids','in',uid),('user_id','=',uid)]"/>
                     <group expand="1" string="Group By...">
                         <filter string="Scrum Master" name="group_scrum_master" domain="[]"  context="{'group_by':'user_id'}"/>
                         <filter string="Project" name="group_project" domain="[]"  context="{'group_by':'project_id'}"/>
@@ -581,6 +615,7 @@
             <field name="name">Sprints</field>
             <field name="res_model">project.scrum.sprint</field>
             <field name="view_mode">tree,form,calendar,gantt</field>
+            <field name="context">{'search_default_in_progress': 1, 'search_default_my_sprints': 1}</field>
             <field name="search_view_id" ref="view_sprint_search"/>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create new Sprint</p>
