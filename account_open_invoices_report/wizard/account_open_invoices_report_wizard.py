@@ -22,11 +22,11 @@
 
 from osv import fields, osv, orm
 
-class AccountJournalReportWizard(orm.Model):
+class OpenInvoicesReportWizard(orm.Model):
 
     _inherit = "account.report.wiz"
-    _name = "partner.ledger.wiz"
-    _description = "Partner Ledger Report Wizard"
+    _name = "open.invoices.wiz"
+    _description = "Open Invoices Report Wizard"
     
     _columns = {
        #Redefine filter, use only date and period
@@ -68,10 +68,10 @@ class AccountJournalReportWizard(orm.Model):
 
         #2. Check out_format and set report_name for each format
         if out_format_obj.code == 'oo-pdf':
-            report_name = 'account_partner_ledger_odt' 
+            report_name = 'account_open_invoices_odt' 
            
         elif out_format_obj.code == 'oo-xls' or out_format_obj.code == 'oo-ods': 
-            report_name = 'account_partner_ledger_ods'
+            report_name = 'account_open_invoices_ods'
         
         # If there not exist name, it's because not exist a record for this format   
         if report_name == '':

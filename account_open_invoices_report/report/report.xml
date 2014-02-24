@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>            
+        <!--This record is create to delete webkit record for profit statement report 
+        It's inoffensive after delete the report with webkit type.
+        
+        It's necessary to delete this record, because if exist two reports (aeroo and webkit)
+        the wizard prints webkit report type-->
+        
+       <delete model="ir.actions.report.xml" search="[('report_name','=','account_financial_report_open_invoices_webkit'),('report_type','=','webkit')]" />
+        
+       <!-- ===================================================================================== -->
+         
+        <record id="account.account_open_invoices_odt" model="ir.actions.report.xml">
+            <field name="name">Open Invoices</field>
+            <field name="type">ir.actions.report.xml</field>
+            <field name="model">res.partner</field>
+            <field name="report_name">account_open_invoices_odt</field>
+            <field name="report_type">aeroo</field>
+            <field name="in_format">oo-odt</field>
+            <field name="out_format">1</field><!--Must be code of mimetypes (report_mimetypes on database)-->
+            <field name="parser_loc">account_open_invoices_report/report/account_open_invoices_report.py</field>
+            <field name="report_rml">account_open_invoices_report/report/account_open_invoices_report.odt</field>
+            <field name="parser_state">loc</field>
+            <field name="tml_source">file</field>
+        </record> 
+        
+        <record id="account.account_open_invoices_ods" model="ir.actions.report.xml">
+            <field name="name">Open Invoices</field>
+            <field name="type">ir.actions.report.xml</field>
+            <field name="model">res.partner</field>
+            <field name="report_name">account_open_invoices_ods</field>
+            <field name="report_type">aeroo</field>
+            <field name="in_format">oo-ods</field>
+            <field name="out_format">2</field><!--Must be code of mimetypes (report_mimetypes on database)-->
+            <field name="parser_loc">account_open_invoices_report/report/account_open_invoices_report.py</field>
+            <field name="report_rml">account_open_invoices_report/report/account_open_invoices_report.ods</field>
+            <field name="parser_state">loc</field>
+            <field name="tml_source">file</field>
+        </record>
+        
+    </data>
+</openerp>
