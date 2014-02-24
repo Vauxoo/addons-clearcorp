@@ -1,0 +1,600 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!-- views -->
+        <!-- project.project -->
+        <!-- form -->
+        <!--<record id ="view_project_form" model="ir.ui.view">
+            <field name="name">view.project.form</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/group/field[@name='partner_id']" position="after">
+                    <field name="sprint_size"/>
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page[@name='project_stages']" position="after">
+                    <page string="Backlogs" name="product_backlogs">
+                        <field name="product_backlog_ids"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>-->
+        
+        <!-- project.task -->
+        <!-- form -->
+        <record id ="view_task_form" model="ir.ui.view">
+            <field name="name">view.task.form</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/group/field[@name='project_id']" position="after">
+                    <field name="sprint_id"
+                        on_change="onchange_sprint(sprint_id)"/>
+                    <field name="feature_id"
+                        on_change="onchange_feature(feature_id)"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- project.scrum.product.backlog -->
+        <!-- form -->
+        <record id="view_product_backlog_form" model="ir.ui.view">
+            <field name="name">view.product.backlog.form</field>
+            <field name="model">project.scrum.product.backlog</field>
+            <field name="type">form</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form string="Product Backlog" version="7.0">
+                    <header>
+                        <button name="set_open" type="object"
+                            string="Open" class="oe_highlight"
+                            states ="draft,cancelled,pending,close"/>
+                        <button name="set_close" type="object" 
+                            string="Close" class="oe_highlight"
+                            states ="open"
+                            confirm="Are you sure you want to close this 
+                            product backlog? All elements related to
+                            this element will be closed too."/>
+                        <button name="set_pending" type="object" string="Set as Pending"
+                            states ="open"
+                            confirm="Are you sure you want to set as pending this 
+                            product backlog? All elements related to
+                            this element will be set as pending too."/>
+                        <button name="set_cancel" type="object" string="Cancel"
+                            states ="open,pending"
+                            confirm="Are you sure you want to cancel this 
+                            product backlog? All elements related to
+                            this element will be cancelled too."/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                        <group>
+                            <group>
+                                <field name="project_id"/>
+                                <field name="user_id"/>
+                                <field name="expected_hours"/>
+                                <field name="effective_hours"/>
+                                <field name="remaining_hours"/>
+                            </group>
+                            <group>
+                                <field name="date_end"/>
+                                <field name="deadline"/>
+                                <field name="progress" widget="progressbar"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Features" name="features">
+                                <field name="feature_ids"
+                                attrs="{'readonly':['|',('state','=', 'cancelled'),('state','=', 'close')]}"
+                                context="{'product_backlog_id': id}"/>
+                            </page>
+                            <page string="Release Backlogs" name="release_backlogs">
+                                <field name="release_backlog_ids"
+                                attrs="{'readonly':['|',('state','=','draft'),
+                                '|',('state','=', 'cancelled'),('state','=', 'close')]}"
+                                context="{'product_backlog_id': id, 'project_id': project_id}"/>
+                            </page>
+                            <page string="Team Members" name="team_members">
+                                <field name="member_ids">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="company_id"/>
+                                        <field name="email"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- tree -->
+        <record id="view_product_backlog_tree" model="ir.ui.view">
+            <field name="name">view.product.backlog.tree</field>
+            <field name="model">project.scrum.product.backlog</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Product Backlog">
+                    <field name="name"/>
+                    <field name="project_id"/>
+                    <field name="user_id"/>
+                    <field name="expected_hours"/>
+                    <field name="effective_hours"/>
+                    <field name="remaining_hours"/>
+                    <field name="date_end"/>
+                    <field name="deadline"/>
+                    <field name="progress" widget="progressbar"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- search -->
+        <record id="view_product_backlog_search" model="ir.ui.view">
+            <field name="name">view.product.backlog.search</field>
+            <field name="model">project.scrum.product.backlog</field>
+            <field name="arch" type="xml">
+               <search string="Product Backlog">
+                    <field name="name"/>
+                    <field name="project_id"/>
+                    <separator/>
+                    <filter string="New" name="new" domain="[('state','=','draft')]"/>
+                    <filter string="In Progress" name="in_progress" domain="[('state','=','open')]"/>
+                    <filter string="Cancelled" name="cancelled" domain="[('state','=','cancelled')]"/>
+                    <filter string="Pending" name="pending" domain="[('state','=','pending')]"/>
+                    <filter string="Closed" name="closed" domain="[('state','=','close')]"/>
+                    <separator/>
+                    <filter string="My Backlogs" name="my_backlogs" domain="[('user_id','=',uid)]"/>
+                    <group expand="1" string="Group By...">
+                        <filter string="Scrum Master" name="group_scrum_master" domain="[]"  context="{'group_by':'user_id'}"/>
+                        <filter string="Project" name="group_project" domain="[]"  context="{'group_by':'project_id'}"/>
+                        <filter string="Stage" name="group_stage" domain="[]"  context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- project.scrum.release.backlog -->
+        <!-- form -->
+        <record id="view_release_backlog_form" model="ir.ui.view">
+            <field name="name">view.release.backlog.form</field>
+            <field name="model">project.scrum.release.backlog</field>
+            <field name="type">form</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form string="Release Backlog" version="7.0">
+                    <header>
+                        <button name="set_open" type="object"
+                            string="Open" class="oe_highlight"
+                            states ="draft,cancelled,pending,close"/>
+                        <button name="set_close" type="object" 
+                            string="Close" class="oe_highlight"
+                            states ="open"/>
+                        <button name="set_pending" type="object" string="Set as Pending"
+                            states ="open"/>
+                        <button name="set_cancel" type="object" string="Cancel"
+                            states ="open,pending"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="project_id"/>
+                                <field name="product_backlog_id"
+                                    on_change="onchange_product_backlog(product_backlog_id)"/>
+                                <field name="expected_hours"/>
+                                <field name="effective_hours"/>
+                                <field name="remaining_hours"/>
+                            </group>
+                            <group>
+                                <field name="date_start"/>
+                                <field name="date_end"/>
+                                <field name="deadline"/>
+                                <field name="progress" widget="progressbar"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Features" name="features">
+                                <field name="feature_ids"
+                                    attrs="{'readonly':['|',('state','=', 'cancelled'),('state','=', 'close')]}"
+                                    context="{'release_backlog_id': id, 'product_backlog_id': product_backlog_id}"/>
+                            </page>
+                            <page string="Sprints" name="sprints">
+                                <field name="sprint_ids"
+                                    attrs="{'readonly':['|',('state','=', 'cancelled'),
+                                    '|',('state','=','draft'),('state','=', 'close')]}"
+                                    context="{'release_backlog_id': id, 'product_backlog_id': product_backlog_id}"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- tree -->
+        <record id="view_release_backlog_tree" model="ir.ui.view">
+            <field name="name">view.release.backlog.tree</field>
+            <field name="model">project.scrum.release.backlog</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Release Backlog">
+                    <field name="name"/>
+                    <field name="product_backlog_id"/>
+                    <field name="project_id" invisible="True"/>
+                    <field name="expected_hours"/>
+                    <field name="effective_hours"/>
+                    <field name="remaining_hours"/>
+                    <field name="date_end"/>
+                    <field name="deadline"/>
+                    <field name="progress" widget="progressbar"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- search -->
+        <record id="view_release_backlog_search" model="ir.ui.view">
+            <field name="name">view.release.backlog.search</field>
+            <field name="model">project.scrum.release.backlog</field>
+            <field name="arch" type="xml">
+               <search string="Product Backlog">
+                    <field name="name"/>
+                    <field name="product_backlog_id"/>
+                    <field name="project_id"/>
+                    <separator/>
+                    <filter string="New" name="new" domain="[('state','=','draft')]"/>
+                    <filter string="In Progress" name="in_progress" domain="[('state','=','open')]"/>
+                    <filter string="Cancelled" name="cancelled" domain="[('state','=','cancelled')]"/>
+                    <filter string="Pending" name="pending" domain="[('state','=','pending')]"/>
+                    <filter string="Closed" name="closed" domain="[('state','=','close')]"/>
+                    <separator/>
+                    <filter string="My Backlogs" name="my_backlogs" domain="[('user_id','=',uid)]"/>
+                    <group expand="1" string="Group By...">
+                        <filter string="Scrum Master" name="group_scrum_master" domain="[]"  context="{'group_by':'user_id'}"/>
+                        <filter string="Project" name="group_project" domain="[]"  context="{'group_by':'project_id'}"/>
+                        <filter string="Product Backlog" name="group_product_backlog" domain="[]"  context="{'group_by':'product_backlog_id'}"/>
+                        <filter string="Stage" name="group_stage" domain="[]"  context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- project.scrum.feature -->
+        <!-- form -->
+        <record id="view_feature_form" model="ir.ui.view">
+            <field name="name">view.feature.form</field>
+            <field name="model">project.scrum.feature</field>
+            <field name="type">form</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form string="Feature" version="7.0">
+                    <header>
+                        <button name="set_open" type="object"
+                            string="Open" class="oe_highlight"
+                            states ="draft,cancelled,done"/>
+                        <button name="set_done" type="object" 
+                            string="Done" class="oe_highlight"
+                            states ="open"/>
+                        <button name="set_cancel" type="object" string="Cancel"
+                            states ="open"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <div style="display: inline-block;">
+                                <div>
+                                    <style>
+                                        .feature_custom input {
+                                            width:150px !important;
+                                        }
+                                    </style>
+                                    <field name="code" class="oe_inline feature_custom" width="20px"/>
+                                </div>
+                            </div>
+                            - <field name="name" class="oe_inline"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="product_backlog_id"
+                                    on_change="onchange_product_backlog(product_backlog_id, release_backlog_id)"/>
+                                <field name="release_backlog_id"/>
+                                <field name="partner_id"/>
+                                <field name="priority"/>
+                                <field name="expected_hours"/>
+                            </group>
+                            <group>
+                                <field name="date_start"/>
+                                <field name="date_end"/>
+                                <field name="deadline"/>
+                                <field name="effective_hours"/>
+                                <field name="remaining_hours"/>
+                                <field name="progress" widget="progressbar"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Description" name="description">
+                                <field name="description" placeholder="Add a Description..."/>
+                                <separator/>
+                                <separator string="Sprints"/>
+                                <field name="sprint_ids" readonly="True"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- tree -->
+        <record id="view_feature_tree" model="ir.ui.view">
+            <field name="name">view.feature.tree</field>
+            <field name="model">project.scrum.feature</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Feature">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="product_backlog_id"/>
+                    <field name="release_backlog_id"/>
+                    <field name="priority"/>
+                    <field name="expected_hours"/>
+                    <field name="remaining_hours"/>
+                    <field name="date_end"/>
+                    <field name="deadline"/>
+                    <field name="progress" widget="progressbar"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- search -->
+        <record id="view_feature_search" model="ir.ui.view">
+            <field name="name">view.feature.search</field>
+            <field name="model">project.scrum.feature</field>
+            <field name="arch" type="xml">
+               <search string="Feature">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="project_id"/>
+                    <field name="product_backlog_id"/>
+                    <field name="release_backlog_id"/>
+                    <separator/>
+                    <filter string="New" name="new" domain="[('state','=','draft')]"/>
+                    <filter string="In Progress" name="in_progress" domain="[('state','=','open')]"/>
+                    <filter string="Cancelled" name="cancelled" domain="[('state','=','cancelled')]"/>
+                    <filter string="Done" name="done" domain="[('state','=','done')]"/>
+                    <separator/>
+                    <filter string="My Features" name="my_features" domain="[('user_id','=',uid)]"/>
+                    <group expand="1" string="Group By...">
+                        <filter string="Scrum Master" name="group_scrum_master" domain="[]"  context="{'group_by':'user_id'}"/>
+                        <filter string="Project" name="group_project" domain="[]"  context="{'group_by':'project_id'}"/>
+                        <filter string="Product Backlog" name="group_product_backlog" domain="[]"  context="{'group_by':'product_backlog_id'}"/>
+                        <filter string="Release Backlog" name="group_release_backlog" domain="[]"  context="{'group_by':'release_backlog_id'}"/>
+                        <filter string="Stage" name="group_stage" domain="[]"  context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- project.scrum.sprint -->
+        <!-- form -->
+        <record id="view_sprint_form" model="ir.ui.view">
+            <field name="name">view.sprint.form</field>
+            <field name="model">project.scrum.sprint</field>
+            <field name="type">form</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form string="Sprint" version="7.0">
+                    <header>
+                        <button name="set_open" type="object"
+                            string="Open" class="oe_highlight"
+                            states ="draft,cancelled,pending,close"/>
+                        <button name="set_close" type="object" 
+                            string="Close" class="oe_highlight"
+                            states ="open"/>
+                        <button name="set_pending" type="object" string="Set as Pending"
+                            states ="open"/>
+                        <button name="set_cancel" type="object" string="Cancel"
+                            states ="open,pending"/>
+                        <field name="project_id" invisible="True"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_right oe_button_box" name="buttons" groups="base.group_user">
+                            <button name="tasks" string="Create Tasks" type="object"/>
+                        </div>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="product_backlog_id"
+                                    on_change="onchange_product_backlog(product_backlog_id,release_backlog_id)"/>
+                                <field name="release_backlog_id"
+                                    on_change="onchange_release_backlog(release_backlog_id)"/>
+                                <field name="expected_hours"/>
+                                <field name="effective_hours"/>
+                                <field name="remaining_hours"/>
+                            </group>
+                            <group>
+                                <field name="date_start"/>
+                                <field name="date_end"/>
+                                <field name="deadline"/>
+                                <field name="progress" widget="progressbar"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Features" name="features">
+                                <field name="feature_ids"
+                                    attrs="{'readonly':['!',('state','=','draft')]}"/>
+                            </page>
+                            <page string="Tasks" name="tasks">
+                                <field name="task_ids"
+                                    attrs="{'readonly':['|',('state','=','cancelled'),'|',
+                                    ('state','=','draft'),('state','=','close')]}"/>
+                            </page>
+                            <page string="Team Members" name="team_members">
+                                <field name="member_ids">
+                                    <field name="name"/>
+                                    <field name="company_id"/>
+                                    <field name="email"/>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- tree -->
+        <record id="view_sprint_tree" model="ir.ui.view">
+            <field name="name">view.sprint.tree</field>
+            <field name="model">project.scrum.sprint</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Sprint">
+                    <field name="name"/>
+                    <field name="product_backlog_id"/>
+                    <field name="release_backlog_id"/>
+                    <field name="member_ids" invisible="True"/>
+                    <field name="expected_hours"/>
+                    <field name="effective_hours"/>
+                    <field name="remaining_hours"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="deadline"/>
+                    <field name="progress" widget="progressbar"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- calendar -->
+        <record id="view_sprint_calendar" model="ir.ui.view">
+            <field name="name">view.sprint.calendar</field>
+            <field name="model">project.scrum.sprint</field>
+            <field name="type">calendar</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <calendar string="Sprint" date_start="date_start"
+                    date_stop="deadline" color="product_backlog_id">
+                    <field name="name"/>
+                </calendar>
+            </field>
+        </record>
+        
+        <!-- gantt -->
+        <record id="view_sprint_gantt" model="ir.ui.view">
+            <field name="name">view.sprint.gantt</field>
+            <field name="model">project.scrum.sprint</field>
+            <field name="type">gantt</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <gantt string="Sprint" date_start="date_start" date_stop="deadline" color="id">
+                    <level object="project.scrum.product.backlog"
+                        link="product_backlog_id" domain="[]">
+                        <field name="name"/>
+                    </level>
+                </gantt>
+            </field>
+        </record>
+        
+        <!-- search -->
+        <record id="view_sprint_search" model="ir.ui.view">
+            <field name="name">view.sprint.search</field>
+            <field name="model">project.scrum.sprint</field>
+            <field name="arch" type="xml">
+               <search string="Sprint">
+                    <field name="name"/>
+                    <field name="project_id"/>
+                    <field name="product_backlog_id"/>
+                    <field name="release_backlog_id"/>
+                    <separator/>
+                    <filter string="New" name="new" domain="[('state','=','draft')]"/>
+                    <filter string="In Progress" name="in_progress" domain="[('state','=','open')]"/>
+                    <filter string="Cancelled" name="cancelled" domain="[('state','=','cancelled')]"/>
+                    <filter string="Pending" name="pending" domain="[('state','=','pending')]"/>
+                    <filter string="Closed" name="closed" domain="[('state','=','close')]"/>
+                    <separator/>
+                    <filter string="My Sprints" name="my_sprints"
+                        domain="['|',(uid,'in','member_ids'),('user_id','=',uid)]"/>
+                    <group expand="1" string="Group By...">
+                        <filter string="Scrum Master" name="group_scrum_master" domain="[]"  context="{'group_by':'user_id'}"/>
+                        <filter string="Project" name="group_project" domain="[]"  context="{'group_by':'project_id'}"/>
+                        <filter string="Product Backlog" name="group_product_backlog" domain="[]"  context="{'group_by':'product_backlog_id'}"/>
+                        <filter string="Release Backlog" name="group_release_backlog" domain="[]"  context="{'group_by':'release_backlog_id'}"/>
+                        <filter string="Stage" name="group_stage" domain="[]"  context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <!-- actions -->
+        <!-- project.scrum.product.backlog -->
+        <record model="ir.actions.act_window" id="action_product_backlog">
+            <field name="name">Product Backlog</field>
+            <field name="res_model">project.scrum.product.backlog</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_in_progress': 1}</field>
+            <field name="search_view_id" ref="view_product_backlog_search"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create new Product Backlog</p>
+            </field>
+        </record>
+        
+        <!-- project.scrum.feature -->
+        <record model="ir.actions.act_window" id="action_feature">
+            <field name="name">Features</field>
+            <field name="res_model">project.scrum.feature</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_in_progress': 1, 'search_default_group_project': 1}</field>
+            <field name="search_view_id" ref="view_feature_search"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create new Product Feature</p>
+            </field>
+        </record>
+        
+        <!-- project.scrum.release.backlog -->
+        <record model="ir.actions.act_window" id="action_release_backlog">
+            <field name="name">Release Backlog</field>
+            <field name="res_model">project.scrum.release.backlog</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_in_progress': 1}</field>
+            <field name="search_view_id" ref="view_release_backlog_search"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create new Release Backlog</p>
+            </field>
+        </record>
+        
+        <!-- project.scrum.sprint -->
+        <record model="ir.actions.act_window" id="action_sprint">
+            <field name="name">Sprints</field>
+            <field name="res_model">project.scrum.sprint</field>
+            <field name="view_mode">tree,form,calendar,gantt</field>
+            <field name="search_view_id" ref="view_sprint_search"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create new Sprint</p>
+            </field>
+        </record>
+        
+        <!-- project.scrum.task.type -->
+        <!--<record model="ir.actions.act_window" id="action_task_type">
+            <field name="name">Task Types</field>
+            <field name="res_model">project.scrum.task.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create new Task Type</p>
+            </field>
+        </record>-->
+    </data>
+</openerp>
