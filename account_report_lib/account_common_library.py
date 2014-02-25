@@ -381,7 +381,7 @@ class AccountWebkitReportLibrary(orm.Model):
             
         return format_currency
 
-    def get_move_lines_journal(self, cr, uid, journal_ids, filter_type='', filter_data=None, fiscalyear=None, target_move='all', special_period =False, order_by=None, context=None):
+    def get_move_lines_journal(self, cr, uid, journal_ids, filter_type='', filter_data=None, fiscalyear=None, target_move='all', unreconcile = False, historic_strict=False, special_period =False, order_by=None, context=None):
         
         ''' 
         Get the move lines of the journal provided and filtered.
@@ -479,7 +479,8 @@ class AccountWebkitReportLibrary(orm.Model):
         
         return move_lines
     
-    def get_move_lines_partner(self, cr, uid, partner_ids, account_ids, filter_type='', filter_data=None, fiscalyear=None, target_move='all', special_period =False, order_by=None, context=None):
+    #Include option for historic strict
+    def get_move_lines_partner(self, cr, uid, partner_ids, account_ids, filter_type='', filter_data=None, fiscalyear=None, target_move='all', unreconcile = False, historic_strict = False, special_period = False, order_by = None, context=None):
         
         ''' 
         Get the move lines of the journal provided and filtered.
@@ -569,7 +570,56 @@ class AccountWebkitReportLibrary(orm.Model):
             list_tuples.append(domain_period)
             
         #********PASS ALL THE PARMETERS IN LIST_TUPLES AND CALL SEARCH METHOD*********************#
-        move_line_ids = move_line_obj.search(cr, uid, list_tuples, order = order_by, context=context)
+        #move_line_ids = move_line_obj.search(cr, uid, list_tuples, order = order_by, context=context)
+        #move_lines = move_line_ids and move_line_obj.browse(cr, uid, move_line_ids, context=context) or []
+        
+        #===========================================================================================#
+        if unreconcile == False:
+            move_line_ids = move_line_obj.search(cr, uid, list_tuples,order = order_by,context=context)
+                
+        else:
+            #list_tuples + [domain_unreconciled] -> With this syntax doesn't change the variable
+            #list_tuples, the + makes a complete list with domain_unreconciled. Add [] for make as a format list.
+            
+            #First, move line ids without reconcile_id (without conciliation)
+            domain_unreconciled = ('reconcile_id', '=', None)      
+            unreconciled_move_line_ids = move_line_obj.search(cr, uid, list_tuples + [domain_unreconciled], context=context)
+            
+            #historict_strict = If user needs a historic strict (this option obtains all move lines
+            #without conciliation to the date requested in report.)  
+            if historic_strict == False:
+                move_line_ids = unreconciled_move_line_ids
+                
+            #Mark historic_strict as True
+            else: 
+                #Get maximal conciliation date to get move lines.
+                if filter_type == 'filter_date':
+                    #maximal conciliation date is date selected
+                    max_reconciled_date = filter_data[1]    
+                elif filter_type == 'filter_period':
+                    #maximal conciliation date is final date of selected period
+                    max_reconciled_date = filter_data[1].date_stop
+                elif fiscalyear:
+                    #If only fiscalyear exists, it takes end_date as maximal conciliation date
+                    max_reconciled_date = fiscalyear.date_end
+                else:
+                    max_reconciled_date = False
+                
+                #If maximal date exists, get move lines without conciliation
+                #It is to compare unreconciled lines vrs reconciled lines.
+                #If any date_crete in unreconciled lines is more than maximal date of conciliation,
+                # add in list of unreconciled lines.
+                if max_reconciled_date:
+                    domain_reconciled = ('reconcile_id', '<>', None)  
+                    reconciled_move_line_ids = move_line_obj.search(cr, uid, list_tuples + [domain_reconciled], context=context)
+                    reconciled_move_lines = move_line_obj.browse(cr, uid, reconciled_move_line_ids, context=context)
+                    for line in reconciled_move_lines:
+                        if line.reconcile_id:
+                            if line.reconcile_id.create_date > max_reconciled_date:
+                                unreconciled_move_line_ids.append(line.id)
+                    
+                move_line_ids = unreconciled_move_line_ids
+        
         move_lines = move_line_ids and move_line_obj.browse(cr, uid, move_line_ids, context=context) or []
         
         return move_lines

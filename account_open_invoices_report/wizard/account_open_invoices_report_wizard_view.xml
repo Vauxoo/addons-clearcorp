@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id ="account_open_invoices_inherit" model="ir.ui.view">
+            <field name="name">Account Open Invoices Report </field>
+            <field name="model">open.invoices.wiz</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account_report_lib.account_report_lib_wizard_view"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="/form/label[@string='']" position="replace">
+                        <separator string="Account Open Invoices" colspan="4"/>
+                        <label nolabel="1" colspan="4" string="This report allows you to print or generate a pdf of your Account Open Invoices Report"/>
+                    </xpath>      
+                    <field name="out_format" position="after">
+                        <field name="account_type" required="True"/>
+                    </field>
+                    <field name="out_format" position="attributes">
+                        <attribute name="attrs">{'required': True}</attribute>
+                    </field>    
+                     <field name="sort_selection" position="replace">
+                        <field name="sort_selection" string="Entries Sorted by" attrs="{'invisible': False, 'required': False}" colspan="4"/> 
+                    </field>                
+                    <field name="fiscalyear_id" position="attributes">
+                        <attribute name="attrs">{'required': True}</attribute>
+                    </field>
+                    <field name="target_move" position="attributes">
+                        <attribute name="attrs">{'required': True}</attribute>
+                    </field>
+                    <field name="sort_selection" position="attributes">
+                        <attribute name="attrs">{'invisible': True}</attribute>
+                    </field>
+                    <field name="filter" position="attributes">
+                        <attribute name="required">True</attribute>
+                    </field>
+                   <field name="period_from" position="attributes">
+                         <attribute name="domain">[('special', '=', False),('fiscalyear_id', '=', fiscalyear_id)]</attribute>
+                         <attribute name="attrs">{'required': [('filter', '=', 'filter_period')]}</attribute>
+                    </field>
+                     <field name="period_to" position="attributes">
+                        <attribute name="domain">[('special', '=', False),('fiscalyear_id', '=', fiscalyear_id)]</attribute>
+                        <attribute name="attrs">{'required': [('filter', '=', 'filter_period')]}</attribute>
+                    </field>
+                    <field name="date_from" position="attributes">
+                        <attribute name="attrs">{'required': [('filter', '=', 'filter_date')]}</attribute>
+                    </field>
+                    <field name="date_to" position="attributes">
+                        <attribute name="attrs">{'required': [('filter', '=', 'filter_date')]}</attribute>
+                    </field>                                      
+                    <field name="special_period" position="attributes">
+                        <attribute name="attrs">{'invisible': True}</attribute>
+                    </field>
+                     <group string="Account Financial Report" position="attributes">                   
+                        <attribute name="attrs">{'invisible': True}</attribute>
+                    </group>               
+                    <group string="Accounts" position="attributes">
+                        <attribute name="attrs">{'invisible': True}</attribute>
+                    </group>
+                    <field name="res_partners_ids" position="replace">
+                        <!--Only customers and suppliers-->
+                        <field name="res_partners_ids" nolabel="1" domain="['|', ('customer','=', True),('supplier','=',True)]"/>
+                    </field>
+                    <group string="Journals" position="attributes">
+                        <attribute name="attrs">{'invisible': True}</attribute>
+                    </group>
+                    <field name="amount_currency" position="attributes">
+                        <attribute name="attrs">{'invisible': True}</attribute>
+                    </field> 
+                </data>
+            </field>
+        </record>
+        
+        <record id="action_account_open_invoices_report_wizard" model="ir.actions.act_window">
+            <field name="name">Account Open Invoices Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">open.invoices.wiz</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account_open_invoices_inherit"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</openerp>

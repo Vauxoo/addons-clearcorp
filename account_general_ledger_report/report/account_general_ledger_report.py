@@ -40,6 +40,7 @@ class Parser(accountReportbase):
             'storage':{},
             'cumul_balance': None,
             'cumul_balance_curr': None,
+            'get_conciliation_name':self.get_conciliation_name,
             'set_data_template': self.set_data_template,
             'get_data_template': self.get_data_template,
             'get_cumul_balance': self.get_cumul_balance,
@@ -100,6 +101,17 @@ class Parser(accountReportbase):
             return account_balance[account.id]['foreign_balance']   
         else:
             return 0.0
+    
+    #Create a string with name of conciliation. Add a 'P' for partial
+    def get_conciliation_name(self, line):
+        if line.reconcile_id and line.reconcile_id.name != '':
+            return line.reconcile_id.name
+        
+        elif line.reconcile_partial_id and line.reconcile_partial_id.name != '':
+            str_name = 'P: ' + line.reconcile_partial_id.name
+            return str_name
+        else:
+            return ''
         
     #===THIS METHODS ARE FOR DISPLAY DIFFERENTS HEADERS DEPENDS OF VALUES IN ACCOUNT    
     #Has_reconcile
