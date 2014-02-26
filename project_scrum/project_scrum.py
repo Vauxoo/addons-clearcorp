@@ -32,18 +32,21 @@ PRIORITY = {
             4: '0',
             }
 
-'''class taskType(osv.Model):
+class featureType(osv.Model):
     
-    _name = 'project.scrum.task.type'
+    _name = 'project.scrum.feature.type'
     
     _columns = {
+                'code': fields.char('Code', size=16, required=True),
                 'name': fields.char('Type Name', size=128, required=True),
-                'is_default': fields.boolean('Default for new Backlogs', required=True)
                 }
     
-    _defaults = {
-                 'is_default': True
-                 }'''
+    def name_get(self, cr, uid, ids, context=None):
+        res =[]
+        for r in self.read(cr, uid, ids, ['code', 'name'], context=context):
+            name = '%s - %s' %(r['code'],r['name'])
+            res.append((r['id'], name))
+        return res
     
 # TODO: manage states
 class feature(osv.Model):
@@ -206,6 +209,9 @@ class feature(osv.Model):
     def set_open(self, cr, uid, ids, context=None):
         return self.write(cr, uid, ids, {'state':'open'}, context=context)
     
+    def set_approved(self, cr, uid, ids, context=None):
+        return self.write(cr, uid, ids, {'state':'approved'}, context=context)
+    
     def set_done(self, cr, uid, ids, context=None):
         return self.write(cr, uid, ids, {'state':'done'}, context=context)
     
@@ -230,6 +236,7 @@ class feature(osv.Model):
                     domain="[('customer','=',True)]",
                     help='Contact or person responsible of keeping the '
                     'business perspective in scrum projects.'),
+                'type_id': fields.many2one('project.scrum.feature.type', string='Type'),
                 'priority': fields.selection([(1,'Low'),(2,'Medium'),(3,'High'),
                     (4,'Very High')], string='Priority', required=True),
                 'sprint_ids': fields.many2many(
@@ -250,9 +257,10 @@ class feature(osv.Model):
                     _remaining_hours, type='float', string='Remaining Hour(s)',
                     help='Difference between planned hours and spent hours.'),
                 'progress': fields.function(_progress, type='float', string='Progress (%)'),
-                'state': fields.selection([('draft','New'), ('open','In Progress'), 
-                    ('cancelled', 'Cancelled'),('done','Done'),],
+                'state': fields.selection([('draft','New'), ('approved','Approved'),
+                    ('open','In Progress'), ('cancelled', 'Cancelled'),('done','Done'),],
                     'Status', required=True),
+                'color': fields.integer('Color Index'),
                 }
     # TODO: generate sequence code
     _defaults = {
@@ -269,6 +277,19 @@ class feature(osv.Model):
             name = '%s - %s' %(r['code'],r['name'])
             res.append((r['id'], name))
         return res
+    
+    def name_search(self, cr, uid, name='', args=None, operator='ilike', context=None, limit=50):
+    #def name_search(self, cr, uid, name, args=[], operator='ilike', context=None, limit=80):
+        ids = []
+        if name:
+            ids = self.search(cr, uid,
+                              ['|',('code',operator,name),
+                               ('name',operator,name)] + args,
+                              limit=limit, context=context)
+        else:
+            ids  = self.search(cr, uid, args, limit=limit, context=context)
+        
+        return self.name_get(cr, uid, ids, context=context)
     
 # TODO: reevaluate tasks when do_reopen is called
 class sprint(osv.Model):
@@ -341,18 +362,70 @@ class sprint(osv.Model):
         return res
     
     def onchange_product_backlog(self, cr, uid, ids, product_id, release_id, context=None):
-        if product_id and release_id:
-            backlog = self.pool.get('project.scrum.release.backlog').browse(
-                cr,uid,release_id,context=context)
-            if product_id == backlog.product_backlog_id.id:
-                return {}
-        return {
-                'value': {'release_backlog_id': False},
-                }
+        vals = {}
+        if product_id:
+            backlog = self.pool.get('project.scrum.product.backlog').browse(
+                    cr,uid,product_id,context=context)
+            vals['project_id'] = backlog.project_id.id
+            if release_id:
+                backlog = self.pool.get('project.scrum.release.backlog').browse(
+                    cr,uid,release_id,context=context)
+                if not product_id == backlog.product_backlog_id.id:
+                    vals['release_backlog_id'] = False
+        else:
+            vals['project_id'] = False
+            vals['release_backlog_id'] = False
+        return {'value': vals}
+        
     def onchange_release_backlog(self, cr, uid, ids, release_id, context=None):
         return {
                 'value': {'feature_ids': False},
                 }
+    
+    def onchange_project(self, cr, uid, ids, project_id, stage_id, context=None):
+        if project_id:
+            type_ids = [x.id for x in self.pool.get('project.project').browse(
+                cr, uid, project_id, context=context).type_ids]
+            if not stage_id in type_ids: 
+                stage = self.get_default_stage_id(cr, uid, project_id, context=context)
+                return {
+                        'value': {
+                                  'stage_id': stage
+                                  }
+                        }
+            else: 
+                return {}
+        return {
+                'value': {
+                          'stage_id': self.get_default_stage(cr, uid, context=context)
+                          }
+                }
+    
+    def _get_default_project_id(self, cr, uid, context={}):
+        proj = False
+        if context:
+            proj = context.get('default_project_id', False)
+        if type(proj) is int:
+            return [proj]
+        return proj
+    
+    def get_default_stage(self, cr ,uid, context=None):
+        project_id = self._get_default_project_id(cr, uid, context=context)
+        type_obj = self.pool.get('project.task.type')
+        if project_id:
+            type = type_obj.search(cr,uid,
+                [('project_ids','=',project_id)], context=context, limit=1)[0]
+            return type
+        else:
+            type = type_obj.search(cr,uid,
+                [('case_default','=',True)], context=context, limit=1)[0]
+            return type
+        
+    def get_default_stage_id(self, cr ,uid, project_id, context=None):
+        type_obj = self.pool.get('project.task.type')
+        type = type_obj.search(cr,uid,
+            [('project_ids','=',project_id)], context=context, limit=1)[0]
+        return type
     
     def set_open(self, cr, uid, ids, context=None):
         task_ids = [x.id for x in self.browse(cr, uid, ids[0], context=context).task_ids]
@@ -435,7 +508,7 @@ class sprint(osv.Model):
                     required=True, string='Release Backlog', domain="[('product_backlog_id','=',product_backlog_id),"
                     "'|',('state','=','open'),('state','=','pending')]"),
                 'project_id': fields.related('release_backlog_id','product_backlog_id','project_id',
-                    relation='project.project', type='many2one', string='Project', store=True),
+                    relation='project.project', type='many2one', string='Project', store=True, readonly=True),
                 'user_id': fields.related('release_backlog_id','product_backlog_id','project_id', 'user_id',
                     relation='res.users', type='many2one', string='Scrum Master', store=True),
                 'member_ids': fields.related('release_backlog_id','product_backlog_id','project_id', 'members',
@@ -452,16 +525,17 @@ class sprint(osv.Model):
                 'effective_hours': fields.function(_effective_hours, type='float', string='Spent Hour(s)'),
                 'remaining_hours': fields.function(_remaining_hours, type='float', string='Remaining Hour(s)'),
                 'progress': fields.function(_progress, type='float', string='Progress (%)'),
-                'state': fields.selection([('draft','New'), ('open','In Progress'), 
-                    ('cancelled', 'Cancelled'),('pending','Pending'),('close','Closed')],
-                    'Status', required=True),
+                'stage_id': fields.many2one('project.task.type', string='Stage', domain="['&', ('fold', '=', False),"
+                    " ('project_ids', '=', project_id)]"),
+                'state': fields.related('stage_id', 'state', type='selection', string='State', readonly=True),
                 'task_from_features': fields.boolean('Tasks from features', readonly=True),
+                'color': fields.integer('Color Index'),
                 }
     
     _defaults = {
                  'date_start': lambda *a: datetime.strftime(datetime.now(),'%Y-%m-%d %H:%M:%S'),
                  'deadline': lambda *a: datetime.strftime(datetime.now(),'%Y-%m-%d'),
-                 'state': 'draft',
+                 'stage_id': get_default_stage,
                  'product_backlog_id': lambda self, cr, uid, c: c.get('product_backlog_id', False),
                  'release_backlog_id': lambda self, cr, uid, c: c.get('release_backlog_id', False),
                  }
@@ -646,7 +720,7 @@ class releaseBacklog(osv.Model):
                         if deadline < date:
                             deadline = date
             if deadline:
-                deadline = deadline.strftime('%Y-%m-%d %H:%M:%S')
+                deadline = deadline.strftime('%Y-%m-%d')
             res[id] = deadline
         return res
     
@@ -707,7 +781,7 @@ class releaseBacklog(osv.Model):
                 'value': value
                 }
     
-    def set_open(self, cr, uid, ids, context=None):
+    '''def set_open(self, cr, uid, ids, context=None):
         return self.write(cr, uid, ids, {'state':'open'}, context=context)
     
     def set_close(self, cr, uid, ids, context=None):
@@ -717,7 +791,52 @@ class releaseBacklog(osv.Model):
         return self.write(cr, uid, ids, {'state':'pending'}, context=context)
     
     def set_cancel(self, cr, uid, ids, context=None):
-        return self.write(cr, uid, ids, {'state':'cancelled'}, context=context)
+        return self.write(cr, uid, ids, {'state':'cancelled'}, context=context)'''
+    
+    def onchange_project(self, cr, uid, ids, project_id, stage_id, context=None):
+        if project_id:
+            type_ids = [x.id for x in self.pool.get('project.project').browse(
+                cr, uid, project_id, context=context).type_ids]
+            if not stage_id in type_ids: 
+                stage = self.get_default_stage_id(cr, uid, project_id, context=context)
+                return {
+                        'value': {
+                                  'stage_id': stage
+                                  }
+                        }
+            else: 
+                return {}
+        return {
+                'value': {
+                          'stage_id': self.get_default_stage(cr, uid, context=context)
+                          }
+                }
+    
+    def _get_default_project_id(self, cr, uid, context={}):
+        proj = False
+        if context:
+            proj = context.get('default_project_id', False)
+        if type(proj) is int:
+            return [proj]
+        return proj
+    
+    def get_default_stage(self, cr ,uid, context=None):
+        project_id = self._get_default_project_id(cr, uid, context=context)
+        type_obj = self.pool.get('project.task.type')
+        if project_id:
+            type = type_obj.search(cr,uid,
+                [('project_ids','=',project_id)], context=context, limit=1)[0]
+            return type
+        else:
+            type = type_obj.search(cr,uid,
+                [('case_default','=',True)], context=context, limit=1)[0]
+            return type
+        
+    def get_default_stage_id(self, cr ,uid, project_id, context=None):
+        type_obj = self.pool.get('project.task.type')
+        type = type_obj.search(cr,uid,
+            [('project_ids','=',project_id)], context=context, limit=1)[0]
+        return type
     
     _columns = {
                 'name': fields.char('Release Name', size=128, required=True),
@@ -735,7 +854,7 @@ class releaseBacklog(osv.Model):
                     help='Calculated Start Date, will be empty if any sprint has no start date.'),
                 'date_end': fields.function(_date_end, type='datetime', string='End Date',
                     help='Calculated End Date, will be empty if any sprint has no end date.'),
-                'deadline': fields.function(_deadline, type='datetime', string='Deadline',
+                'deadline': fields.function(_deadline, type='date', string='Deadline',
                     help='Calculated Deadline, will be empty if any sprint has no end date.'),
                 'expected_hours': fields.function(_expected_hours, type='float',
                     string='Initially Planned Hour(s)', help='Total planned hours calculated '
@@ -748,13 +867,14 @@ class releaseBacklog(osv.Model):
                     'hours and spent hours.'),
                 'progress': fields.function(_progress, type='float', string='Progress (%)',
                     help='Total progress percentage calculated from sprints'),
-                'state': fields.selection([('draft','New'), ('open','In Progress'), 
-                    ('cancelled', 'Cancelled'),('pending','Pending'),('close','Closed')],
-                    'Status', required=True),
+                'stage_id': fields.many2one('project.task.type', string='Stage', domain="['&', ('fold', '=', False),"
+                    " ('project_ids', '=', project_id)]"),
+                'state': fields.related('stage_id', 'state', type='selection', string='State', readonly=True),
+                'color': fields.integer('Color Index'),
                 }
     
     _defaults = {
-                 'state': 'draft',
+                 'stage_id': get_default_stage,
                  'product_backlog_id': lambda self, cr, uid, c: c.get('product_backlog_id', False),
                  'project_id': lambda self, cr, uid, c: c.get('project_id', False),
                  }
@@ -859,7 +979,7 @@ class productBacklog(osv.Model):
                 res[id] = 0.0
         return res
     
-    def set_open(self, cr, uid, ids, context=None):
+    '''def set_open(self, cr, uid, ids, context=None):
         return self.write(cr, uid, ids, {'state':'open'}, context=context)
     
     def set_close(self, cr, uid, ids, context=None):
@@ -869,7 +989,51 @@ class productBacklog(osv.Model):
         return self.write(cr, uid, ids, {'state':'pending'}, context=context)
     
     def set_cancel(self, cr, uid, ids, context=None):
-        return self.write(cr, uid, ids, {'state':'cancelled'}, context=context)
+        return self.write(cr, uid, ids, {'state':'cancelled'}, context=context)'''
+    
+    def onchange_project(self, cr, uid, ids, project_id, stage_id, context=None):
+        if project_id:
+            type_ids = [x.id for x in self.pool.get('project.project').browse(
+                cr, uid, project_id, context=context).type_ids]
+            if not stage_id in type_ids: 
+                stage = self.get_default_stage_id(cr, uid, project_id, context=context)
+                return {
+                        'value': {
+                                  'stage_id': stage
+                                  }
+                        }
+            else: 
+                return {}
+        return {
+                'value': {
+                          'stage_id': self.get_default_stage(cr, uid, context=context)
+                          }
+                }
+    
+    def _get_default_project_id(self, cr, uid, context={}):
+        proj = context.get('default_project_id', False)
+        if type(proj) is int:
+            return [proj]
+        return proj
+    
+    def get_default_stage(self, cr ,uid, context=None):
+        project_id = self._get_default_project_id(cr, uid, context=context)
+        type_obj = self.pool.get('project.task.type')
+        if project_id:
+            type = type_obj.search(cr,uid,
+                [('project_ids','=',project_id)], context=context, limit=1)[0]
+            return type
+        else:
+            type = type_obj.search(cr,uid,
+                [('case_default','=',True)], context=context, limit=1)[0]
+            return type
+        
+    def get_default_stage_id(self, cr ,uid, project_id, context=None):
+        type_obj = self.pool.get('project.task.type')
+        type = type_obj.search(cr,uid,
+            [('project_ids','=',project_id)], context=context, limit=1)[0]
+        return type
+            
         
     _columns = {
                 'name': fields.char('Product Name', size=128, required=True),
@@ -900,11 +1064,12 @@ class productBacklog(osv.Model):
                     'hours and spent hours.'),
                 'progress': fields.function(_progress, type='float', string='Progress (%)',
                     help='Total progress percentage calculated from features'),
-                'state': fields.selection([('draft','New'), ('open','In Progress'), 
-                    ('cancelled', 'Cancelled'),('pending','Pending'),('close','Closed')],
-                    'Status', required=True),
+                'stage_id': fields.many2one('project.task.type', string='Stage', domain="['&', ('fold', '=', False),"
+                    " ('project_ids', '=', project_id)]"),
+                'state': fields.related('stage_id', 'state', type='selection', string='State', readonly=True),
+                'color': fields.integer('Color Index'),
                 }
     
     _defaults = {
-                 'state': 'draft',
+                 'stage_id': get_default_stage,
                  }

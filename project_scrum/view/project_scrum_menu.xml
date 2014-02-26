@@ -30,10 +30,10 @@
             action="action_sprint"
             sequence="40"/>
         
-        <!--<menuitem id="menu_task_type"
+        <menuitem id="menu_feature_type"
             parent="base.menu_definitions"
-            name="Task Types"
-            action="action_task_type"
-            sequence="10"/>-->
+            name="Feature Types"
+            action="action_feature_type"
+            sequence="10"/>
     </data>
 </openerp>

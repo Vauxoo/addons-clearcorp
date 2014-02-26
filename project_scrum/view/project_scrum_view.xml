@@ -50,7 +50,7 @@
             <field name="arch" type="xml">
                 <form string="Product Backlog" version="7.0">
                     <header>
-                        <button name="set_open" type="object"
+                        <!--<button name="set_open" type="object"
                             string="Open" class="oe_highlight"
                             states ="draft,cancelled,pending,close"/>
                         <button name="set_close" type="object" 
@@ -68,15 +68,17 @@
                             states ="open,pending"
                             confirm="Are you sure you want to cancel this 
                             product backlog? All elements related to
-                            this element will be cancelled too."/>
-                        <field name="state" widget="statusbar"/>
+                            this element will be cancelled too."/>-->
+                        <field name="stage_id" widget="statusbar" clickable="True"/>
+                        <field name="state" invisible="True"/>
                     </header>
                     <sheet>
                         <label for="name" class="oe_edit_only"/>
                         <h1><field name="name"/></h1>
                         <group>
                             <group>
-                                <field name="project_id"/>
+                                <field name="project_id"
+                                    on_change="onchange_project(project_id,stage_id)"/>
                                 <field name="user_id"/>
                                 <field name="expected_hours"/>
                                 <field name="effective_hours"/>
@@ -136,6 +138,58 @@
             </field>
         </record>
         
+        <!-- kanban -->
+        <record model="ir.ui.view" id="view_product_backlog_kanban">
+            <field name="name">view.product.backlog.kanban</field>
+            <field name="model">project.scrum.product.backlog</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="stage_id">
+                    <field name="color"/>
+                    <field name="state"/>
+                    <field name="remaining_hours" sum="Remaining Hours"/>
+                    <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_dropdown_toggle oe_dropdown_kanban">
+                                <span class="oe_e">í</span>
+                                <ul class="oe_dropdown_menu">
+                                    <t t-if="widget.view.is_action_enabled('edit')"><li><a type="edit">Edit...</a></li></t>
+                                    <t t-if="widget.view.is_action_enabled('delete')"><li><a type="delete">Delete</a></li></t>
+                                    <li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+                                </ul>
+                            </div>
+                            <div class="oe_kanban_content">
+                                <div><b><field name="name"/></b></div>
+                                <div>
+                                    <field name="project_id"/><br/>
+                                    <t t-if="record.deadline.raw_value and record.deadline.raw_value lt (new Date())" t-set="red">oe_kanban_text_red</t>
+                                    <span t-attf-class="#{red || ''}"><i><field name="deadline"/></i></span>
+                                </div>
+                                <!--<div class="oe_kanban_bottom_right">
+                                    <t groups="base.group_user">
+                                        <a t-if="record.kanban_state.raw_value === 'normal'" type="object" string="In Progress" name="set_kanban_state_done" class="oe_kanban_status"> </a>
+                                        <a t-if="record.kanban_state.raw_value === 'done'" type="object" string="Ready for next stage" name="set_kanban_state_blocked" class="oe_kanban_status oe_kanban_status_green"> </a>
+                                        <a t-if="record.kanban_state.raw_value === 'blocked'" type="object" string="Blocked" name="set_kanban_state_normal" class="oe_kanban_status oe_kanban_status_red"> </a>
+                                        <a t-if="record.priority.raw_value > 0" type="object" string="Normal" name="set_high_priority" class="oe_e oe_star_off">7</a>
+                                        <a t-if="record.priority.raw_value == 0" type="object" string="Very Important" name="set_normal_priority" class="oe_e oe_star_on">7</a>
+                                    </t>
+                                    <img t-att-src="kanban_image('res.users', 'image_small', record.user_id.raw_value)" t-att-title="record.user_id.value" width="24" height="24" class="oe_kanban_avatar"/>
+                                </div>-->
+                                <div class="oe_kanban_footer_left">
+                                    <span title="Remaining Hours">
+                                        <span class="oe_e">N</span>
+                                        <t t-esc="Math.round(record.remaining_hours.raw_value)"/>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="oe_clear"></div>
+                        </div>
+                    </t>
+                    </templates>
+                </kanban>
+            </field>
+         </record>
+        
         <!-- search -->
         <record id="view_product_backlog_search" model="ir.ui.view">
             <field name="name">view.product.backlog.search</field>
@@ -171,7 +225,7 @@
             <field name="arch" type="xml">
                 <form string="Release Backlog" version="7.0">
                     <header>
-                        <button name="set_open" type="object"
+                        <!--<button name="set_open" type="object"
                             string="Open" class="oe_highlight"
                             states ="draft,cancelled,pending,close"/>
                         <button name="set_close" type="object" 
@@ -180,8 +234,9 @@
                         <button name="set_pending" type="object" string="Set as Pending"
                             states ="open"/>
                         <button name="set_cancel" type="object" string="Cancel"
-                            states ="open,pending"/>
-                        <field name="state" widget="statusbar"/>
+                            states ="open,pending"/>-->
+                        <field name="stage_id" widget="statusbar" clickable="True"/>
+                        <field name="state" invisible="True"/>
                     </header>
                     <sheet>
                         <label for="name" class="oe_edit_only"/>
@@ -190,7 +245,8 @@
                         </h1>
                         <group>
                             <group>
-                                <field name="project_id"/>
+                                <field name="project_id"
+                                    on_change="onchange_project(project_id, stage_id)"/>
                                 <field name="product_backlog_id"
                                     on_change="onchange_product_backlog(product_backlog_id)"/>
                                 <field name="expected_hours"/>
@@ -243,6 +299,58 @@
             </field>
         </record>
         
+        <!-- kanban -->
+        <record model="ir.ui.view" id="view_release_backlog_kanban">
+            <field name="name">view.release.backlog.kanban</field>
+            <field name="model">project.scrum.release.backlog</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="stage_id">
+                    <field name="color"/>
+                    <field name="state"/>
+                    <field name="remaining_hours" sum="Remaining Hours"/>
+                    <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_dropdown_toggle oe_dropdown_kanban">
+                                <span class="oe_e">í</span>
+                                <ul class="oe_dropdown_menu">
+                                    <t t-if="widget.view.is_action_enabled('edit')"><li><a type="edit">Edit...</a></li></t>
+                                    <t t-if="widget.view.is_action_enabled('delete')"><li><a type="delete">Delete</a></li></t>
+                                    <li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+                                </ul>
+                            </div>
+                            <div class="oe_kanban_content">
+                                <div><b><field name="name"/></b></div>
+                                <div>
+                                    <field name="project_id"/><br/>
+                                    <t t-if="record.deadline.raw_value and record.deadline.raw_value lt (new Date())" t-set="red">oe_kanban_text_red</t>
+                                    <span t-attf-class="#{red || ''}"><i><field name="deadline"/></i></span>
+                                </div>
+                                <!--<div class="oe_kanban_bottom_right">
+                                    <t groups="base.group_user">
+                                        <a t-if="record.kanban_state.raw_value === 'normal'" type="object" string="In Progress" name="set_kanban_state_done" class="oe_kanban_status"> </a>
+                                        <a t-if="record.kanban_state.raw_value === 'done'" type="object" string="Ready for next stage" name="set_kanban_state_blocked" class="oe_kanban_status oe_kanban_status_green"> </a>
+                                        <a t-if="record.kanban_state.raw_value === 'blocked'" type="object" string="Blocked" name="set_kanban_state_normal" class="oe_kanban_status oe_kanban_status_red"> </a>
+                                        <a t-if="record.priority.raw_value > 0" type="object" string="Normal" name="set_high_priority" class="oe_e oe_star_off">7</a>
+                                        <a t-if="record.priority.raw_value == 0" type="object" string="Very Important" name="set_normal_priority" class="oe_e oe_star_on">7</a>
+                                    </t>
+                                    <img t-att-src="kanban_image('res.users', 'image_small', record.user_id.raw_value)" t-att-title="record.user_id.value" width="24" height="24" class="oe_kanban_avatar"/>
+                                </div>-->
+                                <div class="oe_kanban_footer_left">
+                                    <span title="Remaining Hours">
+                                        <span class="oe_e">N</span>
+                                        <t t-esc="Math.round(record.remaining_hours.raw_value)"/>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="oe_clear"></div>
+                        </div>
+                    </t>
+                    </templates>
+                </kanban>
+            </field>
+         </record>
+        
         <!-- search -->
         <record id="view_release_backlog_search" model="ir.ui.view">
             <field name="name">view.release.backlog.search</field>
@@ -280,9 +388,12 @@
             <field name="arch" type="xml">
                 <form string="Feature" version="7.0">
                     <header>
+                        <button name="set_approved" type="object"
+                            string="Approved" class="oe_highlight"
+                            states ="draft"/>
                         <button name="set_open" type="object"
                             string="Open" class="oe_highlight"
-                            states ="draft,cancelled,done"/>
+                            states ="cancelled,done"/>
                         <button name="set_done" type="object" 
                             string="Done" class="oe_highlight"
                             states ="open"/>
@@ -312,6 +423,7 @@
                                 <field name="release_backlog_id"/>
                                 <field name="partner_id"/>
                                 <field name="priority"/>
+                                <field name="type_id"/>
                                 <field name="expected_hours"/>
                             </group>
                             <group>
@@ -358,17 +470,67 @@
             </field>
         </record>
         
+        <!-- kanban -->
+        <record model="ir.ui.view" id="view_feature_kanban">
+            <field name="name">view.feature.kanban</field>
+            <field name="model">project.scrum.feature</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="product_backlog_id">
+                    <field name="color"/>
+                    <field name="remaining_hours" sum="Remaining Hours"/>
+                    <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_dropdown_toggle oe_dropdown_kanban">
+                                <span class="oe_e">í</span>
+                                <ul class="oe_dropdown_menu">
+                                    <t t-if="widget.view.is_action_enabled('edit')"><li><a type="edit">Edit...</a></li></t>
+                                    <t t-if="widget.view.is_action_enabled('delete')"><li><a type="delete">Delete</a></li></t>
+                                    <li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+                                </ul>
+                            </div>
+                            <div class="oe_kanban_content">
+                                <div><b><field name="code"/> - <field name="name"/></b></div>
+                                <div>
+                                    <field name="project_id"/><br/>
+                                    <t t-if="record.deadline.raw_value and record.deadline.raw_value lt (new Date())" t-set="red">oe_kanban_text_red</t>
+                                    <span t-attf-class="#{red || ''}"><i><field name="deadline"/></i></span>
+                                </div>
+                                <!--<div class="oe_kanban_bottom_right">
+                                    <t groups="base.group_user">
+                                        <a t-if="record.kanban_state.raw_value === 'normal'" type="object" string="In Progress" name="set_kanban_state_done" class="oe_kanban_status"> </a>
+                                        <a t-if="record.kanban_state.raw_value === 'done'" type="object" string="Ready for next stage" name="set_kanban_state_blocked" class="oe_kanban_status oe_kanban_status_green"> </a>
+                                        <a t-if="record.kanban_state.raw_value === 'blocked'" type="object" string="Blocked" name="set_kanban_state_normal" class="oe_kanban_status oe_kanban_status_red"> </a>
+                                        <a t-if="record.priority.raw_value > 0" type="object" string="Normal" name="set_high_priority" class="oe_e oe_star_off">7</a>
+                                        <a t-if="record.priority.raw_value == 0" type="object" string="Very Important" name="set_normal_priority" class="oe_e oe_star_on">7</a>
+                                    </t>
+                                    <img t-att-src="kanban_image('res.users', 'image_small', record.user_id.raw_value)" t-att-title="record.user_id.value" width="24" height="24" class="oe_kanban_avatar"/>
+                                </div>-->
+                                <div class="oe_kanban_footer_left">
+                                    <span title="Remaining Hours">
+                                        <span class="oe_e">N</span>
+                                        <t t-esc="Math.round(record.remaining_hours.raw_value)"/>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="oe_clear"></div>
+                        </div>
+                    </t>
+                    </templates>
+                </kanban>
+            </field>
+         </record>
+        
         <!-- search -->
         <record id="view_feature_search" model="ir.ui.view">
             <field name="name">view.feature.search</field>
             <field name="model">project.scrum.feature</field>
             <field name="arch" type="xml">
                <search string="Feature">
-                    <field name="name"/>
-                    <field name="code"/>
+                    <field name="name"
+                        filter_domain="['|',('name','ilike',self),('code','ilike',self)]"/>
                     <field name="project_id"/>
                     <field name="product_backlog_id"/>
-                    <field name="release_backlog_id"/>
                     <separator/>
                     <filter string="New" name="new" domain="[('state','=','draft')]"/>
                     <filter string="In Progress" name="in_progress" domain="[('state','=','open')]"/>
@@ -382,6 +544,8 @@
                         <filter string="Product Backlog" name="group_product_backlog" domain="[]"  context="{'group_by':'product_backlog_id'}"/>
                         <filter string="Release Backlog" name="group_release_backlog" domain="[]"  context="{'group_by':'release_backlog_id'}"/>
                         <filter string="Stage" name="group_stage" domain="[]"  context="{'group_by':'state'}"/>
+                        <filter string="Priority" name="group_priority" domain="[]"  context="{'group_by':'priority'}"/>
+                        <filter string="Type" name="group_type" domain="[]"  context="{'group_by':'type_id'}"/>
                     </group>
                 </search>
             </field>
@@ -398,7 +562,7 @@
             <field name="arch" type="xml">
                 <form string="Sprint" version="7.0">
                     <header>
-                        <button name="set_open" type="object"
+                        <!--<button name="set_open" type="object"
                             string="Open" class="oe_highlight"
                             states ="cancelled,pending,close"/>
                         <button name="set_open" type="object"
@@ -423,9 +587,10 @@
                             states ="open,pending"
                             confirm="Are you sure you want to cancel this 
                             sprint? All elements related to this sprint 
-                            will be cancelled too."/>
+                            will be cancelled too."/>-->
                         <field name="project_id" invisible="True"/>
-                        <field name="state" widget="statusbar"/>
+                        <field name="stage_id" widget="statusbar" clickable="True"/>
+                        <field name="state" invisible="True"/>
                     </header>
                     <sheet>
                         <div class="oe_right oe_button_box" name="buttons" groups="base.group_user">
@@ -447,6 +612,8 @@
                         </div>
                         <group>
                             <group>
+                                <field name="project_id"
+                                    on_change="onchange_project(project_id,stage_id)"/>
                                 <field name="product_backlog_id"
                                     on_change="onchange_product_backlog(product_backlog_id,release_backlog_id)"/>
                                 <field name="release_backlog_id"
@@ -513,6 +680,58 @@
             </field>
         </record>
         
+        <!-- kanban -->
+        <record model="ir.ui.view" id="view_sprint_kanban">
+            <field name="name">view.sprint.kanban</field>
+            <field name="model">project.scrum.sprint</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="stage_id">
+                    <field name="color"/>
+                    <field name="state"/>
+                    <field name="remaining_hours" sum="Remaining Hours"/>
+                    <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_dropdown_toggle oe_dropdown_kanban">
+                                <span class="oe_e">í</span>
+                                <ul class="oe_dropdown_menu">
+                                    <t t-if="widget.view.is_action_enabled('edit')"><li><a type="edit">Edit...</a></li></t>
+                                    <t t-if="widget.view.is_action_enabled('delete')"><li><a type="delete">Delete</a></li></t>
+                                    <li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+                                </ul>
+                            </div>
+                            <div class="oe_kanban_content">
+                                <div><b><field name="name"/></b></div>
+                                <div>
+                                    <field name="project_id"/><br/>
+                                    <t t-if="record.deadline.raw_value and record.deadline.raw_value lt (new Date())" t-set="red">oe_kanban_text_red</t>
+                                    <span t-attf-class="#{red || ''}"><i><field name="deadline"/></i></span>
+                                </div>
+                                <!--<div class="oe_kanban_bottom_right">
+                                    <t groups="base.group_user">
+                                        <a t-if="record.kanban_state.raw_value === 'normal'" type="object" string="In Progress" name="set_kanban_state_done" class="oe_kanban_status"> </a>
+                                        <a t-if="record.kanban_state.raw_value === 'done'" type="object" string="Ready for next stage" name="set_kanban_state_blocked" class="oe_kanban_status oe_kanban_status_green"> </a>
+                                        <a t-if="record.kanban_state.raw_value === 'blocked'" type="object" string="Blocked" name="set_kanban_state_normal" class="oe_kanban_status oe_kanban_status_red"> </a>
+                                        <a t-if="record.priority.raw_value > 0" type="object" string="Normal" name="set_high_priority" class="oe_e oe_star_off">7</a>
+                                        <a t-if="record.priority.raw_value == 0" type="object" string="Very Important" name="set_normal_priority" class="oe_e oe_star_on">7</a>
+                                    </t>
+                                    <img t-att-src="kanban_image('res.users', 'image_small', record.user_id.raw_value)" t-att-title="record.user_id.value" width="24" height="24" class="oe_kanban_avatar"/>
+                                </div>-->
+                                <div class="oe_kanban_footer_left">
+                                    <span title="Remaining Hours">
+                                        <span class="oe_e">N</span>
+                                        <t t-esc="Math.round(record.remaining_hours.raw_value)"/>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="oe_clear"></div>
+                        </div>
+                    </t>
+                    </templates>
+                </kanban>
+            </field>
+         </record>
+        
         <!-- calendar -->
         <record id="view_sprint_calendar" model="ir.ui.view">
             <field name="name">view.sprint.calendar</field>
@@ -573,12 +792,49 @@
             </field>
         </record>
         
+        <!-- project.scrum.feature.type -->
+        <!-- form -->
+        <record id="view_feature_type_form" model="ir.ui.view">
+            <field name="name">view.feature.type.form</field>
+            <field name="model">project.scrum.feature.type</field>
+            <field name="type">form</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form string="Feature Type" version="7.0">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                            </group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- tree -->
+        <record id="view_feature_type_tree" model="ir.ui.view">
+            <field name="name">view.feature.type.tree</field>
+            <field name="model">project.scrum.feature.type</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Feature Type">
+                    <field name="code"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        
         <!-- actions -->
         <!-- project.scrum.product.backlog -->
         <record model="ir.actions.act_window" id="action_product_backlog">
             <field name="name">Product Backlog</field>
             <field name="res_model">project.scrum.product.backlog</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">kanban,tree,form</field>
             <field name="context">{'search_default_in_progress': 1}</field>
             <field name="search_view_id" ref="view_product_backlog_search"/>
             <field name="help" type="html">
@@ -590,8 +846,8 @@
         <record model="ir.actions.act_window" id="action_feature">
             <field name="name">Features</field>
             <field name="res_model">project.scrum.feature</field>
-            <field name="view_mode">tree,form</field>
-            <field name="context">{'search_default_in_progress': 1, 'search_default_group_project': 1}</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'search_default_in_progress': 1}</field>
             <field name="search_view_id" ref="view_feature_search"/>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create new Product Feature</p>
@@ -602,7 +858,7 @@
         <record model="ir.actions.act_window" id="action_release_backlog">
             <field name="name">Release Backlog</field>
             <field name="res_model">project.scrum.release.backlog</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">kanban,tree,form</field>
             <field name="context">{'search_default_in_progress': 1}</field>
             <field name="search_view_id" ref="view_release_backlog_search"/>
             <field name="help" type="html">
@@ -614,7 +870,7 @@
         <record model="ir.actions.act_window" id="action_sprint">
             <field name="name">Sprints</field>
             <field name="res_model">project.scrum.sprint</field>
-            <field name="view_mode">tree,form,calendar,gantt</field>
+            <field name="view_mode">kanban,tree,form,calendar,gantt</field>
             <field name="context">{'search_default_in_progress': 1, 'search_default_my_sprints': 1}</field>
             <field name="search_view_id" ref="view_sprint_search"/>
             <field name="help" type="html">
@@ -622,14 +878,14 @@
             </field>
         </record>
         
-        <!-- project.scrum.task.type -->
-        <!--<record model="ir.actions.act_window" id="action_task_type">
-            <field name="name">Task Types</field>
-            <field name="res_model">project.scrum.task.type</field>
+        <!-- project.scrum.feature.type -->
+        <record model="ir.actions.act_window" id="action_feature_type">
+            <field name="name">Feature Types</field>
+            <field name="res_model">project.scrum.feature.type</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
-                <p class="oe_view_nocontent_create">Create new Task Type</p>
+                <p class="oe_view_nocontent_create">Create new Feature Type</p>
             </field>
-        </record>-->
+        </record>
     </data>
 </openerp>
