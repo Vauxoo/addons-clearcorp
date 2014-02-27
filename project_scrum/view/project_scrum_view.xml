@@ -63,12 +63,11 @@
                             states ="open"
                             confirm="Are you sure you want to set as pending this 
                             product backlog? All elements related to
-                            this element will be set as pending too."/>
-                        <button name="set_cancel" type="object" string="Cancel"
+                            this element will be set as pending too."/>-->
+                        <button name="do_cancel" type="object" string="Cancel"
                             states ="open,pending"
                             confirm="Are you sure you want to cancel this 
-                            product backlog? All elements related to
-                            this element will be cancelled too."/>-->
+                            product backlog?"/>
                         <field name="stage_id" widget="statusbar" clickable="True"/>
                         <field name="state" invisible="True"/>
                     </header>
@@ -93,13 +92,12 @@
                         <notebook>
                             <page string="Features" name="features">
                                 <field name="feature_ids"
-                                attrs="{'readonly':['|',('state','=', 'cancelled'),('state','=', 'close')]}"
+                                attrs="{'readonly':['|',('state','=', 'cancelled'),('state','=', 'done')]}"
                                 context="{'product_backlog_id': id}"/>
                             </page>
                             <page string="Release Backlogs" name="release_backlogs">
                                 <field name="release_backlog_ids"
-                                attrs="{'readonly':['|',('state','=','draft'),
-                                '|',('state','=', 'cancelled'),('state','=', 'close')]}"
+                                attrs="{'readonly':['!','|',('state','=','open'),('state','=','pending')]}"
                                 context="{'product_backlog_id': id, 'project_id': project_id}"/>
                             </page>
                             <page string="Team Members" name="team_members">

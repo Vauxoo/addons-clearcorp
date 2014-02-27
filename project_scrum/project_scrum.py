@@ -986,10 +986,24 @@ class productBacklog(osv.Model):
         return self.write(cr, uid, ids, {'state':'close'}, context=context)
     
     def set_pending(self, cr, uid, ids, context=None):
-        return self.write(cr, uid, ids, {'state':'pending'}, context=context)
+        return self.write(cr, uid, ids, {'state':'pending'}, context=context)'''
     
-    def set_cancel(self, cr, uid, ids, context=None):
-        return self.write(cr, uid, ids, {'state':'cancelled'}, context=context)'''
+    def _set_cancel(self, cr, uid, ids, context=None):
+        project = self.browse(cr, uid, ids[0], context=context).project_id
+        for stage in project.type_ids:
+            if stage.state == 'cancelled':
+                return self.write(cr, uid, ids[0], {'stage_id':stage.id}, context=context)
+        raise osv.except_osv('Error', 'There is no cancelled state configured for'
+                             ' the project %s' %project.name)
+    
+    def do_cancel(self, cr, uid, ids, context=None):
+        backlogs = self.browse(cr,uid,ids[0],context=context).release_backlog_ids
+        for backlog in backlogs:
+            if backlog.state != 'cancelled' and backlog.state != 'done':
+                raise osv.except_osv('Error','You can not cancel a product backlog if '
+                                     'all release backlogs related to it are not cancelled'
+                                     ' or done')
+        return self._set_cancel(cr, uid, ids, context=context)
     
     def onchange_project(self, cr, uid, ids, project_id, stage_id, context=None):
         if project_id:
@@ -1010,23 +1024,13 @@ class productBacklog(osv.Model):
                           }
                 }
     
-    def _get_default_project_id(self, cr, uid, context={}):
-        proj = context.get('default_project_id', False)
-        if type(proj) is int:
-            return [proj]
-        return proj
-    
     def get_default_stage(self, cr ,uid, context=None):
-        project_id = self._get_default_project_id(cr, uid, context=context)
         type_obj = self.pool.get('project.task.type')
-        if project_id:
-            type = type_obj.search(cr,uid,
-                [('project_ids','=',project_id)], context=context, limit=1)[0]
-            return type
-        else:
-            type = type_obj.search(cr,uid,
-                [('case_default','=',True)], context=context, limit=1)[0]
-            return type
+        type = type_obj.search(cr,uid,[('state','=','draft')],
+            context=context, limit=1)[0]
+        if not type:
+            raise osv.except_osv('Error','There is no ''draft'' state configured.')
+        return type
         
     def get_default_stage_id(self, cr ,uid, project_id, context=None):
         type_obj = self.pool.get('project.task.type')
