@@ -4,21 +4,17 @@
         <!-- views -->
         <!-- project.project -->
         <!-- form -->
-        <!--<record id ="view_project_form" model="ir.ui.view">
+        <record id ="view_project_form" model="ir.ui.view">
             <field name="name">view.project.form</field>
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.edit_project"/>
             <field name="arch" type="xml">
-                <xpath expr="//form/sheet/group/group/field[@name='partner_id']" position="after">
-                    <field name="sprint_size"/>
-                </xpath>
-                <xpath expr="//form/sheet/notebook/page[@name='project_stages']" position="after">
-                    <page string="Backlogs" name="product_backlogs">
-                        <field name="product_backlog_ids"/>
-                    </page>
+                <xpath expr="//form/sheet/div/div/label[@for='use_tasks']" position="after">
+                    <field name="is_scrum" class="ow_inline"/>
+                    <label for="is_scrum"/>
                 </xpath>
             </field>
-        </record>-->
+        </record>
         
         <!-- project.task -->
         <!-- form -->
@@ -28,13 +24,18 @@
             <field name="inherit_id" ref="project.view_task_form2"/>
             <field name="arch" type="xml">
                 <xpath expr="//form/sheet/group/group/field[@name='project_id']" position="after">
+                    <field name="is_scrum" invisible="True"/>
                     <field name="product_backlog_id"
-                        on_change="onchange_product(product_backlog_id, release_backlog_id)"/>
+                        attrs="{'invisible': [('is_scrum','=',False)],'required': [('is_scrum','=',True)]}"
+                        on_change="onchange_product(product_backlog_id, release_backlog_id)"/>-->
                     <field name="release_backlog_id"
+                        attrs="{'invisible': [('is_scrum','=',False)],'required': [('is_scrum','=',True)]}"
                         on_change="onchange_release(release_backlog_id, sprint_id)"/>
                     <field name="sprint_id"
+                        attrs="{'invisible': [('is_scrum','=',False)],'required': [('is_scrum','=',True)]}"
                         on_change="onchange_sprint(sprint_id, feature_id, user_id)"/>
                     <field name="feature_id"
+                        attrs="{'invisible': [('is_scrum','=',False)]}"
                         on_change="onchange_feature(feature_id)"/>
                 </xpath>
             </field>
@@ -230,9 +231,9 @@
                             string="Close" class="oe_highlight"
                             states ="open"/>
                         <button name="set_pending" type="object" string="Set as Pending"
-                            states ="open"/>
-                        <button name="set_cancel" type="object" string="Cancel"
-                            states ="open,pending"/>-->
+                            states ="open"/>-->
+                        <button name="do_cancel" type="object" string="Cancel"
+                            states ="open,pending"/>
                         <field name="stage_id" widget="statusbar" clickable="True"/>
                         <field name="state" invisible="True"/>
                     </header>
@@ -261,13 +262,12 @@
                         <notebook>
                             <page string="Features" name="features">
                                 <field name="feature_ids"
-                                    attrs="{'readonly':['|',('state','=', 'cancelled'),('state','=', 'close')]}"
+                                    attrs="{'readonly':['|',('state','=', 'cancelled'),('state','=', 'done')]}"
                                     context="{'release_backlog_id': id, 'product_backlog_id': product_backlog_id}"/>
                             </page>
                             <page string="Sprints" name="sprints">
                                 <field name="sprint_ids"
-                                    attrs="{'readonly':['|',('state','=', 'cancelled'),
-                                    '|',('state','=','draft'),('state','=', 'close')]}"
+                                    attrs="{'readonly':['!','|',('state','=','open'),('state','=','pending')]}"
                                     context="{'release_backlog_id': id, 'product_backlog_id': product_backlog_id}"/>
                             </page>
                         </notebook>
@@ -580,13 +580,11 @@
                             states ="open"
                             confirm="Are you sure you want to set as pending this 
                             sprint? All elements related to this sprint 
-                            will be set as pending too."/>
+                            will be set as pending too."/>-->
                         <button name="set_cancel" type="object" string="Cancel"
                             states ="open,pending"
                             confirm="Are you sure you want to cancel this 
-                            sprint? All elements related to this sprint 
-                            will be cancelled too."/>-->
-                        <field name="project_id" invisible="True"/>
+                            sprint?"/>
                         <field name="stage_id" widget="statusbar" clickable="True"/>
                         <field name="state" invisible="True"/>
                     </header>
@@ -594,11 +592,11 @@
                         <div class="oe_right oe_button_box" name="buttons" groups="base.group_user">
                             <button name="tasks_from_features" string="Create Tasks" type="object"
                                 attrs="{'invisible':['|',('state','=','cancelled'),'|',
-                                    ('state','=','draft'),('state','=','close')]}"
+                                    ('state','=','draft'),('state','=','done')]}"
                                 confirm="Are you sure you want to create a task for each
                                 feature related to this sprint?"/>
                             <button name="set_features_done" string="Features Done" type="object"
-                                attrs="{'invisible':['!',('state','=','close')]}"
+                                attrs="{'invisible':['!',('state','=','done')]}"
                                 confirm="Are you sure you want to mark all features
                                 related to this sprint as done?"/>
                         </div>
@@ -631,7 +629,9 @@
                             <page string="Tasks" name="tasks">
                                 <field name="task_ids"
                                     attrs="{'readonly':['|',('state','=','cancelled'),'|',
-                                    ('state','=','draft'),('state','=','close')]}"/>
+                                    ('state','=','draft'),('state','=','done')]}"
+                                    context="{'project_id': project_id, 'product_backlog_id': product_backlog_id,
+                                    'release_backlog_id': release_backlog_id, 'sprint_id': id}"/>
                             </page>
                             <page string="Features" name="features">
                                 <field name="feature_ids"
