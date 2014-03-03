@@ -95,6 +95,10 @@ class taskWork(osv.Model):
                     domain="[('task_type_id','=',stage_id)]")
                 }
     
+    _defaults = {
+                 'stage_id': lambda slf, cr, uid, ctx: ctx.get('stage_id', False),
+                 }
+    
 # TODO: manage states
 class feature(osv.Model):
     

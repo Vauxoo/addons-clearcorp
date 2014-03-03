@@ -38,9 +38,18 @@
                         attrs="{'invisible': [('is_scrum','=',False)]}"
                         on_change="onchange_feature(feature_id)"/>
                 </xpath>
-                <xpath expr="//form/sheet/notebook/page/field[@name='work_ids']/tree/field[@name='date']" position="after">
-                    <field name="stage_id" invisible="True"/>
-                    <field name="work_type_id"/>
+                <xpath expr="//form/sheet/notebook/page/field[@name='work_ids']" position="replace">
+                    <field name="work_ids" groups="project.group_tasks_work_on_tasks"
+                        context="{'stage_id': stage_id}">
+                        <tree string="Task Work" editable="top">
+                            <field name="stage_id" invisible="True"/>
+                            <field name="name"/>
+                            <field name="hours" widget="float_time" sum="Spent Hours"/>
+                            <field name="date"/>
+                            <field name="work_type_id"/>
+                            <field name="user_id"/>
+                        </tree>
+                    </field>
                 </xpath>
             </field>
         </record>
