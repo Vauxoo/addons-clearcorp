@@ -81,7 +81,18 @@ class taskType(osv.Model):
     
     _columns = {
                 'work_type_ids': fields.one2many('project.scrum.work.type', 'task_type_id',
-                                                  string='Work Types')
+                    string='Work Types'),
+                }
+    
+class taskWork(osv.Model):
+    
+    _inherit = 'project.task.work'
+    
+    _columns = {
+                'stage_id': fields.related('task_id','stage_id', type='many2one',
+                    relation='project.task.type', string='Stage', store=True),
+                'work_type_id': fields.many2one('project.scrum.work.type', string='Work Type',
+                    domain="[('task_type_id','=',stage_id)]")
                 }
     
 # TODO: manage states
