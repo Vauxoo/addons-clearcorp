@@ -21,6 +21,7 @@
 ##############################################################################
 
 from openerp.osv import osv, fields
+from openerp.tools.translate import _
 from datetime import datetime
 
 # Mapping between task priority and
@@ -55,6 +56,33 @@ class featureType(osv.Model):
             name = '%s - %s' %(r['code'],r['name'])
             res.append((r['id'], name))
         return res
+    
+class workType(osv.Model):
+    
+    _name = 'project.scrum.work.type'
+    
+    _columns = {
+                'task_type_id': fields.many2one('project.task.type', string='Phase',
+                    required=True),
+                'code': fields.char('Code', size=16, required=True),
+                'name': fields.char('Type Name', size=128, required=True),
+                }
+    
+    def name_get(self, cr, uid, ids, context=None):
+        res =[]
+        for r in self.read(cr, uid, ids, ['code', 'name'], context=context):
+            name = '%s - %s' %(r['code'],r['name'])
+            res.append((r['id'], name))
+        return res
+    
+class taskType(osv.Model):
+    
+    _inherit = 'project.task.type'
+    
+    _columns = {
+                'work_type_ids': fields.one2many('project.scrum.work.type', 'task_type_id',
+                                                  string='Work Types')
+                }
     
 # TODO: manage states
 class feature(osv.Model):
@@ -287,7 +315,6 @@ class feature(osv.Model):
         return res
     
     def name_search(self, cr, uid, name='', args=None, operator='ilike', context=None, limit=50):
-    #def name_search(self, cr, uid, name, args=[], operator='ilike', context=None, limit=80):
         ids = []
         if name:
             ids = self.search(cr, uid,
@@ -423,40 +450,6 @@ class sprint(osv.Model):
             [('project_ids','=',project_id)], context=context, limit=1)[0]
         return type
     
-    '''def set_open(self, cr, uid, ids, context=None):
-        task_ids = [x.id for x in self.browse(cr, uid, ids[0], context=context).task_ids]
-        res = task_obj = self.pool.get('project.task').do_reopen(cr,uid,task_ids,context=context)
-        if not res:
-                raise osv.except_osv('Error','This sprint cannot be opened. Please'
-                                     'check if all tasks can be reevaluated normally.')
-        return self.write(cr, uid, ids, {'state':'open'}, context=context)
-    
-    def set_close(self, cr, uid, ids, context=None):
-        tasks = self.browse(cr, uid, ids[0], context=context).task_ids
-        task_obj = self.pool.get('project.task')
-        for task in tasks:
-            res = task_obj.action_close(cr,uid,[task.id],context=context)
-            if not res:
-                raise osv.except_osv('Error','This sprint cannot be closed. Please'
-                                     'check if all tasks can be closed normally.')
-        return self.write(cr, uid, ids, {'state':'close'}, context=context)
-    
-    def set_pending(self, cr, uid, ids, context=None):
-        task_ids = [x.id for x in self.browse(cr, uid, ids[0], context=context).task_ids]
-        res = task_obj = self.pool.get('project.task').do_pending(cr,uid,task_ids,context=context)
-        if not res:
-                raise osv.except_osv('Error','This sprint cannot be set as pending. Please'
-                                     'check if all tasks can be changed to pending normally.')
-        return self.write(cr, uid, ids, {'state':'pending'}, context=context)
-    
-    def set_cancel(self, cr, uid, ids, context=None):
-        task_ids = [x.id for x in self.browse(cr, uid, ids[0], context=context).task_ids]
-        res = task_obj = self.pool.get('project.task').do_cancel(cr,uid,task_ids,context=context)
-        if not res:
-                raise osv.except_osv('Error','This sprint cannot be cancelled. Please'
-                                     'check if all tasks can be cancelled normally.')
-        return self.write(cr, uid, ids, {'state':'cancelled'}, context=context)'''
-    
     def tasks_from_features(self, cr, uid, ids, context=None):
         sprint = self.browse(cr, uid, ids[0], context=context)
         if sprint.task_from_features:
@@ -483,7 +476,8 @@ class sprint(osv.Model):
     def set_features_done(self, cr, uid, ids, context=None):
         sprint = self.browse(cr, uid, ids[0], context=context)
         for feature in sprint.feature_ids:
-            feature.write({'state': 'done'}, context=context)
+            if not feature.state in ('done','cancelled'):
+                feature.write({'state': 'done'}, context=context)
         return True
     
     def _check_deadline(self, cr, uid, ids, context=None):
@@ -569,63 +563,72 @@ class task(osv.Model):
             else:
                 res['value'] = {}
                 res['value']['is_scrum'] = project.is_scrum
+        else:
+            if 'value' in res:
+                res['value']['is_scrum'] = False
+                res['value']['product_backlog_id'] = False
+            else:
+                res['value'] = {}
+                res['value']['is_scrum'] = False
+                res['value']['product_backlog_id'] = False
         return res
     
     def onchange_product(self, cr, uid, ids, product_id, release_id, context=None):
-        value = {
-                 'release_backlog_id': False,
-                 }
+        res = {}
         if product_id:
-            product_obj = self.pool.get('project.scrum.product.backlog')
-            product = product_obj.browse(cr,uid,product_id,context=context)
             if release_id:
-                if release_id in product.release_backlog_ids:
-                    return {}
-        return {
-                'value': value
-                }
+                product_obj = self.pool.get('project.scrum.product.backlog')
+                product = product_obj.browse(cr,uid,product_id,context=context)
+                releases = [x.id for x in product.release_backlog_ids]
+                if not release_id in releases:
+                    res = {'value': {'release_backlog_id': False,}}
+        else:
+            res = {'value': {'release_backlog_id': False}}
+        return res
     
     def onchange_release(self, cr, uid, ids, release_id, sprint_id, context=None):
-        value = {
-                 'sprint_id': False,
-                 }
+        res = {}
         if release_id:
-            release_obj = self.pool.get('project.scrum.release.backlog')
-            release = release_obj.browse(cr,uid,release_id,context=context)
             if sprint_id:
-                if sprint_id in release.sprint_ids:
-                    return {}
-        return {
-                'value': value
-                }
+                release_obj = self.pool.get('project.scrum.release.backlog')
+                release = release_obj.browse(cr,uid,release_id,context=context)
+                sprints = [x.id for x in release.sprint_ids]
+                if not sprint_id in sprints:
+                    res = {'value': {'release_backlog_id': False,}}
+        else:
+            res = {'value': {'sprint_id': False}}
+        return res
     
     def onchange_sprint(self, cr, uid, ids, sprint_id, feature_id, user_id, context=None):
-        value = {
-                 'date_deadline': False,
-                 }
-        domain = {
-                  'user_id': []
-                  }
+        res = {}
         if sprint_id:
+            res = {
+                   'value': {},
+                   'domain': {},
+                   }
             sprint_obj = self.pool.get('project.scrum.sprint')
             sprint = sprint_obj.browse(cr,uid,sprint_id,context=context)
-            value['date_deadline'] = sprint.deadline
+            res['value']['date_deadline'] = sprint.deadline
             member_ids = [x.id for x in sprint.member_ids]
-            domain['user_id'] = [('id','in',member_ids)]
+            res['domain']['user_id'] = [('id','in',member_ids)]
             if feature_id:
-                if not feature_id in sprint.feature_ids:
-                    value['feature_id'] = False
+                features = [x.id for x in sprint.feature_ids]
+                if not feature_id in features:
+                    res['value']['feature_id'] = False
             if user_id:
-                if not user_id in sprint.member_ids:
-                    value['user_id'] = False
+                members = [x.id for x in sprint.member_ids]
+                if not user_id in members:
+                    res['value']['user_id'] = False
         else:
-            value['feature_id'] = False
-            value['user_id'] = False
-        return {
-                'domain': domain,
-                'value': value,
-                }
-        
+            res = {
+                   'value': {
+                             'date_deadline': False,
+                             'user_id': False
+                             },
+                   'domain': {'user_id': []},
+                   }
+        return res
+    
     def onchange_feature(self, cr, uid, ids, feature_id, context=None):
         if feature_id:
             feature = self.pool.get('project.scrum.feature').browse(

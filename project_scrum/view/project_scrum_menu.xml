@@ -35,5 +35,11 @@
             name="Feature Types"
             action="action_feature_type"
             sequence="10"/>
+        
+        <menuitem id="menu_work_type"
+            parent="base.menu_definitions"
+            name="Work Types"
+            action="action_work_type"
+            sequence="20"/>
     </data>
 </openerp>
