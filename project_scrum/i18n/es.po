@@ -1,0 +1,722 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* project_scrum
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-05 17:47+0000\n"
+"PO-Revision-Date: 2014-03-05 17:47+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: project_scrum
+#: view:project.scrum.feature:0
+#: view:project.scrum.product.backlog:0
+#: view:project.scrum.release.backlog:0
+#: view:project.scrum.sprint:0
+msgid "Group By..."
+msgstr "Agrupar por..."
+
+#. module: project_scrum
+#: view:project.scrum.feature:0
+msgid "My Features"
+msgstr "Mis Características"
+
+#. module: project_scrum
+#: selection:project.scrum.feature,priority:0
+msgid "Very High"
+msgstr "Muy Alta"
+
+#. module: project_scrum
+#: constraint:project.scrum.sprint:0
+msgid "Deadline must be greater than Start Date"
+msgstr "La fecha límite debe ser mayor que la fecha inicial"
+
+#. module: project_scrum
+#: field:project.scrum.feature,name:0
+msgid "Feature Name"
+msgstr "Nombre de la característica"
+
+#. module: project_scrum
+#: field:project.scrum.feature,expected_hours:0
+#: field:project.scrum.product.backlog,expected_hours:0
+#: field:project.scrum.release.backlog,expected_hours:0
+#: field:project.scrum.sprint,expected_hours:0
+msgid "Initially Planned Hour(s)"
+msgstr "Horas iniciales planificadas"
+
+#. module: project_scrum
+#: help:project.scrum.release.backlog,date_start:0
+msgid "Calculated Start Date, will be empty if any sprint has no start date."
+msgstr "Fecha de inicio calculada, se encontrará vacia si algún sprint no posee fecha final."
+
+#. module: project_scrum
+#: model:ir.model,name:project_scrum.model_project_task
+msgid "Task"
+msgstr "Tarea"
+
+#. module: project_scrum
+#: model:ir.actions.act_window,name:project_scrum.action_product_backlog
+#: view:project.scrum.feature:0
+#: field:project.scrum.feature,product_backlog_id:0
+#: view:project.scrum.product.backlog:0
+#: view:project.scrum.release.backlog:0
+#: field:project.scrum.release.backlog,product_backlog_id:0
+#: view:project.scrum.sprint:0
+#: field:project.scrum.sprint,product_backlog_id:0
+#: field:project.task,product_backlog_id:0
+msgid "Product Backlog"
+msgstr "Pila de producto"
+
+#. module: project_scrum
+#: model:ir.model,name:project_scrum.model_project_project
+#: view:project.scrum.feature:0
+#: field:project.scrum.feature,project_id:0
+#: view:project.scrum.product.backlog:0
+#: field:project.scrum.product.backlog,project_id:0
+#: view:project.scrum.release.backlog:0
+#: field:project.scrum.release.backlog,project_id:0
+#: field:project.scrum.release.backlog,user_id:0
+#: view:project.scrum.sprint:0
+#: field:project.scrum.sprint,project_id:0
+msgid "Project"
+msgstr "Proyecto"
+
+#. module: project_scrum
+#: help:project.scrum.product.backlog,effective_hours:0
+msgid "Total spent hours calculated from features."
+msgstr "Total de horas dedicadas calculadas de las características."
+
+#. module: project_scrum
+#: view:project.scrum.sprint:0
+msgid "Are you sure you want to create a task for each feature related to this sprint?"
+msgstr "Are you sure you want to create a task for each feature related to this sprint?"
+
+#. module: project_scrum
+#: view:project.scrum.feature:0
+#: selection:project.scrum.feature,state:0
+#: view:project.scrum.product.backlog:0
+#: selection:project.scrum.product.backlog,state:0
+#: view:project.scrum.release.backlog:0
+#: selection:project.scrum.release.backlog,state:0
+#: view:project.scrum.sprint:0
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#. module: project_scrum
+#: model:ir.model,name:project_scrum.model_project_scrum_product_backlog
+msgid "project.scrum.product.backlog"
+msgstr "project.scrum.product.backlog"
+
+#. module: project_scrum
+#: field:project.scrum.feature,color:0
+#: field:project.scrum.product.backlog,color:0
+#: field:project.scrum.release.backlog,color:0
+#: field:project.scrum.sprint,color:0
+msgid "Color Index"
+msgstr "Indice de color"
+
+#. module: project_scrum
+#: model:ir.ui.menu,name:project_scrum.menu_release_backlog
+#: view:project.scrum.product.backlog:0
+#: field:project.scrum.product.backlog,release_backlog_ids:0
+msgid "Release Backlogs"
+msgstr "Pilas de liberación"
+
+#. module: project_scrum
+#: field:project.scrum.feature,deadline:0
+#: field:project.scrum.product.backlog,deadline:0
+#: field:project.scrum.release.backlog,deadline:0
+#: field:project.scrum.sprint,deadline:0
+msgid "Deadline"
+msgstr "Fecha límite"
+
+#. module: project_scrum
+#: view:project.scrum.sprint:0
+msgid "My Sprints"
+msgstr "Mis Sprints"
+
+#. module: project_scrum
+#: help:project.scrum.release.backlog,expected_hours:0
+msgid "Total planned hours calculated from sprints."
+msgstr "Total de horas planeadas calculadas de los sprints."
+
+#. module: project_scrum
+#: view:project.scrum.feature:0
+#: view:project.scrum.product.backlog:0
+#: view:project.scrum.release.backlog:0
+#: view:project.scrum.sprint:0
+msgid "Edit..."
+msgstr "Editar..."
+
+#. module: project_scrum
+#: help:project.scrum.feature,effective_hours:0
+msgid "Total effective hours from tasks related to this feature."
+msgstr "Total de horas effectivas de las tareas relativas a esta característica."
+
+#. module: project_scrum
+#: model:ir.actions.act_window,name:project_scrum.action_sprint
+#: model:ir.ui.menu,name:project_scrum.menu_sprint
+#: view:project.scrum.feature:0
+#: view:project.scrum.release.backlog:0
+#: field:project.scrum.release.backlog,sprint_ids:0
+msgid "Sprints"
+msgstr "Sprints"
+
+#. module: project_scrum
+#: help:project.scrum.feature,sprint_ids:0
+msgid "Sprints in which the feature has been used."
+msgstr "Sprints en los que la característica ha sido usada."
+
+#. module: project_scrum
+#: model:ir.actions.act_window,help:project_scrum.action_feature
+msgid "<p class=\"oe_view_nocontent_create\">Create new Feature</p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">Create new Feature</p>\n"
+"            "
+
+#. module: project_scrum
+#: view:project.scrum.feature:0
+#: field:project.scrum.feature,priority:0
+msgid "Priority"
+msgstr "Prioridad"
+
+#. module: project_scrum
+#: field:project.scrum.product.backlog,state:0
+#: field:project.scrum.release.backlog,state:0
+#: field:project.scrum.sprint,state:0
+msgid "State"
+msgstr "Estado"
+
+#. module: project_scrum
+#: view:project.scrum.feature:0
+#: selection:project.scrum.feature,state:0
+#: view:project.scrum.product.backlog:0
+#: selection:project.scrum.product.backlog,state:0
+#: view:project.scrum.release.backlog:0
+#: selection:project.scrum.release.backlog,state:0
+#: view:project.scrum.sprint:0
+msgid "New"
+msgstr "Nuevo"
+
+#. module: project_scrum
+#: view:project.scrum.feature:0
+#: field:project.scrum.feature,type_id:0
+msgid "Type"
+msgstr "Tipo"
+
+#. module: project_scrum
+#: view:project.scrum.feature:0
+#: field:project.scrum.feature,user_id:0
+#: view:project.scrum.product.backlog:0
+#: field:project.scrum.product.backlog,user_id:0
+#: view:project.scrum.release.backlog:0
+#: view:project.scrum.sprint:0
+#: field:project.scrum.sprint,user_id:0
+msgid "Scrum Master"
+msgstr "Scrum Master"
+
+#. module: project_scrum
+#: model:ir.model,name:project_scrum.model_project_scrum_feature
+msgid "project.scrum.feature"
+msgstr "project.scrum.feature"
+
+#. module: project_scrum
+#: model:ir.ui.menu,name:project_scrum.menu_product_backlog
+msgid "Product Backlogs"
+msgstr "Pilas de producto"
+
+#. module: project_scrum
+#: field:project.project,is_scrum:0
+#: field:project.task,is_scrum:0
+msgid "Scrum"
+msgstr "Scrum"
+
+#. module: project_scrum
+#: help:project.scrum.product.backlog,deadline:0
+msgid "Calculated Deadline, will be empty if any feature has no deadline."
+msgstr "Fecha límite calculada, se encontrará vacía si alguna característica no posee fecha límite."
+
+#. module: project_scrum
+#: help:project.scrum.product.backlog,expected_hours:0
+msgid "Total planned hours calculated from features."
+msgstr "Total de horas planeadas calculadas de las características."
+
+#. module: project_scrum
+#: view:project.scrum.product.backlog:0
+#: selection:project.scrum.product.backlog,state:0
+#: view:project.scrum.release.backlog:0
+#: selection:project.scrum.release.backlog,state:0
+#: view:project.scrum.sprint:0
+msgid "Pending"
+msgstr "Pendiente"
+
+#. module: project_scrum
+#: field:project.scrum.product.backlog,name:0
+msgid "Product Name"
+msgstr "Nombre del producto"
+
+#. module: project_scrum
+#: view:project.scrum.feature:0
+#: view:project.scrum.product.backlog:0
+#: field:project.scrum.product.backlog,stage_id:0
+#: view:project.scrum.release.backlog:0
+#: field:project.scrum.release.backlog,stage_id:0
+#: view:project.scrum.sprint:0
+#: field:project.scrum.sprint,stage_id:0
+msgid "Stage"
+msgstr "Etapa"
+
+#. module: project_scrum
+#: code:addons/project_scrum/project_scrum.py:1019
+#, python-format
+msgid "You can not cancel a product backlog if all release backlogs related to it are not cancelled or done"
+msgstr "No puedes cancelar una pila de producto si alguna pila de liberacion no se encuentra cancelada o realizada."
+
+#. module: project_scrum
+#: help:project.scrum.release.backlog,deadline:0
+msgid "Calculated Deadline, will be empty if any sprint has no deadline."
+msgstr "Fecha límite calculada, se encontrará vacia si algún sprint no posee fecha límite."
+
+#. module: project_scrum
+#: view:project.scrum.feature:0
+msgid "Feature Summary"
+msgstr "Resumen de Característica"
+
+#. module: project_scrum
+#: model:ir.actions.act_window,help:project_scrum.action_product_backlog
+msgid "<p class=\"oe_view_nocontent_create\">Create new Product Backlog</p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">Crear nueva pila de producto</p>\n"
+"            "
+
+#. module: project_scrum
+#: help:project.scrum.feature,partner_id:0
+msgid "Contact or person responsible of keeping the business perspective in scrum projects."
+msgstr "Contacto o persona encargada de mantener la perspectiva del negocio en projectos scrum."
+
+#. module: project_scrum
+#: view:project.scrum.feature:0
+#: view:project.scrum.product.backlog:0
+#: view:project.scrum.release.backlog:0
+#: view:project.scrum.sprint:0
+msgid "Delete"
+msgstr "Suprimir"
+
+#. module: project_scrum
+#: field:project.scrum.feature,task_ids:0
+#: view:project.scrum.sprint:0
+#: field:project.scrum.sprint,task_ids:0
+msgid "Tasks"
+msgstr "Tareas"
+
+#. module: project_scrum
+#: view:project.scrum.sprint:0
+msgid "Create Tasks"
+msgstr "Crear tareas"
+
+#. module: project_scrum
+#: view:project.scrum.sprint:0
+msgid "Set as Pending"
+msgstr "Establecer como pendiente"
+
+#. module: project_scrum
+#: field:project.scrum.feature,progress:0
+#: field:project.scrum.product.backlog,progress:0
+#: field:project.scrum.release.backlog,progress:0
+#: field:project.scrum.sprint,progress:0
+msgid "Progress (%)"
+msgstr "Progreso (%)"
+
+#. module: project_scrum
+#: view:project.scrum.sprint:0
+msgid "Are you sure you want to mark all features related to this sprint as done?"
+msgstr "¿Estás seguro que deseas marcar todas las características asociadas a este sprint como realizadas?"
+
+#. module: project_scrum
+#: code:addons/project_scrum/project_scrum.py:829
+#, python-format
+msgid "You can not cancel a release backlog if all sprint related to it are not cancelled or done"
+msgstr "No puedes cancelar una pila de liberación si algun sprint no se encuentra cancelado o realizado."
+
+#. module: project_scrum
+#: model:ir.model,name:project_scrum.model_project_task_type
+msgid "Task Stage"
+msgstr "Etapa tarea"
+
+#. module: project_scrum
+#: field:project.scrum.feature,sprint_ids:0
+msgid "Sprints"
+msgstr "Sprints"
+
+#. module: project_scrum
+#: view:project.scrum.sprint:0
+msgid "Are you sure you want to set as done this sprint?"
+msgstr "¿Estas seguro que deseas establecer como realizado este sprint?"
+
+#. module: project_scrum
+#: field:project.scrum.feature,date_start:0
+#: field:project.scrum.release.backlog,date_start:0
+#: field:project.scrum.sprint,date_start:0
+msgid "Start Date"
+msgstr "Fecha inicial"
+
+#. module: project_scrum
+#: help:project.scrum.release.backlog,effective_hours:0
+msgid "Total spent hours calculated from sprints."
+msgstr "Total de horas utilizadas calculadas de los sprints."
+
+#. module: project_scrum
+#: view:project.scrum.product.backlog:0
+#: field:project.scrum.product.backlog,member_ids:0
+#: view:project.scrum.sprint:0
+#: field:project.scrum.sprint,member_ids:0
+msgid "Team Members"
+msgstr "Miembros del equipo"
+
+#. module: project_scrum
+#: model:ir.model,name:project_scrum.model_project_task_work
+msgid "Project Task Work"
+msgstr "Trabajo tarea proyecto"
+
+#. module: project_scrum
+#: help:project.scrum.feature,expected_hours:0
+msgid "Total planned hours for the development of this feature.\n"
+"Recommended values are:\n"
+" 1h, 2h, 4h, or 8h"
+msgstr "Total de horas planeadas para el desarrollo de esta característica.\n"
+"Los valores recomendados son:\n"
+" 1h, 2h, 4h, or 8h"
+
+#. module: project_scrum
+#: model:ir.actions.act_window,help:project_scrum.action_sprint
+msgid "<p class=\"oe_view_nocontent_create\">Create new Sprint</p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">Crear un nuevo sprint</p>\n"
+"            "
+
+#. module: project_scrum
+#: view:project.scrum.feature:0
+msgid "Code..."
+msgstr "Código..."
+
+#. module: project_scrum
+#: selection:project.scrum.feature,priority:0
+msgid "Low"
+msgstr "Baja"
+
+#. module: project_scrum
+#: view:project.scrum.product.backlog:0
+#: view:project.scrum.release.backlog:0
+#: view:project.scrum.sprint:0
+msgid "Closed"
+msgstr "Cerrado"
+
+#. module: project_scrum
+#: view:project.scrum.product.backlog:0
+msgid "Are you sure you want to cancel this product backlog?"
+msgstr "Are you sure you want to cancel this product backlog?"
+
+#. module: project_scrum
+#: field:project.scrum.feature,state:0
+msgid "Status"
+msgstr "Estado"
+
+#. module: project_scrum
+#: field:project.scrum.sprint,task_from_features:0
+msgid "Tasks from features"
+msgstr "Tareas de características"
+
+#. module: project_scrum
+#: field:project.scrum.feature,partner_id:0
+msgid "Product Owner"
+msgstr "Dueño del producto"
+
+#. module: project_scrum
+#: view:project.scrum.sprint:0
+msgid "Are you sure you want to cancel this sprint?"
+msgstr "Are you sure you want to cancel this sprint?"
+
+#. module: project_scrum
+#: model:ir.actions.act_window,help:project_scrum.action_feature_type
+msgid "<p class=\"oe_view_nocontent_create\">Create new Feature Type</p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">Crear un nuevo tipo de característica</p>\n"
+"            \""
+
+#. module: project_scrum
+#: code:addons/project_scrum/project_scrum.py:822
+#: code:addons/project_scrum/project_scrum.py:1012
+#, python-format
+msgid "There is no cancelled state configured for the project %s"
+msgstr "No hay un estado cancelado configurado para el projecto %s"
+
+#. module: project_scrum
+#: code:addons/project_scrum/project_scrum.py:462
+#: code:addons/project_scrum/project_scrum.py:858
+#: code:addons/project_scrum/project_scrum.py:1048
+#, python-format
+msgid "There is no draft state configured."
+msgstr "No hay un estado borrador configurado."
+
+#. module: project_scrum
+#: field:project.scrum.feature,effective_hours:0
+#: field:project.scrum.product.backlog,effective_hours:0
+#: field:project.scrum.release.backlog,effective_hours:0
+#: field:project.scrum.sprint,effective_hours:0
+msgid "Spent Hour(s)"
+msgstr "Horas dedicadas"
+
+#. module: project_scrum
+#: view:project.scrum.feature.type:0
+msgid "Feature Type"
+msgstr "Tipo de característica"
+
+#. module: project_scrum
+#: help:project.scrum.release.backlog,progress:0
+msgid "Total progress percentage calculated from sprints"
+msgstr "Porcentaje de progreso total calculado de los sprints"
+
+#. module: project_scrum
+#: code:addons/project_scrum/project_scrum.py:462
+#: code:addons/project_scrum/project_scrum.py:474
+#: code:addons/project_scrum/project_scrum.py:822
+#: code:addons/project_scrum/project_scrum.py:829
+#: code:addons/project_scrum/project_scrum.py:858
+#: code:addons/project_scrum/project_scrum.py:1012
+#: code:addons/project_scrum/project_scrum.py:1019
+#: code:addons/project_scrum/project_scrum.py:1048
+#, python-format
+msgid "Error"
+msgstr "Error"
+
+#. module: project_scrum
+#: field:project.scrum.feature,code:0
+#: field:project.scrum.feature.type,code:0
+msgid "Code"
+msgstr "Código"
+
+#. module: project_scrum
+#: model:ir.actions.act_window,name:project_scrum.action_feature
+#: model:ir.ui.menu,name:project_scrum.menu_feature
+#: view:project.scrum.product.backlog:0
+#: field:project.scrum.product.backlog,feature_ids:0
+#: view:project.scrum.release.backlog:0
+#: field:project.scrum.release.backlog,feature_ids:0
+#: view:project.scrum.sprint:0
+#: field:project.scrum.sprint,feature_ids:0
+msgid "Features"
+msgstr "Características"
+
+#. module: project_scrum
+#: model:ir.actions.act_window,help:project_scrum.action_release_backlog
+msgid "<p class=\"oe_view_nocontent_create\">Create new Release Backlog</p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">Crear nueva pila de liberación</p>\n"
+"            "
+
+#. module: project_scrum
+#: view:project.scrum.feature:0
+#: selection:project.scrum.feature,state:0
+msgid "Approved"
+msgstr "Aprobado"
+
+#. module: project_scrum
+#: view:project.scrum.feature:0
+#: selection:project.scrum.feature,state:0
+#: selection:project.scrum.product.backlog,state:0
+#: selection:project.scrum.release.backlog,state:0
+msgid "Done"
+msgstr "Realizado"
+
+#. module: project_scrum
+#: view:project.scrum.feature:0
+#: view:project.scrum.product.backlog:0
+#: view:project.scrum.release.backlog:0
+#: view:project.scrum.sprint:0
+msgid "Cancel"
+msgstr "Cancelado"
+
+#. module: project_scrum
+#: view:project.scrum.feature:0
+msgid "Open"
+msgstr "Abierto"
+
+#. module: project_scrum
+#: field:project.scrum.feature.type,name:0
+msgid "Type Name"
+msgstr "Nombre de tipo"
+
+#. module: project_scrum
+#: view:project.scrum.feature:0
+#: selection:project.scrum.feature,state:0
+#: view:project.scrum.product.backlog:0
+#: selection:project.scrum.product.backlog,state:0
+#: view:project.scrum.release.backlog:0
+#: selection:project.scrum.release.backlog,state:0
+#: view:project.scrum.sprint:0
+msgid "In Progress"
+msgstr "En Progreso"
+
+#. module: project_scrum
+#: view:project.scrum.feature:0
+#: view:project.scrum.product.backlog:0
+#: view:project.scrum.release.backlog:0
+#: view:project.scrum.sprint:0
+msgid "Remaining Hours"
+msgstr "Horas restantes"
+
+#. module: project_scrum
+#: help:project.scrum.sprint,feature_ids:0
+msgid "Features to be developed in this sprint"
+msgstr "Características a ser desarrolladas en este sprint"
+
+#. module: project_scrum
+#: model:ir.actions.act_window,name:project_scrum.action_release_backlog
+#: view:project.scrum.feature:0
+#: field:project.scrum.feature,release_backlog_id:0
+#: view:project.scrum.release.backlog:0
+#: view:project.scrum.sprint:0
+#: field:project.scrum.sprint,release_backlog_id:0
+#: field:project.task,release_backlog_id:0
+msgid "Release Backlog"
+msgstr "Pila de liberación"
+
+#. module: project_scrum
+#: view:project.scrum.feature:0
+#: field:project.task,feature_id:0
+msgid "Feature"
+msgstr "Características"
+
+#. module: project_scrum
+#: view:project.scrum.product.backlog:0
+#: view:project.scrum.release.backlog:0
+msgid "My Backlogs"
+msgstr "Mis Pilas"
+
+#. module: project_scrum
+#: model:ir.model,name:project_scrum.model_project_scrum_feature_type
+msgid "project.scrum.feature.type"
+msgstr "project.scrum.feature.type"
+
+#. module: project_scrum
+#: view:project.scrum.feature:0
+#: field:project.scrum.feature,description:0
+msgid "Description"
+msgstr "Descripción"
+
+#. module: project_scrum
+#: view:project.scrum.sprint:0
+msgid "Features Done"
+msgstr "Características Realizadas"
+
+#. module: project_scrum
+#: field:project.scrum.release.backlog,name:0
+msgid "Release Name"
+msgstr "Nombre de la liberación"
+
+#. module: project_scrum
+#: field:project.scrum.sprint,name:0
+msgid "Sprint Name"
+msgstr "Nombre del sprint"
+
+#. module: project_scrum
+#: model:ir.ui.menu,name:project_scrum.menu_scrum
+msgid "Scrum Project"
+msgstr "Projecto scrum"
+
+#. module: project_scrum
+#: help:project.scrum.product.backlog,date_end:0
+msgid "Calculated End Date, will be empty if any feature has no end date."
+msgstr "Fecha final calculada, se encontrará vacia si alguna característica no posee fecha final."
+
+#. module: project_scrum
+#: field:project.scrum.feature,date_end:0
+#: field:project.scrum.product.backlog,date_end:0
+#: field:project.scrum.release.backlog,date_end:0
+#: field:project.scrum.sprint,date_end:0
+msgid "End Date"
+msgstr "Fecha Final"
+
+#. module: project_scrum
+#: help:project.scrum.release.backlog,date_end:0
+msgid "Calculated End Date, will be empty if any sprint has no end date."
+msgstr "Fecha final calculada, se encontrará vacía si algún sprint no posee fecha final."
+
+#. module: project_scrum
+#: code:addons/project_scrum/project_scrum.py:474
+#, python-format
+msgid "All task were created before."
+msgstr "Todas las tareas fueron creadas anteriormente."
+
+#. module: project_scrum
+#: help:project.scrum.feature,remaining_hours:0
+#: help:project.scrum.product.backlog,remaining_hours:0
+#: help:project.scrum.release.backlog,remaining_hours:0
+msgid "Difference between planned hours and spent hours."
+msgstr "Diferencia entre horas planeadas y horas dedicadas."
+
+#. module: project_scrum
+#: view:project.scrum.feature:0
+#: view:project.scrum.product.backlog:0
+#: view:project.scrum.release.backlog:0
+#: view:project.scrum.sprint:0
+msgid "oe_kanban_text_red"
+msgstr "oe_kanban_text_red"
+
+#. module: project_scrum
+#: selection:project.scrum.feature,priority:0
+msgid "Medium"
+msgstr "Media"
+
+#. module: project_scrum
+#: model:ir.model,name:project_scrum.model_project_scrum_release_backlog
+msgid "project.scrum.release.backlog"
+msgstr "project.scrum.release.backlog"
+
+#. module: project_scrum
+#: model:ir.actions.act_window,name:project_scrum.action_feature_type
+#: model:ir.ui.menu,name:project_scrum.menu_feature_type
+msgid "Feature Types"
+msgstr "Tipos de característica"
+
+#. module: project_scrum
+#: help:project.scrum.product.backlog,progress:0
+msgid "Total progress percentage calculated from features"
+msgstr "Porcentaje de progreso total calculado de las características"
+
+#. module: project_scrum
+#: selection:project.scrum.feature,priority:0
+msgid "High"
+msgstr "Alta"
+
+#. module: project_scrum
+#: model:ir.model,name:project_scrum.model_project_scrum_work_type
+msgid "project.scrum.work.type"
+msgstr "project.scrum.work.type"
+
+#. module: project_scrum
+#: view:project.scrum.feature:0
+msgid "Add a Description..."
+msgstr "Agregar una descripción"
+
+#. module: project_scrum
+#: field:project.scrum.feature,remaining_hours:0
+#: field:project.scrum.product.backlog,remaining_hours:0
+#: field:project.scrum.release.backlog,remaining_hours:0
+#: field:project.scrum.sprint,remaining_hours:0
+msgid "Remaining Hour(s)"
+msgstr "Horas restantes"
+
+#. module: project_scrum
+#: view:project.scrum.sprint:0
+#: field:project.task,sprint_id:0
+msgid "Sprint"
+msgstr "Sprint"
+

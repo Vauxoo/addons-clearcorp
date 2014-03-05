@@ -27,7 +27,7 @@
                     <field name="is_scrum" invisible="True"/>
                     <field name="product_backlog_id"
                         attrs="{'invisible': [('is_scrum','=',False)],'required': [('is_scrum','=',True)]}"
-                        on_change="onchange_product(product_backlog_id, release_backlog_id)"/>-->
+                        on_change="onchange_product(product_backlog_id, release_backlog_id)"/>
                     <field name="release_backlog_id"
                         attrs="{'invisible': [('is_scrum','=',False)],'required': [('is_scrum','=',True)]}"
                         on_change="onchange_release(release_backlog_id, sprint_id)"/>
@@ -38,7 +38,7 @@
                         attrs="{'invisible': [('is_scrum','=',False)]}"
                         on_change="onchange_feature(feature_id)"/>
                 </xpath>
-                <xpath expr="//form/sheet/notebook/page/field[@name='work_ids']" position="replace">
+                <!--<xpath expr="//form/sheet/notebook/page/field[@name='work_ids']" position="replace">
                     <field name="work_ids" groups="project.group_tasks_work_on_tasks"
                         context="{'stage_id': stage_id}">
                         <tree string="Task Work" editable="top">
@@ -50,13 +50,13 @@
                             <field name="user_id"/>
                         </tree>
                     </field>
-                </xpath>
+                </xpath>-->
             </field>
         </record>
         
         <!-- project.task.type -->
         <!-- form -->
-        <record id ="view_task_type_form" model="ir.ui.view">
+        <!--<record id ="view_task_type_form" model="ir.ui.view">
             <field name="name">view.task.type.form</field>
             <field name="model">project.task.type</field>
             <field name="inherit_id" ref="project.task_type_edit"/>
@@ -70,7 +70,7 @@
                     </field>
                 </xpath>
             </field>
-        </record>
+        </record>-->
         
         <!-- project.scrum.product.backlog -->
         <!-- form -->
@@ -82,24 +82,9 @@
             <field name="arch" type="xml">
                 <form string="Product Backlog" version="7.0">
                     <header>
-                        <!--<button name="set_open" type="object"
-                            string="Open" class="oe_highlight"
-                            states ="draft,cancelled,pending,close"/>
-                        <button name="set_close" type="object" 
-                            string="Close" class="oe_highlight"
-                            states ="open"
-                            confirm="Are you sure you want to close this 
-                            product backlog? All elements related to
-                            this element will be closed too."/>
-                        <button name="set_pending" type="object" string="Set as Pending"
-                            states ="open"
-                            confirm="Are you sure you want to set as pending this 
-                            product backlog? All elements related to
-                            this element will be set as pending too."/>-->
                         <button name="do_cancel" type="object" string="Cancel"
                             states ="open,pending"
-                            confirm="Are you sure you want to cancel this 
-                            product backlog?"/>
+                            confirm="Are you sure you want to cancel this product backlog?"/>
                         <field name="stage_id" widget="statusbar" clickable="True"/>
                         <field name="state" invisible="True"/>
                     </header>
@@ -154,13 +139,16 @@
             <field name="type">tree</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
-                <tree string="Product Backlog">
+                <tree string="Product Backlog"
+                    colors="grey:state in ('cancelled','done');blue:state == 'pending';
+                        red:(deadline&lt;date_end) and (state in ('draft','pending','open'))">
                     <field name="name"/>
                     <field name="project_id"/>
                     <field name="user_id"/>
                     <field name="expected_hours"/>
                     <field name="effective_hours"/>
                     <field name="remaining_hours"/>
+                    <field name="state"/>
                     <field name="date_end"/>
                     <field name="deadline"/>
                     <field name="progress" widget="progressbar"/>
@@ -255,14 +243,6 @@
             <field name="arch" type="xml">
                 <form string="Release Backlog" version="7.0">
                     <header>
-                        <!--<button name="set_open" type="object"
-                            string="Open" class="oe_highlight"
-                            states ="draft,cancelled,pending,close"/>
-                        <button name="set_close" type="object" 
-                            string="Close" class="oe_highlight"
-                            states ="open"/>
-                        <button name="set_pending" type="object" string="Set as Pending"
-                            states ="open"/>-->
                         <button name="do_cancel" type="object" string="Cancel"
                             states ="open,pending"/>
                         <field name="stage_id" widget="statusbar" clickable="True"/>
@@ -292,7 +272,8 @@
                         </group>
                         <notebook>
                             <page string="Features" name="features">
-                                <field name="feature_ids"
+                                <field name="feature_ids" widget="many2many" 
+                                    domain="[('release_backlog_id','=',False)]"
                                     attrs="{'readonly':['|',('state','=', 'cancelled'),('state','=', 'done')]}"
                                     context="{'release_backlog_id': id, 'product_backlog_id': product_backlog_id}"/>
                             </page>
@@ -314,15 +295,17 @@
             <field name="type">tree</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
-                <tree string="Release Backlog">
+                <tree string="Release Backlog"
+                    colors="grey:state in ('cancelled','done');blue:state == 'pending';
+                        red:(deadline&lt;date_end) and (state in ('draft','pending','open'))">
                     <field name="name"/>
                     <field name="product_backlog_id"/>
                     <field name="project_id" invisible="True"/>
                     <field name="expected_hours"/>
-                    <field name="effective_hours"/>
                     <field name="remaining_hours"/>
                     <field name="date_end"/>
                     <field name="deadline"/>
+                    <field name="state"/>
                     <field name="progress" widget="progressbar"/>
                 </tree>
             </field>
@@ -422,7 +405,7 @@
                             states ="draft"/>
                         <button name="set_open" type="object"
                             string="Open" class="oe_highlight"
-                            states ="cancelled,done"/>
+                            states ="approved,cancelled,done"/>
                         <button name="set_done" type="object" 
                             string="Done" class="oe_highlight"
                             states ="open"/>
@@ -440,10 +423,11 @@
                                             width:150px !important;
                                         }
                                     </style>
-                                    <field name="code" class="oe_inline feature_custom" width="20px"/>
+                                    <field name="code" class="oe_inline feature_custom"
+                                        width="20px" placeholder="Code..."/>
                                 </div>
                             </div>
-                            - <field name="name" class="oe_inline"/>
+                            - <field name="name" class="oe_inline" placeholder="Feature Summary"/>
                         </h1>
                         <group>
                             <group>
@@ -467,9 +451,10 @@
                         <notebook>
                             <page string="Description" name="description">
                                 <field name="description" placeholder="Add a Description..."/>
-                                <separator/>
-                                <separator string="Sprints"/>
-                                <field name="sprint_ids" readonly="True"/>
+                                <field name="task_ids"/>
+                            </page>
+                            <page string="Sprints" name="sprints">
+                                <field name="sprint_ids"/>
                             </page>
                         </notebook>
                     </sheet>
@@ -484,7 +469,10 @@
             <field name="type">tree</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
-                <tree string="Feature">
+                <tree string="Feature"
+                    colors="grey:state in ('cancelled','done');blue:state == 'approved';
+                        red:(deadline&lt;date_end) and (state in ('draft','approved','pending','open'))">
+                    <field name="state" invisible="True"/>
                     <field name="code"/>
                     <field name="name"/>
                     <field name="product_backlog_id"/>
@@ -504,7 +492,7 @@
             <field name="name">view.feature.kanban</field>
             <field name="model">project.scrum.feature</field>
             <field name="arch" type="xml">
-                <kanban default_group_by="product_backlog_id">
+                <kanban default_group_by="state">
                     <field name="color"/>
                     <field name="remaining_hours" sum="Remaining Hours"/>
                     <templates>
@@ -562,6 +550,7 @@
                     <field name="product_backlog_id"/>
                     <separator/>
                     <filter string="New" name="new" domain="[('state','=','draft')]"/>
+                    <filter string="Approved" name="approved" domain="[('state','=','approved')]"/>
                     <filter string="In Progress" name="in_progress" domain="[('state','=','open')]"/>
                     <filter string="Cancelled" name="cancelled" domain="[('state','=','cancelled')]"/>
                     <filter string="Done" name="done" domain="[('state','=','done')]"/>
@@ -591,31 +580,12 @@
             <field name="arch" type="xml">
                 <form string="Sprint" version="7.0">
                     <header>
-                        <!--<button name="set_open" type="object"
-                            string="Open" class="oe_highlight"
-                            states ="cancelled,pending,close"/>
-                        <button name="set_open" type="object"
-                            string="Open" class="oe_highlight"
-                            states ="draft"
-                            confirm="Are you sure you want to open this 
-                            sprint? Once opened you will not be able to
-                            add more features instead you must open 
-                            a sprint."/>
-                        <button name="set_close" type="object" 
-                            string="Close" class="oe_highlight"
-                            states ="open"
-                            confirm="Are you sure you want to close this 
-                            sprint? All elements related to this sprint 
-                            will be closed too."/>
-                        <button name="set_pending" type="object" string="Set as Pending"
-                            states ="open"
-                            confirm="Are you sure you want to set as pending this 
-                            sprint? All elements related to this sprint 
-                            will be set as pending too."/>-->
+                        <button name="set_done" type="object" string="Set as Pending"
+                            states ="open,pending"
+                            confirm="Are you sure you want to set as done this sprint?"/>
                         <button name="set_cancel" type="object" string="Cancel"
                             states ="open,pending"
-                            confirm="Are you sure you want to cancel this 
-                            sprint?"/>
+                            confirm="Are you sure you want to cancel this sprint?"/>
                         <field name="stage_id" widget="statusbar" clickable="True"/>
                         <field name="state" invisible="True"/>
                     </header>
@@ -624,12 +594,10 @@
                             <button name="tasks_from_features" string="Create Tasks" type="object"
                                 attrs="{'invisible':['|',('state','=','cancelled'),'|',
                                     ('state','=','draft'),('state','=','done')]}"
-                                confirm="Are you sure you want to create a task for each
-                                feature related to this sprint?"/>
+                                confirm="Are you sure you want to create a task for each feature related to this sprint?"/>
                             <button name="set_features_done" string="Features Done" type="object"
                                 attrs="{'invisible':['!',('state','=','done')]}"
-                                confirm="Are you sure you want to mark all features
-                                related to this sprint as done?"/>
+                                confirm="Are you sure you want to mark all features related to this sprint as done?"/>
                         </div>
                         <div class="oe_title">
                             <label for="name" class="oe_edit_only"/>
@@ -876,10 +844,10 @@
             <field name="name">Features</field>
             <field name="res_model">project.scrum.feature</field>
             <field name="view_mode">kanban,tree,form</field>
-            <field name="context">{'search_default_in_progress': 1}</field>
+            <field name="context">{'search_default_in_progress': 1, 'search_default_approved': 1}</field>
             <field name="search_view_id" ref="view_feature_search"/>
             <field name="help" type="html">
-                <p class="oe_view_nocontent_create">Create new Product Feature</p>
+                <p class="oe_view_nocontent_create">Create new Feature</p>
             </field>
         </record>
         
