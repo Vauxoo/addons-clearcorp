@@ -580,7 +580,7 @@
             <field name="arch" type="xml">
                 <form string="Sprint" version="7.0">
                     <header>
-                        <button name="set_done" type="object" string="Set as Pending"
+                        <button name="set_done" type="object" string="Done"
                             states ="open,pending"
                             confirm="Are you sure you want to set as done this sprint?"/>
                         <button name="set_cancel" type="object" string="Cancel"

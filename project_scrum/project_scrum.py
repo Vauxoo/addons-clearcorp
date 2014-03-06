@@ -498,6 +498,26 @@ class sprint(osv.Model):
                 feature.write({'state': 'done'}, context=context)
         return True
     
+    def set_done(self, cr, uid, ids, context=None):
+        project = self.browse(cr, uid, ids[0], context=context).project_id
+        id = False
+        for stage in project.type_ids:
+            if stage.state == 'done':
+                id = stage.id
+                break
+        self.write(cr, uid, ids[0], {'stage_id': id}, context)
+        return True
+    
+    def set_cancel(self, cr, uid, ids, context=None):
+        project = self.browse(cr, uid, ids[0], context=context).project_id
+        id = False
+        for stage in project.type_ids:
+            if stage.state == 'cancelled':
+                id = stage.id
+                break
+        self.write(cr, uid, ids[0], {'stage_id': id}, context)
+        return True
+    
     def _check_deadline(self, cr, uid, ids, context=None):
         sprints =self.browse(cr, uid, ids, context=context)
         for sprint in sprints:
