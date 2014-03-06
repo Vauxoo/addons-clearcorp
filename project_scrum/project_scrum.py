@@ -692,7 +692,7 @@ class task(osv.Model):
                     domain ="[('release_backlog_id','=',release_backlog_id),'|',('state','=','open'),"
                     "('state','=','pending')]"),
                 'feature_id': fields.many2one('project.scrum.feature', string='Feature',
-                    domain="[('sprint_ids','=',sprint_id),('state','=','open')]"),
+                    domain="[('sprint_ids','=',sprint_id),('state','in',['open','approved'])]"),
                 }
     
     _defaults = {
