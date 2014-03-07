@@ -11,13 +11,63 @@
             <field name="arch" type="xml">
                 <xpath expr="//form/sheet/notebook/page[@string='Constraints']" position="after">
                     <page string="Task Types" name="task_types">
-                        <field name="task_type_ids" context="{'phase_id': active_id}">
+                        <field name="work_type_ids" context="{'phase_id': active_id}">
                             <tree editable="bottom">
                                 <field name="name"/>
                                 <field name="sequence"/>
                             </tree>
                         </field>
                     </page>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- project.scrum.feature -->
+        <!-- form -->
+        <record id ="view_feature_form" model="ir.ui.view">
+            <field name="name">view.feature.form</field>
+            <field name="model">project.scrum.feature</field>
+            <field name="inherit_id" ref="project_scrum.view_feature_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/group/field[@name='expected_hours']" position="replace">
+                    <field name="expected_hours" readonly="True"/>
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page[@name='sprints']" position="after">
+                    <page string="Feature Hours" name="feature_hours">
+                        <field name="id" invisible="True"/>
+                        <field name="project_id" invisible="True"/>
+                        <field name="hour_ids" context="{'feature_id': active_id, 'project_id': project_id}"><!-- attrs="{'invisible': [('id','=',False)]}" -->
+                            <tree editable="bottom">
+                                <field name="phase_id"/>
+                                <field name="work_type_id"/>
+                                <field name="expected_hours"/>
+                                <field name="effective_hours"/>
+                                <field name="remaining_hours"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- project.task -->
+        <!-- form -->
+        <record id ="view_task_form" model="ir.ui.view">
+            <field name="name">view.task.form</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/notebook/page/field[@name='work_ids']" position="replace">
+                    <field name="work_ids" groups="project.group_tasks_work_on_tasks"
+                        context="{'phase_id': phase_id}">
+                       <tree string="Task Work" editable="top">
+                            <field name="name"/>
+                            <field name="hours" widget="float_time" sum="Spent Hours"/>
+                            <field name="date"/>
+                            <field name="work_type_id"/>
+                            <field name="user_id"/>
+                        </tree>
+                    </field>
                 </xpath>
             </field>
         </record>
