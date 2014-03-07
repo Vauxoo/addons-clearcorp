@@ -50,14 +50,18 @@ class FeatureHours(osv.Model):
     
     _name = 'project.oerp.feature.hours'
     
-    #TODO: calculate hours from tasks with this work type
     def _effective_hours(self, cr ,uid, ids, field_name, arg, context=None):
         res = {}
         for hour in self.browse(cr, uid, ids, context=context):
             task_obj = self.pool.get('project.task')
-            #task_ids = task_obj.search(cr, uid, ids, [('feature_id','=', hour.feature_id)], context=context)
-            
-            res[hour.id] = 0.0
+            task_ids = task_obj.search(cr, uid, [('feature_id','=', hour.feature_id.id)], context=context)
+            tasks = task_obj.browse(cr, uid, task_ids, context=context)
+            sum = 0.0
+            for task in tasks:
+                for work in task.work_ids:
+                    if work.work_type_id == hour.work_type_id:
+                        sum += work.hours
+            res[hour.id] = sum
         return res
     
     def _remaining_hours(self, cr ,uid, ids, field_name, arg, context=None):
