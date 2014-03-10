@@ -61,49 +61,6 @@ class featureType(osv.Model):
             res.append((r['id'], name))
         return res
     
-'''class workType(osv.Model):
-    
-    _name = 'project.scrum.work.type'
-    
-    _columns = {
-                'task_type_id': fields.many2one('project.task.type', string='Phase',
-                    required=True),
-                'code': fields.char('Code', size=16, required=True),
-                'name': fields.char('Type Name', size=128, required=True),
-                }
-    
-    def name_get(self, cr, uid, ids, context=None):
-        res =[]
-        for r in self.read(cr, uid, ids, ['code', 'name'], context=context):
-            name = '%s - %s' %(r['code'],r['name'])
-            res.append((r['id'], name))
-        return res
-    
-class taskType(osv.Model):
-    
-    _inherit = 'project.task.type'
-    
-    _columns = {
-                'work_type_ids': fields.one2many('project.scrum.work.type', 'task_type_id',
-                    string='Work Types'),
-                }
-    
-class taskWork(osv.Model):
-    
-    _inherit = 'project.task.work'
-    
-    _columns = {
-                'stage_id': fields.related('task_id','stage_id', type='many2one',
-                    relation='project.task.type', string='Stage', store=True),
-                'work_type_id': fields.many2one('project.scrum.work.type', string='Work Type',
-                    domain="[('task_type_id','=',stage_id)]")
-                }
-    
-    _defaults = {
-                 'stage_id': lambda slf, cr, uid, ctx: ctx.get('stage_id', False),
-                 }'''
-    
-# TODO: manage states
 class feature(osv.Model):
     
     _name = 'project.scrum.feature'
@@ -277,8 +234,7 @@ class feature(osv.Model):
                 'name': fields.char('Feature Name', size=128, required=True),
                 'code': fields.char('Code', size=16, required=True),
                 'product_backlog_id': fields.many2one('project.scrum.product.backlog',
-                    string='Product Backlog', required=True, domain="['|',('state','=','open'),"
-                    "('state','=','pending')]"),
+                    string='Product Backlog', required=True, domain="[('state','in',['draft','open','pending'])]"),
                 'release_backlog_id': fields.many2one('project.scrum.release.backlog',
                     string='Release Backlog', domain="[('product_backlog_id','=',product_backlog_id),"
                     "'|',('state','=','open'),('state','=','pending')]"),
@@ -305,7 +261,7 @@ class feature(osv.Model):
                 'expected_hours': fields.float('Initially Planned Hour(s)',
                     help='Total planned hours for the development of '
                     'this feature.\nRecommended values are:\n 1h, 2h, 4h,'
-                    ' or 8h', required=True),
+                    ' or 8h'),
                 'effective_hours': fields.function(
                     _effective_hours, type='float', string='Spent Hour(s)',
                     help='Total effective hours from tasks related to this feature.'),

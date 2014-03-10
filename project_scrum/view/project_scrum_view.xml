@@ -430,7 +430,7 @@
                                 <field name="partner_id"/>
                                 <field name="priority"/>
                                 <field name="type_id"/>
-                                <field name="expected_hours"/>
+                                <field name="expected_hours" required="True"/>
                             </group>
                             <group>
                                 <field name="date_start"/>
