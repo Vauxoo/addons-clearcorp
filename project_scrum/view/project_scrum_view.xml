@@ -266,7 +266,7 @@
                         <notebook>
                             <page string="Features" name="features">
                                 <field name="feature_ids" widget="many2many" 
-                                    domain="[('release_backlog_id','=',False)]"
+                                    domain="[('release_backlog_id','=',False),('state','=',['approved','open'])]"
                                     attrs="{'readonly':['|',('state','=', 'cancelled'),('state','=', 'done')]}"
                                     context="{'release_backlog_id': id, 'product_backlog_id': product_backlog_id}"/>
                             </page>
