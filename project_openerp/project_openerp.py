@@ -38,13 +38,64 @@ class WorkType(osv.Model):
                  'phase_id': lambda slf, cr, uid, ctx: ctx.get('phase_id', False),
                  }
     
+class Sprint(osv.Model):
+    
+    _inherit = 'project.scrum.sprint'
+    
+    _columns = {
+                'phase_id': fields.many2one('project.phase', string='Phase', required=True,
+                    domain="[('project_id','=', project_id)]"),
+                }
+    
 class Phase(osv.Model):
     
     _inherit = 'project.phase'
     
+    def onchange_project(self, cr, uid, ids, project_id, context=None):
+        res = super(Phase, self).onchange_project(cr,uid,ids,project_id,context=context)
+        if project_id:
+            project = self.pool.get('project.project').browse(
+                cr, uid, project_id, context=context)
+            is_scrum = project.is_scrum
+            if 'value' in res:
+                res['value']['is_scrum'] = is_scrum
+                res['value']['product_backlog_id'] = False
+            else:
+                res['value'] = {
+                                'is_scrum': is_scrum,
+                                'product_backlog_id': False,
+                                }
+                
+        else:
+            if 'value' in res:
+                res['value']['is_scrum'] = False
+                res['value']['product_backlog_id'] = False
+            else:
+                res['value'] = {
+                                'is_scrum': False,
+                                'product_backlog_id': False,
+                                }
+        return res
+    
+    def _check_sprints(self, cr, uid, ids, context=None):
+        phases = self.browse(cr, uid, ids, context=context)
+        for phase in phases:
+            for sprint in phase.sprint_ids:
+                if sprint.product_backlog_id != phase.product_backlog_id:
+                    return False
+        return True
+    
     _columns = {
+                'is_scrum': fields.related('project_id','is_scrum', type='boolean', string='Is Scrum', readonly=True),
+                'product_backlog_id': fields.many2one('project.scrum.product.backlog', string='Product Backlog',
+                    domain="[('project_id','=',project_id)]"),
                 'work_type_ids': fields.one2many('project.oerp.work.type', 'phase_id', string='Work Types'),
+                'sprint_ids': fields.one2many('project.scrum.sprint', 'phase_id',
+                    string='Sprints'),
                 }
+    
+    _constraints = [(_check_sprints, 'All sprints must belong to the selected '
+                     'product backlog.',['Sprints'])]
     
 class FeatureHours(osv.Model):
     

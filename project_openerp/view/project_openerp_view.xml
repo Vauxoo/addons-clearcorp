@@ -9,7 +9,16 @@
             <field name="model">project.phase</field>
             <field name="inherit_id" ref="project_long_term.view_project_phase_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/group/field[@name='project_id']" position="after">
+                    <field name="is_scrum" invisible="True"/>
+                    <field name="product_backlog_id"
+                        attrs="{'invisible': [('is_scrum','=',False)], 'required':['!',('is_scrum','=',False)]}"/>
+                </xpath>
                 <xpath expr="//form/sheet/notebook/page[@string='Constraints']" position="after">
+                    <page string="Sprints" name="sprints">
+                        <field name="sprint_ids"
+                            context="{}"/>
+                    </page>
                     <page string="Task Types" name="task_types">
                         <field name="work_type_ids" context="{'phase_id': active_id}">
                             <tree editable="bottom">
@@ -29,8 +38,9 @@
             <field name="model">project.scrum.feature</field>
             <field name="inherit_id" ref="project_scrum.view_feature_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//form/sheet/group/group/field[@name='expected_hours']" position="replace">
-                    <field name="expected_hours" readonly="True"/>
+                <xpath expr="//form/sheet/group/group/field[@name='expected_hours']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                    <attribute name="required">False</attribute>
                 </xpath>
                 <xpath expr="//form/sheet/notebook/page[@name='sprints']" position="after">
                     <page string="Feature Hours" name="feature_hours">
@@ -56,7 +66,11 @@
             <field name="name">view.task.form</field>
             <field name="model">project.task</field>
             <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="priority" eval="100"/>
             <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/group/field[@name='phase_id']" position="attributes">
+                        <attribute name="attrs">{'readonly': [('is_scrum','=',True)]}</attribute>
+                </xpath>
                 <xpath expr="//form/sheet/notebook/page/field[@name='work_ids']" position="replace">
                     <field name="work_ids" groups="project.group_tasks_work_on_tasks"
                         context="{'phase_id': phase_id}">
@@ -68,6 +82,19 @@
                             <field name="user_id"/>
                         </tree>
                     </field>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- project.scrum.sprint -->
+        <!-- form -->
+        <record id ="view_sprint_form" model="ir.ui.view">
+            <field name="name">view.sprint.form</field>
+            <field name="model">project.scrum.sprint</field>
+            <field name="inherit_id" ref="project_scrum.view_sprint_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/group/field[@name='release_backlog_id']" position="after">
+                    <field name="phase_id"/>
                 </xpath>
             </field>
         </record>
