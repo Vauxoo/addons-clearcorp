@@ -1,0 +1,186 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* currency_rate_update_BCCR
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-03-10 16:36+0000\n"
+"PO-Revision-Date: 2014-03-10 16:36+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: currency_rate_update_BCCR
+#: view:res.company:0
+msgid "Currency auto update configuration"
+msgstr "Configurar actualización de la moneda"
+
+#. module: currency_rate_update_BCCR
+#: help:res.currency,numbercall:0
+msgid "How many times the method is called,\n"
+"a negative number indicates no limit."
+msgstr "La cantidad de veces que un método es llamado,\n"
+"un número negativo indica que se llama sin límite"
+
+#. module: currency_rate_update_BCCR
+#: field:res.currency.rate,second_rate:0
+msgid "Second Rate"
+msgstr "Tasa secundaria"
+
+#. module: currency_rate_update_BCCR
+#: view:res.currency:0
+msgid "Rate Currency"
+msgstr "Tasa primaria"
+
+#. module: currency_rate_update_BCCR
+#: help:res.currency.rate,second_rate:0
+msgid "The second rate of the currency of rate 1"
+msgstr "La tasa secundaria de la moneda de tasa 1"
+
+#. module: currency_rate_update_BCCR
+#: view:res.currency:0
+msgid "Rates"
+msgstr "Tasas"
+
+#. module: currency_rate_update_BCCR
+#: selection:res.currency,web_service_associated:0
+msgid "Banco Central de Costa Rica"
+msgstr "Banco Central de Costa Rica"
+
+#. module: currency_rate_update_BCCR
+#: selection:res.currency,interval_type:0
+msgid "Weeks"
+msgstr "Semanas"
+
+#. module: currency_rate_update_BCCR
+#: field:res.currency,code_rate:0
+msgid "Code rate"
+msgstr "Código de tasa"
+
+#. module: currency_rate_update_BCCR
+#: model:ir.model,name:currency_rate_update_BCCR.model_currency_rate_update
+msgid "Currency Rate Update"
+msgstr "Tasa de actualización de la moneda"
+
+#. module: currency_rate_update_BCCR
+#: view:res.currency:0
+msgid "Miscellaneous"
+msgstr "Varios"
+
+#. module: currency_rate_update_BCCR
+#: selection:res.currency,interval_type:0
+msgid "Hours"
+msgstr "Horas"
+
+#. module: currency_rate_update_BCCR
+#: view:res.currency:0
+#: field:res.currency,automatic_update:0
+msgid "Automatic Update"
+msgstr "Actualización automática"
+
+#. module: currency_rate_update_BCCR
+#: model:ir.model,name:currency_rate_update_BCCR.model_ir_cron
+msgid "ir.cron"
+msgstr "ir.cron"
+
+#. module: currency_rate_update_BCCR
+#: field:res.currency,interval_type:0
+msgid "Interval Unit"
+msgstr "Intervalo de tiempo"
+
+#. module: currency_rate_update_BCCR
+#: help:res.currency,nextcall:0
+msgid "Next planned execution date for this job."
+msgstr "Siguiente fecha de ejecución de esta tarea"
+
+#. module: currency_rate_update_BCCR
+#: selection:res.currency,interval_type:0
+msgid "Months"
+msgstr "Meses"
+
+#. module: currency_rate_update_BCCR
+#: selection:res.currency,interval_type:0
+msgid "Days"
+msgstr "Días"
+
+#. module: currency_rate_update_BCCR
+#: view:res.currency:0
+msgid "Exchange Code Rate"
+msgstr "Tasa de tipo de cambio"
+
+#. module: currency_rate_update_BCCR
+#: field:res.currency,nextcall:0
+msgid "Next Execution Date"
+msgstr "Siguiente fecha de ejecución"
+
+#. module: currency_rate_update_BCCR
+#: help:res.currency,interval_number:0
+msgid "Repeat every x."
+msgstr "Repetir cada x"
+
+#. module: currency_rate_update_BCCR
+#: field:res.currency,second_rate:0
+msgid "Have second rate"
+msgstr "Tiene tasa secundaria"
+
+#. module: currency_rate_update_BCCR
+#: selection:res.currency,interval_type:0
+msgid "Work Days"
+msgstr "Días laborales"
+
+#. module: currency_rate_update_BCCR
+#: selection:res.currency,interval_type:0
+msgid "Minutes"
+msgstr "Minutos"
+
+#. module: currency_rate_update_BCCR
+#: view:res.currency:0
+#: field:res.currency,ir_cron_job_id:0
+msgid "Automatic Update Task"
+msgstr "Tarea de actualización automática"
+
+#. module: currency_rate_update_BCCR
+#: field:res.currency,interval_number:0
+msgid "Interval Number"
+msgstr "Número de intervalos"
+
+#. module: currency_rate_update_BCCR
+#: field:res.currency,doall:0
+msgid "Repeat Missed"
+msgstr "Repetir perdidos"
+
+#. module: currency_rate_update_BCCR
+#: field:res.currency,web_service_associated:0
+msgid "Web-service to use"
+msgstr "Web-service a utilizar"
+
+#. module: currency_rate_update_BCCR
+#: model:ir.model,name:currency_rate_update_BCCR.model_res_currency
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: currency_rate_update_BCCR
+#: field:res.currency,second_code_rate:0
+msgid "Second Code Rate"
+msgstr "Código de tasa secundaria"
+
+#. module: currency_rate_update_BCCR
+#: help:res.currency,doall:0
+msgid "Specify if missed occurrences should be executed when the server restarts."
+msgstr "Especifica si las ocurrencias perdidas deberían ser ejecutadas cuando el server reinicie"
+
+#. module: currency_rate_update_BCCR
+#: field:res.currency,numbercall:0
+msgid "Number of Calls"
+msgstr "Número de llamadas"
+
+#. module: currency_rate_update_BCCR
+#: model:ir.model,name:currency_rate_update_BCCR.model_res_currency_rate
+msgid "Currency Rate"
+msgstr "Tasa monetaria"
+
