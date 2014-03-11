@@ -441,7 +441,7 @@ class sprint(osv.Model):
                       'date_deadline': sprint.deadline,
                       'priority': PRIORITY[feature.priority],
                       'description': feature.description,
-                      'name': 'Task for: ' + feature.code + '' + feature.name,
+                      'name': 'Task for: ' + feature.code + ' ' + feature.name,
                       }
             task_obj.create(cr, uid, values, context=context)
         self.write(cr, uid, ids[0], {'task_from_features': True}, context=context)
@@ -455,7 +455,13 @@ class sprint(osv.Model):
         return True
     
     def set_done(self, cr, uid, ids, context=None):
-        project = self.browse(cr, uid, ids[0], context=context).project_id
+        sprint = self.browse(cr, uid, ids[0], context=context)
+        for task in sprint.task_ids:
+            if not task.state in ['done','cancelled']:
+                raise osv.except_osv(_('Error'),
+                    _('All tasks must be done or cancelled in order '
+                      'to cancel this sprint.'))
+        project = sprint.project_id
         id = False
         for stage in project.type_ids:
             if stage.state == 'done':
@@ -465,7 +471,13 @@ class sprint(osv.Model):
         return True
     
     def set_cancel(self, cr, uid, ids, context=None):
-        project = self.browse(cr, uid, ids[0], context=context).project_id
+        sprint = self.browse(cr, uid, ids[0], context=context)
+        for task in sprint.task_ids:
+            if not task.state in ['done','cancelled']:
+                raise osv.except_osv(_('Error'),
+                    _('All tasks must be done or cancelled in order '
+                      'to cancel this sprint.'))
+        project = sprint.project_id
         id = False
         for stage in project.type_ids:
             if stage.state == 'cancelled':
@@ -526,7 +538,7 @@ class sprint(osv.Model):
     
     _constraints = [(_check_deadline, 'Deadline must be greater than Start Date',['Start Date','Deadline'])]
     
-class task(osv.Model):
+class Task(osv.Model):
     
     _inherit = 'project.task'
     
@@ -545,53 +557,30 @@ class task(osv.Model):
         return date_end
     
     def onchange_project(self, cr, uid, ids, project_id, context=None):
-        res = super(task,self).onchange_project(cr,uid,ids,project_id,context=context)
+        res = super(Task,self).onchange_project(cr,uid,ids,project_id,context=context)
         if project_id:
             project = self.pool.get('project.project').browse(
                 cr, uid, project_id, context=context)
-            if 'value' in res:
-                res['value']['is_scrum'] = project.is_scrum
-            else:
+            if not 'value' in res:
                 res['value'] = {}
-                res['value']['is_scrum'] = project.is_scrum
-        else:
-            if 'value' in res:
-                res['value']['is_scrum'] = False
+            res['value']['is_scrum'] = project.is_scrum
+            if not project.is_scrum:
                 res['value']['product_backlog_id'] = False
-            else:
+                res['value']['release_backlog_id'] = False
+                res['value']['sprint_id'] = False
+                res['value']['feature_id'] = False
+        else:
+            if not 'value' in res:
                 res['value'] = {}
-                res['value']['is_scrum'] = False
-                res['value']['product_backlog_id'] = False
-        return res
-    
-    def onchange_product(self, cr, uid, ids, product_id, release_id, context=None):
-        res = {}
-        if product_id:
-            if release_id:
-                product_obj = self.pool.get('project.scrum.product.backlog')
-                product = product_obj.browse(cr,uid,product_id,context=context)
-                releases = [x.id for x in product.release_backlog_ids]
-                if not release_id in releases:
-                    res = {'value': {'release_backlog_id': False,}}
-        else:
-            res = {'value': {'release_backlog_id': False}}
-        return res
-    
-    def onchange_release(self, cr, uid, ids, release_id, sprint_id, context=None):
-        res = {}
-        if release_id:
-            if sprint_id:
-                release_obj = self.pool.get('project.scrum.release.backlog')
-                release = release_obj.browse(cr,uid,release_id,context=context)
-                sprints = [x.id for x in release.sprint_ids]
-                if not sprint_id in sprints:
-                    res = {'value': {'release_backlog_id': False,}}
-        else:
-            res = {'value': {'sprint_id': False}}
+            res['value']['is_scrum'] = False
+            res['value']['product_backlog_id'] = False
+            res['value']['release_backlog_id'] = False
+            res['value']['sprint_id'] = False
+            res['value']['feature_id'] = False
         return res
     
     def onchange_sprint(self, cr, uid, ids, sprint_id, feature_id, user_id, context=None):
-        res = {}
+        res = None
         if sprint_id:
             res = {
                    'value': {},
@@ -602,22 +591,9 @@ class task(osv.Model):
             res['value']['date_deadline'] = sprint.deadline
             member_ids = [x.id for x in sprint.member_ids]
             res['domain']['user_id'] = [('id','in',member_ids)]
-            if feature_id:
-                features = [x.id for x in sprint.feature_ids]
-                if not feature_id in features:
-                    res['value']['feature_id'] = False
-            if user_id:
-                members = [x.id for x in sprint.member_ids]
-                if not user_id in members:
-                    res['value']['user_id'] = False
         else:
-            res = {
-                   'value': {
-                             'date_deadline': False,
-                             'user_id': False
-                             },
-                   'domain': {'user_id': []},
-                   }
+            res = {'value': {}}
+            res['value']['date_deadline'] = False
         return res
     
     def onchange_feature(self, cr, uid, ids, feature_id, context=None):
@@ -636,6 +612,37 @@ class task(osv.Model):
                           'priority': '2',
                           }
                 }
+    def _check_product_backlog(self, cr, uid, ids, context=None):
+        tasks = self.browse(cr, uid, ids, context=context)
+        for task in tasks:
+            if task.product_backlog_id and \
+            task.product_backlog_id.project_id != task.project_id:
+                return False
+        return True
+    
+    def _check_release_backlog(self, cr, uid, ids, context=None):
+        tasks = self.browse(cr, uid, ids, context=context)
+        for task in tasks:
+            if task.release_backlog_id and \
+            task.release_backlog_id.product_backlog_id != task.product_backlog_id:
+                return False
+        return True
+    
+    def _check_sprint(self, cr, uid, ids, context=None):
+        tasks = self.browse(cr, uid, ids, context=context)
+        for task in tasks:
+            if task.sprint_id and \
+            task.sprint_id.release_backlog_id != task.release_backlog_id:
+                return False
+        return True
+    
+    def _check_feature(self, cr, uid, ids, context=None):
+        tasks = self.browse(cr, uid, ids, context=context)
+        for task in tasks:
+            if task.sprint_id and task.feature_id:
+                if not task.feature_id in task.sprint_id.feature_ids:
+                    return False
+        return True
     
     _columns = {
                 'is_scrum': fields.related('project_id','is_scrum', string='Scrum', type='boolean', store=True),
@@ -651,6 +658,16 @@ class task(osv.Model):
                     domain="[('sprint_ids','=',sprint_id),('state','in',['open','approved'])]"),
                 }
     
+    def write(self, cr, uid, ids, values, context=None):
+        tasks = self.browse(cr, uid, ids, context=context)
+        for task in tasks:
+            if task.sprint_id and task.sprint_id.deadline:
+                values['date_deadline'] = task.sprint_id.deadline
+            if task.feature_id and task.feature_id.expected_hours:
+                values['planned_hours'] = task.feature_id.expected_hours
+            res = super(Task,self).write(cr, uid, task.id, values, context=context)
+        return True
+    
     _defaults = {
                  'date_start': lambda *a: datetime.strftime(datetime.now(),'%Y-%m-%d %H:%M:%S'),
                  'date_end': lambda *a: datetime.strftime(datetime.now(),'%Y-%m-%d %H:%M:%S'),
@@ -659,6 +676,16 @@ class task(osv.Model):
                  'release_backlog_id': lambda slf, cr, uid, ctx: ctx.get('release_backlog_id', False),
                  'sprint_id': lambda slf, cr, uid, ctx: ctx.get('sprint_id', False),
                  }
+    
+    _constraints = [
+                    (_check_product_backlog, 'The selected Product Backlog must belong to '
+                     'the selected Project.',['Product Backlog']),
+                    (_check_release_backlog, 'The selected Release Backlog must belong to '
+                     'the selected Product Backlog.',['Release Backlog']),
+                    (_check_sprint, 'The selected Sprint must belong to the selected '
+                     'Release Backlog.',['Sprint']),
+                    (_check_feature, 'The selected Feature must belong to the selected '
+                     'Sprint.',['Feature'])]
     
 class releaseBacklog(osv.Model):
     

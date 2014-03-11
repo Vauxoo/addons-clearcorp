@@ -26,11 +26,9 @@
                 <xpath expr="//form/sheet/group/group/field[@name='project_id']" position="after">
                     <field name="is_scrum" invisible="True"/>
                     <field name="product_backlog_id"
-                        attrs="{'invisible': [('is_scrum','=',False)],'required': [('is_scrum','=',True)]}"
-                        on_change="onchange_product(product_backlog_id, release_backlog_id)"/>
+                        attrs="{'invisible': [('is_scrum','=',False)],'required': [('is_scrum','=',True)]}"/>
                     <field name="release_backlog_id"
-                        attrs="{'invisible': [('is_scrum','=',False)],'required': [('is_scrum','=',True)]}"
-                        on_change="onchange_release(release_backlog_id, sprint_id)"/>
+                        attrs="{'invisible': [('is_scrum','=',False)],'required': [('is_scrum','=',True)]}"/>
                     <field name="sprint_id"
                         attrs="{'invisible': [('is_scrum','=',False)],'required': [('is_scrum','=',True)]}"
                         on_change="onchange_sprint(sprint_id, feature_id, user_id)"/>
