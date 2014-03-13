@@ -38,6 +38,7 @@
               'view/project_scrum_view.xml',
               'view/project_scrum_menu.xml',
               ],
+    "css" : ['static/src/css/project_scrum.css'],
     "init_xml" : [],
     "demo_xml" : [],
     "update_xml" : [],
