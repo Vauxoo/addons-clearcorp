@@ -37,6 +37,16 @@
                         on_change="onchange_feature(feature_id)"/>
                     <field name="feature_type_id"/>
                 </xpath>
+                <xpath expr="//form/sheet/notebook/page[@string='Extra Info']" position="after">
+                    <page string="Sequence" name="sequence">
+                        <separator string="Previous Tasks"/>
+                        <field name="previous_task_ids"
+                            attrs="{'readonly': [('state','in',['done','cancelled'])]}"/>
+                        <separator string="Next Tasks"/>
+                        <field name="next_task_ids"
+                            attrs="{'readonly': [('state','in',['done','cancelled'])]}"/>
+                    </page>
+                </xpath>
                 <xpath expr="//form/sheet/group/group/field[@name='planned_hours']" position="attributes">
                         <attribute name="attrs">{'readonly': [('is_scrum','=',True),'!',('feature_id','=',False)]}</attribute>
                 </xpath>

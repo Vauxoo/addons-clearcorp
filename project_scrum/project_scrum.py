@@ -661,6 +661,18 @@ class Task(osv.Model):
                     return False
         return True
     
+    def _check_related_tasks(self, cr ,uid, ids, context=None):
+        tasks = self.browse(cr, uid, ids, context=context)
+        for task in tasks:
+            for previous_task in task.previous_task_ids:
+                if previous_task.id == task.id or \
+                previous_task in task.next_task_ids:
+                    return False
+            for next_task in task.next_task_ids:
+                if next_task.id == task.id:
+                    return False
+        return True
+    
     _columns = {
                 'is_scrum': fields.related('project_id','is_scrum', string='Scrum', type='boolean', store=True),
                 'product_backlog_id': fields.many2one('project.scrum.product.backlog', string='Product Backlog',
@@ -675,6 +687,11 @@ class Task(osv.Model):
                     domain="[('sprint_ids','=',sprint_id),('state','in',['open','approved'])]"),
                 'feature_type_id': fields.related('feature_id','type_id', type='many2one', string='Feature Type',
                     relation='project.scrum.feature.type', readonly=True),
+                'previous_task_ids': fields.many2many('project.task', 'project_task_previous_tasks',
+                    'task_id', 'previous_task_id', string='Previous Tasks', domain="['!',('id','=',id)]"),
+                'next_task_ids': fields.many2many('project.task', 'project_task_next_tasks',
+                    'task_id', 'next_task_id', string='Next Tasks', domain="['!',('state','in',['done','cancelled']),"
+                    "'!',('id','=',id)]"),
                 }
     
     def write(self, cr, uid, ids, values, context=None):
@@ -706,7 +723,10 @@ class Task(osv.Model):
                     (_check_sprint, 'The selected Sprint must belong to the selected '
                      'Release Backlog.',['Sprint']),
                     (_check_feature, 'The selected Feature must belong to the selected '
-                     'Sprint.',['Feature'])]
+                     'Sprint.',['Feature']),
+                    (_check_related_tasks, 'There was an error checking the relationship between tasks. '
+                     'Please check if you selected an invalid task.', ['Previous Tasks','Next Tasks']),
+                    ]
     
 class releaseBacklog(osv.Model):
     
