@@ -188,6 +188,15 @@ class Feature(osv.Model):
             values['expected_hours'] = sum
         return super(Feature,self).create(cr, uid, values, context=context)
     
+class Task(osv.Model):
+    
+    _inherit = 'project.task'
+    
+    _columns = {
+                'hour_ids': fields.related('feature_id', 'hour_ids', type='one2many',
+                    relation='project.oerp.feature.hours', string='hour_ids', readonly=True)
+                }
+    
 class TaskWork(osv.Model):
     
     _inherit = 'project.task.work'

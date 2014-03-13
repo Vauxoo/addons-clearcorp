@@ -72,7 +72,7 @@
             <field name="priority" eval="100"/>
             <field name="arch" type="xml">
                 <xpath expr="//form/sheet/group/group/field[@name='phase_id']" position="attributes">
-                        <attribute name="attrs">{'readonly': [('is_scrum','=',True)]}</attribute>
+                    <attribute name="attrs">{'readonly': [('is_scrum','=',True)]}</attribute>
                 </xpath>
                 <xpath expr="//form/sheet/notebook/page/field[@name='work_ids']" position="replace">
                     <field name="work_ids" groups="project.group_tasks_work_on_tasks"
@@ -85,6 +85,20 @@
                             <field name="user_id"/>
                         </tree>
                     </field>
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page[@name='sequence']" position="before">
+                    <page string="Feature Hours" name="feature_hours"
+                        attrs="{'invisible': [('feature_id','=',False)]}">
+                        <field name="hour_ids">
+                            <tree>
+                                <field name="phase_id"/>
+                                <field name="work_type_id"/>
+                                <field name="expected_hours" sum="Planned Hour(s)"/>
+                                <field name="effective_hours" sum="Spent Hour(s)"/>
+                                <field name="remaining_hours" sum="Remaining Hour(s)"/>
+                            </tree>
+                        </field>
+                    </page>
                 </xpath>
             </field>
         </record>
