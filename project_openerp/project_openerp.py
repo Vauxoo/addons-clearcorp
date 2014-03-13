@@ -143,6 +143,14 @@ class Feature(osv.Model):
     
     _inherit = 'project.scrum.feature'
     
+    def onchange_product_backlog(self, cr, uid, ids, product_backlog_id, context=None):
+        res = {}
+        if product_backlog_id:
+            product_backlog = self.pool.get('project.scrum.product.backlog').browse(
+                cr, uid, product_backlog_id, context=context)
+            res = {'value': {'project_id': product_backlog.project_id.id}}
+        return res
+    
     _columns = {
                 'hour_ids': fields.one2many('project.oerp.feature.hours', 'feature_id', string='Feature Hours'),
                 }
@@ -162,6 +170,23 @@ class Feature(osv.Model):
                     sum += hour_obj.browse(cr, uid, id, context=context).expected_hours
             values['expected_hours'] = sum
         return super(Feature,self).write(cr, uid, ids, values, context=context)
+    
+    def create(self, cr, uid, values, context=None):
+        print values
+        if 'hour_ids' in values:
+            hours = values['hour_ids']
+            sum = 0.0
+            for hour in hours:
+                id = hour[1]
+                vals = hour[2]
+                if vals: 
+                    if 'expected_hours' in vals:
+                        sum += vals['expected_hours']
+                else:
+                    hour_obj = self.pool.get('project.oerp.feature.hours')
+                    sum += hour_obj.browse(cr, uid, id, context=context).expected_hours
+            values['expected_hours'] = sum
+        return super(Feature,self).create(cr, uid, values, context=context)
     
 class TaskWork(osv.Model):
     

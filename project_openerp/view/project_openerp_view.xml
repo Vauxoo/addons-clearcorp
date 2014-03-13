@@ -42,6 +42,9 @@
                     <attribute name="readonly">True</attribute>
                     <attribute name="required">False</attribute>
                 </xpath>
+                <xpath expr="//form/sheet/group/group/field[@name='product_backlog_id']" position="attributes">
+                    <attribute name="on_change">onchange_product_backlog(product_backlog_id)</attribute>
+                </xpath>
                 <xpath expr="//form/sheet/notebook/page[@name='sprints']" position="after">
                     <page string="Feature Hours" name="feature_hours">
                         <field name="id" invisible="True"/>
