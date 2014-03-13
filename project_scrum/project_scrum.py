@@ -208,16 +208,6 @@ class Feature(osv.Model):
                 res[id] = 0.0
         return res
     
-    def onchange_product_backlog(self, cr, uid, ids, product_id, release_id, context=None):
-        if product_id and release_id:
-            backlog = self.pool.get('project.scrum.release.backlog').browse(
-                cr, uid, release_id, context=context)
-            if product_id == backlog.product_backlog_id.id:
-                return {}
-        return {
-                'value': {'release_backlog_id': False},
-                }
-    
     def set_open(self, cr, uid, ids, context=None):
         return self.write(cr, uid, ids, {'state':'open'}, context=context)
     
@@ -241,6 +231,14 @@ class Feature(osv.Model):
     
     def set_very_high_priority(self, cr, uid, ids, context=None):
         return self.write(cr, uid, ids, {'priority':4}, context=context)
+    
+    def _check_release_backlog(self, cr, uid, ids, context=None):
+        for feature in self.browse(cr, uid, ids, context=context):
+            if feature.release_backlog_id and \
+            not feature.release_backlog_id in \
+            feature.product_backlog_id.release_backlog_ids:
+                return False
+        return True
     
     _columns = {
                 'name': fields.char('Feature Name', size=128, required=True),
@@ -317,6 +315,9 @@ class Feature(osv.Model):
         feature = self.browse(cr, uid, id, context=context)
         defaults['code'] = feature.code + ' (copy)'
         return super(Feature, self).copy(cr, uid, id, defaults, context=context)
+    
+    _constraints = [(_check_release_backlog,'The selected Release Backlog must belong to '
+                     'the selected Product Backlog',['Release Backlog'])]
     
     _sql_constraints = [('unique_code_product','UNIQUE(code,product_backlog_id)',
                          'Code must be unique for every feature related to a Product Backlog')]
