@@ -192,6 +192,31 @@ class Task(osv.Model):
     
     _inherit = 'project.task'
     
+    def onchange_sprint(self, cr, uid, ids, sprint_id, context=None):
+        res = super(Task,self).onchange_sprint(cr, uid, ids, sprint_id, context=context)
+        if sprint_id:
+            sprint = self.pool.get('project.scrum.sprint').browse(
+                cr, uid, sprint_id, context=context)
+            if 'value' in res:
+                res['value']['phase_id'] = sprint.phase_id.id
+            else:
+                res['value'] = {'phase_id': sprint.phase_id.id}
+        else:
+            if 'value' in res:
+                res['value']['phase_id'] = False
+            else:
+                res['value'] = {'phase_id': False}
+        return res
+    
+    def write(self, cr, uid, ids, values, context=None):
+        if not isinstance(ids,list):
+            ids = [ids]
+        for task in self.browse(cr, uid, ids, context=context):
+            if task.sprint_id and task.sprint_id.phase_id:
+                values['phase_id'] = task.sprint_id.phase_id.id
+            super(Task,self).write(cr, uid, task.id, values, context=context)
+        return True
+    
     _columns = {
                 'hour_ids': fields.related('feature_id', 'hour_ids', type='one2many',
                     relation='project.oerp.feature.hours', string='hour_ids', readonly=True)
@@ -200,6 +225,20 @@ class Task(osv.Model):
 class TaskWork(osv.Model):
     
     _inherit = 'project.task.work'
+    
+    def _check_work_type(self, cr , uid, ids, context=None):
+        works = self.browse(cr, uid, ids, context=context)
+        for work in works:
+            if work.work_type_id:
+                if work.task_id.feature_id:
+                    feature = work.task_id.feature_id
+                    flag = True
+                    for hour in feature.hour_ids:
+                        if hour.work_type_id == work.work_type_id:
+                            flag = False
+                    if flag:
+                        return False
+        return True
     
     _columns = {
                 'phase_id': fields.many2one('project.phase', string='Phase'),
@@ -210,3 +249,6 @@ class TaskWork(osv.Model):
     _defaults = {
                  'phase_id': lambda slf, cr, uid, ctx: ctx.get('phase_id',False),
                  }
+    
+    _constraints = [(_check_work_type,'The selected Work Type has not been '
+                     'planned in the selected Feature.',['Work Type'])]

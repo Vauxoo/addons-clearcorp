@@ -49,7 +49,7 @@
                     <page string="Feature Hours" name="feature_hours">
                         <field name="id" invisible="True"/>
                         <field name="project_id" invisible="True"/>
-                        <field name="hour_ids" context="{'feature_id': active_id, 'project_id': project_id}"><!-- attrs="{'invisible': [('id','=',False)]}" -->
+                        <field name="hour_ids" context="{'feature_id': active_id, 'project_id': project_id}">
                             <tree editable="bottom">
                                 <field name="phase_id"/>
                                 <field name="work_type_id"/>
@@ -74,17 +74,11 @@
                 <xpath expr="//form/sheet/group/group/field[@name='phase_id']" position="attributes">
                     <attribute name="attrs">{'readonly': [('is_scrum','=',True)]}</attribute>
                 </xpath>
-                <xpath expr="//form/sheet/notebook/page/field[@name='work_ids']" position="replace">
-                    <field name="work_ids" groups="project.group_tasks_work_on_tasks"
-                        context="{'phase_id': phase_id}">
-                       <tree string="Task Work" editable="top">
-                            <field name="name"/>
-                            <field name="hours" widget="float_time" sum="Spent Hours"/>
-                            <field name="date"/>
-                            <field name="work_type_id"/>
-                            <field name="user_id"/>
-                        </tree>
-                    </field>
+                <xpath expr="//form/sheet/notebook/page/field[@name='work_ids']" position="attributes">
+                    <attribute name="context">{'phase_id': phase_id}</attribute>
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page/field[@name='work_ids']/tree/field[@name='date']" position="after">
+                    <field name="work_type_id"/>
                 </xpath>
                 <xpath expr="//form/sheet/notebook/page[@name='sequence']" position="before">
                     <page string="Feature Hours" name="feature_hours"
