@@ -27,10 +27,11 @@ from datetime import datetime
 # Mapping between task priority and
 # feature priority
 PRIORITY = {
-            1: '3',
-            2: '2',
-            3: '1',
-            4: '0',
+            5: '4',
+            4: '3',
+            3: '2',
+            2: '1',
+            1: '0',
             }
 
 STATES = [('draft', 'New'),('open', 'In Progress'),
@@ -220,17 +221,20 @@ class Feature(osv.Model):
     def set_cancel(self, cr, uid, ids, context=None):
         return self.write(cr, uid, ids, {'state':'cancelled'}, context=context)
     
+    def set_very_low_priority(self, cr, uid, ids, context=None):
+        return self.write(cr, uid, ids, {'priority':5}, context=context)
+    
     def set_low_priority(self, cr, uid, ids, context=None):
-        return self.write(cr, uid, ids, {'priority':1}, context=context)
+        return self.write(cr, uid, ids, {'priority':4}, context=context)
     
     def set_medium_priority(self, cr, uid, ids, context=None):
-        return self.write(cr, uid, ids, {'priority':2}, context=context)
-    
-    def set_high_priority(self, cr, uid, ids, context=None):
         return self.write(cr, uid, ids, {'priority':3}, context=context)
     
+    def set_high_priority(self, cr, uid, ids, context=None):
+        return self.write(cr, uid, ids, {'priority':2}, context=context)
+    
     def set_very_high_priority(self, cr, uid, ids, context=None):
-        return self.write(cr, uid, ids, {'priority':4}, context=context)
+        return self.write(cr, uid, ids, {'priority':1}, context=context)
     
     def _check_release_backlog(self, cr, uid, ids, context=None):
         for feature in self.browse(cr, uid, ids, context=context):
@@ -258,8 +262,8 @@ class Feature(osv.Model):
                     help='Contact or person responsible of keeping the '
                     'business perspective in scrum projects.'),
                 'type_id': fields.many2one('project.scrum.feature.type', string='Type'),
-                'priority': fields.selection([(1,'Low'),(2,'Medium'),(3,'High'),
-                    (4,'Very High')], string='Priority', required=True),
+                'priority': fields.selection([(5, '5 - Very Low'),(4,'4 - Low'),(3,'3 - Medium'),(2,'2 - High'),
+                    (1,'1 - Very High')], string='Priority', required=True),
                 'sprint_ids': fields.many2many(
                     'project.scrum.sprint', readonly=True, string='Sprints',
                     rel='project_scrum_sprint_backlog',
@@ -286,7 +290,7 @@ class Feature(osv.Model):
                 }
     
     _defaults = {
-                 'priority': 2,
+                 'priority': 3,
                  'state': 'draft',
                  'product_backlog_id': lambda self, cr, uid, c: c.get('product_backlog_id', False),
                  'release_backlog_id': lambda self, cr, uid, c: c.get('release_backlog_id', False),
