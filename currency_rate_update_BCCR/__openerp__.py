@@ -19,17 +19,29 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-
 {
-    "name" : 'Res Currency Sequence',
-    "version" : '1.0',
-    "author" : 'CLEARCORP S.A.',
-    "category": 'Accounting & Finance',
-    "description": """ Add sequence to currency """,
-    "depends" : ["base",],
-    "data" : ["res_currency_sequence_view.xml",],
-    'active': False,
-    'installable': True,    
+    'name': 'Currency Rate Update BCCR',
+    'version': '1.0',
+    'author': 'CLEARCORP S.A.',    
+    'category': 'Generic Modules/Base',
+    'description': """
+Import exchange rates from BCCR.
+==================================
+    This module permits for each currency, create a process that will update 
+    exchange range. You can adapt this process depends of your needs.
+    Also, it will create a link between process and currency, update data each
+    time that someone change.
+    """,
+    'depends': [
+                'res_currency_sequence',
+                'currency_rate_update',
+                ],
+    'data': [
+             'security/ir.model.access.csv',
+             'company_view.xml',
+             'res_currency_view.xml',
+             ],
+    'installable': True,
+    'auto_install': False,
     'license': 'AGPL-3',
 }
