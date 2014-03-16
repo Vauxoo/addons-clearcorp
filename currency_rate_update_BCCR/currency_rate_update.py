@@ -79,11 +79,19 @@ class currencyRateupdate(orm.Model):
              for date, rate in res_sale[currency_id.name].iteritems():                
                 rate_ids = rate_obj.search(cr, uid, [('currency_id','=',currency_id.id),('name','=',date)])
                 if not len(rate_ids):
+                     #sale rate
                      rate = float(rate)
                      if currency_id.sequence > res_currency_base.sequence:
                          rate = 1.0/float(rate)
-                     vals = {'currency_id': currency_id.id, 'rate': rate, 'name': date, 'second_rate': res_purchase[currency_id.name][date]} #add purchase exchange rate
+                     vals = {'currency_id': currency_id.id, 'rate': rate, 'name': date} #add purchase exchange rate
+                     
+                     #purchase rate
+                     second_rate = res_purchase[currency_id.name][date]
+                     if currency_id.sequence > res_currency_base.sequence:
+                         second_rate = 1.0/float(second_rate)
+                     vals.update({'second_rate': second_rate})                     
                      rate_obj.create(cr, uid, vals)
+                     
                 note = "Currency sale and purchase rate " + currency_id.name + " updated at %s "\
                     %(str(datetime.today()))
              

@@ -38,6 +38,8 @@ class irCroninherit(orm.Model):
     def write(self, cr, uid, ids, vals, context=None):
         dict = {}        
         
+        res = super(irCroninherit, self).write(cr, uid, ids, vals, context=context)
+        
         for ir_cron in self.browse(cr,uid, ids, context=None):
             currency_id = self.pool.get('res.currency').search(cr, uid,[('ir_cron_job_id','in', [ir_cron.id])], context=context) 
             #Find if cron_job is associated with a currency
@@ -48,6 +50,6 @@ class irCroninherit(orm.Model):
                     context.update({'from_ir_cron':True})
                     self.pool.get('res.currency').write(cr, uid, currency_id, dict, context=context)
         
-        return super(irCroninherit, self).write(cr, uid, ids, vals, context=context)
+        return res
         
     
