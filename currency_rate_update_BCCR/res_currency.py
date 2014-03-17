@@ -56,11 +56,11 @@ class resCurrencyinherit(orm.Model):
             
             #===================================================================
             #===cron job  fields ===#
-            'interval_number': fields.related('ir_cron_job_id', 'interval_number', type='integer', string='Interval Number',help="Repeat every x.",store=True),
-            'nextcall' : fields.related('ir_cron_job_id', 'nextcall', type='datetime', string='Next Execution Date', help="Next planned execution date for this job.",store=True),
-            'doall' : fields.related('ir_cron_job_id', 'doall', type='boolean', string='Repeat Missed', help="Specify if missed occurrences should be executed when the server restarts.",store=True),
+            'interval_number': fields.related('ir_cron_job_id', 'interval_number', type='integer', string='Interval Number',help="Repeat every x."),
+            'nextcall' : fields.related('ir_cron_job_id', 'nextcall', type='datetime', string='Next Execution Date', help="Next planned execution date for this job."),
+            'doall' : fields.related('ir_cron_job_id', 'doall', type='boolean', string='Repeat Missed', help="Specify if missed occurrences should be executed when the server restarts."),
             'interval_type': fields.related('ir_cron_job_id', 'interval_type', type='selection', selection=[('minutes', 'Minutes'), ('hours', 'Hours'), ('work_days','Work Days'), ('days', 'Days'),('weeks', 'Weeks'), ('months', 'Months')], string='Interval Unit'),
-            'numbercall': fields.related('ir_cron_job_id', 'numbercall', type='integer', string='Number of Calls', help='How many times the method is called,\na negative number indicates no limit.',store=True),
+            'numbercall': fields.related('ir_cron_job_id', 'numbercall', type='integer', string='Number of Calls', help='How many times the method is called,\na negative number indicates no limit.'),
             #===================================================================
     }
     
@@ -79,16 +79,17 @@ class resCurrencyinherit(orm.Model):
         if mode == 'write':
             #For write, vals dictionary only have new values (or values with some changes)         
             currency_obj = self.browse(cr, uid, ids, context=context)[0] #Find currency that already exists in database
-            name = 'Exchanges Rate Cron for currency ' + str(currency_obj.name),
-            res['name'] = str(name)
-            
+            name = "Exchanges Rate Cron for currency " + currency_obj.name
+           
         elif mode == 'create':
-            name = 'Exchanges Rate Cron for currency ' + str(vals['name'])
-            res.update({'name': name})
+            name = "Exchanges Rate Cron for currency " + vals['name']
         
-        #Add by default web_service bccr
-        web_service_id = self.pool.get('currency.rate.update.service').search(cr,uid,[('service','=','bccr_getter')])
-              
+        #Cron job name. "Clean" name for unnecesary characters. Avoid create
+        #name as a tuple.
+        name.replace(')','')      
+        
+        res.update({'name': name})
+        
         res.update ({
                'interval_type': 'days',
                'nextcall': datetime.date.today() + datetime.timedelta(days=1), #Get tomorrow's date
@@ -98,8 +99,6 @@ class resCurrencyinherit(orm.Model):
                'model': 'currency.rate.update', 
                'function': 'run_currency_update_bccr',                                              
                'active':True,
-               'from_currency':True,
-               'web_service_associated': web_service_id,
                })
         
         return res
