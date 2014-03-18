@@ -6,23 +6,22 @@
             <field name="model">generate.exchange.rates.wizard</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                <form string="Generate move exchange rate adjustment">
-                    <separator string="Select the options do you need" colspan="4"/>
-                    <label string="This wizard will generates an move about exchange rate of the moves." colspan="4"/>
-                    <newline/>
-                    <field name="reference" colspan="4"/>
-                    <group colspan="4" col="4">                        
-                    <field name="journal_id" colspan="2"/>
-                    <field name="period_id"/>
-                    <field name="exchange_rate_date"/>
+                <form string="Generate move exchange rate adjustment" version="7.0">
+                    <separator string="Generate move exchange rate adjustment"/>
+                    <label string="This wizard will generates an move about exchange rate of the moves."/>
+                    <newline/>                    
+                    <group col="4" string="General Options">                        
+                        <field name="reference"/>
+                        <field name="journal_id"/>
+                        <field name="period_id"/>
+                        <field name="exchange_rate_date"/>
                     </group>
                     <separator colspan="4"/>
-                    <group colspan="4" col="6">
-                        <label string=""/>
-                       <button icon="gtk-cancel" special="cancel" string="Cancel"/>
-                       <label string=""/>
+                     <footer>
                        <button icon="gtk-execute" string="Compute" name="generate_exchange_rates" type="object"/>
-                    </group>
+                        or
+                       <button icon="gtk-cancel" special="cancel" string="Cancel"/>
+                     </footer>
                  </form>
                </field>
         </record>
@@ -38,7 +37,7 @@
 
         <menuitem action="action_generate_exchange_rates_wizard"
             id="menu_generate_exchange_rates_wizard"
-            parent="account.menu_finance_recurrent_entries" />
+            parent="account.menu_account_end_year_treatments" />
 
     </data>
 </openerp>

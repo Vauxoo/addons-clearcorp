@@ -19,7 +19,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
+import time
 from osv import osv, fields
 from tools.translate import _
 
@@ -40,6 +40,36 @@ class ResCurrency(osv.osv):
     ]
     
     _order = 'sequence'
+    
+    #Redefine this method. Receive a parameter in context, second_rate
+    def _current_rate(self, cr, uid, ids, name, arg, context=None):
+        if context is None:
+            context = {}
+        res = {}
+        if 'date' in context:
+            date = context['date']
+        else:
+            date = time.strftime('%Y-%m-%d')
+        date = date or time.strftime('%Y-%m-%d')
+        # Convert False values to None ...
+        currency_rate_type = context.get('currency_rate_type_id') or None
+        # ... and use 'is NULL' instead of '= some-id'.
+        operator = '=' if currency_rate_type else 'is'
+
+        #Second_rate determinate if use purchase or sale exchange rate
+        second_rate = context.get('second_rate') or False
+        for id in ids:
+            if second_rate: #purchase rate
+                cr.execute("SELECT currency_id, second_rate FROM res_currency_rate WHERE currency_id = %s AND name <= %s AND currency_rate_type_id " + operator +" %s ORDER BY name desc LIMIT 1" ,(id, date, currency_rate_type))
+            else:            
+                #sale rate
+                cr.execute("SELECT currency_id, rate FROM res_currency_rate WHERE currency_id = %s AND name <= %s AND currency_rate_type_id " + operator +" %s ORDER BY name desc LIMIT 1" ,(id, date, currency_rate_type))
+            if cr.rowcount:
+                id, rate = cr.fetchall()[0]
+                res[id] = rate
+            else:
+                res[id] = 0
+        return res
     
     def copy(self, cr, uid, id, default=None, context=None):
         default = default or {}
