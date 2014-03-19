@@ -24,6 +24,7 @@
                             <tree editable="bottom">
                                 <field name="name"/>
                                 <field name="sequence"/>
+                                <field name="column_number"/>
                             </tree>
                         </field>
                     </page>
@@ -108,6 +109,15 @@
                     <field name="phase_id"/>
                 </xpath>
             </field>
+        </record>
+        
+        <!-- actions -->
+        <!-- project.oerp.feature.import.wizard -->
+        <record model="ir.actions.act_window" id="action_feature_import_wizard">
+            <field name="name">Feature Import</field>
+            <field name="res_model">project.oerp.feature.import.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
         </record>
     </data>
 </openerp>

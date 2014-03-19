@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <!-- project.oerp.feature.import.wizard -->
+        <!-- form -->
+        <record id="view_feature_import_wizard_form" model="ir.ui.view">
+            <field name="name">view.feature.import.wizard.form</field>
+            <field name="model">project.oerp.feature.import.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Feature Import Wizard" version="7.0">
+                    <header>
+                        <field name="state" widget="statusbar" />
+                    </header>
+                    <group states="new">
+                        <field name="project_id"/>
+                        <field name="product_backlog_id"/>
+                        <field name="file"/>
+                    </group>
+                    <footer>
+                        <button string="Import" type="object"
+                            name="import_file" class="oe_highlight"
+                            confirm="Are you sure you want to import this file?"
+                            states="new"/> or 
+                        <button string="Cancel" class="oe_link"
+                            special="cancel" states="new"/>
+                   </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

@@ -31,6 +31,7 @@ class WorkType(osv.Model):
     _columns = {
                 'name': fields.char('Type Name', size=128, required=True),
                 'sequence': fields.integer('Sequence', required=True),
+                'column_number': fields.integer('Column Number', required=True),
                 'phase_id': fields.many2one('project.phase', string='Phase', required=True),
                 }
     
@@ -122,7 +123,8 @@ class FeatureHours(osv.Model):
         return res
     
     _columns = {
-                'feature_id': fields.many2one('project.scrum.feature', string='Feature', required=True),
+                'feature_id': fields.many2one('project.scrum.feature', string='Feature', required=True,
+                    ondelete='cascade'),
                 'project_id': fields.related('feature_id', 'product_backlog_id', 'project_id',
                     type='many2one', relation='project.project', string='Project'),
                 'phase_id': fields.many2one('project.phase', string="Phase", 
@@ -172,7 +174,6 @@ class Feature(osv.Model):
         return super(Feature,self).write(cr, uid, ids, values, context=context)
     
     def create(self, cr, uid, values, context=None):
-        print values
         if 'hour_ids' in values:
             hours = values['hour_ids']
             sum = 0.0

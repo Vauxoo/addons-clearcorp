@@ -20,5 +20,4 @@
 #
 ##############################################################################
 
-import project_openerp
-import wizard
+import feature_import_wizard

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <menuitem id="menu_feature_import_wizard"
+            parent="project_scrum.menu_scrum"
+            name="Import Features"
+            action="action_feature_import_wizard"
+            sequence="50"/>
+    </data>
+</openerp>
