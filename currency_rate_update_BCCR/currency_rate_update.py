@@ -33,7 +33,7 @@ class resCurrencyrateInherit(orm.Model):
     _inherit = "res.currency.rate"
     
     _columns = {
-        'second_rate': fields.float('Second Rate', digist=(12,6), help="The second rate of the currency of rate 1")
+        'second_rate': fields.float('Second Rate', digits=(12,6), help="The second rate of the currency of rate 1")
     }
 
 
