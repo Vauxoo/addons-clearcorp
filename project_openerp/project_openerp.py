@@ -39,6 +39,35 @@ class WorkType(osv.Model):
                  'phase_id': lambda slf, cr, uid, ctx: ctx.get('phase_id', False),
                  }
     
+    
+class WorkTypeMapping(osv.Model):
+    
+    _name = 'project.oerp.work.type.mapping'
+    
+    _columns = {
+                'template_id': fields.many2one('project.oerp.work.type.template', string='Template',
+                    ondelete='cascade'),
+                'name': fields.char('Type Name', size=128, required=True),
+                'sequence': fields.integer('Sequence', required=True),
+                'column_number': fields.integer('Column Number', required=True),
+                }
+    
+class WorkTypeTemplate(osv.Model):
+    
+    _name = 'project.oerp.work.type.template'
+    
+    _columns = {
+                'name': fields.char('Template', size=128, required=True),
+                'file': fields.binary('File', filters='*.csv'),
+                'filename': fields.char('Filename', size=128),
+                'work_type_mapping_ids': fields.one2many('project.oerp.work.type.mapping', 'template_id',
+                    string='Work Types')
+                }
+    
+    _defaults = {
+                 'filename': 'template.csv'
+                 }
+    
 class Sprint(osv.Model):
     
     _inherit = 'project.scrum.sprint'

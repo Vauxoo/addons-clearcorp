@@ -2,10 +2,21 @@
 
 <openerp>
     <data>
-        <menuitem id="menu_feature_import_wizard"
+        <menuitem id="menu_tools"
             parent="project_scrum.menu_scrum"
+            name="Tools"
+            sequence="50"/>
+            
+        <menuitem id="menu_feature_import_wizard"
+            parent="menu_tools"
             name="Import Features"
             action="action_feature_import_wizard"
-            sequence="50"/>
+            sequence="10"/>
+            
+        <menuitem id="menu_work_type_template"
+            parent="menu_tools"
+            name="Work Type Templates"
+            action="action_work_type_template"
+            sequence="30"/>
     </data>
 </openerp>
