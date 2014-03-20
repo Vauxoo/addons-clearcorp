@@ -122,19 +122,19 @@ class SaleOrder(osv.osv):
                 'sale.order.line': (_get_order_ccorp, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
             },
             multi='sums', help="The total amount."),
-        'order_discount': fields.function(_amount_all, digits_compute= dp.get_precision('Account'), required=True, string='Untaxed Amount',
+        'order_discount': fields.function(_amount_all, digits_compute= dp.get_precision('Account'), string='Untaxed Amount',
             store = {
                 'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
                 'sale.order.line': (_get_order_ccorp, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
             },
             multi='sums'),
-        'amount_discounted': fields.function(_amount_all, digits_compute= dp.get_precision('Account'), required=True, string='Discount',
+        'amount_discounted': fields.function(_amount_all, digits_compute= dp.get_precision('Account'), string='Discount',
             store = {
                 'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
                 'sale.order.line': (_get_order_ccorp, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
             },
             multi='sums'),
-        'amount_untaxed_not_discounted': fields.function(_amount_all, digits_compute= dp.get_precision('Account'), required=True, string='Subtotal',
+        'amount_untaxed_not_discounted': fields.function(_amount_all, digits_compute= dp.get_precision('Account'), string='Subtotal',
             store = {
                 'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line'], 10),
                 'sale.order.line': (_get_order_ccorp, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
