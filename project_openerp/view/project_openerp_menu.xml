@@ -13,6 +13,12 @@
             action="action_feature_import_wizard"
             sequence="10"/>
             
+        <menuitem id="menu_phase_create_wizard"
+            parent="menu_tools"
+            name="Create Phase"
+            action="action_phase_create_wizard"
+            sequence="20"/>
+            
         <menuitem id="menu_work_type_template"
             parent="menu_tools"
             name="Work Type Templates"

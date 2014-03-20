@@ -38,7 +38,7 @@
     "data" : [
               'view/project_openerp_view.xml',
               'view/project_openerp_menu.xml',
-              'wizard/feature_import_wizard_view.xml',
+              'wizard/wizard_view.xml',
               ],
     "init_xml" : [],
     "demo_xml" : [],
