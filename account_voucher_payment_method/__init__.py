@@ -20,4 +20,5 @@
 #
 ##############################################################################
 
-import account_voucher_payment_method
+import account_journal
+import account_voucher

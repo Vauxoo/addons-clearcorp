@@ -1,0 +1,30 @@
+<openerp> 
+    <data>
+        <!-- 
+        
+        ACCOUNT JOURNAL MODIFICATION
+        
+        -->
+        <record model="ir.ui.view" id="view_account_journal_method_ext">
+            <field name="name">account.journal.relation.form</field>
+            <field name="model">account.journal</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref = "account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name = "type" position = "after">
+                        <group colspan = "2" col = "4">
+                            <separator string = "Payment Options" colspan="4"/>
+                            <newline/>
+                            <field name = "payment_method_customer"/>
+                            <field name = "payment_method_supplier"/>
+                            <field name = "payment_verification"/>
+                            <field name = "transfers"/>
+                            <field name = "check"/>
+                        </group>
+                    </field>
+                </data>
+            </field>
+        </record>
+    </data>
+</openerp>
