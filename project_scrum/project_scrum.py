@@ -55,6 +55,8 @@ class featureType(osv.Model):
                 'name': fields.char('Type Name', size=128, required=True, translate=True),
                 }
     
+    _sql_constraints = [('unique_code','UNIQUE(code)','Code must be unique for every feature type.')]
+    
     def name_get(self, cr, uid, ids, context=None):
         res =[]
         for r in self.read(cr, uid, ids, ['code', 'name'], context=context):

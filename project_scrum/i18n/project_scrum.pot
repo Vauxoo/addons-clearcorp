@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-21 16:56+0000\n"
-"PO-Revision-Date: 2014-03-21 16:56+0000\n"
+"POT-Creation-Date: 2014-03-21 21:11+0000\n"
+"PO-Revision-Date: 2014-03-21 21:11+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -230,7 +230,6 @@ msgstr ""
 msgid "<p class=\"oe_view_nocontent_create\">Create new Release Backlog</p>\n"
 "            "
 msgstr ""
-"            "
 
 #. module: project_scrum
 #: view:project.scrum.feature:0
@@ -243,6 +242,11 @@ msgstr ""
 #: field:project.scrum.release.backlog,state:0
 #: field:project.scrum.sprint,state:0
 msgid "State"
+msgstr ""
+
+#. module: project_scrum
+#: constraint:project.task:0
+msgid "The selected Product Backlog must belong to the selected Project."
 msgstr ""
 
 #. module: project_scrum
@@ -341,7 +345,7 @@ msgid "Total spent hours calculated from features."
 msgstr ""
 
 #. module: project_scrum
-#: code:addons/project_scrum/project_scrum.py:1103
+#: code:addons/project_scrum/project_scrum.py:1105
 #, python-format
 msgid "You can not cancel a product backlog if all release backlogs related to it are not cancelled or done"
 msgstr ""
@@ -361,7 +365,6 @@ msgstr ""
 msgid "<p class=\"oe_view_nocontent_create\">Create new Product Backlog</p>\n"
 "            "
 msgstr ""
-"            "
 
 #. module: project_scrum
 #: help:project.scrum.feature,partner_id:0
@@ -435,14 +438,10 @@ msgid "Total planned hours for the development of this feature.\n"
 "Recommended values are:\n"
 " 1h, 2h, 4h, or 8h"
 msgstr ""
-"Los valores recomendados son:\n"
-" 1h, 2h, 4h, o 8h"
 
 #. module: project_scrum
 #: model:ir.actions.act_window,help:project_scrum.action_sprint
-msgid "<p class=\"oe_view_nocontent_create\">Create new Sprint</p>\n"
-"            "
-msgstr ""
+msgid ""
 
 #. module: project_scrum
 #: view:project.scrum.feature:0
@@ -462,8 +461,9 @@ msgid "Closed"
 msgstr ""
 
 #. module: project_scrum
-#: constraint:project.task:0
-msgid "The selected Product Backlog must belong to the selected Project."
+#: code:addons/project_scrum/project_scrum.py:442
+#, python-format
+msgid "All tasks were created before."
 msgstr ""
 
 #. module: project_scrum
@@ -474,6 +474,14 @@ msgstr ""
 #. module: project_scrum
 #: field:project.scrum.feature,state:0
 msgid "Status"
+msgstr ""
+
+#. module: project_scrum
+#: view:project.scrum.feature:0
+#: view:project.scrum.product.backlog:0
+#: view:project.scrum.release.backlog:0
+#: view:project.scrum.sprint:0
+msgid "í"
 msgstr ""
 
 #. module: project_scrum
@@ -498,22 +506,22 @@ msgid "<p class=\"oe_view_nocontent_create\">Create new Feature Type</p>\n"
 msgstr ""
 
 #. module: project_scrum
-#: code:addons/project_scrum/project_scrum.py:889
-#: code:addons/project_scrum/project_scrum.py:1096
+#: code:addons/project_scrum/project_scrum.py:891
+#: code:addons/project_scrum/project_scrum.py:1098
 #, python-format
 msgid "There is no cancelled state configured for the project %s"
 msgstr ""
 
 #. module: project_scrum
-#: code:addons/project_scrum/project_scrum.py:1086
+#: code:addons/project_scrum/project_scrum.py:1088
 #, python-format
 msgid "You can not set as done a product backlog if all release backlogs related to it are not cancelled or done"
 msgstr ""
 
 #. module: project_scrum
-#: code:addons/project_scrum/project_scrum.py:428
-#: code:addons/project_scrum/project_scrum.py:925
-#: code:addons/project_scrum/project_scrum.py:1132
+#: code:addons/project_scrum/project_scrum.py:430
+#: code:addons/project_scrum/project_scrum.py:927
+#: code:addons/project_scrum/project_scrum.py:1134
 #, python-format
 msgid "There is no draft state configured."
 msgstr ""
@@ -543,20 +551,20 @@ msgid "Total progress percentage calculated from sprints"
 msgstr ""
 
 #. module: project_scrum
-#: code:addons/project_scrum/project_scrum.py:428
-#: code:addons/project_scrum/project_scrum.py:440
-#: code:addons/project_scrum/project_scrum.py:474
-#: code:addons/project_scrum/project_scrum.py:490
-#: code:addons/project_scrum/project_scrum.py:872
-#: code:addons/project_scrum/project_scrum.py:879
-#: code:addons/project_scrum/project_scrum.py:889
-#: code:addons/project_scrum/project_scrum.py:896
-#: code:addons/project_scrum/project_scrum.py:925
-#: code:addons/project_scrum/project_scrum.py:1079
-#: code:addons/project_scrum/project_scrum.py:1086
-#: code:addons/project_scrum/project_scrum.py:1096
-#: code:addons/project_scrum/project_scrum.py:1103
-#: code:addons/project_scrum/project_scrum.py:1132
+#: code:addons/project_scrum/project_scrum.py:430
+#: code:addons/project_scrum/project_scrum.py:442
+#: code:addons/project_scrum/project_scrum.py:476
+#: code:addons/project_scrum/project_scrum.py:492
+#: code:addons/project_scrum/project_scrum.py:874
+#: code:addons/project_scrum/project_scrum.py:881
+#: code:addons/project_scrum/project_scrum.py:891
+#: code:addons/project_scrum/project_scrum.py:898
+#: code:addons/project_scrum/project_scrum.py:927
+#: code:addons/project_scrum/project_scrum.py:1081
+#: code:addons/project_scrum/project_scrum.py:1088
+#: code:addons/project_scrum/project_scrum.py:1098
+#: code:addons/project_scrum/project_scrum.py:1105
+#: code:addons/project_scrum/project_scrum.py:1134
 #, python-format
 msgid "Error"
 msgstr ""
@@ -595,8 +603,8 @@ msgid "Total progress percentage calculated from features"
 msgstr ""
 
 #. module: project_scrum
-#: code:addons/project_scrum/project_scrum.py:475
-#: code:addons/project_scrum/project_scrum.py:491
+#: code:addons/project_scrum/project_scrum.py:477
+#: code:addons/project_scrum/project_scrum.py:493
 #, python-format
 msgid "All tasks must be done or cancelled in order to cancel this sprint."
 msgstr ""
@@ -699,8 +707,13 @@ msgid "Release Name"
 msgstr ""
 
 #. module: project_scrum
-#: code:addons/project_scrum/project_scrum.py:872
-#: code:addons/project_scrum/project_scrum.py:1079
+#: sql_constraint:project.scrum.feature.type:0
+msgid "Code must be unique for every feature type."
+msgstr ""
+
+#. module: project_scrum
+#: code:addons/project_scrum/project_scrum.py:874
+#: code:addons/project_scrum/project_scrum.py:1081
 #, python-format
 msgid "There is no done state configured for the project %s"
 msgstr ""
@@ -742,15 +755,9 @@ msgid "Tasks from Features"
 msgstr ""
 
 #. module: project_scrum
-#: code:addons/project_scrum/project_scrum.py:896
+#: code:addons/project_scrum/project_scrum.py:898
 #, python-format
 msgid "You can not cancel a release backlog if all sprints related to it are not cancelled or done"
-msgstr ""
-
-#. module: project_scrum
-#: code:addons/project_scrum/project_scrum.py:440
-#, python-format
-msgid "All tasks were created before."
 msgstr ""
 
 #. module: project_scrum
@@ -800,7 +807,7 @@ msgid "Remaining Hour(s)"
 msgstr ""
 
 #. module: project_scrum
-#: code:addons/project_scrum/project_scrum.py:879
+#: code:addons/project_scrum/project_scrum.py:881
 #, python-format
 msgid "You can not set as done a release backlog if all sprints related to it are not cancelled or done"
 msgstr ""
