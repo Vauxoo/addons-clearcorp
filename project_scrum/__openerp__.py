@@ -38,6 +38,7 @@
               'data/project_scrum_data.xml',
               'view/project_scrum_view.xml',
               'view/project_scrum_menu.xml',
+              'security/ir.model.access.csv',
               ],
     "css" : ['static/src/css/project_scrum.css'],
     "init_xml" : [],
