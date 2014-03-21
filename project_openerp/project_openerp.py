@@ -32,7 +32,8 @@ class WorkType(osv.Model):
                 'name': fields.char('Type Name', size=128, required=True),
                 'sequence': fields.integer('Sequence', required=True),
                 'column_number': fields.integer('Column Number', required=True),
-                'phase_id': fields.many2one('project.phase', string='Phase', required=True),
+                'phase_id': fields.many2one('project.phase', ondelete='cascade',
+                    string='Phase', required=True),
                 }
     
     _defaults = {
@@ -238,14 +239,15 @@ class Task(osv.Model):
                 res['value'] = {'phase_id': False}
         return res
     
-    def write(self, cr, uid, ids, values, context=None):
+    '''def write(self, cr, uid, ids, values, context=None):
         if not isinstance(ids,list):
             ids = [ids]
         for task in self.browse(cr, uid, ids, context=context):
             if task.sprint_id and task.sprint_id.phase_id:
                 values['phase_id'] = task.sprint_id.phase_id.id
-            super(Task,self).write(cr, uid, task.id, values, context=context)
-        return True
+            res = super(Task,self).write(cr, uid, task.id, values, context=context)
+            
+        return True'''
     
     _columns = {
                 'hour_ids': fields.related('feature_id', 'hour_ids', type='one2many',

@@ -448,6 +448,7 @@ class Sprint(osv.Model):
                       'feature_id': feature.id,
                       'user_id': uid,
                       'planned_hours': feature.expected_hours,
+                      'remaining_hours': feature.expected_hours,
                       'date_start': sprint.date_start,
                       'date_end': sprint.deadline,
                       'date_deadline': sprint.deadline,
@@ -699,7 +700,7 @@ class Task(osv.Model):
                     "'!',('id','=',id)]"),
                 }
     
-    def write(self, cr, uid, ids, values, context=None):
+    '''def write(self, cr, uid, ids, values, context=None):
         if not isinstance(ids,list):
             ids = [ids]
         tasks = self.browse(cr, uid, ids, context=context)
@@ -709,7 +710,7 @@ class Task(osv.Model):
             if task.feature_id and task.feature_id.expected_hours:
                 values['planned_hours'] = task.feature_id.expected_hours
             res = super(Task,self).write(cr, uid, task.id, values, context=context)
-        return True
+        return True'''
     
     _defaults = {
                  'date_start': lambda *a: datetime.strftime(datetime.now(),'%Y-%m-%d %H:%M:%S'),

@@ -29,6 +29,27 @@
             </field>
         </record>
         
+        <!-- project.oerp.task.create.wizard -->
+        <!-- form -->
+        <record id="view_task_create_wizard_form" model="ir.ui.view">
+            <field name="name">view.task.create.wizard.form</field>
+            <field name="model">project.oerp.task.create.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Task Create Wizard" version="7.0">
+                    <group>
+                        <field name="sprint_id"/>
+                    </group>
+                    <footer>
+                        <button string="Create" type="object"
+                            name="create_tasks" class="oe_highlight"
+                            confirm="Are you sure you want to continue?"/> or 
+                        <button string="Cancel" class="oe_link"
+                            special="cancel"/>
+                   </footer>
+                </form>
+            </field>
+        </record>
+        
         <!-- project.oerp.phase.create.wizard -->
         <!-- form -->
         <record id="view_phase_create_wizard_form" model="ir.ui.view">
@@ -36,10 +57,7 @@
             <field name="model">project.oerp.phase.create.wizard</field>
             <field name="arch" type="xml">
                 <form string="Phase Create Wizard" version="7.0">
-                    <header>
-                        <field name="state" widget="statusbar" />
-                    </header>
-                    <group states="new">
+                    <group>
                         <field name="work_type_template_id"/>
                         <field name="project_id"/>
                         <field name="product_backlog_id"/>
@@ -51,10 +69,9 @@
                     <footer>
                         <button string="Create" type="object"
                             name="create_phase" class="oe_highlight"
-                            confirm="Are you sure you want to continue?"
-                            states="new"/> or 
+                            confirm="Are you sure you want to continue?"/> or 
                         <button string="Cancel" class="oe_link"
-                            special="cancel" states="new"/>
+                            special="cancel"/>
                    </footer>
                 </form>
             </field>

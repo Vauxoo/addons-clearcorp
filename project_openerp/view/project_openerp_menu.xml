@@ -13,16 +13,22 @@
             action="action_feature_import_wizard"
             sequence="10"/>
             
+        <menuitem id="menu_task_create_wizard"
+            parent="menu_tools"
+            name="Create Tasks from Sequence"
+            action="action_task_create_wizard"
+            sequence="20"/>
+            
         <menuitem id="menu_phase_create_wizard"
             parent="menu_tools"
-            name="Create Phase"
+            name="Create Phase from Template"
             action="action_phase_create_wizard"
-            sequence="20"/>
+            sequence="30"/>
             
         <menuitem id="menu_work_type_template"
             parent="menu_tools"
             name="Work Type Templates"
             action="action_work_type_template"
-            sequence="30"/>
+            sequence="40"/>
     </data>
 </openerp>

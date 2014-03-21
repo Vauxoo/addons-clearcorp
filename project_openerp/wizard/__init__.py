@@ -22,3 +22,4 @@
 
 import feature_import_wizard
 import phase_create_wizard
+import task_create_wizard

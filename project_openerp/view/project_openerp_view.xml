@@ -105,6 +105,11 @@
             <field name="model">project.scrum.sprint</field>
             <field name="inherit_id" ref="project_scrum.view_sprint_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//form/sheet/div[@name='buttons']/button[@name='tasks_from_features']" position="before">
+                    <button name="%(action_task_create_wizard)d" string="Tasks from Sequence" type="action"
+                        attrs="{'invisible':['|',('state','=','cancelled'),'|',('state','=','draft'),('state','=','done')]}"
+                        context="{'sprint_id': active_id}"/>
+                </xpath>
                 <xpath expr="//form/sheet/group/group/field[@name='release_backlog_id']" position="after">
                     <field name="phase_id"/>
                 </xpath>
@@ -173,9 +178,17 @@
             <field name="target">new</field>
         </record>
         
+        <!-- project.oerp.task.create.wizard -->
+        <record model="ir.actions.act_window" id="action_task_create_wizard">
+            <field name="name">Create Tasks from Sequence</field>
+            <field name="res_model">project.oerp.task.create.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
         <!-- project.oerp.phase.create.wizard -->
         <record model="ir.actions.act_window" id="action_phase_create_wizard">
-            <field name="name">Create Phase</field>
+            <field name="name">Create Phase from Template</field>
             <field name="res_model">project.oerp.phase.create.wizard</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>

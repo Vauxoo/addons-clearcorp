@@ -49,8 +49,16 @@ class PhaseCreateWizard(osv.TransientModel):
         values['work_type_ids'] = work_type_ids
             
         phase_obj = self.pool.get('project.phase')
-        phase_obj.create(cr, uid, values, context=context)
-        return True
+        phase_id = phase_obj.create(cr, uid, values, context=context)
+        return {
+                'name': 'Project Phases',
+                'view_type': 'form',
+                'view_mode': 'form',
+                'res_model': 'project.phase',
+                'context': context,
+                'res_id': phase_id,
+                'type': 'ir.actions.act_window',
+                }
     
     _columns = {
                 'work_type_template_id': fields.many2one('project.oerp.work.type.template', string='Work Type Template',
@@ -58,12 +66,7 @@ class PhaseCreateWizard(osv.TransientModel):
                 'project_id': fields.many2one('project.project', string='Project', required=True,
                     domain="[('is_scrum','=',True)]"),
                 'product_backlog_id': fields.many2one('project.scrum.product.backlog', string='Product Backlog',
-                    domain="[('project_id','=',project_id)]"),
+                    required=True, domain="[('project_id','=',project_id)]"),
                 'duration': fields.float('Duration', required=True),
                 'product_uom': fields.many2one('product.uom', string='Unit of Measure', required=True),
-                'state': fields.selection([('new','New'),('done','Done')], string='State'),
                 }
-    
-    _defaults = {
-                 'state': 'new'
-                 }
