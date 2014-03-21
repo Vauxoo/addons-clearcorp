@@ -73,8 +73,7 @@ class currencyRateupdate(orm.Model):
              #get_update_currency return a dictionary with rate and name's currency 
              #receive a array with currency to update
              res_sale, res_purchase, log_info = getter.get_updated_currency(cr, uid, [currency_id.name], '') #main_currency for this method is not necessary
-             rate_name = time.strftime('%Y-%m-%d')    
-    
+                
              #In res_currency_service, name is date when the rate is updated
              for date, rate in res_sale[currency_id.name].iteritems():                
                 rate_ids = rate_obj.search(cr, uid, [('currency_id','=',currency_id.id),('name','=',date)])
@@ -83,17 +82,21 @@ class currencyRateupdate(orm.Model):
                      rate = float(rate)
                      if currency_id.sequence > res_currency_base.sequence:
                          rate = 1.0/float(rate)
-                     vals = {'currency_id': currency_id.id, 'rate': rate, 'name': date} #add purchase exchange rate
+                     vals = {'currency_id': currency_id.id, 'rate': rate, 'name': datetime.strptime(date,"%Y-%m-%d")}
                      
                      #purchase rate
-                     second_rate = res_purchase[currency_id.name][date]
-                     if currency_id.sequence > res_currency_base.sequence:
-                         second_rate = 1.0/float(second_rate)
-                     vals.update({'second_rate': second_rate})                     
-                     rate_obj.create(cr, uid, vals)
+                     if currency_id.second_rate: #check if currency has second_rate activated option
+                         second_rate = res_purchase[currency_id.name][date]
+                         if currency_id.sequence > res_currency_base.sequence:
+                             second_rate = 1.0/float(second_rate)
+                         vals.update({'second_rate': second_rate}) 
+                     else:
+                        vals.update({'second_rate': 0.0})                     
                      
-                note = "Currency sale and purchase rate " + currency_id.name + " updated at %s "\
-                    %(str(datetime.today()))
+                     x = rate_obj.create(cr, uid, vals)
+                     
+             note = "Currency sale and purchase rate " + currency_id.name + " updated at %s "\
+                %(str(datetime.today()))
              
              self.logger.notifyChannel(self.LOG_NAME, netsvc.LOG_INFO, str(note))
             
@@ -221,5 +224,4 @@ class bccr_getter(Currency_getter_factory):
                             self.updated_currency_purchase[curr][date_str] = rate
                            
         logger2.info(self.updated_currency_sale) 
-        logger2.info(self.updated_currency_purchase)
         return self.updated_currency_sale, self.updated_currency_purchase, self.log_info

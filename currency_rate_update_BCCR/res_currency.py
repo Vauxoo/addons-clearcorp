@@ -92,7 +92,7 @@ class resCurrencyinherit(orm.Model):
         
         res.update ({
                'interval_type': 'days',
-               'nextcall': datetime.date.today() + datetime.timedelta(days=1), #Get tomorrow's date
+               'nextcall': time.strftime("%Y-%m-%d %H:%M:%S", (datetime.today() + timedelta(days=1)).timetuple() ), #tomorrow same time
                'interval_number': 1,
                'numbercall': -1,
                'doall': True,
