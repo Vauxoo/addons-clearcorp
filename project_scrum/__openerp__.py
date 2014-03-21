@@ -35,6 +35,7 @@
                  'project',
                  ],
     "data" : [
+              'data/project_scrum_data.xml',
               'view/project_scrum_view.xml',
               'view/project_scrum_menu.xml',
               ],

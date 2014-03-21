@@ -52,7 +52,7 @@ class featureType(osv.Model):
     
     _columns = {
                 'code': fields.char('Code', size=16, required=True),
-                'name': fields.char('Type Name', size=128, required=True),
+                'name': fields.char('Type Name', size=128, required=True, translate=True),
                 }
     
     def name_get(self, cr, uid, ids, context=None):
@@ -437,7 +437,7 @@ class Sprint(osv.Model):
     def tasks_from_features(self, cr, uid, ids, context=None):
         sprint = self.browse(cr, uid, ids[0], context=context)
         if sprint.task_from_features:
-            raise osv.except_osv(_('Error'),_('All task were created before.'))
+            raise osv.except_osv(_('Error'),_('All tasks were created before.'))
         task_obj = self.pool.get('project.task')
         for feature in sprint.feature_ids:
             values = {
