@@ -10,8 +10,8 @@
             <field name="inherit_id" ref="project.edit_project"/>
             <field name="arch" type="xml">
                 <xpath expr="//form/sheet/div/div/label[@for='use_tasks']" position="after">
-                    <field name="is_scrum" class="ow_inline"/>
-                    <label for="is_scrum"/>
+                    <field name="is_scrum" class="oe_inline" attrs="{'invisible': [('use_tasks','=',False)]}"/>
+                    <label for="is_scrum" attrs="{'invisible': [('use_tasks','=',False)]}"/>
                 </xpath>
             </field>
         </record>

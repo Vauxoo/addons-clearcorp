@@ -79,15 +79,13 @@ class Feature(osv.Model):
             task_obj = self.pool.get('project.task')
             task_ids = task_obj.search(cr, uid,
                                        [('sprint_id','in',sprint_ids),
-                                        ('feature_id','=',id)],
+                                        ('feature_id','=',id),
+                                        '!',('state','in',['cancelled','draft'])],
                                        context=context)
             tasks = task_obj.browse(cr,uid,task_ids,context=context)
             date_start = False
             for task in tasks:
-                if not task.date_start:
-                    date_start = False
-                    break
-                else:
+                if task.date_start:
                     date = datetime.strptime(task.date_start,'%Y-%m-%d %H:%M:%S')
                     if not date_start:
                         date_start = date
@@ -110,15 +108,13 @@ class Feature(osv.Model):
             task_obj = self.pool.get('project.task')
             task_ids = task_obj.search(cr, uid,
                                        [('sprint_id','in',sprint_ids),
-                                        ('feature_id','=',id)],
+                                        ('feature_id','=',id),
+                                        '!',('state','in',['cancelled','draft'])],
                                        context=context)
             tasks = task_obj.browse(cr,uid,task_ids,context=context)
             date_end = False
             for task in tasks:
-                if not task.date_end:
-                    date_end = False
-                    break
-                else:
+                if task.date_end:
                     date = datetime.strptime(task.date_end,'%Y-%m-%d %H:%M:%S')
                     if not date_end:
                         date_end = date
@@ -141,15 +137,13 @@ class Feature(osv.Model):
             task_obj = self.pool.get('project.task')
             task_ids = task_obj.search(cr, uid,
                                        [('sprint_id','in',sprint_ids),
-                                        ('feature_id','=',id)],
+                                        ('feature_id','=',id),
+                                        '!',('state','in',['cancelled','draft'])],
                                        context=context)
             tasks = task_obj.browse(cr,uid,task_ids,context=context)
             deadline = False
             for task in tasks:
-                if not task.date_deadline:
-                    deadline = False
-                    break
-                else:
+                if task.date_deadline:
                     date = datetime.strptime(task.date_deadline,'%Y-%m-%d')
                     if not deadline:
                         deadline = date
@@ -748,10 +742,7 @@ class releaseBacklog(osv.Model):
             sprints = self.browse(cr, uid, id, context=context).sprint_ids
             date_end = False
             for sprint in sprints:
-                if not sprint.date_end:
-                    date_end = False
-                    break
-                else:
+                if sprint.date_end and sprint.state not in ['draft','cancelled']:
                     date = datetime.strptime(sprint.date_end, '%Y-%m-%d %H:%M:%S')
                     if not date_end:
                         date_end = date
@@ -771,10 +762,7 @@ class releaseBacklog(osv.Model):
             sprints = self.browse(cr, uid, id, context=context).sprint_ids
             date_start = False
             for sprint in sprints:
-                if not sprint.date_start:
-                    date_start = False
-                    break
-                else:
+                if sprint.date_start and sprint.state not in ['draft','cancelled']:
                     date = datetime.strptime(sprint.date_start, '%Y-%m-%d %H:%M:%S')
                     if not date_start:
                         date_start = date
@@ -794,10 +782,7 @@ class releaseBacklog(osv.Model):
             sprints = self.browse(cr, uid, id, context=context).sprint_ids
             deadline = False
             for sprint in sprints:
-                if not sprint.deadline:
-                    deadline = False
-                    break
-                else:
+                if not sprint.deadline and sprint.state not in ['draft','cancelled']:
                     date = datetime.strptime(sprint.deadline, '%Y-%m-%d')
                     if not deadline:
                         deadline = date
@@ -988,10 +973,7 @@ class productBacklog(osv.Model):
             features = self.browse(cr, uid, id, context=context).feature_ids
             date_end = False
             for feature in features:
-                if not feature.date_end:
-                    date_end = False
-                    break
-                else:
+                if feature.date_end and feature.state not in ['draft','cancelled']:
                     date = datetime.strptime(feature.date_end, '%Y-%m-%d %H:%M:%S')
                     if not date_end:
                         date_end = date
@@ -1013,10 +995,7 @@ class productBacklog(osv.Model):
             features = self.browse(cr, uid, id, context=context).feature_ids
             deadline = False
             for feature in features:
-                if not feature.deadline:
-                    deadline = False
-                    break
-                else:
+                if feature.date_end and feature.state not in ['draft','cancelled']:
                     date = datetime.strptime(feature.deadline, '%Y-%m-%d')
                     if not deadline:
                         deadline = date
