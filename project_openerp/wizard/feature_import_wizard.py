@@ -45,20 +45,29 @@ class FeatureImportWizard(osv.TransientModel):
         work_type_ids = work_type_obj.search(cr, uid, [('phase_id','in',phase_ids)], context=context)
         work_types = work_type_obj.browse(cr, uid, work_type_ids, context=context)
         
-        # TODO: Validate row length or columns and improve skip
+        # TODO: improve skip
         skipheader = True
         for row in reader:
             if skipheader:
                 skipheader = False
                 continue
-            if row[1] == '':
+            if row[2] == '':
+                
+                feature_type_id = self.pool.get('project.scrum.feature.type').search(
+                    cr, uid, [('code','=',row[0])], context=context) or False
+                if feature_type_id: 
+                    feature_type_id = feature_type_id[0]
+                else: # TODO: log error
+                    pass
+                
                 try:
                     values = {
-                              'code': row[0],
-                              'name': row[2],
+                              'code': row[1],
+                              'name': row[3],
                               'product_backlog_id': wizard.product_backlog_id.id,
-                              'description': row[3],
-                              'priority': int(row[4]),
+                              'description': row[4],
+                              'priority': int(row[5]),
+                              'type_id': feature_type_id,
                               }
                     
                     hour_ids = []
@@ -83,7 +92,14 @@ class FeatureImportWizard(osv.TransientModel):
                     
                 except:# TODO: capture better error messages
                     raise osv.except_osv(_('Error'),_('An error occurred while importing the features'))
-        return True
+        return {
+                'name': 'Features',
+                'view_type': 'tree',
+                'view_mode': 'tree',
+                'res_model': 'project.scrum.feature',
+                'context': context,
+                'type': 'ir.actions.act_window',
+                }
     
     _columns = {
                 'project_id': fields.many2one('project.project', string='Project', required=True,
