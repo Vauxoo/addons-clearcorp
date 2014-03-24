@@ -456,7 +456,7 @@ class Sprint(osv.Model):
                       'date_deadline': sprint.deadline,
                       'priority': PRIORITY[feature.priority],
                       'description': feature.description,
-                      'name': 'Task for: ' + feature.code + ' ' + feature.name,
+                      'name': feature.code + ' ' + feature.name,
                       }
             task_obj.create(cr, uid, values, context=context)
         self.write(cr, uid, ids[0], {'task_from_features': True}, context=context)
