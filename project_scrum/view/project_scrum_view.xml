@@ -486,6 +486,7 @@
                     <field name="product_backlog_id"/>
                     <field name="release_backlog_id"/>
                     <field name="priority"/>
+                    <field name="partner_id"/>
                     <field name="expected_hours"/>
                     <field name="remaining_hours"/>
                     <field name="date_end"/>
