@@ -219,6 +219,47 @@ class Feature(osv.Model):
             values['expected_hours'] = sum
         return super(Feature,self).create(cr, uid, values, context=context)
     
+class TaskHours(osv.Model):
+    
+    _name = 'project.oerp.task.hour'
+    
+    def _effective_hours(self, cr ,uid, ids, field_name, arg, context=None):
+        res = {}
+        for hour in self.browse(cr, uid, ids, context=context):
+            work_obj = self.pool.get('project.task.work')
+            work_ids = work_obj.search(cr, uid, [('task_id','=', hour.task_id.id),
+                ('work_type_id','=',hour.work_type_id.id)], context=context)
+            works = work_obj.browse(cr, uid, work_ids, context=context)
+            sum = 0.0
+            for work in works:
+                sum += work.hours
+            res[hour.id] = sum
+        return res
+    
+    def _remaining_hours(self, cr ,uid, ids, field_name, arg, context=None):
+        res = {}
+        for hour in self.browse(cr, uid, ids, context=context):
+            res[hour.id] = hour.expected_hours - hour.effective_hours
+        return res
+    
+    _columns = {
+                'task_id': fields.many2one('project.task', string='Task', required=True, ondelete='cascade'),
+                'project_id': fields.related('task_id', 'project_id', type='many2one',
+                    relation='project.project', string='Project'),
+                'phase_id': fields.many2one('project.phase', string="Phase", 
+                    domain="[('project_id','=',project_id)]"),
+                'work_type_id': fields.many2one('project.oerp.work.type', string='Work Type', required =True,
+                    domain="[('phase_id','=',phase_id)]"),
+                'expected_hours': fields.float('Initially Planned Hour(s)', required=True),
+                'effective_hours': fields.function(_effective_hours, type='float', string='Spent Hour(s)'),
+                'remaining_hours': fields.function(_remaining_hours, type='float', string='Remaining Hour(s)'),
+                }
+    
+    _defaults = {
+                 'project_id': lambda slf, cr, uid, ctx: ctx.get('project_id', False),
+                 'task_id': lambda slf, cr, uid, ctx: ctx.get('task_id', False),
+                 }
+    
 class Task(osv.Model):
     
     _inherit = 'project.task'
@@ -239,20 +280,46 @@ class Task(osv.Model):
                 res['value'] = {'phase_id': False}
         return res
     
-    '''def write(self, cr, uid, ids, values, context=None):
-        if not isinstance(ids,list):
-            ids = [ids]
-        for task in self.browse(cr, uid, ids, context=context):
-            if task.sprint_id and task.sprint_id.phase_id:
-                values['phase_id'] = task.sprint_id.phase_id.id
-            res = super(Task,self).write(cr, uid, task.id, values, context=context)
-            
-        return True'''
-    
     _columns = {
-                'hour_ids': fields.related('feature_id', 'hour_ids', type='one2many',
-                    relation='project.oerp.feature.hours', string='hour_ids', readonly=True)
+                'feature_hour_ids': fields.related('feature_id', 'hour_ids', type='one2many',
+                    relation='project.oerp.feature.hours', string='Feature Hours', readonly=True),
+                'task_hour_ids': fields.one2many('project.oerp.task.hour', 'task_id', string='Task Hours'),
                 }
+    
+    def create(self, cr, uid, values, context=None):
+        if 'project_id' in values:
+            project_obj = self.pool.get('project.project')
+            project = project_obj.browse(cr, uid, values['project_id'], context=context)
+            if project.is_scrum:
+                task_hour_ids = values['task_hour_ids']
+                sum = 0.0
+                for hour in task_hour_ids:
+                    sum += hour[2]['expected_hours']
+                values['planned_hours'] = sum
+        return super(Task, self).create(cr, uid, values, context=context)
+    
+    def write(self, cr, uid, ids, values, context=None):
+        for task in self.browse(cr, uid, ids, context=context):
+            if task.project_id.is_scrum:
+                sum = 0.0
+                print values['task_hour_ids']
+                for hour in values['task_hour_ids']:
+                    if hour[0] == 0:
+                        sum += hour[2]['expected_hours']
+                    elif hour[0] == 1:
+                        if 'expected_hours' in hour[2]:
+                            sum += hour[2]['expected_hours']
+                        else:
+                            task_hour_obj = self.pool.get('project.oerp.task.hour')
+                            task_hour = task_hour_obj.browse(cr, uid , hour[1], context=context)
+                            sum += task_hour.expected_hours
+                    elif hour[0] == 4:
+                        task_hour_obj = self.pool.get('project.oerp.task.hour')
+                        task_hour = task_hour_obj.browse(cr, uid , hour[1], context=context)
+                        sum += task_hour.expected_hours
+                values['planned_hours'] = sum
+            super(Task, self).write(cr, uid, task.id, values, context)
+        return True
     
 class TaskWork(osv.Model):
     

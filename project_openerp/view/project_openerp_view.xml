@@ -82,9 +82,21 @@
                     <field name="work_type_id"/>
                 </xpath>
                 <xpath expr="//form/sheet/notebook/page[@name='sequence']" position="before">
+                    <page string="Task Hours" name="task_hours">
+                        <field name="task_hour_ids"
+                            context="{'project_id': project_id, 'task_id': active_id}">
+                            <tree editable="bottom">
+                                <field name="phase_id"/>
+                                <field name="work_type_id"/>
+                                <field name="expected_hours" sum="Planned Hour(s)"/>
+                                <field name="effective_hours" sum="Spent Hour(s)"/>
+                                <field name="remaining_hours" sum="Remaining Hour(s)"/>
+                            </tree>
+                        </field>
+                    </page>
                     <page string="Feature Hours" name="feature_hours"
                         attrs="{'invisible': [('feature_id','=',False)]}">
-                        <field name="hour_ids">
+                        <field name="feature_hour_ids">
                             <tree>
                                 <field name="phase_id"/>
                                 <field name="work_type_id"/>
