@@ -82,7 +82,8 @@
                     <field name="work_type_id"/>
                 </xpath>
                 <xpath expr="//form/sheet/notebook/page[@name='sequence']" position="before">
-                    <page string="Task Hours" name="task_hours">
+                    <page string="Task Hours" name="task_hours"
+                        attrs="{'invisible': [('is_scrum','=',False)]}">
                         <field name="task_hour_ids"
                             context="{'project_id': project_id, 'task_id': active_id}">
                             <tree editable="bottom">

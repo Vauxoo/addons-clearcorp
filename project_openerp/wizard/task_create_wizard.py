@@ -43,45 +43,64 @@ class TaskCreateWizard(osv.TransientModel):
         sprint = wizard.sprint_id
         features = wizard.sprint_id.feature_ids
         
+        if sprint.task_from_features:
+            raise osv.except_osv(_('Error'),_('All task were created before.'))
+        
         for feature in features:
-            if sprint.task_from_features:
-                raise osv.except_osv(_('Error'),_('All task were created before.'))
             try:
-                cr.execute('''SELECT types.name AS name,
-planned.expected_hours AS expected_hours,
-types.sequence
-FROM (SELECT string_agg(name,', ') AS name,
- sequence
-FROM project_oerp_work_type
-GROUP BY sequence) AS types, 
-(SELECT SUM(hours.expected_hours) AS expected_hours,
- types.sequence
-FROM project_oerp_work_type AS types,
- project_oerp_feature_hours AS hours
-WHERE types.id = hours.work_type_id
-AND hours.feature_id = %d
-GROUP BY types.sequence) AS planned
-WHERE types.sequence = planned.sequence
-ORDER BY types.sequence ASC;''' % feature.id)
+                cr.execute('''SELECT string_agg(types.name,', ') AS name,
+ types.sequence,
+ SUM(types.expected_hours) AS expected_hours
+FROM (SELECT types.id,
+ types.sequence,
+ types.name,
+ hours.expected_hours
+FROM project_oerp_feature_hours AS hours,
+ project_oerp_work_type AS types
+WHERE hours.feature_id = %s
+AND hours.work_type_id = types.id) AS types
+GROUP BY types.sequence
+ORDER BY types.sequence ASC;''', (feature.id,))
                 
                 previous_id = False
-                for row in cr.dictfetchall():
+                for sequence in cr.dictfetchall():
+                    number = sequence.get('sequence')
                     values = {
-                                  'name': feature.code + ' ' + feature.name + \
-                                  ' ' + row.get('name'),
-                                  'project_id': sprint.project_id.id,
-                                  'product_backlog_id': sprint.product_backlog_id.id,
-                                  'release_backlog_id': sprint.release_backlog_id.id,
-                                  'sprint_id': sprint.id,
-                                  'feature_id': feature.id,
-                                  'description': feature.description,
-                                  'planned_hours': row.get('expected_hours'),
-                                  'remaining_hours': row.get('expected_hours'),
-                                  'priority': PRIORITY[feature.priority],
-                                  'phase_id': sprint.phase_id.id,
-                                  'date_deadline': sprint.deadline,
-                                  'date_start': sprint.date_start,
-                                  }
+                              'name': feature.code + ' ' + feature.name + \
+                              ' ' + sequence.get('name'),
+                              'project_id': sprint.project_id.id,
+                              'product_backlog_id': sprint.product_backlog_id.id,
+                              'release_backlog_id': sprint.release_backlog_id.id,
+                              'sprint_id': sprint.id,
+                              'feature_id': feature.id,
+                              'description': feature.description,
+                              'planned_hours': sequence.get('expected_hours'),
+                              'remaining_hours': sequence.get('expected_hours'),
+                              'priority': PRIORITY[feature.priority],
+                              'phase_id': sprint.phase_id.id,
+                              'date_deadline': sprint.deadline,
+                              'date_start': sprint.date_start,
+                              'sequence': number,
+                              }
+                    
+                    cr.execute('''SELECT types.id,
+ hours.expected_hours,
+ hours.phase_id
+FROM project_oerp_feature_hours AS hours,
+ project_oerp_work_type AS types
+WHERE hours.feature_id = %s
+AND hours.work_type_id = types.id
+AND types.sequence = %s;''', (feature.id, number,))
+                    
+                    vals = []
+                    for row in cr.dictfetchall():
+                        vals.append([0,0,{
+                                          'phase_id': row.get('phase_id'),
+                                          'work_type_id': row.get('id'),
+                                          'expected_hours': row.get('expected_hours'),
+                                          }])
+                    
+                    values['task_hour_ids'] = vals
                     
                     task_obj = self.pool.get('project.task')
                     task_id = task_obj.create(cr, uid, values, context=context)
@@ -89,15 +108,18 @@ ORDER BY types.sequence ASC;''' % feature.id)
                     if previous_id:
                         values = {'previous_task_ids': [[6,0,[previous_id]]]}
                         task_obj.write(cr, uid, task_id, values, context=context)
+                        values = {'next_task_ids': [[6,0,[task_id]]]}
+                        task_obj.write(cr, uid, previous_id, values, context=context)
                     
                     previous_id = task_id
-                    
-                sprint_obj = self.pool.get('project.scrum.sprint')
-                sprint_obj.write(cr, uid, sprint.id, {'task_from_features': True})
                 
             except:
-                osv.except_osv(_('Error'),_('An error occurred while creating the tasks. '
-                                            'Please contact your system administrator.'))
+                raise osv.except_osv(_('Error'),_('An error occurred while creating the tasks. '
+                                                  'Please contact your system administrator.'))
+            
+        sprint_obj = self.pool.get('project.scrum.sprint')
+        sprint_obj.write(cr, uid, sprint.id, {'task_from_features': True})    
+            
         return {
                 'name': 'Sprints',
                 'view_type': 'form',

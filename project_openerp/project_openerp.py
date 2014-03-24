@@ -299,25 +299,27 @@ class Task(osv.Model):
         return super(Task, self).create(cr, uid, values, context=context)
     
     def write(self, cr, uid, ids, values, context=None):
+        if not isinstance(ids,list):
+            ids = [ids]
         for task in self.browse(cr, uid, ids, context=context):
             if task.project_id.is_scrum:
-                sum = 0.0
-                print values['task_hour_ids']
-                for hour in values['task_hour_ids']:
-                    if hour[0] == 0:
-                        sum += hour[2]['expected_hours']
-                    elif hour[0] == 1:
-                        if 'expected_hours' in hour[2]:
+                if 'task_hour_ids' in values:
+                    sum = 0.0
+                    for hour in values['task_hour_ids']:
+                        if hour[0] == 0:
                             sum += hour[2]['expected_hours']
-                        else:
+                        elif hour[0] == 1:
+                            if 'expected_hours' in hour[2]:
+                                sum += hour[2]['expected_hours']
+                            else:
+                                task_hour_obj = self.pool.get('project.oerp.task.hour')
+                                task_hour = task_hour_obj.browse(cr, uid , hour[1], context=context)
+                                sum += task_hour.expected_hours
+                        elif hour[0] == 4:
                             task_hour_obj = self.pool.get('project.oerp.task.hour')
                             task_hour = task_hour_obj.browse(cr, uid , hour[1], context=context)
                             sum += task_hour.expected_hours
-                    elif hour[0] == 4:
-                        task_hour_obj = self.pool.get('project.oerp.task.hour')
-                        task_hour = task_hour_obj.browse(cr, uid , hour[1], context=context)
-                        sum += task_hour.expected_hours
-                values['planned_hours'] = sum
+                    values['planned_hours'] = sum
             super(Task, self).write(cr, uid, task.id, values, context)
         return True
     
