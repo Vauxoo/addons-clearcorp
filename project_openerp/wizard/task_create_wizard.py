@@ -67,9 +67,8 @@ ORDER BY types.sequence ASC;''' % feature.id)
                 previous_id = False
                 for row in cr.dictfetchall():
                     values = {
-                                  'name': _('Task for: %s') % 
-                                  (feature.code + ' ' + feature.name + \
-                                   ' ' + row.get('name')),
+                                  'name': feature.code + ' ' + feature.name + \
+                                  ' ' + row.get('name'),
                                   'project_id': sprint.project_id.id,
                                   'product_backlog_id': sprint.product_backlog_id.id,
                                   'release_backlog_id': sprint.release_backlog_id.id,
