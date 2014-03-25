@@ -113,10 +113,26 @@ msgstr "Validar planificación de tiempo"
 #. module: project_extended
 #: view:project.task:0
 msgid "Edit..."
-msgstr "Editar…"
+msgstr "Editar..."
 
 #. module: project_extended
 #: view:project.task:0
 msgid "Blocked"
 msgstr "Bloqueado"
+
+#. module: project_extended
+#: view:project.project:0
+#: field:project.project,project_count:0
+msgid "Sub-projects"
+msgstr "Sub-proyectos"
+
+#. module: project_extended
+#: view:project.project:0
+msgid "Sub-project"
+msgstr "Sub-proyecto"
+
+#. module: project_extended
+#: field:project.project,parent_project_id:0
+msgid "Parent Project"
+msgstr "Proyecto padre"
 
