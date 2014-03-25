@@ -136,6 +136,7 @@ class Phase(osv.Model):
                 'work_type_ids': fields.one2many('project.oerp.work.type', 'phase_id', string='Work Types'),
                 'sprint_ids': fields.one2many('project.scrum.sprint', 'phase_id',
                     string='Sprints'),
+                'user_id': fields.many2one('res.users', string='Phase Manager'),
                 }
     
     _constraints = [(_check_sprints, 'All sprints must belong to the selected '
