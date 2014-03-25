@@ -50,16 +50,30 @@ class project(osv.Model):
             res.append((project.id, data))
         return res
 
-    def _shortcut_name(self, cr, uid, ids,field_name,arg, context=None):
-        res ={}
+    def _shortcut_name(self, cr, uid, ids, field_name, arg, context=None):
+        res = {}
         for m in self.browse(cr,uid,ids,context=context):
             res = self.name_get(cr, uid, ids)
             return dict(res)
         return res
+
+    def _get_parent_project_id(self, cr, uid, ids, field_name, arg, context=None):
+        res = {}
+        for project in self.browse(cr,uid,ids,context=context):
+            if project.parent_id:
+                parent_project_id = self.search(cr, uid, [('analytic_account_id','=',project.parent_id.id)], context=context)
+                if parent_project_id:
+                    res[project.id] = self.browse(cr, uid, parent_project_id[0], context=context)
+                else:
+                    res[project.id] = None
+            else:
+                res[project.id] = None
+        return res
         
     _columns = {
-        'shortcut_name': fields.function(_shortcut_name, method=True, store=True, string='Project Name', type='char', size=350),
-        'ir_sequence_id': fields.many2one('ir.sequence', 'Sequence'),
+        'shortcut_name':        fields.function(_shortcut_name, method=True, store=True, string='Project Name', type='char', size=350),
+        'ir_sequence_id':       fields.many2one('ir.sequence', 'Sequence'),
+        'parent_project_id':    fields.function(_get_parent_project_id, string='Parent Project', type='many2one', relation="project.project"),
     }
     
     def create(self, cr, uid, vals, context=None):
