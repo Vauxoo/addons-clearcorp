@@ -84,9 +84,17 @@ class WorkTypeTemplateGroup(osv.Model):
     
 class Sprint(osv.Model):
     
+    def queue_tasks(self, cr, uid, ids, context=None):
+        sprint = self.browse(cr, uid, ids[0], context=context)
+        for task in sprint.desirable_task_ids:
+                if not task.sprint_id:
+                    task.write({'sprint_id': sprint.id}, context=context)
+        return True
+    
     _inherit = 'project.scrum.sprint'
     
     _columns = {
+                'desirable_task_ids': fields.many2many('project.task', string='Desirable Tasks'),
                 'phase_id': fields.many2one('project.phase', string='Phase', required=True,
                     domain="[('project_id','=', project_id)]"),
                 }

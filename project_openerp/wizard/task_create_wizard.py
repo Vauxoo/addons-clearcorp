@@ -46,6 +46,7 @@ class TaskCreateWizard(osv.TransientModel):
         if sprint.task_from_features:
             raise osv.except_osv(_('Error'),_('All task were created before.'))
         
+        desirables = []
         for feature in features:
             try:
                 cr.execute('''SELECT string_agg(types.name,', ') AS name,
@@ -71,7 +72,7 @@ ORDER BY types.sequence ASC;''', (feature.id,))
                               'project_id': sprint.project_id.id,
                               'product_backlog_id': sprint.product_backlog_id.id,
                               'release_backlog_id': sprint.release_backlog_id.id,
-                              'sprint_id': sprint.id,
+                              'sprint_id': False,
                               'feature_id': feature.id,
                               'description': feature.description,
                               'planned_hours': sequence.get('expected_hours'),
@@ -102,8 +103,12 @@ AND types.sequence = %s;''', (feature.id, number,))
                     
                     values['task_hour_ids'] = vals
                     
+                    if sprint.phase_id.user_id:
+                        values['user_id'] = sprint.phase_id.user_id.id
+                    
                     task_obj = self.pool.get('project.task')
                     task_id = task_obj.create(cr, uid, values, context=context)
+                    desirables.append(task_id)
                     
                     if previous_id:
                         values = {'previous_task_ids': [[6,0,[previous_id]]]}
@@ -118,7 +123,11 @@ AND types.sequence = %s;''', (feature.id, number,))
                                                   'Please contact your system administrator.'))
             
         sprint_obj = self.pool.get('project.scrum.sprint')
-        sprint_obj.write(cr, uid, sprint.id, {'task_from_features': True})    
+        sprint_obj.write(cr, uid, sprint.id,
+                         {
+                          'task_from_features': True,
+                          'desirable_task_ids': [[6,0,desirables]],
+                          })
             
         return {
                 'name': 'Sprints',

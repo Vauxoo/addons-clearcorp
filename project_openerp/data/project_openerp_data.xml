@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data> <!--noupdate="1">-->
+    <data noupdate="1">
         
         <record model="project.oerp.work.type.template.group" id="data_work_type_template_group">
           <field name="name">Default Templates</field>
