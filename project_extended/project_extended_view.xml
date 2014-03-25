@@ -83,21 +83,21 @@
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.view_project_project_filter"/>
             <field name="arch" type="xml">
-                <xpath expr="//search[@string='Search Project']/filter[@name='Template']" position="after">
-                    <separator/>
-                    <filter icon="terp-check" string="Using Tasks" name="UseTasks" domain="[('use_tasks','=','True')]" help="Projects using Tasks"/>
-                </xpath>
-                <xpath expr="//search[@string='Search Project']/field[@name='name']" position="replace">
-                    <field name="shortcut_name"
-                        string="Project Name"
-                        filter_domain="['|',('name','ilike',self),'|',('shortcut_name','ilike',self),('code','ilike',self)]"/>
-                </xpath>
-                <xpath expr="//group/filter[@name='Parent']" position="after">
-                    <filter string="Period" name="group_date_start" icon="terp-personal" domain="[]"  context="{'group_by':'date_start'}"/>
-                </xpath>
-                <xpath expr="//field[@name='name']" position="after">
-                    <field name="parent_project_id" />
-                </xpath>
+                <data>
+                    <xpath expr="//search[@string='Search Project']/filter[@name='Template']" position="after">
+                        <separator/>
+                        <filter icon="terp-check" string="Using Tasks" name="UseTasks" domain="[('use_tasks','=','True')]" help="Projects using Tasks"/>
+                    </xpath>
+                    <xpath expr="//search[@string='Search Project']/field[@name='name']" position="replace">
+                        <field name="shortcut_name"
+                            string="Project Name"
+                            filter_domain="['|',('name','ilike',self),'|',('shortcut_name','ilike',self),('code','ilike',self)]"/>
+                        <field name="parent_project_id" />
+                    </xpath>
+                    <xpath expr="//group/filter[@name='Parent']" position="after">
+                        <filter string="Period" name="group_date_start" icon="terp-personal" domain="[]"  context="{'group_by':'date_start'}"/>
+                    </xpath>
+                </data>
             </field>
         </record>
         
