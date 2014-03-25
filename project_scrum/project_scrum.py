@@ -464,6 +464,8 @@ class Sprint(osv.Model):
         return True
     
     def set_done(self, cr, uid, ids, context=None):
+        if not isinstance(ids,list):
+            ids = [ids]
         sprint = self.browse(cr, uid, ids[0], context=context)
         for task in sprint.task_ids:
             if not task.state in ['done','cancelled']:

@@ -26,6 +26,14 @@
             <field name="target">new</field>
         </record>
         
+        <!-- project.oerp.sprint.close.wizard -->
+        <record model="ir.actions.act_window" id="action_sprint_close_wizard">
+            <field name="name">Close Sprint</field>
+            <field name="res_model">project.oerp.sprint.close.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
         <!-- project.oerp.work.type.template -->
         <record model="ir.actions.act_window" id="action_work_type_template">
             <field name="name">Work Type Template</field>
