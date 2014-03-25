@@ -63,17 +63,33 @@ class project(osv.Model):
             if project.parent_id:
                 parent_project_id = self.search(cr, uid, [('analytic_account_id','=',project.parent_id.id)], context=context)
                 if parent_project_id:
-                    res[project.id] = self.browse(cr, uid, parent_project_id[0], context=context)
+                    res[project.id] = parent_project_id[0]
                 else:
                     res[project.id] = None
             else:
                 res[project.id] = None
         return res
+    
+    def _count_child_projects(self, cr, uid, project, count, context=None):
+        child_ids = self.search(cr, uid, [('parent_project_id','=',project.id)], context=context)
+        if child_ids:
+            for child in self.browse(cr, uid, child_ids, context=context):
+                count = self._count_child_projects(cr, uid, child, count+1, context=None)
+            return count
+        else:
+            return count
+
+    def _project_count(self, cr, uid, ids, field_name, arg, context=None):
+        res = {}
+        for project in self.browse(cr,uid,ids,context=context):
+            res[project.id] = self._count_child_projects(cr, uid, project, 0, context=context)
+        return res
         
     _columns = {
         'shortcut_name':        fields.function(_shortcut_name, method=True, store=True, string='Project Name', type='char', size=350),
         'ir_sequence_id':       fields.many2one('ir.sequence', 'Sequence'),
-        'parent_project_id':    fields.function(_get_parent_project_id, string='Parent Project', type='many2one', relation="project.project"),
+        'parent_project_id':    fields.function(_get_parent_project_id, string='Parent Project', type='many2one', relation="project.project", store=True),
+        'project_count':        fields.function(_project_count, type='integer', string="Sub-projects"),
     }
     
     def create(self, cr, uid, vals, context=None):
