@@ -17,6 +17,30 @@
             </field>
         </record>
         
+        <record id="open_view_sub_projects" model="ir.actions.act_window">
+            <field name="name">Projects</field>
+            <field name="res_model">project.project</field>
+            <field name="view_type">form</field>
+            <field name="domain">[]</field>
+            <field name="view_mode">kanban,tree,form,gantt</field>
+            <field name="view_id" ref="project.view_project_kanban"/>
+            <field name="search_view_id" ref="project.view_project_project_filter"/>
+            <field name="context">{'search_default_Current': 1, 'search_default_parent_project_id': active_id}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                  Click to start a new project.
+                </p><p>
+                  Projects are used to organize your activities; plan
+                  tasks, track issues, invoice timesheets. You can define
+                  internal projects (R&amp;D, Improve Sales Process),
+                  private projects (My Todos) or customer ones.
+                </p><p>
+                  You will be able collaborate with internal users on
+                  projects or invite customers to share your activities.
+                </p>
+            </field>
+        </record>
+        
         <!-- kanban -->
         <record id="view_project_kanban" model="ir.ui.view">
             <field name="name">view.project.kanban</field>
@@ -25,6 +49,14 @@
             <field name="arch" type="xml">
                 <xpath expr="//kanban/templates/t/div/div[@class='oe_kanban_content']/h4/field[@name='name']" position="replace">
                     <field name="shortcut_name"/>
+                </xpath>
+                <xpath expr="//kanban/templates/t/div/div[@class='oe_kanban_content']/div[@class='oe_kanban_project_list'][2]" position="after">
+                    <div class="oe_kanban_project_list">
+                        <a t-if="record.project_count.raw_value gt 0" name="%(open_view_sub_projects)d" type="action" style="margin-right: 10px"> 
+                            <span t-if="record.project_count.raw_value gt 1"><field name="project_count"/> Sub-projects</span>
+                            <span t-if="record.project_count.raw_value lt 2"><field name="project_count"/> Sub-project</span>
+                        </a>
+                    </div>
                 </xpath>
             </field>
         </record>
@@ -51,18 +83,21 @@
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.view_project_project_filter"/>
             <field name="arch" type="xml">
-                <xpath expr="//search[@string='Search Project']/filter[@name='Template']" position="after">
-                    <separator/>
-                    <filter icon="terp-check" string="Using Tasks" name="UseTasks" domain="[('use_tasks','=','True')]" help="Projects using Tasks"/>
-                </xpath>
-                <xpath expr="//search[@string='Search Project']/field[@name='name']" position="replace">
-                    <field name="shortcut_name"
-                        string="Project Name"
-                        filter_domain="['|',('name','ilike',self),'|',('shortcut_name','ilike',self),('code','ilike',self)]"/>
-                </xpath>
-                <xpath expr="//group/filter[@name='Parent']" position="after">
-                    <filter string="Period" name="group_date_start" icon="terp-personal" domain="[]"  context="{'group_by':'date_start'}"/>
-                </xpath>
+                <data>
+                    <xpath expr="//search[@string='Search Project']/filter[@name='Template']" position="after">
+                        <separator/>
+                        <filter icon="terp-check" string="Using Tasks" name="UseTasks" domain="[('use_tasks','=','True')]" help="Projects using Tasks"/>
+                    </xpath>
+                    <xpath expr="//search[@string='Search Project']/field[@name='name']" position="replace">
+                        <field name="shortcut_name"
+                            string="Project Name"
+                            filter_domain="['|',('name','ilike',self),'|',('shortcut_name','ilike',self),('code','ilike',self)]"/>
+                        <field name="parent_project_id" />
+                    </xpath>
+                    <xpath expr="//group/filter[@name='Parent']" position="after">
+                        <filter string="Period" name="group_date_start" icon="terp-personal" domain="[]"  context="{'group_by':'date_start'}"/>
+                    </xpath>
+                </data>
             </field>
         </record>
         
