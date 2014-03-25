@@ -1,6 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
+        <!-- actions -->
+        <!-- project.oerp.feature.import.wizard -->
+        <record model="ir.actions.act_window" id="action_feature_import_wizard">
+            <field name="name">Feature Import</field>
+            <field name="res_model">project.oerp.feature.import.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+        <!-- project.oerp.task.create.wizard -->
+        <record model="ir.actions.act_window" id="action_task_create_wizard">
+            <field name="name">Create Tasks from Sequence</field>
+            <field name="res_model">project.oerp.task.create.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+        <!-- project.oerp.phase.create.wizard -->
+        <record model="ir.actions.act_window" id="action_phase_create_wizard">
+            <field name="name">Create Phase from Template</field>
+            <field name="res_model">project.oerp.phase.create.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+        <!-- project.oerp.work.type.template -->
+        <record model="ir.actions.act_window" id="action_work_type_template">
+            <field name="name">Work Type Template</field>
+            <field name="res_model">project.oerp.work.type.template</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create new Work Type Template</p>
+            </field>
+        </record>
+        
+        <!-- project.oerp.work.type.template -->
+        <record model="ir.actions.act_window" id="action_work_type_template_group">
+            <field name="name">Work Type Template Group</field>
+            <field name="res_model">project.oerp.work.type.template.group</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create new Work Type Template Group</p>
+            </field>
+        </record>
+        
         <!-- views -->
         <!-- project.phase -->
         <!-- form -->
@@ -147,9 +192,11 @@
                         </div>
                         <group>
                             <group>
-                                <field name="file" filename="filename"/>
+                                <field name="group_id"/>
                             </group>
                             <group>
+                                <field name="filename" invisible="True"/>
+                                <field name="file" filename="filename"/>
                             </group>
                         </group>
                         <notebook>
@@ -182,38 +229,55 @@
             </field>
         </record>
         
-        <!-- actions -->
-        <!-- project.oerp.feature.import.wizard -->
-        <record model="ir.actions.act_window" id="action_feature_import_wizard">
-            <field name="name">Feature Import</field>
-            <field name="res_model">project.oerp.feature.import.wizard</field>
-            <field name="view_mode">form</field>
-            <field name="target">new</field>
+        <!-- project.oerp.work.type.template.group -->
+        <!-- form -->
+        <record id ="view_work_type_template_group_form" model="ir.ui.view">
+            <field name="name">view.work.type.template.group.form</field>
+            <field name="model">project.oerp.work.type.template.group</field>
+            <field name="type">form</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form string="Work Type Template Group" version="7.0">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="file" filename="filename"/>
+                            </group>
+                            <group>
+                                <field name="filename"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Phase Templates" name="work_types_templates">
+                                <field name="template_ids">
+                                    <tree editable="top">
+                                        <field name="name"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
         </record>
         
-        <!-- project.oerp.task.create.wizard -->
-        <record model="ir.actions.act_window" id="action_task_create_wizard">
-            <field name="name">Create Tasks from Sequence</field>
-            <field name="res_model">project.oerp.task.create.wizard</field>
-            <field name="view_mode">form</field>
-            <field name="target">new</field>
-        </record>
-        
-        <!-- project.oerp.phase.create.wizard -->
-        <record model="ir.actions.act_window" id="action_phase_create_wizard">
-            <field name="name">Create Phase from Template</field>
-            <field name="res_model">project.oerp.phase.create.wizard</field>
-            <field name="view_mode">form</field>
-            <field name="target">new</field>
-        </record>
-        
-        <!-- project.oerp.work.type.template -->
-        <record model="ir.actions.act_window" id="action_work_type_template">
-            <field name="name">Work Type Template</field>
-            <field name="res_model">project.oerp.work.type.template</field>
-            <field name="view_mode">tree,form</field>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">Create new Work Type Template</p>
+        <!-- tree -->
+        <record id ="view_work_type_template_group_tree" model="ir.ui.view">
+            <field name="name">view.work.type.template.group.tree</field>
+            <field name="model">project.oerp.work.type.template.group</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Work Type Template Groups">
+                    <field name="name"/>
+                    <field name="file"/>
+                </tree>
             </field>
         </record>
     </data>

@@ -48,7 +48,7 @@ class WorkTypeMapping(osv.Model):
     _columns = {
                 'template_id': fields.many2one('project.oerp.work.type.template', string='Template',
                     ondelete='cascade'),
-                'name': fields.char('Type Name', size=128, required=True),
+                'name': fields.char('Type Name', size=128, translate=True, required=True),
                 'sequence': fields.integer('Sequence', required=True),
                 'column_number': fields.integer('Column Number', required=True),
                 }
@@ -58,11 +58,24 @@ class WorkTypeTemplate(osv.Model):
     _name = 'project.oerp.work.type.template'
     
     _columns = {
-                'name': fields.char('Template', size=128, required=True),
-                'file': fields.binary('File', filters='*.csv'),
-                'filename': fields.char('Filename', size=128),
+                'name': fields.char('Template', size=128, translate=True, required=True),
+                'group_id': fields.many2one('project.oerp.work.type.template.group', string='Group'),
+                'file': fields.related('group_id', 'file', type='binary', string='File'),
+                'filename': fields.related('group_id','filename', type='char', string='Filename'),
                 'work_type_mapping_ids': fields.one2many('project.oerp.work.type.mapping', 'template_id',
                     string='Work Types')
+                }
+    
+class WorkTypeTemplateGroup(osv.Model):
+    
+    _name = 'project.oerp.work.type.template.group'
+    
+    _columns = {
+                'name': fields.char('Group Name', size=128, translate=True, required=True),
+                'file': fields.binary('File', filters='*.csv'),
+                'filename': fields.char('Filename', size=128),
+                'template_ids': fields.one2many('project.oerp.work.type.template', 'group_id',
+                    string='Templates'),
                 }
     
     _defaults = {

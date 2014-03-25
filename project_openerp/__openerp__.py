@@ -36,9 +36,10 @@
                  'project_long_term',
                  ],
     "data" : [
+              'data/project_openerp_data.xml',
+              'wizard/wizard_view.xml',
               'view/project_openerp_view.xml',
               'view/project_openerp_menu.xml',
-              'wizard/wizard_view.xml',
               ],
     "init_xml" : [],
     "demo_xml" : [],
