@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<openerp>   
+    <data>
+        <record id="currency_auto_comp_inherit" model="ir.ui.view">
+            <field name="name">currency.auto.comp.inherit</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="currency_rate_update.currency_auto_comp"/>
+            <field name="arch" type="xml">
+                <!--Replace fields related with currency in company -->
+                <!--The manage of currency update is from each currency, not from company -->
+                <page string="Currency auto update configuration" position="replace"/>
+            </field>
+        </record>        
+    </data>
+</openerp>

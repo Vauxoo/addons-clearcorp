@@ -20,16 +20,28 @@
 #
 ##############################################################################
 
-
 {
-    "name" : 'Res Currency Sequence',
+    "name" : 'Account Exchange Rates Adjustment',
     "version" : '1.0',
-    "author" : 'CLEARCORP S.A.',
+    "author" : 'CLEARCORP S.A',
     "category": 'Accounting & Finance',
-    "description": """ Add sequence to currency """,
-    "depends" : ["base",],
-    "data" : ["res_currency_sequence_view.xml",],
-    'active': False,
-    'installable': True,    
+    "description": """
+Account Exchange Rates Adjustment:
+====================================
+    Adjust the amount of currency, 
+    at the exchange rate on a specified day
+    """,    
+    "depends" : [
+                 "account", 
+                 "currency_rate_update_BCCR", 
+                 "res_currency_sequence",
+                ],
+
+    "data" : [
+                "wizard/account_exchange_rates_adjustment.xml",
+                "account_exchange_rates_adjustment.xml",                 
+                ],
+    'installable': True,
+    'auto_install': False,
     'license': 'AGPL-3',
 }

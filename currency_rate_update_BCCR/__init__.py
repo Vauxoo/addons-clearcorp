@@ -20,16 +20,6 @@
 #
 ##############################################################################
 
-
-{
-    "name" : 'Res Currency Sequence',
-    "version" : '1.0',
-    "author" : 'CLEARCORP S.A.',
-    "category": 'Accounting & Finance',
-    "description": """ Add sequence to currency """,
-    "depends" : ["base",],
-    "data" : ["res_currency_sequence_view.xml",],
-    'active': False,
-    'installable': True,    
-    'license': 'AGPL-3',
-}
+import currency_rate_update
+import res_currency
+import ir_cron

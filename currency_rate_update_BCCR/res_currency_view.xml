@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<openerp>   
+    <data>
+        <record id="view_currency_form_inherit" model="ir.ui.view">
+            <field name="name">view.currency.form.inherit</field>
+            <field name="model">res.currency</field>
+            <field name="inherit_id" ref="base.view_currency_form"/>
+            <field name="arch" type="xml">
+                <group string="Miscellaneous" position="after">
+                    <group string="Rate Currency">
+                        <field name="automatic_update"/>
+                    </group>
+                </group>
+                <field name="rate_ids" position="replace">
+                    <notebook>
+                        <page string="Rates">
+                            <group>
+                                <field mode="tree" name="rate_ids" attrs="{'readonly':[('base','=',True)]}" nolabel="1">
+                                    <tree string="Rates" editable="bottom">
+                                        <field name="name" />
+                                        <field name="rate"/>
+                                        <field name="second_rate"/>
+                                    </tree>
+                                </field>
+                            <field name="ir_cron_job_id" invisible="1"/>
+                            </group>
+                        </page>
+                        <page string="Automatic Update" attrs="{'invisible':[('automatic_update','=',False)]}">
+                            <separator/>
+                            <h2><label string="Exchange Code Rate" attrs="{'invisible':[('automatic_update','=', False)]}"/></h2>                            
+                            <group colspan="4">
+                                <field name="web_service_associated" attrs="{'required': [('automatic_update','=',True)]}"/>                            
+                            </group>
+                            <group col="2">
+                               <field name="code_rate" attrs="{'required': [('web_service_associated','=', 'bccr_getter')], 'invisible':[('web_service_associated','!=', 'bccr_getter')]}"/> 
+                               <field name="second_rate" attrs="{'invisible':[('web_service_associated','!=', 'bccr_getter')]}"/>
+                               <field name="second_code_rate" attrs="{'required':[('second_rate','=',True)], 'invisible':['|',('second_rate','=',False), ('web_service_associated','!=', 'bccr_getter')]}"/>
+                            </group>                            
+                            <separator/>
+                            <!-- Cron Job-->
+                            <h2> <label string="Automatic Update Task" attrs="{'invisible':[('ir_cron_job_id','=', False)]}"/> </h2>
+                            <group col="4" coslpan="4" attrs="{'invisible':[('ir_cron_job_id','=', False)]}">                                                                
+                                <field name="interval_number"/> 
+                                <field name="nextcall"/>
+                                <field name="doall"/> 
+                                <field name="interval_type"/>
+                                <field name="numbercall"/>                                    
+                            </group>                             
+                        </page>
+                    </notebook>
+                </field>
+            </field>
+        </record>        
+    </data>
+</openerp>
