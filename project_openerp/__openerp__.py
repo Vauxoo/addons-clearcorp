@@ -40,6 +40,7 @@
               'wizard/wizard_view.xml',
               'view/project_openerp_view.xml',
               'view/project_openerp_menu.xml',
+              'security/ir.model.access.csv',
               ],
     "init_xml" : [],
     "demo_xml" : [],
