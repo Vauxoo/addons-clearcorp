@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-<data noupdate="0">
+<data noupdate="1">
     <record id="group_account_payment_term_unlimited" model="res.groups">
         <field name="name">Unlimited Payment</field>
         <field name="category_id" ref="base.module_category_accounting_and_finance"/>

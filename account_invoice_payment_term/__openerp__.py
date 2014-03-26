@@ -35,6 +35,7 @@
     'depends' : [
                  'base',
                  'account',
+                 'sale'
                  ],
     'data' : [
               'security/account_invoice_payment_term_security.xml',
