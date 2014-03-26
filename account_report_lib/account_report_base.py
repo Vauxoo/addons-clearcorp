@@ -75,6 +75,7 @@ class accountReportbase(report_sxw.rml_parse, WebKitHelper):
             'set_data_template': self.set_data_template,
             'get_data_template': self.get_data_template,
             'get_sort_selection': self.get_sort_selection,
+            'get_company_user': self.get_company_user,
          })
     
     #####################################BASIC FUNCTIONS ##############################
@@ -221,3 +222,13 @@ class accountReportbase(report_sxw.rml_parse, WebKitHelper):
         if key in self.localcontext['storage'].keys():
             return self.localcontext['storage'][key]
         return False
+    
+    #### METHODS TO DISPLAY INFO, BUT DATA DOESN'T COME FROM A WIZARD ####
+    def get_company_user(self, cr, uid):
+        user = self.pool.get('res.users').browse(cr, uid, uid)
+
+        return self.pool.get('res.company').browse(cr, uid, user.company_id.id)
+        
+        
+        
+        
