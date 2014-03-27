@@ -45,7 +45,6 @@ class ResPartner(osv.Model):
             return True
         else:
             partner = self.browse(cr, uid, id[0], context=context)
-            print partner.credit, sum, partner.credit_limit
             if partner.credit + sum <= partner.credit_limit:
                 return True
             else:
