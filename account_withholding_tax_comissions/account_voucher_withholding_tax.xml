@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <openerp>
     <data> 
-        <!--Account Voucher -->
+        <!--Account Voucher (Supplier Form) -->
         <record id="view_vendor_payment_form_inherit" model="ir.ui.view">
            <field name = "name">view.vendor.payment.form.inherit</field>
            <field name = "model">account.voucher</field>
@@ -64,7 +64,7 @@
            </field>
         </record>
         
-        <!-- Wizard that comes for invoice-->
+        <!-- Wizard that comes for invoice (supplier form)-->
         <record id="view_vendor_receipt_dialog_form_inherit" model="ir.ui.view">
            <field name = "name">view.vendor.receipt.dialog.form.inherit</field>
            <field name = "model">account.voucher</field>
@@ -84,5 +84,68 @@
               </xpath>              
            </field>
         </record>
-    </data>
+        
+        <!--Account Voucher (Customer Form) -->
+        <record id="view_vendor_receipt_form_inherit" model="ir.ui.view">
+           <field name = "name">view.vendor.receipt.form.inherit</field>
+           <field name = "model">account.voucher</field>
+           <field name = "type">form</field>            
+           <field name = "inherit_id" ref="account_voucher.view_vendor_receipt_form"/>
+           <field name = "arch" type = "xml">
+              <xpath expr="/form/sheet/notebook/page[@string='Payment Information']/group/group[1]" position="inside">
+                  <group col="2">
+                    <separator colspan="2" string="Required withholding tax"/>
+                    <!-- 
+                        Both fields have the same relation name in database (voucher_withholding_tax_required) that's the magic of the trick 
+                        One field that user sees and other with the same value that store the value in database. 
+                    -->
+                    <field name="withholding_tax_required_view" nolabel="1" widget="many2many_tags" readonly="True" />
+                    <field name="withholding_tax_required" nolabel="1" widget="many2many_tags" invisible="True"/>
+                    <separator colspan="2" string="Optional withholding tax"/>
+                    <field name="withholding_tax_optional" nolabel="1" widget="many2many_tags"/>
+                  </group>
+              </xpath>              
+              <xpath expr="/form/sheet/notebook/page[@string='Journal Items']/field[@name='move_ids']" position="after">
+                  <separator colspan="2" string="Journal Items Withholding Tax"/>
+                  <field name="withholding_move_line_ids" readonly="1">
+                      <tree string="Journal Items">
+                           <field name="move_id"/>
+                           <field name="ref"/>
+                           <field name="date"/>
+                           <field name="statement_id"/>
+                           <field name="partner_id"/>
+                           <field name="account_id"/>
+                           <field name="name"/>
+                           <field name="debit"/>
+                           <field name="credit"/>
+                           <field name="state"/>
+                           <field name="reconcile_id"/>
+                           <field name="amount_currency" groups="base.group_multi_currency"/>
+                           <field name="currency_id" groups="base.group_multi_currency"/>
+                       </tree>
+                  </field>
+              </xpath>
+              <xpath expr = "/form/sheet/notebook/page[@string='Journal Items']/field[@name='withholding_move_line_ids']" position = "after">
+                    <separator colspan="2" string="Journal Items Reverse Withholding Tax" attrs = "{'invisible' : [('state','!=','reverse')]}"/>
+                    <field name="withholding_move_line_ids_reverse" colspan="4" nolabel="1" readonly="1" attrs = "{'invisible' : [('state','!=','reverse')]}" >                       
+                        <tree string="Journal Items Withholding Tax Reverse">
+                           <field name="move_id"/>
+                           <field name="ref"/>
+                           <field name="date"/>
+                           <field name="statement_id"/>
+                           <field name="partner_id"/>
+                           <field name="account_id"/>
+                           <field name="name"/>
+                           <field name="debit"/>
+                           <field name="credit"/>
+                           <field name="state"/>
+                           <field name="reconcile_id"/>
+                           <field name="amount_currency" groups="base.group_multi_currency"/>
+                           <field name="currency_id" groups="base.group_multi_currency"/>
+                        </tree>
+                    </field>
+                </xpath>
+           </field>
+        </record>
+      </data>
 </openerp>

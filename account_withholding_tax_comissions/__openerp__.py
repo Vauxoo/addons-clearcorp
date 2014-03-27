@@ -25,9 +25,13 @@
     'version': '1.0',
     'category': 'Accounting & Finance',
     'description': """
+Account Withholding Tax:
+==========================
+Description:
+-------------
         1. Add object account.withholding.tax
-        2. Manage account.withholding tax for accounts.
-    """,
+        2. Manage account.withholding tax for accounts. 
+        3. Add withholding taxes for supplier and customer voucher. """,
     'author': 'CLEARCORP S.A.',
     'website': 'http://www.clearcorp.co.cr',
     'depends': [
