@@ -25,26 +25,51 @@ from osv import osv, fields
 from tools.translate import _
 
 class AccountAccount(osv.osv):
-    _name = "account.account"
     _inherit = "account.account"
     
     _columns = {
         'exchange_rate_adjustment': fields.boolean('Exchange rate adjustment', help="Choose if the account needed an adjusted exchange rate"),
         'rate_adjustment': fields.selection([('primary','Primary'),('secondary','Secondary')], "Rate Adjustment"),
-        'currency_second_rate':fields.related('currency_id', 'second_rate', type='boolean', string="Have second rate")
     }
-    
+
     def onchange_currency(self, cr, uid, ids, currency_id, context=None):
-        if currency_id:
-            currency = self.pool.get('res.currency').browse(cr, uid, [currency_id], context=context)[0]                
-            #currency_second_rate must be in onchange values to "clean it" when currency_id changes            
-            if not currency.second_rate:
-                return {'value': {'rate_adjustment': 'primary', 'currency_second_rate': currency.second_rate} }
-            else:
-                return {'value': {'rate_adjustment': '', 'currency_second_rate': currency.second_rate}}            
-        else:
-            return {'value': {'rate_adjustment': '', 'currency_second_rate': False}}
+        res = {}
         
+        #if currency has not second_rate, establish primary as default option
+        if currency_id:
+            currency_obj = self.pool.get('res.currency').browse(cr, uid, currency_id,context=context)
+            if not currency_obj.second_rate:
+                res = {'value': {'rate_adjustment': 'primary'} }
+            else:
+                res = {'value': {'rate_adjustment': ''} }
+        
+        return res
+    
+    """
+        Redefine create and write. It exists a "bug", when field selection rate_adjustment
+        is readonly, the value doesn't save when the account is created or written. 
+        Check if currency has not second_rate and rate_adjustment is secondary, throw an
+        exception. 
+    """
+    
+    def create(self, cr, uid, vals, context={}):
+        if 'currency_id' in vals.keys():
+            if 'rate_adjustment' in vals.keys():
+                currency_obj = self.pool.get('res.currency').browse(cr, uid, vals['currency_id'], context=context)
+                if not currency_obj.second_rate and (vals['rate_adjustment'] == 'secondary'):
+                    raise osv.except_osv(_('Error!'), _('The secondary currency does not allow secondary rate adjustment\n'))
+                    
+        return super(AccountAccount, self).create(cr, uid, vals, context)
+    
+    def write(self, cr, uid, ids, vals, context=None):
+        #if currency_id doesn't allow second_rate, rate_adjustment must be primary
+        for account in self.browse(cr, uid, ids, context=context):
+            if account.currency_id:
+                if 'rate_adjustment' in vals.keys():
+                    if not account.currency_id.second_rate and (vals['rate_adjustment'] == 'secondary'):
+                        raise osv.except_osv(_('Error!'), _('The secondary currency does not allow secondary rate adjustment\n'))
+                        
+        return super(AccountAccount, self).write(cr, uid, ids, vals, context=context)
     
 class AccountMoveLine(osv.osv):
     _name = "account.move.line"
@@ -141,14 +166,16 @@ class AccountMove(osv.osv):
             #Check if account in line use primary or second rate. 
             if line.account_id.exchange_rate_adjustment:
                 if line.account_id.rate_adjustment == 'secondary':
-                    context.update({'second_rate': True})
+                    second_rate = True
                 else:
-                    context.update({'second_rate': False})
+                    second_rate = False
             
             #Get exchange_amount, depends of account
             #primary -> sale
             #secondary -> purchase
-            exchange_amount = res_currency_obj._current_rate(cr, uid, [company_currency.id], context['date'], arg=None, context=context)[company_currency.id]
+            copy_context = copy.copy(context)
+            copy_context.update({'second_rate':second_rate})
+            exchange_amount = res_currency_obj._current_rate(cr, uid, [company_currency.id], context['date'], arg=None, context=copy_context)[company_currency.id]
             
             if line.credit != 0:
                 line_difference = sign_amount_currency * line.amount_currency * exchange_amount - line.credit
@@ -180,6 +207,7 @@ class AccountMove(osv.osv):
                          'company_id': line.company_id.id,
                          'adjustment': line.id,
                          }
+            #print line.id
             new_move_line_id = move_line_obj.create(cr, uid, move_line, context=context)
             lines_created_ids.append(new_move_line_id)
             
@@ -213,14 +241,17 @@ class AccountMove(osv.osv):
             #Check if account in line use primary or second rate. 
             if account.exchange_rate_adjustment:
                 if account.rate_adjustment == 'secondary':
-                    context.update({'second_rate': True})
+                    second_rate = True
                 else:
-                    context.update({'second_rate': False})
+                    second_rate = False,
             
             #Get exchange_amount, depends of account
             #primary -> sale
             #secondary -> purchase
-            exchange_amount = res_currency_obj._current_rate(cr, uid, [company_currency.id], context['date'], arg=None, context=context)[company_currency.id]           
+            copy_context = copy.copy(context)
+            copy_context.update({'second_rate':second_rate})
+            exchange_amount = res_currency_obj._current_rate(cr, uid, [company_currency.id], context['date'], arg=None, context=copy_context)[company_currency.id]
+   
             account_difference = abs(foreign_balance) * exchange_amount - abs(balance)
                         
             if account_difference > 0.0 and foreign_balance > 0.0 or account_difference < 0.0 and foreign_balance < 0.0:
