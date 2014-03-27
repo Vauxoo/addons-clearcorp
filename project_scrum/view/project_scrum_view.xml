@@ -56,24 +56,6 @@
             </field>
         </record>
         
-        <!-- project.task.type -->
-        <!-- form -->
-        <!--<record id ="view_task_type_form" model="ir.ui.view">
-            <field name="name">view.task.type.form</field>
-            <field name="model">project.task.type</field>
-            <field name="inherit_id" ref="project.task_type_edit"/>
-            <field name="arch" type="xml">
-                <xpath expr="//form/field[@name='description']" position="after">
-                    <field name="work_type_ids">
-                        <tree editable="bottom">
-                            <field name="code"/>
-                            <field name="name"/>
-                        </tree>
-                    </field>
-                </xpath>
-            </field>
-        </record>-->
-        
         <!-- project.scrum.product.backlog -->
         <!-- form -->
         <record id="view_product_backlog_form" model="ir.ui.view">
@@ -188,16 +170,6 @@
                                     <t t-if="record.deadline.raw_value and record.deadline.raw_value lt (new Date())" t-set="red">oe_kanban_text_red</t>
                                     <span t-attf-class="#{red || ''}"><i><field name="deadline"/></i></span>
                                 </div>
-                                <!--<div class="oe_kanban_bottom_right">
-                                    <t groups="base.group_user">
-                                        <a t-if="record.kanban_state.raw_value === 'normal'" type="object" string="In Progress" name="set_kanban_state_done" class="oe_kanban_status"> </a>
-                                        <a t-if="record.kanban_state.raw_value === 'done'" type="object" string="Ready for next stage" name="set_kanban_state_blocked" class="oe_kanban_status oe_kanban_status_green"> </a>
-                                        <a t-if="record.kanban_state.raw_value === 'blocked'" type="object" string="Blocked" name="set_kanban_state_normal" class="oe_kanban_status oe_kanban_status_red"> </a>
-                                        <a t-if="record.priority.raw_value > 0" type="object" string="Normal" name="set_high_priority" class="oe_e oe_star_off">7</a>
-                                        <a t-if="record.priority.raw_value == 0" type="object" string="Very Important" name="set_normal_priority" class="oe_e oe_star_on">7</a>
-                                    </t>
-                                    <img t-att-src="kanban_image('res.users', 'image_small', record.user_id.raw_value)" t-att-title="record.user_id.value" width="24" height="24" class="oe_kanban_avatar"/>
-                                </div>-->
                                 <div class="oe_kanban_footer_left">
                                     <span title="Remaining Hours">
                                         <span class="oe_e">N</span>
@@ -347,16 +319,6 @@
                                     <t t-if="record.deadline.raw_value and record.deadline.raw_value lt (new Date())" t-set="red">oe_kanban_text_red</t>
                                     <span t-attf-class="#{red || ''}"><i><field name="deadline"/></i></span>
                                 </div>
-                                <!--<div class="oe_kanban_bottom_right">
-                                    <t groups="base.group_user">
-                                        <a t-if="record.kanban_state.raw_value === 'normal'" type="object" string="In Progress" name="set_kanban_state_done" class="oe_kanban_status"> </a>
-                                        <a t-if="record.kanban_state.raw_value === 'done'" type="object" string="Ready for next stage" name="set_kanban_state_blocked" class="oe_kanban_status oe_kanban_status_green"> </a>
-                                        <a t-if="record.kanban_state.raw_value === 'blocked'" type="object" string="Blocked" name="set_kanban_state_normal" class="oe_kanban_status oe_kanban_status_red"> </a>
-                                        <a t-if="record.priority.raw_value > 0" type="object" string="Normal" name="set_high_priority" class="oe_e oe_star_off">7</a>
-                                        <a t-if="record.priority.raw_value == 0" type="object" string="Very Important" name="set_normal_priority" class="oe_e oe_star_on">7</a>
-                                    </t>
-                                    <img t-att-src="kanban_image('res.users', 'image_small', record.user_id.raw_value)" t-att-title="record.user_id.value" width="24" height="24" class="oe_kanban_avatar"/>
-                                </div>-->
                                 <div class="oe_kanban_footer_left">
                                     <span title="Remaining Hours">
                                         <span class="oe_e">N</span>
@@ -525,10 +487,6 @@
                                     <span t-attf-class="#{red || ''}"><i><field name="deadline"/></i></span>
                                 </div>
                                 <div class="oe_kanban_bottom_right">
-                                    <!--<a t-if="record.kanban_state.raw_value === 'normal'" type="object" string="In Progress" name="set_kanban_state_done" class="oe_kanban_status"> </a>
-                                    <a t-if="record.kanban_state.raw_value === 'done'" type="object" string="Ready for next stage" name="set_kanban_state_blocked" class="oe_kanban_status oe_kanban_status_green"> </a>
-                                    <a t-if="record.kanban_state.raw_value === 'blocked'" type="object" string="Blocked" name="set_kanban_state_normal" class="oe_kanban_status oe_kanban_status_red"> </a>-->
-                                    <!--<a t-if="record.priority.raw_value > 0" type="object" string="Normal" name="set_high_priority" class="oe_e oe_star_off">7</a>-->
                                     <div class="oe_bottom_elems">
                                         <div class="oe_star">
                                             <a t-if="record.priority.raw_value == 5" type="object" string="Very Low" name="set_low_priority" class="oe_e oe_star_gray">7</a>
@@ -719,16 +677,6 @@
                                     <t t-if="record.deadline.raw_value and record.deadline.raw_value lt (new Date())" t-set="red">oe_kanban_text_red</t>
                                     <span t-attf-class="#{red || ''}"><i><field name="deadline"/></i></span>
                                 </div>
-                                <!--<div class="oe_kanban_bottom_right">
-                                    <t groups="base.group_user">
-                                        <a t-if="record.kanban_state.raw_value === 'normal'" type="object" string="In Progress" name="set_kanban_state_done" class="oe_kanban_status"> </a>
-                                        <a t-if="record.kanban_state.raw_value === 'done'" type="object" string="Ready for next stage" name="set_kanban_state_blocked" class="oe_kanban_status oe_kanban_status_green"> </a>
-                                        <a t-if="record.kanban_state.raw_value === 'blocked'" type="object" string="Blocked" name="set_kanban_state_normal" class="oe_kanban_status oe_kanban_status_red"> </a>
-                                        <a t-if="record.priority.raw_value > 0" type="object" string="Normal" name="set_high_priority" class="oe_e oe_star_off">7</a>
-                                        <a t-if="record.priority.raw_value == 0" type="object" string="Very Important" name="set_normal_priority" class="oe_e oe_star_on">7</a>
-                                    </t>
-                                    <img t-att-src="kanban_image('res.users', 'image_small', record.user_id.raw_value)" t-att-title="record.user_id.value" width="24" height="24" class="oe_kanban_avatar"/>
-                                </div>-->
                                 <div class="oe_kanban_footer_left">
                                     <span title="Remaining Hours">
                                         <span class="oe_e">N</span>

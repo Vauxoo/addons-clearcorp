@@ -698,18 +698,6 @@ class Task(osv.Model):
                     "'!',('id','=',id)]"),
                 }
     
-    '''def write(self, cr, uid, ids, values, context=None):
-        if not isinstance(ids,list):
-            ids = [ids]
-        tasks = self.browse(cr, uid, ids, context=context)
-        for task in tasks:
-            if task.sprint_id and task.sprint_id.deadline:
-                values['date_deadline'] = task.sprint_id.deadline
-            if task.feature_id and task.feature_id.expected_hours:
-                values['planned_hours'] = task.feature_id.expected_hours
-            res = super(Task,self).write(cr, uid, task.id, values, context=context)
-        return True'''
-    
     _defaults = {
                  'date_start': lambda *a: datetime.strftime(datetime.now(),'%Y-%m-%d %H:%M:%S'),
                  'date_end': lambda *a: datetime.strftime(datetime.now(),'%Y-%m-%d %H:%M:%S'),
