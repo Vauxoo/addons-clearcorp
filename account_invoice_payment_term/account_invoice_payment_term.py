@@ -35,6 +35,8 @@ class ResPartner(osv.Model):
         payment_term_obj = self.pool.get('account.payment.term')
         result =  payment_term_obj.compute(cr, uid, payment_term_id, value, date_ref=date, context=context)
         sum = 0.0
+        # elem is a tuple of date, value
+        # example ('2014-03-27', 200.65)
         for elem in result:
             if elem[0] != date:
                 sum += elem[1]
@@ -56,6 +58,8 @@ class ResPartner(osv.Model):
         payment_term_obj = self.pool.get('account.payment.term')
         result =  payment_term_obj.compute(cr, uid, payment_term_id, value, date_ref=date, context=context)
         sum = 0.0
+        # elem is a tuple of date, value
+        # example ('2014-03-27', 200.65)
         for elem in result:
             if elem[0] != date:
                 sum += elem[1]
