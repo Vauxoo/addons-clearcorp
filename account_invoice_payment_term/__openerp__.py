@@ -26,7 +26,14 @@
     'author' : 'CLEARCORP S.A.',
     'complexity': 'easy',
     'description': '''
-    TODO
+Partner Credit Validation
+=========================
+Check and verify the total credit amount when validating Sale Orders and Customer Invoices.
+
+Main Features
+-------------
+* Unlimited Payment group to allow users exceed the credit limit
+* Validation of Partner total credit on Sale Orders and Customer Invoices
 ''',
     'category': 'Accounting & Finance',
     'sequence': 3,
