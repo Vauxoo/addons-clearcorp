@@ -61,8 +61,12 @@ class ResCurrency(osv.osv):
         if res_currency_initial.id == res_currency_base.id:
             exchange_rate_dict = self.pool.get('res.currency')._current_rate(cr, uid, [res_currency_finally.id], name, arg=None, context=context)
             result = exchange_rate_dict[res_currency_finally.id]
-        else:
+            
+        elif res_currency_initial.id != res_currency_finally.id:
             currency_rate_initial = self.pool.get('res.currency')._current_rate(cr, uid, [res_currency_initial.id], name, arg=None, context=context)[res_currency_initial.id]
             currency_rate_finally = self.pool.get('res.currency')._current_rate(cr, uid, [res_currency_finally.id], name, arg=None, context=context)[res_currency_finally.id]
             result = currency_rate_initial * currency_rate_finally
+        else:
+            result = 1.00
+            
         return result

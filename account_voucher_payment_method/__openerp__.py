@@ -23,13 +23,26 @@
 	"name" : "Account Voucher Payment Method",
 	"author" : "CLEARCORP S.A",
 	"version" : "0.1",
-	"description": """ Add diferent payment methods in the journal.""",
-	"depends" : ["account_voucher"],
-	"init_xml" : [],
-	"update_xml" : [
-		"account_voucher_payment_method.xml",
-		],
-	"category" : "",
-	"active": False,
-	"installable": True
+	'category': 'Accounting & Finance',
+	"description": """ 
+Account Voucher Payment Method:
+=================================
+This module adds different options:
+-------------------------------------
+	1. Add different payment methods in the journal.
+	2. In voucher form, it shows the commercial currency not its inverse natural
+""",
+	"depends" : [
+				"account_voucher",
+				"res_currency_sequence"
+				],
+	"data" : [
+				"account_voucher.xml",
+				"account_voucher_line.xml",
+				"account_journal.xml",
+				"account_voucher_exchange.xml",
+			],
+	'installable': True,
+	'auto_install': False,
+	'license': 'AGPL-3',
 }
