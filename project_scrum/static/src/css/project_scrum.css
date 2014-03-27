@@ -1,0 +1,33 @@
+.openerp .oe_kanban_view .oe_kanban_content .oe_bottom_elems {
+    display: inline-block;
+}
+
+.openerp .oe_kanban_view .oe_kanban_content .oe_star {
+    font-size-adjust: 0.55;
+    text-shadow: 0px 0px 3px black;
+    vertical-align: top;
+    display: inline-block;
+    position: relative;
+    top: -11px;
+    margin: 0px !important; 
+}
+
+.openerp .oe_kanban_view .oe_kanban_content .oe_star_gray {
+    color: #757575;
+}
+
+.openerp .oe_kanban_view .oe_kanban_content .oe_star_blue {
+    color: #001E79;
+}
+
+.openerp .oe_kanban_view .oe_kanban_content .oe_star_green {
+    color: #00BB3E;
+}
+
+.openerp .oe_kanban_view .oe_kanban_content .oe_star_yellow {
+    color: #FFD550;
+}
+
+.openerp .oe_kanban_view .oe_kanban_content .oe_star_red {
+    color: #B70200;
+}

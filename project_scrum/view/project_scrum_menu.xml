@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <menuitem id="menu_scrum"
+            parent="base.menu_main_pm"
+            name="Scrum Project"
+            sequence="2"/>
+            
+        <menuitem id="menu_product_backlog"
+            parent="menu_scrum"
+            name="Product Backlogs"
+            action="action_product_backlog"
+            sequence="10"/>
+            
+        <menuitem id="menu_feature"
+            parent="menu_scrum"
+            name="Features"
+            action="action_feature"
+            sequence="30"/>
+            
+        <menuitem id="menu_release_backlog"
+            parent="menu_scrum"
+            name="Release Backlogs"
+            action="action_release_backlog"
+            sequence="20"/>
+            
+        <menuitem id="menu_sprint"
+            parent="menu_scrum"
+            name="Sprints"
+            action="action_sprint"
+            sequence="40"/>
+        
+        <menuitem id="menu_feature_type"
+            parent="base.menu_definitions"
+            name="Feature Types"
+            action="action_feature_type"
+            sequence="10"/>
+    </data>
+</openerp>
