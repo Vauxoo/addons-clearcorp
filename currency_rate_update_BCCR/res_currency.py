@@ -21,7 +21,9 @@
 ##############################################################################
 
 from openerp.osv import fields, osv, orm
-import datetime
+import time
+from datetime import datetime, timedelta
+
 
 """
  @todo: Other options for web_service use currency configuration linked

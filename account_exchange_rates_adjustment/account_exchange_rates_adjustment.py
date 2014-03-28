@@ -55,8 +55,8 @@ class AccountAccount(osv.osv):
     def create(self, cr, uid, vals, context={}):
         if 'currency_id' in vals.keys():
             if 'rate_adjustment' in vals.keys():
-                currency_obj = self.pool.get('res.currency').browse(cr, uid, vals['currency_id'], context=context)
-                if not currency_obj.second_rate and (vals['rate_adjustment'] == 'secondary'):
+                currency = self.pool.get('res.currency').browse(cr, uid, vals['currency_id'], context=context)
+                if not currency.base and not currency.second_rate and (vals['rate_adjustment'] == 'secondary'):
                     raise osv.except_osv(_('Error!'), _('The secondary currency does not allow secondary rate adjustment\n'))
                     
         return super(AccountAccount, self).create(cr, uid, vals, context)
@@ -66,7 +66,7 @@ class AccountAccount(osv.osv):
         for account in self.browse(cr, uid, ids, context=context):
             if account.currency_id:
                 if 'rate_adjustment' in vals.keys():
-                    if not account.currency_id.second_rate and (vals['rate_adjustment'] == 'secondary'):
+                    if not account.currency_id.base and not account.currency_id.second_rate and (vals['rate_adjustment'] == 'secondary'):
                         raise osv.except_osv(_('Error!'), _('The secondary currency does not allow secondary rate adjustment\n'))
                         
         return super(AccountAccount, self).write(cr, uid, ids, vals, context=context)
