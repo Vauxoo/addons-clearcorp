@@ -57,63 +57,65 @@ class Invoice(osv.Model):
     def action_move_create(self, cr, uid, ids, context=None):
         res = super(Invoice,self).action_move_create(cr, uid, ids, context=context)
         for invoice in self.browse(cr, uid, ids, context=context):
-            # check if invoice had discount
-            if invoice.amount_discounted != 0.0:
-                
-                # Get default discount account from company
-                default_move_discount = invoice.company_id.default_move_discount_id and \
-                invoice.company_id.default_move_discount_id.id or False
-                if not default_move_discount:
-                    raise osv.except_osv(_('Error'),_('No default move discount account configured for '
-                                                      'company %s') % invoice.company_id.name)
+            #check invoice type
+            if invoice.type in ['out_invoice','out_refund']:
+                # check if invoice had discount
+                if invoice.amount_discounted != 0.0:
                     
-                move_line_obj = self.pool.get('account.move.line')
-                
-                # Create values for new move line related to the invoice
-                values = {
-                          'invoice': invoice.id,
-                          'name': _('discount'),
-                          'quantity': 1,
-                          'debit': 0.0,
-                          'credit': 0.0,
-                          'account_id': default_move_discount,
-                          'move_id': invoice.move_id.id,
-                          'period_id': invoice.move_id.period_id.id,
-                          'partner_id': invoice.partner_id.id,
-                          'date_created': invoice.date_invoice,
-                          'state': 'valid',
-                          'date_maturity': invoice.move_id.date,
-                          }
-                
-                
-                if invoice.type in ['out_invoice','in_refund']:
-                    values['debit'] = invoice.amount_discounted
-                else:
-                    values['credit'] = invoice.amount_discounted
+                    # Get default discount account from company
+                    default_move_discount = invoice.company_id.default_move_discount_id and \
+                    invoice.company_id.default_move_discount_id.id or False
+                    if not default_move_discount:
+                        raise osv.except_osv(_('Error'),_('No default move discount account configured for '
+                                                          'company %s') % invoice.company_id.name)
+                        
+                    move_line_obj = self.pool.get('account.move.line')
                     
-                move_line_id = move_line_obj.create(cr, uid, values, context=context)
-                
-                for invoice_line in invoice.invoice_line:
-                    
+                    # Create values for new move line related to the invoice
                     values = {
-                          'invoice': invoice.id,
-                          'name': _('discount') + ' ' + invoice_line.name,
-                          'quantity': invoice_line.quantity,
-                          'debit': 0.0,
-                          'credit': 0.0,
-                          'account_id': invoice.account_id.id,
-                          'move_id': invoice.move_id.id,
-                          'period_id': invoice.move_id.period_id.id,
-                          'partner_id': invoice.partner_id.id,
-                          'date_created': invoice.date_invoice,
-                          'state': 'valid',
-                          }
-                
-                    if invoice.type in ['out_invoice','in_refund']:
-                        values['credit'] = (invoice_line.quantity * invoice_line.price_unit) - \
-                        invoice_line.price_subtotal
-                    else:
-                        values['debit'] = (invoice_line.quantity * invoice_line.price_unit) - \
-                        invoice_line.price_subtotal
+                              'invoice': invoice.id,
+                              'name': _('discount'),
+                              'quantity': 1,
+                              'debit': 0.0,
+                              'credit': 0.0,
+                              'account_id': default_move_discount,
+                              'move_id': invoice.move_id.id,
+                              'period_id': invoice.move_id.period_id.id,
+                              'partner_id': invoice.partner_id.id,
+                              'date_created': invoice.date_invoice,
+                              'state': 'valid',
+                              'date_maturity': invoice.move_id.date,
+                              }
                     
+                    
+                    if invoice.type == 'out_invoice':
+                        values['debit'] = invoice.amount_discounted
+                    else: # for out_refund
+                        values['credit'] = invoice.amount_discounted
+                        
                     move_line_id = move_line_obj.create(cr, uid, values, context=context)
+                    
+                    for invoice_line in invoice.invoice_line:
+                        
+                        values = {
+                              'invoice': invoice.id,
+                              'name': _('discount') + ' ' + invoice_line.name,
+                              'quantity': invoice_line.quantity,
+                              'debit': 0.0,
+                              'credit': 0.0,
+                              'account_id': invoice.account_id.id,
+                              'move_id': invoice.move_id.id,
+                              'period_id': invoice.move_id.period_id.id,
+                              'partner_id': invoice.partner_id.id,
+                              'date_created': invoice.date_invoice,
+                              'state': 'valid',
+                              }
+                        
+                        if invoice.type == 'out_invoice':
+                            values['credit'] = (invoice_line.quantity * invoice_line.price_unit) - \
+                            invoice_line.price_subtotal
+                        else: # for out_refund
+                            values['debit'] = (invoice_line.quantity * invoice_line.price_unit) - \
+                            invoice_line.price_subtotal
+                        
+                        move_line_id = move_line_obj.create(cr, uid, values, context=context)
