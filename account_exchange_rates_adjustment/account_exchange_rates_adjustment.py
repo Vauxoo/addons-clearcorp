@@ -207,7 +207,6 @@ class AccountMove(osv.osv):
                          'company_id': line.company_id.id,
                          'adjustment': line.id,
                          }
-            #print line.id
             new_move_line_id = move_line_obj.create(cr, uid, move_line, context=context)
             lines_created_ids.append(new_move_line_id)
             
