@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-11 16:24+0000\n"
-"PO-Revision-Date: 2014-03-11 16:24+0000\n"
+"POT-Creation-Date: 2014-03-18 21:04+0000\n"
+"PO-Revision-Date: 2014-03-18 21:04+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -26,8 +26,8 @@ msgid "Exchange rate adjustment"
 msgstr ""
 
 #. module: account_exchange_rates_adjustment
-#: selection:account.account,rate_adjustment:0
-msgid "Primary"
+#: field:generate.exchange.rates.wizard,period_id:0
+msgid "Period"
 msgstr ""
 
 #. module: account_exchange_rates_adjustment
@@ -63,7 +63,7 @@ msgid "Account"
 msgstr ""
 
 #. module: account_exchange_rates_adjustment
-#: code:addons/account_exchange_rates_adjustment/account_exchange_rates_adjustment.py:196
+#: code:addons/account_exchange_rates_adjustment/account_exchange_rates_adjustment.py:237
 #, python-format
 msgid "Unreconcile lines adjustment"
 msgstr ""
@@ -91,12 +91,14 @@ msgstr ""
 
 #. module: account_exchange_rates_adjustment
 #: view:generate.exchange.rates.wizard:0
-msgid "Select the options do you need"
+msgid "General Options"
 msgstr ""
 
 #. module: account_exchange_rates_adjustment
-#: view:generate.exchange.rates.wizard:0
-msgid "Cancel"
+#: code:addons/account_exchange_rates_adjustment/account_exchange_rates_adjustment.py:262
+#: code:addons/account_exchange_rates_adjustment/account_exchange_rates_adjustment.py:268
+#, python-format
+msgid "Error!"
 msgstr ""
 
 #. module: account_exchange_rates_adjustment
@@ -107,6 +109,11 @@ msgstr ""
 #. module: account_exchange_rates_adjustment
 #: field:account.account,currency_second_rate:0
 msgid "Have second rate"
+msgstr ""
+
+#. module: account_exchange_rates_adjustment
+#: field:account.account,rate_adjustment:0
+msgid "Rate Adjustment"
 msgstr ""
 
 #. module: account_exchange_rates_adjustment
@@ -130,8 +137,15 @@ msgid "If not set, use the end of the period"
 msgstr ""
 
 #. module: account_exchange_rates_adjustment
-#: field:generate.exchange.rates.wizard,period_id:0
-msgid "Period"
+#: selection:account.account,rate_adjustment:0
+msgid "Primary"
+msgstr ""
+
+#. module: account_exchange_rates_adjustment
+#: code:addons/account_exchange_rates_adjustment/account_exchange_rates_adjustment.py:268
+#, python-format
+msgid "The company have not associated a income account.\n"
+""
 msgstr ""
 
 #. module: account_exchange_rates_adjustment
@@ -145,8 +159,15 @@ msgid "The amount of exchange rate."
 msgstr ""
 
 #. module: account_exchange_rates_adjustment
-#: field:account.account,rate_adjustment:0
-msgid "Rate Adjustment"
+#: code:addons/account_exchange_rates_adjustment/account_exchange_rates_adjustment.py:262
+#, python-format
+msgid "The company have not associated a expense account.\n"
+""
+msgstr ""
+
+#. module: account_exchange_rates_adjustment
+#: view:generate.exchange.rates.wizard:0
+msgid "Cancel"
 msgstr ""
 
 #. module: account_exchange_rates_adjustment
@@ -158,5 +179,10 @@ msgstr ""
 #. module: account_exchange_rates_adjustment
 #: field:account.move.line,adjustment:0
 msgid "Adjustment"
+msgstr ""
+
+#. module: account_exchange_rates_adjustment
+#: view:generate.exchange.rates.wizard:0
+msgid "or"
 msgstr ""
 
