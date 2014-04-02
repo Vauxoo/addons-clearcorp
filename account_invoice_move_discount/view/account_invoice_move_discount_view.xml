@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="view_account_config_settings_form" model="ir.ui.view">
+            <field name="name">view.account.config.settings.form</field>
+            <field name="model">account.config.settings</field>
+            <field name="inherit_id" ref="account.view_account_config_settings"/>
+            <field name="arch" type="xml">
+                <xpath expr="..//form/group/div/div/label[@for='module_account_budget']" position="after">
+                    <div>
+                        <label for="default_move_discount_id"/>
+                        <field name="default_move_discount_id" class="oe_inline"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
