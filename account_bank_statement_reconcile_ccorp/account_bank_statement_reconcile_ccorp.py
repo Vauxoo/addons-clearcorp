@@ -33,6 +33,8 @@ class BankStatement(osv.Model):
                 # Skip if move_line is reconciled. Legacy due to account_banking_ccorp
                 if move_line.reconcile:
                     continue
+                if not move_line.account_id.reconcile:
+                    continue
                 # Check if move line is debit
                 if not move_line.debit == 0.0:
                     cr.execute('''SELECT
