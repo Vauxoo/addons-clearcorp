@@ -98,5 +98,33 @@
 		<record id="account_voucher.menu_action_vendor_payment" model="ir.ui.menu" >
 			<field name="action" ref="action_vendor_payment2"/>
 		</record>
+		
+		<!-- 
+		    Wizard that comes for invoice customer (and supplier) form:
+		    
+		    The supplier wizard is built from field view get method in 
+		    account.voucher model. To add a domain that depends if it is supplier
+		    or customer, view from something related with customer, it would be
+		    changed from xml traditional domain in view_vendor_receipt_dialog_form
+		    view.
+		    
+		    If it is necessary to add some domain or modified supplier view, 
+		    you must add elements in fields view get method in account.voucher
+		    model.
+		    
+		 -->
+        <record id="view_vendor_receipt_dialog_form_inherit" model="ir.ui.view">
+           <field name = "name">view.vendor.receipt.dialog.form.inherit</field>
+           <field name = "model">account.voucher</field>
+           <field name = "type">form</field>            
+           <field name = "inherit_id" ref="account_voucher.view_vendor_receipt_dialog_form"/>
+           <field name = "arch" type = "xml">
+               <field name="journal_id" position="attributes">
+                   <!--Add domain to journal. It will be added in customer payment view.  -->
+                   <attribute name="domain">[('payment_method_customer','=', True)]</attribute>
+               </field>
+           </field>
+        </record>
+      
 	</data>
 </openerp>

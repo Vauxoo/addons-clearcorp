@@ -22,9 +22,27 @@
 
 from osv import osv, fields, orm
 import time
+from lxml import etree
+from openerp.tools.translate import _
 
 class accountVoucherinherit(orm.Model):
     _inherit = 'account.voucher'
+    
+    def fields_view_get(self, cr, uid, view_id=None, view_type=False, context=None, toolbar=False, submenu=False):
+      
+        res = super(accountVoucherinherit, self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=submenu)
+        doc = etree.XML(res['arch'])
+
+        #In this section is when some differences between supplier and customer are established
+        if context.get('type', 'sale') in ('purchase', 'payment'):
+            #Separate the journal types
+            nodes = doc.xpath("//field[@name='journal_id']")
+            for node in nodes:
+                #Add a domain when the view is from supplier. 
+                node.set('domain', "[('payment_method_supplier','=', True)]")
+                    
+        res['arch'] = etree.tostring(doc)
+        return res
     
     def _compute_exchange_rate(self, cr, uid, ids, field_names, args, context=None):
         res_user_obj = self.pool.get('res.users')
@@ -52,11 +70,11 @@ class accountVoucherinherit(orm.Model):
             exchange_rate = currency_obj.get_exchange_rate(cr, uid, initial_currency, final_currency, now, context=context)            
             res[voucher.id] = exchange_rate
         
-        return res
-            
+        return res            
             
     _columns = {
                 'voucher_payment_rate' : fields.function(_compute_exchange_rate, string='Exchange Rate Commercial', type='float',),
                 'voucher_payment_rate_currency_id' : fields.related('company_id', 'currency_id', string='Company Currency', type='many2one', relation='res.currency',),
             }
+                  
         
