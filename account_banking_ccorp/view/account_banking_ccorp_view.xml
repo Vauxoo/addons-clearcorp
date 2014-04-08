@@ -51,5 +51,23 @@
                 </xpath>
             </field>
         </record>
+        
+        <record id="view_imported_file_tree" model="ir.ui.view">
+            <field name="name">view.imported.file.tree</field>
+            <field name="model">account.banking.ccorp.imported.file</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Imported Files">
+                    <field name="user_id"/>
+                    <field name="company_id"/>
+                    <field name="date"/>
+                    <field name="format"/>
+                    <field name="bank_id"/>
+                    <field name="state"/>
+                    <field name="file"/>
+                </tree>
+            </field>
+        </record>
     </data>
 </openerp>
