@@ -20,4 +20,4 @@
 #
 ##############################################################################
 
-import account_invoice_payment_term
+import account_bank_statement_reconcile_ccorp

@@ -20,4 +20,33 @@
 #
 ##############################################################################
 
-import account_invoice_payment_term
+{
+    'name' : 'Account Bank Statement Reconcile CCorp',
+    'version' : '1.0',
+    'author' : 'CLEARCORP S.A.',
+    'complexity': 'easy',
+    'description': '''
+Bank Statement Reconcile
+========================
+Automatic Reconcile of Journal Entries using date and references as lookup parameters.
+
+Main Features
+-------------
+* Reconciliation using the same reference and amount.
+* Reconciliation using Date - 1 Day and amount.
+* Reconciliation using Date + 1 Day and amount.
+''',
+    'category': 'Accounting & Finance',
+    'sequence': 4,
+    'website' : 'http://clearcorp.co.cr',
+    'images' : [],
+    'depends' : ['account',],
+    'init_xml' : [],
+    'demo_xml' : [],
+    'update_xml' : [],
+    'test' : [],
+    'auto_install': False,
+    'application': False,
+    'installable': True,
+    'license': 'AGPL-3',
+}
