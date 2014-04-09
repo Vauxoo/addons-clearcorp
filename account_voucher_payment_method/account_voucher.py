@@ -22,14 +22,14 @@
 
 from osv import osv, fields, orm
 import time
-from lxml import etree
 from openerp.tools.translate import _
+from lxml import etree
 
 class accountVoucherinherit(orm.Model):
     _inherit = 'account.voucher'
     
-    def fields_view_get(self, cr, uid, view_id=None, view_type=False, context=None, toolbar=False, submenu=False):
-      
+    def fields_view_get(self, cr, uid, view_id=None, view_type=False, context=None, toolbar=False, submenu=False):        
+        
         res = super(accountVoucherinherit, self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=submenu)
         doc = etree.XML(res['arch'])
 
@@ -40,6 +40,10 @@ class accountVoucherinherit(orm.Model):
             for node in nodes:
                 #Add a domain when the view is from supplier. 
                 node.set('domain', "[('payment_method_supplier','=', True)]")
+                #Remove selection widget (if the widget is added, values from 
+                #customer are showed in supplier wizard. The wizard doesn't 
+                #refresh values
+                node.set('widget', '')
                     
         res['arch'] = etree.tostring(doc)
         return res
