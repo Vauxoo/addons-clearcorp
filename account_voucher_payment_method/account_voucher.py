@@ -34,7 +34,7 @@ class accountVoucherinherit(orm.Model):
         doc = etree.XML(res['arch'])
 
         #In this section is when some differences between supplier and customer are established
-        if context.get('type', 'sale') in ('purchase', 'payment'):
+        if context and context.get('type', 'sale') in ('purchase', 'payment'):
             #Separate the journal types
             nodes = doc.xpath("//field[@name='journal_id']")
             for node in nodes:
