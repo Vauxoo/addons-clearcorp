@@ -31,6 +31,7 @@ This module adds different options:
 -------------------------------------
 	1. Add different payment methods in the journal.
 	2. In voucher form, it shows the commercial currency not its inverse natural
+	3. Filter in customer and supplier payment wizard invoice, the journals, depends of payment method that was checked
 """,
 	"depends" : [
 				"account_voucher",
