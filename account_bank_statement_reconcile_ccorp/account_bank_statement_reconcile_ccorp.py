@@ -64,7 +64,7 @@ WHERE
   line.ref = %s AND
   line.credit - %s = 0 AND
   line.debit = 0;''', (st.company_id.id, st.period_id.id, move_line.account_id.id,
-                        move_line.id, move_line.ref, move_line.debit))
+                        move_line.id, move_line.ref or '', move_line.debit))
                 # Move line is credit
                 else:
                     cr.execute('''SELECT
@@ -94,7 +94,7 @@ WHERE
   line.ref = %s AND
   line.debit - %s = 0 AND
   line.credit = 0;''', (st.company_id.id, st.period_id.id, move_line.account_id.id,
-                       move_line.id, move_line.ref, move_line.credit))
+                       move_line.id, move_line.ref or '', move_line.credit))
                 
                 result = cr.dictfetchall()
                 # Skip if there are more than one match
