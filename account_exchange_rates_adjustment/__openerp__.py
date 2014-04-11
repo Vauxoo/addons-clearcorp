@@ -32,7 +32,7 @@ Account Exchange Rates Adjustment:
     at the exchange rate on a specified day
     """,    
     "depends" : [
-                 "account", 
+                 "account_report_lib",
                  "currency_rate_update_BCCR", 
                  "res_currency_sequence",
                 ],
