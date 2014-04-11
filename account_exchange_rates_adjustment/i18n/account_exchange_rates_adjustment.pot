@@ -103,7 +103,7 @@ msgstr ""
 
 #. module: account_exchange_rates_adjustment
 #: field:generate.exchange.rates.wizard,exchange_rate_date:0
-msgid "Exchange rate date"
+msgid "Force adjustment date"
 msgstr ""
 
 #. module: account_exchange_rates_adjustment
@@ -133,7 +133,7 @@ msgstr ""
 
 #. module: account_exchange_rates_adjustment
 #: help:generate.exchange.rates.wizard,exchange_rate_date:0
-msgid "If not set, use the end of the period"
+msgid "The moves are adjusted before this date and the exchange rate used will be on this date"
 msgstr ""
 
 #. module: account_exchange_rates_adjustment

@@ -31,7 +31,7 @@ class GenerateExchangeRatesWizard(osv.osv_memory):
         'reference': fields.char('Reference', size=256, required=True),
         'journal_id': fields.many2one('account.journal', 'Journal', required=True, help="Choose the journal for the move automatically generated"),
         'period_id': fields.many2one('account.period', 'Period', required=True, help="Choose the journal for the move automatically generated"),
-        'exchange_rate_date': fields.date('Exchange rate date', help="If not set, use the end of the period"),
+        'exchange_rate_date': fields.date('Force adjustment date', help="The moves are adjusted before this date and the exchange rate used will be on this date"),
     }
    
     def _get_period(self, cr, uid, context=None):

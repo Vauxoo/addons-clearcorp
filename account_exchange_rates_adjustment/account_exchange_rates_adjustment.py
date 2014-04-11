@@ -139,7 +139,7 @@ class AccountMove(osv.osv):
         result = cr.fetchall()
         return result[0][0] or 0.00
         
-    def create_move_lines_reconcile(self, cr, uid, move, context=None):
+    def create_move_lines_reconcile(self, cr, uid, move, exchange_rate_date, context=None):
         move_line_obj = self.pool.get('account.move.line')
         account_account_obj = self.pool.get('account.account')
         account_period_obj = self.pool.get('account.period')
@@ -148,8 +148,8 @@ class AccountMove(osv.osv):
         lines_created_ids = []
         
         account_reconcile_ids = account_account_obj.search(cr, uid, [('exchange_rate_adjustment', '=', True), ('reconcile', '=', True)], context=context)
-        periods_ids = account_period_obj.search(cr, uid, [('date_stop','<=',move.period_id.date_stop),('fiscalyear_id','=',move.period_id.fiscalyear_id.id)], context=context)
-        line_reconcile_ids = move_line_obj.search(cr, uid, [('currency_id','!=',None), ('period_id','in',periods_ids), ('amount_currency','!=',0), ('account_id','in',account_reconcile_ids), ('adjustment','=',None), ('reconcile_id','=',None)], context=context)
+        periods_ids = account_period_obj.get_interval_period(cr, uid, start_period=None, end_period=move.period_id, fiscal_year=move.period_id.fiscalyear_id.id, initial_balance=False)
+        line_reconcile_ids = move_line_obj.search(cr, uid, [('date','<=',exchange_rate_date),('currency_id','!=',None), ('period_id','in',periods_ids), ('amount_currency','!=',0), ('account_id','in',account_reconcile_ids), ('adjustment','=',None), ('reconcile_id','=',None)], context=context)
         lines_reconcile = move_line_obj.browse(cr, uid, line_reconcile_ids, context=context)
         
         #Get current company for logged user.
@@ -175,7 +175,8 @@ class AccountMove(osv.osv):
             #secondary -> purchase
             copy_context = copy.copy(context)
             copy_context.update({'second_rate':second_rate})
-            exchange_amount = res_currency_obj._current_rate(cr, uid, [company_currency.id], context['date'], arg=None, context=copy_context)[company_currency.id]
+            copy_context.update({'date':exchange_rate_date})
+            exchange_amount = res_currency_obj._current_rate(cr, uid, [company_currency.id], exchange_rate_date, arg=None, context=copy_context)[company_currency.id]
             
             if line.credit != 0:
                 line_difference = sign_amount_currency * line.amount_currency * exchange_amount - line.credit
@@ -212,26 +213,30 @@ class AccountMove(osv.osv):
             
         return lines_created_ids
         
-    def create_move_lines_unreconcile(self, cr, uid, move, context=None):
+    def create_move_lines_unreconcile(self, cr, uid, move, period, exchange_rate_date, context=None):
         res_currency_obj = self.pool.get('res.currency')
         move_line_obj = self.pool.get('account.move.line')
         account_account_obj = self.pool.get('account.account')
         account_period_obj = self.pool.get('account.period')
         res_user_obj = self.pool.get('res.users')
+        library_obj = self.pool.get('account.webkit.report.library')
         
         lines_created_ids = []
-        context_copy = copy.copy(context)
-        start_period_id = account_period_obj.search(cr, uid, [('fiscalyear_id','=',move.period_id.fiscalyear_id.id),('special','=',False)],order='date_start asc')[0]
-        context.update({'period_from':start_period_id, 'period_to':move.period_id.id})
         
         #Get current company for logged user.
         res_user = res_user_obj.browse(cr, uid, uid, context=context)
         company_currency = res_user.company_id.currency_id      
         
         account_unreconcile_ids = account_account_obj.search(cr, uid, [('exchange_rate_adjustment', '=', True), ('reconcile', '=', False), ('currency_id', '!=', None)], context=context)
+        period_ids = account_period_obj.get_interval_period(cr, uid, start_period=None, end_period=period, fiscal_year=period.fiscalyear_id.id, initial_balance=False)
         
         for account_id in account_unreconcile_ids:
-            res = account_account_obj._account_account__compute(cr, uid, [account_id], ['balance', 'foreign_balance'], context=context)
+            res = library_obj.get_account_balance(cr, uid, [account_id], ['balance', 'foreign_balance'],
+                                                              fiscal_year_id = period.fiscalyear_id.id,
+                                                              state='posted',
+                                                              start_date = period.fiscalyear_id.date_start,
+                                                              end_date = exchange_rate_date,
+                                                              period_ids = period_ids)
             foreign_balance = res[account_id]['foreign_balance']
             balance = res[account_id]['balance']
             
@@ -242,14 +247,15 @@ class AccountMove(osv.osv):
                 if account.rate_adjustment == 'secondary':
                     second_rate = True
                 else:
-                    second_rate = False,
+                    second_rate = False
             
             #Get exchange_amount, depends of account
             #primary -> sale
             #secondary -> purchase
             copy_context = copy.copy(context)
             copy_context.update({'second_rate':second_rate})
-            exchange_amount = res_currency_obj._current_rate(cr, uid, [company_currency.id], context['date'], arg=None, context=copy_context)[company_currency.id]
+            copy_context.update({'date':exchange_rate_date})
+            exchange_amount = res_currency_obj._current_rate(cr, uid, [company_currency.id], exchange_rate_date, arg=None, context=copy_context)[company_currency.id]
    
             account_difference = abs(foreign_balance) * exchange_amount - abs(balance)
                         
@@ -280,7 +286,6 @@ class AccountMove(osv.osv):
             new_move_line_id = move_line_obj.create(cr, uid, move_line, context=context)
             lines_created_ids.append(new_move_line_id)
             
-            context = context_copy
         return lines_created_ids
             
     def create_balance_line(self, cr, uid, move, res_user, name, context=None):    
@@ -334,13 +339,11 @@ class AccountMove(osv.osv):
         move_created_id = self.create(cr, uid, move_created)
         move_created = self.browse(cr, uid, move_created_id, context=context)
         
-        if exchange_rate_date:
-            context.update({'date': exchange_rate_date,})            
-        else:
-            context.update({'date': period.date_stop,})
+        if not exchange_rate_date:
+            exchange_rate_date = period.date_stop
 
-        lines_reconcile_ids = self.create_move_lines_reconcile(cr, uid, move_created, context=context)        
-        lines_unreconcile_ids = self.create_move_lines_unreconcile(cr, uid, move_created, context=context)
+        lines_reconcile_ids = self.create_move_lines_reconcile(cr, uid, move_created, exchange_rate_date, context=context)        
+        lines_unreconcile_ids = self.create_move_lines_unreconcile(cr, uid, move_created, period, exchange_rate_date, context=context)
         balance_line_id = self.create_balance_line(cr, uid, move_created, res_user, name, context=context)
         return move_created_id
     
