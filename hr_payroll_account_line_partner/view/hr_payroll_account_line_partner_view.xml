@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <!-- views -->
+        <!-- hr.salary.rule -->
+        <!-- form -->
+        <record id="salary_rule_form" model="ir.ui.view">
+            <field name="name">hr.salary.rule.form</field>
+            <field name="model">hr.salary.rule</field>
+            <field name="inherit_id" ref="hr_payroll_account.hr_salary_rule_form_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/notebook/page[@string='Accounting']/group" position="after">
+                    <group name="partner_rule_types">
+                        <group>
+                            <field name="rule_type_debit"/>
+                            <field name="res_partner_debit" attrs="{'required':[('rule_type_debit','=','partner')], 'invisible':['!',('rule_type_debit','=','partner')]}"/>
+                        </group>
+                        <group>
+                            <field name="rule_type_credit"/>
+                            <field name="res_partner_credit" attrs="{'required':[('rule_type_credit','=','partner')], 'invisible':['!',('rule_type_credit','=','partner')]}"/>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
