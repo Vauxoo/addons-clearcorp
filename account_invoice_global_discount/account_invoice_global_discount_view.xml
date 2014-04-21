@@ -43,19 +43,6 @@
             </field>
         </record>
         
-        <record id="account_invoice_supplier_form_ccorp_line1" model="ir.ui.view">
-            <field name="name">account.invoice.supplier.form.ccorp.line1</field>
-            <field name="model">account.invoice</field>
-            <field name="inherit_id" ref="account.invoice_supplier_form"/>
-            <field name="arch" type="xml">
-                <data>
-                    <xpath expr="/form/sheet/notebook/page/field[@name='invoice_line']/tree/field[@name='price_subtotal']" position="before">
-                        <field name="discount"/>
-                    </xpath>
-                </data>
-            </field>
-        </record>
-        
         <record id="account_invoice_supplier_form_ccorp_line2" model="ir.ui.view">
             <field name="name">account.invoice.supplier.form.ccorp.line2</field>
             <field name="model">account.invoice</field>
@@ -93,19 +80,6 @@
                         <field name="amount_untaxed_not_discounted"/>
                         <field name="invoice_discount"/>
                         <field name="amount_discounted"/>
-                    </xpath>
-                </data>
-            </field>
-        </record>
-        
-        <record id="account_invoice_form_ccorp_line1" model="ir.ui.view">
-            <field name="name">account.invoice.form.ccorp.line1</field>
-            <field name="model">account.invoice</field>
-            <field name="inherit_id" ref="account.invoice_form"/>
-            <field name="arch" type="xml">
-                <data>
-                    <xpath expr="/form/sheet/notebook/page/field[@name='invoice_line']/tree/field[@name='price_subtotal']" position="before">
-                        <field name="discount"/>
                     </xpath>
                 </data>
             </field>
@@ -152,6 +126,6 @@
                 </data>
             </field>
         </record>
-        
+        <!--53/108-->
     </data>
 </openerp>
