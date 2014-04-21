@@ -53,7 +53,7 @@ class AccountAccount(osv.osv):
     """
     
     def create(self, cr, uid, vals, context={}):
-        if 'currency_id' in vals.keys():
+        if 'currency_id' in vals.keys() and vals['currency_id']:
             if 'rate_adjustment' in vals.keys():
                 currency = self.pool.get('res.currency').browse(cr, uid, vals['currency_id'], context=context)
                 if not currency.base and not currency.second_rate and (vals['rate_adjustment'] == 'secondary'):
