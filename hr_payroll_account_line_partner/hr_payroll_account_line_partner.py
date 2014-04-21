@@ -47,9 +47,6 @@ class PaySlip(osv.Model):
 
     _inherit = 'hr.payslip'
 
-    def _do_rule_type_debit(self, cr, uid, salary_rule_id, context=None):
-        pass
-
     def process_sheet(self, cr, uid, ids, context=None):
         res = super(PaySlip, self).process_sheet(cr, uid, ids, context=context)
         for payslip in self.browse(cr, uid, ids, context=context):
