@@ -48,7 +48,7 @@ class project(osv.Model):
     
 class featureType(osv.Model):
     
-    _name = 'project.scrum.feature.type'
+    _name = 'ccorp.project.scrum.feature.type'
     
     _columns = {
                 'code': fields.char('Code', size=16, required=True),
@@ -66,7 +66,7 @@ class featureType(osv.Model):
     
 class Feature(osv.Model):
     
-    _name = 'project.scrum.feature'
+    _name = 'ccorp.project.scrum.feature'
     
     def _date_start(self, cr, uid, ids, field_name, arg, context=None):
         """Calculate the date_start based on the tasks from sprints 
@@ -243,9 +243,9 @@ class Feature(osv.Model):
     _columns = {
                 'name': fields.char('Feature Name', size=128, required=True),
                 'code': fields.char('Code', size=16, required=True),
-                'product_backlog_id': fields.many2one('project.scrum.product.backlog',
+                'product_backlog_id': fields.many2one('ccorp.project.scrum.product.backlog',
                     string='Product Backlog', required=True, domain="[('state','in',['draft','open','pending'])]"),
-                'release_backlog_id': fields.many2one('project.scrum.release.backlog',
+                'release_backlog_id': fields.many2one('ccorp.project.scrum.release.backlog',
                     string='Release Backlog', domain="[('product_backlog_id','=',product_backlog_id),"
                     "'|',('state','=','open'),('state','=','pending')]"),
                 'project_id': fields.related('product_backlog_id', 'project_id', type='many2one',
@@ -257,11 +257,11 @@ class Feature(osv.Model):
                     domain="[('customer','=',True)]",
                     help='Contact or person responsible of keeping the '
                     'business perspective in scrum projects.'),
-                'type_id': fields.many2one('project.scrum.feature.type', string='Type'),
+                'type_id': fields.many2one('ccorp.project.scrum.feature.type', string='Type'),
                 'priority': fields.selection([(5, '5 - Very Low'),(4,'4 - Low'),(3,'3 - Medium'),(2,'2 - High'),
                     (1,'1 - Very High')], string='Priority', required=True),
                 'sprint_ids': fields.many2many(
-                    'project.scrum.sprint', readonly=True, string='Sprints',
+                    'ccorp.project.scrum.sprint', readonly=True, string='Sprints',
                     rel='project_scrum_sprint_backlog',
                     help='Sprints in which the feature has been used.'),
                 'task_ids': fields.one2many('project.task', 'feature_id', string='Tasks', readonly=True),
@@ -324,7 +324,7 @@ class Feature(osv.Model):
     
 class Sprint(osv.Model):
     
-    _name = 'project.scrum.sprint'
+    _name = 'ccorp.project.scrum.sprint'
     
     def _date_end(self, cr, uid, ids, field_name, arg, context=None):
         """Calculate End date as the highest End Date from
@@ -394,7 +394,7 @@ class Sprint(osv.Model):
     def onchange_product_backlog(self, cr, uid, ids, product_backlog_id, context=None):
         vals = {}
         if product_backlog_id:
-            backlog = self.pool.get('project.scrum.product.backlog').browse(
+            backlog = self.pool.get('ccorp.project.scrum.product.backlog').browse(
                 cr,uid,product_backlog_id,context=context)
             vals['project_id'] = backlog.project_id.id
         else:
@@ -516,10 +516,10 @@ class Sprint(osv.Model):
     
     _columns = {
                 'name': fields.char('Sprint Name', size=128, required=True),
-                'product_backlog_id': fields.many2one('project.scrum.product.backlog',
+                'product_backlog_id': fields.many2one('ccorp.project.scrum.product.backlog',
                     string='Product Backlog', domain="['|',('state','=','open'),"
                     "('state','=','pending')]", required=True),
-                'release_backlog_id': fields.many2one('project.scrum.release.backlog',
+                'release_backlog_id': fields.many2one('ccorp.project.scrum.release.backlog',
                     required=True, string='Release Backlog', domain="[('product_backlog_id','=',product_backlog_id),"
                     "'|',('state','=','open'),('state','=','pending')]"),
                 'project_id': fields.related('release_backlog_id','product_backlog_id','project_id',
@@ -529,7 +529,7 @@ class Sprint(osv.Model):
                 'member_ids': fields.related('release_backlog_id','product_backlog_id','project_id', 'members',
                     relation='res.users', type='many2many', string='Team Members', readonly=True),
                 'task_ids': fields.one2many('project.task', 'sprint_id', string='Tasks'),
-                'feature_ids': fields.many2many('project.scrum.feature', rel='project_scrum_sprint_backlog',
+                'feature_ids': fields.many2many('ccorp.project.scrum.feature', rel='project_scrum_sprint_backlog',
                     string='Features', help='Features to be developed in this sprint', 
                     domain="[('state','in',['approved','open']),('release_backlog_id','=',release_backlog_id),"
                     "('release_backlog_id','!=',False)]"),
@@ -607,7 +607,7 @@ class Task(osv.Model):
                    'value': {},
                    'domain': {},
                    }
-            sprint_obj = self.pool.get('project.scrum.sprint')
+            sprint_obj = self.pool.get('ccorp.project.scrum.sprint')
             sprint = sprint_obj.browse(cr,uid,sprint_id,context=context)
             res['value']['date_deadline'] = sprint.deadline
             member_ids = [x.id for x in sprint.member_ids]
@@ -619,7 +619,7 @@ class Task(osv.Model):
     
     def onchange_feature(self, cr, uid, ids, feature_id, context=None):
         if feature_id:
-            feature = self.pool.get('project.scrum.feature').browse(
+            feature = self.pool.get('ccorp.project.scrum.feature').browse(
                 cr,uid,feature_id,context=context)
             return {
                     'value': {
@@ -679,21 +679,21 @@ class Task(osv.Model):
     
     _columns = {
                 'is_scrum': fields.related('project_id','is_scrum', string='Scrum', type='boolean', store=True),
-                'product_backlog_id': fields.many2one('project.scrum.product.backlog', string='Product Backlog',
+                'product_backlog_id': fields.many2one('ccorp.project.scrum.product.backlog', string='Product Backlog',
                     domain="[('project_id','=',project_id),'|',('state','=','open'),('state','=','pending')]"),
-                'release_backlog_id': fields.many2one('project.scrum.release.backlog', string='Release Backlog',
+                'release_backlog_id': fields.many2one('ccorp.project.scrum.release.backlog', string='Release Backlog',
                     domain="[('product_backlog_id','=',product_backlog_id),'|',('state','=','open'),"
                     "('state','=','pending')]"),
-                'sprint_id': fields.many2one('project.scrum.sprint', string='Sprint',
+                'sprint_id': fields.many2one('ccorp.project.scrum.sprint', string='Sprint',
                     domain ="[('release_backlog_id','=',release_backlog_id),'|',('state','=','open'),"
                     "('state','=','pending')]"),
-                'feature_id': fields.many2one('project.scrum.feature', string='Feature',
+                'feature_id': fields.many2one('ccorp.project.scrum.feature', string='Feature',
                     domain="[('sprint_ids','=',sprint_id),('state','in',['open','approved'])]"),
                 'feature_type_id': fields.related('feature_id','type_id', type='many2one', string='Feature Type',
-                    relation='project.scrum.feature.type', readonly=True),
-                'previous_task_ids': fields.many2many('project.task', 'project_scrum_task_previous_tasks',
+                    relation='ccorp.project.scrum.feature.type', readonly=True),
+                'previous_task_ids': fields.many2many('project.task', 'ccorp_project_scrum_task_previous_tasks',
                     'task_id', 'previous_task_id', string='Previous Tasks', domain="['!',('id','=',id)]"),
-                'next_task_ids': fields.many2many('project.task', 'project_scrum_task_next_tasks',
+                'next_task_ids': fields.many2many('project.task', 'ccorp_project_scrum_task_next_tasks',
                     'task_id', 'next_task_id', string='Next Tasks', domain="['!',('state','in',['done','cancelled']),"
                     "'!',('id','=',id)]"),
                 }
@@ -722,7 +722,7 @@ class Task(osv.Model):
     
 class releaseBacklog(osv.Model):
     
-    _name = 'project.scrum.release.backlog'
+    _name = 'ccorp.project.scrum.release.backlog'
     
     def _date_end(self, cr, uid, ids, field_name, arg, context=None):
         """Calculate the end date from sprints related to 
@@ -834,7 +834,7 @@ class releaseBacklog(osv.Model):
                  'project_id': False,
                  }
         if backlog_id:
-            project_id = self.pool.get('project.scrum.product.backlog').browse(
+            project_id = self.pool.get('ccorp.project.scrum.product.backlog').browse(
                 cr,uid,backlog_id,context=context).project_id.id
             value['project_id'] = project_id
         return {
@@ -910,15 +910,15 @@ class releaseBacklog(osv.Model):
     
     _columns = {
                 'name': fields.char('Release Name', size=128, required=True),
-                'product_backlog_id': fields.many2one('project.scrum.product.backlog',
+                'product_backlog_id': fields.many2one('ccorp.project.scrum.product.backlog',
                     string= 'Product Backlog', required=True, domain="[('state','in',['open','pending'])]"),
                 'project_id': fields.related('product_backlog_id', 'project_id', type='many2one',
                     relation='project.project', string='Project', readonly=True, store=True),
                 'user_id': fields.related('product_backlog_id', 'project_id','user_id', type='many2one',
                     relation='res.users', string='Project', readonly=True, store=True),
-                'feature_ids': fields.one2many('project.scrum.feature','release_backlog_id',
+                'feature_ids': fields.one2many('ccorp.project.scrum.feature','release_backlog_id',
                     string='Features'),
-                'sprint_ids': fields.one2many('project.scrum.sprint', 'release_backlog_id',
+                'sprint_ids': fields.one2many('ccorp.project.scrum.sprint', 'release_backlog_id',
                     string='Sprints'),
                 'date_start': fields.function(_date_start, type='datetime', string='Start Date',
                     help='Calculated Start Date, will be empty if any sprint has no start date.'),
@@ -952,7 +952,7 @@ class releaseBacklog(osv.Model):
     
 class productBacklog(osv.Model):
     
-    _name = 'project.scrum.product.backlog'
+    _name = 'ccorp.project.scrum.product.backlog'
     
     def _date_end(self, cr, uid, ids, field_name, arg, context=None):
         """Calculates the product backlog date_end getting the 
@@ -1125,9 +1125,9 @@ class productBacklog(osv.Model):
                 'deadline': fields.function(_deadline, type='date',
                     string='Deadline', help='Calculated Deadline, will be empty '
                     'if any feature has no deadline.'),
-                'release_backlog_ids': fields.one2many('project.scrum.release.backlog',
+                'release_backlog_ids': fields.one2many('ccorp.project.scrum.release.backlog',
                     'product_backlog_id', string='Release Backlogs'),
-                'feature_ids': fields.one2many('project.scrum.feature',
+                'feature_ids': fields.one2many('ccorp.project.scrum.feature',
                     'product_backlog_id', string='Features'),
                 'expected_hours': fields.function(_expected_hours, type='float',
                     string='Initially Planned Hour(s)', help='Total planned hours '

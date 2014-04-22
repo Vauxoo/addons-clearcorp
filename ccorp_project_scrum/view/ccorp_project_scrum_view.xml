@@ -56,11 +56,11 @@
             </field>
         </record>
         
-        <!-- project.scrum.product.backlog -->
+        <!-- ccorp.project.scrum.product.backlog -->
         <!-- form -->
         <record id="view_product_backlog_form" model="ir.ui.view">
             <field name="name">view.product.backlog.form</field>
-            <field name="model">project.scrum.product.backlog</field>
+            <field name="model">ccorp.project.scrum.product.backlog</field>
             <field name="type">form</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
@@ -122,7 +122,7 @@
         <!-- tree -->
         <record id="view_product_backlog_tree" model="ir.ui.view">
             <field name="name">view.product.backlog.tree</field>
-            <field name="model">project.scrum.product.backlog</field>
+            <field name="model">ccorp.project.scrum.product.backlog</field>
             <field name="type">tree</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
@@ -146,7 +146,7 @@
         <!-- kanban -->
         <record model="ir.ui.view" id="view_product_backlog_kanban">
             <field name="name">view.product.backlog.kanban</field>
-            <field name="model">project.scrum.product.backlog</field>
+            <field name="model">ccorp.project.scrum.product.backlog</field>
             <field name="arch" type="xml">
                 <kanban default_group_by="stage_id">
                     <field name="color"/>
@@ -188,7 +188,7 @@
         <!-- search -->
         <record id="view_product_backlog_search" model="ir.ui.view">
             <field name="name">view.product.backlog.search</field>
-            <field name="model">project.scrum.product.backlog</field>
+            <field name="model">ccorp.project.scrum.product.backlog</field>
             <field name="arch" type="xml">
                <search string="Product Backlog">
                     <field name="name"/>
@@ -214,7 +214,7 @@
         <!-- form -->
         <record id="view_release_backlog_form" model="ir.ui.view">
             <field name="name">view.release.backlog.form</field>
-            <field name="model">project.scrum.release.backlog</field>
+            <field name="model">ccorp.project.scrum.release.backlog</field>
             <field name="type">form</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
@@ -272,7 +272,7 @@
         <!-- tree -->
         <record id="view_release_backlog_tree" model="ir.ui.view">
             <field name="name">view.release.backlog.tree</field>
-            <field name="model">project.scrum.release.backlog</field>
+            <field name="model">ccorp.project.scrum.release.backlog</field>
             <field name="type">tree</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
@@ -295,7 +295,7 @@
         <!-- kanban -->
         <record model="ir.ui.view" id="view_release_backlog_kanban">
             <field name="name">view.release.backlog.kanban</field>
-            <field name="model">project.scrum.release.backlog</field>
+            <field name="model">ccorp.project.scrum.release.backlog</field>
             <field name="arch" type="xml">
                 <kanban default_group_by="stage_id">
                     <field name="color"/>
@@ -337,7 +337,7 @@
         <!-- search -->
         <record id="view_release_backlog_search" model="ir.ui.view">
             <field name="name">view.release.backlog.search</field>
-            <field name="model">project.scrum.release.backlog</field>
+            <field name="model">ccorp.project.scrum.release.backlog</field>
             <field name="arch" type="xml">
                <search string="Product Backlog">
                     <field name="name"/>
@@ -365,7 +365,7 @@
         <!-- form -->
         <record id="view_feature_form" model="ir.ui.view">
             <field name="name">view.feature.form</field>
-            <field name="model">project.scrum.feature</field>
+            <field name="model">ccorp.project.scrum.feature</field>
             <field name="type">form</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
@@ -435,7 +435,7 @@
         <!-- tree -->
         <record id="view_feature_tree" model="ir.ui.view">
             <field name="name">view.feature.tree</field>
-            <field name="model">project.scrum.feature</field>
+            <field name="model">ccorp.project.scrum.feature</field>
             <field name="type">tree</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
@@ -461,7 +461,7 @@
         <!-- kanban -->
         <record model="ir.ui.view" id="view_feature_kanban">
             <field name="name">view.feature.kanban</field>
-            <field name="model">project.scrum.feature</field>
+            <field name="model">ccorp.project.scrum.feature</field>
             <field name="arch" type="xml">
                 <kanban default_group_by="state">
                     <field name="color"/>
@@ -516,7 +516,7 @@
         <!-- search -->
         <record id="view_feature_search" model="ir.ui.view">
             <field name="name">view.feature.search</field>
-            <field name="model">project.scrum.feature</field>
+            <field name="model">ccorp.project.scrum.feature</field>
             <field name="arch" type="xml">
                <search string="Feature">
                     <field name="name"
@@ -548,7 +548,7 @@
         <!-- form -->
         <record id="view_sprint_form" model="ir.ui.view">
             <field name="name">view.sprint.form</field>
-            <field name="model">project.scrum.sprint</field>
+            <field name="model">ccorp.project.scrum.sprint</field>
             <field name="type">form</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
@@ -627,7 +627,7 @@
         <!-- tree -->
         <record id="view_sprint_tree" model="ir.ui.view">
             <field name="name">view.sprint.tree</field>
-            <field name="model">project.scrum.sprint</field>
+            <field name="model">ccorp.project.scrum.sprint</field>
             <field name="type">tree</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
@@ -653,7 +653,7 @@
         <!-- kanban -->
         <record model="ir.ui.view" id="view_sprint_kanban">
             <field name="name">view.sprint.kanban</field>
-            <field name="model">project.scrum.sprint</field>
+            <field name="model">ccorp.project.scrum.sprint</field>
             <field name="arch" type="xml">
                 <kanban default_group_by="stage_id">
                     <field name="color"/>
@@ -695,7 +695,7 @@
         <!-- calendar -->
         <record id="view_sprint_calendar" model="ir.ui.view">
             <field name="name">view.sprint.calendar</field>
-            <field name="model">project.scrum.sprint</field>
+            <field name="model">ccorp.project.scrum.sprint</field>
             <field name="type">calendar</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
@@ -709,7 +709,7 @@
         <!-- gantt -->
         <record id="view_sprint_gantt" model="ir.ui.view">
             <field name="name">view.sprint.gantt</field>
-            <field name="model">project.scrum.sprint</field>
+            <field name="model">ccorp.project.scrum.sprint</field>
             <field name="type">gantt</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
@@ -725,7 +725,7 @@
         <!-- search -->
         <record id="view_sprint_search" model="ir.ui.view">
             <field name="name">view.sprint.search</field>
-            <field name="model">project.scrum.sprint</field>
+            <field name="model">ccorp.project.scrum.sprint</field>
             <field name="arch" type="xml">
                <search string="Sprint">
                     <field name="name"/>
@@ -756,7 +756,7 @@
         <!-- form -->
         <record id="view_feature_type_form" model="ir.ui.view">
             <field name="name">view.feature.type.form</field>
-            <field name="model">project.scrum.feature.type</field>
+            <field name="model">ccorp.project.scrum.feature.type</field>
             <field name="type">form</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
@@ -778,7 +778,7 @@
         <!-- tree -->
         <record id="view_feature_type_tree" model="ir.ui.view">
             <field name="name">view.feature.type.tree</field>
-            <field name="model">project.scrum.feature.type</field>
+            <field name="model">ccorp.project.scrum.feature.type</field>
             <field name="type">tree</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
@@ -793,7 +793,7 @@
         <!-- project.scrum.product.backlog -->
         <record model="ir.actions.act_window" id="action_product_backlog">
             <field name="name">Product Backlog</field>
-            <field name="res_model">project.scrum.product.backlog</field>
+            <field name="res_model">ccorp.project.scrum.product.backlog</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="context">{'search_default_in_progress': 1}</field>
             <field name="search_view_id" ref="view_product_backlog_search"/>
@@ -805,7 +805,7 @@
         <!-- project.scrum.feature -->
         <record model="ir.actions.act_window" id="action_feature">
             <field name="name">Features</field>
-            <field name="res_model">project.scrum.feature</field>
+            <field name="res_model">ccorp.project.scrum.feature</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="context">{'search_default_in_progress': 1, 'search_default_approved': 1}</field>
             <field name="search_view_id" ref="view_feature_search"/>
@@ -817,7 +817,7 @@
         <!-- project.scrum.release.backlog -->
         <record model="ir.actions.act_window" id="action_release_backlog">
             <field name="name">Release Backlog</field>
-            <field name="res_model">project.scrum.release.backlog</field>
+            <field name="res_model">ccorp.project.scrum.release.backlog</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="context">{'search_default_in_progress': 1}</field>
             <field name="search_view_id" ref="view_release_backlog_search"/>
@@ -829,7 +829,7 @@
         <!-- project.scrum.sprint -->
         <record model="ir.actions.act_window" id="action_sprint">
             <field name="name">Sprints</field>
-            <field name="res_model">project.scrum.sprint</field>
+            <field name="res_model">ccorp.project.scrum.sprint</field>
             <field name="view_mode">kanban,tree,form,calendar,gantt</field>
             <field name="context">{'search_default_in_progress': 1, 'search_default_my_sprints': 1}</field>
             <field name="search_view_id" ref="view_sprint_search"/>
@@ -841,7 +841,7 @@
         <!-- project.scrum.feature.type -->
         <record model="ir.actions.act_window" id="action_feature_type">
             <field name="name">Feature Types</field>
-            <field name="res_model">project.scrum.feature.type</field>
+            <field name="res_model">ccorp.project.scrum.feature.type</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create new Feature Type</p>
