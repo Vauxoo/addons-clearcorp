@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>      
+       <record id="account_invoice_journal_defalut_supplier_form" model="ir.ui.view">
+            <field name="name">account.invoice.journal.defalut.supplier.form</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <data>  
+                    <field name="payment_ids" position="after">
+                        <footer>
+                            <button name="add_payments"  states="open" string="Add payment" type="object" class="oe_highlight"/>
+                        </footer>
+                    </field>
+                </data>
+           </field>
+        </record>
+        
+    </data>
+</openerp>
