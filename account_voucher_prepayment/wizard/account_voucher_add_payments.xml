@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+         <record id="account_voucher_prepayment_wizard" model="ir.ui.view">
+            <field name="name">Add payments</field>
+            <field name="model">account.voucher.add.payments</field>
+            <field name="arch" type="xml">
+                <form string="Add Payments" version="7.0">
+                    <group cols="2">
+                        <separator colspan="2" string="Partner"/>
+                        <field name="partner_id" readonly="1" nolabel="1"/>                    
+                        <field name="account_id" invisible="1"/>
+                    </group>                
+                    <group>
+                        <separator colspan="2" string="Payments"/>
+                        <field name="move_lines" nolabel="1"  domain="[('partner_id','=', partner_id),('account_id','=', account_id),('reconcile_id','=', False),('debit','!=', 0.0)]">
+                            <tree string="Payments" editable="bottom">
+                                <field name="date"/>
+                                <field name="move_id"/>
+                                <field name="ref"/>
+                                <field name="name"/>
+                                <field name="journal_id" groups="base.group_user"/>
+                                <field name="debit"/>
+                                <field name="credit"/>
+                                <field name="amount_currency" groups="base.group_multi_currency"/>
+                                <field name="currency_id" groups="base.group_multi_currency"/>
+                             </tree>
+                        </field>
+                    </group> 
+                    <footer>
+                        <button name="action_reconcile"  string="Reconcile" type="object" class="oe_highlight"/>
+                    </footer>                   
+               </form>
+            </field>
+        </record>        
+                 
+        <record id="action_add_payment" model="ir.actions.act_window">
+            <field name="name">Add payment</field>
+            <field name="res_model">account.voucher.add.payments</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account_voucher_prepayment_wizard"/>
+            <field name="target">new</field>
+        </record> 
+        
+    </data>
+</openerp>
