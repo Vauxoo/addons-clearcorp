@@ -315,7 +315,7 @@ class Parser(accountReportbase):
         #if filter_type == period, get all periods before period_start selected 
         if filter_type == 'filter_period':
             start_period = self.get_start_period(data) #return the period object
-            period_ids = self.pool.get('account.period').search(cr, uid,[('date_start', '<', start_period.date_start),('fiscalyear_id','=', fiscalyear_id.id)])
+            period_ids = self.pool.get('account.period').search(cr, uid,[('date_stop', '<', start_period.date_stop),('fiscalyear_id','=', fiscalyear_id.id)])
             
             #Built a different sql clause, depend of period list
             if period_ids:
