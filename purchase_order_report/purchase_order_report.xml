@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
-        
+
       <report auto="False"
         id="purchase.report_purchase_order"
         model="purchase.order"
@@ -19,7 +19,6 @@
         string="Request for Quotation"
         report_type="webkit" 
         webkit_header="purchase_order_header_webkit"/>
-        
         
         
     </data>

@@ -21,6 +21,7 @@
 ##############################################################################
 
 import purchase_order_report
+import request_quotation_report
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
