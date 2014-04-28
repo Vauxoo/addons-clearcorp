@@ -71,6 +71,7 @@
             %endif
         <tbody>
         <%i = 0%>
+        <% dict_name = process_purcharse_lines(purchase_order) %>
         %for line in purchase_order.order_line :
             %if i% 2 == 0:
                 <tr class = "even">
@@ -78,7 +79,12 @@
                 <tr class = "odd">
             %endif
                 <td valign = "top">${formatLang(line.product_qty)} ${format(line.product_uom.name)}</td>
-                <td valign = "top" id="desc_col">${line.name} ${line.taxes_id != [] and (' / (' + (', '.join([ lt.description for lt in line.taxes_id ])) + ')') or ''|entity}</td>
+                %if purchase_order.state =='draft' and line.id in dict_name.keys():
+                    <%line_name = dict_name[line.id]%>
+                %else:
+                    <%line_name = line.name%>
+                %endif
+                <td valign = "top" id="desc_col">${line_name} ${line.taxes_id != [] and (' / (' + (', '.join([ lt.description for lt in line.taxes_id ])) + ')') or ''|entity}</td>
                 %if purchase_order.state =='draft':
                     <td valign = "top">${line.date_order}</td>
                 %else:                  

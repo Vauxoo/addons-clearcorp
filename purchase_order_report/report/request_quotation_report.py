@@ -61,7 +61,7 @@ class purchase_order_report(report_sxw.rml_parse):
         return lines
     
 #the parameters are the report name and module name 
-report_sxw.report_sxw('report.purchase_order_report_inherit',
+report_sxw.report_sxw('report.purchase_quotation_report_inherit',
                       'purchase.order',
                       'addons/purchase_order_report/report/purchase_order_report.mako',
                       parser=purchase_order_report)
