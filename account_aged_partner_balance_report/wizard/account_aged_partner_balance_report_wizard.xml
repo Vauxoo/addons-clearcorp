@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+     <data>
+
+        <record id="account_aged_partner_balance_wizard_view" model="ir.ui.view">
+            <field name="name">Account Aged Partner Balance</field>
+            <field name="model">aged.partner.balance.wiz</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account_report_lib.account_report_lib_wizard_view"/>
+            <field name="arch" type="xml">
+               <data>
+                    <xpath expr="/form/label[@string='']" position="replace">
+                        <separator string="Account Aged Partner Balance" colspan="4"/>
+                        <label nolabel="1" colspan="4" string="Aged Partner Balance is a more detailed report of your receivables by intervals. When opening that report, OpenERP asks for the name of the company, the fiscal period and the size of the interval to be analyzed (in days). OpenERP then calculates a table of credit balance by period. So if you request an interval of 30 days OpenERP generates an analysis of creditors for the past month, past two months, and so on. "/>
+                    </xpath>      
+                    <group col="4" string="General Options" position="replace">
+                        <group col="2" string="General Options">
+                            <field name="chart_account_id" widget='selection' on_change="onchange_chart_id(chart_account_id, context)"/>                       
+                            <field name="fiscalyear_id" domain="[('company_id','=',company_id)]" on_change="onchange_filter(filter, fiscalyear_id)"/>                           
+                            <field name="account_type" required="True"/>
+                            <field name="direction_selection" required="True"/>
+                             <field name="out_format"/> 
+                        </group>
+                    </group>
+                    <field name="out_format" position="attributes">
+                        <attribute name="attrs">{'required': True}</attribute>
+                    </field>                
+                    <field name="fiscalyear_id" position="attributes">
+                        <attribute name="attrs">{'invisible': True}</attribute>
+                    </field>
+                     <field name="sort_selection" position="attributes">
+                        <attribute name="attrs">{'invisible': True}</attribute>
+                    </field>                     
+                    <field name="filter" position="attributes">
+                        <attribute name="readonly">True</attribute>
+                    </field>
+                   <group name="Periods" position="attributes">
+                        <attribute name="invisible">True</attribute>
+                    </group>  
+                    <group name="Dates" position="inside">
+                        <field name="period_length" required="True"/>
+                    </group>
+                    <field name="date_to" position="attributes">
+                        <attribute name="attrs">{'invisible': True}</attribute>
+                    </field>                                      
+                    <field name="special_period" position="attributes">
+                        <attribute name="attrs">{'invisible': True}</attribute>
+                    </field>
+                     <group string="Account Financial Report" position="attributes">                   
+                        <attribute name="attrs">{'invisible': True}</attribute>
+                    </group>               
+                    <group string="Accounts" position="attributes">
+                        <attribute name="attrs">{'invisible': True}</attribute>
+                    </group>
+                    <field name="res_partners_ids" position="replace">
+                        <!--Only customers and suppliers-->
+                        <field name="res_partners_ids" nolabel="1" domain="['|', ('customer','=', True),('supplier','=',True)]"/>
+                    </field>
+                    <group string="Journals" position="attributes">
+                        <attribute name="attrs">{'invisible': True}</attribute>
+                    </group>
+                    <group string="Partners" position="attributes">
+                        <attribute name="attrs">{'invisible': True}</attribute>
+                    </group>
+                    <group string="Advanced options" position="attributes">
+                        <attribute name="attrs">{'invisible': True}</attribute>
+                    </group>
+                </data>
+            </field>
+        </record>
+
+        <record id="action_account_aged_partner_balance_wizard" model="ir.actions.act_window">
+             <field name="name">Aged Partner Balance</field>
+             <field name="res_model">aged.partner.balance.wiz</field>
+             <field name="type">ir.actions.act_window</field>
+             <field name="view_type">form</field>
+             <field name="view_mode">tree,form</field>
+             <field name="view_id" ref="account_aged_partner_balance_wizard_view"/>
+             <field name="context">{}</field>
+             <field name="target">new</field>
+       </record>
+
+
+    </data>
+</openerp>
