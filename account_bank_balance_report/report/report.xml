@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+       
+       <record id="account_bank_balance_odt" model="ir.actions.report.xml">
+            <field name="name">Bank Balance Report</field>
+            <field name="type">ir.actions.report.xml</field>
+            <field name="model">account.account</field>
+            <field name="report_name">account_bank_balance_odt</field>
+            <field name="report_type">aeroo</field>
+            <field name="in_format">oo-odt</field>
+            <field name="out_format">1</field><!--Must be code of mimetypes (report_mimetypes on database)-->
+            <field name="parser_loc">account_bank_balance_report/report/account_bank_balance_report.py</field>
+            <field name="report_rml">account_bank_balance_report/report/account_bank_balance_report.odt</field>
+            <field name="parser_state">loc</field>
+            <field name="tml_source">file</field>  
+        </record> 
+        
+        <record id="account_bank_balance_ods" model="ir.actions.report.xml">
+            <field name="name">Bank Balance Report</field>
+            <field name="type">ir.actions.report.xml</field>
+            <field name="model">account.account</field>
+            <field name="report_name">account_bank_balance_ods</field>
+            <field name="report_type">aeroo</field>
+            <field name="in_format">oo-ods</field>
+            <field name="out_format">2</field><!--Must be code of mimetypes (report_mimetypes on database)-->
+            <field name="parser_loc">account_bank_balance_report/report/account_bank_balance_report.py</field>
+            <field name="report_rml">account_bank_balance_report/report/account_bank_balance_report.ods</field>
+            <field name="parser_state">loc</field>
+            <field name="tml_source">file</field>
+        </record>         
+    </data>
+</openerp>

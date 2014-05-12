@@ -367,7 +367,7 @@ class AccountWebkitReportLibrary(orm.Model):
             account_ids = [account_ids]
         return self.pool.get('account.account')._get_children_and_consol(cr, uid, account_ids, context=context)
     
-    # returns amount of the currency symbol + position    
+    #returns amount of the currency symbol + position    
     def format_lang_currency (self, cr, uid, amount_currency, currency):
         format_currency = ''
         
@@ -380,7 +380,8 @@ class AccountWebkitReportLibrary(orm.Model):
             format_currency = amount_currency
             
         return format_currency
-
+    
+    #move lines from a specific journal
     def get_move_lines_journal(self, cr, uid, journal_ids, filter_type='', filter_data=None, fiscalyear=None, target_move='all', unreconcile = False, historic_strict=False, special_period =False, order_by=None, context=None):
         
         ''' 

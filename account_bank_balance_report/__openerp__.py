@@ -20,37 +20,24 @@
 #
 ##############################################################################
 {
-    'name': 'Account Report Library',
-    'description': """ 
-Generic module that is the base for the reports. 
-================================================
-
-Observations about aeroo_reports module:
-----------------------------------------
-    * To obtain formats doc, xls and pdf you need to install report_aeroo_ooo
-    * All templates comes from a odt or ods file.    
-    """,
+    'name': 'Account Bank Balance Report',
     'version': '1.0',
     'author': 'CLEARCORP S.A.',
-    'category': 'Hidden',
+    'category': 'Finance',
+    'description': """
+Install the Account Bank Balance Report.
+==========================================
+Install the Account Bank Balance
+    """,
     'website': "http://clearcorp.co.cr",
-    'images': [],
-    'depends': [
-                'account', 
-                'report_webkit_lib',
-                'report_aeroo',
-                'report_aeroo_ooo',],
-    'init_xml': [],
-    'demo' : [],
+    'depends': ['account_report_lib',],
     'data': [
              'security/ir.model.access.csv',
-             'data/account_base_type.xml',
-             'tools/tools_modules_extended.xml',
-             'wizard/account_report_wizard.xml',
+             'report/report.xml',
+             'wizard/account_bank_balance_report_wizard.xml',
              'report_menus.xml',
-             ],
-    'test': [],
-    'active': False,
+             ],                
     'installable': True,
+    'auto_install': False,
     'license': 'AGPL-3',
 }

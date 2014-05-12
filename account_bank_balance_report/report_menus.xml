@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<openerp>
+    <data>
+        <menuitem icon="STOCK_PRINT" 
+            name="Account Bank Balances"
+            parent="account_report_lib.menu_bank_reports" 
+            action="action_bank_balance_report_wizard"
+            groups="account.group_account_manager,account.group_account_user" 
+            id="menu_account_bank_balances_report"/>        
+    </data>
+</openerp>
