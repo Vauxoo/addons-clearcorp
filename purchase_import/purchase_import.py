@@ -19,7 +19,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
 
-from datetime import date
+from datetime import date, datetime
 from openerp.osv import osv, fields
 from openerp.tools.translate import _
 import openerp.addons.decimal_precision as dp
@@ -230,14 +230,14 @@ class ImportOrderLine(osv.Model):
         'subtotal': fields.float('Subtotal',digits_compute= dp.get_precision('Purchase Price')),
         'fob_cost': fields.float('FoB Cost',digits_compute= dp.get_precision('Purchase Price')),
         'product_id':fields.many2one('product.product', 'Product'),
-        'product_uom_id':fields.many2one('product.uom', 'Unit'),
+        'product_uom_id':fields.many2one('product.uom', 'Units'),
         'order_id':fields.many2one('purchase.import.import.order', 'Import Order'),
         'import_taxes': fields.function(_compute_import_taxes, type='float', digits_compute= dp.get_precision('Purchase Price'), string='Import Taxes'),
         'tax_percentage': fields.function(_compute_tax_percentage, type='float', digits_compute= dp.get_precision('Purchase Price'), string='Tax (%)'),
         'tax_assigned': fields.function(_compute_tax_assigned, type='float',digits_compute= dp.get_precision('Purchase Price'), string='Assigned Taxes'),
         'freight_percentage': fields.function(_compute_freight_percentage, type='float',digits_compute= dp.get_precision('Purchase Price'), string='Freight (%)'),
         'freight_assigned': fields.function(_compute_freight_assigned, type='float',digits_compute= dp.get_precision('Purchase Price'), string='Assigned Freight'),
-        'tariff': fields.function(_compute_product_tariff, type='float',digits_compute= dp.get_precision('Purchase Price'), string='Product Tariff'),
+        'tariff': fields.function(_compute_product_tariff, type='float',digits_compute= dp.get_precision('Purchase Price'), string='Tariff (%)'),
     }
 
 class ImportOrder(osv.Model):
@@ -384,7 +384,7 @@ class ImportOrder(osv.Model):
                         currency, order.freight_order_id.date_invoice, context=context)
                 else:
                     import_currency_rate = 1
-                res[order.id] = (order.freight_order_id.amount_untaxed + order.fob) * import_currency_rate
+                res[order.id] = (order.freight_order_id.amount_untaxed) * import_currency_rate
             else:
                 res[order.id] = 0.0
         return res
@@ -405,6 +405,27 @@ class ImportOrder(osv.Model):
             res[order.id] = order.tax_total+ order.freight_total
         return res
 
+    def onchange_freight_order(self, cr, uid, ids, freight_order_id, context=None):
+        vals = {}
+        if freight_order_id:
+            print "wasdasd"
+            invoice_obj = self.pool.get('account.invoice')
+            invoice = invoice_obj.browse(cr, uid, freight_order_id, context=context)
+            vals['freight_currency_id'] = invoice.currency_id.id
+        else:
+            vals['freight_currency_id'] = False
+        return {'value': vals}
+
+    def onchange_tax_order(self, cr, uid, ids, tax_order_id, context=None):
+        vals = {}
+        if tax_order_id:
+            invoice_obj = self.pool.get('account.invoice')
+            invoice = invoice_obj.browse(cr, uid, tax_order_id, context=context)
+            vals['tax_currency_id'] = invoice.currency_id.id
+        else:
+            vals['tax_currency_id'] = False
+        return {'value': vals}
+
     def action_set_average_price(self, cr, uid, ids, context=None):
         res = {}
         for imports in self.browse(cr, uid, ids, context=context):
@@ -423,12 +444,7 @@ class ImportOrder(osv.Model):
                 #Update price per taxes
                 if imports.tax_order_id:
                     product_tax= line.tax_assigned
-                #add_cost = line.unit_price + product_tax + product_freight
                 add_cost = (product_tax + product_freight) / line.product_id.qty_available
-                # if line.product_id.qty_available <= line.quantity:
-                #     cost = add_cost
-                # else:
-                #     cost = (add_cost * line.quantity  + line.product_id.standard_price * (line.product_id.qty_available - line.quantity))/ line.product_id.qty_available
                 cost = add_cost  + line.product_id.standard_price
                 
                 self.pool.get('purchase.import.product.import.history').create(cr, uid, {
@@ -443,7 +459,6 @@ class ImportOrder(osv.Model):
                     'import_total': add_cost,
                     }, context=context)
                 line.product_id.write({
-                    #'fob_cost': line.fob_cost,
                     'standard_price': cost
                     }, context=context)
         self.write(cr, uid, ids, {'state': 'done'}, context=context)
@@ -528,11 +543,10 @@ class ImportOrder(osv.Model):
                         }, context=context)
         return True
 
-    _order = 'create_date desc'
+    _order = 'date desc'
 
     _columns = {
         'name': fields.char('Order Number', size=128, readonly=True),
-        'fob': fields.float('FoB', help='Free on Board', required=True),
         'company_id': fields.many2one('res.company', 'Company', required=True,),
         'voucher_ids': fields.one2many('purchase.import.import.voucher', 'order_id', 'Vouchers'),
         'origin_id' : fields.many2one('res.country', 'Origin', required=True),
@@ -553,13 +567,15 @@ class ImportOrder(osv.Model):
         'freight_currency_id': fields.related('freight_order_id', 'currency_id', type='many2one', relation='res.currency', string='Freight Currency', readonly=True),
         'tax_currency_id': fields.related('tax_order_id', 'currency_id', type='many2one', relation='res.currency', string='Tax Currency', readonly=True),
         'notes': fields.text('Notes'),
-        'create_date' : fields.datetime('Create Date', readonly=True),
-        'state': fields.selection([('draft', 'Draft'), ('confirmed', 'Confirmed'),('wait','Waiting for Processing'), ('done', 'Processed'), ('cancel', 'Cancelled')], string='State')
+        'date' : fields.datetime('Create Date', readonly=True),
+        'state': fields.selection([('draft', 'Draft'), ('confirmed', 'Confirmed'), ('done', 'Processed'), ('cancel', 'Cancelled')], string='State')
     }
 
     _defaults = {
         'state': 'draft',
-        'company_id': lambda self,cr,uid,c: self.pool.get('res.company')._company_default_get(cr, uid, 'purchase.import.order', context=c),
+        'company_id': lambda slf,cr,uid,ctx: slf.pool.get('res.company')._company_default_get(cr, uid, 'purchase.import.order', context=ctx),
+        'name': _('Draft Import Order'),
+        'date': lambda *a: datetime.strftime(datetime.now(),'%Y-%m-%d %H:%M:%S'),
     }
 
 class Voucher(osv.Model):

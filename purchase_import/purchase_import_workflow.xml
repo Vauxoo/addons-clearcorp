@@ -22,13 +22,6 @@
             <field name="kind">function</field>
         </record>
         
-        <record id="act_wait" model="workflow.activity">
-            <field name="wkf_id" ref="wkf_import_order"/>
-            <field name="name">wait</field>
-            <field name="action">write({'state':'wait'})</field>
-            <field name="kind">function</field>
-        </record>
-        
         <record id="act_cancel" model="workflow.activity">
             <field name="wkf_id" ref="wkf_import_order"/>
             <field name="name">cancel</field>
@@ -50,26 +43,14 @@
             <field name="signal">import_confirmed</field>
         </record>
         
-        <record id="trans_confirmed_wait" model="workflow.transition">
+        <record id="trans_confirmed_done" model="workflow.transition">
             <field name="act_from" ref="act_confirmed"/>
-            <field name="act_to" ref="act_wait"/>
-            <field name="signal">import_wait</field>
-        </record>
-        
-        <record id="trans_wait_done" model="workflow.transition">
-            <field name="act_from" ref="act_wait"/>
             <field name="act_to" ref="act_done"/>
             <field name="signal">import_processed</field>
         </record>
         
         <record id="trans_confirmed_cancel" model="workflow.transition">
             <field name="act_from" ref="act_confirmed"/>
-            <field name="act_to" ref="act_cancel"/>
-            <field name="signal">import_cancel</field>
-        </record>
-        
-        <record id="trans_wait_cancel" model="workflow.transition">
-            <field name="act_from" ref="act_wait"/>
             <field name="act_to" ref="act_cancel"/>
             <field name="signal">import_cancel</field>
         </record>

@@ -69,42 +69,41 @@
                     <header>
                         <button name="import_draft" string="Draft" states="cancel"/>
                         <button name="import_confirmed" string="Confirm" states="draft" class="oe_highlight"/>
-                        <button name="import_wait" string="Validate" states="confirmed" class="oe_highlight"/>
-                        <button name="import_processed" string="Process" states="wait" class="oe_highlight" confirm="Are you sure you want to process this order? You must be sure that all products are already in stock"/>
+                        <button name="import_processed" string="Process" states="confirmed" class="oe_highlight" confirm="Are you sure you want to process this order? You must be sure that all products are already in stock"/>
                         <button name="import_cancel" string="Cancel" states="confirmed,wait"/>
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
-                        <label for="name" class="oe_edit_only"/>
                         <h1>
                             <field name="name"/>
                         </h1>
                         <group>
-                            <group string="General" name="general">
+                            <group name="general">
                                 <field name="origin_id"/>
-                                <field name="total_weight"/>
-                                <field name="fob"/>
-                            </group>
-                            <group string="Dates" name="dates">
                                 <field name="company_id"/>
+                            </group>
+                            <group name="dates">
                                 <field name="date_arrive"/>
                                 <field name="date_due"/>
-                                <field name="create_date"/>
+                                <field name="date"/>
                             </group>
                         </group>
                         <group>
-                            <group string="Invoices" name="invoices">
-                                <field name="freight_order_id" domain="[('type', '=', 'in_invoice'),('state','not in',['draft','cancel'])]"/>
-                                <field name="freight_currency_id"/>
-                                <field name="tax_order_id" domain="[('type', '=', 'in_invoice'),('state','not in',['draft','cancel'])]"/>
-                                <field name="tax_currency_id"/>
+                            <group string="Freight and Taxes" name="freight_taxes" col="3">
+                                <field name="freight_order_id" domain="[('type', '=', 'in_invoice'),('state','not in',['draft','cancel']),('company_id','=',company_id)]"
+                                    on_change="onchange_freight_order(freight_order_id)" class="oe_inline"/> -
+                                <field name="freight_currency_id" nolabel="1"/>
+                                <field name="tax_order_id" domain="[('type', '=', 'in_invoice'),('state','not in',['draft','cancel']),('company_id','=',company_id)]"
+                                    on_change="onchange_tax_order(tax_order_id)" class="oe_inline"/>
+                                <field name="tax_currency_id" nolabel="1"/>
+                                <field name="tax_total" colspan="3"/>
+                                <field name="freight_total" colspan="3"/>
+                                <field name="paid_total" colspan="3"/>
                             </group>
-                            <group string="Totals" name="totals">
+                            <group string="Purchase Information" name="totals">
                                 <field name="sum_tax_value"/>
                                 <field name="purchase_total"/>
-                                <field name="tax_total"/>
-                                <field name="freight_total"/>
-                                <field name="paid_total"/>
+                                <field name="total_weight"/>
                             </group>
                         </group>
                         <field name="notes" placeholder="Add a note..."/>
@@ -113,7 +112,8 @@
                                 <field name="line_ids"/>
                             </page>
                             <page string="Import Invoices" name="invoices">
-                                <field name="imports_order_ids" domain="[('type', '=', 'in_invoice'),('state','not in',['draft','cancel'])]" attrs="{'readonly':[('state','=','done')]}"/>
+                                <field name="imports_order_ids" domain="[('type', '=', 'in_invoice'),('state','not in',['draft','cancel']),('company_id','=',company_id)]"
+                                    attrs="{'readonly':[('state','=','done')]}"/>
                             </page>
                             <page string="Vouchers" name="vouchers">
                                 <field name="voucher_ids">
@@ -149,11 +149,10 @@
                 <tree string="Import Orders">
                     <field name="name"/>
                     <field name="origin_id"/>
-                    <field name="total_weight"/>
-                    <field name="fob"/>
+                    <field name="total_weight"/>                    
                     <field name="date_arrive"/>
                     <field name="date_due"/>
-                    <field name="create_date"/>
+                    <field name="date"/>
                     <field name="freight_order_id" domain="[('type', '=', 'in_invoice'),('state','not in',['draft','cancel'])]"/>
                     <field name="tax_order_id" domain="[('type', '=', 'in_invoice'),('state','not in',['draft','cancel'])]"/>
                     <field name="sum_tax_value"/>
@@ -178,7 +177,6 @@
                     <field name="origin_id"/>
                     <filter name="draft" string="Draft" domain="[('state','=','draft')]" help="Import Orders which are in draft state"/>
                     <filter name="confirmed" string="Confirmed" domain="[('state','=','confirmed')]" help="Import Orders which are in confirmed state"/>
-                    <filter name="wait" string="Waiting for Processing" domain="[('state','=','wait')]" help="Import Orders which are in waiting for processing"/>
                     <filter name="done" string="Processed" domain="[('state','=','done')]" help="Import Orders which are in processed state"/>
                     <filter name="cancel" string="Cancelled" domain="[('state','=','cancel')]" help="Import Orders which are in Cancelled state"/>
                     <group expand="0" string="Group By...">
@@ -232,7 +230,7 @@
                         <h1>
                             <field name="number"/>
                         </h1>
-                        <group string="General" name="general">
+                        <group name="general">
                             <group>
                                 <field name="order_id"/>
                                 <field name="agent_number"/>
@@ -389,7 +387,7 @@
             <field name="name">Import Order</field>
             <field name="res_model">purchase.import.import.order</field>
             <field name="view_mode">tree,form</field>
-            <field name="context">{'search_default_confirmed': 1, 'search_default_wait': 1}</field>
+            <field name="context">{'search_default_confirmed': 1}</field>
             <field name="search_view_id" ref="view_import_order_search"/>
         </record>
         
