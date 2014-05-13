@@ -316,18 +316,10 @@ class ImportOrder(osv.Model):
         res = {}
         total = 0.0
         for imports in self.browse(cr, uid, ids, context=context):
-            # Get the cost price type to get the costing currency
-            currency = None
-            price_type_obj = self.pool.get('product.price.type')
-            price_type_id = price_type_obj.search(cr, uid, [('field','=','standard_price'),('active','=',True)], context=context)
-            if price_type_id:
-                price_type = price_type_obj.browse(cr, uid, price_type_id[0], context=context)
-                currency = price_type.currency_id
+            # Get the currency from company
+            currency = imports.company_id.currency_id
             for order in imports.imports_order_ids:
-                # Get the currency rate for the transaction
-                if not currency:
-                    currency = order.company_id.currency_id # TODO: Change add company_id field and check all invoices belong to the same company and use that compant's currency
-                    # Get base the exchange rate
+                # Get base the exchange rate
                 if order.currency_id.id != currency.id:
                     currency_obj = self.pool.get('res.currency')
                     import_currency_rate = currency_obj.get_exchange_rate(cr, uid, order.currency_id,
@@ -352,19 +344,10 @@ class ImportOrder(osv.Model):
         res = {}
         currency = 1
         total_tax = 0.0
-        # Get the cost price type to get the costing currency
-        currency = None
-        price_type_obj = self.pool.get('product.price.type')
-        price_type_id = price_type_obj.search(cr, uid, [('field','=','standard_price'),('active','=',True)], context=context)
-        if price_type_id:
-            price_type = price_type_obj.browse(cr, uid, price_type_id[0], context=context)
-            currency = price_type.currency_id
         for order in self.browse(cr, uid, ids, context=context):
+            # Get the currency from company
+            currency = order.company_id.currency_id
             if order.tax_order_id:
-                # Get the currency rate for the transaction
-                if not currency:
-                    currency = order.tax_order_id.company_id.currency_id # TODO: Change add company_id field and check all invoices belong to the same company and use that compant's currency
-                    # Get base the exchange rate
                 if order.tax_order_id.currency_id.id != currency.id:
                     currency_obj = self.pool.get('res.currency')
                     import_currency_rate = currency_obj.get_exchange_rate(cr, uid, order.tax_order_id.currency_id,
@@ -390,19 +373,11 @@ class ImportOrder(osv.Model):
         @return: A dictionary with the form id: value
         """
         res = {}
-        # Get the cost price type to get the costing currency
-        currency = None
-        price_type_obj = self.pool.get('product.price.type')
-        price_type_id = price_type_obj.search(cr, uid, [('field','=','standard_price'),('active','=',True)], context=context)
-        if price_type_id:
-            price_type = price_type_obj.browse(cr, uid, price_type_id[0], context=context)
-            currency = price_type.currency_id
         for order in self.browse(cr, uid, ids, context=context):
+            # Get the currency from company
+            currency = order.company_id.currency_id
             if order.freight_order_id:
-                # Get the currency rate for the transaction
-                if not currency:
-                    currency = order.freight_order_id.company_id.currency_id # TODO: Change add company_id field and check all invoices belong to the same company and use that compant's currency
-                    # Get base the exchange rate
+                # Get base the exchange rate
                 if order.freight_order_id.currency_id.id != currency.id:
                     currency_obj = self.pool.get('res.currency')
                     import_currency_rate = currency_obj.get_exchange_rate(cr, uid, order.freight_order_id.currency_id,
@@ -487,18 +462,11 @@ class ImportOrder(osv.Model):
                     tax_ids.append(line.id)
         values['tax_ids'] = [[6,False,tax_ids]]
         res= super(ImportOrder, self).create(cr, uid, values, context=context)
-        # Get the cost price type to get the costing currency
-        currency = None
-        price_type_obj = self.pool.get('product.price.type')
-        price_type_id = price_type_obj.search(cr, uid, [('field','=','standard_price'),('active','=',True)], context=context)
-        if price_type_id:
-            price_type = price_type_obj.browse(cr, uid, price_type_id[0], context=context)
-            currency = price_type.currency_id
+        # Get the currency from company
+        company_obj = self.pool.get('res.company')
+        currency = company_obj.browse(cr, uid, values['company_id'], context=context).currency_id
         for inv in inv_obj.browse(cr, uid, invoices[0][2]):
-            # Get the currency rate for the transaction
-            if not currency:
-                currency = inv.company_id.currency_id # TODO: Change add company_id field and check all invoices belong to the same company and use that compant's currency
-                # Get base the exchange rate
+            # Get base the exchange rate
             if inv.currency_id.id != currency.id:
                 currency_obj = self.pool.get('res.currency')
                 import_currency_rate = currency_obj.get_exchange_rate(cr, uid, inv.currency_id,
@@ -536,20 +504,11 @@ class ImportOrder(osv.Model):
             super(ImportOrder, self).write(cr, uid, ids, values, context=context)
             for line in order.line_ids:
                 line_obj.unlink(cr, uid, line.id)
-            # Get the cost price type to get the costing currency
-            currency = None
-            price_type_obj = self.pool.get('product.price.type')
-            price_type_id = price_type_obj.search(cr, uid, [('field','=','standard_price'),('active','=',True)], context=context)
-            if price_type_id:
-                price_type = price_type_obj.browse(cr, uid, price_type_id[0], context=context)
-                currency = price_type.currency_id
+            order = self.browse(cr, uid, order.id, context=context)
+            # Get the company currency
+            currency = order.company_id.currency_id
             for inv in order.imports_order_ids:
-                """if inv.currency_id.id != inv.company_id.currency_id.id:
-                    import_currency_rate = inv.company_id.currency_id.rate / inv.currency_id.rate"""
-                # Get the currency rate for the transaction
-                if not currency:
-                    currency = inv.company_id.currency_id # TODO: Change add company_id field and check all invoices belong to the same company and use that compant's currency
-                    # Get base the exchange rate
+                # Get base the exchange rate
                 if inv.currency_id.id != currency.id:
                     currency_obj = self.pool.get('res.currency')
                     import_currency_rate = currency_obj.get_exchange_rate(cr, uid, inv.currency_id,
@@ -574,6 +533,7 @@ class ImportOrder(osv.Model):
     _columns = {
         'name': fields.char('Order Number', size=128, readonly=True),
         'fob': fields.float('FoB', help='Free on Board', required=True),
+        'company_id': fields.many2one('res.company', 'Company', required=True,),
         'voucher_ids': fields.one2many('purchase.import.import.voucher', 'order_id', 'Vouchers'),
         'origin_id' : fields.many2one('res.country', 'Origin', required=True),
         'freight_order_id':fields.many2one('account.invoice', 'Freight Invoice'),
@@ -599,6 +559,7 @@ class ImportOrder(osv.Model):
 
     _defaults = {
         'state': 'draft',
+        'company_id': lambda self,cr,uid,c: self.pool.get('res.company')._company_default_get(cr, uid, 'purchase.import.order', context=c),
     }
 
 class Voucher(osv.Model):

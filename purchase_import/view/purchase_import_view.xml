@@ -86,6 +86,7 @@
                                 <field name="fob"/>
                             </group>
                             <group string="Dates" name="dates">
+                                <field name="company_id"/>
                                 <field name="date_arrive"/>
                                 <field name="date_due"/>
                                 <field name="create_date"/>
