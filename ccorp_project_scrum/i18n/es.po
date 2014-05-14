@@ -276,12 +276,12 @@ msgstr "Tipo"
 #: view:ccorp.project.scrum.sprint:0
 #: field:ccorp.project.scrum.sprint,user_id:0
 msgid "Scrum Master"
-msgstr "Scrum Master"
+msgstr "Scrum master"
 
 #. module: ccorp_project_scrum
 #: model:ir.ui.menu,name:ccorp_project_scrum.menu_product_backlog
 msgid "Product Backlogs"
-msgstr "Pila de Producto"
+msgstr "Pilas de producto"
 
 #. module: ccorp_project_scrum
 #: selection:ccorp.project.scrum.feature,priority:0

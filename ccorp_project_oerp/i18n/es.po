@@ -283,7 +283,7 @@ msgstr "Importación de características"
 #. module: ccorp_project_oerp
 #: model:ir.ui.menu,name:ccorp_project_oerp.menu_task_create_wizard
 msgid "Create Tasks"
-msgstr "Crear Tareas"
+msgstr "Crear tareas"
 
 #. module: ccorp_project_oerp
 #: field:project.phase,is_scrum:0
@@ -410,7 +410,7 @@ msgstr "Realizado"
 #: view:ccorp.project.oerp.sprint.close.wizard:0
 #: view:ccorp.project.oerp.task.create.wizard:0
 msgid "Cancel"
-msgstr "Cancelado"
+msgstr "Cancelar"
 
 #. module: ccorp_project_oerp
 #: view:ccorp.project.oerp.sprint.close.wizard:0
