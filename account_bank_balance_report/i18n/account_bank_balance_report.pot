@@ -1,0 +1,270 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* account_bank_balance_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-12 16:03+0000\n"
+"PO-Revision-Date: 2014-05-12 16:03+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_bank_balance_report
+#: view:bank.balance.wiz:0
+#: field:bank.balance.wiz,res_partners_ids:0
+msgid "Partners"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: selection:bank.balance.wiz,filter:0
+msgid "No Filters"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: code:addons/account_bank_balance_report/report/account_bank_balance_report.py:73
+#: code:addons/account_bank_balance_report/report/account_bank_balance_report.py:82
+#, python-format
+msgid "Default credit account: "
+msgstr ""
+
+#. module: account_bank_balance_report
+#: help:bank.balance.wiz,amount_currency:0
+msgid "It adds the currency column on report if the currency differs from the company currency."
+msgstr ""
+
+#. module: account_bank_balance_report
+#: field:bank.balance.wiz,period_ids:0
+msgid "Period"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: code:addons/account_bank_balance_report/wizard/account_bank_balance_report_wizard.py:97
+#, python-format
+msgid "There is no template defined for the selected format. Check if aeroo report exist."
+msgstr ""
+
+#. module: account_bank_balance_report
+#: model:ir.model,name:account_bank_balance_report.model_account_account_type
+msgid "Account Type"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: help:bank.balance.wiz,historic_strict:0
+msgid "If selected, will display a historical unreconciled lines, taking into account the end of the period or date selected"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: code:addons/account_bank_balance_report/wizard/account_bank_balance_report_wizard.py:97
+#, python-format
+msgid "Error !"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: field:bank.balance.wiz,special_period:0
+msgid "Special period"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: field:bank.balance.wiz,sort_selection:0
+msgid "Entries Sorted by"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: field:bank.balance.wiz,company_id:0
+msgid "Company"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: field:bank.balance.wiz,amount_currency:0
+msgid "With Currency"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: selection:bank.balance.wiz,filter:0
+#: selection:bank.balance.wiz,sort_selection:0
+msgid "Date"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: view:bank.balance.wiz:0
+msgid "Account Bank"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: field:bank.balance.wiz,chart_account_id:0
+msgid "Chart of Account"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: view:bank.balance.wiz:0
+#: field:bank.balance.wiz,journal_ids:0
+msgid "Journals"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: field:bank.balance.wiz,target_move:0
+msgid "Target Moves"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: help:bank.balance.wiz,chart_account_id:0
+msgid "Select Charts of Accounts"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: field:bank.balance.wiz,date_to:0
+msgid "End Date"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: field:bank.balance.wiz,period_from:0
+msgid "Start Period"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: selection:bank.balance.wiz,sort_selection:0
+msgid "Name"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: view:bank.balance.wiz:0
+msgid "{'invisible': True}"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: selection:bank.balance.wiz,target_move:0
+msgid "All Posted Entries"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: view:bank.balance.wiz:0
+msgid "{'required': True}"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: help:bank.balance.wiz,fiscalyear_id:0
+msgid "Keep empty for all open fiscal year"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: field:bank.balance.wiz,period_to:0
+msgid "End Period"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: view:bank.balance.wiz:0
+msgid "Account Financial Report"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: model:ir.ui.menu,name:account_bank_balance_report.menu_account_bank_balances_report
+msgid "Account Bank Balances"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: view:bank.balance.wiz:0
+msgid "Bank Balance"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: view:bank.balance.wiz:0
+msgid "Advanced options"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: code:addons/account_bank_balance_report/report/account_bank_balance_report.py:77
+#: code:addons/account_bank_balance_report/report/account_bank_balance_report.py:86
+#, python-format
+msgid "Default debit account: "
+msgstr ""
+
+#. module: account_bank_balance_report
+#: field:bank.balance.wiz,fiscalyear_id:0
+msgid "Fiscal Year"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: model:ir.actions.act_window,name:account_bank_balance_report.action_bank_balance_report_wizard
+#: model:ir.actions.report.xml,name:account_bank_balance_report.account_bank_balance_ods
+#: model:ir.actions.report.xml,name:account_bank_balance_report.account_bank_balance_odt
+msgid "Bank Balance Report"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: field:bank.balance.wiz,out_format:0
+msgid "Print Format"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: field:bank.balance.wiz,res_partner_bank_ids:0
+msgid "Bank Accounts"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: model:ir.model,name:account_bank_balance_report.model_bank_balance_wiz
+msgid "Account Bank Balance Report Wizard"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: field:bank.balance.wiz,account_base_report:0
+msgid "Account Base Report"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: help:bank.balance.wiz,special_period:0
+msgid "Include special period"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: code:addons/account_bank_balance_report/report/account_bank_balance_report.py:52
+#, python-format
+msgid "For this account, doesn't exist move lines"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: view:bank.balance.wiz:0
+#: field:bank.balance.wiz,account_ids:0
+msgid "Accounts"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: selection:bank.balance.wiz,filter:0
+msgid "Periods"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: view:bank.balance.wiz:0
+msgid "Filters"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: view:bank.balance.wiz:0
+msgid "This report allows you to print or generate a pdf of your Bank Balance Report"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: field:bank.balance.wiz,date_from:0
+msgid "Start Date"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: field:bank.balance.wiz,filter:0
+msgid "Filter by"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: selection:bank.balance.wiz,target_move:0
+msgid "All Entries"
+msgstr ""
+
+#. module: account_bank_balance_report
+#: field:bank.balance.wiz,historic_strict:0
+msgid "Strict History"
+msgstr ""
+

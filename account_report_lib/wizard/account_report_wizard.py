@@ -101,10 +101,10 @@ class accountCommonwizard (orm.Model):
 
     #=======================================================
     
-    #This fields are added, because the account.common.report doesn't have this by default    
+    #This fields are added, because the account.common.report doesn't have by default    
     _columns = {
         'account_ids': fields.many2many('account.account', string='Accounts'),
-        'journal_ids': fields.many2many('account.journal', string='Journals',), #redefined journal_ids, remove required atribute
+        'journal_ids': fields.many2many('account.journal', string='Journals',), #redefined journal_ids, remove attribute required
         'res_partners_ids': fields.many2many('res.partner', string='Partners',), 
         'historic_strict': fields.boolean('Strict History', help="If selected, will display a historical unreconciled lines, taking into account the end of the period or date selected"),
         'special_period': fields.boolean('Special period', help="Include special period"),    
