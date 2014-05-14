@@ -160,7 +160,7 @@ msgstr "Saldo de Bancos"
 #. module: account_bank_balance_report
 #: view:bank.balance.wiz:0
 msgid "Bank Balance"
-msgstr "Saldo de Bancos"
+msgstr "Saldo en Banco"
 
 #. module: account_bank_balance_report
 #: view:bank.balance.wiz:0
@@ -209,7 +209,7 @@ msgstr "Reporte financiero base"
 #. module: account_bank_balance_report
 #: help:bank.balance.wiz,special_period:0
 msgid "Include special period"
-msgstr "Includir período especial"
+msgstr "Incluir período especial"
 
 #. module: account_bank_balance_report
 #: code:addons/account_bank_balance_report/report/account_bank_balance_report.py:52
