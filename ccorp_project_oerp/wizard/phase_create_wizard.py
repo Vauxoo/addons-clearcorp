@@ -24,7 +24,7 @@ from openerp.osv import fields, osv
 
 class PhaseCreateWizard(osv.TransientModel):
     
-    _name = 'project.oerp.phase.create.wizard'
+    _name = 'ccorp.project.oerp.phase.create.wizard'
     
     def create_phase(self, cr, uid, ids, context=None):
         wizard = self.browse(cr, uid, ids[0], context=context)
@@ -61,11 +61,11 @@ class PhaseCreateWizard(osv.TransientModel):
                 }
     
     _columns = {
-                'work_type_template_id': fields.many2one('project.oerp.work.type.template', string='Work Type Template',
+                'work_type_template_id': fields.many2one('ccorp.project.oerp.work.type.template', string='Work Type Template',
                     required=True),
                 'project_id': fields.many2one('project.project', string='Project', required=True,
                     domain="[('is_scrum','=',True)]"),
-                'product_backlog_id': fields.many2one('project.scrum.product.backlog', string='Product Backlog',
+                'product_backlog_id': fields.many2one('ccorp.project.scrum.product.backlog', string='Product Backlog',
                     required=True, domain="[('project_id','=',project_id)]"),
                 'duration': fields.float('Duration', required=True),
                 'product_uom': fields.many2one('product.uom', string='Unit of Measure', required=True),

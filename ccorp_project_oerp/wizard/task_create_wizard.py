@@ -36,7 +36,7 @@ PRIORITY = {
 
 class TaskCreateWizard(osv.TransientModel):
     
-    _name = 'project.oerp.task.create.wizard'
+    _name = 'ccorp.project.oerp.task.create.wizard'
     
     def create_tasks(self, cr, uid, ids, context=None):
         wizard = self.browse(cr, uid, ids[0], context=context)
@@ -56,8 +56,8 @@ FROM (SELECT types.id,
  types.sequence,
  types.name,
  hours.expected_hours
-FROM project_oerp_feature_hours AS hours,
- project_oerp_work_type AS types
+FROM ccorp_project_oerp_feature_hours AS hours,
+ ccorp_project_oerp_work_type AS types
 WHERE hours.feature_id = %s
 AND hours.work_type_id = types.id) AS types
 GROUP BY types.sequence
@@ -87,8 +87,8 @@ ORDER BY types.sequence ASC;''', (feature.id,))
                     cr.execute('''SELECT types.id,
  hours.expected_hours,
  hours.phase_id
-FROM project_oerp_feature_hours AS hours,
- project_oerp_work_type AS types
+FROM ccorp_project_oerp_feature_hours AS hours,
+ ccorp_project_oerp_work_type AS types
 WHERE hours.feature_id = %s
 AND hours.work_type_id = types.id
 AND types.sequence = %s;''', (feature.id, number,))
@@ -122,7 +122,7 @@ AND types.sequence = %s;''', (feature.id, number,))
                 raise osv.except_osv(_('Error'),_('An error occurred while creating the tasks. '
                                                   'Please contact your system administrator.'))
             
-        sprint_obj = self.pool.get('project.scrum.sprint')
+        sprint_obj = self.pool.get('ccorp.project.scrum.sprint')
         sprint_obj.write(cr, uid, sprint.id,
                          {
                           'task_from_features': True,
@@ -133,14 +133,14 @@ AND types.sequence = %s;''', (feature.id, number,))
                 'name': 'Sprints',
                 'view_type': 'form',
                 'view_mode': 'form',
-                'res_model': 'project.scrum.sprint',
+                'res_model': 'ccorp.project.scrum.sprint',
                 'context': context,
                 'res_id': sprint.id,
                 'type': 'ir.actions.act_window',
                 }
     
     _columns = {
-                'sprint_id': fields.many2one('project.scrum.sprint', string='Sprint',
+                'sprint_id': fields.many2one('ccorp.project.scrum.sprint', string='Sprint',
                     required = True, domain="[('state','=','open')]"),
                 }
     

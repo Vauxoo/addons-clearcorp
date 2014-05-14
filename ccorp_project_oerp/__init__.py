@@ -20,5 +20,5 @@
 #
 ##############################################################################
 
-import project_openerp
+import ccorp_project_oerp
 import wizard

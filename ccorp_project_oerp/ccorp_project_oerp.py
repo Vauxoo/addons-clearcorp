@@ -24,7 +24,7 @@ from openerp.osv import fields, osv
 
 class WorkType(osv.Model):
     
-    _name = 'project.oerp.work.type'
+    _name = 'ccorp.project.oerp.work.type'
     
     _order = 'sequence'
     
@@ -43,10 +43,10 @@ class WorkType(osv.Model):
     
 class WorkTypeMapping(osv.Model):
     
-    _name = 'project.oerp.work.type.mapping'
+    _name = 'ccorp.project.oerp.work.type.mapping'
     
     _columns = {
-                'template_id': fields.many2one('project.oerp.work.type.template', string='Template',
+                'template_id': fields.many2one('ccorp.project.oerp.work.type.template', string='Template',
                     ondelete='cascade'),
                 'name': fields.char('Type Name', size=128, translate=True, required=True),
                 'sequence': fields.integer('Sequence', required=True),
@@ -55,26 +55,26 @@ class WorkTypeMapping(osv.Model):
     
 class WorkTypeTemplate(osv.Model):
     
-    _name = 'project.oerp.work.type.template'
+    _name = 'ccorp.project.oerp.work.type.template'
     
     _columns = {
                 'name': fields.char('Template', size=128, translate=True, required=True),
-                'group_id': fields.many2one('project.oerp.work.type.template.group', string='Group'),
+                'group_id': fields.many2one('ccorp.project.oerp.work.type.template.group', string='Group'),
                 'file': fields.related('group_id', 'file', type='binary', string='File'),
                 'filename': fields.related('group_id','filename', type='char', string='Filename'),
-                'work_type_mapping_ids': fields.one2many('project.oerp.work.type.mapping', 'template_id',
+                'work_type_mapping_ids': fields.one2many('ccorp.project.oerp.work.type.mapping', 'template_id',
                     string='Work Types')
                 }
     
 class WorkTypeTemplateGroup(osv.Model):
     
-    _name = 'project.oerp.work.type.template.group'
+    _name = 'ccorp.project.oerp.work.type.template.group'
     
     _columns = {
                 'name': fields.char('Group Name', size=128, translate=True, required=True),
                 'file': fields.binary('File', filters='*.csv'),
                 'filename': fields.char('Filename', size=128),
-                'template_ids': fields.one2many('project.oerp.work.type.template', 'group_id',
+                'template_ids': fields.one2many('ccorp.project.oerp.work.type.template', 'group_id',
                     string='Templates'),
                 }
     
@@ -91,7 +91,7 @@ class Sprint(osv.Model):
                     task.write({'sprint_id': sprint.id}, context=context)
         return True
     
-    _inherit = 'project.scrum.sprint'
+    _inherit = 'ccorp.project.scrum.sprint'
     
     _columns = {
                 'desirable_task_ids': fields.many2many('project.task', string='Desirable Tasks'),
@@ -139,10 +139,10 @@ class Phase(osv.Model):
     
     _columns = {
                 'is_scrum': fields.related('project_id','is_scrum', type='boolean', string='Is Scrum', readonly=True),
-                'product_backlog_id': fields.many2one('project.scrum.product.backlog', string='Product Backlog',
+                'product_backlog_id': fields.many2one('ccorp.project.scrum.product.backlog', string='Product Backlog',
                     domain="[('project_id','=',project_id)]"),
-                'work_type_ids': fields.one2many('project.oerp.work.type', 'phase_id', string='Work Types'),
-                'sprint_ids': fields.one2many('project.scrum.sprint', 'phase_id',
+                'work_type_ids': fields.one2many('ccorp.project.oerp.work.type', 'phase_id', string='Work Types'),
+                'sprint_ids': fields.one2many('ccorp.project.scrum.sprint', 'phase_id',
                     string='Sprints'),
                 'user_id': fields.many2one('res.users', string='Phase Manager'),
                 }
@@ -152,7 +152,7 @@ class Phase(osv.Model):
     
 class FeatureHours(osv.Model):
     
-    _name = 'project.oerp.feature.hours'
+    _name = 'ccorp.project.oerp.feature.hours'
     
     def _effective_hours(self, cr ,uid, ids, field_name, arg, context=None):
         res = {}
@@ -175,13 +175,13 @@ class FeatureHours(osv.Model):
         return res
     
     _columns = {
-                'feature_id': fields.many2one('project.scrum.feature', string='Feature', required=True,
+                'feature_id': fields.many2one('ccorp.project.scrum.feature', string='Feature', required=True,
                     ondelete='cascade'),
                 'project_id': fields.related('feature_id', 'product_backlog_id', 'project_id',
                     type='many2one', relation='project.project', string='Project'),
                 'phase_id': fields.many2one('project.phase', string="Phase", 
                     domain="[('project_id','=',project_id)]"),
-                'work_type_id': fields.many2one('project.oerp.work.type', string='Work Type',
+                'work_type_id': fields.many2one('ccorp.project.oerp.work.type', string='Work Type',
                     required=True, domain="[('phase_id','=',phase_id)]"),
                 'expected_hours': fields.float('Planned Hour(s)', required=True),
                 'effective_hours': fields.function(_effective_hours, type='float', string='Spent Hour(s)'),
@@ -195,18 +195,18 @@ class FeatureHours(osv.Model):
     
 class Feature(osv.Model):
     
-    _inherit = 'project.scrum.feature'
+    _inherit = 'ccorp.project.scrum.feature'
     
     def onchange_product_backlog(self, cr, uid, ids, product_backlog_id, context=None):
         res = {}
         if product_backlog_id:
-            product_backlog = self.pool.get('project.scrum.product.backlog').browse(
+            product_backlog = self.pool.get('ccorp.project.scrum.product.backlog').browse(
                 cr, uid, product_backlog_id, context=context)
             res = {'value': {'project_id': product_backlog.project_id.id}}
         return res
     
     _columns = {
-                'hour_ids': fields.one2many('project.oerp.feature.hours', 'feature_id', string='Feature Hours'),
+                'hour_ids': fields.one2many('ccorp.project.oerp.feature.hours', 'feature_id', string='Feature Hours'),
                 }
     
     def write(self, cr, uid, ids, values, context=None):
@@ -220,7 +220,7 @@ class Feature(osv.Model):
                     if 'expected_hours' in vals:
                         sum += vals['expected_hours']
                 else:
-                    hour_obj = self.pool.get('project.oerp.feature.hours')
+                    hour_obj = self.pool.get('ccorp.project.oerp.feature.hours')
                     sum += hour_obj.browse(cr, uid, id, context=context).expected_hours
             values['expected_hours'] = sum
         return super(Feature,self).write(cr, uid, ids, values, context=context)
@@ -236,14 +236,14 @@ class Feature(osv.Model):
                     if 'expected_hours' in vals:
                         sum += vals['expected_hours']
                 else:
-                    hour_obj = self.pool.get('project.oerp.feature.hours')
+                    hour_obj = self.pool.get('ccorp.project.oerp.feature.hours')
                     sum += hour_obj.browse(cr, uid, id, context=context).expected_hours
             values['expected_hours'] = sum
         return super(Feature,self).create(cr, uid, values, context=context)
     
 class TaskHours(osv.Model):
     
-    _name = 'project.oerp.task.hour'
+    _name = 'ccorp.project.oerp.task.hour'
     
     def _effective_hours(self, cr ,uid, ids, field_name, arg, context=None):
         res = {}
@@ -270,7 +270,7 @@ class TaskHours(osv.Model):
                     relation='project.project', string='Project'),
                 'phase_id': fields.many2one('project.phase', string="Phase", 
                     domain="[('project_id','=',project_id)]"),
-                'work_type_id': fields.many2one('project.oerp.work.type', string='Work Type', required =True,
+                'work_type_id': fields.many2one('ccorp.project.oerp.work.type', string='Work Type', required =True,
                     domain="[('phase_id','=',phase_id)]"),
                 'expected_hours': fields.float('Initially Planned Hour(s)', required=True),
                 'effective_hours': fields.function(_effective_hours, type='float', string='Spent Hour(s)'),
@@ -289,7 +289,7 @@ class Task(osv.Model):
     def onchange_sprint(self, cr, uid, ids, sprint_id, context=None):
         res = super(Task,self).onchange_sprint(cr, uid, ids, sprint_id, context=context)
         if sprint_id:
-            sprint = self.pool.get('project.scrum.sprint').browse(
+            sprint = self.pool.get('ccorp.project.scrum.sprint').browse(
                 cr, uid, sprint_id, context=context)
             if 'value' in res:
                 res['value']['phase_id'] = sprint.phase_id.id
@@ -304,8 +304,8 @@ class Task(osv.Model):
     
     _columns = {
                 'feature_hour_ids': fields.related('feature_id', 'hour_ids', type='one2many',
-                    relation='project.oerp.feature.hours', string='Feature Hours', readonly=True),
-                'task_hour_ids': fields.one2many('project.oerp.task.hour', 'task_id', string='Task Hours'),
+                    relation='ccorp.project.oerp.feature.hours', string='Feature Hours', readonly=True),
+                'task_hour_ids': fields.one2many('ccorp.project.oerp.task.hour', 'task_id', string='Task Hours'),
                 }
     
     def create(self, cr, uid, values, context=None):
@@ -334,11 +334,11 @@ class Task(osv.Model):
                             if 'expected_hours' in hour[2]:
                                 sum += hour[2]['expected_hours']
                             else:
-                                task_hour_obj = self.pool.get('project.oerp.task.hour')
+                                task_hour_obj = self.pool.get('ccorp.project.oerp.task.hour')
                                 task_hour = task_hour_obj.browse(cr, uid , hour[1], context=context)
                                 sum += task_hour.expected_hours
                         elif hour[0] == 4:
-                            task_hour_obj = self.pool.get('project.oerp.task.hour')
+                            task_hour_obj = self.pool.get('ccorp.project.oerp.task.hour')
                             task_hour = task_hour_obj.browse(cr, uid , hour[1], context=context)
                             sum += task_hour.expected_hours
                     values['planned_hours'] = sum
@@ -365,7 +365,7 @@ class TaskWork(osv.Model):
     
     _columns = {
                 'phase_id': fields.many2one('project.phase', string='Phase'),
-                'work_type_id': fields.many2one('project.oerp.work.type', string='Work Type',
+                'work_type_id': fields.many2one('ccorp.project.oerp.work.type', string='Work Type',
                     domain="[('phase_id','=',phase_id)]"),
                 }
     

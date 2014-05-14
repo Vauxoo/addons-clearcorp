@@ -2,11 +2,11 @@
 
 <openerp>
     <data>
-        <!-- project.oerp.feature.import.wizard -->
+        <!-- ccorp.project.oerp.feature.import.wizard -->
         <!-- form -->
         <record id="view_feature_import_wizard_form" model="ir.ui.view">
             <field name="name">view.feature.import.wizard.form</field>
-            <field name="model">project.oerp.feature.import.wizard</field>
+            <field name="model">ccorp.project.oerp.feature.import.wizard</field>
             <field name="arch" type="xml">
                 <form string="Feature Import Wizard" version="7.0">
                     <header>
@@ -29,11 +29,11 @@
             </field>
         </record>
         
-        <!-- project.oerp.task.create.wizard -->
+        <!-- ccorp.project.oerp.task.create.wizard -->
         <!-- form -->
         <record id="view_task_create_wizard_form" model="ir.ui.view">
             <field name="name">view.task.create.wizard.form</field>
-            <field name="model">project.oerp.task.create.wizard</field>
+            <field name="model">ccorp.project.oerp.task.create.wizard</field>
             <field name="arch" type="xml">
                 <form string="Task Create Wizard" version="7.0">
                     <group>
@@ -50,11 +50,11 @@
             </field>
         </record>
         
-        <!-- project.oerp.sprint.close.wizard -->
+        <!-- ccorp.project.oerp.sprint.close.wizard -->
         <!-- form -->
         <record id="view_sprint_close_wizard_form" model="ir.ui.view">
             <field name="name">view.sprint.close.wizard.form</field>
-            <field name="model">project.oerp.sprint.close.wizard</field>
+            <field name="model">ccorp.project.oerp.sprint.close.wizard</field>
             <field name="arch" type="xml">
                 <form string="Close Sprint Wizard" version="7.0">
                     <group>
@@ -76,11 +76,11 @@
             </field>
         </record>
         
-        <!-- project.oerp.phase.create.wizard -->
+        <!-- ccorp.project.oerp.phase.create.wizard -->
         <!-- form -->
         <record id="view_phase_create_wizard_form" model="ir.ui.view">
             <field name="name">view.phase.create.wizard.form</field>
-            <field name="model">project.oerp.phase.create.wizard</field>
+            <field name="model">ccorp.project.oerp.phase.create.wizard</field>
             <field name="arch" type="xml">
                 <form string="Phase Create Wizard" version="7.0">
                     <group>

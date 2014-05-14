@@ -25,7 +25,7 @@ from openerp.tools.translate import _
 
 class SprintCloseWizard(osv.TransientModel):
     
-    _name = 'project.oerp.sprint.close.wizard'
+    _name = 'ccorp.project.oerp.sprint.close.wizard'
     
     def close_sprint(self, cr, uid, ids, context=None):
         wizard = self.browse(cr, uid, ids[0], context=context)
@@ -54,7 +54,7 @@ class SprintCloseWizard(osv.TransientModel):
                     'name': 'Sprints',
                     'view_type': 'form',
                     'view_mode': 'form',
-                    'res_model': 'project.scrum.sprint',
+                    'res_model': 'ccorp.project.scrum.sprint',
                     'context': context,
                     'res_id': opening.id,
                     'type': 'ir.actions.act_window',
@@ -64,8 +64,8 @@ class SprintCloseWizard(osv.TransientModel):
             raise osv.except_osv(_('Error'),_('An error occurred while closing the sprint.'))
     
     _columns = {
-                'closing_sprint_id': fields.many2one('project.scrum.sprint', string='Closing Sprint',
+                'closing_sprint_id': fields.many2one('ccorp.project.scrum.sprint', string='Closing Sprint',
                     required=True, domain="[('state','in',['open','pending'])]"),
-                'opening_sprint_id': fields.many2one('project.scrum.sprint', string='Opening Sprint',
+                'opening_sprint_id': fields.many2one('ccorp.project.scrum.sprint', string='Opening Sprint',
                     required=True, domain="[('state','in',['draft','close'])]"),
                 }

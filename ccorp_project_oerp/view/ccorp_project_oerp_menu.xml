@@ -3,7 +3,7 @@
 <openerp>
     <data>
         <menuitem id="menu_tools"
-            parent="project_scrum.menu_scrum"
+            parent="ccorp_project_scrum.menu_scrum"
             name="Tools"
             sequence="50"/>
             

@@ -21,7 +21,7 @@
 ##############################################################################
 
 {
-    "name" : 'Project OpenERP Methodology',
+    "name" : 'CCorp Project OpenERP Methodology',
     "version" : '1.0',
     "author" : 'CLEARCORP S.A.',
     'complexity': 'normal',
@@ -32,14 +32,14 @@
     "website" : "http://clearcorp.co.cr",
     "images" : [],
     "depends" : [
-                 'project_scrum',
+                 'ccorp_project_scrum',
                  'project_long_term',
                  ],
     "data" : [
-              'data/project_openerp_data.xml',
+              'data/ccorp_project_oerp_data.xml',
               'wizard/wizard_view.xml',
-              'view/project_openerp_view.xml',
-              'view/project_openerp_menu.xml',
+              'view/ccorp_project_oerp_view.xml',
+              'view/ccorp_project_oerp_menu.xml',
               'security/ir.model.access.csv',
               ],
     "init_xml" : [],

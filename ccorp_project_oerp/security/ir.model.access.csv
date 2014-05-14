@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ccorp_project_oerp_work_type_manager,access.ccorp.project.oerp.work.type.manager,model_ccorp_project_oerp_work_type,project.group_project_manager,1,1,1,1
+access_ccorp_project_oerp_work_type_user,access.ccorp.project.oerp.work.type.user,model_ccorp_project_oerp_work_type,project.group_project_user,1,0,0,0
+access_ccorp_project_oerp_work_type_mapping_manager,access.ccorp.project.oerp.work.type.mapping.manager,model_ccorp_project_oerp_work_type_mapping,project.group_project_manager,1,1,1,1
+access_ccorp_project_oerp_work_type_template_manager,access.ccorp.project.oerp.work.type.template.manager,model_ccorp_project_oerp_work_type_template,project.group_project_manager,1,1,1,1
+access_ccorp_project_oerp_work_type_template_group_manager,access.ccorp.project.oerp.work.type.template.group.manager,model_ccorp_project_oerp_work_type_template_group,project.group_project_manager,1,1,1,1
+access_ccorp_project_oerp_task_hour_manager,access.ccorp.project.oerp.task.hour.manager,model_ccorp_project_oerp_task_hour,project.group_project_manager,1,1,1,1
+access_ccorp_project_oerp_task_hour_user,access.ccorp.project.oerp.task.hour.user,model_ccorp_project_oerp_task_hour,project.group_project_user,1,0,0,0
+access_ccorp_project_oerp_feature_hours_manager,access.ccorp.project.oerp.feature.hours.manager,model_ccorp_project_oerp_feature_hours,project.group_project_manager,1,1,1,1
+access_ccorp_project_oerp_feature_hours_user,access.ccorp.project.oerp.feature.hours.user,model_ccorp_project_oerp_feature_hours,project.group_project_user,1,0,0,0

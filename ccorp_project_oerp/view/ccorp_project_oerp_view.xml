@@ -2,52 +2,52 @@
 <openerp>
     <data>
         <!-- actions -->
-        <!-- project.oerp.feature.import.wizard -->
+        <!-- ccorp.project.oerp.feature.import.wizard -->
         <record model="ir.actions.act_window" id="action_feature_import_wizard">
             <field name="name">Feature Import</field>
-            <field name="res_model">project.oerp.feature.import.wizard</field>
+            <field name="res_model">ccorp.project.oerp.feature.import.wizard</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>
         </record>
         
-        <!-- project.oerp.task.create.wizard -->
+        <!-- ccorp.project.oerp.task.create.wizard -->
         <record model="ir.actions.act_window" id="action_task_create_wizard">
             <field name="name">Create Tasks from Sequence</field>
-            <field name="res_model">project.oerp.task.create.wizard</field>
+            <field name="res_model">ccorp.project.oerp.task.create.wizard</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>
         </record>
         
-        <!-- project.oerp.phase.create.wizard -->
+        <!-- ccorp.project.oerp.phase.create.wizard -->
         <record model="ir.actions.act_window" id="action_phase_create_wizard">
             <field name="name">Create Phase from Template</field>
-            <field name="res_model">project.oerp.phase.create.wizard</field>
+            <field name="res_model">ccorp.project.oerp.phase.create.wizard</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>
         </record>
         
-        <!-- project.oerp.sprint.close.wizard -->
+        <!-- ccorp.project.oerp.sprint.close.wizard -->
         <record model="ir.actions.act_window" id="action_sprint_close_wizard">
             <field name="name">Close Sprint</field>
-            <field name="res_model">project.oerp.sprint.close.wizard</field>
+            <field name="res_model">ccorp.project.oerp.sprint.close.wizard</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>
         </record>
         
-        <!-- project.oerp.work.type.template -->
+        <!-- ccorp.project.oerp.work.type.template -->
         <record model="ir.actions.act_window" id="action_work_type_template">
             <field name="name">Work Type Template</field>
-            <field name="res_model">project.oerp.work.type.template</field>
+            <field name="res_model">ccorp.project.oerp.work.type.template</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create new Work Type Template</p>
             </field>
         </record>
         
-        <!-- project.oerp.work.type.template -->
+        <!-- ccorp.project.oerp.work.type.template -->
         <record model="ir.actions.act_window" id="action_work_type_template_group">
             <field name="name">Work Type Template Group</field>
-            <field name="res_model">project.oerp.work.type.template.group</field>
+            <field name="res_model">ccorp.project.oerp.work.type.template.group</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create new Work Type Template Group</p>
@@ -86,12 +86,12 @@
             </field>
         </record>
         
-        <!-- project.scrum.feature -->
+        <!-- ccorp.project.scrum.feature -->
         <!-- form -->
         <record id ="view_feature_form" model="ir.ui.view">
             <field name="name">view.feature.form</field>
-            <field name="model">project.scrum.feature</field>
-            <field name="inherit_id" ref="project_scrum.view_feature_form"/>
+            <field name="model">ccorp.project.scrum.feature</field>
+            <field name="inherit_id" ref="ccorp_project_scrum.view_feature_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//form/sheet/group/group/field[@name='expected_hours']" position="attributes">
                     <attribute name="readonly">True</attribute>
@@ -108,9 +108,9 @@
                             <tree editable="bottom">
                                 <field name="phase_id"/>
                                 <field name="work_type_id"/>
-                                <field name="expected_hours"/>
-                                <field name="effective_hours"/>
-                                <field name="remaining_hours"/>
+                                <field name="expected_hours" sum="Total Planned"/>
+                                <field name="effective_hours" sum="Total Spent"/>
+                                <field name="remaining_hours" sum="Total Remaining"/>
                             </tree>
                         </field>
                     </page>
@@ -165,12 +165,12 @@
             </field>
         </record>
         
-        <!-- project.scrum.sprint -->
+        <!-- ccorp.project.scrum.sprint -->
         <!-- form -->
         <record id ="view_sprint_form" model="ir.ui.view">
             <field name="name">view.sprint.form</field>
-            <field name="model">project.scrum.sprint</field>
-            <field name="inherit_id" ref="project_scrum.view_sprint_form"/>
+            <field name="model">ccorp.project.scrum.sprint</field>
+            <field name="inherit_id" ref="ccorp_project_scrum.view_sprint_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//form/sheet/div[@name='buttons']/button[@name='tasks_from_features']" position="before">
                     <button name="%(action_task_create_wizard)d" string="Tasks from Sequence" type="action"
@@ -190,11 +190,11 @@
             </field>
         </record>
         
-        <!-- project.oerp.work.type.template -->
+        <!-- ccorp.project.oerp.work.type.template -->
         <!-- form -->
         <record id ="view_work_type_template_form" model="ir.ui.view">
             <field name="name">view.work.type.template.form</field>
-            <field name="model">project.oerp.work.type.template</field>
+            <field name="model">ccorp.project.oerp.work.type.template</field>
             <field name="type">form</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
@@ -234,7 +234,7 @@
         <!-- tree -->
         <record id ="view_work_type_template_tree" model="ir.ui.view">
             <field name="name">view.work.type.template.tree</field>
-            <field name="model">project.oerp.work.type.template</field>
+            <field name="model">ccorp.project.oerp.work.type.template</field>
             <field name="type">tree</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
@@ -245,11 +245,11 @@
             </field>
         </record>
         
-        <!-- project.oerp.work.type.template.group -->
+        <!-- ccorp.project.oerp.work.type.template.group -->
         <!-- form -->
         <record id ="view_work_type_template_group_form" model="ir.ui.view">
             <field name="name">view.work.type.template.group.form</field>
-            <field name="model">project.oerp.work.type.template.group</field>
+            <field name="model">ccorp.project.oerp.work.type.template.group</field>
             <field name="type">form</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
@@ -286,7 +286,7 @@
         <!-- tree -->
         <record id ="view_work_type_template_group_tree" model="ir.ui.view">
             <field name="name">view.work.type.template.group.tree</field>
-            <field name="model">project.oerp.work.type.template.group</field>
+            <field name="model">ccorp.project.oerp.work.type.template.group</field>
             <field name="type">tree</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">

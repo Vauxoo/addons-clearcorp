@@ -28,7 +28,7 @@ from openerp.tools.translate import _
 
 class FeatureImportWizard(osv.TransientModel):
     
-    _name = 'project.oerp.feature.import.wizard'
+    _name = 'ccorp.project.oerp.feature.import.wizard'
     
     def import_file(self, cr, uid, ids, context=None):
         wizard = self.browse(cr, uid, ids[0], context=context)
@@ -41,7 +41,7 @@ class FeatureImportWizard(osv.TransientModel):
         
         phase_obj = self.pool.get('project.phase')
         phase_ids = phase_obj.search(cr, uid, [('project_id','=',wizard.project_id.id)], context=context)
-        work_type_obj = self.pool.get('project.oerp.work.type')
+        work_type_obj = self.pool.get('ccorp.project.oerp.work.type')
         work_type_ids = work_type_obj.search(cr, uid, [('phase_id','in',phase_ids)], context=context)
         work_types = work_type_obj.browse(cr, uid, work_type_ids, context=context)
         
@@ -53,7 +53,7 @@ class FeatureImportWizard(osv.TransientModel):
                 continue
             if row[2] == '':
                 
-                feature_type_id = self.pool.get('project.scrum.feature.type').search(
+                feature_type_id = self.pool.get('ccorp.project.scrum.feature.type').search(
                     cr, uid, [('code','=',row[0])], context=context) or False
                 if feature_type_id: 
                     feature_type_id = feature_type_id[0]
@@ -87,7 +87,7 @@ class FeatureImportWizard(osv.TransientModel):
                                 'from file in column %s for work type %s') % (work_type.column_number, work_type.name))
                     values['hour_ids'] = hour_ids
                     
-                    feature_obj = self.pool.get('project.scrum.feature')
+                    feature_obj = self.pool.get('ccorp.project.scrum.feature')
                     feature_obj.create(cr, uid, values, context=context)
                     
                 except:# TODO: capture better error messages
@@ -96,7 +96,7 @@ class FeatureImportWizard(osv.TransientModel):
                 'name': 'Features',
                 'view_type': 'tree',
                 'view_mode': 'tree',
-                'res_model': 'project.scrum.feature',
+                'res_model': 'ccorp.project.scrum.feature',
                 'context': context,
                 'type': 'ir.actions.act_window',
                 }
@@ -104,7 +104,7 @@ class FeatureImportWizard(osv.TransientModel):
     _columns = {
                 'project_id': fields.many2one('project.project', string='Project', required=True,
                     domain="[('is_scrum','=',True)]"),
-                'product_backlog_id': fields.many2one('project.scrum.product.backlog', string='Product Backlog',
+                'product_backlog_id': fields.many2one('ccorp.project.scrum.product.backlog', string='Product Backlog',
                     required=True, domain="[('project_id','=',project_id)]"),
                 'file': fields.binary('File to Import', required=True),
                 'state': fields.selection([('new','New'),('done','Done')], string='State'),
