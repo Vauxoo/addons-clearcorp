@@ -458,9 +458,10 @@ class ImportOrder(osv.Model):
                     'freight_total': line.freight_assigned / line.quantity,
                     'import_total': add_cost,
                     }, context=context)
-                line.product_id.write({
-                    'standard_price': cost
-                    }, context=context)
+                if line.product_id.cost_method == 'average':
+                    line.product_id.write({
+                        'standard_price': cost
+                        }, context=context)
         self.write(cr, uid, ids, {'state': 'done'}, context=context)
         return True
 
