@@ -86,7 +86,7 @@ class resCurrencyinherit(orm.Model):
         elif mode == 'create':
             name = "Exchanges Rate Cron for currency " + vals['name']
         
-        #Cron job name. "Clean" name for unnecesary characters. Avoid create
+        #Cron job name. "Clean" name for unnecessary characters. Avoid create
         #name as a tuple.
         name.replace(')','')      
         

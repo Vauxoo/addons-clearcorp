@@ -20,18 +20,22 @@
 #
 ##############################################################################
 {
-    'name': 'Product sequence ccorp',
+    'name': 'Product category sequence',
     'version': '1.0',
     'author': 'CLEARCORP S.A.',
     'category': 'Warehouse Management',
     'description': """
-Product sequence ccorp
-========================
-This module adds a sequence in products
+Product category sequence
+============================
+This module adds a sequence in product category. If the product category assigned to 
+product has sequence, default code in product is built based on sequence in category
 """,
     'website': 'http://clearcorp.co.cr',
     'depends': ['product',],
-    'data': ['data/product_sequence_ccorp_data.xml'],
+    'data': [
+             'product_category.xml',
+             'product_product.xml',
+             ],
     'active': False,
     'installable': True,    
     'license': 'AGPL-3',

@@ -19,20 +19,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': 'Product sequence ccorp',
-    'version': '1.0',
-    'author': 'CLEARCORP S.A.',
-    'category': 'Warehouse Management',
-    'description': """
-Product sequence ccorp
-========================
-This module adds a sequence in products
-""",
-    'website': 'http://clearcorp.co.cr',
-    'depends': ['product',],
-    'data': ['data/product_sequence_ccorp_data.xml'],
-    'active': False,
-    'installable': True,    
-    'license': 'AGPL-3',
-}
+
+from openerp.osv import fields, osv, orm
+
+class productCategoryinherit(orm.Model):
+    
+     _inherit = 'product.category'
+     _columns = {
+        'ir_sequence_cat_id': fields.many2one('ir.sequence', 'Category sequence'),                 
+     }
+     
