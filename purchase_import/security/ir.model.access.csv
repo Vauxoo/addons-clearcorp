@@ -1,0 +1,17 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_import_order_purchase_user,access.import.order.purchase.user,model_purchase_import_import_order,purchase.group_purchase_user,1,1,1,1
+access_import_order_purchase_manager,access.import.order.purchase.manager,model_purchase_import_import_order,purchase.group_purchase_manager,1,1,1,1
+access_import_order_line_purchase_user,access.import.order.line.purchase.user,model_purchase_import_import_order_line,purchase.group_purchase_user,1,1,1,1
+access_import_order_line_purchase_manager,access.import.order.line.purchase.manager,model_purchase_import_import_order_line,purchase.group_purchase_manager,1,1,1,1
+access_import_voucher_purchase_user,access.import.voucher.purchase.user,model_purchase_import_import_voucher,purchase.group_purchase_user,1,1,1,1
+access_import_voucher_purchase_manager,access.import.voucher.purchase.manager,model_purchase_import_import_voucher,purchase.group_purchase_manager,1,1,1,1
+access_product_import_history_purchase_user,access.product.import.history.purchase.user,model_purchase_import_product_import_history,purchase.group_purchase_user,1,1,1,0
+access_product_import_history_purchase_manager,access.product.import.history.purchase.manager,model_purchase_import_product_import_history,purchase.group_purchase_manager,1,1,1,0
+access_product_import_history_sales_user,access.product.import.history.sales.user,model_purchase_import_product_import_history,base.group_user,1,0,0,0
+access_product_import_history_sales_manager,access.product.import.history.sales.manager,model_purchase_import_product_import_history,base.group_sale_manager,1,1,1,1
+access_tariff_category_purchase_user,access.tariff.category.purchase.user,model_purchase_import_tariff_category,purchase.group_purchase_user,1,0,0,0
+access_tariff_category_purchase_manager,access.tariff.category.purchase.manager,model_purchase_import_tariff_category,purchase.group_purchase_manager,1,1,1,1
+access_tariff_purchase_user,access.tariff.purchase.user,model_purchase_import_tariff,purchase.group_purchase_user,1,1,1,0
+access_tariff_purchase_manager,access.tariff.purchase.manager,model_purchase_import_tariff,purchase.group_purchase_manager,1,1,1,1
+access_tax_purchase_user,access.tax.purchase.user,model_purchase_import_tax,purchase.group_purchase_user,1,1,1,0
+access_tax_purchase_manager,access.tax.purchase.manager,model_purchase_import_tax,purchase.group_purchase_manager,1,1,1,1
