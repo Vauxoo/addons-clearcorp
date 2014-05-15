@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <!-- ccorp.project.oerp.feature.import.wizard -->
+        <!-- form -->
+        <record id="view_feature_import_wizard_form" model="ir.ui.view">
+            <field name="name">view.feature.import.wizard.form</field>
+            <field name="model">ccorp.project.oerp.feature.import.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Feature Import Wizard" version="7.0">
+                    <header>
+                        <field name="state" widget="statusbar" />
+                    </header>
+                    <group states="new">
+                        <field name="project_id"/>
+                        <field name="product_backlog_id"/>
+                        <field name="file"/>
+                    </group>
+                    <footer>
+                        <button string="Import" type="object"
+                            name="import_file" class="oe_highlight"
+                            confirm="Are you sure you want to import this file?"
+                            states="new"/> or 
+                        <button string="Cancel" class="oe_link"
+                            special="cancel" states="new"/>
+                   </footer>
+                </form>
+            </field>
+        </record>
+        
+        <!-- ccorp.project.oerp.task.create.wizard -->
+        <!-- form -->
+        <record id="view_task_create_wizard_form" model="ir.ui.view">
+            <field name="name">view.task.create.wizard.form</field>
+            <field name="model">ccorp.project.oerp.task.create.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Task Create Wizard" version="7.0">
+                    <group>
+                        <field name="sprint_id"/>
+                    </group>
+                    <footer>
+                        <button string="Create" type="object"
+                            name="create_tasks" class="oe_highlight"
+                            confirm="Are you sure you want to continue?"/> or 
+                        <button string="Cancel" class="oe_link"
+                            special="cancel"/>
+                   </footer>
+                </form>
+            </field>
+        </record>
+        
+        <!-- ccorp.project.oerp.sprint.close.wizard -->
+        <!-- form -->
+        <record id="view_sprint_close_wizard_form" model="ir.ui.view">
+            <field name="name">view.sprint.close.wizard.form</field>
+            <field name="model">ccorp.project.oerp.sprint.close.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Close Sprint Wizard" version="7.0">
+                    <group>
+                        <group>
+                            <field name="closing_sprint_id"/>
+                        </group>
+                        <group>
+                            <field name="opening_sprint_id"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Close" type="object"
+                            name="close_sprint" class="oe_highlight"
+                            confirm="Are you sure you want to continue?"/> or 
+                        <button string="Cancel" class="oe_link"
+                            special="cancel"/>
+                   </footer>
+                </form>
+            </field>
+        </record>
+        
+        <!-- ccorp.project.oerp.phase.create.wizard -->
+        <!-- form -->
+        <record id="view_phase_create_wizard_form" model="ir.ui.view">
+            <field name="name">view.phase.create.wizard.form</field>
+            <field name="model">ccorp.project.oerp.phase.create.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Phase Create Wizard" version="7.0">
+                    <group>
+                        <field name="work_type_template_id"/>
+                        <field name="project_id"/>
+                        <field name="product_backlog_id"/>
+                        <label for="id" string="Duration"/>
+                        <div>
+                            <field name="duration" class="oe_inline"/><field name="product_uom" nolabel="1" class="oe_inline"/>
+                        </div>
+                    </group>
+                    <footer>
+                        <button string="Create" type="object"
+                            name="create_phase" class="oe_highlight"
+                            confirm="Are you sure you want to continue?"/> or 
+                        <button string="Cancel" class="oe_link"
+                            special="cancel"/>
+                   </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>

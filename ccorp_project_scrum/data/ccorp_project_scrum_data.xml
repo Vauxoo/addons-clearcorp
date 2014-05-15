@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        
+        <record model="ccorp.project.scrum.feature.type" id="data_feature_type_account">
+          <field name="name">Account</field>
+          <field name="code">ACC</field>
+        </record>
+        
+        <record model="ccorp.project.scrum.feature.type" id="data_feature_type_project">
+          <field name="name">Project</field>
+          <field name="code">PRJ</field>
+        </record>
+        
+        <record model="ccorp.project.scrum.feature.type" id="data_feature_type_hr">
+          <field name="name">Human Resources</field>
+          <field name="code">HR</field>
+        </record>
+        
+        <record model="ccorp.project.scrum.feature.type" id="data_feature_type_sales">
+          <field name="name">Sales</field>
+          <field name="code">SAL</field>
+        </record>
+        
+    </data>
+</openerp>

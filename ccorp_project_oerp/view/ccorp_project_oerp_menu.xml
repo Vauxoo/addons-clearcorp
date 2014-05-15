@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <menuitem id="menu_tools"
+            parent="ccorp_project_scrum.menu_scrum"
+            name="Tools"
+            sequence="50"/>
+            
+        <menuitem id="menu_feature_import_wizard"
+            parent="menu_tools"
+            name="Import Features"
+            action="action_feature_import_wizard"
+            sequence="10"/>
+            
+        <menuitem id="menu_task_create_wizard"
+            parent="menu_tools"
+            name="Create Tasks"
+            action="action_task_create_wizard"
+            sequence="20"/>
+            
+        <menuitem id="menu_phase_create_wizard"
+            parent="menu_tools"
+            name="Create Phase"
+            action="action_phase_create_wizard"
+            sequence="30"/>
+            
+        <menuitem id="menu_sprint_close_wizard"
+            parent="menu_tools"
+            name="Close Sprint"
+            action="action_sprint_close_wizard"
+            sequence="40"/>
+            
+        <menuitem id="menu_work_type_template"
+            parent="base.menu_definitions"
+            name="Phase Templates"
+            action="action_work_type_template"
+            sequence="20"/>
+            
+        <menuitem id="menu_work_type_template_group"
+            parent="base.menu_definitions"
+            name="Phase Template Groups"
+            action="action_work_type_template_group"
+            sequence="30"/>
+    </data>
+</openerp>

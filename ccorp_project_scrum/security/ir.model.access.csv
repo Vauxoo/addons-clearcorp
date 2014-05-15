@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ccorp_project_scrum_feature_type_manager,access.ccorp.project.scrum.feature.type.manager,model_ccorp_project_scrum_feature_type,project.group_project_manager,1,1,1,1
+access_ccorp_project_scrum_feature_type_user,access.ccorp.project.scrum.feature.type.user,model_ccorp_project_scrum_feature_type,project.group_project_user,1,0,0,0
+access_ccorp_project_scrum_sprint_manager,access.ccorp.project.scrum.sprint.manager,model_ccorp_project_scrum_sprint,project.group_project_manager,1,1,1,1
+access_ccorp_project_scrum_sprint_user,access.ccorp.project.scrum.sprint.user,model_ccorp_project_scrum_sprint,project.group_project_user,1,0,0,0
+access_ccorp_project_scrum_feature_manager,access.ccorp.project.scrum.feature.manager,model_ccorp_project_scrum_feature,project.group_project_manager,1,1,1,1
+access_ccorp_project_scrum_feature_user,access.ccorp.project.scrum.feature.user,model_ccorp_project_scrum_feature,project.group_project_user,1,0,0,0
+access_ccorp_project_scrum_release_backlog_manager,access.ccorp.project.scrum.release.backlog.manager,model_ccorp_project_scrum_release_backlog,project.group_project_manager,1,1,1,1
+access_ccorp_project_scrum_release_backlog_user,access.ccorp.project.scrum.release.backlog.user,model_ccorp_project_scrum_release_backlog,project.group_project_user,1,0,0,0
+access_ccorp_project_scrum_product_backlog_manager,access.ccorp.project.scrum.product.backlog.manager,model_ccorp_project_scrum_product_backlog,project.group_project_manager,1,1,1,1
+access_ccorp_project_scrum_product_backlog_user,access.ccorp.project.scrum.product.backlog.user,model_ccorp_project_scrum_product_backlog,project.group_project_user,1,0,0,0
