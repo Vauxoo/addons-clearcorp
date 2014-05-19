@@ -120,7 +120,7 @@ class accountCommonwizard (orm.Model):
         'res_partners_ids':[],
     }
     
-    #Redefine this method, because in the "original" take both periods (start and end) and some report 
+    #Redefine this method, because in the "original" take both periods (start and end) and some reports don't need both periods
     #Add the new fields that not included in the account.common.report. 
     def _build_contexts(self, cr, uid, ids, data, context=None):
         if context is None:

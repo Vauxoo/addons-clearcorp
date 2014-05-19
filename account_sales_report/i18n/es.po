@@ -1,0 +1,145 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* account_sales_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-19 20:25+0000\n"
+"PO-Revision-Date: 2014-05-19 20:25+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_sales_report
+#: field:sale.report.wiz,partner_id:0
+msgid "Partners"
+msgstr "Empresas"
+
+#. module: account_sales_report
+#: view:sale.report.wiz:0
+msgid "Print"
+msgstr "Imprimir"
+
+#. module: account_sales_report
+#: selection:sale.report.wiz,origin:0
+msgid "International"
+msgstr "Internacional"
+
+#. module: account_sales_report
+#: model:ir.actions.report.xml,name:account_sales_report.account_sale_report_odt
+#: model:ir.ui.menu,name:account_sales_report.account_sale_report_menu
+#: view:sale.report.wiz:0
+msgid "Account Sale Report"
+msgstr "Reporte de Ventas"
+
+#. module: account_sales_report
+#: field:sale.report.wiz,type:0
+msgid "Type"
+msgstr "Tipo"
+
+#. module: account_sales_report
+#: view:sale.report.wiz:0
+msgid "Type Options"
+msgstr "Opciones de tipo"
+
+#. module: account_sales_report
+#: field:sale.report.wiz,product_ids:0
+#: selection:sale.report.wiz,type:0
+msgid "Product"
+msgstr "Producto"
+
+#. module: account_sales_report
+#: view:sale.report.wiz:0
+#: field:sale.report.wiz,category_ids:0
+#: selection:sale.report.wiz,type:0
+msgid "Product Category"
+msgstr "Categoría de Producto"
+
+#. module: account_sales_report
+#: view:sale.report.wiz:0
+msgid "Report Options"
+msgstr "Opciones de Reporte"
+
+#. module: account_sales_report
+#: field:sale.report.wiz,date_to:0
+msgid "End Date"
+msgstr "Fecha Final"
+
+#. module: account_sales_report
+#: view:sale.report.wiz:0
+msgid "Other Options"
+msgstr "Otras opciones"
+
+#. module: account_sales_report
+#: view:sale.report.wiz:0
+msgid "General Options"
+msgstr "Opciones generales"
+
+#. module: account_sales_report
+#: view:sale.report.wiz:0
+msgid "This report allows to print a account sale report by different search criteria."
+msgstr "Este reporte le permite imprimir un reporte de ventas por diferntes criterios de búsqueda"
+
+#. module: account_sales_report
+#: view:sale.report.wiz:0
+msgid "Products"
+msgstr "Productos"
+
+#. module: account_sales_report
+#: selection:sale.report.wiz,origin:0
+msgid "Mixed"
+msgstr "Mixto"
+
+#. module: account_sales_report
+#: field:sale.report.wiz,origin:0
+msgid "Origin"
+msgstr "Origen"
+
+#. module: account_sales_report
+#: selection:sale.report.wiz,origin:0
+msgid "National"
+msgstr "Nacional"
+
+#. module: account_sales_report
+#: view:sale.report.wiz:0
+msgid "or"
+msgstr "o"
+
+#. module: account_sales_report
+#: view:account.invoice.report:0
+#: field:sale.report.wiz,currency_id:0
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: account_sales_report
+#: field:sale.report.wiz,user_id:0
+msgid "Sale Agent"
+msgstr "Agente de ventas"
+
+#. module: account_sales_report
+#: view:sale.report.wiz:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: account_sales_report
+#: field:sale.report.wiz,date_from:0
+msgid "Start Date"
+msgstr "Fecha inicial"
+
+#. module: account_sales_report
+#: field:sale.report.wiz,out_format:0
+msgid "Print Format"
+msgstr "Formato de impresión"
+
+#. module: account_sales_report
+#: model:ir.actions.act_window,name:account_sales_report.action_account_sale_report_wizard
+#: model:ir.model,name:account_sales_report.model_account_sale_report_wizard
+#: model:ir.model,name:account_sales_report.model_sale_report_wiz
+msgid "Account Sale Report Wizard"
+msgstr "Asistente para el Reporte de Ventas"
+

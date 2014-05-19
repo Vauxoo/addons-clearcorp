@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+        <record id="view_account_invoice_report_search_inherit" model="ir.ui.view">
+            <field name="name">view.account.invoice.report.search.inherit</field>
+            <field name="model">account.invoice.report</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.view_account_invoice_report_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group/filter[@name='group_year']" position="after">
+                    <filter string="Currency" name="currency_id" icon="terp-dolar" context="{'group_by':'currency_id'}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

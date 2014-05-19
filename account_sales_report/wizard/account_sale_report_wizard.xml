@@ -1,0 +1,49 @@
+<openerp>
+    <data>
+        <record id="account_sale_report_wizard" model="ir.ui.view">
+            <field name="name">Account Sale Report Wizard</field>
+            <field name="model">sale.report.wiz</field>
+            <field name="arch" type="xml">
+                <form string="Report Options" version="7.0">
+                    <separator string="Account Sale Report" colspan="4"/>
+                    <label string="This report allows to print a account sale report by different search criteria."/> 
+                    <group col="4" string="General Options">
+                       <field name="date_from" attrs="{'required': True}"/>
+                       <field name="date_to" attrs="{'required': True}"/>
+                       <field name="out_format" attrs="{'required': True}"/>                        
+                   </group>            
+                   <group colspan="4" string="Type Options">
+                       <field name="type" attrs="{'required': True}"/>
+                       <field name="origin" on_change="onchange_origin(origin)"/>
+                       <group colspan="4" string="Product Category" attrs="{'invisible':[('type', '!=', 'category')], 'required':[('type', '=', 'category')], 'domain':[]}">
+                            <field name="category_ids" nolabel="1"/>
+                        </group> 
+                        <group colspan="4" string="Products" attrs="{'invisible':[('type', '!=', 'product')], 'required':[('type', '=', 'product')]}">
+                            <field name="product_ids" nolabel="1" />
+                        </group>
+                   </group>       
+                   <group col="2" string="Other Options">
+                        <field name="currency_id"/>            
+                        <field name="user_id" />  
+                        <field name="partner_id"/>  
+                   </group>
+                   <footer>
+                        <button name="check_report" string="Print" type="object" default_focus="1" class="oe_highlight"/>
+                        or 
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_account_sale_report_wizard" model="ir.actions.act_window">
+            <field name="name">Account Sale Report Wizard</field>
+            <field name="res_model">sale.report.wiz</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="account_sale_report_wizard"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>
