@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!-- hr.attendance.importer.file.import.wizard -->
+        <!-- form -->
+        <record id="view_file_import_wizard_form" model="ir.ui.view">
+            <field name="name">view.file.import.wizard.form</field>
+            <field name="model">hr.attendance.importer.file.import.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Attendance File Import" version="7.0">
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <group states="import">
+                        <field name="company_id"/>
+                        <field name="tz"/>
+                        <field name="file"/>
+                    </group>
+                    <group states="error">
+                        <label for="id" string="Please check any errors before continue"/>
+                        <group colspan="4">
+                            <field name="result" nolabel="1"/>
+                        </group>
+                    </group>
+                    <group states="view">
+                        <group colspan="4">
+                            <field name="attendance_ids" nolabel="1">
+                                <tree editable="bottom" colors="red:state == 'invalid';">
+                                    <field name="employee_id"/>
+                                    <field name="name"/>
+                                    <field name="action"/>
+                                    <field name="action_desc"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </group>
+                    <footer states="import">
+                        <button class="oe_highlight" string="Import File" name="import_file" type="object"/> or
+                        <button class="oe_link" string="Cancel" special="cancel"/>
+                    </footer>
+                    <footer states="error">
+                        <button class="oe_highlight" string="Continue" name="view_items" type="object"/> or
+                        <button class="oe_link" string="Cancel" special="cancel"/>
+                    </footer>
+                    <footer states="view">
+                        <button class="oe_highlight" string="Continue" name="done" type="object"/>
+                        <button string="Refresh" name="view_items" type="object"/> or
+                        <button class="oe_link" string="Cancel" special="cancel"/>
+                    </footer>
+                    <footer states="done">
+                        <button class="oe_highlight" string="Close" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>
