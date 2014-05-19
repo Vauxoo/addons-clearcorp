@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+         
+         <record id="account_sale_report_odt" model="ir.actions.report.xml">
+            <field name="name">Account Sale Report</field>
+            <field name="type">ir.actions.report.xml</field>
+            <field name="model">account.invoice</field>
+            <field name="report_name">account_sale_report</field>
+            <field name="report_type">aeroo</field>
+            <field name="in_format">oo-odt</field>
+            <field name="out_format">1</field><!--Must be code of mimetypes (report_mimetypes on database)-->
+            <field name="parser_loc">account_sales_report/report/account_sale_report.py</field>
+            <field name="report_rml">account_sales_report/report/account_sale_report.odt</field>
+            <field name="parser_state">loc</field>
+            <field name="tml_source">file</field>
+          </record>
+    </data>
+</openerp>

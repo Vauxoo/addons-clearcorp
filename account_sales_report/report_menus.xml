@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <menuitem 
+            icon="STOCK_PRINT"
+            id="account_sale_report_menu" 
+            name="Account Sale Report" 
+            parent="base.next_id_64"
+            action="action_account_sale_report_wizard" 
+            sequence="43" />
+   </data>
+</openerp>

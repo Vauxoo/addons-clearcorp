@@ -45,9 +45,9 @@ class AccountWebkitReportLibrary(orm.Model):
          
         '''
         """
-            Previously, method get_move_lines only was used in Conciliation Bank Report. This report doesn't used start period as parameter, so method
+            Previously, method get_move_lines only was used in Conciliation Bank Report. This report doesn't used start period as a parameter, so method
             didn't include start_period in method get_move_lines. start_period parameter is necessary for many reports, for example in Bank Account Balance Report.
-            For that reason, it's neccesary maked a change in Conciliation Bank Report, that change is initialize start_period in None and changes Conciliation
+            For that reason, it was necessary make a change in Conciliation Bank Report, that change was initialize start_period in None and changes Conciliation
             Bank report doesn't consider start_period as parameter.
             
             In standard library it's necessary, also, specified if start_period is None, doesn't consider as parameter or if it has information, take as 

@@ -22,7 +22,7 @@
 
 from osv import fields, osv, orm
 
-class AccountJournalReportWizard(orm.Model):
+class AccountJournalReportWizard(osv.osv_memory):
 
     _inherit = "account.report.wiz"
     _name = "account.journal.wiz"
