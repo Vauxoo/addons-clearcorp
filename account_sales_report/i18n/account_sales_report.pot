@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-19 20:25+0000\n"
-"PO-Revision-Date: 2014-05-19 20:25+0000\n"
+"POT-Creation-Date: 2014-05-20 17:41+0000\n"
+"PO-Revision-Date: 2014-05-20 17:41+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -138,7 +138,6 @@ msgstr ""
 
 #. module: account_sales_report
 #: model:ir.actions.act_window,name:account_sales_report.action_account_sale_report_wizard
-#: model:ir.model,name:account_sales_report.model_account_sale_report_wizard
 #: model:ir.model,name:account_sales_report.model_sale_report_wiz
 msgid "Account Sale Report Wizard"
 msgstr ""
