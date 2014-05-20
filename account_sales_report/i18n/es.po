@@ -77,7 +77,7 @@ msgstr "Categoría: "
 
 #. module: account_sales_report
 #: field:sale.report.wiz,partner_id:0
-msgid "Partners"
+msgid "Partner"
 msgstr "Empresa"
 
 #. module: account_sales_report
