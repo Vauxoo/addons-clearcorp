@@ -26,6 +26,17 @@
     'author' : 'CLEARCORP S.A.',
     'complexity': 'easy',
     'description': '''
+Import employee attendances from cvs files
+==========================================
+This module allows you to import employee attendances from a cvs standard file
+using a wizard that allows you to correct and verify any invalid item.
+
+Main features:
+--------------
+* Item validation
+* Date format definition
+* Unique employee code
+* Normal and extra hours identification
 ''',
     'category': 'Human Resources',
     'sequence': 3,
