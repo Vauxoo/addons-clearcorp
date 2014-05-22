@@ -31,12 +31,3 @@ class Employee(osv.Model):
                 }
 
     _sql_constraints = [('unique_code','UNIQUE(code)','The code must be unique for every employee.')]
-
-"""class ActionReason(osv.Model):
-
-    _inherit = 'hr.action.reason'
-
-    def __init__(self, pool, cr):
-        super(ActionReason,self)._columns['action_type'].selection.append(('action','Action'))
-
-    _sql_constraints = [('unique_code','UNIQUE(code)','The code must be unique for every employee.')]"""
