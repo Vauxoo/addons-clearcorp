@@ -50,6 +50,7 @@ Main features:
               'view/hr_attendance_importer_menu.xml',
               'view/res_config_view.xml',
               'wizard/wizard_view.xml',
+              'data/hr_attendance_importer_data.xml',
               ],
     'init_xml' : [],
     'demo_xml' : [],

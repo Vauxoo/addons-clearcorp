@@ -37,6 +37,8 @@ class ResConfig(osv.TransientModel):
                 'attendance_sign_out': company.attendance_sign_out,
                 'attendance_normal_hours': company.attendance_normal_hours,
                 'attendance_extra_hours': company.attendance_extra_hours,
+                'attendance_default_sign_in': company.attendance_default_sign_in.id,
+                'attendance_default_sign_out': company.attendance_default_sign_out.id,
             }
         else:
             vals = {
@@ -45,6 +47,8 @@ class ResConfig(osv.TransientModel):
                 'attendance_sign_out': False,
                 'attendance_normal_hours': False,
                 'attendance_extra_hours': False,
+                'attendance_default_sign_in': False,
+                'attendance_default_sign_out': False,
             }
         return {'value': vals}
 
@@ -114,6 +118,30 @@ class ResConfig(osv.TransientModel):
         config = self.browse(cr, uid, ids[0], context)
         config.attendance_company_id.write({'attendance_extra_hours': config.attendance_extra_hours})
 
+    def get_default_attendance_default_sign_in(self, cr, uid, fields, context=None):
+        """Get the default attendance_sign_in"""
+        company_obj = self.pool.get('res.company')
+        company_id = company_obj._company_default_get(cr, uid, 'hr.attendance.importer', context=context)
+        company = company_obj.browse(cr, uid, company_id, context=context)
+        return {'attendance_default_sign_in': company.attendance_default_sign_in.id}
+
+    def set_attendance_default_sign_in(self, cr, uid, ids, context=None):
+        """Set the new attendance_default_sign_in in the selected company"""
+        config = self.browse(cr, uid, ids[0], context)
+        config.attendance_company_id.write({'attendance_default_sign_in': config.attendance_default_sign_in.id})
+
+    def get_default_attendance_default_sign_out(self, cr, uid, fields, context=None):
+        """Get the default attendance_sign_out"""
+        company_obj = self.pool.get('res.company')
+        company_id = company_obj._company_default_get(cr, uid, 'hr.attendance.importer', context=context)
+        company = company_obj.browse(cr, uid, company_id, context=context)
+        return {'attendance_default_sign_out': company.attendance_default_sign_out.id}
+
+    def set_attendance_default_sign_out(self, cr, uid, ids, context=None):
+        """Set the new attendance_default_sign_out in the selected company"""
+        config = self.browse(cr, uid, ids[0], context)
+        config.attendance_company_id.write({'attendance_default_sign_out': config.attendance_default_sign_out.id})
+
     _columns = {
         'attendance_company_id': fields.many2one('res.company', string='Company', required=True),
         'attendance_date_format': fields.char('Date format when importing files', size=32,
@@ -122,4 +150,6 @@ class ResConfig(osv.TransientModel):
         'attendance_sign_out': fields.char('Identifier for sign out actions', size=16),
         'attendance_normal_hours': fields.char('Identifier for normal hours', size=8),
         'attendance_extra_hours': fields.char('Identifier for extra hours', size=8),
+        'attendance_default_sign_in': fields.many2one('hr.action.reason', string='Default Sign in reason'),
+        'attendance_default_sign_out': fields.many2one('hr.action.reason', string='Default Sign out reason'),
     }

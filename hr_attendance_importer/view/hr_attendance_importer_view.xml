@@ -17,6 +17,19 @@
             </field>
         </record>
         
+        <!-- hr.attendance -->
+        <!-- form -->
+        <record id="view_attendance_form" model="ir.ui.view">
+            <field name="name">view.attendance.form</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.view_attendance_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/field[@name='action_desc']" position="attributes">
+                    <attribute name="attrs">{'required': [('action','=','action')]}</attribute>
+                </xpath>
+            </field>
+        </record>
+        
         <!-- actions -->
         <!-- hr.attendance.importer.file.import.wizard -->
         <record id="action_file_import_wizard" model="ir.actions.act_window">

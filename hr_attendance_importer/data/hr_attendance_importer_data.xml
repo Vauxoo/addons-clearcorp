@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="data_act_rea_extra_entrance" model="hr.action.reason">
+            <field name="name">Extra Hours Sign in</field>
+            <field name="action_type">sign_in</field>
+        </record>
+        <record id="data_act_rea_extra_exit" model="hr.action.reason">
+            <field name="name">Extra Hours Sign out</field>
+            <field name="action_type">sign_out</field>
+        </record>
+    </data>
+</openerp>

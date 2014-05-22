@@ -32,4 +32,6 @@ class ResCompany(osv.Model):
         'attendance_sign_out': fields.char('Sign out Action', size=16),
         'attendance_normal_hours': fields.char('Normal Hours', size=8),
         'attendance_extra_hours': fields.char('Extra Hours', size=8),
+        'attendance_default_sign_in': fields.many2one('hr.action.reason', string='Default Sign in reason'),
+        'attendance_default_sign_out': fields.many2one('hr.action.reason', string='Default Sign out reason'),
     }

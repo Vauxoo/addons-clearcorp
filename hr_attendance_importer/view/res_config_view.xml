@@ -35,6 +35,14 @@
                                 <label for="attendance_extra_hours"/>
                                 <field name="attendance_extra_hours" class="oe_inline"/>
                             </div>
+                            <div name="sign_in">
+                                <label for="attendance_default_sign_in"/>
+                                <field name="attendance_default_sign_in" class="oe_inline"/>
+                            </div>
+                            <div name="sign_out">
+                                <label for="attendance_default_sign_out"/>
+                                <field name="attendance_default_sign_out" class="oe_inline"/>
+                            </div>
                         </div>
                     </group>
                 </xpath>

@@ -35,9 +35,9 @@ class ActionReason(osv.TransientModel):
     _name = 'hr.attendance.importer.action.reason'
 
     _columns = {
-        'name': fields.char('Action Reason', size=64, required=True),
+        'name': fields.char('Action Reason', size=64, required=True, readonly=True),
         'action_type': fields.selection([('sign_in','Sign In'),('sign_out','Sign Out')], string='Action Type', required=True),
-        'wizard_id': fields.many2one('hr.attendance.importer.file.import.wizard', 'Wizard', ondelete='cascade'),
+        'wizard_id': fields.many2one('hr.attendance.importer.file.import.wizard', 'Wizard', ondelete='cascade', readonly=True),
     }
 
     _defaults = {
@@ -600,16 +600,18 @@ class FileImportWizard(osv.TransientModel):
     def done(self, cr, uid, ids, context=None):
         wizard = self.browse(cr, uid, ids[0], context=context)
         new_ids = []
+        if not wizard.company_id.attendance_default_sign_in or not wizard.company_id.attendance_default_sign_out:
+            raise osv.except_osv(_('Error'), _('An error occurred while reading the file. There is not a '
+                'default sign in/out defined for attendance files on company %s') % (wizard.company_id.name))
         for attendance in wizard.attendance_ids:
             try:
                 if attendance.action == 'action':
                     action_reason_obj = self.pool.get('hr.action.reason')
                     attendance_obj = self.pool.get('hr.attendance')
-                    action_values = {
-                        'name': attendance.action_desc.name,
-                        'action_type': attendance.action_desc.action_type,
-                    }
-                    action_id = action_reason_obj.create(cr, uid, action_values, context=context)
+                    if attendance.action_desc.action_type == 'sign_in':
+                        action_id = wizard.company_id.attendance_default_sign_in.id
+                    else:
+                        action_id = wizard.company_id.attendance_default_sign_out.id
                     values = {
                         'employee_id': attendance.employee_id.id,
                         'name': attendance.name,
