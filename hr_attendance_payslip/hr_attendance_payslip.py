@@ -126,6 +126,10 @@ class Contract(osv.Model):
         'is_attendance': fields.boolean('Compute from attendance'),
     }
 
+    _defaults = {
+        'is_attendance': True
+    }
+
 class PaySlip(osv.Model):
 
     _inherit = 'hr.payslip'
@@ -139,7 +143,7 @@ class PaySlip(osv.Model):
                 attendances = {
                     'name': _("Attendance Working Hours"),
                     'sequence': 1,
-                    'code': 'AN',
+                    'code': 'HN',
                     'number_of_days': 0.0,
                     'number_of_hours': 0.0,
                     'contract_id': contract.id,
@@ -156,7 +160,7 @@ class PaySlip(osv.Model):
                 extra = {
                     'name': _("Attendance Extra Working Hours"),
                     'sequence': 1,
-                    'code': 'AE',
+                    'code': 'HE',
                     'number_of_days': 0.0,
                     'number_of_hours': 0.0,
                     'contract_id': contract.id,
@@ -170,5 +174,4 @@ class PaySlip(osv.Model):
                     res += [extra]
             else:
                 res += super(PaySlip, self).get_worked_day_lines(cr, uid, [contract.id], date_from, date_to, context=context)
-        print res
         return res

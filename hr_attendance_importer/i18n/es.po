@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-19 21:20+0000\n"
-"PO-Revision-Date: 2014-05-19 21:20+0000\n"
+"POT-Creation-Date: 2014-05-22 18:27+0000\n"
+"PO-Revision-Date: 2014-05-22 18:27+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 #: field:hr.attendance.importer.file.import.wizard,attendance_ids:0
 #: view:hr.employee:0
 msgid "Attendance"
-msgstr "Servicios"
+msgstr "Servicio"
 
 #. module: hr_attendance_importer
 #: field:hr.attendance.importer.file.import.wizard,tz:0
@@ -56,6 +56,12 @@ msgstr "Horas extra importadas"
 #: selection:hr.attendance.importer.attendance,state:0
 msgid "Invalid"
 msgstr "Inválido"
+
+#. module: hr_attendance_importer
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:643
+#, python-format
+msgid "Recently Created Items"
+msgstr "Elementos creados recientemente"
 
 #. module: hr_attendance_importer
 #: field:hr.attendance.importer.attendance,state:0
@@ -98,9 +104,10 @@ msgid "Sign In"
 msgstr "Registrar entrada"
 
 #. module: hr_attendance_importer
-#: field:hr.config.settings,attendance_date_format:0
-msgid "Date format when importing files"
-msgstr "Formato de fecha al importar archivos"
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:604
+#, python-format
+msgid "An error occurred while reading the file. There is not a default sign in/out defined for attendance files on company %s"
+msgstr "An error occurred while reading the file. There is not a default sign in/out defined for attendance files on company %s"
 
 #. module: hr_attendance_importer
 #: view:hr.attendance.importer.file.import.wizard:0
@@ -116,7 +123,7 @@ msgstr "Compañía"
 #. module: hr_attendance_importer
 #: field:hr.config.settings,attendance_sign_out:0
 msgid "Identifier for sign out actions"
-msgstr "Identificador para registros de entrada"
+msgstr "Identificador para acciones de registro de salida"
 
 #. module: hr_attendance_importer
 #: field:res.company,attendance_date_format:0
@@ -130,9 +137,21 @@ msgid "Sign Out"
 msgstr "Registrar salida"
 
 #. module: hr_attendance_importer
+#: field:hr.config.settings,attendance_default_sign_in:0
+#: field:res.company,attendance_default_sign_in:0
+msgid "Default Sign in reason"
+msgstr "Default Sign in reason"
+
+#. module: hr_attendance_importer
 #: selection:hr.attendance.importer.attendance,state:0
 msgid "Valid"
 msgstr "Válido"
+
+#. module: hr_attendance_importer
+#: model:ir.actions.act_window,name:hr_attendance_importer.action_file_import_wizard
+#: model:ir.ui.menu,name:hr_attendance_importer.menu_file_import_wizard
+msgid "Import Attendance"
+msgstr "Importar servicios"
 
 #. module: hr_attendance_importer
 #: field:hr.attendance.importer.attendance,name:0
@@ -151,14 +170,14 @@ msgstr "Error en la línea %d: Acción incorrecta %s\n"
 #. module: hr_attendance_importer
 #: field:hr.attendance.importer.action.reason,name:0
 #: field:hr.attendance.importer.attendance,action_desc:0
+#: model:ir.model,name:hr_attendance_importer.model_hr_action_reason
 msgid "Action Reason"
 msgstr "Razón de la acción"
 
 #. module: hr_attendance_importer
-#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:641
-#, python-format
-msgid "Recently Created Items"
-msgstr "Elementos creados recientemente"
+#: field:hr.config.settings,attendance_normal_hours:0
+msgid "Identifier for normal hours"
+msgstr "Identificador para horas normales"
 
 #. module: hr_attendance_importer
 #: view:hr.config.settings:0
@@ -166,10 +185,10 @@ msgid "Attendance Importer"
 msgstr "Importador de servicios"
 
 #. module: hr_attendance_importer
-#: model:ir.actions.act_window,name:hr_attendance_importer.action_file_import_wizard
-#: model:ir.ui.menu,name:hr_attendance_importer.menu_file_import_wizard
-msgid "Import Attendance"
-msgstr "Importar servicios"
+#: field:hr.config.settings,attendance_default_sign_out:0
+#: field:res.company,attendance_default_sign_out:0
+msgid "Default Sign out reason"
+msgstr "Default Sign out reason"
 
 #. module: hr_attendance_importer
 #: model:ir.model,name:hr_attendance_importer.model_res_company
@@ -207,7 +226,8 @@ msgstr "El código debe ser único para cada empleado."
 #: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:489
 #: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:492
 #: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:499
-#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:637
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:604
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:639
 #, python-format
 msgid "Error"
 msgstr "Error"
@@ -267,12 +287,12 @@ msgid "Extra Hours"
 msgstr "Horas extra"
 
 #. module: hr_attendance_importer
-#: field:hr.config.settings,attendance_normal_hours:0
-msgid "Identifier for normal hours"
-msgstr "Identificador para horas normales"
+#: field:hr.config.settings,attendance_date_format:0
+msgid "Date format when importing files"
+msgstr "Formato de fecha al importar archivos"
 
 #. module: hr_attendance_importer
-#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:631
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:633
 #, python-format
 msgid "An error occurred while importing the assistance for %s on date and time %s. Please go back and check the item.\n"
 "The system error was :\n"
