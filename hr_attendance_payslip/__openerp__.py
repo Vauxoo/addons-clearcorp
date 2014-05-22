@@ -26,6 +26,18 @@
     'author' : 'CLEARCORP S.A.',
     'complexity': 'normal',
     'description': '''
+Calculate Workdays From the user attendance
+===========================================
+This module allows you to use the attendances as reference to compute and calculate the 
+working hours for employees.
+
+Main features:
+--------------
+* Contract selection for attendance computation
+* HN code for normal hours
+* EH code for extra hours
+
+Warning: Does not support multiple contracts per user
 ''',
     'category': 'Human Resources',
     'sequence': 3,
@@ -33,6 +45,7 @@
     'images' : [],
     'depends' : [
                  'hr_payroll',
+                 'hr_attendance',
                  ],
     'data' : [
               'view/hr_attendance_payslip_view.xml',
