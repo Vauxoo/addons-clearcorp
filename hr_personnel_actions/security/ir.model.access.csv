@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_personnel_actions_personnel_action_user,access.hr.personnel.actions.personnel.action.user,model_hr_personnel_actions_personnel_action,base.group_hr_user,1,0,0,0
+access_hr_personnel_actions_personnel_action_manager,access.hr.personnel.actions.personnel.action.manager,model_hr_personnel_actions_personnel_action,base.group_hr_manager,1,1,1,0
+access_hr_personnel_actions_type_user,access.hr.personnel.actions.type.user,model_hr_personnel_actions_type,base.group_hr_user,1,0,0,0
+access_hr_personnel_actions_type_manager,access.hr.personnel.actions.type.manager,model_hr_personnel_actions_type,base.group_hr_manager,1,1,1,1
+access_hr_personnel_actions_configuration_user,access.hr.personnel.actions.configuration.user,model_hr_personnel_actions_configuration,base.group_hr_user,1,0,0,0
+access_hr_personnel_actions_configuration_manager,access.hr.personnel.actions.configuration.manager,model_hr_personnel_actions_configuration,base.group_hr_manager,1,1,1,1
