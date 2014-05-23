@@ -16,6 +16,66 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: account_sales_report
+#: code:addons/account_sales_report/report/account_sale_report.py:96
+#, python-format
+msgid "No user"
+msgstr ""
+
+#. module: account_sales_report
+#: code:addons/account_sales_report/report/account_sale_report.py:103
+#, python-format
+msgid "No partner"
+msgstr ""
+
+#. module: account_sales_report
+#: code:addons/account_sales_report/report/account_sale_report.py:108
+#, python-format
+msgid "National"
+msgstr ""
+
+#. module: account_sales_report
+#: code:addons/account_sales_report/report/account_sale_report.py:110
+#, python-format
+msgid "International"
+msgstr ""
+
+#. module: account_sales_report
+#: code:addons/account_sales_report/report/account_sale_report.py:112
+#, python-format
+msgid "Mixed"
+msgstr ""
+
+#. module: account_sales_report
+#: code:addons/account_sales_report/report/account_sale_report.py:114
+#, python-format
+msgid "No origin"
+msgstr "Sin origen"
+
+#. module: account_sales_report
+#: code:addons/account_sales_report/report/account_sale_report.py:119
+#, python-format
+msgid "Category"
+msgstr "Categoría"
+
+#. module: account_sales_report
+#: code:addons/account_sales_report/report/account_sale_report.py:121
+#, python-format
+msgid "Product"
+msgstr "Producto"
+
+#. module: account_sales_report
+#: code:addons/account_sales_report/report/account_sale_report.py:125
+#, python-format
+msgid "Product: "
+msgstr "Producto: "
+
+#. module: account_sales_report
+#: code:addons/account_sales_report/report/account_sale_report.py:127
+#, python-format
+msgid "Category: "
+msgstr "Categoría: "
+
+#. module: account_sales_report
 #: field:sale.report.wiz,partner_id:0
 msgid "Partners"
 msgstr ""
