@@ -245,7 +245,18 @@ class ImportOrder(osv.Model):
 
     _name = 'purchase.import.import.order'
 
+    _inherit = ['mail.thread']
+
     _description = __doc__
+
+    _track = {
+        'state': {
+            'purchase_import.mt_order_draft': lambda self, cr, uid, obj, ctx=None: obj['state'] == 'draft',
+            'purchase_import.mt_order_confirmed': lambda self, cr, uid, obj, ctx=None: obj['state'] == 'confirmed',
+            'purchase_import.mt_order_done': lambda self, cr, uid, obj, ctx=None: obj['state'] == 'done',
+            'purchase_import.mt_order_cancel': lambda self, cr, uid, obj, ctx=None: obj['state'] == 'cancel',
+        }
+    }
 
     def _compute_total_weight(self, cr, uid, ids, field_name, arg, context=None):
         """Compute total weight

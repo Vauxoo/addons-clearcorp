@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!-- purchase.import.import.order subtypes for messaging/chatter -->
+        <record id="mt_order_draft" model="mail.message.subtype">
+            <field name="name">Order Created</field>
+            <field name="res_model">purchase.import.import.order</field>
+            <field name="default" eval="False"/>
+            <field name="description">Import Order created</field>
+        </record>
+        
+        <record id="mt_order_confirmed" model="mail.message.subtype">
+            <field name="name">Order Confirmed</field>
+            <field name="res_model">purchase.import.import.order</field>
+            <field name="default" eval="False"/>
+            <field name="description">Import Order confirmed</field>
+        </record>
+        
+        <record id="mt_order_done" model="mail.message.subtype">
+            <field name="name">Order Processed</field>
+            <field name="res_model">purchase.import.import.order</field>
+            <field name="default" eval="False"/>
+            <field name="description">Import Order processed</field>
+        </record>
+        
+        <record id="mt_order_cancel" model="mail.message.subtype">
+            <field name="name">Order Cancelled</field>
+            <field name="res_model">purchase.import.import.order</field>
+            <field name="default" eval="False"/>
+            <field name="description">Import Order cancelled</field>
+        </record>
+    </data>
+</openerp>
