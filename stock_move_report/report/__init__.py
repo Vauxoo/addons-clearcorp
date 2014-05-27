@@ -21,4 +21,5 @@
 ##############################################################################
 
 import stock_move_report
+import stock_move_analysis
 

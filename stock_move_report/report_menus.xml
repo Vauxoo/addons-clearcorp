@@ -6,7 +6,7 @@
             name="Stock Move Report"
             parent="stock.next_id_61" 
             action="action_stock_move_report_wizard_view"
-            id="stock_move_report" 
+            id="menu_stock_move_report" 
             groups="stock.group_stock_manager"/>
         
     </data>
