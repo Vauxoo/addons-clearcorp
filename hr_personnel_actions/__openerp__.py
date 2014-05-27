@@ -26,7 +26,7 @@
     "author" : 'CLEARCORP S.A.',
     'complexity': 'normal',
     "description": """
-LONG DESCRIPTION
+Module to register wage, date, and struct changes in contracts.
     """,
     "category": 'Human Resources',
     "sequence": 4,
@@ -43,6 +43,7 @@ LONG DESCRIPTION
               'hr_personnel_actions_menu.xml',
               'hr_personnel_actions_data.xml',
               'report/report_data.xml',
+              'security/ir.model.access.csv',
               ],
     "init_xml" : [],
     "demo_xml" : [],
