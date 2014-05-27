@@ -58,7 +58,7 @@ class accountSalereportWizard(osv.osv_memory):
         'origin':fields.selection([('national', 'National'), ('mixed','Mixed'), ('international','International')], 'Origin'),
         'currency_id':fields.many2one('res.currency','Currency'),
         'user_id': fields.many2one('res.users', 'Sale Agent'),
-        'partner_id': fields.many2one('res.partner', 'Partners'),
+        'partner_id': fields.many2one('res.partner', 'Partner'),
         'product_ids': fields.many2many('product.product', string='Product'),
         'category_ids': fields.many2many('product.category', string='Product Category'),   
         'out_format': fields.selection(out_format_get, 'Print Format'), 
