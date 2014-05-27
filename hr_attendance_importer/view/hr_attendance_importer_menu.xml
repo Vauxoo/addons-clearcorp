@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <menuitem id="menu_file_import_wizard"
+            parent="hr_attendance.menu_hr_attendance"
+            name="Import Attendance"
+            action="action_file_import_wizard"
+            groups="base.group_hr_attendance"
+            sequence="30"/>
+    </data>
+</openerp>

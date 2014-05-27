@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="view_contract_form" model="ir.ui.view">
+            <field name="name">view.contract.form</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/notebook/page[@name='information']/group/group[@name='duration_group']/field[@name='working_hours']" position="after">
+                    <field name="is_attendance"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_payslip_form" model="ir.ui.view">
+            <field name="name">view.payslip.form</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/div[@class='oe_title']/h2/field[@name='date_to']" position="attributes">
+                    <attribute name="on_change">onchange_employee_id(date_from, date_to, employee_id, contract_id)</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

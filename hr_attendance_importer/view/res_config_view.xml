@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="view_configuration" model="ir.ui.view">
+            <field name="name">view.configuration</field>
+            <field name="model">hr.config.settings</field>
+            <field name="inherit_id" ref="hr.view_human_resources_configuration"/>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/group[@name='contract_grp']" position="after">
+                    <group name="attendance_importer_grp">
+                        <label for="id" string="Attendance Importer"/>
+                        <div>
+                            <div name="company">
+                                <label for="attendance_company_id"/>
+                                <field name="attendance_company_id" on_change="onchange_attendance_company(attendance_company_id)" class="oe_inline"/>
+                            </div>
+                            <div name="date_format">
+                                <label for="attendance_date_format"/>
+                                <field name="attendance_date_format" class="oe_inline"/>
+                            </div>
+                            <div name="sign_in">
+                                <label for="attendance_sign_in"/>
+                                <field name="attendance_sign_in" class="oe_inline"/>
+                            </div>
+                            <div name="sign_out">
+                                <label for="attendance_sign_out"/>
+                                <field name="attendance_sign_out" class="oe_inline"/>
+                            </div>
+                            <div name="normal_hours">
+                                <label for="attendance_normal_hours"/>
+                                <field name="attendance_normal_hours" class="oe_inline"/>
+                            </div>
+                            <div name="extra_hours">
+                                <label for="attendance_extra_hours"/>
+                                <field name="attendance_extra_hours" class="oe_inline"/>
+                            </div>
+                            <div name="sign_in">
+                                <label for="attendance_default_sign_in"/>
+                                <field name="attendance_default_sign_in" class="oe_inline"/>
+                            </div>
+                            <div name="sign_out">
+                                <label for="attendance_default_sign_out"/>
+                                <field name="attendance_default_sign_out" class="oe_inline"/>
+                            </div>
+                        </div>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

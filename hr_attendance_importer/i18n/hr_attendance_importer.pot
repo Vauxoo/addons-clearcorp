@@ -1,0 +1,357 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* hr_attendance_importer
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-22 18:27+0000\n"
+"PO-Revision-Date: 2014-05-22 18:27+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: hr_attendance_importer
+#: field:hr.attendance.importer.file.import.wizard,attendance_ids:0
+#: view:hr.employee:0
+msgid "Attendance"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: field:hr.attendance.importer.file.import.wizard,tz:0
+msgid "Timezone"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:576
+#: selection:hr.attendance.importer.file.import.wizard,state:0
+#, python-format
+msgid "View Errors"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: view:hr.attendance.importer.file.import.wizard:0
+msgid "Attendance File Import"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:527
+#, python-format
+msgid "Error in line %d: Employee %s with code %s was not found.\n"
+""
+msgstr ""
+
+#. module: hr_attendance_importer
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:549
+#, python-format
+msgid "Imported Extra Hours"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: selection:hr.attendance.importer.attendance,state:0
+msgid "Invalid"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:643
+#, python-format
+msgid "Recently Created Items"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: field:hr.attendance.importer.attendance,state:0
+#: field:hr.attendance.importer.file.import.wizard,state:0
+msgid "State"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:573
+#, python-format
+msgid "There were no errors found for this file."
+msgstr ""
+
+#. module: hr_attendance_importer
+#: help:hr.attendance.importer.file.import.wizard,tz:0
+msgid "Time zone used to import dates from file. If there is no time zone UTC will be assumed"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: field:hr.attendance.importer.attendance,employee_id:0
+#: model:ir.model,name:hr_attendance_importer.model_hr_employee
+msgid "Employee"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:499
+#, python-format
+msgid "An error occurred while reading the file. Please check if the format is correct."
+msgstr ""
+
+#. module: hr_attendance_importer
+#: field:res.company,attendance_normal_hours:0
+msgid "Normal Hours"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: selection:hr.attendance.importer.action.reason,action_type:0
+#: selection:hr.attendance.importer.attendance,action:0
+msgid "Sign In"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:604
+#, python-format
+msgid "An error occurred while reading the file. There is not a default sign in/out defined for attendance files on company %s"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: view:hr.attendance.importer.file.import.wizard:0
+msgid "Import File"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: field:hr.attendance.importer.file.import.wizard,company_id:0
+#: field:hr.config.settings,attendance_company_id:0
+msgid "Company"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: field:hr.config.settings,attendance_sign_out:0
+msgid "Identifier for sign out actions"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: field:res.company,attendance_date_format:0
+msgid "Date Format"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: selection:hr.attendance.importer.action.reason,action_type:0
+#: selection:hr.attendance.importer.attendance,action:0
+msgid "Sign Out"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: field:hr.config.settings,attendance_default_sign_in:0
+#: field:res.company,attendance_default_sign_in:0
+msgid "Default Sign in reason"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: selection:hr.attendance.importer.attendance,state:0
+msgid "Valid"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: model:ir.actions.act_window,name:hr_attendance_importer.action_file_import_wizard
+#: model:ir.ui.menu,name:hr_attendance_importer.menu_file_import_wizard
+msgid "Import Attendance"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: field:hr.attendance.importer.attendance,name:0
+msgid "Date"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:544
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:555
+#, python-format
+msgid "Error in line %d: Wrong action %s\n"
+""
+msgstr ""
+
+#. module: hr_attendance_importer
+#: field:hr.attendance.importer.action.reason,name:0
+#: field:hr.attendance.importer.attendance,action_desc:0
+#: model:ir.model,name:hr_attendance_importer.model_hr_action_reason
+msgid "Action Reason"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: field:hr.config.settings,attendance_normal_hours:0
+msgid "Identifier for normal hours"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: view:hr.config.settings:0
+msgid "Attendance Importer"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: field:hr.config.settings,attendance_default_sign_out:0
+#: field:res.company,attendance_default_sign_out:0
+msgid "Default Sign out reason"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: model:ir.model,name:hr_attendance_importer.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: view:hr.attendance.importer.file.import.wizard:0
+msgid "Refresh"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:489
+#, python-format
+msgid "An error occurred while reading the file. There is not a sign in or sign out defined for attendance files on company %s"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: field:res.company,attendance_sign_out:0
+msgid "Sign out Action"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: view:hr.attendance.importer.file.import.wizard:0
+msgid "Continue"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: sql_constraint:hr.employee:0
+msgid "The code must be unique for every employee."
+msgstr ""
+
+#. module: hr_attendance_importer
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:486
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:489
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:492
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:499
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:604
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:639
+#, python-format
+msgid "Error"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: field:hr.attendance.importer.attendance,action:0
+#: selection:hr.attendance.importer.attendance,action:0
+msgid "Action"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: field:hr.attendance.importer.action.reason,wizard_id:0
+#: field:hr.attendance.importer.attendance,wizard_id:0
+msgid "Wizard"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:486
+#, python-format
+msgid "An error occurred while reading the file. There is not an hour identifier defined for attendance files on company %s"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: view:hr.attendance.importer.file.import.wizard:0
+msgid "Please check any errors before continue"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: field:res.company,attendance_sign_in:0
+msgid "Sign in Action"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: field:hr.attendance.importer.file.import.wizard,file:0
+msgid "File to import"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: field:hr.employee,code:0
+msgid "Code"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: help:hr.config.settings,attendance_date_format:0
+msgid "Python date format used when importing files"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:492
+#, python-format
+msgid "An error occurred while reading the file. There is not a date format defined for attendance files on company %s"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: field:res.company,attendance_extra_hours:0
+msgid "Extra Hours"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: field:hr.config.settings,attendance_date_format:0
+msgid "Date format when importing files"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:633
+#, python-format
+msgid "An error occurred while importing the assistance for %s on date and time %s. Please go back and check the item.\n"
+"The system error was :\n"
+""
+msgstr ""
+
+#. module: hr_attendance_importer
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:590
+#: selection:hr.attendance.importer.file.import.wizard,state:0
+#, python-format
+msgid "View Items"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: view:hr.attendance.importer.file.import.wizard:0
+msgid "or"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: field:hr.attendance.importer.action.reason,action_type:0
+msgid "Action Type"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: field:hr.config.settings,attendance_sign_in:0
+msgid "Identifier for sign in actions"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: selection:hr.attendance.importer.file.import.wizard,state:0
+msgid "Done"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: field:hr.attendance.importer.file.import.wizard,result:0
+msgid "Result"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: view:hr.attendance.importer.file.import.wizard:0
+msgid "Cancel"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: view:hr.attendance.importer.file.import.wizard:0
+msgid "Close"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:568
+#, python-format
+msgid "Error in line %d: Invalid hour type %s\n"
+""
+msgstr ""
+
+#. module: hr_attendance_importer
+#: selection:hr.attendance.importer.file.import.wizard,state:0
+msgid "Importing File"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: field:hr.config.settings,attendance_extra_hours:0
+msgid "Identifier for extra hours"
+msgstr ""

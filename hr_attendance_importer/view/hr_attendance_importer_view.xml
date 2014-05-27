@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!-- views -->
+        <!-- hr.employee -->
+        <!-- form -->
+        <record id="view_employee_form" model="ir.ui.view">
+            <field name="name">view.employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/notebook/page[@string='HR Settings']/group/group[@name='active_group']" position="after">
+                    <group string="Attendance" name="attendance">
+                        <field name="code"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- hr.attendance -->
+        <!-- form -->
+        <record id="view_attendance_form" model="ir.ui.view">
+            <field name="name">view.attendance.form</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.view_attendance_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/field[@name='action_desc']" position="attributes">
+                    <attribute name="attrs">{'required': [('action','=','action')]}</attribute>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- actions -->
+        <!-- hr.attendance.importer.file.import.wizard -->
+        <record id="action_file_import_wizard" model="ir.actions.act_window">
+            <field name="name">Import Attendance</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.attendance.importer.file.import.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</openerp>

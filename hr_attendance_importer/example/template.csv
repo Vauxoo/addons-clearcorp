@@ -1,0 +1,9 @@
+Employee Code,Employee Name,Date and Time,Action,Work Hour
+001,Employee One,15/05/2014 6:10:00,in,NH
+002,Employee Two,15/05/2014 6:00:55,in,NH
+003,Employee Three,15/05/2014 5:55:45,in,NH
+001,Employee One,15/05/2014 15:02:00,out,NH
+003,Employee Three,15/05/2014 15:22:00,out,NH
+002,Employee Two,15/05/2014 14:50:33,out,NH
+001,Employee One,15/05/2014 15:32:45,in,EH
+001,Employee One,15/05/2014 17:27:22,out,EH
