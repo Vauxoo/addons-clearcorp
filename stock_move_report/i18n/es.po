@@ -1,0 +1,162 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* stock_move_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-27 16:22+0000\n"
+"PO-Revision-Date: 2014-05-27 16:22+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: stock_move_report
+#: view:stock.move.analysis:0
+msgid "Group By..."
+msgstr "Agrupar por..."
+
+#. module: stock_move_report
+#: view:stock.move.analysis:0
+#: field:stock.move.report.wiz,location_ids:0
+msgid "Location"
+msgstr "Localización"
+
+#. module: stock_move_report
+#: view:stock.move.report.wiz:0
+msgid "Print"
+msgstr "Imprimir"
+
+#. module: stock_move_report
+#: view:stock.move.analysis:0
+#: field:stock.move.analysis,product_id:0
+#: field:stock.move.report.wiz,product_ids:0
+msgid "Product"
+msgstr "Producto"
+
+#. module: stock_move_report
+#: field:stock.move.analysis,origin:0
+msgid "Description"
+msgstr "Descripción"
+
+#. module: stock_move_report
+#: model:ir.actions.act_window,name:stock_move_report.action_stock_move_report_wizard_view
+#: model:ir.actions.report.xml,name:stock_move_report.stock_move_report
+#: model:ir.ui.menu,name:stock_move_report.menu_stock_move_report
+#: view:stock.move.report.wiz:0
+msgid "Stock Move Report"
+msgstr "Movimientos de Producto"
+
+#. module: stock_move_report
+#: field:stock.move.analysis,standard_price:0
+msgid "Standard Price"
+msgstr "Precio costo"
+
+#. module: stock_move_report
+#: field:stock.move.analysis,date:0
+msgid "Date"
+msgstr "Fecha"
+
+#. module: stock_move_report
+#: view:stock.move.report.wiz:0
+msgid "Report Options"
+msgstr "Opciones de reporte"
+
+#. module: stock_move_report
+#: field:stock.move.report.wiz,date_to:0
+msgid "End Date"
+msgstr "Fecha final"
+
+#. module: stock_move_report
+#: field:stock.move.analysis,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: stock_move_report
+#: view:stock.move.report.wiz:0
+msgid "General Options"
+msgstr "Opciones generales"
+
+#. module: stock_move_report
+#: field:stock.move.report.wiz,include_costs:0
+msgid "Include costs"
+msgstr "Incluir costos"
+
+#. module: stock_move_report
+#: view:stock.move.report.wiz:0
+msgid "Products"
+msgstr "Productos"
+
+#. module: stock_move_report
+#: field:stock.move.analysis,product_qty:0
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: stock_move_report
+#: model:ir.actions.act_window,name:stock_move_report.action_stock_move_analysis_report
+#: model:ir.model,name:stock_move_report.model_stock_move_analysis
+#: model:ir.ui.menu,name:stock_move_report.menu_action_stock_move_analysis_report
+#: view:stock.move.analysis:0
+msgid "Stock Move Analysis"
+msgstr "Análisis Movimientos de Producto"
+
+#. module: stock_move_report
+#: view:stock.move.report.wiz:0
+msgid "This report allows to print a stock move report by different search criteria."
+msgstr "Este reporte le permite imprimir un reporte de movmientos de producto por diferentes criterios de búsqueda."
+
+#. module: stock_move_report
+#: field:stock.move.analysis,location_id:0
+msgid "Source Location"
+msgstr "Localización salida"
+
+#. module: stock_move_report
+#: view:stock.move.analysis:0
+#: field:stock.move.analysis,location_dest_id:0
+msgid "Destination Location"
+msgstr "Localización llegada"
+
+#. module: stock_move_report
+#: field:stock.move.report.wiz,out_format:0
+msgid "Print Format"
+msgstr "Formato de impresión"
+
+#. module: stock_move_report
+#: view:stock.move.report.wiz:0
+msgid "Locations"
+msgstr "Localizaciones"
+
+#. module: stock_move_report
+#: view:stock.move.report.wiz:0
+msgid "Filters"
+msgstr "Filtros"
+
+#. module: stock_move_report
+#: view:stock.move.report.wiz:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: stock_move_report
+#: field:stock.move.report.wiz,date_from:0
+msgid "Start Date"
+msgstr "Fecha inicial"
+
+#. module: stock_move_report
+#: field:stock.move.analysis,total:0
+msgid "Total"
+msgstr "Total"
+
+#. module: stock_move_report
+#: view:stock.move.report.wiz:0
+msgid "or"
+msgstr "o"
+
+#. module: stock_move_report
+#: code:addons/stock_move_report/report/stock_move_report.py:122
+#, python-format
+msgid "All locations"
+msgstr "Todas las localizaciones"

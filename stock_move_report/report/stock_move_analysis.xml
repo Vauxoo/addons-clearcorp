@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>    
+        <record id="view_stock_move_analysis_tree" model="ir.ui.view">
+            <field name="name">view.stock.move.analysis.tree</field>
+            <field name="model">stock.move.analysis</field>
+            <field name="arch" type="xml">
+                <tree string="Stock Move Analysis" create="false">
+                    <field name="date" />
+                    <field name="name"/>
+                    <field name="origin"/>
+                    <field name="product_id"/>
+                    <field name="product_qty"/>
+                    <field name="standard_price"/>                     
+                    <field name="location_id"/>
+                    <field name="location_dest_id"/>
+                    <field name="total"/>                    
+               </tree>
+            </field>
+        </record>
+        
+        <record id="view_stock_move_analysis_search" model="ir.ui.view">
+            <field name="name">view.stock.move.analysis.search</field>
+            <field name="model">stock.move.analysis</field>
+            <field name="arch" type="xml">
+                <search string="Stock Move Analysis">
+                    <field name="name"/>
+                    <field name="origin"/>
+                    <field name="product_id"/>
+                    <field name="location_id"/>
+                    <field name="location_dest_id"/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Product" name="Product" icon="terp-personal" context="{'group_by':'product_id'}"/>                        
+                        <filter string="Location" name="Location" icon="terp-personal" context="{'group_by':'location_id'}"/>
+                        <filter string="Destination Location" name="Destination Location" icon="terp-personal" context="{'group_by':'location_dest_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <record id="action_stock_move_analysis_report" model="ir.actions.act_window">
+            <field name="name">Stock Move Analysis</field>
+            <field name="res_model">stock.move.analysis</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="search_view_id" ref="view_stock_move_analysis_search"/>
+            <field name="view_id" ref="view_stock_move_analysis_tree"/>
+            <field name="context">{'group_by':[], 'group_by_no_leaf':0}</field>
+        </record>
+        
+        <menuitem action="action_stock_move_analysis_report" 
+            id="menu_action_stock_move_analysis_report"
+            parent="stock.next_id_61" 
+            groups="account.group_account_manager"
+            sequence="2"/>
+    </data>
+</openerp>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <menuitem icon="STOCK_PRINT" 
+            name="Stock Move Report"
+            parent="stock.next_id_61" 
+            action="action_stock_move_report_wizard_view"
+            id="menu_stock_move_report" 
+            groups="stock.group_stock_manager"/>
+        
+    </data>
+</openerp>

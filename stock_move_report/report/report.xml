@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>    
+        <record id="stock_move_report" model="ir.actions.report.xml">
+            <field name="name">Stock Move Report</field>
+            <field name="type">ir.actions.report.xml</field>
+            <field name="model">stock.move</field>
+            <field name="report_name">stock_move_report_odt</field>
+            <field name="report_type">aeroo</field>
+            <field name="in_format">oo-odt</field>
+            <field name="out_format">1</field><!--Must be code of mimetypes (report_mimetypes on database)-->
+            <field name="parser_loc">stock_move_report/report/stock_move_report.py</field>
+            <field name="report_rml">stock_move_report/report/stock_move_report.odt</field>
+            <field name="parser_state">loc</field>
+            <field name="tml_source">database</field>
+        </record>
+    </data>
+</openerp>
