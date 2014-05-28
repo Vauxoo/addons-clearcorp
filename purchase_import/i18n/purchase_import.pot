@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-26 17:50+0000\n"
-"PO-Revision-Date: 2014-05-26 12:02-0600\n"
+"POT-Creation-Date: 2014-05-28 16:49+0000\n"
+"PO-Revision-Date: 2014-05-28 10:51-0600\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -131,7 +131,13 @@ msgid "Cancelled"
 msgstr ""
 
 #. module: purchase_import
+#: field:purchase.import.tax,name:0
+msgid "Tax Name"
+msgstr ""
+
+#. module: purchase_import
 #: help:purchase.import.import.order,message_unread:0
+#, fuzzy
 msgid "If checked new messages require your attention."
 msgstr ""
 
@@ -147,8 +153,9 @@ msgid "Origin"
 msgstr ""
 
 #. module: purchase_import
-#: field:purchase.import.tax,name:0
-msgid "Tax Name"
+#: report:ir.actions.report.xml:purchase_import.import_orders_report
+#: model:ir.actions.report.xml,name:purchase_import.import_orders_report
+msgid "Import Orders Report"
 msgstr ""
 
 #. module: purchase_import
@@ -308,6 +315,11 @@ msgid "Weight"
 msgstr ""
 
 #. module: purchase_import
+#: report:ir.actions.report.xml:purchase_import.import_orders_report
+msgid "of"
+msgstr ""
+
+#. module: purchase_import
 #: model:ir.model,name:purchase_import.model_purchase_import_product_import_history
 #: field:product.product,import_history_ids:0
 msgid "Product Import History"
@@ -412,6 +424,7 @@ msgid "Company"
 msgstr ""
 
 #. module: purchase_import
+#: report:ir.actions.report.xml:purchase_import.import_orders_report
 #: view:purchase.import.import.voucher:0
 #: field:purchase.import.import.voucher,date:0
 #: field:purchase.import.product.import.history,date:0
@@ -660,19 +673,3 @@ msgstr ""
 #: field:purchase.import.import.order,purchase_total:0
 msgid "Purchase Total"
 msgstr ""
-
-#~ msgid "The product %s does not have an Import Tariff"
-#~ msgstr "El producto %s no posee un arancel de importación"
-
-#~ msgid ""
-#~ "The order could not be processed. The product %s has a weight of 0 or the "
-#~ "product quantity equals to 0"
-#~ msgstr ""
-#~ "La orden no puede ser procesada. El producto %s tiene un peso de 0 o la "
-#~ "cantidad del producto equivale a 0"
-
-#~ msgid "Error"
-#~ msgstr "Error"
-
-#~ msgid "Draft Import Order"
-#~ msgstr "Orden de importación borrador"

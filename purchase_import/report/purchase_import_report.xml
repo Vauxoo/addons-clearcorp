@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="import_orders_report" model="ir.actions.report.xml">
+            <field name="name">Import Orders Report</field>
+            <field name="type">ir.actions.report.xml</field>
+            <field name="model">purchase.import.import.order</field>
+            <field name="report_name">import_orders_reports</field>
+            <field name="report_type">aeroo</field>
+            <field name="in_format">oo-odt</field>
+            <field name="out_format" eval="ref('report_aeroo_ooo.report_mimetypes_pdf_ods')"/>
+            <field name="parser_loc">purchase_import/report/parser.py</field>
+            <field name="report_rml">purchase_import/report/template.odt</field>
+            <field name="parser_state">loc</field>
+            <field name="tml_source">file</field>
+        </record>
+        
+        <record model="ir.values" id="ir_import_order_report">
+            <field name="key2">client_print_multi</field>
+            <field name="model">purchase.import.import.order</field>
+            <field name="name">Import Orders Report</field>
+            <field name="value" eval="'ir.actions.report.xml,%d'%import_orders_report"/>
+            <field name="res_id" eval="0"/>
+            <field name="object" eval="True"/>
+        </record>
+    </data>
+</openerp>
