@@ -158,7 +158,7 @@ class AccountMove(osv.osv):
         
         for line in lines_reconcile:
             if not line.amount_currency:
-                continue            
+                continue
             sign_amount_currency = line.amount_currency < 0 and -1 or 1
             line_difference = 0
             adjustment_amount = self.get_adjustment_amount(cr, uid, line.id, context=context)
@@ -178,20 +178,52 @@ class AccountMove(osv.osv):
             copy_context.update({'date':exchange_rate_date})
             exchange_amount = res_currency_obj._current_rate(cr, uid, [company_currency.id], exchange_rate_date, arg=None, context=copy_context)[company_currency.id]
             
-            if line.credit != 0:
+            if line.credit != 0.00:
                 line_difference = sign_amount_currency * line.amount_currency * exchange_amount - line.credit
-            elif line.debit != 0:
+            elif line.debit != 0.00:
                 line_difference = sign_amount_currency * line.amount_currency * exchange_amount - line.debit
             
-            sign = line_difference < 0 and -1 or 1
-            if line_difference == 0:
+            if line_difference == 0.00 and adjustment_amount == 0.00:
                 continue
-            elif line.credit == 0 and exchange_amount > line.amount_exchange_rate or line.debit == 0 and exchange_amount < line.amount_exchange_rate:
-                credit = 0.00
-                debit = sign * line_difference - adjustment_amount
+            
+            #Calculation of line_difference_adjustment
+            sign = line_difference < 0.00 and -1 or 1
+            line_difference_adjustment = 0.00
+            if line.credit != 0 and exchange_amount > line.amount_exchange_rate or line.debit != 0 and exchange_amount < line.amount_exchange_rate:
+                line_difference_adjustment = sign * line_difference + adjustment_amount                
+            elif line.credit != 0 and exchange_amount < line.amount_exchange_rate or line.debit != 0 and exchange_amount > line.amount_exchange_rate:
+                line_difference_adjustment = sign * line_difference - adjustment_amount
             else:
-                credit = sign * line_difference + adjustment_amount
-                debit = 0.00
+                line_difference_adjustment = adjustment_amount
+                
+            #Calculation of credit and debit
+            credit = 0.00
+            debit = 0.00
+            
+            if line.credit != 0 and exchange_amount > line.amount_exchange_rate:
+                credit = abs(line_difference_adjustment)
+            elif line.credit != 0 and exchange_amount < line.amount_exchange_rate:
+                if line_difference_adjustment < 0.00:
+                    credit = abs(line_difference_adjustment)
+                else:
+                    debit = line_difference_adjustment
+            elif line.debit != 0 and exchange_amount > line.amount_exchange_rate:
+                if line_difference_adjustment < 0.00:
+                    credit = abs(line_difference_adjustment)
+                else:
+                    debit = line_difference_adjustment
+            elif line.debit != 0 and exchange_amount < line.amount_exchange_rate:
+                if line_difference_adjustment < 0.00:
+                    debit = abs(line_difference_adjustment)
+                else:
+                    credit = line_difference_adjustment
+            elif exchange_amount == line.amount_exchange_rate:
+                if line_difference_adjustment < 0.00:
+                    debit = abs(line_difference_adjustment)
+                else:
+                    credit = line_difference_adjustment
+            
+            #Create move line
             move_line = {
                          'name': line.name or '',
                          'ref': line.ref or '',
