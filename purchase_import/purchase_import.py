@@ -146,7 +146,10 @@ class ImportOrderLine(osv.Model):
         """
         res = {}
         for line in self.browse(cr, uid, ids, context=context):
-            res[line.id] = (line.import_taxes / line.order_id.sum_tax_value) * 100
+            if line.order_id.sum_tax_value:
+                res[line.id] = (line.import_taxes / line.order_id.sum_tax_value) * 100
+            else:
+                res[line.id] = 0.0
         return res
 
     def _compute_tax_assigned(self, cr, uid, ids, field_name, arg, context=None):
@@ -186,7 +189,10 @@ class ImportOrderLine(osv.Model):
                     uom = line.product_uom_id.factor_inv
                 else:
                     uom = line.product_uom_id.factor
-            res[line.id] = ((line.product_id.weight * uom * line.quantity) / line.order_id.total_weight) * 100
+            if line.order_id.total_weight:
+                res[line.id] = ((line.product_id.weight * uom * line.quantity) / line.order_id.total_weight) * 100
+            else:
+                res[line.id] = 0.0
         return res
 
     def _compute_freight_assigned(self, cr, uid, ids, field_name, arg, context=None):
@@ -285,8 +291,11 @@ class ImportOrder(osv.Model):
                         if line.product_uom_id.factor:
                             uom = line.product_uom_id.factor
                 line_qty = line.quantity * uom
-                product = self.pool.get('product.product').browse(cr, uid, line.product_id.id, context=context)
-                total_weight = total_weight + (line_qty * product.weight)
+                if line.product_id:
+                    product = self.pool.get('product.product').browse(cr, uid, line.product_id.id, context=context)
+                    total_weight = total_weight + (line_qty * product.weight)
+                else:
+                    total_weight = 0.0
             res[order.id] = total_weight
         return res
 
@@ -305,11 +314,14 @@ class ImportOrder(osv.Model):
         total_tax_value = 0.0
         for order in self.browse(cr, uid, ids, context=context):
             for line in order.line_ids:
-                product = self.pool.get('product.product').browse(cr, uid, line.product_id.id, context=context)
-                if not product.tariff_id:
-                    raise osv.except_osv(_('Error'),
-                        _('The product %s does not have an Import Tariff') % (product.name))
-                total_tax_value = total_tax_value + line.import_taxes
+                if line.product_id:
+                    product = self.pool.get('product.product').browse(cr, uid, line.product_id.id, context=context)
+                    if not product.tariff_id:
+                        raise osv.except_osv(_('Error'),
+                            _('The product %s does not have an Import Tariff') % (product.name))
+                    total_tax_value = total_tax_value + line.import_taxes
+                else:
+                    total_tax_value = total_tax_value + 0.0
             res[order.id] = total_tax_value
         return res
 
@@ -448,7 +460,7 @@ class ImportOrder(osv.Model):
                 if line.quantity == 0 or line.product_id.weight == 0.0:
                     raise osv.except_osv(_('Error'),
                         _('The order could not be processed. The product %s has a '
-                          'weight of 0 or the product quantity equals to 0') % (product.name))
+                          'weight of 0 or the product quantity equals to 0') % (line.product_id.name))
                 #Update price per weight
                 if imports.freight_order_id:
                     product_freight = line.freight_assigned
