@@ -113,7 +113,7 @@
                             </page>
                             <page string="Import Invoices" name="invoices">
                                 <field name="imports_order_ids" domain="[('type', '=', 'in_invoice'),('state','not in',['draft','cancel']),('company_id','=',company_id)]"
-                                    attrs="{'readonly':[('state','=','done')]}"/>
+                                    attrs="{'readonly':[('state','=','done')]}" context="{'default_type': 'in_invoice', 'type': 'in_invoice', 'journal_type': 'purchase'}"/>
                             </page>
                             <page string="Vouchers" name="vouchers">
                                 <field name="voucher_ids">
