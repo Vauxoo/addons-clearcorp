@@ -449,6 +449,11 @@ class ImportOrder(osv.Model):
             vals['tax_currency_id'] = False
         return {'value': vals}
 
+    def action_confirm(self, cr, uid, ids, context=None):
+        name = self.pool.get('ir.sequence').get(cr, uid, 'purchase.import.impord')
+        self.write(cr, uid, ids, {'state': 'confirmed','name': name}, context=context)
+        return True
+
     def action_set_average_price(self, cr, uid, ids, context=None):
         res = {}
         for imports in self.browse(cr, uid, ids, context=context):
@@ -492,7 +497,6 @@ class ImportOrder(osv.Model):
         res = []
         tax_ids = []
         inv_obj = self.pool.get('account.invoice')
-        values['name'] = self.pool.get('ir.sequence').get(cr, uid, 'purchase.import.impord')
         invoices = values['imports_order_ids']
         taxes = values['tax_order_id']
         if taxes:
@@ -598,7 +602,6 @@ class ImportOrder(osv.Model):
     _defaults = {
         'state': 'draft',
         'company_id': lambda slf,cr,uid,ctx: slf.pool.get('res.company')._company_default_get(cr, uid, 'purchase.import.order', context=ctx),
-        'name': _('Draft Import Order'),
         'date': lambda *a: datetime.strftime(datetime.now(),'%Y-%m-%d %H:%M:%S'),
     }
 

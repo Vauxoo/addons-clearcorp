@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-28 16:49+0000\n"
-"PO-Revision-Date: 2014-05-28 10:51-0600\n"
+"POT-Creation-Date: 2014-05-30 15:18+0000\n"
+"PO-Revision-Date: 2014-05-30 09:21-0600\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -153,7 +153,6 @@ msgid "Origin"
 msgstr ""
 
 #. module: purchase_import
-#: report:ir.actions.report.xml:purchase_import.import_orders_report
 #: model:ir.actions.report.xml,name:purchase_import.import_orders_report
 msgid "Import Orders Report"
 msgstr ""
@@ -178,6 +177,13 @@ msgstr ""
 #. module: purchase_import
 #: view:purchase.import.import.order:0
 msgid "Purchase Information"
+msgstr ""
+
+#. module: purchase_import
+#: help:purchase.import.import.order,message_summary:0
+msgid ""
+"Holds the Chatter summary (number of messages, ...). This summary is "
+"directly in html format in order to be inserted in kanban views."
 msgstr ""
 
 #. module: purchase_import
@@ -315,11 +321,6 @@ msgid "Weight"
 msgstr ""
 
 #. module: purchase_import
-#: report:ir.actions.report.xml:purchase_import.import_orders_report
-msgid "of"
-msgstr ""
-
-#. module: purchase_import
 #: model:ir.model,name:purchase_import.model_purchase_import_product_import_history
 #: field:product.product,import_history_ids:0
 msgid "Product Import History"
@@ -399,6 +400,14 @@ msgid "Import"
 msgstr ""
 
 #. module: purchase_import
+#: code:addons/purchase_import/purchase_import.py:462
+#, python-format
+msgid ""
+"The order could not be processed. The product %s has a weight of 0 or the "
+"product quantity equals to 0"
+msgstr ""
+
+#. module: purchase_import
 #: field:purchase.import.import.voucher,type_audit:0
 msgid "Audit Type"
 msgstr ""
@@ -424,7 +433,6 @@ msgid "Company"
 msgstr ""
 
 #. module: purchase_import
-#: report:ir.actions.report.xml:purchase_import.import_orders_report
 #: view:purchase.import.import.voucher:0
 #: field:purchase.import.import.voucher,date:0
 #: field:purchase.import.product.import.history,date:0
@@ -445,6 +453,13 @@ msgstr ""
 #: view:purchase.import.import.order:0
 #: selection:purchase.import.import.order,state:0
 msgid "Processed"
+msgstr ""
+
+#. module: purchase_import
+#: code:addons/purchase_import/purchase_import.py:320
+#: code:addons/purchase_import/purchase_import.py:461
+#, python-format
+msgid "Error"
 msgstr ""
 
 #. module: purchase_import
@@ -594,6 +609,12 @@ msgid "Import Orders which are in draft state"
 msgstr ""
 
 #. module: purchase_import
+#: code:addons/purchase_import/purchase_import.py:601
+#, python-format
+msgid "Draft Import Order"
+msgstr ""
+
+#. module: purchase_import
 #: field:purchase.import.import.voucher,mode:0
 msgid "Mode"
 msgstr ""
@@ -667,6 +688,12 @@ msgstr ""
 #. module: purchase_import
 #: model:mail.message.subtype,description:purchase_import.mt_order_draft
 msgid "Import Order created"
+msgstr ""
+
+#. module: purchase_import
+#: code:addons/purchase_import/purchase_import.py:321
+#, python-format
+msgid "The product %s does not have an Import Tariff"
 msgstr ""
 
 #. module: purchase_import

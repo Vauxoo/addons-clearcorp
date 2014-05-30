@@ -75,7 +75,8 @@
                     </header>
                     <sheet>
                         <h1>
-                            <field name="name"/>
+                            <label string="Draft Import Order" attrs="{'invisible': [('state','&lt;&gt;','draft')]}"/>
+                            <field name="name" attrs="{'invisible': [('state','=','draft')]}"/>
                         </h1>
                         <group>
                             <group name="general">
