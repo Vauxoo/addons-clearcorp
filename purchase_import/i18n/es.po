@@ -1,26 +1,24 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-# 	* purchase_import
+#	* purchase_import
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-13 20:42+0000\n"
-"PO-Revision-Date: 2014-05-13 14:44-0600\n"
+"POT-Creation-Date: 2014-05-30 16:55+0000\n"
+"PO-Revision-Date: 2014-05-30 16:55+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"X-Generator: Poedit 1.5.4\n"
 
 #. module: purchase_import
-#: view:purchase.import.import.order:0
-#: field:purchase.import.import.order,voucher_ids:0
-msgid "Vouchers"
-msgstr "Comprobantes"
+#: view:product.product:0
+msgid "Import History"
+msgstr "Historial de importación"
 
 #. module: purchase_import
 #: help:purchase.import.import.voucher,cif_dolars:0
@@ -29,14 +27,20 @@ msgid "Cost, insurance and freight"
 msgstr "Costo, seguro y flete"
 
 #. module: purchase_import
-#: view:purchase.import.import.order:0 view:purchase.import.import.voucher:0
+#: view:purchase.import.import.order:0
+#: view:purchase.import.import.voucher:0
 msgid "Group By..."
 msgstr "Agrupar por..."
 
 #. module: purchase_import
 #: field:purchase.import.import.order,freight_currency_id:0
 msgid "Freight Currency"
-msgstr "Divisa Flete"
+msgstr "Divisa flete"
+
+#. module: purchase_import
+#: field:purchase.import.import.order,message_unread:0
+msgid "Unread Messages"
+msgstr "Mensajes sin leer"
 
 #. module: purchase_import
 #: field:purchase.import.import.voucher,agent_number:0
@@ -44,10 +48,9 @@ msgid "Agent Number"
 msgstr "Numero de agente"
 
 #. module: purchase_import
-#: code:addons/purchase_import/purchase_import.py:300
-#, python-format
-msgid "The product %s does not have an Import Tariff"
-msgstr "El producto %s no posee un arancel de importación"
+#: model:mail.message.subtype,name:purchase_import.mt_order_done
+msgid "Order Processed"
+msgstr "Orden procesada"
 
 #. module: purchase_import
 #: field:purchase.import.tariff,name:0
@@ -90,9 +93,9 @@ msgid "Notes"
 msgstr "Notas"
 
 #. module: purchase_import
-#: view:purchase.import.import.order:0
-msgid "Import Orders which are in draft state"
-msgstr "Ordenes de importación que se encuentran en estado borrador"
+#: field:purchase.import.import.order,message_ids:0
+msgid "Messages"
+msgstr "Mensajes"
 
 #. module: purchase_import
 #: model:ir.model,name:purchase_import.model_purchase_import_tax
@@ -128,9 +131,19 @@ msgid "Cancelled"
 msgstr "Cancelada"
 
 #. module: purchase_import
-#: field:purchase.import.import.order,purchase_total:0
-msgid "Purchase Total"
-msgstr "Total de compra"
+#: field:purchase.import.tax,name:0
+msgid "Tax Name"
+msgstr "Nombre del impuesto"
+
+#. module: purchase_import
+#: help:purchase.import.import.order,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr "Si está marcado nuevos mensajes requieren su atención."
+
+#. module: purchase_import
+#: view:product.product:0
+msgid "Total"
+msgstr "Total"
 
 #. module: purchase_import
 #: view:purchase.import.import.order:0
@@ -139,14 +152,17 @@ msgid "Origin"
 msgstr "Origen"
 
 #. module: purchase_import
-#: field:purchase.import.tax,name:0
-msgid "Tax Name"
-msgstr "Nombre del impuesto"
+#: report:ir.actions.report.xml:purchase_import.import_orders_report
+#: model:ir.actions.report.xml,name:purchase_import.import_orders_report
+msgid "Import Orders Report"
+msgstr "Reporte de ordenes de importación"
 
 #. module: purchase_import
-#: view:purchase.import.product.import.history:0
-msgid "Purchase Import History"
-msgstr "Historial de compras de importación"
+#: model:ir.model,name:purchase_import.model_purchase_import_tariff_category
+#: model:ir.ui.menu,name:purchase_import.menu_tariff_category
+#: view:purchase.import.tariff.category:0
+msgid "Tariff Categories"
+msgstr "Categoría de arancel"
 
 #. module: purchase_import
 #: field:purchase.import.tariff,tax_ids:0
@@ -164,6 +180,7 @@ msgid "Purchase Information"
 msgstr "Información de compra"
 
 #. module: purchase_import
+#: report:ir.actions.report.xml:purchase_import.import_orders_report
 #: view:purchase.import.import.order:0
 msgid "Import Invoices"
 msgstr "Facturas de importación"
@@ -202,6 +219,11 @@ msgid "State"
 msgstr "Estado"
 
 #. module: purchase_import
+#: field:purchase.import.import.order,message_follower_ids:0
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: purchase_import
 #: field:purchase.import.import.order.line,product_uom_id:0
 msgid "Units"
 msgstr "Unidades"
@@ -223,9 +245,14 @@ msgid "Type"
 msgstr "Tipo"
 
 #. module: purchase_import
-#: view:product.product:0
-msgid "Import History"
-msgstr "Historial de importación"
+#: field:purchase.import.import.voucher,regime:0
+msgid "Regime"
+msgstr "Régimen"
+
+#. module: purchase_import
+#: model:mail.message.subtype,description:purchase_import.mt_order_done
+msgid "Import Order processed"
+msgstr "Orden de importación procesada"
 
 #. module: purchase_import
 #: model:ir.actions.act_window,name:purchase_import.action_tariff_category
@@ -234,7 +261,8 @@ msgstr "Categoría de arancel"
 
 #. module: purchase_import
 #: model:ir.actions.act_window,name:purchase_import.action_tariff
-#: view:product.product:0 field:product.product,tariff_id:0
+#: view:product.product:0
+#: field:product.product,tariff_id:0
 #: field:purchase.import.tax,tariff_id:0
 msgid "Tariff"
 msgstr "Arancel"
@@ -288,6 +316,11 @@ msgid "Weight"
 msgstr "Peso"
 
 #. module: purchase_import
+#: report:ir.actions.report.xml:purchase_import.import_orders_report
+msgid "of"
+msgstr "de"
+
+#. module: purchase_import
 #: model:ir.model,name:purchase_import.model_purchase_import_product_import_history
 #: field:product.product,import_history_ids:0
 msgid "Product Import History"
@@ -295,12 +328,8 @@ msgstr "Historial de importación de producto"
 
 #. module: purchase_import
 #: view:purchase.import.import.order:0
-msgid ""
-"Are you sure you want to process this order? You must be sure that all "
-"products are already in stock"
-msgstr ""
-"¿Estás seguro que deseas procesar esta orden? Debes estar seguro que todos "
-"los productos ya están en stock"
+msgid "Are you sure you want to process this order? You must be sure that all products are already in stock"
+msgstr "¿Estás seguro que deseas procesar esta orden? Debes estar seguro que todos los productos ya están en stock"
 
 #. module: purchase_import
 #: field:purchase.import.import.order,freight_ids:0
@@ -333,6 +362,12 @@ msgid "Category"
 msgstr "Categoría"
 
 #. module: purchase_import
+#: view:purchase.import.import.order:0
+#: field:purchase.import.import.order,voucher_ids:0
+msgid "Vouchers"
+msgstr "Comprobantes"
+
+#. module: purchase_import
 #: field:purchase.import.tax,value:0
 msgid "Tax Percentage"
 msgstr "Porcentaje de impuesto"
@@ -352,7 +387,8 @@ msgstr "Borrador"
 #: field:product.product,tariff_total:0
 #: field:purchase.import.import.order,tax_total:0
 #: field:purchase.import.product.import.history,tax_total:0
-#: view:purchase.import.tariff:0 field:purchase.import.tariff,tariff_total:0
+#: view:purchase.import.tariff:0
+#: field:purchase.import.tariff,tariff_total:0
 msgid "Total Taxes"
 msgstr "Total de impuestos"
 
@@ -363,14 +399,10 @@ msgid "Import"
 msgstr "Importación"
 
 #. module: purchase_import
-#: code:addons/purchase_import/purchase_import.py:439
+#: code:addons/purchase_import/purchase_import.py:467
 #, python-format
-msgid ""
-"The order could not be processed. The product %s has a weight of 0 or the "
-"product quantity equals to 0"
-msgstr ""
-"La orden no puede ser procesada. El producto %s tiene un peso de 0 o la "
-"cantidad del producto equivale a 0"
+msgid "The order could not be processed. The product %s has a weight of 0 or the product quantity equals to 0"
+msgstr "La orden no puede ser procesada. El producto %s tiene un peso de 0 o la cantidad del producto equivale a 0"
 
 #. module: purchase_import
 #: field:purchase.import.import.voucher,type_audit:0
@@ -388,11 +420,17 @@ msgid "Import Taxes"
 msgstr "Impuestos de importación"
 
 #. module: purchase_import
+#: field:purchase.import.import.order,message_is_follower:0
+msgid "Is a Follower"
+msgstr "Es un seguidor"
+
+#. module: purchase_import
 #: field:purchase.import.import.order,company_id:0
 msgid "Company"
 msgstr "Compañía"
 
 #. module: purchase_import
+#: report:ir.actions.report.xml:purchase_import.import_orders_report
 #: view:purchase.import.import.voucher:0
 #: field:purchase.import.import.voucher,date:0
 #: field:purchase.import.product.import.history,date:0
@@ -405,14 +443,19 @@ msgid "Assigned Taxes"
 msgstr "Impuestos asignados"
 
 #. module: purchase_import
+#: field:purchase.import.import.order,message_summary:0
+msgid "Summary"
+msgstr "Resumen"
+
+#. module: purchase_import
 #: view:purchase.import.import.order:0
 #: selection:purchase.import.import.order,state:0
 msgid "Processed"
 msgstr "Procesada"
 
 #. module: purchase_import
-#: code:addons/purchase_import/purchase_import.py:299
-#: code:addons/purchase_import/purchase_import.py:438
+#: code:addons/purchase_import/purchase_import.py:320
+#: code:addons/purchase_import/purchase_import.py:466
 #, python-format
 msgid "Error"
 msgstr "Error"
@@ -423,6 +466,11 @@ msgid "Quantity"
 msgstr "Cantidad"
 
 #. module: purchase_import
+#: model:mail.message.subtype,description:purchase_import.mt_order_cancel
+msgid "Import Order cancelled"
+msgstr "Orden de importación cancelada"
+
+#. module: purchase_import
 #: field:purchase.import.import.order.line,code:0
 #: field:purchase.import.tariff.category,code:0
 #: field:purchase.import.tax,code:0
@@ -430,16 +478,19 @@ msgid "Code"
 msgstr "Código"
 
 #. module: purchase_import
-#: model:ir.model,name:purchase_import.model_purchase_import_tariff_category
-#: model:ir.ui.menu,name:purchase_import.menu_tariff_category
-#: view:purchase.import.tariff.category:0
-msgid "Tariff Categories"
-msgstr "Categoría de arancel"
+#: view:purchase.import.product.import.history:0
+msgid "Purchase Import History"
+msgstr "Historial de compras de importación"
 
 #. module: purchase_import
 #: view:purchase.import.import.order:0
 msgid "Process"
 msgstr "Procesar"
+
+#. module: purchase_import
+#: model:mail.message.subtype,name:purchase_import.mt_order_confirmed
+msgid "Order Confirmed"
+msgstr "Orden confirmada"
 
 #. module: purchase_import
 #: field:purchase.import.product.import.history,name:0
@@ -468,6 +519,11 @@ msgid "Currency Rate"
 msgstr "Tasa de cambio"
 
 #. module: purchase_import
+#: model:mail.message.subtype,description:purchase_import.mt_order_confirmed
+msgid "Import Order confirmed"
+msgstr "Orden de importación confirmada"
+
+#. module: purchase_import
 #: field:purchase.import.import.order.line,tariff:0
 msgid "Tariff (%)"
 msgstr "Arancel (%)"
@@ -490,7 +546,7 @@ msgstr "Flete e impuestos"
 #. module: purchase_import
 #: field:purchase.import.import.order,imports_order_ids:0
 msgid "Products Invoice"
-msgstr "Factura de Productos"
+msgstr "Factura de productos"
 
 #. module: purchase_import
 #: model:ir.model,name:purchase_import.model_product_product
@@ -501,7 +557,8 @@ msgid "Product"
 msgstr "Producto"
 
 #. module: purchase_import
-#: view:purchase.import.tariff:0 field:purchase.import.tariff,description:0
+#: view:purchase.import.tariff:0
+#: field:purchase.import.tariff,description:0
 #: field:purchase.import.tariff.category,description:0
 msgid "Description"
 msgstr "Descripción"
@@ -513,6 +570,11 @@ msgstr "Descripción"
 #: field:purchase.import.import.voucher,order_id:0
 msgid "Import Order"
 msgstr "Orden de importación"
+
+#. module: purchase_import
+#: model:mail.message.subtype,name:purchase_import.mt_order_draft
+msgid "Order Created"
+msgstr "Orden creada"
 
 #. module: purchase_import
 #: view:purchase.import.import.order:0
@@ -541,8 +603,12 @@ msgid "Name"
 msgstr "Nombre"
 
 #. module: purchase_import
-#: code:addons/purchase_import/purchase_import.py:577
-#, python-format
+#: view:purchase.import.import.order:0
+msgid "Import Orders which are in draft state"
+msgstr "Ordenes de importación que se encuentran en estado borrador"
+
+#. module: purchase_import
+#: view:purchase.import.import.order:0
 msgid "Draft Import Order"
 msgstr "Orden de importación borrador"
 
@@ -574,6 +640,11 @@ msgid "Assigned Freight"
 msgstr "Flete asignado"
 
 #. module: purchase_import
+#: help:purchase.import.import.order,message_ids:0
+msgid "Messages and communication history"
+msgstr "Mensajes e historial de comunicación"
+
+#. module: purchase_import
 #: model:ir.model,name:purchase_import.model_purchase_import_import_voucher
 #: model:ir.ui.menu,name:purchase_import.menu_import_voucher
 #: view:purchase.import.import.voucher:0
@@ -603,16 +674,27 @@ msgid "Export"
 msgstr "Exportación"
 
 #. module: purchase_import
+#: model:mail.message.subtype,name:purchase_import.mt_order_cancel
+msgid "Order Cancelled"
+msgstr "Orden cancelada"
+
+#. module: purchase_import
 #: model:ir.ui.menu,name:purchase_import.menu_purchase_import
 msgid "Purchase Import"
 msgstr "Compras de importación"
 
 #. module: purchase_import
-#: view:product.product:0
-msgid "Total"
-msgstr "Total"
+#: model:mail.message.subtype,description:purchase_import.mt_order_draft
+msgid "Import Order created"
+msgstr "Orden de importación creada"
 
 #. module: purchase_import
-#: field:purchase.import.import.voucher,regime:0
-msgid "Regime"
-msgstr "Régimen"
+#: code:addons/purchase_import/purchase_import.py:321
+#, python-format
+msgid "The product %s does not have an Import Tariff"
+msgstr "El producto %s no posee un arancel de importación"
+
+#. module: purchase_import
+#: field:purchase.import.import.order,purchase_total:0
+msgid "Purchase Total"
+msgstr "Total de compra"

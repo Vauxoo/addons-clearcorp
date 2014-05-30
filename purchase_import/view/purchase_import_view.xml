@@ -75,7 +75,8 @@
                     </header>
                     <sheet>
                         <h1>
-                            <field name="name"/>
+                            <label string="Draft Import Order" attrs="{'invisible': [('state','&lt;&gt;','draft')]}"/>
+                            <field name="name" attrs="{'invisible': [('state','=','draft')]}"/>
                         </h1>
                         <group>
                             <group name="general">
@@ -113,7 +114,7 @@
                             </page>
                             <page string="Import Invoices" name="invoices">
                                 <field name="imports_order_ids" domain="[('type', '=', 'in_invoice'),('state','not in',['draft','cancel']),('company_id','=',company_id)]"
-                                    attrs="{'readonly':[('state','=','done')]}"/>
+                                    attrs="{'readonly':[('state','=','done')]}" context="{'default_type': 'in_invoice', 'type': 'in_invoice', 'journal_type': 'purchase'}"/>
                             </page>
                             <page string="Vouchers" name="vouchers">
                                 <field name="voucher_ids">
@@ -135,6 +136,10 @@
                             </page>
                         </notebook>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
                 </form>
             </field>
         </record>
