@@ -19,31 +19,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': 'Stock Move Report',
-    'version': '2.0',
-    "author" : 'CLEARCORP S.A.',
-    'category': 'Warehouse Management',
-    'description': """
-Stock Move Report
-====================    
-This module add stock move report
-""",
-    'website': 'http://clearcorp.co.cr',
-    'depends': [
-                'stock',
-                'product_price_history',
-                'account_report_lib',
-                ],
-    'data': [
-                    'report/report.xml',
-                    'wizard/stock_move_report_wizard.xml',
-                    'report_menus.xml',
-                    'security/ir.model.access.csv',
-                    'report/stock_move_analysis.xml',
-                    ],
-    'license': 'AGPL-3',
-    'installable': True,
-    'active': False,
-}
 
+import account_asset_report_wizard

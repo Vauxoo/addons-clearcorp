@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <menuitem 
+            id="menu_account_asset" 
+            name="Assets" 
+            parent="account.menu_finance_generic_reporting" 
+            sequence="45"
+            groups="account.group_account_manager,account.group_account_user" /> 
+            
+        <menuitem icon="STOCK_PRINT" 
+            name="Assets Report"
+            parent="menu_account_asset" 
+            action="action_account_asset_report_wizard_view"
+            groups="account.group_account_manager,account.group_account_user" 
+            id="menu_account_account_assets_report"/>    
+        
+        
+    </data>
+</openerp>

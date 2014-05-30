@@ -27,7 +27,7 @@
     'description': """
 Install the Account Bank Balance Report.
 ==========================================
-Install the Account Bank Balance
+Install the Account Bank Balance Report
     """,
     'website': "http://clearcorp.co.cr",
     'depends': ['account_report_lib',],
