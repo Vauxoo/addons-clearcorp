@@ -20,30 +20,23 @@
 #
 ##############################################################################
 {
-    'name': 'Stock Move Report',
-    'version': '2.0',
-    "author" : 'CLEARCORP S.A.',
-    'category': 'Warehouse Management',
+    'name': 'Account Asset Report',
+    'version': '1.0',
+    'author': 'CLEARCORP S.A.',
+    'category': 'Accounting & Finance',
     'description': """
-Stock Move Report
-====================    
-This module add stock move report
-""",
-    'website': 'http://clearcorp.co.cr',
-    'depends': [
-                'stock',
-                'product_price_history',
-                'account_report_lib',
-                ],
+Install the Account Asset Report.
+===================================
+Install the Account Asset Report
+    """,
+    'website': "http://clearcorp.co.cr",
+    'depends': ['account_report_lib', 'account_asset'],
     'data': [
-                    'report/report.xml',
-                    'wizard/stock_move_report_wizard.xml',
-                    'report_menus.xml',
-                    'security/ir.model.access.csv',
-                    'report/stock_move_analysis.xml',
-                    ],
-    'license': 'AGPL-3',
+             'wizard/account_asset_report_wizard.xml',
+             'report/report.xml',
+             'report_menus.xml',
+             ],                
     'installable': True,
-    'active': False,
+    'auto_install': False,
+    'license': 'AGPL-3',
 }
-
