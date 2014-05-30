@@ -43,9 +43,6 @@ class TaskCreateWizard(osv.TransientModel):
         sprint = wizard.sprint_id
         features = wizard.sprint_id.feature_ids
         
-        if sprint.task_from_features:
-            raise osv.except_osv(_('Error'),_('All task were created before.'))
-        
         desirables = []
         for feature in features:
             try:
@@ -59,9 +56,10 @@ FROM (SELECT types.id,
 FROM ccorp_project_oerp_feature_hours AS hours,
  ccorp_project_oerp_work_type AS types
 WHERE hours.feature_id = %s
+AND hours.phase_id = %s
 AND hours.work_type_id = types.id) AS types
 GROUP BY types.sequence
-ORDER BY types.sequence ASC;''', (feature.id,))
+ORDER BY types.sequence ASC;''', (feature.id, sprint.phase_id.id))
                 
                 previous_id = False
                 for sequence in cr.dictfetchall():
@@ -123,11 +121,11 @@ AND types.sequence = %s;''', (feature.id, number,))
                                                   'Please contact your system administrator.'))
             
         sprint_obj = self.pool.get('ccorp.project.scrum.sprint')
-        sprint_obj.write(cr, uid, sprint.id,
-                         {
-                          'task_from_features': True,
-                          'desirable_task_ids': [[6,0,desirables]],
-                          })
+        for desirable in desirables:
+            sprint_obj.write(cr, uid, sprint.id,
+                             {
+                              'desirable_task_ids': [[4,desirable]],
+                              })
             
         return {
                 'name': 'Sprints',
