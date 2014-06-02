@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+         
+         <record id="mrp_bom_report_odt" model="ir.actions.report.xml">
+            <field name="name">Stock Product LdM</field>
+            <field name="type">ir.actions.report.xml</field>
+            <field name="model">product.product</field>
+            <field name="report_name">mrp_bom_report_odt</field>
+            <field name="report_type">aeroo</field>
+            <field name="in_format">oo-odt</field>
+            <field name="out_format">1</field>
+            <field name="parser_loc">mrp_bom_report/report/mrp_bom_report.py</field>
+            <field name="report_rml">mrp_bom_report/report/mrp_bom_report.odt</field>
+            <field name="parser_state">loc</field>
+            <field name="tml_source">file</field>
+         </record>
+    </data>
+</openerp>

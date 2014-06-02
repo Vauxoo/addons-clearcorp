@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <menuitem icon="STOCK_PRINT" 
+            name="Stock Product LdM Report"
+            parent="stock.next_id_61" 
+            action="action_mrp_bom_report_wizard_view"
+            id="menu_stock_product_ldm_report" 
+            groups="stock.group_stock_manager"/>
+        
+    </data>
+</openerp>

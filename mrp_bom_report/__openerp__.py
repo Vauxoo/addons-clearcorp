@@ -20,20 +20,21 @@
 #
 ##############################################################################
 {
-    'name': 'Account Asset Report',
+    'name': 'Stock Product LdM',
     'version': '1.0',
     'author': 'CLEARCORP S.A.',
-    'category': 'Accounting & Finance',
+    'category': 'Warehouse Management',
     'description': """
-Install the Account Asset Report.
-===================================
-Install the Account Asset Report
+Install Stock Product LdM.
+===========================
+This report allows to check available quantity, manufacturable quantity and 
+total quantity for all products or for a specific list of products
     """,
     'website': "http://clearcorp.co.cr",
-    'depends': ['account_report_lib', 'account_asset'],
+    'depends': ['account_report_lib', 'mrp'],
     'data': [
              'security/ir.model.access.csv',
-             'wizard/account_asset_report_wizard.xml',
+             'wizard/mrp_bom_report_wizard.xml',
              'report/report.xml',
              'report_menus.xml',
              ],                

@@ -19,25 +19,5 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': 'Account Asset Report',
-    'version': '1.0',
-    'author': 'CLEARCORP S.A.',
-    'category': 'Accounting & Finance',
-    'description': """
-Install the Account Asset Report.
-===================================
-Install the Account Asset Report
-    """,
-    'website': "http://clearcorp.co.cr",
-    'depends': ['account_report_lib', 'account_asset'],
-    'data': [
-             'security/ir.model.access.csv',
-             'wizard/account_asset_report_wizard.xml',
-             'report/report.xml',
-             'report_menus.xml',
-             ],                
-    'installable': True,
-    'auto_install': False,
-    'license': 'AGPL-3',
-}
+
+import mrp_bom_report_wizard
