@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="mrp_bom_report_wizard_form_view" model="ir.ui.view">
+            <field name="name">mrp_bom_report_wizard_form_view</field>
+            <field name="model">mrp.bom.report.wiz</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                 <form string="Report Options" version="7.0">
+                    <separator string="Stock Product LdM Report" colspan="4"/>
+                    <label string="This report allows to print a stock product LdM report by different search criteria."/> 
+                    <group col="4" string="General Options">
+                        <field name="inventory" attrs="{'required':True}"/>
+                        <field name="out_format" attrs="{'required':True}"/>
+                    </group>
+                    <group  col="4" string="Products">
+                        <field name="product_ids" nolabel="1"/>
+                    </group>                                             
+                    <footer>
+                        <button name="check_report" string="Print" type="object" default_focus="1" class="oe_highlight"/>
+                        or 
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_mrp_bom_report_wizard_view" model="ir.actions.act_window">
+            <field name="name">Stock Product LdM Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mrp.bom.report.wiz</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="mrp_bom_report_wizard_form_view"/>
+            <field name="target">new</field>
+        </record>
+        
+    </data>
+</openerp>

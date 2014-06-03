@@ -1,0 +1,110 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* mrp_bom_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-06-02 20:18+0000\n"
+"PO-Revision-Date: 2014-06-02 20:18+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: mrp_bom_report
+#: code:addons/mrp_bom_report/report/mrp_bom_report.py:68
+#: selection:mrp.bom.report.wiz,inventory:0
+#, python-format
+msgid "Forecasted Quantity"
+msgstr "Cantidad Prevista"
+
+#. module: mrp_bom_report
+#: code:addons/mrp_bom_report/report/mrp_bom_report.py:66
+#: selection:mrp.bom.report.wiz,inventory:0
+#, python-format
+msgid "Quantity on Hand"
+msgstr "Cantidad disponible"
+
+#. module: mrp_bom_report
+#: field:mrp.bom.report.wiz,product_ids:0
+msgid "Product"
+msgstr "Producto"
+
+#. module: mrp_bom_report
+#: code:addons/mrp_bom_report/wizard/mrp_bom_report_wizard.py:76
+#, python-format
+msgid "Error !"
+msgstr "Error !"
+
+#. module: mrp_bom_report
+#: view:mrp.bom.report.wiz:0
+msgid "This report allows to print a stock product LdM report by different search criteria."
+msgstr "Este reporte le permite imprimir un reporte de producción en base a inventarios por diferents criterios de búsqueda."
+
+#. module: mrp_bom_report
+#: code:addons/mrp_bom_report/wizard/mrp_bom_report_wizard.py:76
+#, python-format
+msgid "There is no template defined for the selected format. Check if aeroo report exist."
+msgstr "No existe una plantilla de aeroo definidad para este reporte."
+
+#. module: mrp_bom_report
+#: field:mrp.bom.report.wiz,out_format:0
+msgid "Print Format"
+msgstr "Formato de impresión"
+
+#. module: mrp_bom_report
+#: view:mrp.bom.report.wiz:0
+msgid "General Options"
+msgstr "Opciones generales"
+
+#. module: mrp_bom_report
+#: view:mrp.bom.report.wiz:0
+msgid "Print"
+msgstr "Imprimir"
+
+#. module: mrp_bom_report
+#: view:mrp.bom.report.wiz:0
+msgid "Products"
+msgstr "Productos"
+
+#. module: mrp_bom_report
+#: field:mrp.bom.report.wiz,inventory:0
+msgid "Inventory"
+msgstr "Inventario"
+
+#. module: mrp_bom_report
+#: view:mrp.bom.report.wiz:0
+msgid "Filters"
+msgstr "Filtros"
+
+#. module: mrp_bom_report
+#: view:mrp.bom.report.wiz:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: mrp_bom_report
+#: model:ir.actions.act_window,name:mrp_bom_report.action_mrp_bom_report_wizard_view
+#: model:ir.ui.menu,name:mrp_bom_report.menu_stock_product_ldm_report
+#: view:mrp.bom.report.wiz:0
+msgid "Stock Product LdM Report"
+msgstr "Reporte de Producto en base a inventario"
+
+#. module: mrp_bom_report
+#: view:mrp.bom.report.wiz:0
+msgid "or"
+msgstr "o"
+
+#. module: mrp_bom_report
+#: view:mrp.bom.report.wiz:0
+msgid "Report Options"
+msgstr "Opciones de reporte"
+
+#. module: mrp_bom_report
+#: model:ir.actions.report.xml,name:mrp_bom_report.mrp_bom_report_odt
+msgid "Stock Product LdM"
+msgstr "Reporte de Producto en base a inventario"
+

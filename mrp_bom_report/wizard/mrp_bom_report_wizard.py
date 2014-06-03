@@ -23,8 +23,8 @@
 import time
 from osv import osv, fields
     
-class stockMovewizardReport (osv.osv_memory):
-    _name = 'stock.move.report.wiz'
+class mrpBomreport (osv.osv_memory):
+    _name = 'mrp.bom.report.wiz'
     
     def out_format_get (self, cr, uid, context={}):
         obj = self.pool.get('report.mimetypes')
@@ -43,34 +43,10 @@ class stockMovewizardReport (osv.osv_memory):
         return [(str(r['id']), r['name']) for r in res]
     
     _columns = {
-        'date_from' : fields.date('Start Date',),
-        'date_to' : fields.date('End Date',),
-        'include_costs': fields.boolean('Include costs'),
+        'inventory':fields.selection([('qty_available', 'Quantity on Hand'), ('virtual_available','Forecasted Quantity')], 'Inventory'),
         'product_ids' : fields.many2many('product.product', string='Product'),
-        'location_ids' : fields.many2many('stock.location', string='Location'),
         'out_format': fields.selection(out_format_get, 'Print Format'), 
     }
-    
-    _defaults = {
-        'date_from': lambda *a: time.strftime('%Y-%m-%d'),
-        'date_to': lambda *a: time.strftime('%Y-%m-%d'),
-        'include_costs': False,
-    }
-    
-    def _build_contexts(self, cr, uid, ids, data, context=None):
-        if context is None:
-            context = {}
-        result = {}
-        
-        result['date_from'] = 'date_from' in data['form'] and data['form']['date_from'] or False
-        result['date_to'] = 'date_to' in data['form'] and data['form']['date_to'] or False
-        result['include_costs'] = 'type' in data['form'] and data['form']['type'] or False
-
-        #m2m fields
-        result['product_ids'] = 'product_ids' in data['form'] and data['form']['product_ids'] or False
-        result['location_ids'] = 'location_ids' in data['form'] and data['form']['location_ids'] or False      
-        
-        return result
     
     def _print_report(self, cr, uid, ids, data, context=None):
         mimetype = self.pool.get('report.mimetypes')
@@ -93,7 +69,7 @@ class stockMovewizardReport (osv.osv_memory):
 
         #2. Check out_format and set report_name for each format
         if out_format_obj.code == 'oo-pdf':
-            report_name = 'stock_move_report_odt' 
+            report_name = 'mrp_bom_report_odt' 
         
         # If there not exist name, it's because not exist a record for this format   
         if report_name == '':
@@ -120,14 +96,10 @@ class stockMovewizardReport (osv.osv_memory):
             context = {}
         
         data = {}
-        data['form'] = self.read(cr, uid, ids, ['date_from','date_to','include_costs', 'product_ids','location_ids','out_format'], context=context)[0]
+        data['form'] = self.read(cr, uid, ids, ['inventory', 'product_ids', 'out_format'], context=context)[0]
         #Extract ids for m2m fields
-        for field in ['product_ids', 'location_ids']:
+        for field in ['product_ids']:
             if isinstance(data['form'][field], tuple):
-                data['form'][field] = data['form'][field][0]
-        
-        #Check if the fields exist, otherwise put false in the field.
-        used_context = self._build_contexts(cr, uid, ids, data, context=context)
-        data['form']['used_context'] = used_context
-        
+                data['form'][field] = data['form'][field][0] 
+                
         return self._print_report(cr, uid, ids, data, context=context)
