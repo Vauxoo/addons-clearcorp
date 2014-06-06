@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>    
+        <record id="product_barcode_report" model="ir.actions.report.xml">
+            <field name="name">Product Barcode Report</field>
+            <field name="type">ir.actions.report.xml</field>
+            <field name="model">product.product</field>
+            <field name="report_name">product_barcode_report</field>
+            <field name="report_type">aeroo</field>
+            <field name="in_format">oo-odt</field>
+            <field name="out_format" eval="ref('report_aeroo_ooo.report_mimetypes_pdf_ods')"/>
+            <field name="parser_loc">product_barcode_report/report/product_barcode_report.py</field>
+            <field name="report_rml">product_barcode_report/report/product_barcode_report.odt</field>
+            <field name="parser_state">loc</field>
+            <field name="tml_source">file</field>
+        </record>
+        
+        <ir_set>
+            <field eval="'action'" name="key"/>
+            <field eval="'client_print_multi'" name="key2"/>
+            <field eval="['product.product']" name="models"/>
+            <field name="name">Product Barcode Report</field>
+            <field eval="'ir.actions.report.xml,'+str(product_barcode_report)" name="value"/>
+            <field eval="True" name="isobject"/>
+            <field eval="True" name="replace"/>
+        </ir_set>        
+        
+    </data>
+</openerp>
