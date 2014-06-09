@@ -432,8 +432,6 @@ class Sprint(osv.Model):
     
     def tasks_from_features(self, cr, uid, ids, context=None):
         sprint = self.browse(cr, uid, ids[0], context=context)
-        if sprint.task_from_features:
-            raise osv.except_osv(_('Error'),_('All tasks were created before.'))
         task_obj = self.pool.get('project.task')
         for feature in sprint.feature_ids:
             values = {
@@ -453,7 +451,6 @@ class Sprint(osv.Model):
                       'name': feature.code + ' ' + feature.name,
                       }
             task_obj.create(cr, uid, values, context=context)
-        self.write(cr, uid, ids[0], {'task_from_features': True}, context=context)
         return True
     
     def set_features_done(self, cr, uid, ids, context=None):
@@ -543,7 +540,6 @@ class Sprint(osv.Model):
                 'stage_id': fields.many2one('project.task.type', string='Stage', domain="['&', ('fold', '=', False),"
                     " ('project_ids', '=', project_id)]"),
                 'state': fields.related('stage_id', 'state', type='selection', string='State', readonly=True),
-                'task_from_features': fields.boolean('Tasks from features', readonly=True),
                 'color': fields.integer('Color Index'),
                 }
     

@@ -464,6 +464,7 @@
             <field name="model">ccorp.project.scrum.feature</field>
             <field name="arch" type="xml">
                 <kanban default_group_by="state">
+                    <field name="state"/>
                     <field name="color"/>
                     <field name="priority"/>
                     <field name="partner_id"/>

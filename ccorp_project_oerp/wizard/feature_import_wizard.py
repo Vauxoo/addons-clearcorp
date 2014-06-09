@@ -34,7 +34,7 @@ class FeatureImportWizard(osv.TransientModel):
         wizard = self.browse(cr, uid, ids[0], context=context)
         try:
             file = StringIO.StringIO(base64.decodestring(wizard.file))
-            reader = csv.reader(file, delimiter=',')
+            reader = csv.reader(file, delimiter=';')
         except:
             raise osv.except_osv(_('Error'),_('An error occurred while reading the file. Please '
                                               'check if the format is correct.'))
@@ -73,7 +73,11 @@ class FeatureImportWizard(osv.TransientModel):
                     hour_ids = []
                     for work_type in work_types:
                         try:
-                            planned_hours = float(row[work_type.column_number-1])
+                            planned_hours = row[work_type.column_number-1]
+                            if planned_hours == '':
+                                planned_hours = 0.0
+                            else:
+                                planned_hours = float(planned_hours)
                             if planned_hours != 0.0:
                                 vals = {
                                         'project_id': wizard.project_id.id,
@@ -89,12 +93,15 @@ class FeatureImportWizard(osv.TransientModel):
                     
                     feature_obj = self.pool.get('ccorp.project.scrum.feature')
                     feature_obj.create(cr, uid, values, context=context)
-                    
-                except:# TODO: capture better error messages
-                    raise osv.except_osv(_('Error'),_('An error occurred while importing the features'))
+                except Exception as error:
+                    msg = _('An error occurred while importing the features. '
+                            'The system error was :\n')
+                    for item in error.args:
+                        msg += item + '\n'
+                    raise osv.except_osv(_('Error'), msg)
         return {
                 'name': 'Features',
-                'view_type': 'tree',
+                'view_type': 'form',
                 'view_mode': 'tree',
                 'res_model': 'ccorp.project.scrum.feature',
                 'context': context,
