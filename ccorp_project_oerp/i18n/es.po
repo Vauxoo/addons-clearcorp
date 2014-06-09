@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-14 17:11+0000\n"
-"PO-Revision-Date: 2014-05-14 17:11+0000\n"
+"POT-Creation-Date: 2014-06-09 19:58+0000\n"
+"PO-Revision-Date: 2014-06-09 19:58+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -112,6 +112,14 @@ msgstr "Importar características"
 #: model:ccorp.project.oerp.work.type.template,name:ccorp_project_oerp.data_work_type_template_fun
 msgid "Functional Analysis"
 msgstr "Análisis funcional"
+
+#. module: ccorp_project_oerp
+#: code:addons/ccorp_project_oerp/wizard/feature_import_wizard.py:97
+#, python-format
+msgid "An error occurred while importing the features. The system error was :\n"
+""
+msgstr "Un error ocurrió mientras se importaban las características. El error de sistema fue :\n"
+""
 
 #. module: ccorp_project_oerp
 #: field:ccorp.project.oerp.feature.hours,work_type_id:0
@@ -373,18 +381,11 @@ msgid "Work Type Template Groups"
 msgstr "Grupos de plantillas de tipos de trabajo"
 
 #. module: ccorp_project_oerp
-#: code:addons/ccorp_project_oerp/wizard/feature_import_wizard.py:94
-#, python-format
-msgid "An error occurred while importing the features"
-msgstr "Un error ocurrio mientras se importaban las características"
-
-#. module: ccorp_project_oerp
 #: code:addons/ccorp_project_oerp/wizard/feature_import_wizard.py:39
-#: code:addons/ccorp_project_oerp/wizard/feature_import_wizard.py:86
-#: code:addons/ccorp_project_oerp/wizard/feature_import_wizard.py:94
+#: code:addons/ccorp_project_oerp/wizard/feature_import_wizard.py:90
+#: code:addons/ccorp_project_oerp/wizard/feature_import_wizard.py:101
 #: code:addons/ccorp_project_oerp/wizard/sprint_close_wizard.py:64
-#: code:addons/ccorp_project_oerp/wizard/task_create_wizard.py:47
-#: code:addons/ccorp_project_oerp/wizard/task_create_wizard.py:122
+#: code:addons/ccorp_project_oerp/wizard/task_create_wizard.py:120
 #, python-format
 msgid "Error"
 msgstr "Error"
@@ -494,15 +495,9 @@ msgid "Templates"
 msgstr "Plantillas"
 
 #. module: ccorp_project_oerp
-#: code:addons/ccorp_project_oerp/wizard/task_create_wizard.py:47
-#, python-format
-msgid "All task were created before."
-msgstr "Todas las tareas fueron creadas anteriormente."
-
-#. module: ccorp_project_oerp
 #: model:ir.model,name:ccorp_project_oerp.model_project_phase
 msgid "Project Phase"
-msgstr "Fase de proyecto"
+msgstr "Fase proyecto"
 
 #. module: ccorp_project_oerp
 #: model:ccorp.project.oerp.work.type.template.group,name:ccorp_project_oerp.data_work_type_template_group
@@ -510,13 +505,13 @@ msgid "Default Templates"
 msgstr "Plantillas por defecto"
 
 #. module: ccorp_project_oerp
-#: code:addons/ccorp_project_oerp/wizard/feature_import_wizard.py:86
+#: code:addons/ccorp_project_oerp/wizard/feature_import_wizard.py:90
 #, python-format
 msgid "An error occurred while reading the planned hours from file in column %s for work type %s"
 msgstr "Un error ocurrió mientras se leían las horas planeadas desde el archivo en la columna %s para el tipo de trabajo %s"
 
 #. module: ccorp_project_oerp
-#: code:addons/ccorp_project_oerp/wizard/task_create_wizard.py:122
+#: code:addons/ccorp_project_oerp/wizard/task_create_wizard.py:120
 #, python-format
 msgid "An error occurred while creating the tasks. Please contact your system administrator."
 msgstr "Un error ocurrió mientras se creaban las tareas. Por favor contacte a sus administrador de sistema."
