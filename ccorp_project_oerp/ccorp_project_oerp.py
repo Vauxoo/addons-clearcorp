@@ -84,6 +84,18 @@ class WorkTypeTemplateGroup(osv.Model):
     
 class Sprint(osv.Model):
     
+    def tasks_from_features(self, cr, uid, ids, context=None):
+        super(Sprint, self).tasks_from_features(cr, uid, ids, context=context)
+        sprint = self.browse(cr, uid, ids[0], context=context)
+        task_obj = self.pool.get('project.task')
+        task_ids = []
+        for task in sprint.task_ids:
+            task.write({'sprint_id': False}, context=context)
+            task_ids.append(task.id)
+        for id in task_ids:
+            self.write(cr, uid, ids[0],{'desirable_task_ids': [[4,id]]}, context=context)
+        return True
+    
     def queue_tasks(self, cr, uid, ids, context=None):
         sprint = self.browse(cr, uid, ids[0], context=context)
         for task in sprint.desirable_task_ids:
@@ -313,11 +325,12 @@ class Task(osv.Model):
             project_obj = self.pool.get('project.project')
             project = project_obj.browse(cr, uid, values['project_id'], context=context)
             if project.is_scrum:
-                task_hour_ids = values['task_hour_ids']
-                sum = 0.0
-                for hour in task_hour_ids:
-                    sum += hour[2]['expected_hours']
-                values['planned_hours'] = sum
+                if 'task_hour_ids' in values: 
+                    task_hour_ids = values['task_hour_ids']
+                    sum = 0.0
+                    for hour in task_hour_ids:
+                        sum += hour[2]['expected_hours']
+                    values['planned_hours'] = sum
         return super(Task, self).create(cr, uid, values, context=context)
     
     def write(self, cr, uid, ids, values, context=None):
