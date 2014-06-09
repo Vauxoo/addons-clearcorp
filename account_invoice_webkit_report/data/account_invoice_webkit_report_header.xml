@@ -10,7 +10,11 @@
             <field name="margin_left">0</field>
             <field name="margin_right">0</field>
             <field name="css"><![CDATA[ 
-                            .header {
+            body {
+                font-family: Arial,Verdana, Sans, Serif;
+                font-size: 13px;
+            }
+            .header {
                 padding : 200px 10px 5px 10px;
                 border:0; margin: 0;
             }
@@ -20,14 +24,12 @@
             }
             .partner-table {
                 width: 100%;
-                font-family: Arial,Verdana, Sans, Serif;
                 font-size: 12;
             }
 
             #data-table {
                 width: 100%;
                 padding-top: 20px;
-                font-family: Arial,Verdana, Sans, Serif;
                 font-size: 12;
             }
             #data-table th{
@@ -55,28 +57,24 @@
             .company_address{
                 width : 100%;
                 text-align: right;
-                font-family: Arial,Verdana, Sans, Serif;
                 font-size: 13;
             }
 
             .company_data {
                 width : 100%;
                 text-align: left;
-                font-family: Arial,Verdana, Sans, Serif;
                 font-size: 13;
                 
             }
             
             .company_footer {
-                font-family: Arial,Verdana, Sans, Serif;
-                font-size: 8.4;
                 font-style : italic;
             }
             .footer {
+                font-size: 4;
                 border-top: 1px solid black; 
                 width: 100%;
                 border:0; margin: 0;
-                padding-bottom: 300px;
             }
 
             .data {
@@ -86,19 +84,16 @@
 
             .footer_table {
                 width: 100%;
-                padding-bottom: 150px;
                 border-top: 1px solid black;
             }
             
             .slogan {
-                font-family: Arial,Verdana, Sans, Serif;
                 font-size: 10;
                 font-style : italic;
                 color : #888888;
             }
             
             #notes_table {
-                font-family: Arial,Verdana, Sans, Serif;
                 font-size: 12;
                 font-style : italic;
                 width:65%;
@@ -111,7 +106,6 @@
             }
             
             .document_data {
-                font-family: Arial,Verdana, Sans, Serif;
                 font-size: 13;
             }
             
@@ -132,10 +126,11 @@
             }
             #desc_col_po{
                 width : 380px;
-            }                
+            }
             ]]>
             </field>
             <field name="html"><![CDATA[ 
+ 
 <html>
     <head>
         <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
@@ -160,7 +155,7 @@
             <tbody>
                 <tr>
                     <td class="company_logo">
-                        ${helper.embed_logo_by_name('default_logo', height=40, width=150)|n} 
+                        ${helper.embed_logo_by_name('default_logo', width=200)|n} 
                     </td>
                 </tr>
                 <tr>
@@ -200,6 +195,7 @@
         <hr />${_debug or ''|n} </body>
 </html>]]></field>
             <field name="footer_html"><![CDATA[
+
 <html>
     <head>
         <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
@@ -222,18 +218,18 @@
     <body class = "footer" onload="subst()">
         <table class = "footer_table">
             <tr>
-                <td colspan="2"><p class ="company_footer">Favor realizar pagos a nombre de ${company.name} cédula jurídica ${company.company_registry}. CUENTAS BANCARIAS: ${company.accounts_footer}</p></td>
+                <td colspan="3" class ="company_footer">Favor realizar pagos a nombre de ${company.name} cédula jurídica ${company.company_registry}. CUENTAS BANCARIAS: ${company.accounts_footer}</td>
             </tr>
             <tr>
-                <td colspan="2"><p class ="company_footer">Si realiza el pago en colones (CRC), por favor utilizar el tipo de cambio al día de la fecha de pago del BCCR.</p></td>
+                <td colspan="3" class ="company_footer">Si realiza el pago en colones (CRC), por favor utilizar el tipo de cambio al día de la fecha de pago del BCCR.</td>
             </tr>
             <tr>
-                <td><p class ="company_footer">Emitida conforme lo establecido en la resolución de Facturación Electrónica, N° DGT-22-07 del diecisiete de setiembre de dos mil siete de la Dirección General de Tributación </p></td>
+                <td class ="company_footer">Emitida conforme lo establecido en la resolución de Facturación Electrónica, N° DGT-22-07 del diecisiete de setiembre de dos mil siete de la Dirección General de Tributación </td>
                 <td style="text-align:right;font-size:10;">Página&nbsp;<span class="page"/></td><td style="text-align:left;font-size:10;">&nbsp;de&nbsp;<span class="topage"/></td>
             </tr>
         </table>
     </body>
-</html> ]]></field>
+</html>]]></field>
         </record>
     </data>
 </openerp>
