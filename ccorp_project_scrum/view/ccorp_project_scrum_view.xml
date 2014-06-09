@@ -464,10 +464,11 @@
             <field name="model">ccorp.project.scrum.feature</field>
             <field name="arch" type="xml">
                 <kanban default_group_by="state">
+                    <field name="state"/>
                     <field name="color"/>
                     <field name="priority"/>
                     <field name="partner_id"/>
-                    <field name="remaining_hours" sum="Remaining Hours"/>
+                    <field name="remaining_hours" groups="project.group_time_work_estimation_tasks" sum="Remaining Hours"/>
                     <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
@@ -499,7 +500,7 @@
                                     </div>
                                 </div>
                                 <div class="oe_kanban_footer_left">
-                                    <span title="Remaining Hours">
+                                    <span groups="project.group_time_work_estimation_tasks" title="Remaining Hours">
                                         <span class="oe_e">N</span>
                                         <t t-esc="Math.round(record.remaining_hours.raw_value)"/>
                                     </span>
