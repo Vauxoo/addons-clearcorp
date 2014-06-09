@@ -359,6 +359,9 @@ class AccountMove(osv.osv):
         res_user = res_user_obj.browse(cr, uid, uid, context=context)
         name = reference + " " + period.name
         
+        if not exchange_rate_date:
+            exchange_rate_date = period.date_stop
+        
         move_created = {
                     'ref': name,
                     'journal_id': journal.id,
@@ -366,14 +369,12 @@ class AccountMove(osv.osv):
                     'to_check': False,
                     'company_id': res_user.company_id.id,
                     'partner_id': False,
+                    'date': exchange_rate_date,
                     }
         
         move_created_id = self.create(cr, uid, move_created)
         move_created = self.browse(cr, uid, move_created_id, context=context)
         
-        if not exchange_rate_date:
-            exchange_rate_date = period.date_stop
-
         lines_reconcile_ids = self.create_move_lines_reconcile(cr, uid, move_created, exchange_rate_date, context=context)        
         lines_unreconcile_ids = self.create_move_lines_unreconcile(cr, uid, move_created, period, exchange_rate_date, context=context)
         balance_line_id = self.create_balance_line(cr, uid, move_created, res_user, name, context=context)
