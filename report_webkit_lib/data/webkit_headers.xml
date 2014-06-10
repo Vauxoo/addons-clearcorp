@@ -23,8 +23,8 @@ body {
     margin: 0;
     padding: 0;
     background-color: white;
-    width: 11in;
-    height: 8.5in;
+    width: 1100px;
+    height: 25px;
 }
 
 /* div table structure */
@@ -391,8 +391,8 @@ body {
     margin: 0;
     padding: 0;
     background-color: white;
-    width: 11in;
-    height: 8.5in;
+    width: 1100px;
+    height: 25px;
 }
 
 /* div table structure */
