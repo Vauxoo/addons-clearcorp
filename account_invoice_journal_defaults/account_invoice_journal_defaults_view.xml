@@ -2,7 +2,7 @@
 <openerp>
     <data>
 
-	      <!-- Supplier Invoice -->
+          <!-- Supplier Invoice -->
         <record id="account_invoice_journal_defalut_supplier_form" model="ir.ui.view">
             <field name="name">account.invoice.journal.defalut.supplier.form</field>
             <field name="model">account.invoice</field>
@@ -30,7 +30,7 @@
         </record>
         <!-- End Supplier Invoice -->        
         
-		<!-- Customer Invoice -->
+        <!-- Customer Invoice -->
         <record id="account_invoice_journal_defalut_customer_form" model="ir.ui.view">
             <field name="name">account.invoice.journal.defalut.customer.form</field>
             <field name="model">account.invoice</field>
