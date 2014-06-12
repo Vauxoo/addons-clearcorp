@@ -22,3 +22,4 @@
 
 import account_invoice_inherit
 import sale_order_inherit
+import purchase_order_inherit
