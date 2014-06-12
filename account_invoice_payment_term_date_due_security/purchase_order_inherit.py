@@ -23,36 +23,36 @@
 from osv import orm, osv, fields
 from tools.translate import _
 
-class saleOrderinherit(orm.Model):
+class purchaseOrderinherit(orm.Model):
     
-     _inherit = 'sale.order'
+     _inherit = 'purchase.order'
      
      def _get_payment_term(self, cr, uid, ids, fields, arg, context=None):
         res = {}        
-        for sale in self.browse(cr, uid, ids, context=context):
-            if sale.payment_term:
-                res[sale.id] = sale.payment_term.id
+        for purchase in self.browse(cr, uid, ids, context=context):
+            if purchase.payment_term_id:
+                res[purchase.id] = purchase.payment_term_id.id
         return res
 
      _columns = {
         'payment_term_visible': fields.function(_get_payment_term, type='many2one', relation='account.payment.term', 
-            store={'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['payment_term'], 10),}, string="Payment Term",),
+            store={'purchase.order': (lambda self, cr, uid, ids, c={}: ids, ['payment_term_id'], 10),}, string="Payment Term",),
        }
      
-     def onchange_partner_id(self, cr, uid, ids, part, context=None):       
-        res = super(saleOrderinherit, self).onchange_partner_id(cr, uid, ids, part, context=context)
+     def onchange_partner_id(self, cr, uid, ids, partner_id):       
+        res = super(purchaseOrderinherit, self).onchange_partner_id(cr, uid, ids, partner_id)
                 
-        if 'payment_term' in res['value'].keys():
-            res['value'].update({'payment_term_visible': res['value']['payment_term']})
+        if 'payment_term_id' in res['value'].keys():
+            res['value'].update({'payment_term_visible': res['value']['payment_term_id']})
                 
-        return res      
+        return res  
     
      def onchange_payment_term_visible(self, cr, uid, ids, payment_term_visible):
         res = {}
-        res['value'] = {}        
+        res['value'] = {}
         
         if payment_term_visible:
-            res['value'].update({'payment_term':payment_term_visible})
+            res['value'].update({'payment_term_id':payment_term_visible})
              
-        return res     
+        return res          
      

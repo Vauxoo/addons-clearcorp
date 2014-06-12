@@ -32,11 +32,12 @@ This module adds security to payment term and date due in invoice. Also,
 it adds security on payment term in sale order
 """,    
     'website' : 'http://clearcorp.co.cr',
-    'depends' : ['base','account','sale'],
+    'depends' : ['base','account','sale','purchase'],
     'data' : [
               'security/account_invoice_payment_term_date_due_security.xml',
               'account_invoice_inherit.xml',
               'sale_order_inherit.xml',
+              'purchase_order_inherit.xml',
               ],
     'installable': True,
     'auto_install': False,
