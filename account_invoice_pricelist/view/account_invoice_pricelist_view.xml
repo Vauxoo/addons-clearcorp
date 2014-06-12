@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!-- account.invoice -->
+        <record id="invoice_customer_view_form" model="ir.ui.view">
+            <field name="name">invoice.customer.view.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/group/field[@name='fiscal_position']" position="after">
+                    <field name="pricelist_id"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="invoice_supplier_view_form" model="ir.ui.view">
+            <field name="name">invoice.supplier.view.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/group/div" position="after">
+                    <field name="pricelist_id"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
