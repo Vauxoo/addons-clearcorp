@@ -33,6 +33,7 @@ msgstr "Seguridad plazo de pago orden de venta"
 #. module: account_invoice_payment_term_date_due_security
 #: field:account.invoice,payment_term_visible:0
 #: field:sale.order,payment_term_visible:0
+#: field:purchase.order,payment_term_visible:0
 msgid "Payment Term"
 msgstr "Plazo de pago"
 
