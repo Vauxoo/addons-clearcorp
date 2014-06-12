@@ -23,7 +23,7 @@ msgstr "Parámetros de configuración contable"
 #. module: account_invoice_limit_discount
 #: model:res.groups,name:account_invoice_limit_discount.group_account_invoice_limit_discount
 msgid "Account Invoice Limit Discount"
-msgstr "Account Invoice Limit Discount"
+msgstr "Limite de descuento en la Factura"
 
 #. module: account_invoice_limit_discount
 #: model:ir.model,name:account_invoice_limit_discount.model_res_company
