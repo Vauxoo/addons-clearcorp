@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_account_config_settings_inherit" model="ir.ui.view">
+            <field name="name">view.account.config.settings.inherit</field>
+            <field name="model">account.config.settings</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.view_account_config_settings"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="tax_calculation_rounding_method" position="after">     
+                        <div>
+                            <label for="max_discount" string="Max Discount"/>   
+                            <field name="max_discount"  class="oe_inline"/>
+                            <label string="%%" for="max_discount"/>
+                        </div>
+                    </field>
+                </data>
+           </field>
+        </record>
+    </data>
+</openerp>
