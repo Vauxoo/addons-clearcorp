@@ -30,9 +30,8 @@ class accountVoucherinherit(orm.Model):
     #Get move_lines for withholding tax
     def _get_withholding_move_lines(self, cr, uid, ids, *a):
         res = {}
-        move_ids = []
-        
         for voucher in self.browse(cr, uid, ids):
+            move_ids = []
             for move in voucher.withholding_move_ids:
                 move_ids.append(move.id)
                 
@@ -44,9 +43,8 @@ class accountVoucherinherit(orm.Model):
     #Get move_lines reverse for withholding tax reverse
     def _get_withholding_move_lines_reverse(self, cr, uid, ids, *a):
         res = {}
-        move_ids = []
-        
         for voucher in self.browse(cr, uid, ids):
+            move_ids = []
             for move in voucher.withholding_move_ids:
                 if move.move_reverse_id:
                     move_ids.append(move.move_reverse_id.id)
@@ -114,6 +112,14 @@ class accountVoucherinherit(orm.Model):
           'withholding_move_line_ids':fields.function(_get_withholding_move_lines, string='Account Move Lines Withholding Tax', type='one2many', relation='account.move.line'),
           'withholding_move_line_ids_reverse':fields.function(_get_withholding_move_lines_reverse, string='Account Move Lines Reverse Withholding Tax', type='one2many', relation='account.move.line'),
      }    
+    
+    def copy(self, cr, uid, id, default=None, context=None):
+        if default is None:
+            default = {}
+        default.update({
+            'withholding_move_ids': False,
+        })
+        return super(accountVoucherinherit, self).copy(cr, uid, id, default, context=context)
     
     #Check if the required withholding tax are in optional withholding tax
     def _check_duplicate_withholding_tax(self, cr, uid, ids, context=None):
