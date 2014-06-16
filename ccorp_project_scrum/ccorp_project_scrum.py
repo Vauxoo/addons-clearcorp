@@ -674,7 +674,7 @@ class Task(osv.Model):
         return True
     
     _columns = {
-                'is_scrum': fields.related('project_id','is_scrum', string='Scrum', type='boolean', store=True),
+                'is_scrum': fields.boolean('Scrum'),
                 'product_backlog_id': fields.many2one('ccorp.project.scrum.product.backlog', string='Product Backlog',
                     domain="[('project_id','=',project_id),'|',('state','=','open'),('state','=','pending')]"),
                 'release_backlog_id': fields.many2one('ccorp.project.scrum.release.backlog', string='Release Backlog',
