@@ -213,7 +213,13 @@ class account_invoice(osv.osv):
                 
                 obj_bud_move._workflow_signal(cr, uid, [move_id], 'button_execute', context=context)
                     
-        return validate_result     
+        return validate_result
+    
+    def copy(self, cr, uid, id, default=None, context=None):
+        if default is None:
+            default = {}
+        default.update({'budget_move_id': False})
+        return super(account_invoice, self).copy(cr, uid, id, default, context=context)
     
 class account_invoice_line(osv.osv):
     _name = 'account.invoice.line'
