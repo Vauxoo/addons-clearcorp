@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="action_increase_wizard" model="ir.actions.act_window">
+            <field name="name">Wage Increases</field>
+            <field name="view_id" ref="view_increase_wizard_form"/>
+            <field name="res_model">hr.wage.increase.increase.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</openerp>
