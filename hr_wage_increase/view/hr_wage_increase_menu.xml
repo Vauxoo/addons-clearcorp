@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <menuitem id="menu_increase_wizard"
+            parent="hr.menu_hr_main"
+            name="Wage Increase"
+            action="action_increase_wizard"
+            groups="base.group_hr_manager"
+            sequence="10"/>
+    </data>
+</openerp>
