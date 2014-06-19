@@ -1,0 +1,231 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* account_invoicing_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-06-18 22:36+0000\n"
+"PO-Revision-Date: 2014-06-18 22:36+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_invoicing_report
+#: field:invoicing.report.wiz,res_partners_ids:0
+msgid "Partners"
+msgstr "Empresas"
+
+#. module: account_invoicing_report
+#: help:invoicing.report.wiz,amount_currency:0
+msgid "It adds the currency column on report if the currency differs from the company currency."
+msgstr "Añada la columna de moneda en el reporte si la moneda es diferente de la moneda de la compañía."
+
+#. module: account_invoicing_report
+#: model:ir.actions.act_window,name:account_invoicing_report.action_account_invoicing_report_wizard
+#: model:ir.model,name:account_invoicing_report.model_invoicing_report_wiz
+msgid "Account Invoicing Report Wizard"
+msgstr "Asistente para el Reporte de Facturación"
+
+#. module: account_invoicing_report
+#: view:invoicing.report.wiz:0
+msgid "This report allows to print a account invoincing report by different search criteria."
+msgstr "Este reporte le permite imprmir un reporte de facturación por diferentes criterios de búsqueda."
+
+#. module: account_invoicing_report
+#: view:invoicing.report.wiz:0
+msgid "Print"
+msgstr "Imprimir"
+
+#. module: account_invoicing_report
+#: code:addons/account_invoicing_report/report/account_invoicing_report.py:89
+#, python-format
+msgid "All taxes"
+msgstr "Todos los impuestos"
+
+#. module: account_invoicing_report
+#: help:invoicing.report.wiz,historic_strict:0
+msgid "If selected, will display a historical unreconciled lines, taking into account the end of the period or date selected"
+msgstr "Si se selecciona, se mostrará una línea sin conciliar históricos, teniendo en cuenta el final del período o la fecha seleccionada"
+
+#. module: account_invoicing_report
+#: code:addons/account_invoicing_report/wizard/account_invoicing_report_wizard.py:88
+#, python-format
+msgid "Error !"
+msgstr "Error !"
+
+#. module: account_invoicing_report
+#: field:invoicing.report.wiz,special_period:0
+msgid "Special period"
+msgstr "Período especial"
+
+#. module: account_invoicing_report
+#: field:invoicing.report.wiz,sort_selection:0
+msgid "Entries Sorted by"
+msgstr "Entradas ordenadas por"
+
+#. module: account_invoicing_report
+#: field:invoicing.report.wiz,company_id:0
+msgid "Company"
+msgstr "Compañía"
+
+#. module: account_invoicing_report
+#: field:invoicing.report.wiz,amount_currency:0
+msgid "With Currency"
+msgstr "Con moneda"
+
+#. module: account_invoicing_report
+#: selection:invoicing.report.wiz,filter:0
+#: selection:invoicing.report.wiz,sort_selection:0
+msgid "Date"
+msgstr "Fechas"
+
+#. module: account_invoicing_report
+#: field:invoicing.report.wiz,chart_account_id:0
+msgid "Chart of Account"
+msgstr "Catálogo contable"
+
+#. module: account_invoicing_report
+#: field:invoicing.report.wiz,journal_ids:0
+msgid "Journals"
+msgstr "Diarios"
+
+#. module: account_invoicing_report
+#: field:invoicing.report.wiz,target_move:0
+msgid "Target Moves"
+msgstr "Movimientos destino"
+
+#. module: account_invoicing_report
+#: view:invoicing.report.wiz:0
+msgid "Report Options"
+msgstr "Opciones de reporte"
+
+#. module: account_invoicing_report
+#: help:invoicing.report.wiz,chart_account_id:0
+msgid "Select Charts of Accounts"
+msgstr "Selecccione catálogo contable"
+
+#. module: account_invoicing_report
+#: field:invoicing.report.wiz,date_to:0
+msgid "End Date"
+msgstr "Fecha Final"
+
+#. module: account_invoicing_report
+#: field:invoicing.report.wiz,period_from:0
+msgid "Start Period"
+msgstr "Período Inicial"
+
+#. module: account_invoicing_report
+#: selection:invoicing.report.wiz,sort_selection:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: account_invoicing_report
+#: selection:invoicing.report.wiz,target_move:0
+msgid "All Posted Entries"
+msgstr "Todos los apuntes publicados"
+
+#. module: account_invoicing_report
+#: view:invoicing.report.wiz:0
+#: field:invoicing.report.wiz,account_tax_ids:0
+msgid "Taxes"
+msgstr "Impuestos"
+
+#. module: account_invoicing_report
+#: view:invoicing.report.wiz:0
+msgid "General Options"
+msgstr "Opciones Generales"
+
+#. module: account_invoicing_report
+#: help:invoicing.report.wiz,fiscalyear_id:0
+msgid "Keep empty for all open fiscal year"
+msgstr "Mantener vacío para todo el año fiscal abierto"
+
+#. module: account_invoicing_report
+#: field:invoicing.report.wiz,period_to:0
+msgid "End Period"
+msgstr "Período Final"
+
+#. module: account_invoicing_report
+#: field:invoicing.report.wiz,fiscalyear_id:0
+msgid "Fiscal Year"
+msgstr "Año Fiscal"
+
+#. module: account_invoicing_report
+#: field:invoicing.report.wiz,historic_strict:0
+msgid "Strict History"
+msgstr "Histórico Estricto"
+
+#. module: account_invoicing_report
+#: selection:invoicing.report.wiz,filter:0
+msgid "No Filters"
+msgstr "Sin Filtros"
+
+#. module: account_invoicing_report
+#: view:invoicing.report.wiz:0
+#: model:ir.actions.report.xml,name:account_invoicing_report.account_invoicing_report_ods
+#: model:ir.actions.report.xml,name:account_invoicing_report.account_invoicing_report_odt
+#: model:ir.ui.menu,name:account_invoicing_report.account_invoicing_report_menu
+msgid "Account Invoicing Report"
+msgstr "Reporte de Facturación"
+
+#. module: account_invoicing_report
+#: field:invoicing.report.wiz,out_format:0
+msgid "Print Format"
+msgstr "Formato de impresión"
+
+#. module: account_invoicing_report
+#: field:invoicing.report.wiz,account_base_report:0
+msgid "Account Base Report"
+msgstr "Informe Financiero Base"
+
+#. module: account_invoicing_report
+#: help:invoicing.report.wiz,special_period:0
+msgid "Include special period"
+msgstr "Incluir período especial"
+
+#. module: account_invoicing_report
+#: field:invoicing.report.wiz,account_ids:0
+msgid "Accounts"
+msgstr "Cuentas"
+
+#. module: account_invoicing_report
+#: selection:invoicing.report.wiz,filter:0
+msgid "Periods"
+msgstr "Períodos"
+
+#. module: account_invoicing_report
+#: code:addons/account_invoicing_report/wizard/account_invoicing_report_wizard.py:88
+#, python-format
+msgid "There is no template defined for the selected format. Check if aeroo report exist."
+msgstr "No existe una plantilla definida para el formato seleccionado. Revise si existe una plantilla de Aeroo creada"
+
+#. module: account_invoicing_report
+#: view:invoicing.report.wiz:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: account_invoicing_report
+#: field:invoicing.report.wiz,date_from:0
+msgid "Start Date"
+msgstr "Fecha Inicial"
+
+#. module: account_invoicing_report
+#: field:invoicing.report.wiz,filter:0
+msgid "Filter by"
+msgstr "Filtrado por"
+
+#. module: account_invoicing_report
+#: view:invoicing.report.wiz:0
+msgid "or"
+msgstr "o"
+
+#. module: account_invoicing_report
+#: selection:invoicing.report.wiz,target_move:0
+msgid "All Entries"
+msgstr "Todos los apuntes"
+
