@@ -52,6 +52,8 @@ class personnelActionsConfiguration(osv.Model):
 class personnelActionsPersonnelAction(osv.Model):
     _name = 'hr.personnel.actions.personnel.action'
     
+    _rec_name = 'title'
+    
     def create(self, cr ,uid, values, context=None):
         values['sequence'] = self.pool.get('ir.sequence').get(cr, uid, 'personnel.actions')
         return super(personnelActionsPersonnelAction,self).create(cr, uid, values, context=context)
