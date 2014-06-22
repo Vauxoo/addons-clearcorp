@@ -62,14 +62,21 @@ class accountInvoiceinherit(orm.Model):
                 
         return res   
     
-     def onchange_payment_term_visible(self, cr, uid, ids, payment_term_visible, date_invoice):
-                
-        if payment_term_visible:
-            #Call method to change date_due
-            res = super(accountInvoiceinherit, self).onchange_payment_term_date_invoice(cr, uid, ids, payment_term_visible, date_invoice)
-            res['value'].update({'payment_term':payment_term_visible})
-            res['value'].update({'date_due_visible': res['value']['date_due']})
-            
-        return res
+     def onchange_payment_term_visible(self, cr, uid, ids, payment_term_visible, date_invoice, date_due):
+                 
+         if payment_term_visible:
+             #Call method to change date_due
+             res = super(accountInvoiceinherit, self).onchange_payment_term_date_invoice(cr, uid, ids, payment_term_visible, date_invoice)
+             res['value'].update({'payment_term':payment_term_visible})
+             #This change is because another module changes only date_due and this method
+             #change the default value. If date_due is already assigned, it is necessary 
+             #keep previous value 
+             if date_due:
+                 if date_due == res['value']['date_due']:
+                     res['value'].update({'date_due_visible': res['value']['date_due']})
+             else:
+                res['value'].update({'date_due_visible': res['value']['date_due']})
+             
+         return res
             
      
