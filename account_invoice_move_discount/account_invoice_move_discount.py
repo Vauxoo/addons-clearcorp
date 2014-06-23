@@ -103,7 +103,7 @@ class Invoice(osv.Model):
                               'quantity': invoice_line.quantity,
                               'debit': 0.0,
                               'credit': 0.0,
-                              'account_id': invoice.account_id.id,
+                              'account_id': invoice_line.account_id.id,
                               'move_id': invoice.move_id.id,
                               'period_id': invoice.move_id.period_id.id,
                               'partner_id': invoice.partner_id.id,
