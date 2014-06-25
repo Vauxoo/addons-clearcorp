@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!-- Actions -->
+        <record id="action_generator_wizard" model="ir.actions.act_window">
+            <field name="name">Pay Generator</field>
+            <field name="res_model">hr.payroll.pay.generator.generator.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <!-- Menu Items -->
+        <menuitem id="menu_generator_wizard"
+            parent="hr_payroll.menu_hr_root_payroll"
+            name="Pay Generator"
+            action="action_generator_wizard"
+            sequence="15"/>
+    </data>
+</openerp>
