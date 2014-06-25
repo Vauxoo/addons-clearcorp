@@ -30,7 +30,7 @@ class PayType(osv.Model):
     _description = __doc__
  
     _columns = {
-        'code': fields.char('Code', size=16, required=True),
+        'code': fields.char('Code', size=16, required=True, readonly=True),
         'name': fields.char('Name', size=64),
         'description': fields.text('Description'),
     }

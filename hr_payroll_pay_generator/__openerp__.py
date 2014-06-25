@@ -39,6 +39,7 @@ Provide a common base for Payroll Generator""",
     'data': [
              'view/hr_payroll_pay_generator_view.xml',
              'wizard/wizard.xml',
+             'security/ir.model.access.csv',
              ],
     'test' : [],
     'demo': [],
