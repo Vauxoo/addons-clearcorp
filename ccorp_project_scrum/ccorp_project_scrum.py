@@ -982,12 +982,13 @@ class productBacklog(osv.Model):
             deadline = False
             for feature in features:
                 if feature.date_end and feature.state not in ['draft','cancelled']:
-                    date = datetime.strptime(feature.deadline, '%Y-%m-%d')
-                    if not deadline:
-                        deadline = date
-                    else:
-                        if deadline < date:
-                            deadline = date 
+                    if feature.deadline:
+                        date = datetime.strptime(feature.deadline, '%Y-%m-%d')
+                        if not deadline:
+                            deadline = date
+                        else:
+                            if deadline < date:
+                                deadline = date
             if deadline:
                 res[id] = datetime.strftime(deadline, '%Y-%m-%d')
             else:
