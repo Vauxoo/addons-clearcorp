@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!-- Views -->
+        <record id="view_pay_type_tree" model="ir.ui.view">
+            <field name="name">view.pay.type.tree</field>
+            <field name="model">hr.payroll.pay.generator.pay.type</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Pay Types" editable="top">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Actions -->
+        <record id="action_generator_wizard" model="ir.actions.act_window">
+            <field name="name">Pay Generator</field>
+            <field name="res_model">hr.payroll.pay.generator.generator.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <record id="action_pay_type" model="ir.actions.act_window">
+            <field name="name">Pay Types</field>
+            <field name="res_model">hr.payroll.pay.generator.pay.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+        <!-- Menu Items -->
+        <menuitem id="menu_generator_wizard"
+            parent="hr_payroll.menu_hr_root_payroll"
+            name="Pay Generator"
+            action="action_generator_wizard"
+            sequence="15"
+            groups="base.group_hr_manager"/>
+        <menuitem id="menu_pay_type"
+            parent="hr_payroll.payroll_configure"
+            name="Pay Types"
+            action="action_pay_type"
+            sequence="15"/>
+    </data>
+</openerp>
