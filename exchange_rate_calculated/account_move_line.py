@@ -22,6 +22,7 @@
 
 from osv import osv, fields, orm
 import time
+import copy
 
 class accountMoveline(orm.Model):
     
@@ -32,10 +33,12 @@ class accountMoveline(orm.Model):
         depends of currency selected. It only works in amount_currency to debit/credit.
         In debit/credit to amount_currency it isn't implemented.
     """
-    def onchange_amount_currency(self, cr, uid, ids, amount_currency, currency_id, context=None):
+    def onchange_amount_currency(self, cr, uid, ids, date, amount_currency, currency_id, context=None):
         res_currency_obj = self.pool.get('res.currency')
         res_user_obj = self.pool.get('res.users')
         res = {'value':{}}
+        if context is None:
+            context = {}
         
         """
         1. Get currency for current company. 
@@ -44,13 +47,17 @@ class accountMoveline(orm.Model):
         res_user = res_user_obj.browse(cr, uid, uid, context=context)
         company_currency = res_user.company_id.currency_id
         
-        """ 2. Get today's date as string"""
-        now = time.strftime('%Y-%m-%d')
+        """ 2. Get date as string"""
+        if not date:
+            date = time.strftime('%Y-%m-%d')
+        copy_context = copy.copy(context)
+        copy_context.update({'date':date})
+            
         
         if amount_currency != 0 and currency_id:
             """3. Get amount_currency for today"""
             currency_selected = res_currency_obj.browse(cr, uid, currency_id, context=context)
-            exchange_amount = res_currency_obj.get_exchange_rate(cr, uid, company_currency, currency_selected, now, context=context)
+            exchange_amount = res_currency_obj.get_exchange_rate(cr, uid, company_currency, currency_selected, date, context=copy_context)
             
             """4. Asign values to debit or credit """
             if amount_currency > 0:
