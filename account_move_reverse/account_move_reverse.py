@@ -79,7 +79,11 @@ class AccountMove(orm.Model):
             
             if move_original.move_reverse_id:
                 continue
-
+            
+            if move_original.state == 'draft':
+                #Posted move original
+                self.pool.get('account.move').post(cr, 1, [move_original.id], context={})
+            
             move = {
                     'name':'Reverse: ' + move_original.name,
                     'ref':move_original.ref,
