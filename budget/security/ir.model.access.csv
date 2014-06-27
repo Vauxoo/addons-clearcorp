@@ -25,3 +25,4 @@ access_program_line_group_hr_manager,budget.program.line,model_budget_program_li
 access_program_group_hr_manager,budget.program,model_budget_program,base.group_hr_manager,1,1,1,1
 access_plan_group_hr_manager,budget.plan,model_budget_plan,base.group_hr_manager,1,1,1,1
 access_move_line_group_hr_manager,budget.move.line,model_budget_move_line,base.group_hr_manager,1,1,1,1
+access_move_line_distribution_group_hr_manager,account.move.line.distribution,model_account_move_line_distribution,base.group_hr_manager,1,1,1,1
