@@ -43,4 +43,4 @@ class accountInvoiceinherit(orm.Model):
                             if line.discount > max_company_discount:
                                 raise osv.except_osv(_("Discount Exceeded!"), _("The discount of invoice exceeds the limit of maximum discount %s of the company") % (str(max_company_discount)))
                 
-            return super(accountInvoiceinherit, self).invoice_validate(cr, uid, ids, context=context)
+        return super(accountInvoiceinherit, self).invoice_validate(cr, uid, ids, context=context)
