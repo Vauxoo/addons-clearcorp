@@ -38,6 +38,20 @@ class account_invoice(osv.osv):
             res = context.get('from_order', False)
         return res
 
+    def action_cancel(self, cr, uid, ids, context=None):
+        res = super(account_invoice, self).action_cancel(cr, uid, ids, context=context)
+        for invoice in self.browse(cr, uid, ids, context=context):
+            if invoice.budget_move_id:
+                invoice.budget_move_id._workflow_signal('button_cancel', context=context)
+        return res
+
+    def action_cancel_draft(self, cr, uid, ids, *args):
+        res = super(account_invoice, self).action_cancel_draft(cr, uid, ids, *args)
+        for invoice in self.browse(cr, uid, ids):
+            if invoice.budget_move_id:
+                invoice.budget_move_id._workflow_signal('button_draft')
+        return res
+
     _columns= {
     'budget_move_id': fields.many2one('budget.move', 'Budget move', readonly=True, ),
     'from_order': fields.boolean('From order')
@@ -57,6 +71,19 @@ class account_invoice(osv.osv):
                 type = 'manual_invoice_out'
         move_id = bud_move_obj.create(cr, uid, { 'type': type }, context=context)
         return move_id
+
+    def update_budget_move(self,cr, uid, ids, context=None):
+        bud_move_obj = self.pool.get('budget.move')
+        acc_inv_obj = self.pool.get('account.invoice')
+        for invoice in acc_inv_obj.browse(cr, uid, ids, context=context):
+            if invoice.type in ('in_invoice','out_refund'):
+                type = 'manual_invoice_in'
+            if invoice.type in ('out_invoice','in_refund'):
+                type = 'manual_invoice_out'
+            invoice.budget_move_id.write({ 'type': type}, context=context)
+            move_ids = [(2, x.id)for x in invoice.budget_move_id.move_lines]
+            if move_ids:
+                invoice.budget_move_id.write({'move_lines': move_ids}, context=context)
 
     
     def create_budget_move_line_from_invoice(self, cr, uid, line_id, is_tax=False, context=None):    
@@ -154,7 +181,11 @@ class account_invoice(osv.osv):
         validate_result = super(account_invoice,self).invoice_validate(cr, uid, ids, context=context)
         if not self._check_from_order(cr, uid, context=context, ids=ids):
             for order in self.browse(cr,uid,ids, context=context):
-                move_id = self.create_budget_move(cr, uid, ids, context=context)
+                if not order.budget_move_id:
+                    move_id = self.create_budget_move(cr, uid, ids, context=context)
+                else:
+                    move_id = order.budget_move_id.id
+                    self.update_budget_move(cr, uid, [order.id], context=context)
                 self.write(cr, uid, [order.id], {'budget_move_id' :move_id }, context=context)
                 #creating budget move lines per invoice line
                 for line in order.invoice_line:
