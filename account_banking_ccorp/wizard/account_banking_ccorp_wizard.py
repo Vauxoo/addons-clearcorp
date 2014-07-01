@@ -396,7 +396,9 @@ class bankImportWizard(osv.TransientModel):
     def onchange_account_parser(self, cr, uid, ids, account_bank=False, context=None):
         if account_bank:
             account_parser = self.pool.get('res.partner.bank').browse(cr, uid, account_bank, context=context).parser_types
-        return {'value':{'parser': account_parser}}
+            if account_parser:
+                return {'value':{'parser': account_parser}}
+        return {'value':{'parser': False}}
     
     def extract_number( self, account_number ):
         '''
