@@ -623,7 +623,8 @@ class Task(osv.Model):
                               'priority': PRIORITY[feature.priority],
                               }
                     }
-        return {
+        else:
+            return {
                 'value': {
                           'planned_hours': False,
                           'priority': '2',
