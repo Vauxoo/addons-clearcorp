@@ -1397,7 +1397,7 @@ class budget_move_line(osv.osv):
         for bud_move_line in self.browse(cr, uid, ids, context=context):
              if bud_move_line.program_line_id.program_id.plan_id.state in ('cancel','closed'):
                 raise osv.except_osv(_('Error!'), _('You cannot create a budget move with a canceled or closed plan'))
-        super(budget_move_line, self).unlink(cr, uid, ids, vals, context=context)
+        super(budget_move_line, self).unlink(cr, uid, ids, context=context)
 
 class account_move_line_distribution(orm.Model):
     _name = "account.move.line.distribution"
