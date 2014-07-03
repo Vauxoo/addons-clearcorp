@@ -126,9 +126,6 @@
             <field name="inherit_id" ref="project.view_task_form2"/>
             <field name="priority" eval="100"/>
             <field name="arch" type="xml">
-                <xpath expr="//form/sheet/group/group/field[@name='phase_id']" position="attributes">
-                    <attribute name="attrs">{'readonly': [('is_scrum','=',True)]}</attribute>
-                </xpath>
                 <xpath expr="//form/sheet/notebook/page/field[@name='work_ids']" position="attributes">
                     <attribute name="context">{'phase_id': phase_id}</attribute>
                 </xpath>
