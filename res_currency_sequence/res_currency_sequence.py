@@ -20,6 +20,7 @@
 #
 ##############################################################################
 import time
+import copy
 from osv import osv, fields
 from tools.translate import _
 
@@ -90,16 +91,19 @@ class ResCurrency(osv.osv):
         res_obj = self.pool.get('res.currency.rate')
         result = 0.00
         
+        copy_context = copy.copy(context)
+        copy_context.update({'date':name})
+        
         res_currency_base_id = self.search(cr, uid, [('base', '=', True)])
         res_currency_base = self.browse(cr, uid, res_currency_base_id)[0]
         
         if res_currency_initial.id == res_currency_base.id:
-            exchange_rate_dict = self.pool.get('res.currency')._current_rate(cr, uid, [res_currency_finally.id], name, arg=None, context=context)
+            exchange_rate_dict = self.pool.get('res.currency')._current_rate(cr, uid, [res_currency_finally.id], name, arg=None, context=copy_context)
             result = exchange_rate_dict[res_currency_finally.id]
             
         elif res_currency_initial.id != res_currency_finally.id:
-            currency_rate_initial = self.pool.get('res.currency')._current_rate(cr, uid, [res_currency_initial.id], name, arg=None, context=context)[res_currency_initial.id]
-            currency_rate_finally = self.pool.get('res.currency')._current_rate(cr, uid, [res_currency_finally.id], name, arg=None, context=context)[res_currency_finally.id]
+            currency_rate_initial = self.pool.get('res.currency')._current_rate(cr, uid, [res_currency_initial.id], name, arg=None, context=copy_context)[res_currency_initial.id]
+            currency_rate_finally = self.pool.get('res.currency')._current_rate(cr, uid, [res_currency_finally.id], name, arg=None, context=copy_context)[res_currency_finally.id]
             result = currency_rate_initial * currency_rate_finally
         else:
             result = 1.00
