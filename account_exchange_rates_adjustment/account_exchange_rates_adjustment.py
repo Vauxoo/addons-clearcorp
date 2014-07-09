@@ -225,7 +225,7 @@ class AccountMove(osv.osv):
             
             #Create move line
             move_line = {
-                         'name': line.name or '',
+                         'name': 'Adj ' + line.name or 'Adj',
                          'ref': line.ref or '',
                          'debit': debit,
                          'credit': credit,
@@ -240,7 +240,8 @@ class AccountMove(osv.osv):
                          'company_id': line.company_id.id,
                          'adjustment': line.id,
                          }
-            new_move_line_id = move_line_obj.create(cr, uid, move_line, context=context)
+            new_move_line_id = move_line_obj.create(cr, uid, move_line, context=context)            
+            move_line_obj.reconcile_partial(cr, uid, [line.id, new_move_line_id], 'auto', context)            
             lines_created_ids.append(new_move_line_id)
             
         return lines_created_ids
