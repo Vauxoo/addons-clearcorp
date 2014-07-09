@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!-- account.journal -->
+        <record id="view_account_journal_form" model="ir.ui.view">
+            <field name="name">view.account.journal.form</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/notebook/page[@string='Advanced Settings']/group/group/field[@name='group_invoice_lines']" position="after">
+                    <field name="pay_commission"/>
+                </xpath>
+            </field>
+        </record>
+        <!-- sale.commission.rule -->
+        <!-- form -->
+        <record id="view_rule_form" model="ir.ui.view">
+            <field name="name">view.rule.form</field>
+            <field name="model">sale.commission.rule</field>
+            <field name="type">form</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form string="Commission Rule" version="7.0">
+                    <sheet>
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                        <group col="2">
+                            <group colspan="1">
+                               <field name="post_expiration_days"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="rule_lines" string="Rule Lines">
+                                <field name="line_ids"/>
+                            </page>
+                            <page name="members" string="Members">
+                                <field name="member_ids" widget="many2many"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- tree -->
+        <record id="view_rule_tree" model="ir.ui.view">
+            <field name="name">view.rule.tree</field>
+            <field name="model">sale.commission.rule</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Commission Rule">
+                    <field name="name"/>
+                    <field name="post_expiration_days"/>
+                </tree>
+            </field>
+        </record>
+        <!-- sale.commission.rule.line -->
+        <!-- form -->
+        <record id="view_rule_line_form" model="ir.ui.view">
+            <field name="name">view.rule.line.form</field>
+            <field name="model">sale.commission.rule.line</field>
+            <field name="type">form</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form string="Commission Rule Line" version="7.0">
+                    <sheet>
+                        <group name="general">
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="sequence"/>
+                                <field name="commission_percentage"/>
+                            </group>
+                        </group>
+                        <group name="conditions" string="Conditions">
+                            <group>
+                                <field name="partner_category_id"/>
+                                <field name="pricelist_id"/>
+                                <field name="payment_term_id"/>
+                            </group>
+                            <group>
+                                <field name="max_discount"/>
+                                <field name="monthly_sales"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- tree -->
+        <record id="view_rule_line_tree" model="ir.ui.view">
+            <field name="name">view.rule.line.tree</field>
+            <field name="model">sale.commission.rule.line</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Commission Rule Line">
+                    <field name="name"/>
+                    <field name="commission_percentage"/>
+                    <field name="partner_category_id"/>
+                    <field name="pricelist_id"/>
+                    <field name="payment_term_id"/>
+                    <field name="max_discount"/>
+                    <field name="monthly_sales"/>
+                    <field name="sequence"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</openerp>
