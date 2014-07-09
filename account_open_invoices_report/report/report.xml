@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data>            
+    <data noupdate="1">            
         <!--This record is create to delete webkit record for profit statement report 
         It's inoffensive after delete the report with webkit type.
         
