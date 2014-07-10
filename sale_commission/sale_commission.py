@@ -109,6 +109,12 @@ class Commission(osv.Model):
     def cancel(self, cr, uid, ids, context=None):
         return self.write(cr, uid, ids, {'state': 'cancelled'}, context=context)
 
+    def pay(self, cr, uid, ids, context=None):
+        return self.write(cr, uid, ids, {'state': 'paid'}, context=context)
+
+    def expired(self, cr, uid, ids, context=None):
+        return self.write(cr, uid, ids, {'state': 'expired'}, context=context)
+
     def _check_amount(self, cr, uid, ids, context=None):
         for commission in self.browse(cr, uid, ids, context=context):
             if commission.amount <= 0.0:

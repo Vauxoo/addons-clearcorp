@@ -118,7 +118,9 @@
             <field name="arch" type="xml">
                 <form string="Commission" version="7.0">
                     <header>
-                        <button name="cancel" type="object" string="Cancel" states="new" class="oe_highlight"/>
+                        <button name="pay" type="object" string="Pay" states="new" class="oe_highlight"/>
+                        <button name="expired" type="object" string="Mark as expired" states="new"/>
+                        <button name="cancel" type="object" string="Cancel" states="new"/>
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
