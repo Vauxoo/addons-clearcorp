@@ -108,5 +108,73 @@
                 </tree>
             </field>
         </record>
+        <!-- sale.commission.commission -->
+        <!-- form -->
+        <record id="view_commission_form" model="ir.ui.view">
+            <field name="name">view.commission.form</field>
+            <field name="model">sale.commission.commission</field>
+            <field name="type">form</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form string="Commission" version="7.0">
+                    <header>
+                        <button name="cancel" type="object" string="Cancel" states="new" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="user_id" attrs="{'readonly': ['|',('state','=','cancelled'),('state','=','paid')]}"/>
+                                <field name="invoice_id" attrs="{'readonly': ['|',('state','=','cancelled'),('state','=','paid')]}"/>
+                            </group>
+                            <group>
+                                <field name="invoice_commission_percentage" attrs="{'readonly': ['|',('state','=','cancelled'),('state','=','paid')]}"/>
+                                <field name="amount" attrs="{'readonly': ['|',('state','=','cancelled'),('state','=','paid')]}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_commission_tree" model="ir.ui.view">
+            <field name="name">view.commission.tree</field>
+            <field name="model">sale.commission.commission</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <tree string="Commission">
+                    <field name="user_id"/>
+                    <field name="invoice_id"/>
+                    <field name="invoice_commission_percentage"/>
+                    <field name="amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <!-- search -->
+        <record id="view_commission_search" model="ir.ui.view">
+            <field name="name">view.commission.search</field>
+            <field name="model">sale.commission.commission</field>
+            <field name="type">search</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+               <search string="Commission">
+                    <field name="invoice_id"/>
+                    <field name="user_id"/>
+                    <separator/>
+                    <filter string="New" name="new" domain="[('state','=','new')]"/>
+                    <filter string="Paid" name="paid" domain="[('state','=','paid')]"/>
+                    <filter string="Expired" name="expired" domain="[('state','=','expired')]"/>
+                    <filter string="Cancelled" name="cancelled" domain="[('state','=','cancelled')]"/>
+                    <separator/>
+                    <filter string="My Commissions" name="my_commissions" domain="[('user_id','=',uid)]"/>
+                    <group expand="1" string="Group By...">
+                        <filter string="State" name="group_state" domain="[]"  context="{'group_by':'state'}"/>
+                        <filter string="Invoice" name="group_invoice" domain="[]"  context="{'group_by':'invoice_id'}"/>
+                        <filter string="Salesperson" name="group_salesperson" domain="[]"  context="{'group_by':'user_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
     </data>
 </openerp>

@@ -42,7 +42,7 @@ class CommissionRule(osv.Model):
     }
 
     _constraints = [(_check_post_expiration_days,'Value must be greater or equal than 0.',
-                     ['Post-Expiration Days'])]
+                     ['post_expiration_days'])]
 
 class CommissionRuleLine(osv.Model):
     """Commission Rule Line"""
@@ -87,10 +87,10 @@ class CommissionRuleLine(osv.Model):
         'monthly_sales': fields.float('Monthly Sales', digits=(16,2), help='True if empty or met.'),
     }
 
-    _constraints = [(_check_sequence, 'Value must be greater or equal than 0.', ['Sequence']),
+    _constraints = [(_check_sequence, 'Value must be greater or equal than 0.', ['sequence']),
                     (_check_percentages, 'Value must be greater or equal than 0 and lower '
-                     'or equal than 100.', ['Commission (%)','Max Discount (%)']),
-                    (_check_monthly_sales, 'Sales can not be negative', ['Monthly Sales'])]
+                     'or equal than 100.', ['commission_percentage','max_discount']),
+                    (_check_monthly_sales, 'Sales can not be negative', ['monthly_sales'])]
 
     _sql_constraints = [('unique_sequence_rule','UNIQUE(sequence,commission_rule_id)',
                          'Sequence must be unique for every line in a Commission Rule.')]
@@ -102,14 +102,38 @@ class Commission(osv.Model):
 
     _description = __doc__
 
+    _rec_name = 'user_id'
+
+    _order = 'invoice_id asc'
+
+    def cancel(self, cr, uid, ids, context=None):
+        return self.write(cr, uid, ids, {'state': 'cancelled'}, context=context)
+
+    def _check_amount(self, cr, uid, ids, context=None):
+        for commission in self.browse(cr, uid, ids, context=context):
+            if commission.amount <= 0.0:
+                return False
+        return True
+
+    def _check_percentage(self, cr, uid, ids, context=None):
+        for commission in self.browse(cr, uid, ids, context=context):
+            if commission.invoice_commission_percentage <= 0.0 or \
+            commission.invoice_commission_percentage > 100.0:
+                return False
+        return True
+
     _columns = {
-        'invoice_id': fields.many2one('account.invoice', string='Invoice'),
+        'invoice_id': fields.many2one('account.invoice', string='Invoice', required=True),
         'state': fields.selection([('new','New'),('paid','Paid'),('expired','Expired'),
             ('cancelled','Cancelled')], string='State'),
-        'user_id': fields.many2one('res.users', string='Salesperson'),
+        'user_id': fields.many2one('res.users', string='Salesperson', required=True),
         'amount': fields.float('Amount', digits=(16,2)),
         'invoice_commission_percentage': fields.float('Commission (%)', digits=(16,2)),
     }
+
+    _constraints = [(_check_amount, 'Value must be greater than 0.', ['amount']),
+                    (_check_percentage, 'Value must be greater than 0 and '
+                     'lower or equal than 100',['invoice_commission_percentage'])]
 
     _defaults = {
         'state': 'new',

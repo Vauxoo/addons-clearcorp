@@ -36,6 +36,7 @@
              'view/sale_commission_view.xml',
              'view/sale_commission_menu.xml',
              'wizard/wizard.xml',
+             'security/ir.model.access.csv',
              ],
     'test' : [],
     'demo': [],

@@ -15,7 +15,8 @@
             parent="base.menu_sales"
             name="Commission Payment"
             action="action_pay_wizard"
-            sequence="15"/>
+            groups="base.group_sale_manager"
+            sequence="20"/>
         <!-- view -->
         <record id="view_pay_wizard_form" model="ir.ui.view">
             <field name="name">view.pay.wizard.form</field>
