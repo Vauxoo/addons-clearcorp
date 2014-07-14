@@ -102,8 +102,6 @@ class Commission(osv.Model):
 
     _description = __doc__
 
-    _rec_name = 'user_id'
-
     _order = 'invoice_id asc'
 
     def cancel(self, cr, uid, ids, context=None):
@@ -127,6 +125,12 @@ class Commission(osv.Model):
             commission.invoice_commission_percentage > 100.0:
                 return False
         return True
+
+    def name_get(self, cr, uid, ids, context=None):
+        res = []
+        for item in self.browse(cr, uid, ids, context=context):
+            res.append((item.id, '%s - %s' % (item.user_id.name,item.invoice_id.number)))
+        return res
 
     _columns = {
         'invoice_id': fields.many2one('account.invoice', string='Invoice', required=True),
