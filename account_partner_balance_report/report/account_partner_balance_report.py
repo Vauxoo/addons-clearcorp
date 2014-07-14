@@ -204,7 +204,7 @@ class Parser(accountReportbase):
         
        return amount
    
-    def compute_exchange_rate(self, cr, uid, partner,type):        
+    def compute_exchange_rate(self, cr, uid, partner,type, context):        
        debit = 0.0
        credit = 0.0
        amount = 0.0
@@ -214,7 +214,7 @@ class Parser(accountReportbase):
        type_dict = self.get_data_by_partner(partner)[type]
        for currency, lines in type_dict.iteritems():
           currency_current = self.pool.get('res.currency').browse(cr, uid, currency)
-          conversion_rate_str = self.get_conversion_rate(cr, uid, currency_current, currency_company)
+          conversion_rate_str = self.get_conversion_rate(cr, uid, currency_current, currency_company, context)
         
        return conversion_rate_str
        
@@ -262,8 +262,9 @@ class Parser(accountReportbase):
         @param initial_currency: It must be a browse record
         @param final_currency: It must be a browse record        
     """    
-    def get_conversion_rate(self, cr, uid, initial_currency, final_currency, context=None): 
-        res_currency_obj = self.pool.get('res.currency')        
+    def get_conversion_rate(self, cr, uid, initial_currency, final_currency, context): 
+        res_currency_obj = self.pool.get('res.currency')   
+        copy_context = context     
         
         now = time.strftime('%Y-%m-%d')        
         conversion_rate = res_currency_obj.get_exchange_rate(cr, uid, initial_currency, final_currency, now, context=context)
