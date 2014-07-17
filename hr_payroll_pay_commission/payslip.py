@@ -37,7 +37,7 @@ class PaySlip(osv.Model):
                         total_commissions += payment.amount_paid
                     if input.amount != total_commissions:
                         raise osv.except_osv(_('Error'),_('The total amount of commissions for %s '
-                        'was modified from its original values %d') % (input.name, total_commissions))
+                        'was modified from its original value %d') % (input.name, total_commissions))
         return super(PaySlip, self).compute_sheet(cr, uid, ids, context=context)
                     
     def process_sheet(self, cr, uid, ids, context=None):
