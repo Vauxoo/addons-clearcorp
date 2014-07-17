@@ -51,6 +51,7 @@ Main Features
              'view/hr_payroll_pay_commission_menu.xml',
              'view/res_config_view.xml',
              'wizard/wizard.xml',
+             'security/ir.model.access.csv',
              ],
     'test' : [],
     'demo': [],

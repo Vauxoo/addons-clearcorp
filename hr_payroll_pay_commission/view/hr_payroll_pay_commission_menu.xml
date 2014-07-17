@@ -13,6 +13,7 @@
             parent="hr_payroll.menu_hr_root_payroll"
             name="Commission Payments"
             action="action_payment"
+            groups="base.group_hr_manager"
             sequence="30"/>
     </data>
 </openerp>

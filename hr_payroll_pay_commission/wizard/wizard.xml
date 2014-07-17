@@ -15,6 +15,7 @@
             parent="hr_payroll.menu_hr_root_payroll"
             name="Pay Commission"
             action="action_pay_wizard"
+            groups="base.group_hr_manager"
             sequence="40"/>
         <!-- view -->
         <record id="view_pay_wizard_form" model="ir.ui.view">

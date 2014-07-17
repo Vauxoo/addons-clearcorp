@@ -36,6 +36,7 @@ class PayCommissionsWizard(osv.TransientModel):
         payment_obj = self.pool.get('hr.payroll.pay.commission.payment')
         input_obj = self.pool.get('hr.payslip.input')
         company_obj = self.pool.get('res.company')
+        user_commissions = []
         for slip in wizard.payslip_run_id.slip_ids:
             if not slip.employee_id.user_id:
                 raise osv.except_osv(_('Error'), _('The employee %s does not have a user assigned') %
@@ -46,7 +47,6 @@ class PayCommissionsWizard(osv.TransientModel):
                 ('user_id','=',user_id.id)], context=context)
             try:
                 # Iterate all commissions of the user
-                user_commissions = []
                 total_commissions = 0.0
                 # TODO: validate 0 amounts
                 for commission in commission_obj.browse(cr, uid, commission_ids,
