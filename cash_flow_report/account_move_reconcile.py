@@ -23,16 +23,28 @@
 from osv import fields,orm
 from copy import copy
 
+class CashDistributionError(osv.except_osv):
+    name =""
+    value = ""
+    move_id=0 
+    def __init__(self, name, value, move_id):
+        self.value = name
+        self.value = value
+        self.move_id =move_id
+        osv.except_osv.__init__(self, name, value)
+
+        osv.except_osv
+        
 class accountReconcileinherit(orm.Model):
     
     _inherit = "account.move.reconcile"
     
+    """
     #Inherit create of account.move.reconcile
     def create(self, cr, uid, vals, context=None):
         reconcile_id = super(accountReconcileinherit, self).create(cr, uid, vals, context=context)
         #Cash Flow.
-        self.reconcile_check_cash_flow(cr, uid, [reconcile_id], context=context)
-        
+        self.reconcile_check_cash_flow(cr, uid, [reconcile_id], context=context)        
         return reconcile_id
     
     #Delete all lines that match with reconcile
@@ -42,16 +54,29 @@ class accountReconcileinherit(orm.Model):
         dist_obj.unlink(cr, uid, dist_ids, context=context)
         
         return super(accountReconcileinherit, self).unlink(cr, uid, ids, context=context)
+    """
     
     #Get counterparts of a specific line.
     def _get_move_counterparts(self, cr, uid, line, context={}):
         is_debit = True if line.debit else False
         res = []
+        debit_bud= False
+        credit_bud=False
+        
+        for move_line in line.move_id.line_id:
+            if move_line.credit:
+                credit_bud = True
+            if move_line.debit:
+                debit_bud = True
+        if credit_bud and debit_bud:
+            raise CashDistributionError(_('Error'), _('Budget distributions cannot be created automatically for this reconcile'), line.move_id.id)
+        
         for move_line in line.move_id.line_id:
             if (is_debit and move_line.credit) or (not is_debit and move_line.debit):
                 res.append(move_line)
         return res
     
+    """
     #Get counterparts in reconcile for a specific line
     def _get_reconcile_counterparts(self, cr, uid, line, context={}):
         is_debit = True if line.debit else False
@@ -72,17 +97,19 @@ class accountReconcileinherit(orm.Model):
                 if (is_debit and move_line.credit) or (not is_debit and move_line.debit):
                     res.append(move_line)
         return reconcile_ids, res
+    """
     
     #Adjust cash_flow_types values in account.cash.flow.distribution.
     def _adjust_distributed_values_cash_flow(self, cr, uid, dist_ids, amount, context = {}):
-        dist_obj = self.pool.get('account.cash.flow.distribution')
+        dist_obj = self.pool.get('cash.flow.distribution')
         distributed_amount = 0.0
         dists = dist_obj.browse(cr, uid, dist_ids, context = context)
         
+        """
         if amount <= 0.0:
             dist_obj.unlink(cr, uid, dist_ids, context = context)
             return True
-        
+        """
         for dist in dists:
             distributed_amount += dist.distribution_amount
         
@@ -90,23 +117,27 @@ class accountReconcileinherit(orm.Model):
             for dist in dists:
                 vals = {
                     'distribution_amount':dist.distribution_amount * amount / distributed_amount,
+                    'distribution_percentage':dist.distribution_percentage * amount / distributed_amount,
                 }
                 dist_obj.write(cr, uid, [dist.id], vals, context = context)
             return True
         
         return False
     
-    def _distribution_move_lines_cash_flow(self, cr, uid, original_line, actual_line = None, checked_lines = [], amount_to_dist = 0.0, original_amount_to_dist = 0.0, reconcile_ids = [], continue_reconcile = False, context={}):
+    def _recursive_liquid_get_auto_distribution_cash_flow(self, cr, uid, original_line, actual_line = None, checked_lines = [], amount_to_dist = 0.0, original_amount_to_dist = 0.0, reconcile_ids = [], continue_reconcile = False, context={}):
         
-        """
-            Receives an account.move.line that moves liquid and was found creating a reconcile.
-            This method starts at this line and "travels" through the moves and reconciles line counterparts
-            to try to find a budget move to match with.
-            Returns the list of account.cash.flow.distribution created, or an empty list.
-        """
+        dist_obj = self.pool.get('cash.flow.distribution')
+       
+        if not actual_line and not original_line.account_id.moves_cash:
+            return []
+        
+        if not actual_line and not original_line.account_id.cash_flow_type:
+            return []
                 
         # Check for first call
         if not actual_line:
+            dist_search = dist_obj.search(cr, uid, [('account_move_line_id','=',original_line.id)],context=context)
+            #dist_obj.unlink(cr,uid,dist_search,context=context,is_incremental=is_incremental)
             actual_line = original_line
             amount_to_dist = original_line.debit + original_line.credit
             original_amount_to_dist = amount_to_dist
@@ -198,31 +229,44 @@ class accountReconcileinherit(orm.Model):
         liquid_distributed = 0.0
         
         if cash_lines or liquid_lines:
-            # Write dists and build lists
-            
-            dist_obj = self.pool.get('account.cash.flow.distribution')
+            # Write dist and build lists
+            dist_obj = self.pool.get('cash.flow.distribution')
             
             #Cash list
             for line in cash_lines.values():
-                distribution_amount = cash_amounts[line.id]
+                distribution_amount = liquid_amounts[line.id]
+                """
+                if line.fixed_amount < 0:
+                    signed_dist_amount = distribution_amount * -1
+                else:
+                """
+                signed_dist_amount = distribution_amount
                 cash_distributed += distribution_amount
                 vals = {
                     'account_move_line_id':         original_line.id,
-                    'distribution_amount':          distribution_amount,
-                    'target_account_move_line':  line.id,
+                    'distribution_amount':          signed_dist_amount,
+                    'distribution_percentage':      100 * abs(distribution_amount) / abs(original_amount_to_dist),
+                    'target_account_move_line_id':  line.id,
                     'reconcile_ids':                [(6, 0, new_reconcile_ids)],
+                    'type':                         'auto',
                 }
                 cash_res.append(dist_obj.create(cr, uid, vals, context = context))
             
-            #Liquid list
+            # Liquid list
             for line in liquid_lines.values():
                 distribution_amount = liquid_amounts[line.id]
+                #if line.fixed_amount < 0:
+                #    signed_dist_amount = distribution_amount * -1
+                #else:
+                signed_dist_amount = distribution_amount
                 liquid_distributed += distribution_amount
                 vals = {
                     'account_move_line_id':         original_line.id,
-                    'distribution_amount':          distribution_amount,
-                    'target_account_move_line':  line.id,
+                    'distribution_amount':          signed_dist_amount,
+                    'distribution_percentage':      100 * abs(distribution_amount) / abs(original_amount_to_dist),
+                    'target_account_move_line_id':  line.id,
                     'reconcile_ids':                [(6, 0, new_reconcile_ids)],
+                    'type':                         'auto',
                 }
                 liquid_res.append(dist_obj.create(cr, uid, vals, context = context))
             
@@ -235,39 +279,68 @@ class accountReconcileinherit(orm.Model):
         return cash_res + liquid_res + none_res
     
     def _check_distributions_cash_flow(self, cr, uid, line, dist_ids, context = {}):
+        
         # Check for exact value computation
         if line and dist_ids:
-            dist_obj = self.pool.get('account.cash.flow.distribution')            
+            dist_obj = self.pool.get('cash.flow.distribution')            
             dists = dist_obj.browse(cr, uid, dist_ids, context = context)
             distribution_amount = 0.0            
             #Check amounts for a particular line
             for dist in dists:
-                distribution_amount += dist.distribution_amount            
+                distribution_amount += dist.distribution_amount
+                distribution_percentage += dist.distribution_percentage            
             last_dist = dists[-1]
             last_dist_distribution_amount = last_dist.distribution_amount
+            last_dist_distribution_percentage = last_dist.distribution_percentage
             amount = line.debit + line.credit
             
             vals = {}
             if distribution_amount > amount:
+                """
                 if (distribution_amount - amount) > last_dist_distribution_amount:
                     # Bad dists, the difference is bigger than the adjustment line (last line)
-                    dist_obj.unlink(cr, uid, dist_ids, context=context)
+                    #dist_obj.unlink(cr, uid, dist_ids, context=context)
+                    return []
+                else:
+                """
+                # Adjust difference
+                if distribution_amount > 0:
+                    vals['distribution_amount'] = amount - (abs(distribution_amount) - abs(last_dist_distribution_amount))
+                else:
+                    vals['distribution_amount'] = -(amount - (abs(distribution_amount) - abs(last_dist_distribution_amount)))
+            
+            elif distribution_amount < amount:
+                if distribution_amount > 0:
+                    vals['distribution_amount'] = amount - (abs(distribution_amount) - abs(last_dist_distribution_amount))
+                else:
+                    vals['distribution_amount'] = -(amount - (abs(distribution_amount) - abs(last_dist_distribution_amount)))
+                    
+            if 'distribution_amount' in vals:
+                if last_dist.target_account_move_line_id and \
+                    abs(vals['distribution_amount']) > (last_dist.target_account_move_line_id.debit + last_dist.target_account_move_line_id.credit):
+                    # New value is bigger than allowed value
+                    #dist_obj.unlink(cr, uid, dist_ids, context=context)
+                    return []
+                
+                elif last_dist.target_budget_move_line_id and \
+                    abs(distribution_amount) > abs(last_dist.target_budget_move_line_id.fixed_amount):
+                    # New value is bigger than allowed value
+                    #dist_obj.unlink(cr, uid, dist_ids, context=context)
+                    return []
+            
+            if distribution_percentage > 100:
+                if (distribution_percentage - 100) > last_dist_distribution_percentage:
+                    # Bad dists, the difference is bigger than the adjustment line (last line)
+                    #dist_obj.unlink(cr, uid, dist_ids, context=context)
                     return []
                 else:
                     # Adjust difference
-                    vals['distribution_amount'] = amount - (distribution_amount - last_dist_distribution_amount)
-                    
-            elif distribution_amount < amount:
-                vals['distribution_amount'] = amount - (distribution_amount - last_dist_distribution_amount)
+                    vals['distribution_percentage'] = 100 - (distribution_percentage - last_dist_distribution_percentage)
             
-            if 'distribution_amount' in vals:
-                if last_dist.target_account_move_line and \
-                    vals['distribution_amount'] > (last_dist.target_account_move_line.debit + last_dist.target_account_move_line.credit):
-                    # New value is bigger than allowed value
-                    dist_obj.unlink(cr, uid, dist_ids, context=context)
-                    return []               
-               
-            dist_obj.write(cr, uid, last_dist.id, vals, context=context)
+            elif distribution_percentage < 100:
+                vals['distribution_percentage'] = 100 - (distribution_percentage - last_dist_distribution_percentage)
+
+            dist_obj.write(cr, uid, [last_dist.id], vals, context=context)
             return dist_ids
     
     def reconcile_check_cash_flow(self, cr, uid, ids, context={}):
@@ -288,13 +361,13 @@ class accountReconcileinherit(orm.Model):
             # Check if the account if marked as moves_cash and if account has a cash_flow_type
             for line in move_lines:
                 if (line.id not in done_lines) and line.account_id and line.account_id.moves_cash:
-                    dist_ids = self._distribution_move_lines_cash_flow(cr, uid, line, context=context)
+                    dist_ids = self._recursive_liquid_get_auto_distribution_cash_flow(cr, uid, line, context=context)
                     checked_dist_ids = self._check_distributions_cash_flow(cr, uid, line, dist_ids, context=context)
                     if checked_dist_ids:
                         res[line.id] = checked_dist_ids
                 
                 elif (line.id not in done_lines) and line.account_id and line.account_id.cash_flow_type:
-                    dist_ids = self._distribution_move_lines_cash_flow(cr, uid, line, context=context)
+                    dist_ids = self._recursive_liquid_get_auto_distribution_cash_flow(cr, uid, line, context=context)
                     checked_dist_ids = self._check_distributions_cash_flow(cr, uid, line, dist_ids, context=context)
                     if checked_dist_ids:
                         res[line.id] = checked_dist_ids

@@ -36,10 +36,9 @@ class BudgetDistributionError(osv.except_osv):
         osv.except_osv.__init__(self, name, value)
 
         osv.except_osv
+        
 class AccountMoveReconcile(osv.Model):
     _inherit = 'account.move.reconcile'
-    
-
     
     def unlink(self, cr, uid, ids, context={}):
         dist_obj = self.pool.get('account.move.line.distribution')
@@ -59,7 +58,8 @@ class AccountMoveReconcile(osv.Model):
             for mov_id in budget_move_ids:
                 bud_mov_obj._workflow_signal(cr, uid, [mov_id], 'button_check_execution', context=context)
         return super(AccountMoveReconcile, self).unlink(cr, uid, ids, context=context)
-
+    
+    """
     def check_incremental_reconcile(self, cr, uid, vals, context=None):
         #Checks for every account move line, that if the AML(account move line) has a reconcile (partial or complete), each AML of the given reconcile must be e included in the new reconcile.
         acc_move_line_obj=self.pool.get('account.move.line')
@@ -89,8 +89,7 @@ class AccountMoveReconcile(osv.Model):
                      if aml.id not in acc_move_line_ids:
                          return False
         return True
-        
-        
+    """
     
     def create(self, cr, uid, vals, context=None):
         account_move_obj= self.pool.get('account.move')
@@ -103,6 +102,7 @@ class AccountMoveReconcile(osv.Model):
             account_move_obj.message_post(cr, uid, [error.move_id], body=msg, context=context)
         return reconcile_id
     
+    """
     def split_debit_credit(self,cr, uid, move_line_ids,context=None):
         #takes a list of given account move lines and classifies them in credit or debit
         #returns a dictionary with two keys('debit' and 'credit') and for values lists of account move line ids
@@ -123,7 +123,7 @@ class AccountMoveReconcile(osv.Model):
         result ['debit'] = debit
         result ['credit'] = credit
         return result
-    
+    """
     def move_in_voucher(self,cr, uid, move_ids, context=None):
         #Checks if a move is in a voucher, returns the id of the voucher or -1 in case that is not in any
         acc_move_obj = self.pool.get('account.move')
@@ -219,7 +219,7 @@ class AccountMoveReconcile(osv.Model):
             if (is_debit and move_line.credit) or (not is_debit and move_line.debit):
                 res.append(move_line)
         return res
-    
+    """
     def _get_reconcile_counterparts(self, cr, uid, line, context={}):
         is_debit = True if line.debit else False
         reconcile_ids = []
@@ -239,6 +239,7 @@ class AccountMoveReconcile(osv.Model):
                 if (is_debit and move_line.credit) or (not is_debit and move_line.debit):
                     res.append(move_line)
         return reconcile_ids, res
+    """
     
     def _adjust_distributed_values(self, cr, uid, dist_ids, amount, context = {}):
         dist_obj = self.pool.get('account.move.line.distribution')
