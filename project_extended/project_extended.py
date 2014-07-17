@@ -127,6 +127,20 @@ class project(osv.Model):
         
 class task(osv.osv):
     def _get_color_code(self, date_start, date_deadline, planned_hours, state):
+        """Calculate the current color code for the task depending on the state
+        Colors:
+        0 -> White          5 -> Aqua
+        1 -> Dark Gray      6 -> Light Aqua
+        2 -> Red            7 -> Blue
+        3 -> Orange         8 -> Purple
+        4 -> Green          9 -> Pink
+        @param self: The object pointer.
+        @param date_start: The string initial date
+        @param date_deadline: The string dateline
+        @param planned_hours: Total planned hours for the task
+        @param state: The current task state
+        @return: An integer that represents the current task state as a color
+        """
         if state == 'done':
             #Done task COLOR: GRAY
             return '1'
@@ -136,9 +150,11 @@ class task(osv.osv):
                     if planned_hours:
                         date_start = datetime.strptime(date_start,'%Y-%m-%d %H:%M:%S')
                         date_deadline = datetime.strptime(date_deadline,'%Y-%m-%d')
-                        total_time = relativedelta(date_deadline, date_start).hours
-                        left_hours = relativedelta(date_deadline, datetime.today()).hours                    
-                        percentage_left = (left_hours/total_time)
+                        total_time_delta = relativedelta(date_deadline, date_start)
+                        left_hours_delta = relativedelta(date_deadline, datetime.today())
+                        total_time = (total_time_delta.days*24) + total_time_delta.hours + (total_time_delta.minutes/60)
+                        left_hours = (left_hours_delta.days*24) + left_hours_delta.hours + (left_hours_delta.minutes/60)
+                        percentage_left = float(left_hours)/float(total_time)
                         if percentage_left >= 0.70:
                             #COLOR: BLUE
                             return '7'
@@ -157,8 +173,8 @@ class task(osv.osv):
                         #Not planned hours available COLOR: PURPLE
                         return '8'
                 else:
-                    #TODO COLOR: WHITE
-                    return '0'
+                    #No date_start COLOR: AQUA
+                    return '6'
             else:
                 #No deadline available COLOR: WHITE
                 return '0'
@@ -179,7 +195,7 @@ class task(osv.osv):
     }
     
     _defaults = {
-                 'date_start' : fields.datetime.now(),
+                 'date_start' : lambda *a: datetime.strftime(datetime.now(),'%Y-%m-%d %H:%M:%S'),
                  }
     
     def get_number_sequence(self, cr, uid, project_id, context=None):
