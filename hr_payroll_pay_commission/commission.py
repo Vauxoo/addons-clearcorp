@@ -27,7 +27,7 @@ class Commission(osv.Model):
 
     def _compute_amounts(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
-        payment_obj = self.pool.get('hr.payslip.pay.commission.payment')
+        payment_obj = self.pool.get('hr.payroll.pay.commission.payment')
         for commission in self.browse(cr, uid, ids, context=context):
             payment_ids = payment_obj.search(cr, uid, [('commission_id','=',commission.id)], context=context)
             payments = payment_obj.browse(cr, uid, payment_ids, context=context)

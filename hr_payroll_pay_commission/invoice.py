@@ -27,7 +27,7 @@ class Invoice(osv.Model):
 
     def _compute_commission_payments(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
-        payment_obj = self.pool.get('hr.payslip.pay.commission.payment')
+        payment_obj = self.pool.get('hr.payroll.pay.commission.payment')
         for invoice in self.browse(cr, uid, ids, context=context):
             payment_ids = payment_obj.search(cr, uid, [('invoice_id','=',invoice.id)], context=context)
             res[invoice.id] = payment_ids
@@ -35,6 +35,6 @@ class Invoice(osv.Model):
 
     _columns = {
         'commission_payment_ids': fields.function(_compute_commission_payments, type='one2many',
-            obj='hr.payslip.pay.commission.payment', string='Commission Payments'),
+            obj='hr.payroll.pay.commission.payment', string='Commission Payments'),
         'commission_payment_complete': fields.boolean('Commission Payment Complete', readonly=True),
     }

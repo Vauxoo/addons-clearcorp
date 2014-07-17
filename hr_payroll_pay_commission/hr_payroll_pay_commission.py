@@ -24,7 +24,7 @@ from openerp.osv import osv, fields
 class Payment(osv.Model):
     """Commissions Payroll Payment"""
 
-    _name = 'hr.payslip.pay.commission.payment'
+    _name = 'hr.payroll.pay.commission.payment'
 
     _description = __doc__
 

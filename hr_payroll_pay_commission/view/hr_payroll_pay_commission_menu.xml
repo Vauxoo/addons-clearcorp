@@ -4,7 +4,7 @@
         <!-- actions -->
         <record id="action_payment" model="ir.actions.act_window">
             <field name="name">Commission Payments</field>
-            <field name="res_model">hr.payslip.pay.commission.payment</field>
+            <field name="res_model">hr.payroll.pay.commission.payment</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree</field>
         </record>

@@ -27,7 +27,7 @@ class PaySlip(osv.Model):
     _inherit = 'hr.payslip'
 
     def compute_sheet(self, cr, uid, ids, context=None):
-        payment_obj = self.pool.get('hr.payslip.pay.commission.payment')
+        payment_obj = self.pool.get('hr.payroll.pay.commission.payment')
         for slip in self.browse(cr, uid, ids, context=context):
             for input in slip.input_line_ids:
                 if input.code == slip.employee_id.company_id.pay_commission_code:
@@ -41,7 +41,7 @@ class PaySlip(osv.Model):
         return super(PaySlip, self).compute_sheet(cr, uid, ids, context=context)
                     
     def process_sheet(self, cr, uid, ids, context=None):
-        payment_obj = self.pool.get('hr.payslip.pay.commission.payment')
+        payment_obj = self.pool.get('hr.payroll.pay.commission.payment')
         for slip in self.browse(cr, uid, ids, context=context):
             payment_ids = payment_obj.search(cr, uid, [('slip_id','=',slip.id)], context=context)
             commission_ids = [elem['commission_id'] for elem in payment_obj.read(cr, uid, payment_ids,

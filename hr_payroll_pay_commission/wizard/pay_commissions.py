@@ -33,7 +33,7 @@ class PayCommissionsWizard(osv.TransientModel):
         assert isinstance(ids,list)
         wizard = self.browse(cr, uid, ids[0], context=context)
         commission_obj = self.pool.get('sale.commission.commission')
-        payment_obj = self.pool.get('hr.payslip.pay.commission.payment')
+        payment_obj = self.pool.get('hr.payroll.pay.commission.payment')
         input_obj = self.pool.get('hr.payslip.input')
         company_obj = self.pool.get('res.company')
         for slip in wizard.payslip_run_id.slip_ids:
@@ -92,7 +92,7 @@ class PayCommissionsWizard(osv.TransientModel):
                 'name': _('New Commissions'),
                 'view_type': 'form',
                 'view_mode': 'tree',
-                'res_model': 'hr.payslip.pay.commission.payment',
+                'res_model': 'hr.payroll.pay.commission.payment',
                 'context': context,
                 'type': 'ir.actions.act_window',
                 'domain': [('id','in',user_commissions)]

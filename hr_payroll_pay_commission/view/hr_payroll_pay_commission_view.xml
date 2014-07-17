@@ -48,11 +48,11 @@
                 </xpath>
             </field>
         </record>
-        <!-- hr.payslip.pay.commission.payment -->
+        <!-- hr.payroll.pay.commission.payment -->
         <!-- tree -->
         <record id="view_payment_tree" model="ir.ui.view">
             <field name="name">view.payment.tree</field>
-            <field name="model">hr.payslip.pay.commission.payment</field>
+            <field name="model">hr.payroll.pay.commission.payment</field>
             <field name="type">tree</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
