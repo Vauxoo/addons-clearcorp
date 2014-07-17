@@ -31,12 +31,11 @@ class stock_move_analysis(osv.osv):
     def _compute_total(self, cr, uid, ids, name, arg=None, context=None):
         res = {}
         product_price_history_obj = self.pool.get('product.price.history')
-        company_user_id = self.pool.get('res.users').browse(cr, uid, uid).company_id.id
         
         for stock_move in self.browse(cr, uid, ids, context=context):
             res[stock_move.id] = 0.0            
             #Result of standard_price is a dictionary, where keys are product_id and value in field_names, in this case, 'standard_price'
-            standard_price = product_price_history_obj._get_historic_price(cr, uid, [stock_move.product_id.id], company_user_id, datetime=stock_move.date, field_names=['standard_price'])
+            standard_price = product_price_history_obj._get_historic_price(cr, uid, [stock_move.product_id.id], datetime=stock_move.date, field_names=['standard_price'])
             if standard_price[stock_move.product_id.id]['standard_price'] == 0:
                 standard_price = self.pool.get('product.product').browse(cr, uid, stock_move.product_id.id).standard_price
                 total = stock_move.product_qty * standard_price
@@ -50,12 +49,11 @@ class stock_move_analysis(osv.osv):
     def _compute_standard_price(self, cr, uid, ids, name,arg=None, context=None):
         res = {}
         product_price_history_obj = self.pool.get('product.price.history')
-        company_user_id = self.pool.get('res.users').browse(cr, uid, uid).company_id.id
         
         for stock_move in self.browse(cr, uid, ids, context=context):
             res[stock_move.id] = 0.0             
             #Result of standard_price is a dictionary, where keys are product_id and value in field_names, in this case, 'standard_price'
-            standard_price = product_price_history_obj._get_historic_price(cr, uid, [stock_move.product_id.id], company_user_id, datetime=stock_move.date, field_names=['standard_price'])
+            standard_price = product_price_history_obj._get_historic_price(cr, uid, [stock_move.product_id.id], datetime=stock_move.date, field_names=['standard_price'])
             if standard_price[stock_move.product_id.id]['standard_price'] == 0:
                 standard_price = self.pool.get('product.product').browse(cr, uid, stock_move.product_id.id).standard_price            
             else:
