@@ -28,6 +28,12 @@ class Payment(osv.Model):
 
     _description = __doc__
 
+    def _check_amount_paid(self, cr, uid, ids, context=None):
+        for payment in self.browse(cr, uid, ids, context=context):
+            if payment.amount_paid <= 0.0:
+                return False
+        return True
+
     _columns = {
         'commission_id': fields.many2one('sale.commission.commission', string='Commission'),
         'invoice_id': fields.related('commission_id', 'invoice_id', type='many2one',
@@ -37,3 +43,5 @@ class Payment(osv.Model):
             string='Payslip', obj='hr.payslip', readonly=True, store=True),
         'amount_paid': fields.float('Amount Paid', digits=(16,2)),
     }
+
+    _constraints = [(_check_amount_paid, 'Value must be greater or equal than 0.', ['amount_paid'])]

@@ -36,5 +36,5 @@ class Invoice(osv.Model):
     _columns = {
         'commission_payment_ids': fields.function(_compute_commission_payments, type='one2many',
             obj='hr.payslip.pay.commission.payment', string='Commission Payments'),
-        'commission_payment_complete': fields.boolean('Commission Payment Complete'),
+        'commission_payment_complete': fields.boolean('Commission Payment Complete', readonly=True),
     }

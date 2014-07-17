@@ -37,7 +37,7 @@
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
                 <xpath expr="//form/sheet/notebook/page[@string='Payments']" position="after">
-                    <page name="commissions" string ="Commissions">
+                    <page name="commissions_payments" string ="Commission Payments">
                         <group>
                             <group colspan="1">
                                 <field name="commission_payment_complete"/>
