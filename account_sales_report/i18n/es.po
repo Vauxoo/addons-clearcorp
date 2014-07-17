@@ -202,3 +202,14 @@ msgstr "Formato de impresión"
 msgid "Account Sale Report Wizard"
 msgstr "Asistente para Reporte de Ventas"
 
+#. module: account_sales_report
+#: code:addons/account_sales_report/report/account_sale_report.py:141
+#, python-format
+msgid "For this category, there not exists lines"
+msgstr "Para esta categoría, no existen líneas"
+
+#. module: account_sales_report
+#: code:addons/account_sales_report/report/account_sale_report.py:143
+#, python-format
+msgid "For this product, there not exists lines"
+msgstr "Para este producto, no existen líneas"
