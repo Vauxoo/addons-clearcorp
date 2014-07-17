@@ -183,7 +183,6 @@ class Parser(accountReportbase):
     def get_data_stock_moves(self, opening_quantity, product_id, location_id, stock_move_list, data):
         stock_move_final = {}
         product_price_history_obj = self.pool.get('product.price.history')
-        company_user_id = self.pool.get('res.users').browse(self.cr, self.uid, self.uid).company_id.id
         
         #Initialize final_quantity
         self.localcontext['final_quantity'] = opening_quantity
@@ -209,12 +208,13 @@ class Parser(accountReportbase):
                                   
             if self.get_include_costs(data):
                 #Result of standard_price is a dictionary, where keys are product_id and value in field_names, in this case, 'standard_price'
-                standard_price = product_price_history_obj._get_historic_price(self.cr, self.uid, [stock_move.product_id.id], company_user_id, datetime=stock_move.date, field_names=['standard_price'])
+                standard_price = product_price_history_obj._get_historic_price(self.cr, self.uid, [stock_move.product_id.id], datetime=stock_move.date, field_names=['standard_price'])
                 if standard_price[stock_move.product_id.id]['standard_price'] == 0:
                     standard_price = self.pool.get('product.product').browse(self.cr, self.uid, stock_move.product_id.id).standard_price
                     total = stock_move.product_qty * standard_price
                 else:
-                    total = stock_move.product_qty * standard_price[stock_move.product_id.id]['standard_price']
+                    standard_price = standard_price[stock_move.product_id.id]['standard_price']
+                    total = stock_move.product_qty * standard_price
                 final_cost += total * sign
                 #update final_cost
                 self.localcontext['final_cost'] = final_cost                
@@ -242,8 +242,7 @@ class Parser(accountReportbase):
         product_price_history_obj = self.pool.get('product.price.history')
         date_from = self.get_date_from(data)
         date= datetime.strptime(date_from, "%Y-%m-%d")
-        company_user_id = self.pool.get('res.users').browse(self.cr, self.uid, self.uid).company_id.id           
-        standard_price = product_price_history_obj._get_historic_price(self.cr, self.uid, [product_id], company_user_id, datetime=date, field_names=['standard_price'])                    
+        standard_price = product_price_history_obj._get_historic_price(self.cr, self.uid, [product_id], datetime=date, field_names=['standard_price'])                                        
         opening_cost = standard_price[product_id]['standard_price'] * opening_quantity
         return opening_cost
         

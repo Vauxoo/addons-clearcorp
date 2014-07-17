@@ -51,7 +51,7 @@
         <menuitem action="action_stock_move_analysis_report" 
             id="menu_action_stock_move_analysis_report"
             parent="stock.next_id_61" 
-            groups="account.group_account_manager"
+            groups="stock.group_stock_manager"
             sequence="2"/>
     </data>
 </openerp>
