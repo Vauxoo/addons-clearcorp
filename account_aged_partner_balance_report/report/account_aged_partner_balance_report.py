@@ -45,6 +45,7 @@ class Parser(accountReportbase):
             'display_direction_selection': self.display_direction_selection, 
             'display_period_length': self.display_period_length,
             'process_lines_period':self.process_lines_period,
+            'display_name':self.display_name, 
         })
     
     #====Extract data from wizard==============================================    
@@ -97,7 +98,20 @@ class Parser(accountReportbase):
         return ''
     
     def display_period_length(self, data):
-        return self.get_period_length(data)     
+        return self.get_period_length(data) 
+    
+    #line is a object
+    def display_name(self, cr, uid, line):
+        if line.move_id:
+            invoice_id = self.pool.get('account.invoice').search(cr, uid, [('move_id','=', line.move_id.id)])
+            if invoice_id:
+                invoice_obj = self.pool.get('account.invoice').browse(cr, uid, invoice_id)
+                return invoice_obj.name
+            else:
+                move_obj = self.pool.get('account.move').browse(cr, uid, line.move_id.id)
+                return move_obj.name
+        else:
+            return '/'
   
     #===== Set data =========================================================
     #set data to use in odt template. 
