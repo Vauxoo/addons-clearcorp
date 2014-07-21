@@ -101,7 +101,6 @@ class Parser(accountReportbase):
         return product_obj
         
     def set_total_result_by_product(self, data):
-        totals = {'available_quantity':0.0, 'manu_quantity':0.0, 'total':0.0}
         products = {}
         value_list_lines = []
         value_list_mrp = []
@@ -111,7 +110,7 @@ class Parser(accountReportbase):
         inventory = self.get_inventory(data)
         
         for product in self.get_products_order(data):
-            products[product.id] = totals
+            products[product.id] = {'available_quantity':0.0, 'manu_quantity':0.0, 'total':0.0}
             #Depends of inventory option
             if inventory == 'qty_available':
                 quantity = product.qty_available
@@ -143,16 +142,15 @@ class Parser(accountReportbase):
                 #value and keep this in another list.
                 #review another (if exists) mrp.bom and repeat the process.
                 #Finally extract the minimum value for mrp.bom list
-                minimun_mrp = min(value_list_lines)
+                minimun_mrp = value_list_lines and min(value_list_lines) or 0
                 value_list_mrp.append(minimun_mrp)
                
             #Get the minimum final value
-            value_min_final = min(value_list_mrp)
+            value_min_final = value_list_mrp and min(value_list_mrp) or 0
             #Get final result
-            products[product.id]['manu_quantity'] = math.floor(value_min_final) #floor round to lower value ex. 6.7 -> 6     
-        
-        products[product.id]['total'] = products[product.id]['available_quantity'] + products[product.id]['manu_quantity']                            
+            products[product.id]['manu_quantity'] = math.floor(value_min_final) #floor round to lower value ex. 6.7 -> 6
+            products[product.id]['total'] = products[product.id]['available_quantity'] + products[product.id]['manu_quantity']
         
         dict_update = {'results': products,}        
         self.localcontext['storage'].update(dict_update)
-        return False
+        return True
