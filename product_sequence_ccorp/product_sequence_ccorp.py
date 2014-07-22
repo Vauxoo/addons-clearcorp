@@ -22,7 +22,6 @@
 
 import netsvc
 from openerp.osv import fields, osv
-import tools
 from openerp.tools.translate import _
 
 class ProductProduct(osv.osv):
