@@ -23,7 +23,6 @@
 import copy
 import netsvc
 from openerp.osv import fields, orm
-import tools
 
 class AccountWebkitReportLibrary(orm.Model):
     

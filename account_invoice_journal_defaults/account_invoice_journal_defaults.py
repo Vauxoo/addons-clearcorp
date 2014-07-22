@@ -22,7 +22,6 @@
 
 import netsvc
 from openerp.osv import fields, orm
-import tools
 from openerp.tools.translate import _
 
 class AccountInvoice(orm.Model):
