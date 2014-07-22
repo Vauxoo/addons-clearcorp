@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from osv import fields, orm
+from openerp.osv import fields, orm
 from tools.translate import _
 
 class resCompanyInherit(orm.Model):

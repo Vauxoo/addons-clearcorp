@@ -29,7 +29,7 @@ import logging
 import netsvc
 import decimal_precision as dp
 
-from osv import fields, osv, orm
+from openerp.osv import fields, osv, orm
 
 
 ######################################################

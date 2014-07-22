@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from osv import fields,osv
+from openerp.osv import fields,osv
 
 class res_company(osv.osv):
     _name = 'res.company'

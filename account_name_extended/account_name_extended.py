@@ -21,7 +21,7 @@
 ##############################################################################
 
 import re
-from osv import osv, fields
+from openerp.osv import osv, fields
 from openerp.tools import translate
 
 class account_account(osv.osv):

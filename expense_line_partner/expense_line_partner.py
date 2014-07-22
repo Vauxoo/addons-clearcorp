@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from osv import osv,fields, orm
+from openerp.osv import osv,fields, orm
 
 class hr_expense_line(osv.osv):
     _name = "hr.expense.line"

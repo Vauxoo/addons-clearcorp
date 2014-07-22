@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from osv import osv, fields, orm
+from openerp.osv import osv, fields, orm
 
 class accountReportsignatures(orm.Model):
     _name = "ir.actions.report.xml"

@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from osv import fields, orm, osv
+from openerp.osv import fields, orm, osv
 from tools.translate import _
 
 class toolsModulesextendedAccountFinancialReport(orm.Model):
