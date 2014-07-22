@@ -38,10 +38,12 @@ class Parser(accountReportbase):
            'uid': uid,
            'storage':{},
            'display_taxes':self.display_taxes,
+           'set_currency_name':self.set_currency_name,
            'get_order_taxes':self.get_order_taxes,
            'get_tax_name': self.get_tax_name, 
            'get_data_block_tax': self.get_data_block_tax, 
-           'compute_total_block':self.compute_total_block
+           'compute_total_block':self.compute_total_block,
+           'check_inv_tax': self.check_inv_tax, 
         })
     
     #---------SET AND GET DATA ----------#
@@ -78,6 +80,16 @@ class Parser(accountReportbase):
             name = tax.name
             
         return name
+    
+    def set_currency_name(self, currency_id):
+        currency = self.pool.get('res.currency').browse(self.cr, self.uid, currency_id)
+        return currency.name
+    
+    def check_inv_tax(self):
+        if self.get_data_template('res'):
+            return True
+        else:
+            return False
     
     #================ DISPLAY DATA ===========================#
     def display_taxes(self, data):
@@ -132,6 +144,7 @@ class Parser(accountReportbase):
     
     def get_invoices_lines_to_process(self, tax_id, data):
         line_info = {}
+        currency = {} 
         invoice_dict = {}
         tax_block = {}     
         qty_lines = 0   
@@ -147,7 +160,10 @@ class Parser(accountReportbase):
             for line in invoice.invoice_line:
                 added_line = False
                 for tax in line.invoice_line_tax_id:
-                    if tax.id == tax_id:               
+                    if tax.id == tax_id:
+                        if invoice.currency_id:
+                            currency_id = invoice.currency_id.id
+                                    
                         qty_lines += 1
                         invoice_dict[invoice.id] = {'lines':[],}       
                         add_invoice = True     
@@ -178,22 +194,26 @@ class Parser(accountReportbase):
                             line_info['price_subtotal'] = line.price_subtotal,
                             line_info['taxes'] = amount_tax['total_included'] - line.price_subtotal
                             
-                        invoice_dict[invoice.id]['lines'].append(line_info)                
-                        
+                        invoice_dict[invoice.id]['lines'].append(line_info)
             
             if add_invoice:
-                 invoice_dict[invoice.id].update({
-                                   'number': invoice.number, 
-                                   'client': invoice.partner_id.name or '', 
-                                   'qty_lines': qty_lines,
-                                   'qty_lines_total': len(invoice.invoice_line),
-                                   'type': invoice.type, 
-                                   })
-                 list.append(invoice_dict)
-                 add_invoice = False
+                #Add currency
+                if currency_id not in currency.keys():
+                    currency[currency_id] = {'invoices': []}
+                               
+                invoice_dict[invoice.id].update({
+                               'number': invoice.number, 
+                               'client': invoice.partner_id.name or '', 
+                               'qty_lines': qty_lines,
+                               'qty_lines_total': len(invoice.invoice_line),
+                               'type': invoice.type, 
+                               })
+                list.append(invoice_dict)
+                currency[currency_id]['invoices'] = list
+                add_invoice = False
                 
         tax_block[tax_id] = {}
-        tax_block[tax_id].update({'invoices': list})
+        tax_block[tax_id].update({'currency': currency})
         
         return tax_block
     
@@ -241,50 +261,61 @@ class Parser(accountReportbase):
         
         dict_update = {
                        'tax_block': tax_block,
-                       'final_list': [],
-                       } 
-        
+                       'res': {},
+                       }
         self.localcontext['storage'].update(dict_update)
+        
+        #This method process amounts and other aspects to return final invoices
+        #in a dict and print it in a easy way in odt and ods template
+        res = self.get_data_block_tax(tax_id)
+        dict_update.update({'res':res})
+        self.localcontext['storage'].update(dict_update)
+        
         return False
     
     def get_data_block_tax(self, tax_id):        
         final_block = {}
         final_list = []  
-  
-        for element in self.get_data_template('tax_block')[tax_id]['invoices']:
-            for id, invoice in element.iteritems():
-                final_block = {}
-                if invoice['type'] == 'out_refund' or invoice['type'] == 'in_refund':
-                    final_block['invoice_number'] = invoice['number']
-                    final_block['client'] = invoice['client']
-                    final_block['qty_lines'] = str(invoice['qty_lines']) + "/" + str(invoice['qty_lines_total'])
-                    final_block['subtotal_without_dis'] = -1 * self.get_price_subtotal_not_discounted_per_invoice(invoice)
-                    discount = self.get_discount_per_invoice(invoice)
-                    if discount > 0:
-                        final_block['discount'] = -1 * discount
-                    else:
-                        final_block['discount'] = discount
-                    final_block['subtotal_dis'] = -1 * self.get_price_subtotal_per_invoice(invoice)
-                    final_block['taxes'] = -1 * self.get_taxes_per_invoice(invoice)
-                    final_block['total'] = final_block['subtotal_dis'] + final_block['taxes']
-                else:
-                    final_block['invoice_number'] = invoice['number']
-                    final_block['client'] = invoice['client']
-                    final_block['qty_lines'] = str(invoice['qty_lines']) + "/" + str(invoice['qty_lines_total'])                
-                    final_block['subtotal_without_dis'] = self.get_price_subtotal_not_discounted_per_invoice(invoice)
-                    final_block['discount'] = self.get_discount_per_invoice(invoice)
-                    final_block['subtotal_dis'] = self.get_price_subtotal_per_invoice(invoice)
-                    final_block['taxes'] = self.get_taxes_per_invoice(invoice)
-                    final_block['total'] = final_block['subtotal_dis'] + final_block['taxes']                
+        res = {}
+
+        for currency_id, dict in self.get_data_template('tax_block')[tax_id]['currency'].iteritems():
+            if currency_id not in res.keys():
+                res[currency_id] = []
                 
-                final_list.append(final_block)
+            for key, invoices in dict.iteritems():
+                for element in invoices:
+                    for id, invoice in element.iteritems():
+                        final_block = {}
+                        if invoice['type'] == 'out_refund' or invoice['type'] == 'in_refund':
+                            final_block['invoice_number'] = invoice['number']
+                            final_block['client'] = invoice['client']
+                            final_block['qty_lines'] = str(invoice['qty_lines']) + "/" + str(invoice['qty_lines_total'])
+                            final_block['subtotal_without_dis'] = -1 * self.get_price_subtotal_not_discounted_per_invoice(invoice)
+                            discount = self.get_discount_per_invoice(invoice)
+                            if discount > 0:
+                                final_block['discount'] = -1 * discount
+                            else:
+                                final_block['discount'] = discount
+                            final_block['subtotal_dis'] = -1 * self.get_price_subtotal_per_invoice(invoice)
+                            final_block['taxes'] = -1 * self.get_taxes_per_invoice(invoice)
+                            final_block['total'] = final_block['subtotal_dis'] + final_block['taxes']
+                        else:
+                            final_block['invoice_number'] = invoice['number']
+                            final_block['client'] = invoice['client']
+                            final_block['qty_lines'] = str(invoice['qty_lines']) + "/" + str(invoice['qty_lines_total'])                
+                            final_block['subtotal_without_dis'] = self.get_price_subtotal_not_discounted_per_invoice(invoice)
+                            final_block['discount'] = self.get_discount_per_invoice(invoice)
+                            final_block['subtotal_dis'] = self.get_price_subtotal_per_invoice(invoice)
+                            final_block['taxes'] = self.get_taxes_per_invoice(invoice)
+                            final_block['total'] = final_block['subtotal_dis'] + final_block['taxes']                
+                        
+                        final_list.append(final_block)
+                        
+            res[currency_id] = final_list 
         
-        dict_update = {'final_list': final_list}
-        self.localcontext['storage'].update(dict_update)
+        return res        
         
-        return final_list
-    
-    def compute_total_block(self):
+    def compute_total_block(self, invoices):
         totals = {
                   'subtotal_without_dis': 0.0,
                   'discount':0.0,
@@ -293,7 +324,7 @@ class Parser(accountReportbase):
                   'total': 0.0,
                   }
         
-        for element in self.get_data_template('final_list'):
+        for element in invoices:
             totals['subtotal_without_dis'] += element['subtotal_without_dis']
             totals['discount'] += element['discount']
             totals['subtotal_dis'] += element['subtotal_dis']
@@ -304,4 +335,6 @@ class Parser(accountReportbase):
         self.localcontext['storage'].update(dict_update)
         
         return False
+    
+    
             
