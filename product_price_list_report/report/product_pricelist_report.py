@@ -21,7 +21,7 @@
 ##############################################################################
 
 import pooler
-from tools.translate import _
+from openerp.tools.translate import _
 import time
 
 from openerp.addons.account_report_lib.account_report_base import accountReportbase

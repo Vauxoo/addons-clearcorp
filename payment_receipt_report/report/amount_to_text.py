@@ -1,7 +1,7 @@
 #!/usr/bin/python                   
 # -*- coding: utf-8 -*-
 
-#from tools import #debug
+#from openerp.tools import #debug
 UNIDADES = (
     '',     
     'UN ',  

@@ -34,7 +34,7 @@
 
 import time
 import pooler
-from report import report_sxw
+from openerp.report import report_sxw
 from amount_to_text import number_to_text_es
 import locale
 

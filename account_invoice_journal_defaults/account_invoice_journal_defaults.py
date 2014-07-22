@@ -23,7 +23,7 @@
 import netsvc
 from openerp.osv import fields, orm
 import tools
-from tools.translate import _
+from openerp.tools.translate import _
 
 class AccountInvoice(orm.Model):
     _inherit = 'account.invoice'

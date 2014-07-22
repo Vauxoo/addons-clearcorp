@@ -23,7 +23,7 @@
 import netsvc
 from openerp.osv import fields, osv
 import tools
-from tools.translate import _
+from openerp.tools.translate import _
 
 class ProductProduct(osv.osv):
     _inherit = 'product.product'

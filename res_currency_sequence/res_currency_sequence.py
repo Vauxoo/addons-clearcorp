@@ -22,7 +22,7 @@
 import time
 import copy
 from openerp.osv import osv, fields
-from tools.translate import _
+from openerp.tools.translate import _
 
 class ResCurrency(osv.osv):
     _name = "res.currency"

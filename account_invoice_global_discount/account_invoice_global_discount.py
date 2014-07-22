@@ -20,7 +20,7 @@
 #
 
 from openerp.osv import osv,fields
-from tools import config
+from openerp.tools import config
 import decimal_precision as dp
 
 class account_invoice_line_ccorp(osv.osv):
