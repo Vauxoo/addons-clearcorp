@@ -20,16 +20,24 @@
 #
 ##############################################################################
 
-import account_move
-import budget
-import wizard
-import res_partner
-import account_invoice
-import account
-import hr_expense
-import purchase
-import stock
-import hr_payroll
-import account_period
-import account_move_line_distribution
-#import sale
+from osv import fields, orm
+
+class cashFlowdistribution(orm.Model):
+    _name = "cash.flow.distribution"
+    _inherit = "account.distribution.line"
+    _description = "Cash Flow Distribution"
+
+    _defaults = {
+        'type': 'manual', 
+        'distribution_amount': 0.0,
+        'distribution_percentage': 0.0,
+    }
+    
+    def create(self, cr, uid, vals, context=None):
+        if context:
+            dist_type = context.get('distribution_type','auto')
+        else:
+            dist_type = 'auto'
+        vals['type'] = dist_type
+        res = super(cashFlowdistribution, self).create(cr, uid, vals, context)
+        return res
