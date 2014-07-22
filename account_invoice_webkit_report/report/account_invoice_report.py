@@ -23,7 +23,7 @@
 import time
 import pooler
 import locale
-from report import report_sxw
+from openerp.report import report_sxw
 
 class account_invoice_ccorp(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context):

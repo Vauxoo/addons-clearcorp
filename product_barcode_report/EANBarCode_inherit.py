@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from tools import config, ustr
+from openerp.tools import config, ustr
 fontsize = 12
 
 #Make a python import for change function getImage in class EanBarCode

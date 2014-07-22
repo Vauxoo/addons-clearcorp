@@ -25,8 +25,8 @@ from openerp.osv import osv
 from openerp.osv import fields
 import os
 import tools
-from tools.translate import _
-from tools.safe_eval import safe_eval as eval
+from openerp.tools.translate import _
+from openerp.tools.safe_eval import safe_eval as eval
 
 class sale_order(osv.osv):
       _inherit = 'sale.order'

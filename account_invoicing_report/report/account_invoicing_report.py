@@ -21,8 +21,8 @@
 ##############################################################################
 
 import pooler
-from report import report_sxw
-from tools.translate import _
+from openerp.report import report_sxw
+from openerp.tools.translate import _
 from openerp.addons.account_report_lib.account_report_base import accountReportbase
 from numpy.ma.core import ids
 

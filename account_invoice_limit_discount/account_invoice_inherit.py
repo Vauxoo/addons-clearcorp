@@ -21,7 +21,7 @@
 ##############################################################################
 
 from openerp.osv import fields, osv, orm
-from tools.translate import _
+from openerp.tools.translate import _
 
 class accountInvoiceinherit(orm.Model):
     

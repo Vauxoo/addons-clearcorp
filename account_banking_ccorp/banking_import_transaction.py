@@ -34,8 +34,8 @@ from openerp.osv import osv, fields
 import netsvc
 import base64
 import datetime
-from tools import config
-from tools.translate import _
+from openerp.tools import config
+from openerp.tools.translate import _
 from parsers import models
 from parsers.convert import *
 import sepa

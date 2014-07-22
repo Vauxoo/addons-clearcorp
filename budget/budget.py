@@ -21,7 +21,7 @@
 ##############################################################################
 
 from operator import itemgetter
-from tools.translate import _
+from openerp.tools.translate import _
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import time

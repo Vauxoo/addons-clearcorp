@@ -22,7 +22,7 @@
 
 import time
 import pooler
-from report import report_sxw
+from openerp.report import report_sxw
 import locale
 
 from account_report_lib.tools.tools_amount_to_text import number_to_text_es

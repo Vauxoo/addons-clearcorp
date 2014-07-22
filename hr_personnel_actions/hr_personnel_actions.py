@@ -20,7 +20,7 @@
 #
 ##############################################################################
 from openerp.osv import osv, fields
-from tools.translate import _
+from openerp.tools.translate import _
 
 class personnelActionsType(osv.Model):
     _name = 'hr.personnel.actions.type'
