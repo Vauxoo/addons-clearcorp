@@ -43,6 +43,10 @@
                                 <label for="attendance_default_sign_out"/>
                                 <field name="attendance_default_sign_out" class="oe_inline"/>
                             </div>
+                            <div name="sample_template">
+                                <field name="attendance_sample_filename" invisible="1"/>
+                                <field name="attendance_sample_template" class="oe_inline" filename="attendance_sample_filename"/>
+                            </div>
                         </div>
                     </group>
                 </xpath>

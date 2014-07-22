@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-22 18:27+0000\n"
-"PO-Revision-Date: 2014-05-22 18:27+0000\n"
+"POT-Creation-Date: 2014-07-21 21:10+0000\n"
+"PO-Revision-Date: 2014-07-21 21:10+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -27,10 +27,8 @@ msgid "Timezone"
 msgstr ""
 
 #. module: hr_attendance_importer
-#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:576
-#: selection:hr.attendance.importer.file.import.wizard,state:0
-#, python-format
-msgid "View Errors"
+#: help:hr.config.settings,attendance_default_sign_out:0
+msgid "Default action used to register extra hours sign-outs."
 msgstr ""
 
 #. module: hr_attendance_importer
@@ -57,9 +55,8 @@ msgid "Invalid"
 msgstr ""
 
 #. module: hr_attendance_importer
-#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:643
-#, python-format
-msgid "Recently Created Items"
+#: model:ir.model,name:hr_attendance_importer.model_hr_config_settings
+msgid "hr.config.settings"
 msgstr ""
 
 #. module: hr_attendance_importer
@@ -77,6 +74,11 @@ msgstr ""
 #. module: hr_attendance_importer
 #: help:hr.attendance.importer.file.import.wizard,tz:0
 msgid "Time zone used to import dates from file. If there is no time zone UTC will be assumed"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: help:hr.config.settings,attendance_extra_hours:0
+msgid "Code used to identify extra hours in the imported file. For example EH."
 msgstr ""
 
 #. module: hr_attendance_importer
@@ -100,6 +102,11 @@ msgstr ""
 #: selection:hr.attendance.importer.action.reason,action_type:0
 #: selection:hr.attendance.importer.attendance,action:0
 msgid "Sign In"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: help:hr.config.settings,attendance_sign_in:0
+msgid "Used to identify sign-ins in the imported file. For example sign-in or IN."
 msgstr ""
 
 #. module: hr_attendance_importer
@@ -136,9 +143,21 @@ msgid "Sign Out"
 msgstr ""
 
 #. module: hr_attendance_importer
+#: help:hr.config.settings,attendance_date_format:0
+msgid "Python date format used when importing files. For example 07-31-2014 13:00:00 is %m-%d-Y %H:%M:%S"
+msgstr ""
+
+#. module: hr_attendance_importer
 #: field:hr.config.settings,attendance_default_sign_in:0
 #: field:res.company,attendance_default_sign_in:0
 msgid "Default Sign in reason"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:576
+#: selection:hr.attendance.importer.file.import.wizard,state:0
+#, python-format
+msgid "View Errors"
 msgstr ""
 
 #. module: hr_attendance_importer
@@ -168,7 +187,6 @@ msgstr ""
 #. module: hr_attendance_importer
 #: field:hr.attendance.importer.action.reason,name:0
 #: field:hr.attendance.importer.attendance,action_desc:0
-#: model:ir.model,name:hr_attendance_importer.model_hr_action_reason
 msgid "Action Reason"
 msgstr ""
 
@@ -269,8 +287,9 @@ msgid "Code"
 msgstr ""
 
 #. module: hr_attendance_importer
-#: help:hr.config.settings,attendance_date_format:0
-msgid "Python date format used when importing files"
+#: code:addons/hr_attendance_importer/wizard/file_import_wizard.py:643
+#, python-format
+msgid "Recently Created Items"
 msgstr ""
 
 #. module: hr_attendance_importer
@@ -310,6 +329,11 @@ msgid "or"
 msgstr ""
 
 #. module: hr_attendance_importer
+#: help:hr.config.settings,attendance_default_sign_in:0
+msgid "Default action used to register extra hours sign-ins."
+msgstr ""
+
+#. module: hr_attendance_importer
 #: field:hr.attendance.importer.action.reason,action_type:0
 msgid "Action Type"
 msgstr ""
@@ -327,6 +351,11 @@ msgstr ""
 #. module: hr_attendance_importer
 #: field:hr.attendance.importer.file.import.wizard,result:0
 msgid "Result"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: help:hr.config.settings,attendance_normal_hours:0
+msgid "Code used to identify normal hours in the imported file. For example NH."
 msgstr ""
 
 #. module: hr_attendance_importer
@@ -349,6 +378,11 @@ msgstr ""
 #. module: hr_attendance_importer
 #: selection:hr.attendance.importer.file.import.wizard,state:0
 msgid "Importing File"
+msgstr ""
+
+#. module: hr_attendance_importer
+#: help:hr.config.settings,attendance_sign_out:0
+msgid "Used to identify sign-outs in the imported file. For example sign-out or OUT."
 msgstr ""
 
 #. module: hr_attendance_importer
