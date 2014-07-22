@@ -46,6 +46,8 @@ class Parser(accountReportbase):
             'exist_lines_by_key':self.exist_lines_by_key, 
             'get_currency_name': self.get_currency_name, 
             'compute_price_total':self.compute_price_total, 
+            'display_category_head':self.display_category_head, 
+            'display_message_empty':self.display_message_empty, 
         })
     
     #=========== SET AND GET DATA ==============================================
@@ -125,6 +127,20 @@ class Parser(accountReportbase):
            return _('Product: ')
        else:
            return _('Category: ')
+       
+    def display_category_head(self, data):
+        type = self.get_type(data)
+        if type == 'category':
+            return True
+        else:
+            return False
+    
+    def display_message_empty(self, data):
+        type = self.get_type(data)
+        if type == 'category':
+            return _("For this category, there not exists lines")
+        else:
+            return _("For this product, there not exists lines")
         
     #===========================================================================
     

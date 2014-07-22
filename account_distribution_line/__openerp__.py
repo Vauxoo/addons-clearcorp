@@ -19,17 +19,27 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+{
+    "name" : 'Account Distribution Line',
+    "version" : '1.0',
+    "author" : 'CLEARCORP S.A.',
+    'category': 'Accounting & Finance',
+    "description": """
+Account Distribution Line:
+=============================
+Description:
+--------------
+This module is the base for distribution lines in Budget and Cash Flow report 
+modules. It provides basic functions and attributes for both modules, and then, 
+they implement their own functions: Budget Move Lines for Budget and Cash Flow 
+Line for Cash Flow Report.
 
-import account_move
-import budget
-import wizard
-import res_partner
-import account_invoice
-import account
-import hr_expense
-import purchase
-import stock
-import hr_payroll
-import account_period
-import account_move_line_distribution
-#import sale
+Also includes functions for Account Reconcile that are in common with both models.
+""",
+    "website" : "http://clearcorp.co.cr",
+    "depends" : ['account'],
+    "data" : [],
+    'active': False,
+    'installable': True,    
+    'license': 'AGPL-3',
+}
