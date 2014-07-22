@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from osv import fields, orm
+from openerp.osv import fields, orm
 import netsvc
 
 class purchaseOrderinherit(orm.Model):

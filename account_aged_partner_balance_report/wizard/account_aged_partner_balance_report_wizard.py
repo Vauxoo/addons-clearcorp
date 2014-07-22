@@ -22,8 +22,8 @@
 import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from osv import osv, fields
-from tools.translate import _
+from openerp.osv import osv, fields
+from openerp.tools.translate import _
 
 class accountAgedpartnerBalanceWizard(osv.osv_memory):
     _inherit = "account.report.wiz"

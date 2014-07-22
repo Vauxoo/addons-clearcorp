@@ -33,8 +33,8 @@ import time
 import netsvc
 import base64
 import datetime
-from tools import config
-from tools.translate import _
+from openerp.tools import config
+from openerp.tools.translate import _
 from account_banking_ccorp.parsers import models
 from account_banking_ccorp.parsers.convert import *
 from account_banking_ccorp.struct import struct

@@ -20,8 +20,8 @@
 #
 ##############################################################################
 
-from osv import fields, orm, osv
-from tools.translate import _
+from openerp.osv import fields, orm, osv
+from openerp.tools.translate import _
 
 class accountFinancialreportType(orm.Model):
 

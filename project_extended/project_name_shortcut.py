@@ -20,8 +20,8 @@
 #
 ##############################################################################
 
-from osv import osv, fields
-#from tools import #debug
+from openerp.osv import osv, fields
+#from openerp.tools import #debug
 
 
 class project_name_shortcut(osv.osv):

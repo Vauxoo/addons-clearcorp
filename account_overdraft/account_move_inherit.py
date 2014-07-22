@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from osv import osv,fields, orm
+from openerp.osv import osv,fields, orm
 from datetime import datetime
 import time 
 from openerp.tools.translate import _

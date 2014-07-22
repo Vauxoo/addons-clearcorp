@@ -18,9 +18,8 @@
 #
 ##############################################################################
 
-from osv import fields, osv, orm
+from openerp.osv import fields, osv, orm
 import os
-import tools
 
 class res_company(orm.Model):
     _name = "res.company"

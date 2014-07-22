@@ -21,7 +21,7 @@
 ##############################################################################
 
 import time
-from osv import osv, fields
+from openerp.osv import osv, fields
     
 class mrpBomreport (osv.osv_memory):
     _name = 'mrp.bom.report.wiz'

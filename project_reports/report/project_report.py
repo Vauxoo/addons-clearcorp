@@ -22,8 +22,8 @@
 
 import pooler
 import time
-from report import report_sxw
-from tools.translate import _
+from openerp.report import report_sxw
+from openerp.tools.translate import _
 
 class project_report_report(report_sxw.rml_parse):
         

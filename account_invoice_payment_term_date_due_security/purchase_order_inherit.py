@@ -20,8 +20,8 @@
 #
 ##############################################################################
 
-from osv import orm, osv, fields
-from tools.translate import _
+from openerp.osv import orm, osv, fields
+from openerp.tools.translate import _
 
 class purchaseOrderinherit(orm.Model):
     

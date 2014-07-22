@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from osv import fields,osv
+from openerp.osv import fields,osv
 import decimal_precision as dp
 
 class purchase_order_line(osv.osv):

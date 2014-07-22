@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from osv import fields, osv
+from openerp.osv import fields, osv
 
 class accountSalereportWizard(osv.osv_memory):
     _name = "invoicing.report.wiz"

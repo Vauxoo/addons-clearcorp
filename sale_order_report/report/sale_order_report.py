@@ -22,7 +22,7 @@
 
 import time
 import pooler
-from report import report_sxw
+from openerp.report import report_sxw
 import locale
 
 class sale_order_ccorp(report_sxw.rml_parse):

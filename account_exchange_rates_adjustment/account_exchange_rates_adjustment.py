@@ -21,8 +21,8 @@
 ##############################################################################
 
 import copy
-from osv import osv, fields
-from tools.translate import _
+from openerp.osv import osv, fields
+from openerp.tools.translate import _
 
 class AccountAccount(osv.osv):
     _inherit = "account.account"

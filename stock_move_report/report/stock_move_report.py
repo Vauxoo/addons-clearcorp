@@ -22,7 +22,7 @@
 from datetime import datetime
 import pooler
 import time
-from tools.translate import _
+from openerp.tools.translate import _
 from openerp.addons.account_report_lib.account_report_base import accountReportbase
 
 class Parser(accountReportbase):

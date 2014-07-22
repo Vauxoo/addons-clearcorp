@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from osv import osv, fields, orm
+from openerp.osv import osv, fields, orm
 
 class resCompany(orm.Model):
        #This fields is for the footer configuration for the footer 

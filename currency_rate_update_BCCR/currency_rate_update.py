@@ -26,7 +26,7 @@ import time
 from datetime import datetime, timedelta
 import netsvc
 import string
-from tools.translate import _
+from openerp.tools.translate import _
 import logging
 
 class resCurrencyrateInherit(orm.Model):
