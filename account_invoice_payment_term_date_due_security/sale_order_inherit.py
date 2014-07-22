@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from osv import orm, osv, fields
+from openerp.osv import orm, osv, fields
 from tools.translate import _
 
 class saleOrderinherit(orm.Model):

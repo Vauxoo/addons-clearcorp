@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from osv import fields, orm
+from openerp.osv import fields, orm
 import time
 from datetime import date, timedelta
 from datetime import datetime

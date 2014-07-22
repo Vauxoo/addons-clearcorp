@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from osv import fields,orm
+from openerp.osv import fields,orm
 import decimal_precision as dp
 from openerp.tools.translate import _
 

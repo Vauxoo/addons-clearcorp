@@ -21,7 +21,7 @@
 ##############################################################################
 
 import netsvc
-from osv import fields, orm
+from openerp.osv import fields, orm
 import tools
 from tools.translate import _
 

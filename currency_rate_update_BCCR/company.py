@@ -29,7 +29,7 @@
 ##############################################################################
 
 import netsvc
-from osv import fields, osv
+from openerp.osv import fields, osv
 
 class ResCompany(osv.osv):
     """

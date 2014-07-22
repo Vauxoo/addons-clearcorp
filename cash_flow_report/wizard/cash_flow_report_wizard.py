@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from osv import osv
+from openerp.osv import osv
 
 class cashFlowreportWizard(osv.osv_memory):
     

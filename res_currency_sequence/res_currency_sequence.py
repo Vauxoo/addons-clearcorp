@@ -21,7 +21,7 @@
 ##############################################################################
 import time
 import copy
-from osv import osv, fields
+from openerp.osv import osv, fields
 from tools.translate import _
 
 class ResCurrency(osv.osv):

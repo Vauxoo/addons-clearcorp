@@ -20,7 +20,7 @@
 #
 ##############################################################################
 from tools.translate import _
-from osv import fields, osv
+from openerp.osv import fields, osv
 import netsvc
 import decimal_precision as dp
 
