@@ -1,13 +1,13 @@
 # Translation of OpenERP Server.
 # This file contains the translation of the following modules:
-#	* account_invoice_payment_term
+#	* account_credit_limit
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-23 14:39+0000\n"
-"PO-Revision-Date: 2014-07-23 14:39+0000\n"
+"POT-Creation-Date: 2014-07-23 15:54+0000\n"
+"PO-Revision-Date: 2014-07-23 15:54+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,41 +15,41 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. module: account_invoice_payment_term
-#: code:addons/account_invoice_payment_term/account_invoice_payment_term.py:89
+#. module: account_credit_limit
+#: code:addons/account_credit_limit/account_credit_limit.py:89
 #, python-format
 msgid "Not enough credit is available to confirm the order."
-msgstr "Crédito insuficiente para confirmar la orden."
+msgstr "El crédito disponible es insuficiente para confirmar el pedido."
 
-#. module: account_invoice_payment_term
-#: code:addons/account_invoice_payment_term/account_invoice_payment_term.py:89
-#: code:addons/account_invoice_payment_term/account_invoice_payment_term.py:109
+#. module: account_credit_limit
+#: code:addons/account_credit_limit/account_credit_limit.py:89
+#: code:addons/account_credit_limit/account_credit_limit.py:109
 #, python-format
 msgid "Error"
 msgstr "Error"
 
-#. module: account_invoice_payment_term
-#: code:addons/account_invoice_payment_term/account_invoice_payment_term.py:109
+#. module: account_credit_limit
+#: code:addons/account_credit_limit/account_credit_limit.py:109
 #, python-format
 msgid "Not enough credit is available to confirm the invoice."
-msgstr "Crédito insuficiente para confirmar la factura."
+msgstr "El crédito disponible es insuficiente para confirmar la factura."
 
-#. module: account_invoice_payment_term
-#: model:ir.model,name:account_invoice_payment_term.model_account_invoice
+#. module: account_credit_limit
+#: model:ir.model,name:account_credit_limit.model_account_invoice
 msgid "Invoice"
 msgstr "Factura"
 
-#. module: account_invoice_payment_term
-#: model:ir.model,name:account_invoice_payment_term.model_res_partner
+#. module: account_credit_limit
+#: model:ir.model,name:account_credit_limit.model_res_partner
 msgid "Partner"
 msgstr "Empresa"
 
-#. module: account_invoice_payment_term
-#: model:res.groups,name:account_invoice_payment_term.group_account_exceed_credit_limit
+#. module: account_credit_limit
+#: model:res.groups,name:account_credit_limit.group_account_exceed_credit_limit
 msgid "Exceed credit limit"
 msgstr "Exceder límite de crédito"
 
-#. module: account_invoice_payment_term
-#: model:ir.model,name:account_invoice_payment_term.model_sale_order
+#. module: account_credit_limit
+#: model:ir.model,name:account_credit_limit.model_sale_order
 msgid "Sales Order"
 msgstr "Pedido de venta"
