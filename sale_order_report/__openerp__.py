@@ -33,7 +33,6 @@ Sale order report in webkit
     "sequence": 4,
     "website" : "http://clearcorp.co.cr",
     "images" : [],
-    "icon" : False,
     "depends" : [
         'sale_order_global_discount',
         'sale_order_extended',
