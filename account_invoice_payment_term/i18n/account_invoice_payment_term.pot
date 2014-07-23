@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-26 22:04+0000\n"
-"PO-Revision-Date: 2014-03-26 22:04+0000\n"
+"POT-Creation-Date: 2014-07-23 14:39+0000\n"
+"PO-Revision-Date: 2014-07-23 14:39+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,20 +16,22 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: account_invoice_payment_term
-#: code:addons/account_invoice_payment_term/account_invoice_payment_term.py:63
+#: code:addons/account_invoice_payment_term/account_invoice_payment_term.py:89
 #, python-format
 msgid "Not enough credit is available to confirm the order."
 msgstr ""
 
 #. module: account_invoice_payment_term
-#: code:addons/account_invoice_payment_term/account_invoice_payment_term.py:79
+#: code:addons/account_invoice_payment_term/account_invoice_payment_term.py:89
+#: code:addons/account_invoice_payment_term/account_invoice_payment_term.py:109
 #, python-format
-msgid "Not enough credit is available to confirm the invoice."
+msgid "Error"
 msgstr ""
 
 #. module: account_invoice_payment_term
-#: model:res.groups,name:account_invoice_payment_term.group_account_payment_term_unlimited
-msgid "Unlimited Payment"
+#: code:addons/account_invoice_payment_term/account_invoice_payment_term.py:109
+#, python-format
+msgid "Not enough credit is available to confirm the invoice."
 msgstr ""
 
 #. module: account_invoice_payment_term
@@ -38,19 +40,16 @@ msgid "Invoice"
 msgstr ""
 
 #. module: account_invoice_payment_term
-#: code:addons/account_invoice_payment_term/account_invoice_payment_term.py:63
-#: code:addons/account_invoice_payment_term/account_invoice_payment_term.py:79
-#, python-format
-msgid "Error"
+#: model:ir.model,name:account_invoice_payment_term.model_res_partner
+msgid "Partner"
 msgstr ""
 
 #. module: account_invoice_payment_term
-#: model:ir.model,name:account_invoice_payment_term.model_res_partner
-msgid "Partner"
+#: model:res.groups,name:account_invoice_payment_term.group_account_exceed_credit_limit
+msgid "Exceed credit limit"
 msgstr ""
 
 #. module: account_invoice_payment_term
 #: model:ir.model,name:account_invoice_payment_term.model_sale_order
 msgid "Sales Order"
 msgstr ""
-

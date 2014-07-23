@@ -81,7 +81,7 @@ class SaleOrder(osv.Model):
         
         if sale_order.payment_term:
             if self.pool.get('res.users').has_group(cr, uid,
-            'account_invoice_payment_term.group_account_payment_term_unlimited'):
+            'account_invoice_payment_term.group_account_exceed_credit_limit'):
                 return super(SaleOrder,self).action_button_confirm(cr, uid, ids, context=context)
             
             if not sale_order.partner_id.credit_available_order(sale_order.payment_term.id,
@@ -98,7 +98,7 @@ class AccountInvoice(osv.Model):
         invoice = self.browse(cr, uid, ids[0], context=context)
         if invoice.type == 'out_invoice':
             if self.pool.get('res.users').has_group(cr, uid,
-            'account_invoice_payment_term.group_account_payment_term_unlimited'):
+            'account_invoice_payment_term.group_account_exceed_credit_limit'):
                 return super(AccountInvoice,self).invoice_validate(cr, uid, ids, context=context)
             
             if invoice.payment_term:
