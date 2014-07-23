@@ -33,6 +33,7 @@ Account Exchange Rates Adjustment:
     """,    
     "depends" : [
                  "account_report_lib",
+                 "account_reconcile_forced_partner",
                  "currency_rate_update_BCCR", 
                  "res_currency_sequence",
                 ],
