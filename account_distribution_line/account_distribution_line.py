@@ -21,6 +21,7 @@
 ##############################################################################
 
 from osv import fields, orm
+import openerp.addons.decimal_precision as dp
 
 class accountDistributionline(orm.Model):
     _name = "account.distribution.line"
