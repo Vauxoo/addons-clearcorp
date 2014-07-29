@@ -45,19 +45,5 @@ class accountCashflowType(orm.Model):
     _columns = {
         'cash_flow_type': fields.many2one('cash.flow.type', 'Cash Flow Type')                
     }
-    
-class accountCashflowTypedsitribution(orm.Model):
-    _name = "account.cash.flow.distribution"
-    _description = "Account Cash Flow Distribution"
-    
-    _columns = {
-        'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', required=True),
-        'distribution_amount': fields.float('Distribution Amount', required=True, digits_compute=dp.get_precision('Account'),),
-        'target_account_move_line': fields.many2one('account.move.line', 'Target Account Move Line', required=True),
-        'reconcile_ids': fields.many2many('account.move.reconcile','cash_flow_reconcile_distribution_ids', string='Reconciles'),
-    }
 
-    _defaults = {
-        'distribution_amount': 0.0,
-    }
     

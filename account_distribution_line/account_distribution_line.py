@@ -21,21 +21,17 @@
 ##############################################################################
 
 from osv import fields, orm
+import decimal_precision as dp
 
 class accountDistributionline(orm.Model):
     _name = "account.distribution.line"
     _description = "Account Distribution Line"
     
-    _columns = {         
-         'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', ondelete="cascade"),
-         'distribution_percentage': fields.float('Distribution Percentage', required=True, digits_compute=dp.get_precision('Account'),),
-         'distribution_amount': fields.float('Distribution Amount', digits_compute=dp.get_precision('Account'), required=True),
-         'target_account_move_line_id': fields.many2one('account.move.line', 'Target Budget Move Line'),
-         'reconcile_ids': fields.many2many('account.move.reconcile','bud_reconcile_distribution_ids'),
-         'type': fields.selection([('manual', 'Manual'),('auto', 'Automatic')], 'Distribution Type', select=True),
-         'account_move_line_type': fields.selection([('liquid', 'Liquid'),('void', 'Void')], 'Budget Type', select=True),
-    }
-    
+    """
+        This class is a base for cash flow distribution (Cash Flow Report) and
+        account move line distribution (Budget). In this class exists functions
+        that they have in common and their are used for both models.
+    """
     #======== Check distribution percentage. Use distribution_percentage_sum in account.move.line to check 
     def _check_distribution_percentage(self, cr, uid, ids, context=None):          
         
@@ -76,4 +72,22 @@ class accountDistributionline(orm.Model):
             if distribution.distribution_amount > amount_remaining:
                 return False            
             
-            return True
+            return True        
+    
+    """
+        Also, in this model exists all fields that budget and cash flow report
+        have in common. Then, each model create a new model that inherit from 
+        this model and add their own fields.
+    """
+    _columns = {         
+         'account_move_line_id': fields.many2one('account.move.line', 'Account Move Line', ondelete="cascade"),
+         'distribution_percentage': fields.float('Distribution Percentage', required=True, digits_compute=dp.get_precision('Account'),),
+         'distribution_amount': fields.float('Distribution Amount', digits_compute=dp.get_precision('Account'), required=True),
+         'target_account_move_line_id': fields.many2one('account.move.line', 'Target Move Line'),         
+    }  
+     
+    _constraints = [
+        (_check_distribution_percentage, 'The distribution percentage can not be greater than sum of all percentage for the account move line selected', ['account_move_line_id']),    
+        (_check_distribution_amount, 'The distribution amount can not be greater than maximum amount of remaining amount for account move line selected', ['distribution_amount']),    
+    ]
+        

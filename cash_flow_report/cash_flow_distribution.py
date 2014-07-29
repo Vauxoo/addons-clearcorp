@@ -20,24 +20,29 @@
 #
 ##############################################################################
 
-from osv import fields, orm
+from openerp.osv import fields, orm
 
 class cashFlowdistribution(orm.Model):
     _name = "cash.flow.distribution"
     _inherit = "account.distribution.line"
     _description = "Cash Flow Distribution"
-
+    
+    _columns = {
+        'reconcile_ids': fields.many2many('account.move.reconcile', 'cash_reconcile_distribution_ids', string='Cash Reconcile Distributions',),
+        'type': fields.selection([('type_cash_flow', 'Type Cash Flow'),('move_cash_flow', 'Moves Cash Flow')], 'Distribution Cash Flow Type', select=True),                
+    }
+    
     _defaults = {
-        'type': 'manual', 
+        'type': 'move_cash_flow', 
         'distribution_amount': 0.0,
         'distribution_percentage': 0.0,
     }
     
-    def create(self, cr, uid, vals, context=None):
-        if context:
-            dist_type = context.get('distribution_type','auto')
-        else:
-            dist_type = 'auto'
-        vals['type'] = dist_type
-        res = super(cashFlowdistribution, self).create(cr, uid, vals, context)
-        return res
+#     def create(self, cr, uid, vals, context=None):
+#          if context:
+#              dist_type = context.get('distribution_type','move_cash_flow')
+#          else:
+#              dist_type = 'move_cash_flow'
+#          vals['type'] = dist_type
+#          res = super(cashFlowdistribution, self).create(cr, uid, vals, context)
+#          return res

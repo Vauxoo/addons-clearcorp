@@ -148,7 +148,7 @@ class Parser(accountReportbase):
                 elif line.credit > 0:
                     amount_credit = line.credit
                     
-                #Search all distribution_lines that are asociated to line
+                #Search all distribution_lines that are associated to line
                 lines_distribution = distribution_obj.search(cr, uid, [('account_move_line_id', '=', line.id)])
                 lines_distribution_list = distribution_obj.browse(cr, uid, lines_distribution)
                 

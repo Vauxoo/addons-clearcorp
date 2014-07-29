@@ -29,7 +29,10 @@ class account_move_line_distribution(orm.Model):
     _description = "Account move line distribution"
 
     _columns = {         
+         'reconcile_ids': fields.many2many('account.move.reconcile', 'bud_reconcile_distribution_ids', string='Budget Reconcile Distributions'), 
+         'account_move_line_type': fields.selection([('liquid', 'Liquid'),('void', 'Void')], 'Budget Type', select=True),
          'target_budget_move_line_id': fields.many2one('budget.move.line', 'Target Budget Move Line',),
+         'type': fields.selection([('manual', 'Manual'),('auto', 'Automatic')], 'Distribution Type', select=True),
     }
     
     _defaults = {
@@ -89,8 +92,6 @@ class account_move_line_distribution(orm.Model):
     _constraints = [
         (_check_target_move_line,'A Distribution Line only has one target. A target can be a move line or a budget move line',['target_budget_move_line_id', 'target_account_move_line_id']),
         (_check_distribution_amount_budget, 'The distribution amount can not be greater than compromised amount in budget move line selected', ['distribution_amount']),
-        (_check_distribution_percentage, 'The distribution percentage can not be greater than sum of all percentage for the account move line selected', ['account_move_line_id']),    
-        (_check_distribution_amount, 'The distribution amount can not be greater than maximum amount of remaining amount for account move line selected', ['distribution_amount']),    
         (_check_plan_distribution_line, 'You cannot create a distribution with a approved or closed plan',['distribution_amount']),    
     ]
 
