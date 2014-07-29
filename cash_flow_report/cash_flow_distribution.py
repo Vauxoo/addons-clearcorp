@@ -20,32 +20,24 @@
 #
 ##############################################################################
 
+from osv import fields, orm
 
-{
-    "name" : 'Sale Order report',
-    "version" : '2.0',
-    "author" : 'CLEARCORP S.A.',
-    'complexity': 'normal',
-    "description": """
-Sale order report in webkit
-    """,
-    "category": 'Sales',
-    "sequence": 4,
-    "website" : "http://clearcorp.co.cr",
-    "images" : [],
-    "depends" : [
-        'sale_order_global_discount',
-        'sale_order_extended',
-        'account_report_lib',
-        ],
-    "init_xml" : [],
-    "demo_xml" : [],
-    "update_xml" : ['data/sale_order_report_webkit.xml',
-                    'sale_order_report.xml',
-                    ],
-    "test" : [],
-    "auto_install": False,
-    "application": False,
-    "installable": True,
-    'license': 'AGPL-3',
-}
+class cashFlowdistribution(orm.Model):
+    _name = "cash.flow.distribution"
+    _inherit = "account.distribution.line"
+    _description = "Cash Flow Distribution"
+
+    _defaults = {
+        'type': 'manual', 
+        'distribution_amount': 0.0,
+        'distribution_percentage': 0.0,
+    }
+    
+    def create(self, cr, uid, vals, context=None):
+        if context:
+            dist_type = context.get('distribution_type','auto')
+        else:
+            dist_type = 'auto'
+        vals['type'] = dist_type
+        res = super(cashFlowdistribution, self).create(cr, uid, vals, context)
+        return res

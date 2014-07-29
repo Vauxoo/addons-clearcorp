@@ -38,7 +38,8 @@
         'hr_payroll_account',
         'hr_expense',
         'account_account_extended_ccorp',
-        'expense_line_partner'
+        'expense_line_partner',
+        'account_distribution_line',
         ],
     'data': [
         'security/security.xml',

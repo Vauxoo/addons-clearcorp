@@ -20,29 +20,23 @@
 #
 ##############################################################################
 
-
 {
-    "name" : 'Sale Order report',
-    "version" : '2.0',
+    "name" : "Account Reconcile Forced Partner",
+    "version" : '1.0',
     "author" : 'CLEARCORP S.A.',
     'complexity': 'normal',
     "description": """
-Sale order report in webkit
+Create a reconcile with different partners in specific accounts
     """,
-    "category": 'Sales',
+    "category": 'Accounting & Finance',
     "sequence": 4,
     "website" : "http://clearcorp.co.cr",
     "images" : [],
-    "depends" : [
-        'sale_order_global_discount',
-        'sale_order_extended',
-        'account_report_lib',
-        ],
+    "icon" : False,
+    "depends" : ["account"],
     "init_xml" : [],
     "demo_xml" : [],
-    "update_xml" : ['data/sale_order_report_webkit.xml',
-                    'sale_order_report.xml',
-                    ],
+    "data" : ["account_reconcile_forced_partner_view.xml",],
     "test" : [],
     "auto_install": False,
     "application": False,

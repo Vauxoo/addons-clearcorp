@@ -141,15 +141,34 @@ class ResConfig(osv.TransientModel):
         """Set the new attendance_default_sign_out in the selected company"""
         config = self.browse(cr, uid, ids[0], context)
         config.attendance_company_id.write({'attendance_default_sign_out': config.attendance_default_sign_out.id})
+    
+    def get_default_attendance_sample_template(self, cr, uid, fields, context=None):
+        """Get the default attendance_sample_template"""
+        #company_obj = self.pool.get('res.company')
+        #company_id = company_obj._company_default_get(cr, uid, 'hr.attendance.importer', context=context)
+        #company = company_obj.browse(cr, uid, company_id, context=context)
+        return {
+            'attendance_sample_filename': 'sample_template.csv',
+            'attendance_sample_template': 'RW1wbG95ZWUgQ29kZSxFbXBsb3llZSBOYW1lLERhdGUgYW5kIFRpbWUsQWN0aW9uLFdvcmsgSG91cgowMDEsRW1wbG95ZWUgT25lLDE1LzA1LzIwMTQgNjoxMDowMCxpbixOSAowMDIsRW1wbG95ZWUgVHdvLDE1LzA1LzIwMTQgNjowMDo1NSxpbixOSAowMDMsRW1wbG95ZWUgVGhyZWUsMTUvMDUvMjAxNCA1OjU1OjQ1LGluLE5ICjAwMSxFbXBsb3llZSBPbmUsMTUvMDUvMjAxNCAxNTowMjowMCxvdXQsTkgKMDAzLEVtcGxveWVlIFRocmVlLDE1LzA1LzIwMTQgMTU6MjI6MDAsb3V0LE5ICjAwMixFbXBsb3llZSBUd28sMTUvMDUvMjAxNCAxNDo1MDozMyxvdXQsTkgKMDAxLEVtcGxveWVlIE9uZSwxNS8wNS8yMDE0IDE1OjMyOjQ1LGluLEVICjAwMSxFbXBsb3llZSBPbmUsMTUvMDUvMjAxNCAxNzoyNzoyMixvdXQsRUgK',
+        }
 
     _columns = {
         'attendance_company_id': fields.many2one('res.company', string='Company', required=True),
         'attendance_date_format': fields.char('Date format when importing files', size=32,
-            help='Python date format used when importing files'),
-        'attendance_sign_in': fields.char('Identifier for sign in actions', size=16),
-        'attendance_sign_out': fields.char('Identifier for sign out actions', size=16),
-        'attendance_normal_hours': fields.char('Identifier for normal hours', size=8),
-        'attendance_extra_hours': fields.char('Identifier for extra hours', size=8),
-        'attendance_default_sign_in': fields.many2one('hr.action.reason', string='Default Sign in reason'),
-        'attendance_default_sign_out': fields.many2one('hr.action.reason', string='Default Sign out reason'),
+            help='Python date format used when importing files. For example '
+            '07-31-2014 13:00:00 is %m-%d-Y %H:%M:%S'),
+        'attendance_sign_in': fields.char('Identifier for sign in actions', size=16,
+            help='Used to identify sign-ins in the imported file. For example sign-in or IN.'),
+        'attendance_sign_out': fields.char('Identifier for sign out actions', size=16,
+            help='Used to identify sign-outs in the imported file. For example sign-out or OUT.'),
+        'attendance_normal_hours': fields.char('Identifier for normal hours', size=8,
+            help='Code used to identify normal hours in the imported file. For example NH.'),
+        'attendance_extra_hours': fields.char('Identifier for extra hours', size=8,
+            help='Code used to identify extra hours in the imported file. For example EH.'),
+        'attendance_default_sign_in': fields.many2one('hr.action.reason', string='Default Sign in reason',
+            help='Default action used to register extra hours sign-ins.'),
+        'attendance_default_sign_out': fields.many2one('hr.action.reason', string='Default Sign out reason',
+            help='Default action used to register extra hours sign-outs.'),
+        'attendance_sample_template': fields.binary('Sample Template', readonly=True),
+        'attendance_sample_filename': fields.char('Sample Template Filename', readonly=True),
     }

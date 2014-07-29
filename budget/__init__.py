@@ -31,4 +31,5 @@ import purchase
 import stock
 import hr_payroll
 import account_period
+import account_move_line_distribution
 #import sale
