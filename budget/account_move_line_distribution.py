@@ -85,6 +85,19 @@ class account_move_line_distribution(orm.Model):
                 return False
             return True   
     
+    #======== Check distribution percentage. Use distribution_percentage_sum in account.move.line to check 
+    def _check_distribution_percentage(self, cr, uid, ids, context=None):          
+        
+        for distribution in self.browse(cr, uid, ids, context=context):
+            #distribution_percentage_sum compute all the percentages for a specific move line. 
+            line_percentage = distribution.account_move_line_id.distribution_percentage_sum or 0.0
+            line_percentage_remaining = 100 - line_percentage
+            
+            if distribution.distribution_percentage > line_percentage_remaining:
+                return False
+            
+            return True
+    
     #==================================================================================
     _constraints = [
         (_check_target_move_line,'A Distribution Line only has one target. A target can be a move line or a budget move line',['target_budget_move_line_id', 'target_account_move_line_id']),
