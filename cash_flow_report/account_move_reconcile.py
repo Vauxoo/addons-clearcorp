@@ -63,8 +63,8 @@ class accountReconcileinherit(orm.Model):
     def _get_move_counterparts_cash_flow(self, cr, uid, line, context={}):
         is_debit = True if line.debit else False
         res = []
-        debit_bud= False
-        credit_bud=False
+        #debit_bud= False
+        #credit_bud=False
         """
         for move_line in line.move_id.line_id:
             if move_line.credit:
@@ -75,29 +75,31 @@ class accountReconcileinherit(orm.Model):
             raise CashDistributionError(_('Error'), _('Cash Flow distributions cannot be created automatically for this reconcile'), line.move_id.id)
         """
         for move_line in line.move_id.line_id:
-            #if (is_debit and move_line.credit) or (not is_debit and move_line.debit):
-            res.append(move_line)
+            if (is_debit and move_line.credit) or (not is_debit and move_line.debit):
+            #if move_line.id != original_line.id:
+                res.append(move_line)
+                
         return res
         
-    def _recursive_liquid_get_auto_distribution_cash_flow(self, cr, uid, original_line, actual_line = None, checked_lines = [], amount_to_dist = 0.0, original_amount_to_dist = 0.0, reconcile_ids = [], continue_reconcile = False, context={}, is_incremental=False, type=""):
+    def _recursive_liquid_get_auto_distribution_cash_flow(self, cr, uid, original_line, actual_line = None, checked_lines = [], amount_to_dist = 0.0, original_amount_to_dist = 0.0, reconcile_ids = [], continue_reconcile = False, context={}, is_incremental=False):
         
         dist_obj = self.pool.get('cash.flow.distribution')
         
-        if type == "move_cash":
-            if not actual_line and not original_line.account_id.moves_cash:
-                return []
-            """
-            if actual_line and not actual_line.account_id.moves_cash:
-                return []
-            """
+        """
+        #Original line -> first call
+        if not actual_line and not original_line.account_id.moves_cash:
+            return []
             
-        elif type == "cash_type":
-            if not actual_line and not original_line.account_id.cash_flow_type:
-                return []            
-            """
-            if actual_line and not actual_line.account_id.cash_flow_type:
-                return [] 
-            """
+        elif not actual_line and not original_line.account_id.cash_flow_type:
+            return [] 
+        
+        #Actual line
+        if actual_line and not actual_line.account_id.moves_cash:
+            return []
+           
+        elif actual_line and not actual_line.account_id.cash_flow_type:
+            return []  
+        """
                 
         # Check for first call
         if not actual_line:
@@ -183,8 +185,7 @@ class accountReconcileinherit(orm.Model):
                                                                  original_amount_to_dist = original_amount_to_dist,
                                                                  reconcile_ids = new_reconcile_ids,
                                                                  continue_reconcile = (not continue_reconcile),
-                                                                 context = context,
-                                                                 type = type)
+                                                                 context = context)
         
         # Check if there is cash flow types or liquid lines, if not return none_res, even if its empty.
         cash_res = []
@@ -210,7 +211,7 @@ class accountReconcileinherit(orm.Model):
                     'distribution_percentage':      100 * abs(distribution_amount) / abs(original_amount_to_dist),
                     'target_account_move_line_id':  line.id,
                     'reconcile_ids':                [(6, 0, new_reconcile_ids)],
-                    'type':                         'type_cash_flow',
+                    'type':                         'move_cash_flow',
                 }
                 cash_res.append(dist_obj.create(cr, uid, vals, context = context))
             
@@ -228,7 +229,7 @@ class accountReconcileinherit(orm.Model):
                     'distribution_percentage':      100 * abs(distribution_amount) / abs(original_amount_to_dist),
                     'target_account_move_line_id':  line.id,
                     'reconcile_ids':                [(6, 0, new_reconcile_ids)],
-                    'type':                         'move_cash_flow',
+                    'type':                         'type_cash_flow',
                 }
                 liquid_res.append(dist_obj.create(cr, uid, vals, context = context))
             
@@ -258,7 +259,7 @@ class accountReconcileinherit(orm.Model):
             # Check if the account if marked as moves_cash and if account has a cash_flow_type
             for line in move_lines:
                 if (line.id not in done_lines) and line.account_id and line.account_id.moves_cash:
-                    dist_ids = self._recursive_liquid_get_auto_distribution_cash_flow(cr, uid, line, context=context, type = "move_cash")
+                    dist_ids = self._recursive_liquid_get_auto_distribution_cash_flow(cr, uid, line, context=context)
                     checked_dist_ids = self._check_auto_distributions(cr, uid, line, dist_ids, context=context, object="cash_flow")
                     """
                     if checked_dist_ids:
@@ -266,7 +267,7 @@ class accountReconcileinherit(orm.Model):
                     """
                     
                 elif (line.id not in done_lines) and line.account_id and line.account_id.cash_flow_type:
-                    dist_ids = self._recursive_liquid_get_auto_distribution_cash_flow(cr, uid, line, context=context, type = "cash_type")
+                    dist_ids = self._recursive_liquid_get_auto_distribution_cash_flow(cr, uid, line, context=context)
                     checked_dist_ids = self._check_auto_distributions(cr, uid, line, dist_ids, context=context, object="cash_flow")
                     """
                     if checked_dist_ids:
