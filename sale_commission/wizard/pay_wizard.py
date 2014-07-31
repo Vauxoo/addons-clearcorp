@@ -43,186 +43,186 @@ class PayWizard(osv.TransientModel):
         invoice_obj =self.pool.get('account.invoice')
         rule_line_obj = self.pool.get('sale.commission.rule.line')
         commission_obj = self.pool.get('sale.commission.commission')
-        try:
-            # Get the invoices of the user without commission
-            cr.execute("""SELECT INV.id
-FROM account_invoice AS INV
-WHERE
-  INV.id NOT IN
-    (SELECT COM.invoice_id
-    FROM sale_commission_commission AS COM) AND
-  INV.type = 'out_invoice' AND
-  INV.user_id = %s AND
-  INV.period_id IN %s""", [member.id, tuple(period_ids)])
-            invoices_no_commission_ids = [item[0] for item in cr.fetchall()]
-            invoices_no_commission = invoice_obj.browse(cr, uid,
-                invoices_no_commission_ids, context=context)
-            # Get and order the rule_lines by sequence
-            rule_line_ids = rule_line_obj.search(cr, uid, [('commission_rule_id','=',rule.id)],
-                order='sequence asc', context=context)
-            rule_lines = rule_line_obj.browse(cr, uid, rule_line_ids, context=context)
-            sales_dict = {}
-            for invoice in invoices_no_commission:
-                if not invoice.period_id.id in sales_dict:
-                    # Get the invoices of the user
-                    period_invoices_ids = invoice_obj.search(cr, uid, [('user_id','=',member.id),
-                        ('period_id','=',invoice.period_id.id)], context=context)
-                    #Get the total sales for the period
-                    cr.execute("""SELECT SUM(INV.amount_total) AS amount_total
-FROM account_invoice AS INV
-WHERE
-  INV.id IN %s;""",[tuple(period_invoices_ids)])
-                    total_sales = cr.fetchall()[0][0]
-                    sales_dict[invoice.period_id.id] = total_sales
-                else:
-                    total_sales = sales_dict[invoice.period_id.id]
-                total_credit = 0.0
-                for payment in invoice.payment_ids:
-                    if payment.journal_id and payment.journal_id.pay_commission:
-                        if not payment.commission:
-                            total_credit += payment.credit
-                            payment.write({'commission': True}, context=context)
-                if total_credit > 0.0:
-                    for rule_line in rule_lines:
-                        result = True
-                        if rule_line.partner_category_id:
-                            if not rule_line.partner_category_id in invoice.partner_id.category_id:
+        commission_ids = []
+        # Get the invoices of the user without commission
+        cr.execute("""SELECT INV.id
+                    FROM account_invoice AS INV
+                    WHERE INV.id NOT IN
+                        (SELECT COM.invoice_id
+                        FROM sale_commission_commission AS COM) AND
+                        INV.type = 'out_invoice' AND
+                        INV.user_id = %s AND
+                        INV.period_id IN %s""", [member.id, tuple(period_ids)])
+        invoices_no_commission_ids = [item[0] for item in cr.fetchall()]
+        invoices_no_commission = invoice_obj.browse(cr, uid,
+            invoices_no_commission_ids, context=context)
+        # Get and order the rule_lines by sequence
+        rule_line_ids = rule_line_obj.search(cr, uid, [('commission_rule_id','=',rule.id)],
+            order='sequence asc', context=context)
+        rule_lines = rule_line_obj.browse(cr, uid, rule_line_ids, context=context)
+        sales_dict = {}
+        for invoice in invoices_no_commission:
+            if not invoice.period_id.id in sales_dict:
+                # Get the invoices of the user
+                period_invoices_ids = invoice_obj.search(cr, uid, [('user_id','=',member.id),
+                    ('period_id','=',invoice.period_id.id)], context=context)
+                #Get the total sales for the period
+                cr.execute("""SELECT SUM(INV.amount_total) AS amount_total
+                            FROM account_invoice AS INV
+                            WHERE INV.id IN %s;""",[tuple(period_invoices_ids)])
+                total_sales = cr.fetchall()[0][0]
+                sales_dict[invoice.period_id.id] = total_sales
+            else:
+                total_sales = sales_dict[invoice.period_id.id]
+            total_credit = 0.0
+            for payment in invoice.payment_ids:
+                if payment.journal_id and payment.journal_id.pay_commission:
+                    if not payment.commission:
+                        total_credit += payment.credit
+                        payment.write({'commission': True}, context=context)
+            if total_credit > 0.0:
+                for rule_line in rule_lines:
+                    result = True
+                    if rule_line.partner_category_id:
+                        if not rule_line.partner_category_id in invoice.partner_id.category_id:
+                            result = result and False
+                    if rule_line.pricelist_id:
+                        if invoice.pricelist_id:
+                            if not invoice.pricelist_id.id == rule_line.pricelist_id.id:
                                 result = result and False
-                        if rule_line.pricelist_id:
-                            if invoice.pricelist_id:
-                                if not invoice.pricelist_id.id == rule_line.pricelist_id.id:
-                                    result = result and False
-                            else:
+                        else:
+                            result = result and False
+                    if rule_line.payment_term_id:
+                        if invoice.payment_term:
+                            if not invoice.payment_term.id == rule_line.payment_term_id:
                                 result = result and False
-                        if rule_line.payment_term_id:
-                            if invoice.payment_term:
-                                if not invoice.payment_term.id == rule_line.payment_term_id:
-                                    result = result and False
-                            else:
-                                result = result and False
-                        if rule_line.max_discount > 0.0:
-                            if invoice.invoice_discount > rule_line.max_discount:
-                                result = result and False
-                        if rule_line.monthly_sales > 0.0:
-                            if total_sales < rule_line.monthly_sales:
-                                result = result and False
-                        if result:
-                            if rule_line.commission_percentage and total_credit:
-                                amount = total_credit * rule_line.commission_percentage / 100
-                            else:
-                                amount = 0.0
-                            exp_days = relativedelta(days=rule.post_expiration_days)
-                            if invoice.date_due:
-                                inv_date = datetime.strptime(invoice.date_due, '%Y-%m-%d')
-                                if datetime.today() > inv_date + exp_days:
-                                    state = 'expired'
-                                else:
-                                    state = 'new'
-                            else:
+                        else:
+                            result = result and False
+                    if rule_line.max_discount > 0.0:
+                        if invoice.invoice_discount > rule_line.max_discount:
+                            result = result and False
+                    if rule_line.monthly_sales > 0.0:
+                        if total_sales < rule_line.monthly_sales:
+                            result = result and False
+                    if result:
+                        if rule_line.commission_percentage and total_credit:
+                            amount = total_credit * rule_line.commission_percentage / 100
+                        else:
+                            amount = 0.0
+                        exp_days = relativedelta(days=rule.post_expiration_days)
+                        if invoice.date_due:
+                            inv_date = datetime.strptime(invoice.date_due, '%Y-%m-%d')
+                            if datetime.today() > inv_date + exp_days:
                                 state = 'expired'
-                            values = {
-                                'invoice_id': invoice.id,
-                                'state': state,
-                                'user_id': member.id,
-                                'amount': amount,
-                                'invoice_commission_percentage': rule_line.commission_percentage,
-                            }
-                            commission_obj.create(cr, uid, values, context=context)
-        except:
-            raise osv.except_osv('Error','asdasd')
+                            else:
+                                state = 'new'
+                        else:
+                            state = 'expired'
+                        values = {
+                            'invoice_id': invoice.id,
+                            'state': state,
+                            'user_id': member.id,
+                            'amount': amount,
+                            'invoice_commission_percentage': rule_line.commission_percentage,
+                        }
+                        commission_id = commission_obj.create(cr, uid, values, context=context)
+                        commission_ids.append(commission_id)
+                        break
+        return commission_ids
 
     def _invoices_with_commission(self, cr, uid, wizard, member, rule, period_ids, context=None):
         invoice_obj =self.pool.get('account.invoice')
         rule_line_obj = self.pool.get('sale.commission.rule.line')
         commission_obj = self.pool.get('sale.commission.commission')
-        try:
-            # Get the invoices of the user without commission
-            cr.execute("""SELECT INV.id
-FROM account_invoice AS INV
-WHERE
-  INV.id IN
-    (SELECT COM.invoice_id
-    FROM sale_commission_commission AS COM
-    WHERE COM.state = 'new') AND
-  INV.type = 'out_invoice' AND
-  INV.user_id = %s AND
-  INV.period_id IN %s""", [member.id, tuple(period_ids)])
-            invoices_commission_ids = [item[0] for item in cr.fetchall()]
-            invoices_commission = invoice_obj.browse(cr, uid,
-                invoices_commission_ids, context=context)
-            # Get and order the rule_lines by sequence
-            rule_line_ids = rule_line_obj.search(cr, uid, [('commission_rule_id','=',rule.id)],
-                order='sequence asc', context=context)
-            rule_lines = rule_line_obj.browse(cr, uid, rule_line_ids, context=context)
-            sales_dict = {}
-            for invoice in invoices_commission:
-                if not invoice.period_id.id in sales_dict:
-                    # Get the invoices of the user
-                    period_invoices_ids = invoice_obj.search(cr, uid, [('user_id','=',member.id),
-                        ('period_id','=',invoice.period_id.id)], context=context)
-                    #Get the total sales for the period
-                    cr.execute("""SELECT SUM(INV.amount_total) AS amount_total
-FROM account_invoice AS INV
-WHERE
-  INV.id IN %s;""",[tuple(period_invoices_ids)])
-                    total_sales = cr.fetchall()[0][0]
-                    sales_dict[invoice.period_id.id] = total_sales
-                else:
-                    total_sales = sales_dict[invoice.period_id.id]
-                total_credit = 0.0
-                for payment in invoice.payment_ids:
-                    if payment.journal_id and payment.journal_id.pay_commission:
-                        if not payment.commission:
-                            total_credit += payment.credit
-                            payment.write({'commission': True}, context=context)
-                if total_credit > 0.0:
-                    for rule_line in rule_lines:
-                        result = True
-                        if rule_line.partner_category_id:
-                            if not rule_line.partner_category_id in invoice.partner_id.category_id:
+        commission_ids = []
+    
+        # Get the invoices of the user without commission
+        cr.execute("""SELECT INV.id
+                    FROM account_invoice AS INV
+                    WHERE INV.id IN
+                        (SELECT COM.invoice_id
+                        FROM sale_commission_commission AS COM
+                        WHERE COM.state = 'new') AND
+                        INV.type = 'out_invoice' AND
+                        INV.user_id = %s AND
+                        INV.period_id IN %s""", [member.id, tuple(period_ids)])
+        invoices_commission_ids = [item[0] for item in cr.fetchall()]
+        invoices_commission = invoice_obj.browse(cr, uid,
+            invoices_commission_ids, context=context)
+        # Get and order the rule_lines by sequence
+        rule_line_ids = rule_line_obj.search(cr, uid, [('commission_rule_id','=',rule.id)],
+            order='sequence asc', context=context)
+        rule_lines = rule_line_obj.browse(cr, uid, rule_line_ids, context=context)
+        sales_dict = {}
+        for invoice in invoices_commission:
+            if not invoice.period_id.id in sales_dict:
+                # Get the invoices of the user
+                period_invoices_ids = invoice_obj.search(cr, uid, [('user_id','=',member.id),
+                    ('period_id','=',invoice.period_id.id)], context=context)
+                #Get the total sales for the period
+                cr.execute("""SELECT SUM(INV.amount_total) AS amount_total
+                            FROM account_invoice AS INV
+                            WHERE INV.id IN %s;""",[tuple(period_invoices_ids)])
+                total_sales = cr.fetchall()[0][0]
+                sales_dict[invoice.period_id.id] = total_sales
+            else:
+                total_sales = sales_dict[invoice.period_id.id]
+            total_credit = 0.0
+            for payment in invoice.payment_ids:
+                if payment.journal_id and payment.journal_id.pay_commission:
+                    if not payment.commission:
+                        total_credit += payment.credit
+                        payment.write({'commission': True}, context=context)
+            if total_credit > 0.0:
+                for rule_line in rule_lines:
+                    result = True
+                    if rule_line.partner_category_id:
+                        if not rule_line.partner_category_id in invoice.partner_id.category_id:
+                            result = result and False
+                    if rule_line.pricelist_id:
+                        if invoice.pricelist_id:
+                            if not invoice.pricelist_id.id == rule_line.pricelist_id.id:
                                 result = result and False
-                        if rule_line.pricelist_id:
-                            if invoice.pricelist_id:
-                                if not invoice.pricelist_id.id == rule_line.pricelist_id.id:
-                                    result = result and False
-                            else:
+                        else:
+                            result = result and False
+                    if rule_line.payment_term_id:
+                        if invoice.payment_term:
+                            if not invoice.payment_term.id == rule_line.payment_term_id:
                                 result = result and False
-                        if rule_line.payment_term_id:
-                            if invoice.payment_term:
-                                if not invoice.payment_term.id == rule_line.payment_term_id:
-                                    result = result and False
-                            else:
-                                result = result and False
-                        if rule_line.max_discount > 0.0:
-                            if invoice.invoice_discount > rule_line.max_discount:
-                                result = result and False
-                        if rule_line.monthly_sales > 0.0:
-                            if total_sales < rule_line.monthly_sales:
-                                result = result and False
-                        if result:
-                            if rule_line.commission_percentage and total_credit:
-                                amount = total_credit * rule_line.commission_percentage / 100
-                            else:
-                                amount = 0.0
-                            exp_days = relativedelta(days=rule.post_expiration_days)
-                            if invoice.date_due:
-                                inv_date = datetime.strptime(invoice.date_due, '%Y-%m-%d')
-                                if datetime.today() > inv_date + exp_days:
-                                    state = 'expired'
-                                else:
-                                    state = 'new'
-                            else:
+                        else:
+                            result = result and False
+                    if rule_line.max_discount > 0.0:
+                        if invoice.invoice_discount > rule_line.max_discount:
+                            result = result and False
+                    if rule_line.monthly_sales > 0.0:
+                        if total_sales < rule_line.monthly_sales:
+                            result = result and False
+                    if result:
+                        if rule_line.commission_percentage and total_credit:
+                            amount = total_credit * rule_line.commission_percentage / 100
+                        else:
+                            amount = 0.0
+                        exp_days = relativedelta(days=rule.post_expiration_days)
+                        if invoice.date_due:
+                            inv_date = datetime.strptime(invoice.date_due, '%Y-%m-%d')
+                            if datetime.today() > inv_date + exp_days:
                                 state = 'expired'
-                            values = {
-                                'invoice_id': invoice.id,
-                                'state': state,
-                                'user_id': member.id,
-                                'amount': amount,
-                                'invoice_commission_percentage': rule_line.commission_percentage,
-                            }
-                            commission_obj.create(cr, uid, values, context=context)
-        except:
-            raise osv.except_osv('Error', 'asdasd')
+                            else:
+                                state = 'new'
+                        else:
+                            state = 'expired'
+                        values = {
+                            'invoice_id': invoice.id,
+                            'state': state,
+                            'user_id': member.id,
+                            'amount': amount,
+                            'invoice_commission_percentage': rule_line.commission_percentage,
+                        }
+                        commission_id = commission_obj.create(cr, uid, values, context=context)
+                        commission_ids.append(commission_id)
+                        break
+        return commission_ids
+
     
     def do_payment(self, cr, uid, ids, context=None):
         assert isinstance(ids,list)
