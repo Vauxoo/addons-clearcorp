@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-10 16:02+0000\n"
-"PO-Revision-Date: 2014-07-10 16:02+0000\n"
+"POT-Creation-Date: 2014-08-01 20:08+0000\n"
+"PO-Revision-Date: 2014-08-01 20:08+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -119,6 +119,11 @@ msgid "Journal"
 msgstr "Diario"
 
 #. module: sale_commission
+#: field:sale.commission.commission,date_invoice:0
+msgid "Invoice Date"
+msgstr "Invoice Date"
+
+#. module: sale_commission
 #: view:sale.commission.commission:0
 #: selection:sale.commission.commission,state:0
 msgid "Paid"
@@ -166,6 +171,11 @@ msgstr "Nombre"
 #: help:sale.commission.rule.line,pricelist_id:0
 msgid "True if empty or uses this Pricelist"
 msgstr "Verdadero si se encuentra vacía o se utiliza esta tarifa"
+
+#. module: sale_commission
+#: model:ir.actions.report.xml,name:sale_commission.report_sale_commission_commission
+msgid "Commissions Report"
+msgstr "Report de comisiones"
 
 #. module: sale_commission
 #: field:sale.commission.rule.line,max_discount:0
@@ -258,6 +268,7 @@ msgid "Payment Term"
 msgstr "Plazo de pago"
 
 #. module: sale_commission
+#: field:sale.commission.commission,period_id:0
 #: field:sale.commission.pay.wizard,period_id:0
 msgid "Period"
 msgstr "Periodo"
