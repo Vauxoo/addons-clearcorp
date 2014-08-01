@@ -27,7 +27,7 @@
     "description": """
 Cash Flow Report:
 ===================
-Cash Flow report in Webkit. This report allows you to monitor company activities that move cash flow """,
+This report allows you to monitor company activities that move cash flow """,
     "website" : "http://clearcorp.co.cr",
     "depends" : [
                  'account_report_lib', 

@@ -185,7 +185,7 @@ class accountReconcileinherit(orm.Model):
                 vals = {
                     'account_move_line_id':         original_line.id,
                     'distribution_amount':          signed_dist_amount,
-                    'distribution_percentage':      100 * abs(distribution_amount) / abs(original_amount_to_dist),
+                    'distribution_percentage':      100 * abs(original_amount_to_dist) / abs(distribution_amount),
                     'target_account_move_line_id':  line.id,
                     'reconcile_ids':                [(6, 0, new_reconcile_ids)],
                     'type':                         'move_cash_flow',
@@ -203,7 +203,7 @@ class accountReconcileinherit(orm.Model):
                 vals = {
                     'account_move_line_id':         original_line.id,
                     'distribution_amount':          signed_dist_amount,
-                    'distribution_percentage':      100 * abs(distribution_amount) / abs(original_amount_to_dist),
+                    'distribution_percentage':      100 * abs(original_amount_to_dist) / abs(distribution_amount),
                     'target_account_move_line_id':  line.id,
                     'reconcile_ids':                [(6, 0, new_reconcile_ids)],
                     'type':                         'type_cash_flow',

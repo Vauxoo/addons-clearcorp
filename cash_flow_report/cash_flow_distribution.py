@@ -46,8 +46,6 @@ class cashFlowdistribution(orm.Model):
         
         for distribution in self.browse(cr, uid, ids, context=context):
             #==== distribution_amount_sum compute all the percentages for a specific move line. 
-            x = distribution.account_move_line_id
-            y = distribution.account_move_line_id.id
             line_amount_dis = distribution.account_move_line_id.distribution_amount_sum_cash or 0.0
             
             #=====Find amount for the move_line
@@ -69,7 +67,7 @@ class cashFlowdistribution(orm.Model):
     }
     
     _constraints = [
-        #(_check_distribution_percentage_cash, 'The cash flow distribution percentage  can not be greater than sum of all percentage for the account move line selected', ['account_move_line_id']),    
+        (_check_distribution_percentage_cash, 'The cash flow distribution percentage  can not be greater than sum of all percentage for the account move line selected', ['account_move_line_id']),    
         #(_check_distribution_amount_cash, 'The cash flow distribution amount can not be greater than maximum amount of remaining amount for account move line selected', ['distribution_amount']),    
     ]
     
