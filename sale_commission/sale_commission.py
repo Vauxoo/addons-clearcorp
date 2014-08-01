@@ -2,13 +2,13 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
-#    Original Module by SIESA (<http://www.siesacr.com>)
-#    Refactored by CLEARCORP S.A. (<http://clearcorp.co.cr>)
+#    Addons modules by CLEARCORP S.A.
+#    Copyright (C) 2009-TODAY CLEARCORP S.A. (<http://clearcorp.co.cr>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
 #    published by the Free Software Foundation, either version 3 of the
-#    license, or (at your option) any later version.
+#    License, or (at your option) any later version.
 #
 #    This program is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -17,6 +17,7 @@
 #
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
 ##############################################################################
 
 from openerp.osv import osv, fields
@@ -115,13 +116,13 @@ class Commission(osv.Model):
 
     def _check_amount(self, cr, uid, ids, context=None):
         for commission in self.browse(cr, uid, ids, context=context):
-            if commission.amount <= 0.0:
+            if commission.amount < 0.0:
                 return False
         return True
 
     def _check_percentage(self, cr, uid, ids, context=None):
         for commission in self.browse(cr, uid, ids, context=context):
-            if commission.invoice_commission_percentage <= 0.0 or \
+            if commission.invoice_commission_percentage < 0.0 or \
             commission.invoice_commission_percentage > 100.0:
                 return False
         return True
@@ -134,6 +135,10 @@ class Commission(osv.Model):
 
     _columns = {
         'invoice_id': fields.many2one('account.invoice', string='Invoice', required=True),
+        'period_id': fields.related('invoice_id', 'period_id', type='many2one', obj='account.period',
+            string='Period', required=True),
+        'date_invoice': fields.related('invoice_id', 'date_invoice', type='date',
+            string='Invoice Date', required=True),
         'state': fields.selection([('new','New'),('paid','Paid'),('expired','Expired'),
             ('cancelled','Cancelled')], string='State'),
         'user_id': fields.many2one('res.users', string='Salesperson', required=True),

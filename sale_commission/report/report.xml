@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="report_sale_commission_commission" model="ir.actions.report.xml">
+            <field name="name">Commissions Report</field>
+            <field name="type">ir.actions.report.xml</field>
+            <field name="model">sale.commission.commission</field>
+            <field name="report_name">report_sale_commission_commission</field>
+            <field name="report_type">aeroo</field>
+            <field name="in_format">oo-ods</field>
+            <field name="out_format" eval="ref('report_aeroo_ooo.report_mimetypes_pdf_ods')"/>
+            <field name="parser_loc">sale_commission/report/commission_report.py</field>
+            <field name="parser_state">loc</field>
+            <field name="report_rml">sale_commission/report/commission_report.ods</field>
+            <!--<field name="tml_source">database</field>
+            <field name="report_sxw_content_data"></field>-->
+        </record>
+        
+        <ir_set>
+            <field eval="'action'" name="key"/>
+            <field eval="'client_print_multi'" name="key2"/>
+            <field eval="['sale.commission.commission']" name="models"/>
+            <field name="name">Commissions Report</field>
+            <field eval="'ir.actions.report.xml,'+str(report_sale_commission_commission)" name="value"/>
+            <field eval="True" name="isobject"/>
+            <field eval="True" name="replace"/>
+        </ir_set>
+    </data>
+</openerp>

@@ -20,12 +20,4 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
-
-class User(osv.Model):
-
-    _inherit = 'res.users'
-
-    _columns = {
-        'sale_commission_rule_id': fields.many2one('sale.commission.rule', string='Commission Rule'),
-    }
+import commission_report

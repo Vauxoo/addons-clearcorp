@@ -20,12 +20,9 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
+from openerp.report import report_sxw
+from openerp.report.report_sxw import rml_parse
 
-class User(osv.Model):
-
-    _inherit = 'res.users'
-
-    _columns = {
-        'sale_commission_rule_id': fields.many2one('sale.commission.rule', string='Commission Rule'),
-    }
+class Parser(report_sxw.rml_parse):
+    def __init__(self, cr, uid, name, context):
+        super(Parser, self).__init__(cr, uid, name, context)
