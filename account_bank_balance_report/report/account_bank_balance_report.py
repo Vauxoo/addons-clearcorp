@@ -33,6 +33,8 @@ class Parser(accountReportbase):
         self.cursor = self.cr   
         
         self.localcontext.update({ 
+            'cr': cursor,
+            'uid': uid,
             'storage':{},
             'cumul_balance': 0.0,
             'get_bank_account': self.get_bank_account,
@@ -62,29 +64,57 @@ class Parser(accountReportbase):
     def display_account_name(self, data, account_id):
         str_name = ''
         bank_account = self.get_bank_account(data)
+        currecy_name = ''
+        user = self.pool.get('res.users').browse(self.cr, self.uid, self.uid)
         
         if bank_account.default_credit_account_id  and bank_account.default_debit_account_id:
             if bank_account.default_credit_account_id.id == bank_account.default_debit_account_id.id: 
-                str_name = bank_account.default_credit_account_id.code + ' - ' + bank_account.default_credit_account_id.name + ' - ' + bank_account.default_credit_account_id.currency_id.name
-        
+                str_name = bank_account.default_credit_account_id.code + ' - ' + bank_account.default_credit_account_id.name + ' - '
+                if  bank_account.default_credit_account_id.currency_id:
+                    str_name += bank_account.default_credit_account_id.currency_id.name
+                else:
+                    str_name += user.company_id.currency_id.name
+                
             else:
                 if bank_account.default_credit_account_id:
                     if bank_account.default_credit_account_id.id == account_id:
-                        str_name = _('Default credit account: ') + bank_account.default_credit_account_id.code + ' - ' + bank_account.default_credit_account_id.name + ' - ' + bank_account.default_credit_account_id.currency_id.name
+                        str_name = _('Default credit account: ') + bank_account.default_credit_account_id.code + ' - ' + bank_account.default_credit_account_id.name + ' - '
+                        
+                        if  bank_account.default_credit_account_id.currency_id:
+                            str_name +=  bank_account.default_credit_account_id.currency_id.name
+                        else:
+                            str_name += user.company_id.currency_id.name
                 
                 elif bank_account.default_debit_account_id:
                     if bank_account.default_debit_account_id.id == account_id:
-                        str_name = _('Default debit account: ') + bank_account.default_debit_account_id.code + ' - ' + bank_account.default_debit_account_id.name + ' - ' + bank_account.default_debit_account_id.currency_id.name
-        
+                        str_name = _('Default debit account: ') + bank_account.default_debit_account_id.code + ' - ' + bank_account.default_debit_account_id.name + ' - '
+                        
+                        if bank_account.default_debit_account_id.currency_id:
+                            str_name += bank_account.default_debit_account_id.currency_id.name
+                        else:
+                            str_name += user.company_id.currency_id.name
+                        
         else:
              if bank_account.default_credit_account_id:
                  if bank_account.default_credit_account_id.id == account_id:
-                     str_name = _('Default credit account: ') + bank_account.default_credit_account_id.code + ' - ' + bank_account.default_credit_account_id.name + ' - ' + bank_account.default_credit_account_id.currency_id.name
+                     str_name = _('Default credit account: ') + bank_account.default_credit_account_id.code + ' - ' + bank_account.default_credit_account_id.name + ' - '
+                     
+                     if  bank_account.default_credit_account_id.currency_id:
+                         str_name +=  bank_account.default_credit_account_id.currency_id.name
+                     else:
+                        str_name += user.company_id.currency_id.name
+                        
                 
              elif bank_account.default_debit_account_id:
                  if bank_account.default_debit_account_id.id == account_id:
-                     str_name = _('Default debit account: ') + bank_account.default_debit_account_id.code + ' - ' + bank_account.default_debit_account_id.name + ' - ' + bank_account.default_debit_account_id.currency_id.name
-        
+                     str_name = _('Default debit account: ') + bank_account.default_debit_account_id.code + ' - ' + bank_account.default_debit_account_id.name + ' - '
+                     
+                     if bank_account.default_debit_account_id.currency_id:
+                         str_name += bank_account.default_debit_account_id.currency_id.name
+                     else:
+                        str_name += user.company_id.currency_id.name
+                        
+                     
         return str_name
     
     def display_symbol_account(self, account_id):
@@ -121,15 +151,14 @@ class Parser(accountReportbase):
     #Change cumul_balance when changes the line
     def update_cumul_balance(self, line):
         cumul_balance = self.localcontext['storage']['cumul_balance']        
-        if line.currency_id:
-            if line.currency_id.id == self.get_currency_company():
+        if not line.currency_id or line.currency_id.id == self.get_currency_company():
                 cumul_balance = self.localcontext['storage']['cumul_balance'] + line.debit - line.credit
                 dict_update = {'cumul_balance': cumul_balance}
                 self.localcontext['storage'].update(dict_update)            
-            else:
-                cumul_balance = self.localcontext['storage']['cumul_balance'] + line.amount_currency
-                dict_update = {'cumul_balance': cumul_balance}
-                self.localcontext['storage'].update(dict_update)                
+        else:
+            cumul_balance = self.localcontext['storage']['cumul_balance'] + line.amount_currency
+            dict_update = {'cumul_balance': cumul_balance}
+            self.localcontext['storage'].update(dict_update)                
 
         return cumul_balance
                 
@@ -146,18 +175,17 @@ class Parser(accountReportbase):
         account = self.pool.get('account.account').browse(self.cr, self.uid, account_id)
         currency_company = self.get_currency_company()
         
-        if account.currency_id:
-            if account.currency_id == currency_company:
-                #initialize cum_balance 
-                dict_update = {'cumul_balance': balance[account_id]['balance']}
-                self.localcontext['storage'].update(dict_update)
-                return balance[account_id]['balance']
-            else:
-                #initialize cum_balance
-                dict_update = {'cumul_balance': balance[account_id]['foreign_balance']}
-                self.localcontext['storage'].update(dict_update)
-                return balance[account_id]['foreign_balance']
-            
+        if account.currency_id == currency_company or not account.currency_id:
+            #initialize cum_balance 
+            dict_update = {'cumul_balance': balance[account_id]['balance']}
+            self.localcontext['storage'].update(dict_update)
+            return balance[account_id]['balance']
+        else:
+            #initialize cum_balance
+            dict_update = {'cumul_balance': balance[account_id]['foreign_balance']}
+            self.localcontext['storage'].update(dict_update)
+            return balance[account_id]['foreign_balance']
+        
     #=====================================================================#
     
     #===================================================================
@@ -213,7 +241,7 @@ class Parser(accountReportbase):
     # balance associated (initial balance)
     #=======================================================================
     def get_initial_balance(self, data, account_id):
-        account_balance = 0.0
+        account_balance = {}
         library_obj = self.pool.get('account.webkit.report.library')
         
         fiscal_year = self.get_fiscalyear(data)            
@@ -223,28 +251,23 @@ class Parser(accountReportbase):
         
         #Get initial balance with previous period for period selected
         previous_period = self.pool.get('account.period').get_start_previous_period(self.cr, self.uid, start_period=period, fiscal_year=fiscal_year)
-        
-        if account.currency_id:
-            #Compare currency, if account is different than currency company, get foreign_balance 
-            if account.currency_id.id == currency_company:
-                account_balance = library_obj.get_account_balance(self.cr, self.uid, 
-                                                                      [account_id], 
-                                                                      ['balance'], 
-                                                                      initial_balance=True,
-                                                                      fiscal_year_id=fiscal_year.id,                                                                                
-                                                                      start_period_id=previous_period, 
-                                                                      end_period_id=previous_period, 
-                                                                      filter_type='filter_period')
-            else:
-                account_balance = library_obj.get_account_balance(self.cr, self.uid, 
-                                                                      [account_id], 
-                                                                      ['foreign_balance'], 
-                                                                      initial_balance=True,
-                                                                      fiscal_year_id=fiscal_year.id,                                                                                
-                                                                      start_period_id=previous_period, 
-                                                                      end_period_id=previous_period, 
-                                                                       filter_type='filter_period')
+               
+        if account.currency_id.id == currency_company or not account.currency_id:
+            account_balance = library_obj.get_account_balance(self.cr, self.uid, 
+                                                                  [account_id], 
+                                                                  ['balance'], 
+                                                                  initial_balance=True,
+                                                                  fiscal_year_id=fiscal_year.id,                                                                                
+                                                                  start_period_id=previous_period, 
+                                                                  end_period_id=previous_period, 
+                                                                  filter_type='filter_period')
         else:
-            account_balance = 0.0   
-       
+            account_balance = library_obj.get_account_balance(self.cr, self.uid, 
+                                                                  [account_id], 
+                                                                  ['foreign_balance'], 
+                                                                  initial_balance=True,
+                                                                  fiscal_year_id=fiscal_year.id,                                                                                
+                                                                  start_period_id=previous_period, 
+                                                                  end_period_id=previous_period, 
+                                                                   filter_type='filter_period')
         return account_balance
