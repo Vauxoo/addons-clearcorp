@@ -1384,7 +1384,7 @@ class budget_move_line(osv.osv):
         for line_id in next_year_lines.keys():
             if next_year_lines[line_id]:
                 next_line =self.browse(cr, uid, [next_year_lines[line_id]], context=context)[0]
-                bud_move_obj.recalculate_values(cr, uid,[next_line.budget_move_id.id], context=context)
+                bud_move_obj.recalculate_values(cr, uid,[next_line.budget_move_id.id], context=context)    
 
     def unlink(self, cr, uid, ids, context=None):
         for bud_move_line in self.browse(cr, uid, ids, context=context):

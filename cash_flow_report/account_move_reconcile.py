@@ -40,8 +40,6 @@ class accountReconcileinherit(orm.Model):
     
     _inherit = "account.move.reconcile"
     
-    """
-    #Inherit create of account.move.reconcile
     def create(self, cr, uid, vals, context=None):
         account_move_obj= self.pool.get('account.move')
         is_incremental = self.check_incremental_reconcile(cr, uid, vals, context=context)
@@ -60,7 +58,6 @@ class accountReconcileinherit(orm.Model):
         dist_obj.unlink(cr, uid, dist_ids, context=context)
         
         return super(accountReconcileinherit, self).unlink(cr, uid, ids, context=context)
-    """
     
     #Get counterparts of a specific line.
     def _get_move_counterparts_cash_flow(self, cr, uid, line, context={}):
@@ -188,7 +185,7 @@ class accountReconcileinherit(orm.Model):
                 vals = {
                     'account_move_line_id':         original_line.id,
                     'distribution_amount':          signed_dist_amount,
-                    'distribution_percentage':      100 * abs(original_amount_to_dist) / abs(distribution_amount),
+                    'distribution_percentage':      100 * abs(distribution_amount) / abs(original_amount_to_dist),
                     'target_account_move_line_id':  line.id,
                     'reconcile_ids':                [(6, 0, new_reconcile_ids)],
                     'type':                         'move_cash_flow',
@@ -206,7 +203,7 @@ class accountReconcileinherit(orm.Model):
                 vals = {
                     'account_move_line_id':         original_line.id,
                     'distribution_amount':          signed_dist_amount,
-                    'distribution_percentage':      100 * abs(original_amount_to_dist) / abs(distribution_amount),
+                    'distribution_percentage':      100 * abs(distribution_amount) / abs(original_amount_to_dist),
                     'target_account_move_line_id':  line.id,
                     'reconcile_ids':                [(6, 0, new_reconcile_ids)],
                     'type':                         'type_cash_flow',
@@ -246,5 +243,3 @@ class accountReconcileinherit(orm.Model):
                     checked_dist_ids = self._check_auto_distributions(cr, uid, line, dist_ids, context=context, object="cash_flow")
  
                 done_lines.append(line.id)
-
-        return res
