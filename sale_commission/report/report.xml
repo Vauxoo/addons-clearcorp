@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
-    <data noupdate="1">
+    <data noupdate="0">
         <record id="report_sale_commission_commission" model="ir.actions.report.xml">
             <field name="name">Commissions Report</field>
             <field name="type">ir.actions.report.xml</field>
@@ -11,9 +11,9 @@
             <field name="out_format" eval="ref('report_aeroo_ooo.report_mimetypes_pdf_ods')"/>
             <field name="parser_loc">sale_commission/report/commission_report.py</field>
             <field name="parser_state">loc</field>
+            <field name="tml_source">file</field>
             <field name="report_rml">sale_commission/report/commission_report.ods</field>
-            <!--<field name="tml_source">database</field>
-            <field name="report_sxw_content_data"></field>-->
+            <!--<field name="report_sxw_content_data"></field>-->
         </record>
         
         <ir_set>
