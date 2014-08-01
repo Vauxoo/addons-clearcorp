@@ -37,7 +37,8 @@ Main Features
 * Commission Percentage
 * Post-Expiration Day
 * Conditions based on Pricelist, Payment Terms, Amount of Sales, etc.
-""",
+
+Note: If you uinstall this module be sure to update the sale_commission module data.""",
     'author': 'CLEARCORP S.A.',
     'website': 'http://clearcorp.co.cr',
     'complexity': 'normal',
@@ -51,6 +52,7 @@ Main Features
              'view/hr_payroll_pay_commission_menu.xml',
              'view/res_config_view.xml',
              'wizard/wizard.xml',
+             'report/report.xml',
              'security/ir.model.access.csv',
              ],
     'test' : [],

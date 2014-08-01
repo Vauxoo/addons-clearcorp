@@ -128,6 +128,8 @@
                             <group>
                                 <field name="user_id" attrs="{'readonly': ['|',('state','=','cancelled'),('state','=','paid')]}"/>
                                 <field name="invoice_id" domain="[('type','=','out_invoice')]" attrs="{'readonly': ['|',('state','=','cancelled'),('state','=','paid')]}"/>
+                                <field name="period_id"/>
+                                <field name="date_invoice"/>
                             </group>
                             <group>
                                 <field name="invoice_commission_percentage" attrs="{'readonly': ['|',('state','=','cancelled'),('state','=','paid')]}"/>
