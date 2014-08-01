@@ -14,71 +14,58 @@
                 font-family: Arial,Verdana, Sans, Serif;
                 font-size: 13px;
             }
-            
+
             .header {
+                width: 820px;
                 padding : 200px 10px 5px 10px;
-                border:0; margin: 0;
+                margin: 0px;
             }
+
             .header-table {
                 width: 100%;
                 padding-top: 8%;
-            }
-            .partner-table {
-                width: 100%;
-                font-size: 12;
-            }
-
-            #data-table {
-                width: 100%;
-                padding-top: 20px;
-                font-size: 10;
-            }
-            #data-table th{
-                border-bottom:2px solid black;
-                text-align:center;
-                font-size:12;
-                font-weight:bold;
-                                /*
-                padding-right:3px;
-                padding-left:3px;
-*/
-            }
-            #data-table thead {
-                display:table-header-group;
-            }
-
-            .title {
-                font-size:16;
-                font-weight: bold;
             }
 
             td.company_logo{
                 padding-top: 12px;
                 padding-bottom: 5px;
             }
-            .company_address{
-                width : 100%;
-                text-align: right;
-                font-size: 13;
-            }
 
             .company_data {
                 width : 100%;
                 text-align: left;
-                font-size: 13;
-                
+                font-size: 17px;
             }
-            
+
+            .title {
+                font-size: 22px;
+                font-weight: bold;
+            }
+
+            .slogan {
+                font-size: 13px;
+                font-style : italic;
+                color : #888888;
+            }
+
+            .footer {
+                font-size: 9px;
+                width: 820px;
+                border-top: 1px solid black;
+            }
+
+            .footer_table {
+                width: 100%;
+            }
+
+            .footer_table tr {
+                margin: 0px;
+                padding: 0px;
+            }
+
             .company_footer {
                 font-style : italic;
-            }
-            
-            .footer {
-                font-size: 4;
-                border-top: 1px solid black; 
-                width: 100%;
-                border:0; margin: 0;
-                padding-bottom: 300px;
+                margin: 0px;
             }
 
             .data {
@@ -86,18 +73,35 @@
                 border:0; margin: 0;
             }
 
-            .footer_table {
+            .document_data {
+                font-size: 13;
+            }
+
+            #data-table {
                 width: 100%;
-                padding-bottom: 150px;
-                border-top: 1px solid black;
-            }
-            
-            .slogan {
+                padding-top: 20px;
                 font-size: 10;
-                font-style : italic;
-                color : #888888;
             }
-            
+
+            #data-table th{
+                border-bottom:2px solid black;
+                text-align:center;
+                font-size:12;
+                font-weight:bold;
+            }
+
+            #data-table thead {
+                display:table-header-group;
+            }
+
+            #data-table tbody tr.even td {
+                background-color: #eee;
+            }
+
+            #data-table tbody tr.odd  td {
+                background-color: #fff;
+            }
+
             #notes_table {
                 font-size: 12;
                 font-style : italic;
@@ -105,39 +109,25 @@
                 border-collapse:separate;
                 border-spacing:10px;
             }
+
             #notes_table td{
                 background-color: #eee;
                 padding: 10px
             }
-            
-            .document_data {
-                font-size: 13;
-            }
-            
-            #data-table tbody tr.even td {
-                background-color: #eee;
-            }
-            #data-table tbody tr.odd  td {
-                background-color: #fff;
-            }
-            
+
             .notes{
                 padding-top : 0px;
                 margin-left: 5px;
                 font-style : italic;
             }
+
             #desc_col{
                 width : 330px;
             }
-            #desc_col_po{
-                width : 380px;
-            }
+
             #responsibles_table td{
                 padding-top: 20px;
                 font-size: 12;
-            }
-            #custom_footer p{
-                font-size: 10;
             }]]>
         </field>
         <field name="html"><![CDATA[ 
@@ -196,9 +186,9 @@
                 </tr>
             </tbody>
         </table>
-        
         <p class = "slogan">${company.rml_header1}</p>
-        <hr />${_debug or ''|n} </body>
+        <hr />${_debug or ''|n}
+    </body>
 </html>]]></field>
         <field name="footer_html"><![CDATA[
 <html>
@@ -223,10 +213,10 @@
     <body class = "footer" onload="subst()">
         <table class = "footer_table">
             <tr>
-                <td colspan="2"><p class ="company_footer">Favor realizar pagos a nombre de ${company.name} cédula jurídica ${company.company_registry}. CUENTAS BANCARIAS: ${company.accounts_footer}</p></td>
+                <td><p class ="company_footer">Favor realizar pagos a nombre de ${company.name} cédula jurídica ${company.company_registry}. CUENTAS BANCARIAS: ${company.accounts_footer}</p></td>
             </tr>
             <tr>
-                <td colspan="2"><p class ="company_footer">Si realiza el pago en colones (CRC), por favor utilizar el tipo de cambio al día de la fecha de pago del BCCR.</p></td>
+                <td><p class ="company_footer">Si realiza el pago en colones (CRC), por favor utilizar el tipo de cambio al día de la fecha de pago del BCCR.</p></td>
             </tr>
             <tr>
                 <td><p class ="company_footer">Emitida conforme lo establecido en la resolución de Facturación Electrónica, N° DGT-22-07 del diecisiete de setiembre de dos mil siete de la Dirección General de Tributación </p></td>
