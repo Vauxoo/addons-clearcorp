@@ -19,7 +19,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import fields, osv
+
+from openerp.osv import fields, orm, osv
 import decimal_precision as dp
 from openerp.tools.translate import _
 from datetime import datetime
