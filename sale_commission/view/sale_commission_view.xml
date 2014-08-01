@@ -149,6 +149,8 @@
                     <field name="invoice_id"/>
                     <field name="invoice_commission_percentage"/>
                     <field name="amount"/>
+                    <field name="period_id"/>
+                    <field name="date_invoice"/>
                     <field name="state"/>
                 </tree>
             </field>
@@ -163,6 +165,8 @@
                <search string="Commission">
                     <field name="invoice_id"/>
                     <field name="user_id"/>
+                    <field name="period_id"/>
+                    <field name="date_invoice"/>
                     <separator/>
                     <filter string="New" name="new" domain="[('state','=','new')]"/>
                     <filter string="Paid" name="paid" domain="[('state','=','paid')]"/>
