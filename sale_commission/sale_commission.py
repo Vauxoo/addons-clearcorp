@@ -136,9 +136,9 @@ class Commission(osv.Model):
     _columns = {
         'invoice_id': fields.many2one('account.invoice', string='Invoice', required=True),
         'period_id': fields.related('invoice_id', 'period_id', type='many2one', obj='account.period',
-            string='Period', required=True),
+            string='Period', readonly=True),
         'date_invoice': fields.related('invoice_id', 'date_invoice', type='date',
-            string='Invoice Date', required=True),
+            string='Invoice Date', readonly=True),
         'state': fields.selection([('new','New'),('paid','Paid'),('expired','Expired'),
             ('cancelled','Cancelled')], string='State'),
         'user_id': fields.many2one('res.users', string='Salesperson', required=True),
