@@ -20,6 +20,7 @@
 #
 ##############################################################################
 
+import account_move_line
 import account_move_reconcile
 import cash_flow_type
 import cash_flow_distribution

@@ -21,7 +21,7 @@
 ##############################################################################
 
 from tools.translate import _
-from osv import fields, osv, orm
+from openerp.osv import fields, orm, osv
 
 class account_move_line_distribution(orm.Model):
     _name = "account.move.line.distribution"
@@ -29,7 +29,10 @@ class account_move_line_distribution(orm.Model):
     _description = "Account move line distribution"
 
     _columns = {         
+         'reconcile_ids': fields.many2many('account.move.reconcile', 'bud_reconcile_distribution_ids', string='Budget Reconcile Distributions'), 
+         'account_move_line_type': fields.selection([('liquid', 'Liquid'),('void', 'Void')], 'Budget Type', select=True),
          'target_budget_move_line_id': fields.many2one('budget.move.line', 'Target Budget Move Line',),
+         'type': fields.selection([('manual', 'Manual'),('auto', 'Automatic')], 'Distribution Type', select=True),
     }
     
     _defaults = {
@@ -37,7 +40,49 @@ class account_move_line_distribution(orm.Model):
         'distribution_amount': 0.0,
         'distribution_percentage': 0.0,
     }
-
+    
+     #======== Check distribution percentage. Use distribution_percentage_sum in account.move.line to check 
+    def _check_distribution_percentage(self, cr, uid, ids, context=None):          
+        
+        for distribution in self.browse(cr, uid, ids, context=context):
+            #distribution_percentage_sum compute all the percentages for a specific move line. 
+            line_percentage = distribution.account_move_line_id.distribution_percentage_sum or 0.0
+            line_percentage_remaining = 100 - line_percentage
+            
+            if distribution.distribution_percentage > line_percentage_remaining:
+                return False
+            
+            return True
+        
+    #========= Check distribution percentage. Use distribution_amount_sum in account.move.line to check 
+    def _check_distribution_amount(self, cr, uid, ids, context=None):          
+        amount = 0.0
+        
+        for distribution in self.browse(cr, uid, ids, context=context):
+            #==== distribution_amount_sum compute all the percentages for a specific move line. 
+            x = distribution.account_move_line_id
+            y = distribution.account_move_line_id.id
+            line_amount_dis = distribution.account_move_line_id.distribution_amount_sum or 0.0
+            
+            #=====Find amount for the move_line
+            if distribution.account_move_line_id.credit > 0:
+                amount = distribution.account_move_line_id.credit
+            if distribution.account_move_line_id.debit > 0:
+                amount = distribution.account_move_line_id.debit
+            
+            #Only in case of budget distribution
+            if distribution.account_move_line_id.credit == 0 and distribution.account_move_line_id.debit == 0:
+                if distribution.account_move_line_id.fixed_amount:
+                    amount = distribution.account_move_line_id.fixed_amount
+            
+            #====Check which is the remaining between the amount line and sum of amount in distributions. 
+            amount_remaining = amount - line_amount_dis
+            
+            if distribution.distribution_amount > amount_remaining:
+                return False            
+            
+            return True        
+    
     #====== Check the plan for distribution line
     def get_plan_for_distributions(self, cr, uid, dist_ids, context=None):
        query = 'SELECT AMLD.id AS dist_id, BP.id AS plan_id FROM account_move_line_distribution AMLD '\
@@ -125,10 +170,10 @@ class account_move_line_distribution(orm.Model):
     
     #==================================================================================
     _constraints = [
-        (_check_target_move_line,'A Distribution Line only has one target. A target can be a move line or a budget move line',['target_budget_move_line_id', 'target_account_move_line_id']),
-        (_check_distribution_amount_budget, 'The distribution amount can not be greater than compromised amount in budget move line selected', ['distribution_amount']),
         (_check_distribution_percentage, 'The distribution percentage can not be greater than sum of all percentage for the account move line selected', ['account_move_line_id']),    
         (_check_distribution_amount, 'The distribution amount can not be greater than maximum amount of remaining amount for account move line selected', ['distribution_amount']),    
+        (_check_target_move_line,'A Distribution Line only has one target. A target can be a move line or a budget move line',['target_budget_move_line_id', 'target_account_move_line_id']),
+        (_check_distribution_amount_budget, 'The distribution amount can not be greater than compromised amount in budget move line selected', ['distribution_amount']),
         (_check_plan_distribution_line, 'You cannot create a distribution with a approved or closed plan',['distribution_amount']),    
     ]
 
