@@ -130,44 +130,6 @@ class account_move_line_distribution(orm.Model):
                 return False
             return True   
     
-    #======== Check distribution percentage. Use distribution_percentage_sum in account.move.line to check 
-    def _check_distribution_percentage(self, cr, uid, ids, context=None):          
-        
-        for distribution in self.browse(cr, uid, ids, context=context):
-            #distribution_percentage_sum compute all the percentages for a specific move line. 
-            line_percentage = distribution.account_move_line_id.distribution_percentage_sum or 0.0
-            line_percentage_remaining = 100 - line_percentage
-            
-            if distribution.distribution_percentage > line_percentage_remaining:
-                return False
-            
-            return True
-        
-    #========= Check distribution percentage. Use distribution_amount_sum in account.move.line to check 
-    def _check_distribution_amount(self, cr, uid, ids, context=None):          
-        amount = 0.0
-        
-        for distribution in self.browse(cr, uid, ids, context=context):
-            #==== distribution_amount_sum compute all the percentages for a specific move line. 
-            x = distribution.account_move_line_id
-            y = distribution.account_move_line_id.id
-            line_amount_dis = distribution.account_move_line_id.distribution_amount_sum or 0.0
-            
-            #=====Find amount for the move_line
-            if distribution.account_move_line_id.credit > 0:
-                amount = distribution.account_move_line_id.credit
-            if distribution.account_move_line_id.debit > 0:
-                amount = distribution.account_move_line_id.debit
-            if distribution.account_move_line_id.credit == 0 and distribution.account_move_line_id.debit == 0:
-                amount = distribution.account_move_line_id.fixed_amount
-            
-            #====Check which is the remaining between the amount line and sum of amount in distributions. 
-            amount_remaining = amount - line_amount_dis
-            
-            if distribution.distribution_amount > amount_remaining:
-                return False            
-            return True
-    
     #==================================================================================
     _constraints = [
         (_check_distribution_percentage, 'The distribution percentage can not be greater than sum of all percentage for the account move line selected', ['account_move_line_id']),    
