@@ -11,7 +11,7 @@
                     <page string="Analytic Lines" position="after">
                         <page string="Distribution Cash Flow Move Lines">
                             <field name="cash_flow_line_dist" widget="one2many_list"  nolabel="1" colspan="4" attrs="{'readonly': True}">
-                                <tree colors="blue:type == 'type_cash_flow';red:type == 'move_cash_flow'"  string="Distribution Cash Flow Move Lines" editable="bottom">                                 
+                                <tree colors="blue:type == 'move_cash_flow';red:type == 'type_cash_flow'"  string="Distribution Cash Flow Move Lines" editable="bottom">                                 
                                     <field name="account_move_line_id" domain="[('id','=', parent.id)]" attrs="{'readonly':'True'}"/>
                                     <field name="distribution_percentage" attrs="{'readonly':'True'}"/>
                                     <field name="distribution_amount" attrs="{'readonly':'True'}"/>

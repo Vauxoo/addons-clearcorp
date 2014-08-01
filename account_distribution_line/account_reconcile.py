@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from osv import fields, osv, orm
+from openerp.osv import fields, orm, osv
 from tools.translate import _
 
 class AccountMoveReconcile(orm.Model):

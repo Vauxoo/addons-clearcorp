@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from osv import fields, orm, osv
+from openerp.osv import fields, orm, osv
 from copy import copy
 from tools.translate import _
 
@@ -63,20 +63,9 @@ class accountReconcileinherit(orm.Model):
     def _get_move_counterparts_cash_flow(self, cr, uid, line, context={}):
         is_debit = True if line.debit else False
         res = []
-        #debit_bud= False
-        #credit_bud=False
-        """
-        for move_line in line.move_id.line_id:
-            if move_line.credit:
-                credit_bud = True
-            if move_line.debit:
-                debit_bud = True
-        if credit_bud and debit_bud:
-            raise CashDistributionError(_('Error'), _('Cash Flow distributions cannot be created automatically for this reconcile'), line.move_id.id)
-        """
+       
         for move_line in line.move_id.line_id:
             if (is_debit and move_line.credit) or (not is_debit and move_line.debit):
-            #if move_line.id != original_line.id:
                 res.append(move_line)
                 
         return res
@@ -85,21 +74,9 @@ class accountReconcileinherit(orm.Model):
         
         dist_obj = self.pool.get('cash.flow.distribution')
         
-        """
-        #Original line -> first call
+        # Check if first call. Find line that moves cash
         if not actual_line and not original_line.account_id.moves_cash:
             return []
-            
-        elif not actual_line and not original_line.account_id.cash_flow_type:
-            return [] 
-        
-        #Actual line
-        if actual_line and not actual_line.account_id.moves_cash:
-            return []
-           
-        elif actual_line and not actual_line.account_id.cash_flow_type:
-            return []  
-        """
                 
         # Check for first call
         if not actual_line:
@@ -243,8 +220,7 @@ class accountReconcileinherit(orm.Model):
     
     def reconcile_check_cash_flow(self, cr, uid, ids, context={},is_incremental=False):
         done_lines = []
-        #res = {}
-        
+
         for reconcile in self.browse(cr, uid, ids, context=context):
             # Check if reconcile "touches" a move that touches a liquid account on any of its move lines            
             # First get the moves of the reconciled lines
@@ -261,18 +237,9 @@ class accountReconcileinherit(orm.Model):
                 if (line.id not in done_lines) and line.account_id and line.account_id.moves_cash:
                     dist_ids = self._recursive_liquid_get_auto_distribution_cash_flow(cr, uid, line, context=context)
                     checked_dist_ids = self._check_auto_distributions(cr, uid, line, dist_ids, context=context, object="cash_flow")
-                    """
-                    if checked_dist_ids:
-                        res[line.id] = checked_dist_ids
-                    """
-                    
+                  
                 elif (line.id not in done_lines) and line.account_id and line.account_id.cash_flow_type:
                     dist_ids = self._recursive_liquid_get_auto_distribution_cash_flow(cr, uid, line, context=context)
                     checked_dist_ids = self._check_auto_distributions(cr, uid, line, dist_ids, context=context, object="cash_flow")
-                    """
-                    if checked_dist_ids:
-                        res[line.id] = checked_dist_ids
-                    """
+ 
                 done_lines.append(line.id)
-
-        #return res

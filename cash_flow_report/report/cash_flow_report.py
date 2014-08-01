@@ -40,21 +40,26 @@ class Parser(accountReportbase):
              #====================SET AND GET METHODS ===========================
             'storage':{},
             'set_data_template': self.set_data_template,
+            'get_no_distribution_amount': self.get_no_distribution_amount, 
             #===================================================================
         })
     
     def set_data_template(self, cr, uid, data,context):
         
-        cash_flow_amounts, cash_flow_types, total_by_type = self.get_data(cr, uid, data,context)
+        cash_flow_amounts, cash_flow_types, total_by_type, no_distribution_amount = self.get_data(cr, uid, data,context)
         
         dict_update = {
                        'cash_flow_amounts': cash_flow_amounts,
                        'cash_flow_types':cash_flow_types,
-                       'total_by_type':total_by_type                       
+                       'total_by_type':total_by_type,    
+                       'no_distribution_amount': no_distribution_amount,                   
                        }
         
         self.localcontext['storage'].update(dict_update)
         return False
+    
+    def get_no_distribution_amount (self):
+        return _('Not distributed amount: ') 
     
     #1. Report parameters
     def get_report_parameters(self, cr, uid, data, context):
@@ -99,6 +104,7 @@ class Parser(accountReportbase):
         
         account_report_lib = self.pool.get('account.webkit.report.library')
         account_dict = {}
+        no_distribution_amount = 0.0
         
         #======================================================
         #Accounts
@@ -126,10 +132,12 @@ class Parser(accountReportbase):
     #4. Build data for report
     def get_data(self, cr, uid, data,context):
 
-        distribution_obj = self.pool.get('account.cash.flow.distribution')
+        distribution_obj = self.pool.get('cash.flow.distribution')
         cash_flow_amounts = {} # contains amounts for each cash_flow_types
         cash_flow_types = {}   # Groups by type    
         total_by_type = {}     # Return total amount by type
+        no_distribution_amount = 0.0
+        check_lines = []
         
         #===========================================================
         
@@ -139,44 +147,48 @@ class Parser(accountReportbase):
         #Find if lines have a distribution_line
         for account, move_lines in account_dict.iteritems():
             for line in move_lines:
-                amount_debit = 0
-                amount_credit = 0.0
-                
-                #Get debit and credit from original line. 
-                if line.debit > 0:
-                    amount_debit = line.debit
-                elif line.credit > 0:
-                    amount_credit = line.credit
+                if line.id not in check_lines:
+                    amount_debit = 0
+                    amount_credit = 0.0
                     
-                #Search all distribution_lines that are associated to line
-                lines_distribution = distribution_obj.search(cr, uid, [('account_move_line_id', '=', line.id)])
-                lines_distribution_list = distribution_obj.browse(cr, uid, lines_distribution)
+                    #Get debit and credit from original line. 
+                    if line.debit > 0:
+                        amount_debit = line.debit
+                    elif line.credit > 0:
+                        amount_credit = line.credit
+                        
+                    #Search all distribution_lines that are associated to line
+                    lines_distribution = distribution_obj.search(cr, uid, [('account_move_line_id', '=', line.id)])
+                    lines_distribution_list = distribution_obj.browse(cr, uid, lines_distribution)
+                    check_lines.append(line.id)
+                    
+                    #Only if accounts have cash_flow_type
+                    for line_distribution in lines_distribution_list:
+                        if line_distribution.target_account_move_line_id.account_id.cash_flow_type:
+                            cash_flow_type = line_distribution.target_account_move_line_id.account_id.cash_flow_type
+    #                        ====================================================================
+    #                        Create a dictionary, where key is cash_flow_type id. Create a list, with type, amount and name of
+    #                        cash_flow. Then, iterate this dictionary and group for type and print in report.
+    #                        List order = [type, debit, credit, amount, name]
+    #                        ====================================================================
+                            if cash_flow_type:
+                                if cash_flow_type.id not in cash_flow_amounts.keys():
+                                    target_amount = line_distribution.target_account_move_line_id.debit + line_distribution.target_account_move_line_id.credit
+                                    list = [cash_flow_type.type, amount_debit, amount_credit, target_amount, cash_flow_type.name]
+                                    cash_flow_amounts[cash_flow_type.id] = list                            
+                                else:
+                                    temp_list = cash_flow_amounts[cash_flow_type.id]
+                                    #======= Update amounts                                
+                                    target_new_amount = line_distribution.target_account_move_line_id.debit + line_distribution.target_account_move_line_id.credit
+                                    temp_list[1] += amount_debit
+                                    temp_list[2] += amount_credit
+                                    temp_list[3] += target_new_amount
+                                    cash_flow_amounts[cash_flow_type.id] = temp_list
+                    
+                                no_distribution_amount += distribution_obj.get_amounts_distribution(cr, uid, line, lines_distribution_list)
                 
-                #Only if accounts have cash_flow_type
-                for line_distribution in lines_distribution_list:
-                    if line_distribution.target_account_move_line.account_id.cash_flow_type:
-                        cash_flow_type = line_distribution.target_account_move_line.account_id.cash_flow_type
-#                        ====================================================================
-#                        Create a dictionary, where key is cash_flow_type id. Create a list, with type, amount and name of
-#                        cash_flow. Then, iterate this dictionary and group for type and print in report.
-#                        List order = [type, debit, credit, amount, name]
-#                        ====================================================================
-                        if cash_flow_type:
-                            if cash_flow_type.id not in cash_flow_amounts.keys():
-                                target_amount = line_distribution.target_account_move_line.debit + line_distribution.target_account_move_line.credit
-                                list = [cash_flow_type.type, amount_debit, amount_credit, target_amount, cash_flow_type.name]
-                                cash_flow_amounts[cash_flow_type.id] = list                            
-                            else:
-                                temp_list = cash_flow_amounts[cash_flow_type.id]
-                                #======= Update amounts                                
-                                target_new_amount = line_distribution.target_account_move_line.debit + line_distribution.target_account_move_line.credit
-                                temp_list[1] += amount_debit
-                                temp_list[2] += amount_credit
-                                temp_list[3] += target_new_amount
-                                cash_flow_amounts[cash_flow_type.id] = temp_list
                                 
-        #========================================================================
-        
+        #========================================================================        
         #Group in types (operational, investment, financing). Create list of each type (with id)
         #This connect dictionary with amounts (cash_flow_amounts) and dictionary with types.
         #example = {'operational': 1, 3, 4} -> cash_flow_id
@@ -191,12 +203,12 @@ class Parser(accountReportbase):
                 cash_flow_types[type_name] = list
                 list = []
         
-        
         #========================================================================
         amount = 0.0
         #Group totals by type, return a dictionary with totals.
         #Iterate in each id and sum, in cash_flow_amounts
         for type, list_ids in cash_flow_types.iteritems():
+            amount = 0.0
             for item in list_ids:
                 if item in cash_flow_amounts.keys():
                     list_values = cash_flow_amounts[item] #extract info from cash_flow_amounts
@@ -228,5 +240,5 @@ class Parser(accountReportbase):
                                'financing':0.0,
                                }
 
-        return cash_flow_amounts, cash_flow_types, total_by_type
+        return cash_flow_amounts, cash_flow_types, total_by_type, no_distribution_amount
     

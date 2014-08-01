@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-18 19:41+0000\n"
-"PO-Revision-Date: 2014-02-18 19:41+0000\n"
+"POT-Creation-Date: 2014-08-01 04:24+0000\n"
+"PO-Revision-Date: 2014-08-01 04:24+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,17 +16,27 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: cash_flow_report
-#: field:cash.flow.report.wiz,out_format:0
-msgid "Print Format"
-msgstr "Formato de impresión"
+#: view:cash.flow.report.wiz:0
+#: field:cash.flow.report.wiz,res_partners_ids:0
+msgid "Partners"
+msgstr "Empresas"
 
 #. module: cash_flow_report
-#: model:ir.model,name:cash_flow_report.model_account_cash_flow_distribution
-msgid "Account Cash Flow Distribution"
-msgstr "Distribución de Flujo de Efectivo"
+#: selection:cash.flow.distribution,type:0
+msgid "Type Cash Flow"
+msgstr "Tipo de Flujo de Efectivo"
 
 #. module: cash_flow_report
-#: report:addons/cash_flow_report/report/cash_flow_report.mako:18
+#: field:cash.flow.distribution,type:0
+msgid "Distribution Cash Flow Type"
+msgstr "Distribución de Tipo de Flujo de Efectivo"
+
+#. module: cash_flow_report
+#: selection:cash.flow.type,type:0
+msgid "Financing"
+msgstr "Financiamiento"
+
+#. module: cash_flow_report
 #: view:cash.flow.report.wiz:0
 #: model:ir.actions.report.xml,name:cash_flow_report.cash_flow_report_ods
 #: model:ir.actions.report.xml,name:cash_flow_report.cash_flow_report_odt
@@ -40,35 +50,26 @@ msgid "Group By..."
 msgstr "Agrupar por..."
 
 #. module: cash_flow_report
-#: field:account.cash.flow.distribution,account_move_line_id:0
+#: field:cash.flow.distribution,account_move_line_id:0
 msgid "Account Move Line"
 msgstr "Línea de Asiento"
 
 #. module: cash_flow_report
+#: field:account.move.line,distribution_percentage_sum_cash:0
+msgid "Distributed Cash Flow percentage"
+msgstr "Porcentaje de distribución Flujo de Efectivo"
+
+#. module: cash_flow_report
+#: field:cash.flow.distribution,distribution_percentage:0
+msgid "Distribution Percentage"
+msgstr "Porcentaje de Distribución"
+
+#. module: cash_flow_report
 #: model:ir.model,name:cash_flow_report.model_account_move_reconcile
 msgid "Account Reconciliation"
-msgstr "Contabilidad. Conciliación"
+msgstr "Conciliación contable"
 
 #. module: cash_flow_report
-#: report:addons/cash_flow_report/report/cash_flow_report.mako:77
-msgid "Debit"
-msgstr "Débito"
-
-#. module: cash_flow_report
-#: code:addons/cash_flow_report/wizard/cash_flow_report_wizard.py:70
-#, python-format
-msgid "There is no template defined for the selected format. Check if aeroo report exist."
-msgstr "No existe una plantilla definida para el formato seleccionado. Se debe revisar si el reporte existe."
-
-#. module: cash_flow_report
-#: report:addons/cash_flow_report/report/cash_flow_report.mako:29
-msgid "Dates Filter"
-msgstr "Filtro por fechas"
-
-#. module: cash_flow_report
-#: report:addons/cash_flow_report/report/cash_flow_report.mako:64
-#: report:addons/cash_flow_report/report/cash_flow_report.mako:66
-#: report:addons/cash_flow_report/report/cash_flow_report.mako:68
 #: view:cash.flow.type:0
 #: field:cash.flow.type,type:0
 msgid "Type"
@@ -80,15 +81,9 @@ msgid "If selected, will display a historical unreconciled lines, taking into ac
 msgstr "Si está seleccionado se desplegarán las líneas no conciliadas históricas, tomadas de la cuenta hasta el final del período o la fecha seleccionada"
 
 #. module: cash_flow_report
-#: field:account.cash.flow.distribution,target_account_move_line:0
-msgid "Target Account Move Line"
-msgstr "Contrapartida de Línea de Asiento"
-
-#. module: cash_flow_report
-#: code:addons/cash_flow_report/wizard/cash_flow_report_wizard.py:70
-#, python-format
-msgid "Error !"
-msgstr "Error !"
+#: field:cash.flow.distribution,reconcile_ids:0
+msgid "Cash Reconcile Distributions"
+msgstr "Cash Reconcile Distributions"
 
 #. module: cash_flow_report
 #: field:cash.flow.report.wiz,special_period:0
@@ -122,9 +117,14 @@ msgid "With Currency"
 msgstr "Con moneda"
 
 #. module: cash_flow_report
-#: field:account.cash.flow.distribution,distribution_amount:0
+#: field:cash.flow.distribution,distribution_amount:0
 msgid "Distribution Amount"
 msgstr "Monto de Distribución"
+
+#. module: cash_flow_report
+#: field:cash.flow.distribution,target_account_move_line_id:0
+msgid "Target Move Line"
+msgstr "Línea de Asiento destino"
 
 #. module: cash_flow_report
 #: model:ir.actions.act_window,name:cash_flow_report.action_cash_flow_report_menu_webkit
@@ -149,9 +149,9 @@ msgid "Journals"
 msgstr "Diarios"
 
 #. module: cash_flow_report
-#: field:account.cash.flow.distribution,reconcile_ids:0
-msgid "Reconciles"
-msgstr "Conciliaciones"
+#: field:cash.flow.report.wiz,target_move:0
+msgid "Target Moves"
+msgstr "Movimientos destino"
 
 #. module: cash_flow_report
 #: view:cash.flow.report.wiz:0
@@ -159,14 +159,9 @@ msgid "This report allows you to print or generate a pdf of your cash flow"
 msgstr "Este asistente le permite imprimir o generar un pdf del flujo de efectivo"
 
 #. module: cash_flow_report
-#: report:addons/cash_flow_report/report/cash_flow_report.mako:37
-msgid "From:"
-msgstr "Desde:"
-
-#. module: cash_flow_report
-#: report:addons/cash_flow_report/report/cash_flow_report.mako:43
-msgid "To:"
-msgstr "Hasta:"
+#: help:cash.flow.report.wiz,amount_currency:0
+msgid "It adds the currency column on report if the currency differs from the company currency."
+msgstr "Añade una columna de moneda en el reporte si la moneda es diferente de la moneda de la compañía."
 
 #. module: cash_flow_report
 #: field:cash.flow.report.wiz,date_to:0
@@ -184,12 +179,16 @@ msgid "Start Period"
 msgstr "Período Inicial"
 
 #. module: cash_flow_report
-#: report:addons/cash_flow_report/report/cash_flow_report.mako:76
 #: selection:cash.flow.report.wiz,sort_selection:0
 #: view:cash.flow.type:0
 #: field:cash.flow.type,name:0
 msgid "Name"
 msgstr "Nombre"
+
+#. module: cash_flow_report
+#: view:account.move.line:0
+msgid "Analytic Lines"
+msgstr "Líneas analíticas"
 
 #. module: cash_flow_report
 #: field:account.account,cash_flow_type:0
@@ -206,10 +205,9 @@ msgid "All Posted Entries"
 msgstr "Todos los apuntes publicados"
 
 #. module: cash_flow_report
-#: report:addons/cash_flow_report/report/cash_flow_report.mako:68
-#: selection:cash.flow.type,type:0
-msgid "Financing"
-msgstr "Financiamiento"
+#: field:account.move.line,distribution_amount_sum_cash:0
+msgid "Distributed Cash Flow amount"
+msgstr "Monto de Distribución de Flujo de Efectivo"
 
 #. module: cash_flow_report
 #: help:cash.flow.report.wiz,fiscalyear_id:0
@@ -217,24 +215,19 @@ msgid "Keep empty for all open fiscal year"
 msgstr "Mantener vacío para todo lo abierto en el año fiscal"
 
 #. module: cash_flow_report
-#: help:cash.flow.report.wiz,amount_currency:0
-msgid "It adds the currency column on report if the currency differs from the company currency."
-msgstr "Añade una columna de moneda en el reporte si la moneda es diferente de la moneda de la compañía."
-
-#. module: cash_flow_report
 #: field:cash.flow.report.wiz,period_to:0
 msgid "End Period"
 msgstr "Período Final"
 
 #. module: cash_flow_report
-#: report:addons/cash_flow_report/report/cash_flow_report.mako:78
-msgid "Credit"
-msgstr "Crédito"
+#: model:ir.model,name:cash_flow_report.model_account_move_line
+msgid "Journal Items"
+msgstr "Elementos diario"
 
 #. module: cash_flow_report
-#: report:addons/cash_flow_report/report/cash_flow_report.mako:79
-msgid "Amount"
-msgstr "Monto"
+#: view:cash.flow.report.wiz:0
+msgid "Account Financial Report"
+msgstr "Reporte Financiero"
 
 #. module: cash_flow_report
 #: field:cash.flow.report.wiz,historic_strict:0
@@ -247,14 +240,24 @@ msgid "No Filters"
 msgstr "Sin Filtros"
 
 #. module: cash_flow_report
-#: report:addons/cash_flow_report/report/cash_flow_report.mako:122
-msgid "Authorized by: "
-msgstr "Autorizado por: "
-
-#. module: cash_flow_report
 #: view:cash.flow.report.wiz:0
 msgid "Advanced options"
 msgstr "Opciones Avanzadas"
+
+#. module: cash_flow_report
+#: field:account.move.line,cash_flow_line_dist:0
+msgid "Cash Flow Distributions"
+msgstr "Distribuciones de Flujo de Efectivo"
+
+#. module: cash_flow_report
+#: selection:cash.flow.distribution,type:0
+msgid "Moves Cash Flow"
+msgstr "Mueve Flujo de Efectivo"
+
+#. module: cash_flow_report
+#: view:account.move.line:0
+msgid "Distribution Cash Flow Move Lines"
+msgstr "Líneas de Distribución Flujo de Efectivo"
 
 #. module: cash_flow_report
 #: field:cash.flow.report.wiz,date_from:0
@@ -262,18 +265,6 @@ msgid "Start Date"
 msgstr "Fecha Final"
 
 #. module: cash_flow_report
-#: report:addons/cash_flow_report/report/cash_flow_report.mako:51
-#: field:cash.flow.report.wiz,target_move:0
-msgid "Target Moves"
-msgstr "Movimientos destino"
-
-#. module: cash_flow_report
-#: report:addons/cash_flow_report/report/cash_flow_report.mako:106
-msgid "Total"
-msgstr "Total"
-
-#. module: cash_flow_report
-#: report:addons/cash_flow_report/report/cash_flow_report.mako:26
 #: field:cash.flow.report.wiz,fiscalyear_id:0
 msgid "Fiscal Year"
 msgstr "Año Fiscal"
@@ -285,24 +276,19 @@ msgid "Code"
 msgstr "Código"
 
 #. module: cash_flow_report
-#: report:addons/cash_flow_report/report/cash_flow_report.mako:25
-msgid "Chart of Accounts: "
-msgstr "Catálogo de Cuentas: "
-
-#. module: cash_flow_report
 #: view:cash.flow.type:0
 msgid "Cash Flow Types"
 msgstr "Tipos de Flujo de Efectivo"
 
 #. module: cash_flow_report
-#: field:cash.flow.report.wiz,filter:0
-msgid "Filter by"
-msgstr "Filtrar por"
+#: model:ir.model,name:cash_flow_report.model_cash_flow_distribution
+msgid "Cash Flow Distribution"
+msgstr "Distribución de Flujo de Efectivo"
 
 #. module: cash_flow_report
-#: report:addons/cash_flow_report/report/cash_flow_report.mako:31
-msgid "Periods Filter"
-msgstr "Filtro por períodos"
+#: field:cash.flow.report.wiz,out_format:0
+msgid "Print Format"
+msgstr "Formato de impresión"
 
 #. module: cash_flow_report
 #: field:cash.flow.report.wiz,account_base_report:0
@@ -336,12 +322,6 @@ msgid "Periods"
 msgstr "Períodos"
 
 #. module: cash_flow_report
-#: report:addons/cash_flow_report/report/cash_flow_report.mako:33
-msgid "No filters"
-msgstr "Sin filtros"
-
-#. module: cash_flow_report
-#: report:addons/cash_flow_report/report/cash_flow_report.mako:64
 #: selection:cash.flow.type,type:0
 msgid "Operation"
 msgstr "Operación"
@@ -352,12 +332,11 @@ msgid "Select Charts of Accounts"
 msgstr "Catálogo de Cuentas Seleccionado"
 
 #. module: cash_flow_report
-#: view:cash.flow.report.wiz:0
-msgid "Account Financial Report"
-msgstr "Reporte Financiero"
+#: field:cash.flow.report.wiz,filter:0
+msgid "Filter by"
+msgstr "Filtrar por"
 
 #. module: cash_flow_report
-#: report:addons/cash_flow_report/report/cash_flow_report.mako:66
 #: selection:cash.flow.type,type:0
 msgid "Investment"
 msgstr "Inversión"
@@ -366,4 +345,10 @@ msgstr "Inversión"
 #: selection:cash.flow.report.wiz,target_move:0
 msgid "All Entries"
 msgstr "Todos los apuntes"
+
+#. module: cash_flow_report
+#: code:addons/cash_flow_report/report/cash_flow_report.py:62
+#, python-format
+msgid "Not distributed amount: "
+msgstr "Monto no distribuido: "
 

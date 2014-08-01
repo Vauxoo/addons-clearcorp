@@ -19,7 +19,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from osv import fields, osv
+
+from openerp.osv import fields, orm, osv
 import decimal_precision as dp
 from tools.translate import _
 from datetime import datetime
@@ -37,7 +38,7 @@ class BudgetDistributionError(osv.except_osv):
 
         osv.except_osv
         
-class AccountMoveReconcile(osv.Model):
+class AccountMoveReconcile(orm.Model):
     _inherit = 'account.move.reconcile'
     
     def unlink(self, cr, uid, ids, context={}):
@@ -276,7 +277,7 @@ class AccountMoveReconcile(osv.Model):
         if budget_lines or liquid_lines:
             # Write dists and build lists
             
-            #dist_obj = self.pool.get('account.move.line.distribution')
+            dist_obj = self.pool.get('account.move.line.distribution')
             
             # Budget list
             budget_total = 0.0

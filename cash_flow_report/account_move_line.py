@@ -27,11 +27,11 @@ class AccountMoveLine(orm.Model):
     
     #===========================================================================
     # 
-    # distribution_percentage_sum compute the percentage for the account.move.line.
+    # distribution_percentage_sum_cash compute the percentage for the account.move.line.
     # Check the account.move.line.distribution and sum where id is the same for
     # account.move.line.
     # 
-    # distribution_amount_sum compute the amount for the account.move.line.
+    # distribution_amount_sum_cash compute the amount for the account.move.line.
     # Check the account.move.line.distribution and sum where id is the same for
     # account.move.line.
     # 
@@ -42,7 +42,7 @@ class AccountMoveLine(orm.Model):
     #
     #===========================================================================
     
-    def _sum_distribution_per(self, cr, uid, ids, field_name, args, context=None):
+    def _sum_distribution_per_cash(self, cr, uid, ids, field_name, args, context=None):
         res = {}       
         for id in ids:
             res[id] =0.0
@@ -55,7 +55,7 @@ class AccountMoveLine(orm.Model):
             res[row['id']] = row['dis_per']        
         return res
     
-    def _sum_distribution_amount(self, cr, uid, ids, field_name, args, context=None):
+    def _sum_distribution_amount_cash(self, cr, uid, ids, field_name, args, context=None):
         res = {}
         for id in ids:
             res[id] =0.0      
@@ -67,7 +67,7 @@ class AccountMoveLine(orm.Model):
             res[row['id']] = abs(row['dis_amount'])        
         return res
            
-    def _account_move_lines_mod(self, cr, uid, cfd_ids, context=None):
+    def _account_move_lines_mod_cash(self, cr, uid, cfd_ids, context=None):
         list = []
         cfd_obj = self.pool.get('cash.flow.distribution')
         
@@ -78,18 +78,16 @@ class AccountMoveLine(orm.Model):
     _columns = {
       
         #=======Percentage y amount distribution
-        'distribution_percentage_sum': fields.function(_sum_distribution_per, type="float", method=True, string="Distributed percentage",
-                                                   store={'cash.flow.distribution': (_account_move_lines_mod, ['distribution_amount','distribution_percentage'], 10)}),        
-        'distribution_amount_sum': fields.function(_sum_distribution_amount, type="float", method=True, string="Distributed amount",
-                                                   store={'cash.flow.distribution': (_account_move_lines_mod, ['distribution_amount','distribution_percentage'], 10)}),        
+        'distribution_percentage_sum_cash': fields.function(_sum_distribution_per_cash, type="float", method=True, string="Distributed Cash Flow percentage",
+                                                   store={'cash.flow.distribution': (_account_move_lines_mod_cash, ['distribution_amount','distribution_percentage'], 10)}),        
+        'distribution_amount_sum_cash': fields.function(_sum_distribution_amount_cash, type="float", method=True, string="Distributed Cash Flow amount",
+                                                   store={'cash.flow.distribution': (_account_move_lines_mod_cash, ['distribution_amount','distribution_percentage'], 10)}),        
         
         #=======cash flow line distributions
         'cash_flow_line_dist': fields.one2many('cash.flow.distribution','account_move_line_id', 'Cash Flow Distributions'),
-        #'type_distribution':fields.related('cash_flow_line_dist','type', type="selection", relation="cash.flow.distribution", string="Cash Flow Distribution type"),
-
     }
     
     _defaults = {
-        'distribution_percentage_sum': 0.0, 
-        'distribution_amount_sum': 0.0,
+        'distribution_percentage_sum_cash': 0.0, 
+        'distribution_amount_sum_cash': 0.0,
     }

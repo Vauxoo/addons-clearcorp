@@ -27,10 +27,51 @@ class cashFlowdistribution(orm.Model):
     _inherit = "account.distribution.line"
     _description = "Cash Flow Distribution"
     
+     #======== Check distribution percentage. Use distribution_percentage_sum in account.move.line to check 
+    def _check_distribution_percentage_cash(self, cr, uid, ids, context=None):          
+        
+        for distribution in self.browse(cr, uid, ids, context=context):
+            #distribution_percentage_sum compute all the percentages for a specific move line. 
+            line_percentage = distribution.account_move_line_id.distribution_percentage_sum_cash or 0.0
+            line_percentage_remaining = 100 - line_percentage
+            
+            if distribution.distribution_percentage > line_percentage_remaining:
+                return False
+            
+            return True
+        
+    #========= Check distribution percentage. Use distribution_amount_sum in account.move.line to check 
+    def _check_distribution_amount_cash(self, cr, uid, ids, context=None):          
+        amount = 0.0
+        
+        for distribution in self.browse(cr, uid, ids, context=context):
+            #==== distribution_amount_sum compute all the percentages for a specific move line. 
+            x = distribution.account_move_line_id
+            y = distribution.account_move_line_id.id
+            line_amount_dis = distribution.account_move_line_id.distribution_amount_sum_cash or 0.0
+            
+            #=====Find amount for the move_line
+            if distribution.account_move_line_id.credit > 0:
+                amount = distribution.account_move_line_id.credit
+            if distribution.account_move_line_id.debit > 0:
+                amount = distribution.account_move_line_id.debit
+                        
+            #====Check which is the remaining between the amount line and sum of amount in distributions. 
+            amount_remaining = amount - line_amount_dis
+            
+            if distribution.distribution_amount > amount_remaining:
+                return False            
+            
+            return True
     _columns = {
         'reconcile_ids': fields.many2many('account.move.reconcile', 'cash_reconcile_distribution_ids', string='Cash Reconcile Distributions',),
         'type': fields.selection([('type_cash_flow', 'Type Cash Flow'),('move_cash_flow', 'Moves Cash Flow')], 'Distribution Cash Flow Type', select=True),                
     }
+    
+    _constraints = [
+        #(_check_distribution_percentage_cash, 'The cash flow distribution percentage  can not be greater than sum of all percentage for the account move line selected', ['account_move_line_id']),    
+        #(_check_distribution_amount_cash, 'The cash flow distribution amount can not be greater than maximum amount of remaining amount for account move line selected', ['distribution_amount']),    
+    ]
     
     _defaults = {
         'type': 'move_cash_flow', 
@@ -38,11 +79,21 @@ class cashFlowdistribution(orm.Model):
         'distribution_percentage': 0.0,
     }
     
-#     def create(self, cr, uid, vals, context=None):
-#          if context:
-#              dist_type = context.get('distribution_type','move_cash_flow')
-#          else:
-#              dist_type = 'move_cash_flow'
-#          vals['type'] = dist_type
-#          res = super(cashFlowdistribution, self).create(cr, uid, vals, context)
-#          return res
+    #Line is an object
+    def get_amounts_distribution(self, cr, uid, line, lines_distribution_list):
+        amount = 0.0
+        amount_line = 0.0
+        
+        for distribution in lines_distribution_list:
+            amount += distribution.distribution_amount
+        
+        #Amount line
+        if line.debit > 0.0:
+            amount_line = line.debit        
+        else:
+            amount_line = line.credit
+        
+        if amount == amount_line:
+            return 0.0
+        else:
+            return abs (amount_line - amount) 

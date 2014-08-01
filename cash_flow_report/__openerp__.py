@@ -29,14 +29,12 @@ Cash Flow Report:
 ===================
 Cash Flow report in Webkit. This report allows you to monitor company activities that move cash flow """,
     "website" : "http://clearcorp.co.cr",
-    #"test": ['test/account_invoice.yml'],
     "depends" : [
                  'account_report_lib', 
                  'account_account_extended_ccorp',
                  'account_distribution_line',
                  ],
     "data" : [   
-                #'test/view.xml',
                 'security/ir.model.access.csv',
                 'wizard/cash_flow_report_wizard.xml',
                 'report/report.xml',
