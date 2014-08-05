@@ -63,6 +63,10 @@
                 padding: 0px;
             }
 
+            .footer_table p {
+                font-size: 9px;
+            }
+
             .company_footer {
                 font-style : italic;
                 margin: 0px;
