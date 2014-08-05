@@ -74,7 +74,7 @@
                         <attribute name="attrs">{'invisible': True}</attribute>
                     </field>
                      <field name = "payment_term" position="after" version="7.0">
-                        <field name="payment_term_visible" on_change="onchange_payment_term_visible(payment_term_visible, date_invoice,date_due)" class="oe_inline"/>
+                        <field name="payment_term_visible" on_change="onchange_payment_term_visible(payment_term_visible, date_invoice, date_due)" class="oe_inline"/>
                     </field>
                 </data>
             </field>
