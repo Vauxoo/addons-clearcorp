@@ -352,3 +352,12 @@ msgstr "Todos los apuntes"
 msgid "Not distributed amount: "
 msgstr "Monto no distribuido: "
 
+#. module: cash_flow_report
+#: constraint:cash.flow.distribution:0
+msgid "The cash flow distribution percentage  can not be greater than sum of all percentage for the account move line selected"
+msgstr "El porcentaje de distribución de flujo de efectivo no puede ser mayor que la suma de todos los porcentajes para la línea seleccionada"
+
+#. module: cash_flow_report
+#: constraint:cash.flow.distribution:0
+msgid "The cash flow distribution amount can not be greater than maximum amount of remaining amount for account move line selected"
+msgstr "El monto de distribución de flujo de efectivo no puede ser mayor que el monto máximo de monto restante para la línea seleccionada"
