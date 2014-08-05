@@ -60,8 +60,6 @@ class account_move_line_distribution(orm.Model):
         
         for distribution in self.browse(cr, uid, ids, context=context):
             #==== distribution_amount_sum compute all the percentages for a specific move line. 
-            x = distribution.account_move_line_id
-            y = distribution.account_move_line_id.id
             line_amount_dis = distribution.account_move_line_id.distribution_amount_sum or 0.0
             
             #=====Find amount for the move_line
@@ -77,6 +75,8 @@ class account_move_line_distribution(orm.Model):
             
             #====Check which is the remaining between the amount line and sum of amount in distributions. 
             amount_remaining = amount - line_amount_dis
+            
+            x = distribution.distribution_amount 
             
             if distribution.distribution_amount > amount_remaining:
                 return False            
