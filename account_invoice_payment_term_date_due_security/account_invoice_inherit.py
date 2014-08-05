@@ -63,7 +63,7 @@ class accountInvoiceinherit(orm.Model):
         return res   
     
      def onchange_payment_term_visible(self, cr, uid, ids, payment_term_visible, date_invoice, date_due):
-                 
+         res = {}
          if payment_term_visible:
              #Call method to change date_due
              res = super(accountInvoiceinherit, self).onchange_payment_term_date_invoice(cr, uid, ids, payment_term_visible, date_invoice)
