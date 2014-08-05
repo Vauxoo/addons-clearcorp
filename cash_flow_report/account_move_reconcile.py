@@ -177,11 +177,18 @@ class accountReconcileinherit(orm.Model):
             #Cash list
             for line in cash_lines.values():
                 distribution_amount = cash_amounts[line.id]
+
+                # If the resulting total of cash plus liquid lines is more than available, the amount has to be fractioned.
+                if abs(distribution_amount) + liquid_amount_to_dist > amount_to_dist:
+                    distribution_amount = distribution_amount * amount_to_dist / distribution_amount + liquid_amount_to_dist
+                
                 if line.debit - line.credit < 0:
                     signed_dist_amount = distribution_amount * -1
                 else:
                     signed_dist_amount = distribution_amount
+                
                 cash_distributed += distribution_amount
+                
                 vals = {
                     'account_move_line_id':         original_line.id,
                     'distribution_amount':          signed_dist_amount,

@@ -57,6 +57,8 @@ class cashFlowdistribution(orm.Model):
             #====Check which is the remaining between the amount line and sum of amount in distributions. 
             amount_remaining = amount - line_amount_dis
             
+            x = distribution.distribution_amount
+            
             if distribution.distribution_amount > amount_remaining:
                 return False            
             
@@ -67,8 +69,8 @@ class cashFlowdistribution(orm.Model):
     }
     
     _constraints = [
-        #(_check_distribution_percentage_cash, 'The cash flow distribution percentage  can not be greater than sum of all percentage for the account move line selected', ['account_move_line_id']),    
-        #(_check_distribution_amount_cash, 'The cash flow distribution amount can not be greater than maximum amount of remaining amount for account move line selected', ['distribution_amount']),    
+        (_check_distribution_percentage_cash, 'The cash flow distribution percentage  can not be greater than sum of all percentage for the account move line selected', ['account_move_line_id']),    
+        (_check_distribution_amount_cash, 'The cash flow distribution amount can not be greater than maximum amount of remaining amount for account move line selected', ['distribution_amount']),    
     ]
     
     _defaults = {
