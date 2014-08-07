@@ -27,39 +27,31 @@ from datetime import datetime
 import copy
 
 class accountInvoice(orm.Model):
-    _inherit = 'account.invoice'    
-        
-    def onchange_partner_id(self, cr, uid, ids, type, partner_id, date_invoice=False, payment_term=False, partner_bank_id=False, company_id=False): 
-        res = super(accountInvoice, self).onchange_partner_id(cr, uid, ids, type, partner_id, date_invoice=date_invoice, payment_term=payment_term, partner_bank_id=partner_bank_id, company_id=company_id)
-        res_date_payment = self.onchange_payment_term_date_invoice_partner(cr, uid, ids, res['value']['payment_term'], date_invoice, partner_id)
-        
-        #Update both dictionaries
-        res['value'].update({'date_due': res_date_payment['value']['date_due'],})
-        return res
-    
-    #Create a new function that receives a new parameter: partner_id  
-    def onchange_payment_term_date_invoice_partner(self, cr, uid, ids, payment_term_id, date_invoice, partner_id):   
-        
-        #Call "old" function     
-        res = super(accountInvoice, self).onchange_payment_term_date_invoice(cr, uid, ids, payment_term_id, date_invoice)
-        
-        partner = self.pool.get('res.partner').browse(cr, uid, partner_id,context=None)
-        payday_partner = int(partner.payday)
-                
-        if payday_partner:           
-            date_due = datetime.strptime(res['value']['date_due'], "%Y-%m-%d")
-            """See parameters for strftime function: http://www.tutorialspoint.com/python/time_strftime.htm"""
-            day_due = int(date_due.strftime('%u')) #return weekday where Monday = 1
 
-            #With both days, compute how many days exist between both days and 
-            #recalculate new date due
-            if day_due > int(payday_partner):
-                days = 7 - day_due + int(datetime.today().strftime('%u'))
-            else:
-                days = int(payday_partner) - day_due
-            
-            new_date_due = date_due + timedelta(days=days)
-            res['value'].update({'date_due': datetime.strftime(new_date_due,'%Y-%m-%d')})
-        
+    _inherit = 'account.invoice'
+
+    def onchange_partner_id(self, cr, uid, ids, type, partner_id,
+            date_invoice=False, payment_term=False, partner_bank_id=False, company_id=False): 
+        res = super(accountInvoice, self).onchange_partner_id(
+            cr, uid, ids, type, partner_id, date_invoice=date_invoice, payment_term=payment_term,
+            partner_bank_id=partner_bank_id, company_id=company_id)
+
+        # Get the partner payday
+        partner = self.pool.get('res.partner').browse(cr, uid, partner_id, context=None)
+        payday_partner = int(partner.payday)
+        if payday_partner:
+            date_due = False
+            if 'date_due' in res['value']:
+                date_due = res['value']['date_due']
+            if date_due:
+                date_due = datetime.strptime(date_due, '%Y-%m-%d')
+                day_due = int(date_due.strftime('%u'))# Returns weekday where Monday = 1
+                # With both days, compute how many days exist between both days and 
+                # recalculate the new date due.
+                if day_due > int(payday_partner):
+                    days = 7 - day_due + int(datetime.today().strftime('%u'))
+                else:
+                    days = int(payday_partner) - day_due
+                new_date_due = date_due + timedelta(days=days)
+                res['value'].update({'date_due': datetime.strftime(new_date_due,'%Y-%m-%d')})
         return res
-            
