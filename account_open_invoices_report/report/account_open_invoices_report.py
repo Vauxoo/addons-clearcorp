@@ -319,8 +319,10 @@ class Parser(accountReportbase):
     def compute_inicial_balance(self, cr, uid, partner_id, currency_id, data):
         result = {}
         params = []
+        where_clause = ''
+
         #Set value in localcontext
-        self.localcontext['cumul_balance'] = {}  
+        self.localcontext['cumul_balance'] = {}
         
         #===Parameters
         fiscalyear_id = self.get_fiscalyear(data)
@@ -334,7 +336,7 @@ class Parser(accountReportbase):
             period_ids = self.pool.get('account.period').search(cr, uid,[('date_start', '<', start_period.date_start),('fiscalyear_id','=', fiscalyear_id.id)])
             
             #Add account and reconcile
-            where_clause = "reconcile_id is NULL " + "AND account_id in %s "
+            where_clause += "reconcile_id is NULL " + "AND account_id in %s "
             params.append(tuple(account_ids))
             
             #Add partners
@@ -344,6 +346,11 @@ class Parser(accountReportbase):
             #Period
             if period_ids:                
                 where_clause += "AND period_id in %s "
+                params.append(tuple(period_ids))
+            else:
+                #exclude all periods if doesn't exist previous period
+                period_ids = self.pool.get('account.period').search(cr, uid, [], )
+                where_clause += "AND period_id not in %s "
                 params.append(tuple(period_ids))
                 
             #Currency
@@ -359,7 +366,7 @@ class Parser(accountReportbase):
             sql=("SELECT partner_id as partner,"+ sum_str + "as initial_balance "
                  "FROM account_move_line "
                  "WHERE " + where_clause + "GROUP BY partner_id")
-            
+
         #if filter_type == date, get take in account date start selected
         else:
             date = self.get_date_from(data)
@@ -386,7 +393,7 @@ class Parser(accountReportbase):
             sql=("SELECT partner_id as partner," +sum_str+ "as initial_balance "
                      "FROM account_move_line "
                      "WHERE " + where_clause + "GROUP BY partner_id")
-        
+            
         param_tuple = tuple(params)
         self.cursor.execute(sql, param_tuple)
         

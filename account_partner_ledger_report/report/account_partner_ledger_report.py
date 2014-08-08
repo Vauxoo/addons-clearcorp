@@ -130,6 +130,9 @@ class Parser(accountReportbase):
         
         account_ids = self.pool.get('account.account').search(cr, uid, [('type', 'in', domain)])
         
+        dict_update = {'account_ids':account_ids}
+        self.localcontext['storage'].update(dict_update)
+        
         return account_ids
     
     #2. Get all account_move_lines that match with previous account.
@@ -303,80 +306,86 @@ class Parser(accountReportbase):
         return res
         
     #5. Create a method that compute initial_balance by partner
-    def compute_inicial_balance(self, cr, uid, partner_ids, currency_id, data):
+    def compute_inicial_balance(self, cr, uid, partner_id, currency_id, data):
         result = {}
+        params = []
+        where_clause = ''
+
         #Set value in localcontext
-        self.localcontext['cumul_balance'] = {}  
+        self.localcontext['cumul_balance'] = {}
         
         #===Parameters
         fiscalyear_id = self.get_fiscalyear(data)
         filter_type = self.get_filter(data)
-        
+        account_ids = self.get_data_template('account_ids')
+        user = self.pool.get('res.users').browse(cr, uid, uid,context=None)
+
         #if filter_type == period, get all periods before period_start selected 
         if filter_type == 'filter_period':
             start_period = self.get_start_period(data) #return the period object
-            period_ids = self.pool.get('account.period').search(cr, uid,[('date_stop', '<', start_period.date_stop),('fiscalyear_id','=', fiscalyear_id.id)])
+            period_ids = self.pool.get('account.period').search(cr, uid,[('date_start', '<', start_period.date_start),('fiscalyear_id','=', fiscalyear_id.id)])
             
-            #Built a different sql clause, depend of period list
-            if period_ids:
-                if partner_ids != 0: #partner with id 0 is not_partner (partner_id is NULL)
-                    where_clause = 'period_id in %s '\
-                                    'AND partner_id in %s '\
-                                    'AND reconcile_id is NULL '\
-                                    'AND (currency_id is NULL OR currency_id = %s) '\
-                                    'GROUP BY partner_id'
-                    params = (tuple(period_ids), tuple([partner_ids]), currency_id,)
-                else:
-                    where_clause = 'period_id in %s '\
-                                    'AND partner_id is NULL '\
-                                    'AND reconcile_id is NULL '\
-                                    'AND (currency_id is NULL OR currency_id = %s) '\
-                                    'GROUP BY partner_id'
-                    params = (tuple(period_ids), currency_id,)
+            #Add account and reconcile
+            where_clause += "reconcile_id is not NULL " + "AND account_id in %s "
+            params.append(tuple(account_ids))
+            
+            #Add partners
+            where_clause += "AND partner_id = %s "
+            params.append(tuple([partner_id]))
                 
+            #Period
+            if period_ids:                
+                where_clause += "AND period_id in %s "
+                params.append(tuple(period_ids))
             else:
-                if partner_ids != 0:
-                    where_clause = 'partner_id in %s '\
-                                    'AND reconcile_id is NULL '\
-                                    'AND (currency_id is NULL OR currency_id = %s) '\
-                                    'GROUP BY partner_id'
-                    params = (tuple([partner_ids]), currency_id,)
-                else:
-                    where_clause = 'period_id in %s '\
-                                    'AND partner_id is NULL '\
-                                    'AND reconcile_id is NULL '\
-                                    'AND (currency_id is NULL OR currency_id = %s) '\
-                                    'GROUP BY partner_id'
-                    params = (tuple(period_ids), currency_id,)
+                #exclude all periods if doesn't exist previous period
+                period_ids = self.pool.get('account.period').search(cr, uid, [], )
+                where_clause += "AND period_id not in %s "
+                params.append(tuple(period_ids))
                 
-            sql=("SELECT partner_id as partner, sum(debit-credit) as initial_balance "
+            #Currency
+            if currency_id == user.company_id.currency_id.id:
+                where_clause += "AND (currency_id is NULL OR currency_id = %s) "
+                params.append(currency_id)
+                sum_str = " sum(debit-credit) "
+            else:
+                where_clause += "AND currency_id = %s "
+                sum_str = " sum(amount_currency) "
+                params.append(currency_id)
+                
+            sql=("SELECT partner_id as partner,"+ sum_str + "as initial_balance "
                  "FROM account_move_line "
-                 "WHERE " + where_clause)
-            
+                 "WHERE " + where_clause + "GROUP BY partner_id")
+
         #if filter_type == date, get take in account date start selected
         else:
-            date_end = filter_data.append(start_date)
+            date = self.get_date_from(data)
             
-            if partner_ids != 0:                
-                sql=("SELECT partner_id as partner, sum(debit-credit) as initial_balance "
-                     "FROM account_move_line "
-                     "WHERE date < %s "
-                     "and partner_id in %s AND "
-                     "reconcile_id is NULL and (currency_id is NULL "
-                     "OR currency_id = %s) "
-                     "group by partner_id")
+            #Add account and reconcile
+            where_clause = "date < %s "+" AND reconcile_id is not NULL " + "AND account_id in %s "
+            params.append(date)
+            params.append(tuple(account_ids))
+            
+            #Add partners
+            where_clause += "AND partner_id = %s "
+            params.append(tuple([partner_id]))
+            
+             #Currency
+            if currency_id == user.company_id.currency_id.id:
+                where_clause += "AND (currency_id is NULL OR currency_id = %s) "
+                params.append(currency_id)
+                sum_str = " sum(debit-credit) "
             else:
-                sql=("SELECT partner_id as partner, sum(debit-credit) as initial_balance "
-                     "FROM account_move_line "
-                     "WHERE date < %s "
-                     "and partner_id is NULL AND "
-                     "reconcile_id is NULL and (currency_id is NULL "
-                     "OR currency_id = %s) "
-                     "group by partner_id")
+                where_clause += "AND currency_id = %s "
+                sum_str = " sum(amount_currency) "
+                params.append(currency_id)
             
-            params = (date, tuple([partner_ids]), currency_id)            
-        
-        self.cursor.execute(sql, params)
+            sql=("SELECT partner_id as partner," +sum_str+ "as initial_balance "
+                     "FROM account_move_line "
+                     "WHERE " + where_clause + "GROUP BY partner_id")
+            
+        param_tuple = tuple(params)
+        self.cursor.execute(sql, param_tuple)
         
         #if it exists lines, built a new dictionary, where the key is the partner with initial_balance
         res = self.cursor.dictfetchall()
@@ -387,8 +396,8 @@ class Parser(accountReportbase):
                 #set this result as the first amount of initial balance
                 self.localcontext['cumul_balance'][dict['partner']] = result[dict['partner']]
         else:
-            result[partner_ids] = 0.0                                  
-            self.localcontext['cumul_balance'][partner_ids] = 0.0
+            result[partner_id] = 0.0                                  
+            self.localcontext['cumul_balance'][partner_id] = 0.0
 
         return result
 
