@@ -21,4 +21,5 @@
 ##############################################################################
 
 import report
+import wizard
 import hr_payroll_report

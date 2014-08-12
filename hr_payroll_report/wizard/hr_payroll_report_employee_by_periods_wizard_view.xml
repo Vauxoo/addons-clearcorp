@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="report_employee_by_periods_view" model="ir.ui.view">
+            <field name="name">Report Employee by Periods</field>
+            <field name="model">report.employee.by.periods</field>
+            <field name="arch" type="xml">
+                <form string="Report employee by periods" version="7.0">
+                    <group string="General Options">
+                        <field name="company_id" attrs="{'required':True}" />
+                    </group>
+                    <group string="Filters">                       
+                       <group colspan="4" name="Periods">
+                            <field name="period_from" attrs="{'required':True}" domain="[('company_id', '=', company_id)]" />
+                            <field name="period_to" attrs="{'required':True}" domain="[('company_id', '=', company_id)]"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="action_validate" string="Print" type="object"/>
+                        or 
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_report_employee_by_periods_menu" model="ir.actions.act_window">
+            <field name="name">Action Report Employee by Periods</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">report.employee.by.periods</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="report_employee_by_periods_view"/>
+            <field name="target">new</field>
+        </record>
+        
+    </data>
+</openerp>

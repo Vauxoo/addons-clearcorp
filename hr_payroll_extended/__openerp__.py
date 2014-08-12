@@ -19,11 +19,24 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-import hr_payroll_details_report
-import hr_payroll_employee_by_periods_report
-import hr_payroll_for_month_report
-import hr_payroll_payslip_report
-import hr_payroll_payslip_run_report
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+{
+    'name': 'Hr Payroll Extended',
+    'version': '1.0',
+    "author" : 'CLEARCORP S.A.',
+    'website': 'http://clearcorp.co.cr',
+    'category': 'Human Resources',
+    'description': """
+Hr Payroll Extended
+=====================
+This module adds different fields and functions to hr models. Also, is the
+base of some hr payroll reports.
+    """,
+    'depends': [
+                'hr_payroll',
+                'account',
+                ],
+    'data': ['hr_payroll_extend.xml'],
+    'active': False,
+    'installable': True,    
+    'license': 'AGPL-3',
+}

@@ -22,24 +22,38 @@
 {
     'name': 'Hr Payroll Report',
     'version': '1.0',
-    'url': 'http://launchpad.net/openerp-ccorp-addons',
-    'author': 'ClearCorp S.A.',
+    "author" : 'CLEARCORP S.A.',
     'website': 'http://clearcorp.co.cr',
     'category': 'Human Resources',
-    'complexity': 'normal',
-    'description': """This module modifies the payslip report
+    'description': """
+Hr Payroll Report
+===================
+This module modifies these reports:
+    * Payroll Report
+    * Report Employee by Periods
+    * Report Employee by Month
+    * Payslip Details 
+    * Payslip
+    
+Also, modifies:
+    * Employee Contracts
+    * Fortnightly Payroll Register
     """,
     'depends': [
-        'hr_payroll',
+        'account',
         'report_webkit_lib',
+        'hr_payroll_account',
+        'hr_payroll_extended',
     ],
-    'init_xml': [],
-    'demo_xml': [],
-    'update_xml': [
-                    'hr_payroll_report_report.xml',
-                    'hr_payroll_report_view.xml',
-                ],
-    'license': 'AGPL-3',
-    'installable': True,
+    'data': [
+             'security/ir.model.access.csv',
+             'report/report.xml',
+             'wizard/hr_payroll_report_for_month_wizard_view.xml',
+             'wizard/hr_payroll_report_employee_by_periods_wizard_view.xml',
+             'hr_payroll_report_view.xml',
+             'report_menus.xml',
+            ],
     'active': False,
+    'installable': True,    
+    'license': 'AGPL-3',
 }

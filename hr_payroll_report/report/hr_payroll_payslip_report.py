@@ -25,9 +25,9 @@ import pooler
 from openerp.report import report_sxw
 import locale
 
-class hr_payroll_report(report_sxw.rml_parse):
+class hrPayrollreport(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context):
-        super(hr_payroll_report, self).__init__(cr, uid, name, context=context)
+        super(hrPayrollreport, self).__init__(cr, uid, name, context=context)
         self.pool = pooler.get_pool(self.cr.dbname)
         self.cursor = self.cr
         self.localcontext.update({
@@ -84,9 +84,9 @@ class hr_payroll_report(report_sxw.rml_parse):
         return payslip_lines_list
 
 #the parameters are the report name and module name 
-report_sxw.report_sxw( 'report.hr_payroll_payslip_inherit', 
+report_sxw.report_sxw('report.hr_payroll_payslip_report', 
                        'hr.payslip',
-                       'addons/hr_payroll_report/report/hr_payroll_report.mako', 
-                        parser = hr_payroll_report)
+                       'addons/hr_payroll_report/report/hr_payroll_payslip_report.mako', 
+                        parser = hrPayrollreport)
     
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

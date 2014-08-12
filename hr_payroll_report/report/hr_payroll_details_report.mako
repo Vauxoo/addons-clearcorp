@@ -142,8 +142,4 @@
             <p style="page-break-after:always"></p>
         %endfor   
     </body>
-</html>
-
-
-
-            
+</html>           

@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+      <report auto="False"
+            id="hr_payroll.payslip_report"
+            model="hr.payslip"
+            name="hr_payroll_payslip_report"
+            file="hr_payroll_report/report/hr_payroll_payslip_report.mako"
+            string="Employee PaySlip"
+            report_type="webkit"
+            webkit_header="report_webkit_lib.webkit_header_clearcorp_official_portrait" />
+        
+        <report auto="False"
+            id="hr_payroll.payslip_details_report"
+            model="hr.payslip"
+            name="hr_payroll_payslip_details_report"
+            file="hr_payroll_report/report/hr_payroll_details_report.mako"
+            string="PaySlip Details"
+            report_type="webkit" 
+            webkit_header="report_webkit_lib.webkit_header_clearcorp_official_portrait" />
+        
+        <record id="hr_payroll_report_for_month" model="ir.actions.report.xml">
+            <field name="report_type">webkit</field>             
+            <field name="report_name">hr_payroll_report_for_month</field>
+            <field name="model">hr.payslip</field>
+            <field name="type">ir.actions.report.xml</field>
+            <field name="name">Payroll Report for Month</field>
+            <field name="report_rml">hr_payroll_report/report/hr_payroll_for_month_report.mako</field>
+            <field name="report_file">hr_payroll_report/report/hr_payroll_for_month_report.mako</field>
+            <field name="webkit_header" ref="report_webkit_lib.webkit_header_clearcorp_official_landscape"/>              
+        </record>
+        
+        <record id="hr_payroll_employee_by_periods_report" model="ir.actions.report.xml">
+            <field name="report_type">webkit</field>             
+            <field name="report_name">hr_payroll_employee_by_periods_report</field>
+            <field name="model">hr.payslip</field>
+            <field name="type">ir.actions.report.xml</field>
+            <field name="name">Report Employee by Periods</field>
+            <field name="report_rml">hr_payroll_report/report/hr_payroll_employee_by_periods_report.mako</field>
+            <field name="report_file">hr_payroll_report/report/hr_payroll_employee_by_periods_report.mako</field>
+            <field name="webkit_header" ref="report_webkit_lib.webkit_header_clearcorp_official_landscape"/>
+        </record>
+        
+        <report 
+            auto="False" 
+            id="hr_payroll_payslip_run_report"
+            model="hr.payslip.run" 
+            name="hr_payroll_payslip_run_report"
+            file="hr_payroll_report/report/hr_payroll_payslip_run_report.mako" 
+            string="Payroll Report" report_type="webkit" 
+            webkit_header="report_webkit_lib.webkit_header_clearcorp_official_landscape"/>
+             
+    </data>
+</openerp>
+

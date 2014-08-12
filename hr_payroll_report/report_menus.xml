@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <menuitem 
+            icon="STOCK_PRINT" 
+            name="Payroll Report for Month"
+            parent="hr_payroll.menu_hr_root_payroll" 
+            action="action_payroll_report_for_month_menu_webkit"
+            id="menu_payroll_report_for_month" 
+            groups="base.group_hr_manager"/>
+            
+        <menuitem 
+            icon="STOCK_PRINT" 
+            name="Report Employee by Periods"
+            parent="hr_payroll.menu_hr_root_payroll" 
+            action="action_report_employee_by_periods_menu"
+            id="menu_report_employee_by_periods"
+            groups="base.group_user"/>
+        
+    </data>
+</openerp>
