@@ -95,7 +95,9 @@ class accountSalereportWizard(osv.osv_memory):
             
             #Write out_format choosed in wizard
             report_xml.write({'out_format': out_format_obj.id}, context=context)
-           
+            
+            data['ids'] = [] #clean ids 
+            
             return {
                 'type': 'ir.actions.report.xml',
                 'report_name': report_name,

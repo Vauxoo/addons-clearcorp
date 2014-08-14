@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data >
+    <data>
          
          <record id="account_invoicing_report_odt" model="ir.actions.report.xml">
             <field name="name">Account Invoicing Report</field>
             <field name="type">ir.actions.report.xml</field>
-            <field name="model">account.invoice</field>
+            <field name="model">account.tax</field>
             <field name="report_name">account_invoicing_report_odt</field>
             <field name="report_type">aeroo</field>
             <field name="in_format">oo-odt</field>
@@ -628,7 +628,7 @@ AA==</field>
           <record id="account_invoicing_report_ods" model="ir.actions.report.xml">
             <field name="name">Account Invoicing Report</field>
             <field name="type">ir.actions.report.xml</field>
-            <field name="model">account.invoice</field>
+            <field name="model">account.tax</field>
             <field name="report_name">account_invoicing_report_ods</field>
             <field name="report_type">aeroo</field>
             <field name="in_format">oo-ods</field>
@@ -1282,8 +1282,7 @@ AAAaAAAAAAAAAAAAAAAAALSIAABDb25maWd1cmF0aW9uczIvcG9wdXBtZW51L1BLAQIUABQAAAgA
 AEmx9UQAAAAAAAAAAAAAAAAfAAAAAAAAAAAAAAAAAOyIAABDb25maWd1cmF0aW9uczIvaW1hZ2Vz
 L0JpdG1hcHMvUEsBAhQAFAAICAgASbH1RAji3eJAAQAAtwQAABUAAAAAAAAAAAAAAAAAKYkAAE1F
 VEEtSU5GL21hbmlmZXN0LnhtbFBLBQYAAAAAEgASAMsEAACsigAAAAA=</field> 
-          </record>
-          
+          </record>          
           
     </data>
 </openerp>
