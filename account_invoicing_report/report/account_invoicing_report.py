@@ -117,7 +117,7 @@ class Parser(accountReportbase):
         tuple = ('invoice_line.invoice_line_tax_id', 'in', tax_id)
         domain.append(tuple)
         
-        tuple = ('state', '!=', 'draft')
+        tuple = ('state', 'not in', ('draft', 'cancel'))
         domain.append(tuple)
         
         invoices_ids = account_invoice_obj.search(self.cr, self.uid, domain, context=None)
