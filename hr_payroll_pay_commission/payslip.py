@@ -56,4 +56,4 @@ class PaySlip(osv.Model):
                                 context=context)
                 except:
                     osv.except_osv(_('Error'),_('An error occurred while validating the Payslip.'))
-        return super(PaySlip, self).compute_sheet(cr, uid, ids, context=context)
+        return super(PaySlip, self).process_sheet(cr, uid, ids, context=context)

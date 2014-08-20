@@ -117,7 +117,7 @@ class Parser(accountReportbase):
         tuple = ('invoice_line.invoice_line_tax_id', 'in', tax_id)
         domain.append(tuple)
         
-        tuple = ('state', '!=', 'draft')
+        tuple = ('state', 'not in', ('draft', 'cancel'))
         domain.append(tuple)
         
         invoices_ids = account_invoice_obj.search(self.cr, self.uid, domain, context=None)
@@ -149,16 +149,18 @@ class Parser(accountReportbase):
         tax_block = {}     
         qty_lines = 0   
         list = []
+        list_lines = [] 
         
         add_invoice = False
         
         for invoice in self.get_invoices(tax_id, data):
-            line_info = {}
             invoice_dict = {}
             qty_lines = 0 #this variable is per invoice
+            list_lines = []
             
             for line in invoice.invoice_line:
                 added_line = False
+                line_info = {}
                 for tax in line.invoice_line_tax_id:
                     if tax.id == tax_id:
                         if invoice.currency_id:
@@ -182,6 +184,8 @@ class Parser(accountReportbase):
                                 line_info['price_sub_not_dis'] = line.price_subtotal_not_discounted
                                 line_info['price_subtotal'] = line.price_subtotal, 
                                 line_info['taxes'] = amount_tax['total_included'] - line.price_subtotal
+                                
+                                list_lines.append(line_info)
                             
                         else:
                             #compute taxes
@@ -193,8 +197,11 @@ class Parser(accountReportbase):
                             line_info['price_sub_not_dis'] = line.price_subtotal_not_discounted
                             line_info['price_subtotal'] = line.price_subtotal,
                             line_info['taxes'] = amount_tax['total_included'] - line.price_subtotal
-                            
-                        invoice_dict[invoice.id]['lines'].append(line_info)
+                        
+                            list_lines.append(line_info)
+            
+            #Update list_lines
+            invoice_dict[invoice.id]['lines'] = list_lines
             
             if add_invoice:
                 #Add currency
