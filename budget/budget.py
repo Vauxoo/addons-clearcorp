@@ -1364,9 +1364,8 @@ class budget_move_line(osv.osv):
     def create(self, cr, uid, vals, context={}):
         program_line_obj = self.pool.get('budget.program.line')
         program_line = program_line_obj.browse(cr, uid, [vals['program_line_id']],context=context)[0]
-       
         if program_line.program_id.plan_id.state in ('cancel', 'closed'):
-           raise osv.except_osv(_('Error!'), _('You cannot create a budget move line from an cancel or closed plan'))
+            raise osv.except_osv(_('Error!'), _('You cannot create a budget move line from an cancel or closed plan'))
         return super(budget_move_line, self).create(cr, uid, vals, context)
        
     def write(self, cr, uid, ids, vals, context=None):

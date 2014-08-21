@@ -346,7 +346,7 @@ class purchase_line_invoice(osv.osv_memory):
 
     _inherit = 'purchase.order.line_invoice'
     
-    def makeInvoices(self, cr, uid, ids, context=None):
+    def makeInvoices(self, cr, uid, ids, context=None): 
         result = super(purchase_line_invoice, self).makeInvoices(cr, uid, ids, context=context)
         
         record_ids =  context.get('active_ids',[])
@@ -364,6 +364,7 @@ class purchase_line_invoice(osv.osv_memory):
                 asoc_bud_line_id = obj_bud_line.search(cr, uid, [('po_line_id','=',po_line.id), ])[0]
                 if po_line.invoice_lines:
                     inv_line = po_line.invoice_lines[0]
+                    invoice_line_obj.write(cr, uid, inv_line.id, {'program_line_id': po_line.program_line_id.id}, context=context)
                     obj_bud_line.write(cr, uid, [asoc_bud_line_id],{'inv_line_id': inv_line.id}, context=context)
                     move_id = po_line.order_id.budget_move_id.id
                     invoice_obj.write(cr, uid, [inv_line.invoice_id.id], {'budget_move_id': move_id, 'from_order':True}, context=context)
