@@ -123,3 +123,11 @@ class hrEmployee(osv.Model):
     _columns = {
                 'personnel_action_ids': fields.one2many('hr.personnel.actions.personnel.action', 'employee_id', string="Personnel Actions")
                 }
+    
+    def copy(self, cr, uid, id, default=None, context=None):
+        if not default:
+            default = {}
+        default.update({
+            'personnel_action_ids': []
+        })
+        return super(hrEmployee, self).copy(cr, uid, id, default=default, context=context)
