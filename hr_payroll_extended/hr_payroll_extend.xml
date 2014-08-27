@@ -69,6 +69,6 @@
                 </data>            
             </field> 
         </record> 
-        <!-- End forced period Payslip -->
+        <!-- End forced period Payslip -->      
     </data>
 </openerp>

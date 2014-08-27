@@ -34,10 +34,6 @@ This module modifies these reports:
     * Report Employee by Month
     * Payslip Details 
     * Payslip
-    
-Also, modifies:
-    * Employee Contracts
-    * Fortnightly Payroll Register
     """,
     'depends': [
         'account',
