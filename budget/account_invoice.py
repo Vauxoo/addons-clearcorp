@@ -19,9 +19,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import fields, osv
+
 import netsvc
 import decimal_precision as dp
+from openerp.osv import fields, osv
+from openerp.tools.translate import _
 
 class account_invoice(osv.osv):
     _name = 'account.invoice'
@@ -302,6 +304,8 @@ class account_invoice_line(osv.osv):
     _defaults = {}
     
     def write(self, cr, uid, ids, vals, context=None):
+        if isinstance(ids, int):
+            ids = [ids]
         inv_obj = self.pool.get('account.invoice')
         result = super(account_invoice_line, self).write(cr, uid, ids, vals, context=context)
         for line in self.browse(cr, uid, ids, context=context):

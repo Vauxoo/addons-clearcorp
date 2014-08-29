@@ -30,4 +30,12 @@ class Employee(osv.Model):
                 'code': fields.char('Code', size=64),
                 }
 
+    def copy(self, cr, uid, id, default=None, context=None):
+        if not default:
+            default = {}
+        default.update({
+            'code': False
+        })
+        return super(Employee, self).copy(cr, uid, id, default=default, context=context)
+
     _sql_constraints = [('unique_code','UNIQUE(code)','The code must be unique for every employee.')]

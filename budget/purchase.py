@@ -76,8 +76,9 @@ class purchase_order(osv.osv):
                 move_id = purchase.budget_move_id.id
                 for po_line in purchase.order_line:
                     asoc_bud_line_id = obj_bud_line.search(cr, uid, [('po_line_id','=',po_line.id), ])[0]
-                    inv_line = po_line.invoice_lines[0]
-                    obj_bud_line.write(cr, uid, [asoc_bud_line_id],{'inv_line_id': inv_line.id}, context=context)
+                    if po_line.invoice_lines:
+                        inv_line = po_line.invoice_lines[0]
+                        obj_bud_line.write(cr, uid, [asoc_bud_line_id],{'inv_line_id': inv_line.id}, context=context)
                 obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_execute', context=context)
         return res     
 
@@ -312,38 +313,40 @@ class purchase_order_line(osv.osv):
                 raise osv.except_osv(_('Error!'), result[1])
             return True
             
-  
+
     def create(self, cr, uid, vals, context=None):
         line_id =  super(purchase_order_line, self).create(cr, uid, vals, context=context)
         bud_line_id = self.create_budget_move_line(cr, uid, vals, line_id, context=context)
         self.check_budget_from_po_line(cr, uid, [line_id], context)
         return line_id
-#
+
     def write(self, cr, uid, ids, vals, context=None):
         bud_line_obj = self.pool.get('budget.move.line')
         bud_move_obj = self.pool.get('budget.move')
-        result = False
         moves_to_update = []
         for line in self.browse(cr, uid, ids, context=context):
             search_result = bud_line_obj.search(cr, uid,[('po_line_id','=', line.id)], context=context) 
             bud_lines = bud_line_obj.browse(cr, uid, search_result, context=context)
-            for bud_line in bud_lines: 
+            for bud_line in bud_lines:
                 if bud_line.fixed_amount == line.price_subtotal:
-                    result = super(purchase_order_line, self).write(cr, uid, [line.id], vals, context=context)
-                    updated_fields = self.read(cr, uid,[line.id], ['program_line_id', 'price_subtotal'], context=context)[0]
-                    bud_line_obj.write(cr, uid, [bud_line.id], {'program_line_id': updated_fields['program_line_id'][0], 'fixed_amount':updated_fields['price_subtotal']})
-                    moves_to_update.append(bud_line.budget_move_id.id)
+                    if 'price_subtotal' in vals:
+                        bud_line_obj.write(cr, uid, [bud_line.id], {'fixed_amount':updated_fields['price_subtotal']})
+                        moves_to_update.append(bud_line.budget_move_id.id)
+                if 'program_line_id' in vals:
+                    bud_line_obj.write(cr, uid, [bud_line.id], {'program_line_id': vals['program_line_id']})
+                    if bud_line.budget_move_id.id not in moves_to_update:
+                        moves_to_update.append(bud_line.budget_move_id.id)
         bud_move_obj.recalculate_values(cr, uid, moves_to_update, context=context)
         self.check_budget_from_po_line(cr, uid, ids, context)
-        return result  
-   
+        return super(purchase_order_line, self).write(cr, uid, ids, vals, context=context)
+
 class purchase_line_invoice(osv.osv_memory):
 
     """ To create invoice for purchase order line"""
 
     _inherit = 'purchase.order.line_invoice'
     
-    def makeInvoices(self, cr, uid, ids, context=None):
+    def makeInvoices(self, cr, uid, ids, context=None): 
         result = super(purchase_line_invoice, self).makeInvoices(cr, uid, ids, context=context)
         
         record_ids =  context.get('active_ids',[])
@@ -361,6 +364,7 @@ class purchase_line_invoice(osv.osv_memory):
                 asoc_bud_line_id = obj_bud_line.search(cr, uid, [('po_line_id','=',po_line.id), ])[0]
                 if po_line.invoice_lines:
                     inv_line = po_line.invoice_lines[0]
+                    invoice_line_obj.write(cr, uid, inv_line.id, {'program_line_id': po_line.program_line_id.id}, context=context)
                     obj_bud_line.write(cr, uid, [asoc_bud_line_id],{'inv_line_id': inv_line.id}, context=context)
                     move_id = po_line.order_id.budget_move_id.id
                     invoice_obj.write(cr, uid, [inv_line.invoice_id.id], {'budget_move_id': move_id, 'from_order':True}, context=context)
