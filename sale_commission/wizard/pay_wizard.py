@@ -21,6 +21,7 @@
 ##############################################################################
 
 from openerp.osv import osv, fields
+from openerp.tools.translate import _
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
 
@@ -75,62 +76,63 @@ class PayWizard(osv.TransientModel):
                 sales_dict[invoice.period_id.id] = total_sales
             else:
                 total_sales = sales_dict[invoice.period_id.id]
-            total_credit = 0.0
             for payment in invoice.payment_ids:
+                total_credit = 0.0
                 if payment.journal_id and payment.journal_id.pay_commission:
                     if not payment.commission:
                         total_credit += payment.credit
                         payment.write({'commission': True}, context=context)
-            if total_credit > 0.0:
-                for rule_line in rule_lines:
-                    result = True
-                    if rule_line.partner_category_id:
-                        if not rule_line.partner_category_id in invoice.partner_id.category_id:
-                            result = result and False
-                    if rule_line.pricelist_id:
-                        if invoice.pricelist_id:
-                            if not invoice.pricelist_id.id == rule_line.pricelist_id.id:
-                                result = result and False
-                        else:
-                            result = result and False
-                    if rule_line.payment_term_id:
-                        if invoice.payment_term:
-                            if not invoice.payment_term.id == rule_line.payment_term_id:
-                                result = result and False
-                        else:
-                            result = result and False
-                    if rule_line.max_discount > 0.0:
-                        if invoice.invoice_discount > rule_line.max_discount:
-                            result = result and False
-                    if rule_line.monthly_sales > 0.0:
-                        if total_sales < rule_line.monthly_sales:
-                            result = result and False
-                    if result:
-                        if rule_line.commission_percentage and total_credit:
-                            amount = total_credit * rule_line.commission_percentage / 100
-                        else:
-                            amount = 0.0
-                        exp_days = relativedelta(days=rule.post_expiration_days)
-                        if amount == 0.0:
-                            state = 'paid'
-                        elif invoice.date_due:
-                            inv_date = datetime.strptime(invoice.date_due, '%Y-%m-%d')
-                            if datetime.today() > inv_date + exp_days:
-                                state = 'expired'
-                            else:
-                                state = 'new'
-                        else:
-                            state = 'expired'
-                        values = {
-                            'invoice_id': invoice.id,
-                            'state': state,
-                            'user_id': member.id,
-                            'amount': amount,
-                            'invoice_commission_percentage': rule_line.commission_percentage,
-                        }
-                        commission_id = commission_obj.create(cr, uid, values, context=context)
-                        commission_ids.append(commission_id)
-                        break
+                    if total_credit > 0.0:
+                        for rule_line in rule_lines:
+                            result = True
+                            if rule_line.partner_category_id:
+                                if not rule_line.partner_category_id in invoice.partner_id.category_id:
+                                    result = result and False
+                            if rule_line.pricelist_id:
+                                if invoice.pricelist_id:
+                                    if not invoice.pricelist_id.id == rule_line.pricelist_id.id:
+                                        result = result and False
+                                else:
+                                    result = result and False
+                            if rule_line.payment_term_id:
+                                if invoice.payment_term:
+                                    if not invoice.payment_term.id == rule_line.payment_term_id:
+                                        result = result and False
+                                else:
+                                    result = result and False
+                            if rule_line.max_discount > 0.0:
+                                if invoice.invoice_discount > rule_line.max_discount:
+                                    result = result and False
+                            if rule_line.monthly_sales > 0.0:
+                                if total_sales < rule_line.monthly_sales:
+                                    result = result and False
+                            if result:
+                                if rule_line.commission_percentage and total_credit:
+                                    amount = total_credit * rule_line.commission_percentage / 100
+                                else:
+                                    amount = 0.0
+                                exp_days = relativedelta(days=rule.post_expiration_days)
+                                if amount == 0.0:
+                                    state = 'paid'
+                                elif invoice.date_due:
+                                    inv_date = datetime.strptime(invoice.date_due, '%Y-%m-%d')
+                                    payment_date = datetime.strptime(payment.date, '%Y-%m-%d')
+                                    if payment_date > inv_date + exp_days:
+                                        state = 'expired'
+                                    else:
+                                        state = 'new'
+                                else:
+                                    state = 'expired'
+                                values = {
+                                    'invoice_id': invoice.id,
+                                    'state': state,
+                                    'user_id': member.id,
+                                    'amount': amount,
+                                    'invoice_commission_percentage': rule_line.commission_percentage,
+                                }
+                                commission_id = commission_obj.create(cr, uid, values, context=context)
+                                commission_ids.append(commission_id)
+                                break
         return commission_ids
 
     def _invoices_with_commission(self, cr, uid, wizard, member, rule, period_ids, context=None):
@@ -170,60 +172,61 @@ class PayWizard(osv.TransientModel):
                 sales_dict[invoice.period_id.id] = total_sales
             else:
                 total_sales = sales_dict[invoice.period_id.id]
-            total_credit = 0.0
             for payment in invoice.payment_ids:
+                total_credit = 0.0
                 if payment.journal_id and payment.journal_id.pay_commission:
                     if not payment.commission:
                         total_credit += payment.credit
                         payment.write({'commission': True}, context=context)
-            if total_credit > 0.0:
-                for rule_line in rule_lines:
-                    result = True
-                    if rule_line.partner_category_id:
-                        if not rule_line.partner_category_id in invoice.partner_id.category_id:
-                            result = result and False
-                    if rule_line.pricelist_id:
-                        if invoice.pricelist_id:
-                            if not invoice.pricelist_id.id == rule_line.pricelist_id.id:
-                                result = result and False
-                        else:
-                            result = result and False
-                    if rule_line.payment_term_id:
-                        if invoice.payment_term:
-                            if not invoice.payment_term.id == rule_line.payment_term_id:
-                                result = result and False
-                        else:
-                            result = result and False
-                    if rule_line.max_discount > 0.0:
-                        if invoice.invoice_discount > rule_line.max_discount:
-                            result = result and False
-                    if rule_line.monthly_sales > 0.0:
-                        if total_sales < rule_line.monthly_sales:
-                            result = result and False
-                    if result:
-                        if rule_line.commission_percentage and total_credit:
-                            amount = total_credit * rule_line.commission_percentage / 100
-                        else:
-                            amount = 0.0
-                        exp_days = relativedelta(days=rule.post_expiration_days)
-                        if invoice.date_due:
-                            inv_date = datetime.strptime(invoice.date_due, '%Y-%m-%d')
-                            if datetime.today() > inv_date + exp_days:
-                                state = 'expired'
-                            else:
-                                state = 'new'
-                        else:
-                            state = 'expired'
-                        values = {
-                            'invoice_id': invoice.id,
-                            'state': state,
-                            'user_id': member.id,
-                            'amount': amount,
-                            'invoice_commission_percentage': rule_line.commission_percentage,
-                        }
-                        commission_id = commission_obj.create(cr, uid, values, context=context)
-                        commission_ids.append(commission_id)
-                        break
+                    if total_credit > 0.0:
+                        for rule_line in rule_lines:
+                            result = True
+                            if rule_line.partner_category_id:
+                                if not rule_line.partner_category_id in invoice.partner_id.category_id:
+                                    result = result and False
+                            if rule_line.pricelist_id:
+                                if invoice.pricelist_id:
+                                    if not invoice.pricelist_id.id == rule_line.pricelist_id.id:
+                                        result = result and False
+                                else:
+                                    result = result and False
+                            if rule_line.payment_term_id:
+                                if invoice.payment_term:
+                                    if not invoice.payment_term.id == rule_line.payment_term_id:
+                                        result = result and False
+                                else:
+                                    result = result and False
+                            if rule_line.max_discount > 0.0:
+                                if invoice.invoice_discount > rule_line.max_discount:
+                                    result = result and False
+                            if rule_line.monthly_sales > 0.0:
+                                if total_sales < rule_line.monthly_sales:
+                                    result = result and False
+                            if result:
+                                if rule_line.commission_percentage and total_credit:
+                                    amount = total_credit * rule_line.commission_percentage / 100
+                                else:
+                                    amount = 0.0
+                                exp_days = relativedelta(days=rule.post_expiration_days)
+                                if invoice.date_due:
+                                    inv_date = datetime.strptime(invoice.date_due, '%Y-%m-%d')
+                                    payment_date = datetime.strptime(payment.date, '%Y-%m-%d')
+                                    if payment_date > inv_date + exp_days:
+                                        state = 'expired'
+                                    else:
+                                        state = 'new'
+                                else:
+                                    state = 'expired'
+                                values = {
+                                    'invoice_id': invoice.id,
+                                    'state': state,
+                                    'user_id': member.id,
+                                    'amount': amount,
+                                    'invoice_commission_percentage': rule_line.commission_percentage,
+                                }
+                                commission_id = commission_obj.create(cr, uid, values, context=context)
+                                commission_ids.append(commission_id)
+                                break
         return commission_ids
 
     
@@ -236,7 +239,7 @@ class PayWizard(osv.TransientModel):
         journal_obj = self.pool.get('account.journal')
         journal_ids = journal_obj.search(cr, uid, [('pay_commission','=',True)], context=context)
         journals = journal_obj.browse(cr, uid, journal_ids, context=context)
-        # Get all rule if there are not selected rules
+        # Get all rules if there are not selected rules
         if not wizard.rule_ids:
             rule_obj = self.pool.get('sale.commission.rule')
             rule_ids = rule_obj.search(cr, uid, [], context=context)
@@ -245,15 +248,26 @@ class PayWizard(osv.TransientModel):
         else:
             rules = wizard.rule_ids
         invoice_obj =self.pool.get('account.invoice')
+        commission_ids = []
         for rule in rules:
             for member in rule.member_ids:
                 # Invoices WITHOUT commission
-                self._invoices_without_commission(cr, uid, wizard, member,
+                commission_ids += self._invoices_without_commission(cr, uid, wizard, member,
                     rule, period_ids, context=context)
                 # Invoices WITH commission
-                self._invoices_with_commission(cr, uid, wizard, member,
+                commission_ids += self._invoices_with_commission(cr, uid, wizard, member,
                     rule, period_ids, context=context)
-        return True
+        return {
+            'name': _('Created Commissions'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'sale.commission.commission',
+            'view_type': 'form',
+            'view_mode': 'tree',
+            'target': 'current',
+            'domain': [('id','in',commission_ids)],
+            'context': context,
+            'res_id': wizard.id,
+        }
 
     _columns = {
         'period_id': fields.many2one('account.period', string='Period', required=True),
