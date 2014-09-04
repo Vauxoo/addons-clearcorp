@@ -145,7 +145,7 @@ class bankImportWizard(osv.TransientModel):
         if bank_import_wizard.account_bank.currency_id:
             local_currency = bank_import_wizard.account_bank.currency_id.name
         else:
-            local_currency = 'CRC'
+            local_currency = company.currency_id.name
         #TODO: Fields used only by the davivienda's parser, must be removed and added
         #in the custom parser's module
         date_from_str = bank_import_wizard.date_from
