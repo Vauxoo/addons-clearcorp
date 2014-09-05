@@ -183,9 +183,10 @@ class bankImportWizard(osv.TransientModel):
                                   date_to_str = date_to_str,ending_balance = ending_balance,
                                   real_account= bank_import_wizard.account_bank.acc_number)
         if any([x for x in statements if not x.is_valid()]):
-            raise osv.except_osv(
-                _('ERROR!'),
-                _('The imported statements appear to be invalid! Check your file.'))
+            raise osv.except_osv(_('Error'),_('No bank statements can be imported because none of them are '
+                                              'valid. Please review the initial balance and the amount of transactions '
+                                              'to match the ending balance on every statement. Or any transaction '
+                                              'without execution date or amount equal to 0.0'))
         # Create the file now, as the statements need to be linked to it
         import_id = statement_file_obj.create(cr, uid, dict(company_id = company.id,
                                                             file = statements_file,
@@ -328,6 +329,10 @@ class bankImportWizard(osv.TransientModel):
         if not imported_statement_ids:# or not results.trans_loaded_cnt:
             # file state can be 'ready' while import state is 'error'
             state = 'error'
+            raise osv.except_osv(_('Error'),_('No bank statements can be imported because none of them are '
+                                              'valid. Please review the initial balance and the amount of transactions '
+                                              'to match the ending balance on every statement. Or any transaction '
+                                              'without execution date or amount equal to 0.0'))
         self.write(cr, uid, [ids[0]], dict(
                                            import_id = import_id,
                                            state = state,
