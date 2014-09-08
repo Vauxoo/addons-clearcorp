@@ -1196,10 +1196,13 @@ class bankImportTransaction(osv.Model):
                 account_info = info[transaction.local_account][currency_code]
             else:
                 # Pull account info/currency
-                account_info = get_company_bank_account(self.pool, cr, uid,
-                                                        transaction.local_account,
-                                                        transaction.local_currency,
-                                                        company, bank_account)
+                try:
+                    account_info = get_company_bank_account(
+                        self.pool, cr, uid, transaction.local_account,
+                        transaction.local_currency, company, bank_account)
+                except Exception as ex:
+                    message = ex.args[0]
+                    raise osv.except_osv(_('ERROR'), message)
                 if not account_info:
                     raise osv.except_osv(
                         _('ERROR!'),

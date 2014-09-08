@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-01 20:08+0000\n"
-"PO-Revision-Date: 2014-08-01 20:08+0000\n"
+"POT-Creation-Date: 2014-09-02 15:57+0000\n"
+"PO-Revision-Date: 2014-09-02 15:57+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -61,8 +61,9 @@ msgid "Sales can not be negative"
 msgstr ""
 
 #. module: sale_commission
-#: view:sale.commission.commission:0
-msgid "Group By..."
+#: code:addons/sale_commission/wizard/pay_wizard.py:261
+#, python-format
+msgid "Created Commissions"
 msgstr ""
 
 #. module: sale_commission
@@ -142,8 +143,10 @@ msgid "Members"
 msgstr ""
 
 #. module: sale_commission
-#: model:ir.model,name:sale_commission.model_account_move_line
-msgid "Journal Items"
+#: field:account.move.line,commission:0
+#: model:ir.model,name:sale_commission.model_sale_commission_commission
+#: view:sale.commission.commission:0
+msgid "Commission"
 msgstr ""
 
 #. module: sale_commission
@@ -178,8 +181,13 @@ msgid "Commissions Report"
 msgstr ""
 
 #. module: sale_commission
-#: field:sale.commission.rule.line,max_discount:0
-msgid "Max Discount (%)"
+#: field:sale.commission.rule,name:0
+msgid "Rule Name"
+msgstr ""
+
+#. module: sale_commission
+#: model:ir.model,name:sale_commission.model_account_move_line
+msgid "Journal Items"
 msgstr ""
 
 #. module: sale_commission
@@ -229,8 +237,8 @@ msgid "Value must be greater than 0 and lower or equal than 100"
 msgstr ""
 
 #. module: sale_commission
-#: field:sale.commission.rule,name:0
-msgid "Rule Name"
+#: field:sale.commission.rule.line,max_discount:0
+msgid "Max Discount (%)"
 msgstr ""
 
 #. module: sale_commission
@@ -245,10 +253,8 @@ msgid "State"
 msgstr ""
 
 #. module: sale_commission
-#: field:account.move.line,commission:0
-#: model:ir.model,name:sale_commission.model_sale_commission_commission
 #: view:sale.commission.commission:0
-msgid "Commission"
+msgid "Group By..."
 msgstr ""
 
 #. module: sale_commission
