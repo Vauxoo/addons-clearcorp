@@ -1,0 +1,344 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* hr_hr_payroll_payslip_run_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-09-08 14:40+0000\n"
+"PO-Revision-Date: 2014-09-08 14:40+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: model:ir.actions.act_window,name:hr_hr_payroll_payslip_run_report.action_hr_payroll_employee_by_periods_report_menu
+msgid "Action Report Employee by Periods"
+msgstr "Reporte de Acción de personal por períodos"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: field:payroll.report.for.month,period_from:0
+#: field:report.employee.by.periods,period_from:0
+msgid "Start Period"
+msgstr "Período inicial"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: model:ir.actions.report.xml,name:hr_hr_payroll_payslip_run_report.hr_payroll_payslip_run_report
+msgid "Payroll Report"
+msgstr "Reporte de Nómina"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: model:ir.actions.report.xml,name:hr_hr_payroll_payslip_run_report.hr_hr_payroll_for_month_report
+#: model:ir.model,name:hr_hr_payroll_payslip_run_report.model_hr_payroll_for_month_report
+#: model:ir.ui.menu,name:hr_hr_payroll_payslip_run_report.menu_hr_payroll_for_month_report
+msgid "Payroll Report for Month"
+msgstr "Informe de Nómina por mes"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: view:payroll.report.for.month:0
+#: view:report.employee.by.periods:0
+msgid "Print"
+msgstr "Imprimir"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: field:payroll.report.for.month,company_id:0
+#: field:report.employee.by.periods,company_id:0
+msgid "Company"
+msgstr "Compañía"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: view:payroll.report.for.month:0
+#: view:report.employee.by.periods:0
+msgid "or"
+msgstr "o"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: model:ir.model,name:hr_hr_payroll_payslip_run_report.model_res_company
+msgid "Companies"
+msgstr "Compañías"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: view:payroll.report.for.month:0
+#: view:report.employee.by.periods:0
+msgid "General Options"
+msgstr "Opciones generales"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: model:ir.actions.report.xml,name:hr_hr_payroll_payslip_run_report.hr_payroll_employee_by_periods_report
+#: model:ir.model,name:hr_hr_payroll_payslip_run_report.model_hr_payroll_employee_by_periods_report
+#: model:ir.ui.menu,name:hr_hr_payroll_payslip_run_report.menu_hr_payroll_employee_by_periods_report
+msgid "Report Employee by Periods"
+msgstr "Informe de empleado por períodos"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: field:payroll.report.for.month,period_to:0
+#: field:report.employee.by.periods,period_to:0
+msgid "End Period"
+msgstr "Período final"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: view:res.company:0
+msgid "Configuration Report"
+msgstr "Configuración del reporte"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: view:report.employee.by.periods:0
+msgid "Report employee by periods"
+msgstr "Informe de empleado por períodos"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: model:ir.actions.act_window,name:hr_hr_payroll_payslip_run_report.action_hr_payroll_for_month_report_menu_webkit
+msgid "Action Payroll Report for Month"
+msgstr "Informe de nómina por períodos"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: view:payroll.report.for.month:0
+#: view:report.employee.by.periods:0
+msgid "Filters"
+msgstr "Filtros"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: field:res.company,payslip_footer:0
+msgid "Payslip footer"
+msgstr "Pie de página  para el Reporte de Nómina de Empleado"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: view:payroll.report.for.month:0
+#: view:report.employee.by.periods:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: help:hr.salary.rule,appears_on_report:0
+msgid "Used for the display of rule on payslip reports"
+msgstr "Utilizado para mostrar la regla en los reportes de nómina"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: field:hr.salary.rule,appears_on_report:0
+msgid "Appears on Report"
+msgstr "Aparece en reporte"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: view:payroll.report.for.month:0
+msgid "Payroll report for month"
+msgstr "Informe de Nómina por mes"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:62
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:67
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:163
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_employee_by_periods_report.mako:46
+msgid "Gross"
+msgstr "Bruto"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:65
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:70
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:166
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_employee_by_periods_report.mako:49
+msgid "Tax"
+msgstr "Impuesto"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:65
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:70
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:166
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_employee_by_periods_report.mako:49
+msgid "Rent"
+msgstr "Renta"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:22
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_employee_by_periods_report.mako:20
+msgid "Payslips of periods:"
+msgstr "Nóminas del periodo:"
+
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:64
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:69
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:165
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_employee_by_periods_report.mako:48
+msgid "Bonuses"
+msgstr "Bonificaciones"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:66
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:71
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:167
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_employee_by_periods_report.mako:50
+msgid "Net"
+msgstr "Neto"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:168
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:191
+msgid "REVIEWED BY:"
+msgstr "REVISADO POR:"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:22
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_employee_by_periods_report.mako:20
+msgid "to"
+msgstr "al"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:21
+msgid "Payroll Report for Specific Periods"
+msgstr "Informe de nómina para periodos específicas"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:167
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:190
+msgid "BY:"
+msgstr "HECHO POR:"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:60
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:65
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:161
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_employee_by_periods_report.mako:44
+msgid "Normal"
+msgstr "Normal"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:57
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:62
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_employee_by_periods_report.mako:41
+msgid "Bank account"
+msgstr "Cuenta bancaria"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:55
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:60
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_employee_by_periods_report.mako:39
+msgid "Id card"
+msgstr "Cédula"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: model:ir.actions.report.xml,name:hr_hr_payroll_payslip_run_report.hr_payroll_for_month_report
+#: model:ir.model,name:hr_hr_payroll_payslip_run_report.model_hr_payroll_for_month_report
+#: model:ir.ui.menu,name:hr_hr_payroll_payslip_run_report.menu_hr_payroll_for_month_report
+msgid "Payroll Report for Month"
+msgstr "Informe de Nómina para el mes"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:150
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:173
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_employee_by_periods_report.mako:106
+msgid "TOTAL"
+msgstr "TOTAL GENERAL"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:58
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:63
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:159
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_employee_by_periods_report.mako:42
+msgid "Nor"
+msgstr "Nor"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:56
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:61
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_employee_by_periods_report.mako:40
+msgid "Name"
+msgstr "Nombre"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:63
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:68
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:164
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_employee_by_periods_report.mako:47
+msgid "CCSS/BP"
+msgstr "CCSS/BP"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:132
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:151
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:138
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_employee_by_periods_report.mako:107
+msgid "Employees"
+msgstr "Empleados"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:58
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:59
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:63
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:64
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:159
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:160
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_employee_by_periods_report.mako:42
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_employee_by_periods_report.mako:43
+msgid "Hrs."
+msgstr "Hrs."
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_employee_by_periods_report.mako:19
+#: model:ir.actions.report.xml,name:hr_hr_payroll_payslip_run_report.hr_payroll_employee_by_periods_report
+#: model:ir.model,name:hr_hr_payroll_payslip_run_report.model_hr_payroll_employee_by_periods_report
+#: model:ir.ui.menu,name:hr_hr_payroll_payslip_run_report.menu_hr_payroll_employee_by_periods_report
+msgid "Report Employee by Periods"
+msgstr "Informe de Empleado por períodos"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:59
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:64
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:160
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_employee_by_periods_report.mako:43
+msgid "Ext"
+msgstr "Ext"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:62
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:66
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:67
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:71
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:163
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:167
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_employee_by_periods_report.mako:46
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_employee_by_periods_report.mako:50
+msgid "Salary"
+msgstr "Salario"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:60
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:61
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:65
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:66
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:161
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:162
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_employee_by_periods_report.mako:44
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_employee_by_periods_report.mako:45
+msgid "Ingr."
+msgstr "Ingr."
+
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:61
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:66
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:162
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_employee_by_periods_report.mako:45
+msgid "Extra"
+msgstr "Extra"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:169
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:192
+msgid "APPROVED BY:"
+msgstr "APROBADO POR:"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:131
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:137
+msgid "Total"
+msgstr "Total"
+
+#. module: hr_hr_payroll_payslip_run_report
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_payslip_run_report.mako:63
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:68
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_for_month_report.mako:164
+#: report:addons/hr_hr_payroll_payslip_run_report/report/hr_payroll_employee_by_periods_report.mako:47
+msgid "Deducc."
+msgstr "Deducc."
