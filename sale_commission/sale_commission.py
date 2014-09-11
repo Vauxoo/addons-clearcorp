@@ -21,6 +21,7 @@
 ##############################################################################
 
 from openerp.osv import osv, fields
+from openerp.tools.translate import _
 
 class CommissionRule(osv.Model):
     """Commission Rule"""
@@ -133,15 +134,46 @@ class Commission(osv.Model):
             res.append((item.id, '%s - %s' % (item.user_id.name,item.invoice_id.number)))
         return res
 
+    def unlink(self, cr, uid, ids, context=None):
+        for commission in self.browse(cr, uid, ids, context=context):
+            commission.payment_id.write({'commission': False}, context=context)
+        return super(Commission, self).unlink(cr, uid, ids, context=context)
+
+    def copy(self, cr, uid, id, default=None, context=None):
+        raise osv.except_osv(_('Failed to copy the record'),
+            _('Commissions can not be copied in order to maintain integrity with the payments.'))
+
+    def create(self, cr, uid, values, context=None):
+        id = super(Commission, self).create(cr, uid, values, context=context)
+        commission = self.browse(cr, uid, id, context=context)
+        commission.payment_id.write({'commission': True}, context=context)
+        return id
+
+    def write(self, cr, uid, ids, values, context=None):
+        if not isinstance(ids, list):
+            ids = [ids]
+        if 'payment_id' in values:
+            # Get the new assigned payment
+            new_payment = values['payment_id']
+            # Update all payments involved and set commission to False
+            move_line_obj = self.pool.get('account.move.line')
+            for payment_data in self.read(cr, uid, ids, ['payment_id'], context=context):
+                move_line_obj.write(cr, uid, payment_data['payment_id'][0], {'commission':False}, context=context)
+            # Update the new payment and set commission to True
+            move_line_obj.write(cr, uid, new_payment, {'commission':True}, context=context)
+        return super(Commission, self).write(cr, uid, ids, values, context=context)
+
     _columns = {
         'invoice_id': fields.many2one('account.invoice', string='Invoice', required=True),
         'period_id': fields.related('invoice_id', 'period_id', type='many2one', obj='account.period',
             string='Period', readonly=True),
+        'payment_id': fields.many2one('account.move.line', string='Payment', required=True),
         'date_invoice': fields.related('invoice_id', 'date_invoice', type='date',
             string='Invoice Date', readonly=True),
         'state': fields.selection([('new','New'),('paid','Paid'),('expired','Expired'),
             ('cancelled','Cancelled')], string='State'),
         'user_id': fields.many2one('res.users', string='Salesperson', required=True),
+        'amount_base': fields.float('Base Amount', digits=(16,2)),
         'amount': fields.float('Amount', digits=(16,2)),
         'invoice_commission_percentage': fields.float('Commission (%)', digits=(16,2)),
     }
@@ -149,6 +181,8 @@ class Commission(osv.Model):
     _constraints = [(_check_amount, 'Value must be greater than 0.', ['amount']),
                     (_check_percentage, 'Value must be greater than 0 and '
                      'lower or equal than 100',['invoice_commission_percentage'])]
+
+    _sql_constraints = [('unique_payment','UNIQUE(payment_id)','Only one commission can be associated with a specific payment.')]
 
     _defaults = {
         'state': 'new',
