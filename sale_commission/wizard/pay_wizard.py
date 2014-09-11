@@ -83,7 +83,6 @@ class PayWizard(osv.TransientModel):
                         # Compute the amount of credit that correspond to
                         # the invoice discounted total
                         total_credit = payment.credit * invoice.amount_untaxed / invoice.amount_total
-                        payment.write({'commission': True}, context=context)
                     if total_credit > 0.0:
                         for rule_line in rule_lines:
                             result = True
@@ -127,8 +126,10 @@ class PayWizard(osv.TransientModel):
                                     state = 'expired'
                                 values = {
                                     'invoice_id': invoice.id,
+                                    'payment_id': payment.id,
                                     'state': state,
                                     'user_id': member.id,
+                                    'amount_base': total_credit,
                                     'amount': amount,
                                     'invoice_commission_percentage': rule_line.commission_percentage,
                                 }
@@ -181,7 +182,6 @@ class PayWizard(osv.TransientModel):
                         # Compute the amount of credit that correspond to
                         # the invoice discounted total
                         total_credit = payment.credit * invoice.amount_untaxed / invoice.amount_total
-                        payment.write({'commission': True}, context=context)
                     if total_credit > 0.0:
                         for rule_line in rule_lines:
                             result = True
@@ -223,8 +223,10 @@ class PayWizard(osv.TransientModel):
                                     state = 'expired'
                                 values = {
                                     'invoice_id': invoice.id,
+                                    'payment_id': payment.id,
                                     'state': state,
                                     'user_id': member.id,
+                                    'amount_base': total_credit,
                                     'amount': amount,
                                     'invoice_commission_percentage': rule_line.commission_percentage,
                                 }
