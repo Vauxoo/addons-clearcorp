@@ -80,7 +80,9 @@ class PayWizard(osv.TransientModel):
                 total_credit = 0.0
                 if payment.journal_id and payment.journal_id.pay_commission:
                     if not payment.commission:
-                        total_credit += payment.credit
+                        # Compute the amount of credit that correspond to
+                        # the invoice discounted total
+                        total_credit = payment.credit * invoice.amount_untaxed / invoice.amount_untaxed_total
                         payment.write({'commission': True}, context=context)
                     if total_credit > 0.0:
                         for rule_line in rule_lines:
@@ -176,7 +178,9 @@ class PayWizard(osv.TransientModel):
                 total_credit = 0.0
                 if payment.journal_id and payment.journal_id.pay_commission:
                     if not payment.commission:
-                        total_credit += payment.credit
+                        # Compute the amount of credit that correspond to
+                        # the invoice discounted total
+                        total_credit = payment.credit * invoice.amount_untaxed / invoice.amount_untaxed_total
                         payment.write({'commission': True}, context=context)
                     if total_credit > 0.0:
                         for rule_line in rule_lines:
