@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-02 15:57+0000\n"
-"PO-Revision-Date: 2014-09-02 15:57+0000\n"
+"POT-Creation-Date: 2014-09-11 20:02+0000\n"
+"PO-Revision-Date: 2014-09-11 20:02+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -24,9 +24,9 @@ msgid "Commission Rule"
 msgstr "Regla de comisión"
 
 #. module: sale_commission
-#: view:sale.commission.commission:0
-msgid "My Commissions"
-msgstr "Mis comisiones"
+#: field:sale.commission.commission,amount_base:0
+msgid "Base Amount"
+msgstr "Monto base"
 
 #. module: sale_commission
 #: sql_constraint:sale.commission.rule.line:0
@@ -39,9 +39,9 @@ msgid "Pay"
 msgstr "Pagar"
 
 #. module: sale_commission
-#: view:sale.commission.pay.wizard:0
-msgid "Pay Wizard"
-msgstr "Asistente de pago"
+#: view:sale.commission.commission:0
+msgid "My Commissions"
+msgstr "Mis comisiones"
 
 #. module: sale_commission
 #: model:ir.actions.act_window,name:sale_commission.action_rule
@@ -61,7 +61,7 @@ msgid "Sales can not be negative"
 msgstr "Las ventas no pueden ser negativas"
 
 #. module: sale_commission
-#: code:addons/sale_commission/wizard/pay_wizard.py:261
+#: code:addons/sale_commission/wizard/pay_wizard.py:267
 #, python-format
 msgid "Created Commissions"
 msgstr "Comisiones creadas"
@@ -94,6 +94,11 @@ msgid "Conditions"
 msgstr "Condiciones"
 
 #. module: sale_commission
+#: field:sale.commission.rule.line,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: sale_commission
 #: view:sale.commission.rule:0
 #: field:sale.commission.rule,line_ids:0
 msgid "Rule Lines"
@@ -122,7 +127,7 @@ msgstr "Diario"
 #. module: sale_commission
 #: field:sale.commission.commission,date_invoice:0
 msgid "Invoice Date"
-msgstr "Invoice Date"
+msgstr "Fecha de Factura"
 
 #. module: sale_commission
 #: view:sale.commission.commission:0
@@ -131,16 +136,22 @@ msgid "Paid"
 msgstr "Pagada"
 
 #. module: sale_commission
+#: code:addons/sale_commission/sale_commission.py:144
+#, python-format
+msgid "Commissions can not be copied in order to maintain integrity with the payments."
+msgstr "Las comisiones no pueden ser copiadas con el fin de mantener la integridad con los pagos."
+
+#. module: sale_commission
 #: view:sale.commission.commission:0
 #: field:sale.commission.commission,user_id:0
 msgid "Salesperson"
 msgstr "Comercial"
 
 #. module: sale_commission
-#: view:sale.commission.rule:0
-#: field:sale.commission.rule,member_ids:0
-msgid "Members"
-msgstr "Miembros"
+#: code:addons/sale_commission/sale_commission.py:143
+#, python-format
+msgid "Failed to copy the record"
+msgstr "Fallo al copiar el registro"
 
 #. module: sale_commission
 #: field:account.move.line,commission:0
@@ -155,10 +166,20 @@ msgid "Pricelist"
 msgstr "Tarifa"
 
 #. module: sale_commission
+#: sql_constraint:sale.commission.commission:0
+msgid "Only one commission can be associated with a specific payment."
+msgstr "Solo una comisión puede estar asociada a un pago en específico."
+
+#. module: sale_commission
 #: view:sale.commission.commission:0
 #: selection:sale.commission.commission,state:0
 msgid "Expired"
 msgstr "Vencida"
+
+#. module: sale_commission
+#: field:sale.commission.commission,payment_id:0
+msgid "Payment"
+msgstr "Pago"
 
 #. module: sale_commission
 #: view:sale.commission.pay.wizard:0
@@ -166,9 +187,10 @@ msgid "Execute"
 msgstr "Ejecutar"
 
 #. module: sale_commission
-#: field:sale.commission.rule.line,name:0
-msgid "Name"
-msgstr "Nombre"
+#: view:sale.commission.rule:0
+#: field:sale.commission.rule,member_ids:0
+msgid "Members"
+msgstr "Miembros"
 
 #. module: sale_commission
 #: help:sale.commission.rule.line,pricelist_id:0
@@ -184,6 +206,11 @@ msgstr "Report de comisiones"
 #: field:sale.commission.rule,name:0
 msgid "Rule Name"
 msgstr "Nombre de la regla"
+
+#. module: sale_commission
+#: view:sale.commission.pay.wizard:0
+msgid "Pay Wizard"
+msgstr "Asistente de pago"
 
 #. module: sale_commission
 #: model:ir.model,name:sale_commission.model_account_move_line
