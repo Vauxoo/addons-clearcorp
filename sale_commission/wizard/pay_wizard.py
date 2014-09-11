@@ -69,7 +69,7 @@ class PayWizard(osv.TransientModel):
                 period_invoices_ids = invoice_obj.search(cr, uid, [('user_id','=',member.id),
                     ('period_id','=',invoice.period_id.id)], context=context)
                 #Get the total sales for the period
-                cr.execute("""SELECT SUM(INV.amount_total) AS amount_total
+                cr.execute("""SELECT SUM(INV.amount_untaxed) AS amount_untaxed
                             FROM account_invoice AS INV
                             WHERE INV.id IN %s;""",[tuple(period_invoices_ids)])
                 total_sales = cr.fetchall()[0][0]
@@ -165,7 +165,7 @@ class PayWizard(osv.TransientModel):
                 period_invoices_ids = invoice_obj.search(cr, uid, [('user_id','=',member.id),
                     ('period_id','=',invoice.period_id.id)], context=context)
                 #Get the total sales for the period
-                cr.execute("""SELECT SUM(INV.amount_total) AS amount_total
+                cr.execute("""SELECT SUM(INV.amount_untaxed) AS amount_untaxed
                             FROM account_invoice AS INV
                             WHERE INV.id IN %s;""",[tuple(period_invoices_ids)])
                 total_sales = cr.fetchall()[0][0]
