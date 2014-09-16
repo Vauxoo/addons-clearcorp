@@ -26,7 +26,7 @@
             <field name="arch" type="xml">
                 <form string="Commission Payroll Wizard" version="7.0">
                     <group>
-                        <field name="payslip_run_id" domain="[('state','=','close')]"/>
+                        <field name="payslip_run_id" domain="[('state','=','draft')]"/>
                     </group>
                     <footer>
                         <button name="do_payment" type="object" string="Execute" confirm="Are you sure you want to continue?" class="oe_highlight"/> or
