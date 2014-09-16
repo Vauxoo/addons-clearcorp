@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!-- Inherited Views -->
+        <!-- mrp.production.workcenter.line -->
+        <record id="view_workcenter_line_form" model="ir.ui.view">
+            <field name="name">Work Center Station Form</field>
+            <field name="model">mrp.production.workcenter.line</field>
+            <field name="inherit_id" ref="mrp_operations.mrp_production_workcenter_form_view_inherit"/>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/field[@name='workcenter_id']" position="after">
+                    <field name="station_ids" widget="many2many_tags"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_production_form" model="ir.ui.view">
+            <field name="name">Work Center Station Form</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/notebook/page/field[@name='workcenter_lines']/tree/field[@name='workcenter_id']" position="after">
+                    <field name="station_ids" widget="many2many_tags"/>
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page/field[@name='workcenter_lines']/form/group/field[@name='workcenter_id']" position="after">
+                    <field name="station_ids" widget="many2many_tags"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Views -->
+        <record id="view_station_tree" model="ir.ui.view">
+            <field name="name">Work Center Station Tree</field>
+            <field name="model">mrp.workcenter.station.station</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Work Center Stations" editable="top">
+                    <field name="code"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Actions -->
+        <!-- mrp.workcenter.station.station -->
+        <record id="action_station" model="ir.actions.act_window">
+            <field name="name">Work Center Stations</field>
+            <field name="res_model">mrp.workcenter.station.station</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <!-- Menus -->
+        <!-- mrp.workcenter.station.station -->
+        <menuitem id="menu_station"
+            parent="mrp.menu_mrp_configuration"
+            name="Work Center Stations"
+            action="action_station"
+            sequence="26"/>
+    </data>
+</openerp>
