@@ -30,8 +30,23 @@ class Station(models.Model):
     _description = __doc__
     _order = 'code desc'
 
+    @api.one
+    @api.depends('workorder_ids.state')
+    def _compute_active_workorders(self):
+        lines = self.env['mrp.production.workcenter.line']
+        for line in self.workorder_ids:
+            if line.state != 'startworking':
+                continue
+            else:
+                lines |= line
+        self.active_order_ids = lines
+
     name = fields.Char('Station Name', size=128)
     code = fields.Char('Code', size=64)
+    workorder_ids = fields.Many2many('mrp.production.workcenter.line',
+        rel='mrp_workorder_station_rel', string='Work Orders')
+    active_order_ids = fields.One2many('mrp.production.workcenter.line',
+        string='Work Orders in Progress', compute='_compute_active_workorders')
 
     @api.multi
     def name_get(self):
