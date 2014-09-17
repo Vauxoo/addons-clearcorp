@@ -30,16 +30,44 @@
         </record>
 
         <!-- Views -->
+        <!-- mrp.workcenter.station.station -->
         <record id="view_station_tree" model="ir.ui.view">
             <field name="name">Work Center Station Tree</field>
             <field name="model">mrp.workcenter.station.station</field>
             <field name="type">tree</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
-                <tree string="Work Center Stations" editable="top">
+                <tree string="Work Center Stations">
                     <field name="code"/>
                     <field name="name"/>
+                    <field name="workcenter_id"/>
                 </tree>
+            </field>
+        </record>
+        <record id="view_station_form" model="ir.ui.view">
+            <field name="name">Work Center Station Form</field>
+            <field name="model">mrp.workcenter.station.station</field>
+            <field name="type">form</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form string="Work Center Stations">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="workcenter_id"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Active Work Orders" name="active_workorders">
+                                <field name="active_order_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
             </field>
         </record>
 
@@ -49,7 +77,7 @@
             <field name="name">Work Center Stations</field>
             <field name="res_model">mrp.workcenter.station.station</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree</field>
+            <field name="view_mode">tree,form</field>
         </record>
 
         <!-- Menus -->
