@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- QWeb Reports -->
+        <report 
+            id="workcenter_stations"
+            model="mrp.workcenter.station.station"
+            string="Active Work Orders"
+            report_type="qweb-pdf"
+            name="mrp_workcenter_station.report_workcenter_station_active"
+            file="mrp_workcenter_station.report_workcenter_station_active"
+        />
+    </data>
+</openerp>
