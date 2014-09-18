@@ -28,36 +28,31 @@ class Station(models.Model):
 
     _name = 'mrp.workcenter.station.station'
     _description = __doc__
-    _order = 'code desc'
+    _order = 'code asc'
 
     @api.one
     @api.depends('workorder_ids')
-    def _compute_active_workorders(self):
-        lines = self.env['mrp.production.workcenter.line']
-        for line in self.workorder_ids:
-            if line.state != 'startworking':
-                continue
-            else:
-                lines |= line
-        self.active_order_ids = lines
-
-    @api.one
-    @api.depends('workorder_ids.workcenter_id')
-    def _compute_workcenter(self):
-        self.workcenter_id = False
+    def _compute_workorder_items(self):
+        self.active_order_id = self.env['mrp.production.workcenter.line']
+        self.workcenter_id = self.env['mrp.workcenter']
+        self.product_id = self.env['product.product']
         for line in self.workorder_ids:
             if line.state == 'startworking':
+                self.active_order_id = line
                 self.workcenter_id = line.workcenter_id
+                self.product_id = line.product
                 break
 
     name = fields.Char('Station Name', size=128, required=True)
     code = fields.Char('Code', size=64, required=True)
     workorder_ids = fields.Many2many('mrp.production.workcenter.line',
         rel='mrp_workorder_station_rel', string='Work Orders')
-    active_order_ids = fields.One2many('mrp.production.workcenter.line',
-        string='Work Orders in Progress', compute='_compute_active_workorders')
+    active_order_id = fields.Many2one('mrp.production.workcenter.line',
+        string='Active Work Order', compute='_compute_workorder_items', store=True)
     workcenter_id = fields.Many2one('mrp.workcenter', string='Work Center',
-        compute='_compute_workcenter', store=True)
+        compute='_compute_workorder_items', store=True)
+    product_id = fields.Many2one('product.product', string='Product',
+        compute='_compute_workorder_items', store=True)
 
     @api.multi
     def name_get(self):
@@ -65,6 +60,16 @@ class Station(models.Model):
         for station in self:
             result.append((station.id, "[%s] - %s" % (station.code or '', station.name or '')))
         return result
+
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        args = args or []
+        recs = self.browse()
+        if name:
+            recs = self.search([('code', operator, name)] + args, limit=limit)
+        if not recs:
+            recs = self.search([('name', operator, name)] + args, limit=limit)
+        return recs.name_get()
 
 class WorkCenterLine(models.Model):
 

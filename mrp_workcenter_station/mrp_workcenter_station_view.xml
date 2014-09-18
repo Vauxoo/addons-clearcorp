@@ -3,6 +3,7 @@
     <data>
         <!-- Inherited Views -->
         <!-- mrp.production.workcenter.line -->
+        <!-- form -->
         <record id="view_workcenter_line_form" model="ir.ui.view">
             <field name="name">Work Center Station Form</field>
             <field name="model">mrp.production.workcenter.line</field>
@@ -14,6 +15,8 @@
                 </xpath>
             </field>
         </record>
+        <!-- mrp.production -->
+        <!-- form -->
         <record id="view_production_form" model="ir.ui.view">
             <field name="name">Work Center Station Form</field>
             <field name="model">mrp.production</field>
@@ -31,6 +34,7 @@
 
         <!-- Views -->
         <!-- mrp.workcenter.station.station -->
+        <!-- tree -->
         <record id="view_station_tree" model="ir.ui.view">
             <field name="name">Work Center Station Tree</field>
             <field name="model">mrp.workcenter.station.station</field>
@@ -40,10 +44,13 @@
                 <tree string="Work Center Stations">
                     <field name="code"/>
                     <field name="name"/>
+                    <field name="active_order_id"/>
                     <field name="workcenter_id"/>
+                    <field name="product_id"/>
                 </tree>
             </field>
         </record>
+        <!-- form -->
         <record id="view_station_form" model="ir.ui.view">
             <field name="name">Work Center Station Form</field>
             <field name="model">mrp.workcenter.station.station</field>
@@ -58,16 +65,35 @@
                                 <field name="name"/>
                             </group>
                             <group>
+                                <field name="active_order_id"/>
                                 <field name="workcenter_id"/>
+                                <field name="product_id"/>
                             </group>
                         </group>
-                        <notebook>
-                            <page string="Active Work Orders" name="active_workorders">
-                                <field name="active_order_ids"/>
-                            </page>
-                        </notebook>
                     </sheet>
                 </form>
+            </field>
+        </record>
+        <!-- search -->
+        <record id="view_station_search" model="ir.ui.view">
+            <field name="name">Work Center Station Search</field>
+            <field name="model">mrp.workcenter.station.station</field>
+            <field name="type">search</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+               <search string="Work Center Station">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="active_order_id"/>
+                    <field name="workcenter_id"/>
+                    <field name="product_id"/>
+                    <separator/>
+                    <filter string="Active" name="active" domain="[('active_order_id','!=',False)]"/>
+                    <group expand="1" string="Group By...">
+                        <filter string="Work Center" name="group_workcenter" domain="[]"  context="{'group_by':'workcenter_id'}"/>
+                        <filter string="Product" name="group_product" domain="[]"  context="{'group_by':'product_id'}"/>
+                    </group>
+                </search>
             </field>
         </record>
 
@@ -78,6 +104,8 @@
             <field name="res_model">mrp.workcenter.station.station</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_active': 1}</field>
+            <field name="search_view_id" ref="view_station_search"/>
         </record>
 
         <!-- Menus -->
