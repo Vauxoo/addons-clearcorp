@@ -5,10 +5,10 @@
         <report 
             id="workcenter_stations"
             model="mrp.workcenter.station.station"
-            string="Active Work Orders"
+            string="Work Center Stations"
             report_type="qweb-pdf"
-            name="mrp_workcenter_station.report_workcenter_station_active"
-            file="mrp_workcenter_station.report_workcenter_station_active"
+            name="mrp_workcenter_station.report_workcenter_station"
+            file="mrp_workcenter_station.report_workcenter_station"
         />
     </data>
 </openerp>

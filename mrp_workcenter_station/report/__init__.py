@@ -20,5 +20,4 @@
 #
 ##############################################################################
 
-import mrp_workcenter_station
-import report
+import mrp_workcenter_station_report
