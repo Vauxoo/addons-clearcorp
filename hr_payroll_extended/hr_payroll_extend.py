@@ -26,6 +26,24 @@ from openerp.osv import fields,osv, orm
 from datetime import datetime
 from tools.translate import _
 
+class resCompany(orm.Model):
+    _name = 'res.company'
+    _inherit = 'res.company'
+    
+    _columns = {
+            'payslip_footer':fields.text('Payslip footer'),
+    }
+
+class HrSalaryRule(orm.Model):
+    _inherit = 'hr.salary.rule'
+    _columns = {
+        'appears_on_report': fields.boolean('Appears on Report', help="Used for the display of rule on payslip reports"),
+    }
+    
+    _defaults = {
+        'appears_on_report': True,
+    }
+
 class hrJob(orm.Model):
     _inherit = 'hr.job'
     _columns = {
