@@ -129,10 +129,12 @@
                                 <field name="user_id" attrs="{'readonly': ['|',('state','=','cancelled'),('state','=','paid')]}"/>
                                 <field name="invoice_id" domain="[('type','=','out_invoice')]" attrs="{'readonly': ['|',('state','=','cancelled'),('state','=','paid')]}"/>
                                 <field name="period_id"/>
+                                <field name="payment_id" domain="[('journal_id.pay_commission','=',True)]" attrs="{'readonly': ['|',('state','=','cancelled'),('state','=','paid')]}"/>
                                 <field name="date_invoice"/>
                             </group>
                             <group>
                                 <field name="invoice_commission_percentage" attrs="{'readonly': ['|',('state','=','cancelled'),('state','=','paid')]}"/>
+                                <field name="amount_base"/>
                                 <field name="amount" attrs="{'readonly': ['|',('state','=','cancelled'),('state','=','paid')]}"/>
                             </group>
                         </group>
@@ -149,7 +151,9 @@
                 <tree string="Commission">
                     <field name="user_id"/>
                     <field name="invoice_id"/>
+                    <field name="payment_id"/>
                     <field name="invoice_commission_percentage"/>
+                    <field name="amount_base"/>
                     <field name="amount"/>
                     <field name="period_id"/>
                     <field name="date_invoice"/>

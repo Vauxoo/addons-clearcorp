@@ -44,6 +44,7 @@ class Parser(accountReportbase):
            'get_data_block_tax': self.get_data_block_tax, 
            'compute_total_block':self.compute_total_block,
            'check_inv_tax': self.check_inv_tax, 
+           'reset_data': self.reset_data, 
         })
     
     #---------SET AND GET DATA ----------#
@@ -163,9 +164,6 @@ class Parser(accountReportbase):
                 line_info = {}
                 for tax in line.invoice_line_tax_id:
                     if tax.id == tax_id:
-                        if invoice.currency_id:
-                            currency_id = invoice.currency_id.id
-                                    
                         qty_lines += 1
                         invoice_dict[invoice.id] = {'lines':[],}       
                         add_invoice = True     
@@ -200,23 +198,24 @@ class Parser(accountReportbase):
                         
                             list_lines.append(line_info)
             
-            #Update list_lines
-            invoice_dict[invoice.id]['lines'] = list_lines
-            
             if add_invoice:
-                #Add currency
-                if currency_id not in currency.keys():
-                    currency[currency_id] = {'invoices': []}
-                               
+                #Update list_lines
+                invoice_dict[invoice.id]['lines'] = list_lines                
                 invoice_dict[invoice.id].update({
                                'number': invoice.number, 
                                'client': invoice.partner_id.name or '', 
                                'qty_lines': qty_lines,
                                'qty_lines_total': len(invoice.invoice_line),
                                'type': invoice.type, 
-                               })
-                list.append(invoice_dict)
-                currency[currency_id]['invoices'] = list
+                               })                
+                #Add currency
+                if invoice.currency_id:
+                    currency_id = invoice.currency_id.id
+                                    
+                if currency_id not in currency.keys():
+                    currency[currency_id] = {'invoices': []}
+
+                currency[currency_id]['invoices'].append(invoice_dict)
                 add_invoice = False
                 
         tax_block[tax_id] = {}
@@ -280,6 +279,13 @@ class Parser(accountReportbase):
         
         return False
     
+    def reset_data(self):
+        dict_update = {
+                       'tax_block': {},
+                       'res': {},
+                       }
+        self.localcontext['storage'].update(dict_update)
+    
     def get_data_block_tax(self, tax_id):        
         final_block = {}
         final_list = []  
@@ -288,6 +294,7 @@ class Parser(accountReportbase):
         for currency_id, dict in self.get_data_template('tax_block')[tax_id]['currency'].iteritems():
             if currency_id not in res.keys():
                 res[currency_id] = []
+                final_list = []
                 
             for key, invoices in dict.iteritems():
                 for element in invoices:

@@ -69,7 +69,7 @@ class PayWizard(osv.TransientModel):
                 period_invoices_ids = invoice_obj.search(cr, uid, [('user_id','=',member.id),
                     ('period_id','=',invoice.period_id.id)], context=context)
                 #Get the total sales for the period
-                cr.execute("""SELECT SUM(INV.amount_total) AS amount_total
+                cr.execute("""SELECT SUM(INV.amount_untaxed) AS amount_untaxed
                             FROM account_invoice AS INV
                             WHERE INV.id IN %s;""",[tuple(period_invoices_ids)])
                 total_sales = cr.fetchall()[0][0]
@@ -80,8 +80,9 @@ class PayWizard(osv.TransientModel):
                 total_credit = 0.0
                 if payment.journal_id and payment.journal_id.pay_commission:
                     if not payment.commission:
-                        total_credit += payment.credit
-                        payment.write({'commission': True}, context=context)
+                        # Compute the amount of credit that correspond to
+                        # the invoice discounted total
+                        total_credit = payment.credit * invoice.amount_untaxed / invoice.amount_total
                     if total_credit > 0.0:
                         for rule_line in rule_lines:
                             result = True
@@ -125,8 +126,10 @@ class PayWizard(osv.TransientModel):
                                     state = 'expired'
                                 values = {
                                     'invoice_id': invoice.id,
+                                    'payment_id': payment.id,
                                     'state': state,
                                     'user_id': member.id,
+                                    'amount_base': total_credit,
                                     'amount': amount,
                                     'invoice_commission_percentage': rule_line.commission_percentage,
                                 }
@@ -165,7 +168,7 @@ class PayWizard(osv.TransientModel):
                 period_invoices_ids = invoice_obj.search(cr, uid, [('user_id','=',member.id),
                     ('period_id','=',invoice.period_id.id)], context=context)
                 #Get the total sales for the period
-                cr.execute("""SELECT SUM(INV.amount_total) AS amount_total
+                cr.execute("""SELECT SUM(INV.amount_untaxed) AS amount_untaxed
                             FROM account_invoice AS INV
                             WHERE INV.id IN %s;""",[tuple(period_invoices_ids)])
                 total_sales = cr.fetchall()[0][0]
@@ -176,8 +179,9 @@ class PayWizard(osv.TransientModel):
                 total_credit = 0.0
                 if payment.journal_id and payment.journal_id.pay_commission:
                     if not payment.commission:
-                        total_credit += payment.credit
-                        payment.write({'commission': True}, context=context)
+                        # Compute the amount of credit that correspond to
+                        # the invoice discounted total
+                        total_credit = payment.credit * invoice.amount_untaxed / invoice.amount_total
                     if total_credit > 0.0:
                         for rule_line in rule_lines:
                             result = True
@@ -219,8 +223,10 @@ class PayWizard(osv.TransientModel):
                                     state = 'expired'
                                 values = {
                                     'invoice_id': invoice.id,
+                                    'payment_id': payment.id,
                                     'state': state,
                                     'user_id': member.id,
+                                    'amount_base': total_credit,
                                     'amount': amount,
                                     'invoice_commission_percentage': rule_line.commission_percentage,
                                 }
