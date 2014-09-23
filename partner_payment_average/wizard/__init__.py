@@ -20,35 +20,4 @@
 #
 ##############################################################################
 
-{
-    'name': 'Partner Payment Average',
-    'version': '1.0',
-    'category': 'Sales Management',
-    'sequence': 3,
-    'summary': 'Average payment days',
-    'description': """
-Average Partner Payments Days
-=============================
-
-Computes the average number of dates between an invoice and it's payment.""",
-    'author': 'CLEARCORP S.A.',
-    'website': 'http://clearcorp.co.cr',
-    'complexity': 'normal',
-    'images' : [],
-    'depends': [
-                'account_accountant',
-                'report',
-                ],
-    'data': [
-             'partner_payment_average_view.xml',
-             'views/report_payment_average.xml',
-             'partner_payment_average_report.xml',
-             'wizard/wizard.xml',
-             ],
-    'test' : [],
-    'demo': [],
-    'installable': True,
-    'auto_install': False,
-    'application': False,
-    'license': 'AGPL-3',
-}
+import payment_wizard

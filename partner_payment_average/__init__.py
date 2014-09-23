@@ -22,3 +22,4 @@
 
 import account_journal
 import res_partner
+import wizard

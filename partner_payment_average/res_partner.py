@@ -28,7 +28,6 @@ class Partner(models.Model):
     _inherit = 'res.partner'
 
     @api.one
-    #@api.depends('invoice_ids.payment_ids')
     def _compute_average_payment(self):
         # Get all paid invoices
         invoice_obj = self.env['account.invoice']

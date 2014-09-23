@@ -20,35 +20,25 @@
 #
 ##############################################################################
 
-{
-    'name': 'Partner Payment Average',
-    'version': '1.0',
-    'category': 'Sales Management',
-    'sequence': 3,
-    'summary': 'Average payment days',
-    'description': """
-Average Partner Payments Days
-=============================
+from openerp import models, fields, api
 
-Computes the average number of dates between an invoice and it's payment.""",
-    'author': 'CLEARCORP S.A.',
-    'website': 'http://clearcorp.co.cr',
-    'complexity': 'normal',
-    'images' : [],
-    'depends': [
-                'account_accountant',
-                'report',
-                ],
-    'data': [
-             'partner_payment_average_view.xml',
-             'views/report_payment_average.xml',
-             'partner_payment_average_report.xml',
-             'wizard/wizard.xml',
-             ],
-    'test' : [],
-    'demo': [],
-    'installable': True,
-    'auto_install': False,
-    'application': False,
-    'license': 'AGPL-3',
-}
+class PaymentWizard(models.TransientModel):
+
+    _name = 'partner.payment.average.payment.wizard'
+
+    #@api.one
+    @api.multi
+    def print_report(self):
+        
+        if not self.partner_ids:
+            self.partner_ids = self.env['res.partner'].search([('customer','=',True)])
+        datas = {
+             'model': 'res.partner',
+             'form': [],
+        }
+        return self.env['report'].get_action(self.partner_ids,
+            'partner_payment_average.report_payment_average', data=datas)
+
+    period_start = fields.Many2one('account.period', string='Start Period', required=True)
+    period_end = fields.Many2one('account.period', string='End Period', required=True)
+    partner_ids = fields.Many2many('res.partner', string='Partners', domain=[('customer','=',True)])
