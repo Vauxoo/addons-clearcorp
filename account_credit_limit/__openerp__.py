@@ -36,7 +36,7 @@ Main Features
 * Validation of Partner total credit on Sale Orders and Customer Invoices
 ''',
     'category': 'Accounting & Finance',
-    'sequence': 3,
+    'sequence': 15,
     'website' : 'http://clearcorp.co.cr',
     'images' : [],
     'depends' : [
