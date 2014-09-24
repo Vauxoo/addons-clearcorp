@@ -112,6 +112,7 @@
         <!-- mrp.workcenter.station.station -->
         <menuitem id="menu_station"
             parent="mrp.menu_mrp_configuration"
+            groups="mrp.group_mrp_routings"
             name="Work Center Stations"
             action="action_station"
             sequence="26"/>
