@@ -25,8 +25,11 @@
     'version': '1.0',
     'category': 'Warehouse Management',
     'sequence': 17,
-    'summary': 'Manage Lot Locations', #TODO: Improve summary
-    'description': """TODO""", # TODO: Create description
+    'summary': 'Show Lot Locations',
+    'description': """
+Add computed lot locations and partners
+=======================================
+Shows the lot location based on quants location and partners.""",
     'author': 'CLEARCORP S.A.',
     'website': 'http://clearcorp.co.cr',
     'complexity': 'normal',
