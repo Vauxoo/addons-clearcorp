@@ -37,14 +37,12 @@ class Partner(models.Model):
         total_invoices = 0
         for invoice in invoices:
             # Get the last payment that affects average
-            payment = invoice.payment_ids.search(
-                [('journal_id.affects_avg_customer_payments', '=' , True)],
-                limit=1, order='date desc')
+            payment = invoice.payment_ids.search([], limit=1, order='date desc')
             # If the payment is found add the difference between
             # the invoice date and the payment date to total_days
-            if payment:
-                total_days += (datetime.strptime(payment.date,'%Y-%m-%d') - \
-                    datetime.strptime(invoice.date_invoice,'%Y-%m-%d')).days
+            if payment and payment.journal_id.affects_avg_customer_payments:
+                total_days += ((datetime.strptime(payment.date,'%Y-%m-%d') - \
+                    datetime.strptime(invoice.date_invoice,'%Y-%m-%d')).days) + 1
                 total_invoices += 1
         # Check if any invoice was computed
         if total_invoices:
