@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+		<!--Form View Inherit project issue-->
+		<record id="view_project_issue_form" model="ir.ui.view">
+            <field name="name">view.project.issue.form</field>
+            <field name="model">project.issue</field>
+            <field name="inherit_id" ref="project_issue.project_issue_form_view"/>
+            <field name="arch" type="xml">
+            	<xpath expr="/form/sheet[@string='Issue']/group/group[1]" position="inside">
+                  <field name="issue_type"/>
+                  <field name="origin_id"/>
+                  <field name="warranty"/>   
+                </xpath>
+                <!--HDK003-->
+                <!--<xpath expr="/form/sheet/notebook/page[@string='Extra Info']" position="before">
+ 					    <page string="Delivery Orders">
+                        	<field name="backorder_ids"/> 
+                        </page>
+            </xpath>-->
+                <xpath expr="/form/sheet[@string='Issue']/group/group[1]/div" position="after">
+					<field name="categ_id" on_change="onchange_categ_id(categ_id)"/>     
+                </xpath>
+                <field name="categ_id" position="after"> 
+                	<field name="product_id" domain="[('categ_id','=',categ_id)]" on_change="onchange_product_id(product_id)"/> 
+                </field> 
+                <field name="product_id"  position="after"> 
+                	<field name="prodlot_id"  domain="[('product_id','=',product_id)]" on_change="onchange_prodlot_id(prodlot_id)"/> 
+                </field>
+                <field name="partner_id"  position="after"> 
+                	<field name="branch_id" on_change="onchange_branch_id(branch_id)" domain="[('parent_id','=',partner_id),('partner_type','=','branch')]" attrs="{'invisible':[('have_branch', '=', False)]}"/>
+                	<field name="have_branch" invisible="1"/> 
+                </field>         
+            </field>
+        </record>
+        <!--Form View Inherit project issue sheet-->
+        <record id="view_project_issue_sheet_form" model="ir.ui.view">
+            <field name="name">view.project.issue.sheet.form</field>
+            <field name="model">project.issue</field>
+            <field name="inherit_id" ref="project_issue_sheet.project_issue_form_view"/>
+            <field name="arch" type="xml">
+            	<xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='name']"   position="before"> 
+					<field name="ticket_number"/> 
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='date']"   position="after"> 
+                    <field name="start_time" widget="float_time" on_change="onchange_start_time(start_time,end_time)"/> 
+                    <field name="end_time" widget="float_time" on_change="onchange_end_time(start_time,end_time)"/>
+                </xpath> 
+                <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='user_id']"   position="before"> 
+					<field name="service_type"/>   
+                </xpath>             
+            </field>
+       </record>
+        <!--Form Search issue origin-->
+       <record id="view_project_issue_filter" model="ir.ui.view">
+            <field name="name">view.project.issue.filter</field>
+            <field name="model">project.issue</field>
+            <field name="inherit_id" ref="project_issue.view_project_issue_filter"/>
+            <field name="arch" type="xml">
+            	<xpath expr="/search/filter[@string='Unassigned']" position="after">
+            		 <separator/>
+					<filter string="Company" domain="[('partner_type','=','company')]" help="Company" icon="terp-check"/>                   
+                </xpath>
+                <xpath expr="/search/filter[@string='Company']" position="after"> 
+					<filter string="Branch" domain="[('partner_type','=','branch')]" help="Branch" icon="terp-check"/>                   
+                </xpath>
+                <xpath expr="/search/filter[@string='Company']" position="after"> 
+					<filter string="Customer" domain="[('partner_type','=','customer')]" help="Customer" icon="terp-check"/>                   
+                </xpath>             
+            </field>
+     </record>
+        
+       <!--Form View Inherit res partner simple(base)--> 
+       <record id="view_partner_simple_form" model="ir.ui.view">
+            <field name="name">view.partner.simple.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_simple_form"/>
+            <field name="arch" type="xml">
+            	 <label for="name" position="before">
+					<label for="partner_type"/>
+					<field name="partner_type" on_change="onchange_partner_type(partner_type)"/> 
+                </label>
+                <label for="is_company" position="attributes">
+                	<attribute name="invisible">True</attribute>
+                </label>
+                <field name="is_company"  position="attributes"> 
+                	<attribute name="invisible">True</attribute>
+                </field>
+            </field>
+        </record>
+        <!--Form View Inherit res partner (base)-->
+        <record id="view_partner_form" model="ir.ui.view">
+            <field name="name">view.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+            	 <label for="name" position="before">
+					<label for="partner_type"/>
+					<field name="partner_type" on_change="onchange_partner_type(partner_type)"/> 
+                </label>
+                <label for="is_company" position="attributes">
+                	<attribute name="invisible">True</attribute>
+                </label>
+                <field name="is_company"  position="attributes"> 
+                	<attribute name="invisible">True</attribute>
+                </field>
+                <field name="credit_limit"  position="before"> 
+                	<field name="provision_amount"/> 
+                </field> 
+            </field>
+        </record>
+        <!--Form View issue origin-->
+        <record id="view_project_issue_origin_form" model="ir.ui.view">
+            <field name="name">view.project.issue.origin.form</field>
+            <field name="model">project.issue.origin</field>
+            <field name="type">form</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form string="Issue Origin" version="7.0">
+                    <sheet>
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                        <label for="description" class="oe_edit_only"/>
+                        <field name="description"/>
+                 </sheet>
+                </form>
+            </field>
+        </record>
+        <!--Tree View issue origin-->
+        <record id="view_project_issue_origin_tree" model="ir.ui.view">
+            <field name="name">view.project.issue.origin.tree</field>
+            <field name="model">project.issue.origin</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Issue Origin">
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+        <!--Form View Holiday Calendar-->
+        <record id="view_holiday_calendar_form" model="ir.ui.view">
+            <field name="name">view.holiday.calendar.form</field>
+            <field name="model">holiday.calendar</field>
+            <field name="type">form</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form string="Holiday Calendar" version="7.0">
+                    <sheet>
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                        <group>
+                        	<field name="date"/>
+                        	<field name="notes" placeholder="Add a notes..."/>
+                 		</group>
+                 </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!--Tree View Holiday Calendar-->
+        <record id="view_holiday_calendar_tree" model="ir.ui.view">
+            <field name="name">view.holiday.calendar.tree</field>
+            <field name="model">holiday.calendar</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Holiday Calendar">
+                    <field name="name"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+        
+         <!--Calendar View Holiday Calendar-->
+        <record id="view_holiday_calendar_calendar" model="ir.ui.view" >
+        	<field name="name">view.holiday.calendar.calendar</field>
+        	<field name="model">holiday.calendar</field>
+        	<field name="priority" eval="16"/>
+        	<field name="arch" type="xml">
+        		<calendar string="Holidays Calendar" color="name" date_start="date">
+        			<field name="name"/>
+        			<field name="date"/>
+        		</calendar>
+        	</field>
+        </record>
+        
+        <!--Tree View Contract Pricelist-->
+        <record id="view_contract_pricelist_tree" model="ir.ui.view">
+            <field name="name">view.contract_pricelist.tree</field>
+            <field name="model">contract.pricelist</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Holiday Calendar">
+                    <field name="name"/>
+                    <field name="account_analytic_id"/>
+                    <field name="partner_id"/>
+                </tree>
+            </field>
+        </record>
+        <!--Form View Contract Pricelist-->
+        <record id="view_contract_pricelist_form" model="ir.ui.view">
+            <field name="name">view.contract.pricelist.form</field>
+            <field name="model">contract.pricelist</field>
+            <field name="type">form</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form string="Contract Pricelist" version="7.0">
+					<sheet string="Contract Pricelist">
+                    	<label for="name" class="oe_edit_only"/>
+                    	<h1><field name="name"/></h1>
+                    	<group>
+                            <field name="account_analytic_id"/>
+                            <field name="partner_id"/>
+                            <field name="calendar_id"/>
+                        </group>
+                        <notebook>
+                        	<page string="Pricelist Lines">
+                            	<field name="line_ids" colspan="4" nolabel="1">
+                            		<tree editable="top" string="Pricelist Lines">
+                            			<field name="pricelist_line_type" on_change="onchange_pricelist_line_type(pricelist_line_type)"/>
+                            			<field name="categ_id" attrs="{'invisible':[('pricelist_line_type', '!=', 'category')]}"/>
+										<field name="product_id" attrs="{'invisible':[('pricelist_line_type', '!=', 'product')]}"/>
+ 										<field name="technical_rate"/>
+                            			<field name="assistant_rate"/>
+                            			<field name="overtime_multiplier"/>
+                            			<field name="holiday_multiplier"/>
+									</tree>
+								</field>
+                        	</page>
+                    	</notebook>
+                	</sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--inherit product.product_normal_form_view-->
+        <record id="view_product_normal_form" model="ir.ui.view">
+            <field name="name">view.product.normal.form</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">        
+                <xpath expr="/form/sheet/notebook/page[@string='Procurements']" position="after">
+				 	<page string="Compatibles Products">
+	                        <field name="compatible_product_ids" attrs="{'invisible':[('supply_type', 'not in', ('equipment','supply','replacement'))]}"/>  
+	                 </page>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Sales']/group" position="before">
+								<separator string="Supply Type"/>
+								<field name="supply_type"/>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Compatibles Products']" position="after">
+				 	<page string="Associated Products">
+				 			<field name="init_onchange_call" invisible="1" />
+	                        <field name="associated_product_ids" domain="[('id','in',init_onchange_call[0][2])]" attrs="{'invisible':[('supply_type', 'not in', ('equipment','supply','replacement'))]}" />  
+	                 </page>
+                </xpath>
+            </field>
+        </record>
+        <!--inherit product.product_category_form_view-->
+        <record id="view_product_category_form" model="ir.ui.view">
+            <field name="name">view.product.category.form</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_form_view"/>
+            <field name="arch" type="xml">        
+                <field name="type"  position="after"> 
+                	<field name="supply_type"/>  
+                </field>
+            </field>
+        </record>
+        
+        <!-- ACTIONS -->
+        <!-- Action project_issue_origin -->
+        <record model="ir.actions.act_window" id="action_project_issue_origin">
+            <field name="name">Issue Origin</field>
+            <field name="res_model">project.issue.origin</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create new issue origin</p>
+            </field>
+        </record>
+        <!-- Action holiday.calendar -->
+        <record model="ir.actions.act_window" id="action_holiday_calendar">
+            <field name="name">Holidays Schedule</field>
+            <field name="res_model">holiday.calendar</field>
+            <field name="view_mode">calendar</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create new holiday schedule</p>
+            </field>
+        </record>
+        <!-- Action contract.pricelist -->
+        <record model="ir.actions.act_window" id="action_contract_pricelist">
+            <field name="name">Contract Pricelist</field>
+            <field name="res_model">contract.pricelist</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create new contract pricelist</p>
+            </field>
+        </record>
+	</data>
+</openerp>
+
