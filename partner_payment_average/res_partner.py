@@ -28,6 +28,7 @@ class Partner(models.Model):
     _inherit = 'res.partner'
 
     @api.one
+    @api.depends('invoice_ids')
     def _compute_average_payment(self):
         # Get all paid invoices
         invoice_obj = self.env['account.invoice']
@@ -51,5 +52,5 @@ class Partner(models.Model):
             self.average_payment_days = 0
 
     average_payment_days = fields.Integer(string='Average Payment Days',
-        compute='_compute_average_payment',
+        compute='_compute_average_payment', store=True,
         help='Average number of days elapsed until the invoice payment.')

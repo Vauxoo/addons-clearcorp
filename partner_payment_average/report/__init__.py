@@ -20,7 +20,4 @@
 #
 ##############################################################################
 
-import account_journal
-import res_partner
-import report
-import wizard
+import report_payment_average

@@ -20,24 +20,35 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api
+from datetime import datetime
+from openerp import models, fields, api, _
 
 class PaymentWizard(models.TransientModel):
 
     _name = 'partner.payment.average.payment.wizard'
 
-    #@api.one
+    @api.one
+    @api.constrains('period_start', 'period_end')
+    def _check_seats_limit(self):
+        if datetime.strptime(self.period_start.date_start, '%Y-%m-%d') > \
+        datetime.strptime(self.period_end.date_start,'%Y-%m-%d'):
+            raise Warning(_('Invalid periods selected. Start Period must be previous to '
+                            'the End Period.'))
+
     @api.multi
     def print_report(self):
-        
+        # Get all customers if no one is selected
         if not self.partner_ids:
             self.partner_ids = self.env['res.partner'].search([('customer','=',True)])
-        datas = {
-             'model': 'res.partner',
-             'form': [],
+        data = {
+            'form': {
+                'start_period_id': self.period_start.id,
+                'end_period_id': self.period_end.id,
+            }
         }
-        return self.env['report'].get_action(self.partner_ids,
-            'partner_payment_average.report_payment_average', data=datas)
+        res = self.env['report'].get_action(self.partner_ids,
+            'partner_payment_average.report_payment_average', data=data)
+        return res
 
     period_start = fields.Many2one('account.period', string='Start Period', required=True)
     period_end = fields.Many2one('account.period', string='End Period', required=True)
