@@ -12,12 +12,11 @@
                   <field name="origin_id"/>
                   <field name="warranty"/>   
                 </xpath>
-                <!--HDK003-->
-                <!--<xpath expr="/form/sheet/notebook/page[@string='Extra Info']" position="before">
+                <xpath expr="/form/sheet/notebook/page[@string='Extra Info']" position="before">
  					    <page string="Delivery Orders">
-                        	<field name="backorder_ids"/> 
+ 					    	<field name="backorder_ids" />
                         </page>
-            </xpath>-->
+            	</xpath>
                 <xpath expr="/form/sheet[@string='Issue']/group/group[1]/div" position="after">
 					<field name="categ_id" on_change="onchange_categ_id(categ_id)"/>     
                 </xpath>

@@ -78,7 +78,7 @@ class ProjectIssue(osv.Model):
                                               ('workshop repair','Workshop Repair'),('installation','Installation')],
                                              required=True,string="Issue Type"),
                 'warranty': fields.selection([('seller','Seller'),('manufacturer','Manufacturer')],string="Warranty"),                                 
-                #'backorder_ids': fields.one2many('stock.picking.out','issue_id'),
+                'backorder_ids': fields.one2many('stock.picking','issue_id',domain=[('picking_type_id.code','=','outgoing')]),
                 'origin_id':fields.many2one('project.issue.origin',string="Origin"),
                 'partner_type':fields.related('partner_id','partner_type',relation='res.partner',string="Partner Type"),
                 'categ_id':fields.many2one('product.category',required=True,string="Category Product"),
@@ -152,20 +152,13 @@ class HrAnaliticTimeSheet(osv.Model):
          (_check_end_time,'Format End Time incorrect',['end_time']
          )]
       
-# class StockPicking(orm.Model):
-#     _inherit = 'stock.picking'
-# 
-#     _columns = {
-#          'issue_id': fields.many2one('project.issue')
-#     }
-# 
-# class StockPickingOut(orm.Model):
-#     _inherit = 'stock.picking.out'
-# 
-#     def __init__(self, pool, cr):
-#         super(StockPickingOut, self).__init__(pool, cr)
-#         self._columns['issue_id'] = self.pool['stock.picking']._columns['issue_id']
-#         
+class StockPicking(orm.Model):
+     _inherit = 'stock.picking'
+ 
+     _columns = {
+          'issue_id': fields.many2one('project.issue')
+     }
+ 
 class ResPartner(orm.Model):
     _inherit = 'res.partner'
      
@@ -364,7 +357,7 @@ class Product(orm.Model):
          'init_onchange_call': fields.function(get_products_associated, method=True, type='many2many', relation='product.product',string='Nothing Display', help='field at view init'),
  
          }
- 
+
 class ProductCategory(orm.Model):
      _inherit = 'product.category'
      
