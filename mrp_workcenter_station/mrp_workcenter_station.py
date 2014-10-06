@@ -71,6 +71,10 @@ class Station(models.Model):
             recs = self.search([('name', operator, name)] + args, limit=limit)
         return recs.name_get()
 
+    _sql_constraints = [
+        ('unique_code', 'unique(code)', 'Code must be unique.'),
+    ]
+
 class WorkCenterLine(models.Model):
 
     _inherit = 'mrp.production.workcenter.line'
