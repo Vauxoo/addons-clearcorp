@@ -10,5 +10,13 @@
             name="mrp_workcenter_station.report_workcenter_station"
             file="mrp_workcenter_station.report_workcenter_station"
         />
+        <report 
+            id="workcenter_stations_xls"
+            model="mrp.workcenter.station.station"
+            string="Work Center Stations xls"
+            report_type="qweb-xls"
+            name="mrp_workcenter_station.report_workcenter_station_xls"
+            file="mrp_workcenter_station.report_workcenter_station_xls"
+        />
     </data>
 </openerp>
