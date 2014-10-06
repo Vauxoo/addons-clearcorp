@@ -22,10 +22,13 @@
 
 import xlwt
 import lxml.html
+import logging
 from functools import partial
 from StringIO import StringIO
 from openerp import models, api, _
 from openerp.exceptions import Warning
+
+_logger = logging.getLogger('report_xls')
 
 class Report(models.Model):
 
@@ -90,14 +93,34 @@ class Report(models.Model):
                     for header_row in table.xpath("thead/tr"):
                         column_index = 0
                         for column in header_row.xpath('th'):
-                            worksheet.write(row_index, column_index, column.text)
+                            style = None
+                            try:
+                                style_str = column.get('easyfx', False)
+                                if style_str:
+                                    style = xlwt.easyxf(style_str)
+                            except:
+                                _logger.info('An error ocurred while loading the style')
+                            if style:
+                                worksheet.write(row_index, column_index, label=column.text, style=style)
+                            else:
+                                worksheet.write(row_index, column_index, column.text)
                             column_index += 1
                         row_index += 1
                     #Write all content to the worksheet
                     for content_row in table.xpath("tbody/tr"):
                         column_index = 0
                         for column in content_row.xpath('td'):
-                            worksheet.write(row_index, column_index, render_element_content(column))
+                            style = None
+                            try:
+                                style_str = column.get('easyfx', False)
+                                if style_str:
+                                    style = xlwt.easyxf(style_str)
+                            except:
+                                _logger.info('An error ocurred while loading the style')
+                            if style:
+                                worksheet.write(row_index, column_index, label=render_element_content(column), style=style)
+                            else:
+                                worksheet.write(row_index, column_index, render_element_content(column))
                             column_index += 1
                         row_index += 1
         except:
