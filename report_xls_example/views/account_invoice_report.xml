@@ -7,15 +7,15 @@
                     <table class="table table-condensed">
                         <thead>
                             <tr>
-                                <th>Customer</th>
-                                <th>Invoice Date</th>
-                                <th>Number</th>
-                                <th>Due Date</th>
-                                <th>Source Document</th>
-                                <th>Balance</th>
-                                <th>Subtotal</th>
-                                <th>Total</th>
-                                <th>Status</th>
+                                <th easyfx="font: bold on; align: horiz center">Customer</th>
+                                <th easyfx="font: bold on; align: horiz center">Invoice Date</th>
+                                <th easyfx="font: bold on; align: horiz center">Number</th>
+                                <th easyfx="font: bold on; align: horiz center">Due Date</th>
+                                <th easyfx="font: bold on; align: horiz center">Source Document</th>
+                                <th easyfx="font: bold on; align: horiz center">Balance</th>
+                                <th easyfx="font: bold on; align: horiz center">Subtotal</th>
+                                <th easyfx="font: bold on; align: horiz center">Total</th>
+                                <th easyfx="font: bold on; align: horiz center">Status</th>
                             </tr>
                         </thead>
                         <tbody>
