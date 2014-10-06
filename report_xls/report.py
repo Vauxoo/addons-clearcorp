@@ -1,0 +1,134 @@
+# -*- coding: utf-8 -*-
+##############################################################################
+#
+#    OpenERP, Open Source Management Solution
+#    Addons modules by CLEARCORP S.A.
+#    Copyright (C) 2009-TODAY CLEARCORP S.A. (<http://clearcorp.co.cr>).
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+
+import xlwt
+import lxml.html
+from functools import partial
+from StringIO import StringIO
+from openerp import models, api, _
+from openerp.exceptions import Warning
+
+class Report(models.Model):
+
+    _inherit = 'report'
+
+    @api.v7
+    def get_html(self, cr, uid, ids, report_name, data=None, context=None):
+        report = self._get_xls_report_from_name(cr, uid, report_name)
+        if report:
+            report_obj = self.pool[report.model]
+            docs = report_obj.browse(cr, uid, ids, context=context)
+            docargs = {
+                'doc_ids': ids,
+                'doc_model': report.model,
+                'docs': docs,
+            }
+            return self.pool.get('report').render(cr, uid, [], report.report_name, docargs, context=context)
+        else:
+            return super(Report, self).get_html(cr, uid, ids, report_name, data=data, context=context)
+
+    @api.v7
+    def get_xls(self, cr, uid, ids, report_name, html=None, data=None, context=None):
+        """This method generates and returns xls version of a report.
+        """
+        if context is None:
+            context = {}
+
+        report_obj = self.pool.get('report')
+        if html is None:
+            html = report_obj.get_html(cr, uid, ids, report_name, data=data, context=context)
+
+        html = html.decode('utf-8')  # Ensure the current document is utf-8 encoded.
+
+        # Get the ir.actions.report.xml record we are working on.
+        report = report_obj._get_xls_report_from_name(cr, uid, report_name)
+
+        # Method should be rewriten for a more complex rendering
+        def render_element_content(element):
+            res = ''
+            if isinstance(element.text,str):
+                res += element.text.strip()
+            for child in element:
+                res += render_element_content(child)
+            if isinstance(element.tail,str):
+                res += element.tail.strip()
+            return res
+
+        # Create the workbook
+        workbook = xlwt.Workbook()
+        try:
+            root = lxml.html.fromstring(html)
+            # find the workbook div element
+            div_workbook = root.xpath("//div[@class='workbook']")[0]
+            # Find every worksheet on the report
+            for div_worksheet in div_workbook.xpath("//div[@class='worksheet']"):
+                # Add a worksheet with the desired name
+                worksheet = workbook.add_sheet(div_worksheet.get('name',_('Data')))
+                # Find all tables to add tho the worksheet
+                row_index = 0
+                for table in div_worksheet.xpath("table"):
+                    #Write all headers to the worksheet
+                    for header_row in table.xpath("thead/tr"):
+                        column_index = 0
+                        for column in header_row.xpath('th'):
+                            worksheet.write(row_index, column_index, column.text)
+                            column_index += 1
+                        row_index += 1
+                    #Write all content to the worksheet
+                    for content_row in table.xpath("tbody/tr"):
+                        column_index = 0
+                        for column in content_row.xpath('td'):
+                            worksheet.write(row_index, column_index, render_element_content(column))
+                            column_index += 1
+                        row_index += 1
+        except:
+            raise Warning(_('An error occurred while parsing the view into file.'))
+
+        output = StringIO()
+        workbook.save(output) # Save the workbook that we are going to return
+        output.seek(0)
+        return output.read()
+
+    @api.v8
+    def get_xls(self, records, report_name, html=None, data=None):
+        return self._model.get_xls(self._cr, self._uid, records.ids, report_name,
+                                   html=html, data=data, context=self._context)
+
+    @api.v7
+    def get_ods(self, cr, uid, ids, report_name, html=None, data=None, context=None):
+        raise NotImplementedError
+
+    @api.v8
+    def get_ods(self, records, report_name, html=None, data=None):
+        raise NotImplementedError
+
+    def _get_xls_report_from_name(self, cr, uid, report_name):
+        """Get the first record of ir.actions.report.xml having the ``report_name`` as value for
+        the field report_name.
+        """
+        report_obj = self.pool['ir.actions.report.xml']
+        qweb_xls_types = ['qweb-xls','qweb-ods']
+        conditions = [('report_type', 'in', qweb_xls_types), ('report_name', '=', report_name)]
+        idreport = report_obj.search(cr, uid, conditions)
+        if idreport:
+            return report_obj.browse(cr, uid, idreport[0])
+        return None
