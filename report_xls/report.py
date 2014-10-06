@@ -68,11 +68,11 @@ class Report(models.Model):
         # Method should be rewriten for a more complex rendering
         def render_element_content(element):
             res = ''
-            if isinstance(element.text,str):
+            if isinstance(element.text,(str, unicode)):
                 res += element.text.strip()
             for child in element:
                 res += render_element_content(child)
-            if isinstance(element.tail,str):
+            if isinstance(element.tail,(str, unicode)):
                 res += element.tail.strip()
             return res
 
@@ -83,13 +83,17 @@ class Report(models.Model):
             # find the workbook div element
             div_workbook = root.xpath("//div[@class='workbook']")[0]
             # Find every worksheet on the report
+            worksheet_counter = 1
             for div_worksheet in div_workbook.xpath("//div[@class='worksheet']"):
                 # Add a worksheet with the desired name
-                worksheet = workbook.add_sheet(div_worksheet.get('name',_('Data')))
+                try:
+                    worksheet = workbook.add_sheet(div_worksheet.get('name',_('Data') + str(worksheet_counter)))
+                except:
+                    raise Warning(_('Duplicated worksheet name.'))
                 # Find all tables to add tho the worksheet
                 row_index = 0
                 for table in div_worksheet.xpath("table"):
-                    #Write all headers to the worksheet
+                    # Write all headers to the worksheet
                     for header_row in table.xpath("thead/tr"):
                         column_index = 0
                         for column in header_row.xpath('th'):
@@ -106,7 +110,7 @@ class Report(models.Model):
                                 worksheet.write(row_index, column_index, column.text)
                             column_index += 1
                         row_index += 1
-                    #Write all content to the worksheet
+                    # Write all content to the worksheet
                     for content_row in table.xpath("tbody/tr"):
                         column_index = 0
                         for column in content_row.xpath('td'):
@@ -123,6 +127,7 @@ class Report(models.Model):
                                 worksheet.write(row_index, column_index, render_element_content(column))
                             column_index += 1
                         row_index += 1
+                worksheet_counter += 1
         except:
             raise Warning(_('An error occurred while parsing the view into file.'))
 
