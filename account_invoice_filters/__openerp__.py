@@ -30,7 +30,7 @@
 Adds filters to invoices
 ========================
 """, # TODO: improve description
-    'author': 'CLEARCORP S.A.',
+    'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'complexity': 'normal',
     'images' : [],
