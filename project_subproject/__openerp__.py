@@ -27,7 +27,7 @@
     'sequence': 9,
     'summary': 'Sub-Projects Organized',
     'description': """Module must be created""",
-    'author': 'CLEARCORP S.A.',
+    'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'complexity': 'easy',
     'images' : [],
