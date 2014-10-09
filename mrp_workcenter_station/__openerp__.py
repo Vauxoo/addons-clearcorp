@@ -31,7 +31,7 @@ Add Work Stations to Work Orders
 ================================
 Allow the management of stations on every work order and
 limits the use of stations when a production order is in progress.""",
-    'author': 'CLEARCORP S.A.',
+    'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'complexity': 'easy',
     'images' : [],
