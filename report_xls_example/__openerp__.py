@@ -27,7 +27,7 @@
     'sequence': 16,
     'summary': 'XLS Invoice Report',
     'description': """Example Report Module""",
-    'author': 'CLEARCORP S.A.',
+    'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'complexity': 'easy',
     'images' : [],
