@@ -23,7 +23,7 @@
 {
     'name' : 'Account Credit Limit',
     'version' : '1.0',
-    'author' : 'CLEARCORP S.A.',
+    'author' : 'ClearCorp',
     'complexity': 'easy',
     'description': '''
 Partner Credit Validation
