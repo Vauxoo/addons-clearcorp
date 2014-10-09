@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <template id="report_invoice">
+            <div class="workbook">
+                <div class="worksheet" name="Invoices">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th easyfx="font: bold on; align: horiz center">Customer</th>
+                                <th easyfx="font: bold on; align: horiz center">Invoice Date</th>
+                                <th easyfx="font: bold on; align: horiz center">Number</th>
+                                <th easyfx="font: bold on; align: horiz center">Due Date</th>
+                                <th easyfx="font: bold on; align: horiz center">Source Document</th>
+                                <th easyfx="font: bold on; align: horiz center">Balance</th>
+                                <th easyfx="font: bold on; align: horiz center">Subtotal</th>
+                                <th easyfx="font: bold on; align: horiz center">Total</th>
+                                <th easyfx="font: bold on; align: horiz center">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="docs" t-as="o">
+                                <td>
+                                    <span t-field="o.partner_id" />
+                                </td>
+                                <td>
+                                    <span t-field="o.date_invoice"/>
+                                </td>
+                                <td>
+                                    <span t-field="o.number"/>
+                                </td>
+                                <td>
+                                    <span t-field="o.date_due"/>
+                                </td>
+                                <td>
+                                    <span t-field="o.origin"/>
+                                </td>
+                                <td>
+                                    <span t-field="o.residual"/>
+                                </td>
+                                <td>
+                                    <span t-field="o.amount_untaxed"/>
+                                </td>
+                                <td>
+                                    <span t-field="o.amount_total"/>
+                                </td>
+                                <td>
+                                    <span t-field="o.state"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Tax Description</th>
+                                <th>Base</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="docs" t-as="o">
+                                <tr t-foreach="o.tax_line" t-as="tax">
+                                    <td>
+                                        <span t-field="tax.name" />
+                                    </td>
+                                    <td>
+                                        <span t-field="tax.base"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="tax.amount"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </template>
+    </data>
+</openerp>
