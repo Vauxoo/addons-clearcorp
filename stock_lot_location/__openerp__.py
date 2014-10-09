@@ -30,7 +30,7 @@
 Add computed lot locations and partners
 =======================================
 Shows the lot location based on quants location and partners.""",
-    'author': 'CLEARCORP S.A.',
+    'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'complexity': 'normal',
     'images' : [],
