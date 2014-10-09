@@ -36,7 +36,7 @@ Main Features
 * Editable
 * Uses QWeb templates
 * Allows the creation of worksheets""",
-    'author': 'ClearCorp,
+    'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'complexity': 'normal',
     'images' : [],
