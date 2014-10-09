@@ -31,7 +31,7 @@ Average Partner Payments Days
 =============================
 
 Computes the average number of dates between an invoice and it's payment.""",
-    'author': 'CLEARCORP S.A.',
+    'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'complexity': 'normal',
     'images' : [],
