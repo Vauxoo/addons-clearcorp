@@ -9,7 +9,7 @@
             <field name="arch" type="xml">
                     <data>
                         <field name="name" position="before" >
-                            <field name="prefix" nolabel="1" /> - 
+                            <field name="prefix" nolabel="1" class="oe_inline"/> - 
                         </field>
                     </data>
             </field>
