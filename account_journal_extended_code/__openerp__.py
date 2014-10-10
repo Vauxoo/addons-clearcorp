@@ -2,8 +2,8 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
-#    Addons modules by CLEARCORP S.A.
-#    Copyright (C) 2009-TODAY CLEARCORP S.A. (<http://clearcorp.co.cr>).
+#    Addons modules by ClearCorp S.A.
+#    Copyright (C) 2009-TODAY ClearCorp S.A. (<http://clearcorp.co.cr>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -23,7 +23,7 @@
 {
     'name': 'Journal code extended',
     'version': '1.0',
-    'author': 'ClearCorp S.A.',
+    'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'category': 'General Modules/Accounting',
     'description': """Enables up to 64 chars in a journal code

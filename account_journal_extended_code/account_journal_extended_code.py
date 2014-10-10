@@ -2,8 +2,8 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
-#    Addons modules by CLEARCORP S.A.
-#    Copyright (C) 2009-TODAY CLEARCORP S.A. (<http://clearcorp.co.cr>).
+#    Addons modules by ClearCorp S.A.
+#    Copyright (C) 2009-TODAY ClearCorp S.A. (<http://clearcorp.co.cr>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,6 +20,17 @@
 #
 ##############################################################################
 
-import account_journal_extended_code
+from openerp.osv import osv,fields
+
+class AccountJournal(osv.osv):
+    '''
+    Adds up to 64 chars to a journal code
+    '''
+    _name = 'account.journal'
+    _inherit = 'account.journal'
+    
+    _columns = {
+        'code': fields.char('Code', size=64, required=True, help="The code will be displayed on reports."),
+    }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
