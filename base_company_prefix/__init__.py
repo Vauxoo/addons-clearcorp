@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Author: Frank Carvajal
+#    OpenERP, Open Source Management Solution
+#    Addons modules by ClearCorp S.A.
+#    Copyright (C) 2009-TODAY ClearCorp S.A. (<http://clearcorp.co.cr>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,26 +20,4 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv, orm
-import os
-
-class res_company(orm.Model):
-    _name = "res.company"
-    _description = 'Companies'
-    _inherit = 'res.company'
-    _order = 'prefix'
-    _columns = {
-        'prefix' : fields.char('Prefijo',size=10),
-    }
-    
-    def name_get(self, cr, uid, ids, context=None):
-        if not len(ids):
-            return []
-        res = []
-        for obj_company in self.browse(cr, uid, ids, context=context):
-            obj_company_name = obj_company.prefix and obj_company.prefix + ' '  or ''
-            obj_company_name += obj_company.name
-            res.append((obj_company.id,obj_company_name))
-        return res
-
-res_company()
+import base_company_prefix
