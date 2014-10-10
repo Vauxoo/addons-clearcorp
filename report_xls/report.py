@@ -38,14 +38,19 @@ class Report(models.Model):
     def get_html(self, cr, uid, ids, report_name, data=None, context=None):
         report = self._get_xls_report_from_name(cr, uid, report_name)
         if report:
-            report_obj = self.pool[report.model]
-            docs = report_obj.browse(cr, uid, ids, context=context)
-            docargs = {
-                'doc_ids': ids,
-                'doc_model': report.model,
-                'docs': docs,
-            }
-            return self.pool.get('report').render(cr, uid, [], report.report_name, docargs, context=context)
+            try:
+                report_model_name = 'report.%s' % report_name
+                particularreport_obj = self.pool[report_model_name]
+                return particularreport_obj.render_html(cr, uid, ids, data=data, context=context)
+            except KeyError:
+                report_obj = self.pool[report.model]
+                docs = report_obj.browse(cr, uid, ids, context=context)
+                docargs = {
+                           'doc_ids': ids,
+                           'doc_model': report.model,
+                           'docs': docs,
+                           }
+                return self.pool.get('report').render(cr, uid, [], report.report_name, docargs, context=context)
         else:
             return super(Report, self).get_html(cr, uid, ids, report_name, data=data, context=context)
 
