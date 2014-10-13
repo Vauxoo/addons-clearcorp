@@ -23,7 +23,7 @@
 {
     'name' : 'Account Credit Limit',
     'version' : '1.0',
-    'author' : 'CLEARCORP S.A.',
+    'author' : 'ClearCorp',
     'complexity': 'easy',
     'description': '''
 Partner Credit Validation
@@ -36,7 +36,7 @@ Main Features
 * Validation of Partner total credit on Sale Orders and Customer Invoices
 ''',
     'category': 'Accounting & Finance',
-    'sequence': 3,
+    'sequence': 15,
     'website' : 'http://clearcorp.co.cr',
     'images' : [],
     'depends' : [
