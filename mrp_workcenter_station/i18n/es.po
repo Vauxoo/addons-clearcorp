@@ -18,7 +18,7 @@ msgstr ""
 #. module: mrp_workcenter_station
 #: view:mrp.workcenter.station.station:mrp_workcenter_station.view_station_search
 msgid "Active"
-msgstr "Activa"
+msgstr "Activo"
 
 #. module: mrp_workcenter_station
 #: field:mrp.workcenter.station.station,active_order_id:0
