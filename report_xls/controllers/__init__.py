@@ -20,35 +20,4 @@
 #
 ##############################################################################
 
-{
-    'name': 'XLS Reports',
-    'version': '1.0',
-    'category': 'Base',
-    'sequence': 16,
-    'summary': 'XLS format QWeb Reports',
-    'description': """
-Reports in XLS format
-=====================
-Allow you to print reports on xls format.
-
-Main Features
--------------
-* Editable
-* Uses QWeb templates
-* Allows the creation of worksheets""",
-    'author': 'ClearCorp',
-    'website': 'http://clearcorp.co.cr',
-    'complexity': 'normal',
-    'images' : [],
-    'depends': ['report'],
-    'data': [
-             'report_xls_view.xml',
-             'views/assets.xml',
-             ],
-    'test' : [],
-    'demo': [],
-    'installable': True,
-    'auto_install': False,
-    'application': False,
-    'license': 'AGPL-3',
-}
+import main
