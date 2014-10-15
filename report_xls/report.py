@@ -104,6 +104,7 @@ class Report(models.Model):
                         for column in header_row.xpath('th'):
                             style = None
                             try:
+                                colspan_number = column.get('colspan',False)
                                 style_str = column.get('easyfx', False)
                                 if style_str:
                                     style = xlwt.easyxf(style_str)
@@ -113,6 +114,12 @@ class Report(models.Model):
                                 worksheet.write(row_index, column_index, label=column.text, style=style)
                             else:
                                 worksheet.write(row_index, column_index, column.text)
+                            if colspan_number:
+                                try:
+                                    worksheet.merge(row_index,row_index,column_index,column_index+int(colspan_number)-1)
+                                    column_index += int(colspan_number)-1
+                                except:
+                                    _logger.info('An error ocurred while loading the style')
                             column_index += 1
                         row_index += 1
                     # Write all content to the worksheet
@@ -121,6 +128,7 @@ class Report(models.Model):
                         for column in content_row.xpath('td'):
                             style = None
                             try:
+                                colspan_number=column.get('colspan',False)
                                 style_str = column.get('easyfx', False)
                                 if style_str:
                                     style = xlwt.easyxf(style_str)
@@ -130,6 +138,12 @@ class Report(models.Model):
                                 worksheet.write(row_index, column_index, label=render_element_content(column), style=style)
                             else:
                                 worksheet.write(row_index, column_index, render_element_content(column))
+                            if colspan_number:
+                                 try:
+                                    worksheet.merge(row_index,row_index,column_index,column_index+int(colspan_number)-1)
+                                    column_index += int(colspan_number)-1
+                                 except:
+                                    _logger.info('An error ocurred while loading the style')
                             column_index += 1
                         row_index += 1
                 worksheet_counter += 1
