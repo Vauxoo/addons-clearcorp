@@ -106,12 +106,17 @@ class Report(models.Model):
                             try:
                                 colspan_number = column.get('colspan',False)
                                 style_str = column.get('easyfx', False)
-                                if style_str:
-                                    style = xlwt.easyxf(style_str)
+                                format_str=column.get('num_format_str', False)
+                                if style_str  and format_str:
+                                    style = xlwt.easyxf(style_str,num_format_str=format_str)
+                                elif style_str and not format_str:
+                                    style = xlwt.easyxf(style_str,None)
+                                elif format_str and not style_str:
+                                    style = xlwt.easyxf("",num_format_str=format_str)
                             except:
                                 _logger.info('An error ocurred while loading the style')
                             if style:
-                                worksheet.write(row_index, column_index, label=column.text, style=style)
+                                worksheet.write(row_index, column_index, label=column.text, style)
                             else:
                                 worksheet.write(row_index, column_index, column.text)
                             if colspan_number:
@@ -128,14 +133,19 @@ class Report(models.Model):
                         for column in content_row.xpath('td'):
                             style = None
                             try:
-                                colspan_number=column.get('colspan',False)
+                                colspan_number = column.get('colspan',False)
                                 style_str = column.get('easyfx', False)
-                                if style_str:
-                                    style = xlwt.easyxf(style_str)
+                                format_str=column.get('num_format_str', False)
+                                if style_str  and format_str:
+                                    style = xlwt.easyxf(style_str,num_format_str=format_str)
+                                elif style_str and not format_str:
+                                    style = xlwt.easyxf(style_str,None)
+                                elif format_str and not style_str:
+                                    style = xlwt.easyxf("",num_format_str=format_str)
                             except:
                                 _logger.info('An error ocurred while loading the style')
                             if style:
-                                worksheet.write(row_index, column_index, label=render_element_content(column), style=style)
+                                worksheet.write(row_index, column_index, label=render_element_content(column), style)
                             else:
                                 worksheet.write(row_index, column_index, render_element_content(column))
                             if colspan_number:
