@@ -28,7 +28,6 @@ class Partner(models.Model):
     _inherit = 'res.partner'
 
     @api.one
-    @api.depends('invoice_ids')
     def _compute_average_payment(self):
         # Get all paid invoices
         invoice_obj = self.env['account.invoice']
@@ -38,7 +37,7 @@ class Partner(models.Model):
         total_invoices = 0
         for invoice in invoices:
             # Get the last payment that affects average
-            payment = invoice.payment_ids.search([], limit=1, order='date desc')
+            payment = invoice.payment_ids.search([('id','in',invoice.payment_ids.ids)], limit=1, order='date desc')
             # If the payment is found add the difference between
             # the invoice date and the payment date to total_days
             if payment and payment.journal_id.affects_avg_customer_payments:
@@ -52,5 +51,5 @@ class Partner(models.Model):
             self.average_payment_days = 0
 
     average_payment_days = fields.Integer(string='Average Payment Days',
-        compute='_compute_average_payment', store=True,
+        compute='_compute_average_payment',
         help='Average number of days elapsed until the invoice payment.')
