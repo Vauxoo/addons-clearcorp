@@ -28,4 +28,5 @@ class Quant(models.Model):
 
     @api.one
     def _get_latest_move(self, filters=[]):
+        filters.append(('id','in',self.history_ids.ids))
         return self.history_ids.search(filters, limit=1, order='date desc')

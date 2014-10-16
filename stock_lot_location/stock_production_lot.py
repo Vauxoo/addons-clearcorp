@@ -28,6 +28,7 @@ class ProductionLot(models.Model):
 
     @api.one
     def _get_latest_quant(self, filters=[]):
+        filters.append(('id','in',self.quant_ids.ids))
         return self.quant_ids.search(filters, limit=1, order='in_date desc')
 
     @api.one
