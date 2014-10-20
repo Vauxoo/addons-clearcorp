@@ -23,6 +23,7 @@
 import xlwt
 import lxml.html
 import logging
+import datetime
 from functools import partial
 from StringIO import StringIO
 from openerp import models, api, _
