@@ -25,8 +25,11 @@
     'version': '1.0',
     'category': 'Project Management',
     'sequence': 9,
-    'summary': '',
-    'description': """TODO""",
+    'summary': 'Budgets',
+    'description': """
+Project Budget
+==============
+Allows the user to easy reach and view the Budget related to a project.""",
     'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'complexity': 'easy',
