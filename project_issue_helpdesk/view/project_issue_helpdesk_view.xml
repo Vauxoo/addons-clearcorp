@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
+    	
+    	<!-- Project Issue Kanban View Inherit-->
+
+        <record model="ir.ui.view" id="project_issue_kanban_view">
+            <field name="name">view.project.issue.kanban</field>
+            <field name="model">project.issue</field>
+            <field name="inherit_id" ref="project_issue.project_issue_kanban_view"/>
+            <field name="arch" type="xml">
+            	<field name="partner_id" position="replace"> 
+      				<field name="partner_id" attrs="{'invisible':[('branch_id', '!=', False)]}"/> 
+                	<br/>
+                	<field name="branch_id"/> 
+                </field> 
+            </field>
+        </record>
+    	<!--Tree View Inherit project issue-->
+    	<record model="ir.ui.view" id="project_issue_tree_view">
+            <field name="name">view.project.issue.tree</field>
+            <field name="model">project.issue</field>
+            <field name="inherit_id" ref="project_issue.project_issue_tree_view"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after"> 
+                	<field name="branch_id"/> 
+                </field> 
+            </field>
+        </record>
+    	
 		<!--Form View Inherit project issue-->
 		<record id="view_project_issue_form" model="ir.ui.view">
             <field name="name">view.project.issue.form</field>
@@ -25,6 +52,9 @@
                 </field> 
                 <field name="product_id"  position="after"> 
                 	<field name="prodlot_id"  domain="[('product_id','=',product_id)]" on_change="onchange_prodlot_id(prodlot_id)"/> 
+                </field>
+                <field name="partner_id"  position="attributes">
+					<attribute name="domain">[('partner_type','in',['customer', 'company'])]</attribute>
                 </field>
                 <field name="partner_id"  position="after"> 
                 	<field name="branch_id" on_change="onchange_branch_id(branch_id)" domain="[('parent_id','=',partner_id),('partner_type','=','branch')]" attrs="{'invisible':[('have_branch', '=', False)]}"/>
@@ -61,7 +91,7 @@
 					<filter string="Company" domain="[('partner_type','=','company')]" help="Company" icon="terp-check"/>                   
                 </xpath>
                 <xpath expr="/search/filter[@string='Company']" position="after"> 
-					<filter string="Branch" domain="[('partner_type','=','branch')]" help="Branch" icon="terp-check"/>                   
+					<filter string="Branch" domain="[('branch_id.partner_type','=','branch')]" help="Branch" icon="terp-check"/>                   
                 </xpath>
                 <xpath expr="/search/filter[@string='Company']" position="after"> 
 					<filter string="Customer" domain="[('partner_type','=','customer')]" help="Customer" icon="terp-check"/>                   
