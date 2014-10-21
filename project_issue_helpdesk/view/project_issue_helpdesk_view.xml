@@ -75,16 +75,23 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_simple_form"/>
             <field name="arch" type="xml">
-            	 <label for="name" position="before">
-					<label for="partner_type"/>
-					<field name="partner_type" on_change="onchange_partner_type(partner_type)"/> 
-                </label>
+                <xpath expr="//div[@class='oe_edit_only']" position="replace">
+        			<div class="oe_edit_only">
+						<label for="name"/> 
+                        <field name="is_company" on_change="onchange_type(is_company)" class="oe_inline"/> 
+                        <label for="is_company" string="Is a Company?"/>
+        			</div>
+    			</xpath>
                 <label for="is_company" position="attributes">
                 	<attribute name="invisible">True</attribute>
                 </label>
                 <field name="is_company"  position="attributes"> 
                 	<attribute name="invisible">True</attribute>
                 </field>
+                <label for="name" position="before">
+					<label for="partner_type"/>
+					<field name="partner_type" on_change="onchange_partner_type(partner_type)"/> 
+                </label>
             </field>
         </record>
         <!--Form View Inherit res partner (base)-->
@@ -93,10 +100,13 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
-            	 <label for="name" position="before">
-					<label for="partner_type"/>
-					<field name="partner_type" on_change="onchange_partner_type(partner_type)"/> 
-                </label>
+            	<xpath expr="//div[@class='oe_edit_only']" position="replace">
+        			<div class="oe_edit_only">
+						<label for="name"/> 
+                        <field name="is_company" on_change="onchange_type(is_company)" class="oe_inline"/> 
+                        <label for="is_company" string="Is a Company?"/>
+        			</div>
+    			</xpath>
                 <label for="is_company" position="attributes">
                 	<attribute name="invisible">True</attribute>
                 </label>
@@ -106,6 +116,10 @@
                 <field name="credit_limit"  position="before"> 
                 	<field name="provision_amount"/> 
                 </field> 
+                 <label for="name" position="before">
+					<label for="partner_type"/>
+					<field name="partner_type" on_change="onchange_partner_type(partner_type)"/> 
+                </label>
             </field>
         </record>
         <!--Form View issue origin-->
