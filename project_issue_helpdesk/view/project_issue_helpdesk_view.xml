@@ -335,7 +335,7 @@
         <record model="ir.actions.act_window" id="action_holiday_calendar">
             <field name="name">Holidays Schedule</field>
             <field name="res_model">holiday.calendar</field>
-            <field name="view_mode">calendar</field>
+            <field name="view_mode">calendar,tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create new holiday schedule</p>
             </field>
