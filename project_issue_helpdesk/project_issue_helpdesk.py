@@ -28,7 +28,7 @@ class ProjectIssue(osv.Model):
     _inherit = 'project.issue'
      
     def onchange_partner_id(self, cr, uid, ids, partner_id, context=None):
-        list_branch={}
+        result={}
         result = super(ProjectIssue, self).onchange_partner_id(cr, uid, ids, partner_id)
         if partner_id:
             partner_obj=self.pool.get('res.partner')
@@ -168,9 +168,9 @@ class ResPartner(orm.Model):
         if partner_type=='company':
             res['is_company'] = True
         elif partner_type=='branch':
-            res['is_company'] = False
-        elif partner_type=='customer':
             res['is_company'] = True
+        elif partner_type=='customer':
+            res['is_company'] = False
         return {'value': res}
      
     _columns = {
