@@ -173,8 +173,10 @@ class Parser(accountReportbase):
                 result[stock.product_id.id] = {}
             if stock.location_id.id not in result[stock.product_id.id].keys():
                 result[stock.product_id.id][stock.location_id.id] = []
+            if stock.location_dest_id.id not in result[stock.product_id.id].keys():
+                result[stock.product_id.id][stock.location_dest_id.id] = []
             result[stock.product_id.id][stock.location_id.id].append(stock)
-            
+            result[stock.product_id.id][stock.location_dest_id.id].append(stock)
         return result
     
     """Get data for a each stock_move. Keep this information in a dictionary,
