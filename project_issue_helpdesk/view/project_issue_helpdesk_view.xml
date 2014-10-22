@@ -41,7 +41,7 @@
                 </xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Extra Info']" position="before">
  					    <page string="Delivery Orders">
- 					    	<field name="backorder_ids" />
+ 					    	<field name="backorder_ids" widget="many2many"/>
                         </page>
             	</xpath>
                 <xpath expr="/form/sheet[@string='Issue']/group/group[1]/div" position="after">
