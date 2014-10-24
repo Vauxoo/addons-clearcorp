@@ -23,7 +23,7 @@ msgstr "Fabricante"
 #. module: product_part
 #: field:product.product,part_number:0
 msgid "Part Number"
-msgstr "Numero de Parte"
+msgstr "Número de Parte"
 
 #. module: product_part
 #: model:ir.model,name:product_part.model_product_product
