@@ -34,12 +34,10 @@ class Station(models.Model):
     @api.depends('workorder_ids')
     def _compute_workorder_items(self):
         self.active_order_id = self.env['mrp.production.workcenter.line']
-        self.workcenter_id = self.env['mrp.workcenter']
         self.product_id = self.env['product.product']
         for line in self.workorder_ids:
             if line.state == 'startworking':
                 self.active_order_id = line
-                self.workcenter_id = line.workcenter_id
                 self.product_id = line.product
                 break
 
@@ -49,8 +47,7 @@ class Station(models.Model):
         rel='mrp_workorder_station_rel', string='Work Orders')
     active_order_id = fields.Many2one('mrp.production.workcenter.line',
         string='Active Work Order', compute='_compute_workorder_items', store=True)
-    workcenter_id = fields.Many2one('mrp.workcenter', string='Work Center',
-        compute='_compute_workorder_items', store=True)
+    workcenter_id = fields.Many2one('mrp.workcenter', string='Work Center', required=True)
     product_id = fields.Many2one('product.product', string='Product',
         compute='_compute_workorder_items', store=True)
 
@@ -78,6 +75,10 @@ class Station(models.Model):
 class WorkCenterLine(models.Model):
 
     _inherit = 'mrp.production.workcenter.line'
+
+    @api.onchange('workcenter_id')
+    def _onchange_workcenter_id(self):
+        self.station_ids = self.env['mrp.workcenter.station.station']
 
     station_ids = fields.Many2many('mrp.workcenter.station.station',
         rel='mrp_workorder_station_rel', string='Work Center Station', required=True)

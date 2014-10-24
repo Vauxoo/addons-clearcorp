@@ -11,7 +11,8 @@
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
                 <xpath expr="//form/sheet/group/field[@name='workcenter_id']" position="after">
-                    <field name="station_ids" widget="many2many_tags"/>
+                    <field name="station_ids" widget="many2many_tags"
+                        domain="[('workcenter_id','=',workcenter_id)]" />
                 </xpath>
             </field>
         </record>
@@ -24,10 +25,12 @@
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
                 <xpath expr="//form/sheet/notebook/page/field[@name='workcenter_lines']/tree/field[@name='workcenter_id']" position="after">
-                    <field name="station_ids" widget="many2many_tags"/>
+                    <field name="station_ids" widget="many2many_tags"
+                        domain="[('workcenter_id','=',workcenter_id)]" />
                 </xpath>
                 <xpath expr="//form/sheet/notebook/page/field[@name='workcenter_lines']/form/group/field[@name='workcenter_id']" position="after">
-                    <field name="station_ids" widget="many2many_tags"/>
+                    <field name="station_ids" widget="many2many_tags"
+                        domain="[('workcenter_id','=',workcenter_id)]" />
                 </xpath>
             </field>
         </record>
@@ -65,8 +68,8 @@
                                 <field name="name"/>
                             </group>
                             <group>
-                                <field name="active_order_id"/>
                                 <field name="workcenter_id"/>
+                                <field name="active_order_id"/>
                                 <field name="product_id"/>
                             </group>
                         </group>
@@ -84,8 +87,8 @@
                <search string="Work Center Station">
                     <field name="code"/>
                     <field name="name"/>
-                    <field name="active_order_id"/>
                     <field name="workcenter_id"/>
+                    <field name="active_order_id"/>
                     <field name="product_id"/>
                     <separator/>
                     <filter string="Active" name="active" domain="[('active_order_id','!=',False)]"/>
