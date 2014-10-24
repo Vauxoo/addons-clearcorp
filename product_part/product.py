@@ -21,10 +21,31 @@
 from openerp.osv import osv,fields
 from openerp.tools.translate import _
 
+class product_template(osv.osv):
+    _inherit = "product.template"
+    
+    def create(self, cr, uid, vals, context=None):
+        product_template_id = super(product_template, self).create(cr, uid, vals, context=context)
+
+        related_vals = {}       
+        if vals.get('part_number'):
+            related_vals['part_number'] = vals['part_number']
+        if vals.get('manufacturer'):
+            related_vals['manufacturer'] = vals['manufacturer']
+        if related_vals:
+             self.write(cr, uid, product_template_id, related_vals, context=context)
+
+        return product_template_id
+
+    
+    _columns = {
+        'part_number': fields.related('product_variant_ids', 'part_number', type='char', string='Part Number'),
+        'manufacturer':fields.related('product_variant_ids', 'manufacturer', relation='res.partner', type='many2one', string='Manufacturer')
+        }
 
 class product_product(osv.osv):
     _inherit = "product.product"
-
+    
     def search(self, cr, uid, args, offset=0, limit=None, order=None, context=None, count=False):
         res = {}
         new_args = []
@@ -65,7 +86,6 @@ class product_product(osv.osv):
                 ids = set()
                 ids.update(self.search(cr, user, args + [['default_code',operator,name]], limit=limit, context=context))
                 if len(ids) < limit:
-                    # we may underrun the limit because of dupes in the results, that's fine
                     ids.update(self.search(cr, user, args + [['name',operator,name]], limit=(limit-len(ids)), context=context))
                 ids = list(ids)
             if not ids:
