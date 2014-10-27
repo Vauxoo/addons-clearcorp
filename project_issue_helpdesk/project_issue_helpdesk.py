@@ -351,22 +351,6 @@ class ProductTemplate(orm.Model):
         'supply_type':fields.selection([('equipment','Equipment'),('replacement','Replacement'),('supply','Supply'),
                                                ('input','Input')],string="Supply Type"),
          }
-class Product(orm.Model):
-    _inherit = 'product.product'
-    _name = 'product.product'
-    
-    def create(self, cr, uid, vals, context=None):
-         product_obj=self.pool.get('product.product')
-         new_product=super(Product, self).create(cr, uid, vals, context=context)
-         
-       
-         return new_product
-
-    def write(self, cr, uid, ids, vals, context=None):
-         product_obj=self.pool.get('product.product')
-         res = super(Product, self).write(cr, uid, ids, vals, context=context)
-         
-         return res
 
 class ProductCategory(orm.Model):
      _inherit = 'product.category'
