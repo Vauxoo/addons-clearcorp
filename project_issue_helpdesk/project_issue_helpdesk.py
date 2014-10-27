@@ -271,49 +271,38 @@ class HolidayCalendar(orm.Model):
         'date':fields.date(required=True,string="Date"),
         'notes':fields.text(string="Notes")
         }        
-class Product(orm.Model):
-    _inherit = 'product.product'
+
+class ProductTemplate(orm.Model):
+    _inherit = 'product.template'
+    _name = 'product.template'
      
     def create(self, cr, uid, vals, context=None):
-         new_product=super(Product, self).create(cr, uid, vals, context=context)
+         product_obj=self.pool.get('product.product')
+         new_product=super(ProductTemplate, self).create(cr, uid, vals, context=context)
          
-         compatible_product_ids = vals.get('compatible_product_ids', False)
-         associated_product_ids = vals.get('associated_product_ids', False)
-         if compatible_product_ids:
-             for products in compatible_product_ids:
+         alternative_product_ids = vals.get('alternative_product_ids', False)
+         accessory_product_ids = vals.get('accessory_product_ids', False)
+         if alternative_product_ids:
+             for products in alternative_product_ids:
                  for product in products[2]:
-                     super(Product, self).write(cr, uid,product, {
-                'compatible_product_ids':  [(6,0,[new_product])] 
+                     super(ProductTemplate, self).write(cr, uid,product, {
+                'alternative_product_ids':  [(6,0,[new_product])] 
              }, context=context)
-         
-         if associated_product_ids:
-             for products in associated_product_ids:
-                 for product in products[2]:
-                     super(Product, self).write(cr, uid,product, {
-                'associated_product_ids':  [(6,0,[new_product])] 
-             }, context=context)
-                
+                     
          return new_product
 
     def write(self, cr, uid, ids, vals, context=None):
-         res = super(Product, self).write(cr, uid, ids, vals, context=context)
-         compatible_product_ids = vals.get('compatible_product_ids', False)
-         associated_product_ids = vals.get('associated_product_ids', False)
-         
-         if compatible_product_ids:
-             for products in compatible_product_ids:
+         product_obj=self.pool.get('product.product')
+         res = super(ProductTemplate, self).write(cr, uid, ids, vals, context=context)
+         alternative_product_ids = vals.get('alternative_product_ids', False)
+         accessory_product_ids = vals.get('accessory_product_ids', False)
+         if alternative_product_ids:
+             for products in alternative_product_ids:
                  for product in products[2]:
-                     super(Product, self).write(cr, uid,product, {
-                'compatible_product_ids':  [(6,0,ids)] 
+                     super(ProductTemplate, self).write(cr, uid,product, {
+                'alternative_product_ids':  [(6,0,ids)] 
              }, context=context)
-         
-         if associated_product_ids:
-             for products in associated_product_ids:
-                 for product in products[2]:
-                     super(Product, self).write(cr, uid,product, {
-                'associated_product_ids':  [(6,0,ids)] 
-             }, context=context)
- 
+        
          return res
      
     def onchange_supply_type(self, cr, uid, ids, supply_type, context=None):
@@ -327,36 +316,57 @@ class Product(orm.Model):
              elif supply_type=='replacement':
                  domain.append(('supply_type', '=', 'equipment'))
                  
-             product_ids=self.search(cr, uid,domain)
+             product_template_ids=self.search(cr, uid,domain)
              
-         return{'domain':{'associated_product_ids':[('id','in',product_ids)]}}
- 
-    def get_products_associated(self, cr, uid,ids,field_name,arg,context=None ):
+             product_ids=self.pool.get('product.product').search(cr, uid, [('product_tmpl_id','in',product_template_ids)])
+        
+         return{'domain':{'accessory_product_ids':[('id','in',product_ids)]}}
+
+
+    def get_accessory_product(self, cr, uid,ids,field_name,arg,context=None ):
+         product_obj=self.pool.get('product.product')
          product_ids=[]
-         domain=[]
+         domain=[] 
          res={}
          for product in self.browse(cr, uid, ids, context=context):
              if product.supply_type:
                  if product.supply_type=='equipment':
-                     domain.append(('supply_type', 'in', ('supply','replacement')))
+                     domain.append(('product_tmpl_id.supply_type', 'in', ('supply','replacement')))
                  elif product.supply_type=='supply':
-                     domain.append(('supply_type', '=', 'equipment'))
+                     domain.append(('product_tmpl_id.supply_type', '=', 'equipment'))
                  elif product.supply_type=='replacement':
-                     domain.append(('supply_type', '=', 'equipment'))
-                 associated_product_ids=self.search(cr, uid,domain)
-                 for associated_product in self.browse(cr, uid, associated_product_ids, context=context):
-                     product_ids.append(associated_product.id)
+                     domain.append(('product_tmpl_id.supply_type', '=', 'equipment'))
+
+             
+                 accessory_product_ids=product_obj.search(cr, uid, domain)
+                 for accessory_product in product_obj.browse(cr, uid, accessory_product_ids, context=context):
+                     product_ids.append(accessory_product.id)
                  res[product.id]=product_ids   
          return res
      
+     
+     
     _columns = {
-         'compatible_product_ids':fields.many2many('product.product','product_compatible_rel','compatible_prod_id',string="Compatible Products"),
-         'supply_type':fields.selection([('equipment','Equipment'),('replacement','Replacement'),('supply','Supply'),
+        'init_onchange_call': fields.function(get_accessory_product, method=True, type='many2many', relation='product.product',string='Nothing Display', help='field at view init'),
+        'supply_type':fields.selection([('equipment','Equipment'),('replacement','Replacement'),('supply','Supply'),
                                                ('input','Input')],string="Supply Type"),
-         'associated_product_ids':fields.many2many('product.product','product_associated_rel','associated_prod_id',string="Compatible Products"),
-         'init_onchange_call': fields.function(get_products_associated, method=True, type='many2many', relation='product.product',string='Nothing Display', help='field at view init'),
- 
          }
+class Product(orm.Model):
+    _inherit = 'product.product'
+    _name = 'product.product'
+    
+    def create(self, cr, uid, vals, context=None):
+         product_obj=self.pool.get('product.product')
+         new_product=super(Product, self).create(cr, uid, vals, context=context)
+         
+       
+         return new_product
+
+    def write(self, cr, uid, ids, vals, context=None):
+         product_obj=self.pool.get('product.product')
+         res = super(Product, self).write(cr, uid, ids, vals, context=context)
+         
+         return res
 
 class ProductCategory(orm.Model):
      _inherit = 'product.category'

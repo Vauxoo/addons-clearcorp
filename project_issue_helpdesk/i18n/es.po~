@@ -300,7 +300,7 @@ msgid "User id"
 msgstr "Usuario"
 
 #. module: project_issue_helpdesk
-#: field:hr.analytic.timesheet,analytic_account_id:0
+#: field:hr.analytic.timesheet,account_id:0
 msgid "Account id"
 msgstr "Cuenta Analítica"
 

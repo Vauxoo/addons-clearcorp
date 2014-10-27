@@ -285,30 +285,27 @@
                 </form>
             </field>
         </record>
-
-        <!--inherit product.product_normal_form_view-->
-        <record id="view_product_normal_form" model="ir.ui.view">
-            <field name="name">view.product.normal.form</field>
-            <field name="model">product.product</field>
-            <field name="inherit_id" ref="product.product_normal_form_view"/>
+		 <!--inherit product.template_normal_form_view-->
+        <record id="view_product_template_normal_form" model="ir.ui.view">
+            <field name="name">view.product.template.normal.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="priority" eval="16"/>
             <field name="arch" type="xml">        
-                <xpath expr="/form/sheet/notebook/page[@string='Procurements']" position="after">
-				 	<page string="Compatibles Products">
-	                        <field name="compatible_product_ids" attrs="{'invisible':[('supply_type', 'not in', ('equipment','supply','replacement'))]}"/>  
-	                 </page>
-                </xpath>
-                <xpath expr="/form/sheet/notebook/page[@string='Sales']/group" position="before">
-								<separator string="Supply Type"/>
-								<field name="supply_type"/>
-                </xpath>
-                <xpath expr="/form/sheet/notebook/page[@string='Compatibles Products']" position="after">
-				 	<page string="Associated Products">
-				 			<field name="init_onchange_call" invisible="1" />
-	                        <field name="associated_product_ids" domain="[('id','in',init_onchange_call[0][2])]" attrs="{'invisible':[('supply_type', 'not in', ('equipment','supply','replacement'))]}" />  
-	                 </page>
-                </xpath>
+                 <xpath expr="/form/sheet/notebook/page[@string='Sales']/group" position="before">
+					<separator string="Supply Type"/>
+					<field name="supply_type" on_change="onchange_supply_type(supply_type)"/>
+             </xpath>
+                <field name="alternative_product_ids"  position="replace"> 
+                	<field name="alternative_product_ids" widget="many2many_tags" attrs="{'invisible':[('supply_type', 'not in', ('equipment','supply','replacement'))]}"/>
+                </field>
+                <field name="accessory_product_ids"  position="replace">
+                	<field name="init_onchange_call" invisible="1" />
+                	<field name="accessory_product_ids" widget="many2many_tags" domain="[('id','in',init_onchange_call[0][2])]" attrs="{'invisible':[('supply_type', 'not in', ('equipment','supply','replacement'))]}" />
+                </field>
             </field>
         </record>
+
         <!--inherit product.product_category_form_view-->
         <record id="view_product_category_form" model="ir.ui.view">
             <field name="name">view.product.category.form</field>
