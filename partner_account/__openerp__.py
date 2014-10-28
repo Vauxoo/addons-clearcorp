@@ -30,8 +30,8 @@ Partner Account
 This module add a field of accounting code to handle the encoding requested by customers.
 """,
     'website': 'http://clearcorp.co.cr',
-    'depends' : ['base','product'],
-    #'data': ['product_view.xml'],
+    'depends' : ['product','account'],
+    'data': ['view/partner_account.xml'],
     'installable': True,
     'active': False,
     'license': 'AGPL-3',
