@@ -202,7 +202,8 @@ class Parser(accountReportbase):
                 #Update list_lines
                 invoice_dict[invoice.id]['lines'] = list_lines                
                 invoice_dict[invoice.id].update({
-                               'number': invoice.number, 
+                               'number': invoice.number,
+                               'date_invoice': invoice.date_invoice,
                                'client': invoice.partner_id.name or '', 
                                'qty_lines': qty_lines,
                                'qty_lines_total': len(invoice.invoice_line),
@@ -302,6 +303,7 @@ class Parser(accountReportbase):
                         final_block = {}
                         if invoice['type'] == 'out_refund' or invoice['type'] == 'in_refund':
                             final_block['invoice_number'] = invoice['number']
+                            final_block['date_invoice'] = invoice['date_invoice']
                             final_block['client'] = invoice['client']
                             final_block['qty_lines'] = str(invoice['qty_lines']) + "/" + str(invoice['qty_lines_total'])
                             final_block['subtotal_without_dis'] = -1 * self.get_price_subtotal_not_discounted_per_invoice(invoice)
@@ -316,6 +318,7 @@ class Parser(accountReportbase):
                         else:
                             final_block['invoice_number'] = invoice['number']
                             final_block['client'] = invoice['client']
+                            final_block['date_invoice'] = invoice['date_invoice']
                             final_block['qty_lines'] = str(invoice['qty_lines']) + "/" + str(invoice['qty_lines_total'])                
                             final_block['subtotal_without_dis'] = self.get_price_subtotal_not_discounted_per_invoice(invoice)
                             final_block['discount'] = self.get_discount_per_invoice(invoice)
