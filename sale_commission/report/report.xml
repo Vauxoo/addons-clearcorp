@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
-    <data>
+    <data noupdate="1">
         <record id="report_sale_commission_commission" model="ir.actions.report.xml">
             <field name="name">Commissions Report</field>
             <field name="type">ir.actions.report.xml</field>
