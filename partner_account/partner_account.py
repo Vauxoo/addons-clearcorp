@@ -37,6 +37,8 @@ class PartnerAccount(models.Model):
         ('partner_account_unique',
         'UNIQUE(partner_id)',
         'Partner account already exist for this partner')]
+    
+    _rec_name='partner_id'
      
 class PartnerAccountLines(models.Model):
     _name= 'partner.account.line'

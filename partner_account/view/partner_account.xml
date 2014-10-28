@@ -73,7 +73,6 @@
     <!--Menu partner account-->
     <menuitem id="menu_partner_account_act"
             parent="account.account_account_menu"
-            sequence="101"
             name="Partner Account"
             action="action_partner_account"
             />
