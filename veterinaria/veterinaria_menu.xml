@@ -33,6 +33,24 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form,calendar</field>
         </record>
+
+        <record id="action_partner_form" model="ir.actions.act_window">
+            <field name="name">Partner</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form,tree</field>
+            <field name="view_id" ref="view_partner_form" />
+            <!-- <field name="view_id" ref="view_partner_tree" /> -->
+        </record>
+        
+        <record id="action_partner_tree" model="ir.actions.act_window">
+            <field name="name">Partner</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form,tree</field>
+            <field name="view_id" ref="view_partner_tree" />
+        </record>
+
         <!-- MenuItems -->
         <menuitem name="Veterinary" id="main_menu" sequence="20"/>
         <menuitem name="Veterinary" id="menu_veterinary" sequence="5" parent="main_menu"/>
@@ -41,5 +59,7 @@
         <menuitem name="Patient" id="menu_patient" sequence="8" parent="menu_veterinary" action="action_patient"/>
         <menuitem name="Family" id="menu_family" sequence="10" parent="menu_veterinary" action="action_family"/>
         <menuitem name="Laboratory" id="menu_laboratory" sequence="17" parent="menu_veterinary" action="action_laboratory"/>
+        <menuitem name="Family" id="menu_res_parter_family" sequence="16" parent="menu_veterinary" action="action_partner_form" />
+        <menuitem name="Family" id="menu_res_parter_family" sequence="16" parent="menu_veterinary" action="action_partner_tree" />
     </data>
 </openerp>

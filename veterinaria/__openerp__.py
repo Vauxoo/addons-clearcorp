@@ -27,15 +27,7 @@
     'sequence': 16,
     'summary': 'Clinica veterinaria',
     'description': """
-
-=====================
-
-
-Main Features
--------------
-* Editable
-* Uses QWeb templates
-* Allows the creation of worksheets""",
+TODO""",
     'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'complexity': 'normal',

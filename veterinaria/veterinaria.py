@@ -19,9 +19,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 from openerp import models, fields, api, _
 from datetime import datetime
 from openerp.exceptions import Warning
+import openerp.addons.decimal_precision as dp
 
 
 class species (models.Model):
@@ -38,14 +40,14 @@ class breed (models.Model):
     _order = 'size asc'
     _rec_name = 'breed_name'
 
-    breed_name = fields.Char('Name', size=128, help='The scientific name of the ...')
+    breed_name = fields.Char('Name', size=128, required=True, help='The scientific name of the ...')
     scientific_name = fields.Char('Scientific Name', size=128)
     size = fields.Float('Size', digits=(16, 3))
     specie_id = fields.Many2one('veterinaria.specie', string='Specie', required=True)
 
 class patient(models.Model):
-    _name = 'veterinaria.patient'  # nombre de la clase para las vistas en el xml
-    _order = 'name asc'  # ordena los datos escendentes
+    _name = 'veterinaria.patient'
+    _order = 'name asc'
 
     @api.one
     @api.depends("birth_date")
@@ -69,9 +71,12 @@ class patient(models.Model):
     specie_id = fields.Many2one('veterinaria.specie', string='Specie', ondelete='cascade', required=True)
     breed_id = fields.Many2one('veterinaria.breed', string='Breed')
     weight = fields.Float('Weight' , digits=(16, 2))
-    weight_id = fields.Many2one('product.uom', 'weight in units', required=True)
+    product_uom_id = fields.Many2one('product.uom', string='Weight in units', required=True)
     family_id = fields.Many2one('veterinaria.family', string='Owner', required=True)
     medical_history = fields.Text('Medical History')
+    partner_id = fields.Many2one ('res.partner', string='Family', required=True)
+    
+
 
     @api.multi
     def patient_healthy(self):
@@ -81,10 +86,10 @@ class patient(models.Model):
     def patient_sick(self):
         self.write({'state': 'sick'})
     @api.onchange('purebred')
-    def onchenge_pure_breed(self):
+    def onchange_pure_breed(self):
         self.pedigree = ''
 
-    @api.constrains('breed_id')
+    @api.constrains('specie_id','breed_id')
     def check_breed_id(self):
         if self.breed_id not in self.specie_id.breed_ids:
             raise Warning (_('Breed does not belong to species'))
