@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+	<data>
+		<!-- Views -->
+		<!-- veterinaria.specie -->
+		<record id="view_species_form" model="ir.ui.view">
+			<field name="name">Specie Form</field>
+			<field name="model">veterinaria.specie</field>
+			<field name="type">form</field>
+			<field name="priority" eval="16" />
+			<field name="arch" type="xml">
+				<form string="Species">
+					<sheet>
+						<group>
+							<group>
+								<field name="name" />
+							</group>
+							<group>
+								<field name="scientific_name" />
+							</group>
+						</group>
+						<notebook>
+							<page name="breeds" string="Breed">
+								<field name="breed_ids">
+									<tree editable="top">
+										<field name="breed_name" />
+										<field name="scientific_name" />
+										<field name="size" />
+									</tree>
+								</field>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<!-- veterinaria.patient -->
+		<record id="view_patient_form" model="ir.ui.view">
+			<field name="name">Patients Form</field>
+			<field name="model">veterinaria.patient</field>
+			<field name="type">form</field>
+			<field name="priority" eval="16" />
+			<field name="arch" type="xml">
+				<form string="Patients">
+					<header>
+						<button name="patient_sick" type="object" string="Mark as sick"
+							states="healthy" class="oe_highlight" />
+						<button name="patient_healthy" type="object" string="Healthy"
+							states="sick" />
+						<field name="state" widget="statusbar" />
+					</header>
+					<sheet>
+						<div class="oe_title ">
+							<label for="name" class="oe_edit_only" />
+							<h1>
+								<field name="name" placeholder="Name.." />
+							</h1>
+							<div>
+								<field name="purebred" class="oe_inline" />
+								<label for="purebred" />
+								<field name="castreted" class="oe_inline" />
+								<label for="castreted" />
+							</div>
+						</div>
+						<group>
+							<group>
+								<field name="birth_date" />
+								<field name="age" />
+
+							</group>
+							<group>
+								<field name="gender" />
+								<field name="pedigree" attrs="{'invisible': [('purebred', '=', False)]}" />
+								<field name="breed_id" domain="[('specie_id','=',specie_id)]" />
+								<field name="specie_id" />
+								<field name="family_id" />
+							</group>
+						</group>
+						<div>
+							<label for="weight" />
+							<field name="weight" class="oe_inline" />
+							<field name="weight_id" placeholder="weight medides..."
+								class="oe_inline" />
+						</div>
+						<notebook>
+							<page name="information" string="Information">
+								<field name="food" />
+							</page>
+							
+							<page name="medical" string="Medical History">
+								<field name="medical_history" />
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<!-- veterinaria.specie tree -->
+		<record id="view_species_tree" model="ir.ui.view">
+			<field name="name">Species Form</field>
+			<field name="model">veterinaria.specie</field>
+			<field name="type">tree</field>
+			<field name="priority" eval="16" />
+			<field name="arch" type="xml">
+				<tree string="Species">
+					<field name="name" />
+					<field name="scientific_name" />
+				</tree>
+			</field>
+		</record>
+		<!-- veterinaria.breed tree -->
+		<record id="view_breed_tree" model="ir.ui.view">
+			<field name="name">Breed Form</field>
+			<field name="model">veterinaria.breed</field>
+			<field name="type">tree</field>
+			<field name="priority" eval="16" />
+			<field name="arch" type="xml">
+				<tree string="Breed">
+					<field name="breed_name" />
+					<field name="scientific_name" />
+					<field name="size" />
+					<field name="specie_id" />
+				</tree>
+			</field>
+		</record>
+		<!-- veterinaria.patient tree -->
+		<record id="view_patient_tree" model="ir.ui.view">
+			<field name="name">Patients Form</field>
+			<field name="model">veterinaria.patient</field>
+			<field name="type">tree</field>
+			<field name="priority" eval="16" />
+			<field name="arch" type="xml">
+				<tree string="Patient">
+					<field name="name" />
+					<field name="birth_date" />
+					<field name="food" />
+					<field name="age" />
+					<field name="pedigree" />
+					<field name="gender" />
+					<field name="castreted" />
+					<field name="state" />
+					<field name="family_id" />
+				</tree>
+			</field>
+		</record>
+		<record id="view_patient_search" model="ir.ui.view">
+			<field name="name">Patients Searh</field>
+			<field name="model">veterinaria.patient</field>
+			<field name="type">search</field>
+			<field name="priority" eval="16" />
+			<field name="arch" type="xml">
+				<search string="Patient">
+					<field name="name" />
+					<field name="name" />
+					<field name="pedigree" />
+					<separador />
+					<filter string="Male" name="male" domain="[('gender','=','male')]" />
+					<filter string="Female" name="female" domain="[('gender','=','female')]" />
+					<separator />
+					<filter string="Pure Breed" name="purebred" domain="[('purebred','=',True)]" />
+					<filter string="Castreted" name="castreted" domain="[('castreted','=',True)]" />
+					<group expand="1" string="Group By...">
+						<filter string="Gender" name="group_gender" domain="[]"
+							context="{'group_by':'gender'}" />
+						<filter string="State" name="group_state" domain="[]"
+							context="{'group_by':'state'}" />
+					</group>
+				</search>
+			</field>
+		</record>
+
+		<!-- veterinaria.breed -->
+		<record id="view_breed_form" model="ir.ui.view">
+			<field name="name">Breed Form</field>
+			<field name="model">veterinaria.breed</field>
+			<field name="type">form</field>
+			<field name="priority" eval="16" />
+			<field name="arch" type="xml">
+				<form string="Breed">
+					<sheet>
+						<group>
+							<group>
+								<field name="breed_name" placeholder="Name" />
+								<field name="scientific_name" />
+							</group>
+							<group>
+								<field name="size" />
+								<field name="specie_id" />
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<!-- veterinaria.family -->
+		<record id="view_family_form" model="ir.ui.view">
+			<field name="name">Family Form</field>
+			<field name="model">veterinaria.family</field>
+			<field name="type">form</field>
+			<field name="priority" eval="16" />
+			<field name="arch" type="xml">
+				<form string="Family">
+					<sheet>
+						<group>
+							<group>
+								<field name="name" placeholder="Name..." />
+								<field name="owner_ids" />
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="view_laboratory_tree" model="ir.ui.view">
+			<field name="name">Laboratory Form</field>
+			<field name="model">veterinaria.laboratory</field>
+			<field name="type">tree</field>
+			<field name="priority" eval="16" />
+			<field name="arch" type="xml">
+				<tree string="Laboratory">
+					<field name="name" placeholder="Name..." />
+					<field name="date" />
+					<field name="date_provided" />
+					<field name="patient_id" />
+				</tree>
+			</field>
+		</record>
+		<!-- veterinaria.Laboaratory -->
+		<record id="view_laboratory_form" model="ir.ui.view">
+			<field name="name">Laboratory Form</field>
+			<field name="model">veterinaria.laboratory</field>
+			<field name="type">form</field>
+			<field name="priority" eval="16" />
+			<field name="arch" type="xml">
+				<form string="Laboratory">
+					<sheet>
+						<group>
+							<group>
+								<field name="name" placeholder="Name..." />
+								<field name="date" />
+								<field name="date_provided" />
+								<field name="patient_id" />
+							</group>
+						</group>
+						<notebook>
+							<page name="resumen">
+								<field name="sumary" placeholder="Descrption of test..." />
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<!-- view Calendar veterinaria.Laboaratory -->
+		<record id="view_laboratory_calendar" model="ir.ui.view">
+			<field name="name">Laboratory calendar</field>
+			<field name="model">veterinaria.laboratory</field>
+			<field name="type">calendar</field>
+			<field name="priority" eval="16" />
+			<field name="arch" type="xml">
+				<calendar string="Laboratory" date_start="date" date_stop="date_provided"
+					color="patient_id">
+					<field name="patient_id" />
+					<field name="name" />
+					<field name="sumary" />
+				</calendar>
+			</field>
+		</record>
+	</data>
+</openerp>
