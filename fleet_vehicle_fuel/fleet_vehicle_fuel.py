@@ -25,5 +25,5 @@ class  fleet_vehicle_log_fuel(osv.Model):
     _inherit = 'fleet.vehicle.log.fuel'
     
     _columns = {
-                 'purchaser_id': fields.many2one('res.partner', 'Purchaser')
+                 'purchaser_id': fields.many2one('res.partner', string='Purchaser', domain="[]")
                  }
