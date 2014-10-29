@@ -23,6 +23,7 @@
 import xlwt
 import lxml.html
 import logging
+import datetime
 from functools import partial
 from StringIO import StringIO
 from openerp import models, api, _
@@ -33,6 +34,35 @@ _logger = logging.getLogger('report_xls')
 class Report(models.Model):
 
     _inherit = 'report'
+    
+    @api.v7
+    #returns a datetime, if it matches the formats set
+    def datetime_from_str(self,dt_str):
+        formats = [
+                   #<scope>, <pattern>, <format>
+                   ("day","YYYY-MM-DD", "%Y-%m-%d"),
+                   ("second","YYYY-MM-DD HH:MM:SS", "%Y-%m-%d %H:%M:%S"),
+                   ("microsecond", "YYYY-MM-DD HH:MM:SS", "%Y-%m-%d %H:%M:%S"),
+            ]
+        for scope,pattern, format in formats:
+            if scope == "microsecond":
+                if dt_str.count('.') != 1:
+                    continue
+                dt_str, microseconds_str = dt_str.split('.')
+                try:
+                    microsecond = int((microseconds_str + '000000')[:6])
+                except ValueError:
+                    continue
+            try:
+                t = datetime.datetime.strptime(dt_str, format)
+            except ValueError:
+                pass
+            else:
+                if scope == "microsecond":
+                    t = t.replace(microsecond=microsecond)
+                return t
+        else:
+            raise ValueError
 
     @api.v7
     def get_html(self, cr, uid, ids, report_name, data=None, context=None):
@@ -72,14 +102,26 @@ class Report(models.Model):
 
         # Method should be rewriten for a more complex rendering
         def render_element_content(element):
-            res = ''
-            if isinstance(element.text,(str, unicode)):
-                res += element.text.strip()
-            for child in element:
-                res += render_element_content(child)
-            if isinstance(element.tail,(str, unicode)):
-                res += element.tail.strip()
-            return res
+             res = ""
+             if isinstance(element.text,(str, unicode)):
+                 res += element.text.strip()
+             for child in element:
+                 res += render_element_content(child)
+             if isinstance(element.tail,(str, unicode)):
+                 res += element.tail.strip()
+             return res
+        #Method identify the data type
+        def render_element_type(value):
+            dt=''
+            try:
+                dt=self.datetime_from_str(value)
+                if dt or dt!=None:
+                    return dt
+            except:
+                try:
+                    return float(value)
+                except: #Not Float Type
+                    return value
 
         # Create the workbook
         workbook = xlwt.Workbook()
@@ -106,12 +148,17 @@ class Report(models.Model):
                             try:
                                 colspan_number = column.get('colspan',False)
                                 style_str = column.get('easyfx', False)
-                                if style_str:
-                                    style = xlwt.easyxf(style_str)
+                                format_str=column.get('num_format_str', False)
+                                if style_str  and format_str:
+                                    style = xlwt.easyxf(style_str,num_format_str=format_str)
+                                elif style_str and not format_str:
+                                    style = xlwt.easyxf(style_str,None)
+                                elif format_str and not style_str:
+                                    style = xlwt.easyxf("",num_format_str=format_str)
                             except:
                                 _logger.info('An error ocurred while loading the style')
                             if style:
-                                worksheet.write(row_index, column_index, label=column.text, style=style)
+                                worksheet.write(row_index, column_index, column.text, style)
                             else:
                                 worksheet.write(row_index, column_index, column.text)
                             if colspan_number:
@@ -128,16 +175,21 @@ class Report(models.Model):
                         for column in content_row.xpath('td'):
                             style = None
                             try:
-                                colspan_number=column.get('colspan',False)
+                                colspan_number = column.get('colspan',False)
                                 style_str = column.get('easyfx', False)
-                                if style_str:
-                                    style = xlwt.easyxf(style_str)
+                                format_str=column.get('num_format_str', False)
+                                if style_str  and format_str:
+                                    style = xlwt.easyxf(style_str,num_format_str=format_str)
+                                elif style_str and not format_str:
+                                    style = xlwt.easyxf(style_str,None)
+                                elif format_str and not style_str:
+                                    style = xlwt.easyxf("",num_format_str=format_str)
                             except:
                                 _logger.info('An error ocurred while loading the style')
                             if style:
-                                worksheet.write(row_index, column_index, label=render_element_content(column), style=style)
+                                worksheet.write(row_index, column_index, render_element_type(render_element_content(column)), style)
                             else:
-                                worksheet.write(row_index, column_index, render_element_content(column))
+                                worksheet.write(row_index, column_index, render_element_type(render_element_content(column)))
                             if colspan_number:
                                  try:
                                     worksheet.merge(row_index,row_index,column_index,column_index+int(colspan_number)-1)
@@ -159,7 +211,6 @@ class Report(models.Model):
     def get_xls(self, records, report_name, html=None, data=None):
         return self._model.get_xls(self._cr, self._uid, records.ids, report_name,
                                    html=html, data=data, context=self._context)
-
     @api.v7
     def get_ods(self, cr, uid, ids, report_name, html=None, data=None, context=None):
         raise NotImplementedError
