@@ -343,14 +343,33 @@ class ProductTemplate(orm.Model):
                      product_ids.append(accessory_product.id)
                  res[product.id]=product_ids   
          return res
-     
-     
-     
+
     _columns = {
         'init_onchange_call': fields.function(get_accessory_product, method=True, type='many2many', relation='product.product',string='Nothing Display', help='field at view init'),
         'supply_type':fields.selection([('equipment','Equipment'),('replacement','Replacement'),('supply','Supply'),
                                                ('input','Input')],string="Supply Type"),
          }
+
+class Product(orm.Model):     
+    _inherit = 'product.product'
+    _name = 'product.product'
+    
+    def onchange_supply_type(self, cr, uid, ids, supply_type, context=None):
+         product_ids=[]
+         domain=[]
+         if supply_type:
+             if supply_type=='equipment':
+                 domain.append(('supply_type', 'in', ('supply','replacement')))
+             elif supply_type=='supply':
+                 domain.append(('supply_type', '=', 'equipment'))
+             elif supply_type=='replacement':
+                 domain.append(('supply_type', '=', 'equipment'))
+                 
+             product_template_ids=self.search(cr, uid,domain)
+             
+             product_ids=self.pool.get('product.product').search(cr, uid, [('product_tmpl_id','in',product_template_ids)])
+        
+         return{'domain':{'accessory_product_ids':[('id','in',product_ids)]}}
 
 class ProductCategory(orm.Model):
      _inherit = 'product.category'
