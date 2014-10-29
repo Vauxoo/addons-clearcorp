@@ -50,7 +50,7 @@
                      	<group>
                         	<field name="line_ids" colspan="4" nolabel="1">
                         		<tree editable="top" string="Partner Account Line">
-                        			<field name="partner_id"/>
+                        			<field name="partner_account_id"/>
                         			<field name="code"/>
                         			<field name="name"/>	
 								</tree>
