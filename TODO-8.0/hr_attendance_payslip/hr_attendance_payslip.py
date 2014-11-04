@@ -156,7 +156,15 @@ class PaySlip(osv.Model):
                     if had_work:
                         attendances['number_of_days'] += 1.0
                         attendances['number_of_hours'] += working_hours
-                res += [attendances]
+                if attendances['number_of_hours'] != 0.0:
+                    res += [attendances]
+                else:
+                    if contract.employee_id.company_id.attendance_payslip_use_default:
+                        normal_hours = contract.employee_id.company_id.attendance_payslip_normal_hours
+                        if normal_hours:
+                            attendances['number_of_hours'] = normal_hours
+                            attendances['number_of_days'] = nb_of_days
+                            res += [attendances]
                 extra = {
                     'name': _("Attendance Extra Working Hours"),
                     'sequence': 1,
@@ -172,6 +180,13 @@ class PaySlip(osv.Model):
                         extra['number_of_hours'] += working_hours
                 if extra['number_of_hours'] != 0.0:
                     res += [extra]
+                else:
+                    if contract.employee_id.company_id.attendance_payslip_use_default:
+                        extra_hours = contract.employee_id.company_id.attendance_payslip_extra_hours
+                        if extra_hours:
+                            extra['number_of_hours'] = extra_hours
+                            extra['number_of_days'] = nb_of_days
+                            res += [extra]
             else:
                 res += super(PaySlip, self).get_worked_day_lines(cr, uid, [contract.id], date_from, date_to, context=context)
         return res
