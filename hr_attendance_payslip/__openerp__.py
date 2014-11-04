@@ -49,6 +49,7 @@ Warning: Does not support multiple contracts per user
                  ],
     'data' : [
               'view/hr_attendance_payslip_view.xml',
+              'view/res_config_view.xml',
               ],
     'init_xml' : [],
     'demo_xml' : [],
