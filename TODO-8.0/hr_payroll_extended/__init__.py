@@ -20,6 +20,4 @@
 #
 ##############################################################################
 
-import res_company
-import res_config
-import hr_attendance_payslip
+import hr_payroll_extend
