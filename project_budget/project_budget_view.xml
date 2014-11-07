@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_project_form" model="ir.ui.view">
+            <field name="name">view.project.form</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project" />
+            <field name="arch" type="xml">
+                <data>
+                    <xpath
+                        expr="//form/sheet/div[@name='buttons']/button[@name='attachment_tree_view']"
+                        position="after">
+                        <button class="oe_inline oe_stat_button"
+                            type="object" name="view_crossovered_budget_lines"
+                            icon="fa-folder-open">
+                            <field string="Budget" name="budget_amount"
+                                widget="statinfo" />
+                        </button>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+    </data>
+</openerp>
