@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-23 21:42+0000\n"
-"PO-Revision-Date: 2014-04-23 21:42+0000\n"
+"POT-Creation-Date: 2014-10-28 20:04+0000\n"
+"PO-Revision-Date: 2014-10-28 20:04+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -40,11 +40,6 @@ msgid "Add Payments"
 msgstr ""
 
 #. module: account_voucher_prepayment
-#: field:account.voucher.add.payments,partner_id:0
-msgid "Supplier"
-msgstr ""
-
-#. module: account_voucher_prepayment
 #: view:account.invoice:0
 #: model:ir.actions.act_window,name:account_voucher_prepayment.action_add_payment
 msgid "Add payment"
@@ -61,12 +56,7 @@ msgid "Invoice"
 msgstr ""
 
 #. module: account_voucher_prepayment
-#: model:ir.model,name:account_voucher_prepayment.model_account_move_line
-msgid "Journal Items"
-msgstr ""
-
-#. module: account_voucher_prepayment
-#: view:account.voucher.add.payments:0
+#: field:account.voucher.add.payments,partner_id:0
 msgid "Partner"
 msgstr ""
 
@@ -74,4 +64,3 @@ msgstr ""
 #: model:ir.model,name:account_voucher_prepayment.model_account_voucher_add_payments
 msgid "Account Voucher Add Payments Wizard"
 msgstr ""
-
