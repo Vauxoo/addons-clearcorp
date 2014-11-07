@@ -20,6 +20,14 @@
 #
 ##############################################################################
 
-import res_company
-import res_config
-import hr_attendance_payslip
+from openerp.osv import osv, fields
+
+class Company(osv.Model):
+
+    _inherit = 'res.company'
+
+    _columns = {
+        'attendance_payslip_use_default': fields.boolean('Use Default Values', digits=(16,2)),
+        'attendance_payslip_normal_hours': fields.float('Normal Hours', digits=(16,2)),
+        'attendance_payslip_extra_hours': fields.float('Extra Hours', digits=(16,2)),
+    }

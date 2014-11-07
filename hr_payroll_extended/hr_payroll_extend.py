@@ -118,16 +118,29 @@ class HrPayslip(osv.osv):
         date_from_payslip = date_from_payslip.strftime('%d-%m-%Y')
         date_to_payslip = datetime.strptime(date_to, "%Y-%m-%d")
         date_to_payslip = date_to_payslip.strftime('%d-%m-%Y')
-        
+
         name = _('%s payroll of %s from %s to %s') % (schedule_pay, employee.name, date_from_payslip, date_to_payslip)
         name = name.upper()
         worked_days_line_list = []
         if res['value']['worked_days_line_ids']:
-            worked_days_line = res['value']['worked_days_line_ids'][0]
-            worked_days_line['code'] = 'HN'
-            worked_days_line['name'] = name
-            worked_days_line_list = [worked_days_line]
-        
+            day_lines = res['value']['worked_days_line_ids']
+            # Check if there is an element with code HR
+            has_hr = False
+            for worked_days_line in day_lines:
+                if worked_days_line['code'] == 'HR':
+                    has_hr = True
+            # Change lines where code == WORK100
+            for worked_days_line in day_lines:
+                if worked_days_line['code'] == 'WORK100':
+                    # Change it if there is no HN
+                    if not has_hr:
+                        worked_days_line['code'] = 'HN'
+                        worked_days_line['name'] = name
+                    # Ignore it if there is another HN line
+                    else:
+                        continue
+                worked_days_line_list.append(worked_days_line)
+
         res['value'].update({
                     'name': name,
                     'worked_days_line_ids' : worked_days_line_list,
