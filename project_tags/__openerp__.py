@@ -27,8 +27,9 @@
     'sequence': 10,
     'summary': 'Tags for projects',
     'description': """
-TODO
-""",
+Tags for projects
+=================
+This modules adds tags and allows the user to search by tags.""",
     'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'complexity': 'easy',
