@@ -26,7 +26,10 @@
     'category': 'Project Management',
     'sequence': 9,
     'summary': 'Sub-Projects Organized',
-    'description': """Module must be created""",
+    'description': """
+Sub-Projects
+============
+Allows the user to view projects in an hierarchical structure.""",
     'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'complexity': 'easy',
