@@ -20,15 +20,16 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, orm
+from openerp.osv import osv, fields
 from openerp.tools.translate import _
+import openerp.addons.decimal_precision as dp
 
-class resCompanyInherit(orm.Model):
-    
-    _inherit = 'res.company'
-    
+class ProductCategory(osv.Model):
+
+    _inherit = 'product.category'
+
     _columns = {
-        'max_discount': fields.float('Max Discount', digits=(16, 2)), 
+        'discount_active': fields.boolean('Discount Applicable'),
+        'max_discount': fields.float('Max Discount', digits_compute=dp.get_precision('Discount'),
+            help='Max discount allowed in sales.'),
     }
-    
-    
