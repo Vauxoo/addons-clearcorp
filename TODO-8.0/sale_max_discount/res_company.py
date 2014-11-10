@@ -20,6 +20,17 @@
 #
 ##############################################################################
 
-import res_company_inherit
-import account_config_settings_inherit
-import account_invoice_inherit
+from openerp.osv import osv, fields
+from openerp.tools.translate import _
+import openerp.addons.decimal_precision as dp
+
+class Company(osv.Model):
+
+    _inherit = 'res.company'
+
+    _columns = {
+        'limit_discount_active': fields.boolean('Discount Applicable'),
+        'limit_discount_max_discount': fields.float('Max Discount',
+            digits_compute=dp.get_precision('Discount'),
+            help='Max discount allowed in sales.'),
+    }
