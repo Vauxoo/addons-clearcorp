@@ -20,31 +20,9 @@
 #
 ##############################################################################
 
-{
-    'name' : 'Account Invoice Limit Discount',
-    'author' : 'CLEARCORP S.A.',
-    'description': """
-Account Invoice Limit Discount.
-================================
-Configuration:
----------------
-For set the maximum discount for each company:
-Settings -> Accounting -> Accounting -> Maximum Discount
-
-This module adds a security group. The users that are not in this group
-can not add, in each invoice line, a discount greater that the allowed in
-the company.
-""",
-    'version' : '1.0',
-    'category': 'Accounting & Finance',
-    'website' : 'http://clearcorp.co.cr',
-    'depends' : ['base','account',],
-    'data' : [
-              'security/account_invoice_limit_discount.xml',
-              'account_config_settings_inherit.xml'
-              ],
-    'test': [],
-    'active': False,
-    'installable': True,
-    'license': 'AGPL-3',
-}
+import res_company
+import sale_config_settings
+import product_category
+import product_pricelist
+import sale_order
+import account_invoice
