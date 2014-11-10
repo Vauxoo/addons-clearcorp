@@ -36,31 +36,31 @@ msgstr "Código"
 #: field:partner.account,create_uid:0
 #: field:partner.account.line,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Creado por"
 
 #. module: partner_account
 #: field:partner.account,create_date:0
 #: field:partner.account.line,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Creado en"
 
 #. module: partner_account
 #: field:partner.account,id:0
 #: field:partner.account.line,id:0
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: partner_account
 #: field:partner.account,write_uid:0
 #: field:partner.account.line,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultima Actualización por"
 
 #. module: partner_account
 #: field:partner.account,write_date:0
 #: field:partner.account.line,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Ultima Actualización en"
 
 #. module: partner_account
 #: field:partner.account.line,name:0

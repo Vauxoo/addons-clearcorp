@@ -69,6 +69,7 @@ msgstr "Nombre"
 
 #. module: partner_account
 #: field:partner.account,partner_id:0
+#: field:partner.account.line,partner_id:0
 msgid "Partner"
 msgstr "Cliente"
 
