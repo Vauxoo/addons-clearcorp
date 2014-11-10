@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* product_part
+#	* product_part_number
 #
 msgid ""
 msgstr ""
@@ -15,30 +15,30 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. module: product_part
+#. module: product_part_number
 #: field:product.product,manufacturer:0
 #: field:product.template,manufacturer:0
 msgid "Manufacturer"
-msgstr "Manufacturer"
+msgstr "Fabricante"
 
-#. module: product_part
+#. module: product_part_number
 #: field:product.product,part_number:0
 #: field:product.template,part_number:0
 msgid "Part Number"
-msgstr "Numero de PArte"
+msgstr "Número de Parte"
 
-#. module: product_part
-#: model:ir.model,name:product_part.model_product_product
+#. module: product_part_number
+#: model:ir.model,name:product_part_number.model_product_product
 msgid "Product"
 msgstr "Producto"
 
-#. module: product_part
-#: model:ir.model,name:product_part.model_product_template
+#. module: product_part_number
+#: model:ir.model,name:product_part_number.model_product_template
 msgid "Product Template"
 msgstr "Plantilla de producto"
 
-#. module: product_part
+#. module: product_part_number
 #: sql_constraint:product.product:0
 msgid "The number part already exist associated to this manufacturer"
-msgstr "The number part already exist associated to this manufacturer"
+msgstr "El número de parte ya existe asociado al fabricante seleccionado"
 

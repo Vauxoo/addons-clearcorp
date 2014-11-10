@@ -20,7 +20,7 @@
 #
 ##############################################################################
 {
-    'name' : 'Product Part',
+    'name' : 'Product Part Number',
     'version' : '1.0',
     'author' : 'ClearCorp',
     'category' : 'Warehouse Management',
