@@ -106,13 +106,18 @@ class Parser(accountReportbase):
             invoice_id = self.pool.get('account.invoice').search(cr, uid, [('move_id','=', line.move_id.id)])
             if invoice_id:
                 invoice_obj = self.pool.get('account.invoice').browse(cr, uid, invoice_id)
-                return invoice_obj.name
+                if invoice_obj:
+                    invoice_obj = invoice_obj[0]
+                    if invoice_obj.number:
+                        return _('Invoice') + ' ' + invoice_obj.number
+                else:
+                    return '/'
             else:
                 move_obj = self.pool.get('account.move').browse(cr, uid, line.move_id.id)
                 return move_obj.name
         else:
             return '/'
-  
+
     #===== Set data =========================================================
     #set data to use in odt template. 
     def set_data_template(self, cr, uid, data):        
