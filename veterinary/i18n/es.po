@@ -65,7 +65,7 @@ msgstr "Castrado"
 #. module: veterinary
 #: view:res.partner:veterinary.view_partner_form
 msgid "Check if the contact is a Family otherwise it is a person"
-msgstr "Check if the contact is a Family otherwise it is a person"
+msgstr "Revise si el contacto es una familia de otra manera es una persona  "
 
 #. module: veterinary
 #: view:res.partner:veterinary.view_partner_form
@@ -143,8 +143,8 @@ msgstr "Fallecido"
 
 #. module: veterinary
 #: view:veterinary.laboratory:veterinary.view_laboratory_form
-msgid "Descrption of test..."
-msgstr "Descripción del examen..."
+msgid "Descrption of test"
+msgstr "Descripción del examen"
 
 #. module: veterinary
 #: view:veterinary.patient:veterinary.view_patient_form
@@ -199,8 +199,8 @@ msgstr "Sexo"
 
 #. module: veterinary
 #: view:veterinary.patient:veterinary.view_patient_search
-msgid "Group by..."
-msgstr "Agruopar por..."
+msgid "Group by"
+msgstr "Agrupar por"
 
 #. module: veterinary
 #: selection:veterinary.patient,state:0
@@ -324,8 +324,8 @@ msgstr "Nombre del examen"
 #. module: veterinary
 #: view:veterinary.laboratory:veterinary.view_laboratory_form
 #: view:veterinary.laboratory:veterinary.view_laboratory_tree
-msgid "Name..."
-msgstr "Nombre..."
+msgid "Name"
+msgstr "Nombre"
 
 #. module: veterinary
 #: view:veterinary.patient:veterinary.view_patient_form
@@ -380,8 +380,8 @@ msgstr "Pura raza"
 
 #. module: veterinary
 #: view:res.partner:veterinary.view_partner_form
-msgid "Put an internal note..."
-msgstr "Poner una nota interna..."
+msgid "Put an internal note"
+msgstr "Poner una nota interna"
 
 #. module: veterinary
 #: field:res.partner,responsible:0
@@ -411,8 +411,8 @@ msgstr "Seleccione la unidad"
 
 #. module: veterinary
 #: view:res.partner:veterinary.view_partner_form
-msgid "Select this if you want to set family's address information  for this contact"
-msgstr "Selecciones esto si quiere la informacion de la familia para este contacto"
+msgid "Select this if you want to set family's address information  for this contact."
+msgstr "Selecciones esto si quiere la informacion de la familia para este contacto."
 
 #. module: veterinary
 #: selection:veterinary.patient,state:0
@@ -442,8 +442,8 @@ msgstr "Estado"
 
 #. module: veterinary
 #: view:res.partner:veterinary.view_partner_form
-msgid "Street..."
-msgstr "Calle..."
+msgid "Street"
+msgstr "Calle"
 
 #. module: veterinary
 #: field:veterinary.laboratory,sumary:0
@@ -452,8 +452,8 @@ msgstr "Resumen de examen"
 
 #. module: veterinary
 #: view:res.partner:veterinary.view_partner_form
-msgid "Tags..."
-msgstr "Etiquetas..."
+msgid "Tags"
+msgstr "Etiquetas"
 
 #. module: veterinary
 #: field:veterinary.patient,laboratory_id:0
@@ -491,7 +491,7 @@ msgstr "Peso"
 #. module: veterinary
 #: view:res.partner:veterinary.view_partner_form
 msgid "ZIP"
-msgstr "C.P."
+msgstr "Cod.Postal"
 
 #. module: veterinary
 #: view:res.partner:veterinary.view_partner_form

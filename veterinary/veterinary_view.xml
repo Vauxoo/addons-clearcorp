@@ -270,7 +270,7 @@
                                 attrs="{'invisible': [('is_company','=', True),('parent_id', '=', False)]}"
                                 on_change="onchange_address(use_parent_address, parent_id)" />
                             <field name="category_id" widget="many2many_tags"
-                                placeholder="Tags..." />
+                                placeholder="Tags" />
                         </div>
                         <div class="oe_right oe_button_box" name="buttons">
                         </div>
@@ -302,7 +302,7 @@
                                         class="oe_link oe_edit_only"
                                         attrs="{'invisible': ['|',('parent_id','=', False),('use_parent_address','=',False)]}" />
                                     <field name="street"
-                                        placeholder="Street..."
+                                        placeholder="Street"
                                         attrs="{'readonly': [('use_parent_address','=',True)]}" />
                                     <field name="street2"
                                         attrs="{'readonly': [('use_parent_address','=',True)]}" />
@@ -464,7 +464,7 @@
                                                 </h1>
                                                 <field name="category_id"
                                                     widget="many2many_tags"
-                                                    placeholder="Tags..."
+                                                    placeholder="Tags"
                                                     style="width: 70%%" />
                                             </div>
                                             <group>
@@ -495,7 +495,7 @@
                                                     attrs="{'invisible': [('use_parent_address','=', True)]}"
                                                     name="div_address">
                                                     <field name="street"
-                                                        placeholder="Street..." />
+                                                        placeholder="Street" />
                                                     <field name="street2" />
                                                     <div
                                                         class="address_format">
@@ -531,7 +531,7 @@
                             </page>
                             <page name='internal_notes' string="Internal Notes">
                                 <field name="comment"
-                                    placeholder="Put an internal note..." />
+                                    placeholder="Put an internal note" />
                             </page>
                             <page name='sales_purchases' string="Sales &amp; Purchases"
                                 invisible="1">
@@ -588,7 +588,7 @@
             <field name="priority" eval="16" />
             <field name="arch" type="xml">
                 <tree string="Laboratory">
-                    <field name="name" placeholder="Name..." />
+                    <field name="name" placeholder="Name" />
                     <field name="date" />
                     <field name="date_provided" />
                     <field name="patient_id" />
@@ -607,7 +607,7 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name="name" placeholder="Name..." />
+                                <field name="name" placeholder="Name" />
                                 <field name="date" />
                                 <field name="date_provided" />
                                 <field name="patient_id" />
@@ -616,7 +616,7 @@
                         <notebook>
                             <page name="resumen">
                                 <field name="sumary"
-                                    placeholder="Descrption of test..." />
+                                    placeholder="Descrption of test" />
                             </page>
                         </notebook>
                     </sheet>
