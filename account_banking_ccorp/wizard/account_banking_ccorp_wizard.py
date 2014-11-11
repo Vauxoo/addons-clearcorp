@@ -30,18 +30,17 @@ use parser.models as a mean of communication with the business logic.
 '''
 from openerp.osv import osv, fields
 import time
-import netsvc
+import openerp.netsvc
 import base64
 import datetime
 from openerp.tools import config
 from openerp.tools.translate import _
-from account_banking_ccorp.parsers import models
-from account_banking_ccorp.parsers.convert import *
-from account_banking_ccorp.struct import struct
-from account_banking_ccorp import sepa
+from openerp.addons.account_banking_ccorp_dg.parsers import models
+from openerp.addons.account_banking_ccorp_dg.parsers.convert import *
+from openerp.addons.account_banking_ccorp_dg.struct import struct
 from banktools import *
 
-import decimal_precision as dp
+import openerp.addons.decimal_precision as dp
 import re
 
 bt = models.mem_bank_transaction

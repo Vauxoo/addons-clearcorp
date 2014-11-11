@@ -21,9 +21,8 @@
 
 import datetime
 from openerp.tools.translate import _
-from account_banking_ccorp.parsers import convert
-from account_banking_ccorp import sepa
-from account_banking_ccorp.struct import struct
+from openerp.addons.account_banking_ccorp.parsers import convert
+from openerp.addons.account_banking_ccorp.struct import struct
 
 __all__ = [
     'get_period',

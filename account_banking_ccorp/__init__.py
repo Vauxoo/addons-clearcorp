@@ -20,23 +20,10 @@
 #
 ##############################################################################
 
-{
-    'name': 'Account Banking CCorp',
-    'version': '1.0',
-    'category': 'Accounting & Finance',
-    'description': """
-    """,
-    'author': 'CLEARCORP S.A.',
-    'website': 'http://www.clearcorp.co.cr',
-    'depends': [
-                'account_payment',
-                'base_iban',
-                ],
-    'data': [
-             'security/ir.model.access.csv',
-             'view/account_banking_ccorp_view.xml',
-             'wizard/account_banking_ccorp_wizard_view.xml',
-             ],
-    'installable': True,
-    'auto_install': False,
-}
+import account_banking_ccorp
+import bank_statement
+import imported_file
+import banking_import_transaction
+import struct
+import wizard
+import parsers
