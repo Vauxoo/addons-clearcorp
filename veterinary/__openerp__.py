@@ -21,20 +21,26 @@
 ##############################################################################
 
 {
-    'name': 'Veterinaria',
+    'name': 'veterinary',
     'version': '1.0',
-    'category': 'Base',
+    'category': 'veterinary',
     'sequence': 16,
-    'summary': 'Clinica veterinaria',
+    'summary': '',
     'description': """
-TODO""",
+     This is a module to management a veterinary clinic,
+     here we can insert a patient, add his family, contacts for the family, 
+     medical expedients and you can view the family tree""",
     'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'complexity': 'normal',
     'images' : [],
     'depends': ['product',],
-    'data': ['veterinaria_view.xml',
-             'veterinaria_menu.xml',],
+    'data': [
+             'veterinary_view.xml',
+             'veterinary_menu.xml',
+             'security/veterinary_security_view.xml',
+             'security/ir.model.access.csv',
+             ],
     'test' : [],
     'demo': [],
     'installable': True,
