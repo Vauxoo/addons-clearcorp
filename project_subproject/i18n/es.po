@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-02 22:21+0000\n"
-"PO-Revision-Date: 2014-10-02 22:21+0000\n"
+"POT-Creation-Date: 2014-11-10 21:15+0000\n"
+"PO-Revision-Date: 2014-11-10 21:15+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,43 +16,9 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: project_subproject
-#: model:ir.actions.act_window,help:project_subproject.open_view_sub_projects
-msgid "<p class=\"oe_view_nocontent_create\">\n"
-"                  Click to start a new project.\n"
-"                </p><p>\n"
-"                  Projects are used to organize your activities; plan\n"
-"                  tasks, track issues, invoice timesheets. You can define\n"
-"                  internal projects (R&amp;D, Improve Sales Process),\n"
-"                  private projects (My Todos) or customer ones.\n"
-"                </p><p>\n"
-"                  You will be able collaborate with internal users on\n"
-"                  projects or invite customers to share your activities.\n"
-"                </p>\n"
-"            "
-msgstr "<p class=\"oe_view_nocontent_create\">\n"
-"Pulse para iniciar un nuevo proyecto.\n"
-"</p><p>\n"
-"Los proyectos se usan para organizar sus actividades: planificar tareas, seguir incidencias, facturar partes de horas, etc. Puede definir proyectos internos (I+D, mejorar proceso de ventas, etc.), proyectos privados (mi lista de tareas a realizar) o proyectos de clientes.\n"
-"</p><p>\n"
-"Puede colaborar en los proyectos con los usuarios internos o invitar a clientes a compartir sus actividades.\n"
-"</p>\n"
-"            "
-
-#. module: project_subproject
 #: field:project.project,parent_project_id:0
 msgid "Parent Project"
 msgstr "Proyecto Padre"
-
-#. module: project_subproject
-#: model:ir.model,name:project_subproject.model_project_project
-msgid "Project"
-msgstr "Proyecto"
-
-#. module: project_subproject
-#: model:ir.actions.act_window,name:project_subproject.open_view_sub_projects
-#: field:project.project,subproject_ids:0
-msgid "Sub-Projects"
-msgstr "Sub-Proyectos"
 
 #. module: project_subproject
 #: view:project.project:project_subproject.view_project_kanban
@@ -60,7 +26,10 @@ msgid "Sub-Project"
 msgstr "Sub-Proyecto"
 
 #. module: project_subproject
+#: model:ir.actions.act_window,name:project_subproject.open_view_sub_projects
+#: view:project.project:project_subproject.view_project_form
 #: view:project.project:project_subproject.view_project_kanban
+#: field:project.project,subproject_ids:0
 msgid "Sub-Projects"
 msgstr "Sub-Proyectos"
 
