@@ -31,8 +31,20 @@ def parser_types(*args, **kwargs):
     '''
     return models.parser_type.get_parser_types()
 
+
+
 class resPartnerBank(osv.Model):
     _inherit = "res.partner.bank"
+    
+    def _bank_type_get_first(self, cr, uid, context=None):
+        bank_type_obj = self.pool.get('res.partner.bank.type')
+
+        result = ''
+        type_ids = bank_type_obj.search(cr, uid, [])
+        bank_types = bank_type_obj.browse(cr, uid, type_ids, context=context)
+        for bank_type in bank_types:
+            return bank_type.code
+        return result
     
     _columns = {
                 'parser_types': fields.selection(
@@ -44,4 +56,8 @@ class resPartnerBank(osv.Model):
                                              select=True),
                 'default_debit_account_id': fields.many2one('account.account', 'Default debit account',
                                                             select=True),
+                #'state': fields.selection(_bank_type_gett,'Bank Account Type', required=True),
                 }
+    _defaults = {
+               'state': _bank_type_get_first,
+    }

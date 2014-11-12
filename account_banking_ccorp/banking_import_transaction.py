@@ -31,16 +31,15 @@
 ###############################################################################
 
 from openerp.osv import osv, fields
-import netsvc
+import openerp.netsvc
 import base64
 import datetime
 from openerp.tools import config
 from openerp.tools.translate import _
 from parsers import models
 from parsers.convert import *
-import sepa
 from wizard.banktools import *
-import decimal_precision as dp
+import openerp.addons.decimal_precision as dp
 
 bt = models.mem_bank_transaction
 

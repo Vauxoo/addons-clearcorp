@@ -1,0 +1,996 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* account_banking_ccorp
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-11-21 20:23+0000\n"
+"PO-Revision-Date: 2013-11-21 20:23+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_banking_ccorp
+#: view:account.banking.ccorp.bank.import.wizard:0
+#: field:account.banking.ccorp.imported.file,statement_ids:0
+msgid "Statements"
+msgstr "Extractos"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:880
+#, python-format
+msgid "Bank transaction %s: write off not implemented for this match type."
+msgstr "Transaccion %s: el desajuste no esta implementado para este tipo de emparejamiento."
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:618
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:630
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:634
+#, python-format
+msgid "Cannot unreconcile"
+msgstr "No se puede deshacer la conciliación"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:1046
+#, python-format
+msgid "Cannot check for duplicate. I can't find myself."
+msgstr "No se pueden verificar los duplicados. Imposible encontrar este registro."
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/wizard/account_banking_ccorp_wizard.py:250
+#, python-format
+msgid "Statement %(statement_id)s for account %(bank_account)s uses different currency than the defined bank journal."
+msgstr "El extracto %(statement_id)s para la cuenta %(bank_account)s usa una divisa diferente a la definida en el diario del banco."
+
+#. module: account_banking_ccorp
+#: view:account.banking.ccorp.bank.import.wizard:0
+msgid "Select the processing details:"
+msgstr "Seleccione los detalles para procesamiento"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.line,banking_import_id:0
+msgid "Bank import"
+msgstr "Importación Bancaria"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.line,statement_id:0
+#: field:account.banking.ccorp.bank.import.transaction,statement_id:0
+msgid "Statement"
+msgstr "Extracto"
+
+#. module: account_banking_ccorp
+#: selection:account.banking.ccorp.bank.import.line,type:0
+msgid "Supplier"
+msgstr "Proveedor"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:447
+#, python-format
+msgid "Cannot link transaction %s with invoice"
+msgstr "No se puede vincular transacción %s con la factura"
+
+#. module: account_banking_ccorp
+#: field:account.bank.statement.line,parent_id:0
+msgid "Parent"
+msgstr "Padre"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.wizard,file:0
+msgid "Statements File"
+msgstr "Archivo de Extractos"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.wizard,import_id:0
+msgid "Import File"
+msgstr "Importar Archivo"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.transaction,move_line_id:0
+msgid "Entry to reconcile"
+msgstr "Entrada a conciliar"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.transaction,company_id:0
+#: field:account.banking.ccorp.bank.import.wizard,company:0
+#: field:account.banking.ccorp.imported.file,company_id:0
+msgid "Company"
+msgstr "Compañía"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:1152
+#, python-format
+msgid "Cannot perform match on a confirmed transaction"
+msgstr "No se puede realizar la asociación en una transacción confirmada"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.transaction,parent_id:0
+msgid "Split off from this transaction"
+msgstr "Se separó de esta transacción"
+
+#. module: account_banking_ccorp
+#: field:account.bank.statement.line,residual:0
+#: field:account.banking.ccorp.bank.import.transaction,residual:0
+msgid "Residual"
+msgstr "Residuo"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:1958
+#, python-format
+msgid "Confirmed Statement Line"
+msgstr "Linea de Extracto Confirmada"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.wizard,date_to:0
+msgid "Date to"
+msgstr "Fecha hasta"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/wizard/banktools.py:95
+#, python-format
+msgid "Bank account %(account_no)s was not found in the database"
+msgstr "La cuenta bancaria %(account_no)s no se encontro en la base de datos."
+
+#. module: account_banking_ccorp
+#: selection:account.banking.ccorp.bank.import.wizard,state:0
+msgid "init"
+msgstr "init"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:1861
+#, python-format
+msgid "You cannot confirm a bank transfer marked as a duplicate (%s.%s)"
+msgstr "No puedes confirmar una transferecia marcada como duplicada (%s.%s)"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:558
+#, python-format
+msgid "Cannot link with storno"
+msgstr "No se puede vincular con cancelaciones"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.line,statement_line_id:0
+msgid "Resulting statement line"
+msgstr "Línea de extracto resultante"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.transaction,invoice_ids:0
+msgid "Matching invoices"
+msgstr "Facturas emparejadas"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.line,reconcile_id:0
+msgid "Reconciliaton"
+msgstr "Conciliación"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.line,account_id:0
+#: field:account.banking.ccorp.bank.import.wizard,account_bank:0
+msgid "Account"
+msgstr "Cuenta"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:1045
+#, python-format
+msgid "Cannot check for duplicate"
+msgstr "Imposible verificar duplicados"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.line,note:0
+msgid "Notes"
+msgstr "Notas"
+
+#. module: account_banking_ccorp
+#: selection:account.banking.ccorp.bank.import.line,transaction_type:0
+msgid "Canceled debit order"
+msgstr "Orden de débito cancelada"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.line,amount:0
+msgid "Amount"
+msgstr "Monto"
+
+#. module: account_banking_ccorp
+#: field:account.bank.statement.line,match_type:0
+#: field:account.banking.ccorp.bank.import.transaction,match_type:0
+msgid "Match type"
+msgstr "Tipo de coincidencia"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:635
+#, python-format
+msgid "Unreconcile payment order not implemented"
+msgstr "Deshacer concilación de ordenes de pago no implementado"
+
+#. module: account_banking_ccorp
+#: field:account.bank.statement.line,duplicate:0
+msgid "Possible duplicate import"
+msgstr "Importación duplicada posible"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:872
+#, python-format
+msgid "Cannot reconcile type %s. No method found to reconcile this type"
+msgstr "No se puede conciliar el tipo %s. Ningún método encontrado para conciliar este tipo"
+
+#. module: account_banking_ccorp
+#: model:ir.model,name:account_banking_ccorp.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr "Linea de Extracto Bancario"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:847
+#, python-format
+msgid "Cannot cancel type %s"
+msgstr "Imposible cancelar el tipo %s"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.line,ref:0
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: account_banking_ccorp
+#: field:res.partner.bank,default_debit_account_id:0
+msgid "Default debit account"
+msgstr "Cuenta de débito por defecto"
+
+#. module: account_banking_ccorp
+#: selection:account.bank.statement.line,match_type:0
+#: selection:account.banking.ccorp.bank.import.transaction,match_type:0
+msgid "Move"
+msgstr "Movimiento"
+
+#. module: account_banking_ccorp
+#: constraint:account.bank.statement:0
+msgid "The journal and period chosen have to belong to the same company."
+msgstr "El diario y el periodo elegido tienen que pertenecer a la misma empresa."
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:1922
+#, python-format
+msgid "The bank statement that this transaction belongs to has already been confirmed"
+msgstr "El extracto bancario al que esta transacción pertenece ya ha sido confirmado"
+
+#. module: account_banking_ccorp
+#: selection:account.banking.ccorp.bank.import.line,transaction_type:0
+msgid "Invoice payment"
+msgstr "Pago de facturas"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:1860
+#, python-format
+msgid "Bank transfer flagged as duplicate"
+msgstr "Transferencia bancaria marcada como duplicada"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/wizard/banktools.py:240
+#, python-format
+msgid "Unknown Bank"
+msgstr "Banco Desconocido"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.wizard,date_from:0
+msgid "Date from"
+msgstr "Fecha de"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.transaction,statement_line_id:0
+msgid "Statement line"
+msgstr "Linea de Extracto"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.line,partner_id:0
+msgid "Partner"
+msgstr "Asociado"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.imported.file,date:0
+msgid "Import Date"
+msgstr "Fecha Importación"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:451
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:461
+#, python-format
+msgid "No match found for transaction %s.%s"
+msgstr "No hay coincidencias para la transacción %s.%s"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:1249
+#, python-format
+msgid "No period defined for date %(date)"
+msgstr "No hay un periodo definido para la fecha %(date)"
+
+#. module: account_banking_ccorp
+#: selection:account.bank.statement.line,state:0
+msgid "Confirmed"
+msgstr "Confirmado"
+
+#. module: account_banking_ccorp
+#: selection:account.bank.statement.line,match_type:0
+#: field:account.banking.ccorp.bank.import.line,payment_order_id:0
+#: selection:account.banking.ccorp.bank.import.transaction,match_type:0
+msgid "Payment order"
+msgstr "Orden de Pago"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.transaction,reference:0
+msgid "reference"
+msgstr "referencia"
+
+#. module: account_banking_ccorp
+#: view:account.banking.ccorp.bank.import.wizard:0
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. module: account_banking_ccorp
+#: field:res.partner.bank,default_credit_account_id:0
+msgid "Default credit account"
+msgstr "Cuenta de crédito por defecto"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:1959
+#, python-format
+msgid "You cannot delete a confirmed Statement Line: '%s'"
+msgstr "No se puede borrar una linea de extracto ya confirmada: '%s'"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.line,transaction_type:0
+msgid "Transaction type"
+msgstr "Tipo de Transacción"
+
+#. module: account_banking_ccorp
+#: field:account.bank.statement.line,state:0
+#: field:account.banking.ccorp.bank.import.wizard,state:0
+#: field:account.banking.ccorp.imported.file,state:0
+msgid "State"
+msgstr "Estado"
+
+#. module: account_banking_ccorp
+#: model:ir.model,name:account_banking_ccorp.model_account_bank_statement
+msgid "Bank Statement"
+msgstr "Extracto Bancario"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.line,type:0
+msgid "Type"
+msgstr "Tipo"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/wizard/account_banking_ccorp_wizard.py:268
+#, python-format
+msgid "Statement %(id)s known - skipped"
+msgstr "Extracto %(id)s conocido"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.line,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: account_banking_ccorp
+#: selection:account.banking.ccorp.bank.import.line,transaction_type:0
+msgid "Payment from a payment order"
+msgstr "Pago de una orden de pago"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:1921
+#, python-format
+msgid "Cannot cancel bank transaction"
+msgstr "No se puede cancelar la transacción bancaria"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/wizard/account_banking_ccorp_wizard.py:323
+#, python-format
+msgid "Failed to create an import transaction resource"
+msgstr "Fallo al crear el recurso de importanción de transacciones"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:785
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:789
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:808
+#, python-format
+msgid "Cannot cancel link with storno"
+msgstr "No se puede cancelar el link con storno"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:450
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:460
+#, python-format
+msgid "Please select one of the matches in transaction %s.%s"
+msgstr "Por favor seleccione una de las coincidencias en la transacción %s.%s"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.transaction,writeoff_move_line_id:0
+msgid "Write off move line"
+msgstr "Linea de desajuste"
+
+#. module: account_banking_ccorp
+#: model:ir.actions.act_window,name:account_banking_ccorp.action_import_wizard_create
+#: model:ir.ui.menu,name:account_banking_ccorp.menu_import_statements
+msgid "Import Bank Statements File"
+msgstr "Importar Archivo de Extractos Bancarios"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.transaction,writeoff_account_id:0
+msgid "Write-off account"
+msgstr "Cuenta de Desajuste"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.transaction,payment_order_id:0
+msgid "Payment order to reconcile"
+msgstr "Orden de pago a conciliar"
+
+#. module: account_banking_ccorp
+#: view:account.banking.ccorp.bank.import.wizard:0
+msgid "Transaction"
+msgstr "Transacción"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.wizard,statement_ids:0
+msgid "Imported Bank Statements"
+msgstr "Extractos Bancarios Importados"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.transaction,writeoff_amount:0
+msgid "Difference Amount"
+msgstr "Monto de Diferencia"
+
+#. module: account_banking_ccorp
+#: model:ir.model,name:account_banking_ccorp.model_account_banking_ccorp_bank_import_transaction
+msgid "Bank import transaction"
+msgstr "Transacción de Importación Bancaria"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:588
+#, python-format
+msgid "Reconcile payment order not implemented"
+msgstr "Reconciliar ordenes de pago no implementado"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:1234
+#, python-format
+msgid "transaction %(statement_id)s.%(transaction_id)s for account %(bank_account)s uses different currency than the defined bank journal."
+msgstr "La transacción %(statement_id)s.%(transaction_id)s para la cuenta %(bank_account)s utiliza moneda diferente al diario bancario definido."
+
+#. module: account_banking_ccorp
+#: selection:account.bank.statement.line,match_type:0
+#: selection:account.banking.ccorp.bank.import.transaction,match_type:0
+msgid "Manual"
+msgstr "Manual"
+
+#. module: account_banking_ccorp
+#: view:account.banking.ccorp.bank.import.wizard:0
+msgid "Import Bank Transactions File"
+msgstr "Importar Archivo de Transacciones Bancarias"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/wizard/banktools.py:161
+#, python-format
+msgid "Account %(account_no)s is not owned by %(partner)s"
+msgstr "La cuenta %(account_no)s no le pertenece a %(partner)s"
+
+#. module: account_banking_ccorp
+#: selection:account.banking.ccorp.bank.import.transaction,payment_option:0
+msgid "Reconcile Payment Balance"
+msgstr "Reconciliar Balance de Pagos"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.transaction,payment_option:0
+msgid "Payment Difference"
+msgstr "Diferencia de Pagos"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:809
+#, python-format
+msgid "Line id not found"
+msgstr "Id de línea no encontrado"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:1210
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:1215
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:1233
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:1248
+#: code:addons/account_banking_ccorp/wizard/account_banking_ccorp_wizard.py:128
+#: code:addons/account_banking_ccorp/wizard/account_banking_ccorp_wizard.py:186
+#: code:addons/account_banking_ccorp/wizard/account_banking_ccorp_wizard.py:221
+#: code:addons/account_banking_ccorp/wizard/account_banking_ccorp_wizard.py:224
+#: code:addons/account_banking_ccorp/wizard/account_banking_ccorp_wizard.py:230
+#: code:addons/account_banking_ccorp/wizard/account_banking_ccorp_wizard.py:249
+#: code:addons/account_banking_ccorp/wizard/account_banking_ccorp_wizard.py:267
+#: code:addons/account_banking_ccorp/wizard/account_banking_ccorp_wizard.py:278
+#: code:addons/account_banking_ccorp/wizard/account_banking_ccorp_wizard.py:322
+#, python-format
+msgid "ERROR!"
+msgstr "ERROR!"
+
+#. module: account_banking_ccorp
+#: view:account.banking.ccorp.bank.import.wizard:0
+#: field:account.banking.ccorp.bank.import.wizard,line_ids:0
+msgid "Transactions"
+msgstr "Transacciones"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:584
+#, python-format
+msgid "Cannot reconcile: no direct debit order"
+msgstr "No se puede conciliar: no hay orden de debito directo"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.line,currency:0
+msgid "Currency"
+msgstr "Divisa"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.transaction,statement:0
+msgid "statement"
+msgstr "extracto"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.transaction,bank_country_code:0
+msgid "Bank country code"
+msgstr "Código de país del banco"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.line,invoice_ids:0
+msgid "unknown"
+msgstr "desconocido"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/wizard/banktools.py:157
+#, python-format
+msgid "More than one bank account was found with the same number %(account_no)s"
+msgstr "Más de una cuenta bancaria fue encontrada con el mismo numero %(account_no)s"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/parsers/models.py:272
+#, python-format
+msgid "Invalid value for transfer_type"
+msgstr "Valor inválido para el tipo de transferencia"
+
+#. module: account_banking_ccorp
+#: selection:account.banking.ccorp.imported.file,state:0
+msgid "Review"
+msgstr "Revisión"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.imported.file,file:0
+msgid "Raw Data"
+msgstr "Datos en Bruto"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.line,duplicate:0
+msgid "Duplicate"
+msgstr "Duplicar"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:1868
+#, python-format
+msgid "You have to define an analytic journal on the '%s' journal!"
+msgstr "Debes definir un diario analítico en el diario '%s'"
+
+#. module: account_banking_ccorp
+#: selection:account.bank.statement.line,state:0
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/parsers/models.py:381
+#, python-format
+msgid "This is a stub. Please implement your own."
+msgstr "Esto es un trozo por favor implementa uno propio"
+
+#. module: account_banking_ccorp
+#: view:account.banking.ccorp.bank.import.wizard:0
+msgid "Import"
+msgstr "Importar"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.transaction,message:0
+msgid "message"
+msgstr "mensaje"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/wizard/banktools.py:75
+#, python-format
+msgid "No suitable period found for date %(date)s and company %(company_name)s"
+msgstr "No se encontro un periodo adecuado para la fecha %(date)s y la compañía %(company_name)s"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:1211
+#, python-format
+msgid "Transaction found for unknown account %(bank_account)s"
+msgstr "Transacción encontrada para la cuenta desconocida %(bank_account)s"
+
+#. module: account_banking_ccorp
+#: model:ir.actions.act_window,name:account_banking_ccorp.action_imported_files
+msgid "Imported Statement Files"
+msgstr "Archivos de Extracto Importados"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.transaction,duplicate:0
+msgid "duplicate"
+msgstr "duplicado"
+
+#. module: account_banking_ccorp
+#: field:account.bank.statement,banking_id:0
+msgid "Imported File"
+msgstr "Archivo Importado"
+
+#. module: account_banking_ccorp
+#: selection:account.banking.ccorp.bank.import.line,transaction_type:0
+msgid "Aggregate payment order"
+msgstr "Orden de Pago Agregada"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.line,date:0
+msgid "Date"
+msgstr "Fecha"
+
+#. module: account_banking_ccorp
+#: field:res.partner.bank,parser_types:0
+msgid "Parser type"
+msgstr "Tipo de Parser"
+
+#. module: account_banking_ccorp
+#: field:account.bank.statement.line,link_partner_ok:0
+msgid "Can link partner"
+msgstr "Se puede linkear el asociado"
+
+#. module: account_banking_ccorp
+#: field:account.bank.statement.line,import_transaction_id:0
+msgid "Import transaction"
+msgstr "Transacción de Importación"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/wizard/banktools.py:79
+#, python-format
+msgid "Multiple overlapping periods for date %(date)s and company %(company_name)s"
+msgstr "Multiples periodos superpuestos para la fecha %(date)s y compañía %(company_name)s"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/wizard/account_banking_ccorp_wizard.py:187
+#, python-format
+msgid "The imported statements appear to be invalid! Check your file."
+msgstr "Los extractos importados parecen estar inválidos. Revisa tu archivo."
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/bank_statement.py:219
+#, python-format
+msgid "Couldn't locate default debit account or default credit account"
+msgstr "No se pueden localizar las cuentas de crédito y débito por defecto"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.transaction,writeoff_analytic_id:0
+msgid "Write off analytic account"
+msgstr "Cuenta analítica de desajuste"
+
+#. module: account_banking_ccorp
+#: model:ir.ui.menu,name:account_banking_ccorp.menu_banking_actions
+msgid "Banking"
+msgstr "Banca"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/wizard/account_banking_ccorp_wizard.py:129
+#, python-format
+msgid "Unable to import parser %(parser)s. Parser class not found."
+msgstr "Imposible importar el parser %(parser)s. La clase Parser no encontrada."
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.transaction,transaction:0
+msgid "transaction"
+msgstr "transacción"
+
+#. module: account_banking_ccorp
+#: selection:account.banking.ccorp.imported.file,state:0
+#: code:addons/account_banking_ccorp/bank_statement.py:218
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:1794
+#: code:addons/account_banking_ccorp/wizard/account_banking_ccorp_wizard.py:385
+#, python-format
+msgid "Error"
+msgstr "Error"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:1216
+#, python-format
+msgid "Transaction found for account %(bank_account)s, but no default journal was defined."
+msgstr "Transacción encontrada para la cuenta %(bank_account)s, pero no hay un diario por defecto definido."
+
+#. module: account_banking_ccorp
+#: selection:account.bank.statement.line,match_type:0
+#: selection:account.banking.ccorp.bank.import.transaction,match_type:0
+msgid "Storno"
+msgstr "Storno"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:457
+#, python-format
+msgid "Cannot link transaction %s with accounting entry"
+msgstr "No se puede enlazar la transacción %s con el asiento contable"
+
+#. module: account_banking_ccorp
+#: model:ir.actions.act_window,help:account_banking_ccorp.action_imported_files
+msgid "<p class=\"oe_view_nocontent_create\">There are no imported files, import one first.</p>\n"
+"            "
+msgstr "<p class=\"oe_view_nocontent_create\">No hay archivos importados, importa uno primero.</p>\n"
+"            "
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.transaction,invoice_id:0
+msgid "Invoice to reconcile"
+msgstr "Facturas a conciliar"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/wizard/account_banking_ccorp_wizard.py:279
+#, python-format
+msgid "No period found covering statement date %(date)s, statement %(id)"
+msgstr "No hay un periodo que cubra la fecha del extracto #(date)s, extracto %(id)"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/wizard/banktools.py:60
+#, python-format
+msgid "No suitable fiscal year found for date %(date)s and company %(company_name)s"
+msgstr "Ningún año fiscal adecuado encontrado para la fecha %(date)s y compañía %(company_name)s"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:1867
+#, python-format
+msgid "No Analytic Journal !"
+msgstr "Ningún diario analítco"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.transaction,type:0
+msgid "type"
+msgstr "tipo"
+
+#. module: account_banking_ccorp
+#: model:ir.model,name:account_banking_ccorp.model_res_partner_bank
+msgid "Bank Accounts"
+msgstr "Cuentas Bancarias"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.transaction,local_account:0
+msgid "local_account"
+msgstr ""
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.line,period_id:0
+msgid "Period"
+msgstr "Periodo"
+
+#. module: account_banking_ccorp
+#: selection:account.banking.ccorp.bank.import.line,type:0
+msgid "General"
+msgstr "General"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.transaction,payment_line_id:0
+msgid "Payment line"
+msgstr "Línea de Pago"
+
+#. module: account_banking_ccorp
+#: selection:account.bank.statement.line,match_type:0
+#: selection:account.banking.ccorp.bank.import.transaction,match_type:0
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: account_banking_ccorp
+#: selection:account.banking.ccorp.bank.import.wizard,state:0
+msgid "error"
+msgstr "error"
+
+#. module: account_banking_ccorp
+#: view:account.banking.ccorp.bank.import.wizard:0
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: account_banking_ccorp
+#: view:account.banking.ccorp.bank.import.wizard:0
+msgid "Close"
+msgstr "Cerrar"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.transaction,remote_owner_city:0
+msgid "remote_owner_city"
+msgstr ""
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.imported.file,user_id:0
+msgid "Responsible User"
+msgstr "Usuario Responsable"
+
+#. module: account_banking_ccorp
+#: selection:account.banking.ccorp.imported.file,state:0
+msgid "Unfinished"
+msgstr "Inconcluso"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/wizard/account_banking_ccorp_wizard.py:225
+#, python-format
+msgid "Statements found for unknown account %(bank_account)s"
+msgstr "Extractos encontrados para la cuenta desconocida %(bank_account)s"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:1151
+#, python-format
+msgid "Cannot perform match"
+msgstr "No se puede realizar la asociación"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:631
+#, python-format
+msgid "Cannot unreconcile: no direct debit order"
+msgstr "No se puede deshacer la conciliación: no hay orden de débito directo"
+
+#. module: account_banking_ccorp
+#: selection:account.banking.ccorp.bank.import.line,transaction_type:0
+msgid "Bank costs"
+msgstr "Costos bancarios"
+
+#. module: account_banking_ccorp
+#: field:account.bank.statement.line,match_multi:0
+#: field:account.banking.ccorp.bank.import.transaction,match_multi:0
+msgid "Multi match"
+msgstr "Multi asociación"
+
+#. module: account_banking_ccorp
+#: help:account.banking.ccorp.bank.import.transaction,payment_option:0
+msgid "This field helps you to choose what you want to do with the eventual difference between the paid amount and the sum of allocated amounts. You can either choose to keep open this difference on the partner's account, or reconcile it with the payment(s)"
+msgstr "Este campo le ayuda a elegir lo que usted quiere hacer con la eventual diferencia entre el importe pagado y la suma de las cantidades asignadas. Usted puede optar por mantener abierta esta diferencia en la cuenta del socio, o conciliarlo con el pago(s)"
+
+#. module: account_banking_ccorp
+#: help:account.banking.ccorp.bank.import.transaction,bank_country_code:0
+msgid "Fallback default country for new partner records, as defined by the import parser"
+msgstr "País predeterminado de repliegue para los nuevos registros asociados, tal como se define por el parser de importación"
+
+#. module: account_banking_ccorp
+#: selection:account.banking.ccorp.bank.import.wizard,state:0
+msgid "ready"
+msgstr "listo"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.transaction,move_line_ids:0
+msgid "Matching entries"
+msgstr "Entradas coincidientes"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:361
+#, python-format
+msgid "Unable to link transaction id %(trans)s (ref: %(ref)s) to invoice: invoice %(invoice)s was already paid"
+msgstr "Imposible vincular la transacción id %(trans)s (ref: %(ref)s) a la factura. La factura %(invoice)s ya fue pagada"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.wizard,parser:0
+#: field:account.banking.ccorp.imported.file,format:0
+msgid "File Format"
+msgstr "Formato de Archivos"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:1795
+#, python-format
+msgid "No bank account available to link partner to"
+msgstr "No hay una cuenta de banco disponible para asociar al banco"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.transaction,move_currency_amount:0
+msgid "Match Amount"
+msgstr "Monto de Vinculación"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/wizard/banktools.py:64
+#, python-format
+msgid "Multiple overlapping fiscal years found for date %(date)s and company %(company_name)s"
+msgstr "Múltiples años fiscales superpuestos encontrados para la fecha %(date)s y la compañía %(company_name)s"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:848
+#, python-format
+msgid "No method found to cancel this type"
+msgstr "No se encontro método para cancelar este tipo"
+
+#. module: account_banking_ccorp
+#: selection:account.banking.ccorp.imported.file,state:0
+msgid "Finished"
+msgstr "Finalizado"
+
+#. module: account_banking_ccorp
+#: model:ir.ui.menu,name:account_banking_ccorp.menu_imported_statements_files
+msgid "Imported Statements Files"
+msgstr "Archivos de Extractos Importados"
+
+#. module: account_banking_ccorp
+#: selection:account.bank.statement.line,match_type:0
+#: selection:account.banking.ccorp.bank.import.transaction,match_type:0
+msgid "Payment"
+msgstr "Pago"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.imported.file,bank_id:0
+msgid "Bank"
+msgstr "Banco"
+
+#. module: account_banking_ccorp
+#: selection:account.banking.ccorp.bank.import.line,type:0
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:583
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:587
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:871
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:879
+#, python-format
+msgid "Cannot reconcile"
+msgstr "No se puede conciliar"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/wizard/account_banking_ccorp_wizard.py:231
+#, python-format
+msgid "Statements found for account %(bank_account)s, but no default journal was defined."
+msgstr "Extractos encontrados para la cuenta %(bank_account)s, pero no se definio un diario por defecto."
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/wizard/account_banking_ccorp_wizard.py:384
+#, python-format
+msgid "Review Bank Statements"
+msgstr "Revisar Extractos Bancarios"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.line,partner_bank_id:0
+msgid "Bank Account"
+msgstr "Cuenta Bancaria"
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.transaction,payment_order_ids:0
+msgid "Payment orders"
+msgstr "Ordenes de pago"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:559
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:786
+#, python-format
+msgid "No direct debit order item"
+msgstr "No hay item de orden de débito directo"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:790
+#, python-format
+msgid "The direct debit order item is not marked for storno"
+msgstr "El item de debit directo no ha sido marcado para strono"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/account_banking_ccorp.py:41
+#: help:res.partner.bank,parser_types:0
+#, python-format
+msgid "Parser type used to import bank statements file"
+msgstr "Tipo de parser usado para importar el archivo de extractos bancarios"
+
+#. module: account_banking_ccorp
+#: code:addons/account_banking_ccorp/banking_import_transaction.py:619
+#, python-format
+msgid "Cannot unreconcile: this operation is not yet supported for match type 'payment'"
+msgstr "No se puede deshacer la conciliación: esta operación no es compatible con el tipo de vinculación "pago""
+
+#. module: account_banking_ccorp
+#: field:account.banking.ccorp.bank.import.wizard,ending_balance:0
+msgid "Ending balance"
+msgstr "Saldo Final"
+
+#. module: account_banking_ccorp
+#: model:ir.model,name:account_banking_ccorp.model_account_banking_ccorp_bank_import_line
+msgid "Bank import lines"
+msgstr "Líneas de importación bancaria"
+
+#. module: account_banking_ccorp
+#: selection:account.banking.ccorp.bank.import.transaction,payment_option:0
+msgid "Keep Open"
+msgstr "Mantener Abierto"
+
+#. module: account_banking_ccorp
+#: model:ir.model,name:account_banking_ccorp.model_account_banking_ccorp_imported_file
+msgid "Imported Bank Statements File"
+msgstr "Archivo de Extractos Bancarios Importado"
+
