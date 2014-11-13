@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-27 20:35+0000\n"
-"PO-Revision-Date: 2014-10-27 20:35+0000\n"
+"POT-Creation-Date: 2014-11-13 22:11+0000\n"
+"PO-Revision-Date: 2014-11-13 22:11+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -92,7 +92,7 @@ msgstr "Categoría de Producto"
 #: view:res.partner:project_issue_helpdesk.view_partner_simple_form
 #: selection:res.partner,partner_type:0
 msgid "Company"
-msgstr "Compañia"
+msgstr "Compañía"
 
 #. module: project_issue_helpdesk
 #: view:contract.pricelist:project_issue_helpdesk.view_contract_pricelist_form
@@ -224,6 +224,11 @@ msgid "Is a Company?"
 msgstr "¿Es una empresa?"
 
 #. module: project_issue_helpdesk
+#: field:sale.order,issue_id:0
+msgid "Issue"
+msgstr "Incidencia"
+
+#. module: project_issue_helpdesk
 #: model:ir.actions.act_window,name:project_issue_helpdesk.action_project_issue_origin
 #: view:project.issue.origin:project_issue_helpdesk.view_project_issue_origin_form
 #: view:project.issue.origin:project_issue_helpdesk.view_project_issue_origin_tree
@@ -336,7 +341,7 @@ msgstr "Producto"
 #. module: project_issue_helpdesk
 #: model:ir.model,name:project_issue_helpdesk.model_product_category
 msgid "Product Category"
-msgstr "Categoría de Producto"
+msgstr "Categoría de producto"
 
 #. module: project_issue_helpdesk
 #: model:ir.model,name:project_issue_helpdesk.model_product_template
@@ -368,6 +373,11 @@ msgstr "Tarifa debe ser mayor o igual a uno"
 #: selection:product.template,supply_type:0
 msgid "Replacement"
 msgstr "Repuesto"
+
+#. module: project_issue_helpdesk
+#: model:ir.model,name:project_issue_helpdesk.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
 
 #. module: project_issue_helpdesk
 #: selection:project.issue,warranty:0
@@ -420,7 +430,7 @@ msgstr "Boleta"
 #. module: project_issue_helpdesk
 #: model:ir.model,name:project_issue_helpdesk.model_hr_analytic_timesheet
 msgid "Timesheet Line"
-msgstr "Línea de la hoja de servicios"
+msgstr "Línea del parte de horas"
 
 #. module: project_issue_helpdesk
 #: view:res.partner:project_issue_helpdesk.view_partner_form
@@ -432,6 +442,16 @@ msgstr "True"
 #: field:project.issue,warranty:0
 msgid "Warranty"
 msgstr "Garantía"
+
+#. module: project_issue_helpdesk
+#: field:sale.order,website_message_ids:0
+msgid "Website Messages"
+msgstr "Mensajes del sitio web"
+
+#. module: project_issue_helpdesk
+#: help:sale.order,website_message_ids:0
+msgid "Website communication history"
+msgstr "Historial de comunicaciones del sitio web"
 
 #. module: project_issue_helpdesk
 #: selection:project.issue,issue_type:0
@@ -447,6 +467,11 @@ msgstr "[('partner_type','in',['customer', 'company'])]"
 #: help:product.template,init_onchange_call:0
 msgid "field at view init"
 msgstr "field at view init"
+
+#. module: project_issue_helpdesk
+#: view:sale.order:project_issue_helpdesk.view_sale_order_form
+msgid "get_domain_issue_id(partner_id)"
+msgstr "get_domain_issue_id(partner_id)"
 
 #. module: project_issue_helpdesk
 #: field:contract.pricelist,line_ids:0

@@ -318,6 +318,22 @@
             </field>
         </record>
         
+        <!--inherit sale.view_order_form-->
+        <record id="view_sale_order_form" model="ir.ui.view">
+            <field name="name">view.sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+            	<field name="partner_id"  position="attributes">
+            		<attribute name="on_change">get_domain_issue_id(partner_id)</attribute>
+                </field>        
+                <field name="warehouse_id"  position="after">
+                	<field name="init_onchange_call" invisible="1" />
+                	<field name="issue_id" domain="[('id','in',init_onchange_call[0][2])]"/>
+                </field>
+            </field>
+        </record>
+        
         <!-- ACTIONS -->
         <!-- Action project_issue_origin -->
         <record model="ir.actions.act_window" id="action_project_issue_origin">
