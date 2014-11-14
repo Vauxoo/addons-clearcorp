@@ -28,7 +28,7 @@ This module add field trade name to partners
 """,
 'version': '1.0',
 'author': 'ClearCorp',
-'category': 'Sales Management',
+'category': 'Extra Tools',
 'website': "http://clearcorp.co.cr",
 'depends': ['base'],
 'data': ['view/partner_trade_name.xml'],
