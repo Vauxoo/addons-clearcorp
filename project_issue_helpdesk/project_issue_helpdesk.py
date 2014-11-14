@@ -378,3 +378,27 @@ class ProductCategory(orm.Model):
          'supply_type':fields.selection([('equipment','Equipment'),('replacement','Replacement'),('supply','Supply'),
                                                ('input','Input')],string="Supply Type")
          }
+     
+class SaleOrder(orm.Model):
+     _inherit = 'sale.order'
+     
+     def get_domain_issue_id(self,cr,uid,ids,partner_id,context=None):
+         issue_ids=self.pool.get('project.issue').search(cr,uid,['|',('branch_id','=',partner_id),('partner_id','=',partner_id)])
+         return {'domain':{'issue_id':[('id','in',issue_ids)]}}
+     
+     def get_issues_partner(self, cr, uid,ids,field_name,arg,context=None ):
+         issue_obj=self.pool.get('project.issue')
+         sale_ids=[]
+         domain=[] 
+         res={}
+         for sale in self.browse(cr, uid, ids, context=context):
+            issue_ids=issue_obj.search(cr, uid, ['|',('branch_id','=',sale.partner_id.id),('partner_id','=',sale.partner_id.id)])
+            for issue in issue_obj.browse(cr, uid, issue_ids, context=context):
+                sale_ids.append(issue.id)
+            res[sale.id]=sale_ids   
+         return res
+     _columns = {
+         'issue_id':fields.many2one('project.issue',string="Issue"),
+         'init_onchange_call': fields.function(get_issues_partner, method=True, type='many2many', relation='project.issue',string='Nothing Display', help='field at view init'),
+
+         }

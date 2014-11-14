@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-13 22:11+0000\n"
-"PO-Revision-Date: 2014-11-13 22:11+0000\n"
+"POT-Creation-Date: 2014-11-13 22:13+0000\n"
+"PO-Revision-Date: 2014-11-13 22:13+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,72 +19,72 @@ msgstr ""
 #: model:ir.actions.act_window,help:project_issue_helpdesk.action_contract_pricelist
 msgid "<p class=\"oe_view_nocontent_create\">Create new contract pricelist</p>\n"
 "            "
-msgstr "Crear nuevo contrato de tarifas"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: model:ir.actions.act_window,help:project_issue_helpdesk.action_holiday_calendar
 msgid "<p class=\"oe_view_nocontent_create\">Create new holiday schedule</p>\n"
 "            "
-msgstr "Crear nuevo horario de días feriados"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: model:ir.actions.act_window,help:project_issue_helpdesk.action_project_issue_origin
 msgid "<p class=\"oe_view_nocontent_create\">Create new issue origin</p>\n"
 "            "
-msgstr "Crear un nuevo medio"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:contract.pricelist,account_analytic_id:0
 msgid "Account Analytic"
-msgstr "Cuenta Analítica"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: sql_constraint:contract.pricelist:0
 msgid "Account Analytic already exist "
-msgstr "Cuenta analítica ya existe"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: view:holiday.calendar:project_issue_helpdesk.view_holiday_calendar_form
 msgid "Add a notes..."
-msgstr "Agregar notas..."
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: selection:hr.analytic.timesheet,service_type:0
 msgid "Assistant"
-msgstr "Asistente"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:contract.pricelist.line,assistant_rate:0
 msgid "Assistant Rate"
-msgstr "Tarifa Asistente"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:project.issue,backorder_ids:0
 msgid "Backorders"
-msgstr "Ordenes de Entrega"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: view:project.issue:project_issue_helpdesk.view_project_issue_filter
 #: field:project.issue,branch_id:0
 #: selection:res.partner,partner_type:0
 msgid "Branch"
-msgstr "Sucursal"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:contract.pricelist,calendar_id:0
 msgid "Calendar"
-msgstr "Calendario"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: selection:contract.pricelist.line,pricelist_line_type:0
 msgid "Category"
-msgstr "Categoría"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:contract.pricelist.line,categ_id:0
 #: field:project.issue,categ_id:0
 msgid "Category Product"
-msgstr "Categoría de Producto"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: view:project.issue:project_issue_helpdesk.view_project_issue_filter
@@ -92,7 +92,7 @@ msgstr "Categoría de Producto"
 #: view:res.partner:project_issue_helpdesk.view_partner_simple_form
 #: selection:res.partner,partner_type:0
 msgid "Company"
-msgstr "Compañía"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: view:contract.pricelist:project_issue_helpdesk.view_contract_pricelist_form
@@ -100,12 +100,12 @@ msgstr "Compañía"
 #: model:ir.actions.act_window,name:project_issue_helpdesk.action_contract_pricelist
 #: model:ir.ui.menu,name:project_issue_helpdesk.menu_contract_pricelist_act
 msgid "Contract Pricelist"
-msgstr "Contrato Tarifas"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: constraint:contract.pricelist.line:0
 msgid "Contract only allow a line to a single product o category"
-msgstr "Se están repitiendo productos o categorías en el contrato"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:contract.pricelist,create_uid:0
@@ -113,7 +113,7 @@ msgstr "Se están repitiendo productos o categorías en el contrato"
 #: field:holiday.calendar,create_uid:0
 #: field:project.issue.origin,create_uid:0
 msgid "Created by"
-msgstr "Created by"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:contract.pricelist,create_date:0
@@ -121,82 +121,82 @@ msgstr "Created by"
 #: field:holiday.calendar,create_date:0
 #: field:project.issue.origin,create_date:0
 msgid "Created on"
-msgstr "Created on"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: view:project.issue:project_issue_helpdesk.view_project_issue_filter
 #: selection:res.partner,partner_type:0
 msgid "Customer"
-msgstr "Cliente"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:holiday.calendar,date:0
 msgid "Date"
-msgstr "Fecha"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: view:project.issue:project_issue_helpdesk.view_project_issue_form
 msgid "Delivery Orders"
-msgstr "Ordenes de Entrega"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:project.issue.origin,description:0
 msgid "Description"
-msgstr "Descripción"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:hr.analytic.timesheet,end_time:0
 msgid "End Time"
-msgstr "Hora Final"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: selection:product.category,supply_type:0
 #: selection:product.template,supply_type:0
 msgid "Equipment"
-msgstr "Equipo"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: selection:hr.analytic.timesheet,service_type:0
 msgid "Expert"
-msgstr "Experto"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: constraint:hr.analytic.timesheet:0
 msgid "Format End Time incorrect"
-msgstr "Formato incorrecto Hora Final"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: constraint:hr.analytic.timesheet:0
 msgid "Format Start Time incorrect"
-msgstr "Formato Incorrecto Hora Inicio"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:project.issue,have_branch:0
 msgid "Have Branch"
-msgstr "Have Branch"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: view:contract.pricelist:project_issue_helpdesk.view_contract_pricelist_tree
 #: view:holiday.calendar:project_issue_helpdesk.view_holiday_calendar_form
 #: view:holiday.calendar:project_issue_helpdesk.view_holiday_calendar_tree
 msgid "Holiday Calendar"
-msgstr "Calendario Días Feriados"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:contract.pricelist.line,holiday_multiplier:0
 msgid "Holiday Multiplier"
-msgstr "Multiplicador Feriados"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: view:holiday.calendar:project_issue_helpdesk.view_holiday_calendar_calendar
 msgid "Holidays Calendar"
-msgstr "Calendario Días Feriados"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: model:ir.actions.act_window,name:project_issue_helpdesk.action_holiday_calendar
 #: model:ir.ui.menu,name:project_issue_helpdesk.menu_holidays_calendar_act
 msgid "Holidays Schedule"
-msgstr "Horario Días Feriados"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:contract.pricelist,id:0
@@ -204,41 +204,41 @@ msgstr "Horario Días Feriados"
 #: field:holiday.calendar,id:0
 #: field:project.issue.origin,id:0
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: selection:product.category,supply_type:0
 #: selection:product.template,supply_type:0
 msgid "Input"
-msgstr "Insumo"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: selection:project.issue,issue_type:0
 msgid "Installation"
-msgstr "Primera Instalación"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: view:res.partner:project_issue_helpdesk.view_partner_form
 #: view:res.partner:project_issue_helpdesk.view_partner_simple_form
 msgid "Is a Company?"
-msgstr "¿Es una empresa?"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:sale.order,issue_id:0
 msgid "Issue"
-msgstr "Incidencia"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: model:ir.actions.act_window,name:project_issue_helpdesk.action_project_issue_origin
 #: view:project.issue.origin:project_issue_helpdesk.view_project_issue_origin_form
 #: view:project.issue.origin:project_issue_helpdesk.view_project_issue_origin_tree
 msgid "Issue Origin"
-msgstr "Medio"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:project.issue,issue_type:0
 msgid "Issue Type"
-msgstr "Tipo de Caso"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:contract.pricelist,write_uid:0
@@ -246,7 +246,7 @@ msgstr "Tipo de Caso"
 #: field:holiday.calendar,write_uid:0
 #: field:project.issue.origin,write_uid:0
 msgid "Last Updated by"
-msgstr "Last Updated by"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:contract.pricelist,write_date:0
@@ -254,81 +254,81 @@ msgstr "Last Updated by"
 #: field:holiday.calendar,write_date:0
 #: field:project.issue.origin,write_date:0
 msgid "Last Updated on"
-msgstr "Last Updated on"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: selection:project.issue,warranty:0
 msgid "Manufacturer"
-msgstr "Fábrica"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: constraint:contract.pricelist.line:0
 msgid "Multipliers must be greater or equal to one"
-msgstr "Multiplicadores deben ser mayores o igual a uno"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:contract.pricelist,name:0
 #: field:holiday.calendar,name:0
 #: field:project.issue.origin,name:0
 msgid "Name"
-msgstr "Nombre"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:holiday.calendar,notes:0
 msgid "Notes"
-msgstr "Notas"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:product.template,init_onchange_call:0
 msgid "Nothing Display"
-msgstr "Nothing Display"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:project.issue,origin_id:0
 msgid "Origin"
-msgstr "Medio"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: model:ir.ui.menu,name:project_issue_helpdesk.menu_project_issue_origin_act
 msgid "Origins"
-msgstr "Medios"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:contract.pricelist.line,overtime_multiplier:0
 msgid "Overtime Multiplier"
-msgstr "Multiplicador Horas Extras"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:contract.pricelist,partner_id:0
 #: model:ir.model,name:project_issue_helpdesk.model_res_partner
 msgid "Partner"
-msgstr "Cliente"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:project.issue,partner_type:0
 #: field:res.partner,partner_type:0
 msgid "Partner Type"
-msgstr "Tipo de Contacto"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: model:ir.model,name:project_issue_helpdesk.model_stock_picking
 msgid "Picking List"
-msgstr "Albarán"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: selection:project.issue,issue_type:0
 msgid "Preventive Check"
-msgstr "Revisión Preventiva"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: view:contract.pricelist:project_issue_helpdesk.view_contract_pricelist_form
 msgid "Pricelist Lines"
-msgstr "Listado de Tarifas"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:contract.pricelist.line,pricelist_line_type:0
 msgid "Pricelist Type"
-msgstr "Tipo de Tarifa"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: selection:contract.pricelist.line,pricelist_line_type:0
@@ -336,146 +336,146 @@ msgstr "Tipo de Tarifa"
 #: model:ir.model,name:project_issue_helpdesk.model_product_product
 #: field:project.issue,product_id:0
 msgid "Product"
-msgstr "Producto"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: model:ir.model,name:project_issue_helpdesk.model_product_category
 msgid "Product Category"
-msgstr "Categoría de producto"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: model:ir.model,name:project_issue_helpdesk.model_product_template
 msgid "Product Template"
-msgstr "Plantilla de producto"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: model:ir.model,name:project_issue_helpdesk.model_project_issue
 msgid "Project Issue"
-msgstr "Incidencia proyecto"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:res.partner,provision_amount:0
 msgid "Provision Amount"
-msgstr "Viáticos"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:hr.analytic.timesheet,unit_amount:0
 msgid "Quantify"
-msgstr "Duración"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: constraint:contract.pricelist.line:0
 msgid "Rates must be greater or equal to one"
-msgstr "Tarifa debe ser mayor o igual a uno"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: selection:product.category,supply_type:0
 #: selection:product.template,supply_type:0
 msgid "Replacement"
-msgstr "Repuesto"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: model:ir.model,name:project_issue_helpdesk.model_sale_order
 msgid "Sales Order"
-msgstr "Pedido de venta"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: selection:project.issue,warranty:0
 msgid "Seller"
-msgstr "Vendedor"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:project.issue,prodlot_id:0
 msgid "Serial Number"
-msgstr "Serie"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:hr.analytic.timesheet,service_type:0
 msgid "Service Type"
-msgstr "Tipo de Servicio"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:hr.analytic.timesheet,start_time:0
 msgid "Start Time"
-msgstr "Hora Inicio"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: selection:product.category,supply_type:0
 #: selection:product.template,supply_type:0
 msgid "Supply"
-msgstr "Suministro"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:product.category,supply_type:0
 #: view:product.template:project_issue_helpdesk.view_product_template_normal_form
 #: field:product.template,supply_type:0
 msgid "Supply Type"
-msgstr "Tipo de Producto"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: selection:project.issue,issue_type:0
 msgid "Support"
-msgstr "Soporte"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:contract.pricelist.line,technical_rate:0
 msgid "Technical Rate"
-msgstr "Tarifa Técnica"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:hr.analytic.timesheet,ticket_number:0
 msgid "Ticket Number"
-msgstr "Boleta"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: model:ir.model,name:project_issue_helpdesk.model_hr_analytic_timesheet
 msgid "Timesheet Line"
-msgstr "Línea del parte de horas"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: view:res.partner:project_issue_helpdesk.view_partner_form
 #: view:res.partner:project_issue_helpdesk.view_partner_simple_form
 msgid "True"
-msgstr "True"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:project.issue,warranty:0
 msgid "Warranty"
-msgstr "Garantía"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:sale.order,website_message_ids:0
 msgid "Website Messages"
-msgstr "Mensajes del sitio web"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: help:sale.order,website_message_ids:0
 msgid "Website communication history"
-msgstr "Historial de comunicaciones del sitio web"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: selection:project.issue,issue_type:0
 msgid "Workshop Repair"
-msgstr "Reparación en taller"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: view:project.issue:project_issue_helpdesk.view_project_issue_form
 msgid "[('partner_type','in',['customer', 'company'])]"
-msgstr "[('partner_type','in',['customer', 'company'])]"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: help:product.template,init_onchange_call:0
 msgid "field at view init"
-msgstr "field at view init"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: view:sale.order:project_issue_helpdesk.view_sale_order_form
 msgid "get_domain_issue_id(partner_id)"
-msgstr "get_domain_issue_id(partner_id)"
+msgstr ""
 
 #. module: project_issue_helpdesk
 #: field:contract.pricelist,line_ids:0
 #: field:stock.picking,issue_id:0
 msgid "unknown"
-msgstr "unknown"
+msgstr ""
 
