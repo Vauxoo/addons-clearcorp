@@ -4,7 +4,7 @@
         <!-- Actions -->
         <!-- project.project -->
         <record id="project.open_view_project_all" model="ir.actions.act_window">
-            <field name="domain">[('parent_project_id','=',False)]</field>
+            <field name="context">{'search_default_parent_project': 1}</field>
         </record>
         <record id="open_view_sub_projects" model="ir.actions.act_window">
             <field name="name">Sub-Projects</field>
@@ -65,6 +65,11 @@
                         expr="//search[@string='Search Project']/field[@name='name']"
                         position="after">
                         <field name="parent_project_id" />
+                    </xpath>
+                    <xpath
+                        expr="//search[@string='Search Project']/group"
+                        position="before">
+                        <filter string="Parent Project" name="parent_project" domain="[('parent_project_id','=',False)]"/>
                     </xpath>
                 </data>
             </field>
