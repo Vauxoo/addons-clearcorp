@@ -32,8 +32,8 @@ class PurchaseOrder(orm.Model):
         if 'order_line' in vals: 
             order_lines = vals['order_line']
             for line in order_lines:
-                line = line[2]
-                if line['product_id'] not in purchase_product_ids:
+                line = line[2] #to extract the line
+                if 'product_id' in line and line['product_id'] not in purchase_product_ids:
                     purchase_product_ids.append(line['product_id'])
                 else:
                     raise osv.except_osv(_('Error !'), _('This purchase order have lines with same products!'))
@@ -52,9 +52,9 @@ class PurchaseOrder(orm.Model):
                     else:
                         raise osv.except_osv(_('Error !'), _('This purchase order have lines with same products!'))
                 for line in order_lines:
-                    new_line = line[2] 
+                    new_line = line[2] #to extract the line
                     if new_line: 
-                        if new_line['product_id'] not in purchase_product_ids:
+                        if 'product_id' in new_line and new_line['product_id'] not in purchase_product_ids:
                             purchase_product_ids.append(new_line['product_id'])
                         else:
                             raise osv.except_osv(_('Error !'), _('This purchase order have lines with same products!'))
