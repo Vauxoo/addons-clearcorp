@@ -133,7 +133,7 @@ class task(osv.Model):
             if date_deadline:
                 if date_start:
                     if planned_hours:
-                        dateselection_start = datetime.strptime(date_start, '%Y-%m-%d %H:%M:%S')
+                        date_start = datetime.strptime(date_start, '%Y-%m-%d %H:%M:%S')
                         date_deadline = datetime.strptime(date_deadline, '%Y-%m-%d')
                         total_time_delta = relativedelta(date_deadline, date_start)
                         left_hours_delta = relativedelta(date_deadline, datetime.today())
@@ -205,6 +205,3 @@ class proyectCategory(osv.Model):
     _columns = {
                 'tag_code': fields.char(size=10, string="Tag Code", required=True)
                 }
-    
-
-
