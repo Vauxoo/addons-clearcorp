@@ -29,7 +29,7 @@
     'description': """
 Sub-Projects
 ============
-Allows the user to view projects in an hierarchical structure.""",
+Allows the user to view projects in a hierarchical structure.""",
     'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'complexity': 'easy',
