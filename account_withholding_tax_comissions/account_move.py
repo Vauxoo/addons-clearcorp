@@ -20,12 +20,12 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv, orm
+from openerp.osv import osv, fields
 
-class accountMoveinherit(orm.Model):
-    _name = 'account.move'
+class Move(orm.Model):
+
     _inherit = 'account.move'
-    
+
     _columns = {
-        'withholding_voucher_id': fields.many2one('account.voucher', 'Account voucher')
+        'withholding_voucher_id': fields.many2one('account.voucher', 'Voucher')
     }
