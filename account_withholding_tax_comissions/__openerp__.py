@@ -25,14 +25,14 @@
     'version': '1.0',
     'category': 'Accounting & Finance',
     'description': """
-Account Withholding Tax:
+Account Holding Taxes:
 ==========================
 Description:
 -------------
         1. Add object account.withholding.tax
         2. Manage account.withholding tax for accounts. 
         3. Add withholding taxes for supplier and customer voucher.""",
-    'author': 'CLEARCORP S.A.',
+    'author': 'ClearCorp',
     'website': 'http://www.clearcorp.co.cr',
     'depends': [
                 'account',
@@ -43,7 +43,7 @@ Description:
     'data': [
              'account_withholding_tax.xml',
              'account_journal.xml',
-             'account_voucher_withholding_tax.xml',
+             'account_voucher.xml',
              ],
     'installable': True,
     'auto_install': False,

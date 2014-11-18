@@ -22,5 +22,5 @@
 
 import account_withholding_tax
 import account_journal
-import account_voucher_withholding_tax
+import account_voucher
 import account_move_withholding_tax
