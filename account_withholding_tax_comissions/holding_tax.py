@@ -40,32 +40,30 @@ class HoldingTax(osv.Model):
     }
 
     _sql_constraints = [
-        ('name_unique', 'UNIQUE(name)', 'Unfortunately this name is already used, please choose a unique one'),
-        ('code_unique', 'UNIQUE(code)', 'Unfortunately this code is already used, please choose a unique one')
+        ('name_unique', 'UNIQUE(name)', 'The tax name must be unique'),
+        ('code_unique', 'UNIQUE(code)', 'The tax code must be unique')
     ]
 
-    #Check amount 
     def _check_amount(self, cr, uid, ids, context=None):
-        withholding_obj = self.browse(cr, uid, ids[0], context=context)
-        #percentage over 100%
-        if withholding_obj.type == 'percentage' and withholding_obj.amount > 100:
-            return False
-        #negative number
-        if withholding_obj.amount < 0:
-            return False
-        return True 
+        for tax in self.browse(cr, uid, ids, context=context):
+            # Check if it is percentage and amount is over 100
+            if tax.type == 'percentage' and tax.amount > 100:
+                return False
+            # Check if it is a negative number
+            if tax.amount < 0:
+                return False
+        return True
 
-    #Journal must have default_debit_account and default_credit_account.
     def _check_debit_credit_accounts(self, cr, uid, ids, context=None):
-        withholding_obj = self.browse(cr, uid, ids[0], context=context)
-        if not withholding_obj.journal_id.default_credit_account_id and  not withholding_obj.journal_id.default_debit_account_id:
-            return False
+        for tax in self.browse(cr, uid, ids, context=context):
+            if not tax.journal_id.default_credit_account_id and \
+            not tax.journal_id.default_debit_account_id:
+                return False
         return True
 
     _constraints = [
-            (_check_amount, 'Error!\nThe amount are invalid. Negative numbers and '
-             'percentage over 100 are not allowed.', ['amount']),
-            (_check_debit_credit_accounts, 'Error!\n The journal select must have '
+            (_check_amount, 'The amount is invalid. Negative numbers and '
+             'percentages over 100% are not allowed.', ['amount']),
+            (_check_debit_credit_accounts, 'The journal selected must have '
              'default debit and default credit account', ['journal_id']),
     ]
-    

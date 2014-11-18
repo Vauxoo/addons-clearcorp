@@ -22,7 +22,7 @@
 
 from openerp.osv import osv, fields
 
-class Move(orm.Model):
+class Move(osv.Model):
 
     _inherit = 'account.move'
 
