@@ -36,6 +36,7 @@ This module add stock move report
     'data': [
                     'stock_move_report_report.xml',
                     'views/report_stock_move_pdf.xml',
+                    'views/report_picking.xml',
                     'report/stock_move_analysis.xml',
                     'wizard/stock_move_report_wizard.xml',
                     ],
