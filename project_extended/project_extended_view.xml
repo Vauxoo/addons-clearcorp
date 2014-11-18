@@ -6,7 +6,7 @@
             <field name="name">project.view_project1</field>
             <field name="model">project.project</field>
             <field name="type">tree</field>
-            <field name="inherit_id" ref="project.view_project"/>
+            <field name="inherit_id" ref="project.view_project"/>   
             <field name="arch" type="xml">
                 <data>
                     <xpath expr="//tree/field[@name='name']" position="replace">
@@ -17,47 +17,19 @@
             </field>
         </record>
         
-        <record id="open_view_sub_projects" model="ir.actions.act_window">
-            <field name="name">Projects</field>
-            <field name="res_model">project.project</field>
-            <field name="view_type">form</field>
-            <field name="domain">[]</field>
-            <field name="view_mode">kanban,tree,form,gantt</field>
-            <field name="view_id" ref="project.view_project_kanban"/>
-            <field name="search_view_id" ref="project.view_project_project_filter"/>
-            <field name="context">{'search_default_Current': 1, 'search_default_parent_project_id': active_id}</field>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">
-                  Click to start a new project.
-                </p><p>
-                  Projects are used to organize your activities; plan
-                  tasks, track issues, invoice timesheets. You can define
-                  internal projects (R&amp;D, Improve Sales Process),
-                  private projects (My Todos) or customer ones.
-                </p><p>
-                  You will be able collaborate with internal users on
-                  projects or invite customers to share your activities.
-                </p>
-            </field>
-        </record>
-        
         <!-- kanban -->
         <record id="view_project_kanban" model="ir.ui.view">
             <field name="name">view.project.kanban</field>
             <field name="model">project.project</field>
-            <field name="inherit_id" ref="project.view_project_kanban"/>
+            <field name="sequence" eval="20" />
+            <field name="inherit_id" ref="project.view_project_kanban" />
             <field name="arch" type="xml">
-                <xpath expr="//kanban/templates/t/div/div[@class='oe_kanban_content']/h4/field[@name='name']" position="replace">
+            <data>
+                <xpath expr="//kanban/templates/t/div/div[@class='oe_kanban_content']/h4/strong/field[@name='name']"
+                 position="replace">
                     <field name="shortcut_name"/>
                 </xpath>
-                <xpath expr="//kanban/templates/t/div/div[@class='oe_kanban_content']/div[@class='oe_kanban_project_list'][2]" position="after">
-                    <div class="oe_kanban_project_list">
-                        <a t-if="record.project_count.raw_value gt 0" name="%(open_view_sub_projects)d" type="action" style="margin-right: 10px"> 
-                            <span t-if="record.project_count.raw_value gt 1"><field name="project_count"/> Sub-projects</span>
-                            <span t-if="record.project_count.raw_value lt 2"><field name="project_count"/> Sub-project</span>
-                        </a>
-                    </div>
-                </xpath>
+                </data>
             </field>
         </record>
         
@@ -81,6 +53,7 @@
         <record id="project_extended_project_project_search_view" model="ir.ui.view" >
             <field name="name">project.extended.project.project.search.view</field>
             <field name="model">project.project</field>
+            <field name="priority" eval="70"/>
             <field name="inherit_id" ref="project.view_project_project_filter"/>
             <field name="arch" type="xml">
                 <data>
@@ -88,11 +61,10 @@
                         <separator/>
                         <filter icon="terp-check" string="Using Tasks" name="UseTasks" domain="[('use_tasks','=','True')]" help="Projects using Tasks"/>
                     </xpath>
-                    <xpath expr="//search[@string='Search Project']/field[@name='name']" position="replace">
+                    <xpath expr="//field[@name='name']" position="replace">
                         <field name="shortcut_name"
                             string="Project Name"
                             filter_domain="['|',('name','ilike',self),'|',('shortcut_name','ilike',self),('code','ilike',self)]"/>
-                        <field name="parent_project_id" />
                     </xpath>
                     <xpath expr="//group/filter[@name='Parent']" position="after">
                         <filter string="Period" name="group_date_start" icon="terp-personal" domain="[]"  context="{'group_by':'date_start'}"/>
@@ -109,13 +81,13 @@
             <field name="model">project.task</field>
             <field name="inherit_id" ref="project.view_task_search_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//group[@string='Group By...']/filter[@name='group_stage_id']" position="after">
+                <xpath expr="//group[@string='Group By']/filter[@name='Stage']" position="after">
                     <filter string="Priority" name="group_priority" icon="terp-personal" domain="[]"  context="{'group_by':'priority'}"/>
                 </xpath>
             </field>
         </record>
         
-        <!-- form -->
+        <!-- form task-->
         <record id="view_task_form" model="ir.ui.view" >
             <field name="name">view.task.form</field>
             <field name="model">project.task</field>
@@ -126,6 +98,30 @@
                         on_change="onchange_project(project_id)"
                         context="{'default_use_tasks':1}"
                         domain="[('use_tasks','=','True')]"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- form stages-->
+        <record id="view_stage_form" model="ir.ui.view" >
+            <field name="name">view.stage.form</field>
+            <field name="model">project.task.type</field>
+            <field name="inherit_id" ref="project.task_type_edit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/group/group/field[@name='sequence']" position="after">
+                    <field name="state" />
+                </xpath>
+            </field>
+        </record>
+        
+        <!--project.stage tree view-->
+        <record id="project_extended_project_stage_tree_view" model="ir.ui.view">
+            <field name="name">project.extended.stage.tree.view</field>
+            <field name="model">project.task.type</field>
+            <field name="inherit_id" ref="project.task_type_tree"/>
+            <field name="arch" type="xml">
+                    <xpath expr="//tree/field[@name='fold']" position="after">
+                    <field name="state" />
                 </xpath>
             </field>
         </record>
@@ -225,6 +221,5 @@
         <record id="project.open_view_project_all" model="ir.actions.act_window">
             <field name="context">{'search_default_Current': 1, 'search_default_UseTasks': 1}</field>
         </record>
-        
     </data>
 </openerp>

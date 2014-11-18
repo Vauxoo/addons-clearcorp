@@ -19,10 +19,25 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from openerp.osv import osv, fields
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
+
+_TASK_STATE = [('draft', 'New'),('open', 'In Progress'),('pending', 'Pending'), ('done', 'Done'), ('cancelled', 'Cancelled')]
+
+class project_task_type(osv.Model):
+    
+    _inherit= 'project.task.type'
+
+    _columns = {
+        'state': fields.selection(_TASK_STATE, 'Related Status', required=True),
+    }
+
+    _defaults = {
+        'state': 'open',
+        'fold': False,
+        'case_default': False,
+     }
 
 class project(osv.Model):
     _inherit = 'project.project'
@@ -36,15 +51,12 @@ class project(osv.Model):
             proj = project.parent_id
             while proj and proj.parent_id:
                 if proj.code != '' and proj.code != False:
-                    data.insert(0,(proj.code))
+                    data.insert(0, (proj.code))
                     proj = proj.parent_id
                     continue
                 else:
-                    data.insert(0,(proj.name))
+                    data.insert(0, (proj.name))
                     proj = proj.parent_id
-                
-                
-            
             data.append(project.name)
             data = ' / '.join(data)
             res.append((project.id, data))
@@ -52,46 +64,17 @@ class project(osv.Model):
 
     def _shortcut_name(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
-        for m in self.browse(cr,uid,ids,context=context):
+        for m in self.browse(cr, uid, ids, context=context):
             res = self.name_get(cr, uid, ids)
             return dict(res)
         return res
 
-    def _get_parent_project_id(self, cr, uid, ids, field_name, arg, context=None):
-        res = {}
-        for project in self.browse(cr,uid,ids,context=context):
-            if project.parent_id:
-                parent_project_id = self.search(cr, uid, [('analytic_account_id','=',project.parent_id.id)], context=context)
-                if parent_project_id:
-                    res[project.id] = parent_project_id[0]
-                else:
-                    res[project.id] = None
-            else:
-                res[project.id] = None
-        return res
-    
-    def _count_child_projects(self, cr, uid, project, count, context=None):
-        child_ids = self.search(cr, uid, [('parent_project_id','=',project.id)], context=context)
-        if child_ids:
-            for child in self.browse(cr, uid, child_ids, context=context):
-                count = self._count_child_projects(cr, uid, child, count+1, context=None)
-            return count
-        else:
-            return count
-
-    def _project_count(self, cr, uid, ids, field_name, arg, context=None):
-        res = {}
-        for project in self.browse(cr,uid,ids,context=context):
-            res[project.id] = self._count_child_projects(cr, uid, project, 0, context=context)
-        return res
-        
     _columns = {
         'shortcut_name':        fields.function(_shortcut_name, method=True, store=True, string='Project Name', type='char', size=350),
         'ir_sequence_id':       fields.many2one('ir.sequence', 'Sequence'),
-        'parent_project_id':    fields.function(_get_parent_project_id, string='Parent Project', type='many2one', relation="project.project", store=True),
-        'project_count':        fields.function(_project_count, type='integer', string="Sub-projects"),
+        
     }
-    
+
     def create(self, cr, uid, vals, context=None):
         ir_sequence_obj = self.pool.get('ir.sequence')        
         project_id = super(project, self).create(cr, uid, vals, context)
@@ -107,7 +90,7 @@ class project(osv.Model):
         for proj in self.browse(cr, uid, ids, context=context):
             if proj.ir_sequence_id:
                 ir_sequence_ids.append(proj.ir_sequence_id.id)
-        res =  super(project, self).unlink(cr, uid, ids, context=context)
+        res = super(project, self).unlink(cr, uid, ids, context=context)
         ir_sequence_obj.unlink(cr, uid, ir_sequence_ids, context=context)
         return res
     
@@ -116,16 +99,18 @@ class project(osv.Model):
         
         if name:
             ids = self.search(cr, uid,
-                              ['|',('shortcut_name',operator,name),
-                               '|', ('name',operator,name),
-                               ('code',operator,name)] + args,
+                              ['|', ('shortcut_name', operator, name),
+                               '|', ('name', operator, name),
+                               ('code', operator, name)] + args,
                               limit=limit, context=context)
         else:
-            ids  = self.search(cr, uid, args, limit=limit, context=context)
+            ids = self.search(cr, uid, args, limit=limit, context=context)
         
         return self.name_get(cr, uid, ids, context=context)
         
-class task(osv.osv):
+class task(osv.Model):
+
+    
     def _get_color_code(self, date_start, date_deadline, planned_hours, state):
         """Calculate the current color code for the task depending on the state
         Colors:
@@ -148,54 +133,54 @@ class task(osv.osv):
             if date_deadline:
                 if date_start:
                     if planned_hours:
-                        date_start = datetime.strptime(date_start,'%Y-%m-%d %H:%M:%S')
-                        date_deadline = datetime.strptime(date_deadline,'%Y-%m-%d')
+                        dateselection_start = datetime.strptime(date_start, '%Y-%m-%d %H:%M:%S')
+                        date_deadline = datetime.strptime(date_deadline, '%Y-%m-%d')
                         total_time_delta = relativedelta(date_deadline, date_start)
                         left_hours_delta = relativedelta(date_deadline, datetime.today())
-                        total_time = (total_time_delta.days*24) + total_time_delta.hours + (total_time_delta.minutes/60)
-                        left_hours = (left_hours_delta.days*24) + left_hours_delta.hours + (left_hours_delta.minutes/60)
-                        percentage_left = float(left_hours)/float(total_time)
+                        total_time = (total_time_delta.days * 24) + total_time_delta.hours + (total_time_delta.minutes / 60)
+                        left_hours = (left_hours_delta.days * 24) + left_hours_delta.hours + (left_hours_delta.minutes / 60)
+                        percentage_left = float(left_hours) / float(total_time)
                         if percentage_left >= 0.70:
-                            #COLOR: BLUE
+                            # COLOR: BLUE
                             return '7'
                         elif percentage_left >= 0.50:
-                            #COLOR: GREEN
+                            # COLOR: GREEN
                             return '4'
                         elif percentage_left >= 0.30:
-                            #COLOR: ORANGE
+                            # COLOR: ORANGE
                             return '3'
                         else:
-                            #COLOR: RED
+                            # COLOR: RED
                             return '2'
-                        #COLOR: PINK
+                        # COLOR: PINK
                         return '9'
                     else:
-                        #Not planned hours available COLOR: PURPLE
+                        # Not planned hours available COLOR: PURPLE
                         return '8'
                 else:
-                    #No date_start COLOR: AQUA
+                    # No date_start COLOR: AQUA
                     return '6'
             else:
-                #No deadline available COLOR: WHITE
+                # No deadline available COLOR: WHITE
                 return '0'
         
-        
     def _compute_color(self, cr, uid, ids, field_name, args, context={}):
-        res ={}
-        for task in self.browse(cr,uid,ids,context=context):
-            res[task.id] = self._get_color_code(task.date_start, task.date_deadline, task.planned_hours, task.state)
+        res = {}
+        for task in self.browse(cr, uid, ids, context=context):
+            res[task.id] = self._get_color_code(task.date_start, task.date_deadline, task.planned_hours,task.state)
         return res
         
-    _inherit = 'project.task'
-        
+    _inherit = 'project.task' 
+ 
     _columns = {
         'number': fields.char('Number', size=16),
         'project_id': fields.many2one('project.project', 'Project', required=True, ondelete='set null', select="1", track_visibility='onchange'),
-        'color': fields.function(_compute_color, type='integer', string='Color Index')
-    }
-    
+        'color': fields.function(_compute_color, type='integer', string='Color Index'),
+        'state': fields.selection(string='Related status' , related= 'stage_id.state', selection= _TASK_STATE, type="selection")
+        }
+
     _defaults = {
-                 'date_start' : lambda *a: datetime.strftime(datetime.now(),'%Y-%m-%d %H:%M:%S'),
+                 'date_start' : lambda *a: datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S'),
                  }
     
     def get_number_sequence(self, cr, uid, project_id, context=None):
@@ -205,7 +190,7 @@ class task(osv.osv):
         return ir_sequence_obj.next_by_id(cr, uid, project.ir_sequence_id.id, context)
         
     def create(self, cr, uid, vals, context={}):
-        if 'number' not in vals or vals['number']== None or vals['number'] == '':
+        if 'number' not in vals or vals['number'] == None or vals['number'] == '':
             vals.update({'number': self.get_number_sequence(cr, uid, vals['project_id'], context)})
         return super(task, self).create(cr, uid, vals, context)
     
@@ -215,8 +200,11 @@ class task(osv.osv):
         return super(task, self).write(cr, uid, ids, vals, context)
     
 class proyectCategory(osv.Model):
-    _inherit="project.category"
+    _inherit = "project.category"
     
     _columns = {
                 'tag_code': fields.char(size=10, string="Tag Code", required=True)
                 }
+    
+
+
