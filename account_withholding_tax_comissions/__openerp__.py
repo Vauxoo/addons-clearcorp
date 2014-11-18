@@ -41,7 +41,7 @@ Description:
                 'account_voucher_reverse',
                 ],
     'data': [
-             'account_withholding_tax.xml',
+             'holding_tax.xml',
              'account_journal.xml',
              'account_voucher.xml',
              ],
