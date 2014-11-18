@@ -20,53 +20,52 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv, orm
+from openerp.osv import osv, fields
 import openerp.addons.decimal_precision as dp
 
-class accountWithholdingtax(orm.Model):
-    _name = "account.withholding.tax"
-    _description = "Account Withholding Tax"
+class HoldingTax(osv.Model):
+
+    _name = 'account.withholding.tax'
+
+    _description = 'Account Holding Taxes'
 
     _columns = {
         'name': fields.char('Name', size=128),
         'code': fields.char('Code', size=64),
-        'type': fields.selection([('percentage', 'Percent'),
-                                   ('numeric', 'Numeric')], 'Withholding Tax Type',
-                                   help="""Select here the kind of withholding tax. If you select percentage, you can't exceed 100%"""),
-
+        'type': fields.selection([('percentage', 'Percent'),('numeric', 'Numeric')],
+            'Holding Tax Type', help='Select here the kind of withholding tax. If '
+            'you select percentage, you can\'t exceed 100%'),
        'amount': fields.float('Amount/Percentage', digits_compute=dp.get_precision('Account')),
        'journal_id': fields.many2one('account.journal', 'Journal'),
     }
-    
+
     _sql_constraints = [
         ('name_unique', 'UNIQUE(name)', 'Unfortunately this name is already used, please choose a unique one'),
         ('code_unique', 'UNIQUE(code)', 'Unfortunately this code is already used, please choose a unique one')
     ]
-            
+
     #Check amount 
     def _check_amount(self, cr, uid, ids, context=None):
         withholding_obj = self.browse(cr, uid, ids[0], context=context)
-        
         #percentage over 100%
         if withholding_obj.type == 'percentage' and withholding_obj.amount > 100:
             return False
-        
         #negative number
         if withholding_obj.amount < 0:
             return False
-        
         return True 
-  
+
     #Journal must have default_debit_account and default_credit_account.
     def _check_debit_credit_accounts(self, cr, uid, ids, context=None):
         withholding_obj = self.browse(cr, uid, ids[0], context=context)
-        
         if not withholding_obj.journal_id.default_credit_account_id and  not withholding_obj.journal_id.default_debit_account_id:
             return False
-        return True    
+        return True
 
     _constraints = [
-            (_check_amount, 'Error!\nThe amount are invalid. Negative numbers and percentage over 100 are not allowed.', ['amount']),
-            (_check_debit_credit_accounts, 'Error!\n The journal select must have default debit and default credit account', ['journal_id']),
+            (_check_amount, 'Error!\nThe amount are invalid. Negative numbers and '
+             'percentage over 100 are not allowed.', ['amount']),
+            (_check_debit_credit_accounts, 'Error!\n The journal select must have '
+             'default debit and default credit account', ['journal_id']),
     ]
     
