@@ -20,23 +20,22 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv, orm
+from openerp.osv import osv, fields
 from openerp.tools.translate import _
 
-class accountJournalwithholdingTax(orm.Model):
-    
-     _name = "account.journal"
-     _inherit = "account.journal"
-     
+class Journal(osv.Model):
+
+     _inherit = 'account.journal'
+
      _columns = {
-        'withholding_tax_required': fields.many2many('account.withholding.tax', 'withholding_tax_journal_required', string="Required Withholding Tax"),
-        'withholding_tax_optional': fields.many2many('account.withholding.tax', 'withholding_tax_journal_optional', string="Optional Withholding Tax"),
+        'withholding_tax_required': fields.many2many('account.withholding.tax', 'withholding_tax_journal_required', string="Required Holding Taxes"),
+        'withholding_tax_optional': fields.many2many('account.withholding.tax', 'withholding_tax_journal_optional', string="Optional Holding Taxes"),
      }
-     
+
      #Check if the required withholding tax are in optional withholding tax
      def _check_withholding_tax(self, cr, uid, ids, context=None):
          withholding_journal_obj = self.browse(cr, uid, ids[0],context)
-                  
+
          list_required =  []
          list_optional =  []
 
@@ -49,10 +48,9 @@ class accountJournalwithholdingTax(orm.Model):
          for element in list_required:
              if element in list_optional:
                  return False
-        
          return True
-     
+
      _constraints = [
-        (_check_withholding_tax,'Withholding tax can not be the same for required and optional!',['withholding_tax_required']),
+        (_check_withholding_tax,'A tax can not be required and optional at the same time!',
+         ['withholding_tax_required','withholding_tax_optional']),
     ]
-    

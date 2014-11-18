@@ -39,7 +39,7 @@ class accountWithholdingtax(orm.Model):
     }
     
     _sql_constraints = [
-        ('name_unique', 'UNIQUE(name)', 'Unfortunately this name is already used, please choose a unique one'),       
+        ('name_unique', 'UNIQUE(name)', 'Unfortunately this name is already used, please choose a unique one'),
         ('code_unique', 'UNIQUE(code)', 'Unfortunately this code is already used, please choose a unique one')
     ]
             
@@ -53,7 +53,7 @@ class accountWithholdingtax(orm.Model):
         
         #negative number
         if withholding_obj.amount < 0:
-            return False        
+            return False
         
         return True 
   

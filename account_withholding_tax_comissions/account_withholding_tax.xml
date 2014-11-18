@@ -22,12 +22,12 @@
                 <form string="Withholding Taxes" version="7.0">
                     <sheet>
                         <group col="4" string="General">
-                            <field name="name" required="True"/>                            
+                            <field name="name" required="True"/>
                             <field name="code" required="True"/>
                             <field name="journal_id" required="True" />
                        </group>
                        <group col="4" string="Values">
-                           <field name="type" required="True" />                       
+                           <field name="type" required="True" />
                            <div>
                                <label string="Value" for="amount" />
                                <field name="amount" required="True" class="oe_inline"/>
