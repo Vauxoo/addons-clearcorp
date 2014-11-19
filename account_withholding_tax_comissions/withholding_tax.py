@@ -23,17 +23,17 @@
 from openerp.osv import osv, fields
 import openerp.addons.decimal_precision as dp
 
-class HoldingTax(osv.Model):
+class WithholdingTax(osv.Model):
 
     _name = 'account.withholding.tax'
 
-    _description = 'Account Holding Taxes'
+    _description = 'Account Withholding Taxes'
 
     _columns = {
         'name': fields.char('Name', size=128),
         'code': fields.char('Code', size=64),
         'type': fields.selection([('percentage', 'Percent'),('numeric', 'Numeric')],
-            'Holding Tax Type', help='Select here the kind of withholding tax. If '
+            'Withholding Tax Type', help='Select here the kind of withholding tax. If '
             'you select percentage, you can\'t exceed 100%'),
        'amount': fields.float('Amount/Percentage', digits_compute=dp.get_precision('Account')),
        'journal_id': fields.many2one('account.journal', 'Journal'),

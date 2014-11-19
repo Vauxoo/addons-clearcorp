@@ -4,11 +4,11 @@
         <!-- Views -->
         <!-- account.withholding.tax -->
         <!-- tree -->
-        <record id="view_holding_tax_tree" model="ir.ui.view">
-            <field name="name">view.holding.tax.tree</field>
+        <record id="view_withholding_tax_tree" model="ir.ui.view">
+            <field name="name">view.withholding.tax.tree</field>
             <field name="model">account.withholding.tax</field>
             <field name="arch" type="xml">
-                <tree string="Holding Taxes">
+                <tree string="Withholding Taxes">
                     <field name="code" />
                     <field name="name" />
                     <field name="type" />
@@ -17,11 +17,11 @@
             </field>
         </record>
         <!-- form -->
-        <record id="view_holding_tax_form" model="ir.ui.view">
-            <field name="name">view.holding.tax.form</field>
+        <record id="view_withholding_tax_form" model="ir.ui.view">
+            <field name="name">view.withholding.tax.form</field>
             <field name="model">account.withholding.tax</field>
             <field name="arch" type="xml">
-                <form string="Holding Taxes" version="7.0">
+                <form string="Withholding Taxes" version="7.0">
                     <sheet>
                         <group col="4" string="General">
                             <field name="name" required="True" />
@@ -43,8 +43,8 @@
             </field>
         </record>
         <!-- search -->
-        <record id="view_holding_tax_search" model="ir.ui.view">
-            <field name="name">view.holding.tax.search</field>
+        <record id="view_withholding_tax_search" model="ir.ui.view">
+            <field name="name">view.withholding.tax.search</field>
             <field name="model">account.withholding.tax</field>
             <field name="arch" type="xml">
                 <search string="Search Withholding Tax">
@@ -60,22 +60,20 @@
             </field>
         </record>
         <!-- Actions -->
-        <record id="action_holding_tax" model="ir.actions.act_window">
-            <field name="name">Holding Taxes</field>
+        <record id="action_withholding_tax" model="ir.actions.act_window">
+            <field name="name">Withholding Taxes</field>
             <field name="res_model">account.withholding.tax</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <!-- <field name="view_id" ref="view_account_withholding_tax_tree" 
-                /> -->
-            <field name="search_view_id" ref="view_holding_tax_search" />
+            <field name="search_view_id" ref="view_withholding_tax_search" />
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
-                    Click to record a new holding tax
+                    Click to record a new withholding tax
                 </p>
             </field>
         </record>
         <!-- Menu Items -->
-        <menuitem id="menu_holding_tax" action="action_holding_tax"
+        <menuitem id="menu_withholding_tax" action="action_withholding_tax"
             sequence="50" parent="account.menu_configuration_misc" />
     </data>
 </openerp>

@@ -28,8 +28,8 @@ class Journal(osv.Model):
      _inherit = 'account.journal'
 
      _columns = {
-        'withholding_tax_required': fields.many2many('account.withholding.tax', 'withholding_tax_journal_required', string="Required Holding Taxes"),
-        'withholding_tax_optional': fields.many2many('account.withholding.tax', 'withholding_tax_journal_optional', string="Optional Holding Taxes"),
+        'withholding_tax_required': fields.many2many('account.withholding.tax', 'withholding_tax_journal_required', string="Required Withholding Taxes"),
+        'withholding_tax_optional': fields.many2many('account.withholding.tax', 'withholding_tax_journal_optional', string="Optional Withholding Taxes"),
      }
 
      #Check if the required withholding tax are in optional withholding tax

@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-import holding_tax
+import withholding_tax
 import account_journal
 import account_voucher
 import account_move

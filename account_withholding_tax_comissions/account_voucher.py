@@ -21,70 +21,86 @@
 ##############################################################################
 
 from openerp.osv import osv, fields
+import openerp.addons.decimal_precision as dp
 
 class Voucher(osv.Model):
 
     _inherit = 'account.voucher'
 
-    #Get move_lines for withholding tax
-    def _get_withholding_move_lines(self, cr, uid, ids, *a):
+    # Get move lines for withholding taxes
+    def _compute_withholding_move_lines(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
-        for voucher in self.browse(cr, uid, ids):
+        for voucher in self.browse(cr, uid, ids, context=context):
             move_ids = []
             for move in voucher.withholding_move_ids:
                 move_ids.append(move.id)
-
-            move_line_ids = self.pool.get('account.move.line').search(cr, uid, [('move_id','in',move_ids)])
+            move_line_ids = self.pool.get('account.move.line').search(
+                cr, uid, [('move_id','in',move_ids)])
             res[voucher.id] = move_line_ids
-
         return res
 
-    #Get move_lines reverse for withholding tax reverse
-    def _get_withholding_move_lines_reverse(self, cr, uid, ids, *a):
+    # Get reverse move lines for withholding taxes
+    def _compute_reverse_withholding_move_lines(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
-        for voucher in self.browse(cr, uid, ids):
+        for voucher in self.browse(cr, uid, ids, context=context):
             move_ids = []
             for move in voucher.withholding_move_ids:
                 if move.move_reverse_id:
                     move_ids.append(move.move_reverse_id.id)
-
-            move_line_ids = self.pool.get('account.move.line').search(cr, uid, [('move_id','in',move_ids)])
+            move_line_ids = self.pool.get('account.move.line').search(
+                cr, uid, [('move_id','in',move_ids)])
             res[voucher.id] = move_line_ids
-
-        return res  
+        return res
 
     #Create a method that set the withholding tax from journal to voucher.
-    def onchange_journal(self, cr, uid, ids, journal_id, line_ids, tax_id, partner_id, date, amount, ttype, company_id, context=None):     
+    def onchange_journal(self, cr, uid, ids, journal_id, line_ids, tax_id,
+        partner_id, date, amount, ttype, company_id, context=None):
 
-        vals = super(accountVoucherinherit, self).onchange_journal(cr, uid, ids, journal_id, line_ids, tax_id, partner_id, date, amount, ttype, company_id, context)
+        vals = super(Voucher, self).onchange_journal(cr, uid, ids, journal_id,
+            line_ids, tax_id, partner_id, date, amount, ttype, company_id, context)
+        if not vals:
+            vals = {}
 
         required_list = []
         optional_list = []
 
         if journal_id:
-            #Get complete object to extract withholding tax.
-            journal_obj = self.pool.get('account.journal').browse(cr, uid, journal_id, context)
-
-            #Get ids for m2m fields
+            journal_obj = self.pool.get('account.journal').browse(
+                cr, uid, journal_id, context)
+            # Get the required withholding taxes
             for required in journal_obj.withholding_tax_required:
                 required_list.append(required.id)
-
+            # Get the optional withholding taxes
             for optional in journal_obj.withholding_tax_optional:
-                optional_list.append(optional.id)
-
-            #Pass values to account.voucher
-            #Put the same values in voucher_withholding_tax_required_vis and voucher_withholding_tax_required_inv
-            #Because when the journal change, both change too and they have the same value at the same time. 
-            vals['value'].update({'withholding_tax_required_view': required_list})
-            vals['value'].update({'withholding_tax_required': required_list})
-            vals['value'].update({'withholding_tax_optional': optional_list})
+                optional_list.append(optional.id) 
+            # Compute the total payment amount
+            if 'value' in vals:
+                vals['value'].update({
+                    'withholding_tax_required_view': required_list,
+                    'withholding_tax_required': required_list,
+                    'withholding_tax_optional': optional_list,
+                })
+            else:
+                vals['value'] = {}
+                vals['value'].update({
+                    'withholding_tax_required_view': required_list,
+                    'withholding_tax_required': required_list,
+                    'withholding_tax_optional': optional_list,
+                })
         else:
-            #Remove the previous values in case that don't exist journal selected
-            vals = {'value':{} }
-            vals['value'].update({'withholding_tax_required_view': required_list})
-            vals['value'].update({'withholding_tax_required': required_list})
-            vals['value'].update({'withholding_tax_optional': optional_list})
-
+            if 'value' in vals:
+                vals['value'].update({
+                    'withholding_tax_required_view': False,
+                    'withholding_tax_required': False,
+                    'withholding_tax_optional': False,
+                })
+            else:
+                vals['value'] = {}
+                vals['value'].update({
+                    'withholding_tax_required_view': False,
+                    'withholding_tax_required': False,
+                    'withholding_tax_optional': False,
+                })
         return vals
 
         """
@@ -99,15 +115,22 @@ class Voucher(osv.Model):
         """ 
 
     _columns = {
-          'withholding_tax_optional': fields.many2many('account.withholding.tax', 'voucher_withholding_tax_optional', string="Optional Withholding Tax"),
-          #Both fields have the same relation name in database (voucher_withholding_tax_required) that's the magic of the trick 
-          #One field that user sees and other with the same value that store the value in database. 
-          'withholding_tax_required_view': fields.many2many('account.withholding.tax', 'voucher_withholding_tax_required', string="Required Withholding Tax"),
-          'withholding_tax_required': fields.many2many('account.withholding.tax', 'voucher_withholding_tax_required', string="Required Withholding Tax"),     
-          
-          'withholding_move_ids':fields.one2many('account.move', 'withholding_voucher_id', 'Withholding Move'),
-          'withholding_move_line_ids':fields.function(_get_withholding_move_lines, string='Account Move Lines Withholding Tax', type='one2many', relation='account.move.line'),
-          'withholding_move_line_ids_reverse':fields.function(_get_withholding_move_lines_reverse, string='Account Move Lines Reverse Withholding Tax', type='one2many', relation='account.move.line'),
+        'withholding_tax_required': fields.many2many('account.withholding.tax',
+            'voucher_withholding_tax_required', string="Required Withholding Taxes"),
+        'withholding_tax_required_view': fields.many2many('account.withholding.tax',
+            'voucher_withholding_tax_required', string="Required Withholding Taxes"),
+        'withholding_tax_optional': fields.many2many('account.withholding.tax',
+            'voucher_withholding_tax_optional', string="Optional Withholding Taxes"),
+        'withholding_tax_amount': fields.float('Total Withholding',
+            digits_compute=dp.get_precision('Account')),
+        'withholding_move_ids':fields.one2many('account.move',
+            'withholding_voucher_id', 'Withholding Moves'),
+        'withholding_move_line_ids':fields.function(_compute_withholding_move_lines,
+            string='Withholding Taxes', type='one2many',
+            relation='account.move.line'),
+        'withholding_move_line_ids_reverse':fields.function(
+            _compute_reverse_withholding_move_lines, string='Reverse Withholding Taxes',
+            type='one2many', relation='account.move.line'),
      }
 
     def copy(self, cr, uid, id, default=None, context=None):
@@ -116,37 +139,35 @@ class Voucher(osv.Model):
         default.update({
             'withholding_move_ids': False,
         })
-        return super(accountVoucherinherit, self).copy(cr, uid, id, default, context=context)
+        return super(Voucher, self).copy(cr, uid, id, default, context=context)
 
     #Check if the required withholding tax are in optional withholding tax
-    def _check_duplicate_withholding_tax(self, cr, uid, ids, context=None):
-         
-         withholding_voucher_obj = self.browse(cr, uid, ids[0],context)
-
-         list_required =  []
-         list_optional =  []
-
-         for required in withholding_voucher_obj.withholding_tax_required:
-             list_required.append(required.id)
-
-         for optional in withholding_voucher_obj.withholding_tax_optional:
-             list_optional.append(optional.id)
-
-         for element in list_required:
-             if element in list_optional:
-                 return False
-
-         return True
+    def _check_duplicate_withholding_taxes(self, cr, uid, ids, context=None):
+        for voucher in self.browse(cr, uid, ids, context=context):
+            list_required = []
+            list_optional = []
+            # Get the required taxes ids
+            for required in voucher.withholding_tax_required:
+                list_required.append(required.id)
+            # Get the optional taxes ids
+            for optional in voucher.withholding_tax_optional:
+                list_optional.append(optional.id)
+            # Compare both lists
+            for element in list_required:
+                if element in list_optional:
+                     return False
+        return True
 
     _constraints = [
-        (_check_duplicate_withholding_tax,'Withholding tax can not be the same for required and optional !',['voucher_withholding_tax_optional']),
+        (_check_duplicate_withholding_taxes,'Withholding tax can not be the same '
+         'for required and optional!',['voucher_withholding_tax_optional']),
     ]
 
     #Method that create the move and move lines from withholding tax
     def action_move_line_create(self, cr, uid, ids, context=None):
 
         #1. Super of action_move_line_create
-        res = super(accountVoucherinherit, self).action_move_line_create(cr, uid, ids, context)
+        res = super(Voucher, self).action_move_line_create(cr, uid, ids, context)
 
         for voucher in self.browse(cr, uid, ids, context=context):
             # Currency of voucher and company
@@ -349,7 +370,7 @@ class Voucher(osv.Model):
         reverse_withholing_list = []
         
         #Reverse "normal" voucher.
-        res = super(accountVoucherinherit, self).reverse_voucher(cr, uid, ids, context)
+        res = super(Voucher, self).reverse_voucher(cr, uid, ids, context)
         
         #Reverse "withholding voucher"
         for voucher in self.browse(cr, uid, ids, context=context):

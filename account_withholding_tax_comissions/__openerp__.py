@@ -25,7 +25,7 @@
     'version': '1.0',
     'category': 'Accounting & Finance',
     'description': """
-Account Holding Taxes:
+Account Withholding Taxes:
 ==========================
 Description:
 -------------
@@ -41,7 +41,7 @@ Description:
                 'account_voucher_reverse',
                 ],
     'data': [
-             'holding_tax.xml',
+             'withholding_tax.xml',
              'account_journal.xml',
              'account_voucher.xml',
              ],

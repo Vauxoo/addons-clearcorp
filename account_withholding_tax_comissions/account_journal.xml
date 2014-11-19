@@ -9,11 +9,11 @@
             <field name="arch" type="xml">
                  <data>
                     <page string="Cash Registers" position="after">
-                        <page string="Holding Taxes">
+                        <page string="Withholding Taxes">
                             <group>
-                                <separator colspan="4" string="Required Holding Taxes"/>
+                                <separator colspan="4" string="Required Withholding Taxes"/>
                                 <field name="withholding_tax_required" nolabel="1"/>
-                                <separator colspan="4" string="Optional Holding Taxes"/>
+                                <separator colspan="4" string="Optional Withholding Taxes"/>
                                 <field name="withholding_tax_optional" nolabel="1"/>
                             </group>
                         </page>
