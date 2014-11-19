@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <openerp>
-     <data>
-        <menuitem icon="STOCK_PRINT"
-            name="Aged Partner Balance"
-            action="action_account_aged_partner_balance_wizard"
-            id="account.menu_aged_trial_balance"
-            parent="account.next_id_22"/>
-     </data>
+    <data>
+        <menuitem icon="STOCK_PRINT" name="Partner Overdue Balance"
+            action="action_account_aged_partner_balance_wizard" id="menu_aged_trial_balance"
+            parent="account.next_id_22" />
+    </data>
 </openerp>
