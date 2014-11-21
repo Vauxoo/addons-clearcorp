@@ -35,9 +35,9 @@ import base64
 import datetime
 from openerp.tools import config
 from openerp.tools.translate import _
-from openerp.addons.account_banking_ccorp_dg.parsers import models
-from openerp.addons.account_banking_ccorp_dg.parsers.convert import *
-from openerp.addons.account_banking_ccorp_dg.struct import struct
+from openerp.addons.account_banking_ccorp.parsers import models
+from openerp.addons.account_banking_ccorp.parsers.convert import *
+from openerp.addons.account_banking_ccorp.struct import struct
 from banktools import *
 
 import openerp.addons.decimal_precision as dp
