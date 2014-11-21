@@ -23,7 +23,7 @@
 {
     "name" : 'Account name extended',
     "version" : '1.0',
-    "author" : 'CLEARCORP S.A',
+    "author" : 'ClearCorp S.A',
     'complexity': 'normal',
     "description": """
 This module simply renames the financial account. It makes uses of the company shortcut (provided by "base_company_prefix" module) and the account shortcut field.
