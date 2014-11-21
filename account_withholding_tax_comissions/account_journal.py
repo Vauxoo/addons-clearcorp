@@ -28,29 +28,5 @@ class Journal(osv.Model):
      _inherit = 'account.journal'
 
      _columns = {
-        'withholding_tax_required': fields.many2many('account.withholding.tax', 'withholding_tax_journal_required', string="Required Withholding Taxes"),
-        'withholding_tax_optional': fields.many2many('account.withholding.tax', 'withholding_tax_journal_optional', string="Optional Withholding Taxes"),
+        'withholding_tax_ids': fields.many2many('account.withholding.tax', string="Withholding Taxes"),
      }
-
-     #Check if the required withholding tax are in optional withholding tax
-     def _check_withholding_tax(self, cr, uid, ids, context=None):
-         withholding_journal_obj = self.browse(cr, uid, ids[0],context)
-
-         list_required =  []
-         list_optional =  []
-
-         for required in withholding_journal_obj.withholding_tax_required:
-             list_required.append(required.id)
-        
-         for optional in withholding_journal_obj.withholding_tax_optional:
-             list_optional.append(optional.id)
-
-         for element in list_required:
-             if element in list_optional:
-                 return False
-         return True
-
-     _constraints = [
-        (_check_withholding_tax,'A tax can not be required and optional at the same time!',
-         ['withholding_tax_required','withholding_tax_optional']),
-    ]

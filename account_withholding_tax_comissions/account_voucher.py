@@ -58,27 +58,35 @@ class Voucher(osv.Model):
 
         vals = super(Voucher, self).onchange_journal(cr, uid, ids, journal_id,
             line_ids, tax_id, partner_id, date, amount, ttype, company_id, context)
-        if not vals:
+        """if not vals:
             vals = {}
 
-        required_list = []
-        optional_list = []
-
         if journal_id:
+            amount_to_pay = 0.0
+            required_list = []
+            optional_list = []
             journal_obj = self.pool.get('account.journal').browse(
                 cr, uid, journal_id, context)
             # Get the required withholding taxes
             for required in journal_obj.withholding_tax_required:
                 required_list.append(required.id)
+                if required.type == 'percentage':
+                    amount_to_pay += (amount * required.amount) / 100.0
+                else:
+                    amount_to_pay += required.amount
             # Get the optional withholding taxes
             for optional in journal_obj.withholding_tax_optional:
-                optional_list.append(optional.id) 
-            # Compute the total payment amount
+                optional_list.append(optional.id)
+                if optional.type == 'percentage':
+                    amount_to_pay += (amount * optional.amount) / 100.0
+                else:
+                    amount_to_pay += optional.amount 
             if 'value' in vals:
                 vals['value'].update({
                     'withholding_tax_required_view': required_list,
                     'withholding_tax_required': required_list,
                     'withholding_tax_optional': optional_list,
+                    'withholding_tax_amount': amount_to_pay,
                 })
             else:
                 vals['value'] = {}
@@ -86,6 +94,7 @@ class Voucher(osv.Model):
                     'withholding_tax_required_view': required_list,
                     'withholding_tax_required': required_list,
                     'withholding_tax_optional': optional_list,
+                    'withholding_tax_amount': amount_to_pay,
                 })
         else:
             if 'value' in vals:
@@ -93,6 +102,7 @@ class Voucher(osv.Model):
                     'withholding_tax_required_view': False,
                     'withholding_tax_required': False,
                     'withholding_tax_optional': False,
+                    'withholding_tax_amount': 0.0,
                 })
             else:
                 vals['value'] = {}
@@ -100,7 +110,8 @@ class Voucher(osv.Model):
                     'withholding_tax_required_view': False,
                     'withholding_tax_required': False,
                     'withholding_tax_optional': False,
-                })
+                    'withholding_tax_amount': 0.0,
+                })"""
         return vals
 
         """
@@ -115,14 +126,8 @@ class Voucher(osv.Model):
         """ 
 
     _columns = {
-        'withholding_tax_required': fields.many2many('account.withholding.tax',
-            'voucher_withholding_tax_required', string="Required Withholding Taxes"),
-        'withholding_tax_required_view': fields.many2many('account.withholding.tax',
-            'voucher_withholding_tax_required', string="Required Withholding Taxes"),
-        'withholding_tax_optional': fields.many2many('account.withholding.tax',
-            'voucher_withholding_tax_optional', string="Optional Withholding Taxes"),
-        'withholding_tax_amount': fields.float('Total Withholding',
-            digits_compute=dp.get_precision('Account')),
+        'withholding_tax_lines': fields.one2many('account.voucher.withholding.line',
+            'voucher_id', string='Withholding Taxes'),
         'withholding_move_ids':fields.one2many('account.move',
             'withholding_voucher_id', 'Withholding Moves'),
         'withholding_move_line_ids':fields.function(_compute_withholding_move_lines,

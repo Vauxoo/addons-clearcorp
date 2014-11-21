@@ -12,24 +12,19 @@
                     expr="//form/sheet/notebook/page[@string='Payment Information']/group"
                     position="after">
                     <group string="Withholding Taxes">
-                        <group name="withholding_taxes">
-                            <field name="withholding_tax_required_view"
-                                widget="many2many_tags" readonly="True" />
-                            <field name="withholding_tax_required"
-                                invisible="True" />
-                            <field name="withholding_tax_optional"
-                                widget="many2many_tags" />
-                        </group>
-                        <group name="withholding_taxes_amount">
-                            <field name="withholding_tax_amount" />
-                        </group>
+                        <field name="withholding_tax_lines">
+                            <tree string="Withholding Taxes">
+                                <field name="withholding_tax_id"
+                                    readonly="True" />
+                                <field name="amount" />
+                            </tree>
+                        </field>
                     </group>
                 </xpath>
                 <xpath
                     expr="/form/sheet/notebook/page[@string='Journal Items']/field[@name='move_ids']"
                     position="after">
-                    <separator colspan="2"
-                        string="Withholding Taxes" />
+                    <separator colspan="2" string="Withholding Taxes" />
                     <field name="withholding_move_line_ids"
                         readonly="1">
                         <tree string="Journal Items">
@@ -92,13 +87,14 @@
             <field name="arch" type="xml">
                 <xpath expr="/form[@string='Payment']/group"
                     position="inside">
-                    <group col="2">
-                        <field name="withholding_tax_required_view"
-                            widget="many2many_tags" readonly="True" />
-                        <field name="withholding_tax_required"
-                            widget="many2many_tags" invisible="True" />
-                        <field name="withholding_tax_optional"
-                            widget="many2many_tags" />
+                    <group string="Withholding Taxes">
+                        <field name="withholding_tax_lines">
+                            <tree string="Withholding Taxes">
+                                <field name="withholding_tax_id"
+                                    readonly="True" />
+                                <field name="amount" />
+                            </tree>
+                        </field>
                     </group>
                 </xpath>
             </field>
@@ -114,19 +110,14 @@
                 <xpath
                     expr="/form/sheet/notebook/page[@string='Payment Information']/group/group[1]"
                     position="inside">
-                    <group col="2">
-                        <separator colspan="2"
-                            string="Required Withholding Taxes" />
-                        <field name="withholding_tax_required_view"
-                            nolabel="1" widget="many2many_tags"
-                            readonly="True" />
-                        <field name="withholding_tax_required"
-                            nolabel="1" widget="many2many_tags"
-                            invisible="True" />
-                        <separator colspan="2"
-                            string="Optional Withholding Taxes" />
-                        <field name="withholding_tax_optional"
-                            nolabel="1" widget="many2many_tags" />
+                    <group string="Withholding Taxes">
+                        <field name="withholding_tax_lines">
+                            <tree string="Withholding Taxes">
+                                <field name="withholding_tax_id"
+                                    readonly="True" />
+                                <field name="amount" />
+                            </tree>
+                        </field>
                     </group>
                 </xpath>
                 <xpath

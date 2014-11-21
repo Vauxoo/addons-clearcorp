@@ -10,12 +10,7 @@
                  <data>
                     <page string="Cash Registers" position="after">
                         <page string="Withholding Taxes">
-                            <group>
-                                <separator colspan="4" string="Required Withholding Taxes"/>
-                                <field name="withholding_tax_required" nolabel="1"/>
-                                <separator colspan="4" string="Optional Withholding Taxes"/>
-                                <field name="withholding_tax_optional" nolabel="1"/>
-                            </group>
+                            <field name="withholding_tax_ids" nolabel="1"/>
                         </page>
                     </page>
                 </data>

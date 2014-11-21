@@ -29,6 +29,9 @@ class WithholdingTax(osv.Model):
 
     _description = 'Account Withholding Taxes'
 
+    def _get_amount_in_company_currency(self, cr, uid, ids, context=None):
+        return self.browse(cr, uid, ids[0], context=context).amount
+
     _columns = {
         'name': fields.char('Name', size=128),
         'code': fields.char('Code', size=64),

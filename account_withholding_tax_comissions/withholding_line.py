@@ -20,8 +20,21 @@
 #
 ##############################################################################
 
-import withholding_tax
-import withholding_line
-import account_journal
-import account_voucher
-import account_move
+from openerp.osv import osv, fields
+import openerp.addons.decimal_precision as dp
+
+class WithholdingTaxLine(osv.Model):
+
+    _name = 'account.voucher.withholding.line'
+
+    _columns = {
+        'voucher_id': fields.many2one('account.voucher', string='Voucher',
+            required=True),
+        'withholding_tax_id': fields.many2one('account.withholding.tax',
+            string='Withholding Tax', required=True),
+        'amount': fields.float('Amount', digits_compute=dp.get_precision('Account')),
+    }
+
+    _defaults = {
+        'amount': 0.0,
+    }
