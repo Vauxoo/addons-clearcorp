@@ -24,10 +24,10 @@ from openerp.osv import fields, osv, orm
 import pooler
 import time
 from datetime import datetime, timedelta
-import netsvc
+from openerp import netsvc
 import string
 from openerp.tools.translate import _
-import logging
+from openerp import logging
 
 class resCurrencyrateInherit(orm.Model):
     _inherit = "res.currency.rate"

@@ -19,15 +19,14 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 import re
 from openerp.osv import osv, fields
 from openerp.tools import translate
 
-class account_account(osv.osv):
+class account_account(osv.Model):
     _name = "account.account"
     _inherit = "account.account"
-    
+
     #Change the way that the user can see the account when is search in a many2one field.
     #Add the company prefix in the name of the company and the shortcurt of the parent's account.
     def name_get(self, cr, uid, ids, context=None):
@@ -37,7 +36,7 @@ class account_account(osv.osv):
         
         #Avoid problem when only an account is selected
         if isinstance(ids, int):
-            accounts = [self.browse(cr,uid,ids)]        
+            accounts = [self.browse(cr,uid,ids)]
         else:
             accounts = self.browse(cr,uid,ids)
         
@@ -59,27 +58,26 @@ class account_account(osv.osv):
                 data = obj_account.code + ' ' + data
                 data = prefix and prefix + '-' + data or data
             else:
-                #If there not exist a parent, concat the account's name. 
+                #If there not exist a parent, concatenated the account's name. 
                 data.append(obj_account.name)
                 data = '/'.join(data)
                 data = prefix and prefix + ' ' + data or data
             res.append((obj_account.id, data))
         return res
     
-    
-    #Add the company prefix and the regular expression that permit search include the special characteres.    
+    #Add the company prefix and the regular expression that permit search include the special characters.
     def name_search(self, cr, uid, name, args=None, operator='ilike', context=None, limit=100):
         account_ids = company_ids = search_domains = []
         dict_prefix = {}
         regular_expresion_number = '^[0-9.-_]+$'
 
         if not args:
-            args = []       
+            args = []
         
         #Code doesn't start with first word by numbers or special characters
         #Name doesn't start with numbers. 
-        if name:           
-            piece_1 = piece_2 = piece_3 = ''            
+        if name:
+            piece_1 = piece_2 = piece_3 = ''
             #Method partition return a tuple that contains the first part before the separator (in this case ' ') and the other position
             #is the rest of the sentence.
             temp_partition = name.partition(' ')
@@ -93,18 +91,18 @@ class account_account(osv.osv):
                 if company.prefix:
                     dict_prefix[company.id] = company.prefix
 
-            #1. Si hay prefijos y compañía
-            # dict_prefix tiene el id de la compañía con su respectivo prefijo
+            #1.If prefixes and Company.
+            # dict_prefix has the id of the company with its own prefix
             if dict_prefix:
-                for id, prefix in dict_prefix.iteritems():                                        
+                for id, prefix in dict_prefix.iteritems():
                     if piece_1.lower() in prefix.lower():
                         company_ids.append(id)
-                    if company_ids: #compañías que coinciden con el prefijo
-                        #Si el prefijo es un número
+                    if company_ids: #Companies that match the prefix
+                        #If the prefix is a number
                         if re.match(regular_expresion_number, piece_1):
-                            if piece_2: #Si se digita algo luego del prefijo.
+                            if piece_2: #If something is typed after the prefix.
                                 piece_2_b = piece_2.partition(' ')[0]
-                                #Si es un número
+                                #if a number is first
                                 if re.match(regular_expresion_number, piece_2_b):
                                     search_domains.append({
                                                           'company_ids':company_ids, 
@@ -112,7 +110,7 @@ class account_account(osv.osv):
                                                           'name':piece_2.partition(' ')[2]
                                                           }) 
                                 else:
-                                    #Si es cualquier otra cosa.
+                                    #If anything.
                                     search_domains.append({
                                                           'company_ids':company_ids, 
                                                           'name':piece_2
@@ -121,16 +119,16 @@ class account_account(osv.osv):
                                                        'name':piece_2})
                                 
                             else:
-                                #Si no se digita nada luego del prefijo
+                                #If this is not addressed then the prefix digit
                                 search_domains.append({'company_ids':company_ids})
                                 search_domains.append({'code':piece_1})
                         else:
-                            #Si el prefijo no es un número
-                            #Si se digita algo luego del prefijo
+                            #if the prefix is not a number
+                            #If something is typed after the prefix
                             if piece_2:
                                 piece_2_b = piece_2.partition(' ')[0]
                                 piece_3 = piece_2.partition(' ')[2]
-                                #Si es un número 
+                                #If it is a number
                                 if re.match(regular_expresion_number, piece_2_b):
                                     search_domains.append({
                                                           'company_ids':company_ids, 
@@ -138,7 +136,7 @@ class account_account(osv.osv):
                                                           'name':piece_3
                                                           })
                                 else:
-                                    #Si noes un número
+                                    #If it is not a number
                                     search_domains.append({
                                                           'company_ids':company_ids, 
                                                           'name':piece_2})
@@ -146,19 +144,19 @@ class account_account(osv.osv):
                                 search_domains.append({'name':name})
                             
                             else:
-                                #Si no se digita luego del prefijo
+                                #If not then you type the prefix
                                 search_domains.append({'company_ids':company_ids})
                                 search_domains.append({'name':name})
                     else:
-                        #Si el prefijo no es un número
+                        #If the prefix is not a number
                         if re.match(regular_expresion_number, piece_1):
                             search_domains.append({
                                                    'code':piece_1,
                                                    'name':piece_2
                                                   })
                         else:
-                            search_domains.append({'name':name})                
-            #Si no existe prefijo.
+                            search_domains.append({'name':name})
+            #If there is no prefix.
             else:
                 if re.match(regular_expresion_number, piece_1):
                     search_domains.append({
@@ -171,8 +169,8 @@ class account_account(osv.osv):
             #Build the search domain for the account browser.
             search_domain = []
             regular_expresion = '%'
-            for domain in search_domains:      
-                temp_domain = []                          
+            for domain in search_domains:
+                temp_domain = []
                 if 'company_ids' in domain.keys():
                     temp_domain.append(('company_id','in', domain['company_ids']))
                 
@@ -190,7 +188,7 @@ class account_account(osv.osv):
                     if domain['name']:
                         temp_domain.append(('name', operator, domain['name']))
             
-                #Depend of the quantity of domain, add the & or the '|'    
+                #Depend of the quantity of domain, add the & or the '|'.
                 if len(temp_domain) == 1:
                     search_domain += temp_domain
                     
@@ -216,12 +214,12 @@ class account_account(osv.osv):
         
         return self.name_get(cr, uid, account_ids, context=context) #search the names that match with the ids.
 
-class account_journal(osv.osv):
+class account_journal(osv.Model):
     _name = "account.journal"
-    _inherit = "account.journal"    
+    _inherit = "account.journal"
     
     #Add the company prefix to the journal name.
-    
+
     def name_get(self, cr, user, ids, context=None):
         
         if not ids:
@@ -243,8 +241,7 @@ class account_journal(osv.osv):
             res.append((rs.id, data))
         
         return res
-    
-    
+
     #Add company prefix to the journal search. 
     def name_search(self, cr, uid, name, args=None, operator='ilike', context=None, limit=100):
         #TODO: Pass comments to english
@@ -255,7 +252,7 @@ class account_journal(osv.osv):
             args = []
         
         if name:
-            piece_1 = piece_2 = ''            
+            piece_1 = piece_2 = ''
             #Method partition return a tuple that contains the first part before the separator (in this case ' ') and the other position
             #is the rest of the sentence.
             temp_partition = name.partition(' ')
@@ -269,15 +266,15 @@ class account_journal(osv.osv):
                 if company.prefix:
                     dict_prefix[company.id] = company.prefix
 
-            #1. Si hay prefijos y compañía
-            # dict_prefix tiene el id de la compañía con su respectivo prefijo
-            for id, prefix in dict_prefix.iteritems():                                        
+            #1. if have prefix and company
+            # dict_prefix has the id of the company with your prefix respective
+            for id, prefix in dict_prefix.iteritems():
                     if piece_1.lower() in prefix.lower():
                         company_ids.append(id)
 
-            #Se deben cumplir ambas condiciones para que tenga prefijo.
-            if dict_prefix and company_ids:                  
-                #P2 existe (siguieron "digitando" luego del prefijo)                
+            # Both conditions must be met to have prefix.
+            if dict_prefix and company_ids:
+                #P2 if there (followed by "typing" after the prefix)               
                 if piece_2:
                     piece_2_b = piece_2.partition(' ')[0] 
                     piece_3 = piece_2.partition(' ')[2]
@@ -300,19 +297,19 @@ class account_journal(osv.osv):
                                    
                 else:
                     search_domains.append({
-                                           'company_ids':company_ids,       
+                                           'company_ids':company_ids,
                                            'name':piece_1,
                                            'code':piece_1})
             
-            #Si no existe prefijo ...
+            #If no prefix ...
             else:
-                if piece_2: #Si se siguió digitando 
+                if piece_2: #If continued typing
                     search_domains.append({'name': name })
                     search_domains.append({
                                            'code':piece_1,
                                            'name':piece_2,
                                            })
-                #Si solo se digitó una palabra en el inicio de la búsqueda.
+                #If only one word is typed at the beginning of the search.
                 else:
                     search_domains.append({
                                            'code':piece_1,
@@ -322,8 +319,8 @@ class account_journal(osv.osv):
             #Build the search domain for the account browser.
             search_domain = []
             regular_expresion = '%'
-            for domain in search_domains:      
-                temp_domain = []                          
+            for domain in search_domains:
+                temp_domain = []
                 if 'company_ids' in domain.keys():
                     temp_domain.append(('company_id','in', domain['company_ids']))
                 
@@ -331,20 +328,19 @@ class account_journal(osv.osv):
                      code = domain['code']
                      code = code.replace('-','').replace('_', '').replace('.','')
                      new_code = regular_expresion 
-            
+                 
                      for c in code:
                          new_code += c + regular_expresion
                          
-                     #ilike toma en cuenta mayúsculas y minúsculas
+                     #ilike is case sensitive
                      temp_domain.append(('code', 'ilike', new_code))
                 
                 if 'name' in domain.keys():
                     if domain['name']:
                         temp_domain.append(('name', operator, domain['name']))
                 
-            
                 #Depend of the quantity of domain, add the & or the '|'    
-                #A diferencia de la cuenta, cualquiera puede coincidir por lo que se cambia el '&' por el '|'
+                #Unlike account can match any change so the '&' by '|'
                 if len(temp_domain) == 1:
                     search_domain += temp_domain
                     
@@ -369,8 +365,8 @@ class account_journal(osv.osv):
             journal_ids = self.pool.get('account.journal').search(cr, uid, [] + args, limit=limit, context=context)
     
         return self.name_get(cr, uid, journal_ids, context=context) #search the names that match with the ids.
-                        
-class account_fiscalyear(osv.osv):
+
+class account_fiscalyear(osv.Model):
     '''
     Adds up to 16 chars to a Fiscal year code
     '''
@@ -381,7 +377,7 @@ class account_fiscalyear(osv.osv):
         'code': fields.char('Code', size=16, required=True, help="The code will be used to generate the numbers of the journal entries of this journal."),
     }
 
-class account_period(osv.osv):
+class account_period(osv.Model):
     '''
     Adds up to 16 chars to a Fiscal year code
     '''
