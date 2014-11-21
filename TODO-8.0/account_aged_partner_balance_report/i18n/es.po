@@ -301,8 +301,8 @@ msgstr "Reporte Financiero"
 
 #. module: account_aged_partner_balance_report
 #: model:ir.ui.menu,name:account_aged_partner_balance_report.menu_aged_trial_balance
-msgid "Partner Overdue Balance"
-msgstr "Saldos vencidos de empresa"
+msgid "Aged Partner Balance Detailed"
+msgstr "Saldos vencidos de empresa detallado"
 
 #. module: account_aged_partner_balance_report
 #: selection:aged.partner.balance.wiz,target_move:0
