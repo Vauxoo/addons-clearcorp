@@ -111,10 +111,9 @@ class Parser(accountReportbase):
                     if invoice_obj.number:
                         return _('Invoice') + ' ' + invoice_obj.number
                 else:
-                    return '/'
+                    return _('Reference') + ' ' + line.move_id.ref
             else:
-                move_obj = self.pool.get('account.move').browse(cr, uid, line.move_id.id)
-                return move_obj.name
+                return _('Reference') + ' ' + line.move_id.ref
         else:
             return '/'
 

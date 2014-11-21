@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-06 16:06+0000\n"
-"PO-Revision-Date: 2014-05-06 16:06+0000\n"
+"POT-Creation-Date: 2014-11-19 20:59+0000\n"
+"PO-Revision-Date: 2014-11-19 20:59+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,12 @@ msgid "Partners"
 msgstr ""
 
 #. module: account_aged_partner_balance_report
-#: code:addons/account_aged_partner_balance_report/report/account_aged_partner_balance_report.py:78
+#: field:aged.partner.balance.wiz,out_format:0
+msgid "Print Format"
+msgstr ""
+
+#. module: account_aged_partner_balance_report
+#: code:addons/account_aged_partner_balance_report/report/account_aged_partner_balance_report.py:86
 #, python-format
 msgid "Payable accounts"
 msgstr ""
@@ -33,15 +38,9 @@ msgid "It adds the currency column on report if the currency differs from the co
 msgstr ""
 
 #. module: account_aged_partner_balance_report
-#: code:addons/account_aged_partner_balance_report/report/account_aged_partner_balance_report.py:80
+#: code:addons/account_aged_partner_balance_report/report/account_aged_partner_balance_report.py:88
 #, python-format
 msgid "Payable and Receivable accounts"
-msgstr ""
-
-#. module: account_aged_partner_balance_report
-#: code:addons/account_aged_partner_balance_report/report/account_aged_partner_balance_report.py:97
-#, python-format
-msgid "No partner"
 msgstr ""
 
 #. module: account_aged_partner_balance_report
@@ -56,7 +55,7 @@ msgid "If selected, will display a historical unreconciled lines, taking into ac
 msgstr ""
 
 #. module: account_aged_partner_balance_report
-#: code:addons/account_aged_partner_balance_report/report/account_aged_partner_balance_report.py:76
+#: code:addons/account_aged_partner_balance_report/report/account_aged_partner_balance_report.py:84
 #, python-format
 msgid "Receivable accounts"
 msgstr ""
@@ -125,7 +124,6 @@ msgid "Receivable and Payable Accounts"
 msgstr ""
 
 #. module: account_aged_partner_balance_report
-#: model:ir.model,name:account_aged_partner_balance_report.model_account_aged_partner_balance
 #: model:ir.model,name:account_aged_partner_balance_report.model_aged_partner_balance_wiz
 msgid "Account Aged Partner Balance Report"
 msgstr ""
@@ -133,11 +131,6 @@ msgstr ""
 #. module: account_aged_partner_balance_report
 #: field:aged.partner.balance.wiz,date_to:0
 msgid "End Date"
-msgstr ""
-
-#. module: account_aged_partner_balance_report
-#: view:aged.partner.balance.wiz:0
-msgid "True"
 msgstr ""
 
 #. module: account_aged_partner_balance_report
@@ -151,17 +144,14 @@ msgid "Name"
 msgstr ""
 
 #. module: account_aged_partner_balance_report
-#: view:aged.partner.balance.wiz:0
-msgid "{'invisible': True}"
-msgstr ""
-
-#. module: account_aged_partner_balance_report
 #: selection:aged.partner.balance.wiz,target_move:0
 msgid "All Posted Entries"
 msgstr ""
 
 #. module: account_aged_partner_balance_report
 #: model:ir.actions.act_window,name:account_aged_partner_balance_report.action_account_aged_partner_balance_wizard
+#: model:ir.actions.report.xml,name:account_aged_partner_balance_report.account_aged_partner_balance_ods
+#: model:ir.actions.report.xml,name:account_aged_partner_balance_report.account_aged_partner_balance_odt
 msgid "Aged Partner Balance"
 msgstr ""
 
@@ -181,19 +171,8 @@ msgid "Keep empty for all open fiscal year"
 msgstr ""
 
 #. module: account_aged_partner_balance_report
-#: view:aged.partner.balance.wiz:0
-msgid "{'required': True}"
-msgstr ""
-
-#. module: account_aged_partner_balance_report
 #: field:aged.partner.balance.wiz,period_to:0
 msgid "End Period"
-msgstr ""
-
-#. module: account_aged_partner_balance_report
-#: code:addons/account_aged_partner_balance_report/report/account_aged_partner_balance_report.py:106
-#, python-format
-msgid "For this client, it does not exist receivable accounts"
 msgstr ""
 
 #. module: account_aged_partner_balance_report
@@ -202,7 +181,7 @@ msgid "Fiscal Year"
 msgstr ""
 
 #. module: account_aged_partner_balance_report
-#: code:addons/account_aged_partner_balance_report/report/account_aged_partner_balance_report.py:89
+#: code:addons/account_aged_partner_balance_report/report/account_aged_partner_balance_report.py:97
 #: selection:aged.partner.balance.wiz,direction_selection:0
 #, python-format
 msgid "Future"
@@ -240,10 +219,17 @@ msgid "Period Length (days)"
 msgstr ""
 
 #. module: account_aged_partner_balance_report
-#: code:addons/account_aged_partner_balance_report/report/account_aged_partner_balance_report.py:70
+#: code:addons/account_aged_partner_balance_report/report/account_aged_partner_balance_report.py:78
 #: selection:aged.partner.balance.wiz,account_type:0
 #, python-format
 msgid "Receivable Accounts"
+msgstr ""
+
+#. module: account_aged_partner_balance_report
+#: code:addons/account_aged_partner_balance_report/report/account_aged_partner_balance_report.py:114
+#: code:addons/account_aged_partner_balance_report/report/account_aged_partner_balance_report.py:116
+#, python-format
+msgid "Reference"
 msgstr ""
 
 #. module: account_aged_partner_balance_report
@@ -252,7 +238,7 @@ msgid "Filter by"
 msgstr ""
 
 #. module: account_aged_partner_balance_report
-#: code:addons/account_aged_partner_balance_report/report/account_aged_partner_balance_report.py:72
+#: code:addons/account_aged_partner_balance_report/report/account_aged_partner_balance_report.py:80
 #: selection:aged.partner.balance.wiz,account_type:0
 #, python-format
 msgid "Payable Accounts"
@@ -264,16 +250,10 @@ msgid "Account Base Report"
 msgstr ""
 
 #. module: account_aged_partner_balance_report
-#: code:addons/account_aged_partner_balance_report/report/account_aged_partner_balance_report.py:87
+#: code:addons/account_aged_partner_balance_report/report/account_aged_partner_balance_report.py:95
 #: selection:aged.partner.balance.wiz,direction_selection:0
 #, python-format
 msgid "Past"
-msgstr ""
-
-#. module: account_aged_partner_balance_report
-#: code:addons/account_aged_partner_balance_report/report/account_aged_partner_balance_report.py:108
-#, python-format
-msgid "For this client, it does not exist payable accounts"
 msgstr ""
 
 #. module: account_aged_partner_balance_report
@@ -290,6 +270,12 @@ msgstr ""
 #. module: account_aged_partner_balance_report
 #: selection:aged.partner.balance.wiz,filter:0
 msgid "Periods"
+msgstr ""
+
+#. module: account_aged_partner_balance_report
+#: code:addons/account_aged_partner_balance_report/report/account_aged_partner_balance_report.py:112
+#, python-format
+msgid "Invoice"
 msgstr ""
 
 #. module: account_aged_partner_balance_report
@@ -314,12 +300,11 @@ msgid "Account Financial Report"
 msgstr ""
 
 #. module: account_aged_partner_balance_report
-#: field:aged.partner.balance.wiz,out_format:0
-msgid "Print Format"
+#: model:ir.ui.menu,name:account_aged_partner_balance_report.menu_aged_trial_balance
+msgid "Aged Partner Balance Detailed"
 msgstr ""
 
 #. module: account_aged_partner_balance_report
 #: selection:aged.partner.balance.wiz,target_move:0
 msgid "All Entries"
 msgstr ""
-
