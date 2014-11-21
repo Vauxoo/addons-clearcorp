@@ -19,10 +19,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 from openerp.osv import osv, fields
-#from openerp.tools import #debug
-
 
 class project_name_shortcut(osv.osv):
     _name = 'project.project'
@@ -43,9 +40,6 @@ class project_name_shortcut(osv.osv):
                 else:
                     data.insert(0,(proj.name))
                     proj = proj.parent_id
-                
-                
-            
             data.append(project.name)
             data = ' / '.join(data)
             res.append((project.id, data))
@@ -53,11 +47,9 @@ class project_name_shortcut(osv.osv):
 
     def _shortcut_name(self, cr, uid, ids,field_name,arg, context=None):
         res ={}
-        #debug(ids)
         for m in self.browse(cr,uid,ids,context=context):
             res = self.name_get(cr, uid, ids)
             return dict(res)
-
         return res
         
     _columns = {

@@ -36,7 +36,7 @@ This module added id_task in project task
     "depends" : ['base','project'],
     "init_xml" : [],
     "demo_xml" : [],
-    "update_xml" : ["project_extended_view.xml"],
+    "update_xml" : ["project_extended_view.xml", "project_extended_data_view.xml"],
     "test" : [],
     "auto_install": False,
     "application": False,
