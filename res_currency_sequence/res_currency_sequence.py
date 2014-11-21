@@ -32,9 +32,6 @@ class ResCurrency(osv.osv):
         'sequence': fields.integer('Sequence', required=True, help='Use to arrange calculation sequence', select=True),
     }
     
-    _defaults = {
-        'sequence': 0,
-    }
      
     _sql_constraints = [
         ('res_currency_sequence', 'unique(sequence)', 'Sequence must be unique per currency!'),
