@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <openerp>
     <data noupdate="1">
-        <record id="account.account_aged_partner_balance_odt" model="ir.actions.report.xml">
+        <record id="account_aged_partner_balance_odt" model="ir.actions.report.xml">
             <field name="name">Aged Partner Balance</field>
             <field name="type">ir.actions.report.xml</field>
             <field name="model">res.partner</field>
             <field name="report_name">account_aged_partner_balance_odt</field>
             <field name="report_type">aeroo</field>
             <field name="in_format">oo-odt</field>
-            <field name="out_format">1</field><!--Must be code of mimetypes (report_mimetypes on database)-->
+            <field name="out_format" eval="ref('report_aeroo_ooo.report_mimetypes_pdf_odt')"/>
             <field name="parser_loc">account_aged_partner_balance_report/report/account_aged_partner_balance_report.py</field>
             <field name="report_rml">account_aged_partner_balance_report/report/account_aged_partner_balance_report.odt</field>
             <field name="parser_state">loc</field>
@@ -666,14 +666,14 @@ AAgICAD5i/JEORuDJToBAACwBAAAFQAAAAAAAAAAAAAAAAB1igAATUVUQS1JTkYvbWFuaWZlc3Qu
 eG1sUEsFBgAAAAASABIAywQAAPKLAAAAAA==</field>
         </record>
         
-        <record id="account.account_aged_partner_balance_ods" model="ir.actions.report.xml">
+        <record id="account_aged_partner_balance_ods" model="ir.actions.report.xml">
             <field name="name">Aged Partner Balance</field>
             <field name="type">ir.actions.report.xml</field>
             <field name="model">res.partner</field>
             <field name="report_name">account_aged_partner_balance_ods</field>
             <field name="report_type">aeroo</field>
             <field name="in_format">oo-ods</field>
-            <field name="out_format">2</field><!--Must be code of mimetypes (report_mimetypes on database)-->
+            <field name="out_format" eval="ref('report_aeroo.report_mimetypes_ods_ods')" />
             <field name="parser_loc">account_aged_partner_balance_report/report/account_aged_partner_balance_report.py</field>
             <field name="report_rml">account_aged_partner_balance_report/report/account_aged_partner_balance_report.ods</field>
             <field name="parser_state">loc</field>
