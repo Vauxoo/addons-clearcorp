@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!-- actions -->
+        <!-- ccorp.project.oerp.feature.import.wizard -->
+        <record model="ir.actions.act_window" id="action_feature_import_wizard">
+            <field name="name">Feature Import</field>
+            <field name="res_model">ccorp.project.oerp.feature.import.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+        <!-- ccorp.project.oerp.task.create.wizard -->
+        <record model="ir.actions.act_window" id="action_task_create_wizard">
+            <field name="name">Create Tasks from Sequence</field>
+            <field name="res_model">ccorp.project.oerp.task.create.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+        <!-- ccorp.project.oerp.sprint.close.wizard -->
+        <record model="ir.actions.act_window" id="action_sprint_close_wizard">
+            <field name="name">Close Sprint</field>
+            <field name="res_model">ccorp.project.oerp.sprint.close.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+        <!-- views -->
+        <!-- hr.department -->
+        <!-- form -->
+        <record id ="view_department_form" model="ir.ui.view">
+            <field name="name">view.department.form</field>
+            <field name="model">hr.department</field>
+            <field name="inherit_id" ref="hr.view_department_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group" position="after">
+                <notebook> 
+                   <!-- <page string="Sprints" name="sprints">
+                        <field name="sprint_ids"
+                            context="{}"/>
+                    </page> -->
+                    <page string="Work Types" name="work_types">
+                        <field name="work_type_ids">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="sequence"/>
+                                <field name="column_number"/>
+                            </tree>
+                        </field>
+                    </page>
+                    </notebook>
+                </xpath>
+            </field>
+        </record>
+        <!-- ccorp.project.scrum.feature -->
+        <!-- form -->
+        <record id ="view_feature_form" model="ir.ui.view">
+            <field name="name">view.feature.form</field>
+            <field name="model">ccorp.project.scrum.feature</field>
+            <field name="inherit_id" ref="ccorp_project_scrum.view_feature_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/group/field[@name='expected_hours']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                    <attribute name="required">False</attribute>
+                </xpath>
+                <xpath expr="//form/sheet/group/group/field[@name='product_backlog_id']" position="attributes">
+                    <attribute name="on_change">onchange_product_backlog(product_backlog_id)</attribute>
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page[@name='sprints']" position="after">
+                    <page string="Feature Hours" name="feature_hours">
+                        <field name="id" invisible="True"/>
+                        <field name="project_id" invisible="True"/>
+                        <field name="hour_ids" context="{'feature_id': active_id}">
+                            <tree editable="bottom">
+                                <field name="department_id"/>
+                                <field name="work_type_id"/>
+                                <field name="expected_hours" sum="Total Planned"/>
+                                <field name="effective_hours" sum="Total Spent"/>
+                                <field name="remaining_hours" sum="Total Remaining"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+       
+        <!-- project.task -->
+        <!-- form -->
+        <record id ="view_task_form" model="ir.ui.view">
+            <field name="name">view.task.form</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="priority" eval="100"/>
+            <field name="arch" type="xml">
+             <xpath expr="//form/sheet/group/group/field[@name='project_id']" position="before">
+                    <field name="department_id" />
+             </xpath> 
+                 <xpath expr="//form/sheet/notebook/page/field[@name='work_ids']" position="attributes">
+                    <attribute name="context">{'department_id': department_id}</attribute>
+                </xpath>  
+                <xpath expr="//form/sheet/notebook/page/field[@name='work_ids']/tree/field[@name='date']" position="after">
+                    <field name="work_type_id"/>
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page[@name='sequence']" position="before">
+                    <page string="Task Hours" name="task_hours"
+                        attrs="{'invisible': [('is_scrum','=',False)]}">
+                        <field name="task_hour_ids"
+                            context="{'project_id': project_id, 'task_id': active_id}">
+                            <tree editable="bottom">
+                                <field name="department_id"/>
+                                <field name="work_type_id"/>
+                                <field name="expected_hours" sum="Planned Hour(s)"/>
+                                <field name="effective_hours" sum="Spent Hour(s)"/>
+                                <field name="remaining_hours" sum="Remaining Hour(s)"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Feature Hours" name="feature_hours"
+                        attrs="{'invisible': [('feature_id','=',False)]}">
+                        <field name="feature_hour_ids">
+                            <tree>
+                                <field name="department_id"/>
+                                <field name="work_type_id"/>
+                                <field name="expected_hours" sum="Planned Hour(s)"/>
+                                <field name="effective_hours" sum="Spent Hour(s)"/>
+                                <field name="remaining_hours" sum="Remaining Hour(s)"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- ccorp.project.scrum.sprint -->
+        <!-- form -->
+        <record id ="view_sprint_form" model="ir.ui.view">
+            <field name="name">view.sprint.form</field>
+            <field name="model">ccorp.project.scrum.sprint</field>
+            <field name="inherit_id" ref="ccorp_project_scrum.view_sprint_form"/>
+            <field name="arch" type="xml">
+            <xpath expr="//form/sheet/div[@name='buttons']/button[@name='tasks_from_features']" position="attributes">
+                <attribute name="invisible">1</attribute> 
+            </xpath>
+            <xpath expr="//form/sheet/div[@name='buttons']/button[@name='tasks_from_features']" position="after">
+                <button name="tasks_from_features_oerp" string="Tasks from Features" type="object"
+                                attrs="{'invisible':['|',('state','=','cancelled'),'|',
+                                    ('state','=','draft'),('state','=','done')]}"
+                                confirm="Are you sure you want to create a task for each feature related to this sprint?"/>
+            </xpath>
+                <xpath expr="//form/sheet/div[@name='buttons']/button[@name='tasks_from_features']" position="before">
+                    <button name="%(action_task_create_wizard)d" string="Tasks from Sequence" type="action"
+                        attrs="{'invisible':['|',('state','=','cancelled'),'|',('state','=','draft'),('state','=','done')]}"
+                        context="{'sprint_id': active_id}"/>
+                    <button name="queue_tasks" string="Queue Tasks" type="object"
+                        confirm="Are you sure you want to queue all tasks?"/>
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page[@name='tasks']" position="after">
+                    <page string="Desirable Tasks" name="desirable_tasks">
+                        <field name="desirable_task_ids"/>
+                    </page>
+                </xpath>
+            </field>
+        </record> 
+    </data>
+</openerp>

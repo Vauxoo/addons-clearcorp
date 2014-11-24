@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        
+        <!-- Development -->        
+        <record model="hr.department" id="data_department_development_base">
+            <field name="name">Development</field>
+            <field name="manager_id" eval="ref('base.user_root')" > </field>
+        </record>
+        
+        <record model="hr.department" id="data_department_development_design">
+            <field name="name">Design</field>
+            <field name="manager_id" eval="ref('base.user_root')" > </field> 
+            <field name="parent_id" eval="ref('data_department_development_base')"/> 
+        </record>
+        <record model="ccorp.project.oerp.work.type" id="data_work_type_dev_design">
+            <field name="department_id" ref="data_department_development_design"/>
+            <field name="name">Work type Design</field>
+            <field name="sequence">0</field>
+            <field name="column_number">10</field>
+        </record>
+        
+         <record model="hr.department" id="data_department_development_progr">
+            <field name="name">Programing</field>
+            <field name="manager_id" eval="ref('base.user_root')" > </field> 
+            <field name="parent_id" eval="ref('data_department_development_base')"/> 
+        </record>
+        <record model="ccorp.project.oerp.work.type" id="data_work_type_dev_programing">
+            <field name="department_id" ref="data_department_development_progr"/>
+            <field name="name">Work type Programing</field>
+            <field name="sequence">1</field>
+            <field name="column_number">11</field>
+        </record>
+        
+         <record model="hr.department" id="data_department_development_qa">
+            <field name="name">Quality Assurance</field>
+            <field name="manager_id" eval="ref('base.user_root')" > </field> 
+            <field name="parent_id" eval="ref('data_department_development_base')"/> 
+        </record>
+        <record model="ccorp.project.oerp.work.type" id="data_work_type_dev_qa">
+            <field name="department_id" ref="data_department_development_qa"/>
+            <field name="name">Work type Quality Assurance</field>
+            <field name="sequence">2</field>
+            <field name="column_number">12</field>
+        </record> 
+        
+        <!-- Projects -->
+        <record model="hr.department" id="data_department_projects_base">
+            <field name="name">Projects</field>
+            <field name="manager_id" eval="ref('base.user_root')" > </field>
+        </record>
+        
+        <record model="hr.department" id="data_department_projects_analysis">
+            <field name="name">Analysis</field>
+            <field name="manager_id" eval="ref('base.user_root')" > </field> 
+            <field name="parent_id" eval="ref('data_department_projects_base')"/> 
+        </record>
+        <record model="ccorp.project.oerp.work.type" id="data_work_type_proj_analysis">
+            <field name="department_id" ref="data_department_projects_analysis"/>
+            <field name="name">Work type Analysis</field>
+            <field name="sequence">3</field>
+            <field name="column_number">13</field>
+        </record>
+        
+        <record model="hr.department" id="data_department_projects_pg">
+            <field name="name">Project Manager</field>
+            <field name="manager_id" eval="ref('base.user_root')" > </field> 
+            <field name="parent_id" eval="ref('data_department_projects_base')"/> 
+        </record>
+        <record model="ccorp.project.oerp.work.type" id="data_work_type_proj_projec_manager">
+            <field name="department_id" ref="data_department_projects_pg"/>
+            <field name="name">Work type Project Manager</field>
+            <field name="sequence">4</field>
+            <field name="column_number">14</field>
+        </record> 
+    </data>
+</openerp>
