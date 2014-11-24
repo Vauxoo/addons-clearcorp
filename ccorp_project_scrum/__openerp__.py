@@ -33,6 +33,7 @@
     "images" : [],
     "depends" : [
                  'project',
+                 'project_extended',
                  ],
     "data" : [
               'data/ccorp_project_scrum_data.xml',

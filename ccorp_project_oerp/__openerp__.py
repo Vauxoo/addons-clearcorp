@@ -36,7 +36,6 @@
                    'hr',
                  ],
     "data" : [
-              'data/ccorp_project_oerp_data.xml',
               'wizard/wizard_view.xml',
               'view/ccorp_project_oerp_view.xml',
               'view/ccorp_project_oerp_menu.xml',
