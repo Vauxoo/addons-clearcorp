@@ -23,7 +23,7 @@
 {
     "name" : 'Project Extended',
     "version" : '1.0',
-    "author" : 'CLEARCORP S.A',
+    "author" : 'ClearCorp',
     'complexity': 'easy',
     "description": """
 This module changes the reference name of the project by a concatenated name using the project code.
@@ -36,7 +36,7 @@ This module added id_task in project task
     "depends" : ['base','project'],
     "init_xml" : [],
     "demo_xml" : [],
-    "update_xml" : ["project_extended_view.xml", "project_extended_data_view.xml"],
+    "update_xml" : ["project_extended_view.xml", "project_extended_data.xml"],
     "test" : [],
     "auto_install": False,
     "application": False,

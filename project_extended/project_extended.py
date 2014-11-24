@@ -185,7 +185,7 @@ class task(osv.Model):
     
     def get_number_sequence(self, cr, uid, project_id, context=None):
         ir_sequence_obj = self.pool.get('ir.sequence')
-        project_obj = self.pool.get('project.project')        
+        project_obj = self.pool.get('project.project')
         project = project_obj.browse(cr, uid, project_id, context)
         return ir_sequence_obj.next_by_id(cr, uid, project.ir_sequence_id.id, context)
         
@@ -199,6 +199,17 @@ class task(osv.Model):
             vals.update({'number': self.get_number_sequence(cr, uid, vals['project_id'], context)})
         return super(task, self).write(cr, uid, ids, vals, context)
     
+
+    def name_search(self, cr, uid, name='', args=None, operator='ilike', context=None, limit=50):
+        ids = []
+        
+        if name:
+            ids = self.search(cr, uid,[('number', operator, name)] + args,
+                              limit=limit, context=context)
+        else:
+            ids = self.search(cr, uid, args, limit=limit, context=context)
+        return self.name_get(cr, uid, ids, context=context)
+        
 class proyectCategory(osv.Model):
     _inherit = "project.category"
     
