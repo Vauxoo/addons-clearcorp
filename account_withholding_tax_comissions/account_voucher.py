@@ -58,76 +58,58 @@ class Voucher(osv.Model):
 
         vals = super(Voucher, self).onchange_journal(cr, uid, ids, journal_id,
             line_ids, tax_id, partner_id, date, amount, ttype, company_id, context)
-        """if not vals:
+        if not vals:
             vals = {}
 
         if journal_id:
-            amount_to_pay = 0.0
-            required_list = []
-            optional_list = []
             journal_obj = self.pool.get('account.journal').browse(
                 cr, uid, journal_id, context)
-            # Get the required withholding taxes
-            for required in journal_obj.withholding_tax_required:
-                required_list.append(required.id)
-                if required.type == 'percentage':
-                    amount_to_pay += (amount * required.amount) / 100.0
+            # Get the withholding taxes
+            withholding_tax_lines = []
+            for tax in journal_obj.withholding_tax_ids:
+                amount_to_pay = 0.0
+                if tax.type == 'percentage':
+                    amount_to_pay += (amount * tax.amount) / 100.0
                 else:
-                    amount_to_pay += required.amount
-            # Get the optional withholding taxes
-            for optional in journal_obj.withholding_tax_optional:
-                optional_list.append(optional.id)
-                if optional.type == 'percentage':
-                    amount_to_pay += (amount * optional.amount) / 100.0
-                else:
-                    amount_to_pay += optional.amount 
+                    amount_to_pay += tax.amount
+                withholding_tax_lines.append((0,0,{
+                    'amount': amount_to_pay,
+                    'withholding_tax_id': tax.id,
+                }))
             if 'value' in vals:
                 vals['value'].update({
-                    'withholding_tax_required_view': required_list,
-                    'withholding_tax_required': required_list,
-                    'withholding_tax_optional': optional_list,
-                    'withholding_tax_amount': amount_to_pay,
+                    'withholding_tax_lines': withholding_tax_lines
                 })
             else:
                 vals['value'] = {}
                 vals['value'].update({
-                    'withholding_tax_required_view': required_list,
-                    'withholding_tax_required': required_list,
-                    'withholding_tax_optional': optional_list,
-                    'withholding_tax_amount': amount_to_pay,
+                    'withholding_tax_lines': withholding_tax_lines,
                 })
         else:
             if 'value' in vals:
                 vals['value'].update({
-                    'withholding_tax_required_view': False,
-                    'withholding_tax_required': False,
-                    'withholding_tax_optional': False,
-                    'withholding_tax_amount': 0.0,
+                    'withholding_tax_lines': [(5,0,{}),],
                 })
             else:
                 vals['value'] = {}
                 vals['value'].update({
-                    'withholding_tax_required_view': False,
-                    'withholding_tax_required': False,
-                    'withholding_tax_optional': False,
-                    'withholding_tax_amount': 0.0,
-                })"""
+                    'withholding_tax_lines': [(5,0,{}),],
+                })
         return vals
 
-        """
-              IMPORTANT: Withholding tax required are readonly. Because it is readonly, the field doesn't save normally, in the moment of push
-              button save. So, create a workarrond with two fields with the same relation in database (same name, in this case, voucher_withholding_tax_required), and
-              two fields are the same.
-              
-              In the xml, voucher_withholding_tax_required_vis has attribute readonly and voucher_withholding_tax_required_inv has the attribute invisible, the user
-              sees the field voucher_withholding_tax_required_vis and in the moment to save the record, both point to same relation (voucher_withholding_tax_required)
-              and the user sees that he put in the field, is readonly and the field store in database.
-                
-        """ 
+    def _check_duplicate_withholding_taxes(self, cr, uid, ids, context=None):
+        for voucher in self.browse(cr, uid, ids, context=context):
+            tax_ids = []
+            for tax in voucher.withholding_tax_lines:
+                if tax.id not in tax_ids:
+                    tax_ids.append(tax.id)
+                else:
+                    return False
+        return True
 
     _columns = {
         'withholding_tax_lines': fields.one2many('account.voucher.withholding.line',
-            'voucher_id', string='Withholding Taxes'),
+            'voucher_id', string='Withholding Taxes', ondelete='cascade'),
         'withholding_move_ids':fields.one2many('account.move',
             'withholding_voucher_id', 'Withholding Moves'),
         'withholding_move_line_ids':fields.function(_compute_withholding_move_lines,
@@ -146,26 +128,9 @@ class Voucher(osv.Model):
         })
         return super(Voucher, self).copy(cr, uid, id, default, context=context)
 
-    #Check if the required withholding tax are in optional withholding tax
-    def _check_duplicate_withholding_taxes(self, cr, uid, ids, context=None):
-        for voucher in self.browse(cr, uid, ids, context=context):
-            list_required = []
-            list_optional = []
-            # Get the required taxes ids
-            for required in voucher.withholding_tax_required:
-                list_required.append(required.id)
-            # Get the optional taxes ids
-            for optional in voucher.withholding_tax_optional:
-                list_optional.append(optional.id)
-            # Compare both lists
-            for element in list_required:
-                if element in list_optional:
-                     return False
-        return True
-
     _constraints = [
-        (_check_duplicate_withholding_taxes,'Withholding tax can not be the same '
-         'for required and optional!',['voucher_withholding_tax_optional']),
+        (_check_duplicate_withholding_taxes,'Withholding taxes can not be duplicated.',
+         ['voucher_withholding_tax_optional']),
     ]
 
     #Method that create the move and move lines from withholding tax

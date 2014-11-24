@@ -22,6 +22,6 @@
 
 import withholding_tax
 import withholding_line
+import account_move
 import account_journal
 import account_voucher
-import account_move
