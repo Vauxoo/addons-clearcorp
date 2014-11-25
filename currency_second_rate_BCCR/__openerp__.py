@@ -19,17 +19,26 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-
 {
-    "name" : 'Res Currency Sequence',
-    "version" : '1.0',
-    "author" : 'CLEARCORP S.A.',
-    "category": 'Accounting & Finance',
-    "description": """ Add sequence to currency """,
-    "depends" : ["base",],
-    "data" : ["res_currency_sequence_view.xml",],
-    'active': False,
-    'installable': True,    
+    'name': 'Currency Second Rate BCCR',
+    'version': '1.0',
+    'author': 'CLEARCORP S.A.',    
+    'category': 'Generic Modules/Base',
+    'description': """
+    
+IMPORT THE EXCHANGES FOR THE SECOND RATE.
+==================================
+    This module permits for each currency that have the web service 
+    of BCCR, take the value of the second rate
+    """,
+    'depends': [
+                "base",
+                "currency_rate_update",
+                ],
+    'data': [
+             'res_currency_secondrate.xml',
+             ],
+    'installable': True,
+    'auto_install': False,
     'license': 'AGPL-3',
 }

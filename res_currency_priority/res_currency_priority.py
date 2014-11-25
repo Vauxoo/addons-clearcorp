@@ -29,50 +29,14 @@ class ResCurrency(osv.osv):
     _inherit = "res.currency"
         
     _columns = {
-        'sequence': fields.integer('Sequence', required=True, help='Use to arrange calculation sequence', select=True),
+        'sequence':fields.selection([('mas_fuerteBase','Mas fuerte que la base'),('mas_debilbase','Mas debil que la base'),],'Rate direction: ',),
     }
-    
-     
-    _sql_constraints = [
-        ('res_currency_sequence', 'unique(sequence)', 'Sequence must be unique per currency!'),
-    ]
     
     _order = 'sequence'
     
-    def _current_rate_computation(self, cr, uid, ids, name, arg, raise_on_no_rate, context=None):        
-        
-        if 'second_rate' in context:
-            second_rate = context['second_rate']
+   # def currency_priority(self, cr, uid, res_currency_initial, res_currency_finally, name, context=None):
+    #    if 'sequence' == 'mas_fuerteBase':
             
-            if second_rate:            
-                if context is None:
-                    context = {}
-                res = {}
-                if 'date' in context:
-                    date = context['date']
-                else:
-                    date = time.strftime('%Y-%m-%d')
-                date = date or time.strftime('%Y-%m-%d')
-                # Convert False values to None ...
-                currency_rate_type = context.get('currency_rate_type_id') or None
-                # ... and use 'is NULL' instead of '= some-id'.
-                operator = '=' if currency_rate_type else 'is'                    
-                for id in ids:
-                    cr.execute("SELECT currency_id, second_rate FROM res_currency_rate WHERE currency_id = %s AND name <= %s AND currency_rate_type_id " + operator +" %s ORDER BY name desc LIMIT 1" ,(id, date, currency_rate_type))                            
-                    if cr.rowcount:
-                        id, rate = cr.fetchall()[0]
-                        res[id] = rate                
-                    elif not raise_on_no_rate:
-                        res[id] = 0
-                    else:
-                        raise osv.except_osv(_('Error!'),_("No currency rate associated for currency %d for the given period" % (id)))
-            else:
-                res = super(ResCurrency, self)._current_rate_computation(cr, uid, ids, name, arg, raise_on_no_rate, context)
-        
-        else:
-            res = super(ResCurrency, self)._current_rate_computation(cr, uid, ids, name, arg, raise_on_no_rate, context)        
-            
-        return res
     
     def copy(self, cr, uid, id, default=None, context=None):
         default = default or {}

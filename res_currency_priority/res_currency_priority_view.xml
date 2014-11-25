@@ -22,15 +22,20 @@
             </field>
         </record>
         
-        <record model = "ir.ui.view" id = "view_currency_form_sequence">
-            <field name = "name">view.currency.form.sequence</field>
+        <record model = "ir.ui.view" id = "view_currency_form_priority">
+            <field name = "name">view.currency.form.priority</field>
             <field name = "model">res.currency</field>
             <field name = "type">form</field>
-            <field name="inherit_id" ref="base.view_currency_form"/>
+            <field name="inherit_id" ref="currency_rate_update.view_currency_form_inherit"/>
             <field name = "arch" type = "xml">
                 <data>
-                    <field name = "active" position = "after">
-                        <field name = "sequence" />
+                    <field name = "webservice" position = "replace">
+                                 <group>
+                                <field name="webservice" attrs="{'required': [('automatic_update','=',True)]}"/>
+                                </group>
+                                <group>
+                                <field name="sequence" attrs="{'visible': [('automatic_update','=',True)]}"/>
+                                </group>
                     </field>
                 </data>
             </field>
