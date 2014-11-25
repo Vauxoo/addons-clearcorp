@@ -214,6 +214,16 @@ class task(osv.osv):
             vals.update({'number': self.get_number_sequence(cr, uid, vals['project_id'], context)})
         return super(task, self).write(cr, uid, ids, vals, context)
     
+    def name_search(self, cr, uid, name='', args=None, operator='ilike', context=None, limit=50):
+        ids = []
+        
+        if name:
+            ids = self.search(cr, uid,[('number', operator, name)] + args,
+                              limit=limit, context=context)
+        else:
+            ids = self.search(cr, uid, args, limit=limit, context=context)
+        return self.name_get(cr, uid, ids, context=context)
+    
 class proyectCategory(osv.Model):
     _inherit="project.category"
     

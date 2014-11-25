@@ -23,7 +23,7 @@
 {
     "name" : 'Project Extended',
     "version" : '1.0',
-    "author" : 'CLEARCORP S.A',
+    "author" : 'ClearCorp',
     'complexity': 'easy',
     "description": """
 This module changes the reference name of the project by a concatenated name using the project code.
