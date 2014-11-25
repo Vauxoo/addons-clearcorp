@@ -40,14 +40,20 @@
                             <div class="table-row labels no-wrap">
                                 <div class="table-cell" style="width:10%;">${_('Number')}</div>
                                 <div class="table-cell" style="width:35%;">${_('Task Summary')}</div>
-                                <div class="table-cell" style="width:55%;">${_('Description')}</div>
+                                <div class="table-cell" style="width:45%;">${_('Description')}</div>
+                                <div class="table-cell" style="width:10%;">${_('Tags')}</div>
                             </div>
                         </div>
                         <div class="table-body">
                             <div class="table-row ${row_even and 'even' or 'odd'}">
                                 <div class="table-cell" style="width:10%; text-align:center; border:silver 1px solid;">${project_task.number or ' '}</div>
                                 <div class="table-cell" style="width:35%; border:silver 1px solid;">${project_task.name or ' '}</div>
-                                <div class="table-cell" style="width:55%; border:silver 1px solid;">${project_task.description or ' '}</div>                    
+                                <div class="table-cell" style="width:45%; border:silver 1px solid;">${project_task.description or ' '}</div>  
+                                <div class="table-cell" style="width:10%; border:silver 1px solid;">
+                                    %for categ in project_task.categ_ids:
+                                        <span>${categ.name}</span>
+                                    %endfor
+                                </div> 
                             </div>
                         </div>
                     </div>

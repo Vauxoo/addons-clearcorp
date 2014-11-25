@@ -23,7 +23,7 @@
     'name': 'Project Reports',
     'version': '1.0',
     'url': 'http://launchpad.net/openerp-ccorp-addons',
-    'author': 'ClearCorp S.A.',
+    'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'category': 'Project Management',
     'complexity': 'normal',
