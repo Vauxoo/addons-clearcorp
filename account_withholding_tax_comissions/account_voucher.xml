@@ -2,7 +2,7 @@
 <openerp>
     <data>
         <!--Account Voucher (Supplier Form) -->
-        <!--<record id="view_vendor_payment_form" model="ir.ui.view">
+        <record id="view_vendor_payment_form" model="ir.ui.view">
             <field name="name">view.vendor.payment.form</field>
             <field name="model">account.voucher</field>
             <field name="type">form</field>
@@ -12,10 +12,15 @@
                     expr="//form/sheet/notebook/page[@string='Payment Information']/group"
                     position="after">
                     <group string="Withholding Taxes">
-                        <field name="withholding_tax_lines" nolabel="1">
-                            <tree string="Withholding Taxes" editable="bottom">
-                                <field name="withholding_tax_id"
-                                    readonly="True" />
+                        <button name="compute_withholding_taxes"
+                            type="object" string="(update taxes)" class="oe_link"
+                            attrs="{'invisible':[('state','not in','draft')]}" />
+                        <newline />
+                        <field name="withholding_tax_lines"
+                            nolabel="1" attrs="{'readonly':[('state','not in','draft')]}">
+                            <tree string="Withholding Taxes"
+                                editable="bottom">
+                                <field name="withholding_tax_id" />
                                 <field name="amount" />
                             </tree>
                         </field>
@@ -75,10 +80,10 @@
                     </field>
                 </xpath>
             </field>
-        </record>-->
+        </record>
 
         <!-- Wizard that comes for invoice (supplier form) -->
-        <!--<record id="view_vendor_receipt_dialog_form" model="ir.ui.view">
+        <record id="view_vendor_receipt_dialog_form" model="ir.ui.view">
             <field name="name">view.vendor.receipt.dialog.form</field>
             <field name="model">account.voucher</field>
             <field name="type">form</field>
@@ -88,20 +93,25 @@
                 <xpath expr="/form[@string='Payment']/group"
                     position="inside">
                     <group string="Withholding Taxes">
-                        <field name="withholding_tax_lines" nolabel="1">
-                            <tree string="Withholding Taxes" editable="bottom">
-                                <field name="withholding_tax_id"
-                                    readonly="True" />
+                        <button name="compute_withholding_taxes"
+                            type="object" string="(update taxes)" class="oe_link"
+                            attrs="{'invisible':[('state','not in','draft')]}" />
+                        <newline />
+                        <field name="withholding_tax_lines"
+                            nolabel="1" attrs="{'readonly':[('state','not in','draft')]}">
+                            <tree string="Withholding Taxes"
+                                editable="bottom">
+                                <field name="withholding_tax_id" />
                                 <field name="amount" />
                             </tree>
                         </field>
                     </group>
                 </xpath>
             </field>
-        </record>-->
+        </record>
 
         <!--Account Voucher (Customer Form) -->
-        <!--<record id="view_vendor_receipt_form" model="ir.ui.view">
+        <record id="view_vendor_receipt_form" model="ir.ui.view">
             <field name="name">view.vendor.receipt.form</field>
             <field name="model">account.voucher</field>
             <field name="type">form</field>
@@ -111,10 +121,15 @@
                     expr="/form/sheet/notebook/page[@string='Payment Information']/group/group[1]"
                     position="inside">
                     <group string="Withholding Taxes">
-                        <field name="withholding_tax_lines" nolabel="1">
-                            <tree string="Withholding Taxes" editable="bottom">
-                                <field name="withholding_tax_id"
-                                    readonly="True" />
+                        <button name="compute_withholding_taxes"
+                            type="object" string="(update taxes)" class="oe_link"
+                            attrs="{'invisible':[('state','not in','draft')]}" />
+                        <newline />
+                        <field name="withholding_tax_lines"
+                            nolabel="1" attrs="{'readonly':[('state','not in','draft')]}">
+                            <tree string="Withholding Taxes"
+                                editable="bottom">
+                                <field name="withholding_tax_id" />
                                 <field name="amount" />
                             </tree>
                         </field>
@@ -175,6 +190,6 @@
                     </field>
                 </xpath>
             </field>
-        </record>-->
+        </record>
     </data>
 </openerp>
