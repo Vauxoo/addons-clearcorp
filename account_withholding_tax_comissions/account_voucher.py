@@ -103,7 +103,7 @@ class Voucher(osv.Model):
                     'withholding_tax_id': tax.id,
                 }))
             tax_ids = [tax.id for tax in voucher.withholding_tax_lines]
-            self.pool.get('account.voucher.withholding.line').unlink(
+            self.pool.get('account.withholding.tax.line').unlink(
                 cr, uid, tax_ids, context=context)
             if withholding_tax_lines:
                 voucher.write({
@@ -112,7 +112,7 @@ class Voucher(osv.Model):
         return True
 
     _columns = {
-        'withholding_tax_lines': fields.one2many('account.voucher.withholding.line',
+        'withholding_tax_lines': fields.one2many('account.withholding.tax.line',
             'voucher_id', string='Withholding Taxes', ondelete='cascade'),
         'withholding_move_ids':fields.one2many('account.move',
             'withholding_voucher_id', 'Withholding Moves'),

@@ -44,6 +44,7 @@ Description:
              'withholding_tax.xml',
              'account_journal.xml',
              'account_voucher.xml',
+             'security/ir.model.access.csv',
              ],
     'installable': True,
     'auto_install': False,

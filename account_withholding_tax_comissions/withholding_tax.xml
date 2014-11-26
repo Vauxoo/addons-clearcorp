@@ -53,7 +53,7 @@
                     <field name="code" filter_domain="['('code','ilike',self)]"
                         string="Code" />
                     <group expand="0" string="Group By...">
-                        <filter string="Tipo" icon="terp-folder-orange"
+                        <filter string="Type" icon="terp-folder-orange"
                             domain="[]" context="{'group_by':'type'}" />
                     </group>
                 </search>

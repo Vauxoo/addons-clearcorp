@@ -10,14 +10,15 @@
             <field name="arch" type="xml">
                 <xpath
                     expr="//form/sheet/notebook/page[@string='Payment Information']/group"
-                    position="after">
+                    position="before">
                     <group string="Withholding Taxes">
                         <button name="compute_withholding_taxes"
                             type="object" string="(update taxes)" class="oe_link"
                             attrs="{'invisible':[('state','not in','draft')]}" />
                         <newline />
                         <field name="withholding_tax_lines"
-                            nolabel="1" attrs="{'readonly':[('state','not in','draft')]}">
+                            nolabel="1"
+                            attrs="{'readonly':[('state','not in','draft')]}">
                             <tree string="Withholding Taxes"
                                 editable="bottom">
                                 <field name="withholding_tax_id" />
@@ -29,9 +30,9 @@
                 <xpath
                     expr="/form/sheet/notebook/page[@string='Journal Items']/field[@name='move_ids']"
                     position="after">
-                    <separator colspan="2" string="Withholding Taxes" />
+                    <separator string="Withholding Taxes Journal Items" />
                     <field name="withholding_move_line_ids"
-                        readonly="1">
+                        nolabel="1" readonly="1">
                         <tree string="Journal Items">
                             <field name="move_id" />
                             <field name="ref" />
@@ -50,17 +51,10 @@
                                 groups="base.group_multi_currency" />
                         </tree>
                     </field>
-                </xpath>
-                <xpath
-                    expr="/form/sheet/notebook/page[@string='Journal Items']/field[@name='withholding_move_line_ids']"
-                    position="after">
-                    <separator colspan="2"
-                        string="Reverse Withholding Taxes"
-                        attrs="{'invisible' : [('state','!=','reverse')]}" />
                     <field name="withholding_move_line_ids_reverse"
-                        colspan="4" nolabel="1" readonly="1"
+                        nolabel="1" readonly="1"
                         attrs="{'invisible' : [('state','!=','reverse')]}">
-                        <tree string="Journal Items Withholding Tax Reverse">
+                        <tree string="Reverse Journal Items">
                             <field name="move_id" />
                             <field name="ref" />
                             <field name="date" />
@@ -98,7 +92,8 @@
                             attrs="{'invisible':[('state','not in','draft')]}" />
                         <newline />
                         <field name="withholding_tax_lines"
-                            nolabel="1" attrs="{'readonly':[('state','not in','draft')]}">
+                            nolabel="1"
+                            attrs="{'readonly':[('state','not in','draft')]}">
                             <tree string="Withholding Taxes"
                                 editable="bottom">
                                 <field name="withholding_tax_id" />
@@ -118,15 +113,16 @@
             <field name="inherit_id" ref="account_voucher.view_vendor_receipt_form" />
             <field name="arch" type="xml">
                 <xpath
-                    expr="/form/sheet/notebook/page[@string='Payment Information']/group/group[1]"
-                    position="inside">
+                    expr="//form/sheet/notebook/page[@string='Payment Information']/group"
+                    position="before">
                     <group string="Withholding Taxes">
                         <button name="compute_withholding_taxes"
                             type="object" string="(update taxes)" class="oe_link"
                             attrs="{'invisible':[('state','not in','draft')]}" />
                         <newline />
                         <field name="withholding_tax_lines"
-                            nolabel="1" attrs="{'readonly':[('state','not in','draft')]}">
+                            nolabel="1"
+                            attrs="{'readonly':[('state','not in','draft')]}">
                             <tree string="Withholding Taxes"
                                 editable="bottom">
                                 <field name="withholding_tax_id" />
@@ -138,10 +134,9 @@
                 <xpath
                     expr="/form/sheet/notebook/page[@string='Journal Items']/field[@name='move_ids']"
                     position="after">
-                    <separator colspan="2"
-                        string="Journal Items Withholding Tax" />
+                    <separator string="Withholding Taxes Journal Items" />
                     <field name="withholding_move_line_ids"
-                        readonly="1">
+                        nolabel="1" readonly="1">
                         <tree string="Journal Items">
                             <field name="move_id" />
                             <field name="ref" />
@@ -160,17 +155,10 @@
                                 groups="base.group_multi_currency" />
                         </tree>
                     </field>
-                </xpath>
-                <xpath
-                    expr="/form/sheet/notebook/page[@string='Journal Items']/field[@name='withholding_move_line_ids']"
-                    position="after">
-                    <separator colspan="2"
-                        string="Journal Items Reverse Withholding Tax"
-                        attrs="{'invisible' : [('state','!=','reverse')]}" />
                     <field name="withholding_move_line_ids_reverse"
-                        colspan="4" nolabel="1" readonly="1"
+                        nolabel="1" readonly="1"
                         attrs="{'invisible' : [('state','!=','reverse')]}">
-                        <tree string="Journal Items Withholding Tax Reverse">
+                        <tree string="Reverse Journal Items">
                             <field name="move_id" />
                             <field name="ref" />
                             <field name="date" />

@@ -24,8 +24,10 @@ from openerp.osv import osv, fields
 import openerp.addons.decimal_precision as dp
 
 class WithholdingTaxLine(osv.Model):
+    """Withholding Tax Lines"""
 
-    _name = 'account.voucher.withholding.line'
+    _name = 'account.withholding.tax.line'
+    _description = __doc__
 
     _columns = {
         'voucher_id': fields.many2one('account.voucher', string='Voucher',
