@@ -34,7 +34,7 @@
                                 <field name="webservice" attrs="{'required': [('automatic_update','=',True)]}"/>
                                 </group>
                                 <group>
-                                <field name="sequence" attrs="{'visible': [('automatic_update','=',True)]}"/>
+                                <field name="sequence" attrs="{'visible': [('automatic_update','=',True)]}" on_change="_currency_priority(sequence)"/>
                                 </group>
                     </field>
                 </data>

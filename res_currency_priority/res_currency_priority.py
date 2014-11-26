@@ -19,9 +19,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import time
+
 import copy
 from openerp.osv import osv, fields
+import time
+from datetime import datetime, timedelta
+from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 from openerp.tools.translate import _
 
 class ResCurrency(osv.osv):
@@ -29,13 +33,23 @@ class ResCurrency(osv.osv):
     _inherit = "res.currency"
         
     _columns = {
-        'sequence':fields.selection([('mas_fuerteBase','Mas fuerte que la base'),('mas_debilbase','Mas debil que la base'),],'Rate direction: ',),
+        'sequence':fields.selection([('mas_debilbase','Mas debil que la base'),('mas_fuerteBase','Mas fuerte que la base'),],'Rate direction: ',),
     }
     
-    _order = 'sequence'
     
-   # def currency_priority(self, cr, uid, res_currency_initial, res_currency_finally, name, context=None):
-    #    if 'sequence' == 'mas_fuerteBase':
+    def _currency_priority(self, cr, uid, ids, ratedirection, arg1=None):
+        curr_obj = self.pool.get('res.currency')
+        rate_obj = self.pool.get('res.currency.rate')
+       
+        if ratedirection == 'mas_fuerteBase':
+            currency_id = curr_obj.browse(cr, uid,ids,context=None)[0]
+            rate_ids = rate_obj.search(cr, uid, [('currency_id','=',currency_id.id)])
+            rates = rate_obj.browse(cr, uid,rate_ids,context=None)
+            for rate in rates:
+                 result = 1.0/float(rate.rate)
+                # vals = {'currency_id': currency_id.id, 'rate': result, 'name': time.strftime("%Y-%m-%d %H:%M:%S", (datetime.today() + timedelta(days=1)).timetuple() )}
+                 rate_obj.write(cr, uid,currency_id.id,{'rate':result} )
+            
             
     
     def copy(self, cr, uid, id, default=None, context=None):
