@@ -10,7 +10,7 @@
             <field name="arch" type="xml">
                 <data>                
                     <field name = "department_id" position = "after">
-                        <field name="code" />
+                        <field name="code" class="oe_inline"/>
                     </field>
                 </data>
             </field>
@@ -27,6 +27,7 @@
                 <data>
                     <field name="credit_note" position="after">
                         <field name="period_id" domain="[('state', '=', 'draft'),('special', '=', False)]" widget="selection"/>
+                        <field name="schedule_pay" required = "True" string = "Schedule pay"/>
                     </field>
                     <button string = "Generate Payslips" position = "replace"> 
                         <button name="%(hr_payroll.action_hr_payslip_by_employees)d" context="{'schedule_pay': schedule_pay}" type="action" states="draft" icon="gtk-execute" string="Generate Payslips" />
@@ -35,6 +36,7 @@
                         <button name="confirm_payslips" type="object" states="draft" icon="STOCK_GOTO_BOTTOM" string="Confirm Payslips" />
                     </button>
                 </data>
+                
             </field>
         </record>        
         <!--End Payroll_run -->
@@ -77,13 +79,11 @@
             <field name="priority">24</field>
             <field name="inherit_id" ref="base.view_company_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//page[@string='Header/Footer']" position="after">
-                    <page string="Configuration Report" groups="base.group_no_one">
-                        <group>
-                            <field name="payslip_footer"/>
+                 <page string="Report Configuration" position="inside">
+                        <group string="Payslip footer">
+                            <field name="payslip_footer" groups="base.group_no_one" nolabel="1"/>
                         </group>
-                    </page>
-                </xpath>
+                </page>
             </field>
         </record>
         

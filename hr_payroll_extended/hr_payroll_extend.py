@@ -20,11 +20,10 @@
 #
 ##############################################################################
 
-import netsvc
 import openerp.tools
 from openerp.osv import fields,osv, orm
 from datetime import datetime
-from tools.translate import _
+from openerp.tools.translate import _
 
 class resCompany(orm.Model):
     _name = 'res.company'
@@ -52,8 +51,18 @@ class hrJob(orm.Model):
 
 class hrPayslipRun(orm.Model):
     _inherit = 'hr.payslip.run'
+    
     _columns = {
-        'period_id': fields.many2one('account.period', 'Force Period', readonly=True, states={'draft': [('readonly', False)]}),      
+        'period_id': fields.many2one('account.period', 'Force Period', readonly=True, states={'draft': [('readonly', False)]}),
+        'schedule_pay': fields.selection([
+            ('monthly', 'Monthly'),
+            ('quarterly', 'Quarterly'),
+            ('semi-annually', 'Semi-annually'),
+            ('annually', 'Annually'),
+            ('weekly', 'Weekly'),
+            ('bi-weekly', 'Bi-weekly'),
+            ('bi-monthly', 'Bi-monthly'),
+            ], 'Scheduled Pay', select=True, readonly=True, states={'draft': [('readonly', False)]}),      
     }
     
     def close_payslip_run(self, cr, uid, ids, context=None):
