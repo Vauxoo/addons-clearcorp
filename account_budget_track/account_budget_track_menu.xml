@@ -6,7 +6,7 @@
             <field name="search_view_id"
                 ref="account_budget.view_crossovered_budget_line_search" />
         </record>
-        <menuitem id="menu_budget_lines" parent="account_budget.next_id_31"
-            action="account_budget.act_crossovered_budget_lines_view" />
+        <menuitem id="menu_budget_lines" string="Budget Lines"
+            parent="account_budget.next_id_31" action="account_budget.act_crossovered_budget_lines_view" />
     </data>
 </openerp>
