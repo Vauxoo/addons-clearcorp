@@ -35,6 +35,12 @@ from datetime import datetime, timedelta
  In addition, you must need configurate 'main_currency' parameter that needs
  get_currency_update method.
 """
+
+class resCurrencyrateInherit(orm.Model):
+    _inherit = "res.currency.rate"
+    _columns = {
+          'value_second_rate': fields.float('Second Rate', digits=(12,6), help="The second rate of the currency of rate 1")
+                }
     
 class res_currency(osv.Model):
     _inherit = 'res.currency' 

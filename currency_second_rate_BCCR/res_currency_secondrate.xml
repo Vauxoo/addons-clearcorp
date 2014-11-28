@@ -8,7 +8,17 @@
             <field name="model">res.currency</field>
             <field name="inherit_id" ref="currency_rate_update.view_currency_form_inherit"/>
             <field name="arch" type="xml">
-            
+                <data>
+                    <field name = "rate_ids" position = "replace">
+                    <field mode="tree" name="rate_ids" attrs="{'readonly':[('base','=',True)]}" nolabel="1">
+                                    <tree string="Rates" editable="bottom">
+                                        <field name="name" />
+                                        <field name="rate"/>
+                                        <field name="value_second_rate"/>
+                                    </tree>
+                                </field>
+                    </field>
+                </data>
              <data>
                     <field name = "code_rate" position = "after">
                         <field name="second_rate" attrs="{'invisible':[('webservice','!=', 'bccr_getter')]}"/>

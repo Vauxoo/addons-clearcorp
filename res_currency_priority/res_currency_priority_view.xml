@@ -29,13 +29,8 @@
             <field name="inherit_id" ref="currency_rate_update.view_currency_form_inherit"/>
             <field name = "arch" type = "xml">
                 <data>
-                    <field name = "webservice" position = "replace">
-                                 <group>
-                                <field name="webservice" attrs="{'required': [('automatic_update','=',True)]}"/>
-                                </group>
-                                <group>
-                                <field name="sequence" attrs="{'visible': [('automatic_update','=',True)]}" on_change="_currency_priority(sequence)"/>
-                                </group>
+                    <field name = "automatic_update" position = "after">
+                                <field name="sequence" help="If you select this check, take the value of the currency like 1 and the rate currency like a base currency Example: 1 EUR = 0,70 USD [x] 1,30 EUR = 1 USD" on_change="_currency_priority(sequence)"/>
                     </field>
                 </data>
             </field>

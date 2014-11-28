@@ -33,22 +33,22 @@ class ResCurrency(osv.osv):
     _inherit = "res.currency"
         
     _columns = {
-        'sequence':fields.selection([('mas_debilbase','Mas debil que la base'),('mas_fuerteBase','Mas fuerte que la base'),],'Rate direction: ',),
+        'sequence':fields.boolean('Rate Direction: '),
     }
+    
     
     
     def _currency_priority(self, cr, uid, ids, ratedirection, arg1=None):
         curr_obj = self.pool.get('res.currency')
         rate_obj = self.pool.get('res.currency.rate')
        
-        if ratedirection == 'mas_fuerteBase':
+        if ratedirection == True:
             currency_id = curr_obj.browse(cr, uid,ids,context=None)[0]
             rate_ids = rate_obj.search(cr, uid, [('currency_id','=',currency_id.id)])
             rates = rate_obj.browse(cr, uid,rate_ids,context=None)
             for rate in rates:
                  result = 1.0/float(rate.rate)
-                # vals = {'currency_id': currency_id.id, 'rate': result, 'name': time.strftime("%Y-%m-%d %H:%M:%S", (datetime.today() + timedelta(days=1)).timetuple() )}
-                 rate_obj.write(cr, uid,currency_id.id,{'rate':result} )
+                 rate_obj.write(cr, uid,rate.id,{'rate':result} )
             
             
     
