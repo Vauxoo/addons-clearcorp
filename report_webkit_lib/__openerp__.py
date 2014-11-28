@@ -25,7 +25,7 @@
     'name': 'Report Webkit Library',
     'description': """ Module that create the official webkit headers for the reports """,
     'version': '1.0',
-    'author': 'CLEARCORP S.A.',
+    'author': 'ClearCorp',
     'category': 'Hidden',
     'website': "http://clearcorp.co.cr",
     'images': [],
