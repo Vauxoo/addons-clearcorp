@@ -42,6 +42,7 @@ class CrossoveredBudget(models.Model):
         },
     }
 
+    name = fields.Char(track_visibility='onchange')
     code = fields.Char(track_visibility='onchange')
     creating_user_id = fields.Many2one(track_visibility='onchange')
     validating_user_id = fields.Many2one(track_visibility='onchange')
