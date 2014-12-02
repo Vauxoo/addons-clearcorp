@@ -20,8 +20,9 @@
 #
 ##############################################################################
 
-import netsvc
+from openerp import netsvc
 from openerp.osv import fields, orm
+from openerp import models, fields, api
 from openerp.tools.translate import _
 
 class AccountInvoice(orm.Model):
@@ -171,12 +172,11 @@ class AccountInvoice(orm.Model):
 
         return super(AccountInvoice, self).write(cr, uid, ids, vals, context=context)
 
-class AccountJournal(orm.Model):
+class AccountJournal(models.Model):
     _inherit = 'account.journal'
 
-    _columns = {
-        'default_receivable_account_id': fields.many2one('account.account', 'Default Receivable Account', help="It acts as a default receivable account"),
-        'default_payable_account_id': fields.many2one('account.account', 'Default Payable Account', help="It acts as a default payable account"),
-    }
+    default_receivable_account_id= fields.Many2one('account.account', 'Default Receivable Account', help="It acts as a default receivable account")
+    default_payable_account_id= fields.Many2one('account.account', 'Default Payable Account', help="It acts as a default payable account")
+    
 
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+# # # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
