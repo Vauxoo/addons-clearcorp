@@ -56,3 +56,6 @@ docs/_build/
 
 #Settings eclipse
 .settings
+
+#Temporal files
+*~
