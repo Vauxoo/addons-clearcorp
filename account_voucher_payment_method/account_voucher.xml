@@ -10,14 +10,9 @@
 			<field name="type">form</field>
 			<field name="arch" type="xml">
 				<data>
-					<field name="journal_id" position="replace"> 
-						<field name="journal_id"
-                            domain="[('payment_method_customer','=','True')]"
-                            invisible="context.get('line_type', False)"
-                            widget="selection" select="1"
-                            on_change="onchange_journal(journal_id, line_cr_ids, False, partner_id, date, amount, type, company_id, context)"
-                            string="Payment Method"/>
-					</field>
+					<xpath expr="//form/sheet/group/group/field[@name='journal_id']" position="attributes">
+                    <attribute name="domain">[('payment_method_customer','=','True')]</attribute>
+                    </xpath>
 				</data>
 			</field>
 		</record>
@@ -29,14 +24,9 @@
 			<field name="type">form</field>
 			<field name="arch" type="xml">
 				<data>
-					<field name="journal_id" position="replace"> 
-						<field name="journal_id"
-                            domain="[('payment_method_supplier','=','True')]"
-                            invisible="context.get('line_type', False)"
-                            widget="selection" select="1"
-                            on_change="onchange_journal(journal_id, line_cr_ids, False, partner_id, date, amount, type, company_id, context)"
-                            string="Payment Method"/>
-					</field>
+					<xpath expr="//form/sheet/group/group/field[@name='journal_id']" position="attributes">
+                    <attribute name="domain"> [('payment_method_supplier','=','True')] </attribute>
+                    </xpath>
 				</data>
 			</field>
 		</record>
