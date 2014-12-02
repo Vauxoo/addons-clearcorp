@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-
+        
         <record id="view_project" model="ir.ui.view">
             <field name="name">project.view_project1</field>
             <field name="model">project.project</field>
             <field name="type">tree</field>
-            <field name="inherit_id" ref="project.view_project" />
+            <field name="inherit_id" ref="project.view_project"/>   
             <field name="arch" type="xml">
                 <data>
-                    <xpath expr="//tree/field[@name='name']"
-                        position="replace">
-                        <field name="shortcut_name" />
-                        <field name="date_start" invisible="1" />
+                    <xpath expr="//tree/field[@name='name']" position="replace">
+                        <field name="shortcut_name"/>
+                        <field name="date_start" invisible="1"/>
                     </xpath>
                 </data>
             </field>
         </record>
-
+        
         <!-- kanban -->
         <record id="view_project_kanban" model="ir.ui.view">
             <field name="name">view.project.kanban</field>
@@ -25,334 +24,224 @@
             <field name="sequence" eval="20" />
             <field name="inherit_id" ref="project.view_project_kanban" />
             <field name="arch" type="xml">
-                <data>
-                    <xpath
-                        expr="//kanban/templates/t/div/div[@class='oe_kanban_content']/h4/strong/field[@name='name']"
-                        position="replace">
-                        <field name="shortcut_name" />
-                    </xpath>
+            <data>
+                <xpath expr="//kanban/templates/t/div/div[@class='oe_kanban_content']/h4/strong/field[@name='name']"
+                 position="replace">
+                    <field name="shortcut_name"/>
+                </xpath>
                 </data>
             </field>
         </record>
-
+        
         <record id="view_task_form2_inherit" model="ir.ui.view">
             <field name="name">project.task.form.inherit</field>
             <field name="model">project.task</field>
             <field name="type">form</field>
-            <field name="inherit_id" ref="project.view_task_form2" />
+            <field name="inherit_id" ref="project.view_task_form2"/>
             <field name="arch" type="xml">
                 <data>
-                    <xpath
-                        expr="//form/sheet/group/group/field[@name='planned_hours']"
-                        position="after">
-                        <field name="number" readonly="1" />
+                    <xpath expr="//form/sheet/group/group/field[@name='planned_hours']" position="after">
+                        <field name="number" readonly="1"/>
+                        <field name="state" invisible="1"/>
                     </xpath>
                 </data>
             </field>
         </record>
-
-        <!--project.project views -->
-        <!--project.project search form -->
-        <!--project.project search by shortcut_name -->
-        <record id="project_extended_project_project_search_view"
-            model="ir.ui.view">
-            <field name="name">project.extended.project.project.search.view
-            </field>
+        
+        <!--project.project views-->
+        <!--project.project search form-->
+        <!--project.project search by shortcut_name-->
+        <record id="project_extended_project_project_search_view" model="ir.ui.view" >
+            <field name="name">project.extended.project.project.search.view</field>
             <field name="model">project.project</field>
-            <field name="priority" eval="70" />
-            <field name="inherit_id" ref="project.view_project_project_filter" />
+            <field name="priority" eval="70"/>
+            <field name="inherit_id" ref="project.view_project_project_filter"/>
             <field name="arch" type="xml">
                 <data>
-                    <xpath
-                        expr="//search[@string='Search Project']/filter[@name='Template']"
-                        position="after">
-                        <separator />
-                        <filter icon="terp-check" string="Using Tasks"
-                            name="UseTasks" domain="[('use_tasks','=','True')]"
-                            help="Projects using Tasks" />
+                    <xpath expr="//search[@string='Search Project']/filter[@name='Template']" position="after">
+                        <separator/>
+                        <filter icon="terp-check" string="Using Tasks" name="UseTasks" domain="[('use_tasks','=','True')]" help="Projects using Tasks"/>
                     </xpath>
                     <xpath expr="//field[@name='name']" position="replace">
-                        <field name="shortcut_name" string="Project Name"
-                            filter_domain="['|',('name','ilike',self),'|',('shortcut_name','ilike',self),('code','ilike',self)]" />
+                        <field name="shortcut_name"
+                            string="Project Name"
+                            filter_domain="['|',('name','ilike',self),'|',('shortcut_name','ilike',self),('code','ilike',self)]"/>
                     </xpath>
-                    <xpath expr="//group/filter[@name='Parent']"
-                        position="after">
-                        <filter string="Period" name="group_date_start"
-                            icon="terp-personal" domain="[]"
-                            context="{'group_by':'date_start'}" />
+                    <xpath expr="//group/filter[@name='Parent']" position="after">
+                        <filter string="Period" name="group_date_start" icon="terp-personal" domain="[]"  context="{'group_by':'date_start'}"/>
                     </xpath>
                 </data>
             </field>
         </record>
-
-        <!--project.task views -->
-        <!--project.task search form -->
-        <!--project.task search by priority and tag -->
-        <record id="project_extended_project_task_search_view"
-            model="ir.ui.view">
-            <field name="name">project.extended.project.task.search.view
-            </field>
+        
+        <!--project.task views-->
+        <!--project.task search form-->
+        <!--project.task search by priority and tag-->
+        <record id="project_extended_project_task_search_view" model="ir.ui.view" >
+            <field name="name">project.extended.project.task.search.view</field>
             <field name="model">project.task</field>
-            <field name="inherit_id" ref="project.view_task_search_form" />
+            <field name="inherit_id" ref="project.view_task_search_form"/>
             <field name="arch" type="xml">
-                <xpath
-                    expr="//group[@string='Group By']/filter[@name='Stage']"
-                    position="after">
-                    <filter string="Priority" name="group_priority"
-                        icon="terp-personal" domain="[]"
-                        context="{'group_by':'priority'}" />
-                </xpath>
-                <xpath
-                    expr="//search/field[@name='name']" position="before">
-                    <field name="number" />
+                <xpath expr="//group[@string='Group By']/filter[@name='Stage']" position="after">
+                    <filter string="Priority" name="group_priority" icon="terp-personal" domain="[]"  context="{'group_by':'priority'}"/>
                 </xpath>
             </field>
         </record>
-
-        <!-- form task -->
-        <record id="view_task_form" model="ir.ui.view">
+        
+        <!-- form task-->
+        <record id="view_task_form" model="ir.ui.view" >
             <field name="name">view.task.form</field>
             <field name="model">project.task</field>
-            <field name="inherit_id" ref="project.view_task_form2" />
+            <field name="inherit_id" ref="project.view_task_form2"/>
             <field name="arch" type="xml">
-                <xpath
-                    expr="//form/sheet/group/group/field[@name='project_id']"
-                    position="replace">
-                    <field name="project_id" on_change="onchange_project(project_id)"
-                        context="{'default_use_tasks':1}" domain="[('use_tasks','=','True')]" />
+                <xpath expr="//form/sheet/group/group/field[@name='project_id']" position="replace">
+                    <field name="project_id" 
+                        on_change="onchange_project(project_id)"
+                        context="{'default_use_tasks':1}"
+                        domain="[('use_tasks','=','True')]"/>
+                 </xpath>
+                 <xpath expr="//form/sheet/notebook/page[@string='Delegation']/field[@name='child_ids']/tree/field[@name='stage_id']" position="after">
+                    <field name="state" invisible="1"/>
                 </xpath>
-                <xpath
-                    expr="//form/sheet/group/group/field[@name='project_id']"
-                    position="after">
+               <xpath expr="//form/sheet/notebook/page[@string='Extra Info']/group/field[@name='partner_id']" position="after">
+                    <field name="state" invisible="1" /> 
+                </xpath>
+            </field>
+        </record>
+        
+        <!--project.task tree view-->
+        <record id="project_extended_project_task_tree_view" model="ir.ui.view">
+            <field name="name">project.extended.view.task.tree</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_tree2"/>
+            <field name="arch" type="xml">
+                    <xpath expr="//tree/field[@name='stage_id']" position="after">
                     <field name="state" invisible="1"/>
                 </xpath>
             </field>
         </record>
-    <!--project.task tree view -->
-        <record id="project_extended_project_task_tree_view"
-            model="ir.ui.view">
-            <field name="name">project.extended.task.tree.view</field>
-            <field name="model">project.task</field>
-            <field name="inherit_id" ref="project.view_task_tree2" />
-            <field name="arch" type="xml">
-                <xpath expr="//tree/field[@name='name']" position="after">
-                    <field name="number" />
-                </xpath>
-            </field>
-        </record>
-    
-        <!-- form stages -->
-        <record id="view_stage_form" model="ir.ui.view">
+        
+        <!-- form stages-->
+        <record id="view_stage_form" model="ir.ui.view" >
             <field name="name">view.stage.form</field>
             <field name="model">project.task.type</field>
-            <field name="inherit_id" ref="project.task_type_edit" />
+            <field name="inherit_id" ref="project.task_type_edit"/>
             <field name="arch" type="xml">
-                <xpath expr="//form/group/group/field[@name='sequence']"
-                    position="after">
-                    <field name="state"/>
-                </xpath>
-            </field>
-        </record>
-
-        <!--project.stage tree view -->
-        <record id="project_extended_project_stage_tree_view"
-            model="ir.ui.view">
-            <field name="name">project.extended.stage.tree.view</field>
-            <field name="model">project.task.type</field>
-            <field name="inherit_id" ref="project.task_type_tree" />
-            <field name="arch" type="xml">
-                <xpath expr="//tree/field[@name='fold']" position="after">
+                <xpath expr="//form/group/group/field[@name='sequence']" position="after">
                     <field name="state" />
                 </xpath>
             </field>
         </record>
-
-        <!--project.task kanban view -->
-        <record id="project_extended_project_task_kanban_view"
-            model="ir.ui.view">
-            <field name="name">project.extended.project.task.kanban.view
-            </field>
-            <field name="model">project.task</field>
-            <field name="priority" eval="16" />
-            <field name="inherit_id" ref="project.view_task_kanban" />
+        
+        <!--project.stage tree view-->
+        <record id="project_extended_project_stage_tree_view" model="ir.ui.view">
+            <field name="name">project.extended.stage.tree.view</field>
+            <field name="model">project.task.type</field>
+            <field name="inherit_id" ref="project.task_type_tree"/>
             <field name="arch" type="xml">
+                    <xpath expr="//tree/field[@name='fold']" position="after">
+                    <field name="state" />
+                </xpath>
+            </field>
+        </record>
+        
+        <!--project.task kanban view-->
+        <record id="project_extended_project_task_kanban_view" model="ir.ui.view" >
+            <field name="name">project.extended.project.task.kanban.view</field>
+            <field name="model">project.task</field>
+            <field name="priority" eval="16"/>
+            <field name="inherit_id" ref="project.view_task_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//kanban/field[@name='sequence']" position="after">
+                    <field name="state" invisible="1"/>
+                </xpath>
                 <xpath expr="//t[@t-name='kanban-box']" position="replace">
                     <t t-name="kanban-box">
-                        <div
-                            t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
-                            <div class="oe_dropdown_toggle oe_dropdown_kanban"
-                                groups="base.group_user">
+                    <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                    <div class="oe_dropdown_toggle oe_dropdown_kanban" groups="base.group_user">
                                 <span class="oe_e">í</span>
                                 <ul class="oe_dropdown_menu">
-                                    <t
-                                        t-if="widget.view.is_action_enabled('edit')">
-                                        <li>
-                                            <a type="edit">Edit...</a>
-                                        </li>
-                                    </t>
-                                    <t
-                                        t-if="widget.view.is_action_enabled('delete')">
-                                        <li>
-                                            <a type="delete">Delete</a>
-                                        </li>
-                                    </t>
+                                    <t t-if="widget.view.is_action_enabled('edit')"><li><a type="edit">Edit...</a></li></t>
+                                    <t t-if="widget.view.is_action_enabled('delete')"><li><a type="delete">Delete</a></li></t>
                                     <li>
-                                        <ul class="oe_kanban_project_times"
-                                            groups="project.group_time_work_estimation_tasks">
-                                            <li>
-                                                <a
-                                                    name="set_remaining_time_1"
-                                                    type="object"
-                                                    class="oe_kanban_button">1</a>
-                                            </li>
-                                            <li>
-                                                <a
-                                                    name="set_remaining_time_2"
-                                                    type="object"
-                                                    class="oe_kanban_button">2</a>
-                                            </li>
-                                            <li>
-                                                <a
-                                                    name="set_remaining_time_5"
-                                                    type="object"
-                                                    class="oe_kanban_button">5</a>
-                                            </li>
-                                            <li>
-                                                <a
-                                                    name="set_remaining_time_10"
-                                                    type="object"
-                                                    class="oe_kanban_button">10</a>
-                                            </li>
-                                            <li>
-                                                <a name="do_open"
-                                                    states="draft"
-                                                    string="Validate planned time"
-                                                    type="object"
-                                                    class="oe_kanban_button oe_kanban_button_active">!</a>
-                                            </li>
-                                        </ul>
+                                      <ul class="oe_kanban_project_times" groups="project.group_time_work_estimation_tasks">
+                                        <li><a name="set_remaining_time_1" type="object" class="oe_kanban_button">1</a></li>
+                                        <li><a name="set_remaining_time_2" type="object" class="oe_kanban_button">2</a></li>
+                                        <li><a name="set_remaining_time_5" type="object" class="oe_kanban_button">5</a></li>
+                                        <li><a name="set_remaining_time_10" type="object" class="oe_kanban_button">10</a></li>
+                                        <li><a name="do_open" states="draft" string="Validate planned time" type="object" class="oe_kanban_button oe_kanban_button_active">!</a></li>
+                                      </ul>
                                     </li>
-                                    <li>
-                                        <ul class="oe_kanban_colorpicker"
-                                            data-field="color" />
-                                    </li>
+                                    <li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
                                 </ul>
                             </div>
 
                             <div class="oe_kanban_content">
+                                <div><b><field name="name"/></b></div>
                                 <div>
-                                    <b>
-                                        <field name="name" />
-                                    </b>
-                                </div>
-                                <div>
-                                    <field name="project_id" />
-                                    <br />
-                                    <t
-                                        t-if="record.date_deadline.raw_value and record.date_deadline.raw_value lt (new Date())"
-                                        t-set="red">oe_kanban_text_red</t>
-                                    <span t-attf-class="#{red || ''}">
-                                        <i>
-                                            <field name="date_deadline" />
-                                        </i>
-                                    </span>
+                                    <field name="project_id"/><br/>
+                                    <t t-if="record.date_deadline.raw_value and record.date_deadline.raw_value lt (new Date())" t-set="red">oe_kanban_text_red</t>
+                                    <span t-attf-class="#{red || ''}"><i><field name="date_deadline"/></i></span>
                                 </div>
                                 <div class="oe_kanban_bottom_right">
                                     <t groups="base.group_user">
-                                        <a
-                                            t-if="record.kanban_state.raw_value === 'normal'"
-                                            type="object" string="In Progress"
-                                            name="set_kanban_state_done"
-                                            class="oe_kanban_status">
-                                        </a>
-                                        <a
-                                            t-if="record.kanban_state.raw_value === 'done'"
-                                            type="object" string="Ready for next stage"
-                                            name="set_kanban_state_blocked"
-                                            class="oe_kanban_status oe_kanban_status_green">
-                                        </a>
-                                        <a
-                                            t-if="record.kanban_state.raw_value === 'blocked'"
-                                            type="object" string="Blocked"
-                                            name="set_kanban_state_normal"
-                                            class="oe_kanban_status oe_kanban_status_red">
-                                        </a>
-                                        <a
-                                            t-if="record.priority.raw_value > 0"
-                                            type="object" string="Normal"
-                                            name="set_high_priority"
-                                            class="oe_e oe_star_off">7</a>
-                                        <a
-                                            t-if="record.priority.raw_value == 0"
-                                            type="object" string="Very Important"
-                                            name="set_normal_priority"
-                                            class="oe_e oe_star_on">7</a>
+                                        <a t-if="record.kanban_state.raw_value === 'normal'" type="object" string="In Progress" name="set_kanban_state_done" class="oe_kanban_status"> </a>
+                                        <a t-if="record.kanban_state.raw_value === 'done'" type="object" string="Ready for next stage" name="set_kanban_state_blocked" class="oe_kanban_status oe_kanban_status_green"> </a>
+                                        <a t-if="record.kanban_state.raw_value === 'blocked'" type="object" string="Blocked" name="set_kanban_state_normal" class="oe_kanban_status oe_kanban_status_red"> </a>
+                                        <a t-if="record.priority.raw_value > 0" type="object" string="Normal" name="set_high_priority" class="oe_e oe_star_off">7</a>
+                                        <a t-if="record.priority.raw_value == 0" type="object" string="Very Important" name="set_normal_priority" class="oe_e oe_star_on">7</a>
                                     </t>
-                                    <img
-                                        t-att-src="kanban_image('res.users', 'image_small', record.user_id.raw_value)"
-                                        t-att-title="record.user_id.value"
-                                        width="24" height="24"
-                                        class="oe_kanban_avatar" />
+                                    <img t-att-src="kanban_image('res.users', 'image_small', record.user_id.raw_value)" t-att-title="record.user_id.value" width="24" height="24" class="oe_kanban_avatar"/>
                                 </div>
                                 <div class="oe_kanban_footer_left">
-                                    <span
-                                        groups="project.group_time_work_estimation_tasks"
-                                        title="Remaining hours">
+                                    <span groups="project.group_time_work_estimation_tasks" title="Remaining hours">
                                         <span class="oe_e">N</span>
-                                        <t
-                                            t-esc="Math.round(record.remaining_hours.raw_value)" />
+                                        <t t-esc="Math.round(record.remaining_hours.raw_value)"/>
                                     </span>
                                 </div>
-                                <div class="oe_kanban_footer_left"
-                                    style="margin-top:5px;">
-                                    <t
-                                        t-raw="record.message_summary.raw_value" />
-                                    <field name="categ_ids" />
+                                <div class="oe_kanban_footer_left" style="margin-top:5px;">
+                                    <t t-raw="record.message_summary.raw_value"/>
+                                    <field name="categ_ids"/>
                                 </div>
                             </div>
                             <div class="oe_clear"></div>
                         </div>
-                    </t>
+                     </t>
                 </xpath>
             </field>
         </record>
-
-        <!--project.category views -->
-        <!--project.category inherited form view -->
-        <record id="project_extended_project_category_form_view"
-            model="ir.ui.view">
-            <field name="name">project.extended.project.category.form.view
-            </field>
+        
+        <!--project.category views-->    
+        <!--project.category inherited form view-->   
+        <record id="project_extended_project_category_form_view" model="ir.ui.view">
+            <field name="name">project.extended.project.category.form.view</field>
             <field name="model">project.category</field>
-            <field name="inherit_id" ref="project.project_category_form_view" />
+            <field name="inherit_id" ref="project.project_category_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='name']" position="before">
-                    <field name="tag_code" />
-                    <separator colspan="2" />
+                    <field name="tag_code"/>
+                    <separator colspan="2"/>
                 </xpath>
             </field>
         </record>
-
-        <!--project.category tree view -->
-        <record id="project_extended_project_category_tree_view"
-            model="ir.ui.view">
-            <field name="name">project.extended.project.category.tree.view
-            </field>
+        
+        <!--project.category tree view-->
+        <record id="project_extended_project_category_tree_view" model="ir.ui.view">
+            <field name="name">project.extended.project.category.tree.view</field>
             <field name="model">project.category</field>
-            <field name="priority" eval="16" />
+            <field name="priority" eval="16"/>
             <field name="arch" type="xml">
                 <tree string="Tags">
-                    <field name="tag_code" />
-                    <field name="name" />
+                    <field name="tag_code"/>
+                    <field name="name"/>
                 </tree>
             </field>
         </record>
-
+        
         <!-- Actions -->
         <!-- project.project -->
         <record id="project.open_view_project_all" model="ir.actions.act_window">
-            <field name="context">{'search_default_Current': 1,
-                'search_default_UseTasks': 1}</field>
+            <field name="context">{'search_default_Current': 1, 'search_default_UseTasks': 1}</field>
         </record>
     </data>
 </openerp>
