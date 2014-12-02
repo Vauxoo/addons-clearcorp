@@ -26,7 +26,7 @@
     'category': 'Accounting & Finance',
     'description': """
     """,
-    'author': 'CLEARCORP S.A.',
+    'author': 'ClearCorp',
     'website': 'http://www.clearcorp.co.cr',
     'depends': [
                 'account_payment',
