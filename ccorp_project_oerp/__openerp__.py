@@ -21,27 +21,26 @@
 ##############################################################################
 
 {
-    "name" : 'CCorp Project Scrum',
+    "name" : 'CCorp Project OpenERP Methodology',
     "version" : '1.0',
     "author" : 'CLEARCORP S.A.',
     'complexity': 'normal',
     "description": """
 """,
     "category": 'Project Management',
-    "sequence": 3,
+    "sequence": 10,
     "website" : "http://clearcorp.co.cr",
     "images" : [],
     "depends" : [
-                 'project',
-                 'project_extended',
+                 'ccorp_project_scrum',
+                   'hr',
                  ],
     "data" : [
-              'data/ccorp_project_scrum_data.xml',
-              'view/ccorp_project_scrum_view.xml',
-              'view/ccorp_project_scrum_menu.xml',
+              'wizard/wizard_view.xml',
+              'view/ccorp_project_oerp_view.xml',
+              'view/ccorp_project_oerp_menu.xml',
               'security/ir.model.access.csv',
               ],
-    "css" : ['static/src/css/ccorp_project_scrum.css'],
     "init_xml" : [],
     "demo_xml" : [],
     "update_xml" : [],

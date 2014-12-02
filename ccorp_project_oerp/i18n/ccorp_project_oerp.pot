@@ -1,0 +1,560 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* ccorp_project_oerp
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-06-09 19:58+0000\n"
+"PO-Revision-Date: 2014-06-09 19:58+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.feature.import.wizard,file:0
+msgid "File to Import"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.work.type.template,filename:0
+#: field:ccorp.project.oerp.work.type.template.group,filename:0
+msgid "Filename"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.work.type.mapping,template_id:0
+#: field:ccorp.project.oerp.work.type.template,name:0
+msgid "Template"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.work.type.template.group,name:0
+msgid "Group Name"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.phase.create.wizard,product_uom:0
+msgid "Unit of Measure"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ir.actions.act_window,name:ccorp_project_oerp.action_phase_create_wizard
+msgid "Create Phase from Template"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.phase.create.wizard,work_type_template_id:0
+#: view:ccorp.project.oerp.work.type.template:0
+#: model:ir.actions.act_window,name:ccorp_project_oerp.action_work_type_template
+msgid "Work Type Template"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.oerp.feature.import.wizard:0
+msgid "Feature Import Wizard"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.task.hour,expected_hours:0
+msgid "Initially Planned Hour(s)"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.sprint.close.wizard,opening_sprint_id:0
+msgid "Opening Sprint"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_tec_wor
+msgid "Workflows"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.task.hour,task_id:0
+#: model:ir.model,name:ccorp_project_oerp.model_project_task
+msgid "Task"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.oerp.work.type.template:0
+#: field:ccorp.project.oerp.work.type.template,work_type_mapping_ids:0
+#: view:project.phase:0
+#: field:project.phase,work_type_ids:0
+msgid "Work Types"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.feature.import.wizard,product_backlog_id:0
+#: field:ccorp.project.oerp.phase.create.wizard,product_backlog_id:0
+#: field:project.phase,product_backlog_id:0
+msgid "Product Backlog"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.feature.hours,project_id:0
+#: field:ccorp.project.oerp.feature.import.wizard,project_id:0
+#: field:ccorp.project.oerp.phase.create.wizard,project_id:0
+#: field:ccorp.project.oerp.task.hour,project_id:0
+msgid "Project"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ir.ui.menu,name:ccorp_project_oerp.menu_feature_import_wizard
+msgid "Import Features"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ccorp.project.oerp.work.type.template,name:ccorp_project_oerp.data_work_type_template_fun
+msgid "Functional Analysis"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: code:addons/ccorp_project_oerp/wizard/feature_import_wizard.py:97
+#, python-format
+msgid "An error occurred while importing the features. The system error was :\n"
+""
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.feature.hours,work_type_id:0
+#: field:ccorp.project.oerp.task.hour,work_type_id:0
+#: field:project.task.work,work_type_id:0
+msgid "Work Type"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_tec_fun
+msgid "Functional Fields"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_tec_met
+msgid "Methods"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ccorp.project.oerp.work.type.template,name:ccorp_project_oerp.data_work_type_template_tec
+msgid "Technical Analysis"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.scrum.feature:0
+msgid "Total Planned"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.oerp.work.type.template.group:0
+#: model:ir.actions.act_window,name:ccorp_project_oerp.action_work_type_template_group
+msgid "Work Type Template Group"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.sprint.close.wizard,closing_sprint_id:0
+msgid "Closing Sprint"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.oerp.phase.create.wizard:0
+#: view:ccorp.project.oerp.sprint.close.wizard:0
+#: view:ccorp.project.oerp.task.create.wizard:0
+msgid "Are you sure you want to continue?"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:project.phase:0
+#: field:project.phase,sprint_ids:0
+msgid "Sprints"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.scrum.feature:0
+#: field:ccorp.project.scrum.feature,hour_ids:0
+#: view:project.task:0
+#: field:project.task,feature_hour_ids:0
+msgid "Feature Hours"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.oerp.phase.create.wizard:0
+#: view:ccorp.project.oerp.task.create.wizard:0
+msgid "Create"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.feature.import.wizard,state:0
+msgid "State"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: constraint:project.phase:0
+msgid "All sprints must belong to the selected product backlog."
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: code:addons/ccorp_project_oerp/wizard/feature_import_wizard.py:39
+#, python-format
+msgid "An error occurred while reading the file. Please check if the format is correct."
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_fun_dia
+msgid "Diagrams"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.oerp.work.type.template.group:0
+#: model:ir.ui.menu,name:ccorp_project_oerp.menu_work_type_template
+msgid "Phase Templates"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ir.actions.act_window,name:ccorp_project_oerp.action_task_create_wizard
+msgid "Create Tasks from Sequence"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ir.actions.act_window,name:ccorp_project_oerp.action_sprint_close_wizard
+#: model:ir.ui.menu,name:ccorp_project_oerp.menu_sprint_close_wizard
+msgid "Close Sprint"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.oerp.work.type.template:0
+msgid "Work Type Templates"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_fun_int
+#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_tec_int
+msgid "Interface"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_fun_conf
+msgid "Configuration"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.scrum.sprint:0
+msgid "Are you sure you want to queue all tasks?"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:project.task:0
+#: field:project.task,task_hour_ids:0
+msgid "Task Hours"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_fun_intr
+msgid "Interaction"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.work.type,column_number:0
+#: field:ccorp.project.oerp.work.type.mapping,column_number:0
+msgid "Column Number"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.feature.hours,expected_hours:0
+#: view:project.task:0
+msgid "Planned Hour(s)"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.oerp.feature.import.wizard:0
+msgid "Are you sure you want to import this file?"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ir.ui.menu,name:ccorp_project_oerp.menu_phase_create_wizard
+msgid "Create Phase"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.oerp.sprint.close.wizard:0
+msgid "Close Sprint Wizard"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ir.actions.act_window,name:ccorp_project_oerp.action_feature_import_wizard
+msgid "Feature Import"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ir.ui.menu,name:ccorp_project_oerp.menu_task_create_wizard
+msgid "Create Tasks"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:project.phase,is_scrum:0
+msgid "Is Scrum"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.scrum.sprint:0
+#: field:ccorp.project.scrum.sprint,desirable_task_ids:0
+msgid "Desirable Tasks"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.oerp.feature.import.wizard:0
+#: view:ccorp.project.oerp.phase.create.wizard:0
+#: view:ccorp.project.oerp.sprint.close.wizard:0
+#: view:ccorp.project.oerp.task.create.wizard:0
+msgid "or"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: constraint:project.task.work:0
+msgid "The selected Work Type has not been planned in the selected Feature."
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.work.type.template,group_id:0
+msgid "Group"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ir.model,name:ccorp_project_oerp.model_project_task_work
+msgid "Project Task Work"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.oerp.feature.import.wizard:0
+msgid "Import"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ir.actions.act_window,help:ccorp_project_oerp.action_work_type_template_group
+msgid "<p class=\"oe_view_nocontent_create\">Create new Work Type Template Group</p>\n"
+"            "
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ir.actions.act_window,help:ccorp_project_oerp.action_work_type_template
+msgid "<p class=\"oe_view_nocontent_create\">Create new Work Type Template</p>\n"
+"            "
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_fun_tes
+#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_tec_tes
+msgid "Tests"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.oerp.phase.create.wizard:0
+msgid "Phase Create Wizard"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.oerp.task.create.wizard:0
+msgid "Task Create Wizard"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_fun_per
+#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_tec_per
+msgid "Permissions"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.feature.hours,effective_hours:0
+#: field:ccorp.project.oerp.task.hour,effective_hours:0
+#: view:project.task:0
+msgid "Spent Hour(s)"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.oerp.work.type.template.group:0
+msgid "Work Type Template Groups"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: code:addons/ccorp_project_oerp/wizard/feature_import_wizard.py:39
+#: code:addons/ccorp_project_oerp/wizard/feature_import_wizard.py:90
+#: code:addons/ccorp_project_oerp/wizard/feature_import_wizard.py:101
+#: code:addons/ccorp_project_oerp/wizard/sprint_close_wizard.py:64
+#: code:addons/ccorp_project_oerp/wizard/task_create_wizard.py:120
+#, python-format
+msgid "Error"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.scrum.sprint:0
+msgid "Tasks from Sequence"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_dev_gen
+msgid "General"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: selection:ccorp.project.oerp.feature.import.wizard,state:0
+msgid "Done"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.oerp.feature.import.wizard:0
+#: view:ccorp.project.oerp.phase.create.wizard:0
+#: view:ccorp.project.oerp.sprint.close.wizard:0
+#: view:ccorp.project.oerp.task.create.wizard:0
+msgid "Cancel"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.oerp.sprint.close.wizard:0
+msgid "Close"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.work.type,name:0
+#: field:ccorp.project.oerp.work.type.mapping,name:0
+msgid "Type Name"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.scrum.sprint:0
+msgid "Queue Tasks"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.feature.hours,feature_id:0
+msgid "Feature"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_tec_load
+msgid "Data Loading"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_tec_wiz
+msgid "Wizards"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: selection:ccorp.project.oerp.feature.import.wizard,state:0
+msgid "New"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:project.phase,user_id:0
+msgid "Phase Manager"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ccorp.project.oerp.work.type.template,name:ccorp_project_oerp.data_work_type_template_dev
+msgid "Development"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.scrum.feature:0
+msgid "Total Spent"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_fun_inf
+#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_tec_inf
+msgid "Informs"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_tec_obj
+msgid "Objects"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.scrum.feature:0
+msgid "Total Remaining"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.feature.hours,phase_id:0
+#: field:ccorp.project.oerp.task.hour,phase_id:0
+#: field:ccorp.project.oerp.work.type,phase_id:0
+#: field:ccorp.project.scrum.sprint,phase_id:0
+#: field:project.task.work,phase_id:0
+msgid "Phase"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.work.type.template.group,template_ids:0
+msgid "Templates"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ir.model,name:ccorp_project_oerp.model_project_phase
+msgid "Project Phase"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ccorp.project.oerp.work.type.template.group,name:ccorp_project_oerp.data_work_type_template_group
+msgid "Default Templates"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: code:addons/ccorp_project_oerp/wizard/feature_import_wizard.py:90
+#, python-format
+msgid "An error occurred while reading the planned hours from file in column %s for work type %s"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: code:addons/ccorp_project_oerp/wizard/task_create_wizard.py:120
+#, python-format
+msgid "An error occurred while creating the tasks. Please contact your system administrator."
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.work.type,sequence:0
+#: field:ccorp.project.oerp.work.type.mapping,sequence:0
+msgid "Sequence"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: code:addons/ccorp_project_oerp/wizard/sprint_close_wizard.py:64
+#, python-format
+msgid "An error occurred while closing the sprint."
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.work.type.template,file:0
+#: field:ccorp.project.oerp.work.type.template.group,file:0
+msgid "File"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.feature.hours,remaining_hours:0
+#: field:ccorp.project.oerp.task.hour,remaining_hours:0
+#: view:project.task:0
+msgid "Remaining Hour(s)"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.oerp.phase.create.wizard:0
+#: field:ccorp.project.oerp.phase.create.wizard,duration:0
+msgid "Duration"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.task.create.wizard,sprint_id:0
+msgid "Sprint"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ir.ui.menu,name:ccorp_project_oerp.menu_tools
+msgid "Tools"
+msgstr ""
+
+#. module: ccorp_project_oerp
+#: model:ir.ui.menu,name:ccorp_project_oerp.menu_work_type_template_group
+msgid "Phase Template Groups"
+msgstr ""

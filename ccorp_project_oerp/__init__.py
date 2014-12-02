@@ -20,34 +20,5 @@
 #
 ##############################################################################
 
-{
-    "name" : 'CCorp Project Scrum',
-    "version" : '1.0',
-    "author" : 'CLEARCORP S.A.',
-    'complexity': 'normal',
-    "description": """
-""",
-    "category": 'Project Management',
-    "sequence": 3,
-    "website" : "http://clearcorp.co.cr",
-    "images" : [],
-    "depends" : [
-                 'project',
-                 'project_extended',
-                 ],
-    "data" : [
-              'data/ccorp_project_scrum_data.xml',
-              'view/ccorp_project_scrum_view.xml',
-              'view/ccorp_project_scrum_menu.xml',
-              'security/ir.model.access.csv',
-              ],
-    "css" : ['static/src/css/ccorp_project_scrum.css'],
-    "init_xml" : [],
-    "demo_xml" : [],
-    "update_xml" : [],
-    "test" : [],
-    "auto_install": False,
-    "application": False,
-    "installable": True,
-    'license': 'AGPL-3',
-}
+import ccorp_project_oerp
+import wizard
