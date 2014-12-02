@@ -20,29 +20,15 @@
 #
 ##############################################################################
 
+from openerp import models, fields,api, _
+from datetime import datetime
+from openerp.exceptions import Warning
+import openerp.addons.decimal_precision as dp
+from openerp import tools
+import os
+from openerp.tools.safe_eval import safe_eval as eval
 
-{
-    "name" : 'Sale Order Extended',
-    "version" : '2.0',
-    "author" : 'CLEARCORP S.A.',
-    #easy, normal, expert
-    'complexity': 'normal',
-    "description": """
-        Customization from sale.order to apply due dates in views and reports
-    """,
-    "category": 'Sales',
-    "sequence": 4,
-    "website" : "http://clearcorp.co.cr",
-    "images" : [],
-    "icon" : False,
-    "depends" : [
-        'sale'],
-    "init_xml" : [],
-    "demo_xml" : [],
-    "update_xml" : ['sale_order_extended_view.xml'],
-    "test" : [],
-    "auto_install": False,
-    "application": False,
-    "installable": True,
-    'license': 'AGPL-3',
-}
+class sale_order(models.Model):
+    _inherit = 'sale.order'
+      
+    expiration_date= fields.Date('Expiration date')
