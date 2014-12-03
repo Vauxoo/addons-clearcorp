@@ -21,9 +21,9 @@
 ##############################################################################
 
 {
-    "name" : 'Global invoice discount',
+    "name" : 'Invoice discount',
     "version" : '1.0',
-    "author" : 'CLEARCORP S.A',
+    "author" :  'ClearCorp',
     'complexity': 'normal',
     "description": """
 Adds a discount feature for invoice.
@@ -40,8 +40,7 @@ It adds the discounted and undiscounted amounts on the invoice totals.
     "demo_xml" : [],
     "update_xml" : [],
     "data" : [
-        'account_invoice_global_discount_view.xml',
-        'wizard/discount_wizard_view.xml',
+        'account_invoice_discount_view.xml',
     ],
     "test" : [],
     "auto_install": False,
