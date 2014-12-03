@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-
         <record id="view_project_form" model="ir.ui.view">
             <field name="name">view.project.form</field>
             <field name="model">project.project</field>
@@ -19,6 +18,24 @@
                         </button>
                     </xpath>
                 </data>
+            </field>
+        </record>
+        <record id="view_crossovered_budget_line_tree" model="ir.ui.view">
+            <field name="name">view.crossovered.budget.line.tree</field>
+            <field name="model">crossovered.budget.lines</field>
+            <field name="arch" type="xml">
+                <tree string="Budget Lines">
+                    <field name="analytic_account_id" groups="analytic.group_analytic_accounting"/>
+                    <field name="crossovered_budget_id" invisible="1"/>
+                    <field name="general_budget_id"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="paid_date"/>
+                    <field name="planned_amount" sum="Planned Amount"/>
+                    <field name="practical_amount" sum="Practical Amount"/>
+                    <field name="theoritical_amount" sum="Theoritical Amount"/>
+                    <field name="percentage"/>
+                </tree>
             </field>
         </record>
     </data>
