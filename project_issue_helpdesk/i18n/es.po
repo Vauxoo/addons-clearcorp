@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-13 22:11+0000\n"
-"PO-Revision-Date: 2014-11-13 22:11+0000\n"
+"POT-Creation-Date: 2014-11-25 14:38+0000\n"
+"PO-Revision-Date: 2014-11-25 14:38+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -93,6 +93,11 @@ msgstr "Categoría de Producto"
 #: selection:res.partner,partner_type:0
 msgid "Company"
 msgstr "Compañía"
+
+#. module: project_issue_helpdesk
+#: view:project.issue:project_issue_helpdesk.view_project_issue_filter
+msgid "Contact"
+msgstr "Contacto"
 
 #. module: project_issue_helpdesk
 #: view:contract.pricelist:project_issue_helpdesk.view_contract_pricelist_form
@@ -207,6 +212,11 @@ msgid "ID"
 msgstr "ID"
 
 #. module: project_issue_helpdesk
+#: help:stock.picking.type,issue_required:0
+msgid "If this field has a check, the issue is required"
+msgstr "Si el campo tiene un check, las transferencias solicitarán obligatoriamente una incidencia"
+
+#. module: project_issue_helpdesk
 #: selection:product.category,supply_type:0
 #: selection:product.template,supply_type:0
 msgid "Input"
@@ -224,9 +234,15 @@ msgid "Is a Company?"
 msgstr "¿Es una empresa?"
 
 #. module: project_issue_helpdesk
-#: field:sale.order,issue_id:0
+#: field:stock.picking,issue_id:0
 msgid "Issue"
 msgstr "Incidencia"
+
+#. module: project_issue_helpdesk
+#: view:project.issue:project_issue_helpdesk.view_project_issue_filter
+#: field:project.issue,issue_number:0
+msgid "Issue Number"
+msgstr "Número de Incidencia"
 
 #. module: project_issue_helpdesk
 #: model:ir.actions.act_window,name:project_issue_helpdesk.action_project_issue_origin
@@ -234,6 +250,12 @@ msgstr "Incidencia"
 #: view:project.issue.origin:project_issue_helpdesk.view_project_issue_origin_tree
 msgid "Issue Origin"
 msgstr "Medio"
+
+#. module: project_issue_helpdesk
+#: field:stock.picking,issue_required:0
+#: field:stock.picking.type,issue_required:0
+msgid "Issue Required"
+msgstr "Incidencia Requerida"
 
 #. module: project_issue_helpdesk
 #: field:project.issue,issue_type:0
@@ -280,6 +302,7 @@ msgstr "Notas"
 
 #. module: project_issue_helpdesk
 #: field:product.template,init_onchange_call:0
+#: field:stock.picking,init_onchange_call:0
 msgid "Nothing Display"
 msgstr "Nothing Display"
 
@@ -314,6 +337,11 @@ msgstr "Tipo de Contacto"
 #: model:ir.model,name:project_issue_helpdesk.model_stock_picking
 msgid "Picking List"
 msgstr "Albarán"
+
+#. module: project_issue_helpdesk
+#: model:ir.model,name:project_issue_helpdesk.model_stock_transfer_details
+msgid "Picking wizard"
+msgstr "Asistente de albarán"
 
 #. module: project_issue_helpdesk
 #: selection:project.issue,issue_type:0
@@ -423,6 +451,16 @@ msgid "Technical Rate"
 msgstr "Tarifa Técnica"
 
 #. module: project_issue_helpdesk
+#: view:stock.transfer_details:project_issue_helpdesk.view_stock_enter_transfer_details_form
+msgid "The destination location of this movement will be assigned to the client. Continue?"
+msgstr "La ubicación destino de este movimiento será la asignada al cliente. Desea continuar?"
+
+#. module: project_issue_helpdesk
+#: model:ir.model,name:project_issue_helpdesk.model_stock_picking_type
+msgid "The picking type determines the picking view"
+msgstr "El tipo de albarán determina la vista de albarán"
+
+#. module: project_issue_helpdesk
 #: field:hr.analytic.timesheet,ticket_number:0
 msgid "Ticket Number"
 msgstr "Boleta"
@@ -433,10 +471,21 @@ msgid "Timesheet Line"
 msgstr "Línea del parte de horas"
 
 #. module: project_issue_helpdesk
+#: view:stock.transfer_details:project_issue_helpdesk.view_stock_enter_transfer_details_form
+msgid "Transfer to partner"
+msgstr "Transferir al cliente"
+
+#. module: project_issue_helpdesk
 #: view:res.partner:project_issue_helpdesk.view_partner_form
 #: view:res.partner:project_issue_helpdesk.view_partner_simple_form
 msgid "True"
 msgstr "True"
+
+#. module: project_issue_helpdesk
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:474
+#, python-format
+msgid "Warning!"
+msgstr "Alerta!"
 
 #. module: project_issue_helpdesk
 #: field:project.issue,warranty:0
@@ -459,23 +508,34 @@ msgid "Workshop Repair"
 msgstr "Reparación en taller"
 
 #. module: project_issue_helpdesk
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:474
+#, python-format
+msgid "You can not transfer to a partner, if you have not selected an issue"
+msgstr "No puede realizar la transferencia al cliente, si no ha seleccionado una incidencia"
+
+#. module: project_issue_helpdesk
 #: view:project.issue:project_issue_helpdesk.view_project_issue_form
 msgid "[('partner_type','in',['customer', 'company'])]"
 msgstr "[('partner_type','in',['customer', 'company'])]"
 
 #. module: project_issue_helpdesk
 #: help:product.template,init_onchange_call:0
+#: help:stock.picking,init_onchange_call:0
 msgid "field at view init"
 msgstr "field at view init"
 
 #. module: project_issue_helpdesk
-#: view:sale.order:project_issue_helpdesk.view_sale_order_form
+#: view:stock.picking:project_issue_helpdesk.view_stock_picking_form
 msgid "get_domain_issue_id(partner_id)"
 msgstr "get_domain_issue_id(partner_id)"
 
 #. module: project_issue_helpdesk
+#: view:stock.picking:project_issue_helpdesk.view_stock_picking_form
+msgid "get_issue_required(picking_type_id)"
+msgstr "get_issue_required(picking_type_id)"
+
+#. module: project_issue_helpdesk
 #: field:contract.pricelist,line_ids:0
-#: field:stock.picking,issue_id:0
 msgid "unknown"
 msgstr "unknown"
 
