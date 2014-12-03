@@ -35,6 +35,7 @@ Allows the user to easy reach and view the Budget related to a project.""",
     'complexity': 'easy',
     'images' : [],
     'depends': [
+                'project',
                 'account_budget',
                 ],
     'data': ['project_budget_view.xml',],
