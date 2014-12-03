@@ -21,14 +21,27 @@
 ##############################################################################
 
 
-from openerp.osv import osv
-from openerp.osv import fields
-import os
-from openerp.tools.translate import _
-from openerp.tools.safe_eval import safe_eval as eval
-
-class sale_order(osv.osv):
-      _inherit = 'sale.order'
-      _columns =  {
-        'expiration_date': fields.date('Expiration date'),       
-            } 
+{
+    "name" : 'Sale Order Extended',
+    "version" : '2.0',
+    "author" : 'ClearCorp',
+    'complexity': 'normal',
+    "description": """
+        Customization from sale.order to apply due dates in views and reports
+    """,
+    "category": 'Sales',
+    "sequence": 4,
+    "website" : "http://clearcorp.co.cr",
+    "images" : [],
+    "icon" : False,
+    "depends" : [
+        'sale'],
+    "init_xml" : [],
+    "demo_xml" : [],
+    "update_xml" : ['sale_order_extended_view.xml'],
+    "test" : [],
+    "auto_install": False,
+    "application": False,
+    "installable": True,
+    'license': 'AGPL-3',
+}
