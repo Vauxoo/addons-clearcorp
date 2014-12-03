@@ -22,7 +22,7 @@
 {
     'name': 'Currency Second Rate BCCR',
     'version': '1.0',
-    'author': 'CLEARCORP S.A.',    
+    'author': 'ClearCorp',    
     'category': 'Generic Modules/Base',
     'description': """
     

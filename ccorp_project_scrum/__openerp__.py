@@ -23,7 +23,7 @@
 {
     "name" : 'CCorp Project Scrum',
     "version" : '1.0',
-    "author" : 'CLEARCORP S.A.',
+    "author" : 'ClearCorp',
     'complexity': 'normal',
     "description": """
 """,
