@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Form views -->
+        <!-- invoice supplier form -->
+           <record id="account_invoice_supplier_form_ccorp1" model="ir.ui.view">
+            <field name="name">account.invoice.supplier.form.ccorp1</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <data>
+                   <xpath expr="/form/sheet/notebook/page/field[@name='invoice_line']/tree[@string='Invoice lines']" position="attributes">
+                        <attribute name="editable"></attribute>
+                    </xpath>
+                    <xpath expr="/form/sheet/notebook/page/field[@name='invoice_line']/tree/field[@name='price_subtotal']" position="before">
+                        <field name="price_subtotal_not_discounted"/>
+                    </xpath>
+                    <xpath expr="/form/sheet/notebook/page/group/field[@name='amount_untaxed']" position="before">
+                        <field name="amount_untaxed_not_discounted" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    </xpath>
+                    <xpath expr="/form/sheet/notebook/page/group/field[@name='amount_untaxed']" position="after">
+                        <field name="amount_discounted" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        <field name="invoice_discount" options="{'currency_field': 'currency_id'}"/>
+                    </xpath>
+                </data>
+            </field>
+        </record> 
+        
+        <!-- invoice form -->
+        <record id="account_invoice_form_ccorp1" model="ir.ui.view">
+            <field name="name">account.invoice.form.ccorp.attributes</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <data>
+                 <xpath expr="/form/sheet/notebook/page/field[@name='invoice_line']/tree[@string='Invoice Lines']" position="attributes">
+                        <attribute name="editable"></attribute>
+                    </xpath>
+                     <xpath expr="/form/sheet/notebook/page/field[@name='invoice_line']/tree/field[@name='price_subtotal']" position="before">
+                        <field name="price_subtotal_not_discounted"/>
+                    </xpath>
+                    <xpath expr="/form/sheet/notebook/page/group/field[@name='amount_untaxed']" position="before">
+                        <field name="amount_untaxed_not_discounted" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    </xpath>
+                     <xpath expr="/form/sheet/notebook/page/group/field[@name='amount_untaxed']" position="after">
+                        <field name="amount_discounted" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        <field name="invoice_discount" options="{'currency_field': 'currency_id'}"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+                           <!-- Tree views -->
+          <!-- invoice tree -->
+          <record id="invoice_tree_ccorp1" model="ir.ui.view">
+            <field name="name">account.invoice.tree_ccorp1</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_tree"/>
+            <field name="arch" type="xml">
+                <field name="amount_untaxed" position="replace">
+                    <field name="amount_untaxed_not_discounted" sum="Untaxed amount"/>
+                </field>
+                <field name="amount_total" position="before">
+                    <field name="invoice_discount"/>
+                    <field name="amount_discounted" sum="Discounted amount"/>
+                </field>
+            </field>
+        </record> 
+    </data>
+</openerp>
