@@ -23,7 +23,7 @@
     'name': 'Purchase Order Discount',
     'version': '1.0',
     'url': 'http://launchpad.net/openerp-ccorp-addons',
-    'author': 'ClearCorp S.A.',
+    'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'category': 'Purchase Management',
     'complexity': 'normal',
