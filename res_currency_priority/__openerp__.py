@@ -20,4 +20,17 @@
 #
 ##############################################################################
 
-import res_currency_sequence
+
+{
+    "name" : 'Res Currency Priority',
+    "version" : '1.0',
+    "author" : 'CLEARCORP S.A.',
+    "category": 'Accounting & Finance',
+    "description": """ Add priority to currency """,
+    "depends" : ["base",
+                 "currency_rate_update",],
+    "data" : ["res_currency_priority_view.xml",],
+    'active': False,
+    'installable': True,    
+    'license': 'AGPL-3',
+}

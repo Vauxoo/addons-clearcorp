@@ -19,9 +19,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import time
+
 import copy
 from openerp.osv import osv, fields
+import time
+from datetime import datetime, timedelta
+from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 from openerp.tools.translate import _
 
 class ResCurrency(osv.osv):
@@ -29,53 +33,24 @@ class ResCurrency(osv.osv):
     _inherit = "res.currency"
         
     _columns = {
-        'sequence': fields.integer('Sequence', required=True, help='Use to arrange calculation sequence', select=True),
+        'sequence':fields.boolean('Rate Direction: '),
     }
     
-    _defaults = {
-        'sequence': 0,
-    }
-     
-    _sql_constraints = [
-        ('res_currency_sequence', 'unique(sequence)', 'Sequence must be unique per currency!'),
-    ]
     
-    _order = 'sequence'
     
-    def _current_rate_computation(self, cr, uid, ids, name, arg, raise_on_no_rate, context=None):        
-        
-        if 'second_rate' in context:
-            second_rate = context['second_rate']
+    def _currency_priority(self, cr, uid, ids, ratedirection, arg1=None):
+        curr_obj = self.pool.get('res.currency')
+        rate_obj = self.pool.get('res.currency.rate')
+       
+        if ratedirection == True:
+            currency_id = curr_obj.browse(cr, uid,ids,context=None)[0]
+            rate_ids = rate_obj.search(cr, uid, [('currency_id','=',currency_id.id)])
+            rates = rate_obj.browse(cr, uid,rate_ids,context=None)
+            for rate in rates:
+                 result = 1.0/float(rate.rate)
+                 rate_obj.write(cr, uid,rate.id,{'rate':result} )
             
-            if second_rate:            
-                if context is None:
-                    context = {}
-                res = {}
-                if 'date' in context:
-                    date = context['date']
-                else:
-                    date = time.strftime('%Y-%m-%d')
-                date = date or time.strftime('%Y-%m-%d')
-                # Convert False values to None ...
-                currency_rate_type = context.get('currency_rate_type_id') or None
-                # ... and use 'is NULL' instead of '= some-id'.
-                operator = '=' if currency_rate_type else 'is'                    
-                for id in ids:
-                    cr.execute("SELECT currency_id, second_rate FROM res_currency_rate WHERE currency_id = %s AND name <= %s AND currency_rate_type_id " + operator +" %s ORDER BY name desc LIMIT 1" ,(id, date, currency_rate_type))                            
-                    if cr.rowcount:
-                        id, rate = cr.fetchall()[0]
-                        res[id] = rate                
-                    elif not raise_on_no_rate:
-                        res[id] = 0
-                    else:
-                        raise osv.except_osv(_('Error!'),_("No currency rate associated for currency %d for the given period" % (id)))
-            else:
-                res = super(ResCurrency, self)._current_rate_computation(cr, uid, ids, name, arg, raise_on_no_rate, context)
-        
-        else:
-            res = super(ResCurrency, self)._current_rate_computation(cr, uid, ids, name, arg, raise_on_no_rate, context)        
             
-        return res
     
     def copy(self, cr, uid, id, default=None, context=None):
         default = default or {}

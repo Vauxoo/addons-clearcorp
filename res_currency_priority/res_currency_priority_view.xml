@@ -22,15 +22,15 @@
             </field>
         </record>
         
-        <record model = "ir.ui.view" id = "view_currency_form_sequence">
-            <field name = "name">view.currency.form.sequence</field>
+        <record model = "ir.ui.view" id = "view_currency_form_priority">
+            <field name = "name">view.currency.form.priority</field>
             <field name = "model">res.currency</field>
             <field name = "type">form</field>
-            <field name="inherit_id" ref="base.view_currency_form"/>
+            <field name="inherit_id" ref="currency_rate_update.view_currency_form_inherit"/>
             <field name = "arch" type = "xml">
                 <data>
-                    <field name = "active" position = "after">
-                        <field name = "sequence" />
+                    <field name = "automatic_update" position = "after">
+                                <field name="sequence" help="If you select this check, take the value of the currency like 1 and the rate currency like a base currency Example: 1 EUR = 0,70 USD [x] 1,30 EUR = 1 USD" on_change="_currency_priority(sequence)"/>
                     </field>
                 </data>
             </field>
