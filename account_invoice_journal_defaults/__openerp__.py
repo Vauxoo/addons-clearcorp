@@ -31,7 +31,7 @@
                 * account_id associated with the journal or with the account in the partner
                 * account_id change to read-only                
                 ''',
-    "author" : 'CLEARCORP S.A',
+    "author" : 'ClearCorp',
     'website':'http://www.clearcorp.co.cr',
     "depends" : ['account'],
     'update_xml': [

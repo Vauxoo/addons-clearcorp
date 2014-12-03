@@ -24,7 +24,7 @@
 {
     "name" : 'Res Currency Priority',
     "version" : '1.0',
-    "author" : 'CLEARCORP S.A.',
+    "author" : 'ClearCorp',
     "category": 'Accounting & Finance',
     "description": """ Add priority to currency """,
     "depends" : ["base",

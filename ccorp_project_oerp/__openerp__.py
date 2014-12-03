@@ -23,7 +23,7 @@
 {
     "name" : 'CCorp Project OpenERP Methodology',
     "version" : '1.0',
-    "author" : 'CLEARCORP S.A.',
+    "author" : 'ClearCorp',
     'complexity': 'normal',
     "description": """
 """,
