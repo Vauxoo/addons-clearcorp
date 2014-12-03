@@ -80,5 +80,8 @@ class accountVoucherinherit(orm.Model):
                 'voucher_payment_rate' : fields.function(_compute_exchange_rate, string='Exchange Rate Commercial', type='float',),
                 'voucher_payment_rate_currency_id' : fields.related('company_id', 'currency_id', string='Company Currency', type='many2one', relation='res.currency',),
             }
+    
+    _defaults = {
+        'journal_id':False,
+    }
                   
-        

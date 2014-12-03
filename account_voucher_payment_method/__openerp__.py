@@ -21,7 +21,7 @@
 ##############################################################################
 {
 	"name" : "Account Voucher Payment Method",
-	"author" : "CLEARCORP S.A",
+	"author" : "ClearCorp",
 	"version" : "0.1",
 	'category': 'Accounting & Finance',
 	"description": """ 
