@@ -1,0 +1,50 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* project_subproject
+#
+# Matjaž Mozetič <m.mozetic@matmoz.si>, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-11-17 17:28+0000\n"
+"PO-Revision-Date: 2014-12-04 12:23+0100\n"
+"Last-Translator: Matjaž Mozetič <m.mozetic@matmoz.si>\n"
+"Language-Team: Slovenian <kde-i18n-doc@kde.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+"Language: sl_SI\n"
+"X-Generator: Lokalize 1.5\n"
+
+#. module: project_subproject
+#: view:project.project:project_subproject.view_project_search
+#: field:project.project,parent_project_id:0
+msgid "Parent Project"
+msgstr "Nadrejeni projekt"
+
+#. module: project_subproject
+#: model:ir.model,name:project_subproject.model_project_project
+msgid "Project"
+msgstr "Projekt"
+
+#. module: project_subproject
+#: view:project.project:project_subproject.view_project_kanban
+msgid "Sub-Project"
+msgstr "Podprojekt"
+
+#. module: project_subproject
+#: model:ir.actions.act_window,name:project_subproject.open_view_sub_projects
+#: view:project.project:project_subproject.view_project_form
+#: view:project.project:project_subproject.view_project_kanban
+#: field:project.project,subproject_ids:0
+msgid "Sub-Projects"
+msgstr "Podprojekti"
+
+#. module: project_subproject
+#: field:project.project,subproject_count:0
+msgid "Sub-projects Quantity"
+msgstr "Količina podprojektov"
+
+
