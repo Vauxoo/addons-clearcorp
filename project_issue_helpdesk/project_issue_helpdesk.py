@@ -26,7 +26,29 @@ import math
 
 class ProjectIssue(osv.Model):
     _inherit = 'project.issue'
-     
+    
+    def name_get(self, cr, uid, ids, context=None):
+        if not isinstance(ids, list):
+            ids = [ids]
+        res = []
+        if not ids:
+            return res
+        reads = self.read(cr, uid, ids, ['name', 'issue_number'], context)
+
+        for record in reads:
+            name = record['name']
+            if record['issue_number']:
+                name = '[' + record['issue_number'] + ']' + ' ' + name
+            res.append((record['id'], name))
+        return res
+
+    def name_search(self, cr, uid, name, args=None, operator='ilike', context=None, limit=100):
+        res = super(ProjectIssue, self).name_search(cr, uid, name, args = args, operator = 'ilike', context = context)
+        ids=self.search(cr, uid, [('issue_number', operator, name)] + args,
+                              limit=limit, context=context)
+        res = list(set(res + self.name_get(cr, uid, ids, context)))
+        return res
+    
     def onchange_partner_id(self, cr, uid, ids, partner_id, context=None):
         result={}
         result = super(ProjectIssue, self).onchange_partner_id(cr, uid, ids, partner_id)
@@ -72,11 +94,18 @@ class ProjectIssue(osv.Model):
             data.update({'partner_id': branch.parent_id.id})
           
         return {'value': data}
-          
+    
+    def create(self, cr, uid, vals, context=None):
+        issue_number = self.pool.get('ir.sequence').get(cr, uid, 'project.issue', context=context) or '/'
+        vals['issue_number'] = issue_number
+        result = super(ProjectIssue, self).create(cr, uid, vals, context=context)
+        return result
+        
     _columns = {
                 'issue_type': fields.selection([('support','Support'),('preventive check','Preventive Check'),
                                               ('workshop repair','Workshop Repair'),('installation','Installation')],
                                              required=True,string="Issue Type"),
+                'issue_number': fields.char(string='Issue Number', select=True),
                 'warranty': fields.selection([('seller','Seller'),('manufacturer','Manufacturer')],string="Warranty"),                                 
                 'backorder_ids': fields.one2many('stock.picking','issue_id',domain=[('picking_type_id.code','=','outgoing')],string="Backorders"),
                 'origin_id':fields.many2one('project.issue.origin',string="Origin"),
@@ -378,27 +407,92 @@ class ProductCategory(orm.Model):
          'supply_type':fields.selection([('equipment','Equipment'),('replacement','Replacement'),('supply','Supply'),
                                                ('input','Input')],string="Supply Type")
          }
-     
-class SaleOrder(orm.Model):
-     _inherit = 'sale.order'
-     
-     def get_domain_issue_id(self,cr,uid,ids,partner_id,context=None):
-         issue_ids=self.pool.get('project.issue').search(cr,uid,['|',('branch_id','=',partner_id),('partner_id','=',partner_id)])
-         return {'domain':{'issue_id':[('id','in',issue_ids)]}}
-     
-     def get_issues_partner(self, cr, uid,ids,field_name,arg,context=None ):
-         issue_obj=self.pool.get('project.issue')
-         sale_ids=[]
-         domain=[] 
-         res={}
-         for sale in self.browse(cr, uid, ids, context=context):
-            issue_ids=issue_obj.search(cr, uid, ['|',('branch_id','=',sale.partner_id.id),('partner_id','=',sale.partner_id.id)])
-            for issue in issue_obj.browse(cr, uid, issue_ids, context=context):
-                sale_ids.append(issue.id)
-            res[sale.id]=sale_ids   
-         return res
-     _columns = {
-         'issue_id':fields.many2one('project.issue',string="Issue"),
-         'init_onchange_call': fields.function(get_issues_partner, method=True, type='many2many', relation='project.issue',string='Nothing Display', help='field at view init'),
 
+class StockPickingType(orm.Model):
+    _inherit = 'stock.picking.type'
+    _columns = {
+         'issue_required':fields.boolean(string='Issue Required',help="If this field has a check, the issue is required"),
          }
+
+class StockPicking(orm.Model):
+    _inherit = 'stock.picking'
+
+    def _compute_issue_required(self, cr, uid, context=None):
+        context = context or {}
+        if context.get('default_picking_type_id', False):
+            pick_type = self.pool.get('stock.picking.type').browse(cr, uid, context['default_picking_type_id'], context=context)
+            return pick_type.issue_required or False
+        return False
+
+    def get_domain_issue_id(self,cr,uid,ids,partner_id,context=None):
+        if partner_id:
+            issue_ids=self.pool.get('project.issue').search(cr,uid,['|',('branch_id','=',partner_id),('partner_id','=',partner_id)])
+            return {'domain':{'issue_id':[('id','in',issue_ids)]}}
+        else:
+            return {'domain':{'issue_id':False}}
+    def get_issue_required(self,cr,uid,ids,picking_type_id,context=None):
+            picking_type_id=self.pool.get('stock.picking.type').browse(cr, uid, picking_type_id, context=context)
+            return {'value':{'issue_required':picking_type_id.issue_required}}
+    
+    def get_issues_partner(self, cr, uid,ids,field_name,arg,context=None ):
+        issue_obj=self.pool.get('project.issue')
+        picking_ids=[]
+        domain=[]
+        res={}
+        for picking in self.browse(cr, uid, ids, context=context):
+            issue_ids=issue_obj.search(cr, uid, ['|',('branch_id','=',picking.partner_id.id),('partner_id','=',picking.partner_id.id)])
+            for issue in issue_obj.browse(cr, uid, issue_ids, context=context):
+                picking_ids.append(issue.id)
+        res[picking.id]=picking_ids
+        return res
+    
+    _columns = {
+         'init_onchange_call': fields.function(get_issues_partner, method=True, type='many2many', relation='project.issue',string='Nothing Display', help='field at view init'),
+         'issue_id':fields.many2one('project.issue',string="Issue"),
+         'issue_required':fields.boolean(string='Issue Required'),
+              }
+    _defaults = {
+          'issue_required':_compute_issue_required
+                }
+
+class StockTransferDetail(osv.osv_memory):
+    _inherit = 'stock.transfer_details'
+    
+    def do_enter_transfer_partner(self, cr, uid,ids, context=None):
+        stock_move_obj=self.pool.get('stock.move')
+        stock_picking_obj=self.pool.get('stock.picking')
+        stock_picking_type_obj=self.pool.get('stock.picking.type')
+        stock_pack_operation_obj=self.pool.get('stock.pack.operation')
+        stock_move_ids=[]
+        
+        for transfer in self.browse(cr, uid, ids, context=context):
+            location_dest_original=transfer.picking_id.location_dest_id.id
+            partner_original=transfer.picking_id.partner_id.id
+            picking_type_original=transfer.picking_id.picking_type_id.id
+            if transfer.picking_id.issue_id.branch_id:
+                location_dest_actual=transfer.picking_id.issue_id.branch_id.property_stock_customer.id
+                partner_actual=transfer.picking_id.issue_id.branch_id.id
+            elif transfer.picking_id.issue_id.partner_id:
+                location_dest_actual=transfer.picking_id.issue_id.partner_id.property_stock_customer.id
+                partner_actual=transfer.picking_id.issue_id.partner_id.id
+            else:
+                raise osv.except_osv(_('Warning!'), _('You can not transfer to a partner, if you have not selected an issue'))  
+            
+            picking_type_id=stock_picking_type_obj.search(cr, uid,[('code','=','outgoing'),('warehouse_id','=',transfer.picking_id.picking_type_id.warehouse_id.id)])
+            for move in transfer.picking_id.move_lines:
+                stock_move_obj.write(cr,uid, move.id,{'location_dest_id': location_dest_actual,'partner_id':partner_actual,'picking_type_id':picking_type_id[0]})
+                stock_move_ids.append(move.id)
+            stock_picking_obj.write(cr,uid, transfer.picking_id.id,{'location_dest_id': location_dest_actual,'partner_id':partner_actual,'picking_type_id':picking_type_id[0]})
+            self.do_detailed_transfer(cr,uid,ids,context)
+            for pack in transfer.picking_id.pack_operation_ids:
+                stock_pack_operation_obj.write(cr,uid,pack.id,{'location_dest_id': location_dest_actual})
+            move_ids=stock_move_obj.search(cr, uid,[('split_from','in',stock_move_ids)])
+            
+            for move in stock_move_obj.browse(cr, uid, move_ids, context=context):
+                    stock_move_obj.write(cr,uid, move.id,{'state': 'draft'})
+                    stock_move_obj.write(cr,uid, move.id,{'location_dest_id': location_dest_original,'partner_id':partner_original,'state': 'done','picking_type_id':picking_type_original})
+                    pack_operation_ids=stock_pack_operation_obj.search(cr, uid,[('picking_id','=',move.picking_id.id)])
+                    for pack in stock_pack_operation_obj.browse(cr, uid, pack_operation_ids, context=context):
+                        stock_pack_operation_obj.write(cr,uid, pack.id,{'location_dest_id': location_dest_original})
+            
+            stock_picking_obj.write(cr,uid, transfer.picking_id.id,{'invoice_state': '2binvoiced','picking_type_id':picking_type_id[0]})
