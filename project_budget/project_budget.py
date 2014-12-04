@@ -46,13 +46,15 @@ class Project(models.Model):
         line_ids = []
         for account in analytic_accounts:
             line_ids += account.crossovered_budget_line.ids
+        view_id = self.env['ir.model.data'].get_object_reference(
+            'project_budget', 'view_crossovered_budget_line_tree')
         return {
             'name': _('Budget Lines'),
             'type': 'ir.actions.act_window',
-            'view_type': 'tree',
+            'view_type': 'form',
             'view_mode': 'tree',
             'res_model': 'crossovered.budget.lines',
-            'context': {'group_by': 'analytic_account_id'},
+            'view_id': view_id and view_id[1] or False,
             'domain': [('id','in', line_ids)],
         }
 
