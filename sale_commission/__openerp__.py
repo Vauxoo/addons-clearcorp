@@ -38,19 +38,21 @@ Main Features
 * Post-Expiration Day
 * Conditions based on Pricelist, Payment Terms, Amount of Sales, etc.
 """,
-    'author': 'CLEARCORP S.A.',
+    'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'complexity': 'normal',
     'images' : [],
     'depends': [
-                'account_invoice_global_discount',
-                'report_aeroo_ooo',
+                'sale',
+                'account_invoice_discount',
                 ],
     'data': [
-             'view/sale_commission_view.xml',
-             'view/sale_commission_menu.xml',
+             'sale_commission_view.xml',
+             'sale_commission_menu.xml',
+             'data/report_paperformat.xml',
+             'view/report_sale_commission_pdf.xml',
+             'sale_commission_report.xml',
              'wizard/wizard.xml',
-             'report/report.xml',
              'security/ir.model.access.csv',
              ],
     'test' : [],

@@ -20,4 +20,8 @@
 #
 ##############################################################################
 
-import commission_report
+import sale_commission
+import res_users
+import account_journal
+import account_move_line
+import wizard
