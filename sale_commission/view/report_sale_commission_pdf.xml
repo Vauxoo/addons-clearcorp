@@ -31,8 +31,7 @@
                                     <tr>
                                         <td> <span t-field="o.user_id" /> </td>
                                         <td> <span t-field="o.payment_id" /> </td>
-                                       <!-- <td> <span t-field="o.invoice_id.date" /> </td> -->
-                                        <td>  </td>
+                                        <td> <span t-field="o.payment_id.date" /> </td>
                                         <td> <span t-field="o.invoice_id" /> </td>
                                         <td> <span t-field="o.invoice_id.partner_id" /> </td>
                                         <td> <span t-field="o.date_invoice" /> </td>
