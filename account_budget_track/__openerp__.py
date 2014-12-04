@@ -21,29 +21,31 @@
 ##############################################################################
 
 {
-    'name': 'Project Issue Helpdesk',
+    'name': 'Budgets Management Track',
     'version': '1.0',
-    'author' : 'ClearCorp',
-    'complexity': 'normal',
-    'website': 'http://clearcorp.co.cr',
-    'category': 'Project',
+    'category': 'Accounting & Finance',
+    'sequence': 21,
+    'summary': 'Track Budget Lines Changes',
     'description': """
-Extends Project Issue Helpdesk
-===============================================
-
-""",
-    'depends': ['product_part_number','base','project_issue','project_issue_sheet','stock','resource','account','account_analytic_analysis','sale','project','product','website_sale'],
-    'init_xml': [],
-    'demo_xml': [],
-    'data': ['view/project_issue_helpdesk_view.xml',
-             'view/project_issue_helpdesk_menu.xml',
-             'data/project_issue_sequence_data.xml'
+Budget Lines Changes Tracking
+=============================
+Features
+--------
+* Track state changes done in budgets.""",
+    'author': 'ClearCorp',
+    'website': 'http://clearcorp.co.cr',
+    'complexity': 'normal',
+    'images' : [],
+    'depends': ['account_budget',],
+    'data': [
+             'account_budget_track_view.xml',
+             'account_budget_track_menu.xml',
+             'data/mail_message_subtypes.xml',
              ],
-    'license': 'AGPL-3',
+    'test' : [],
+    'demo': [],
     'installable': True,
-    'active': False,
+    'auto_install': False,
+    'application': False,
+    'license': 'AGPL-3',
 }
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
-

@@ -20,30 +20,17 @@
 #
 ##############################################################################
 
+
 {
-    'name': 'Project Issue Helpdesk',
-    'version': '1.0',
-    'author' : 'ClearCorp',
-    'complexity': 'normal',
-    'website': 'http://clearcorp.co.cr',
-    'category': 'Project',
-    'description': """
-Extends Project Issue Helpdesk
-===============================================
-
-""",
-    'depends': ['product_part_number','base','project_issue','project_issue_sheet','stock','resource','account','account_analytic_analysis','sale','project','product','website_sale'],
-    'init_xml': [],
-    'demo_xml': [],
-    'data': ['view/project_issue_helpdesk_view.xml',
-             'view/project_issue_helpdesk_menu.xml',
-             'data/project_issue_sequence_data.xml'
-             ],
-    'license': 'AGPL-3',
-    'installable': True,
+    "name" : 'Res Currency Priority',
+    "version" : '1.0',
+    "author" : 'ClearCorp',
+    "category": 'Accounting & Finance',
+    "description": """ Add priority to currency """,
+    "depends" : ["base",
+                 "currency_rate_update",],
+    "data" : ["res_currency_priority_view.xml",],
     'active': False,
+    'installable': True,    
+    'license': 'AGPL-3',
 }
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
-

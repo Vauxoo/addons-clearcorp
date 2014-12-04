@@ -19,31 +19,31 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 {
-    'name': 'Project Issue Helpdesk',
-    'version': '1.0',
-    'author' : 'ClearCorp',
-    'complexity': 'normal',
-    'website': 'http://clearcorp.co.cr',
-    'category': 'Project',
-    'description': """
-Extends Project Issue Helpdesk
-===============================================
-
+	"name" : "Account Voucher Payment Method",
+	"author" : "ClearCorp",
+	"version" : "0.1",
+	'category': 'Accounting & Finance',
+	"description": """ 
+Account Voucher Payment Method:
+=================================
+This module adds different options:
+-------------------------------------
+	1. Add different payment methods in the journal.
+	2. In voucher form, it shows the commercial currency not its inverse natural
+	3. Filter in customer and supplier payment wizard invoice, the journals, depends of payment method that was checked
 """,
-    'depends': ['product_part_number','base','project_issue','project_issue_sheet','stock','resource','account','account_analytic_analysis','sale','project','product','website_sale'],
-    'init_xml': [],
-    'demo_xml': [],
-    'data': ['view/project_issue_helpdesk_view.xml',
-             'view/project_issue_helpdesk_menu.xml',
-             'data/project_issue_sequence_data.xml'
-             ],
-    'license': 'AGPL-3',
-    'installable': True,
-    'active': False,
+	"depends" : [
+				"account_voucher",
+				"res_currency_sequence"
+				],
+	"data" : [
+				"account_voucher.xml",
+				"account_voucher_line.xml",
+				"account_journal.xml",
+				"account_voucher_exchange.xml",
+			],
+	'installable': True,
+	'auto_install': False,
+	'license': 'AGPL-3',
 }
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
-

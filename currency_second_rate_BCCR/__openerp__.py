@@ -19,31 +19,26 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 {
-    'name': 'Project Issue Helpdesk',
+    'name': 'Currency Second Rate BCCR',
     'version': '1.0',
-    'author' : 'ClearCorp',
-    'complexity': 'normal',
-    'website': 'http://clearcorp.co.cr',
-    'category': 'Project',
+    'author': 'ClearCorp',    
+    'category': 'Generic Modules/Base',
     'description': """
-Extends Project Issue Helpdesk
-===============================================
-
-""",
-    'depends': ['product_part_number','base','project_issue','project_issue_sheet','stock','resource','account','account_analytic_analysis','sale','project','product','website_sale'],
-    'init_xml': [],
-    'demo_xml': [],
-    'data': ['view/project_issue_helpdesk_view.xml',
-             'view/project_issue_helpdesk_menu.xml',
-             'data/project_issue_sequence_data.xml'
+    
+IMPORT THE EXCHANGES FOR THE SECOND RATE.
+==================================
+    This module permits for each currency that have the web service 
+    of BCCR, take the value of the second rate
+    """,
+    'depends': [
+                "base",
+                "currency_rate_update",
+                ],
+    'data': [
+             'res_currency_secondrate.xml',
              ],
-    'license': 'AGPL-3',
     'installable': True,
-    'active': False,
+    'auto_install': False,
+    'license': 'AGPL-3',
 }
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-
-

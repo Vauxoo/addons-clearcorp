@@ -22,26 +22,47 @@
 
 from openerp import models, fields, api, _
 
+class AnalyticAccount(models.Model):
+
+    _inherit = 'account.analytic.account'
+
+    @api.one
+    def _compute_recursive_budget_amount(self):
+        budget_amount = 0.0
+        for line in self.crossovered_budget_line:
+            budget_amount += line.planned_amount - line.practical_amount
+        return sum([budget_amount] + [child_account._compute_recursive_budget_amount()[0] for
+            child_account in self.child_complete_ids])
+
 class Project(models.Model):
 
     _inherit = 'project.project'
 
     @api.multi
     def view_crossovered_budget_lines(self):
+        analytic_account_obj = self.env['account.analytic.account']
+        analytic_accounts = analytic_account_obj.search([
+            ('id','child_of',self.analytic_account_id.id)])
+        line_ids = []
+        for account in analytic_accounts:
+            line_ids += account.crossovered_budget_line.ids
+        view_id = self.env['ir.model.data'].get_object_reference(
+            'project_budget', 'view_crossovered_budget_line_tree')
         return {
             'name': _('Budget Lines'),
             'type': 'ir.actions.act_window',
-            'view_type': 'tree',
+            'view_type': 'form',
             'view_mode': 'tree',
             'res_model': 'crossovered.budget.lines',
-            'domain': [('id','in', self.crossovered_budget_line.ids)],
+            'view_id': view_id and view_id[1] or False,
+            'domain': [('id','in', line_ids)],
         }
 
     @api.one
     def _compute_budget_amount(self):
         budget_amount = 0.0
-        for line in self.crossovered_budget_line:
-            budget_amount += line.practical_amount
+        if self.analytic_account_id:
+            budget_amount = self.analytic_account_id._compute_recursive_budget_amount()[0]
         self.budget_amount = budget_amount
 
     budget_amount = fields.Float('Budget', compute='_compute_budget_amount')
