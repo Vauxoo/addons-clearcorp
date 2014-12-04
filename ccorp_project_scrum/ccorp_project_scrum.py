@@ -539,7 +539,7 @@ class Sprint(osv.Model):
                 'progress': fields.function(_progress, type='float', string='Progress (%)'),
                 'stage_id': fields.many2one('project.task.type', string='Stage', domain="['&', ('fold', '=', False),"
                     " ('project_ids', '=', project_id)]"),
-                'state': fields.related('stage_id', 'state', type='selection', string='State', readonly=True),
+                'state': fields.related('stage_id', 'state', selection=STATES, type='selection', string='State', readonly=True),
                 'color': fields.integer('Color Index'),
                 }
     
