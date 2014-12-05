@@ -24,8 +24,6 @@
                 <xpath expr="//form/sheet/notebook/page[@string='Invoice Lines']/group/field[@name='payment_term']/.." position="after">
                     <group>
                         <field name="force_commission" readonly="1" />
-                        <!--<label for="commission_percentage"
-                            attrs="{'invisible':[('force_commission','=',False)],'required':[('force_commission','=',True)]}"/>-->
                         <field name="commission_percentage" readonly="1"
                             attrs="{'invisible':[('force_commission','=',False)],'required':[('force_commission','=',True)]}"/>
                     </group>
