@@ -32,7 +32,7 @@ class PurchaseOrder(orm.Model):
         if 'order_line' in vals: 
             order_lines = vals['order_line']
             for line in order_lines:
-                line = line[2] #to extract the line
+                line = line[2] #to extract the new vals of the line
                 if 'product_id' in line and line['product_id'] not in purchase_product_ids:
                     purchase_product_ids.append(line['product_id'])
                 else:
@@ -46,14 +46,14 @@ class PurchaseOrder(orm.Model):
             order_lines = vals['order_line']
             purchase_orders = self.browse(cr, uid, ids, context)
             for purchase_order in purchase_orders:
-                for original_line in purchase_order.order_line:
-                    if original_line.product_id.id not in purchase_product_ids:
-                        purchase_product_ids.append(original_line.product_id.id)
+                for old_line in purchase_order.order_line:
+                    if old_line.product_id.id not in purchase_product_ids:
+                        purchase_product_ids.append(old_line.product_id.id)
                     else:
                         raise osv.except_osv(_('Error !'), _('This purchase order have lines with same products!'))
                 for line in order_lines:
-                    new_line = line[2] #to extract the line
-                    if new_line: 
+                    new_line = line[2] #to extract the new vals of the line
+                    if new_line and 'product_id' in new_line.keys(): 
                         if 'product_id' in new_line and new_line['product_id'] not in purchase_product_ids:
                             purchase_product_ids.append(new_line['product_id'])
                         else:
