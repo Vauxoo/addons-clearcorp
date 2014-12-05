@@ -6,7 +6,7 @@
                 <t t-call="report.internal_layout">
                     <div class="page">
                         <div align="center">
-                            <h1>Sales Commissions</h1>
+                            <h1>Sale Commissions</h1>
                         </div>
                         <br />
                         <table class="table table-bordered" style="border: 1px solid #000000">
@@ -17,9 +17,9 @@
                                     <th style="border: 1px solid #000000"
                                         class="text-left">Payment</th>
                                     <th style="border: 1px solid #000000"
-                                        class="text-left">Payment Date</th>
-                                    <th style="border: 1px solid #000000"
                                         class="text-left">Payment Reference</th>
+                                    <th style="border: 1px solid #000000"
+                                        class="text-left">Payment Date</th>
                                     <th style="border: 1px solid #000000"
                                         class="text-left">Number</th>
                                     <th style="border: 1px solid #000000"
@@ -49,7 +49,7 @@
                                         <span t-field="o.payment_id" />
                                     </td>
                                     <td>
-                                        <span t-field="o.payment_id.reference" />
+                                        <span t-field="o.payment_id.ref" />
                                     </td>
                                     <td>
                                         <span t-field="o.payment_id.date" />

@@ -332,12 +332,8 @@ msgstr ""
 
 #. module: sale_commission
 #: model:ir.actions.report.xml,name:sale_commission.action_sale_commission
-msgid "Sale Commissions"
-msgstr ""
-
-#. module: sale_commission
 #: view:website:sale_commission.report_sale_commission
-msgid "Sales Commissions"
+msgid "Sale Commissions"
 msgstr ""
 
 #. module: sale_commission
