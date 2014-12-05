@@ -39,7 +39,8 @@ class CommissionRule(osv.Model):
     _columns = {
         'name': fields.char('Rule Name', size=128, required=True),
         'member_ids': fields.one2many('res.users','sale_commission_rule_id', string='Members'),
-        'post_expiration_days': fields.integer(string='Post-Expiration Days', required=True),
+        'post_expiration_days': fields.integer(string='Post-Expiration Days', required=True,
+            help='Amount of days of tolerance between the invoice due date and the payment date'),
         'line_ids': fields.one2many('sale.commission.rule.line', 'commission_rule_id', 'Rule Lines'),
         'company_id':fields.many2one('res.company', string='Company'),
     }
