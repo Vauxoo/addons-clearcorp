@@ -13,6 +13,42 @@
                 </xpath>
             </field>
         </record>
+        <!--  account.invoice -->
+        <!-- form -->
+        <record id="view_account_invoice_all_form" model="ir.ui.view">
+            <field name="name">view.account.invoice.all.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/notebook/page[@string='Invoice Lines']/group/field[@name='payment_term']/.." position="after">
+                    <group>
+                        <field name="force_commission" readonly="1" />
+                        <!--<label for="commission_percentage"
+                            attrs="{'invisible':[('force_commission','=',False)],'required':[('force_commission','=',True)]}"/>-->
+                        <field name="commission_percentage" readonly="1"
+                            attrs="{'invisible':[('force_commission','=',False)],'required':[('force_commission','=',True)]}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_account_invoice_group_form" model="ir.ui.view">
+            <field name="name">view.account.invoice.group.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="view_account_invoice_all_form"/>
+            <field name="priority" eval="16"/>
+            <field name="groups_id" eval="[(4,ref('group_force_commissions'))]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group/field[@name='force_commission']" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                    <attribute name="attrs">{'readonly':[('state','not in','draft')]}</attribute>
+                </xpath>
+                <xpath expr="//group/field[@name='commission_percentage']" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                    <attribute name="attrs">{'invisible':[('force_commission','=',False)],'required':[('force_commission','=',True)],'readonly':[('state','not in','draft')]}</attribute>
+                </xpath>
+            </field>
+        </record>
         <!-- sale.commission.rule -->
         <!-- form -->
         <record id="view_rule_form" model="ir.ui.view">

@@ -20,9 +20,17 @@
 #
 ##############################################################################
 
-import sale_commission
-import res_users
-import account_journal
-import account_move_line
-import account_invoice
-import wizard
+from openerp import models, fields, api
+import openerp.addons.decimal_precision as dp
+
+class Invoice(models.Model):
+
+    _inherit = 'account.invoice'
+    _name = 'account.invoice'
+
+    @api.onchange('force_commission')
+    def onchange_force_commission(self):
+        self.commission_percentage = 0.0
+
+    force_commission = fields.Boolean('Force Commission')
+    commission_percentage = fields.Float('Commission', digits=dp.get_precision('Account'))
