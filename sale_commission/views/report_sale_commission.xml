@@ -13,7 +13,7 @@
                             <thead style="background-color:#E0E0E0">
                                 <tr>
                                     <th style="border: 1px solid #000000"
-                                        class="text-left">Sales Person</th>
+                                        class="text-left">Salesperson</th>
                                     <th style="border: 1px solid #000000"
                                         class="text-left">Payment</th>
                                     <th style="border: 1px solid #000000"
