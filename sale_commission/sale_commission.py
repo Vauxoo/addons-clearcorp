@@ -40,7 +40,13 @@ class CommissionRule(osv.Model):
         'name': fields.char('Rule Name', size=128, required=True),
         'member_ids': fields.one2many('res.users','sale_commission_rule_id', string='Members'),
         'post_expiration_days': fields.integer(string='Post-Expiration Days', required=True),
-        'line_ids': fields.one2many('sale.commission.rule.line', 'commission_rule_id', 'Rule Lines')
+        'line_ids': fields.one2many('sale.commission.rule.line', 'commission_rule_id', 'Rule Lines'),
+        'company_id':fields.many2one('res.company', string='Company'),
+    }
+
+    _defaults = {
+        'company_id': lambda self, cr, uid, c: self.pool.get(
+            'res.company')._company_default_get(cr, uid, 'sale.commission.rule', context=c),
     }
 
     _constraints = [(_check_post_expiration_days,'Value must be greater or equal than 0.',
@@ -176,6 +182,7 @@ class Commission(osv.Model):
         'amount_base': fields.float('Base Amount', digits=(16,2)),
         'amount': fields.float('Amount', digits=(16,2)),
         'invoice_commission_percentage': fields.float('Commission (%)', digits=(16,2)),
+        'company_id':fields.many2one('res.company', string='Company'),
     }
 
     _constraints = [(_check_amount, 'Value must be greater than 0.', ['amount']),
@@ -186,4 +193,6 @@ class Commission(osv.Model):
 
     _defaults = {
         'state': 'new',
+        'company_id': lambda self, cr, uid, c: self.pool.get(
+            'res.company')._company_default_get(cr, uid, 'sale.commission.commission', context=c),
     }
