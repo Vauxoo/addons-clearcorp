@@ -46,7 +46,7 @@ class ProductionLot(models.Model):
             latest_quant = self._get_latest_quant()
             if latest_quant:
                 latest_quant = latest_quant[0]
-                latest_move = latest_quant._get_latest_move(
+                latest_move = latest_quant._get_latest_move_with_location(
                     filters=[('location_dest_id','=',self.location_id.id)])
                 if latest_move:
                     latest_move = latest_move[0]
