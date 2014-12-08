@@ -27,6 +27,6 @@ class Quant(models.Model):
     _inherit = 'stock.quant'
 
     @api.one
-    def _get_latest_move(self, filters=[]):
+    def _get_latest_move_with_location(self, filters=[]):
         filters.append(('id','in',self.history_ids.ids))
         return self.history_ids.search(filters, limit=1, order='date desc')
