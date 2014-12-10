@@ -33,8 +33,8 @@
     ],
     'init_xml': [],
     'demo_xml': [],
-    'update_xml': ['purchase_order_discount.xml',],
+    'update_xml': ['purchase_order_discount_view.xml',],
     'license': 'AGPL-3',
     'installable': True,
     'active': False,
-}
+} 
