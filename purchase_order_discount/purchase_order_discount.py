@@ -21,7 +21,7 @@
 ##############################################################################
 
 from openerp.osv import fields,osv
-import decimal_precision as dp
+import openerp.addons.decimal_precision as dp
 
 class purchase_order_line(osv.osv):
     _name = 'purchase.order.line'
@@ -116,27 +116,32 @@ class purchase_order(osv.osv):
         return res
 
     _columns = {
-        'amount_untaxed': fields.function(_amount_all_ccorp, digits_compute= dp.get_precision('Purchase Price'), string='Subtotal',
+        'amount_untaxed': fields.function(_amount_all_ccorp, 
+            digits_compute= dp.get_precision('Purchase Price'), string='Subtotal',
             store={
                 'purchase.order.line': (_get_order_ccorp, None, 10),
             }, multi="sums", help="The amount without tax and discount"),
                 
-        'amount_tax': fields.function(_amount_all_ccorp, digits_compute= dp.get_precision('Purchase Price'), string='Taxes',
+        'amount_tax': fields.function(_amount_all_ccorp, 
+            digits_compute= dp.get_precision('Purchase Price'), string='Taxes',
             store={
                 'purchase.order.line': (_get_order_ccorp, None, 10),
             }, multi="sums", help="The tax amount"),
                 
-        'amount_total': fields.function(_amount_all_ccorp, digits_compute= dp.get_precision('Purchase Price'), string='Total',
+        'amount_total': fields.function(_amount_all_ccorp, 
+            digits_compute= dp.get_precision('Purchase Price'), string='Total',
             store={
                 'purchase.order.line': (_get_order_ccorp, None, 10),
             }, multi="sums",help="The total amount"),
                 
-        'amount_discount': fields.function(_amount_all_ccorp, digits_compute= dp.get_precision('Sale Price'), string='Discount',
+        'amount_discount': fields.function(_amount_all_ccorp, 
+            digits_compute= dp.get_precision('Sale Price'), string='Discount',
             store={
                 'purchase.order.line': (_get_order_ccorp, None, 10),
             }, multi="sums",help="Amount discount"),   
         
-        'amount_subtotal_discount': fields.function(_amount_all_ccorp, digits_compute= dp.get_precision('Sale Price'), string='Subtotal with discount',
+        'amount_subtotal_discount': fields.function(_amount_all_ccorp, 
+            digits_compute= dp.get_precision('Sale Price'), string='Subtotal with discount',
             store={
                 'purchase.order.line': (_get_order_ccorp, None, 10),
             }, multi="sums",help="Subtotal with discount"),   
@@ -144,8 +149,3 @@ class purchase_order(osv.osv):
    
     
 purchase_order()
-
-
-
-
-    
