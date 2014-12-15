@@ -138,6 +138,7 @@ class PaySlip(osv.Model):
     def get_worked_day_lines(self, cr, uid, contract_ids, date_from, date_to, context=None):
         
         res = []
+        user = self.pool.get('res.users').browse(cr, uid, uid)
         for contract in self.pool.get('hr.contract').browse(cr, uid, contract_ids, context=context):
             if contract.is_attendance:
                 attendances = {
@@ -159,8 +160,8 @@ class PaySlip(osv.Model):
                 if attendances['number_of_hours'] != 0.0:
                     res += [attendances]
                 else:
-                    if contract.employee_id.company_id.attendance_payslip_use_default:
-                        normal_hours = contract.employee_id.company_id.attendance_payslip_normal_hours
+                    if user.company_id.attendance_payslip_use_default:
+                        normal_hours = user.company_id.attendance_payslip_normal_hours
                         if normal_hours:
                             attendances['number_of_hours'] = normal_hours
                             attendances['number_of_days'] = nb_of_days
@@ -181,8 +182,8 @@ class PaySlip(osv.Model):
                 if extra['number_of_hours'] != 0.0:
                     res += [extra]
                 else:
-                    if contract.employee_id.company_id.attendance_payslip_use_default:
-                        extra_hours = contract.employee_id.company_id.attendance_payslip_extra_hours
+                    if user.company_id.attendance_payslip_use_default:
+                        extra_hours = user.company_id.attendance_payslip_extra_hours
                         if extra_hours:
                             extra['number_of_hours'] = extra_hours
                             extra['number_of_days'] = nb_of_days
