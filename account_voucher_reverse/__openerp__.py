@@ -23,7 +23,7 @@
 {
     "name" : "Account Voucher Reverse",
     "version" : '1.0',
-    "author" : 'CLEARCORP S.A.',
+    "author" : 'ClearCorp',
     'complexity': 'normal',
     "description": """
 Module for reverse account vouchers

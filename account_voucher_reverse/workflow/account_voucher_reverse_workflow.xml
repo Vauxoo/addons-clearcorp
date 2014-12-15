@@ -13,9 +13,7 @@
         <record id="account_voucher_done2reverse"  model="workflow.transition">
             <field name="act_from" ref="account_voucher.act_done" />
             <field name="act_to" ref="act_reverse" />
-            <!-- <field name="group_id" ref="account.Accountant" /> -->
             <field name="signal">reverse_voucher</field>
         </record>
-    
     </data>
 </openerp>
