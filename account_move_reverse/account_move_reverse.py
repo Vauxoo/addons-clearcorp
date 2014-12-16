@@ -20,10 +20,10 @@
 #
 ##############################################################################
 
-from openerp.osv import orm, osv, fields
+from openerp.osv import osv, fields
 from openerp.tools.translate import _
 
-class AccountMove(orm.Model):
+class AccountMove(osv.Model):
 
     _inherit = 'account.move'
 
@@ -54,11 +54,9 @@ class AccountMove(orm.Model):
         for move in self.browse(cr, uid, ids, context=context):
             if not move.journal_id.update_posted:
                 raise osv.except_osv(_('Error !'), _('You can not modify a posted entry of this journal !\nYou should set the journal to allow cancelling entries if you want to do that.'))
-
             if move.move_reverse_id:
                 if not move.journal_id.update_reversed:
                     raise osv.except_osv(_('Error !'), _('You can not modify a posted entry of this journal !\nYou should set the journal to allow cancelling reversed entries if you want to do that.'))
-                
                 move_reverse = self.browse(cr, uid, move.move_reverse_id.id, context=context)
                 for line_reverse in move_reverse.line_id:
                     if line_reverse.reconcile_id:
@@ -67,7 +65,6 @@ class AccountMove(orm.Model):
                            'SET state=%s '\
                            'WHERE id IN %s', ('draft', tuple([move_reverse.id]),))
                 self.unlink(cr,uid,[move_reverse.id],context=context)
-
         result = super(AccountMove, self).button_cancel(cr, uid, ids, context=context)
         return True
 
@@ -96,11 +93,8 @@ class AccountMove(orm.Model):
                     'company_id':move_original.company_id.id,
                     }
             move_id = self.pool.get('account.move').create(cr, uid, move)
-                    
             self.pool.get('account.move').write(cr, uid, [move_original.id], {'move_reverse_id' : move_id})
-
             move_reconcile_obj = self.pool.get('account.move.reconcile')
-
             lines = move_original.line_id
             for line in lines:
                 move_line = {
@@ -120,9 +114,7 @@ class AccountMove(orm.Model):
                              'state':'valid',
                              'company_id':line.company_id.id,
                              }
-
                 line_created_id = self.pool.get('account.move.line').create(cr, uid, move_line)
-
                 if line.reconcile_id:
                     reconcile = line.reconcile_id
                     if len(reconcile.line_id) > 2:
@@ -136,31 +128,25 @@ class AccountMove(orm.Model):
                         else:
                             move_reconcile_obj.unlink(cr,uid,[reconcile.id],context=context)
                         new_reconcile_line_ids.append(line.id) #Workaround, commit database
-                        
                     else:
                         move_reconcile_obj.unlink(cr,uid,[reconcile.id],context=context)
-
                 elif line.reconcile_partial_id:
                     reconcile = line.reconcile_partial_id
                     if len(reconcile.line_partial_ids) > 2:
                         self.pool.get('account.move.line').write(cr,uid,line.id,{'reconcile_partial_id': False })
                     else:
                         move_reconcile_obj.unlink(cr,uid,[reconcile.id],context=context)
-
                 if line.account_id.reconcile:
                     reconcile_id = self.pool.get('account.move.reconcile').create(cr, uid, {'type': 'Account Reverse'})
-                    
                     #The move don't support write this line
                     cr.execute('UPDATE account_move_line '\
                                'SET reconcile_id=%s '\
                                'WHERE id IN %s', (reconcile_id, tuple([line.id]),))
                     #self.pool.get('account.move.line').write(cr,uid,[line.id],{'reconcile_id': reconcile_id})
                     self.pool.get('account.move.line').write(cr,uid,[line_created_id],{'reconcile_id': reconcile_id})
-
             #Posted move reverse
             self.pool.get('account.move').post(cr, 1, [move_id, move_original.id], context={})
-            
-            #Change in move state 8/7/2013 -> Diana Rodriguez
+            #Change in move state 
             '''
                 A move that is reversed can't reverse again. A move that is create from a move is a reversion
                 and also can't reverse again. Write the states of move_id (reversion) and move_original (reversed).
@@ -169,13 +155,12 @@ class AccountMove(orm.Model):
             self.write(cr, uid, [move_original.id], {'state' : 'reversed'}, context=context)
             
         return True
-    
+
     #Action that is call in button.
     def reverse_move_button(self, cr, uid, ids, context):
         return self.reverse(cr, uid, ids,context=context)
 
-
-class AccountJournal(orm.Model):
+class AccountJournal(osv.Model):
     _inherit = 'account.journal'
     
     _columns = {
