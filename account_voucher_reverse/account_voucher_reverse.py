@@ -22,7 +22,7 @@
 
 from openerp.osv import osv, fields
 
-class AccountVoucherReverse(osv.osv):
+class AccountVoucherReverse(osv.Model):
     _name = 'account.voucher'
     _inherit = 'account.voucher'
 
@@ -49,16 +49,3 @@ class AccountVoucherReverse(osv.osv):
                 self.pool.get('account.move').reverse(cr, uid, [voucher.move_id.id], context=context)
             self.write(cr, uid, [voucher_id], {'state' : 'reverse'}, context=context)
         return {}
-
-
-
-
-
-
-
-
-
-
-
-
-

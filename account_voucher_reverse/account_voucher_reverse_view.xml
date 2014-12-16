@@ -15,7 +15,7 @@
                         <attribute name="attrs">{'invisible': [('state','in',['draft', 'proforma', 'cancel'])]}</attribute>
                     </xpath>
                     <xpath expr = "/form/sheet/notebook/page[@string='Journal Items']/field[@name='move_ids']" position = "after">
-                        <field name="move_line_reverse_ids" colspan="4" nolabel="1" readonly="1" attrs = "{'invisible' : [('state','!=','reverse')]}" >
+                        <field name="move_line_reverse_ids" colspan="4" nolabel="1" readonly="1" attrs = "{'invisible' : [('state','!=','reverse')]}">
                             <tree string="Journal Items Reverse">
                                 <field name="move_id"/>
                                 <field name="ref"/>
