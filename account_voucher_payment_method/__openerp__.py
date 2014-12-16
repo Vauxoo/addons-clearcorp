@@ -35,7 +35,7 @@ This module adds different options:
 """,
     "depends" : [
                 "account_voucher",
-                "res_currency_sequence"
+                "res_currency_priority"
                 ],
     "data" : [
                 "account_voucher.xml",
