@@ -62,13 +62,14 @@ class accountVoucherinherit(orm.Model):
         now = time.strftime('%Y-%m-%d')
         
         for voucher in self.browse(cr, uid, ids, context=context):
-            #Depends of sequence, set initial and final currency
-            if company_currency.sequence < voucher.currency_id.sequence:
-                initial_currency = company_currency
-                final_currency = voucher.currency_id
-            else:
+            #Depends of priority, set initial and final currency
+            #lower rate -> currency strong
+            if company_currency.rate < voucher.currency_id.rate:
                 initial_currency = voucher.currency_id
                 final_currency = company_currency
+            else:
+                initial_currency = company_currency
+                final_currency = voucher.currency_id
             
             #Get exchange, depends of order sets before
             exchange_rate = currency_obj.get_exchange_rate(cr, uid, initial_currency, final_currency, now, context=context)            

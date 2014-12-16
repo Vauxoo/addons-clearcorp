@@ -20,30 +20,30 @@
 #
 ##############################################################################
 {
-	"name" : "Account Voucher Payment Method",
-	"author" : "ClearCorp",
-	"version" : "0.1",
-	'category': 'Accounting & Finance',
-	"description": """ 
+    "name" : "Account Voucher Payment Method",
+    "author" : "ClearCorp",
+    "version" : "1.0",
+    'category': 'Accounting & Finance',
+    "description": """ 
 Account Voucher Payment Method:
 =================================
 This module adds different options:
 -------------------------------------
-	1. Add different payment methods in the journal.
-	2. In voucher form, it shows the commercial currency not its inverse natural
-	3. Filter in customer and supplier payment wizard invoice, the journals, depends of payment method that was checked
+    1. Add different payment methods in the journal.
+    2. In voucher form, it shows the commercial currency not its inverse natural
+    3. Filter in customer and supplier payment wizard invoice, the journals, depends of payment method that was checked
 """,
-	"depends" : [
-				"account_voucher",
-				"res_currency_sequence"
-				],
-	"data" : [
-				"account_voucher.xml",
-				"account_voucher_line.xml",
-				"account_journal.xml",
-				"account_voucher_exchange.xml",
-			],
-	'installable': True,
-	'auto_install': False,
-	'license': 'AGPL-3',
+    "depends" : [
+                "account_voucher",
+                "res_currency_sequence"
+                ],
+    "data" : [
+                "account_voucher.xml",
+                "account_voucher_line.xml",
+                "account_journal.xml",
+                "account_voucher_exchange.xml",
+            ],
+    'installable': True,
+    'auto_install': False,
+    'license': 'AGPL-3',
 }
