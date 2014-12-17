@@ -23,7 +23,7 @@
 {
     'name' : 'Attendance Importer',
     'version' : '1.0',
-    'author' : 'CLEARCORP S.A.',
+    'author' : 'ClearCorp',
     'complexity': 'easy',
     'description': '''
 Import employee attendances from cvs files

@@ -480,17 +480,20 @@ class FileImportWizard(osv.TransientModel):
 
     def import_file(self, cr, uid, ids, context=None):
         result = ''
-        wizard = self.browse(cr, uid, ids[0], context=context)
+        wizard = self.browse(cr, uid, ids[0])
         # Validate required parameter to run wizard
         if not wizard.company_id.attendance_normal_hours or not wizard.company_id.attendance_extra_hours:
             raise osv.except_osv(_('Error'), _('An error occurred while reading the file. There is not an '
                 'hour identifier defined for attendance files on company %s') % (wizard.company_id.name))
-        if not wizard.company_id.attendance_sign_in or not wizard.company_id.attendance_sign_out:
+        if not wizard.company_id.attendance_sign_in or not wizard.company_id.attendance_sign_out and wizard.company_id.attendance_importer_type=='one_action_line':
             raise osv.except_osv(_('Error'), _('An error occurred while reading the file. There is '
                 'not a sign in or sign out defined for attendance files on company %s') % (wizard.company_id.name))
         if not wizard.company_id.attendance_date_format:
             raise osv.except_osv(_('Error'), _('An error occurred while reading the file. There is not a '
                 'date format defined for attendance files on company %s') % (wizard.company_id.name))
+        if not wizard.company_id.attendance_time_format and wizard.company_id.attendance_importer_type=='two_actions_line':
+            raise osv.except_osv(_('Error'), _('An error occurred while reading the file. There is not a '
+                'time format defined for attendance files on company %s') % (wizard.company_id.name))
         # Read the file
         try:
             file = StringIO.StringIO(base64.decodestring(wizard.file))
@@ -504,88 +507,167 @@ class FileImportWizard(osv.TransientModel):
         line_number = 1
         invalid_ids = []
         valid_ids = []
-        for row in reader:
-            if skip_header:
-                skip_header = False
-                continue
-            employee_code = row[0]
-            employee_name = row[1]
-            date = datetime.strptime(row[2], wizard.company_id.attendance_date_format)
-            if wizard.tz:
-                utc = pytz.timezone('UTC')
-                timezone = pytz.timezone(wizard.tz)
-                date = timezone.localize(date, is_dst=False) # UTC = no DST
-                date = date.astimezone(utc)
-            date = datetime.strftime(date,'%Y-%m-%d %H:%M:%S')
-            
-            action = row[3]
-            hour_type = row[4]
-            employee_obj = self.pool.get('hr.employee')
-            employee_id = employee_obj.search(cr, uid, [('code','=',employee_code)], context=context)
-            # Add errors to result in order to proceed to check out wrong data
-            if not employee_id:
-                result += _('Error in line %d: Employee %s with code %s was not '
-                            'found.\n') % (line_number, employee_name, employee_code)
-                line_number += 1
-                continue
-            if hour_type == wizard.company_id.attendance_normal_hours:
-                vals = {
-                    'employee_id': employee_id[0],
-                    'name': date,
-                    'action': False,
-                    'action_desc': False,
-                    'wizard_id': wizard.id,
-                }
-                if action == wizard.company_id.attendance_sign_in:
-                    vals['action'] = 'sign_in'
-                elif action == wizard.company_id.attendance_sign_out:
-                    vals['action'] = 'sign_out'
-                else:
-                    result += _('Error in line %d: Wrong action %s\n') % (line_number, action)
+        if wizard.company_id.attendance_importer_type=='one_action_line':
+            for row in reader:
+                if skip_header:
+                    skip_header = False
+                    continue
+                employee_code = row[0]
+                employee_name = row[1]
+                date = datetime.strptime(row[2], wizard.company_id.attendance_date_format)
+                if wizard.tz:
+                    utc = pytz.timezone('UTC')
+                    timezone = pytz.timezone(wizard.tz)
+                    date = timezone.localize(date, is_dst=False) # UTC = no DST
+                    date = date.astimezone(utc)
+                date = datetime.strftime(date,'%Y-%m-%d %H:%M:%S')
+                
+                action = row[3]
+                hour_type = row[4]
+                employee_obj = self.pool.get('hr.employee')
+                employee_id = employee_obj.search(cr, uid, [('code','=',employee_code)], context=context)
+                # Add errors to result in order to proceed to check out wrong data
+                if not employee_id:
+                    result += _('Error in line %d: Employee %s with code %s was not '
+                                'found.\n') % (line_number, employee_name, employee_code)
                     line_number += 1
                     continue
-                self.pool.get('hr.attendance.importer.attendance').create(cr, uid, vals, context=context)
-            elif hour_type == wizard.company_id.attendance_extra_hours:
-                action_vals = {'name':_('Imported Extra Hours'), 'action_type': False, 'wizard_id': wizard.id}
-                if action == wizard.company_id.attendance_sign_in:
-                    action_vals['action_type'] = 'sign_in'
-                elif action == wizard.company_id.attendance_sign_out:
-                    action_vals['action_type'] = 'sign_out'
+                if hour_type == wizard.company_id.attendance_normal_hours:
+                    vals = {
+                        'employee_id': employee_id[0],
+                        'name': date,
+                        'action': False,
+                        'action_desc': False,
+                        'wizard_id': wizard.id,
+                    }
+                    if action == wizard.company_id.attendance_sign_in:
+                        vals['action'] = 'sign_in'
+                    elif action == wizard.company_id.attendance_sign_out:
+                        vals['action'] = 'sign_out'
+                    else:
+                        result += _('Error in line %d: Wrong action %s\n') % (line_number, action)
+                        line_number += 1
+                        continue
+                    self.pool.get('hr.attendance.importer.attendance').create(cr, uid, vals, context=context)
+                elif hour_type == wizard.company_id.attendance_extra_hours:
+                    action_vals = {'name':_('Imported Extra Hours'), 'action_type': False, 'wizard_id': wizard.id}
+                    if action == wizard.company_id.attendance_sign_in:
+                        action_vals['action_type'] = 'sign_in'
+                    elif action == wizard.company_id.attendance_sign_out:
+                        action_vals['action_type'] = 'sign_out'
+                    else:
+                        result += _('Error in line %d: Wrong action %s\n') % (line_number, action)
+                        line_number += 1
+                        continue
+                    action_desc_id = self.pool.get('hr.attendance.importer.action.reason').create(cr, uid, action_vals, context=context)
+                    vals = {
+                        'employee_id': employee_id[0],
+                        'name': date,
+                        'action': 'action',
+                        'action_desc': action_desc_id,
+                        'wizard_id': wizard.id,
+                    }
+                    self.pool.get('hr.attendance.importer.attendance').create(cr, uid, vals, context=context)
                 else:
-                    result += _('Error in line %d: Wrong action %s\n') % (line_number, action)
+                    result += _('Error in line %d: Invalid hour type %s\n') % (line_number, hour_type)
                     line_number += 1
                     continue
-                action_desc_id = self.pool.get('hr.attendance.importer.action.reason').create(cr, uid, action_vals, context=context)
-                vals = {
-                    'employee_id': employee_id[0],
-                    'name': date,
-                    'action': 'action',
-                    'action_desc': action_desc_id,
-                    'wizard_id': wizard.id,
-                }
-                self.pool.get('hr.attendance.importer.attendance').create(cr, uid, vals, context=context)
-            else:
-                result += _('Error in line %d: Invalid hour type %s\n') % (line_number, hour_type)
                 line_number += 1
-                continue
-            line_number += 1
+        elif wizard.company_id.attendance_importer_type=='two_actions_line':
+            for row in reader:
+                if skip_header:
+                    skip_header = False
+                    continue
+                employee_code = row[0]
+                employee_name = row[1]
+                
+                try:
+                    sign_in=datetime.strptime(row[2] + ' ' + row[3],  wizard.company_id.attendance_date_format + ' ' + wizard.company_id.attendance_time_format)
+                    sign_out=datetime.strptime(row[2] +' ' + row[4], wizard.company_id.attendance_date_format + ' ' + wizard.company_id.attendance_time_format)
+                except:
+                    raise osv.except_osv(_('Error'),_('An error occurred while reading dates and times in the file. Please '
+                                              'check if the format is correct.'))
+                
+                if wizard.tz:
+                    utc = pytz.timezone('UTC')
+                    timezone = pytz.timezone(wizard.tz)
+                    sign_in = timezone.localize(sign_in, is_dst=False) # UTC = no DST
+                    sign_in = sign_in.astimezone(utc)
+                    sign_out = timezone.localize(sign_out, is_dst=False) # UTC = no DST
+                    sign_out = sign_out.astimezone(utc)
+                    
+                sign_in = datetime.strftime(sign_in,'%Y-%m-%d %H:%M:%S')
+                sign_out = datetime.strftime(sign_out,'%Y-%m-%d %H:%M:%S')
+                
+                hour_type = row[5]
+                employee_obj = self.pool.get('hr.employee')
+                employee_id = employee_obj.search(cr, uid, [('code','=',employee_code)], context=context)
+                # Add errors to result in order to proceed to check out wrong data
+                if not employee_id:
+                    result += _('Error in line %d: Employee %s with code %s was not '
+                                'found.\n') % (line_number, employee_name, employee_code)
+                    line_number += 1
+                    continue
+                if hour_type == wizard.company_id.attendance_normal_hours:
+                    vals_sign_in = {
+                        'action':'sign_in',
+                        'employee_id': employee_id[0],
+                        'name': sign_in,
+                        'action_desc': False,
+                        'wizard_id': wizard.id,
+                    }
+                    vals_sign_out = {
+                        'action':'sign_out',
+                        'employee_id': employee_id[0],
+                        'name': sign_out,
+                        'action_desc': False,
+                        'wizard_id': wizard.id,
+                    }
+                    self.pool.get('hr.attendance.importer.attendance').create(cr, uid, vals_sign_in, context=context)
+                    self.pool.get('hr.attendance.importer.attendance').create(cr, uid, vals_sign_out, context=context)
+                elif hour_type == wizard.company_id.attendance_extra_hours:
+                     action_vals_sign_in = {'name':_('Imported Extra Hours'), 'action_type': 'sign_in', 'wizard_id': wizard.id}
+                     action_vals_sign_out= {'name':_('Imported Extra Hours'), 'action_type': 'sign_out', 'wizard_id': wizard.id}
+                     action_desc_id_sign_in = self.pool.get('hr.attendance.importer.action.reason').create(cr, uid, action_vals_sign_in, context=context)
+                     action_desc_id_sign_out = self.pool.get('hr.attendance.importer.action.reason').create(cr, uid, action_vals_sign_out, context=context)
+                     vals_sign_in = {
+                         'employee_id': employee_id[0],
+                         'name': sign_in,
+                         'action': 'action',
+                         'action_desc': action_desc_id_sign_in,
+                         'wizard_id': wizard.id,
+                     }
+                     vals_sign_out = {
+                         'employee_id': employee_id[0],
+                         'name': sign_out,
+                         'action': 'action',
+                         'action_desc': action_desc_id_sign_out,
+                         'wizard_id': wizard.id,
+                     }
+                     self.pool.get('hr.attendance.importer.attendance').create(cr, uid, vals_sign_in, context=context)
+                     self.pool.get('hr.attendance.importer.attendance').create(cr, uid, vals_sign_out, context=context)
+                else:
+                     result += _('Error in line %d: Invalid hour type %s\n') % (line_number, hour_type)
+                     line_number += 1
+                     continue
+                line_number += 1
         if result == '':
             result = _('There were no errors found for this file.')
-        wizard.write({'state': 'error', 'result': result}, context=context)
+        wizard.write({'state': 'error', 'result': result})
         return {
-                'name': _('View Errors'),
-                'type': 'ir.actions.act_window',
-                'res_model': self._name,
-                'view_type': 'form',
-                'view_mode': 'form',
-                'target': 'new',
-                'context': context,
-                'res_id': wizard.id,
-                }
+           'name': _('View Errors'),
+           'type': 'ir.actions.act_window',
+           'res_model': self._name,
+           'view_type': 'form',
+           'view_mode': 'form',
+           'target': 'new',
+           'context': context,
+           'res_id': wizard.id,
+            }
 
     def view_items(self, cr, uid, ids, context=None):
-        wizard = self.browse(cr, uid, ids[0], context=context)
-        wizard.write({'state': 'view'}, context=context)
+        wizard = self.browse(cr, uid, ids[0])
+        wizard.write({'state': 'view'})
         return {
                 'name': _('View Items'),
                 'type': 'ir.actions.act_window',
