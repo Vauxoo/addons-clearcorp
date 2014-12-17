@@ -15,15 +15,23 @@
                                 <label for="attendance_company_id"/>
                                 <field name="attendance_company_id" on_change="onchange_attendance_company(attendance_company_id)" class="oe_inline"/>
                             </div>
+                            <div name="Importer Type">
+                                <label for="attendance_importer_type"/>
+                                <field name="attendance_importer_type"  on_change="onchange_attendance_importer_type(attendance_importer_type)" class="oe_inline"/>
+                            </div>
                             <div name="date_format">
                                 <label for="attendance_date_format"/>
                                 <field name="attendance_date_format" class="oe_inline"/>
                             </div>
-                            <div name="sign_in">
+                            <div name="time_format" attrs="{'invisible':[('attendance_importer_type','=','one_action_line')]}">
+                                <label for="attendance_time_format"/>
+                                <field name="attendance_time_format" class="oe_inline"/>
+                            </div>
+                            <div name="sign_in" attrs="{'invisible':[('attendance_importer_type','!=','one_action_line')]}">
                                 <label for="attendance_sign_in"/>
                                 <field name="attendance_sign_in" class="oe_inline"/>
                             </div>
-                            <div name="sign_out">
+                            <div name="sign_out" attrs="{'invisible':[('attendance_importer_type','!=','one_action_line')]}">
                                 <label for="attendance_sign_out"/>
                                 <field name="attendance_sign_out" class="oe_inline"/>
                             </div>
@@ -35,11 +43,11 @@
                                 <label for="attendance_extra_hours"/>
                                 <field name="attendance_extra_hours" class="oe_inline"/>
                             </div>
-                            <div name="sign_in">
+                            <div name="sign_in" attrs="{'invisible':[('attendance_importer_type','!=','one_action_line')]}">
                                 <label for="attendance_default_sign_in"/>
                                 <field name="attendance_default_sign_in" class="oe_inline"/>
                             </div>
-                            <div name="sign_out">
+                            <div name="sign_out" attrs="{'invisible':[('attendance_importer_type','!=','one_action_line')]}">
                                 <label for="attendance_default_sign_out"/>
                                 <field name="attendance_default_sign_out" class="oe_inline"/>
                             </div>

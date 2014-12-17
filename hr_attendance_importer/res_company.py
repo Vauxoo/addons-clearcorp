@@ -27,11 +27,15 @@ class ResCompany(osv.Model):
     _inherit = 'res.company'
 
     _columns = {
+         'attendance_importer_type':fields.selection([('one_action_line','One action for line'),
+            ('two_actions_line','Two actions for line (sign in and sign out actions)')],'Attendance importer type'),
         'attendance_date_format': fields.char('Date Format', size=32),
+        'attendance_time_format': fields.char('Time Format', size=32),
         'attendance_sign_in': fields.char('Sign in Action', size=16),
         'attendance_sign_out': fields.char('Sign out Action', size=16),
         'attendance_normal_hours': fields.char('Normal Hours', size=8),
         'attendance_extra_hours': fields.char('Extra Hours', size=8),
         'attendance_default_sign_in': fields.many2one('hr.action.reason', string='Default Sign in reason'),
         'attendance_default_sign_out': fields.many2one('hr.action.reason', string='Default Sign out reason'),
+        'attendance_sample_template': fields.binary('Sample Template'),
     }
