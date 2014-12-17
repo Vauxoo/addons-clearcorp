@@ -16,9 +16,9 @@
             <field name="model">hr.payslip</field>
             <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//form/sheet/div[@class='oe_title']/h2/field[@name='date_to']" position="attributes">
+                <field name="date_to" position="attributes">
                     <attribute name="on_change">onchange_employee_id(date_from, date_to, employee_id, contract_id)</attribute>
-                </xpath>
+                </field>
             </field>
         </record>
     </data>

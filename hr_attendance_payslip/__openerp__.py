@@ -23,7 +23,7 @@
 {
     'name' : 'Attendance Payslip',
     'version' : '1.0',
-    'author' : 'CLEARCORP S.A.',
+    'author' : 'ClearCorp',
     'complexity': 'normal',
     'description': '''
 Calculate Workdays From the user attendance
