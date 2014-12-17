@@ -152,7 +152,7 @@ class PaySlip(osv.Model):
                 day_to = datetime.strptime(date_to,"%Y-%m-%d")
                 nb_of_days = (day_to - day_from).days + 1
                 for day in range(0, nb_of_days):
-                    had_work, working_hours = contract._attendance_normal_hours_on_day(day_from + timedelta(days=day), context=context)
+                    had_work,working_hours = contract._attendance_normal_hours_on_day(day_from + timedelta(days=day), context=context)[0]
                     if had_work:
                         attendances['number_of_days'] += 1.0
                         attendances['number_of_hours'] += working_hours
@@ -174,7 +174,7 @@ class PaySlip(osv.Model):
                     'contract_id': contract.id,
                 }
                 for day in range(0, nb_of_days):
-                    had_work, working_hours = contract._attendance_extra_hours_on_day(day_from + timedelta(days=day), context=context)
+                    had_work,working_hours = contract._attendance_extra_hours_on_day(day_from + timedelta(days=day), context=context)[0]
                     if had_work:
                         extra['number_of_days'] += 1.0
                         extra['number_of_hours'] += working_hours
