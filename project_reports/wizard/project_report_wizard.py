@@ -48,18 +48,4 @@ class project_report_wizard (osv.TransientModel):
             'project_reports.report_project_project', data=data, context=context)
         return res
 
-        """return {
-            'type': 'ir.actions.report.xml',
-            'report_name': 'project_report_report',
-            'datas': datas}"""
-
-    """def action_validate(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-        datas = {}
-        datas['ids'] = context.get('active_ids', [])
-        datas['model'] = context.get('active_model', 'ir.ui.menu')
-        datas['form'] = self.read(cr, uid, ids, ['date_from',  'date_to', 'project_ids'], context=context)[0]
-        return self._print_report(cr, uid, ids, datas, context=context)"""
-
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
