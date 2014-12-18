@@ -4,23 +4,22 @@
 
     <!-- Project Report -->
         <record id="project_report_wizard_form_view" model="ir.ui.view">
-            <field name="name">project_report_wizard.form.view</field>
+            <field name="name">project.report.wizard.form.view</field>
             <field name="model">project.report.wizard</field>
             <field name="arch" type="xml">
-                <form string="Project Report" version="7.0">
-                    <separator string="Dates" />
-                    <group col="4">
-                       <field name="date_from"/>
-                       <field name="date_to"/>
+                <form string="Project Report">
+                    <group>
+                        <group>
+                            <field name="date_from"/>
+                        </group>
+                        <group>
+                            <field name="date_to"/>
+                        </group>
                     </group>
                     <separator string="Projects" colspan="4" />
-                    <field name="project_ids" nolabel="1" colspan="4" widget="many2many">
-                        <tree string="Projects" editable="top">
-                            <field name="shortcut_name" />
-                        </tree>
-                    </field>
+                    <field name="project_ids"/>
                     <footer>
-                        <button name="action_validate" string="Validate" type="object"/>
+                        <button name="print_report" string="Print" type="object"/>
                         or 
                         <button string="Cancel" class="oe_link" special="cancel" />
                     </footer>

@@ -22,42 +22,30 @@
 
 from openerp.osv import osv, fields
 
-class Project(osv.osv):
-    _inherit = "project.project"
-    _columns = {
-        'wizard_id' : fields.many2one('project.report.wizard', 'Wizard'),
-    }
-
-class ProjectWork(osv.osv):
-    _inherit = "project.task.work"
-    _columns = {
-        'project': fields.related('task_id', 'project_id', type='many2one', relation='project.project', string='Project', store=False, readonly=True)
-    }
-    
-class project_report_wizard (osv.osv):
+class project_report_wizard (osv.TransientModel):
     _name = 'project.report.wizard'
     _columns = {
         'date_from' : fields.date('Start Date', required=True),
         'date_to' : fields.date('End Date', required=True),
-        'project_ids' : fields.one2many('project.project', 'wizard_id', 'Projects'),
+        'project_ids' : fields.many2many('project.project', string='Projects'),
     }
-    
-    
-    def _print_report(self, cursor, uid, ids, datas, context=None):
-        context = context or {}
-       
-        return {
-            'type': 'ir.actions.report.xml',
-            'report_name': 'project_report_report',
-            'datas': datas}
 
-    def action_validate(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-        datas = {}
-        datas['ids'] = context.get('active_ids', [])
-        datas['model'] = context.get('active_model', 'ir.ui.menu')
-        datas['form'] = self.read(cr, uid, ids, ['date_from',  'date_to', 'project_ids'], context=context)[0]
-        return self._print_report(cr, uid, ids, datas, context=context)
+    def print_report(self, cr, uid, ids, datas, context=None):
+        context = context or {}
+        wizard = self.browse(cr, uid, ids[0],context=context)
+        if wizard.project_ids:
+            project_ids = [project.id for project in wizard.project_ids]
+        else:
+            project_ids = self.pool.get('project.project').search(
+                cr, uid, [('use_tasks','=',True)],context=context)
+        data = {
+            'form': {
+                'date_from': wizard.date_from,
+                'date_to': wizard.date_to,
+            }
+        }
+        res = self.pool.get('report').get_action(cr, uid, project_ids,
+            'project_reports.report_project_project', data=data, context=context)
+        return res
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

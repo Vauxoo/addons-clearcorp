@@ -19,30 +19,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': 'Project Reports',
-    'version': '1.0',
-    'url': 'http://launchpad.net/openerp-ccorp-addons',
-    'author': 'ClearCorp S.A.',
-    'website': 'http://clearcorp.co.cr',
-    'category': 'Project Management',
-    'complexity': 'normal',
-    'description': """This module adds project reports
-    """,
-    'depends': [
-                    'report_webkit_lib',
-                    'project_extended',
-                    ],
-    'init_xml': [],
-    'demo_xml': [],
-    'update_xml': [
-                    'report/report.xml',
-                    'wizard/project_report_wizard.xml',
-                    'report_menus.xml',
-                    ],
-    'license': 'AGPL-3',
-    'installable': True,
-    'active': False,
-}
 
+import wizard
+import report
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

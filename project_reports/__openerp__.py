@@ -19,7 +19,29 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import wizard
-import report
+{
+    'name': 'Project Reports',
+    'version': '1.0',
+    'author': 'ClearCorp',
+    'website': 'http://clearcorp.co.cr',
+    'category': 'Project Management',
+    'complexity': 'normal',
+    'description': """This module adds project reports
+    """,
+    'depends': [
+                'report',
+                'project_extended',
+                ],
+    'data': [
+             'data/report_paperformat.xml',
+             'project_reports_report.xml',
+             'views/report_project_project.xml',
+             'wizard/project_report_wizard.xml',
+             'report_menus.xml',
+             ],
+    'license': 'AGPL-3',
+    'installable': True,
+    'active': False,
+}
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
