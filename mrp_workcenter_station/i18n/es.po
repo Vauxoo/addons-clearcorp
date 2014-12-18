@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-23 15:31+0000\n"
-"PO-Revision-Date: 2014-09-23 15:31+0000\n"
+"POT-Creation-Date: 2014-12-18 20:24+0000\n"
+"PO-Revision-Date: 2014-12-18 20:24+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -32,28 +32,30 @@ msgid "Code"
 msgstr "Código"
 
 #. module: mrp_workcenter_station
+#: sql_constraint:mrp.workcenter.station.station:0
+msgid "Code must be unique."
+msgstr "El código debe ser único."
+
+#. module: mrp_workcenter_station
 #: view:mrp.workcenter.station.station:mrp_workcenter_station.view_station_search
 msgid "Group By..."
 msgstr "Agrupar por..."
 
 #. module: mrp_workcenter_station
-#: field:mrp.workcenter.station.station,id:0
-#: field:report.mrp_workcenter_station.report_workcenter_station,id:0
-msgid "ID"
-msgstr "ID"
-
-#. module: mrp_workcenter_station
 #: view:website:mrp_workcenter_station.report_workcenter_station
+#: view:website:mrp_workcenter_station.report_workcenter_station_xls
 msgid "Manufacturing Order"
 msgstr "Orden de producción"
 
 #. module: mrp_workcenter_station
 #: view:website:mrp_workcenter_station.report_workcenter_station
+#: view:website:mrp_workcenter_station.report_workcenter_station_xls
 msgid "Number of Cycles"
 msgstr "Número de ciclos"
 
 #. module: mrp_workcenter_station
 #: view:website:mrp_workcenter_station.report_workcenter_station
+#: view:website:mrp_workcenter_station.report_workcenter_station_xls
 msgid "Number of Hours"
 msgstr "Número de horas"
 
@@ -66,11 +68,13 @@ msgstr "Otras ordenes de trabajo"
 #: view:mrp.workcenter.station.station:mrp_workcenter_station.view_station_search
 #: field:mrp.workcenter.station.station,product_id:0
 #: view:website:mrp_workcenter_station.report_workcenter_station
+#: view:website:mrp_workcenter_station.report_workcenter_station_xls
 msgid "Product"
 msgstr "Producto"
 
 #. module: mrp_workcenter_station
 #: view:website:mrp_workcenter_station.report_workcenter_station
+#: view:website:mrp_workcenter_station.report_workcenter_station_xls
 msgid "Qty"
 msgstr "Ctd."
 
@@ -81,19 +85,26 @@ msgstr "Nombre de la estación"
 
 #. module: mrp_workcenter_station
 #: view:website:mrp_workcenter_station.report_workcenter_station
+#: view:website:mrp_workcenter_station.report_workcenter_station_xls
 msgid "Status"
 msgstr "Estado"
 
 #. module: mrp_workcenter_station
-#: code:addons/mrp_workcenter_station/mrp_workcenter_station.py:88
+#: code:addons/mrp_workcenter_station/mrp_workcenter_station.py:93
 #, python-format
 msgid "The station %s is being used in another Work Order currently in progress."
 msgstr "Esta estación %s está siendo usada en otra orden de trabajo actualmente en progreso."
 
 #. module: mrp_workcenter_station
+#: view:website:mrp_workcenter_station.report_workcenter_station_xls
+msgid "Unit"
+msgstr "Unidad"
+
+#. module: mrp_workcenter_station
 #: view:mrp.workcenter.station.station:mrp_workcenter_station.view_station_search
 #: field:mrp.workcenter.station.station,workcenter_id:0
 #: view:website:mrp_workcenter_station.report_workcenter_station
+#: view:website:mrp_workcenter_station.report_workcenter_station_xls
 msgid "Work Center"
 msgstr "Centro de producción"
 
@@ -105,6 +116,11 @@ msgid "Work Center Station"
 msgstr "Estación de centro de producción"
 
 #. module: mrp_workcenter_station
+#: view:website:mrp_workcenter_station.report_workcenter_station_xls
+msgid "Work Center Station:"
+msgstr "Estación de centro de producción:"
+
+#. module: mrp_workcenter_station
 #: model:ir.actions.act_window,name:mrp_workcenter_station.action_station
 #: model:ir.actions.report.xml,name:mrp_workcenter_station.workcenter_stations
 #: model:ir.ui.menu,name:mrp_workcenter_station.menu_station
@@ -114,8 +130,14 @@ msgid "Work Center Stations"
 msgstr "Estaciones de centro de producción"
 
 #. module: mrp_workcenter_station
+#: model:ir.actions.report.xml,name:mrp_workcenter_station.workcenter_stations_xls
+msgid "Work Center Stations xls"
+msgstr "Estaciones de centro de producción xls"
+
+#. module: mrp_workcenter_station
 #: model:ir.model,name:mrp_workcenter_station.model_mrp_production_workcenter_line
 #: view:website:mrp_workcenter_station.report_workcenter_station
+#: view:website:mrp_workcenter_station.report_workcenter_station_xls
 msgid "Work Order"
 msgstr "Orden de trabajo"
 
