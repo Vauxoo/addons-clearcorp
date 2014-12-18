@@ -20,24 +20,19 @@
 #
 ##############################################################################
 
-{
-	'name': 'Base currency symbol',
-	'version': '1.0',
-	'url': 'http://launchpad.net/openerp-ccorp-addons',
-	'author': 'ClearCorp S.A.',
-	'website': 'http://clearcorp.co.cr',
-	'category': 'General Modules/Base',
-	'description': """Adds symbol to currency:
-					  Use symbol_prefix and symbol_suffix depending on the currency standard.
-				   """,
-	'depends': ['base'],
-	'init_xml': [],
-	'demo_xml': [],
-	'update_xml': [
-		'base_currency_symbol_data.xml',
-		'base_currency_symbol_view.xml',
-		],
-	'license': 'Other OSI approved licence',
-	'installable': True,
-	'active': False,
-}
+from openerp.osv import osv,fields
+
+class res_currency(osv.Model):
+    '''
+    Adds symbol fields to currency to provide better reporting.
+    '''
+    _inherit = 'res.currency'
+    
+    
+    _columns = {
+        'symbol_prefix':fields.char('Symbol prefix', size=16, required=False, readonly=False, translate=False, select=2, help="Currency symbol printed BEFORE amount. Include the trailing space if needed."),
+        'symbol_suffix':fields.char('Symbol suffix', size=16, required=False, readonly=False, translate=False, select=2, help="Currency symbol printed AFTER amount. Include the leading space if needed."),
+        'currency_name':fields.char('Currency name', size=16, required=False, readonly=False, translate=False, select=2, help="Name of the currency printed AFTER amount. Allowing to use it at amount to text convertions"),
+    }
+res_currency()
+
