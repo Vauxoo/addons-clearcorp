@@ -24,7 +24,9 @@
     'name': 'Account analytic extended',
     'version': '1.0',
     'category': 'Accounting & Finance',
-    'description': """
+    'description': """This module adds a short name
+     to the analytical account and reference concatenated 
+     with the short name of the analytical account.
     """,
     'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
