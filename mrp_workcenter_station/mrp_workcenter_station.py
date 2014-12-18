@@ -31,7 +31,7 @@ class Station(models.Model):
     _order = 'code asc'
 
     @api.one
-    @api.depends('workorder_ids')
+    @api.depends('workorder_ids.state')
     def _compute_workorder_items(self):
         self.active_order_id = self.env['mrp.production.workcenter.line']
         self.product_id = self.env['product.product']
