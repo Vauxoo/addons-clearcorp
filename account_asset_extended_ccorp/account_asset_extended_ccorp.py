@@ -22,7 +22,7 @@
 
 from openerp.osv import osv,fields
 
-class AccountAssetAsset(osv.osv):
+class AccountAssetAsset(osv.Model):
 
     _inherit = 'account.asset.asset'
     _columns = {
@@ -33,7 +33,7 @@ class AccountAssetAsset(osv.osv):
         'asset_number': fields.char('Asset Number', size=64),
     }
 
-class AccountInvoiceLine(osv.osv):
+class AccountInvoiceLine(osv.Model):
 
     _inherit = 'account.invoice.line'
     _columns = {
@@ -66,12 +66,12 @@ class AccountInvoiceLine(osv.osv):
                         asset_obj.validate(cr, uid, [asset_id], context=context)
                     cont+=1
         return True
-        
+
     def copy_data(self, cr, uid, id, default=None, context=None):
         res = super(AccountInvoiceLine, self).copy_data(cr, uid, id, default=default, context=context)
         res.update({
             'asset_ids': [],
         })
         return res
-        
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

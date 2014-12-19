@@ -23,7 +23,7 @@
 {
     'name': 'Account Asset extended ccorp',
     'version': '1.0',
-    'author' : 'CLEARCORP S.A.',
+    'author' : 'ClearCorp',
     'complexity': 'normal',
     'website': 'http://clearcorp.co.cr',
     'category': 'Accounting & Finance',

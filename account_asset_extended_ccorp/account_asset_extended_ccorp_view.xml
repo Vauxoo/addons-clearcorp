@@ -1,9 +1,7 @@
 <openerp>
     <data>
         
-        <!--
-            Asset
-        -->
+        <!--Asset-->
         <record id="view_account_asset_asset_ccorp_form" model="ir.ui.view">
             <field name="name">view.account.asset.asset.ccorp.form</field>
             <field name="model">account.asset.asset</field>

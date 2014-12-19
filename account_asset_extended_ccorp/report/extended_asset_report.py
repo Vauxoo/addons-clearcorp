@@ -43,7 +43,7 @@ class extendedAssetReport(osv.Model):
                            'value_residual': fields.float('Residual Value', readonly=True),
                            'responsible_id': fields.many2one('res.partner', string='Responsible'),
                            }
-    
+
     def init(self, cr):
         tools.drop_view_if_exists(cr, 'asset_asset_report_extended')
         cr.execute("""CREATE OR REPLACE VIEW asset_asset_report_extended AS
@@ -123,5 +123,5 @@ class extendedAssetReport(osv.Model):
   asset.responsible AS responsible_id 
 FROM 
   account_asset_asset AS asset)""")
-        
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
