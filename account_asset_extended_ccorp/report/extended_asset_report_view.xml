@@ -49,7 +49,7 @@
         </field>
     </record>
     
-    <record model="ir.actions.act_window" id="action_asset_report_extended">    
+    <record model="ir.actions.act_window" id="action_asset_report_extended">
         <field name="name">Assets Analysis Extended</field>
         <field name="res_model">asset.asset.report.extended</field>
         <field name="view_type">form</field>
