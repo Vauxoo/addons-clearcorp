@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-05 21:29+0000\n"
-"PO-Revision-Date: 2014-12-05 21:29+0000\n"
+"POT-Creation-Date: 2014-12-22 15:24+0000\n"
+"PO-Revision-Date: 2014-12-22 15:24+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -20,12 +20,6 @@ msgstr ""
 #: view:website:sale_commission.report_sale_commission
 msgid "Amount"
 msgstr "Monto"
-
-#. module: sale_commission
-#: help:account.invoice,post_expiration_days:0
-#: help:sale.commission.rule,post_expiration_days:0
-msgid "Quantity of days of tolerance between the invoice due date and the payment date."
-msgstr "Cantidad de días de tolerancia entre la fecha de vencimiento de la factura y la fecha del pago."
 
 #. module: sale_commission
 #: view:sale.commission.pay.wizard:sale_commission.view_pay_wizard_form
@@ -57,7 +51,7 @@ msgstr "Cancelada"
 #. module: sale_commission
 #: help:account.invoice,force_commission:0
 msgid "Check if you want to pay a fixed commission percentage for this invoice."
-msgstr "Seleccione si desea paga un porcentaje fijo de comisión para esta factura"
+msgstr "Seleccione si desea pagar un porcentaje fijo de comisión para esta factura."
 
 #. module: sale_commission
 #: field:account.invoice,commission_percentage:0
@@ -80,7 +74,7 @@ msgstr "Comisión (%)"
 #: model:ir.actions.act_window,name:sale_commission.action_pay_wizard
 #: model:ir.ui.menu,name:sale_commission.menu_pay_wizard
 msgid "Commission Payment"
-msgstr "Pago de Comisiones"
+msgstr "Pago de comisiones"
 
 #. module: sale_commission
 #: model:ir.model,name:sale_commission.model_sale_commission_rule
@@ -134,9 +128,14 @@ msgid "Created Commissions"
 msgstr "Comisiones creadas"
 
 #. module: sale_commission
+#: field:sale.commission.commission,currency_id:0
+msgid "Currency"
+msgstr "Divisa"
+
+#. module: sale_commission
 #: view:website:sale_commission.report_sale_commission
 msgid "Due Date"
-msgstr "Fecha Vencimiento"
+msgstr "Fecha vencimiento"
 
 #. module: sale_commission
 #: view:sale.commission.pay.wizard:sale_commission.view_pay_wizard_form
@@ -181,7 +180,7 @@ msgstr "Factura"
 #: field:sale.commission.commission,date_invoice:0
 #: view:website:sale_commission.report_sale_commission
 msgid "Invoice Date"
-msgstr "Fecha de Factura"
+msgstr "Fecha de factura"
 
 #. module: sale_commission
 #: model:ir.model,name:sale_commission.model_account_journal
@@ -196,7 +195,7 @@ msgstr "Apuntes contables"
 #. module: sale_commission
 #: help:sale.commission.rule.line,sequence:0
 msgid "Lower sequence, more priority."
-msgstr "Menor secuencia, mayor prioridad"
+msgstr "Menor secuencia, mayor prioridad."
 
 #. module: sale_commission
 #: view:sale.commission.commission:sale_commission.view_commission_form
@@ -238,7 +237,7 @@ msgstr "Nueva"
 #. module: sale_commission
 #: view:website:sale_commission.report_sale_commission
 msgid "Number"
-msgstr "Number"
+msgstr "Número"
 
 #. module: sale_commission
 #: sql_constraint:sale.commission.commission:0
@@ -269,7 +268,7 @@ msgstr "Pagar"
 #. module: sale_commission
 #: field:account.journal,pay_commission:0
 msgid "Pay Commission"
-msgstr "Paga comisión"
+msgstr "Pagar comisión"
 
 #. module: sale_commission
 #: view:sale.commission.pay.wizard:sale_commission.view_pay_wizard_form
@@ -315,6 +314,12 @@ msgid "Pricelist"
 msgstr "Tarifa"
 
 #. module: sale_commission
+#: help:account.invoice,post_expiration_days:0
+#: help:sale.commission.rule,post_expiration_days:0
+msgid "Quantity of days of tolerance between the invoice due date and the payment date."
+msgstr "Cantidad de días de tolerancia entre la fecha de vencimiento de la factura y la fecha del pago."
+
+#. module: sale_commission
 #: view:sale.commission.rule:sale_commission.view_rule_form
 #: field:sale.commission.rule,line_ids:0
 msgid "Rule Lines"
@@ -343,8 +348,8 @@ msgstr "Las ventas no pueden ser negativas"
 
 #. module: sale_commission
 #: view:sale.commission.commission:sale_commission.view_commission_search
-#: view:website:sale_commission.report_sale_commission
 #: field:sale.commission.commission,user_id:0
+#: view:website:sale_commission.report_sale_commission
 msgid "Salesperson"
 msgstr "Comercial"
 
