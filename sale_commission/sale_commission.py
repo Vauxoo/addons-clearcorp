@@ -174,6 +174,8 @@ class Commission(osv.Model):
         'invoice_id': fields.many2one('account.invoice', string='Invoice', required=True),
         'period_id': fields.related('invoice_id', 'period_id', type='many2one', obj='account.period',
             string='Period', readonly=True),
+        'currency_id': fields.related('invoice_id','currency_id', type='many2one', obj='res.currency',
+            string='Currency', readonly=True),
         'payment_id': fields.many2one('account.move.line', string='Payment', required=True),
         'date_invoice': fields.related('invoice_id', 'date_invoice', type='date',
             string='Invoice Date', readonly=True),
