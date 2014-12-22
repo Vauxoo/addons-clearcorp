@@ -51,8 +51,6 @@ class accountMovelineInherit(models.Model):
     currency_filter= fields.Many2one('res.currency',compute='_currency_filter', String='Currency', store=True)
     account_type= fields.Many2one('account.account.type', compute='_account_type_filter', String='Tipo de cuenta', store=True)
 
-    #currency_filter= fields.function(_currency_filter, string='Currency', type="many2one", relation='res.currency',store=True),
-    #account_type= fields.function(_account_type_filter, string='Account Type', type='many2one', relation='account.account.type',store=True)
         
     
     
