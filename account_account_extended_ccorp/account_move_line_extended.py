@@ -20,18 +20,19 @@
 #
 ##############################################################################
 
-from openerp.osv import osv,fields, orm
+from openerp import models, fields, api, _
 
-class accountMovelineInherit(orm.Model):
+class accountMovelineInherit(models.Model):
     
     _inherit = "account.move.line"
     
     #===== Add currency and account_type with two function fields
      
     #===== Currency -> get currency_id from company_id or account_id
-    def _currency_filter(self, cr, uid, ids, field_name, arg, context=None):
+    @api.multi
+    def _currency_filter(self):
         result = {}
-        for rec in self.browse(cr, uid, ids, context=context):
+        for rec in self.browse():
             if rec.account_id.currency_id:
                 result[rec.id] = (rec.account_id.currency_id.id,rec.account_id.currency_id.name)
             else:
@@ -39,16 +40,20 @@ class accountMovelineInherit(orm.Model):
         return result
     
     #====== Account Type -> get user_type from account_id
-    def _account_type_filter(self, cr, uid, ids, field_name, arg, context=None):
+    @api.multi
+    def _account_type_filter(self):
         result = {}
-        for rec in self.browse(cr, uid, ids, context=context):
+        for rec in self.browse():
              result[rec.id] = (rec.account_id.user_type.id, rec.account_id.user_type.name)
         return result
+    
+    #===Fields====
+    currency_filter= fields.Many2one('res.currency',compute='_currency_filter', String='Currency', store=True)
+    account_type= fields.Many2one('account.account.type', compute='_account_type_filter', String='Tipo de cuenta', store=True)
 
-    _columns = {        
-        'currency_filter':fields.function(_currency_filter, string='Currency', type="many2one", relation='res.currency',store=True),
-        'account_type':fields.function(_account_type_filter, string='Account Type', type='many2one', relation='account.account.type',store=True)
-        }
+    #currency_filter= fields.function(_currency_filter, string='Currency', type="many2one", relation='res.currency',store=True),
+    #account_type= fields.function(_account_type_filter, string='Account Type', type='many2one', relation='account.account.type',store=True)
+        
     
     
     

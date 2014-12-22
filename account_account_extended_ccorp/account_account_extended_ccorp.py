@@ -20,12 +20,12 @@
 #
 ##############################################################################
 
-from openerp.osv import osv,fields
+from openerp import models, fields, api, _
 
-class AccountAccount(osv.osv):
+class AccountAccount(models.Model):
 
     _inherit = 'account.account'
-    _columns = {
-        'moves_cash': fields.boolean('Moves cash'),
-    }
+    
+    moves_cash = fields.Boolean('Moves cash')
+    
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
