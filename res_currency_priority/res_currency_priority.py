@@ -22,10 +22,6 @@
 
 
 from openerp.osv import osv, fields
-import time
-from datetime import datetime, timedelta
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
 from openerp.tools.translate import _
 
 class ResCurrency(osv.osv):
@@ -83,5 +79,5 @@ class ResCurrency(osv.osv):
                 
             return result
         else:
-            raise Warning(_('Please select your base currency '
+            raise osv.except_osv(_('Please select your base currency '
                                     'Misellanius/Currency'))
