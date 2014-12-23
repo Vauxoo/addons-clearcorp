@@ -34,7 +34,7 @@ class ResCurrency(osv.osv):
     
     
     
-    def _currency_priority(self, cr, uid, ids, ratedirection, arg1=None):
+    """    def _currency_priority(self, cr, uid, ids, ratedirection, arg1=None):
         curr_obj = self.pool.get('res.currency')
         rate_obj = self.pool.get('res.currency.rate')
        
@@ -45,9 +45,7 @@ class ResCurrency(osv.osv):
             for rate in rates:
                  result = 1.0/float(rate.rate)
                  rate_obj.write(cr, uid,rate.id,{'rate':result} )
-            
-            
-    
+    """
     def copy(self, cr, uid, id, default=None, context=None):
         default = default or {}
         default.update({
