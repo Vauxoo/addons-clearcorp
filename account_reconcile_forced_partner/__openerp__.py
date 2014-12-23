@@ -23,7 +23,7 @@
 {
     "name" : "Account Reconcile Forced Partner",
     "version" : '1.0',
-    "author" : 'CLEARCORP S.A.',
+    "author" : 'ClearCorp',
     'complexity': 'normal',
     "description": """
 Create a reconcile with different partners in specific accounts
