@@ -20,9 +20,9 @@
 #
 ##############################################################################
 
-from openerp.report import report_sxw
-from openerp.report.report_sxw import rml_parse
-
-class Parser(report_sxw.rml_parse):
-    def __init__(self, cr, uid, name, context):
-        super(Parser, self).__init__(cr, uid, name, context)
+import sale_commission
+import res_users
+import account_journal
+import account_move_line
+import account_invoice
+import wizard

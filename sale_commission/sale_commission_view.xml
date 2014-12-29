@@ -13,6 +13,46 @@
                 </xpath>
             </field>
         </record>
+        <!--  account.invoice -->
+        <!-- form -->
+        <record id="view_account_invoice_all_form" model="ir.ui.view">
+            <field name="name">view.account.invoice.all.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/notebook/page[@string='Invoice Lines']/group/field[@name='payment_term']/.." position="after">
+                    <group>
+                        <field name="force_commission" readonly="1" />
+                        <field name="commission_percentage" readonly="1"
+                            attrs="{'invisible':[('force_commission','=',False)],'required':[('force_commission','=',True)]}"/>
+                        <field name="post_expiration_days" readonly="1"
+                            attrs="{'invisible':[('force_commission','=',False)],'required':[('force_commission','=',True)]}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_account_invoice_group_form" model="ir.ui.view">
+            <field name="name">view.account.invoice.group.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="view_account_invoice_all_form"/>
+            <field name="priority" eval="16"/>
+            <field name="groups_id" eval="[(4,ref('group_force_commissions'))]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group/field[@name='force_commission']" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                    <attribute name="attrs">{'readonly':[('state','not in','draft')]}</attribute>
+                </xpath>
+                <xpath expr="//group/field[@name='commission_percentage']" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                    <attribute name="attrs">{'invisible':[('force_commission','=',False)],'required':[('force_commission','=',True)],'readonly':[('state','not in','draft')]}</attribute>
+                </xpath>
+                <xpath expr="//group/field[@name='post_expiration_days']" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                    <attribute name="attrs">{'invisible':[('force_commission','=',False)],'required':[('force_commission','=',True)],'readonly':[('state','not in','draft')]}</attribute>
+                </xpath>
+            </field>
+        </record>
         <!-- sale.commission.rule -->
         <!-- form -->
         <record id="view_rule_form" model="ir.ui.view">
@@ -25,9 +65,12 @@
                     <sheet>
                         <label for="name" class="oe_edit_only"/>
                         <h1><field name="name"/></h1>
-                        <group col="2">
-                            <group colspan="1">
+                        <group>
+                            <group>
                                <field name="post_expiration_days"/>
+                            </group>
+                            <group>
+                               <field name="company_id" groups="base.group_multi_company" widget="selection"/>
                             </group>
                         </group>
                         <notebook>
@@ -52,6 +95,7 @@
                 <tree string="Commission Rule">
                     <field name="name"/>
                     <field name="post_expiration_days"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
                 </tree>
             </field>
         </record>
@@ -124,6 +168,7 @@
                         <field name="state" widget="statusbar"/>
                     </header>
                     <sheet>
+                        <field name="currency_id" invisible="1"/>
                         <group>
                             <group>
                                 <field name="user_id" attrs="{'readonly': ['|',('state','=','cancelled'),('state','=','paid')]}"/>
@@ -131,11 +176,13 @@
                                 <field name="period_id"/>
                                 <field name="payment_id" domain="[('journal_id.pay_commission','=',True)]" attrs="{'readonly': ['|',('state','=','cancelled'),('state','=','paid')]}"/>
                                 <field name="date_invoice"/>
+                                
                             </group>
                             <group>
+                                <field name="company_id" groups="base.group_multi_company" widget="selection"/>
                                 <field name="invoice_commission_percentage" attrs="{'readonly': ['|',('state','=','cancelled'),('state','=','paid')]}"/>
-                                <field name="amount_base"/>
-                                <field name="amount" attrs="{'readonly': ['|',('state','=','cancelled'),('state','=','paid')]}"/>
+                                <field name="amount_base" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly': ['|',('state','=','cancelled'),('state','=','paid')]}"/>
                             </group>
                         </group>
                     </sheet>
@@ -157,6 +204,8 @@
                     <field name="amount"/>
                     <field name="period_id"/>
                     <field name="date_invoice"/>
+                    <field name="currency_id" />
+                    <field name="company_id" groups="base.group_multi_company"/>
                     <field name="state"/>
                 </tree>
             </field>
@@ -173,6 +222,7 @@
                     <field name="user_id"/>
                     <field name="period_id"/>
                     <field name="date_invoice"/>
+                    <field name="company_id" />
                     <separator/>
                     <filter string="New" name="new" domain="[('state','=','new')]"/>
                     <filter string="Paid" name="paid" domain="[('state','=','paid')]"/>
