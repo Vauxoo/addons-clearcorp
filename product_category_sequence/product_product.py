@@ -20,15 +20,15 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv, orm
+from openerp.osv import fields, osv
 
-class productProductinherit(orm.Model):
-    
+class productProductinherit(osv.Model):
+
      _inherit = 'product.product'
      _columns = {
-        'ir_sequence_id': fields.related('categ_id', 'ir_sequence_cat_id', type="many2one", relation="ir.sequence", store=True, string="Product Sequence"),                 
+        'ir_sequence_id': fields.related('categ_id', 'ir_sequence_cat_id', type="many2one", relation="ir.sequence", store=True, string="Product Sequence")
      }
-     
+
      #Change sequence. It depends of category assigned to product
      def onchange_categ_id(self, cr, uid, ids, categ_id, context=None):
          if categ_id:
@@ -37,21 +37,16 @@ class productProductinherit(orm.Model):
                  return {'value': {'ir_sequence_id': cat_obj.ir_sequence_cat_id.id}}
              else:
                  return {'value': {'ir_sequence_id': False}}
-             
          return {'value': {'ir_sequence_id': False}}
-     
+
      #Redefine create. To new products, assign new default code, this depends of sequence in 
      def create(self, cr, uid, vals, context={}):
          seq_obj = self.pool.get('ir.sequence')
-         
          if 'default_code' not in vals.keys() or ('default_code' in vals.keys() and not vals['default_code']):
              if 'categ_id' in vals.keys():
                  categ_obj = self.pool.get('product.category').browse(cr, uid, vals['categ_id'], context=context)
                  if categ_obj.ir_sequence_cat_id:
                      default_code = seq_obj.next_by_id(cr, uid, categ_obj.ir_sequence_cat_id.id, context=context)
                      vals['default_code'] = default_code
-         
          res = super(productProductinherit, self).create(cr, uid, vals, context)
          return res
-         
-         
