@@ -23,7 +23,7 @@
 {
     'name' : 'Payroll Account Line Partner',
     'version' : '1.0',
-    'author' : 'CLEARCORP S.A.',
+    'author' : 'ClearCorp',
     'complexity': 'easy',
     'description': ''' TODO
 ''',

@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 7.0\n"
+"Project-Id-Version: OpenERP Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-16 14:56+0000\n"
-"PO-Revision-Date: 2014-04-16 14:56+0000\n"
+"POT-Creation-Date: 2015-01-05 10:56+0000\n"
+"PO-Revision-Date: 2015-01-05 10:56+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,36 +18,37 @@ msgstr ""
 #. module: hr_payroll_account_line_partner
 #: field:hr.salary.rule,rule_type_debit:0
 msgid "Debit Rule Type"
-msgstr "Tipo de regla de débito"
+msgstr ""
 
 #. module: hr_payroll_account_line_partner
 #: field:hr.salary.rule,res_partner_debit:0
 msgid "Debit Partner"
-msgstr "Empresa de débito"
+msgstr ""
 
 #. module: hr_payroll_account_line_partner
 #: field:hr.salary.rule,res_partner_credit:0
 msgid "Credit Partner"
-msgstr "Empresa de crédito"
+msgstr ""
 
 #. module: hr_payroll_account_line_partner
 #: field:hr.salary.rule,rule_type_credit:0
 msgid "Credit Rule Type"
-msgstr "Tipo de regla de crédito"
+msgstr ""
 
 #. module: hr_payroll_account_line_partner
 #: selection:hr.salary.rule,rule_type_credit:0
 #: selection:hr.salary.rule,rule_type_debit:0
 msgid "Employee"
-msgstr "Empleado"
+msgstr ""
 
 #. module: hr_payroll_account_line_partner
 #: selection:hr.salary.rule,rule_type_credit:0
 #: selection:hr.salary.rule,rule_type_debit:0
 msgid "Partner"
-msgstr "Empresa"
+msgstr ""
 
 #. module: hr_payroll_account_line_partner
 #: model:ir.model,name:hr_payroll_account_line_partner.model_hr_payslip
 msgid "Pay Slip"
-msgstr "Nómina"
+msgstr ""
+
