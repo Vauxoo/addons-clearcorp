@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
         <!-- Create a generic menu for banks -->
@@ -7,6 +7,6 @@
             name="Banks" 
             parent="account.menu_finance_generic_reporting" 
             sequence="43"
-            groups="account.group_account_manager,account.group_account_user" /> 
+            groups="account.group_account_manager,account.group_account_user"/>
     </data>
 </openerp>

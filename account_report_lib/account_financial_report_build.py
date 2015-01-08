@@ -20,10 +20,10 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, orm
+from openerp.osv import fields, osv
 from collections import OrderedDict
 
-class accountFinancialreport(orm.Model):
+class accountFinancialreport(osv.Model):
     
     _name =  "account.financial.report"
     _inherit =  "account.financial.report"
@@ -47,7 +47,7 @@ class accountFinancialreport(orm.Model):
         #http://docs.python.org/2/library/collections.html#collections.OrderedDict        
         account_types_child = OrderedDict() 
         order_dict = OrderedDict()
-        account_child = OrderedDict()        
+        account_child = OrderedDict()
         
         #Main dictionary structure.
         main_structure = {
@@ -73,7 +73,7 @@ class accountFinancialreport(orm.Model):
             main_structure['display_detail'] = parent.display_detail
             main_structure['style'] = parent.style_overwrite
             
-            '''TODO: Implement account_report (Valor en informe)'''            
+            '''TODO: Implement account_report (Valor en informe)'''
             #3. Two cases: Type accounts or accounts. View is ignore.
             if parent.type == 'account_type':
                 #Search the accounts that match with id type
@@ -87,12 +87,12 @@ class accountFinancialreport(orm.Model):
                     #With OrderedDict(), keep alphabetic order.
                     account_type = order_dict[key]
                     accounts_ids = account_obj.search(cr, uid, [('user_type','=',account_type.id)])
-                    accounts = account_obj.browse(cr, uid, accounts_ids)                    
+                    accounts = account_obj.browse(cr, uid, accounts_ids)
                     account_types_child[account_type] = accounts
             
                 main_structure['account_type_child'] = account_types_child
                 
-            elif parent.type == 'accounts':                
+            elif parent.type == 'accounts':
                 #Check if display_type is detail_with_hierarch, get the child's account
                 for account in parent.account_ids:    
                     order_dict[account.code] = account

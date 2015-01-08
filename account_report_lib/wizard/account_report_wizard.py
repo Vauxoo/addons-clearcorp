@@ -20,9 +20,9 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv, orm
+from openerp.osv import osv, fields
 
-class accountCommonwizard (orm.Model):
+class accountCommonwizard (osv.TransientModel):
     
     """
         This class is the base for the wizard report. If is necessary
@@ -39,65 +39,6 @@ class accountCommonwizard (orm.Model):
     _name = "account.report.wiz"
     _inherit = "account.common.report"
     _description = "Account Common Wizard"
-    
-    """
-        With the inclusion of reports aeroo project, include the variable "out_format" which allows printing in different formats 
-        (including those of Microsoft xls, doc and PDF). It is the inclusion of these formats as a requirement for printing
-        accounting reports
-        
-        The options for this variable are: 
-            * PDF (this format call internally a odt template, pdf isn't a editable document)
-            * XLS and ODS: This format provide a editable document (internally call a ods template)
-        
-        Include two new methods: _out_format_get and in_format_get. Both extract report's name from context and get compatibles
-        formats for report. in_format_get is implemented in each wizard.  
-    """
-    
-    #===========================================================================
-    # For field out_format, it has three options: PDF, XLS and ODS. This options
-    # provide a editable and no-editable document. If user needs to edit some 
-    # account financial report, then use options xls or ods. If user doesn't need 
-    # to edit the report, use option PDF.
-    #===========================================================================    
-    
-    #===========================================================================
-    # The out_format need to work two record for each report.    
-    # This is because with aeroo reports the ods template is very complicated 
-    # to word, specially with images and styles. 
-    # 
-    # So, to convert to pdf, it's necessary create a record with a odt file 
-    # (as a template) and to convert to ods or xls, it's necessary create a 
-    # record with a ods file (as a template). 
-    # 
-    # The idea is that user use odt or xls file for "work" in report, for example, 
-    # recalculate values or compute again the results. 
-    # The method search by report's name (set in context)
-    #
-    # out_format search in list of records. One of them must match with in_format,
-    # for example, if out_format = PDF, it must exist a record where in_format = odt.
-    # If out_format is xls or ods, it must exist a record where in_format = ods. 
-    #
-    # in_format ensures that exist a template created in system. This "checking"
-    # is made in each wizard for each report, because it's necessary report's name.
-    #===========================================================================
-    
-    def out_format_get (self, cr, uid, context={}):
-        obj = self.pool.get('report.mimetypes')
-        ids = []
-        list = []
-        
-        ids = obj.search(cr, uid, ['|', '|',('code','=','oo-xls'), ('code','=','oo-ods'),('code','=','oo-pdf')])
-        #only include format pdf that match with ods format.
-        for type in obj.browse(cr, uid, ids, context=context):
-            if type.code == 'oo-pdf' and type.compatible_types == 'oo-odt':
-                list.append(type.id)
-            elif type.code == 'oo-xls' or type.code == 'oo-ods':
-                list.append(type.id)
-
-        # If read method isn't call, the value for out_format "disappear",
-        # the value is preserved, but disappears from the screen (a rare bug)
-        res = obj.read(cr, uid, list, ['name'], context)
-        return [(str(r['id']), r['name']) for r in res]    
 
     #=======================================================
     
@@ -110,9 +51,9 @@ class accountCommonwizard (orm.Model):
         'special_period': fields.boolean('Special period', help="Include special period"),    
         'amount_currency': fields.boolean('With Currency', help="It adds the currency column on report if the currency differs from the company currency."),
         'account_base_report':fields.many2one('account.financial.report', string="Account Base Report"), #Filter by account.financial.report only that are sum (view)
-        'out_format': fields.selection(out_format_get, 'Print Format'),
+        'out_format': fields.selection([('pdf','PDF'),('xls','XLS')], 'Print Format'),
         #This field could be redefined by another wizards, they could add more options
-        'sort_selection': fields.selection([('date', 'Date'), ('name', 'Name'),], 'Entries Sorted by',),        
+        'sort_selection': fields.selection([('date', 'Date'), ('name', 'Name'),], 'Entries Sorted by',),
     }
     
     _defaults = {
@@ -145,7 +86,7 @@ class accountCommonwizard (orm.Model):
             result['date_from'] = data['form']['date_from']
             result['date_to'] = data['form']['date_to']
             
-        elif data['form']['filter'] == 'filter_period':          
+        elif data['form']['filter'] == 'filter_period':
             result['period_from'] = data['form']['period_from']
             result['period_to'] = data['form']['period_to']
             
@@ -177,6 +118,4 @@ class accountCommonwizard (orm.Model):
         
         #In each report redefine the _print_report, that receive the data and
         #print the report in each module. The data argument is already build 
-        return self._print_report(cr, uid, ids, data, context=context)         
-        
-    
+        return self._print_report(cr, uid, ids, data, context=context)
