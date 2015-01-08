@@ -58,7 +58,7 @@
             </field>
         </record> 
 
-         <record id="account_report_lib" model="ir.actions.act_window">
+         <record id="action_account_report_wizard_menu" model="ir.actions.act_window">
             <field name="name">Common Report Wizard</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">account.report.wiz</field>
