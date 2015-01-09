@@ -494,5 +494,35 @@ class StockTransferDetail(osv.osv_memory):
                     pack_operation_ids=stock_pack_operation_obj.search(cr, uid,[('picking_id','=',move.picking_id.id)])
                     for pack in stock_pack_operation_obj.browse(cr, uid, pack_operation_ids, context=context):
                         stock_pack_operation_obj.write(cr,uid, pack.id,{'location_dest_id': location_dest_original})
-            
             stock_picking_obj.write(cr,uid, transfer.picking_id.id,{'invoice_state': '2binvoiced','picking_type_id':picking_type_id[0]})
+
+class SaleOrder(orm.Model):
+    _inherit = 'sale.order'
+    
+    def onchange_project_project_id(self, cr, uid, ids, project_project_id,context={}):
+        data = {}
+        if project_project_id:
+            project = self.pool.get('project.project').browse(cr, uid, project_project_id, context)
+            data.update({'project_id': project.analytic_account_id.id})
+        return {'value': data}
+    
+    def write(self,cr, uid, ids, vals, context=None):
+        if not vals.has_key('project_id') and vals.has_key('project_project_id') and vals.get('project_project_id')!=False:
+            project_obj=self.pool.get('project.project')
+            project_ids=project_obj.search(cr, uid,[('id','=',vals.get('project_project_id'))])
+            project=project_obj.browse(cr, uid, project_ids[0], context=context)
+            vals.update({'project_id': project.analytic_account_id.id})
+        return super(SaleOrder, self).write(cr, uid, ids, vals, context=context)
+
+    def create(self,cr, uid, vals, context=None):
+        if not vals.has_key('project_id') and vals.has_key('project_project_id') and vals.get('project_project_id')!=False:
+            project_obj=self.pool.get('project.project')
+            project_ids=project_obj.search(cr, uid,[('id','=',vals.get('project_project_id'))])
+            project=project_obj.browse(cr, uid, project_ids[0], context=context)
+            vals.update({'project_id': project.analytic_account_id.id})
+        return super(SaleOrder, self).create(cr, uid, vals, context=context)
+
+    _columns = {
+         'project_project_id':fields.many2one('project.project',string="Project")
+              }
+    
