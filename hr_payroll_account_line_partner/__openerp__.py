@@ -25,7 +25,7 @@
     'version' : '1.0',
     'author' : 'ClearCorp',
     'complexity': 'easy',
-    'description': ''' TODO
+    'description': ''' Add partners and employees in payroll entries
 ''',
     'category': 'Human Resources',
     'sequence': 10,
