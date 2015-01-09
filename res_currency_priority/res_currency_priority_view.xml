@@ -30,7 +30,7 @@
             <field name = "arch" type = "xml">
                 <data>
                     <field name = "automatic_update" position = "after">
-                                <field name="sequence" help="If you select this check, take the value of the currency like 1 and the rate currency like a base currency Example: 1 EUR = 0,70 USD [x] 1,30 EUR = 1 USD" on_change="_currency_priority(sequence)"/>
+                                <field name="sequence" help="If you select this check, take the value of the currency like 1 and the rate currency like a base currency Example: 1 EUR = 0,70 USD [x] 1,30 EUR = 1 USD" />
                     </field>
                 </data>
             </field>
