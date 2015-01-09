@@ -33,7 +33,6 @@
     "sequence": 4,
     "website" : "http://clearcorp.co.cr",
     "images" : [],
-    "icon" : False,
     "depends" : ['sale'],
     "init_xml" : [],
     "demo_xml" : [],
