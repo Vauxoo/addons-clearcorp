@@ -73,7 +73,7 @@ class accountFinancialreport(osv.Model):
             main_structure['display_detail'] = parent.display_detail
             main_structure['style'] = parent.style_overwrite
             
-            '''TODO: Implement account_report (Valor en informe)'''
+            '''TODO: Implement account_report (Value in report)'''
             #3. Two cases: Type accounts or accounts. View is ignore.
             if parent.type == 'account_type':
                 #Search the accounts that match with id type
