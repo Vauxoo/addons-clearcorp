@@ -28,15 +28,12 @@ class hr_expense_line(osv.osv):
     
     _columns = {
                 'res_partner_id': fields.many2one('res.partner', 'Supplier', domain=[('supplier','=',True)] ),
-                }   
-    
-    
-    ##commercial_partner_id
+                }
 
 class hr_expense_expense(osv.osv):
     _name = "hr.expense.expense"
     _inherit = 'hr.expense.expense'
-    
+
     def move_line_get_item(self, cr, uid, line, context=None):
         res = super(hr_expense_expense, self).move_line_get_item(cr, uid, line, context=context)
         if line.res_partner_id and line.res_partner_id.commercial_partner_id\
@@ -44,7 +41,7 @@ class hr_expense_expense(osv.osv):
             #res['exp_line_partner_id']= line.res_partner_id.commercial_partner_id.id
             res['exp_line_partner_id']= line.res_partner_id.id
         return res
-    
+
     def line_get_convert(self, cr, uid, x, part, date, context=None):
         new_part = partner_obj = self.pool.get('res.partner')
         if 'exp_line_partner_id' in x.keys():
@@ -55,5 +52,3 @@ class hr_expense_expense(osv.osv):
             new_part = part
         res = super(hr_expense_expense, self).line_get_convert(cr, uid, x, new_part, date, context=context)
         return res
-
-    
