@@ -32,6 +32,7 @@ from openerp.tools.translate import _
 # can use embed_logo_by_name method.
 #===============================================================================
 from openerp.addons.report_webkit.report_helper import WebKitHelper 
+from openerp import pooler
 
 class accountReportbase(report_sxw.rml_parse, WebKitHelper):
     
@@ -42,7 +43,7 @@ class accountReportbase(report_sxw.rml_parse, WebKitHelper):
     def __init__(self, cr, uid, name, context):
         self.cr = cr 
         self.cursor = cr #WebkitHelper use "cursor" instead of "cr"
-        #self.pool = pooler.get_pool(self.cr.dbname)
+        self.pool = pooler.get_pool(self.cr.dbname)
        
         super(accountReportbase, self).__init__(cr, uid, name, context=context)
         self.localcontext.update({

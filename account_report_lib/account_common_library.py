@@ -21,7 +21,7 @@
 ##############################################################################
 
 import copy
-#import netsvc
+from openerp import netsvc
 from openerp.osv import fields, osv
 
 class AccountWebkitReportLibrary(osv.Model):
