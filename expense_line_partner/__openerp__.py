@@ -23,7 +23,7 @@
 {
     'name': 'Expense line partner',
     'version': '1.0',
-    'author' : 'CLEARCORP S.A.',
+    'author' : 'ClearCorp',
     'complexity': 'normal',
     'website': 'http://clearcorp.co.cr',
     'category': 'Human Resources',
@@ -31,7 +31,7 @@
 Extends hr_expense
 ===============================================
 Adds partner field to choose supplier for a given expense line, At the account move line creation, sets 
-the chosen partner for that given line instead of the hr_expense supplier  
+the chosen partner for that given line instead of the hr_expense supplier
 """,
     'depends': ['hr_expense'],
     'init_xml': [],
