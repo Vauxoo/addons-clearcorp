@@ -143,27 +143,8 @@ class SaleOrder(osv.osv):
                 }
         
     def button_dummy(self, cr, uid, ids, context={}):
-        if context is None:
-            context = {}
         #To recalculate function fields
-        if isinstance(ids, int):
-            ids = [ids]
         for sale in self.browse(cr, uid, ids, context=context):
-            context.update({'second_time': True})
             self.write(cr, uid, [sale.id], {}, context=context)
         super(SaleOrder, self).button_dummy(cr, uid, ids, context=context)
         return True
-    
-    def create(self, cr, uid, vals, context=None):
-        sale_id = super(SaleOrder, self).create(cr, uid, vals, context=context)
-        self.button_dummy(cr, uid, [sale_id], context=context)
-        return sale_id
-    
-    def write(self, cr, uid, ids, vals, context={}):
-        if context is None:
-            context = {}
-        if 'second_time' not in context:
-             self.button_dummy(cr, uid, ids, context=context)
-        else:
-            del context['second_time']
-        return super(SaleOrder, self).write(cr, uid, ids, vals, context=context)
