@@ -89,7 +89,7 @@
                 </xpath> 
                 <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='user_id']"   position="before"> 
                     <field name="service_type"/>   
-                </xpath>             
+                </xpath>
             </field>
         </record>
         <!--Form Search issue origin-->

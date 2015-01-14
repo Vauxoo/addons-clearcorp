@@ -100,9 +100,18 @@ class ProjectIssue(osv.Model):
         vals['issue_number'] = issue_number
         result = super(ProjectIssue, self).create(cr, uid, vals, context=context)
         return result
-        
+    
+    def _check_issue_type(self, cr, uid, ids, context={}):
+        for issue_obj in self.browse(cr, uid, ids, context=context):
+            if issue_obj.issue_type!="remote support":
+                for timesheet_obj in issue_obj.timesheet_ids:
+                    if not timesheet_obj.ticket_number:
+                        return False
+                    else:
+                        return True
+        return True
     _columns = {
-                'issue_type': fields.selection([('support','Support'),('preventive check','Preventive Check'),
+                'issue_type': fields.selection([('remote support','Remote Support'),('site support','Site Visit'),('preventive check','Preventive Check'),
                                               ('workshop repair','Workshop Repair'),('installation','Installation')],
                                              required=True,string="Issue Type"),
                 'issue_number': fields.char(string='Issue Number', select=True),
@@ -116,6 +125,9 @@ class ProjectIssue(osv.Model):
                 'branch_id':fields.many2one('res.partner', type='many2one', string='Branch'),
                 'have_branch':fields.boolean(string="Have Branch")
                 }
+    _constraints = [
+        (_check_issue_type,'Must type the the ticket number, except in issue type Remote Support not is required',['issue_type','timesheet_ids']
+         )]
     
 class ProjectIssueOrigin(osv.Model):
     _name = 'project.issue.origin'
@@ -152,7 +164,15 @@ class HrAnaliticTimeSheet(osv.Model):
                 else:
                     return False
         return True
-     
+    
+    def _check_ticket_number(self, cr, uid, ids, context={}):
+        for timesheet_obj in self.browse(cr, uid, ids, context=context):
+            if timesheet_obj.issue_id.issue_type!="remote support":
+                if not timesheet_obj.ticket_number:
+                    return False
+                else:
+                    return True
+        return True
     def _compute_duration(self, cr, uid, ids, field, arg, context=None):
         res = {}
         for timesheet_obj in self.browse(cr, uid, ids, context=context):
@@ -168,14 +188,17 @@ class HrAnaliticTimeSheet(osv.Model):
         return {'value': {'unit_amount': duration}}
      
     _columns = {
-                'ticket_number': fields.char(required=True,string="Ticket Number"),
+                'ticket_number': fields.char(string="Ticket Number"),
                 'start_time': fields.float(required=True,string="Start Time"),
                 'end_time': fields.float(required=True,string="End Time"),
                 'service_type': fields.selection([('expert','Expert'),('assistant','Assistant')],required=True,string="Service Type"),                       
-                'unit_amount':fields.function(_compute_duration, type='float', string='Quantify',store=True)
+                'unit_amount':fields.function(_compute_duration, type='float', string='Quantify',store=True),
+                'name': fields.char('Description', required=False)
                 }
      
     _constraints = [
+        (_check_ticket_number,'Must type the the ticket number, except in issue type Reporte Support not is required',['ticket_number']
+         ),
         (_check_start_time,'Format Start Time incorrect',['start_time']
          ),
          (_check_end_time,'Format End Time incorrect',['end_time']
