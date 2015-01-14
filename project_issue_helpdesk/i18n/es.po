@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-14 18:59+0000\n"
-"PO-Revision-Date: 2015-01-14 18:59+0000\n"
+"POT-Creation-Date: 2015-01-14 20:33+0000\n"
+"PO-Revision-Date: 2015-01-14 20:33+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -145,6 +145,7 @@ msgid "Delivery Orders"
 msgstr "Ordenes de Entrega"
 
 #. module: project_issue_helpdesk
+#: field:hr.analytic.timesheet,name:0
 #: field:project.issue.origin,description:0
 msgid "Description"
 msgstr "Descripción"
@@ -471,6 +472,11 @@ msgid "Technical Rate"
 msgstr "Tarifa Técnica"
 
 #. module: project_issue_helpdesk
+#: field:hr.analytic.timesheet,employee_id:0
+msgid "Technical Staff"
+msgstr "Técnico Asignado"
+
+#. module: project_issue_helpdesk
 #: view:stock.transfer_details:project_issue_helpdesk.view_stock_enter_transfer_details_form
 msgid "The destination location of this movement will be assigned to the client. Continue?"
 msgstr "La ubicación destino de este movimiento será la asignada al cliente. Desea continuar?"
@@ -502,7 +508,7 @@ msgid "True"
 msgstr "True"
 
 #. module: project_issue_helpdesk
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:501
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:503
 #, python-format
 msgid "Warning!"
 msgstr "Alerta!"
@@ -525,10 +531,10 @@ msgstr "Historial de comunicaciones del sitio web"
 #. module: project_issue_helpdesk
 #: selection:project.issue,issue_type:0
 msgid "Workshop Repair"
-msgstr "Reparación en Taller"
+msgstr "Reparación en taller"
 
 #. module: project_issue_helpdesk
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:501
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:503
 #, python-format
 msgid "You can not transfer to a partner, if you have not selected an issue"
 msgstr "No puede realizar la transferencia al cliente, si no ha seleccionado una incidencia"
@@ -558,6 +564,11 @@ msgstr "get_issue_required(picking_type_id)"
 #: field:contract.pricelist,line_ids:0
 msgid "unknown"
 msgstr "unknown"
+
+#. module: project_issue_helpdesk
+#: view:project.issue:project_issue_helpdesk.view_project_issue_sheet_form
+msgid "{'invisible':True}"
+msgstr "{'invisible':True}"
 
 #. module: project_issue_helpdesk
 #: view:sale.order:project_issue_helpdesk.view_sale_order_form

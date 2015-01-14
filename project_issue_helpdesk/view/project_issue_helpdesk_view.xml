@@ -90,6 +90,12 @@
                 <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='user_id']"   position="before"> 
                     <field name="service_type"/>   
                 </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='user_id']"   position="before"> 
+                    <field name="employee_id"/>   
+                </xpath>
+                <field name="user_id" position="attributes">
+                    <attribute name="attrs">{'invisible':True}</attribute>
+                </field>
             </field>
         </record>
         <!--Form Search issue origin-->
