@@ -245,13 +245,12 @@ class ResPartner(orm.Model):
             res['is_company'] = True
         elif partner_type=='branch':
             res['is_company'] = True
-        elif partner_type=='customer':
+        elif partner_type=='contact':
             res['is_company'] = False
         return {'value': res}
      
     _columns = {
-        #'partner_type': fields.selection([('company','Company'),('branch','Branch'),('customer','Customer')],required=True,string="Partner Type"),
-        'partner_type': fields.selection([('company','Company'),('branch','Branch')],required=True,string="Partner Type"),
+        'partner_type': fields.selection([('company','Company'),('branch','Branch'),('contact','Contact')],required=True,string="Partner Type"),
         'provision_amount':fields.float(digits=(16,2),string="Provision Amount")
      }
     _defaults={

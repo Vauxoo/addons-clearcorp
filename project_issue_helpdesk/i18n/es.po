@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-14 21:50+0000\n"
-"PO-Revision-Date: 2015-01-14 21:50+0000\n"
+"POT-Creation-Date: 2015-01-15 21:15+0000\n"
+"PO-Revision-Date: 2015-01-15 21:15+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -95,9 +95,9 @@ msgid "Company"
 msgstr "Compañía"
 
 #. module: project_issue_helpdesk
-#: view:project.issue:project_issue_helpdesk.view_project_issue_filter
+#: selection:res.partner,partner_type:0
 msgid "Contact"
-msgstr "Compañia"
+msgstr "Contacto"
 
 #. module: project_issue_helpdesk
 #: view:contract.pricelist:project_issue_helpdesk.view_contract_pricelist_form
@@ -512,7 +512,7 @@ msgid "True"
 msgstr "True"
 
 #. module: project_issue_helpdesk
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:506
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:527
 #, python-format
 msgid "Warning!"
 msgstr "Alerta!"
@@ -538,7 +538,7 @@ msgid "Workshop Repair"
 msgstr "Reparación en taller"
 
 #. module: project_issue_helpdesk
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:506
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:527
 #, python-format
 msgid "You can not transfer to a partner, if you have not selected an issue"
 msgstr "No puede realizar la transferencia al cliente, si no ha seleccionado una incidencia"
