@@ -24,12 +24,16 @@
                 <field name="model">project.issue</field>
                 <field name="inherit_id" ref="project_issue.project_issue_tree_view"/>
                 <field name="arch" type="xml">
+                    <field name="id" position="replace"/> 
                     <field name="name" position="before"> 
                         <field name="issue_number"/> 
                     </field>
+                    <field name="user_id" position="replace"> 
+                        <field name="employee_id"/> 
+                    </field>
                     <field name="partner_id" position="after"> 
-                    <field name="branch_id"/>
-                    <field name="product_id"/> 
+                        <field name="branch_id"/>
+                        <field name="product_id"/> 
                     </field> 
                 </field>
         </record>
