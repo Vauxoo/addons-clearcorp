@@ -12,7 +12,7 @@
                     <br attrs="{'invisible':[('issue_number', '=', False)]}"/>
                 </field>
                 <field name="partner_id" position="replace"> 
-                    <field name="partner_id" attrs="{'invisible':[('branch_id', '!=', False)]}"/> 
+                    <field name="partner_id"/> 
                     <br/>
                     <field name="branch_id"/> 
                 </field>
@@ -43,8 +43,11 @@
                 <xpath expr="/form/sheet[@string='Issue']/group/group[1]" position="inside">
                       <field name="issue_type"/>
                       <field name="origin_id"/>
-                      <field name="warranty"/>   
+                      <field name="warranty"/>
                 </xpath>
+                <field name="id" position="attributes">
+                        <attribute name="attrs">{'invisible':True}</attribute>
+                </field>
                 <xpath expr="/form/sheet/notebook/page[@string='Extra Info']" position="before">
                     <page string="Delivery Orders">
                         <field name="backorder_ids" widget="many2many"/>
@@ -60,10 +63,11 @@
                     <field name="prodlot_id"  domain="[('product_id','=',product_id)]" on_change="onchange_prodlot_id(prodlot_id)"/> 
                 </field>
                 <field name="partner_id"  position="attributes">
-                    <attribute name="domain">[('partner_type','in',['customer', 'company'])]</attribute>
+                    <attribute name="domain">[('partner_type','in',['company'])]</attribute>
+                    <attribute name="attrs">{'required':True}</attribute>
                 </field>
                 <field name="partner_id"  position="after"> 
-                    <field name="branch_id" on_change="onchange_branch_id(branch_id)" domain="[('parent_id','=',partner_id),('partner_type','=','branch')]" attrs="{'invisible':[('have_branch', '=', False)]}"/>
+                    <field name="branch_id" on_change="onchange_branch_id(branch_id)" domain="[('parent_id','=',partner_id),('partner_type','=','branch')]" attrs="{'invisible':[('have_branch', '=', False)],'required':[('have_branch', '=', True)]}"/>
                     <field name="have_branch" invisible="1"/> 
                 </field>
                 <label for="name"  position="before">
@@ -72,6 +76,15 @@
                             <field name="issue_number"  readonly="1" class="oe_inline"/>
                         </h1>
                 </label>
+                <field name="branch_id" position="after"> 
+                    <field name="contact"/> 
+                </field>
+                <field name="origin_id" position="after"> 
+                    <field name="employee_id"/> 
+                </field>
+                <field name="user_id"  position="attributes">
+                    <attribute name="attrs">{'invisible':True}</attribute>
+                </field>
             </field>
         </record>
         <!--Form View Inherit project issue sheet-->
@@ -93,9 +106,6 @@
                 <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='user_id']"   position="before"> 
                     <field name="employee_id"/>   
                 </xpath>
-                <field name="user_id" position="attributes">
-                    <attribute name="attrs">{'invisible':True}</attribute>
-                </field>
             </field>
         </record>
         <!--Form Search issue origin-->
@@ -114,13 +124,10 @@
                 <xpath expr="/search/filter[@string='Company']" position="after"> 
                     <filter string="Branch" domain="[('branch_id.partner_type','=','branch')]" help="Branch" icon="terp-check"/>
                 </xpath>
-                <xpath expr="/search/filter[@string='Company']" position="after"> 
-                    <filter string="Customer" domain="[('partner_type','=','customer')]" help="Customer" icon="terp-check"/>
+                <xpath expr="/search/group/filter[@string='Stage']" position="after"> 
+                    <filter string="Company" context="{'group_by':'partner_id'}"/>
                 </xpath>
                 <xpath expr="/search/group/filter[@string='Company']" position="after"> 
-                    <filter string="Contact" context="{'group_by':'partner_id'}"/>
-                </xpath>
-                <xpath expr="/search/group/filter[@string='Contact']" position="after"> 
                     <filter string="Branch" context="{'group_by':'branch_id'}"/>
                 </xpath>
             </field>

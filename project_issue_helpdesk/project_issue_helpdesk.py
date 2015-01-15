@@ -123,12 +123,17 @@ class ProjectIssue(osv.Model):
                 'product_id':fields.many2one('product.product',string="Product"),
                 'prodlot_id':fields.many2one('stock.production.lot',string="Serial Number"),
                 'branch_id':fields.many2one('res.partner', type='many2one', string='Branch'),
+                'employee_id': fields.many2one('hr.employee', 'Technical Staff Assigned'),
+                'contact': fields.char(string="Reported by",required=True),
                 'have_branch':fields.boolean(string="Have Branch")
                 }
     _constraints = [
         (_check_issue_type,'Must type the the ticket number, except in issue type Remote Support not is required',['issue_type','timesheet_ids']
          )]
-    
+    _defaults = {
+        'date': fields.datetime.now,
+    }
+
 class ProjectIssueOrigin(osv.Model):
     _name = 'project.issue.origin'
      
@@ -227,7 +232,8 @@ class ResPartner(orm.Model):
         return {'value': res}
      
     _columns = {
-        'partner_type': fields.selection([('company','Company'),('branch','Branch'),('customer','Customer')],required=True,string="Partner Type"),
+        #'partner_type': fields.selection([('company','Company'),('branch','Branch'),('customer','Customer')],required=True,string="Partner Type"),
+        'partner_type': fields.selection([('company','Company'),('branch','Branch')],required=True,string="Partner Type"),
         'provision_amount':fields.float(digits=(16,2),string="Provision Amount")
      }
     _defaults={

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-14 20:33+0000\n"
-"PO-Revision-Date: 2015-01-14 20:33+0000\n"
+"POT-Creation-Date: 2015-01-14 21:50+0000\n"
+"PO-Revision-Date: 2015-01-14 21:50+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -97,7 +97,7 @@ msgstr "Compañía"
 #. module: project_issue_helpdesk
 #: view:project.issue:project_issue_helpdesk.view_project_issue_filter
 msgid "Contact"
-msgstr "Contacto"
+msgstr "Compañia"
 
 #. module: project_issue_helpdesk
 #: view:contract.pricelist:project_issue_helpdesk.view_contract_pricelist_form
@@ -127,12 +127,6 @@ msgstr "Created by"
 #: field:project.issue.origin,create_date:0
 msgid "Created on"
 msgstr "Created on"
-
-#. module: project_issue_helpdesk
-#: view:project.issue:project_issue_helpdesk.view_project_issue_filter
-#: selection:res.partner,partner_type:0
-msgid "Customer"
-msgstr "Cliente"
 
 #. module: project_issue_helpdesk
 #: field:holiday.calendar,date:0
@@ -424,6 +418,11 @@ msgid "Replacement"
 msgstr "Repuesto"
 
 #. module: project_issue_helpdesk
+#: field:project.issue,contact:0
+msgid "Reported by"
+msgstr "Reportado por"
+
+#. module: project_issue_helpdesk
 #: model:ir.model,name:project_issue_helpdesk.model_sale_order
 msgid "Sales Order"
 msgstr "Pedido de venta"
@@ -477,6 +476,11 @@ msgid "Technical Staff"
 msgstr "Técnico Asignado"
 
 #. module: project_issue_helpdesk
+#: field:project.issue,employee_id:0
+msgid "Technical Staff Assigned"
+msgstr "Técnico Asignado"
+
+#. module: project_issue_helpdesk
 #: view:stock.transfer_details:project_issue_helpdesk.view_stock_enter_transfer_details_form
 msgid "The destination location of this movement will be assigned to the client. Continue?"
 msgstr "La ubicación destino de este movimiento será la asignada al cliente. Desea continuar?"
@@ -508,7 +512,7 @@ msgid "True"
 msgstr "True"
 
 #. module: project_issue_helpdesk
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:503
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:506
 #, python-format
 msgid "Warning!"
 msgstr "Alerta!"
@@ -534,15 +538,15 @@ msgid "Workshop Repair"
 msgstr "Reparación en taller"
 
 #. module: project_issue_helpdesk
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:503
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:506
 #, python-format
 msgid "You can not transfer to a partner, if you have not selected an issue"
 msgstr "No puede realizar la transferencia al cliente, si no ha seleccionado una incidencia"
 
 #. module: project_issue_helpdesk
 #: view:project.issue:project_issue_helpdesk.view_project_issue_form
-msgid "[('partner_type','in',['customer', 'company'])]"
-msgstr "[('partner_type','in',['customer', 'company'])]"
+msgid "[('partner_type','in',['company'])]"
+msgstr "[('partner_type','in',['company'])]"
 
 #. module: project_issue_helpdesk
 #: help:product.template,init_onchange_call:0
@@ -566,7 +570,7 @@ msgid "unknown"
 msgstr "unknown"
 
 #. module: project_issue_helpdesk
-#: view:project.issue:project_issue_helpdesk.view_project_issue_sheet_form
+#: view:project.issue:project_issue_helpdesk.view_project_issue_form
 msgid "{'invisible':True}"
 msgstr "{'invisible':True}"
 
@@ -574,6 +578,11 @@ msgstr "{'invisible':True}"
 #: view:sale.order:project_issue_helpdesk.view_sale_order_form
 msgid "{'readonly': [('project_project_id','!=',False),]}"
 msgstr "{'readonly': [('project_project_id','!=',False),]}"
+
+#. module: project_issue_helpdesk
+#: view:project.issue:project_issue_helpdesk.view_project_issue_form
+msgid "{'required':True}"
+msgstr "{'required':True}"
 
 #. module: project_issue_helpdesk
 #: view:product.template:project_issue_helpdesk.view_product_template_form_view
