@@ -108,7 +108,7 @@
                 </xpath>
             </field>
         </record>
-        <!--Form Search issue origin-->
+        <!--Form Search issue-->
        <record id="view_project_issue_filter" model="ir.ui.view">
             <field name="name">view.project.issue.filter</field>
             <field name="model">project.issue</field>
@@ -116,6 +116,9 @@
             <field name="arch" type="xml">
                  <field name="name" position="before"> 
                     <field name="issue_number" string="Issue Number"/>
+                </field>
+                <field name="partner_id" position="after"> 
+                    <field name="branch_id" string="Branch"/>
                 </field>
                 <xpath expr="/search/filter[@string='Unassigned']" position="after">
                     <separator/>
