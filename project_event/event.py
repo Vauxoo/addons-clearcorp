@@ -146,6 +146,7 @@ class Event(models.Model):
 
     @api.one
     def validate_event(self):
+        self.validate_reservations()
         self.state = 'valid'
 
     @api.one
@@ -164,8 +165,7 @@ class Event(models.Model):
     @api.one
     def validate_reservations(self):
         for reservation in self.reservation_ids:
-            if reservation.is_valid()[0]:
-                reservation.validate_reservation()
+            reservation.validate_reservation()
 
     name = fields.Char('Event', size=128, required=True,
         states={'valid': [('readonly', True)], 'cancel': [('readonly', True)]})

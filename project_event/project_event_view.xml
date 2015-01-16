@@ -29,8 +29,6 @@
                     <header>
                         <button name="validate_event" type="object"
                             string="Validate" states="draft" class="oe_highlight" />
-                        <button name="validate_reservations" type="object"
-                            string="Validate Reservations" states="valid" class="oe_highlight" />
                         <button name="cancel_event" type="object"
                             string="Cancel" states="valid" />
                         <button name="set_as_draft" type="object"
