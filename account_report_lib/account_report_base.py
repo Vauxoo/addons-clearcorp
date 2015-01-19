@@ -22,7 +22,6 @@
 
 import time
 import datetime
-import pooler
 from openerp.report import report_sxw
 import locale
 from openerp.tools.translate import _
@@ -33,6 +32,7 @@ from openerp.tools.translate import _
 # can use embed_logo_by_name method.
 #===============================================================================
 from openerp.addons.report_webkit.report_helper import WebKitHelper 
+from openerp import pooler
 
 class accountReportbase(report_sxw.rml_parse, WebKitHelper):
     
@@ -40,7 +40,7 @@ class accountReportbase(report_sxw.rml_parse, WebKitHelper):
         This class is the base for the reports. Contains all the basic functions
         to extract info that the reports needs
     """
-    def __init__(self, cr, uid, name, context):        
+    def __init__(self, cr, uid, name, context):
         self.cr = cr 
         self.cursor = cr #WebkitHelper use "cursor" instead of "cr"
         self.pool = pooler.get_pool(self.cr.dbname)
@@ -149,7 +149,7 @@ class accountReportbase(report_sxw.rml_parse, WebKitHelper):
         return self._get_form_param('sort_selection', data)
     
     def get_partner_ids(self, data):
-        return self._get_info(data, 'res_partners_ids', 'res.partner')    
+        return self._get_info(data, 'res_partners_ids', 'res.partner')
 
     ################################## INFO DISPLAY ###########################
     
@@ -209,7 +209,7 @@ class accountReportbase(report_sxw.rml_parse, WebKitHelper):
     #     shaped <get_data_template('key')>.
     #===============================================================================
     
-    def set_data_template(self, cr, uid, data):        
+    def set_data_template(self, cr, uid, data):
         
         dict_update = {}
         
@@ -228,7 +228,3 @@ class accountReportbase(report_sxw.rml_parse, WebKitHelper):
         user = self.pool.get('res.users').browse(cr, uid, uid)
 
         return self.pool.get('res.company').browse(cr, uid, user.company_id.id)
-        
-        
-        
-        

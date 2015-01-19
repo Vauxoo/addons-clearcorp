@@ -25,21 +25,21 @@
 Generic module that is the base for the reports. 
 ================================================
 
-Observations about aeroo_reports module:
+Observations about qweb_reports module:
 ----------------------------------------
-    * To obtain formats doc, xls and pdf you need to install report_aeroo_ooo
-    * All templates comes from a odt or ods file.    
+    * To obtain formats  xls and pdf you need to install report and report_xls
     """,
     'version': '1.0',
-    'author': 'CLEARCORP S.A.',
+    'author': 'ClearCorp',
     'category': 'Hidden',
     'website': "http://clearcorp.co.cr",
     'images': [],
     'depends': [
                 'account', 
                 'report_webkit_lib',
-                'report_aeroo',
-                'report_aeroo_ooo',],
+                'report',
+                'report_xls',
+                ],
     'init_xml': [],
     'demo' : [],
     'data': [

@@ -21,10 +21,10 @@
 ##############################################################################
 
 import copy
-import netsvc
-from openerp.osv import fields, orm
+from openerp import netsvc
+from openerp.osv import fields, osv
 
-class AccountWebkitReportLibrary(orm.Model):
+class AccountWebkitReportLibrary(osv.Model):
     
     _name =  "account.webkit.report.library"
     _description = "Account Webkit Reporting Library"
@@ -72,12 +72,12 @@ class AccountWebkitReportLibrary(orm.Model):
  
         #********account_ids ******#
         domain = ('account_id', 'in', account_ids)
-        list_tuples.append(domain)        
+        list_tuples.append(domain)
         
         #********target_mvove ******#
         if not target_move == 'all':
             domain = ('move_id.state', '=', target_move)
-            list_tuples.append(domain)        
+            list_tuples.append(domain)
         
         #********Filter by date, period or filter_type = '' *********#
         if filter_type == 'filter_date':
@@ -89,7 +89,7 @@ class AccountWebkitReportLibrary(orm.Model):
                 domain_start_date = ('date', '>=', filter_data[0])
                 domain_stop_date = ('date', '<=', filter_data[1])
                 list_tuples.append(domain_start_date)
-                list_tuples.append(domain_stop_date)                
+                list_tuples.append(domain_stop_date)
 
         elif filter_type == 'filter_period':
             period_domain_list = []
@@ -126,7 +126,6 @@ class AccountWebkitReportLibrary(orm.Model):
                 periods_ids = self.pool.get('account.period').search(cr, uid, [('special', '=', False),('fiscalyear_id', '=', fiscalyear.id)], context=context)
             domain_period = ('period_id.id', 'in', periods_ids)
             list_tuples.append(domain_period)
-                    
         #**********************************************************************************************#
         
         if unreconcile == False:
@@ -137,7 +136,7 @@ class AccountWebkitReportLibrary(orm.Model):
             #list_tuples, the + makes a complete list with domain_unreconciled. Add [] for make as a format list.
             
             #First, move line ids without reconcile_id (without conciliation)
-            domain_unreconciled = ('reconcile_id', '=', None)      
+            domain_unreconciled = ('reconcile_id', '=', None)
             unreconciled_move_line_ids = move_line_obj.search(cr, uid, list_tuples + [domain_unreconciled], context=context)
             
             #historict_strict = If user needs a historic strict (this option obtains all move lines
@@ -165,7 +164,7 @@ class AccountWebkitReportLibrary(orm.Model):
                 #If any date_crete in unreconciled lines is more than maximal date of conciliation,
                 # add in list of unreconciled lines.
                 if max_reconciled_date:
-                    domain_reconciled = ('reconcile_id', '<>', None)  
+                    domain_reconciled = ('reconcile_id', '<>', None)
                     reconciled_move_line_ids = move_line_obj.search(cr, uid, list_tuples + [domain_reconciled], context=context)
                     reconciled_move_lines = move_line_obj.browse(cr, uid, reconciled_move_line_ids, context=context)
                     for line in reconciled_move_lines:
@@ -178,7 +177,7 @@ class AccountWebkitReportLibrary(orm.Model):
         move_lines = move_line_ids and move_line_obj.browse(cr, uid, move_line_ids, context=context) or []
         
         return move_lines
-    
+
     def get_account_balance(self, cr, uid,
                             account_ids,
                             field_names,
@@ -238,7 +237,7 @@ class AccountWebkitReportLibrary(orm.Model):
             context.update({'journal_ids':journal_ids})
         if chart_account_id:
             context.update({'chart_account_id':chart_account_id})
-                
+        
         """
             Variable initial_balance = True, if it is necessary get initial balance. If initial_balance is false is an "ordinary" balance.
             If user needs initial balance, there are two options:
@@ -295,7 +294,7 @@ class AccountWebkitReportLibrary(orm.Model):
             if initial_balance:
                 period_ids = [self.pool.get('account.period').search(cr, uid, [('fiscalyear_id','=',fiscal_year_id),('special','=',True)],order='date_start asc')[0]]
             else:
-                period_ids = self.pool.get('account.period').search(cr, uid, [('fiscalyear_id','=', fiscal_year_id)] )        
+                period_ids = self.pool.get('account.period').search(cr, uid, [('fiscalyear_id','=', fiscal_year_id)] )
         
         #####################################################################
         
@@ -415,15 +414,15 @@ class AccountWebkitReportLibrary(orm.Model):
         #journal_ids is a browse record (create a list with only ids)
         list_journal = []
         for journal in journal_ids:
-            list_journal.append(journal.id)        
+            list_journal.append(journal.id)
        
         domain = ('journal_id', 'in', list_journal)
-        list_tuples.append(domain)        
+        list_tuples.append(domain)
         
         #********target_mvove ******#
         if not target_move == 'all':
             domain = ('move_id.state', '=', target_move)
-            list_tuples.append(domain)        
+            list_tuples.append(domain)
         
         #********Filter by date, period or filter_type = '' *********#
         if filter_type == 'filter_date':
@@ -435,7 +434,7 @@ class AccountWebkitReportLibrary(orm.Model):
                 domain_start_date = ('date', '>=', filter_data[0])
                 domain_stop_date = ('date', '<=', filter_data[1])
                 list_tuples.append(domain_start_date)
-                list_tuples.append(domain_stop_date)                
+                list_tuples.append(domain_stop_date)
 
         elif filter_type == 'filter_period':
             period_domain_list = []
@@ -510,7 +509,7 @@ class AccountWebkitReportLibrary(orm.Model):
  
         #********partner_ids ******#
         domain = ('partner_id', 'in', partner_ids)
-        list_tuples.append(domain)        
+        list_tuples.append(domain)
         
         #*******account_ids ******#
         domain = ('account_id', 'in', account_ids)
@@ -519,7 +518,7 @@ class AccountWebkitReportLibrary(orm.Model):
         #********target_mvove ******#
         if not target_move == 'all':
             domain = ('move_id.state', '=', target_move)
-            list_tuples.append(domain)        
+            list_tuples.append(domain)
         
         #********Filter by date, period or filter_type = '' *********#
         if filter_type == 'filter_date':
@@ -531,7 +530,7 @@ class AccountWebkitReportLibrary(orm.Model):
                 domain_start_date = ('date', '>=', filter_data[0])
                 domain_stop_date = ('date', '<=', filter_data[1])
                 list_tuples.append(domain_start_date)
-                list_tuples.append(domain_stop_date)                
+                list_tuples.append(domain_stop_date)
 
         elif filter_type == 'filter_period':
             period_domain_list = []
@@ -582,7 +581,7 @@ class AccountWebkitReportLibrary(orm.Model):
             #list_tuples, the + makes a complete list with domain_unreconciled. Add [] for make as a format list.
             
             #First, move line ids without reconcile_id (without conciliation)
-            domain_unreconciled = ('reconcile_id', '=', None)      
+            domain_unreconciled = ('reconcile_id', '=', None)
             unreconciled_move_line_ids = move_line_obj.search(cr, uid, list_tuples + [domain_unreconciled], context=context)
             
             #historict_strict = If user needs a historic strict (this option obtains all move lines
