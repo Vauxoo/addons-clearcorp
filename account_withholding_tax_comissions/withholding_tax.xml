@@ -74,6 +74,6 @@
         </record>
         <!-- Menu Items -->
         <menuitem id="menu_withholding_tax" action="action_withholding_tax"
-            sequence="50" parent="account.menu_configuration_misc" />
+            sequence="50" parent="account.next_id_27" />
     </data>
 </openerp>
