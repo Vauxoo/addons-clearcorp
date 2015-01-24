@@ -1,0 +1,37 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* project_notes
+#
+# Matjaž Mozetič <m.mozetic@matmoz.si>, 2015.
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-10-17 16:25+0000\n"
+"PO-Revision-Date: 2015-01-24 07:17+0100\n"
+"Last-Translator: Matjaž Mozetič <m.mozetic@matmoz.si>\n"
+"Language-Team: Slovenian <translate@matmoz.si>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+"Language: sl_SI\n"
+"X-Generator: Lokalize 1.5\n"
+
+#. module: project_notes
+#: view:project.project:project_notes.view_project_form
+#: field:project.project,notes:0
+msgid "Notes"
+msgstr "Opombe"
+
+#. module: project_notes
+#: view:project.project:project_notes.view_project_form
+#: field:project.project,objectives:0
+msgid "Objectives"
+msgstr "Cilji"
+
+#. module: project_notes
+#: model:ir.model,name:project_notes.model_project_project
+msgid "Project"
+msgstr "Projekt"
+
