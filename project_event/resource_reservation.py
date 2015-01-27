@@ -108,13 +108,56 @@ class ResourceReservation(models.Model):
             else:
                 reservation.state_id = False
 
-    event_id = fields.Many2one('project.event.event', readonly=True,
+    @api.onchange('category_id')
+    def onchange_category_id(self):
+        if not self.category_id:
+            self.resource_id = False
+            return {}
+        resource_obj = self.env['project.event.resource']
+        reservations = []
+        if self.event_id.allday:
+            result = self.search([('allday','=',True),('state','=','valid'),
+                '|','&',('start_date','>=',self.start_date),('start_date','<=',self.stop_date),
+                '|','&',('stop_date','>=',self.start_date),('stop_date','<=',self.stop_date),
+                '&',('start_date','<=',self.start_date),('stop_date','>=',self.stop_date),])
+            if result:
+                reservations += result
+            result = self.search([('allday','=',False),('state','=','valid'),
+                '|','&',('start_datetime','>=',self.start_date),('start_datetime','<=',self.stop_date),
+                '|','&',('stop_datetime','>=',self.start_date),('stop_datetime','<=',self.stop_date),
+                '&',('start_datetime','<=',self.start_date),('stop_datetime','>=',self.stop_date)])
+            if result:
+                reservations += result
+        else:
+            result = self.search([('allday','=',True),('state','=','valid'),
+                '|','&',('start_date','>=',self.start_datetime),('start_date','<=',self.stop_datetime),
+                '|','&',('stop_date','>=',self.start_datetime),('stop_date','<=',self.stop_datetime),
+                '&',('start_date','<=',self.start_datetime),('stop_date','>=',self.stop_datetime)])
+            if result:
+                reservations += result
+            result = self.search([('allday','=',False),('state','=','valid'),
+                '|','&',('start_datetime','>=',self.start_datetime),('start_datetime','<=',self.stop_datetime),
+                '|','&',('stop_datetime','>=',self.start_datetime),('stop_datetime','<=',self.stop_datetime),
+                '&',('start_datetime','<=',self.start_datetime),('stop_datetime','>=',self.stop_datetime)])
+            if result:
+                reservations += result
+        resource_ids = []
+        for reserve in reservations:
+            resource_ids.append(reserve.resource_id.id)
+        resource_ids = list(set(resource_ids))
+        return {
+            'domain': {
+                'resource_id': [('id','not in',resource_ids),('category_id','=',self.category_id.id)]
+            }
+        }
+
+    event_id = fields.Many2one('project.event.event',
         string='Event', ondelete='cascade')
     category_id = fields.Many2one('project.event.resource.category', string='Resource Category',
         states={'valid': [('readonly', True)], 'cancel': [('readonly', True)]})
     resource_id = fields.Many2one('project.event.resource', string='Resource',
         states={'valid': [('readonly', True)], 'cancel': [('readonly', True)]},
-        track_visibility='onchange')
+        track_visibility='onchange', required=True)
     state = fields.Selection([('draft','Draft'),('valid','Validated'),
         ('cancel','Cancelled')], string='State', default='draft')
     state_id = fields.Many2one('project.event.reservation.color', string='State Color',
