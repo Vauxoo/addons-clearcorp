@@ -20,8 +20,13 @@
 #
 ##############################################################################
 
-import withholding_tax
-import withholding_line
-import account_move
-import account_journal
-import account_voucher
+from openerp.osv import osv, fields
+from openerp.tools.translate import _
+
+class Journal(osv.Model):
+
+     _inherit = 'account.journal'
+
+     _columns = {
+        'withholding_tax_ids': fields.many2many('account.withholding.tax', string="Withholding Taxes"),
+     }
