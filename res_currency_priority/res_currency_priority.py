@@ -71,11 +71,3 @@ class ResCurrency(osv.Model):
         else:
             raise osv.except_osv(_('Please select your '
                 'base currency Miscellaneous/Currency'))
-
-    def run_currency_update(self, cr, uid, ids, context=None):
-        rate_ids = super(ResCurrency, self).run_currency_update(cr, uid, arg1=ids)
-        for currency_rate in self.pool.get('res.currency.rate').browse(cr, uid, rate_ids):
-            if currency_rate.currency_id.sequence:
-                rate = 1.0/float(currency_rate.rate)
-                currency_rate.write({'rate': rate})
-        return rate_ids

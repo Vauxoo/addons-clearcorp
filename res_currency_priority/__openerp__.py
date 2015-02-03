@@ -28,7 +28,6 @@
     'description': ''' Add priority to currency ''',
     'depends' : [
                  'base',
-                 'currency_rate_update',
                  ],
     'data' : [
               'res_currency_priority_view.xml',
