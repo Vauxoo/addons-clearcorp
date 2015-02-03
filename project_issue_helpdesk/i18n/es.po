@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-08 19:58+0000\n"
-"PO-Revision-Date: 2015-01-08 19:58+0000\n"
+"POT-Creation-Date: 2015-01-15 21:15+0000\n"
+"PO-Revision-Date: 2015-01-15 21:15+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -95,7 +95,7 @@ msgid "Company"
 msgstr "Compañía"
 
 #. module: project_issue_helpdesk
-#: view:project.issue:project_issue_helpdesk.view_project_issue_filter
+#: selection:res.partner,partner_type:0
 msgid "Contact"
 msgstr "Contacto"
 
@@ -129,12 +129,6 @@ msgid "Created on"
 msgstr "Created on"
 
 #. module: project_issue_helpdesk
-#: view:project.issue:project_issue_helpdesk.view_project_issue_filter
-#: selection:res.partner,partner_type:0
-msgid "Customer"
-msgstr "Cliente"
-
-#. module: project_issue_helpdesk
 #: field:holiday.calendar,date:0
 msgid "Date"
 msgstr "Fecha"
@@ -145,6 +139,7 @@ msgid "Delivery Orders"
 msgstr "Ordenes de Entrega"
 
 #. module: project_issue_helpdesk
+#: field:hr.analytic.timesheet,name:0
 #: field:project.issue.origin,description:0
 msgid "Description"
 msgstr "Descripción"
@@ -289,6 +284,16 @@ msgid "Multipliers must be greater or equal to one"
 msgstr "Multiplicadores deben ser mayores o igual a uno"
 
 #. module: project_issue_helpdesk
+#: constraint:project.issue:0
+msgid "Must type the the ticket number, except in issue type Remote Support not is required"
+msgstr "Debe digitar el número de boleta de trabajo"
+
+#. module: project_issue_helpdesk
+#: constraint:hr.analytic.timesheet:0
+msgid "Must type the the ticket number, except in issue type Reporte Support not is required"
+msgstr "Debe digitar el número de boleta de trabajo"
+
+#. module: project_issue_helpdesk
 #: field:contract.pricelist,name:0
 #: field:holiday.calendar,name:0
 #: field:project.issue.origin,name:0
@@ -402,10 +407,20 @@ msgid "Rates must be greater or equal to one"
 msgstr "Tarifa debe ser mayor o igual a uno"
 
 #. module: project_issue_helpdesk
+#: selection:project.issue,issue_type:0
+msgid "Remote Support"
+msgstr "Soporte Remoto"
+
+#. module: project_issue_helpdesk
 #: selection:product.category,supply_type:0
 #: selection:product.template,supply_type:0
 msgid "Replacement"
 msgstr "Repuesto"
+
+#. module: project_issue_helpdesk
+#: field:project.issue,contact:0
+msgid "Reported by"
+msgstr "Reportado por"
 
 #. module: project_issue_helpdesk
 #: model:ir.model,name:project_issue_helpdesk.model_sale_order
@@ -428,6 +443,11 @@ msgid "Service Type"
 msgstr "Tipo de Servicio"
 
 #. module: project_issue_helpdesk
+#: selection:project.issue,issue_type:0
+msgid "Site Visit"
+msgstr "Visita al Sitio"
+
+#. module: project_issue_helpdesk
 #: field:hr.analytic.timesheet,start_time:0
 msgid "Start Time"
 msgstr "Hora Inicio"
@@ -446,14 +466,19 @@ msgid "Supply Type"
 msgstr "Tipo de Producto"
 
 #. module: project_issue_helpdesk
-#: selection:project.issue,issue_type:0
-msgid "Support"
-msgstr "Soporte"
-
-#. module: project_issue_helpdesk
 #: field:contract.pricelist.line,technical_rate:0
 msgid "Technical Rate"
 msgstr "Tarifa Técnica"
+
+#. module: project_issue_helpdesk
+#: field:hr.analytic.timesheet,employee_id:0
+msgid "Technical Staff"
+msgstr "Técnico Asignado"
+
+#. module: project_issue_helpdesk
+#: field:project.issue,employee_id:0
+msgid "Technical Staff Assigned"
+msgstr "Técnico Asignado"
 
 #. module: project_issue_helpdesk
 #: view:stock.transfer_details:project_issue_helpdesk.view_stock_enter_transfer_details_form
@@ -487,7 +512,7 @@ msgid "True"
 msgstr "True"
 
 #. module: project_issue_helpdesk
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:479
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:527
 #, python-format
 msgid "Warning!"
 msgstr "Alerta!"
@@ -513,15 +538,15 @@ msgid "Workshop Repair"
 msgstr "Reparación en taller"
 
 #. module: project_issue_helpdesk
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:479
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:527
 #, python-format
 msgid "You can not transfer to a partner, if you have not selected an issue"
 msgstr "No puede realizar la transferencia al cliente, si no ha seleccionado una incidencia"
 
 #. module: project_issue_helpdesk
 #: view:project.issue:project_issue_helpdesk.view_project_issue_form
-msgid "[('partner_type','in',['customer', 'company'])]"
-msgstr "[('partner_type','in',['customer', 'company'])]"
+msgid "[('partner_type','in',['company'])]"
+msgstr "[('partner_type','in',['company'])]"
 
 #. module: project_issue_helpdesk
 #: help:product.template,init_onchange_call:0
@@ -545,9 +570,19 @@ msgid "unknown"
 msgstr "unknown"
 
 #. module: project_issue_helpdesk
+#: view:project.issue:project_issue_helpdesk.view_project_issue_form
+msgid "{'invisible':True}"
+msgstr "{'invisible':True}"
+
+#. module: project_issue_helpdesk
 #: view:sale.order:project_issue_helpdesk.view_sale_order_form
 msgid "{'readonly': [('project_project_id','!=',False),]}"
 msgstr "{'readonly': [('project_project_id','!=',False),]}"
+
+#. module: project_issue_helpdesk
+#: view:project.issue:project_issue_helpdesk.view_project_issue_form
+msgid "{'required':True}"
+msgstr "{'required':True}"
 
 #. module: project_issue_helpdesk
 #: view:product.template:project_issue_helpdesk.view_product_template_form_view
