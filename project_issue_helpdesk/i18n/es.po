@@ -471,8 +471,8 @@ msgid "Technical Rate"
 msgstr "Tarifa Técnica"
 
 #. module: project_issue_helpdesk
-#: field:hr.analytic.timesheet,employee_id:0
-msgid "Technical Staff"
+#: field:account.analytic.line,user_id:0
+msgid "User"
 msgstr "Técnico Asignado"
 
 #. module: project_issue_helpdesk

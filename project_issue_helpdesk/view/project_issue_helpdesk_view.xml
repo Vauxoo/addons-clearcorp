@@ -110,7 +110,7 @@
                 <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='user_id']" position="before"> 
                     <field name="service_type"/>   
                 </xpath>
-                <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='user_id']" position="before"> 
+                <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='user_id']" position="replace"> 
                     <field name="employee_id"/>   
                 </xpath>
             </field>
