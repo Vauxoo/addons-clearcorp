@@ -216,7 +216,6 @@ class HrAnaliticTimeSheet(osv.Model):
                 'end_time': fields.float(required=True,string="End Time"),
                 'service_type': fields.selection([('expert','Expert'),('assistant','Assistant')],required=True,string="Service Type"),                       
                 'unit_amount':fields.function(_compute_duration, type='float', string='Quantify',store=True),
-                'name': fields.char('Description', required=False),
                 'employee_id': fields.many2one('hr.employee', 'Technical Staff'),
                 }
      
