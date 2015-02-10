@@ -26,7 +26,7 @@
     'author' : 'ClearCorp',
     'complexity': 'normal',
     'website': 'http://clearcorp.co.cr',
-    'category': 'Project',
+    'category': 'Contacts',
     'description': """
 Defines whether the partner is a company , branch or contact.
 ===============================================
