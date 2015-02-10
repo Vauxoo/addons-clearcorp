@@ -70,5 +70,16 @@
                 </xpath>
             </field>
         </record>
+        <!--Tree View res partner-->
+        <record model="ir.ui.view" id="project_issue_tree_view">
+            <field name="name">view.res.partner.tree</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <field name="display_name" position="after"> 
+                    <field name="partner_type"/> 
+                </field>
+            </field>
+        </record>
     </data>
 </openerp>
