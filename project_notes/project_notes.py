@@ -27,4 +27,15 @@ class Project(models.Model):
     _inherit = 'project.project'
 
     notes = fields.Text('Notes')
-    objectives = fields.Text('Objectives')
+    project_objective_ids = fields.One2many('project.notes.objetives' , 'project_id')
+    
+class Project_notes_objetives(models.Model):
+
+    _name = 'project.notes.objetives'
+
+    project_id = fields.Many2one('project.project')
+    justification = fields.Text('Justification')
+    objetive = fields.Text(string='Objective')
+    indicator = fields.Char(string='Indicator')
+    target_value = fields.Char(string='Target Value')
+    result_obtained = fields.Char(string='Result Obtained')

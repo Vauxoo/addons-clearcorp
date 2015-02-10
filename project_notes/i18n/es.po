@@ -22,12 +22,71 @@ msgid "Notes"
 msgstr "Notas"
 
 #. module: project_notes
-#: view:project.project:project_notes.view_project_form
-#: field:project.project,objectives:0
-msgid "Objectives"
-msgstr "Objetivos"
+#: field:project.notes.objetives,objetive:0
+msgid "Objective"
+msgstr "Objectivo"
 
 #. module: project_notes
 #: model:ir.model,name:project_notes.model_project_project
 msgid "Project"
 msgstr "Proyecto"
+
+#. module: project_notes
+#: field:project.notes.objetives,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: project_notes
+#: field:project.notes.objetives,create_date:0
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: project_notes
+#: field:project.notes.objetives,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: project_notes
+#: field:project.notes.objetives,indicator:0
+msgid "Indicator"
+msgstr "Indicador"
+
+#. module: project_notes
+#: view:project.project:project_notes.view_project_form
+msgid "Indicators"
+msgstr "Indicadores"
+
+#. module: project_notes
+#: field:project.notes.objetives,justification:0
+msgid "Justification"
+msgstr "Justificación"
+
+#. module: project_notes
+#: field:project.notes.objetives,write_uid:0
+msgid "Last Updated by"
+msgstr "Ultima actualizacion por"
+
+#. module: project_notes
+#: field:project.notes.objetives,write_date:0
+msgid "Last Updated on"
+msgstr "Ultima actualizacion en"
+
+#. module: project_notes
+#: field:project.notes.objetives,project_id:0
+msgid "Project id"
+msgstr "Project id"
+
+#. module: project_notes
+#: field:project.project,project_objective_ids:0
+msgid "Project objective ids"
+msgstr "Projcto objetivo ids"
+
+#. module: project_notes
+#: field:project.notes.objetives,result_obtained:0
+msgid "Result Obtained"
+msgstr "Resultado obtenido"
+
+#. module: project_notes
+#: field:project.notes.objetives,target_value:0
+msgid "Target Value"
+msgstr "Valor de objetivo"
