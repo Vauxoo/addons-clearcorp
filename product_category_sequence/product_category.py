@@ -19,24 +19,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name': 'Product category sequence',
-    'version': '1.0',
-    'author': 'CLEARCORP S.A.',
-    'category': 'Warehouse Management',
-    'description': """
-Product category sequence
-============================
-This module adds a sequence in product category. If the product category assigned to 
-product has sequence, default code in product is built based on sequence in category
-""",
-    'website': 'http://clearcorp.co.cr',
-    'depends': ['product',],
-    'data': [
-             'product_category.xml',
-             'product_product.xml',
-             ],
-    'active': False,
-    'installable': True,    
-    'license': 'AGPL-3',
-}
+
+from openerp.osv import fields, osv
+
+class productCategoryinherit(osv.Model):
+
+     _inherit = 'product.category'
+     _columns = {
+        'ir_sequence_cat_id': fields.many2one('ir.sequence', 'Category sequence'),
+     }
