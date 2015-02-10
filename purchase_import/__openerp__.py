@@ -19,6 +19,34 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##############################################################################
 
-import purchase_import
-import product
-import report
+{
+    'name': 'Purchase Import',
+    'version': '1.0',
+    'category': 'Purchase Management',
+    'sequence': 20,
+    'summary': 'Import Purchase, Tax Charges, And Cost Calculation',
+    'description': """
+Manage Taxes on Import Purchases
+================================
+
+Purchase Import facilitates the handling of Imports, adding tax charges and calculates the total product's cost""",
+    'author': 'CLEARCORP S.A.',
+    'website': 'http://clearcorp.co.cr',
+    'complexity': 'normal',
+    'images' : [],
+    'depends': ['purchase','res_currency_priority', 'stock','mail',],
+    'data': [
+             'view/purchase_import_view.xml',
+             'view/purchase_import_menu.xml',
+             'purchase_import_sequence.xml',
+             'purchase_import_workflow.xml',
+             'data/purchase_import_data.xml',
+             'security/ir.model.access.csv',
+             ],
+    'test' : [],
+    'demo': [],
+    'installable': True,
+    'auto_install': False,
+    'application': False,
+    'license': 'AGPL-3',
+}
