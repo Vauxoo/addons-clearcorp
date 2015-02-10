@@ -12,14 +12,25 @@
                 <xpath expr="//form/sheet/notebook" position="inside">
                     <page name="indicators" string="Indicators">
                         <field name="project_objective_ids">
-                            <tree editable="bottom">
-                                <field name="justification"/>
-                                <field name="objetive"/>
+                            <tree>
+                                <field name="objetive" />
                                 <field name="indicator"/>
                                 <field name="target_value"/>
                                 <field name="result_obtained"/>
-                            </tree>
-                        </field>
+                                <field name="justification" />
+                             </tree>
+                            <form>
+                                <group>
+                                    <group>
+                                        <field name="objetive" />
+                                        <field name="indicator"/>
+                                        <field name="target_value"/>
+                                        <field name="result_obtained"/>
+                                        <field name="justification" />
+                                    </group>
+                                </group>
+                           </form>
+                           </field>
                     </page>
                     <page name="notes" string="Notes">
                         <field name="notes" />
