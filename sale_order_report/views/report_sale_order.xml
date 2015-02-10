@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+    <!-- sale.order.report -->
+        <record id="view_sale order_report" model="ir.ui.view">
+            <field name="name">view.sale.order.report</field>
+            <field name="inherit_id" ref="sale.report_saleorder_document"/>
+            <field name="priority" eval="50"/>
+            <field name="type">qweb</field>
+            <field name="arch" type="xml">
+                <xpath expr="//t/div/div/div/div[@t-field='o.partner_invoice_id']" position="attributes">
+                    <attribute name="t-field-options">{"widget": "contact", "fields": ["address", "name", "phone", "fax", "email"], "no_marker": false}</attribute>
+                </xpath>
+                <xpath expr="//t/div/div/div/div/div[@t-field='o.partner_shipping_id']" position="attributes">
+                    <attribute name="t-field-options">{"widget": "contact", "fields": ["address", "name", "phone", "fax", "email"], "no_marker": false}</attribute>
+                </xpath>
+                <xpath expr="//t/div/div/div/div[@t-field='o.partner_id']" position="attributes">
+                    <attribute name="t-field-options">{"widget": "contact", "fields": ["address", "name", "phone", "email"], "no_marker": false}</attribute>
+                </xpath>
+                <xpath expr="//t/div/div/div[@t-if='o.client_order_ref']" position="after">
+                    <div t-if="o.expiration_date" class="col-xs-3">
+                        <strong>Expired Date:</strong>
+                        <p t-field="o.expiration_date"/>
+                    </div>
+                    <div t-if="o.date_confirm" class="col-xs-3">
+                        <strong>Confimation date:</strong>
+                        <p t-field="o.date_confirm"/>
+                    </div>
+                </xpath>
+                <xpath expr="//t/div/p[@t-if='o.payment_term.note']" position="after">
+                    <strong>Realized by:</strong>
+                    <span t-field="o.user_id.name"/><br/>
+                    <strong>Autorized by: ______________________</strong>
+                </xpath>
+            </field>
+        </record> 
+    </data>
+</openerp>
