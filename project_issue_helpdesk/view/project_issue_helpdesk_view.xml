@@ -142,76 +142,6 @@
                 </xpath>
             </field>
         </record>
-        
-       <!--Form View Inherit res partner simple(base)--> 
-       <record id="view_partner_simple_form" model="ir.ui.view">
-            <field name="name">view.partner.simple.form</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_simple_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//div[@class='oe_edit_only']" position="replace">
-                    <div class="oe_edit_only">
-                        <label for="name"/> 
-                        <field name="is_company" class="oe_inline"/> 
-                        <label for="is_company" string="Is a Company?"/>
-                    </div>
-                </xpath>
-                <label for="is_company" position="attributes">
-                    <attribute name="invisible">True</attribute>
-                </label>
-                <field name="is_company"  position="attributes"> 
-                    <attribute name="invisible">True</attribute>
-                </field>
-                <field name="parent_id"  position="replace"> 
-                    <field name="parent_id" placeholder="Company" domain="[('is_company', '=', True)]" context="{'default_is_company': True}" attrs="{'invisible': [('partner_type', 'not in', ['branch','contact'])]}"/>
-                </field>
-                <label for="name" position="before">
-                    <label for="partner_type"/>
-                    <field name="partner_type" on_change="onchange_partner_type(partner_type)"/> 
-                </label>
-            </field>
-        </record>
-        <!--Form View Inherit res partner (base)-->
-        <record id="view_partner_form" model="ir.ui.view">
-            <field name="name">view.partner.form</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//div[@class='oe_edit_only']" position="replace">
-                    <div class="oe_edit_only">
-                        <label for="name"/> 
-                        <field name="is_company" class="oe_inline"/> 
-                        <label for="is_company" string="Is a Company?"/>
-                    </div>
-                </xpath>
-                <label for="is_company" position="attributes">
-                    <attribute name="invisible">True</attribute>
-                </label>
-                <field name="is_company"  position="attributes"> 
-                    <attribute name="invisible">True</attribute>
-                </field>
-                <field name="parent_id"  position="replace"> 
-                    <field name="parent_id" placeholder="Company" domain="[('is_company', '=', True)]" context="{'default_is_company': True}" attrs="{'invisible': [('partner_type', 'not in', ['branch','contact'])]}"/>
-                </field>
-                <field name="credit_limit"  position="before"> 
-                    <field name="provision_amount"/> 
-                </field> 
-                <label for="name" position="before">
-                    <label for="partner_type"/>
-                    <field name="partner_type" on_change="onchange_partner_type(partner_type)"/> 
-                </label>
-                <xpath expr="/form/sheet/notebook/page[@string='Contacts']/field[@name='child_ids']/form[@string='Contact']/sheet/div[@class='oe_title']/h1" position="after">
-                    <field name="is_company" attrs="{'invisible':True}" on_change="onchange_type(is_company)" class="oe_inline"/> <label for="is_company" string="Is a Company?" attrs="{'invisible':True}" class="oe_edit_only"/>
-                </xpath>
-                <xpath expr="/form/sheet/notebook/page[@string='Contacts']/field[@name='child_ids']/form[@string='Contact']/sheet/div[@class='oe_title']/label[@for='name']" position="before">
-                    <label for="partner_type"/>
-                    <field name="partner_type" on_change="onchange_partner_type(partner_type)"/> 
-                </xpath>
-                <xpath expr="/form/sheet/notebook/page[@string='Contacts']/field[@name='child_ids']/form[@string='Contact']/sheet/div[@class='oe_title']/label[@for='is_company']" position="after">
-                    <field name="parent_id" placeholder="Company" domain="[('is_company', '=', True)]" attrs="{'invisible': [('partner_type', 'not in', ['branch','contact'])]}" on_change="onchange_address(use_parent_address, parent_id)"/>
-                </xpath>
-            </field>
-        </record>
         <!--Form View issue origin-->
         <record id="view_project_issue_origin_form" model="ir.ui.view">
             <field name="name">view.project.issue.origin.form</field>
@@ -229,17 +159,6 @@
                 </form>
             </field>
         </record>
-        <!--Tree View res partner-->
-        <record model="ir.ui.view" id="project_issue_tree_view">
-            <field name="name">view.res.partner.tree</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_tree"/>
-            <field name="arch" type="xml">
-                <field name="display_name" position="after"> 
-                    <field name="partner_type"/> 
-                </field>
-            </field>
-        </record>
         <!--Tree View issue origin-->
         <record id="view_project_issue_origin_tree" model="ir.ui.view">
             <field name="name">view.project.issue.origin.tree</field>
@@ -251,102 +170,6 @@
                     <field name="name"/>
                     <field name="description"/>
                 </tree>
-            </field>
-        </record>
-        <!--Form View Holiday Calendar-->
-        <record id="view_holiday_calendar_form" model="ir.ui.view">
-            <field name="name">view.holiday.calendar.form</field>
-            <field name="model">holiday.calendar</field>
-            <field name="type">form</field>
-            <field name="priority" eval="16"/>
-            <field name="arch" type="xml">
-                <form string="Holiday Calendar" version="7.0">
-                    <sheet>
-                        <label for="name" class="oe_edit_only"/>
-                        <h1><field name="name"/></h1>
-                        <group>
-                            <field name="date"/>
-                            <field name="notes" placeholder="Add a notes..."/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-        
-        <!--Tree View Holiday Calendar-->
-        <record id="view_holiday_calendar_tree" model="ir.ui.view">
-            <field name="name">view.holiday.calendar.tree</field>
-            <field name="model">holiday.calendar</field>
-            <field name="type">tree</field>
-            <field name="priority" eval="16"/>
-            <field name="arch" type="xml">
-                <tree string="Holiday Calendar">
-                    <field name="name"/>
-                    <field name="date"/>
-                </tree>
-            </field>
-        </record>
-        
-         <!--Calendar View Holiday Calendar-->
-        <record id="view_holiday_calendar_calendar" model="ir.ui.view" >
-        <field name="name">view.holiday.calendar.calendar</field>
-        <field name="model">holiday.calendar</field>
-        <field name="priority" eval="16"/>
-        <field name="arch" type="xml">
-        <calendar string="Holidays Calendar" color="name" date_start="date">
-            <field name="name"/>
-            <field name="date"/>
-        </calendar>
-        </field>
-        </record>
-        
-        <!--Tree View Contract Pricelist-->
-        <record id="view_contract_pricelist_tree" model="ir.ui.view">
-            <field name="name">view.contract_pricelist.tree</field>
-            <field name="model">contract.pricelist</field>
-            <field name="type">tree</field>
-            <field name="priority" eval="16"/>
-            <field name="arch" type="xml">
-                <tree string="Holiday Calendar">
-                    <field name="name"/>
-                    <field name="account_analytic_id"/>
-                    <field name="partner_id"/>
-                </tree>
-            </field>
-        </record>
-        <!--Form View Contract Pricelist-->
-        <record id="view_contract_pricelist_form" model="ir.ui.view">
-            <field name="name">view.contract.pricelist.form</field>
-            <field name="model">contract.pricelist</field>
-            <field name="type">form</field>
-            <field name="priority" eval="16"/>
-            <field name="arch" type="xml">
-                <form string="Contract Pricelist" version="7.0">
-                    <sheet string="Contract Pricelist">
-                        <label for="name" class="oe_edit_only"/>
-                        <h1><field name="name"/></h1>
-                        <group>
-                                <field name="account_analytic_id"/>
-                                <field name="partner_id"/>
-                                <field name="calendar_id"/>
-                        </group>
-                        <notebook>
-                            <page string="Pricelist Lines">
-                                <field name="line_ids" colspan="4" nolabel="1">
-                                    <tree editable="top" string="Pricelist Lines">
-                                        <field name="pricelist_line_type" on_change="onchange_pricelist_line_type(pricelist_line_type)"/>
-                                        <field name="categ_id" attrs="{'invisible':[('pricelist_line_type', '!=', 'category')]}"/>
-                                        <field name="product_id" attrs="{'invisible':[('pricelist_line_type', '!=', 'product')]}"/>
-                                        <field name="technical_rate"/>
-                                        <field name="assistant_rate"/>
-                                        <field name="overtime_multiplier"/>
-                                        <field name="holiday_multiplier"/>
-                                    </tree>
-                                </field>
-                            </page>
-                        </notebook>
-                    </sheet>
-                </form>
             </field>
         </record>
  <!--inherit product.template_normal_form_view-->
@@ -475,24 +298,6 @@
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">Create new issue origin</p>
-            </field>
-        </record>
-        <!-- Action holiday.calendar -->
-        <record model="ir.actions.act_window" id="action_holiday_calendar">
-            <field name="name">Holidays Schedule</field>
-            <field name="res_model">holiday.calendar</field>
-            <field name="view_mode">calendar,tree,form</field>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">Create new holiday schedule</p>
-            </field>
-        </record>
-        <!-- Action contract.pricelist -->
-        <record model="ir.actions.act_window" id="action_contract_pricelist">
-            <field name="name">Contract Pricelist</field>
-            <field name="res_model">contract.pricelist</field>
-            <field name="view_mode">tree,form</field>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">Create new contract pricelist</p>
             </field>
         </record>
 </data>
