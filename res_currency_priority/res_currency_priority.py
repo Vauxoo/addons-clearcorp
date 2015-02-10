@@ -23,14 +23,14 @@
 
 from openerp.osv import osv, fields
 from openerp.tools.translate import _
-import copy
 
-class ResCurrency(osv.osv):
+class ResCurrency(osv.Model):
+
     _name = "res.currency"
     _inherit = "res.currency"
-        
+
     _columns = {
-        'sequence':fields.boolean('Rate Direction: '),
+        'sequence':fields.boolean('Rate Direction'),
     }
 
     def copy(self, cr, uid, id, default=None, context=None):
@@ -39,32 +39,35 @@ class ResCurrency(osv.osv):
             'sequence': None,
         })
         return super(ResCurrency, self).copy(cr, uid, id, default, context)
-    
-    def get_exchange_rate(self, cr, uid, res_currency_initial, res_currency_finally, name, context=None):
+
+    def get_exchange_rate(self, cr, uid, res_currency_initial, res_currency_final, name, context=None):
         """
         :param name: date of exchange rate
         """
-        res_obj = self.pool.get('res.currency.rate')
+        #res_obj = self.pool.get('res.currency.rate')
         result = 0.00
-        
-        copy_context = context #
-        
+        copy_context = context
+
         res_currency_base_id = self.search(cr, uid, [('base', '=', True)])
         if res_currency_base_id:
             res_currency_base = self.browse(cr, uid, res_currency_base_id)[0]
-            
+
             if res_currency_initial.id == res_currency_base.id:
-                exchange_rate_dict = self.pool.get('res.currency')._current_rate(cr, uid, [res_currency_finally.id], name, arg=None, context=copy_context)
-                result = exchange_rate_dict[res_currency_finally.id]
-                
-            elif res_currency_initial.id != res_currency_finally.id:
-                currency_rate_initial = self.pool.get('res.currency')._current_rate(cr, uid, [res_currency_initial.id], name, arg=None, context=copy_context)[res_currency_initial.id]
-                currency_rate_finally = self.pool.get('res.currency')._current_rate(cr, uid, [res_currency_finally.id], name, arg=None, context=copy_context)[res_currency_finally.id]
-                result = currency_rate_initial * currency_rate_finally
+                exchange_rate_dict = self.pool.get('res.currency')._current_rate(
+                    cr, uid, [res_currency_final.id], name, arg=None, context=copy_context)
+                result = exchange_rate_dict[res_currency_final.id]
+
+            elif res_currency_initial.id != res_currency_final.id:
+                currency_rate_initial = self.pool.get('res.currency')._current_rate(
+                    cr, uid, [res_currency_initial.id], name, arg=None,
+                    context=copy_context)[res_currency_initial.id]
+                currency_rate_final = self.pool.get('res.currency')._current_rate(
+                    cr, uid, [res_currency_final.id], name, arg=None,
+                    context=copy_context)[res_currency_final.id]
+                result = currency_rate_initial * currency_rate_final
             else:
                 result = 1.00
-                
             return result
         else:
-            raise osv.except_osv(_('Please select your base currency '
-                                    'Misellanius/Currency'))
+            raise osv.except_osv(_('Please select your '
+                'base currency Miscellaneous/Currency'))

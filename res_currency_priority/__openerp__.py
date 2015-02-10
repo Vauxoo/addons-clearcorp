@@ -20,17 +20,19 @@
 #
 ##############################################################################
 
-
 {
     'name' : 'Res Currency Priority',
     'version' : '1.0',
     'author' : 'ClearCorp',
     'category': 'Accounting & Finance',
     'description': ''' Add priority to currency ''',
-    'depends' : ['base',
-                 'currency_rate_update',],
-    'data' : ['res_currency_priority_view.xml',],
+    'depends' : [
+                 'base',
+                 ],
+    'data' : [
+              'res_currency_priority_view.xml',
+              ],
     'active': False,
-    'installable': True,    
+    'installable': True,
     'license': 'AGPL-3',
 }
