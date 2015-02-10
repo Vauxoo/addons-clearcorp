@@ -20,6 +20,7 @@
 ##############################################################################
 from openerp.osv import osv,fields
 from openerp.tools.translate import _
+import re
 
 class product_template(osv.osv):
     _inherit = "product.template"
