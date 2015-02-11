@@ -96,7 +96,7 @@ msgstr "Formato Incorrecto Hora Inicio"
 #. module: project_issue_helpdesk
 #: field:project.issue,have_branch:0
 msgid "Have Branch"
-msgstr ""
+msgstr "Tiene sucursales"
 
 #. module: project_issue_helpdesk
 #: field:project.issue.origin,id:0
@@ -151,7 +151,7 @@ msgstr "Tipo de Caso"
 #. module: project_issue_helpdesk
 #: field:project.issue.origin,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Ultima actualización por"
 
 #. module: project_issue_helpdesk
 #: field:project.issue.origin,write_date:0
@@ -182,7 +182,7 @@ msgstr "Nombre"
 #: field:product.template,init_onchange_call:0
 #: field:stock.picking,init_onchange_call:0
 msgid "Nothing Display"
-msgstr ""
+msgstr "Nunca Visualizar"
 
 #. module: project_issue_helpdesk
 #: field:project.issue,origin_id:0

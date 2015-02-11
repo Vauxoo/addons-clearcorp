@@ -196,11 +196,6 @@ class HrAnaliticTimeSheet(osv.Model):
                 else:
                     return True
         return True
-    def _compute_duration(self, cr, uid, ids, field, arg, context=None):
-        res = {}
-        for timesheet_obj in self.browse(cr, uid, ids, context=context):
-                res[timesheet_obj.id] = timesheet_obj.end_time-timesheet_obj.start_time
-        return res
      
     def onchange_start_time(self, cr, uid, ids, start_time, end_time):
         duration=end_time-start_time
@@ -215,7 +210,6 @@ class HrAnaliticTimeSheet(osv.Model):
                 'start_time': fields.float(required=True,string="Start Time"),
                 'end_time': fields.float(required=True,string="End Time"),
                 'service_type': fields.selection([('expert','Expert'),('assistant','Assistant')],required=True,string="Service Type"),                       
-                #'unit_amount_temp':fields.function(_compute_duration, type='float', string='Quantify',store=True),
                 'employee_id': fields.many2one('hr.employee', 'Technical Staff'),
                 }
      
