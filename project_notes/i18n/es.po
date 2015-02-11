@@ -24,7 +24,7 @@ msgstr "Notas"
 #. module: project_notes
 #: field:project.notes.objetives,objetive:0
 msgid "Objective"
-msgstr "Objectivo"
+msgstr "Objetivo"
 
 #. module: project_notes
 #: model:ir.model,name:project_notes.model_project_project
@@ -74,12 +74,12 @@ msgstr "Ultima actualizacion en"
 #. module: project_notes
 #: field:project.notes.objetives,project_id:0
 msgid "Project id"
-msgstr "Project id"
+msgstr "Id proyecto"
 
 #. module: project_notes
 #: field:project.project,project_objective_ids:0
 msgid "Project objective ids"
-msgstr "Projcto objetivo ids"
+msgstr "Proyecto objetivo ids"
 
 #. module: project_notes
 #: field:project.notes.objetives,result_obtained:0
