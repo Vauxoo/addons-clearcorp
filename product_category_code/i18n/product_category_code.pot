@@ -21,16 +21,16 @@ msgstr ""
 #. module: product_category_code
 #: field:product.category,code:0
 msgid "Code"
-msgstr "Code"
+msgstr ""
 
 #. module: product_category_code
 #: model:ir.model,name:product_category_code.model_product_category
 msgid "Product Category"
-msgstr "Product Category"
+msgstr ""
 
 #. module: product_category_code
 #: sql_constraint:product.category:0
 msgid "The code already exist"
-msgstr "The code already exist"
+msgstr ""
 
 

@@ -15,6 +15,24 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
+#. module: project-subproject
+#: model:ir.actions.act_window,help:project-subproject.open_view_sub_projects
+msgid "<p class=\"oe_view_nocontent_create\">\n"
+"                    Click to start a new project.\n"
+"                </p>\n"
+"                <p>\n"
+"                    Projects are used to organize your activities; plan\n"
+"                    tasks, track issues, invoice timesheets. You can define\n"
+"                    internal projects (R&amp;D, Improve Sales Process),\n"
+"                    private projects (My Todos) or customer ones.\n"
+"                </p>\n"
+"                <p>\n"
+"                    You will be able collaborate with internal users on\n"
+"                    projects or invite customers to share your activities.\n"
+"                </p>\n"
+"            "
+msgstr ""
+
 #. module: project_subproject
 #: view:project.project:project_subproject.view_project_search
 #: field:project.project,parent_project_id:0

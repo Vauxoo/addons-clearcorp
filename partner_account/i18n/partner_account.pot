@@ -19,64 +19,64 @@ msgstr ""
 #: model:ir.actions.act_window,help:partner_account.action_partner_account
 msgid "<p class=\"oe_view_nocontent_create\">Create new partner account</p>\n"
 "            "
-msgstr "Crear nuevos códigos contables para clientes"
+msgstr ""
 
 #. module: partner_account
 #: field:partner.account,line_ids:0
 #: field:product.template,line_ids:0
 msgid "Accounts Lines"
-msgstr "Detalle Cuentas Contables"
+msgstr ""
 
 #. module: partner_account
 #: field:partner.account.line,code:0
 msgid "Code"
-msgstr "Código"
+msgstr ""
 
 #. module: partner_account
 #: field:partner.account,create_uid:0
 #: field:partner.account.line,create_uid:0
 msgid "Created by"
-msgstr "Creado por"
+msgstr ""
 
 #. module: partner_account
 #: field:partner.account,create_date:0
 #: field:partner.account.line,create_date:0
 msgid "Created on"
-msgstr "Creado en"
+msgstr ""
 
 #. module: partner_account
 #: field:partner.account,id:0
 #: field:partner.account.line,id:0
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: partner_account
 #: field:partner.account,write_uid:0
 #: field:partner.account.line,write_uid:0
 msgid "Last Updated by"
-msgstr "Ultima Actualización por"
+msgstr ""
 
 #. module: partner_account
 #: field:partner.account,write_date:0
 #: field:partner.account.line,write_date:0
 msgid "Last Updated on"
-msgstr "Ultima Actualización en"
+msgstr ""
 
 #. module: partner_account
 #: field:partner.account.line,name:0
 msgid "Name"
-msgstr "Nombre"
+msgstr ""
 
 #. module: partner_account
 #: field:partner.account,partner_id:0
 #: field:partner.account.line,partner_id:0
 msgid "Partner"
-msgstr "Cliente"
+msgstr ""
 
 #. module: partner_account
 #: field:partner.account,ref:0
 msgid "Contact Reference"
-msgstr "Referencia de contacto"
+msgstr ""
 
 #. module: partner_account
 #: model:ir.actions.act_window,name:partner_account.action_partner_account
@@ -85,32 +85,32 @@ msgstr "Referencia de contacto"
 #: view:partner.account:partner_account.view_partner_account_form
 #: field:partner.account.line,partner_account_id:0
 msgid "Partner Account"
-msgstr "Cuentas contables cliente"
+msgstr ""
 
 #. module: partner_account
 #: view:partner.account:partner_account.view_partner_account_form
 #: view:product.template:partner_account.view_product_template_form_view
 msgid "Partner Account Line"
-msgstr "Detalle Cuentas Contables"
+msgstr ""
 
 #. module: partner_account
 #: sql_constraint:partner.account:0
 msgid "Partner account already exist for this partner"
-msgstr "Ya existe una cuenta contable para este cliente"
+msgstr ""
 
 #. module: partner_account
 #: view:product.template:partner_account.view_product_template_form_view
 msgid "Partners Accounts"
-msgstr "Contabilidad Clientes"
+msgstr ""
 
 #. module: partner_account
 #: model:ir.model,name:partner_account.model_product_product
 #: field:partner.account.line,product_id:0
 msgid "Product"
-msgstr "Producto"
+msgstr ""
 
 #. module: partner_account
 #: model:ir.model,name:partner_account.model_product_template
 msgid "Product Template"
-msgstr "Producto"
+msgstr ""
 
