@@ -27,13 +27,15 @@ class Project(models.Model):
     _inherit = 'project.project'
 
     notes = fields.Text('Notes')
-    project_objective_ids = fields.One2many('project.notes.objetives' , 'project_id')
+    project_objective_ids = fields.One2many('project.notes.objetives' , 'project_id', string='Indicators')
     
 class Project_notes_objetives(models.Model):
+    """Objectives"""
 
     _name = 'project.notes.objetives'
+    _description = __doc__
 
-    project_id = fields.Many2one('project.project')
+    project_id = fields.Many2one('project.project', string='Projects')
     justification = fields.Text('Justification')
     objetive = fields.Text(string='Objective')
     indicator = fields.Char(string='Indicator')
