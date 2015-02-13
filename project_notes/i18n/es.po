@@ -86,5 +86,5 @@ msgstr "Resultado obtenido"
 #. module: project_notes
 #: field:project.notes.objetives,target_value:0
 msgid "Target Value"
-msgstr "Valor del Indicador"
+msgstr "Meta"
 
