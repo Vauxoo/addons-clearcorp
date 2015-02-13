@@ -27,8 +27,8 @@
     'sequence': 21,
     'summary': 'Track responsible Invoice',
     'description': """
- Tracking Responsible invoice
-=============================
+Tracking Responsible invoice
+============================
 Features
 --------
 * Track state changes actual responsible in invoice.""",
