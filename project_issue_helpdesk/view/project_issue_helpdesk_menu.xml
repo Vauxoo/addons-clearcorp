@@ -6,14 +6,5 @@
             parent="project_issue.menu_project_confi"
             name="Origins"
             action="action_project_issue_origin"/>
- 		<menuitem id="menu_holidays_calendar_act"
-            parent="project_timesheet.menu_project_billing"
-            name="Holidays Schedule"
-            action="action_holiday_calendar"/>
-            
-        <menuitem id="menu_contract_pricelist_act"
-            parent="project_timesheet.menu_project_billing"
-            name="Contract Pricelist"
-            action="action_contract_pricelist"/>
     </data>
 </openerp>
