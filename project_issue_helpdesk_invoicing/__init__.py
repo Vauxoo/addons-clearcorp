@@ -20,3 +20,4 @@
 #
 ##############################################################################
 import project_issue_helpdesk_invoicing
+import wizard
