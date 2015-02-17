@@ -28,7 +28,6 @@ class SaleOrder(models.Model):
 
 class ProjectIssue(models.Model):
     _inherit = 'project.issue'
-    
     @api.v7
     def onchange_partner_id(self, cr, uid, ids, partner_id, context=None):
         result={}
@@ -37,8 +36,12 @@ class ProjectIssue(models.Model):
         if partner_id:
             domain.append(('type', '!=', 'view'))
             domain.append(('partner_id', '=',partner_id))
+            contract_ids = self.pool.get('account.analytic.account').search(cr,uid,[('partner_id','=',partner_id)])
             result.update({'domain':{'analytic_account_id':domain}})
-            result['value'].update({'analytic_account_id':False})
+            if contract_ids:
+                result['value'].update({'analytic_account_id':contract_ids[0]})
+            else:
+                result['value'].update({'analytic_account_id':False})
         return result
     
     @api.v7
@@ -48,13 +51,13 @@ class ProjectIssue(models.Model):
         result = super(ProjectIssue, self).onchange_branch_id(cr, uid, ids, branch_id)
         if branch_id:
             domain.append(('type', '!=', 'view'))
-            contract_ids=self.pool.get('account.analytic.account').search(cr, uid, [('branch_ids.id','=',branch_id)])
-            if contract_ids:
-                domain.append(('branch_ids.id', '=',branch_id))
-            else:
-                domain.append(('partner_id', '=',self.pool.get('res.partner').browse(cr, uid,branch_id, context=context).parent_id.id))
+            domain.append(('branch_ids.id', '=',branch_id))
+            contract_ids = self.pool.get('account.analytic.account').search(cr,uid,[('branch_ids.id','=',branch_id)])
             result.update({'domain':{'analytic_account_id':domain}})
-            result['value'].update({'analytic_account_id':False})
+            if contract_ids:
+                result['value'].update({'analytic_account_id':contract_ids[0]})
+            else:
+                result['value'].update({'analytic_account_id':False})
         return result
         
     sale_order_id=fields.Many2one('sale.order','Sale Order')
