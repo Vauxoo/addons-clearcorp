@@ -57,6 +57,7 @@ class ProjectIssue(osv.Model):
             domain.append(('picking_type_id.code','=','outgoing'))
             domain.append(('state','=','done'))
             domain.append(('invoice_state','=','none'))
+            domain.append(('delivery_note_id','!=','False'))
             domain.append(('partner_id', '=',partner_id))
             partner_obj=self.pool.get('res.partner')
             partner_ids=partner_obj.search(cr, uid,[('parent_id','=',partner_id),('partner_type','=','branch')])
@@ -99,6 +100,7 @@ class ProjectIssue(osv.Model):
             domain.append(('picking_type_id.code','=','outgoing'))
             domain.append(('state','=','done'))
             domain.append(('invoice_state','=','none'))
+            domain.append(('delivery_note_id','!=','False'))
             domain.append(('partner_id', '=',branch_id))
             branch = self.pool.get('res.partner').browse(cr, uid, branch_id, context)
             result.update({'value':{'partner_id': branch.parent_id.id}})
@@ -147,6 +149,7 @@ class ProjectIssue(osv.Model):
          domain.append(('picking_type_id.code','=','outgoing'))
          domain.append(('state','=','done'))
          domain.append(('invoice_state','=','none'))
+         domain.append(('delivery_note_id','!=','False'))
          for issue in self.browse(cr, uid, ids, context=context):
              if issue.branch_id:
                 domain.append(('partner_id','=',issue.branch_id.id))
@@ -453,7 +456,8 @@ class StockTransferDetail(osv.osv_memory):
                     pack_operation_ids=stock_pack_operation_obj.search(cr, uid,[('picking_id','=',move.picking_id.id)])
                     for pack in stock_pack_operation_obj.browse(cr, uid, pack_operation_ids, context=context):
                         stock_pack_operation_obj.write(cr,uid, pack.id,{'location_dest_id': location_dest_original})
-            stock_picking_obj.write(cr,uid, transfer.picking_id.id,{'invoice_state': '2binvoiced','picking_type_id':picking_type_id[0]})
+            stock_picking_obj.write(cr,uid, transfer.picking_id.id,{'invoice_state': 'none','picking_type_id':picking_type_id[0]})
+            
 
 class SaleOrder(orm.Model):
     _inherit = 'sale.order'
