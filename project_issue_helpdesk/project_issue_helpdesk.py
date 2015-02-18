@@ -134,7 +134,7 @@ class ProjectIssue(osv.Model):
                                              required=True,string="Issue Type"),
                 'issue_number': fields.char(string='Issue Number', select=True),
                 'warranty': fields.selection([('seller','Seller'),('manufacturer','Manufacturer')],string="Warranty"),                                 
-                'backorder_ids': fields.one2many('stock.picking','issue_id',domain=[('picking_type_id.code','=','outgoing')],string="Backorders"),
+                'backorder_ids': fields.one2many('stock.picking','issue_id',domain=[('picking_type_id.code','=','outgoing'),('state','=','done')],string="Backorders"),
                 'origin_id':fields.many2one('project.issue.origin',string="Origin"),
                 'partner_type':fields.related('partner_id','partner_type',relation='res.partner',string="Partner Type"),
                 'categ_id':fields.many2one('product.category',required=True,string="Category Product"),
