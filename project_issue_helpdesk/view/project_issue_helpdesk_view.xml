@@ -54,7 +54,8 @@
                 </field>
                 <xpath expr="/form/sheet/notebook/page[@string='Extra Info']" position="before">
                     <page string="Delivery Orders">
-                        <field name="backorder_ids" widget="many2many"/>
+                        <field name="init_onchange_call" invisible="1"/>
+                        <field name="backorder_ids" domain="[('id','in',init_onchange_call[0][2])]" widget="many2many"/>
                     </page>
                 </xpath>
                 <xpath expr="/form/sheet[@string='Issue']/group/group[1]/div" position="after">
