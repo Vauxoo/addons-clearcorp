@@ -199,6 +199,28 @@ class ProjectIssueOrigin(osv.Model):
 class HrAnaliticTimeSheet(osv.Model):
     _inherit = 'hr.analytic.timesheet'
      
+    def create(self, cr, uid, vals, context=None):
+        employee_obj=self.pool.get('hr.employee')
+        if vals.get('employee_id'):
+            employee=employee_obj.browse(cr,uid, vals.get('employee_id'),context=context)[0]
+            if employee.user_id:
+                 vals['user_id'] = employee.user_id.id
+            else:
+                 vals['user_id'] = False
+        result = super(HrAnaliticTimeSheet, self).create(cr, uid, vals, context=context)
+        return result
+    
+    def write(self, cr, uid, ids, vals, context=None):
+         employee_obj=self.pool.get('hr.employee')
+         if vals.get('employee_id'):
+            employee=employee_obj.browse(cr,uid, vals.get('employee_id'),context=context)[0]
+            if employee.user_id:
+                 vals['user_id'] = employee.user_id.id
+            else:
+                vals['user_id'] = False
+         res = super(HrAnaliticTimeSheet, self).write(cr, uid, ids, vals, context=context)        
+         return res
+     
     def _check_start_time(self, cr, uid, ids, context={}):
         hour=0.0
         min=0.0
@@ -246,7 +268,7 @@ class HrAnaliticTimeSheet(osv.Model):
                 'start_time': fields.float(required=True,string="Start Time"),
                 'end_time': fields.float(required=True,string="End Time"),
                 'service_type': fields.selection([('expert','Expert'),('assistant','Assistant')],required=True,string="Service Type"),                       
-                'employee_id': fields.many2one('hr.employee', 'Technical Staff'),
+                'employee_id': fields.many2one('hr.employee', 'Technical Staff',required=True),
                 }
      
     _constraints = [
