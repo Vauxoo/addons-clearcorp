@@ -92,13 +92,13 @@
                     </div>
                 </div>
                 <div name="user_function_price" position="attributes">
-                    <attribute name="attrs">{'invisible':True}</attribute>
+                    <attribute name="attrs">{'invisible':False}</attribute>
                 </div>
                 <field name="code"  position="after"> 
                     <field name="holidays_calendar_id"/>
                 </field>
                 <field name="holidays_calendar_id"  position="after"> 
-                    <field name="regular_schedule"/>
+                    <field name="regular_schedule_id"/>
                 </field>
                 <xpath expr="/form/sheet/notebook/page[@string='Contract Information']" position="after"> 
                     <page string="Branches">

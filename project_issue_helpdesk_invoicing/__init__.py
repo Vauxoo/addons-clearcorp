@@ -21,3 +21,4 @@
 ##############################################################################
 import project_issue_helpdesk_invoicing
 import wizard
+import account_analytic_account

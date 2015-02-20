@@ -69,10 +69,11 @@ class ResPartner(models.Model):
 
 class AccountAnalyticAccount(models.Model):
     _inherit = 'account.analytic.account'
+    
     branch_ids=fields.Many2many('res.partner','account_analytic_partner_rel')
     holidays_calendar_id=fields.Many2one('holiday.calendar',string="Holidays Calendar")
     pricelist_ids=fields.One2many('contract.pricelist','contract_id')
-    regular_schedule=fields.Many2one('resource.calendar',string="Regular Schedule")
+    regular_schedule_id=fields.Many2one('resource.calendar',string="Regular Schedule")
 
 class HRExpenseLine(models.Model):
     _inherit = 'hr.expense.line'
@@ -81,7 +82,7 @@ class HRExpenseLine(models.Model):
     @api.onchange('analytic_account')
     def onchange_analytic_account(self):
         self.issue_id=False
-
+        
 class HolidayCalendar(models.Model):
     _name = 'holiday.calendar'
     holiday_ids=fields.One2many('holiday.calendar.date','holidays_calendar_id')
