@@ -26,6 +26,9 @@ from datetime import datetime, timedelta
 class account_analytic_account(osv.osv):
     _inherit = "account.analytic.account"
     def _get_invoice_price(self, cr, uid, account, date,start_time,end_time, product_id,categ_id,qty,service_type, context = {}):
+        regular_hours=0.0
+        extra_hours=0.0
+        amount=0.0
         pricelist_obj=self.pool.get('contract.pricelist')
         holiday_state=False
         date_number=datetime.strptime(date, '%Y-%m-%d').weekday()
@@ -43,20 +46,30 @@ class account_analytic_account(osv.osv):
                 if str(date_number)==schedule.dayofweek:
                     if start_time>=schedule.hour_from and end_time<=schedule.hour_to:
                         regular_hours=qty
+                        extra_hours=0.0
                         break
                     elif start_time<schedule.hour_from and end_time>schedule.hour_to:
                         regular_hours=qty-(schedule.hour_from-start_time)-(end_time-schedule.hour_to)
                         extra_hours=(schedule.hour_from-start_time)+(end_time-schedule.hour_to)
                         break
-                    elif start_time<schedule.hour_from and end_time<=schedule.hour_to:
-                        regular_hours=qty-(schedule.hour_from-start_time)
-                        extra_hours=(schedule.hour_from-start_time)
+                    elif start_time<schedule.hour_from and end_time<=schedule.hour_to and end_time>=schedule.hour_from:
+                        if schedule.hour_from<>schedule.hour_to:
+                            regular_hours=qty-(schedule.hour_from-start_time)
+                            extra_hours=(schedule.hour_from-start_time)
+                        else:
+                            regular_hours=0.0
+                            extra_hours=(schedule.hour_from-start_time)
                         break
-                    elif start_time>=schedule.hour_from and end_time>schedule.hour_to:
-                        regular_hours=qty-(end_time-schedule.hour_to)
-                        extra_hours=(end_time-schedule.hour_to)
+                    elif start_time>=schedule.hour_from and start_time<=schedule.hour_to and end_time>schedule.hour_to:
+                        if schedule.hour_from<>schedule.hour_to:
+                            regular_hours=qty-(end_time-schedule.hour_to)
+                            extra_hours=(end_time-schedule.hour_to)
+                        else:
+                            regular_hours=0.0
+                            extra_hours=(end_time-schedule.hour_to)
                     elif (start_time<schedule.hour_from and end_time<schedule.hour_from) or (start_time>schedule.hour_to and end_time>schedule.hour_to):
                         extra_hours=qty
+                        regular_hours=0.0
                         break
                 else:
                     regular_hours=qty
