@@ -32,7 +32,7 @@ Extends Project Issue Helpdesk Invoicing
 ===============================================
 
 """,
-    'depends': ['project_issue_helpdesk','hr_expense'],
+    'depends': ['project_issue_helpdesk','hr_expense','sale_margin'],
     'init_xml': [],
     'demo_xml': [],
     'data': ['view/project_issue_helpdesk_invoicing.xml',

@@ -152,3 +152,51 @@ class ContractPriceList(models.Model):
         'assistant_rate':0.0,
         'overtime_multiplier':1.0
         }
+    
+class AccountInvoice(models.Model):
+    _inherit = 'account.invoice'
+    
+    def get_quoted_cost(self):
+        cost=0.0
+        for sale_lines in self.order_ids.order_line:
+            cost+=sale_lines.product_uom_qty*sale_lines.purchase_price
+        self.quoted_cost=cost
+    
+    def get_quoted_price(self):
+        price=0.0
+        for sale_lines in self.order_ids.order_line:
+            price+=sale_lines.product_uom_qty*sale_lines.price_unit
+        self.quoted_price=price
+    
+    @api.depends('quoted_cost','quoted_price')
+    def get_expected_margin(self):
+        self.expected_margin=self.quoted_price-self.quoted_cost
+    
+    @api.depends('real_cost','real_price')
+    def get_real_margin(self):
+        self.real_margin=self.real_price-self.real_cost
+    
+    @api.depends('quoted_cost','real_cost')
+    def get_variation_cost(self):
+        self.variation_cost=self.quoted_cost-self.real_cost
+    
+    @api.depends('quoted_price','real_price')
+    def get_variation_price(self):
+        self.variation_price=self.quoted_price-self.real_price
+        
+    @api.depends('variation_cost','variation_price')
+    def get_variation_margin(self):
+        self.variation_margin=self.variation_price-self.variation_cost
+        
+    quoted_cost=fields.Float(compute="get_quoted_cost",digits=(16,2),string="Quoted Cost")
+    quoted_price=fields.Float(compute="get_quoted_price",digits=(16,2),string="Quoted Price")
+    expected_margin=fields.Float(compute="get_expected_margin",digits=(16,2),string="Expected Margin")
+    real_cost=fields.Float(digits=(16,2),string="Actual Cost")
+    real_price=fields.Float(digits=(16,2),string="Actual Price")
+    real_margin=fields.Float(compute="get_real_margin",digits=(16,2),string="Actual Margin")
+    variation_cost=fields.Float(compute="get_variation_cost",digits=(16,2),string="Variation Cost")
+    variation_price=fields.Float(compute="get_variation_price",digits=(16,2),string="Variation Price")
+    variation_margin=fields.Float(compute="get_variation_margin",digits=(16,2),string="Variation Margin")
+    order_ids= fields.Many2many('sale.order', 'sale_order_invoice_rel', 'invoice_id','order_id', 'Sales Order', readonly=True, copy=False, help="This is the list of sales orders that have been generated for this invoice.")
+
+    

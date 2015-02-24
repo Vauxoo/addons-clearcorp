@@ -188,7 +188,42 @@
                 </form>
             </field>
         </record>
-       
+       <!--inherit Account Invoice form-->
+        <record id="view_account_invoice_order_form" model="ir.ui.view">
+            <field name="name">view.account.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[@string='Payments']" position="after">
+                    <page string="Profitability">
+                         <separator string="Profitability"/>
+                         <group>
+                             <group>
+                                 <group style="width:33%">
+                                     <field name="quoted_cost" widget='monetary' options="{'currency_field': 'currency_id'}" groups="base.group_user"/>
+                                     <field name="quoted_price" widget='monetary' options="{'currency_field': 'currency_id'}" groups="base.group_user"/>
+                                     <field name="expected_margin" widget='monetary' options="{'currency_field': 'currency_id'}" groups="base.group_user"/>
+                                 </group>
+                                  <group style="width:33%">
+                                     <field name="real_cost" widget='monetary' options="{'currency_field': 'currency_id'}" groups="base.group_user"/>
+                                     <field name="real_price" widget='monetary' options="{'currency_field': 'currency_id'}" groups="base.group_user"/>
+                                     <field name="real_margin" widget='monetary' options="{'currency_field': 'currency_id'}" groups="base.group_user"/>
+                                 </group>
+                              </group>
+                              <group>
+                                  <group>
+                                      <field name="variation_cost" widget='monetary' options="{'currency_field': 'currency_id'}" groups="base.group_user"/>
+                                      <field name="variation_price" widget='monetary' options="{'currency_field': 'currency_id'}" groups="base.group_user"/>
+                                      <field name="variation_margin" widget='monetary' options="{'currency_field': 'currency_id'}" groups="base.group_user"/>
+                                  </group>
+                                  <group>
+                                  </group>
+                              </group>
+                         </group>
+                    </page>
+                </xpath>
+           </field>
+        </record>
         <!-- Action holiday.calendar.date -->
         <record model="ir.actions.act_window" id="action_holiday_calendar_date">
             <field name="name">Holidays</field>
