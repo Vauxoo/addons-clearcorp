@@ -143,7 +143,7 @@
                         icon="terp-personal" domain="[]"
                         context="{'group_by':'priority'}" />
                 </xpath>
-                <xpath expr="//search/field[@name='name']" position="before">
+                <xpath expr="//search/field[@name='name']" position="after">
                     <field name="number" />
                 </xpath> 
             </field>
