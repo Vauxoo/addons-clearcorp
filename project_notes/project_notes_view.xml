@@ -14,8 +14,8 @@
                         <field name="project_objective_ids">
                             <tree>
                                 <field name="objetive" />
-                                <field name="indicator"/>
                                 <field name="target_value"/>
+                                <field name="indicator"/>
                                 <field name="result_obtained"/>
                                 <field name="justification" />
                              </tree>
@@ -23,8 +23,8 @@
                                 <group>
                                     <group>
                                         <field name="objetive" />
-                                        <field name="indicator"/>
                                         <field name="target_value"/>
+                                        <field name="indicator"/>
                                         <field name="result_obtained"/>
                                         <field name="justification" />
                                     </group>
