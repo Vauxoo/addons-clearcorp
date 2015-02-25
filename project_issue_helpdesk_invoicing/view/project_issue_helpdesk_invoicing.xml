@@ -217,6 +217,9 @@
                                       <field name="variation_margin" widget='monetary' options="{'currency_field': 'currency_id'}" groups="base.group_user"/>
                                   </group>
                                   <group>
+                                      <field name="porcent_variation_cost" widget='monetary' groups="base.group_user"/>
+                                      <field name="porcent_variation_price" widget='monetary' groups="base.group_user"/>
+                                      <field name="porcent_variation_margin" widget='monetary' groups="base.group_user"/>
                                   </group>
                               </group>
                          </group>

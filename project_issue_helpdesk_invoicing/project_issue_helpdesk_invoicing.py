@@ -156,47 +156,53 @@ class ContractPriceList(models.Model):
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
     
-    def get_quoted_cost(self):
-        cost=0.0
-        for sale_lines in self.order_ids.order_line:
-            cost+=sale_lines.product_uom_qty*sale_lines.purchase_price
-        self.quoted_cost=cost
-    
-    def get_quoted_price(self):
-        price=0.0
-        for sale_lines in self.order_ids.order_line:
-            price+=sale_lines.product_uom_qty*sale_lines.price_unit
-        self.quoted_price=price
-    
-    @api.depends('quoted_cost','quoted_price')
-    def get_expected_margin(self):
-        self.expected_margin=self.quoted_price-self.quoted_cost
-    
-    @api.depends('real_cost','real_price')
-    def get_real_margin(self):
-        self.real_margin=self.real_price-self.real_cost
-    
-    @api.depends('quoted_cost','real_cost')
-    def get_variation_cost(self):
-        self.variation_cost=self.quoted_cost-self.real_cost
-    
-    @api.depends('quoted_price','real_price')
-    def get_variation_price(self):
-        self.variation_price=self.quoted_price-self.real_price
-        
-    @api.depends('variation_cost','variation_price')
-    def get_variation_margin(self):
-        self.variation_margin=self.variation_price-self.variation_cost
-        
-    quoted_cost=fields.Float(compute="get_quoted_cost",digits=(16,2),string="Quoted Cost")
-    quoted_price=fields.Float(compute="get_quoted_price",digits=(16,2),string="Quoted Price")
-    expected_margin=fields.Float(compute="get_expected_margin",digits=(16,2),string="Expected Margin")
-    real_cost=fields.Float(digits=(16,2),string="Actual Cost")
-    real_price=fields.Float(digits=(16,2),string="Actual Price")
-    real_margin=fields.Float(compute="get_real_margin",digits=(16,2),string="Actual Margin")
-    variation_cost=fields.Float(compute="get_variation_cost",digits=(16,2),string="Variation Cost")
-    variation_price=fields.Float(compute="get_variation_price",digits=(16,2),string="Variation Price")
-    variation_margin=fields.Float(compute="get_variation_margin",digits=(16,2),string="Variation Margin")
+    @api.multi
+    @api.depends('invoice_line','quoted_cost','quoted_price','real_cost','real_price','variation_cost','variation_price')
+    def get_profitability(self):
+        if self.order_ids and not self.order_ids.issue_ids:
+            quoted_cost=0.0
+            quoted_price=0.0
+            real_cost=0.0
+            real_price=0.0
+            for sale_line in self.order_ids.order_line:
+                quoted_cost+=sale_line.product_uom_qty*sale_line.purchase_price
+                quoted_price+=sale_line.price_subtotal
+            self.quoted_cost=quoted_cost
+            self.quoted_price=quoted_price
+            for invoice_line in self.invoice_line:
+                real_price+=invoice_line.price_subtotal
+                if not invoice_line.sale_lines:
+                    real_cost+=invoice_line.product_id.standard_price
+            self.real_price=real_price
+            self.real_cost=quoted_cost+real_cost
+            self.expected_margin=self.quoted_price-self.quoted_cost
+            self.real_margin=self.real_price-self.real_cost
+            self.variation_cost=self.real_cost-self.quoted_cost
+            self.variation_price=self.real_price-self.quoted_price
+            self.variation_margin=self.real_margin-self.expected_margin
+            try:
+                self.porcent_variation_cost=(self.real_cost-self.quoted_cost)/self.quoted_cost*100
+                self.porcent_variation_price=(self.real_price-self.quoted_price)/self.quoted_price*100
+                self.porcent_variation_margin=(self.real_margin-self.expected_margin)/self.expected_margin*100
+            except:
+                self.porcent_variation_cost=0.0
+                self.porcent_variation_price=0.0
+                self.porcent_variation_margin=0.0
+            
+    quoted_cost=fields.Float(compute="get_profitability",digits=(16,2),string="Quoted Cost")
+    quoted_price=fields.Float(compute="get_profitability",digits=(16,2),string="Quoted Price")
+    expected_margin=fields.Float(compute="get_profitability",digits=(16,2),string="Expected Margin")
+    real_cost=fields.Float(compute="get_profitability",digits=(16,2),string="Real Cost")
+    real_price=fields.Float(compute="get_profitability",digits=(16,2),string="Real Price")
+    real_margin=fields.Float(compute="get_profitability",digits=(16,2),string="Real Margin")
+    variation_cost=fields.Float(compute="get_profitability",digits=(16,2),string="Variation Cost")
+    variation_price=fields.Float(compute="get_profitability",digits=(16,2),string="Variation Price")
+    variation_margin=fields.Float(compute="get_profitability",digits=(16,2),string="Variation Margin")
+    porcent_variation_cost=fields.Float(compute="get_profitability",digits=(16,2),string="Variation Cost(%)")
+    porcent_variation_price=fields.Float(compute="get_profitability",digits=(16,2),string="Variation Price(%)")
+    porcent_variation_margin=fields.Float(compute="get_profitability",digits=(16,2),string="Variation Margin(%)")
     order_ids= fields.Many2many('sale.order', 'sale_order_invoice_rel', 'invoice_id','order_id', 'Sales Order', readonly=True, copy=False, help="This is the list of sales orders that have been generated for this invoice.")
-
     
+class AccountInvoiceLine(models.Model):
+    _inherit = 'account.invoice.line'
+    sale_lines= fields.Many2many('sale.order.line', 'sale_order_line_invoice_rel', 'invoice_id','order_line_id', 'Sale Lines', readonly=True, copy=False)
