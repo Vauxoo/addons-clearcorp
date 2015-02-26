@@ -85,6 +85,9 @@
                 <xpath expr="//group[@string='Group By']/filter[@name='Stage']" position="after">
                     <filter string="Priority" name="group_priority" icon="terp-personal" domain="[]"  context="{'group_by':'priority'}"/>
                 </xpath>
+                <xpath expr="//search/field[@name='name']" position="after">
+                    <field name="number" />
+                </xpath> 
             </field>
         </record>
         
