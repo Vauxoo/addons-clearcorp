@@ -107,10 +107,11 @@ class project(osv.Model):
             ids = self.search(cr, uid, args, limit=limit, context=context)
         
         return self.name_get(cr, uid, ids, context=context)
-        
+
 class task(osv.Model):
 
-    
+    _inherit = 'project.task' 
+
     def _get_color_code(self, date_start, date_deadline, planned_hours, state):
         """Calculate the current color code for the task depending on the state
         Colors:
@@ -163,15 +164,13 @@ class task(osv.Model):
             else:
                 # No deadline available COLOR: WHITE
                 return '0'
-        
+
     def _compute_color(self, cr, uid, ids, field_name, args, context={}):
         res = {}
         for task in self.browse(cr, uid, ids, context=context):
             res[task.id] = self._get_color_code(task.date_start, task.date_deadline, task.planned_hours,task.state)
         return res
-        
-    _inherit = 'project.task' 
- 
+
     _columns = {
         'number': fields.char('Number', size=16),
         'project_id': fields.many2one('project.project', 'Project', required=True, ondelete='set null', select="1", track_visibility='onchange'),
@@ -182,23 +181,42 @@ class task(osv.Model):
     _defaults = {
                  'date_start' : lambda *a: datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S'),
                  }
-    
+
     def get_number_sequence(self, cr, uid, project_id, context=None):
         ir_sequence_obj = self.pool.get('ir.sequence')
         project_obj = self.pool.get('project.project')
         project = project_obj.browse(cr, uid, project_id, context)
         return ir_sequence_obj.next_by_id(cr, uid, project.ir_sequence_id.id, context)
-        
+
     def create(self, cr, uid, vals, context={}):
         if 'number' not in vals or vals['number'] == None or vals['number'] == '':
             vals.update({'number': self.get_number_sequence(cr, uid, vals['project_id'], context)})
         return super(task, self).create(cr, uid, vals, context)
-    
+
     def write(self, cr, uid, ids, vals, context=None):
         if 'project_id' in vals:
             vals.update({'number': self.get_number_sequence(cr, uid, vals['project_id'], context)})
         return super(task, self).write(cr, uid, ids, vals, context)
-    
+
+    def set_kanban_state_blocked(self, cr, uid, ids, context=None):
+        return self.write(cr, uid, ids, {'kanban_state': 'blocked'}, context=context)
+
+    def set_kanban_state_normal(self, cr, uid, ids, context=None):
+        return self.write(cr, uid, ids, {'kanban_state': 'normal'}, context=context)
+
+    def set_kanban_state_done(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {'kanban_state': 'done'}, context=context)
+        return False
+
+    def set_high_priority(self, cr, uid, ids, *args):
+        """Set task priority to high
+        """
+        return self.write(cr, uid, ids, {'priority' : '0'})
+
+    def set_normal_priority(self, cr, uid, ids, *args):
+        """Set task priority to normal
+        """
+        return self.write(cr, uid, ids, {'priority' : '2'})
 
     def name_search(self, cr, uid, name='', args=None, operator='ilike', context=None, limit=50):
         ids = []
@@ -209,10 +227,10 @@ class task(osv.Model):
         else:
             ids = self.search(cr, uid, args, limit=limit, context=context)
         return self.name_get(cr, uid, ids, context=context)
-        
+
 class proyectCategory(osv.Model):
     _inherit = "project.category"
-    
+
     _columns = {
                 'tag_code': fields.char(size=10, string="Tag Code", required=True)
                 }
