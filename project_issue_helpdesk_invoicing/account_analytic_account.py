@@ -20,6 +20,7 @@
 #
 ##############################################################################
 from openerp.osv import osv, fields
+from openerp import tools
 from openerp.addons.decimal_precision import decimal_precision as dp
 from datetime import datetime, timedelta
 
@@ -144,6 +145,25 @@ class account_analytic_account(osv.osv):
         'month_ids': fields.function(_analysis_all, multi='analytic_analysis', type='many2many', relation='account_analytic_analysis.summary.month', string='Month'),
         'user_ids': fields.function(_analysis_all, multi='analytic_analysis', type="many2many", relation='account_analytic_analysis.summary.user', string='User'),
                 }
+class account_invoice_report(osv.osv):
+    _inherit = "account.invoice.report"
+    _columns = {
+             'porcent_variation_margin': fields.float(string="Variation Margin(%)", readonly=True),
+             'variation_margin': fields.float(string="Variation Margin", readonly=True)
+             }
+    _depends = {
+         'account.invoice.line': ['porcent_variation_margin','variation_margin'],
+    }
+     
+    def _select(    
+         self):
+        return  super(account_invoice_report, self)._select() + ", sub.porcent_variation_margin as porcent_variation_margin, sub.variation_margin as variation_margin"
+    
+    def _sub_select(self):
+        return  super(account_invoice_report, self)._sub_select() + ", ail.porcent_variation_margin as porcent_variation_margin, ail.variation_margin as variation_margin"
+    
+    def _group_by(self):
+        return super(account_invoice_report, self)._group_by() + ", ail.porcent_variation_margin, ail.variation_margin"
     
 class account_analytic_line(osv.osv):
     _inherit = 'account.analytic.line'

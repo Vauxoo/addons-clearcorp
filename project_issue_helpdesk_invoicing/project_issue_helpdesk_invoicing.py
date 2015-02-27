@@ -156,8 +156,36 @@ class ContractPriceList(models.Model):
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
     
+    def get_profitability_line(self,invoice_line):
+        invoice_line.write({'real_price':invoice_line.price_subtotal})
+        for invoice_sale_line in invoice_line.sale_lines:
+            invoice_line.write({'quoted_cost':invoice_sale_line.product_uom_qty*invoice_sale_line.purchase_price})
+            invoice_line.write({'quoted_price':invoice_sale_line.price_subtotal})
+            invoice_line.write({'real_cost':(invoice_line.quantity*invoice_sale_line.purchase_price)})
+        if not invoice_line.sale_lines:
+            invoice_line.write({'quoted_cost':0.0})
+            invoice_line.write({'quoted_price':0.0})
+            invoice_line.write({'real_cost':invoice_line.product_id.standard_price*invoice_line.quantity})
+        invoice_line.write({'expected_margin':invoice_line.quoted_price-invoice_line.quoted_cost})
+        invoice_line.write({'real_margin':invoice_line.real_price-invoice_line.real_cost})
+        invoice_line.write({'variation_cost':invoice_line.real_cost-invoice_line.quoted_cost})
+        invoice_line.write({'variation_price':invoice_line.real_price-invoice_line.quoted_price})
+        invoice_line.write({'variation_margin':invoice_line.real_margin-invoice_line.expected_margin})
+        if invoice_line.quoted_cost!=0:
+            invoice_line.write({'porcent_variation_cost':(invoice_line.real_cost-invoice_line.quoted_cost)/invoice_line.quoted_cost*100})
+        else:
+            invoice_line.write({'porcent_variation_cost':0.0})
+        if invoice_line.quoted_price!=0:
+            invoice_line.write({'porcent_variation_price':(invoice_line.real_price-invoice_line.quoted_price)/invoice_line.quoted_price*100})
+        else:
+            invoice_line.write({'porcent_variation_price':0.0})
+        if invoice_line.invoice_id.variation_margin!=0.0:
+            invoice_line.write({'porcent_variation_margin':invoice_line.invoice_id.porcent_variation_margin*((invoice_line.real_margin-invoice_line.expected_margin)/invoice_line.invoice_id.variation_margin*100)/100})
+        else:
+            invoice_line.write({'porcent_variation_margin':0.0})
+
     @api.multi
-    @api.depends('invoice_line','quoted_cost','quoted_price','real_cost','real_price','variation_cost','variation_price')
+    @api.depends('invoice_line','quoted_cost','quoted_price','real_cost','real_price')
     def get_profitability(self):
         if self.order_ids and not self.order_ids.issue_ids:
             quoted_cost=0.0
@@ -172,23 +200,32 @@ class AccountInvoice(models.Model):
             for invoice_line in self.invoice_line:
                 real_price+=invoice_line.price_subtotal
                 if not invoice_line.sale_lines:
-                    real_cost+=invoice_line.product_id.standard_price
+                    real_cost+=invoice_line.product_id.standard_price*invoice_line.quantity
+                else:
+                    real_cost+=invoice_line.sale_lines.purchase_price*invoice_line.quantity
             self.real_price=real_price
-            self.real_cost=quoted_cost+real_cost
+            self.real_cost=real_cost
             self.expected_margin=self.quoted_price-self.quoted_cost
             self.real_margin=self.real_price-self.real_cost
             self.variation_cost=self.real_cost-self.quoted_cost
             self.variation_price=self.real_price-self.quoted_price
             self.variation_margin=self.real_margin-self.expected_margin
-            try:
+            if self.quoted_cost!=0:
                 self.porcent_variation_cost=(self.real_cost-self.quoted_cost)/self.quoted_cost*100
-                self.porcent_variation_price=(self.real_price-self.quoted_price)/self.quoted_price*100
-                self.porcent_variation_margin=(self.real_margin-self.expected_margin)/self.expected_margin*100
-            except:
+            else:
                 self.porcent_variation_cost=0.0
+            if self.quoted_price!=0:
+                self.porcent_variation_price=(self.real_price-self.quoted_price)/self.quoted_price*100
+            else:
                 self.porcent_variation_price=0.0
+            if self.expected_margin!=0:
+                self.porcent_variation_margin=(self.real_margin-self.expected_margin)/self.expected_margin*100
+            else:
                 self.porcent_variation_margin=0.0
+            for invoice_line in self.invoice_line:
+                self.get_profitability_line(invoice_line)
             
+             
     quoted_cost=fields.Float(compute="get_profitability",digits=(16,2),string="Quoted Cost")
     quoted_price=fields.Float(compute="get_profitability",digits=(16,2),string="Quoted Price")
     expected_margin=fields.Float(compute="get_profitability",digits=(16,2),string="Expected Margin")
@@ -205,4 +242,17 @@ class AccountInvoice(models.Model):
     
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
+    
+    quoted_cost=fields.Float(digits=(16,2),store=True,string="Quoted Cost")
+    quoted_price=fields.Float(digits=(16,2),store=True,string="Quoted Price")
+    expected_margin=fields.Float(store=True,digits=(16,2),string="Expected Margin")
+    real_cost=fields.Float(digits=(16,2),store=True,string="Real Cost")
+    real_price=fields.Float(digits=(16,2),store=True,string="Real Price")
+    real_margin=fields.Float(digits=(16,2),store=True,string="Real Margin")
+    variation_cost=fields.Float(digits=(16,2),store=True,string="Variation Cost")
+    variation_price=fields.Float(digits=(16,2),store=True,string="Variation Price")
+    variation_margin=fields.Float(digits=(16,2),store=True,string="Variation Margin")
+    porcent_variation_cost=fields.Float(digits=(16,2),store=True,string="Variation Cost(%)")
+    porcent_variation_price=fields.Float(digits=(16,2),store=True,string="Variation Price(%)")
+    porcent_variation_margin=fields.Float(digits=(16,2),store=True,string="Variation Margin(%)")
     sale_lines= fields.Many2many('sale.order.line', 'sale_order_line_invoice_rel', 'invoice_id','order_line_id', 'Sale Lines', readonly=True, copy=False)

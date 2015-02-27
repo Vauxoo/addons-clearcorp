@@ -69,6 +69,7 @@
             <field name="name">view.account.analytic.account.form</field>
             <field name="model">account.analytic.account</field>
             <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
+            <field name="priority" eval="70"/>
             <field name="arch" type="xml">
                 <div name="user_function_price" position="before">
                     <div name="product_function_price">
@@ -189,7 +190,7 @@
             </field>
         </record>
        <!--inherit Account Invoice form-->
-        <record id="view_account_invoice_order_form" model="ir.ui.view">
+       <record id="view_account_invoice_order_form" model="ir.ui.view">
             <field name="name">view.account.invoice.form</field>
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.invoice_form"/>
@@ -225,6 +226,18 @@
                          </group>
                     </page>
                 </xpath>
+           </field>
+    </record>
+        <!--inherit Account Invoice Report Graph-->
+        <record id="view_account_invoice_report_graph" model="ir.ui.view">
+            <field name="name">view.account.invoice.report.graph</field>
+            <field name="model">account.invoice.report</field>
+            <field name="inherit_id" ref="account.view_account_invoice_report_graph"/>
+            <field name="arch" type="xml">
+                <field name="price_total" position="after">
+                    <field name="variation_margin" type="measure"/>
+                    <field name="porcent_variation_margin" type="measure"/>
+                </field>
            </field>
         </record>
         <!-- Action holiday.calendar.date -->
