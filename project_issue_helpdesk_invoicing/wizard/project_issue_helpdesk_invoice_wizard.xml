@@ -45,11 +45,16 @@
             <field name="target">new</field>
        </record>
        <!-- MenuItems -->
+       <menuitem 
+           id="account.menu_action_invoice_tree1" 
+           action="account.action_invoice_tree1"
+           parent="account.menu_finance_receivables"
+           sequence="8"/>
        <menuitem icon="STOCK_PRINT"
             id="menu_issue_invoice_wizard"
             parent="account.menu_finance_receivables"
             name="Issues Invoicing"
             action="action_issue_invoice_wizard"
-            sequence="1"/>
+            sequence="9"/>
     </data>
 </openerp>

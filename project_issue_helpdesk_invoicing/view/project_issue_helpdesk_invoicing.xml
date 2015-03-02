@@ -228,18 +228,6 @@
                 </xpath>
            </field>
     </record>
-        <!--inherit Account Invoice Report Graph-->
-        <record id="view_account_invoice_report_graph" model="ir.ui.view">
-            <field name="name">view.account.invoice.report.graph</field>
-            <field name="model">account.invoice.report</field>
-            <field name="inherit_id" ref="account.view_account_invoice_report_graph"/>
-            <field name="arch" type="xml">
-                <field name="price_total" position="after">
-                    <field name="variation_margin" type="measure"/>
-                    <field name="porcent_variation_margin" type="measure"/>
-                </field>
-           </field>
-        </record>
         <!-- Action holiday.calendar.date -->
         <record model="ir.actions.act_window" id="action_holiday_calendar_date">
             <field name="name">Holidays</field>
