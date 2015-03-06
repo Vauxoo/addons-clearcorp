@@ -80,6 +80,8 @@ class accountVoucherinherit(orm.Model):
     _columns = {
                 'voucher_payment_rate' : fields.function(_compute_exchange_rate, string='Exchange Rate Commercial', type='float',),
                 'voucher_payment_rate_currency_id' : fields.related('company_id', 'currency_id', string='Company Currency', type='many2one', relation='res.currency',),
+                'payment_rate': fields.float('Exchange Rate', digits=(6,12), required=True, readonly=True, states={'draft': [('readonly', False)]},
+                    help='The specific rate that will be used, in this voucher, between the selected currency (in \'Payment Rate Currency\' field)  and the voucher currency.'),
             }
     
     _defaults = {
