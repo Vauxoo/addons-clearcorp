@@ -51,19 +51,25 @@ class ProjectIssue(osv.Model):
     
     def onchange_partner_id(self, cr, uid, ids, partner_id, context=None):
         result={}
+        domain=[]
         result = super(ProjectIssue, self).onchange_partner_id(cr, uid, ids, partner_id)
         if partner_id:
+            domain.append(('picking_type_id.code','=','outgoing'))
+            domain.append(('state','=','done'))
+            domain.append(('invoice_state','=','none'))
+            domain.append(('delivery_note_id','!=','False'))
+            domain.append(('partner_id', '=',partner_id))
             partner_obj=self.pool.get('res.partner')
             partner_ids=partner_obj.search(cr, uid,[('parent_id','=',partner_id),('partner_type','=','branch')])
-              
+            result.update({'domain':{'backorder_ids':domain}})
             if not partner_ids:
-                 result.update({'have_branch': False})
-                 result.update({'branch_id':False})
+                 result.update({'value':{'have_branch': False}})
+                 result.update({'value':{'branch_id':False}})
               
             if partner_ids:                    
-                 result.update({'have_branch': True})
+                 result.update({'value':{'have_branch': True}})
   
-        return {'value': result}
+        return result
     def onchange_prodlot_id(self, cr, uid, ids, prodlot_id,context={}):
         data = {}
         if prodlot_id:
@@ -88,12 +94,18 @@ class ProjectIssue(osv.Model):
             return {'value': data}
     
     def onchange_branch_id(self, cr, uid, ids, branch_id,context={}):
-        data = {}
+        result = {}
+        domain=[]
         if branch_id:
+            domain.append(('picking_type_id.code','=','outgoing'))
+            domain.append(('state','=','done'))
+            domain.append(('invoice_state','=','none'))
+            domain.append(('delivery_note_id','!=','False'))
+            domain.append(('partner_id', '=',branch_id))
             branch = self.pool.get('res.partner').browse(cr, uid, branch_id, context)
-            data.update({'partner_id': branch.parent_id.id})
-          
-        return {'value': data}
+            result.update({'value':{'partner_id': branch.parent_id.id}})
+            result.update({'domain':{'backorder_ids':domain}})
+        return result
     
     def create(self, cr, uid, vals, context=None):
         employee_obj=self.pool.get('hr.employee')
@@ -128,13 +140,36 @@ class ProjectIssue(osv.Model):
                     else:
                         return True
         return True
+    
+    def get_stock_picking(self, cr, uid,ids,field_name,arg,context=None):
+         picking_obj=self.pool.get('stock.picking')
+         picking_ids=[]
+         domain=[] 
+         res={}
+         domain.append(('picking_type_id.code','=','outgoing'))
+         domain.append(('state','=','done'))
+         domain.append(('invoice_state','=','none'))
+         domain.append(('delivery_note_id','!=','False'))
+         for issue in self.browse(cr, uid, ids, context=context):
+             if issue.branch_id:
+                domain.append(('partner_id','=',issue.branch_id.id))
+             else:
+                domain.append(('partner_id', '=', issue.partner_id.id))
+             
+             stock_picking_ids=picking_obj.search(cr, uid, domain)
+             for stock_picking in picking_obj.browse(cr, uid, stock_picking_ids, context=context):
+                 picking_ids.append(stock_picking.id)
+             res[issue.id]=picking_ids
+         return res
+     
     _columns = {
                 'issue_type': fields.selection([('remote support','Remote Support'),('site support','Site Visit'),('preventive check','Preventive Check'),
                                               ('workshop repair','Workshop Repair'),('installation','Installation')],
                                              required=True,string="Issue Type"),
                 'issue_number': fields.char(string='Issue Number', select=True),
-                'warranty': fields.selection([('seller','Seller'),('manufacturer','Manufacturer')],string="Warranty"),                                 
-                'backorder_ids': fields.one2many('stock.picking','issue_id',domain=[('picking_type_id.code','=','outgoing')],string="Backorders"),
+                'warranty': fields.selection([('seller','Seller'),('manufacturer','Manufacturer')],string="Warranty"),
+                'init_onchange_call': fields.function(get_stock_picking, method=True, type='many2many', relation='stock.picking',string='Nothing Display', help='field at view init'),
+                'backorder_ids': fields.one2many('stock.picking','issue_id',string="Backorders"),
                 'origin_id':fields.many2one('project.issue.origin',string="Origin"),
                 'partner_type':fields.related('partner_id','partner_type',relation='res.partner',string="Partner Type"),
                 'categ_id':fields.many2one('product.category',required=True,string="Category Product"),
@@ -144,6 +179,7 @@ class ProjectIssue(osv.Model):
                 'employee_id': fields.many2one('hr.employee', 'Technical Staff Assigned'),
                 'contact': fields.char(string="Reported by",required=True),
                 'have_branch':fields.boolean(string="Have Branch")
+
                 }
     _constraints = [
         (_check_issue_type,'Must type the the ticket number, except in issue type Remote Support not is required',['issue_type','timesheet_ids']
@@ -162,6 +198,28 @@ class ProjectIssueOrigin(osv.Model):
  
 class HrAnaliticTimeSheet(osv.Model):
     _inherit = 'hr.analytic.timesheet'
+     
+    def create(self, cr, uid, vals, context=None):
+        employee_obj=self.pool.get('hr.employee')
+        if vals.get('employee_id'):
+            employee=employee_obj.browse(cr,uid, vals.get('employee_id'),context=context)[0]
+            if employee.user_id:
+                 vals['user_id'] = employee.user_id.id
+            else:
+                 vals['user_id'] = False
+        result = super(HrAnaliticTimeSheet, self).create(cr, uid, vals, context=context)
+        return result
+    
+    def write(self, cr, uid, ids, vals, context=None):
+         employee_obj=self.pool.get('hr.employee')
+         if vals.get('employee_id'):
+            employee=employee_obj.browse(cr,uid, vals.get('employee_id'),context=context)[0]
+            if employee.user_id:
+                 vals['user_id'] = employee.user_id.id
+            else:
+                vals['user_id'] = False
+         res = super(HrAnaliticTimeSheet, self).write(cr, uid, ids, vals, context=context)        
+         return res
      
     def _check_start_time(self, cr, uid, ids, context={}):
         hour=0.0
@@ -196,11 +254,6 @@ class HrAnaliticTimeSheet(osv.Model):
                 else:
                     return True
         return True
-    def _compute_duration(self, cr, uid, ids, field, arg, context=None):
-        res = {}
-        for timesheet_obj in self.browse(cr, uid, ids, context=context):
-                res[timesheet_obj.id] = timesheet_obj.end_time-timesheet_obj.start_time
-        return res
      
     def onchange_start_time(self, cr, uid, ids, start_time, end_time):
         duration=end_time-start_time
@@ -215,8 +268,7 @@ class HrAnaliticTimeSheet(osv.Model):
                 'start_time': fields.float(required=True,string="Start Time"),
                 'end_time': fields.float(required=True,string="End Time"),
                 'service_type': fields.selection([('expert','Expert'),('assistant','Assistant')],required=True,string="Service Type"),                       
-                'unit_amount':fields.function(_compute_duration, type='float', string='Quantify',store=True),
-                'employee_id': fields.many2one('hr.employee', 'Technical Staff'),
+                'employee_id': fields.many2one('hr.employee', 'Technical Staff',required=True),
                 }
      
     _constraints = [
@@ -233,120 +285,6 @@ class StockPicking(orm.Model):
      _columns = {
           'issue_id': fields.many2one('project.issue')
      }
- 
-class ResPartner(orm.Model):
-    _inherit = 'res.partner'
-     
-    def onchange_partner_type(self, cr, uid, ids,partner_type,context={}):
-        res={}
-         
-        if partner_type=='company':
-            res['is_company'] = True
-        elif partner_type=='branch':
-            res['is_company'] = True
-        elif partner_type=='contact':
-            res['is_company'] = False
-        return {'value': res}
-     
-    _columns = {
-        'partner_type': fields.selection([('company','Company'),('branch','Branch'),('contact','Contact')],required=True,string="Partner Type"),
-        'provision_amount':fields.float(digits=(16,2),string="Provision Amount")
-     }
-    _defaults={
-        'provision_amount':0.0
-        }
-    
-class ContractPricelist(orm.Model):
-    _name = 'contract.pricelist'
- 
-    _columns = {
-        'name':fields.char(size=256,required=True,string="Name"),
-        'account_analytic_id':fields.many2one('account.analytic.account',required=True,string="Account Analytic"),
-        'partner_id':fields.related('account_analytic_id','partner_id',relation='res.partner',type='many2one',string="Partner"),
-        'calendar_id':fields.many2one('resource.calendar',required=True,string="Calendar"),
-        'line_ids': fields.one2many('contract.pricelist.line','contract_pricelist_id')
-        }
-    _sql_constraints = [
-        ('account_analytic_unique',
-        'UNIQUE(account_analytic_id)',
-        'Account Analytic already exist ')
-                        ]
-     
-class ContractPriceLine(orm.Model):
-    _name = 'contract.pricelist.line'
- 
-    def onchange_pricelist_line_type(self, cr, uid, ids,pricelist_line_type,context={}):
-        res={}
-         
-        if pricelist_line_type:
-            if pricelist_line_type=='category':
-                res['product_id'] = ""
-            elif pricelist_line_type=='product':
-                res['categ_id'] = ""
-        elif not pricelist_line_type:
-             res['product_id'] = ""
-             res['categ_id'] = ""
-        return {'value': res}
-            
-    def _check_lines(self, cr, uid, ids, context={}):
-        if context is None:   
-            context = {}
-        for lines in self.browse(cr, uid, ids, context=context):
-            if lines.pricelist_line_type=='category':
-                exist_category = self.search(cr, uid, [('categ_id','=', lines.categ_id.id),('contract_pricelist_id','=', lines.contract_pricelist_id.id)])
-                if len(exist_category)>1:
-                    return False
-            elif lines.pricelist_line_type=='product':
-                exist_product = self.search(cr, uid, [('product_id','=', lines.product_id.id),('contract_pricelist_id','=', lines.contract_pricelist_id.id)])
-                if len(exist_product)>1:
-                    return False
-        return True
- 
-    def _check_rates(self, cr, uid, ids, context={}):
-        for rates in self.browse(cr, uid, ids, context=context):
-            if (rates.technical_rate<1.0 or rates.assistant_rate<1.0):
-                return False
-        return True
-     
-    def _check_multipliers(self, cr, uid, ids, context={}):
-        for multipliers in self.browse(cr, uid, ids, context=context):
-            if (multipliers.overtime_multiplier<1.0 or multipliers.holiday_multiplier<1.0):
-                return False
-        return True
-     
-    _columns = {
-        'contract_pricelist_id':fields.many2one('contract.pricelist',string="Contract Pricelist"),
-        'pricelist_line_type': fields.selection([('category','Category'),('product','Product')],string="Pricelist Type"),                                 
-        'categ_id':fields.many2one('product.category',string="Category Product"),
-        'product_id':fields.many2one('product.product',string="Product"),
-        'technical_rate':fields.float(digits=(16,2),required=True,string="Technical Rate"),
-        'assistant_rate':fields.float(digits=(16,2),required=True,string="Assistant Rate"),
-        'overtime_multiplier':fields.float(digits=(16,2),required=True,string="Overtime Multiplier"),
-        'holiday_multiplier':fields.float(digits=(16,2),required=True,string="Holiday Multiplier")
-       }
-     
-    _defaults={
-        'technical_rate':0.0,
-        'assistant_rate':0.0,
-        'overtime_multiplier':1.0
-        }
-              
-    _constraints = [
-        (_check_lines,'Contract only allow a line to a single product o category',['categ_id','product_id']),
-        (_check_rates,'Rates must be greater or equal to one',['technical_rate','assistant_rate']),
-        (_check_multipliers,'Multipliers must be greater or equal to one',['overtime_multiplier','holiday_multiplier']) 
-                ]
- 
- 
-class HolidayCalendar(orm.Model):
-    _name = 'holiday.calendar'
- 
-    _columns = {
-        'name':fields.char(size=256,required=True,string="Name"),
-        'date':fields.date(required=True,string="Date"),
-        'notes':fields.text(string="Notes")
-        }        
-
 class ProductTemplate(orm.Model):
     _inherit = 'product.template'
     _name = 'product.template'
@@ -540,7 +478,8 @@ class StockTransferDetail(osv.osv_memory):
                     pack_operation_ids=stock_pack_operation_obj.search(cr, uid,[('picking_id','=',move.picking_id.id)])
                     for pack in stock_pack_operation_obj.browse(cr, uid, pack_operation_ids, context=context):
                         stock_pack_operation_obj.write(cr,uid, pack.id,{'location_dest_id': location_dest_original})
-            stock_picking_obj.write(cr,uid, transfer.picking_id.id,{'invoice_state': '2binvoiced','picking_type_id':picking_type_id[0]})
+            stock_picking_obj.write(cr,uid, transfer.picking_id.id,{'invoice_state': 'none','picking_type_id':picking_type_id[0]})
+            
 
 class SaleOrder(orm.Model):
     _inherit = 'sale.order'

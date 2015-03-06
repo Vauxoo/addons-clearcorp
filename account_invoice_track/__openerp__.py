@@ -20,4 +20,30 @@
 #
 ##############################################################################
 
-import sale_order_report
+{
+    'name': 'Account Invoice Track',
+    'version': '1.0',
+    'category': 'Accounting & Finance',
+    'sequence': 21,
+    'summary': 'Track responsible Invoice',
+    'description': """
+Tracking Responsible invoice
+============================
+Features
+--------
+* Track state changes actual responsible in invoice.""",
+    'author': 'ClearCorp',
+    'website': 'http://clearcorp.co.cr',
+    'complexity': 'normal',
+    'images' : [],
+    'depends': ['account',],
+    'data': [
+             'account_invoice_track_view.xml',
+             ],
+    'test' : [],
+    'demo': [],
+    'installable': True,
+    'auto_install': False,
+    'application': False,
+    'license': 'AGPL-3',
+}

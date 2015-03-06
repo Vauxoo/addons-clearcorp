@@ -20,18 +20,13 @@
 #
 ##############################################################################
 
-from openerp import models
+from openerp import models, fields
 
 REPORT_TYPES = [('qweb-xls','XLS'),('qweb-ods','ODS')]
 
 class ReportAction(models.Model):
 
     _inherit = 'ir.actions.report.xml'
-
-    # Add the report type qweb-xls to the selection
-    def __init__(self, *args, **kwargs):
-        super(ReportAction, self).__init__(*args, **kwargs)
-        self._columns['report_type'].selection.extend(REPORT_TYPES)
 
     def _lookup_report(self, cr, name):
         """
@@ -62,3 +57,5 @@ class ReportAction(models.Model):
                     return self.pool['report'].get_ods(cr, uid, res_ids, new_report[0],
                         data=data, context=context), 'xls'
         return super(ReportAction, self).render_report(cr,uid, res_ids, name, data, context=context)
+
+    report_type = fields.Selection(selection_add=REPORT_TYPES)

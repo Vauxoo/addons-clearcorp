@@ -6,3 +6,4 @@ access_resource_user,Resource User,model_project_event_resource,project.group_pr
 access_resource_admin,Resource Admin,model_project_event_resource,group_manage_resources,1,1,1,1
 access_resource_reservation_user,Resource Reservation User,model_project_event_resource_reservation,project.group_project_user,1,1,1,1
 access_event_user,Event User,model_project_event_event,project.group_project_user,1,1,1,1
+access_resource_resource_admin,Resource Resource,resource.model_resource_resource,group_manage_resources,1,1,1,1

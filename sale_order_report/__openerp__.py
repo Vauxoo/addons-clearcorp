@@ -20,22 +20,32 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv
-import netsvc
 
-class sale_order(osv.osv):
-    _inherit = "sale.order"
-    
-    def print_quotation(self, cr, uid, ids, context=None):
-        '''
-        This function prints the sales order and mark it as sent, so that we can see more easily the next step of the workflow
-        '''
-        assert len(ids) == 1, 'This option should only be used for a single id at a time'
-        wf_service = netsvc.LocalService("workflow")
-        wf_service.trg_validate(uid, 'sale.order', ids[0], 'quotation_sent', cr)
-        datas = {
-                 'model': 'sale.order',
-                 'ids': ids,
-                 'form': self.read(cr, uid, ids[0], context=context),
-        }
-        return {'type': 'ir.actions.report.xml', 'report_name': 'sale.order.layout_ccorp', 'datas': datas, 'nodestroy': True}
+{
+    "name" : 'Sale Order report',
+    "version" : '2.0',
+    "author" : 'ClearCorp',
+    'complexity': 'normal',
+    "description": """
+Sale order report in Qweb
+    """,
+    "category": 'Sales',
+    "sequence": 4,
+    "website" : "http://clearcorp.co.cr",
+    "images" : [],
+    "depends" : [
+        'sale_order_discount',
+        'sale_order_extended',
+        'account_report_lib',
+        ],
+    "init_xml" : [],
+    "demo_xml" : [],
+    "data" : [
+                 'views/report_sale_order.xml',
+                 ],
+    "test" : [],
+    "auto_install": False,
+    "application": False,
+    "installable": True,
+    'license': 'AGPL-3',
+}
