@@ -21,23 +21,209 @@
 ##############################################################################
 from datetime import datetime
 from openerp import models, fields, api, _
+from openerp.tools.translate import _
+from openerp.exceptions import Warning
 
 class IssueInvoiceWizard(models.TransientModel):
     _name='project.issue.helpdesk.invoice.wizard'
+    @api.multi
+    def get_quantities_issues(self,issue,invoice_id):
+        account_obj=self.env['account.analytic.account']
+        total_timesheet=0.0
+        total_backorder=0.0
+        total_expenses=0.0
+        for timesheet in issue.timesheet_ids:
+            for account_line in timesheet.line_id:
+                if not account_line.invoice_id:
+                    total_timesheet+=account_obj._get_invoice_price(account_line.account_id,account_line.date,timesheet.start_time,timesheet.end_time,issue.product_id.id,issue.categ_id.id,account_line.unit_amount,timesheet.service_type)
+                    account_line.write({'invoice_id':invoice_id})
+        for backorder in issue.backorder_ids:
+            if backorder.delivery_note_id and backorder.invoice_state!='invoiced':
+                for delivery_note_lines in backorder.delivery_note_id.note_lines:
+                    total_backorder+=delivery_note_lines.quantity*delivery_note_lines.price_unit
+                    backorder.write({'invoice_state':'invoiced'})
+                    backorder.move_lines.write({'invoice_state':'invoiced'})
+        for expense_line in issue.expense_line_ids:
+            if expense_line.expense_id.state=='done':
+                for move_lines in expense_line.expense_id.account_move_id.line_id:
+                    for lines in move_lines.analytic_lines:
+                        if lines.account_id==expense_line.analytic_account and not lines.invoice_id:
+                            total_expenses+=lines.amount*-1
+                            lines.write({'invoice_id':invoice_id})
+        return total_timesheet,total_backorder,total_expenses
     
-#     @api.one
-#     @api.constrains('date_from','date_to')    
-#     def _check_filter_date(self):
-#         if self.filter=='filter_date':
-#             if self.date_from>self.date_to:
-#                 raise Warning(_('Start Date must be less than End Date'))
-#     @api.constrains('period_from','period_to')        
-#     def _check_filter_period(self):
-#         if self.filter=='filter_period':
-#             if self.period_from.date_start>self.period_to.date_stop:
-#                 raise Warning(_('Start Period must be less than End Period'))
+    @api.multi
+    def get_quantities_issues_detail(self,issue,inv):
+        account_obj=self.env['account.analytic.account']
+        total_expenses=0.0
+        for timesheet in issue.timesheet_ids:
+            for account_line in timesheet.line_id:
+                if not account_line.invoice_id:
+                    total_timesheet=0.0
+                    total_timesheet=account_obj._get_invoice_price(account_line.account_id,account_line.date,timesheet.start_time,timesheet.end_time,issue.product_id.id,issue.categ_id.id,account_line.unit_amount,timesheet.service_type)
+                    inv.write({'invoice_line':[(0,0, {'name': _(('Service Hours - %s' % str(timesheet.end_time-timesheet.start_time))),'quantity':1,'price_unit':total_timesheet})]})
+                    account_line.write({'invoice_id':inv.id})
+        for backorder in issue.backorder_ids:
+            if backorder.delivery_note_id and backorder.invoice_state!='invoiced':
+                for delivery_note_lines in backorder.delivery_note_id.note_lines:
+                    total_backorder=0.0
+                    inv.write({'invoice_line':[(0,0, {'name': delivery_note_lines.product_id.name,'quantity':delivery_note_lines.quantity,'price_unit':delivery_note_lines.price_unit})]})
+                    backorder.write({'invoice_state':'invoiced'})
+                    backorder.move_lines.write({'invoice_state':'invoiced'})
+        for expense_line in issue.expense_line_ids:
+            if expense_line.expense_id.state=='done':
+                for move_lines in expense_line.expense_id.account_move_id.line_id:
+                    for lines in move_lines.analytic_lines:
+                        if lines.account_id==expense_line.analytic_account and not lines.invoice_id:
+                            total_expenses+=lines.amount*-1
+                            lines.write({'invoice_id':inv.id})
+        return total_expenses
     
-    group=fields.Selection([('group_branch', 'Branch')], string="Group by",required=True,default='group_branch')
+    @api.multi
+    def generate_invoices(self,issue_ids,group,line_detailed):
+        issue_obj=self.env['project.issue']
+        issue_obj=self.env['project.issue']
+        invoice_obj=self.env['account.invoice']
+        partner_obj=self.env['res.partner']
+        partner_group_ids=[]
+        branch_group_ids=[]
+        branch_issue_ids=[]
+        partner_issue_ids=[]
+        invoices_list=[]
+        total_timesheet=0.0
+        total_backorder=0.0
+        total_expenses=0.0
+
+        if group==False:
+            for issue in issue_ids:
+                create_invoice={}
+                if issue.branch_id and issue.partner_id:
+                    create_invoice['partner_id']=issue.branch_id.id
+                    create_invoice['account_id']=issue.branch_id.property_account_receivable.id
+                elif not issue.branch_id and issue.partner_id:
+                    create_invoice['partner_id']=issue.partner_id.id
+                    create_invoice['account_id']=issue.partner_id.property_account_receivable.id
+                inv=invoice_obj.create(create_invoice)
+                invoices_list.append(inv.id)
+                if line_detailed==False:
+                    total_timesheet,total_backorder,total_expenses=self.get_quantities_issues(issue,inv.id)
+                    inv.write({'invoice_line':[(0,0, {'name': _(('Issue #') + issue.issue_number ),'quantity':1,'price_unit':total_timesheet+total_backorder})]})
+                    inv.write({'invoice_line':[(0,0, {'name': _(('Expenses of Issue #') + issue.issue_number ),'quantity':1,'price_unit':total_expenses})]})
+                elif line_detailed==True:
+                    total_expenses=self.get_quantities_issues_detail(issue,inv)
+                    inv.write({'invoice_line':[(0,0, {'name': _(('Expenses of Issue #') + issue.issue_number ),'quantity':1,'price_unit':total_expenses})]})
+                inv.write({'issue_ids':[(4,issue.id)]})
+        elif group==True:
+            for issue in issue_ids:
+                if issue.partner_id and issue.branch_id and issue.branch_id.parent_id==issue.partner_id:
+                    branch_issue_ids.append(issue.id)
+                    if issue.branch_id.id not in branch_group_ids:
+                        branch_group_ids.append(issue.branch_id.id)
+                elif issue.partner_id and not issue.branch_id:
+                    partner_issue_ids.append(issue.id)
+                    if issue.partner_id.id not in partner_group_ids:
+                        partner_group_ids.append(issue.partner_id.id)
+            for partner in partner_group_ids:
+                create_invoice={}
+                total_timesheet_group=0.0
+                total_backorder_group=0.0
+                total_expenses_group=0.0
+                create_invoice['partner_id']=partner
+                create_invoice['account_id']=partner_obj.search([('id','=',partner)]).property_account_receivable.id
+                inv=invoice_obj.create(create_invoice)
+                invoices_list.append(inv.id)
+                issue_partner_ids=issue_obj.search([('id','in',partner_issue_ids),('partner_id','=',partner),('branch_id','=',False)])
+                if line_detailed==False:
+                    for issue in issue_partner_ids:
+                        total_timesheet,total_backorder,total_expenses=self.get_quantities_issues(issue,inv.id)
+                        total_timesheet_group+=total_timesheet
+                        total_backorder_group+=total_backorder
+                        total_expenses_group+=total_expenses
+                        inv.write({'issue_ids':[(4,issue.id)]})
+                    inv.write({'invoice_line':[(0,0, {'name': _(('Several Issues')),'quantity':1,'price_unit':total_timesheet_group+total_backorder_group})]})
+                    inv.write({'invoice_line':[(0,0, {'name': _(('Expenses of Several Issues')),'quantity':1,'price_unit':total_expenses_group})]})
+                elif line_detailed==True:
+                    for issue in issue_partner_ids:
+                        total_expenses=self.get_quantities_issues_detail(issue,inv)
+                        total_expenses_group+=total_expenses
+                        inv.write({'issue_ids':[(4,issue.id)]})
+                    inv.write({'invoice_line':[(0,0, {'name': _(('Expenses of Several Issues')),'quantity':1,'price_unit':total_expenses_group})]})
+            for branch in branch_group_ids:
+                create_invoice={}
+                total_timesheet_group=0.0
+                total_backorder_group=0.0
+                total_expenses_group=0.0
+                create_invoice['partner_id']=branch
+                create_invoice['account_id']=partner_obj.search([('id','=',branch)]).property_account_receivable.id
+                inv=invoice_obj.create(create_invoice)
+                invoices_list.append(inv.id)
+                issue_branch_ids=issue_obj.search([('id','in',branch_issue_ids),('branch_id','=',branch),('partner_id','!=',False)])
+                if line_detailed==False:
+                    for issue in issue_branch_ids:
+                        total_timesheet,total_backorder,total_expenses=self.get_quantities_issues(issue,inv.id)
+                        total_timesheet_group+=total_timesheet
+                        total_backorder_group+=total_backorder
+                        total_expenses_group+=total_expenses
+                        inv.write({'issue_ids':[(4,issue.id)]})
+                    inv.write({'invoice_line':[(0,0, {'name': _(('Several Issues')),'quantity':1,'price_unit':total_timesheet_group+total_backorder_group})]})
+                    inv.write({'invoice_line':[(0,0, {'name': _(('Expenses of Several Issues')),'quantity':1,'price_unit':total_expenses_group})]})
+                elif line_detailed==True:
+                    for issue in issue_branch_ids:
+                        total_expenses=self.get_quantities_issues_detail(issue,inv)
+                        total_expenses_group+=total_expenses
+                        inv.write({'issue_ids':[(4,issue.id)]})
+                    inv.write({'invoice_line':[(0,0, {'name': _(('Expenses of Several Issues')),'quantity':1,'price_unit':total_expenses_group})]})
+        return invoices_list
+
+    @api.multi
+    def validate_issues(self):
+        partner_ids=[]
+        issue_ids=[]
+        model_ids=[]
+        issue_obj=self.env['project.issue']
+        
+        if self.filter=='filter_no':
+            issue_ids=issue_obj.search([('issue_type','!=','preventive check'),('stage_id.closed','=',True),('sale_order_id','=',False),('invoice_id','=',False)])
+        elif self.filter=='filter_date':
+            issue_ids=issue_obj.search([('issue_type','!=','preventive check'),('stage_id.closed','=',True),('sale_order_id','=',False),('invoice_id','=',False),('create_date', '>=', self.date_from),('create_date', '<=', self.date_to)])
+        elif self.filter=='filter_period':
+            issue_ids=issue_obj.search([('issue_type','!=','preventive check'),('stage_id.closed','=',True),('sale_order_id','=',False),('invoice_id','=',False),('create_date', '>=',self.period_from.date_start),('create_date', '<=',self.period_to.date_stop)])
+        elif self.filter=='filter_partner':
+            for partner in self.partner_ids:
+                partner_ids.append(partner.id)
+            issue_ids=issue_obj.search(['|',('partner_id','in',partner_ids),('branch_id','in',partner_ids),('issue_type','!=','preventive check'),('stage_id.closed','=',True),('sale_order_id','=',False),('invoice_id','=',False)])
+        elif self.filter=='filter_issue':
+            for issue in self.issue_ids:
+                issue_ids.append(issue.id)
+            issue_ids=issue_obj.search([('issue_type','!=','preventive check'),('stage_id.closed','=',True),('sale_order_id','=',False),('invoice_id','=',False),('id','in',issue_ids)])
+        if issue_ids:
+            invoices_list=self.generate_invoices(issue_ids,self.group_customer,self.line_detailed)
+            return {
+            'type': 'ir.actions.act_window',
+            'name': _('Invoices'),
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'domain' : [('id','in',invoices_list)],
+            'res_model': 'account.invoice',
+            'target': 'current',
+            'nodestroy': True,
+            }
+        else:
+            raise Warning(_('No pending issues closed for invoicing'))
+        
+    @api.one
+    @api.constrains('date_from','date_to')    
+    def _check_filter_date(self):
+        if self.filter=='filter_date':
+            if self.date_from>self.date_to:
+                raise Warning(_('Start Date must be less than End Date'))
+    @api.constrains('period_from','period_to')
+    def _check_filter_period(self):
+        if self.filter=='filter_period':
+            if self.period_from.date_start>self.period_to.date_stop:
+                raise Warning(_('Start Period must be less than End Period'))
+    line_detailed=fields.Boolean( string="Detailed",default=True)
+    group_customer=fields.Boolean( string="Group by customer",default=False)
     filter=fields.Selection([('filter_no','No Filter'),('filter_date','Date'),('filter_period','Period'),('filter_partner','Partner'),('filter_issue','Issue')],string="Filter",required=True,default='filter_no')
     date_from=fields.Date(string="Start Date")
     date_to=fields.Date(string="End Date")

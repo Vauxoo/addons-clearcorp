@@ -9,7 +9,7 @@
             <field name="arch" type="xml">
                 <xpath expr="/form/sheet/notebook/page[@string='Order Lines']" position="after">
                     <page string="Issues">
-                        <field name="issue_ids" colspan="4" nolabel="1" attrs="{'readonly': [('state','not in',('draft','sent'))]}">
+                        <field name="issue_ids" widget="many2many" domain="['|',('partner_id','=',partner_id),('branch_id','=',partner_id)]" colspan="4" nolabel="1" attrs="{'readonly': [('state','not in',('draft','sent'))]}">
                             <tree string="Issues Lines">
                                 <field name="issue_number"/>
                                 <field name="issue_type"/>
@@ -33,8 +33,9 @@
             <field name="priority" eval="30"/>
             <field name="arch" type="xml">
                 <xpath expr="/form/sheet/notebook/page[@string='Extra Info']/group/group[@string='Status']" position="inside">
-                        <field name="sale_order_id" readonly="1"/>
-                        <field name="invoice_id" readonly="1"/>
+                        <field name="sale_order_id" readonly="1" />
+                        <field name="invoice_sale_id" readonly="1" attrs="{'invisible':[('sale_order_id', '=', False)]}"/>
+                        <field name="invoice_id" readonly="1" attrs="{'invisible':[('invoice_sale_id', '!=', False)]}"/>
                 </xpath>
             </field>
         </record>
@@ -59,8 +60,12 @@
             <field name="model">hr.expense.expense</field>
             <field name="inherit_id" ref="hr_expense.view_expenses_form"/>
             <field name="arch" type="xml">
-                <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']/field[@name='analytic_account']" position="after"> 
-                    <field name="issue_id" domain="[('analytic_account_id','=',analytic_account)]"/> 
+                <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']/field[@name='analytic_account']" position="before">
+                    <field name="issue_id"/>
+                    <field name="init_onchange_call" invisible="1"/>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']/field[@name='analytic_account']" position="attributes"> 
+                    <attribute name="domain">[('id','in',init_onchange_call[0][2]),('type','in',['normal','contract'])]</attribute>
                 </xpath>
             </field>
         </record>

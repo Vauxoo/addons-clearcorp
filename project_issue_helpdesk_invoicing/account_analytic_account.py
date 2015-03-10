@@ -100,7 +100,7 @@ class account_analytic_account(osv.osv):
                         amount=list.assistant_rate*list.holiday_multiplier
                     elif holiday_state==False:
                         amount=(list.assistant_rate*list.overtime_multiplier*extra_hours)+(list.assistant_rate*regular_hours)
-                return amount
+        return amount
 
     def _analysis_all(self, cr, uid, ids, fields, arg, context=None):
         total=0.0
@@ -117,7 +117,7 @@ class account_analytic_account(osv.osv):
                             LEFT JOIN account_analytic_line line on (line.id=sheet.line_id)
                             LEFT JOIN account_analytic_journal journal ON (journal.id = line.journal_id)
                             WHERE account_id = %s AND journal.type != 'purchase'
-                                  AND invoice_id IS NULL
+                                  AND line.invoice_id IS NULL
                                   AND to_invoice IS NOT NULL
                             GROUP BY line.to_invoice, line.product_uom_id, line.name,sheet.service_type,line.date,sheet.start_time,sheet.end_time,sheet.issue_id,issue.categ_id,issue.product_id""", (account.id,))
                         for factor_id, qty, line_name, issue_id,categ_id,product_id, date, service_type, start_time,end_time in cr.fetchall():
@@ -155,7 +155,7 @@ class account_invoice_report(osv.osv):
          'account.invoice.line': ['porcent_variation_margin','variation_margin'],
     }
      
-    def _select(    
+    def _select(
          self):
         return  super(account_invoice_report, self)._select() + ", sub.porcent_variation_margin as porcent_variation_margin, sub.variation_margin as variation_margin"
     
@@ -188,3 +188,35 @@ class account_analytic_line(osv.osv):
         
         res=super(account_analytic_line,self).invoice_cost_create(cr, uid, ids, data, context)
         return res
+
+class ProjectIssue(osv.osv):
+    _inherit = 'project.issue'
+    def onchange_partner_id(self, cr, uid, ids, partner_id, context=None):
+        result={}
+        domain=[]
+        result = super(ProjectIssue, self).onchange_partner_id(cr, uid, ids, partner_id)
+        if partner_id:
+            domain.append(('type', '!=', 'view'))
+            domain.append(('partner_id', '=',partner_id))
+            contract_ids = self.pool.get('account.analytic.account').search(cr,uid,[('partner_id','=',partner_id)])
+            result.update({'domain':{'analytic_account_id':domain}})
+            if contract_ids:
+                result['value'].update({'analytic_account_id':contract_ids[0]})
+            else:
+                result['value'].update({'analytic_account_id':False})
+        return result
+    
+    def onchange_branch_id(self, cr, uid, ids, branch_id, context=None):
+        result={}
+        domain=[]
+        result = super(ProjectIssue, self).onchange_branch_id(cr, uid, ids, branch_id)
+        if branch_id:
+            domain.append(('type', '!=', 'view'))
+            domain.append(('branch_ids.id', '=',branch_id))
+            contract_ids = self.pool.get('account.analytic.account').search(cr,uid,[('branch_ids.id','=',branch_id)])
+            result.update({'domain':{'analytic_account_id':domain}})
+            if contract_ids:
+                result['value'].update({'analytic_account_id':contract_ids[0]})
+            else:
+                result['value'].update({'analytic_account_id':False})
+        return result

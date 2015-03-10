@@ -12,7 +12,8 @@
             <field name="arch" type="xml">
                 <form string="Issues Invoicing">
                     <group>
-                        <field name="group"/>
+                        <field name="line_detailed"/>
+                        <field name="group_customer"/>
                         <field name="filter"/>
                     </group>
                     <group>
@@ -21,11 +22,11 @@
                         <field name="fiscalyear_id"  attrs="{'required':[('filter','=','filter_period')], 'invisible':[('filter','!=','filter_period')]}"/>
                         <field name="period_from" domain="[('fiscalyear_id', '=', fiscalyear_id)]" attrs="{'required':[('filter','=','filter_period')], 'invisible':[('filter','!=','filter_period')]}"/>
                         <field name="period_to" domain="[('fiscalyear_id', '=', fiscalyear_id)]" attrs="{'required':[('filter','=','filter_period')], 'invisible':[('filter','!=','filter_period')]}"/>
-                        <field name="partner_ids" domain="[('customer','=',True)]" attrs="{'required':[('filter','=','filter_partner')], 'invisible':[('filter','!=','filter_partner')]}"/>
-                        <field name="issue_ids"  attrs="{'required':[('filter','=','filter_issue')], 'invisible':[('filter','!=','filter_issue')]}"/>
+                        <field name="partner_ids" domain="[('customer','=',True),('partner_type','in',('company','branch'))]" attrs="{'required':[('filter','=','filter_partner')], 'invisible':[('filter','!=','filter_partner')]}"/>
+                        <field name="issue_ids" context="{'tree_view_ref':'project_issue_helpdesk.project_issue_tree_view'}" domain="[('issue_type','!=','preventive check'),('stage_id.closed','=',True),('sale_order_id','=',False),('invoice_id','=',False)]" attrs="{'required':[('filter','=','filter_issue')],'invisible':[('filter','!=','filter_issue')]}"/>
                     </group>
                     <footer>
-                        <button name="" string="Create Invoices" type="object" default_focus="1" class="oe_highlight"/>
+                        <button name="validate_issues" string="Create Invoices" type="object" default_focus="1" class="oe_highlight"/>
                         or
                         <button string="Cancel" class="oe_link" special="cancel"/>
                     </footer>

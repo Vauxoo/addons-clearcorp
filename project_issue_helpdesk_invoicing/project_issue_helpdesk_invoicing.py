@@ -20,48 +20,17 @@
 #
 ##############################################################################
 from openerp import models, fields, api, _
-    
+
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
-
+    
     issue_ids=fields.One2many('project.issue','sale_order_id')
 
 class ProjectIssue(models.Model):
     _inherit = 'project.issue'
-    @api.v7
-    def onchange_partner_id(self, cr, uid, ids, partner_id, context=None):
-        result={}
-        domain=[]
-        result = super(ProjectIssue, self).onchange_partner_id(cr, uid, ids, partner_id)
-        if partner_id:
-            domain.append(('type', '!=', 'view'))
-            domain.append(('partner_id', '=',partner_id))
-            contract_ids = self.pool.get('account.analytic.account').search(cr,uid,[('partner_id','=',partner_id)])
-            result.update({'domain':{'analytic_account_id':domain}})
-            if contract_ids:
-                result['value'].update({'analytic_account_id':contract_ids[0]})
-            else:
-                result['value'].update({'analytic_account_id':False})
-        return result
-    
-    @api.v7
-    def onchange_branch_id(self, cr, uid, ids, branch_id, context=None):
-        result={}
-        domain=[]
-        result = super(ProjectIssue, self).onchange_branch_id(cr, uid, ids, branch_id)
-        if branch_id:
-            domain.append(('type', '!=', 'view'))
-            domain.append(('branch_ids.id', '=',branch_id))
-            contract_ids = self.pool.get('account.analytic.account').search(cr,uid,[('branch_ids.id','=',branch_id)])
-            result.update({'domain':{'analytic_account_id':domain}})
-            if contract_ids:
-                result['value'].update({'analytic_account_id':contract_ids[0]})
-            else:
-                result['value'].update({'analytic_account_id':False})
-        return result
-        
     sale_order_id=fields.Many2one('sale.order','Sale Order')
-    invoice_id=fields.Char(string='Invoice Number',related='sale_order_id.invoice_ids.internal_number')
+    invoice_sale_id=fields.Char(string='Invoice Number',related='sale_order_id.invoice_ids.internal_number')
+    invoice_id=fields.Many2one('account.invoice',string='Invoice Number')
     
 class ResPartner(models.Model):
     _inherit = 'res.partner'
@@ -77,11 +46,23 @@ class AccountAnalyticAccount(models.Model):
 
 class HRExpenseLine(models.Model):
     _inherit = 'hr.expense.line'
+    @api.depends('issue_id')
+    @api.one
+    def get_account_issue(self):
+        account_obj=self.env['account.analytic.account']
+        if self.issue_id:
+            self.init_onchange_call=self.issue_id.analytic_account_id
+        else:
+            self.init_onchange_call=account_obj.search([('type','in',['normal','contract'])])
+    @api.onchange('issue_id')
+    def get_account(self):
+        if self.issue_id.analytic_account_id:
+            self.analytic_account=self.issue_id.analytic_account_id
+        else:
+            self.analytic_account=False
+    init_onchange_call= fields.Many2many('account.analytic.account',compute="get_account_issue",string='Nothing Display', help='field at view init')
     issue_id=fields.Many2one('project.issue','Issue')
     
-    @api.onchange('analytic_account')
-    def onchange_analytic_account(self):
-        self.issue_id=False
         
 class HolidayCalendar(models.Model):
     _name = 'holiday.calendar'
@@ -224,8 +205,18 @@ class AccountInvoice(models.Model):
                 self.porcent_variation_margin=0.0
             for invoice_line in self.invoice_line:
                 self.get_profitability_line(invoice_line)
-            
-             
+        
+    @api.multi
+    def unlink(self):
+        for invoice in self:
+            for issue in invoice.issue_ids:
+                if issue:
+                    for backorder in issue.backorder_ids:
+                        if backorder.invoice_state=='invoiced':
+                            backorder.write({'invoice_state':'none'})
+                            backorder.move_lines.write({'invoice_state':'none'})
+        return models.Model.unlink(self)
+    issue_ids=fields.One2many('project.issue','invoice_id')
     quoted_cost=fields.Float(compute="get_profitability",digits=(16,2),string="Quoted Cost")
     quoted_price=fields.Float(compute="get_profitability",digits=(16,2),string="Quoted Price")
     expected_margin=fields.Float(compute="get_profitability",digits=(16,2),string="Expected Margin")
@@ -256,3 +247,8 @@ class AccountInvoiceLine(models.Model):
     porcent_variation_price=fields.Float(digits=(16,2),string="Variation Price(%)")
     porcent_variation_margin=fields.Float(digits=(16,2),string="Variation Margin(%)")
     sale_lines= fields.Many2many('sale.order.line', 'sale_order_line_invoice_rel', 'invoice_id','order_line_id', 'Sale Lines', readonly=True, copy=False)
+    
+class ProjectIssue(models.Model):
+    _inherit = 'project.issue'
+
+    expense_line_ids=fields.One2many('hr.expense.line','issue_id')
