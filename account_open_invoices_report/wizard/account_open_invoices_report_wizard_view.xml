@@ -5,7 +5,7 @@
             <field name="name">Account Open Invoices Report </field>
             <field name="model">open.invoices.wiz</field>
             <field name="type">form</field>
-            <field name="inherit_id" ref="account_report_lib.account_report_lib_wizard_view"/>
+            <field name="inherit_id" ref="account_report_lib.account_report_lib_wizard_form_view"/>
             <field name="arch" type="xml">
                 <data>
                     <xpath expr="/form/label[@string='']" position="replace">
@@ -61,7 +61,7 @@
                         <field name="res_partners_ids" nolabel="1" domain="['|', ('customer','=', True),('supplier','=',True)]"/>
                     </field>
                     <group string="Journals" position="attributes">
-                        <attribute name="attrs">{'invisible': True}</attribute>
+                        <attribute name="attrs">{'invisible': False}</attribute>
                     </group>
                     <field name="amount_currency" position="attributes">
                         <attribute name="attrs">{'invisible': True}</attribute>

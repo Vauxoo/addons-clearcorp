@@ -22,7 +22,7 @@
 
 from openerp.osv import fields, osv, orm
 
-class OpenInvoicesReportWizard(orm.Model):
+class OpenInvoicesReportWizard(osv.Model):
 
     _inherit = "account.report.wiz"
     _name = "open.invoices.wiz"
@@ -30,7 +30,7 @@ class OpenInvoicesReportWizard(orm.Model):
     
     _columns = {
        #Redefine filter, use only date and period
-       'filter': fields.selection([('filter_date', 'Date'), ('filter_period', 'Periods')], "Filter by"),       
+       'filter': fields.selection([('filter_no', 'No filter'), ('filter_date', 'Date'), ('filter_period', 'Periods')], "Filter by"),
        'account_type': fields.selection([('customer','Receivable Accounts'),
                                           ('supplier','Payable Accounts'),
                                           ('customer_supplier','Receivable and Payable Accounts')],"Account type",),
@@ -39,10 +39,9 @@ class OpenInvoicesReportWizard(orm.Model):
     def _print_report(self, cr, uid, ids, data, context=None):
         mimetype = self.pool.get('report.mimetypes')
         report_obj = self.pool.get('ir.actions.report.xml')
-        report_name = ''
-      
         context = context or {}
-            
+        report_name = 'account_open_invoices_report.report_open_invoices'
+        
         #=======================================================================
         # onchange_in_format method changes variable out_format depending of 
         # which in_format is choosed. 
@@ -64,7 +63,7 @@ class OpenInvoicesReportWizard(orm.Model):
         #=======================================================================
         
         #1. Find out_format selected
-        out_format_obj = mimetype.browse(cr, uid, [int(data['form']['out_format'])], context)[0]
+        """out_format_obj = mimetype.browse(cr, uid, [int(data['form']['out_format'])], context)[0]
 
         #2. Check out_format and set report_name for each format
         if out_format_obj.code == 'oo-pdf':
@@ -84,9 +83,9 @@ class OpenInvoicesReportWizard(orm.Model):
             data.update({'model': report_xml.model, 'report_type':'aeroo', 'id': report_xml.id})
             
             #Write out_format choosed in wizard
-            report_xml.write({'out_format': out_format_obj.id}, context=context)
+        report_xml.write({'out_format': out_format_obj.id}, context=context)"""
            
-            return {
+        return {
                 'type': 'ir.actions.report.xml',
                 'report_name': report_name,
                 'datas': data,
