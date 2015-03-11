@@ -47,7 +47,7 @@ class IssueInvoiceWizard(models.TransientModel):
             if expense_line.expense_id.state=='done':
                 for move_lines in expense_line.expense_id.account_move_id.line_id:
                     for lines in move_lines.analytic_lines:
-                        if lines.account_id==expense_line.analytic_account and not lines.invoice_id:
+                        if lines.account_id==expense_line.analytic_account and lines.name==expense_line.name and lines.amount*-1==expense_line.unit_amount and not lines.invoice_id:
                             total_expenses+=lines.amount*-1
                             lines.write({'invoice_id':invoice_id})
         return total_timesheet,total_backorder,total_expenses
@@ -74,7 +74,7 @@ class IssueInvoiceWizard(models.TransientModel):
             if expense_line.expense_id.state=='done':
                 for move_lines in expense_line.expense_id.account_move_id.line_id:
                     for lines in move_lines.analytic_lines:
-                        if lines.account_id==expense_line.analytic_account and not lines.invoice_id:
+                        if lines.account_id==expense_line.analytic_account and lines.name==expense_line.name and lines.amount*-1==expense_line.unit_amount and not lines.invoice_id:
                             total_expenses+=lines.amount*-1
                             lines.write({'invoice_id':inv.id})
         return total_expenses

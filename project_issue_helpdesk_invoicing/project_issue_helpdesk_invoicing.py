@@ -20,6 +20,7 @@
 #
 ##############################################################################
 from openerp import models, fields, api, _
+from openerp.exceptions import Warning
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
@@ -250,5 +251,25 @@ class AccountInvoiceLine(models.Model):
     
 class ProjectIssue(models.Model):
     _inherit = 'project.issue'
-
+    
+    @api.v7
+    def write(self, cr, uid, ids, vals, context=None):
+        issues=self.browse(cr,uid,ids)
+        if vals.get('stage_id'):
+            type_obj=self.pool.get('project.task.type')
+            type_ids=type_obj.search(cr, uid,[('id', '=', vals.get('stage_id'))])
+            types=type_obj.browse(cr, uid,type_ids)
+            for type in types:
+                if type.closed==True:
+                    for issue in issues:
+                        for backorder in issue.backorder_ids:
+                            if backorder.state!='done':
+                                raise Warning(_('Pending transfer the backorder: %s' % backorder.name))
+                            elif not backorder.delivery_note_id:
+                                raise Warning(_('Pending generate delivery note for backorder: %s' % backorder.name))
+                        for expense_line in issue.expense_line_ids:
+                            if not expense_line.expense_id.state in ['done','pain']:
+                                raise Warning(_('Pending change status to done or paid of expense: %s' % expense_line.expense_id.name))
+        return super(ProjectIssue, self).write(cr, uid, ids, vals, context)
+   
     expense_line_ids=fields.One2many('hr.expense.line','issue_id')

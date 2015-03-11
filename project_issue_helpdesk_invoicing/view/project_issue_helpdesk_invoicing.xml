@@ -61,7 +61,7 @@
             <field name="inherit_id" ref="hr_expense.view_expenses_form"/>
             <field name="arch" type="xml">
                 <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']/field[@name='analytic_account']" position="before">
-                    <field name="issue_id"/>
+                    <field name="issue_id" domain="[('stage_id.closed','!=',True)]"/>
                     <field name="init_onchange_call" invisible="1"/>
                 </xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']/field[@name='analytic_account']" position="attributes"> 
