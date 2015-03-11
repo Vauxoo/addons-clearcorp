@@ -273,3 +273,17 @@ class ProjectIssue(models.Model):
         return super(ProjectIssue, self).write(cr, uid, ids, vals, context)
    
     expense_line_ids=fields.One2many('hr.expense.line','issue_id')
+
+#class HrAnaliticTimeSheet(models.Model):
+#    _inherit = 'hr.analytic.timesheet'
+#    @api.multi
+#    def to_invoice(self):
+#        self.line_id.write({'to_invoice':'2binvoiced'})
+#        
+#        state=fields.Selection(('invoiced', 'Invoiced'),
+#            ('2binvoiced', 'To Be Invoiced'),
+#            ('none', 'Not Applicable'))
+        
+#        _default={
+#                  state:'none'
+#                  }

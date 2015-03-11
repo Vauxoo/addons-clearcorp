@@ -33,6 +33,7 @@
                 </form>
             </field>
         </record>
+        
         <!-- Actions -->
         <!-- project.issue.helpdesk.invoices.wizard -->
         <record id="action_issue_invoice_wizard" model="ir.actions.act_window">
