@@ -29,6 +29,27 @@ class SaleOrder(models.Model):
 
 class ProjectIssue(models.Model):
     _inherit = 'project.issue'
+    @api.v7
+    def write(self, cr, uid, ids, vals, context=None):
+        issues=self.browse(cr,uid,ids)
+        if vals.get('stage_id'):
+            type_obj=self.pool.get('project.task.type')
+            type_ids=type_obj.search(cr, uid,[('id', '=', vals.get('stage_id'))])
+            types=type_obj.browse(cr, uid,type_ids)
+            for type in types:
+                if type.closed==True:
+                    for issue in issues:
+                        for backorder in issue.backorder_ids:
+                            if backorder.state!='done':
+                                raise Warning(_('Pending transfer the backorder: %s' % backorder.name))
+                            elif not backorder.delivery_note_id:
+                                raise Warning(_('Pending generate delivery note for backorder: %s' % backorder.name))
+                        for expense_line in issue.expense_line_ids:
+                            if not expense_line.expense_id.state in ['done','pain']:
+                                raise Warning(_('Pending change status to done or paid of expense: %s' % expense_line.expense_id.name))
+        return super(ProjectIssue, self).write(cr, uid, ids, vals, context)
+   
+    expense_line_ids=fields.One2many('hr.expense.line','issue_id')
     sale_order_id=fields.Many2one('sale.order','Sale Order')
     invoice_sale_id=fields.Char(string='Invoice Number',related='sale_order_id.invoice_ids.internal_number')
     invoice_id=fields.Many2one('account.invoice',string='Invoice Number')
@@ -137,7 +158,7 @@ class ContractPriceList(models.Model):
     
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
-    
+
     def get_profitability_line(self,invoice_line):
         invoice_line.write({'real_price':invoice_line.price_subtotal})
         for invoice_sale_line in invoice_line.sale_lines:
@@ -169,43 +190,98 @@ class AccountInvoice(models.Model):
     @api.multi
     @api.depends('invoice_line','quoted_cost','quoted_price','real_cost','real_price')
     def get_profitability(self):
-        if self.order_ids and not self.order_ids.issue_ids:
-            quoted_cost=0.0
-            quoted_price=0.0
-            real_cost=0.0
-            real_price=0.0
-            for sale_line in self.order_ids.order_line:
-                quoted_cost+=sale_line.product_uom_qty*sale_line.purchase_price
-                quoted_price+=sale_line.price_subtotal
-            self.quoted_cost=quoted_cost
-            self.quoted_price=quoted_price
-            for invoice_line in self.invoice_line:
-                real_price+=invoice_line.price_subtotal
-                if not invoice_line.sale_lines:
-                    real_cost+=invoice_line.product_id.standard_price*invoice_line.quantity
+        for invoice in self:
+            if invoice.order_ids and not invoice.order_ids.issue_ids:
+                quoted_cost=0.0
+                quoted_price=0.0
+                real_cost=0.0
+                real_price=0.0
+                for sale_line in invoice.order_ids.order_line:
+                    quoted_cost+=sale_line.product_uom_qty*sale_line.purchase_price
+                    quoted_price+=sale_line.price_subtotal
+                invoice.quoted_cost=quoted_cost
+                invoice.quoted_price=quoted_price
+                for invoice_line in invoice.invoice_line:
+                    real_price+=invoice_line.price_subtotal
+                    if not invoice_line.sale_lines:
+                        real_cost+=invoice_line.product_id.standard_price*invoice_line.quantity
+                    else:
+                        real_cost+=invoice_line.sale_lines.purchase_price*invoice_line.quantity
+                invoice.real_price=real_price
+                invoice.real_cost=real_cost
+                invoice.expected_margin=invoice.quoted_price-invoice.quoted_cost
+                invoice.real_margin=invoice.real_price-invoice.real_cost
+                invoice.variation_cost=invoice.real_cost-invoice.quoted_cost
+                invoice.variation_price=invoice.real_price-invoice.quoted_price
+                invoice.variation_margin=invoice.real_margin-invoice.expected_margin
+                if invoice.quoted_cost!=0:
+                    invoice.porcent_variation_cost=(invoice.real_cost-invoice.quoted_cost)/invoice.quoted_cost*100
                 else:
-                    real_cost+=invoice_line.sale_lines.purchase_price*invoice_line.quantity
-            self.real_price=real_price
-            self.real_cost=real_cost
-            self.expected_margin=self.quoted_price-self.quoted_cost
-            self.real_margin=self.real_price-self.real_cost
-            self.variation_cost=self.real_cost-self.quoted_cost
-            self.variation_price=self.real_price-self.quoted_price
-            self.variation_margin=self.real_margin-self.expected_margin
-            if self.quoted_cost!=0:
-                self.porcent_variation_cost=(self.real_cost-self.quoted_cost)/self.quoted_cost*100
-            else:
-                self.porcent_variation_cost=0.0
-            if self.quoted_price!=0:
-                self.porcent_variation_price=(self.real_price-self.quoted_price)/self.quoted_price*100
-            else:
-                self.porcent_variation_price=0.0
-            if self.expected_margin!=0:
-                self.porcent_variation_margin=(self.real_margin-self.expected_margin)/self.expected_margin*100
-            else:
-                self.porcent_variation_margin=0.0
-            for invoice_line in self.invoice_line:
-                self.get_profitability_line(invoice_line)
+                    invoice.porcent_variation_cost=0.0
+                if invoice.quoted_price!=0:
+                    invoice.porcent_variation_price=(invoice.real_price-invoice.quoted_price)/invoice.quoted_price*100
+                else:
+                    invoice.porcent_variation_price=0.0
+                if invoice.expected_margin!=0:
+                    invoice.porcent_variation_margin=(invoice.real_margin-invoice.expected_margin)/invoice.expected_margin*100
+                else:
+                    invoice.porcent_variation_margin=0.0
+                for invoice_line in invoice.invoice_line:
+                    invoice.get_profitability_line(invoice_line)
+            elif invoice.order_ids and invoice.order_ids.issue_ids:
+                quoted_cost=0.0
+                quoted_price=0.0
+                real_cost=0.0
+                real_price=0.0
+                for sale_line in invoice.order_ids.order_line:
+                    quoted_cost+=sale_line.product_uom_qty*sale_line.purchase_price
+                    quoted_price+=sale_line.price_subtotal
+                invoice.quoted_cost=quoted_cost
+                invoice.quoted_price=quoted_price
+                
+                total_timesheet=0.0
+                total_backorder=0.0
+                total_backorder_cost=0.0
+                for issue in invoice.order_ids.issue_ids:
+                    account_obj=self.env['account.analytic.account']
+                    for timesheet in issue.timesheet_ids:
+                        for account_line in timesheet.line_id:
+                            if not account_line.invoice_id:
+                                total_timesheet+=account_obj._get_invoice_price(account_line.account_id,account_line.date,timesheet.start_time,timesheet.end_time,issue.product_id.id,issue.categ_id.id,account_line.unit_amount,timesheet.service_type)
+                    for backorder in issue.backorder_ids:
+                        if backorder.delivery_note_id and backorder.invoice_state!='invoiced':
+                            for delivery_note_lines in backorder.delivery_note_id.note_lines:
+                                total_backorder+=delivery_note_lines.quantity*delivery_note_lines.price_unit
+                        if backorder.move_lines:
+                            for move in backorder.move_lines:
+                                standart_price=0.0
+                                quantity=0.0
+                                final_cost_quant=0.0
+                                if move.quant_ids:
+                                    for quant in move.quant_ids:
+                                        quantity+=abs(quant.qty)
+                                        final_cost_quant+=(quant.cost)*abs(quant.qty)
+                                    standart_price=(final_cost_quant/quantity)
+                                    total_backorder_cost+=standart_price*move.product_qty
+                invoice.real_price=total_timesheet+total_backorder
+                invoice.real_cost=total_timesheet+total_backorder_cost
+                invoice.expected_margin=invoice.quoted_price-invoice.quoted_cost
+                invoice.real_margin=invoice.real_price-invoice.real_cost
+                invoice.variation_cost=invoice.real_cost-invoice.quoted_cost
+                invoice.variation_price=invoice.real_price-invoice.quoted_price
+                invoice.variation_margin=invoice.real_margin-invoice.expected_margin
+                if invoice.quoted_cost!=0:
+                    invoice.porcent_variation_cost=(invoice.real_cost-invoice.quoted_cost)/invoice.quoted_cost*100
+                else:
+                    invoice.porcent_variation_cost=0.0
+                if invoice.quoted_price!=0:
+                    invoice.porcent_variation_price=(invoice.real_price-invoice.quoted_price)/invoice.quoted_price*100
+                else:
+                    invoice.porcent_variation_price=0.0
+                if invoice.expected_margin!=0:
+                    invoice.porcent_variation_margin=(invoice.real_margin-invoice.expected_margin)/invoice.expected_margin*100
+                else:
+                    invoice.porcent_variation_margin=0.0
         
     @api.multi
     def unlink(self):
@@ -218,20 +294,20 @@ class AccountInvoice(models.Model):
                             backorder.move_lines.write({'invoice_state':'none'})
         return models.Model.unlink(self)
     issue_ids=fields.One2many('project.issue','invoice_id')
-    quoted_cost=fields.Float(compute="get_profitability",digits=(16,2),string="Quoted Cost")
-    quoted_price=fields.Float(compute="get_profitability",digits=(16,2),string="Quoted Price")
-    expected_margin=fields.Float(compute="get_profitability",digits=(16,2),string="Expected Margin")
-    real_cost=fields.Float(compute="get_profitability",digits=(16,2),string="Real Cost")
-    real_price=fields.Float(compute="get_profitability",digits=(16,2),string="Real Price")
-    real_margin=fields.Float(compute="get_profitability",digits=(16,2),string="Real Margin")
-    variation_cost=fields.Float(compute="get_profitability",digits=(16,2),string="Variation Cost")
-    variation_price=fields.Float(compute="get_profitability",digits=(16,2),string="Variation Price")
-    variation_margin=fields.Float(compute="get_profitability",digits=(16,2),string="Variation Margin")
-    porcent_variation_cost=fields.Float(compute="get_profitability",digits=(16,2),string="Variation Cost(%)")
-    porcent_variation_price=fields.Float(compute="get_profitability",digits=(16,2),string="Variation Price(%)")
-    porcent_variation_margin=fields.Float(compute="get_profitability",digits=(16,2),string="Variation Margin(%)")
+    quoted_cost=fields.Float(compute="get_profitability",store=True, readonly=True,digits=(16,2),string="Quoted Cost")
+    quoted_price=fields.Float(compute="get_profitability",store=True, readonly=True,digits=(16,2),string="Quoted Price")
+    expected_margin=fields.Float(compute="get_profitability",store=True, readonly=True,digits=(16,2),string="Expected Margin")
+    real_cost=fields.Float(compute="get_profitability",store=True, readonly=True,digits=(16,2),string="Real Cost")
+    real_price=fields.Float(compute="get_profitability",store=True, readonly=True,digits=(16,2),string="Real Price")
+    real_margin=fields.Float(compute="get_profitability",store=True, readonly=True,digits=(16,2),string="Real Margin")
+    variation_cost=fields.Float(compute="get_profitability",store=True, readonly=True,digits=(16,2),string="Variation Cost")
+    variation_price=fields.Float(compute="get_profitability",store=True, readonly=True,digits=(16,2),string="Variation Price")
+    variation_margin=fields.Float(compute="get_profitability",store=True, readonly=True,digits=(16,2),string="Variation Margin")
+    porcent_variation_cost=fields.Float(compute="get_profitability",store=True, readonly=True,digits=(16,2),string="Variation Cost %")
+    porcent_variation_price=fields.Float(compute="get_profitability",store=True, readonly=True,digits=(16,2),string="Variation Price %")
+    porcent_variation_margin=fields.Float(compute="get_profitability",store=True, readonly=True,digits=(16,2),string="Variation Margin %")
     order_ids= fields.Many2many('sale.order', 'sale_order_invoice_rel', 'invoice_id','order_id', 'Sales Order', readonly=True, copy=False, help="This is the list of sales orders that have been generated for this invoice.")
-    
+
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
     
@@ -248,42 +324,3 @@ class AccountInvoiceLine(models.Model):
     porcent_variation_price=fields.Float(digits=(16,2),string="Variation Price(%)")
     porcent_variation_margin=fields.Float(digits=(16,2),string="Variation Margin(%)")
     sale_lines= fields.Many2many('sale.order.line', 'sale_order_line_invoice_rel', 'invoice_id','order_line_id', 'Sale Lines', readonly=True, copy=False)
-    
-class ProjectIssue(models.Model):
-    _inherit = 'project.issue'
-    
-    @api.v7
-    def write(self, cr, uid, ids, vals, context=None):
-        issues=self.browse(cr,uid,ids)
-        if vals.get('stage_id'):
-            type_obj=self.pool.get('project.task.type')
-            type_ids=type_obj.search(cr, uid,[('id', '=', vals.get('stage_id'))])
-            types=type_obj.browse(cr, uid,type_ids)
-            for type in types:
-                if type.closed==True:
-                    for issue in issues:
-                        for backorder in issue.backorder_ids:
-                            if backorder.state!='done':
-                                raise Warning(_('Pending transfer the backorder: %s' % backorder.name))
-                            elif not backorder.delivery_note_id:
-                                raise Warning(_('Pending generate delivery note for backorder: %s' % backorder.name))
-                        for expense_line in issue.expense_line_ids:
-                            if not expense_line.expense_id.state in ['done','pain']:
-                                raise Warning(_('Pending change status to done or paid of expense: %s' % expense_line.expense_id.name))
-        return super(ProjectIssue, self).write(cr, uid, ids, vals, context)
-   
-    expense_line_ids=fields.One2many('hr.expense.line','issue_id')
-
-#class HrAnaliticTimeSheet(models.Model):
-#    _inherit = 'hr.analytic.timesheet'
-#    @api.multi
-#    def to_invoice(self):
-#        self.line_id.write({'to_invoice':'2binvoiced'})
-#        
-#        state=fields.Selection(('invoiced', 'Invoiced'),
-#            ('2binvoiced', 'To Be Invoiced'),
-#            ('none', 'Not Applicable'))
-        
-#        _default={
-#                  state:'none'
-#                  }

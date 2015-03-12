@@ -37,6 +37,11 @@
                         <field name="invoice_sale_id" readonly="1" attrs="{'invisible':[('sale_order_id', '!=', True)]}"/>
                         <field name="invoice_id" readonly="1" attrs="{'invisible':[('invoice_sale_id', '!=', False)]}"/>
                 </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Delivery Orders']" position="after">
+                    <page string="Expenses Lines">
+                        <field name="expense_line_ids" readonly="1" widget="many2many"/>
+                    </page>
+                </xpath>
             </field>
         </record>
         <!--Form View Inherit res partner (base)-->
@@ -233,20 +238,18 @@
                 </xpath>
            </field>
     </record>
-    <!--Form View Inherit project issue sheet-->
-        <!--<record id="view_project_issue_sheet_form" model="ir.ui.view">
-            <field name="name">view.project.issue.sheet.form</field>
-            <field name="model">project.issue</field>
-            <field name="inherit_id" ref="project_issue_sheet.project_issue_form_view"/>
-            <field name="priority" eval="60"/>
-            <field name="arch" type="xml">
-                <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='employee_id']" position="after"> 
-                    <button name="to_invoice" string="To Invoiced"/>
-                    <field name="state" string="State"/>
-                </xpath>
-            </field>
-    </record>-->
-        <!-- Action holiday.calendar.date -->
+        <!--Tree View Inherit account_invoice--> 
+        <record model="ir.ui.view" id="account_invoice_tree_view">
+                <field name="name">view.account.invoice</field>
+                <field name="model">account.invoice</field>
+                <field name="inherit_id" ref="account.invoice_tree"/>
+                <field name="arch" type="xml">
+                    <field name="amount_total" position="after"> 
+                        <field name="variation_margin" sum="Variation Margin"/>
+                        <field name="porcent_variation_margin"/>
+                    </field>
+                </field>
+        </record>
         <record model="ir.actions.act_window" id="action_holiday_calendar_date">
             <field name="name">Holidays</field>
             <field name="res_model">holiday.calendar.date</field>
