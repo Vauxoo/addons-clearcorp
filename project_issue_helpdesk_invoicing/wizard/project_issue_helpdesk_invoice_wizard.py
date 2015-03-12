@@ -38,7 +38,7 @@ class IssueInvoiceWizard(models.TransientModel):
                     total_timesheet+=account_obj._get_invoice_price(account_line.account_id,account_line.date,timesheet.start_time,timesheet.end_time,issue.product_id.id,issue.categ_id.id,account_line.unit_amount,timesheet.service_type)
                     account_line.write({'invoice_id':invoice_id})
         for backorder in issue.backorder_ids:
-            if backorder.delivery_note_id and backorder.invoice_state!='invoiced':
+            if backorder.delivery_note_id and backorder.invoice_state!='invoiced' and backorder.state=='done':
                 for delivery_note_lines in backorder.delivery_note_id.note_lines:
                     total_backorder+=delivery_note_lines.quantity*delivery_note_lines.price_unit
                     backorder.write({'invoice_state':'invoiced'})
@@ -64,7 +64,7 @@ class IssueInvoiceWizard(models.TransientModel):
                     inv.write({'invoice_line':[(0,0, {'name': _(('Service Hours - %s' % str(timesheet.end_time-timesheet.start_time))),'quantity':1,'price_unit':total_timesheet})]})
                     account_line.write({'invoice_id':inv.id})
         for backorder in issue.backorder_ids:
-            if backorder.delivery_note_id and backorder.invoice_state!='invoiced':
+            if backorder.delivery_note_id and backorder.invoice_state!='invoiced' and backorder.state=='done':
                 for delivery_note_lines in backorder.delivery_note_id.note_lines:
                     total_backorder=0.0
                     inv.write({'invoice_line':[(0,0, {'name': delivery_note_lines.product_id.name,'quantity':delivery_note_lines.quantity,'price_unit':delivery_note_lines.price_unit})]})
