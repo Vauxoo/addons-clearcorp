@@ -37,7 +37,14 @@ class ProductTemplate(osv.osv):
         
 class ProductProduct(osv.osv):
     _inherit = 'product.product'
-
+    
+    def create(self, cr, uid, vals, context=None):
+        if 'default_code' in vals.keys():
+            if vals['default_code'] is False:
+                default_code = self.pool.get('ir.sequence').get(cr, uid, 'product.product', context=context) or '/'
+                vals['default_code'] = default_code
+        result = super(ProductProduct, self).create(cr, uid, vals, context=context)
+        return result
     
     _sql_constraints = [
         ('default_code_unique',
