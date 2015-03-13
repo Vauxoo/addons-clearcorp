@@ -13,7 +13,7 @@
             <field name="implementation">no_gap</field>
             <field name="padding">6</field>
             <field name="number_increment">1</field>
-            <field name="prefix">PRO-</field>
+            <field name="prefix"></field>
         </record>
     </data>
 </openerp>
