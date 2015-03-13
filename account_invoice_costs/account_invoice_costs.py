@@ -30,6 +30,6 @@ class AccountInvoice(models.Model):
     def invoice_validate(self):
         for invoice in self:
             for invoice_line in invoice.invoice_line:
-                if invoice_line.product_id.product_tmpl_id.standard_price==0.0:
+                if invoice_line.product_id and invoice_line.product_id.product_tmpl_id.standard_price==0.0:
                     raise Warning(_('You must update the cost price for the product ' + invoice_line.product_id.name))
         return super(AccountInvoice,self).invoice_validate()
