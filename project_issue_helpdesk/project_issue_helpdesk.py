@@ -411,9 +411,9 @@ class StockPicking(orm.Model):
     def get_domain_issue_id(self,cr,uid,ids,partner_id,context=None):
         if partner_id:
             issue_ids=self.pool.get('project.issue').search(cr,uid,['|',('branch_id','=',partner_id),('partner_id','=',partner_id)])
-            return {'domain':{'issue_id':[('id','in',issue_ids)]}}
+            return {'domain':{'issue_id':[('id','in',issue_ids)]},'value':{'issue_id':False}}
         else:
-            return {'domain':{'issue_id':False}}
+            return {'domain':{'issue_id':False},'value':{'issue_id':False}}
     def get_issue_required(self,cr,uid,ids,picking_type_id,context=None):
             picking_type_id=self.pool.get('stock.picking.type').browse(cr, uid, picking_type_id, context=context)
             return {'value':{'issue_required':picking_type_id.issue_required}}
