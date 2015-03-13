@@ -77,6 +77,12 @@ class Event(models.Model):
             self.start_date = False
             self.stop_date = False
 
+    @api.onchange('task_id')
+    def onchange_project_id(self):
+        if self.task_id:
+            self.project_id = self.task_id.project_id
+        
+
     @api.constrains('start_date','stop_date')
     def _constraint_dates(self):
         if self.start_date and self.stop_date:
