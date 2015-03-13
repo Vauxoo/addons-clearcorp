@@ -250,7 +250,7 @@
                 <field name="origin" position="after">
                     <field name="issue_required" attrs="{'invisible':True}"/>
                     <field name="init_onchange_call" invisible="1" />
-                    <field name="issue_id" domain="[('id','in',init_onchange_call[0][2])]" attrs="{'required':[('issue_required','=',True)]}"/>
+                    <field name="issue_id" domain="[('id','in',init_onchange_call[0][2])]" attrs="{'required':[('issue_required','=',True)],'readonly':[('state','in',('done'))]}"/>
                 </field>
            </field>
         </record>
