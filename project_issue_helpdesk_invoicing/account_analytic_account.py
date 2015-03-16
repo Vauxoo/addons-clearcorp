@@ -167,27 +167,6 @@ class account_invoice_report(osv.osv):
     
 class account_analytic_line(osv.osv):
     _inherit = 'account.analytic.line'
-    
-    def invoice_cost_create(self, cr, uid, ids, data=None, context=None):
-        #analytic_account_obj = self.pool.get('account.analytic.account')
-        #account_payment_term_obj = self.pool.get('account.payment.term')
-        #invoice_obj = self.pool.get('account.invoice')
-        #product_obj = self.pool.get('product.product')
-        #invoice_factor_obj = self.pool.get('hr_timesheet_invoice.factor')
-        #fiscal_pos_obj = self.pool.get('account.fiscal.position')
-        #product_uom_obj = self.pool.get('product.uom')
-        #invoice_line_obj = self.pool.get('account.invoice.line')
-        #invoices = []
-        #if context is None:
-        #    context = {}
-        #if data is None:
-        #    data = {}
-
-        #journal_types = {}
-
-        
-        res=super(account_analytic_line,self).invoice_cost_create(cr, uid, ids, data, context)
-        return res
 
 class ProjectIssue(osv.osv):
     _inherit = 'project.issue'
