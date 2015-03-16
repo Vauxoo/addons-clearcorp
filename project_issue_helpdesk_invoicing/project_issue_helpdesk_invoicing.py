@@ -238,8 +238,8 @@ class AccountInvoice(models.Model):
                     quoted_price+=sale_line.price_subtotal
                 invoice.quoted_cost=quoted_cost
                 invoice.quoted_price=quoted_price
-                
                 total_timesheet=0.0
+                total_cost_timesheet=0.0
                 total_backorder=0.0
                 total_backorder_cost=0.0
                 for issue in invoice.order_ids.issue_ids:
@@ -248,6 +248,8 @@ class AccountInvoice(models.Model):
                         for account_line in timesheet.line_id:
                             if not account_line.invoice_id:
                                 total_timesheet+=account_obj._get_invoice_price(account_line.account_id,account_line.date,timesheet.start_time,timesheet.end_time,issue.product_id.id,issue.categ_id.id,account_line.unit_amount,timesheet.service_type)
+                        if timesheet.employee_id.product_id:
+                            total_cost_timesheet+=(timesheet.end_time-timesheet.start_time)*timesheet.employee_id.product_id.standard_price
                     for backorder in issue.backorder_ids:
                         if backorder.delivery_note_id and backorder.invoice_state!='invoiced':
                             for delivery_note_lines in backorder.delivery_note_id.note_lines:
@@ -264,7 +266,7 @@ class AccountInvoice(models.Model):
                                     standart_price=(final_cost_quant/quantity)
                                     total_backorder_cost+=standart_price*move.product_qty
                 invoice.real_price=total_timesheet+total_backorder
-                invoice.real_cost=total_timesheet+total_backorder_cost
+                invoice.real_cost=total_cost_timesheet+total_backorder_cost
                 invoice.expected_margin=invoice.quoted_price-invoice.quoted_cost
                 invoice.real_margin=invoice.real_price-invoice.real_cost
                 invoice.variation_cost=invoice.real_cost-invoice.quoted_cost
