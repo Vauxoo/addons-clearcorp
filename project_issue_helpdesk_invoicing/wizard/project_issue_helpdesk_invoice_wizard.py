@@ -61,13 +61,15 @@ class IssueInvoiceWizard(models.TransientModel):
                 if not account_line.invoice_id:
                     total_timesheet=0.0
                     total_timesheet=account_obj._get_invoice_price(account_line.account_id,account_line.date,timesheet.start_time,timesheet.end_time,issue.product_id.id,issue.categ_id.id,account_line.unit_amount,timesheet.service_type)
-                    inv.write({'invoice_line':[(0,0, {'name': _(('Service Hours - %s' % str(timesheet.end_time-timesheet.start_time))),'quantity':1,'price_unit':total_timesheet})]})
+                    if (timesheet.end_time-timesheet.start_time!=0 or total_timesheet!=0):
+                        inv.write({'invoice_line':[(0,0, {'name': _(('Service Hours - %s' % str(timesheet.end_time-timesheet.start_time))),'quantity':1,'price_unit':total_timesheet})]})
                     account_line.write({'invoice_id':inv.id})
         for backorder in issue.backorder_ids:
             if backorder.delivery_note_id and backorder.invoice_state!='invoiced' and backorder.state=='done':
                 for delivery_note_lines in backorder.delivery_note_id.note_lines:
                     total_backorder=0.0
-                    inv.write({'invoice_line':[(0,0, {'name': delivery_note_lines.product_id.name,'quantity':delivery_note_lines.quantity,'price_unit':delivery_note_lines.price_unit})]})
+                    if delivery_note_lines.quantity!=0 or delivery_note_lines.price_unit!=0:
+                        inv.write({'invoice_line':[(0,0, {'name': delivery_note_lines.product_id.name,'quantity':delivery_note_lines.quantity,'price_unit':delivery_note_lines.price_unit})]})
                     backorder.write({'invoice_state':'invoiced'})
                     backorder.move_lines.write({'invoice_state':'invoiced'})
         for expense_line in issue.expense_line_ids:
@@ -107,11 +109,14 @@ class IssueInvoiceWizard(models.TransientModel):
                 invoices_list.append(inv.id)
                 if line_detailed==False:
                     total_timesheet,total_backorder,total_expenses=self.get_quantities_issues(issue,inv.id)
-                    inv.write({'invoice_line':[(0,0, {'name': _(('Issue #') + issue.issue_number ),'quantity':1,'price_unit':total_timesheet+total_backorder})]})
-                    inv.write({'invoice_line':[(0,0, {'name': _(('Expenses of Issue #') + issue.issue_number ),'quantity':1,'price_unit':total_expenses})]})
+                    if total_timesheet+total_backorder!=0:
+                        inv.write({'invoice_line':[(0,0, {'name': _(('Issue #') + issue.issue_number ),'quantity':1,'price_unit':total_timesheet+total_backorder})]})
+                    if total_expenses!=0:
+                        inv.write({'invoice_line':[(0,0, {'name': _(('Expenses of Issue #') + issue.issue_number ),'quantity':1,'price_unit':total_expenses})]})
                 elif line_detailed==True:
                     total_expenses=self.get_quantities_issues_detail(issue,inv)
-                    inv.write({'invoice_line':[(0,0, {'name': _(('Expenses of Issue #') + issue.issue_number ),'quantity':1,'price_unit':total_expenses})]})
+                    if total_expenses!=0:
+                        inv.write({'invoice_line':[(0,0, {'name': _(('Expenses of Issue #') + issue.issue_number ),'quantity':1,'price_unit':total_expenses})]})
                 inv.write({'issue_ids':[(4,issue.id)]})
         elif group==True:
             for issue in issue_ids:
@@ -140,14 +145,17 @@ class IssueInvoiceWizard(models.TransientModel):
                         total_backorder_group+=total_backorder
                         total_expenses_group+=total_expenses
                         inv.write({'issue_ids':[(4,issue.id)]})
-                    inv.write({'invoice_line':[(0,0, {'name': _(('Several Issues')),'quantity':1,'price_unit':total_timesheet_group+total_backorder_group})]})
-                    inv.write({'invoice_line':[(0,0, {'name': _(('Expenses of Several Issues')),'quantity':1,'price_unit':total_expenses_group})]})
+                    if total_timesheet_group+total_backorder_group!=0:
+                        inv.write({'invoice_line':[(0,0, {'name': _(('Several Issues')),'quantity':1,'price_unit':total_timesheet_group+total_backorder_group})]})
+                    if total_expenses_group!=0:
+                        inv.write({'invoice_line':[(0,0, {'name': _(('Expenses of Several Issues')),'quantity':1,'price_unit':total_expenses_group})]})
                 elif line_detailed==True:
                     for issue in issue_partner_ids:
                         total_expenses=self.get_quantities_issues_detail(issue,inv)
                         total_expenses_group+=total_expenses
                         inv.write({'issue_ids':[(4,issue.id)]})
-                    inv.write({'invoice_line':[(0,0, {'name': _(('Expenses of Several Issues')),'quantity':1,'price_unit':total_expenses_group})]})
+                    if total_expenses_group!=0:
+                        inv.write({'invoice_line':[(0,0, {'name': _(('Expenses of Several Issues')),'quantity':1,'price_unit':total_expenses_group})]})
             for branch in branch_group_ids:
                 create_invoice={}
                 total_timesheet_group=0.0
@@ -165,14 +173,17 @@ class IssueInvoiceWizard(models.TransientModel):
                         total_backorder_group+=total_backorder
                         total_expenses_group+=total_expenses
                         inv.write({'issue_ids':[(4,issue.id)]})
-                    inv.write({'invoice_line':[(0,0, {'name': _(('Several Issues')),'quantity':1,'price_unit':total_timesheet_group+total_backorder_group})]})
-                    inv.write({'invoice_line':[(0,0, {'name': _(('Expenses of Several Issues')),'quantity':1,'price_unit':total_expenses_group})]})
+                    if total_timesheet_group+total_backorder_group!=0:
+                        inv.write({'invoice_line':[(0,0, {'name': _(('Several Issues')),'quantity':1,'price_unit':total_timesheet_group+total_backorder_group})]})
+                    if total_expenses_group!=0:
+                        inv.write({'invoice_line':[(0,0, {'name': _(('Expenses of Several Issues')),'quantity':1,'price_unit':total_expenses_group})]})
                 elif line_detailed==True:
                     for issue in issue_branch_ids:
                         total_expenses=self.get_quantities_issues_detail(issue,inv)
                         total_expenses_group+=total_expenses
                         inv.write({'issue_ids':[(4,issue.id)]})
-                    inv.write({'invoice_line':[(0,0, {'name': _(('Expenses of Several Issues')),'quantity':1,'price_unit':total_expenses_group})]})
+                    if total_expenses_group!=0:
+                        inv.write({'invoice_line':[(0,0, {'name': _(('Expenses of Several Issues')),'quantity':1,'price_unit':total_expenses_group})]})
         return invoices_list
 
     @api.multi
