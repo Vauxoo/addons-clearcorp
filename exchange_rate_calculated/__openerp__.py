@@ -33,7 +33,9 @@ in debit or credit field, if amount currency is negative, it will be credit and
 if it is positve, it will be debit.
 """,
     "website" : "http://clearcorp.co.cr",
-    "depends" : ['res_currency_priority', 'account',],
+    "depends" : [
+                 'account',
+                 ],
     'active': False,
     'installable': True,    
     'license': 'AGPL-3',
