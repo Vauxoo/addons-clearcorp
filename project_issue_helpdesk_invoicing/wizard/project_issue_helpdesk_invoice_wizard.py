@@ -105,6 +105,7 @@ class IssueInvoiceWizard(models.TransientModel):
                 elif not issue.branch_id and issue.partner_id:
                     create_invoice['partner_id']=issue.partner_id.id
                     create_invoice['account_id']=issue.partner_id.property_account_receivable.id
+                create_invoice['origin']=_(('Issue #') + issue.issue_number)
                 inv=invoice_obj.create(create_invoice)
                 invoices_list.append(inv.id)
                 if line_detailed==False:
