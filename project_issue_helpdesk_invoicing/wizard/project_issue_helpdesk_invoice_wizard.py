@@ -208,7 +208,24 @@ class IssueInvoiceWizard(models.TransientModel):
                 issue_ids.append(issue.id)
             issue_ids=issue_obj.search([('issue_type','!=','preventive check'),('stage_id.closed','=',True),('sale_order_id','=',False),('invoice_id','=',False),('id','in',issue_ids)])
         if issue_ids:
-            invoices_list=self.generate_invoices(issue_ids,self.group_customer,self.line_detailed)
+            self.issue_invoice_ids=issue_ids
+            self.write({'state':'done'})
+            return {
+                'name': _('Issues to Invoice'),
+                'type': 'ir.actions.act_window',
+                'res_model': self._name,
+                'view_type': 'form',
+                'view_mode': 'form',
+                'target': 'new',
+                'res_id': self.id,
+                }
+        else:
+            raise Warning(_('No pending issues closed for invoicing'))
+        
+    @api.multi
+    def invoice_issues(self):
+        if self.issue_invoice_ids:
+            invoices_list=self.generate_invoices(self.issue_invoice_ids,self.group_customer,self.line_detailed)
             return {
             'type': 'ir.actions.act_window',
             'name': _('Invoices'),
@@ -243,3 +260,9 @@ class IssueInvoiceWizard(models.TransientModel):
     period_from= fields.Many2one('account.period',string="Start Period")
     partner_ids= fields.Many2many('res.partner',string="Customers")
     issue_ids=fields.Many2many('project.issue','project_issue_project_issue_wizard_rel',string="Issues")
+    issue_invoice_ids=fields.One2many('project.issue',compute='validate_issues',string="Issues")
+    state= fields.Selection([('validate','Validate'),('done','Done')], string='State')
+    
+    _defaults = {
+        'state': 'validate'
+    }
