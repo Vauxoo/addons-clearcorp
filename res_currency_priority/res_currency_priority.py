@@ -45,7 +45,7 @@ class ResCurrency(models.Model):
                 #    cr, uid, [res_currency_final.id], name, arg=None, context=copy_context)
                 #result = exchange_rate_dict[res_currency_final.id]
                 res = currency_final.with_context(date=date)._get_current_rate()
-                return res[self.id]
+                return res[currency_final.id]
 
             elif self.id != currency_final.id:
                 res = self.with_context(date=date)._get_current_rate()
