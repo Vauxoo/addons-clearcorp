@@ -18,7 +18,7 @@ msgstr ""
 #. module: sale_order_restricted_availability
 #: model:res.groups,name:sale_order_restricted_availability.group_exceeding_limits_stock_sale
 msgid "Exceeding limits stock on sale"
-msgstr ""
+msgstr "Exceder límites de productos en stock en ordenes de ventas"
 
 #. module: sale_order_restricted_availability
 #: code:addons/sale_order_restricted_availability/sale_order_restricted_availability.py:35
