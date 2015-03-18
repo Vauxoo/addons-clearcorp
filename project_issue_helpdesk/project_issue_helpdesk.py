@@ -265,10 +265,10 @@ class HrAnaliticTimeSheet(osv.Model):
      
     _columns = {
                 'ticket_number': fields.char(string="Ticket Number"),
-                'start_time': fields.float(required=True,string="Start Time"),
-                'end_time': fields.float(required=True,string="End Time"),
-                'service_type': fields.selection([('expert','Expert'),('assistant','Assistant')],required=True,string="Service Type"),                       
-                'employee_id': fields.many2one('hr.employee', 'Technical Staff',required=True),
+                'start_time': fields.float(string="Start Time"),
+                'end_time': fields.float(string="End Time"),
+                'service_type': fields.selection([('expert','Expert'),('assistant','Assistant')],string="Service Type"),
+                'employee_id': fields.many2one('hr.employee', 'Technical Staff'),
                 }
      
     _constraints = [
