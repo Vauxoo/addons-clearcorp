@@ -277,7 +277,7 @@ msgstr "Incidencias"
 #: field:project.issue.helpdesk.invoice.wizard,issue_ids:0
 #: view:sale.order:project_issue_helpdesk_invoicing.view_sale_order_form
 msgid "Issues"
-msgstr "Incidencia"
+msgstr "Incidencias"
 
 #. module: project_issue_helpdesk_invoicing
 #: model:ir.actions.act_window,name:project_issue_helpdesk_invoicing.action_issue_invoice_wizard
