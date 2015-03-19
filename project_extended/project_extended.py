@@ -175,7 +175,8 @@ class task(osv.Model):
         'number': fields.char('Number', size=16),
         'project_id': fields.many2one('project.project', 'Project', required=True, ondelete='set null', select="1", track_visibility='onchange'),
         'color': fields.function(_compute_color, type='integer', string='Color Index'),
-        'state': fields.selection(string='Related status' , related= 'stage_id.state', selection= _TASK_STATE, type="selection")
+        'state': fields.related('stage_id', 'state', type="selection", store=True,
+                selection=_TASK_STATE, string="Status", readonly=True, select=True),
         }
 
     _defaults = {
