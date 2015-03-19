@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="report_open_invoices">
+            <t t-foreach="docs" t-as="o">
+                <div class="header">
+                    <t t-if="o and 'company_id' in o">
+                        <t t-set="company" t-value="o.company_id"></t>
+                    </t>
+                    <t t-if="not o or not 'company_id' in o">
+                        <t t-set="company" t-value="res_company"></t>
+                    </t>
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <img t-if="company.logo"
+                                t-att-src="'data:image/png;base64,%s' % company.logo"
+                                style="max-height: 100px;" />
+                        </div>
+                        <div class="col-xs-9 text-center">
+                            <table>
+                                <tr>
+                                    <td style="text-align:center;">
+                                        <h2><strong>Open Invoices: </strong></h2>
+                                        <br></br>
+                                        <span
+                                            style="margin:0px;margin-bottom:30px;"
+                                            t-field="company.name">
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <br />
+                        <div class="row zero_min_height">
+                            <div class="col-xs-12">
+                                <div style="border-bottom: 1px solid black;"></div>
+                            </div>
+                        </div>
+                </div>
+                <div class="page">
+                    <div class="col-xs-12">
+                        <table class="table table-condensed">
+                            <thead style="background-color:#E0E0E0">
+                                <tr style="border: 1px" >
+                                    <th style=" border: 1px" class="text-center">Chart of Accounts</th>
+                                    <th style=" border: 1px" class="text-center">Fiscal Year</th>
+                                    <th style=" border: 1px" class="text-center">Filters by:</th>
+                                    <th style=" border: 1px" class="text-center">Accounts filter</th>
+                                    <th style=" border: 1px" class="text-center">Movements destination</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="text-align:center;">
+                                        <span t-esc="get_chart_account_id(data).name">
+                                        </span>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <span t-esc="get_fiscal_year(data).name">
+                                        </span>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <t t-if="get_filter(data) == 'filter_date'">
+                                            <span>Dates</span><br></br>
+                                            <span>From:</span>
+                                            <span t-esc="formatLang(get_date_from(data), date=True)" />
+                                            <span>To:</span>
+                                            <span t-esc="formatLang(get_date_to(data), date=True)" />
+                                        </t>
+                                        <t t-if="get_filter(data) == 'filter_period'">
+                                            <span>Periods</span><br></br>
+                                            <span>From:</span>
+                                            <span t-esc="get_start_period(data).name" />
+                                            <span>To:</span>
+                                            <span t-esc=" get_end_period(data).name" />
+                                        </t>
+                                        <t t-if="get_filter(data) == 'filter_no'">
+                                            <span>No Filters</span>
+                                        </t>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <span t-esc="get_display_sort_selection(data)">
+                                        </span>
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <span t-esc="display_target_move(data)">
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td style="border: 1px solid #000000" colspan="5">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align:left;">
+                                        <h4>
+                                            <strong><span>Partners in</span>
+                                            <span t-esc="company.currency_id.name" /></strong>
+                                        </h4>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <!-- <t t-foreach="get_data_template('partners')" t-as="partner" > -->
+                                          <span t-esc="o.res_partners_ids.name"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-condensed">
+                            <thaed style="background-color:#E0E0E0" colspan="5">
+                                <tr style="border: 1px solid #000000">
+                                    <th style="border: 1px solid #000000"
+                                        class="text-center">Date
+                                    </th>
+                                    <th style="border: 1px solid #000000"
+                                        class="text-center">Period
+                                    </th>
+                                    <th style="border: 1px solid #000000"
+                                        class="text-center">Journal
+                                    </th>
+                                    <th style="border: 1px solid #000000"
+                                        class="text-center">Account
+                                    </th>
+                                    <th style="border: 1px solid #000000"
+                                        class="text-center">Note
+                                    </th>
+                                    <th style="border: 1px solid #000000"
+                                        class="text-center">Tag
+                                    </th>
+                                    <th style="border: 1px solid #000000"
+                                        class="text-center">Invoices
+                                    </th>
+                                    <th style="border: 1px solid #000000"
+                                        class="text-center">Payments
+                                    </th>
+                                    <th style="border: 1px solid #000000"
+                                        class="text-center">Notes D/C
+                                    </th>
+                                    <th style="border: 1px solid #000000"
+                                        class="text-center">Mov. Man
+                                    </th>
+                                    <th style="border: 1px solid #000000"
+                                        class="text-center">Balance
+                                    </th>
+                                </tr>
+                                <tbody>
+                                    <tr style="border: 1px solid #000000">
+                                        <td style="border: 1px solid #000000"
+                                            class="text-center">
+                                            <span>  </span>
+                                        </td>
+                                         <td style="border: 1px solid #000000"
+                                            class="text-center">
+                                            <span>  </span>
+                                        </td>
+                                         <td style="border: 1px solid #000000"
+                                             class="text-center">
+                                            <span>  </span>
+                                        </td>
+                                         <td style="border: 1px solid #000000"
+                                             class="text-center">
+                                            <span>  </span>
+                                        </td>
+                                        <td style="border: 1px solid #000000"
+                                            class="text-center">
+                                            <span>  </span>
+                                        </td>
+                                        <td style="border: 1px solid #000000"
+                                            class="text-center">
+                                            <strong><span>Opening balance</span></strong>
+                                        </td>
+                                        <td style="border: 1px solid #000000"
+                                            class="text-center">
+                                            <span>  </span>
+                                        </td>
+                                        <td style="border: 1px solid #000000"
+                                            class="text-center">
+                                            <span>  </span>
+                                        </td>
+                                        <td style="border: 1px solid #000000"
+                                            class="text-center">
+                                            <span>  </span>
+                                        </td>
+                                        <td style="border: 1px solid #000000"
+                                            class="text-center">
+                                            <span>  </span>
+                                        </td>
+                                        <td style="border: 1px solid #000000#"
+                                            class="text-center">
+                                            <t t-set="test" t-value="set_data_template(data)"/>
+                                             <t t-set="balance" t-value="get_initial_balance(o.res_partners_ids, company.currency_id, data)">
+                                             </t> 
+                                             <span t-esc="balance">
+                                             </span>
+                                        </td>
+                                    </tr>
+                                    <t t-foreach="get_move_lines_per_partner(company.currency_id, o.res_partners_ids)" t-as="line">
+                                        <tr>
+                                            <td style="border: 1px solid #000000">
+                                                <!--  <span t-esc="formatLang(line.date, date=True)"></span>-->
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </thaed>
+                        </table>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="footer" style="font-size:15px;">
+                    <div class="text-center" style="border-top: 1px solid black;">
+                        <div class="row">
+                            <div class="col-xs-12" style="text-align:center;">
+                                <span>Odoo:</span>
+                                <span t-esc="time.strftime('%d-%m-%Y')" />
+                                <span t-esc="time.strftime('%H:%M')"/>
+                                <span> - </span>
+                                <!--  <t t-if="o and 'user_ids' in o">
+                                    <t t-set="user" t-value="user_ids"/>
+                                </t>
+                                <t t-if="not o or not 'user_ids' in o">
+                                    <t t-set="user" t-value="res_users"/>
+                                </t>
+                                <span t-esc="get_user_name(user_id)" />-->
+                            </div>
+                        </div>
+                        <ul class="list-inline">
+                            <li>Page:</li>
+                            <li>
+                                <span class="page" />
+                            </li>
+                            <li>/</li>
+                            <li>
+                                <span class="topage" />
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</openerp>

@@ -37,7 +37,7 @@ class OpenInvoicesReportWizard(osv.Model):
     }
     
     def _print_report(self, cr, uid, ids, data, context=None):
-        mimetype = self.pool.get('report.mimetypes')
+        #mimetype = self.pool.get('report.mimetypes')
         report_obj = self.pool.get('ir.actions.report.xml')
         context = context or {}
         report_name = 'account_open_invoices_report.report_open_invoices'
