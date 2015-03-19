@@ -101,4 +101,19 @@ class product_product(osv.osv):
 
 product_product()
 
-
+class PurchaseOrderLine(osv.osv):
+    _inherit = 'purchase.order.line'
+    
+    def onchange_product_id(self, cr, uid, ids, pricelist_id, product_id, qty, uom_id,
+            partner_id, date_order, fiscal_position_id, date_planned,
+            name, price_unit, state, context=None):
+        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+        product=self.pool.get('product.product').browse(cr,uid,product_id)
+        result = super(PurchaseOrderLine, self).onchange_product_id(cr, uid, ids, pricelist_id, product_id, qty, uom_id,
+            partner_id, date_order, fiscal_position_id, date_planned, name, price_unit, state, context)
+        product=self.pool.get('product.product').browse(cr,uid,product_id)
+        
+        if user.company_id.part_number_purchase_order==True:
+            if product.part_number:
+                result['value']['name']='['+product.part_number+'] '+ product.name
+        return result
