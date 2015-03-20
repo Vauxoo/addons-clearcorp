@@ -260,9 +260,6 @@
                 <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='employee_id']"  position="attributes"> 
                     <attribute name="required">1</attribute>
                 </xpath>
-                <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='unit_amount']" position="attributes"> 
-                    <attribute name="readonly">1</attribute>
-                </xpath>
             </field>
         </record>
         <record model="ir.actions.act_window" id="action_holiday_calendar_date">
