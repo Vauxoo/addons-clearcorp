@@ -27,7 +27,8 @@ from datetime import datetime, timedelta
 class account_analytic_account(osv.osv):
     _inherit = "account.analytic.account"
     
-    def _get_invoice_price(self, cr, uid, account, date,start_time,end_time, product_id,categ_id,qty,service_type, context = {}):
+    def _get_invoice_price(self, cr, uid, account, date,start_time,end_time, product_id,categ_id,qty,service_type,factor_id,context = {}):
+        factor = self.pool.get('hr_timesheet_invoice.factor').browse(cr, uid, factor_id, context=context)
         regular_hours=0.0
         extra_hours=0.0
         amount=0.0
@@ -92,14 +93,14 @@ class account_analytic_account(osv.osv):
             for list in pricelist:
                 if service_type=='expert':
                     if holiday_state==True:
-                        amount=list.technical_rate*list.holiday_multiplier*qty
+                        amount=(list.technical_rate*list.holiday_multiplier*qty)*((100-factor.factor or 0.0) / 100.0)
                     elif holiday_state==False:
-                        amount=(list.technical_rate*list.overtime_multiplier*extra_hours)+(list.technical_rate*regular_hours)
+                        amount=((list.technical_rate*list.overtime_multiplier*extra_hours)+(list.technical_rate*regular_hours))*((100-factor.factor or 0.0) / 100.0)
                 elif service_type=='assistant':
                     if holiday_state==True:
-                        amount=list.assistant_rate*list.holiday_multiplier
+                        amount=(list.assistant_rate*list.holiday_multiplier)*(100-factor.factor or 0.0) / 100.0
                     elif holiday_state==False:
-                        amount=(list.assistant_rate*list.overtime_multiplier*extra_hours)+(list.assistant_rate*regular_hours)
+                        amount=((list.assistant_rate*list.overtime_multiplier*extra_hours)+(list.assistant_rate*regular_hours))*((100-factor.factor or 0.0) / 100.0)
         return amount
 
     def _analysis_all(self, cr, uid, ids, fields, arg, context=None):
@@ -121,7 +122,7 @@ class account_analytic_account(osv.osv):
                                   AND to_invoice IS NOT NULL
                             GROUP BY line.to_invoice, line.product_uom_id, line.name,sheet.service_type,line.date,sheet.start_time,sheet.end_time,sheet.issue_id,issue.categ_id,issue.product_id""", (account.id,))
                         for factor_id, qty, line_name, issue_id,categ_id,product_id, date, service_type, start_time,end_time in cr.fetchall():
-                                total+=self._get_invoice_price(cr, uid, account, date,start_time,end_time, product_id,categ_id,qty,service_type, context)
+                                total+=self._get_invoice_price(cr, uid, account, date,start_time,end_time, product_id,categ_id,qty,service_type,factor_id,context)
                         res[account.id][f] = total
         return res
 
