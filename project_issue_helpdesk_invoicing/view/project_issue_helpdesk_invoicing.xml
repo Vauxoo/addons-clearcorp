@@ -237,7 +237,7 @@
                     </page>
                 </xpath>
            </field>
-    </record>
+        </record>
         <!--Tree View Inherit account_invoice--> 
         <record model="ir.ui.view" id="account_invoice_tree_view">
                 <field name="name">view.account.invoice</field>
@@ -259,6 +259,17 @@
             <field name="arch" type="xml">
                 <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='employee_id']"  position="attributes"> 
                     <attribute name="required">1</attribute>
+                </xpath>
+            </field>
+        </record>
+        <!--Form View Inherit account journal-->
+        <record id="view_account_journal_form" model="ir.ui.view">
+            <field name="name">view.account.journal.form</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/group/group[2]" position="inside">
+                    <field name="warranty_manufacturer"/>
                 </xpath>
             </field>
         </record>

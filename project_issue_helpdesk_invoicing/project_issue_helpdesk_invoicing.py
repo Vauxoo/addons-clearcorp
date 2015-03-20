@@ -326,3 +326,14 @@ class AccountInvoiceLine(models.Model):
     porcent_variation_price=fields.Float(digits=(16,2),string="Variation Price(%)")
     porcent_variation_margin=fields.Float(digits=(16,2),string="Variation Margin(%)")
     sale_lines= fields.Many2many('sale.order.line', 'sale_order_line_invoice_rel', 'invoice_id','order_line_id', 'Sale Lines', readonly=True, copy=False)
+
+class AccountJournal(models.Model):
+    _inherit = 'account.journal'
+    
+    @api.constrains('warranty_manufacturer')
+    def check_note_lines(self):
+        journal_obj=self.env['account.journal']
+        journal_id=journal_obj.search([('warranty_manufacturer', '!=', False),('id', '!=', self.id)])
+        if journal_id and self.warranty_manufacturer==True:
+            raise Warning(_('Already exist a journal asiggned for warranty manufacturer.  (%s)' %(journal_id.name)))
+    warranty_manufacturer=fields.Boolean('Apply to warranty manufacturer')
