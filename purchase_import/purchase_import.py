@@ -345,8 +345,7 @@ class ImportOrder(osv.Model):
                 # Get base the exchange rate
                 if order.currency_id.id != currency.id:
                     currency_obj = self.pool.get('res.currency')
-                    import_currency_rate = currency_obj.get_exchange_rate(cr, uid, order.currency_id,
-                        currency, order.date_invoice, context=context)
+                    import_currency_rate = order.currency_id.get_exchange_rate(currency, order.date_invoice)[0]
                 else:
                     import_currency_rate = 1
                 total = total + (order.amount_untaxed * import_currency_rate)
@@ -373,8 +372,8 @@ class ImportOrder(osv.Model):
             if order.tax_order_id:
                 if order.tax_order_id.currency_id.id != currency.id:
                     currency_obj = self.pool.get('res.currency')
-                    import_currency_rate = currency_obj.get_exchange_rate(cr, uid, order.tax_order_id.currency_id,
-                        currency, order.tax_order_id.date_invoice, context=context)
+                    import_currency_rate = order.tax_order_id.currency_id.get_exchange_rate(currency,
+                        order.tax_order_id.date_invoice)[0]
                 else:
                     import_currency_rate = 1
                 for line in order.tax_ids:
@@ -403,8 +402,8 @@ class ImportOrder(osv.Model):
                 # Get base the exchange rate
                 if order.freight_order_id.currency_id.id != currency.id:
                     currency_obj = self.pool.get('res.currency')
-                    import_currency_rate = currency_obj.get_exchange_rate(cr, uid, order.freight_order_id.currency_id,
-                        currency, order.freight_order_id.date_invoice, context=context)
+                    import_currency_rate = order.freight_order_id.currency_id.get_exchange_rate(currency,
+                        order.freight_order_id.date_invoice)[0]
                 else:
                     import_currency_rate = 1
                 res[order.id] = (order.freight_order_id.amount_untaxed) * import_currency_rate
@@ -431,7 +430,6 @@ class ImportOrder(osv.Model):
     def onchange_freight_order(self, cr, uid, ids, freight_order_id, context=None):
         vals = {}
         if freight_order_id:
-            print "wasdasd"
             invoice_obj = self.pool.get('account.invoice')
             invoice = invoice_obj.browse(cr, uid, freight_order_id, context=context)
             vals['freight_currency_id'] = invoice.currency_id.id
@@ -512,8 +510,8 @@ class ImportOrder(osv.Model):
             # Get base the exchange rate
             if inv.currency_id.id != currency.id:
                 currency_obj = self.pool.get('res.currency')
-                import_currency_rate = currency_obj.get_exchange_rate(cr, uid, inv.currency_id,
-                    currency, inv.date_invoice, context=context)
+                import_currency_rate = inv.currency_id.get_exchange_rate(currency,
+                    inv.date_invoice)[0]
             else:
                 import_currency_rate = 1
             for line in inv.invoice_line:
@@ -554,8 +552,7 @@ class ImportOrder(osv.Model):
                 # Get base the exchange rate
                 if inv.currency_id.id != currency.id:
                     currency_obj = self.pool.get('res.currency')
-                    import_currency_rate = currency_obj.get_exchange_rate(cr, uid, inv.currency_id,
-                        currency, inv.date_invoice, context=context)
+                    import_currency_rate = inv.currency_id.get_exchange_rate(currency, inv.date_invoice)[0]
                 else:
                     import_currency_rate = 1
                 for line in inv.invoice_line:

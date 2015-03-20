@@ -20,14 +20,15 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields, orm
+from openerp.osv import osv, fields
 import time
 from openerp.tools.translate import _
 from lxml import etree
 
-class accountVoucherinherit(orm.Model):
+class accountVoucherinherit(osv.Model):
+
     _inherit = 'account.voucher'
-    
+
     def fields_view_get(self, cr, uid, view_id=None, view_type=False, context=None, toolbar=False, submenu=False):        
         
         res = super(accountVoucherinherit, self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=submenu)
@@ -47,21 +48,19 @@ class accountVoucherinherit(orm.Model):
                     
         res['arch'] = etree.tostring(doc)
         return res
-    
+
     def _compute_exchange_rate(self, cr, uid, ids, field_names, args, context=None):
         res_user_obj = self.pool.get('res.users')
         currency_obj = self.pool.get('res.currency')
-        exchange_rate = 0.0        
-        
+        exchange_rate = 0.0
+
         res = {}
         #Company currency for logged user
         res_user = res_user_obj.browse(cr, uid, uid, context=context)
         company_currency = res_user.company_id.currency_id
-        
-        #Today's date
-        now = time.strftime('%Y-%m-%d')
-        
+
         for voucher in self.browse(cr, uid, ids, context=context):
+            date = voucher.date or time.strftime('%Y-%m-%d')
             #Depends of priority, set initial and final currency
             #lower rate -> currency strong
             if company_currency.rate < voucher.currency_id.rate:
@@ -70,21 +69,20 @@ class accountVoucherinherit(orm.Model):
             else:
                 initial_currency = company_currency
                 final_currency = voucher.currency_id
-            
+
             #Get exchange, depends of order sets before
-            exchange_rate = currency_obj.get_exchange_rate(cr, uid, initial_currency, final_currency, now, context=context)            
+            exchange_rate = initial_currency.get_exchange_rate(final_currency, date)[0]
             res[voucher.id] = exchange_rate
-        
-        return res            
-            
+
+        return res
+
     _columns = {
-                'voucher_payment_rate' : fields.function(_compute_exchange_rate, string='Exchange Rate Commercial', type='float',),
-                'voucher_payment_rate_currency_id' : fields.related('company_id', 'currency_id', string='Company Currency', type='many2one', relation='res.currency',),
-                'payment_rate': fields.float('Exchange Rate', digits=(6,12), required=True, readonly=True, states={'draft': [('readonly', False)]},
-                    help='The specific rate that will be used, in this voucher, between the selected currency (in \'Payment Rate Currency\' field)  and the voucher currency.'),
-            }
-    
-    _defaults = {
-        'journal_id':False,
+        'voucher_payment_rate' : fields.function(_compute_exchange_rate, string='Exchange Rate Commercial', type='float'),
+        'voucher_payment_rate_currency_id' : fields.related('company_id', 'currency_id', string='Company Currency', type='many2one', relation='res.currency'),
+        'payment_rate': fields.float('Exchange Rate', digits=(6,12), required=True, readonly=True, states={'draft': [('readonly', False)]},
+            help='The specific rate that will be used, in this voucher, between the selected currency (in \'Payment Rate Currency\' field)  and the voucher currency.'),
     }
-                  
+
+    _defaults = {
+        'journal_id': False,
+    }
