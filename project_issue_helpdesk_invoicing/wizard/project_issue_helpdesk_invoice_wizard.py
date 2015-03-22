@@ -85,7 +85,7 @@ class IssueInvoiceWizard(models.TransientModel):
     
     @api.multi
     def generate_invoices(self,issue_ids,group,line_detailed):
-        issue_obj=self.env['project.issue']
+        journal_obj=self.env['account.journal']
         issue_obj=self.env['project.issue']
         invoice_obj=self.env['account.invoice']
         partner_obj=self.env['res.partner']
@@ -93,7 +93,10 @@ class IssueInvoiceWizard(models.TransientModel):
         branch_group_ids=[]
         branch_issue_ids=[]
         partner_issue_ids=[]
+        issues_filter=[]
         invoices_list=[]
+        branch_issue_number=''
+        partner_issue_number=''
         total_timesheet=0.0
         total_backorder=0.0
         total_expenses=0.0
@@ -107,6 +110,11 @@ class IssueInvoiceWizard(models.TransientModel):
                 elif not issue.branch_id and issue.partner_id:
                     create_invoice['partner_id']=issue.partner_id.id
                     create_invoice['account_id']=issue.partner_id.property_account_receivable.id
+                if issue.warranty=='manufacturer':
+                    journal_id=journal_obj.search([('warranty_manufacturer', '=', True)])
+                    create_invoice['journal_id']=journal_id.id
+                    create_invoice['partner_id']=issue.product_id.manufacturer.id
+                    create_invoice['account_id']=issue.product_id.manufacturer.property_account_receivable.id
                 create_invoice['origin']=_(('Issue #') + issue.issue_number)
                 inv=invoice_obj.create(create_invoice)
                 invoices_list.append(inv.id)
@@ -123,6 +131,30 @@ class IssueInvoiceWizard(models.TransientModel):
                 inv.write({'issue_ids':[(4,issue.id)]})
         elif group==True:
             for issue in issue_ids:
+                issues_filter.append(issue.id)
+            issues_warranty_manufacturer=issue_obj.search([('warranty','=','manufacturer'),('id','in',issues_filter)])
+            issues_default=issue_obj.search([('warranty','=',False),('id','in',issues_filter)])
+            for issue in issues_warranty_manufacturer:
+                create_invoice={}
+                create_invoice['partner_id']=issue.product_id.manufacturer.id
+                create_invoice['account_id']=issue.product_id.manufacturer.property_account_receivable.id
+                journal_id=journal_obj.search([('warranty_manufacturer', '=', True)])
+                create_invoice['journal_id']=journal_id.id
+                create_invoice['origin']=_(('Issue #') + issue.issue_number)
+                inv=invoice_obj.create(create_invoice)
+                invoices_list.append(inv.id)
+                if line_detailed==False:
+                    total_timesheet,total_backorder,total_expenses=self.get_quantities_issues(issue,inv.id)
+                    if total_timesheet+total_backorder!=0:
+                        inv.write({'invoice_line':[(0,0, {'name': _(('Issue #') + issue.issue_number ),'quantity':1,'price_unit':total_timesheet+total_backorder})]})
+                    if total_expenses!=0:
+                        inv.write({'invoice_line':[(0,0, {'name': _(('Expenses of Issue #') + issue.issue_number ),'quantity':1,'price_unit':total_expenses})]})
+                elif line_detailed==True:
+                    total_expenses=self.get_quantities_issues_detail(issue,inv)
+                    if total_expenses!=0:
+                        inv.write({'invoice_line':[(0,0, {'name': _(('Expenses of Issue #') + issue.issue_number ),'quantity':1,'price_unit':total_expenses})]})
+                inv.write({'issue_ids':[(4,issue.id)]})
+            for issue in issues_default:
                 if issue.partner_id and issue.branch_id and issue.branch_id.parent_id==issue.partner_id:
                     branch_issue_ids.append(issue.id)
                     if issue.branch_id.id not in branch_group_ids:
@@ -147,6 +179,7 @@ class IssueInvoiceWizard(models.TransientModel):
                         total_timesheet_group+=total_timesheet
                         total_backorder_group+=total_backorder
                         total_expenses_group+=total_expenses
+                        partner_issue_number+=issue.issue_number + '-'
                         inv.write({'issue_ids':[(4,issue.id)]})
                     if total_timesheet_group+total_backorder_group!=0:
                         inv.write({'invoice_line':[(0,0, {'name': _(('Several Issues')),'quantity':1,'price_unit':total_timesheet_group+total_backorder_group})]})
@@ -156,9 +189,11 @@ class IssueInvoiceWizard(models.TransientModel):
                     for issue in issue_partner_ids:
                         total_expenses=self.get_quantities_issues_detail(issue,inv)
                         total_expenses_group+=total_expenses
+                        partner_issue_number+=issue.issue_number + '-'
                         inv.write({'issue_ids':[(4,issue.id)]})
                     if total_expenses_group!=0:
                         inv.write({'invoice_line':[(0,0, {'name': _(('Expenses of Several Issues')),'quantity':1,'price_unit':total_expenses_group})]})
+                inv.write({'origin':_(('Issues #%s') %(partner_issue_number[:-1]))})
             for branch in branch_group_ids:
                 create_invoice={}
                 total_timesheet_group=0.0
@@ -175,6 +210,7 @@ class IssueInvoiceWizard(models.TransientModel):
                         total_timesheet_group+=total_timesheet
                         total_backorder_group+=total_backorder
                         total_expenses_group+=total_expenses
+                        branch_issue_number+=issue.issue_number + '-'
                         inv.write({'issue_ids':[(4,issue.id)]})
                     if total_timesheet_group+total_backorder_group!=0:
                         inv.write({'invoice_line':[(0,0, {'name': _(('Several Issues')),'quantity':1,'price_unit':total_timesheet_group+total_backorder_group})]})
@@ -184,9 +220,11 @@ class IssueInvoiceWizard(models.TransientModel):
                     for issue in issue_branch_ids:
                         total_expenses=self.get_quantities_issues_detail(issue,inv)
                         total_expenses_group+=total_expenses
+                        branch_issue_number+=issue.issue_number + '-'
                         inv.write({'issue_ids':[(4,issue.id)]})
                     if total_expenses_group!=0:
                         inv.write({'invoice_line':[(0,0, {'name': _(('Expenses of Several Issues')),'quantity':1,'price_unit':total_expenses_group})]})
+                inv.write({'origin':_(('Issues #%s') %(branch_issue_number[:-1]))})
         return invoices_list
 
     @api.multi
@@ -210,38 +248,26 @@ class IssueInvoiceWizard(models.TransientModel):
             for issue in self.issue_ids:
                 issue_ids.append(issue.id)
             issue_ids=issue_obj.search(['|','|',('backorder_ids','!=',False),('expense_line_ids','!=',False),('timesheet_ids','!=',False),('issue_type','!=','preventive check'),('stage_id.closed','=',True),('sale_order_id','=',False),('invoice_id','=',False),('id','in',issue_ids)])
-        if issue_ids:
-            self.issue_invoice_ids=issue_ids
-            self.write({'state':'done'})
-            return {
-                'name': _('Issues to Invoice'),
-                'type': 'ir.actions.act_window',
-                'res_model': self._name,
-                'view_type': 'form',
-                'view_mode': 'form',
-                'target': 'new',
-                'res_id': self.id,
-                }
-        else:
-            raise Warning(_('No pending issues closed for invoicing'))
+        self.issue_invoice_ids=issue_ids
+        self.write({'state':'done'})
+        return {
+            'name': _('Issues to Invoice'),
+            'type': 'ir.actions.act_window',
+            'res_model': self._name,
+            'view_type': 'form',
+            'view_mode': 'form',
+            'target': 'new',
+            'res_id': self.id,
+            }
         
     @api.multi
     def invoice_issues(self):
         if self.issue_invoice_ids:
             invoices_list=self.generate_invoices(self.issue_invoice_ids,self.group_customer,self.line_detailed)
             return {
-            'type': 'ir.actions.act_window',
-            'name': _('Invoices'),
-            'view_type': 'form',
-            'view_mode': 'tree,form',
-            'domain' : [('id','in',invoices_list),('type','=','out_invoice')],
-            'res_model': 'account.invoice',
-            'target': 'current',
-            'nodestroy': True,
-            }
-        else:
-            raise Warning(_('No pending issues closed for invoicing'))
-        
+                    'type': 'ir.actions.client',
+                    'tag': 'reload',
+                    }
     @api.one
     @api.constrains('date_from','date_to')    
     def _check_filter_date(self):
