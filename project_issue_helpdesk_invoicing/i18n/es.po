@@ -60,12 +60,12 @@ msgstr "Tarifa Asistente"
 #. module: project_issue_helpdesk_invoicing
 #: field:account.analytic.account,branch_ids:0
 msgid "Branch ids"
-msgstr "Incidencias"
+msgstr "Sucursales"
 
 #. module: project_issue_helpdesk_invoicing
 #: view:account.analytic.account:project_issue_helpdesk_invoicing.view_account_analytic_account_form
 msgid "Branches"
-msgstr "Incidencias"
+msgstr "Sucursales"
 
 #. module: project_issue_helpdesk_invoicing
 #: field:holiday.calendar,name:0
