@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-17 19:51+0000\n"
-"PO-Revision-Date: 2015-03-17 19:51+0000\n"
+"POT-Creation-Date: 2015-03-23 20:26+0000\n"
+"PO-Revision-Date: 2015-03-23 20:26+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -22,9 +22,20 @@ msgid "<p class=\"oe_view_nocontent_create\">Create new holiday</p>\n"
 msgstr "Crear registro de días feriados"
 
 #. module: project_issue_helpdesk_invoicing
+#: field:project.issue.invoice.account.wizard,account_id:0
+msgid "Account"
+msgstr "Nombre del contrato/cuenta"
+
+#. module: project_issue_helpdesk_invoicing
 #: view:holiday.calendar.date:project_issue_helpdesk_invoicing.view_holiday_calendar_date_form
 msgid "Add a notes..."
 msgstr "Agregar notas..."
+
+#. module: project_issue_helpdesk_invoicing
+#: code:addons/project_issue_helpdesk_invoicing/project_issue_helpdesk_invoicing.py:338
+#, python-format
+msgid "Already exist a journal asiggned for warranty manufacturer.  (%s)"
+msgstr "Ya existe un diario contable asignado para las garantías de fabricante. (%s)"
 
 #. module: project_issue_helpdesk_invoicing
 #: model:ir.model,name:project_issue_helpdesk_invoicing.model_account_analytic_account
@@ -35,6 +46,11 @@ msgstr "Cuenta analítica"
 #: model:ir.model,name:project_issue_helpdesk_invoicing.model_account_analytic_line
 msgid "Analytic Line"
 msgstr "Línea Analítica"
+
+#. module: project_issue_helpdesk_invoicing
+#: field:account.journal,warranty_manufacturer:0
+msgid "Apply to warranty manufacturer"
+msgstr "Asignado para garantías de fabricante "
 
 #. module: project_issue_helpdesk_invoicing
 #: field:contract.pricelist,assistant_rate:0
@@ -58,6 +74,7 @@ msgstr "Nombre de Calendario"
 
 #. module: project_issue_helpdesk_invoicing
 #: view:project.issue.helpdesk.invoice.wizard:project_issue_helpdesk_invoicing.view_issue_invoice_wizard_form
+#: view:project.issue.invoice.account.wizard:project_issue_helpdesk_invoicing.view_issue_invoice_account_wizard_form
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -88,6 +105,7 @@ msgstr "Contratos"
 
 #. module: project_issue_helpdesk_invoicing
 #: view:project.issue.helpdesk.invoice.wizard:project_issue_helpdesk_invoicing.view_issue_invoice_wizard_form
+#: view:project.issue.invoice.account.wizard:project_issue_helpdesk_invoicing.view_issue_invoice_account_wizard_form
 msgid "Create Invoices"
 msgstr "Crear Facturas"
 
@@ -96,6 +114,7 @@ msgstr "Crear Facturas"
 #: field:holiday.calendar,create_uid:0
 #: field:holiday.calendar.date,create_uid:0
 #: field:project.issue.helpdesk.invoice.wizard,create_uid:0
+#: field:project.issue.invoice.account.wizard,create_uid:0
 msgid "Created by"
 msgstr "Creado por"
 
@@ -104,17 +123,26 @@ msgstr "Creado por"
 #: field:holiday.calendar,create_date:0
 #: field:holiday.calendar.date,create_date:0
 #: field:project.issue.helpdesk.invoice.wizard,create_date:0
+#: field:project.issue.invoice.account.wizard,create_date:0
 msgid "Created on"
 msgstr "Creado el"
 
 #. module: project_issue_helpdesk_invoicing
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_invoice_account_wizard.py:77
+#, python-format
+msgid "Customer Invoice"
+msgstr "Facturación de Clientes"
+
+#. module: project_issue_helpdesk_invoicing
 #: field:project.issue.helpdesk.invoice.wizard,partner_ids:0
+#: field:project.issue.invoice.account.wizard,partner_ids:0
 msgid "Customers"
 msgstr "Clientes"
 
 #. module: project_issue_helpdesk_invoicing
 #: field:holiday.calendar.date,date:0
 #: selection:project.issue.helpdesk.invoice.wizard,filter:0
+#: selection:project.issue.invoice.account.wizard,filter:0
 msgid "Date"
 msgstr "Fecha"
 
@@ -127,21 +155,25 @@ msgstr "Define el precio por hora para los productos o categorías de productos 
 
 #. module: project_issue_helpdesk_invoicing
 #: field:project.issue.helpdesk.invoice.wizard,line_detailed:0
+#: field:project.issue.invoice.account.wizard,line_detailed:0
 msgid "Detailed"
 msgstr "Detallado por líneas"
 
 #. module: project_issue_helpdesk_invoicing
 #: selection:project.issue.helpdesk.invoice.wizard,state:0
+#: selection:project.issue.invoice.account.wizard,state:0
 msgid "Done"
 msgstr "A Facturar"
 
 #. module: project_issue_helpdesk_invoicing
 #: field:project.issue.helpdesk.invoice.wizard,date_to:0
+#: field:project.issue.invoice.account.wizard,date_to:0
 msgid "End Date"
 msgstr "Fecha Final"
 
 #. module: project_issue_helpdesk_invoicing
 #: field:project.issue.helpdesk.invoice.wizard,period_to:0
+#: field:project.issue.invoice.account.wizard,period_to:0
 msgid "End Period"
 msgstr "Período Final"
 
@@ -168,16 +200,19 @@ msgstr "Línea de Gastos"
 
 #. module: project_issue_helpdesk_invoicing
 #: field:project.issue.helpdesk.invoice.wizard,filter:0
+#: field:project.issue.invoice.account.wizard,filter:0
 msgid "Filter"
 msgstr "Filtro"
 
 #. module: project_issue_helpdesk_invoicing
 #: field:project.issue.helpdesk.invoice.wizard,fiscalyear_id:0
+#: field:project.issue.invoice.account.wizard,fiscalyear_id:0
 msgid "Fiscal Year"
 msgstr "Año Fiscal"
 
 #. module: project_issue_helpdesk_invoicing
 #: field:project.issue.helpdesk.invoice.wizard,group_customer:0
+#: field:project.issue.invoice.account.wizard,group_customer:0
 msgid "Group by customer"
 msgstr "Agrupado por cliente"
 
@@ -227,6 +262,7 @@ msgstr "Calendario de Feriados"
 #: field:holiday.calendar,id:0
 #: field:holiday.calendar.date,id:0
 #: field:project.issue.helpdesk.invoice.wizard,id:0
+#: field:project.issue.invoice.account.wizard,id:0
 msgid "ID"
 msgstr "ID"
 
@@ -251,12 +287,6 @@ msgid "Invoice Price Rate per Contract"
 msgstr "Tarifa de facturación por contrato"
 
 #. module: project_issue_helpdesk_invoicing
-#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:232
-#, python-format
-msgid "Invoices"
-msgstr "Facturación"
-
-#. module: project_issue_helpdesk_invoicing
 #: model:ir.model,name:project_issue_helpdesk_invoicing.model_account_invoice_report
 msgid "Invoices Statistics"
 msgstr "Estadísticas de facturas"
@@ -264,6 +294,7 @@ msgstr "Estadísticas de facturas"
 #. module: project_issue_helpdesk_invoicing
 #: field:hr.expense.line,issue_id:0
 #: selection:project.issue.helpdesk.invoice.wizard,filter:0
+#: selection:project.issue.invoice.account.wizard,filter:0
 msgid "Issue"
 msgstr "Incidencia"
 
@@ -275,14 +306,16 @@ msgstr "Incidencias"
 
 #. module: project_issue_helpdesk_invoicing
 #: field:project.issue.helpdesk.invoice.wizard,issue_ids:0
+#: field:project.issue.invoice.account.wizard,issue_ids:0
 #: view:sale.order:project_issue_helpdesk_invoicing.view_sale_order_form
 msgid "Issues"
-msgstr "Incidencias"
+msgstr "Incidencia"
 
 #. module: project_issue_helpdesk_invoicing
 #: model:ir.actions.act_window,name:project_issue_helpdesk_invoicing.action_issue_invoice_wizard
 #: model:ir.ui.menu,name:project_issue_helpdesk_invoicing.menu_issue_invoice_wizard
 #: view:project.issue.helpdesk.invoice.wizard:project_issue_helpdesk_invoicing.view_issue_invoice_wizard_form
+#: view:project.issue.invoice.account.wizard:project_issue_helpdesk_invoicing.view_issue_invoice_account_wizard_form
 msgid "Issues Invoicing"
 msgstr "Facturación de Incidencias"
 
@@ -292,16 +325,23 @@ msgid "Issues Lines"
 msgstr "Líneas de Incidencias"
 
 #. module: project_issue_helpdesk_invoicing
-#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:215
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:254
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_invoice_account_wizard.py:52
 #, python-format
 msgid "Issues to Invoice"
 msgstr "Incidencias a Facturar"
+
+#. module: project_issue_helpdesk_invoicing
+#: model:ir.model,name:project_issue_helpdesk_invoicing.model_account_journal
+msgid "Journal"
+msgstr "Diario"
 
 #. module: project_issue_helpdesk_invoicing
 #: field:contract.pricelist,write_uid:0
 #: field:holiday.calendar,write_uid:0
 #: field:holiday.calendar.date,write_uid:0
 #: field:project.issue.helpdesk.invoice.wizard,write_uid:0
+#: field:project.issue.invoice.account.wizard,write_uid:0
 msgid "Last Updated by"
 msgstr "Ultima actualización por"
 
@@ -310,20 +350,15 @@ msgstr "Ultima actualización por"
 #: field:holiday.calendar,write_date:0
 #: field:holiday.calendar.date,write_date:0
 #: field:project.issue.helpdesk.invoice.wizard,write_date:0
+#: field:project.issue.invoice.account.wizard,write_date:0
 msgid "Last Updated on"
 msgstr "Ultima actualización en"
 
 #. module: project_issue_helpdesk_invoicing
 #: selection:project.issue.helpdesk.invoice.wizard,filter:0
+#: selection:project.issue.invoice.account.wizard,filter:0
 msgid "No Filter"
 msgstr "Sin Filtros"
-
-#. module: project_issue_helpdesk_invoicing
-#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:224
-#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:241
-#, python-format
-msgid "No pending issues closed for invoicing"
-msgstr "No hay incidencias pendientes por facturar"
 
 #. module: project_issue_helpdesk_invoicing
 #: field:holiday.calendar.date,notes:0
@@ -338,6 +373,7 @@ msgstr "Multiplicador Extras"
 #. module: project_issue_helpdesk_invoicing
 #: model:ir.model,name:project_issue_helpdesk_invoicing.model_res_partner
 #: selection:project.issue.helpdesk.invoice.wizard,filter:0
+#: selection:project.issue.invoice.account.wizard,filter:0
 msgid "Partner"
 msgstr "Empresa"
 
@@ -361,6 +397,7 @@ msgstr "Pendiente trasferir  la orden: %s"
 
 #. module: project_issue_helpdesk_invoicing
 #: selection:project.issue.helpdesk.invoice.wizard,filter:0
+#: selection:project.issue.invoice.account.wizard,filter:0
 msgid "Period"
 msgstr "Período"
 
@@ -453,28 +490,33 @@ msgstr "Orden de Venta"
 
 #. module: project_issue_helpdesk_invoicing
 #: field:project.issue.helpdesk.invoice.wizard,date_from:0
+#: field:project.issue.invoice.account.wizard,date_from:0
 msgid "Start Date"
 msgstr "Fecha Inicial"
 
 #. module: project_issue_helpdesk_invoicing
-#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:248
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:276
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_invoice_account_wizard.py:91
 #, python-format
 msgid "Start Date must be less than End Date"
 msgstr "Fecha inicial debe ser menor que fecha final"
 
 #. module: project_issue_helpdesk_invoicing
 #: field:project.issue.helpdesk.invoice.wizard,period_from:0
+#: field:project.issue.invoice.account.wizard,period_from:0
 msgid "Start Period"
 msgstr "Período Inicial"
 
 #. module: project_issue_helpdesk_invoicing
-#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:253
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:281
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_invoice_account_wizard.py:96
 #, python-format
 msgid "Start Period must be less than End Period"
 msgstr "Período inicial debe ser menor que período final"
 
 #. module: project_issue_helpdesk_invoicing
 #: field:project.issue.helpdesk.invoice.wizard,state:0
+#: field:project.issue.invoice.account.wizard,state:0
 msgid "State"
 msgstr "Estado"
 
@@ -495,6 +537,7 @@ msgstr "Línea de la hoja de servicios"
 
 #. module: project_issue_helpdesk_invoicing
 #: selection:project.issue.helpdesk.invoice.wizard,state:0
+#: selection:project.issue.invoice.account.wizard,state:0
 msgid "Validate"
 msgstr "Validar Incidencias"
 
@@ -551,6 +594,7 @@ msgstr "Precio de Variación %"
 
 #. module: project_issue_helpdesk_invoicing
 #: view:project.issue.helpdesk.invoice.wizard:project_issue_helpdesk_invoicing.view_issue_invoice_wizard_form
+#: view:project.issue.invoice.account.wizard:project_issue_helpdesk_invoicing.view_issue_invoice_account_wizard_form
 msgid "View Issues"
 msgstr "Ver Incidencias"
 
@@ -563,4 +607,9 @@ msgstr "[('id','in',init_onchange_call[0][2]),('type','in',['normal','contract']
 #: view:account.analytic.account:project_issue_helpdesk_invoicing.view_account_analytic_account_form
 msgid "{'invisible':False}"
 msgstr "{'invisible':False}"
+
+#. module: project_issue_helpdesk_invoicing
+#: view:account.analytic.account:project_issue_helpdesk_invoicing.view_account_analytic_account_form
+msgid "⇒ Invoice Issues"
+msgstr "⇒ Facturación de Incidencias"
 
