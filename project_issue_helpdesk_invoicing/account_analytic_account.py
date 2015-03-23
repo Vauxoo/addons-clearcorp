@@ -27,6 +27,14 @@ from datetime import datetime, timedelta
 class account_analytic_account(osv.osv):
     _inherit = "account.analytic.account"
     
+    def issues_invoice_wizard(self,cr, uid, ids,context=None):
+        return {'type': 'ir.actions.act_window',
+                'res_model': 'project.issue.invoice.account.wizard',
+                'view_type': 'form',
+                'view_mode': 'form',
+                'nodestroy': True,
+                'target': 'new'
+                }
     def _get_invoice_price(self, cr, uid, account, date,start_time,end_time, product_id,categ_id,qty,service_type,factor_id,context = {}):
         factor = self.pool.get('hr_timesheet_invoice.factor').browse(cr, uid, factor_id, context=context)
         regular_hours=0.0

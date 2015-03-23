@@ -45,7 +45,7 @@ class IssueInvoiceWizard(models.TransientModel):
         elif self.filter=='filter_issue':
             for issue in self.issue_ids:
                 issue_ids.append(issue.id)
-            issue_ids=issue_obj.search(['|','|',('backorder_ids','!=',False),('expense_line_ids','!=',False),('timesheet_ids','!=',False),('issue_type','!=','preventive check'),('stage_id.closed','=',True),('sale_order_id','=',False),('analytic_account_id','=',self.account_id),('invoice_id','=',False),('id','in',issue_ids),('analytic_account_id','=',self.account_id.id)])
+            issue_ids=issue_obj.search(['|','|',('backorder_ids','!=',False),('expense_line_ids','!=',False),('timesheet_ids','!=',False),('issue_type','!=','preventive check'),('stage_id.closed','=',True),('sale_order_id','=',False),('invoice_id','=',False),('id','in',issue_ids),('analytic_account_id','=',self.account_id.id)])
         self.issue_invoice_ids=issue_ids
         self.write({'state':'done'})
         return {
@@ -64,20 +64,25 @@ class IssueInvoiceWizard(models.TransientModel):
         invoices_list=[]
         if self.issue_invoice_ids:
             invoices_list=wizard_obj.generate_invoices(self.issue_invoice_ids,self.group_customer,self.line_detailed)
-            view_ref = self.env['ir.model.data'].get_object_reference('account.invoice', 'action_invoice_tree1')
-            view_id = view_ref[1] if view_ref else False
+            view_tree_ref = self.env['ir.model.data'].get_object_reference('account', 'invoice_tree')
+            tree_id = view_tree_ref[1] if view_tree_ref else False
+            view_form_ref = self.env['ir.model.data'].get_object_reference('account', 'invoice_form')
+            form_id = view_form_ref[1] if view_form_ref else False
+            view_calendar_ref = self.env['ir.model.data'].get_object_reference('account', 'view_invoice_line_calendar')
+            calendar_id = view_calendar_ref[1] if view_calendar_ref else False
+            view_graph_ref = self.env['ir.model.data'].get_object_reference('account', 'view_invoice_graph')
+            graph_id = view_graph_ref[1] if view_graph_ref else False
             return {
                'type': 'ir.actions.act_window',
                'name': _('Customer Invoice'),
                'res_model': 'account.invoice',
                'view_type': 'form',
-               'view_mode': 'tree,form,calendar,graph',
-               'view_id': view_id,
+               'view_mode': 'tree,form',
+               'view_id': False,
                'target': 'current',
-               'domain': {[('type','=','out_invoice')]},
-               'context': {'default_partner_id': client_id}
+               'domain': [('id','in',invoices_list),('type','=','out_invoice')],
+               'views': [(tree_id, 'tree'), (form_id, 'form'), (calendar_id, 'calendar'), (graph_id, 'graph')],
                }
-
     @api.one
     @api.constrains('date_from','date_to')
     def _check_filter_date(self):

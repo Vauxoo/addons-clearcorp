@@ -21,3 +21,4 @@
 ##############################################################################
 
 import project_issue_helpdesk_invoice_wizard
+import project_issue_invoice_account_wizard

@@ -36,7 +36,8 @@ Extends Project Issue Helpdesk Invoicing
     'init_xml': [],
     'demo_xml': [],
     'data': ['view/project_issue_helpdesk_invoicing.xml',
-             'wizard/project_issue_helpdesk_invoice_wizard.xml'
+             'wizard/project_issue_helpdesk_invoice_wizard.xml',
+             'wizard/project_issue_invoice_account_wizard.xml',
              ],
     'license': 'AGPL-3',
     'installable': True,
