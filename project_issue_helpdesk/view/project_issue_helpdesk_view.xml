@@ -102,17 +102,17 @@
             <field name="inherit_id" ref="project_issue_sheet.project_issue_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='name']" position="before"> 
-                    <field name="ticket_number"/> 
+                    <field name="ticket_number"/>
                 </xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='date']" position="after"> 
-                    <field name="start_time" widget="float_time" on_change="onchange_start_time(start_time,end_time)"/> 
-                    <field name="end_time" widget="float_time" on_change="onchange_end_time(start_time,end_time)"/>
+                    <field name="start_time" required="1" widget="float_time" on_change="onchange_start_time(start_time,end_time)"/> 
+                    <field name="end_time" required="1" widget="float_time" on_change="onchange_end_time(start_time,end_time)"/>
                 </xpath> 
                 <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='user_id']" position="before"> 
-                    <field name="service_type"/>   
+                    <field name="service_type" required="1"/>
                 </xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='user_id']" position="replace"> 
-                    <field name="employee_id"/>   
+                    <field name="employee_id" required="1"/>
                 </xpath>
             </field>
         </record>
