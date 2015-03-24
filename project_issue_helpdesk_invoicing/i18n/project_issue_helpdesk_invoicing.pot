@@ -1,0 +1,539 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* project_issue_helpdesk_invoicing
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-16 21:15+0000\n"
+"PO-Revision-Date: 2015-03-16 21:15+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: project_issue_helpdesk_invoicing
+#: model:ir.actions.act_window,help:project_issue_helpdesk_invoicing.action_holiday_calendar_date
+msgid "<p class=\"oe_view_nocontent_create\">Create new holiday</p>\n"
+"            "
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: view:holiday.calendar.date:project_issue_helpdesk_invoicing.view_holiday_calendar_date_form
+msgid "Add a notes..."
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: model:ir.model,name:project_issue_helpdesk_invoicing.model_account_analytic_account
+msgid "Analytic Account"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: model:ir.model,name:project_issue_helpdesk_invoicing.model_account_analytic_line
+msgid "Analytic Line"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:contract.pricelist,assistant_rate:0
+msgid "Assistant Rate"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:account.analytic.account,branch_ids:0
+msgid "Branch ids"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: view:account.analytic.account:project_issue_helpdesk_invoicing.view_account_analytic_account_form
+msgid "Branches"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:holiday.calendar,name:0
+msgid "Calendar Name"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: view:project.issue.helpdesk.invoice.wizard:project_issue_helpdesk_invoicing.view_issue_invoice_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: selection:contract.pricelist,pricelist_line_type:0
+msgid "Category"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:contract.pricelist,categ_id:0
+msgid "Category Product"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:contract.pricelist,contract_id:0
+msgid "Contract"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:holiday.calendar,contract_ids:0
+msgid "Contract ids"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: view:holiday.calendar:project_issue_helpdesk_invoicing.view_holiday_calendar_form
+msgid "Contracts"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: view:project.issue.helpdesk.invoice.wizard:project_issue_helpdesk_invoicing.view_issue_invoice_wizard_form
+msgid "Create Invoices"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:contract.pricelist,create_uid:0
+#: field:holiday.calendar,create_uid:0
+#: field:holiday.calendar.date,create_uid:0
+#: field:project.issue.helpdesk.invoice.wizard,create_uid:0
+msgid "Created by"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:contract.pricelist,create_date:0
+#: field:holiday.calendar,create_date:0
+#: field:holiday.calendar.date,create_date:0
+#: field:project.issue.helpdesk.invoice.wizard,create_date:0
+msgid "Created on"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:project.issue.helpdesk.invoice.wizard,partner_ids:0
+msgid "Customers"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:holiday.calendar.date,date:0
+#: selection:project.issue.helpdesk.invoice.wizard,filter:0
+msgid "Date"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: view:account.analytic.account:project_issue_helpdesk_invoicing.view_account_analytic_account_form
+msgid "Define a specific price for some products or product categories, \n"
+"                            and type technical staff to use these data instead\n"
+"                            of the default values when invoicing the customer."
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:project.issue.helpdesk.invoice.wizard,line_detailed:0
+msgid "Detailed"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:project.issue.helpdesk.invoice.wizard,date_to:0
+msgid "End Date"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:project.issue.helpdesk.invoice.wizard,period_to:0
+msgid "End Period"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:account.invoice,expected_margin:0
+#: field:account.invoice.line,expected_margin:0
+msgid "Expected Margin"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: model:ir.model,name:project_issue_helpdesk_invoicing.model_hr_expense_line
+msgid "Expense Line"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:project.issue,expense_line_ids:0
+msgid "Expense line ids"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: view:project.issue:project_issue_helpdesk_invoicing.view_project_issue_form
+msgid "Expenses Lines"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:project.issue.helpdesk.invoice.wizard,filter:0
+msgid "Filter"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:project.issue.helpdesk.invoice.wizard,fiscalyear_id:0
+msgid "Fiscal Year"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:project.issue.helpdesk.invoice.wizard,group_customer:0
+msgid "Group by customer"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: view:holiday.calendar:project_issue_helpdesk_invoicing.view_holiday_calendar_form
+msgid "Holiday Calendar"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: view:holiday.calendar.date:project_issue_helpdesk_invoicing.view_holiday_calendar_date_form
+#: view:holiday.calendar.date:project_issue_helpdesk_invoicing.view_holiday_calendar_date_tree
+msgid "Holiday Calendar Dates"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:contract.pricelist,holiday_multiplier:0
+msgid "Holiday Multiplier"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:holiday.calendar.date,name:0
+msgid "Holiday Name"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:holiday.calendar,holiday_ids:0
+msgid "Holiday ids"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: view:holiday.calendar:project_issue_helpdesk_invoicing.view_holiday_calendar_form
+#: model:ir.actions.act_window,name:project_issue_helpdesk_invoicing.action_holiday_calendar_date
+msgid "Holidays"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:account.analytic.account,holidays_calendar_id:0
+#: view:holiday.calendar:project_issue_helpdesk_invoicing.view_holiday_calendar_form
+#: view:holiday.calendar.date:project_issue_helpdesk_invoicing.view_holiday_calendar_date_calendar
+#: field:holiday.calendar.date,holidays_calendar_id:0
+#: model:ir.ui.menu,name:project_issue_helpdesk_invoicing.menu_holidays_calendar_date_act
+msgid "Holidays Calendar"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:contract.pricelist,id:0
+#: field:holiday.calendar,id:0
+#: field:holiday.calendar.date,id:0
+#: field:project.issue.helpdesk.invoice.wizard,id:0
+msgid "ID"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: model:ir.model,name:project_issue_helpdesk_invoicing.model_account_invoice
+msgid "Invoice"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: model:ir.model,name:project_issue_helpdesk_invoicing.model_account_invoice_line
+msgid "Invoice Line"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:project.issue,invoice_id:0
+msgid "Invoice Number"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: view:account.analytic.account:project_issue_helpdesk_invoicing.view_account_analytic_account_form
+msgid "Invoice Price Rate per Contract"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:214
+#, python-format
+msgid "Invoices"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: model:ir.model,name:project_issue_helpdesk_invoicing.model_account_invoice_report
+msgid "Invoices Statistics"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:hr.expense.line,issue_id:0
+#: selection:project.issue.helpdesk.invoice.wizard,filter:0
+msgid "Issue"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:account.invoice,issue_ids:0
+#: field:sale.order,issue_ids:0
+msgid "Issue ids"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:project.issue.helpdesk.invoice.wizard,issue_ids:0
+#: view:sale.order:project_issue_helpdesk_invoicing.view_sale_order_form
+msgid "Issues"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: model:ir.actions.act_window,name:project_issue_helpdesk_invoicing.action_issue_invoice_wizard
+#: model:ir.ui.menu,name:project_issue_helpdesk_invoicing.menu_issue_invoice_wizard
+#: view:project.issue.helpdesk.invoice.wizard:project_issue_helpdesk_invoicing.view_issue_invoice_wizard_form
+msgid "Issues Invoicing"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: view:sale.order:project_issue_helpdesk_invoicing.view_sale_order_form
+msgid "Issues Lines"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:contract.pricelist,write_uid:0
+#: field:holiday.calendar,write_uid:0
+#: field:holiday.calendar.date,write_uid:0
+#: field:project.issue.helpdesk.invoice.wizard,write_uid:0
+msgid "Last Updated by"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:contract.pricelist,write_date:0
+#: field:holiday.calendar,write_date:0
+#: field:holiday.calendar.date,write_date:0
+#: field:project.issue.helpdesk.invoice.wizard,write_date:0
+msgid "Last Updated on"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: selection:project.issue.helpdesk.invoice.wizard,filter:0
+msgid "No Filter"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:223
+#, python-format
+msgid "No pending issues closed for invoicing"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:holiday.calendar.date,notes:0
+msgid "Notes"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:contract.pricelist,overtime_multiplier:0
+msgid "Overtime Multiplier"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: model:ir.model,name:project_issue_helpdesk_invoicing.model_res_partner
+#: selection:project.issue.helpdesk.invoice.wizard,filter:0
+msgid "Partner"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: code:addons/project_issue_helpdesk_invoicing/project_issue_helpdesk_invoicing.py:49
+#, python-format
+msgid "Pending change status to done or paid of expense: %s"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: code:addons/project_issue_helpdesk_invoicing/project_issue_helpdesk_invoicing.py:46
+#, python-format
+msgid "Pending generate delivery note for backorder: %s"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: code:addons/project_issue_helpdesk_invoicing/project_issue_helpdesk_invoicing.py:44
+#, python-format
+msgid "Pending transfer the backorder: %s"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: selection:project.issue.helpdesk.invoice.wizard,filter:0
+msgid "Period"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: view:account.analytic.account:project_issue_helpdesk_invoicing.view_account_analytic_account_form
+msgid "Pricelist Lines"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:contract.pricelist,pricelist_line_type:0
+msgid "Pricelist Type"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:account.analytic.account,pricelist_ids:0
+msgid "Pricelist ids"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: selection:contract.pricelist,pricelist_line_type:0
+#: field:contract.pricelist,product_id:0
+msgid "Product"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: view:account.invoice:project_issue_helpdesk_invoicing.view_account_invoice_order_form
+msgid "Profitability"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: model:ir.model,name:project_issue_helpdesk_invoicing.model_project_issue
+msgid "Project Issue"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:res.partner,is_provision:0
+msgid "Provision Apply"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:account.invoice,quoted_cost:0
+#: field:account.invoice.line,quoted_cost:0
+msgid "Quoted Cost"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:account.invoice,quoted_price:0
+#: field:account.invoice.line,quoted_price:0
+msgid "Quoted Price"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:account.invoice,real_cost:0
+#: field:account.invoice.line,real_cost:0
+msgid "Real Cost"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:account.invoice,real_margin:0
+#: field:account.invoice.line,real_margin:0
+msgid "Real Margin"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:account.invoice,real_price:0
+#: field:account.invoice.line,real_price:0
+msgid "Real Price"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:account.analytic.account,regular_schedule_id:0
+msgid "Regular Schedule"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:account.invoice.line,sale_lines:0
+msgid "Sale Lines"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:project.issue,sale_order_id:0
+msgid "Sale Order"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:account.invoice,order_ids:0
+#: model:ir.model,name:project_issue_helpdesk_invoicing.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:project.issue.helpdesk.invoice.wizard,date_from:0
+msgid "Start Date"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:230
+#, python-format
+msgid "Start Date must be less than End Date"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:project.issue.helpdesk.invoice.wizard,period_from:0
+msgid "Start Period"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:235
+#, python-format
+msgid "Start Period must be less than End Period"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:contract.pricelist,technical_rate:0
+msgid "Technical Rate"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: help:account.invoice,order_ids:0
+msgid "This is the list of sales orders that have been generated for this invoice."
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: model:ir.model,name:project_issue_helpdesk_invoicing.model_hr_analytic_timesheet
+msgid "Timesheet Line"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:account.invoice,variation_cost:0
+#: field:account.invoice.line,variation_cost:0
+msgid "Variation Cost"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:account.invoice,porcent_variation_cost:0
+msgid "Variation Cost %"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:account.invoice.line,porcent_variation_cost:0
+msgid "Variation Cost(%)"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: view:account.invoice:project_issue_helpdesk_invoicing.account_invoice_tree_view
+#: field:account.invoice,variation_margin:0
+#: field:account.invoice.line,variation_margin:0
+#: field:account.invoice.report,variation_margin:0
+msgid "Variation Margin"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:account.invoice,porcent_variation_margin:0
+msgid "Variation Margin %"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:account.invoice.line,porcent_variation_margin:0
+#: field:account.invoice.report,porcent_variation_margin:0
+msgid "Variation Margin(%)"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:account.invoice,variation_price:0
+#: field:account.invoice.line,variation_price:0
+msgid "Variation Price"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:account.invoice,porcent_variation_price:0
+msgid "Variation Price %"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: field:account.invoice.line,porcent_variation_price:0
+msgid "Variation Price(%)"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: view:hr.expense.expense:project_issue_helpdesk_invoicing.view_expenses_form
+msgid "[('id','in',init_onchange_call[0][2]),('type','in',['normal','contract'])]"
+msgstr ""
+
+#. module: project_issue_helpdesk_invoicing
+#: view:account.analytic.account:project_issue_helpdesk_invoicing.view_account_analytic_account_form
+msgid "{'invisible':False}"
+msgstr ""
+

@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <!--inherit sale order form-->
+        <record id="view_sale_order_form" model="ir.ui.view">
+            <field name="name">view.sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[@string='Order Lines']" position="after">
+                    <page string="Issues">
+                        <field name="issue_ids" context="{'tree_view_ref' : 'project_issue_helpdesk.project_issue_tree_view'}" widget="many2many" domain="['|',('partner_id','=',partner_id),('branch_id','=',partner_id),('stage_id.closed','!=',True),('invoice_id','=',False)]" colspan="4" nolabel="1" attrs="{'readonly': [('state','not in',('draft','sent'))]}">
+                            <tree string="Issues Lines">
+                                <field name="issue_number"/>
+                                <field name="issue_type"/>
+                                <field name="name"/>
+                                <field name="partner_id"/>
+                                <field name="branch_id"/>
+                                <field name="contact"/>
+                                <field name="categ_id"/>
+                                <field name="product_id"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+           </field>
+        </record>
+        <!--Form View Inherit project issue-->
+        <record id="view_project_issue_form" model="ir.ui.view">
+            <field name="name">view.project.issue.form</field>
+            <field name="model">project.issue</field>
+            <field name="inherit_id" ref="project_issue.project_issue_form_view"/>
+            <field name="priority" eval="30"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[@string='Extra Info']/group/group[@string='Status']" position="inside">
+                        <field name="sale_order_id" attrs="{'readonly':[('sale_order_id', '!=', False),('invoice_id', '!=', False)]}"/>
+                        <field name="invoice_sale_id" readonly="1" attrs="{'invisible':[('sale_order_id', '!=', True)]}"/>
+                        <field name="invoice_id" readonly="1" attrs="{'invisible':[('invoice_sale_id', '!=', False)]}"/>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Delivery Orders']" position="after">
+                    <page string="Expenses Lines">
+                        <field name="expense_line_ids" readonly="1" widget="many2many"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        <!--Form View Inherit res partner (base)-->
+        <record id="view_partner_form" model="ir.ui.view">
+            <field name="name">view.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <field name="website" position="after"> 
+                    <field name="is_provision" attrs="{'invisible':[('customer', '!=', True)]}"/>
+                </field>
+                <xpath expr="/form/sheet/notebook/page[@string='Contacts']/field[@name='child_ids']/form[@string='Contact']/sheet/group/field[@name='ref']" position="after">
+                    <field name="is_provision" attrs="{'invisible':[('customer', '!=', True)]}"/>
+                </xpath>
+            </field>
+        </record>
+        <!--Form View Inherit expenses-->
+        <record id="view_expenses_form" model="ir.ui.view">
+            <field name="name">view.expenses.form</field>
+            <field name="model">hr.expense.expense</field>
+            <field name="inherit_id" ref="hr_expense.view_expenses_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']/field[@name='analytic_account']" position="before">
+                    <field name="issue_id" domain="[('stage_id.closed','!=',True)]"/>
+                    <field name="init_onchange_call" invisible="1"/>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']/field[@name='analytic_account']" position="attributes"> 
+                    <attribute name="domain">[('id','in',init_onchange_call[0][2]),('type','in',['normal','contract'])]</attribute>
+                </xpath>
+            </field>
+        </record>
+        <!--Form View Inherit Account Analytic requiredAccount-->
+        <record id="view_account_analytic_account_form" model="ir.ui.view">
+            <field name="name">view.account.analytic.account.form</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
+            <field name="priority" eval="70"/>
+            <field name="arch" type="xml">
+                <separator name="toinvoice" position="after">
+                    <button name="issues_invoice_wizard"
+                          class="oe_link"
+                          string="⇒ Invoice Issues" type="object"/>
+                </separator>
+                <div name="user_function_price" position="before">
+                    <div name="product_function_price">
+                        <separator string="Invoice Price Rate per Contract"/>
+                        <p class="oe_grey oe_edit_only">
+                            Define a specific price for some products or product categories, 
+                            and type technical staff to use these data instead
+                            of the default values when invoicing the customer.
+                        </p>
+                        <field name="pricelist_ids" colspan="4" nolabel="1">
+                            <tree editable="top" string="Pricelist Lines">
+                                <field name="pricelist_line_type"/>
+                                <field name="categ_id" attrs="{'invisible':[('pricelist_line_type', '!=', 'category')]}"/>
+                                <field name="product_id" attrs="{'invisible':[('pricelist_line_type', '!=', 'product')]}"/>
+                                <field name="technical_rate"/>
+                                <field name="assistant_rate"/>
+                                <field name="overtime_multiplier"/>
+                                <field name="holiday_multiplier"/>
+                             </tree>
+                        </field>
+                    </div>
+                </div>
+                <div name="user_function_price" position="attributes">
+                    <attribute name="attrs">{'invisible':False}</attribute>
+                </div>
+                <field name="code"  position="after"> 
+                    <field name="holidays_calendar_id"/>
+                </field>
+                <field name="holidays_calendar_id"  position="after"> 
+                    <field name="regular_schedule_id"/>
+                </field>
+                <xpath expr="/form/sheet/notebook/page[@string='Contract Information']" position="after"> 
+                    <page string="Branches">
+                        <field name="branch_ids" colspan="4" nolabel="1" domain="[('parent_id','=',partner_id),('partner_type','=','branch')]">
+                            <tree string="Branches">
+                                <field name="name"/>
+                                <field name="ref"/>
+                                <field name="email"/>
+                                <field name="phone"/>
+                                <field name="state_id"/>
+                                <field name="is_provision"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        <!--Form View Holiday Calendar-->
+        <record id="view_holiday_calendar_form" model="ir.ui.view">
+            <field name="name">view.holiday.calendar.form</field>
+            <field name="model">holiday.calendar</field>
+            <field name="type">form</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form string="Holiday Calendar" version="7.0">
+                    <sheet>
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                        <notebook>
+                            <page string="Holidays">
+                                <field name="holiday_ids" widget="many2many" colspan="4" nolabel="1">
+                                    <tree string="Holidays Calendar" color="name" date_start="date">
+                                        <field name="name"/>
+                                        <field name="date"/>
+                                    </tree>
+                                </field>
+                             </page>
+                             <page string="Contracts">
+                                <field name="contract_ids" widget="many2many"/>
+                             </page>
+                         </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+     <!--Calendar View Holiday Calendar Date-->
+        <record id="view_holiday_calendar_date_calendar" model="ir.ui.view" >
+        <field name="name">view.holiday.calendar.date.calendar</field>
+        <field name="model">holiday.calendar.date</field>
+        <field name="priority" eval="16"/>
+        <field name="arch" type="xml">
+        <calendar string="Holidays Calendar" color="name" date_start="date">
+            <field name="name"/>
+            <field name="date"/>
+        </calendar>
+        </field>
+        </record>
+    <!--Tree View Holiday Calendar date-->
+        <record id="view_holiday_calendar_date_tree" model="ir.ui.view">
+            <field name="name">view.holiday.calendar.date.tree</field>
+            <field name="model">holiday.calendar.date</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree string="Holiday Calendar Dates">
+                    <field name="name"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+        <!--Form View Holiday Calendar Date-->
+        <record id="view_holiday_calendar_date_form" model="ir.ui.view">
+            <field name="name">view.holiday.calendar.date.form</field>
+            <field name="model">holiday.calendar.date</field>
+            <field name="type">form</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form string="Holiday Calendar Dates" version="7.0">
+                    <sheet>
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                        <group>
+                            <field name="date"/>
+                            <field name="notes" placeholder="Add a notes..."/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+       <!--inherit Account Invoice form-->
+       <record id="view_account_invoice_order_form" model="ir.ui.view">
+            <field name="name">view.account.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[@string='Payments']" position="after">
+                    <page string="Profitability">
+                         <separator string="Profitability"/>
+                         <group>
+                             <group>
+                                 <group style="width:33%">
+                                     <field name="quoted_cost" widget='monetary' options="{'currency_field': 'currency_id'}" groups="base.group_user"/>
+                                     <field name="quoted_price" widget='monetary' options="{'currency_field': 'currency_id'}" groups="base.group_user"/>
+                                     <field name="expected_margin" widget='monetary' options="{'currency_field': 'currency_id'}" groups="base.group_user"/>
+                                 </group>
+                                  <group style="width:33%">
+                                     <field name="real_cost" widget='monetary' options="{'currency_field': 'currency_id'}" groups="base.group_user"/>
+                                     <field name="real_price" widget='monetary' options="{'currency_field': 'currency_id'}" groups="base.group_user"/>
+                                     <field name="real_margin" widget='monetary' options="{'currency_field': 'currency_id'}" groups="base.group_user"/>
+                                 </group>
+                              </group>
+                              <group>
+                                  <group>
+                                      <field name="variation_cost" widget='monetary' options="{'currency_field': 'currency_id'}" groups="base.group_user"/>
+                                      <field name="variation_price" widget='monetary' options="{'currency_field': 'currency_id'}" groups="base.group_user"/>
+                                      <field name="variation_margin" widget='monetary' options="{'currency_field': 'currency_id'}" groups="base.group_user"/>
+                                  </group>
+                                  <group>
+                                      <field name="porcent_variation_cost" widget='monetary' groups="base.group_user"/>
+                                      <field name="porcent_variation_price" widget='monetary' groups="base.group_user"/>
+                                      <field name="porcent_variation_margin" widget='monetary' groups="base.group_user"/>
+                                  </group>
+                              </group>
+                         </group>
+                    </page>
+                </xpath>
+           </field>
+        </record>
+        <!--Tree View Inherit account_invoice--> 
+        <record model="ir.ui.view" id="account_invoice_tree_view">
+                <field name="name">view.account.invoice</field>
+                <field name="model">account.invoice</field>
+                <field name="inherit_id" ref="account.invoice_tree"/>
+                <field name="arch" type="xml">
+                    <field name="amount_total" position="after"> 
+                        <field name="variation_margin" sum="Variation Margin"/>
+                        <field name="porcent_variation_margin"/>
+                    </field>
+                </field>
+        </record>
+        <!--Form View Inherit project issue sheet-->
+        <record id="view_project_issue_sheet_form" model="ir.ui.view">
+            <field name="name">view.project.issue.sheet.form</field>
+            <field name="model">project.issue</field>
+            <field name="inherit_id" ref="project_issue_sheet.project_issue_form_view"/>
+            <field name="priority" eval="40"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='employee_id']"  position="attributes"> 
+                    <attribute name="required">1</attribute>
+                </xpath>
+            </field>
+        </record>
+        <!--Form View Inherit account journal-->
+        <record id="view_account_journal_form" model="ir.ui.view">
+            <field name="name">view.account.journal.form</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/group/group[2]" position="inside">
+                    <field name="warranty_manufacturer"/>
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_holiday_calendar_date">
+            <field name="name">Holidays</field>
+            <field name="res_model">holiday.calendar.date</field>
+            <field name="view_mode">calendar,tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create new holiday</p>
+            </field>
+        </record>
+        <menuitem id="menu_holidays_calendar_date_act"
+            parent="base.menu_base_config"
+            name="Holidays Calendar"
+            action="action_holiday_calendar_date"/>
+    </data>
+</openerp>
