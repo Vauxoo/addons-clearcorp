@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+        <!-- sale.order.report -->
+        <record id="view_purchase order_report" model="ir.ui.view">
+            <field name="name">View Purchase Order Report</field>
+            <field name="inherit_id" ref="purchase.report_purchaseorder_document" />
+            <field name="priority" eval="50" />
+            <field name="type">qweb</field>
+            <field name="arch" type="xml">
+                <xpath
+                    expr="//t/div/div/div/table/tr/td/span[@t-field='o.amount_tax']/../.."
+                    position="before">
+                    <tr>
+                        <td>Discount</td>
+                        <td class="text-right">
+                            <span t-field="o.amount_discount"
+                                t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' />
+                        </td>
+                    </tr>
+                </xpath>
+                <xpath expr="//t/div/p[@t-field='o.notes']"
+                    position="after">
+                    <strong>Realized by:</strong>
+                    <span t-field="o.validator" />
+                    <br />
+                    <strong>Autorized by: ______________________
+                    </strong>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

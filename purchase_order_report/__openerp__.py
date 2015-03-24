@@ -19,9 +19,25 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-import purchase_order_report
-import request_quotation_report
-
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+{
+    'name': 'Purchase Order Report',
+    'version': '1.0',
+    'url': 'http://launchpad.net/openerp-ccorp-addons',
+    'author': 'ClearCorp',
+    'website': 'http://clearcorp.co.cr',
+    'category': 'Purchase Management',
+    'complexity': 'normal',
+    'description': """This module modifies the purchase order Request for Quotation report """,
+    'depends': [
+        'purchase',
+        'purchase_order_discount',
+    ],
+    'init_xml': [],
+    'demo_xml': [],
+    'update_xml': [
+                   'views/report_purchase_order.xml',
+                   ],
+    'license': 'AGPL-3',
+    'installable': True,
+    'active': False,
+}
