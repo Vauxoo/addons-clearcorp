@@ -20,37 +20,4 @@
 #
 ##############################################################################
 
-{
-    "name" : 'Personnel Actions',
-    "version" : '1.0',
-    "author" : 'CLEARCORP S.A.',
-    'complexity': 'normal',
-    "description": """
-Module to register wage, date, and struct changes in contracts.
-    """,
-    "category": 'Human Resources',
-    "sequence": 4,
-    "website" : "http://clearcorp.co.cr",
-    "images" : [],
-    "icon" : False,
-    "depends" : ['hr_holidays',
-                 'hr_payroll',
-                 'hr_contract',
-                 'report_aeroo_ooo',
-                 ],
-    "data" : [
-              'hr_personnel_actions_view.xml',
-              'hr_personnel_actions_menu.xml',
-              'hr_personnel_actions_data.xml',
-              'report/report_data.xml',
-              'security/ir.model.access.csv',
-              ],
-    "init_xml" : [],
-    "demo_xml" : [],
-    "update_xml" : [],
-    "test" : [],
-    "auto_install": False,
-    "application": False,
-    "installable": True,
-    'license': 'AGPL-3',
-}
+import hr_personnel_actions
