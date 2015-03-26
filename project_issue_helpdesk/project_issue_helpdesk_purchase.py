@@ -43,4 +43,37 @@ class PurchaseOrderLine(models.Model):
 
 class ProjectIssue(models.Model):
     _inherit = 'project.issue'
+    @api.v7
+    def create(self, cr, uid, vals, context=None):
+        if 'issue_type' in vals and vals.get('issue_type'):
+            if vals.get('issue_type')=='preventive check':
+                raise Warning(_('You can not create an issue of preventive check type from this screen'))
+        return super(ProjectIssue, self).create(cr, uid, ids, vals, context)
+    @api.v7
+    def write(self, cr, uid, ids, vals, context=None):
+        if 'issue_type' in vals and vals.get('issue_type'):
+           if vals.get('issue_type')=='preventive check':
+                raise Warning(_('You can not create an issue of preventive check type from this screen'))
+        return super(ProjectIssue, self).write(cr, uid, ids, vals, context)
     purchase_orde_line=fields.One2many('purchase.order.line','issue_id')
+    
+class HrAnaliticTimeSheet(models.Model):
+    _inherit = 'hr.analytic.timesheet'
+    @api.constrains('start_time','end_time','employee_id','date')
+    def _check_overloop_worklogs(self):
+        old_timesheet_obj=self.env['hr.analytic.timesheet']
+        for timesheet in self:
+            overloop_ids=old_timesheet_obj.search([('date','=',timesheet.date),('employee_id','=',timesheet.employee_id.id)])
+            for timesheet_old in overloop_ids:
+                if timesheet_old.ticket_number!=timesheet.ticket_number:
+                    if timesheet.start_time==timesheet.end_time:
+                        pass
+                    else:
+                        if (timesheet.start_time>=timesheet_old.start_time and timesheet.end_time<=timesheet_old.end_time):
+                            raise Warning(_('Already exist worklogs register with this range of dates. Ticket Number #%s' %(timesheet_old.ticket_number)))
+                        elif (timesheet.start_time<timesheet_old.start_time and timesheet.end_time>timesheet_old.start_time):
+                            raise Warning(_('Already exist worklogs register with this range of dates. Ticket Number #%s' %(timesheet_old.ticket_number)))
+                        elif (timesheet.start_time<timesheet_old.end_time and timesheet.end_time>timesheet_old.end_time):
+                            raise Warning(_('Already exist worklogs register with this range of dates. Ticket Number #%s' %(timesheet_old.ticket_number)))
+        return True
+    

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-10 20:08+0000\n"
-"PO-Revision-Date: 2015-02-10 20:08+0000\n"
+"POT-Creation-Date: 2015-03-26 22:20+0000\n"
+"PO-Revision-Date: 2015-03-26 22:20+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -20,6 +20,14 @@ msgstr ""
 msgid "<p class=\"oe_view_nocontent_create\">Create new issue origin</p>\n"
 "            "
 msgstr "Crear un nuevo medio"
+
+#. module: project_issue_helpdesk
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk_purchase.py:73
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk_purchase.py:75
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk_purchase.py:77
+#, python-format
+msgid "Already exist worklogs register with this range of dates. Ticket Number #%s"
+msgstr "Ya existen registros de trabajo con estos mismos rangos de fecha. Número de boleta #%s"
 
 #. module: project_issue_helpdesk
 #: selection:hr.analytic.timesheet,service_type:0
@@ -120,6 +128,7 @@ msgid "Installation"
 msgstr "Primera Instalación"
 
 #. module: project_issue_helpdesk
+#: field:purchase.order.line,issue_id:0
 #: field:stock.picking,issue_id:0
 msgid "Issue"
 msgstr "Incidencia"
@@ -170,8 +179,8 @@ msgstr "Debe digitar el número de boleta de trabajo"
 
 #. module: project_issue_helpdesk
 #: constraint:hr.analytic.timesheet:0
-msgid "Must type the the ticket number, except in issue type Reporte Support not is required"
-msgstr "Debe digitar el número de boleta de trabajo"
+msgid "Must type the the ticket number, except in issue type Report Support not is required"
+msgstr "El número de reporte técnico es obligatorio, con excepción de las incidencias de tipo Soporte Remoto"
 
 #. module: project_issue_helpdesk
 #: field:project.issue.origin,name:0
@@ -180,6 +189,7 @@ msgstr "Nombre"
 
 #. module: project_issue_helpdesk
 #: field:product.template,init_onchange_call:0
+#: field:project.issue,init_onchange_call:0
 #: field:stock.picking,init_onchange_call:0
 msgid "Nothing Display"
 msgstr "Nunca Visualizar"
@@ -239,6 +249,21 @@ msgstr "Proyecto"
 #: model:ir.model,name:project_issue_helpdesk.model_project_issue
 msgid "Project Issue"
 msgstr "Incidencia proyecto"
+
+#. module: project_issue_helpdesk
+#: view:project.issue:project_issue_helpdesk.view_project_issue_form
+msgid "Purchase Lines"
+msgstr "Purchase Lines"
+
+#. module: project_issue_helpdesk
+#: model:ir.model,name:project_issue_helpdesk.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Línea pedido de compra"
+
+#. module: project_issue_helpdesk
+#: field:project.issue,purchase_orde_line:0
+msgid "Purchase orde line"
+msgstr "Purchase orde line"
 
 #. module: project_issue_helpdesk
 #: selection:project.issue,issue_type:0
@@ -325,6 +350,11 @@ msgid "Ticket Number"
 msgstr "Boleta"
 
 #. module: project_issue_helpdesk
+#: sql_constraint:hr.analytic.timesheet:0
+msgid "Ticket number must be unique for every worklogs"
+msgstr "El número de reporte técnicos es unico para los registros de trabajo"
+
+#. module: project_issue_helpdesk
 #: model:ir.model,name:project_issue_helpdesk.model_hr_analytic_timesheet
 msgid "Timesheet Line"
 msgstr "Línea de la hoja de servicios"
@@ -335,7 +365,7 @@ msgid "Transfer to partner"
 msgstr "Transferir al cliente"
 
 #. module: project_issue_helpdesk
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:411
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:465
 #, python-format
 msgid "Warning!"
 msgstr "Alerta!"
@@ -351,10 +381,22 @@ msgid "Workshop Repair"
 msgstr "Reparación en taller"
 
 #. module: project_issue_helpdesk
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:411
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk_purchase.py:50
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk_purchase.py:56
+#, python-format
+msgid "You can not create an issue of preventive check type from this screen"
+msgstr "No se pueden crear incidencias de Mantenimiento Preventivo desde este formulario"
+
+#. module: project_issue_helpdesk
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:465
 #, python-format
 msgid "You can not transfer to a partner, if you have not selected an issue"
 msgstr "No puede realizar la transferencia al cliente, si no ha seleccionado una incidencia"
+
+#. module: project_issue_helpdesk
+#: view:purchase.order:project_issue_helpdesk.view_purchase_order_form
+msgid "[('id','in',init_onchange_call[0][2]),('type','not in',['view','template'])]"
+msgstr "[('id','in',init_onchange_call[0][2]),('type','not in',['view','template'])]"
 
 #. module: project_issue_helpdesk
 #: view:project.issue:project_issue_helpdesk.view_project_issue_form
@@ -363,6 +405,7 @@ msgstr "[('partner_type','in',['company'])]"
 
 #. module: project_issue_helpdesk
 #: help:product.template,init_onchange_call:0
+#: help:project.issue,init_onchange_call:0
 #: help:stock.picking,init_onchange_call:0
 msgid "field at view init"
 msgstr "field at view init"
@@ -386,6 +429,11 @@ msgstr "{'invisible':True}"
 #: view:sale.order:project_issue_helpdesk.view_sale_order_form
 msgid "{'readonly': [('project_project_id','!=',False),]}"
 msgstr "{'readonly': [('project_project_id','!=',False),]}"
+
+#. module: project_issue_helpdesk
+#: view:purchase.order:project_issue_helpdesk.view_purchase_order_form
+msgid "{'required': [('issue_id', '!=', False)]}"
+msgstr "{'required': [('issue_id', '!=', False)]}"
 
 #. module: project_issue_helpdesk
 #: view:project.issue:project_issue_helpdesk.view_project_issue_form

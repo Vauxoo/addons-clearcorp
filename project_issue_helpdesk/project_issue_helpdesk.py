@@ -272,13 +272,15 @@ class HrAnaliticTimeSheet(osv.Model):
                 }
      
     _constraints = [
-        (_check_ticket_number,'Must type the the ticket number, except in issue type Reporte Support not is required',['ticket_number']
+        (_check_ticket_number,'Must type the the ticket number, except in issue type Report Support not is required',['ticket_number']
          ),
         (_check_start_time,'Format Start Time incorrect',['start_time']
          ),
          (_check_end_time,'Format End Time incorrect',['end_time']
          )]
       
+    _sql_constraints = [('unique_ticket_number','UNIQUE(ticket_number)',
+                         'Ticket number must be unique for every worklogs')]
 class StockPicking(orm.Model):
      _inherit = 'stock.picking'
  
