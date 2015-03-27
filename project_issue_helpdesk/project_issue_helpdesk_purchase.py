@@ -48,14 +48,16 @@ class ProjectIssue(models.Model):
         if 'issue_type' in vals and vals.get('issue_type'):
             if vals.get('issue_type')=='preventive check':
                 raise Warning(_('You can not create an issue of preventive check type from this screen'))
-        return super(ProjectIssue, self).create(cr, uid, ids, vals, context)
+        return super(ProjectIssue, self).create(cr, uid, vals, context)
     @api.v7
     def write(self, cr, uid, ids, vals, context=None):
         if 'issue_type' in vals and vals.get('issue_type'):
            if vals.get('issue_type')=='preventive check':
                 raise Warning(_('You can not create an issue of preventive check type from this screen'))
         return super(ProjectIssue, self).write(cr, uid, ids, vals, context)
+    
     purchase_orde_line=fields.One2many('purchase.order.line','issue_id')
+    is_closed = fields.Boolean(string='Is Closed',related='stage_id.closed',store=True)
     
 class HrAnaliticTimeSheet(models.Model):
     _inherit = 'hr.analytic.timesheet'

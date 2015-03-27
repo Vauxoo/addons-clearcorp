@@ -63,9 +63,7 @@ class ProjectIssue(osv.Model):
             partner_ids=partner_obj.search(cr, uid,[('parent_id','=',partner_id),('partner_type','=','branch')])
             result.update({'domain':{'backorder_ids':domain}})
             if not partner_ids:
-                 result.update({'value':{'have_branch': False}})
-                 result.update({'value':{'branch_id':False}})
-              
+                 result.update({'value':{'have_branch': False,'branch_id':False}})
             if partner_ids:                    
                  result.update({'value':{'have_branch': True}})
   
@@ -81,16 +79,13 @@ class ProjectIssue(osv.Model):
         data = {}
         if product_id:
             product = self.pool.get('product.product').browse(cr, uid, product_id, context)
-            data.update({'categ_id': product.categ_id.id})
-            data.update({'prodlot_id': False})
+            data.update({'categ_id': product.categ_id.id,'prodlot_id': False})
         return {'value': data}
     
     def onchange_categ_id(self, cr, uid,ids,categ_id,context={}):
             data={}
             if categ_id:
-                    data.update({'product_id': False})
-                    data.update({'prodlot_id': False})
-                   
+                    data.update({'product_id': False,'prodlot_id': False})
             return {'value': data}
     
     def onchange_branch_id(self, cr, uid, ids, branch_id,context={}):
