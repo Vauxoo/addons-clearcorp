@@ -21,39 +21,49 @@
 ##############################################################################
 
 import openerp.tools
-from openerp.osv import fields,osv, orm
+from openerp.osv import fields, osv
 from datetime import datetime
 from openerp.tools.translate import _
 
-class resCompany(orm.Model):
-    _name = 'res.company'
+class Company(osv.Model):
+
     _inherit = 'res.company'
-    
+
     _columns = {
-            'payslip_footer':fields.text('Payslip footer'),
+        'payslip_footer':fields.text('Payslip footer'),
     }
 
-class HrSalaryRule(orm.Model):
+
+class SalaryRule(osv.Model):
+
     _inherit = 'hr.salary.rule'
+
     _columns = {
-        'appears_on_report': fields.boolean('Appears on Report', help="Used for the display of rule on payslip reports"),
+        'appears_on_report': fields.boolean('Appears on Report',
+            help='Used for the display of rule on payslip reports'),
     }
-    
+
     _defaults = {
         'appears_on_report': True,
     }
 
-class hrJob(orm.Model):
+
+class Job(osv.Model):
+
     _inherit = 'hr.job'
+
     _columns = {
         'code': fields.char('Code', size=128, required=False),
     }
 
-class hrPayslipRun(orm.Model):
+
+class PayslipRun(osv.Model):
+
     _inherit = 'hr.payslip.run'
-    
+
     _columns = {
-        'period_id': fields.many2one('account.period', 'Force Period', readonly=True, states={'draft': [('readonly', False)]}),
+        'period_id': fields.many2one('account.period', 'Force Period',
+            readonly=True, states={'draft': [('readonly', False)]}),
         'schedule_pay': fields.selection([
             ('monthly', 'Monthly'),
             ('quarterly', 'Quarterly'),
@@ -62,9 +72,10 @@ class hrPayslipRun(orm.Model):
             ('weekly', 'Weekly'),
             ('bi-weekly', 'Bi-weekly'),
             ('bi-monthly', 'Bi-monthly'),
-            ], 'Scheduled Pay', select=True, readonly=True, states={'draft': [('readonly', False)]}),      
+            ], 'Scheduled Pay', select=True, readonly=True,
+            states={'draft': [('readonly', False)]}),
     }
-    
+
     def close_payslip_run(self, cr, uid, ids, context=None):
         result = self.write(cr, uid, ids, {'state': 'close'}, context=context)
         payslip_obj = self.pool.get('hr.payslip')
@@ -86,16 +97,21 @@ class hrPayslipRun(orm.Model):
                         payslip_obj.process_sheet(cr, uid, [payslip.id], context=context)
         return True
 
-class HrPayslip(osv.osv):
+
+class Payslip(osv.osv):
+
     _inherit = 'hr.payslip'
 
     _columns = {
-        'name': fields.char('Description', size=256, required=False, readonly=True, states={'draft': [('readonly', False)]}),
-        'forced_period_id':fields.related('payslip_run_id', 'period_id', type="many2one", relation="account.period", string="Force period", store=True,readonly=True),
+        'name': fields.char('Description', size=256, required=False,
+            readonly=True, states={'draft': [('readonly', False)]}),
+        'forced_period_id':fields.related('payslip_run_id', 'period_id',
+            type="many2one", relation="account.period",
+            string="Force period", store=True, readonly=True),
     }
 
     def onchange_employee_id(self, cr, uid, ids, date_from, date_to, employee_id=False, contract_id=False, context=None):
-        res = super(HrPayslip, self).onchange_employee_id(cr, uid, ids, date_from, date_to, employee_id=employee_id, contract_id=contract_id, context=context)
+        res = super(Payslip, self).onchange_employee_id(cr, uid, ids, date_from, date_to, employee_id=employee_id, contract_id=contract_id, context=context)
         contract = []
         
         if (not employee_id) or (not date_from) or (not date_to):
@@ -154,11 +170,10 @@ class HrPayslip(osv.osv):
                     'name': name,
                     'worked_days_line_ids' : worked_days_line_list,
         })
-
         return res
-    
+
     def process_sheet(self, cr, uid, ids, context=None):
-        res =  super(HrPayslip, self).process_sheet(cr, uid, ids, context=context)
+        res =  super(Payslip, self).process_sheet(cr, uid, ids, context=context)
         account_move_obj = self.pool.get('account.move')
         account_move_line_obj = self.pool.get('account.move.line')
         for payslip in self.browse(cr, uid, ids, context=context):

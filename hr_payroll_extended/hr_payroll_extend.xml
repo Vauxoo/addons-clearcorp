@@ -8,15 +8,13 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="hr.view_hr_job_form"/>
             <field name="arch" type="xml">
-                <data>                
+                <data>
                     <field name = "department_id" position = "after">
                         <field name="code" class="oe_inline"/>
                     </field>
                 </data>
             </field>
         </record>
-        <!-- End Jobs -->        
-        
         <!-- Payroll_run-->
          <record id="inherit_hr_payslip_run_form" model="ir.ui.view">
             <field name="name">hr.payslip.run.form</field>
@@ -38,9 +36,7 @@
                 </data>
                 
             </field>
-        </record>        
-        <!--End Payroll_run -->
-        
+        </record>
        <!-- Employee wizard -->
         <record id="inherit_view_hr_payslip_by_employees" model="ir.ui.view">
             <field name="name">hr_payroll_payslip_employees</field>
@@ -51,12 +47,10 @@
                 <data>
                     <field name = "employee_ids" position = "replace">
                         <field name="employee_ids" domain="[('contract_ids.schedule_pay', '=', schedule_pay )]" nolabel="1"/>                        
-                    </field>                
-                </data>            
+                    </field>
+                </data>
             </field> 
-        </record>       
-        <!-- End Employee wizard-->
-        
+        </record>
         <!-- forced period Payslip  -->
         <record id="view_hr_payslip_form_inherit" model="ir.ui.view">
             <field name="name">view.hr.payslip.form.inherit</field>
@@ -66,13 +60,12 @@
             <field name="arch" type="xml">
                 <data>
                     <field name="credit_note" position="after">
-                        <field name="forced_period_id"/>                        
-                    </field>                
-                </data>            
+                        <field name="forced_period_id"/>
+                    </field>
+                </data>
             </field> 
         </record> 
-        <!-- End forced period Payslip -->      
-        
+
         <record id="view_company_form_inherit" model="ir.ui.view">
             <field name="name">view.company.form.inherit</field>
             <field name="model">res.company</field>
@@ -86,7 +79,7 @@
                 </page>
             </field>
         </record>
-        
+
         <record id="hr_salary_rule_form_inherit" model="ir.ui.view">
             <field name="name">hr.salary.rule.form.inherit</field>
             <field name="model">hr.salary.rule</field>
@@ -98,6 +91,5 @@
                 </field>
             </field>
         </record>
-        
     </data>
 </openerp>
