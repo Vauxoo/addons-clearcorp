@@ -69,6 +69,9 @@
                 <field name="product_id"  position="after"> 
                     <field name="prodlot_id" attrs="{'readonly':[('is_closed','=',True)]}" domain="[('product_id','=',product_id)]" on_change="onchange_prodlot_id(prodlot_id)"/> 
                 </field>
+                <field name="version_id" position="before"> 
+                    <field name="issue_related" attrs="{'readonly':[('is_closed','=',True)]}" widget="selection" domain="[('is_closed','=',True)]"/> 
+                </field>
                 <field name="partner_id"  position="attributes">
                     <attribute name="domain">[('partner_type','in',['company'])]</attribute>
                     <attribute name="attrs">{'required':True,'readonly':[('is_closed', '=', True)]}</attribute>

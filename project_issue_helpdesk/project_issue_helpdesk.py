@@ -173,8 +173,8 @@ class ProjectIssue(osv.Model):
                 'branch_id':fields.many2one('res.partner', type='many2one', string='Branch'),
                 'employee_id': fields.many2one('hr.employee', 'Technical Staff Assigned'),
                 'contact': fields.char(string="Reported by",required=True),
-                'have_branch':fields.boolean(string="Have Branch")
-
+                'have_branch':fields.boolean(string="Have Branch"),
+                'issue_related':fields.many2one('project.issue',string="Issue Related")
                 }
     _constraints = [
         (_check_issue_type,'Must type the the ticket number, except in issue type Remote Support not is required',['issue_type','timesheet_ids']
