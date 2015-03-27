@@ -164,6 +164,12 @@
                 <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='user_id']" position="replace"> 
                     <field name="employee_id" required="1"/>
                 </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='unit_amount']" position="after"> 
+                    <field name="amount_unit_calculate" widget="float_time"/>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='unit_amount']" position="attributes"> 
+                    <attribute name="invisible">True</attribute>
+                </xpath>
             </field>
         </record>
         <!--Form Search issue-->
@@ -357,6 +363,41 @@
                     <attribute name="attrs">{'required': [('issue_id', '!=', False)]}</attribute>
                 </xpath>
             </field>
+        </record>
+        <!--Tree View Inherit timesheet line-->
+        <record model="ir.ui.view" id="timesheet_line_tree_view">
+                <field name="name">view.timesheet.line.tree</field>
+                <field name="model">hr.analytic.timesheet</field>
+                <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree"/>
+                <field name="arch" type="xml">
+                    <field name="name" position="before"> 
+                        <field name="init_onchange_account" invisible="1"/>
+                        <field name="init_onchange_factor" invisible="1"/>
+                        <field name="issue_id" domain="[('stage_id.closed','!=',True)]"/>
+                        <field name="ticket_number"/>
+                    </field>
+                    <field name="user_id" position="after"> 
+                        <field name="employee_id" required="1"/>
+                    </field>
+                    <field name="user_id" position="attributes">
+                        <attribute name="invisible">True</attribute>
+                    </field>
+                    <field name="to_invoice" position="attributes">
+                        <attribute name="required">True</attribute>
+                        <attribute name="domain">[('id','in',init_onchange_factor[0][2])]</attribute>
+                    </field>
+                    <field name="unit_amount" position="attributes">
+                        <attribute name="invisible">True</attribute>
+                    </field>
+                    <field name="account_id" position="attributes">
+                        <attribute name="domain">[('id','in',init_onchange_account[0][2]),('type','in',['normal','contract']),('state','!=','close'),('use_timesheets','=',1)]</attribute>
+                    </field>
+                    <field name="unit_amount" position="before"> 
+                        <field name="start_time" required="1" widget="float_time" on_change="onchange_start_time(start_time,end_time)"/> 
+                        <field name="end_time" required="1" widget="float_time" on_change="onchange_end_time(start_time,end_time)"/>
+                        <field name="amount_unit_calculate" widget="float_time"/>
+                    </field>
+                </field>
         </record>
         <!-- ACTIONS -->
         <!-- Action project_issue_origin -->

@@ -201,7 +201,7 @@ class HrAnaliticTimeSheet(osv.Model):
             if employee.user_id:
                  vals['user_id'] = employee.user_id.id
             else:
-                 vals['user_id'] = False
+                 raise osv.except_osv(_('Error!'), _('The employee asigned no have a user in the system'))
         result = super(HrAnaliticTimeSheet, self).create(cr, uid, vals, context=context)
         return result
     
@@ -212,8 +212,8 @@ class HrAnaliticTimeSheet(osv.Model):
             if employee.user_id:
                  vals['user_id'] = employee.user_id.id
             else:
-                vals['user_id'] = False
-         res = super(HrAnaliticTimeSheet, self).write(cr, uid, ids, vals, context=context)        
+                raise osv.except_osv(_('Error!'), _('The employee asigned no have a user in the system'))
+         res = super(HrAnaliticTimeSheet, self).write(cr, uid, ids, vals, context=context)       
          return res
      
     def _check_start_time(self, cr, uid, ids, context={}):
@@ -252,11 +252,17 @@ class HrAnaliticTimeSheet(osv.Model):
      
     def onchange_start_time(self, cr, uid, ids, start_time, end_time):
         duration=end_time-start_time
-        return {'value': {'unit_amount': duration}}
+        return {'value': {'unit_amount': duration,'amount_unit_calculate':duration}}
      
     def onchange_end_time(self, cr, uid, ids, start_time, end_time):
         duration=end_time-start_time
-        return {'value': {'unit_amount': duration}}
+        return {'value': {'unit_amount': duration,'amount_unit_calculate':duration}}
+    
+    def get_duration(self, cr, uid, ids, name, args, context=None):
+        res = {}
+        for timesheet in self.browse(cr, uid, ids, context=context):
+            res[timesheet.id]=timesheet.end_time-timesheet.start_time
+        return res
      
     _columns = {
                 'ticket_number': fields.char(string="Ticket Number"),
@@ -264,6 +270,7 @@ class HrAnaliticTimeSheet(osv.Model):
                 'end_time': fields.float(string="End Time"),
                 'service_type': fields.selection([('expert','Expert'),('assistant','Assistant')],string="Service Type"),
                 'employee_id': fields.many2one('hr.employee', 'Technical Staff'),
+                'amount_unit_calculate': fields.function(get_duration, method=True, type='float',string='Amount Unit'),
                 }
      
     _constraints = [

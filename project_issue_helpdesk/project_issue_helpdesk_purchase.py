@@ -78,4 +78,37 @@ class HrAnaliticTimeSheet(models.Model):
                         elif (timesheet.start_time<timesheet_old.end_time and timesheet.end_time>timesheet_old.end_time):
                             raise Warning(_('Already exist worklogs register with this range of dates. Ticket Number #%s' %(timesheet_old.ticket_number)))
         return True
+    @api.depends('issue_id')
+    @api.one
+    def get_account_issue(self):
+        account_obj=self.env['account.analytic.account']
+        if self.issue_id:
+            self.init_onchange_account=self.issue_id.analytic_account_id
+        else:
+            self.init_onchange_account=account_obj.search([('type','in',['view','template'])])
     
+    @api.onchange('issue_id')
+    def get_account(self):
+        if self.issue_id.analytic_account_id:
+            self.account_id=self.issue_id.analytic_account_id
+        else:
+            self.analytic_id=False
+            
+    @api.depends('account_id')
+    @api.one
+    def get_factor_invoice_issue(self):
+        account_obj=self.env['hr_timesheet_invoice.factor']
+        if self.account_id:
+            self.init_onchange_factor=self.account_id.to_invoice
+        else:
+            self.init_onchange_factor=account_obj.search([])
+            
+    @api.onchange('account_id')
+    def get_factor_invoice(self):
+        if self.account_id.to_invoice:
+            self.to_invoice=self.account_id.to_invoice
+        else:
+            self.to_invoice=False
+    
+    init_onchange_account= fields.Many2many('account.analytic.account',compute="get_account_issue",string='Nothing Display', help='field at view init')
+    init_onchange_factor= fields.Many2many('hr_timesheet_invoice.factor',compute="get_factor_invoice_issue",string='Nothing Display', help='field at view init')
