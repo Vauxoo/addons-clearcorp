@@ -110,5 +110,19 @@ class HrAnaliticTimeSheet(models.Model):
         else:
             self.to_invoice=False
     
+    @api.onchange('issue_id')
+    def get_partner_timesheet(self):
+        for sheet in self:
+            if sheet.issue_id:
+                sheet.partner_id=sheet.issue_id.partner_id.id
+        
+    @api.onchange('issue_id')
+    def get_branch_timesheet(self):
+        for sheet in self:
+            if sheet.issue_id:
+                sheet.branch_id=sheet.issue_id.branch_id.id
+    
+    partner_id = fields.Many2one('res.partner',compute="get_partner_timesheet",string='Partner')
+    branch_id = fields.Many2one('res.partner',compute="get_branch_timesheet",string='Branch')
     init_onchange_account= fields.Many2many('account.analytic.account',compute="get_account_issue",string='Nothing Display', help='field at view init')
     init_onchange_factor= fields.Many2many('hr_timesheet_invoice.factor',compute="get_factor_invoice_issue",string='Nothing Display', help='field at view init')

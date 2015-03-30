@@ -376,6 +376,10 @@
                         <field name="issue_id" domain="[('stage_id.closed','!=',True)]"/>
                         <field name="ticket_number"/>
                     </field>
+                    <field name="issue_id" position="after"> 
+                        <field name="partner_id"/>
+                        <field name="branch_id"/>
+                    </field>
                     <field name="user_id" position="after"> 
                         <field name="employee_id" required="1"/>
                     </field>
@@ -399,7 +403,59 @@
                     </field>
                 </field>
         </record>
+        <!--Search View Inherit timesheet line-->
+        <record id="hr_timesheet_line_search" model="ir.ui.view">
+            <field name="name">hr.analytic.timesheet.search</field>
+            <field name="model">hr.analytic.timesheet</field>
+            <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_search"/>
+            <field name="priority" eval="50"/>
+            <field name="arch" type="xml">
+                <field name="date" position="before">
+                    <field name="issue_id"/>
+                    <field name="partner_id"/>
+                    <field name="branch_id"/>
+                </field>
+                 <xpath expr="//field[@name='account_id']" position="after">
+                    <separator/>
+                    <filter name="issue_id" string="Issue" icon="terp-dolar"/>
+                 </xpath>
+                 <xpath expr="//field[@name='issue_id']" position="after">
+                    <separator/>
+                    <filter name="partner_id" string="Partner" icon="terp-dolar"/>
+                    <separator/>
+                    <filter name="branch_id" string="Branch" icon="terp-dolar"/>
+                 </xpath>
+                 <xpath expr="/search/group/filter[@string='Timesheet Month']" position="after"> 
+                    <filter string="Issues" context="{'group_by':'issue_id'}"/>
+                </xpath>
+                 <xpath expr="/search/group/filter[@string='Issues']" position="after"> 
+                    <filter string="Partner" context="{'group_by':'partner_id'}"/>
+                    <filter string="Branch" context="{'group_by':'branch_id'}"/>
+                </xpath>
+            </field>
+        </record>
         <!-- ACTIONS -->
+        <!-- Action timesheet -->
+        <record id="hr_timesheet.act_hr_timesheet_line_evry1_all_form" model="ir.actions.act_window">
+            <field name="name">Timesheet Activities</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.analytic.timesheet</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{"search_default_today": 1,"search_default_to_invoice":1}</field>
+            <field name="tree_view_id" ref="hr_timesheet.hr_timesheet_line_tree"/>
+            <field name="search_view_id" ref="hr_timesheet.hr_timesheet_line_search"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to record activities.
+              </p><p>
+                You can register and track your workings hours by project every
+                day. Every time spent on a project will become a cost in the
+                analytic accounting/contract and can be re-invoiced to
+                customers if required.
+              </p>
+            </field>
+        </record>
         <!-- Action project_issue_origin -->
         <record model="ir.actions.act_window" id="action_project_issue_origin">
             <field name="name">Issue Origin</field>
