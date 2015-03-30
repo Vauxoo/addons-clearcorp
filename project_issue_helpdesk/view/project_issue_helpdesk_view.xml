@@ -28,7 +28,7 @@
                     <field name="name" position="before"> 
                         <field name="issue_number"/> 
                     </field>
-                    <field name="user_id" position="replace"> 
+                    <field name="user_id" position="replace">
                         <field name="employee_id"/> 
                     </field>
                     <field name="partner_id" position="after"> 
@@ -373,10 +373,11 @@
                     <field name="name" position="before"> 
                         <field name="init_onchange_account" invisible="1"/>
                         <field name="init_onchange_factor" invisible="1"/>
-                        <field name="issue_id" domain="[('stage_id.closed','!=',True)]"/>
+                        <field name="issue_id" attrs="{'readonly': [('task_id', '!=', False)]}" domain="[('stage_id.closed','!=',True)] "/>
                         <field name="ticket_number"/>
                     </field>
                     <field name="issue_id" position="after"> 
+                        <field name="task_id" attrs="{'readonly': [('issue_id', '!=', False)]}" domain="[('stage_id.closed','!=',True)]"/>
                         <field name="partner_id"/>
                         <field name="branch_id"/>
                     </field>
@@ -412,12 +413,15 @@
             <field name="arch" type="xml">
                 <field name="date" position="before">
                     <field name="issue_id"/>
+                    <field name="task_id"/>
                     <field name="partner_id"/>
                     <field name="branch_id"/>
                 </field>
                  <xpath expr="//field[@name='account_id']" position="after">
                     <separator/>
                     <filter name="issue_id" string="Issue" icon="terp-dolar"/>
+                    <separator/>
+                    <filter name="task_id" string="Task" icon="terp-dolar"/>
                  </xpath>
                  <xpath expr="//field[@name='issue_id']" position="after">
                     <separator/>
@@ -429,6 +433,7 @@
                     <filter string="Issues" context="{'group_by':'issue_id'}"/>
                 </xpath>
                  <xpath expr="/search/group/filter[@string='Issues']" position="after"> 
+                    <filter string="Tasks" context="{'group_by':'task_id'}"/>
                     <filter string="Partner" context="{'group_by':'partner_id'}"/>
                     <filter string="Branch" context="{'group_by':'branch_id'}"/>
                 </xpath>

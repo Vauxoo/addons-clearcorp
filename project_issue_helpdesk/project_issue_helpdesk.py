@@ -271,6 +271,7 @@ class HrAnaliticTimeSheet(osv.Model):
                 'service_type': fields.selection([('expert','Expert'),('assistant','Assistant')],string="Service Type"),
                 'employee_id': fields.many2one('hr.employee', 'Technical Staff'),
                 'amount_unit_calculate': fields.function(get_duration, method=True, type='float',string='Amount Unit'),
+                'task_id': fields.many2one('project.task', 'Task Assigned')
                 }
      
     _constraints = [

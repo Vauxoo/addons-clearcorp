@@ -78,51 +78,92 @@ class HrAnaliticTimeSheet(models.Model):
                         elif (timesheet.start_time<timesheet_old.end_time and timesheet.end_time>timesheet_old.end_time):
                             raise Warning(_('Already exist worklogs register with this range of dates. Ticket Number #%s' %(timesheet_old.ticket_number)))
         return True
-    @api.depends('issue_id')
+    @api.depends('issue_id','task_id')
     @api.one
-    def get_account_issue(self):
+    def get_account_selected(self):
         account_obj=self.env['account.analytic.account']
         if self.issue_id:
-            self.init_onchange_account=self.issue_id.analytic_account_id
+            if self.issue_id.analytic_account_id:
+                self.init_onchange_account=self.issue_id.analytic_account_id
+                self.account_id=self.issue_id.analytic_account_id
+            else:
+                self.account_id=False
+        elif self.task_id:
+            if self.task_id.project_id.analytic_account_id:
+                self.init_onchange_account=self.task_id.project_id.analytic_account_id
+                self.account_id=self.task_id.project_id.analytic_account_id
+            else:
+                self.account_id=False
         else:
             self.init_onchange_account=account_obj.search([('type','in',['view','template'])])
+            self.account_id=False
     
-    @api.onchange('issue_id')
+    @api.depends('account_id')
+    @api.one
+    def get_factor_invoice_selected(self):
+        account_obj=self.env['hr_timesheet_invoice.factor']
+        if self.account_id:
+            if self.account_id.to_invoice:
+                self.init_onchange_factor=self.account_id.to_invoice
+                self.to_invoice=self.account_id.to_invoice
+            else:
+                self.to_invoice=False
+        else:
+            self.init_onchange_factor=account_obj.search([])
+            self.to_invoice=False
+    @api.depends('issue_id','task_id')
+    @api.one
     def get_account(self):
         if self.issue_id.analytic_account_id:
             self.account_id=self.issue_id.analytic_account_id
+        elif self.task_id.project_id.analytic_account_id:
+            self.account_id=self.task_id.project_id.analytic_account_id
         else:
             self.analytic_id=False
             
     @api.depends('account_id')
     @api.one
-    def get_factor_invoice_issue(self):
-        account_obj=self.env['hr_timesheet_invoice.factor']
-        if self.account_id:
-            self.init_onchange_factor=self.account_id.to_invoice
-        else:
-            self.init_onchange_factor=account_obj.search([])
-            
-    @api.onchange('account_id')
     def get_factor_invoice(self):
         if self.account_id.to_invoice:
             self.to_invoice=self.account_id.to_invoice
         else:
             self.to_invoice=False
     
-    @api.onchange('issue_id')
+    @api.depends('issue_id','task_id')
+    @api.one
     def get_partner_timesheet(self):
-        for sheet in self:
-            if sheet.issue_id:
-                sheet.partner_id=sheet.issue_id.partner_id.id
-        
-    @api.onchange('issue_id')
+        if self.issue_id:
+            if self.issue_id.partner_id:
+                self.partner_id=self.issue_id.partner_id.id
+            else:
+                self.partner_id=False
+        elif self.task_id:
+            if self.task_id.partner_id.partner_type=='company':
+                if self.task_id.partner_id:
+                    self.partner_id=self.task_id.partner_id.id
+                else:
+                    self.partner_id=False
+            elif self.task_id.partner_id.partner_type=='branch':
+                if self.task_id.partner_id.parent_id:
+                    self.partner_id=self.task_id.partner_id.parent_id.id
+                else:
+                    self.partner_id=False
+    @api.depends('issue_id','task_id')
+    @api.one
     def get_branch_timesheet(self):
-        for sheet in self:
-            if sheet.issue_id:
-                sheet.branch_id=sheet.issue_id.branch_id.id
-    
+        if self.issue_id:
+            if self.issue_id.branch_id:
+                self.branch_id=self.issue_id.branch_id.id
+            else:
+                self.branch_id=False
+        elif self.task_id:
+            if self.task_id.partner_id.partner_type=='branch':
+                if self.branch_id:
+                    self.branch_id=self.task_id.partner_id.id
+                else:
+                    self.branch_id=False
+
     partner_id = fields.Many2one('res.partner',compute="get_partner_timesheet",string='Partner')
     branch_id = fields.Many2one('res.partner',compute="get_branch_timesheet",string='Branch')
-    init_onchange_account= fields.Many2many('account.analytic.account',compute="get_account_issue",string='Nothing Display', help='field at view init')
-    init_onchange_factor= fields.Many2many('hr_timesheet_invoice.factor',compute="get_factor_invoice_issue",string='Nothing Display', help='field at view init')
+    init_onchange_account= fields.Many2many('account.analytic.account',compute="get_account_selected",string='Nothing Display', help='field at view init')
+    init_onchange_factor= fields.Many2many('hr_timesheet_invoice.factor',compute="get_factor_invoice_selected",string='Nothing Display', help='field at view init')
