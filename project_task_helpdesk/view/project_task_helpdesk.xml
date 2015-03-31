@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+         <record model="ir.ui.view" id="project_task_form_view">
+            <field name="name">Project Task Form</field>
+            <field name="model">project.task</field>
+            <field name="priority" eval="40"/>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <field name="work_ids" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="analytic_account_id" invisible="1"/>
+                    <field name="is_closed" invisible="1"/>
+                </xpath>
+                <xpath expr="//notebook/page[@string='Extra Info']" position="before">
+                    <page string="Worklogs">
+                        <field name="timesheet_ids" attrs="{'readonly':[('is_closed', '=', True)]}" colspan="4" nolabel="1" 
+                                groups="base.group_user" context="{'default_user_id' : uid, 'default_analytic_account_id' :analytic_account_id}">
+                            <tree editable="top" string="Timesheets">
+                                <field name="ticket_number"/> 
+                                <field name="name"/>
+                                <field name="unit_amount" invisible="1" on_change="on_change_unit_amount(product_id, unit_amount, False, product_uom_id,journal_id)" widget="float_time"/>
+                                <field name="amount_unit_calculate" widget="float_time"/>
+                                <field name="account_id" invisible="0" domain="[('partner_id', '=', parent.partner_id)]" on_change="on_change_account_id(account_id)" groups="analytic.group_analytic_accounting"/>
+                                <field name="date"/>
+                                <field name="start_time" required="1" widget="float_time" on_change="onchange_start_time(start_time,end_time)"/> 
+                                <field name="end_time" required="1" widget="float_time" on_change="onchange_end_time(start_time,end_time)"/>
+                                <field name="service_type" required="1"/>
+                                <field name="user_id" invisible="1" required="1"/>
+                                <field name="employee_id" required="1"/>
+                                <field invisible="1" name="journal_id"/>
+                                <field invisible="1" name="product_id"/>
+                                <field invisible="1" name="product_uom_id" on_change="on_change_unit_amount(product_id, unit_amount, False, product_uom_id,journal_id)"/>
+                                <field invisible="1" name="amount"/>
+                                <field invisible="1" name="general_account_id"/>
+                                <field invisible="1" name="to_invoice"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
