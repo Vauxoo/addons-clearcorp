@@ -21,5 +21,6 @@
 ##############################################################################
 
 import project_issue_helpdesk
+import project_issue_helpdesk_purchase
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -28,16 +28,18 @@
                     <field name="name" position="before"> 
                         <field name="issue_number"/> 
                     </field>
-                    <field name="user_id" position="replace"> 
+                    <field name="user_id" position="replace">
                         <field name="employee_id"/> 
                     </field>
                     <field name="partner_id" position="after"> 
                         <field name="branch_id"/>
                         <field name="product_id"/> 
-                    </field> 
+                    </field>
+                    <field name="employee_id" position="after"> 
+                        <field name="warranty"/>
+                    </field>
                 </field>
         </record>
-    
         <!--Form View Inherit project issue-->
         <record id="view_project_issue_form" model="ir.ui.view">
             <field name="name">view.project.issue.form</field>
@@ -45,9 +47,9 @@
             <field name="inherit_id" ref="project_issue.project_issue_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="/form/sheet[@string='Issue']/group/group[1]" position="inside">
-                      <field name="issue_type"/>
-                      <field name="origin_id"/>
-                      <field name="warranty"/>
+                      <field name="issue_type" attrs="{'readonly':[('is_closed','=',True)]}"/>
+                      <field name="origin_id" attrs="{'readonly':[('is_closed','=',True)]}"/>
+                      <field name="warranty" attrs="{'readonly':[('is_closed','=',True)]}"/>
                 </xpath>
                 <field name="id" position="attributes">
                         <attribute name="attrs">{'invisible':True}</attribute>
@@ -55,44 +57,92 @@
                 <xpath expr="/form/sheet/notebook/page[@string='Extra Info']" position="before">
                     <page string="Delivery Orders">
                         <field name="init_onchange_call" invisible="1"/>
-                        <field name="backorder_ids" domain="[('id','in',init_onchange_call[0][2])]" widget="many2many"/>
+                        <field name="backorder_ids" readonly="1" domain="[('id','in',init_onchange_call[0][2])]" widget="many2many"/>
                     </page>
                 </xpath>
                 <xpath expr="/form/sheet[@string='Issue']/group/group[1]/div" position="after">
-                    <field name="categ_id" on_change="onchange_categ_id(categ_id)"/>     
+                    <field name="categ_id" attrs="{'readonly':[('is_closed','=',True)]}" on_change="onchange_categ_id(categ_id)"/>
                 </xpath>
                 <field name="categ_id" position="after"> 
                     <field name="product_id" domain="[('categ_id','=',categ_id)]" on_change="onchange_product_id(product_id)"/> 
                 </field> 
                 <field name="product_id"  position="after"> 
-                    <field name="prodlot_id"  domain="[('product_id','=',product_id)]" on_change="onchange_prodlot_id(prodlot_id)"/> 
+                    <field name="prodlot_id" attrs="{'readonly':[('is_closed','=',True)]}" domain="[('product_id','=',product_id)]" on_change="onchange_prodlot_id(prodlot_id)"/> 
+                </field>
+                <field name="version_id" position="before"> 
+                    <field name="issue_related" attrs="{'readonly':[('is_closed','=',True)]}" widget="selection" domain="[('is_closed','=',True)]"/> 
                 </field>
                 <field name="partner_id"  position="attributes">
                     <attribute name="domain">[('partner_type','in',['company'])]</attribute>
-                    <attribute name="attrs">{'required':True}</attribute>
+                    <attribute name="attrs">{'required':True,'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
+                <field name="name"  position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
+                <field name="categ_ids" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
+                <field name="email_from" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
+                <field name="project_id" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
+                <field name="version_id" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
+                <field name="priority" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
+                <field name="task_id" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
+                <field name="active" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
+                <field name="description" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
+                <field name="task_id" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
+                <field name="timesheet_ids" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
+                <field name="name" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
+                <field name="analytic_account_id" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
                 </field>
                 <field name="partner_id"  position="after"> 
-                    <field name="branch_id" on_change="onchange_branch_id(branch_id)" domain="[('parent_id','=',partner_id),('partner_type','=','branch')]" attrs="{'invisible':[('have_branch', '=', False)],'required':[('have_branch', '=', True)]}"/>
+                    <field name="branch_id" on_change="onchange_branch_id(branch_id)" domain="[('parent_id','=',partner_id),('partner_type','=','branch')]"  attrs="{'invisible':[('have_branch', '=', False)],'required':[('have_branch', '=', True)],'readonly':[('is_closed', '=', True)]}"/>
                     <field name="have_branch" invisible="1"/> 
                 </field>
                 <label for="name"  position="before">
                         <label for="issue_number" class="oe_edit_only"/>
                         <h1>
                             <field name="issue_number"  readonly="1" class="oe_inline"/>
+                            <field name="is_closed" invisible="1"/>
                         </h1>
                 </label>
                 <field name="branch_id" position="after"> 
-                    <field name="contact"/> 
+                    <field name="contact" attrs="{'readonly':[('is_closed','=',True)]}"/> 
                 </field>
                 <field name="origin_id" position="after"> 
-                    <field name="employee_id"/> 
+                    <field name="employee_id" attrs="{'readonly':[('is_closed','=',True)]}"/> 
                 </field>
                 <field name="user_id"  position="attributes">
                     <attribute name="attrs">{'invisible':True}</attribute>
                 </field>
                 <field name="product_id"  position="attributes">
-                    <attribute name="attrs">{'required':True}</attribute>
+                    <attribute name="attrs">{'required':True,'readonly':[('is_closed', '=', True)]}</attribute>
                 </field>
+                <xpath expr="/form/sheet/notebook/page[@string='Delivery Orders']" position="after">
+                    <page string="Purchase Lines">
+                        <field name="purchase_orde_line" readonly="1" widget="many2many"/>
+                    </page>
+                </xpath>
             </field>
         </record>
         <!--Form View Inherit project issue sheet-->
@@ -113,6 +163,12 @@
                 </xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='user_id']" position="replace"> 
                     <field name="employee_id" required="1"/>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='unit_amount']" position="after"> 
+                    <field name="amount_unit_calculate" widget="float_time"/>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='unit_amount']" position="attributes"> 
+                    <attribute name="invisible">True</attribute>
                 </xpath>
             </field>
         </record>
@@ -291,7 +347,120 @@
                 </field>
             </field>
         </record>
+        <!--Form View Inherit purchase order-->
+        <record id="view_purchase_order_form" model="ir.ui.view">
+            <field name="name">view.purchase.order.form</field>
+            <field name="model">purchase.order</field>
+            <field name="priority" eval="50"/>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[@string='Products']/field[@name='order_line']/tree[@string='Purchase Order Lines']/field[@name='account_analytic_id']" position="before">
+                    <field name="issue_id" domain="[('stage_id.closed','!=',True)]" attrs="{'required': [('account_analytic_id', '!=', False)]}"/>
+                    <field name="init_onchange_call" invisible="1"/>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Products']/field[@name='order_line']/tree[@string='Purchase Order Lines']/field[@name='account_analytic_id']" position="attributes"> 
+                    <attribute name="domain">[('id','in',init_onchange_call[0][2]),('type','not in',['view','template'])]</attribute>
+                    <attribute name="attrs">{'required': [('issue_id', '!=', False)]}</attribute>
+                </xpath>
+            </field>
+        </record>
+        <!--Tree View Inherit timesheet line-->
+        <record model="ir.ui.view" id="timesheet_line_tree_view">
+                <field name="name">view.timesheet.line.tree</field>
+                <field name="model">hr.analytic.timesheet</field>
+                <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree"/>
+                <field name="arch" type="xml">
+                    <field name="name" position="before"> 
+                        <field name="init_onchange_account" invisible="1"/>
+                        <field name="init_onchange_factor" invisible="1"/>
+                        <field name="issue_id" attrs="{'readonly': [('task_id', '!=', False)]}" domain="[('stage_id.closed','!=',True)] "/>
+                        <field name="ticket_number"/>
+                    </field>
+                    <field name="issue_id" position="after"> 
+                        <field name="task_id" attrs="{'readonly': [('issue_id', '!=', False)]}" domain="[('stage_id.closed','!=',True)]"/>
+                        <field name="partner_id"/>
+                        <field name="branch_id"/>
+                    </field>
+                    <field name="user_id" position="after"> 
+                        <field name="employee_id" required="1"/>
+                    </field>
+                    <field name="user_id" position="attributes">
+                        <attribute name="invisible">True</attribute>
+                    </field>
+                    <field name="to_invoice" position="attributes">
+                        <attribute name="required">True</attribute>
+                        <attribute name="domain">[('id','in',init_onchange_factor[0][2])]</attribute>
+                    </field>
+                    <field name="unit_amount" position="attributes">
+                        <attribute name="invisible">True</attribute>
+                    </field>
+                    <field name="account_id" position="attributes">
+                        <attribute name="domain">[('id','in',init_onchange_account[0][2]),('type','in',['normal','contract']),('state','!=','close'),('use_timesheets','=',1)]</attribute>
+                    </field>
+                    <field name="unit_amount" position="before"> 
+                        <field name="start_time" required="1" widget="float_time" on_change="onchange_start_time(start_time,end_time)"/> 
+                        <field name="end_time" required="1" widget="float_time" on_change="onchange_end_time(start_time,end_time)"/>
+                        <field name="amount_unit_calculate" widget="float_time"/>
+                    </field>
+                </field>
+        </record>
+        <!--Search View Inherit timesheet line-->
+        <record id="hr_timesheet_line_search" model="ir.ui.view">
+            <field name="name">hr.analytic.timesheet.search</field>
+            <field name="model">hr.analytic.timesheet</field>
+            <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_search"/>
+            <field name="priority" eval="50"/>
+            <field name="arch" type="xml">
+                <field name="date" position="before">
+                    <field name="issue_id"/>
+                    <field name="task_id"/>
+                    <field name="partner_id"/>
+                    <field name="branch_id"/>
+                </field>
+                 <xpath expr="//field[@name='account_id']" position="after">
+                    <separator/>
+                    <filter name="issue_id" string="Issue" icon="terp-dolar"/>
+                    <separator/>
+                    <filter name="task_id" string="Task" icon="terp-dolar"/>
+                 </xpath>
+                 <xpath expr="//field[@name='issue_id']" position="after">
+                    <separator/>
+                    <filter name="partner_id" string="Partner" icon="terp-dolar"/>
+                    <separator/>
+                    <filter name="branch_id" string="Branch" icon="terp-dolar"/>
+                 </xpath>
+                 <xpath expr="/search/group/filter[@string='Timesheet Month']" position="after"> 
+                    <filter string="Issues" context="{'group_by':'issue_id'}"/>
+                </xpath>
+                 <xpath expr="/search/group/filter[@string='Issues']" position="after"> 
+                    <filter string="Tasks" context="{'group_by':'task_id'}"/>
+                    <filter string="Partner" context="{'group_by':'partner_id'}"/>
+                    <filter string="Branch" context="{'group_by':'branch_id'}"/>
+                </xpath>
+            </field>
+        </record>
         <!-- ACTIONS -->
+        <!-- Action timesheet -->
+        <record id="hr_timesheet.act_hr_timesheet_line_evry1_all_form" model="ir.actions.act_window">
+            <field name="name">Timesheet Activities</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.analytic.timesheet</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{"search_default_today": 1,"search_default_to_invoice":1}</field>
+            <field name="tree_view_id" ref="hr_timesheet.hr_timesheet_line_tree"/>
+            <field name="search_view_id" ref="hr_timesheet.hr_timesheet_line_search"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to record activities.
+              </p><p>
+                You can register and track your workings hours by project every
+                day. Every time spent on a project will become a cost in the
+                analytic accounting/contract and can be re-invoiced to
+                customers if required.
+              </p>
+            </field>
+        </record>
         <!-- Action project_issue_origin -->
         <record model="ir.actions.act_window" id="action_project_issue_origin">
             <field name="name">Issue Origin</field>

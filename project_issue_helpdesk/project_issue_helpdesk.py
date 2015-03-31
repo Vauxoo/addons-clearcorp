@@ -63,9 +63,7 @@ class ProjectIssue(osv.Model):
             partner_ids=partner_obj.search(cr, uid,[('parent_id','=',partner_id),('partner_type','=','branch')])
             result.update({'domain':{'backorder_ids':domain}})
             if not partner_ids:
-                 result.update({'value':{'have_branch': False}})
-                 result.update({'value':{'branch_id':False}})
-              
+                 result.update({'value':{'have_branch': False,'branch_id':False}})
             if partner_ids:                    
                  result.update({'value':{'have_branch': True}})
   
@@ -81,16 +79,13 @@ class ProjectIssue(osv.Model):
         data = {}
         if product_id:
             product = self.pool.get('product.product').browse(cr, uid, product_id, context)
-            data.update({'categ_id': product.categ_id.id})
-            data.update({'prodlot_id': False})
+            data.update({'categ_id': product.categ_id.id,'prodlot_id': False})
         return {'value': data}
     
     def onchange_categ_id(self, cr, uid,ids,categ_id,context={}):
             data={}
             if categ_id:
-                    data.update({'product_id': False})
-                    data.update({'prodlot_id': False})
-                   
+                    data.update({'product_id': False,'prodlot_id': False})
             return {'value': data}
     
     def onchange_branch_id(self, cr, uid, ids, branch_id,context={}):
@@ -178,8 +173,8 @@ class ProjectIssue(osv.Model):
                 'branch_id':fields.many2one('res.partner', type='many2one', string='Branch'),
                 'employee_id': fields.many2one('hr.employee', 'Technical Staff Assigned'),
                 'contact': fields.char(string="Reported by",required=True),
-                'have_branch':fields.boolean(string="Have Branch")
-
+                'have_branch':fields.boolean(string="Have Branch"),
+                'issue_related':fields.many2one('project.issue',string="Issue Related")
                 }
     _constraints = [
         (_check_issue_type,'Must type the the ticket number, except in issue type Remote Support not is required',['issue_type','timesheet_ids']
@@ -206,7 +201,7 @@ class HrAnaliticTimeSheet(osv.Model):
             if employee.user_id:
                  vals['user_id'] = employee.user_id.id
             else:
-                 vals['user_id'] = False
+                 raise osv.except_osv(_('Error!'), _('The employee asigned no have a user in the system'))
         result = super(HrAnaliticTimeSheet, self).create(cr, uid, vals, context=context)
         return result
     
@@ -217,8 +212,8 @@ class HrAnaliticTimeSheet(osv.Model):
             if employee.user_id:
                  vals['user_id'] = employee.user_id.id
             else:
-                vals['user_id'] = False
-         res = super(HrAnaliticTimeSheet, self).write(cr, uid, ids, vals, context=context)        
+                raise osv.except_osv(_('Error!'), _('The employee asigned no have a user in the system'))
+         res = super(HrAnaliticTimeSheet, self).write(cr, uid, ids, vals, context=context)       
          return res
      
     def _check_start_time(self, cr, uid, ids, context={}):
@@ -257,11 +252,17 @@ class HrAnaliticTimeSheet(osv.Model):
      
     def onchange_start_time(self, cr, uid, ids, start_time, end_time):
         duration=end_time-start_time
-        return {'value': {'unit_amount': duration}}
+        return {'value': {'unit_amount': duration,'amount_unit_calculate':duration}}
      
     def onchange_end_time(self, cr, uid, ids, start_time, end_time):
         duration=end_time-start_time
-        return {'value': {'unit_amount': duration}}
+        return {'value': {'unit_amount': duration,'amount_unit_calculate':duration}}
+    
+    def get_duration(self, cr, uid, ids, name, args, context=None):
+        res = {}
+        for timesheet in self.browse(cr, uid, ids, context=context):
+            res[timesheet.id]=timesheet.end_time-timesheet.start_time
+        return res
      
     _columns = {
                 'ticket_number': fields.char(string="Ticket Number"),
@@ -269,16 +270,20 @@ class HrAnaliticTimeSheet(osv.Model):
                 'end_time': fields.float(string="End Time"),
                 'service_type': fields.selection([('expert','Expert'),('assistant','Assistant')],string="Service Type"),
                 'employee_id': fields.many2one('hr.employee', 'Technical Staff'),
+                'amount_unit_calculate': fields.function(get_duration, method=True, type='float',string='Amount Unit'),
+                'task_id': fields.many2one('project.task', 'Task Assigned')
                 }
      
     _constraints = [
-        (_check_ticket_number,'Must type the the ticket number, except in issue type Reporte Support not is required',['ticket_number']
+        (_check_ticket_number,'Must type the the ticket number, except in issue type Report Support not is required',['ticket_number']
          ),
         (_check_start_time,'Format Start Time incorrect',['start_time']
          ),
          (_check_end_time,'Format End Time incorrect',['end_time']
          )]
       
+    _sql_constraints = [('unique_ticket_number','UNIQUE(ticket_number)',
+                         'Ticket number must be unique for every worklogs')]
 class StockPicking(orm.Model):
      _inherit = 'stock.picking'
  

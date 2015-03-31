@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-10 20:08+0000\n"
-"PO-Revision-Date: 2015-02-10 20:08+0000\n"
+"POT-Creation-Date: 2015-03-30 22:12+0000\n"
+"PO-Revision-Date: 2015-03-30 22:12+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -22,6 +22,19 @@ msgid "<p class=\"oe_view_nocontent_create\">Create new issue origin</p>\n"
 msgstr "Crear un nuevo medio"
 
 #. module: project_issue_helpdesk
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk_purchase.py:75
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk_purchase.py:77
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk_purchase.py:79
+#, python-format
+msgid "Already exist worklogs register with this range of dates. Ticket Number #%s"
+msgstr "Ya existen registros de trabajo con estos mismos rangos de fecha. Número de boleta #%s"
+
+#. module: project_issue_helpdesk
+#: field:hr.analytic.timesheet,amount_unit_calculate:0
+msgid "Amount Unit"
+msgstr "Monto"
+
+#. module: project_issue_helpdesk
 #: selection:hr.analytic.timesheet,service_type:0
 msgid "Assistant"
 msgstr "Asistente"
@@ -32,6 +45,7 @@ msgid "Backorders"
 msgstr "Ordenes de Entrega"
 
 #. module: project_issue_helpdesk
+#: view:hr.analytic.timesheet:project_issue_helpdesk.hr_timesheet_line_search
 #: view:project.issue:project_issue_helpdesk.view_project_issue_filter
 #: field:project.issue,branch_id:0
 msgid "Branch"
@@ -79,6 +93,13 @@ msgid "Equipment"
 msgstr "Equipo"
 
 #. module: project_issue_helpdesk
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:204
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:215
+#, python-format
+msgid "Error!"
+msgstr "Error!"
+
+#. module: project_issue_helpdesk
 #: selection:hr.analytic.timesheet,service_type:0
 msgid "Expert"
 msgstr "Experto"
@@ -120,6 +141,13 @@ msgid "Installation"
 msgstr "Primera Instalación"
 
 #. module: project_issue_helpdesk
+#: field:project.issue,is_closed:0
+msgid "Is Closed"
+msgstr "Es cerrado"
+
+#. module: project_issue_helpdesk
+#: view:hr.analytic.timesheet:project_issue_helpdesk.hr_timesheet_line_search
+#: field:purchase.order.line,issue_id:0
 #: field:stock.picking,issue_id:0
 msgid "Issue"
 msgstr "Incidencia"
@@ -138,6 +166,11 @@ msgid "Issue Origin"
 msgstr "Medio"
 
 #. module: project_issue_helpdesk
+#: field:project.issue,issue_related:0
+msgid "Issue Related"
+msgstr "Incidencia Relacionada"
+
+#. module: project_issue_helpdesk
 #: field:stock.picking,issue_required:0
 #: field:stock.picking.type,issue_required:0
 msgid "Issue Required"
@@ -147,6 +180,11 @@ msgstr "Incidencia Requerida"
 #: field:project.issue,issue_type:0
 msgid "Issue Type"
 msgstr "Tipo de Caso"
+
+#. module: project_issue_helpdesk
+#: view:hr.analytic.timesheet:project_issue_helpdesk.hr_timesheet_line_search
+msgid "Issues"
+msgstr "Incidencias"
 
 #. module: project_issue_helpdesk
 #: field:project.issue.origin,write_uid:0
@@ -170,8 +208,8 @@ msgstr "Debe digitar el número de boleta de trabajo"
 
 #. module: project_issue_helpdesk
 #: constraint:hr.analytic.timesheet:0
-msgid "Must type the the ticket number, except in issue type Reporte Support not is required"
-msgstr "Debe digitar el número de boleta de trabajo"
+msgid "Must type the the ticket number, except in issue type Report Support not is required"
+msgstr "El número de reporte técnico es obligatorio, con excepción de las incidencias de tipo Soporte Remoto"
 
 #. module: project_issue_helpdesk
 #: field:project.issue.origin,name:0
@@ -180,6 +218,7 @@ msgstr "Nombre"
 
 #. module: project_issue_helpdesk
 #: field:product.template,init_onchange_call:0
+#: field:project.issue,init_onchange_call:0
 #: field:stock.picking,init_onchange_call:0
 msgid "Nothing Display"
 msgstr "Nunca Visualizar"
@@ -193,6 +232,11 @@ msgstr "Medio"
 #: model:ir.ui.menu,name:project_issue_helpdesk.menu_project_issue_origin_act
 msgid "Origins"
 msgstr "Medios"
+
+#. module: project_issue_helpdesk
+#: view:hr.analytic.timesheet:project_issue_helpdesk.hr_timesheet_line_search
+msgid "Partner"
+msgstr "Partner"
 
 #. module: project_issue_helpdesk
 #: field:project.issue,partner_type:0
@@ -239,6 +283,21 @@ msgstr "Proyecto"
 #: model:ir.model,name:project_issue_helpdesk.model_project_issue
 msgid "Project Issue"
 msgstr "Incidencia proyecto"
+
+#. module: project_issue_helpdesk
+#: view:project.issue:project_issue_helpdesk.view_project_issue_form
+msgid "Purchase Lines"
+msgstr "Líneas de compra"
+
+#. module: project_issue_helpdesk
+#: model:ir.model,name:project_issue_helpdesk.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Línea orden de compra"
+
+#. module: project_issue_helpdesk
+#: field:project.issue,purchase_orde_line:0
+msgid "Purchase orde line"
+msgstr "Línea de orden de compra"
 
 #. module: project_issue_helpdesk
 #: selection:project.issue,issue_type:0
@@ -300,6 +359,26 @@ msgid "Supply Type"
 msgstr "Tipo de Producto"
 
 #. module: project_issue_helpdesk
+#: view:hr.analytic.timesheet:project_issue_helpdesk.hr_timesheet_line_search
+msgid "Task"
+msgstr "Tarea"
+
+#. module: project_issue_helpdesk
+#: field:hr.analytic.timesheet,task_id:0
+msgid "Task Assigned"
+msgstr "Tarea asignada"
+
+#. module: project_issue_helpdesk
+#: view:hr.analytic.timesheet:project_issue_helpdesk.hr_timesheet_line_search
+msgid "Tasks"
+msgstr "Tareas"
+
+#. module: project_issue_helpdesk
+#: help:project.issue,is_closed:0
+msgid "Tasks in this stage are considered as closed."
+msgstr "La tarea en está etapa es considerada cerrada."
+
+#. module: project_issue_helpdesk
 #: field:hr.analytic.timesheet,employee_id:0
 msgid "Technical Staff"
 msgstr "Técnico Asignado"
@@ -315,6 +394,13 @@ msgid "The destination location of this movement will be assigned to the client.
 msgstr "La ubicación destino de este movimiento será la asignada al cliente. Desea continuar?"
 
 #. module: project_issue_helpdesk
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:204
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:215
+#, python-format
+msgid "The employee asigned no have a user in the system"
+msgstr "Debe asignar un usuario al empleado seleccionado"
+
+#. module: project_issue_helpdesk
 #: model:ir.model,name:project_issue_helpdesk.model_stock_picking_type
 msgid "The picking type determines the picking view"
 msgstr "El tipo de albarán determina la vista de albarán"
@@ -323,6 +409,11 @@ msgstr "El tipo de albarán determina la vista de albarán"
 #: field:hr.analytic.timesheet,ticket_number:0
 msgid "Ticket Number"
 msgstr "Boleta"
+
+#. module: project_issue_helpdesk
+#: sql_constraint:hr.analytic.timesheet:0
+msgid "Ticket number must be unique for every worklogs"
+msgstr "El número de reporte técnicos es unico para los registros de trabajo"
 
 #. module: project_issue_helpdesk
 #: model:ir.model,name:project_issue_helpdesk.model_hr_analytic_timesheet
@@ -335,7 +426,13 @@ msgid "Transfer to partner"
 msgstr "Transferir al cliente"
 
 #. module: project_issue_helpdesk
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:411
+#: view:hr.analytic.timesheet:project_issue_helpdesk.timesheet_line_tree_view
+#: view:project.issue:project_issue_helpdesk.view_project_issue_sheet_form
+msgid "True"
+msgstr "True"
+
+#. module: project_issue_helpdesk
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:468
 #, python-format
 msgid "Warning!"
 msgstr "Alerta!"
@@ -351,10 +448,32 @@ msgid "Workshop Repair"
 msgstr "Reparación en taller"
 
 #. module: project_issue_helpdesk
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:411
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk_purchase.py:50
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk_purchase.py:56
+#, python-format
+msgid "You can not create an issue of preventive check type from this screen"
+msgstr "No se pueden crear incidencias de Mantenimiento Preventivo desde este formulario"
+
+#. module: project_issue_helpdesk
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:468
 #, python-format
 msgid "You can not transfer to a partner, if you have not selected an issue"
 msgstr "No puede realizar la transferencia al cliente, si no ha seleccionado una incidencia"
+
+#. module: project_issue_helpdesk
+#: view:hr.analytic.timesheet:project_issue_helpdesk.timesheet_line_tree_view
+msgid "[('id','in',init_onchange_account[0][2]),('type','in',['normal','contract']),('state','!=','close'),('use_timesheets','=',1)]"
+msgstr "[('id','in',init_onchange_account[0][2]),('type','in',['normal','contract']),('state','!=','close'),('use_timesheets','=',1)]"
+
+#. module: project_issue_helpdesk
+#: view:purchase.order:project_issue_helpdesk.view_purchase_order_form
+msgid "[('id','in',init_onchange_call[0][2]),('type','not in',['view','template'])]"
+msgstr "[('id','in',init_onchange_call[0][2]),('type','not in',['view','template'])]"
+
+#. module: project_issue_helpdesk
+#: view:hr.analytic.timesheet:project_issue_helpdesk.timesheet_line_tree_view
+msgid "[('id','in',init_onchange_factor[0][2])]"
+msgstr "[('id','in',init_onchange_factor[0][2])]"
 
 #. module: project_issue_helpdesk
 #: view:project.issue:project_issue_helpdesk.view_project_issue_form
@@ -363,6 +482,7 @@ msgstr "[('partner_type','in',['company'])]"
 
 #. module: project_issue_helpdesk
 #: help:product.template,init_onchange_call:0
+#: help:project.issue,init_onchange_call:0
 #: help:stock.picking,init_onchange_call:0
 msgid "field at view init"
 msgstr "field at view init"
@@ -389,8 +509,18 @@ msgstr "{'readonly': [('project_project_id','!=',False),]}"
 
 #. module: project_issue_helpdesk
 #: view:project.issue:project_issue_helpdesk.view_project_issue_form
-msgid "{'required':True}"
-msgstr "{'required':True}"
+msgid "{'readonly':[('is_closed', '=', True)]}"
+msgstr "{'readonly':[('is_closed', '=', True)]}"
+
+#. module: project_issue_helpdesk
+#: view:purchase.order:project_issue_helpdesk.view_purchase_order_form
+msgid "{'required': [('issue_id', '!=', False)]}"
+msgstr "{'required': [('issue_id', '!=', False)]}"
+
+#. module: project_issue_helpdesk
+#: view:project.issue:project_issue_helpdesk.view_project_issue_form
+msgid "{'required':True,'readonly':[('is_closed', '=', True)]}"
+msgstr "{'required':True,'readonly':[('is_closed', '=', True)]}"
 
 #. module: project_issue_helpdesk
 #: view:product.template:project_issue_helpdesk.view_product_template_form_view
