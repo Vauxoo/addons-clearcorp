@@ -1,0 +1,120 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* project_task_helpdesk
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-31 22:50+0000\n"
+"PO-Revision-Date: 2015-03-31 22:50+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: project_task_helpdesk
+#: field:project.task,analytic_account_id:0
+msgid "Analytic Account"
+msgstr "Cuenta Analítica"
+
+#. module: project_task_helpdesk
+#: field:project.task,backorder_ids:0
+msgid "Backorder ids"
+msgstr "Ordenes de Entrega"
+
+#. module: project_task_helpdesk
+#: view:project.task:project_task_helpdesk.project_task_form_view
+msgid "Delivery Orders"
+msgstr "Ordenes de Entrega"
+
+#. module: project_task_helpdesk
+#: model:ir.model,name:project_task_helpdesk.model_hr_expense_line
+msgid "Expense Line"
+msgstr "Línea de gastos"
+
+#. module: project_task_helpdesk
+#: field:project.task,expense_line_ids:0
+msgid "Expense line ids"
+msgstr "Líneas de gastos"
+
+#. module: project_task_helpdesk
+#: view:project.task:project_task_helpdesk.project_task_form_view
+msgid "Expenses Lines"
+msgstr "Líneas de gastos"
+
+#. module: project_task_helpdesk
+#: field:project.task,is_closed:0
+msgid "Is Closed"
+msgstr "Es cerrado"
+
+#. module: project_task_helpdesk
+#: model:ir.model,name:project_task_helpdesk.model_stock_picking
+msgid "Picking List"
+msgstr "Transferencias"
+
+#. module: project_task_helpdesk
+#: field:hr.expense.line,task_id:0
+#: field:purchase.order.line,task_id:0
+#: field:stock.picking,task_id:0
+msgid "Project Task"
+msgstr "Tarea de Proyecto"
+
+#. module: project_task_helpdesk
+#: view:project.task:project_task_helpdesk.project_task_form_view
+msgid "Purchase Lines"
+msgstr "Líneas de Compras"
+
+#. module: project_task_helpdesk
+#: model:ir.model,name:project_task_helpdesk.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "Linea de Orden de Compra"
+
+#. module: project_task_helpdesk
+#: field:project.task,purchase_orde_line:0
+msgid "Purchase orde line"
+msgstr "Linea de Orden de Compra"
+
+#. module: project_task_helpdesk
+#: model:ir.model,name:project_task_helpdesk.model_project_task
+msgid "Task"
+msgstr "Tarea de Proyecto"
+
+#. module: project_task_helpdesk
+#: help:project.task,is_closed:0
+msgid "Tasks in this stage are considered as closed."
+msgstr "Tarea en este estado es considerada cerrada"
+
+#. module: project_task_helpdesk
+#: field:project.task,timesheet_ids:0
+msgid "Timesheet ids"
+msgstr "Registros de Trabajo"
+
+#. module: project_task_helpdesk
+#: view:project.task:project_task_helpdesk.project_task_form_view
+msgid "Timesheets"
+msgstr "Registros de Trabajo"
+
+#. module: project_task_helpdesk
+#: view:project.task:project_task_helpdesk.project_task_form_view
+msgid "Worklogs"
+msgstr "Registros de Trabajo"
+
+#. module: project_task_helpdesk
+#: view:project.task:project_task_helpdesk.project_task_form_view
+msgid "{'readonly':[('is_closed', '=', True)]}"
+msgstr ""
+
+#. module: project_task_helpdesk
+#: view:hr.expense.expense:project_task_helpdesk.view_expenses_form
+#: view:purchase.order:project_task_helpdesk.view_purchase_order_form
+msgid "{'readonly':[('task_id','!=',False)]}"
+msgstr "{'readonly':[('task_id','!=',False)]}"
+
+#. module: project_task_helpdesk
+#: view:stock.picking:project_task_helpdesk.view_stock_picking_form
+msgid "{'required':[('issue_required','=',True)],'readonly':['|',('state','in',('done')),('task_id','!=',False)]}"
+msgstr "{'required':[('issue_required','=',True)],'readonly':['|',('state','in',('done')),('task_id','!=',False)]}"
+
