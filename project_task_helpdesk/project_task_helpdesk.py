@@ -36,8 +36,38 @@ class ProjectTask(models.Model):
                 self.analytic_account_id=self.project_id.analytic_account_id
             else:
                 self.analytic_account_id=False
-
+                
+    purchase_orde_line=fields.One2many('purchase.order.line','task_id')
+    expense_line_ids=fields.One2many('hr.expense.line','task_id')
     timesheet_ids=fields.One2many('hr.analytic.timesheet','task_id')
     backorder_ids= fields.One2many('stock.picking','task_id')
     analytic_account_id = fields.Many2one('account.analytic.account',compute="get_account_id",string='Analytic Account',store=True)
     is_closed = fields.Boolean(string='Is Closed',related='stage_id.closed',store=True)
+
+class HRExpenseLine(models.Model):
+    _inherit = 'hr.expense.line'
+    @api.onchange('task_id')
+    def get_account_task(self):
+        if self.task_id:
+            if self.task_id.analytic_account_id:
+                self.analytic_account=self.task_id.analytic_account_id
+            else:
+                self.analytic_account=False
+        else:
+            self.analytic_account=False
+    task_id=fields.Many2one('project.task',string="Project Task")
+
+class PurchaseOrderLine(models.Model):
+    _inherit = 'purchase.order.line'
+    
+    @api.onchange('task_id')
+    def get_account_task(self):
+        if self.task_id:
+            if self.task_id.analytic_account_id:
+                self.account_analytic_id=self.task_id.analytic_account_id
+            else:
+                self.account_analytic_id=False
+        else:
+            self.account_analytic_id=False
+            
+    task_id=fields.Many2one('project.task','Project Task')

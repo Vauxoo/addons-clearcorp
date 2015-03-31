@@ -22,6 +22,45 @@
             <field name="model">project.task</field>
             <field name="inherit_id" ref="project.view_task_form2"/>
             <field name="arch" type="xml">
+                <field name="name" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
+                <field name="project_id" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
+                <field name="user_id" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
+                <field name="reviewer_id" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
+                <field name="date_deadline" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
+                <field name="categ_ids" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
+                <field name="description" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
+                <field name="partner_id" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
+                <field name="date_start" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
+                <field name="date_end" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
+                <field name="sequence" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
+                <field name="sale_line_id" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
+                <field name="date_last_stage_update" position="attributes">
+                    <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                </field>
                 <field name="work_ids" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </field>
@@ -60,7 +99,48 @@
                         <field name="backorder_ids" readonly="1" widget="many2many"/>
                     </page>
                 </xpath>
+                 <xpath expr="///notebook/page[@string='Delivery Orders']" position="after">
+                    <page string="Expenses Lines">
+                        <field name="expense_line_ids" readonly="1" widget="many2many"/>
+                    </page>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Delivery Orders']" position="after">
+                    <page string="Purchase Lines">
+                        <field name="purchase_orde_line" readonly="1" widget="many2many"/>
+                    </page>
+                </xpath>
             </field>
         </record>
+        <!--Form View Inherit expenses-->
+        <record id="view_expenses_form" model="ir.ui.view">
+            <field name="name">view.expenses.form</field>
+            <field name="model">hr.expense.expense</field>
+            <field name="inherit_id" ref="hr_expense.view_expenses_form"/>
+            <field name="priority" eval="30"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']/field[@name='issue_id']" position="after">
+                    <field name="task_id" domain="[('stage_id.closed','!=',True)]" attrs="{'readonly':[('issue_id','!=',False)]}"/>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']/field[@name='issue_id']" position="attributes">
+                    <attribute name="attrs">{'readonly':[('task_id','!=',False)]}</attribute>
+                </xpath>
+            </field>
+        </record>
+        <!--Form View Inherit purchase order-->
+        <record id="view_purchase_order_form" model="ir.ui.view">
+            <field name="name">view.purchase.order.form</field>
+            <field name="model">purchase.order</field>
+            <field name="priority" eval="60"/>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[@string='Products']/field[@name='order_line']/tree[@string='Purchase Order Lines']/field[@name='issue_id']" position="after">
+                    <field name="task_id" domain="[('stage_id.closed','!=',True)]" attrs="{'readonly':[('issue_id','!=',False)]}"/>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Products']/field[@name='order_line']/tree[@string='Purchase Order Lines']/field[@name='issue_id']" position="attributes"> 
+                    <attribute name="attrs">{'readonly':[('task_id','!=',False)]}</attribute>
+                </xpath>
+            </field>
+        </record>
+        
     </data>
 </openerp>
