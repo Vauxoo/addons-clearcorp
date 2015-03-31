@@ -373,7 +373,8 @@ class StockMoveReport(report_sxw.rml_parse):
                for quant in stock_move.quant_ids:
                     quantity+=abs(quant.qty)
                     cost_quant+=(quant.cost)*abs(quant.qty)
-               opening_cost=(cost_quant/quantity)*opening_quantity
+            if cost_quant != 0.0:
+                opening_cost=(cost_quant/quantity)*opening_quantity
         return opening_cost
        
 class report_stock_move_pdf(models.AbstractModel):
