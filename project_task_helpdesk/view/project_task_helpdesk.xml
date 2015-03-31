@@ -1,10 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
+         <!--inherit stock.view_picking_form-->
+        <record id="view_stock_picking_form" model="ir.ui.view">
+            <field name="name">view.stock.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field eval="40" name="priority"/>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <field name="issue_id" position="after">
+                    <field name="task_id"  domain="[('is_closed', '!=', True),('partner_id', '=', partner_id)]" attrs="{'readonly':['|',('state','in',('done')),('issue_id','!=',False)]}"/>
+                </field>
+                <field name="issue_id" position="attributes">
+                    <attribute name="attrs">{'required':[('issue_required','=',True)],'readonly':['|',('state','in',('done')),('task_id','!=',False)]}</attribute>
+                </field>
+           </field>
+        </record>
+        <!--inherit project task form-->
          <record model="ir.ui.view" id="project_task_form_view">
             <field name="name">Project Task Form</field>
             <field name="model">project.task</field>
-            <field name="priority" eval="40"/>
             <field name="inherit_id" ref="project.view_task_form2"/>
             <field name="arch" type="xml">
                 <field name="work_ids" position="attributes">
@@ -38,6 +53,11 @@
                                 <field invisible="1" name="to_invoice"/>
                             </tree>
                         </field>
+                    </page>
+                </xpath>
+                <xpath expr="//notebook/page[@string='Extra Info']" position="before">
+                    <page string="Delivery Orders">
+                        <field name="backorder_ids" readonly="1" widget="many2many"/>
                     </page>
                 </xpath>
             </field>

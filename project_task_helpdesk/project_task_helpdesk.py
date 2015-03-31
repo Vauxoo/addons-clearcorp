@@ -22,6 +22,10 @@
 from openerp import models, fields, api, _
 from openerp.exceptions import Warning
 
+class StockPicking(models.Model):
+    _inherit = 'stock.picking'
+
+    task_id=fields.Many2one('project.task',string="Project Task")
 class ProjectTask(models.Model):
     _inherit = 'project.task'
     @api.depends('project_id')
@@ -34,5 +38,6 @@ class ProjectTask(models.Model):
                 self.analytic_account_id=False
 
     timesheet_ids=fields.One2many('hr.analytic.timesheet','task_id')
+    backorder_ids= fields.One2many('stock.picking','task_id')
     analytic_account_id = fields.Many2one('account.analytic.account',compute="get_account_id",string='Analytic Account',store=True)
     is_closed = fields.Boolean(string='Is Closed',related='stage_id.closed',store=True)
