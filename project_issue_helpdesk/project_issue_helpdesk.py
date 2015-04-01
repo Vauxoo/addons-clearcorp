@@ -295,33 +295,39 @@ class ProductTemplate(orm.Model):
     _name = 'product.template'
      
     def create(self, cr, uid, vals, context=None):
-         product_obj=self.pool.get('product.product')
-         new_product=super(ProductTemplate, self).create(cr, uid, vals, context=context)
+        product_obj=self.pool.get('product.product')
+        new_product=super(ProductTemplate, self).create(cr, uid, vals, context=context)
          
-         alternative_product_ids = vals.get('alternative_product_ids', False)
-         accessory_product_ids = vals.get('accessory_product_ids', False)
-         if alternative_product_ids:
-             for products in alternative_product_ids:
-                 for product in products[2]:
-                     super(ProductTemplate, self).write(cr, uid,product, {
-                'alternative_product_ids':  [(6,0,[new_product])] 
-             }, context=context)
+        category_ids=vals.get('category_ids',False)
+        alternative_product_ids = vals.get('alternative_product_ids', False)
+        accessory_product_ids = vals.get('accessory_product_ids', False)
+        if alternative_product_ids:
+            for products in alternative_product_ids:
+                for product in products[2]:
+                    super(ProductTemplate, self).write(cr, uid,product, {
+               'alternative_product_ids':  [(6,0,[new_product])] 
+            }, context=context)
+        if category_ids:
+            for categories in category_ids:
+                for category in categories[2]:
+                    self.write(cr, uid,new_product, {
+                'category_ids':  [(6,0,[category])] 
+                }, context=context)
                      
-         return new_product
+        return new_product
 
     def write(self, cr, uid, ids, vals, context=None):
-         product_obj=self.pool.get('product.product')
-         res = super(ProductTemplate, self).write(cr, uid, ids, vals, context=context)
-         alternative_product_ids = vals.get('alternative_product_ids', False)
-         accessory_product_ids = vals.get('accessory_product_ids', False)
-         if alternative_product_ids:
-             for products in alternative_product_ids:
-                 for product in products[2]:
-                     super(ProductTemplate, self).write(cr, uid,product, {
-                'alternative_product_ids':  [(6,0,ids)] 
-             }, context=context)
-        
-         return res
+        product_obj=self.pool.get('product.product')
+        res = super(ProductTemplate, self).write(cr, uid, ids, vals, context=context)
+        alternative_product_ids = vals.get('alternative_product_ids', False)
+        accessory_product_ids = vals.get('accessory_product_ids', False)
+        if alternative_product_ids:
+            for products in alternative_product_ids:
+                for product in products[2]:
+                    super(ProductTemplate, self).write(cr, uid,product, {
+               'alternative_product_ids':  [(6,0,ids)] 
+            }, context=context)
+        return res
      
     def onchange_supply_type(self, cr, uid, ids, supply_type, context=None):
          product_ids=[]
@@ -363,12 +369,13 @@ class ProductTemplate(orm.Model):
          return res
 
     _columns = {
+        'category_ids':fields.related('product_variant_ids', 'category_ids', relation='hr.employee.category', type='many2many', string='Employee Profile'),
         'init_onchange_call': fields.function(get_accessory_product, method=True, type='many2many', relation='product.product',string='Nothing Display', help='field at view init'),
         'supply_type':fields.selection([('equipment','Equipment'),('replacement','Replacement'),('supply','Supply'),
                                                ('input','Input')],string="Supply Type"),
          }
 
-class Product(orm.Model):     
+class Product(orm.Model):
     _inherit = 'product.product'
     _name = 'product.product'
     
@@ -388,7 +395,9 @@ class Product(orm.Model):
              product_ids=self.pool.get('product.product').search(cr, uid, [('product_tmpl_id','in',product_template_ids)])
         
          return{'domain':{'accessory_product_ids':[('id','in',product_ids)]}}
-
+    _columns = {
+             'category_ids': fields.many2many('hr.employee.category', 'employee_product_category_rel', 'product_id', 'category_id', 'Employee Profile')
+             }
 class ProductCategory(orm.Model):
      _inherit = 'product.category'
      

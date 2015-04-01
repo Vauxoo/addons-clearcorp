@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-30 22:12+0000\n"
-"PO-Revision-Date: 2015-03-30 22:12+0000\n"
+"POT-Creation-Date: 2015-04-01 21:39+0000\n"
+"PO-Revision-Date: 2015-04-01 21:39+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -80,6 +80,12 @@ msgstr "Ordenes de Entrega"
 #: field:project.issue.origin,description:0
 msgid "Description"
 msgstr "Descripción"
+
+#. module: project_issue_helpdesk
+#: field:product.product,category_ids:0
+#: field:product.template,category_ids:0
+msgid "Employee Profile"
+msgstr "Perfil de Empleado"
 
 #. module: project_issue_helpdesk
 #: field:hr.analytic.timesheet,end_time:0
@@ -236,7 +242,7 @@ msgstr "Medios"
 #. module: project_issue_helpdesk
 #: view:hr.analytic.timesheet:project_issue_helpdesk.hr_timesheet_line_search
 msgid "Partner"
-msgstr "Partner"
+msgstr "Cliente"
 
 #. module: project_issue_helpdesk
 #: field:project.issue,partner_type:0
@@ -272,7 +278,7 @@ msgstr "Categoría de producto"
 #. module: project_issue_helpdesk
 #: model:ir.model,name:project_issue_helpdesk.model_product_template
 msgid "Product Template"
-msgstr "Plantilla producto"
+msgstr "Plantilla de producto"
 
 #. module: project_issue_helpdesk
 #: field:sale.order,project_project_id:0
@@ -292,7 +298,7 @@ msgstr "Líneas de compra"
 #. module: project_issue_helpdesk
 #: model:ir.model,name:project_issue_helpdesk.model_purchase_order_line
 msgid "Purchase Order Line"
-msgstr "Línea orden de compra"
+msgstr "Línea pedido de compra"
 
 #. module: project_issue_helpdesk
 #: field:project.issue,purchase_orde_line:0
@@ -418,7 +424,7 @@ msgstr "El número de reporte técnicos es unico para los registros de trabajo"
 #. module: project_issue_helpdesk
 #: model:ir.model,name:project_issue_helpdesk.model_hr_analytic_timesheet
 msgid "Timesheet Line"
-msgstr "Línea de la hoja de servicios"
+msgstr "Línea del parte de horas"
 
 #. module: project_issue_helpdesk
 #: view:stock.transfer_details:project_issue_helpdesk.view_stock_enter_transfer_details_form
@@ -432,7 +438,7 @@ msgid "True"
 msgstr "True"
 
 #. module: project_issue_helpdesk
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:468
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:477
 #, python-format
 msgid "Warning!"
 msgstr "Alerta!"
@@ -455,7 +461,7 @@ msgid "You can not create an issue of preventive check type from this screen"
 msgstr "No se pueden crear incidencias de Mantenimiento Preventivo desde este formulario"
 
 #. module: project_issue_helpdesk
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:468
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:477
 #, python-format
 msgid "You can not transfer to a partner, if you have not selected an issue"
 msgstr "No puede realizar la transferencia al cliente, si no ha seleccionado una incidencia"
@@ -479,6 +485,12 @@ msgstr "[('id','in',init_onchange_factor[0][2])]"
 #: view:project.issue:project_issue_helpdesk.view_project_issue_form
 msgid "[('partner_type','in',['company'])]"
 msgstr "[('partner_type','in',['company'])]"
+
+#. module: project_issue_helpdesk
+#: view:product.product:project_issue_helpdesk.view_product_normal_form_view
+#: view:product.template:project_issue_helpdesk.view_product_template_form_view
+msgid "e.g. TI Expert"
+msgstr "ej. Experto en TI"
 
 #. module: project_issue_helpdesk
 #: help:product.template,init_onchange_call:0

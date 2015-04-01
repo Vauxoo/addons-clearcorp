@@ -256,6 +256,12 @@
             <field name="inherit_id" ref="product.product_normal_form_view" />
             <field eval="17" name="priority"/>
             <field name="arch" type="xml">
+                <xpath expr="//div[@class='oe_title']/h1" position="after">
+                     <label for="category_ids" class="oe_edit_only"/>
+                     <div>
+                         <field name="category_ids" class="oe_inline" widget="many2many_tags" placeholder="e.g. TI Expert"/>
+                     </div>
+                </xpath>
                 <field name="manufacturer" position="attributes">
                     <attribute name="attrs">{'required':[('supply_type','=','equipment')]}</attribute>
                 </field>
@@ -271,6 +277,12 @@
             <field name="inherit_id" ref="product.product_template_only_form_view" />
             <field eval="17" name="priority"/>
             <field name="arch" type="xml">
+                 <xpath expr="//div[@class='oe_title']/h1" position="after">
+                     <label for="category_ids" class="oe_edit_only" attrs="{'invisible': [('product_variant_count', '>', 1)]}"/>
+                     <div>
+                         <field name="category_ids" class="oe_inline" widget="many2many_tags" placeholder="e.g. TI Expert" attrs="{'invisible': [('product_variant_count', '>', 1)]}"/>
+                     </div>
+                </xpath>
                 <field name="manufacturer" position="attributes">
                     <attribute name="attrs">{'required':[('supply_type','=','equipment')]}</attribute>
                 </field>
