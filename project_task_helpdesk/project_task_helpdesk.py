@@ -36,13 +36,24 @@ class ProjectTask(models.Model):
                 self.analytic_account_id=self.project_id.analytic_account_id
             else:
                 self.analytic_account_id=False
-                
+    
+    @api.onchange('categ_id')
+    def get_product(self):
+        if self.categ_id:
+            products=self.env['product.product'].search([('categ_id','=',self.categ_id.id)])
+            if not products:
+                self.product_id=False
+        else:
+            self.product_id=False
+            
     purchase_orde_line=fields.One2many('purchase.order.line','task_id')
     expense_line_ids=fields.One2many('hr.expense.line','task_id')
     timesheet_ids=fields.One2many('hr.analytic.timesheet','task_id')
     backorder_ids= fields.One2many('stock.picking','task_id')
     analytic_account_id = fields.Many2one('account.analytic.account',compute="get_account_id",string='Analytic Account',store=True)
     is_closed = fields.Boolean(string='Is Closed',related='stage_id.closed',store=True)
+    categ_id=fields.Many2one('product.category',string="Category Product")
+    product_id=fields.Many2one('product.product',string="Product")
 
 class HRExpenseLine(models.Model):
     _inherit = 'hr.expense.line'

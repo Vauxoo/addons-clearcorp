@@ -22,6 +22,12 @@
             <field name="model">project.task</field>
             <field name="inherit_id" ref="project.view_task_form2"/>
             <field name="arch" type="xml">
+                 <field name="reviewer_id" position="after">
+                    <field name="categ_id" attrs="{'readonly':[('is_closed', '=', True)]}"/>
+                </field>
+                <field name="categ_id" position="after">
+                    <field name="product_id" domain="[('categ_id','=',categ_id)]" attrs="{'readonly':[('is_closed', '=', True)]}"/>
+                </field>
                 <field name="name" position="attributes">
                     <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
                 </field>
@@ -99,6 +105,7 @@
                         <field name="backorder_ids" readonly="1" widget="many2many"/>
                     </page>
                 </xpath>
+                
                  <xpath expr="///notebook/page[@string='Delivery Orders']" position="after">
                     <page string="Expenses Lines">
                         <field name="expense_line_ids" readonly="1" widget="many2many"/>
