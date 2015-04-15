@@ -291,7 +291,7 @@ msgstr "Empresas"
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 msgid "Partners in"
-msgstr "Clintes en"
+msgstr "Clientes en"
 
 #. module: account_open_invoices_report
 #: selection:open.invoices.wiz,account_type:0
