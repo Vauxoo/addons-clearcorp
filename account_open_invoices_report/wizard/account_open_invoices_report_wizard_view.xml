@@ -16,11 +16,11 @@
                         <field name="account_type" required="True"/>
                     </field>
                     <field name="out_format" position="attributes">
-                        <attribute name="attrs">{'required': False}</attribute>
+                        <attribute name="attrs">{'required': True}</attribute>
                     </field>    
                      <field name="sort_selection" position="replace">
                         <field name="sort_selection" string="Entries Sorted by" attrs="{'invisible': False, 'required': False}" colspan="4"/> 
-                    </field>                
+                    </field> 
                     <field name="fiscalyear_id" position="attributes">
                         <attribute name="attrs">{'required': True}</attribute>
                     </field>
@@ -54,7 +54,7 @@
                         <attribute name="attrs">{'invisible': True}</attribute>
                     </group>               
                      <group string="Accounts" position="attributes">
-                        <attribute name="attrs">{'invisible': False}</attribute>
+                        <attribute name="attrs">{'invisible': True}</attribute>
                     </group>
                     <field name="res_partners_ids" position="replace">
                         <!--Only customers and suppliers-->

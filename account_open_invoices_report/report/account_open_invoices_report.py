@@ -425,11 +425,11 @@ class Parser(accountReportbase):
             result['partner'] = {'currency_1': balance, 'currency_2': balance ...} active currencies 
                          
     """
-    def get_check_open_balance(self, cr, uid, data):   
+    def get_check_open_balance(self, data):
         result = {}       
-        active_curency_ids = self.pool.get('res.currency').search(cr, uid, [('active','=',True)], context=None)
+        active_curency_ids = self.pool.get('res.currency').search(self.cr, self.uid, [('active','=',True)], context=None)
         main_dict = self.get_data_template('result') #main dict
-        partners = self.set_partners(cr, uid, data)
+        partners = self.set_partners(self.cr, self.uid, data)
         
         for partner in partners:
             result[partner] = {}
@@ -438,15 +438,15 @@ class Parser(accountReportbase):
                 if main_dict:
                     if currency in main_dict.keys():
                         if partner not in main_dict[currency].keys():
-                            res = self.compute_inicial_balance(cr, uid, partner, currency, data)
+                            res = self.compute_inicial_balance(self.cr, self.uid, partner, currency, data)
                             balance[currency] = res[partner]
                 else:
-                    res = self.compute_inicial_balance(cr, uid, partner, currency, data)
+                    res = self.compute_inicial_balance(self.cr, self.uid, partner, currency, data)
                     balance[currency] = res[partner] 
             
             result[partner] = balance
-                    
-        dict_update = {'open_balance': result}        
+            
+        dict_update = {'open_balance': result}
         self.localcontext['storage'].update(dict_update)
         return False
     
@@ -488,8 +488,8 @@ class Parser(accountReportbase):
         return False
     
     #Return a dictionary with all values for a move_lines list
-    def result_lines(self, cr, uid, move_lines, currency_id):
-        amount_per_line = self.get_amounts_move_line(cr, uid, move_lines, currency_id)
+    def result_lines(self, move_lines, currency_id):
+        amount_per_line = self.get_amounts_move_line(self.cr, self.uid, move_lines, currency_id)
         dict_update = {'amount_per_line': amount_per_line}
         self.localcontext['storage'].update(dict_update)
         return False
@@ -505,8 +505,8 @@ class Parser(accountReportbase):
     #Return initial balance for a specific partner.
     """@param partner: partner is an id (integer). It's comming for the odt template """
     def get_initial_balance(self, partner, currency, data):
-        self.compute_inicial_balance(partner.id, currency.id, data)
-        return self.localcontext['cumul_balance'][partner.id]
+        self.compute_inicial_balance(partner, currency, data)
+        return self.localcontext['cumul_balance'][partner]
     
     #Return move_lines for a specific partner
     def get_move_lines_per_partner(self, currency, partner):
@@ -540,9 +540,9 @@ class Parser(accountReportbase):
     
     #=========Methods for display data 
     #Display name of a specific partner
-    def get_partner_name(self, cr, uid, partner_id):
+    def get_partner_name(self, partner_id):
         if partner_id != 0:
-            partner = self.pool.get('res.partner').browse(cr, uid, partner_id)
+            partner = self.pool.get('res.partner').browse(self.cr, self.uid, partner_id)
             if partner.ref and partner.name:
                 return partner.name + ' - REF: ' + partner.ref 
             else:
@@ -560,8 +560,8 @@ class Parser(accountReportbase):
             return 'No user'
     
     #Display the currency name    
-    def get_currency_name(self, cr, uid, currency_id):
-        return self.pool.get('res.currency').browse(cr, uid, currency_id).name
+    def get_currency_name(self, currency_id):
+        return self.pool.get('res.currency').browse(self.cr, self.uid, currency_id).name
     
     #Display partner if it has a open balances without open invoices
     def display_partner(self, dict):
