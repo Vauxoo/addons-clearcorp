@@ -59,19 +59,19 @@ msgstr "Es cerrado"
 #: code:addons/project_task_helpdesk/project_task_helpdesk.py:48
 #, python-format
 msgid "Pending change status to done or paid of expense: %s"
-msgstr "Pendiente cambiar el estado de gasto a esperando pago o pagado: %s"
+msgstr "Pendiente cambiar estado de gasto a esperando pago o pagado: %s"
 
 #. module: project_task_helpdesk
 #: code:addons/project_task_helpdesk/project_task_helpdesk.py:45
 #, python-format
 msgid "Pending generate delivery note for backorder: %s"
-msgstr "Pendiente generar la nota de entrega para la orden de entrega: %s"
+msgstr "Pendiente generar nota de entrega para la orden de entrega: %s"
 
 #. module: project_task_helpdesk
 #: code:addons/project_task_helpdesk/project_task_helpdesk.py:43
 #, python-format
 msgid "Pending transfer the backorder: %s"
-msgstr "Pendiente de tranferir la orden de entrega: %s"
+msgstr "Pendiente tranferir la orden de entrega: %s"
 
 #. module: project_task_helpdesk
 #: model:ir.model,name:project_task_helpdesk.model_stock_picking
