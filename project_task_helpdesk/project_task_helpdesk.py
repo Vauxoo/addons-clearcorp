@@ -38,11 +38,6 @@ class ProjectTask(models.Model):
             for type in types:
                 if type.closed==True:
                     for task in tasks:
-                        for backorder in task.backorder_ids:
-                            if backorder.state!='done':
-                                raise Warning(_('Pending transfer the backorder: %s' % backorder.name))
-                            elif not backorder.delivery_note_id:
-                                raise Warning(_('Pending generate delivery note for backorder: %s' % backorder.name))
                         for expense_line in task.expense_line_ids:
                             if not expense_line.expense_id.state in ['done','pain']:
                                 raise Warning(_('Pending change status to done or paid of expense: %s' % expense_line.expense_id.name))
