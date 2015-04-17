@@ -21,6 +21,7 @@
             <field name="name">Project Task Form</field>
             <field name="model">project.task</field>
             <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="priority" eval="50"/>
             <field name="arch" type="xml">
                  <field name="reviewer_id" position="after">
                     <field name="categ_id" attrs="{'readonly':[('is_closed', '=', True)]}"/>
@@ -123,13 +124,10 @@
             <field name="name">view.expenses.form</field>
             <field name="model">hr.expense.expense</field>
             <field name="inherit_id" ref="hr_expense.view_expenses_form"/>
-            <field name="priority" eval="30"/>
+            <field name="priority" eval="50"/>
             <field name="arch" type="xml">
-                <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']/field[@name='issue_id']" position="after">
-                    <field name="task_id" domain="[('stage_id.closed','!=',True)]" attrs="{'readonly':[('issue_id','!=',False)]}"/>
-                </xpath>
-                <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']/field[@name='issue_id']" position="attributes">
-                    <attribute name="attrs">{'readonly':[('task_id','!=',False)]}</attribute>
+                <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']/field[@name='analytic_account']" position="before">
+                    <field name="task_id" domain="[('stage_id.closed','!=',True)]"/>
                 </xpath>
             </field>
         </record>

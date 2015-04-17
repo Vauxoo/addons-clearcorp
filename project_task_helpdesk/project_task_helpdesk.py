@@ -28,6 +28,25 @@ class StockPicking(models.Model):
     task_id=fields.Many2one('project.task',string="Project Task")
 class ProjectTask(models.Model):
     _inherit = 'project.task'
+    @api.v7
+    def write(self, cr, uid, ids, vals, context=None):
+        tasks=self.browse(cr,uid,ids)
+        if vals.get('stage_id'):
+            type_obj=self.pool.get('project.task.type')
+            type_ids=type_obj.search(cr, uid,[('id', '=', vals.get('stage_id'))])
+            types=type_obj.browse(cr, uid,type_ids)
+            for type in types:
+                if type.closed==True:
+                    for task in tasks:
+                        for backorder in task.backorder_ids:
+                            if backorder.state!='done':
+                                raise Warning(_('Pending transfer the backorder: %s' % backorder.name))
+                            elif not backorder.delivery_note_id:
+                                raise Warning(_('Pending generate delivery note for backorder: %s' % backorder.name))
+                        for expense_line in task.expense_line_ids:
+                            if not expense_line.expense_id.state in ['done','pain']:
+                                raise Warning(_('Pending change status to done or paid of expense: %s' % expense_line.expense_id.name))
+        return super(ProjectTask, self).write(cr, uid, ids, vals, context)
     @api.depends('project_id')
     @api.one
     def get_account_id(self):
