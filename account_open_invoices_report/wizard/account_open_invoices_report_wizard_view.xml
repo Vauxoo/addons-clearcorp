@@ -5,7 +5,7 @@
             <field name="name">Account Open Invoices Report </field>
             <field name="model">open.invoices.wiz</field>
             <field name="type">form</field>
-            <field name="inherit_id" ref="account_report_lib.account_report_lib_wizard_view"/>
+            <field name="inherit_id" ref="account_report_lib.account_report_lib_wizard_form_view"/>
             <field name="arch" type="xml">
                 <data>
                     <xpath expr="/form/label[@string='']" position="replace">
@@ -20,7 +20,7 @@
                     </field>    
                      <field name="sort_selection" position="replace">
                         <field name="sort_selection" string="Entries Sorted by" attrs="{'invisible': False, 'required': False}" colspan="4"/> 
-                    </field>                
+                    </field> 
                     <field name="fiscalyear_id" position="attributes">
                         <attribute name="attrs">{'required': True}</attribute>
                     </field>
@@ -50,10 +50,10 @@
                     <field name="special_period" position="attributes">
                         <attribute name="attrs">{'invisible': True}</attribute>
                     </field>
-                     <group string="Account Financial Report" position="attributes">                   
+                     <group string="Account Financial Report" position="attributes">
                         <attribute name="attrs">{'invisible': True}</attribute>
                     </group>               
-                    <group string="Accounts" position="attributes">
+                     <group string="Accounts" position="attributes">
                         <attribute name="attrs">{'invisible': True}</attribute>
                     </group>
                     <field name="res_partners_ids" position="replace">
@@ -61,7 +61,7 @@
                         <field name="res_partners_ids" nolabel="1" domain="['|', ('customer','=', True),('supplier','=',True)]"/>
                     </field>
                     <group string="Journals" position="attributes">
-                        <attribute name="attrs">{'invisible': True}</attribute>
+                        <attribute name="attrs">{'invisible': False}</attribute>
                     </group>
                     <field name="amount_currency" position="attributes">
                         <attribute name="attrs">{'invisible': True}</attribute>

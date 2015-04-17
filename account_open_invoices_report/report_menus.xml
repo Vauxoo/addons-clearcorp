@@ -6,6 +6,6 @@
             name="Open Invoices"
             action="action_account_open_invoices_report_wizard"
             id="menu_account_open_invoices"
-            parent="account.next_id_22"/>                    
+            parent="account.next_id_22"/>
     </data>
 </openerp>
