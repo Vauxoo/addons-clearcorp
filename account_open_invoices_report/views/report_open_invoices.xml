@@ -38,278 +38,223 @@
                         </div>
                 </div>
                 <div class="page">
-                    <div class="col-xs-12">
-                        <table class="table table-condensed">
-                            <thead style="background-color:#E0E0E0">
-                                <tr style="border: 1px" >
-                                    <th style=" border: 1px" class="text-center">Chart of Accounts</th>
-                                    <th style=" border: 1px" class="text-center">Fiscal Year</th>
-                                    <th style=" border: 1px" class="text-center">Filters by:</th>
-                                    <th style=" border: 1px" class="text-center">Accounts filter</th>
-                                    <th style=" border: 1px" class="text-center">Movements destination</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <t t-set="test" t-value="set_data_template(data)"/>
-                            <t t-set="currency" t-value="get_data_template('result').items()"/>
-                            <t t-set="partners" t-value="get_data_template('result').items()"/> 
-                               <tr>
-                                    <td style="text-align:center;">
-                                        <span t-esc="get_chart_account_id(data).name">
-                                        </span>
-                                    </td>
-                                    <td style="text-align:center;">
-                                        <span t-esc="get_fiscal_year(data).name">
-                                        </span>
-                                    </td>
-                                    <td style="text-align:center;">
-                                        <t t-if="get_filter(data) == 'filter_date'">
-                                            <span>Dates</span><br></br>
-                                            <span>From:</span>
-                                            <span t-esc="formatLang(get_date_from(data), date=True)" />
-                                            <span>To:</span>
-                                            <span t-esc="formatLang(get_date_to(data), date=True)" />
-                                        </t>
-                                        <t t-if="get_filter(data) == 'filter_period'">
-                                            <span>Periods</span><br></br>
-                                            <span>From:</span>
-                                            <span t-esc="get_start_period(data).name" />
-                                            <span>To:</span>
-                                            <span t-esc=" get_end_period(data).name" />
-                                        </t>
-                                        <t t-if="get_filter(data) == 'filter_no'">
-                                            <span>No Filters</span>
-                                        </t>
-                                    </td>
-                                    <td style="text-align:center;">
-                                        <span t-esc="get_display_sort_selection(data)">
-                                        </span>
-                                    </td>
-                                    <td style="text-align:center;">
-                                        <span t-esc="display_target_move(data)">
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr >
-                                    <td colspan="5">
-                                    </td>
-                                </tr>
-                                <tr>
+                    <table class="table table-condensed" >
+                        <thead style="background-color:#E0E0E0" >
+                            <tr style="border: 1px" colspan="5">
+                                <th style=" border: 1px" class="text-center">Chart of Accounts</th>
+                                <th style=" border: 1px" class="text-center">Fiscal Year</th>
+                                <th style=" border: 1px" class="text-center">Filters by:</th>
+                                <th style=" border: 1px" class="text-center">Accounts filter</th>
+                                <th style=" border: 1px" class="text-center">Movements destination</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                                <td style="text-align:center;">
+                                    <span t-esc="get_chart_account_id(data).name">
+                                    </span>
+                                </td>
+                                <td style="text-align:center;">
+                                    <span t-esc="get_fiscal_year(data).name">
+                                    </span>
+                                </td>
+                                <td style="text-align:center;">
+                                    <t t-if="get_filter(data) == 'filter_date'">
+                                        <span>Dates</span><br></br>
+                                        <span>From:</span>
+                                        <span t-esc="formatLang(get_date_from(data), date=True)" />
+                                        <span>To:</span>
+                                        <span t-esc="formatLang(get_date_to(data), date=True)" />
+                                    </t>
+                                    <t t-if="get_filter(data) == 'filter_period'">
+                                        <span>Periods</span><br></br>
+                                        <span>From:</span>
+                                        <span t-esc="get_start_period(data).name" />
+                                        <span>To:</span>
+                                        <span t-esc=" get_end_period(data).name" />
+                                    </t>
+                                    <t t-if="get_filter(data) == 'filter_no'">
+                                        <span>No Filters</span>
+                                    </t>
+                                </td>
+                                <td style="text-align:center;">
+                                    <span t-esc="get_display_sort_selection(data)">
+                                    </span>
+                                </td>
+                                <td style="text-align:center;">
+                                    <span t-esc="display_target_move(data)">
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td >
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-condensed" >
+                        <t t-set="test" t-value="set_data_template(data)"/>
+                        <t t-foreach="get_data_template('result').items()" t-as="cur">
+                            <t t-foreach="get_data_template('result').items()" t-as="partners">
+                                <tr colspan="5">
                                     <td style="text-align:left;">
-                                        <t t-foreach="currency" t-as="cur">
-                                            <h4>
-                                                <strong><span>Partners in</span>
-                                                    <span t-esc="get_currency_name(cur[0])"></span>
-                                                </strong>
-                                            </h4>
-                                        </t>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <t t-foreach="get_data_template('partners')" t-as="partner">
-                                           <t t-set="partner" t-value="get_partner_name(partner)" />
-                                                <span t-esc="partner"></span>
-                                           </t>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <table class="table table-list">
-                            <thead style="background-color:#E0E0E0">
-                                <tr style="border: 1px solid #000000 " colspan="5">
-                                    <th style="border: 1px solid #000000"
-                                        class="text-center">Date
-                                    </th>
-                                    <th style="border: 1px solid #000000 "
-                                        class="text-center">Period
-                                    </th>
-                                    <th style="border: 1px solid #000000 "
-                                        class="text-center">Journal
-                                    </th>
-                                    <th style="border: 1px solid #000000"
-                                        class="text-center">Account
-                                    </th>
-                                    <th style="border: 1px solid #000000"
-                                        class="text-center">Note
-                                    </th>
-                                    <th style="border: 1px solid #000000"
-                                        class="text-center">Tag
-                                    </th>
-                                    <th style="border: 1px solid #000000"
-                                        class="text-center">Invoices
-                                    </th>
-                                    <th style="border: 1px solid #000000"
-                                        class="text-center">Payments
-                                    </th>
-                                    <th style="border: 1px solid #000000"
-                                        class="text-center">Notes D/C
-                                    </th>
-                                    <th style="border: 1px solid #000000"
-                                        class="text-center">Mov. Man
-                                    </th>
-                                    <th style="border: 1px solid #000000"
-                                        class="text-center">Balance
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr style="border: 1px solid #000000">
-                                    <td style="border: 1px solid #000000"
-                                        class="text-center">
-                                        <span>  </span>
-                                    </td>
-                                     <td style="border: 1px solid #000000"
-                                        class="text-center">
-                                        <span>  </span>
-                                    </td>
-                                     <td style="border: 1px solid #000000"
-                                         class="text-center">
-                                        <span>  </span>
-                                    </td>
-                                     <td style="border: 1px solid #000000"
-                                         class="text-center">
-                                        <span>  </span>
-                                    </td>
-                                    <td style="border: 1px solid #000000"
-                                        class="text-center">
-                                        <span>  </span>
-                                    </td>
-                                    <td style="border: 1px solid #000000"
-                                        class="text-center">
-                                        <strong><span>Opening balance</span></strong>
-                                    </td>
-                                    <td style="border: 1px solid #000000"
-                                        class="text-center">
-                                        <span>  </span>
-                                    </td>
-                                    <td style="border: 1px solid #000000"
-                                        class="text-center">
-                                        <span>  </span>
-                                    </td>
-                                    <td style="border: 1px solid #000000"
-                                        class="text-center">
-                                        <span>  </span>
-                                    </td>
-                                    <td style="border: 1px solid #000000"
-                                        class="text-center">
-                                        <span>  </span>
-                                    </td>
-                                    <td style="border: 1px solid #000000#"
-                                        class="text-center">
-                                        <t t-foreach="get_data_template('partners')" t-as="partner">
-                                            <t t-foreach="currency" t-as="cur">
-                                                <t t-set="balance" t-value="get_initial_balance(partner, cur[0], data)"/>
-                                                <span t-esc="formatLang(balance)"></span>
-                                            </t>
-                                        </t>
+                                        <h4>
+                                            <strong><span>Partners in</span>
+                                                <span t-esc="get_currency_name(cur[0])"></span>
+                                            </strong>
+                                        </h4>
                                     </td>
                                 </tr>
                                 <t t-foreach="get_data_template('partners')" t-as="partner">
-                                    <t t-foreach="currency" t-as="cur">
-                                        <t t-foreach="get_move_lines_per_partner(cur[0], partner)" t-as="line">
-                                            <t t-set="test" t-value="result_lines(get_data_template('result')[cur[0]][partner],cur[0])"/>
-                                            <tr>
-                                                <td style="border: 1px solid #000000" class="text-center">
-                                                    <span t-esc="formatLang(line.date, date=True)"></span>
-                                                </td>
-                                                <td style="border: 1px solid #000000" class="text-center">
-                                                    <span t-esc="line.period_id.name"></span>
-                                                </td>
-                                                <td style="border: 1px solid #000000" class="text-center">
-                                                    <span t-esc="line.journal_id.code"></span>
-                                                </td>
-                                                <td style="border: 1px solid #000000" class="text-center">
-                                                    <span t-esc="line.account_id.code"></span>
-                                                </td>
-                                                <td style="border: 1px solid #000000" class="text-center">
-                                                    <span t-esc="line.move_id.name"></span>
-                                                </td>
-                                                <td style="border: 1px solid #000000" class="text-center">
-                                                    <span t-esc="line.name"></span>
-                                                </td>
-                                                <td style="border: 1px solid #000000" class="text-center">
-                                                    <span t-esc="formatLang(get_data_template('amount_per_line')[line.id]['invoice'])"></span>
-                                                </td>
-                                                <td style="border: 1px solid #000000" class="text-center">
-                                                    <span t-esc="formatLang(get_data_template('amount_per_line')[line.id]['payment'])"></span>
-                                                </td>
-                                                <td style="border: 1px solid #000000" class="text-center">
-                                                    <span t-esc="formatLang(get_data_template('amount_per_line')[line.id]['c_d_notes'])"></span>
-                                                </td>
-                                                <td style="border: 1px solid #000000" class="text-center">
-                                                    <span t-esc="formatLang(get_data_template('amount_per_line')[line.id]['manual'])"></span>
-                                                </td>
-                                                <td style="border: 1px solid #000000" class="text-center">
-                                                    <span t-esc="formatLang(compute_cum_balance(partner, get_data_template('amount_per_line')[line.id]))"></span>
-                                                </td>
-                                            </tr>
-                                        </t>
-                                        <tr style="background-color:#E0E0E0 border: 1px solid #000000">
-                                            <td style="background-color:#E0E0E0">
-                                            
-                                            </td>
-                                            <td style="background-color:#E0E0E0">
-                                            
-                                            </td>
-                                            <td style="background-color:#E0E0E0">
-                                            
-                                            </td>
-                                            <td style="background-color:#E0E0E0">
-                                            
-                                            </td>
-                                            <td style="background-color:#E0E0E0">
-                                            
-                                            </td>
-                                            <td style="background-color:#E0E0E0" class="text-right">
-                                                <strong><span>Saldo</span></strong>
-                                            </td>
-                                            <td style="background-color:#E0E0E0" class="text-center">
-                                                <strong><span t-esc="formatLang(total_by_type( get_move_lines_per_partner(cur[0], partner))['invoice'])"></span></strong>
-                                            </td>
-                                            <td style="background-color:#E0E0E0" class="text-center">
-                                                <strong><span t-esc="formatLang(total_by_type( get_move_lines_per_partner(cur[0], partner))['payment'])"></span></strong>
-                                            </td>
-                                            <td style="background-color:#E0E0E0" class="text-center">
-                                                <strong><span t-esc="formatLang(total_by_type(get_move_lines_per_partner(cur[0],partner))['c_d_notes'])"></span></strong>
-                                            </td>
-                                            <td style="background-color:#E0E0E0" class="text-center">
-                                                <strong><span t-esc="formatLang(total_by_type( get_move_lines_per_partner(cur[0], partner))['manual'])"></span></strong>
-                                            </td>
-                                            <td style="background-color:#E0E0E0" class="text-center">
-                                                <strong><span t-esc="formatLang(get_final_cumul_balance(partner))"></span></strong>
+                                    <t t-if="partner_in_currency(partner, cur[0])">
+                                        <tr colspan="5">
+                                            <td>
+                                                <span t-esc="get_partner_name(partner)"></span>
                                             </td>
                                         </tr>
-                                        <t t-set="reset" t-value="reset_values()"/>
+                                        <tr colspan="5">
+                                            <td colspan="5">
+                                                <h4>
+                                                    <strong><span>Opening balance:</span>
+                                                    <span t-esc="formatLang(get_initial_balance(partner, cur[0], data))"></span></strong>
+                                                </h4>
+                                            </td>
+                                        </tr>
+                                        <tr style="border: 1px solid #000000" colspan="5">
+                                            <td style="border: 1px solid #000000 "
+                                                class="text-center"><strong>Date</strong>
+                                            </td>
+                                            <td style="border: 1px solid #000000 "
+                                                class="text-center"><strong>Period</strong>
+                                            </td>
+                                            <td style="border: 1px solid #000000 "
+                                                class="text-center"><strong>Journal</strong>
+                                            </td>
+                                            <td style="border: 1px solid #000000 "
+                                                class="text-center"><strong>Account</strong>
+                                            </td>
+                                            <td style="border: 1px solid #000000 "
+                                                class="text-center"><strong>Note</strong>
+                                            </td>
+                                            <td style="border: 1px solid #000000 "
+                                                class="text-center"><strong>Tag</strong>
+                                            </td>
+                                            <td style="border: 1px solid #000000 "
+                                                class="text-center"><strong>Invoices</strong>
+                                            </td>
+                                            <td style="border: 1px solid #000000 "
+                                                class="text-center"><strong>Payments</strong>
+                                            </td>
+                                            <td style="border: 1px solid #000000 "
+                                                class="text-center"><strong>Notes D/C</strong>
+                                            </td>
+                                            <td style="border: 1px solid #000000 "
+                                                class="text-center"><strong>Mov. Man</strong>
+                                            </td>
+                                            <td style="border: 1px solid #000000"
+                                                class="text-center"><strong>Balance</strong>
+                                            </td>
+                                        </tr>
+                                        <tbody>
+                                            <t t-foreach="get_move_lines_per_partner(cur[0], partner)" t-as="line">
+                                                <t t-set="test" t-value="result_lines(get_data_template('result')[cur[0]][partner],cur[0])"/>
+                                                <tr>
+                                                    <td style="border: 1px solid #000000" class="text-center">
+                                                        <span t-esc="formatLang(line.date, date=True)"></span>
+                                                    </td>
+                                                    <td style="border: 1px solid #000000" class="text-center">
+                                                        <span t-esc="line.period_id.name"></span>
+                                                    </td>
+                                                    <td style="border: 1px solid #000000" class="text-center">
+                                                        <span t-esc="line.journal_id.code"></span>
+                                                    </td>
+                                                    <td style="border: 1px solid #000000" class="text-center">
+                                                        <span t-esc="line.account_id.code"></span>
+                                                    </td>
+                                                    <td style="border: 1px solid #000000" class="text-center">
+                                                        <span t-esc="line.move_id.name"></span>
+                                                    </td>
+                                                    <td style="border: 1px solid #000000" class="text-center">
+                                                        <span t-esc="line.name"></span>
+                                                    </td>
+                                                    <td style="border: 1px solid #000000" class="text-center">
+                                                        <span t-esc="formatLang(get_data_template('amount_per_line')[line.id]['invoice'])"></span>
+                                                    </td>
+                                                    <td style="border: 1px solid #000000" class="text-center">
+                                                        <span t-esc="formatLang(get_data_template('amount_per_line')[line.id]['payment'])"></span>
+                                                    </td>
+                                                    <td style="border: 1px solid #000000" class="text-center">
+                                                        <span t-esc="formatLang(get_data_template('amount_per_line')[line.id]['c_d_notes'])"></span>
+                                                    </td>
+                                                    <td style="border: 1px solid #000000" class="text-center">
+                                                        <span t-esc="formatLang(get_data_template('amount_per_line')[line.id]['manual'])"></span>
+                                                    </td>
+                                                     <td style="border: 1px solid #000000" class="text-center">
+                                                        <span t-esc="formatLang(compute_cum_balance(partner, get_data_template('amount_per_line')[line.id]))"></span>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                            <tr style="background-color:#E0E0E0 border: 1px solid #000000">
+                                                <td style="background-color:#E0E0E0">
+                                                </td>
+                                                <td style="background-color:#E0E0E0">
+                                                </td>
+                                                <td style="background-color:#E0E0E0">
+                                                </td>
+                                                <td style="background-color:#E0E0E0">
+                                                </td>
+                                                <td style="background-color:#E0E0E0">
+                                                </td>
+                                                <td style="background-color:#E0E0E0" class="text-right">
+                                                    <strong><span>Saldo</span></strong>
+                                                </td>
+                                                <td style="background-color:#E0E0E0" class="text-center">
+                                                    <strong><span t-esc="formatLang(total_by_type( get_move_lines_per_partner(cur[0], partner))['invoice'])"></span></strong>
+                                                </td>
+                                                <td style="background-color:#E0E0E0" class="text-center">
+                                                    <strong><span t-esc="formatLang(total_by_type( get_move_lines_per_partner(cur[0], partner))['payment'])"></span></strong>
+                                                </td>
+                                                <td style="background-color:#E0E0E0" class="text-center">
+                                                    <strong><span t-esc="formatLang(total_by_type(get_move_lines_per_partner(cur[0],partner))['c_d_notes'])"></span></strong>
+                                                </td>
+                                                <td style="background-color:#E0E0E0" class="text-center">
+                                                    <strong><span t-esc="formatLang(total_by_type( get_move_lines_per_partner(cur[0], partner))['manual'])"></span></strong>
+                                                </td>
+                                                <td style="background-color:#E0E0E0" class="text-center">
+                                                    <strong><span t-esc="formatLang(get_final_cumul_balance(partner))"></span></strong>
+                                                </td>
+                                            </tr>
+                                            <t t-set="reset" t-value="reset_values()"/>
+                                        </tbody>
                                     </t>
                                 </t>
-                                <t t-if="not get_data_template('result')">
-                                    <span>No exist open invoices with the selected filters</span>
-                                </t>
-                                <t t-if="get_data_template('open_balance')">
-                                    <span>Companies with open balance for dates/periods selected but not open invoices</span>
-                                    <t t-set="check" t-value="get_check_open_balance(data)"/>
-                                    <t t-foreach="get_data_template('open_balance').iteritems()" t-as="dict">
-                                        <t t-foreach="get_data_template('open_balance').iteritems()" t-as="partner">
-                                            <t t-if ="display_partner(dict)">
-                                                <span t-esc="get_partner_name(partner)"></span>
-                                                <t t-foreach="dict.iteritems()" t-as="key">
-                                                    <t t-foreach="dict.iteritems()" t-as="value">
-                                                        <t t-if="value != 0">
-                                                            <span>Moneda: </span>
-                                                            <span t-esc="get_currency_name(key)"></span>
-                                                            <span>- Saldo:</span>
-                                                            <span t-esc="formatLang(value)"></span>
-                                                        </t>
-                                                    </t>
-                                                </t>
+                            </t>
+                        </t>
+                    </table>
+                    <t t-if="not get_data_template('result')">
+                        <span>No exist open invoices with the selected filters</span>
+                    </t>
+                    <t t-if="get_data_template('open_balance')">
+                        <span>Companies with open balance for dates/periods selected but not open invoices</span>
+                        <t t-set="check" t-value="get_check_open_balance(data)"/>
+                        <t t-foreach="get_data_template('open_balance').iteritems()" t-as="dict">
+                            <t t-foreach="get_data_template('open_balance').iteritems()" t-as="partner">
+                                <t t-if ="display_partner(dict)">
+                                    <span t-esc="get_partner_name(partner)"></span>
+                                    <t t-foreach="dict.iteritems()" t-as="key">
+                                        <t t-foreach="dict.iteritems()" t-as="value">
+                                            <t t-if="value != 0">
+                                                <span>Moneda: </span>
+                                                <span t-esc="get_currency_name(key)"></span>
+                                                <span>- Saldo:</span>
+                                                <span t-esc="formatLang(value)"></span>
                                             </t>
                                         </t>
                                     </t>
                                 </t>
-                            </tbody>
-                        </table>
-                    </div>
+                            </t>
+                        </t>
+                    </t>
                 </div>
                 <br />
                 <br />
