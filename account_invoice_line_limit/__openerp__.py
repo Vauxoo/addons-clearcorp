@@ -30,7 +30,7 @@ Account Invoice Line Limit
 This module add fields in account configuration for the number of lines in Account Invoice Report, and number of character in description product. Add required description of product.
 """,
     'website': 'http://clearcorp.co.cr',
-    'depends' : ['product','project','account'],
+    'depends' : ['product','account'],
     'data': ['res_config.xml','product_view.xml'],
     'installable': True,
     'active': False,
