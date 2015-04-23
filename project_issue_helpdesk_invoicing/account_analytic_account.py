@@ -21,20 +21,13 @@
 ##############################################################################
 from openerp.osv import osv, fields
 from openerp import tools
+from openerp.tools.translate import _
 from openerp.addons.decimal_precision import decimal_precision as dp
 from datetime import datetime, timedelta
 
 class account_analytic_account(osv.osv):
     _inherit = "account.analytic.account"
-    
-    def issues_invoice_wizard(self,cr, uid, ids,context=None):
-        return {'type': 'ir.actions.act_window',
-                'res_model': 'project.issue.invoice.account.wizard',
-                'view_type': 'form',
-                'view_mode': 'form',
-                'nodestroy': True,
-                'target': 'new'
-                }
+
     def _get_invoice_price(self, cr, uid, account, date,start_time,end_time, product_id,categ_id,qty,service_type,factor_id,context = {}):
         factor = self.pool.get('hr_timesheet_invoice.factor').browse(cr, uid, factor_id, context=context)
         regular_hours=0.0
@@ -173,9 +166,6 @@ class account_invoice_report(osv.osv):
     
     def _group_by(self):
         return super(account_invoice_report, self)._group_by() + ", ail.porcent_variation_margin, ail.variation_margin"
-    
-class account_analytic_line(osv.osv):
-    _inherit = 'account.analytic.line'
 
 class ProjectIssue(osv.osv):
     _inherit = 'project.issue'
@@ -185,13 +175,17 @@ class ProjectIssue(osv.osv):
         result = super(ProjectIssue, self).onchange_partner_id(cr, uid, ids, partner_id)
         if partner_id:
             domain.append(('type', '!=', 'view'))
-            domain.append(('partner_id', '=',partner_id))
             contract_ids = self.pool.get('account.analytic.account').search(cr,uid,[('partner_id','=',partner_id)])
-            result.update({'domain':{'analytic_account_id':domain}})
             if contract_ids:
-                result['value'].update({'analytic_account_id':contract_ids[0]})
+                domain.append(('partner_id', '=',partner_id))
+            if not contract_ids:
+                contract_ids = self.pool.get('account.analytic.account').search(cr,uid,[('partner_id','=',False)])
+                domain.append(('partner_id', '=',False))
+            result['domain']['analytic_account_id']=domain
+            if contract_ids:
+                result['value']['analytic_account_id']=contract_ids[0]
             else:
-                result['value'].update({'analytic_account_id':False})
+                result['value']['analytic_account_id']=False
         return result
     
     def onchange_branch_id(self, cr, uid, ids, branch_id, context=None):
@@ -200,11 +194,15 @@ class ProjectIssue(osv.osv):
         result = super(ProjectIssue, self).onchange_branch_id(cr, uid, ids, branch_id)
         if branch_id:
             domain.append(('type', '!=', 'view'))
-            domain.append(('branch_ids.id', '=',branch_id))
             contract_ids = self.pool.get('account.analytic.account').search(cr,uid,[('branch_ids.id','=',branch_id)])
-            result.update({'domain':{'analytic_account_id':domain}})
             if contract_ids:
-                result['value'].update({'analytic_account_id':contract_ids[0]})
+                 domain.append(('branch_ids.id', '=',branch_id))
+            if not contract_ids:
+                contract_ids = self.pool.get('account.analytic.account').search(cr,uid,[('partner_id','=',False)])
+                domain.append(('partner_id', '=',False))
+            result['domain']['analytic_account_id']=domain
+            if contract_ids:
+                result['value']['analytic_account_id']=contract_ids[0]
             else:
-                result['value'].update({'analytic_account_id':False})
+                result['value']['analytic_account_id']=False
         return result

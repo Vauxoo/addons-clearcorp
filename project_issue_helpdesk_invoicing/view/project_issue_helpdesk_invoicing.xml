@@ -64,10 +64,14 @@
             <field name="name">view.expenses.form</field>
             <field name="model">hr.expense.expense</field>
             <field name="inherit_id" ref="hr_expense.view_expenses_form"/>
+            <field name="priority" eval="80"/>
             <field name="arch" type="xml">
                 <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']/field[@name='analytic_account']" position="before">
-                    <field name="issue_id" domain="[('stage_id.closed','!=',True)]"/>
+                    <field name="issue_id" attrs="{'readonly':[('task_id','!=',False)]}" domain="[('stage_id.closed','!=',True)]"/>
                     <field name="init_onchange_call" invisible="1"/>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']/field[@name='task_id']" position="attributes"> 
+                    <attribute name="domain">[('stage_id.closed','!=',True)]</attribute>
                 </xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']/field[@name='analytic_account']" position="attributes"> 
                     <attribute name="domain">[('id','in',init_onchange_call[0][2]),('type','in',['normal','contract'])]</attribute>
@@ -81,20 +85,18 @@
             <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
             <field name="priority" eval="70"/>
             <field name="arch" type="xml">
-                <separator name="toinvoice" position="after">
-                    <button name="issues_invoice_wizard"
-                          class="oe_link"
-                          string="⇒ Invoice Issues" type="object"/>
-                </separator>
+                <xpath expr="//field[@name='pricelist_id']" position="attributes">
+                    <attribute name="attrs">{'required': ['|','|','|',('invoice_preventive_check','=',True),('fix_price_invoices','=',True),('invoice_on_timesheets','=',True),('charge_expenses','=',True)], 'invisible':[('invoice_preventive_check','=',False),('fix_price_invoices','=',False),('invoice_on_timesheets','=',False), ('charge_expenses','=',False)]}</attribute>
+                </xpath>
                 <div name="user_function_price" position="before">
                     <div name="product_function_price">
-                        <separator string="Invoice Price Rate per Contract"/>
-                        <p class="oe_grey oe_edit_only">
+                        <separator string="Invoice Price Rate per Contract" attrs="{'invisible': [('fix_price_invoices','=',False),('invoice_on_timesheets','=',False),('charge_expenses','=',False)]}"/>
+                        <p class="oe_grey oe_edit_only" attrs="{'invisible': [('fix_price_invoices','=',False),('invoice_on_timesheets','=',False),('charge_expenses','=',False)]}">
                             Define a specific price for some products or product categories, 
                             and type technical staff to use these data instead
                             of the default values when invoicing the customer.
                         </p>
-                        <field name="pricelist_ids" colspan="4" nolabel="1">
+                        <field name="pricelist_ids" colspan="4" nolabel="1" attrs="{'invisible': [('fix_price_invoices','=',False),('invoice_on_timesheets','=',False),('charge_expenses','=',False)]}">
                             <tree editable="top" string="Pricelist Lines">
                                 <field name="pricelist_line_type"/>
                                 <field name="categ_id" attrs="{'invisible':[('pricelist_line_type', '!=', 'category')]}"/>
@@ -103,13 +105,39 @@
                                 <field name="assistant_rate"/>
                                 <field name="overtime_multiplier"/>
                                 <field name="holiday_multiplier"/>
+                                <field name="minimum_time" widget="float_time"/>
+                             </tree>
+                        </field>
+                        <separator string="Invoice type for preventive check and Periodic Rate" attrs="{'invisible': [('invoice_preventive_check','=',False)]}"/>
+                        <group name="invoice_preventive_check" attrs="{'invisible': [('invoice_preventive_check','=',False)]}">
+                             <field name="invoice_partner_type" class="oe_inline" attrs="{'required': [('invoice_preventive_check','!=',False)]}"/>
+                             <label for="preventive_check_interval_number"/>
+                             <div>
+                                 <field name="preventive_check_interval_number" class="oe_inline" attrs="{'required': [('invoice_preventive_check','!=',False)]}"/>
+                                 <field name="preventive_check_interval_type" class="oe_inline" attrs="{'required': [('invoice_preventive_check','!=',False)]}"/>
+                             </div>
+                        </group>
+                        <separator string="Product list for preventive check and periodic rate" attrs="{'invisible': [('invoice_preventive_check','=',False)]}"/>
+                        <p class="oe_grey oe_edit_only" attrs="{'invisible': [('invoice_preventive_check','=',False)]}">
+                            Define a list of product of a contract and time interval por generate the issues.
+                        </p>
+                        <field name="product_preventive_check_ids" colspan="4" nolabel="1" attrs="{'invisible': [('invoice_preventive_check','=',False)]}">
+                            <tree editable="top" string="Product Lines">
+                                <field name="product_id" required="1"/>
+                                <field name="interval_number" required="1"/>
+                                <field name="interval_type" required="1"/>
+                                <field name="date_execute_issue" required="1" attrs="{'readonly': [('first_execute_issue','=',True)]}"/>
+                                <field name="first_execute_issue" invisible="1"/>
                              </tree>
                         </field>
                     </div>
                 </div>
                 <div name="user_function_price" position="attributes">
-                    <attribute name="attrs">{'invisible':False}</attribute>
+                    <attribute name="attrs">{'invisible':True}</attribute>
                 </div>
+                <field name="recurring_invoices" position="attributes">
+                    <attribute name="attrs">{'invisible':True}</attribute>
+                </field>
                 <field name="code"  position="after"> 
                     <field name="holidays_calendar_id"/>
                 </field>
@@ -129,6 +157,19 @@
                             </tree>
                         </field>
                     </page>
+                </xpath>
+                <xpath expr='//table[@class="oe_form_analytic_account"]/tr' position='after'>
+                    <tr>
+                        <td class="oe_timesheet_grey">
+                            <label for="invoice_preventive_check"/>
+                        </td>
+                        <td class="oe_timesheet_grey">
+                            <field name="invoice_preventive_check" class="oe_inline"/>
+                        </td>
+                        <td>
+                            <field class="oe_inline" name="amount_preventive_check" attrs="{'invisible': [('invoice_preventive_check','=',False)]}"/>
+                        </td>
+                    </tr>
                 </xpath>
             </field>
         </record>
@@ -276,6 +317,23 @@
                 <xpath expr="/form/group/group[2]" position="inside">
                     <field name="warranty_manufacturer"/>
                 </xpath>
+            </field>
+        </record>
+        <!--inherit project task form-->
+        <record model="ir.ui.view" id="project_task_form_view">
+            <field name="name">Project Task Form</field>
+            <field name="model">project.task</field>
+            <field name="priority" eval="60"/>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                 <field name="categ_ids" position="after">
+                    <field name="extra" attrs="{'readonly':[('is_closed', '=', True)]}"/>
+                    <field name="sale_id" domain="[('project_project_id','=',project_id),('state','=','manual')]" attrs="{'required':[('extra', '=', True)],'invisible':[('extra', '=', False)]}"/>
+                    <field name="invoice_id" attrs="{'readonly':True,'invisible':[('extra', '=', False)]}"/>
+                </field>
+                <field name="project_id" position="attributes">
+                    <attribute name="attrs">{'required':[('extra', '=', True)]}</attribute>
+                </field>
             </field>
         </record>
         <record model="ir.actions.act_window" id="action_holiday_calendar_date">

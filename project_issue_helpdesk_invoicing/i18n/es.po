@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-23 20:26+0000\n"
-"PO-Revision-Date: 2015-03-23 20:26+0000\n"
+"POT-Creation-Date: 2015-04-13 18:08+0000\n"
+"PO-Revision-Date: 2015-04-13 18:08+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgid "Add a notes..."
 msgstr "Agregar notas..."
 
 #. module: project_issue_helpdesk_invoicing
-#: code:addons/project_issue_helpdesk_invoicing/project_issue_helpdesk_invoicing.py:338
+#: code:addons/project_issue_helpdesk_invoicing/project_issue_helpdesk_invoicing.py:347
 #, python-format
 msgid "Already exist a journal asiggned for warranty manufacturer.  (%s)"
 msgstr "Ya existe un diario contable asignado para las garantías de fabricante. (%s)"
@@ -40,12 +40,12 @@ msgstr "Ya existe un diario contable asignado para las garantías de fabricante.
 #. module: project_issue_helpdesk_invoicing
 #: model:ir.model,name:project_issue_helpdesk_invoicing.model_account_analytic_account
 msgid "Analytic Account"
-msgstr "Cuenta analítica"
+msgstr "Cuenta Analítica"
 
 #. module: project_issue_helpdesk_invoicing
 #: model:ir.model,name:project_issue_helpdesk_invoicing.model_account_analytic_line
 msgid "Analytic Line"
-msgstr "Línea Analítica"
+msgstr "Línea analítica"
 
 #. module: project_issue_helpdesk_invoicing
 #: field:account.journal,warranty_manufacturer:0
@@ -89,6 +89,7 @@ msgid "Category Product"
 msgstr "Categoría de Producto"
 
 #. module: project_issue_helpdesk_invoicing
+#: field:contract.preventive.check,contract_id:0
 #: field:contract.pricelist,contract_id:0
 msgid "Contract"
 msgstr "Contrato"
@@ -97,6 +98,12 @@ msgstr "Contrato"
 #: field:holiday.calendar,contract_ids:0
 msgid "Contract ids"
 msgstr "Contratos"
+
+#. module: project_issue_helpdesk_invoicing
+#: code:addons/project_issue_helpdesk_invoicing/project_issue_helpdesk_invoicing.py:384
+#, python-format
+msgid "Contract only allow a product per line"
+msgstr "Contrato solo permite un producto por línea"
 
 #. module: project_issue_helpdesk_invoicing
 #: view:holiday.calendar:project_issue_helpdesk_invoicing.view_holiday_calendar_form
@@ -110,6 +117,12 @@ msgid "Create Invoices"
 msgstr "Crear Facturas"
 
 #. module: project_issue_helpdesk_invoicing
+#: model:ir.model,name:project_issue_helpdesk_invoicing.model_hr_timesheet_invoice_create_final
+msgid "Create invoice from timesheet final"
+msgstr "Crear factura desde hoja de servicios final"
+
+#. module: project_issue_helpdesk_invoicing
+#: field:contract.preventive.check,create_uid:0
 #: field:contract.pricelist,create_uid:0
 #: field:holiday.calendar,create_uid:0
 #: field:holiday.calendar.date,create_uid:0
@@ -119,6 +132,7 @@ msgid "Created by"
 msgstr "Creado por"
 
 #. module: project_issue_helpdesk_invoicing
+#: field:contract.preventive.check,create_date:0
 #: field:contract.pricelist,create_date:0
 #: field:holiday.calendar,create_date:0
 #: field:holiday.calendar.date,create_date:0
@@ -145,6 +159,21 @@ msgstr "Clientes"
 #: selection:project.issue.invoice.account.wizard,filter:0
 msgid "Date"
 msgstr "Fecha"
+
+#. module: project_issue_helpdesk_invoicing
+#: field:contract.preventive.check,date_execute_issue:0
+msgid "Date execute issue"
+msgstr "Fecha de generación de incidencias"
+
+#. module: project_issue_helpdesk_invoicing
+#: selection:contract.preventive.check,interval_type:0
+msgid "Days"
+msgstr "Día(s)"
+
+#. module: project_issue_helpdesk_invoicing
+#: view:account.analytic.account:project_issue_helpdesk_invoicing.view_account_analytic_account_form
+msgid "Define a list of product of a contract and time interval por generate the issues."
+msgstr "Define lista de productos para el contrato e intervalos de tiempo para generar incidencias"
 
 #. module: project_issue_helpdesk_invoicing
 #: view:account.analytic.account:project_issue_helpdesk_invoicing.view_account_analytic_account_form
@@ -181,7 +210,7 @@ msgstr "Período Final"
 #: field:account.invoice,expected_margin:0
 #: field:account.invoice.line,expected_margin:0
 msgid "Expected Margin"
-msgstr "Margn Esperado"
+msgstr "Margen Esperado"
 
 #. module: project_issue_helpdesk_invoicing
 #: model:ir.model,name:project_issue_helpdesk_invoicing.model_hr_expense_line
@@ -192,6 +221,12 @@ msgstr "Línea de gasto"
 #: field:project.issue,expense_line_ids:0
 msgid "Expense line ids"
 msgstr "Líneas de Gastos"
+
+#. module: project_issue_helpdesk_invoicing
+#: code:addons/project_issue_helpdesk_invoicing/account_analytic_account.py:247
+#, python-format
+msgid "Expenses"
+msgstr "Gastos"
 
 #. module: project_issue_helpdesk_invoicing
 #: view:project.issue:project_issue_helpdesk_invoicing.view_project_issue_form
@@ -205,10 +240,32 @@ msgid "Filter"
 msgstr "Filtro"
 
 #. module: project_issue_helpdesk_invoicing
+#: field:contract.preventive.check,first_execute_issue:0
+msgid "First Execute Issue"
+msgstr "Primera generación de incidencias"
+
+#. module: project_issue_helpdesk_invoicing
 #: field:project.issue.helpdesk.invoice.wizard,fiscalyear_id:0
 #: field:project.issue.invoice.account.wizard,fiscalyear_id:0
 msgid "Fiscal Year"
 msgstr "Año Fiscal"
+
+#. module: project_issue_helpdesk_invoicing
+#: field:account.analytic.account,invoice_preventive_check:0
+msgid "Fixed Price Preventive Check"
+msgstr "Precio de Mantenimiento preventivo"
+
+#. module: project_issue_helpdesk_invoicing
+#: model:ir.actions.server,name:project_issue_helpdesk_invoicing.action_generate_issues_preventive_check_contract
+msgid "Generate issues for contracts of preventive check"
+msgstr "Genera incidencias para los contratos de mantenimiento preventivo"
+
+#. module: project_issue_helpdesk_invoicing
+#: code:addons/project_issue_helpdesk_invoicing/project_issue_helpdesk_invoicing.py:403
+#: code:addons/project_issue_helpdesk_invoicing/project_issue_helpdesk_invoicing.py:415
+#, python-format
+msgid "Generated for contract"
+msgstr "Generado autómaticamente por contrato"
 
 #. module: project_issue_helpdesk_invoicing
 #: field:project.issue.helpdesk.invoice.wizard,group_customer:0
@@ -258,6 +315,7 @@ msgid "Holidays Calendar"
 msgstr "Calendario de Feriados"
 
 #. module: project_issue_helpdesk_invoicing
+#: field:contract.preventive.check,id:0
 #: field:contract.pricelist,id:0
 #: field:holiday.calendar,id:0
 #: field:holiday.calendar.date,id:0
@@ -265,6 +323,22 @@ msgstr "Calendario de Feriados"
 #: field:project.issue.invoice.account.wizard,id:0
 msgid "ID"
 msgstr "ID"
+
+#. module: project_issue_helpdesk_invoicing
+#: field:contract.preventive.check,interval_number:0
+msgid "Interval Number"
+msgstr "Número de Intervalos"
+
+#. module: project_issue_helpdesk_invoicing
+#: field:contract.preventive.check,interval_type:0
+msgid "Interval Type"
+msgstr "Tipo de intervalo"
+
+#. module: project_issue_helpdesk_invoicing
+#: code:addons/project_issue_helpdesk_invoicing/project_issue_helpdesk_invoicing.py:377
+#, python-format
+msgid "Interval number must be greater or equal to one"
+msgstr "Número de intervalos debe ser mayor o igual a uno"
 
 #. module: project_issue_helpdesk_invoicing
 #: model:ir.model,name:project_issue_helpdesk_invoicing.model_account_invoice
@@ -287,9 +361,19 @@ msgid "Invoice Price Rate per Contract"
 msgstr "Tarifa de facturación por contrato"
 
 #. module: project_issue_helpdesk_invoicing
+#: field:project.task,invoiced:0
+msgid "Invoiced"
+msgstr "Facturado"
+
+#. module: project_issue_helpdesk_invoicing
 #: model:ir.model,name:project_issue_helpdesk_invoicing.model_account_invoice_report
 msgid "Invoices Statistics"
 msgstr "Estadísticas de facturas"
+
+#. module: project_issue_helpdesk_invoicing
+#: field:project.task,extra:0
+msgid "Is extra"
+msgstr "Tarea extra"
 
 #. module: project_issue_helpdesk_invoicing
 #: field:hr.expense.line,issue_id:0
@@ -337,6 +421,7 @@ msgid "Journal"
 msgstr "Diario"
 
 #. module: project_issue_helpdesk_invoicing
+#: field:contract.preventive.check,write_uid:0
 #: field:contract.pricelist,write_uid:0
 #: field:holiday.calendar,write_uid:0
 #: field:holiday.calendar.date,write_uid:0
@@ -346,6 +431,7 @@ msgid "Last Updated by"
 msgstr "Ultima actualización por"
 
 #. module: project_issue_helpdesk_invoicing
+#: field:contract.preventive.check,write_date:0
 #: field:contract.pricelist,write_date:0
 #: field:holiday.calendar,write_date:0
 #: field:holiday.calendar.date,write_date:0
@@ -353,6 +439,21 @@ msgstr "Ultima actualización por"
 #: field:project.issue.invoice.account.wizard,write_date:0
 msgid "Last Updated on"
 msgstr "Ultima actualización en"
+
+#. module: project_issue_helpdesk_invoicing
+#: field:contract.pricelist,minimum_time:0
+msgid "Minimum Time"
+msgstr "Tiempo mínimo"
+
+#. module: project_issue_helpdesk_invoicing
+#: selection:contract.preventive.check,interval_type:0
+msgid "Months"
+msgstr "Mes(es)"
+
+#. module: project_issue_helpdesk_invoicing
+#: field:account.analytic.account,amount_preventive_check:0
+msgid "Mount to Invoice"
+msgstr "Monto a facturar"
 
 #. module: project_issue_helpdesk_invoicing
 #: selection:project.issue.helpdesk.invoice.wizard,filter:0
@@ -375,31 +476,39 @@ msgstr "Multiplicador Extras"
 #: selection:project.issue.helpdesk.invoice.wizard,filter:0
 #: selection:project.issue.invoice.account.wizard,filter:0
 msgid "Partner"
-msgstr "Empresa"
+msgstr "Empresa/Cliente"
 
 #. module: project_issue_helpdesk_invoicing
-#: code:addons/project_issue_helpdesk_invoicing/project_issue_helpdesk_invoicing.py:49
+#: code:addons/project_issue_helpdesk_invoicing/project_issue_helpdesk_invoicing.py:54
 #, python-format
 msgid "Pending change status to done or paid of expense: %s"
 msgstr "Pendiente cambiar estado de gasto: %s a pendiente de pagar o pagado/a"
 
 #. module: project_issue_helpdesk_invoicing
-#: code:addons/project_issue_helpdesk_invoicing/project_issue_helpdesk_invoicing.py:46
+#: code:addons/project_issue_helpdesk_invoicing/project_issue_helpdesk_invoicing.py:51
 #, python-format
 msgid "Pending generate delivery note for backorder: %s"
 msgstr "Pendiente generar nota de entrega a transferencia: %s"
 
 #. module: project_issue_helpdesk_invoicing
-#: code:addons/project_issue_helpdesk_invoicing/project_issue_helpdesk_invoicing.py:44
+#: code:addons/project_issue_helpdesk_invoicing/project_issue_helpdesk_invoicing.py:49
 #, python-format
 msgid "Pending transfer the backorder: %s"
-msgstr "Pendiente trasferir  la orden: %s"
+msgstr "Pendiente trasferir la orden: %s"
 
 #. module: project_issue_helpdesk_invoicing
 #: selection:project.issue.helpdesk.invoice.wizard,filter:0
 #: selection:project.issue.invoice.account.wizard,filter:0
 msgid "Period"
 msgstr "Período"
+
+#. module: project_issue_helpdesk_invoicing
+#: code:addons/project_issue_helpdesk_invoicing/project_issue_helpdesk_invoicing.py:401
+#: code:addons/project_issue_helpdesk_invoicing/project_issue_helpdesk_invoicing.py:402
+#: code:addons/project_issue_helpdesk_invoicing/project_issue_helpdesk_invoicing.py:414
+#, python-format
+msgid "Preventive Check-"
+msgstr "Mantenimiento Preventivo-"
 
 #. module: project_issue_helpdesk_invoicing
 #: view:account.analytic.account:project_issue_helpdesk_invoicing.view_account_analytic_account_form
@@ -417,10 +526,26 @@ msgid "Pricelist ids"
 msgstr "Lista de Tarifas"
 
 #. module: project_issue_helpdesk_invoicing
+#: field:contract.preventive.check,product_id:0
 #: selection:contract.pricelist,pricelist_line_type:0
 #: field:contract.pricelist,product_id:0
 msgid "Product"
 msgstr "Producto"
+
+#. module: project_issue_helpdesk_invoicing
+#: view:account.analytic.account:project_issue_helpdesk_invoicing.view_account_analytic_account_form
+msgid "Product Lines"
+msgstr "Líneas de Productos"
+
+#. module: project_issue_helpdesk_invoicing
+#: view:account.analytic.account:project_issue_helpdesk_invoicing.view_account_analytic_account_form
+msgid "Product list for preventive check of Contract"
+msgstr "Lista de productos de contrato de mantenimeinto preventivo"
+
+#. module: project_issue_helpdesk_invoicing
+#: field:account.analytic.account,product_preventive_check_ids:0
+msgid "Product preventive check ids"
+msgstr "Productos de Mantenimiento Preventivo"
 
 #. module: project_issue_helpdesk_invoicing
 #: view:account.invoice:project_issue_helpdesk_invoicing.view_account_invoice_order_form
@@ -479,8 +604,14 @@ msgstr "Líneas de Venta"
 
 #. module: project_issue_helpdesk_invoicing
 #: field:project.issue,sale_order_id:0
+#: field:project.task,sale_id:0
 msgid "Sale Order"
 msgstr "Orden de Venta"
+
+#. module: project_issue_helpdesk_invoicing
+#: model:ir.model,name:project_issue_helpdesk_invoicing.model_sale_make_invoice
+msgid "Sales Make Invoice"
+msgstr "Ventas. Realizar factura"
 
 #. module: project_issue_helpdesk_invoicing
 #: field:account.invoice,order_ids:0
@@ -521,19 +652,36 @@ msgid "State"
 msgstr "Estado"
 
 #. module: project_issue_helpdesk_invoicing
+#: model:ir.model,name:project_issue_helpdesk_invoicing.model_project_task
+msgid "Task"
+msgstr "Tarea"
+
+#. module: project_issue_helpdesk_invoicing
+#: field:sale.order,task_ids:0
+msgid "Task ids"
+msgstr "Tareas"
+
+#. module: project_issue_helpdesk_invoicing
+#: code:addons/project_issue_helpdesk_invoicing/account_analytic_account.py:224
+#, python-format
+msgid "Task pending for close in the sale order(s)!"
+msgstr "Tareas pendientes de cerrar relacionadas a las ordenes de venta!"
+
+#. module: project_issue_helpdesk_invoicing
 #: field:contract.pricelist,technical_rate:0
 msgid "Technical Rate"
 msgstr "Tarifa Tećnico"
 
 #. module: project_issue_helpdesk_invoicing
+#: code:addons/project_issue_helpdesk_invoicing/project_issue_helpdesk_invoicing.py:390
+#, python-format
+msgid "The date execute must be greater than the actual date"
+msgstr "La fecha de ejecucuín debe ser mayor que la fecha actual"
+
+#. module: project_issue_helpdesk_invoicing
 #: help:account.invoice,order_ids:0
 msgid "This is the list of sales orders that have been generated for this invoice."
 msgstr "Esta es la lista de órdenes de venta que se han generado para esta factura"
-
-#. module: project_issue_helpdesk_invoicing
-#: model:ir.model,name:project_issue_helpdesk_invoicing.model_hr_analytic_timesheet
-msgid "Timesheet Line"
-msgstr "Línea de la hoja de servicios"
 
 #. module: project_issue_helpdesk_invoicing
 #: selection:project.issue.helpdesk.invoice.wizard,state:0
@@ -597,6 +745,17 @@ msgstr "Precio de Variación %"
 #: view:project.issue.invoice.account.wizard:project_issue_helpdesk_invoicing.view_issue_invoice_account_wizard_form
 msgid "View Issues"
 msgstr "Ver Incidencias"
+
+#. module: project_issue_helpdesk_invoicing
+#: code:addons/project_issue_helpdesk_invoicing/account_analytic_account.py:224
+#, python-format
+msgid "Warning!"
+msgstr "Alerta!"
+
+#. module: project_issue_helpdesk_invoicing
+#: selection:contract.preventive.check,interval_type:0
+msgid "Weeks"
+msgstr "Semana(s)"
 
 #. module: project_issue_helpdesk_invoicing
 #: view:hr.expense.expense:project_issue_helpdesk_invoicing.view_expenses_form
