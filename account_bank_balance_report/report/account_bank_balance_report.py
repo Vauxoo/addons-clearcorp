@@ -21,7 +21,8 @@
 ##############################################################################
 
 from openerp.tools.translate import _
-import pooler
+from openerp import pooler
+from openerp.osv import fields, osv
 
 from openerp.addons.account_report_lib.account_report_base import accountReportbase
 
@@ -201,7 +202,7 @@ class Parser(accountReportbase):
         
         if bank_account.default_credit_account_id and bank_account.default_debit_account_id:
             if bank_account.default_credit_account_id.id == bank_account.default_debit_account_id.id:
-                account_ids.append(bank_account.default_debit_account_id.id)            
+                account_ids.append(bank_account.default_debit_account_id.id)
             else:    
                 account_ids.append(bank_account.default_credit_account_id.id)
                 account_ids.append(bank_account.default_debit_account_id.id)
@@ -210,7 +211,7 @@ class Parser(accountReportbase):
             account_ids.append(bank_account.default_credit_account_id.id)
         
         elif bank_account.default_debit_account_id:
-            account_ids.append(bank_account.default_debit_account_id.id)        
+            account_ids.append(bank_account.default_debit_account_id.id)
             
         move_lines_ids = self.pool.get('account.move.line').search(self.cr, self.uid, [('account_id','in',account_ids),('state', '=', 'valid'),('period_id','=',period.id)])
         move_lines = self.pool.get('account.move.line').browse(self.cr, self.uid, move_lines_ids)
@@ -257,8 +258,8 @@ class Parser(accountReportbase):
                                                                   [account_id], 
                                                                   ['balance'], 
                                                                   initial_balance=True,
-                                                                  fiscal_year_id=fiscal_year.id,                                                                                
-                                                                  start_period_id=previous_period, 
+                                                                  fiscal_year_id=fiscal_year.id,
+                                                                  start_period_id=previous_period,
                                                                   end_period_id=previous_period, 
                                                                   filter_type='filter_period')
         else:
@@ -266,8 +267,15 @@ class Parser(accountReportbase):
                                                                   [account_id], 
                                                                   ['foreign_balance'], 
                                                                   initial_balance=True,
-                                                                  fiscal_year_id=fiscal_year.id,                                                                                
+                                                                  fiscal_year_id=fiscal_year.id, 
                                                                   start_period_id=previous_period, 
                                                                   end_period_id=previous_period, 
                                                                    filter_type='filter_period')
         return account_balance
+
+
+class report_partnerledger(osv.AbstractModel):
+    _name = 'report.account_bank_balance_report.report_bank_balance'
+    _inherit = 'report.abstract_report'
+    _template = 'account_bank_balance_report.report_bank_balance'
+    _wrapped_report_class = Parser

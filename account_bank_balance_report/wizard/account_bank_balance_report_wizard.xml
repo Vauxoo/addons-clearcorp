@@ -5,7 +5,7 @@
             <field name="name">Bank Balance Report </field>
             <field name="model">bank.balance.wiz</field>
             <field name="type">form</field>
-            <field name="inherit_id" ref="account_report_lib.account_report_lib_wizard_view"/>
+            <field name="inherit_id" ref="account_report_lib.account_report_lib_wizard_form_view"/>
             <field name="arch" type="xml">
                 <data>
                     <xpath expr="/form/label[@string='']" position="replace">
@@ -24,27 +24,27 @@
                     <field name="out_format" position="attributes">
                         <attribute name="attrs">{'required': True}</attribute>
                     </field> 
-                    <group string="Journals" position="attributes">                   
+                    <group string="Journals" position="attributes">
+                        <attribute name="attrs">{'invisible': False}</attribute>
+                    </group>
+                    <group string="Filters" position="attributes">
                         <attribute name="attrs">{'invisible': True}</attribute>
                     </group>
-                    <group string="Filters" position="attributes">                   
-                        <attribute name="attrs">{'invisible': True}</attribute>
-                    </group>
-                    <group string="Filters" position="after">                   
+                    <group string="Filters" position="after">
                          <group col="4" string="Filters">
                             <field name="period_ids" required="True" domain="[('special', '=', False),('fiscalyear_id', '=', fiscalyear_id)]"/>
                         </group>
                     </group>          
-                    <group string="Account Financial Report" position="attributes">                   
+                    <group string="Account Financial Report" position="attributes">
                         <attribute name="attrs">{'invisible': True}</attribute>
                     </group>
-                    <group string="Partners" position="attributes">                   
+                    <group string="Partners" position="attributes">
                         <attribute name="attrs">{'invisible': True}</attribute>
                     </group>  
                     <group string="Advanced options" position="attributes">
                         <attribute name="attrs">{'invisible': True}</attribute>
                     </group>                  
-                    <group string="Accounts" position="attributes">                   
+                    <group string="Accounts" position="attributes">
                         <attribute name="attrs">{'invisible': True}</attribute>
                     </group>                    
                     <group string="Advanced options" position="after">
