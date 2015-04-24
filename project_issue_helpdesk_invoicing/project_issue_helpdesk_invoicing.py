@@ -395,6 +395,20 @@ class ProjectTask(models.Model):
         return result
     @api.v7
     def write(self, cr, uid, ids, vals, context=None):
+        tasks=self.browse(cr,uid,ids,context=context)
+        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+        if vals.get('stage_id'):
+            type_obj=self.pool.get('project.task.type')
+            type_ids=type_obj.search(cr, uid,[('id', '=', vals.get('stage_id'))])
+            types=type_obj.browse(cr, uid,type_ids)
+            for type in types:
+                if type.closed==True:
+                    for task in tasks:
+                        for backorder in task.backorder_ids:
+                            if backorder.state!='done':
+                                raise Warning(_('Pending transfer the backorder: %s' % backorder.name))
+                            elif not backorder.delivery_note_id:
+                                raise Warning(_('Pending generate delivery note for backorder: %s' % backorder.name))
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
         if 'name' in vals:
             if len(vals.get('name'))>user.company_id.maximum_name_task:
