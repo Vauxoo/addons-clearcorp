@@ -336,6 +336,18 @@
                 </field>
             </field>
         </record>
+        <!--Tree View Inherit timesheet line-->
+        <record model="ir.ui.view" id="timesheet_line_tree_view">
+                <field name="name">view.timesheet.line.tree</field>
+                <field name="model">hr.analytic.timesheet</field>
+                <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree"/>
+                <field name="priority" eval="100"/>
+                <field name="arch" type="xml">
+                    <field name="employee_id" position="after"> 
+                        <field name="service_type" required="1"/>
+                    </field>
+                </field>
+        </record>
         <record model="ir.actions.act_window" id="action_holiday_calendar_date">
             <field name="name">Holidays</field>
             <field name="res_model">holiday.calendar.date</field>
