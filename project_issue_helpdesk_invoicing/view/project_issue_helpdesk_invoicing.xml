@@ -336,6 +336,19 @@
                 </field>
             </field>
         </record>
+        <!--inherit account invoice form-->
+        <record model="ir.ui.view" id="account_invoice_form_view">
+            <field name="name">Account Invoice Form</field>
+            <field name="model">account.invoice</field>
+            <field name="priority" eval="100"/>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[@string='Invoice Lines']/field[@name='invoice_line']/tree[@string='Invoice Lines']/field[@name='name']" position="after"> 
+                    <field name="supply_type" readonly="1"/>
+                    <field name="reference" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
         <!--Tree View Inherit timesheet line-->
         <record model="ir.ui.view" id="timesheet_line_tree_view">
                 <field name="name">view.timesheet.line.tree</field>

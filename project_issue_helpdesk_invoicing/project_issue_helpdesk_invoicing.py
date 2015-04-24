@@ -497,3 +497,9 @@ class ContractPreventiveCheck(models.Model):
         'interval_number':1,
         'first_execute_issue':False
                }
+class account_invoice_line(models.Model):
+    _inherit = "account.invoice.line"
+    
+    supply_type = fields.Selection(string='Use',related='product_id.supply_type')
+    reference = fields.Char(string='Reference',help="Reference of origin of line invoice")
+    
