@@ -52,28 +52,12 @@ class account_analytic_account(osv.osv):
                         regular_hours=qty
                         extra_hours=0.0
                         break
-                    elif start_time<schedule.hour_from and end_time>schedule.hour_to:
-                        regular_hours=qty-(schedule.hour_from-start_time)-(end_time-schedule.hour_to)
-                        extra_hours=(schedule.hour_from-start_time)+(end_time-schedule.hour_to)
-                        break
-                    elif start_time<schedule.hour_from and end_time<=schedule.hour_to and end_time>=schedule.hour_from:
-                        if schedule.hour_from<>schedule.hour_to:
-                            regular_hours=qty-(schedule.hour_from-start_time)
-                            extra_hours=(schedule.hour_from-start_time)
-                        else:
-                            regular_hours=0.0
-                            extra_hours=(schedule.hour_from-start_time)
-                        break
-                    elif start_time>=schedule.hour_from and start_time<=schedule.hour_to and end_time>schedule.hour_to:
-                        if schedule.hour_from<>schedule.hour_to:
-                            regular_hours=qty-(end_time-schedule.hour_to)
-                            extra_hours=(end_time-schedule.hour_to)
-                        else:
-                            regular_hours=0.0
-                            extra_hours=(end_time-schedule.hour_to)
-                    elif (start_time<schedule.hour_from and end_time<schedule.hour_from) or (start_time>schedule.hour_to and end_time>schedule.hour_to):
+                    elif start_time>schedule.hour_to and end_time>schedule.hour_to:
                         extra_hours=qty
-                        regular_hours=0.0
+                        regular_hours=0
+                    elif start_time<schedule.hour_from and end_time<schedule.hour_from:
+                        extra_hours=qty
+                        regular_hours=0
                         break
                 else:
                     regular_hours=qty
@@ -196,7 +180,7 @@ class ProjectIssue(osv.osv):
             domain.append(('type', '!=', 'view'))
             contract_ids = self.pool.get('account.analytic.account').search(cr,uid,[('branch_ids.id','=',branch_id)])
             if contract_ids:
-                 domain.append(('branch_ids.id', '=',branch_id))
+                domain.append(('branch_ids.id', '=',branch_id))
             if not contract_ids:
                 contract_ids = self.pool.get('account.analytic.account').search(cr,uid,[('partner_id','=',False)])
                 domain.append(('partner_id', '=',False))
@@ -206,3 +190,29 @@ class ProjectIssue(osv.osv):
             else:
                 result['value']['analytic_account_id']=False
         return result
+class HrAnaliticTimeSheet(osv.osv):
+    _inherit = 'hr.analytic.timesheet'
+    def is_permited_schedule(self, cr, uid, ids, context=None):
+        res=False
+        for timesheet in self.browse(cr, uid, ids, context=context):
+            date_number=datetime.strptime(timesheet.date, '%Y-%m-%d').weekday()
+            schedules=timesheet.account_id.regular_schedule_id.attendance_ids
+            if schedules:
+                for schedule in schedules:
+                    if str(date_number)==schedule.dayofweek:
+                        if timesheet.start_time>=schedule.hour_from and timesheet.end_time<=schedule.hour_to:
+                            res=True
+                        elif timesheet.start_time>schedule.hour_to and timesheet.end_time>schedule.hour_to:
+                            res=True
+                        elif timesheet.start_time<schedule.hour_from and timesheet.end_time<schedule.hour_from:
+                            res=True
+                        else:
+                            res=False
+                    else:
+                        res=True
+            else:
+                res=True
+        return res
+    _constraints = [
+                    (is_permited_schedule, 'Can not mix regular and extra hours. Please check records or enter them separately',['start_time','end_time','date'])
+                    ]

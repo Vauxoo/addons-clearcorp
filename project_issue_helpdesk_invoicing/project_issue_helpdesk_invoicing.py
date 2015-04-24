@@ -389,7 +389,7 @@ class ProjectTask(models.Model):
     def create(self, cr, uid, vals, context=None):
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
         if 'name' in vals:
-            if len(vals.get('name'))>user.company_id.maximum_description_product:
+            if len(vals.get('name'))>user.company_id.maximum_name_task:
                 raise Warning(_('The task name exceeds the limit of %i characters.' %user.company_id.maximum_name_task))
         result = super(ProjectTask, self).create(cr, uid, vals, context=context)
         return result
@@ -397,7 +397,7 @@ class ProjectTask(models.Model):
     def write(self, cr, uid, ids, vals, context=None):
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
         if 'name' in vals:
-            if len(vals.get('name'))>user.company_id.maximum_description_product:
+            if len(vals.get('name'))>user.company_id.maximum_name_task:
                 raise Warning(_('The task name exceeds the limit of %i characters.' %user.company_id.maximum_name_task))
         res = super(ProjectTask, self).write(cr, uid, ids, vals, context=context)
         return res
