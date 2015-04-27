@@ -174,19 +174,19 @@ class IssueInvoiceWizard(models.TransientModel):
         issue_obj=self.env['project.issue']
         
         if self.filter=='filter_no':
-            issue_ids=issue_obj.search(['|','|',('backorder_ids','!=',False),('expense_line_ids','!=',False),('timesheet_ids','!=',False),('issue_type','!=','preventive check'),('stage_id.closed','=',True),('sale_order_id','=',False),('invoice_id','=',False),('analytic_account_id','in',self._context.get('active_ids', False))])
+            issue_ids=issue_obj.search(['|','|',('backorder_ids','!=',False),('expense_line_ids','!=',False),('timesheet_ids','!=',False),('issue_type','!=','preventive check'),('stage_id.closed','=',True),('sale_order_id','=',False),('invoice_ids','=',False),('analytic_account_id','in',self._context.get('active_ids', False))],order='categ_id asc,product_id asc,create_date asc')
         elif self.filter=='filter_date':
-            issue_ids=issue_obj.search(['|','|',('backorder_ids','!=',False),('expense_line_ids','!=',False),('timesheet_ids','!=',False),('issue_type','!=','preventive check'),('stage_id.closed','=',True),('sale_order_id','=',False),('invoice_id','=',False),('create_date', '>=', self.date_from),('create_date', '<=', self.date_to),('analytic_account_id','in',self._context.get('active_ids', False))])
+            issue_ids=issue_obj.search(['|','|',('backorder_ids','!=',False),('expense_line_ids','!=',False),('timesheet_ids','!=',False),('issue_type','!=','preventive check'),('stage_id.closed','=',True),('sale_order_id','=',False),('invoice_ids','=',False),('create_date', '>=', self.date_from),('create_date', '<=', self.date_to),('analytic_account_id','in',self._context.get('active_ids', False))],order='categ_id asc,product_id asc,create_date asc')
         elif self.filter=='filter_period':
-            issue_ids=issue_obj.search(['|','|',('backorder_ids','!=',False),('expense_line_ids','!=',False),('timesheet_ids','!=',False),('issue_type','!=','preventive check'),('stage_id.closed','=',True),('sale_order_id','=',False),('invoice_id','=',False),('create_date', '>=',self.period_from.date_start),('create_date', '<=',self.period_to.date_stop),('analytic_account_id','in',self._context.get('active_ids', False))])
+            issue_ids=issue_obj.search(['|','|',('backorder_ids','!=',False),('expense_line_ids','!=',False),('timesheet_ids','!=',False),('issue_type','!=','preventive check'),('stage_id.closed','=',True),('sale_order_id','=',False),('invoice_ids','=',False),('create_date', '>=',self.period_from.date_start),('create_date', '<=',self.period_to.date_stop),('analytic_account_id','in',self._context.get('active_ids', False))],order='categ_id asc,product_id asc,create_date asc')
         elif self.filter=='filter_partner':
             for partner in self.partner_ids:
                 partner_ids.append(partner.id)
-            issue_ids=issue_obj.search(['&','|','|',('backorder_ids','!=',False),('expense_line_ids','!=',False),('timesheet_ids','!=',False),'|',('partner_id','in',partner_ids),('branch_id','in',partner_ids),('issue_type','!=','preventive check'),('stage_id.closed','=',True),('sale_order_id','=',False),('invoice_id','=',False),('analytic_account_id','in',self._context.get('active_ids', False))])
+            issue_ids=issue_obj.search(['&','|','|',('backorder_ids','!=',False),('expense_line_ids','!=',False),('timesheet_ids','!=',False),'|',('partner_id','in',partner_ids),('branch_id','in',partner_ids),('issue_type','!=','preventive check'),('stage_id.closed','=',True),('sale_order_id','=',False),('invoice_ids','=',False),('analytic_account_id','in',self._context.get('active_ids', False))],order='categ_id asc,product_id asc,create_date asc')
         elif self.filter=='filter_issue':
             for issue in self.issue_ids:
                 issue_ids.append(issue.id)
-            issue_ids=issue_obj.search(['|','|',('backorder_ids','!=',False),('expense_line_ids','!=',False),('timesheet_ids','!=',False),('issue_type','!=','preventive check'),('stage_id.closed','=',True),('sale_order_id','=',False),('invoice_id','=',False),('id','in',issue_ids),('analytic_account_id','in',self._context.get('active_ids', False))])
+            issue_ids=issue_obj.search(['|','|',('backorder_ids','!=',False),('expense_line_ids','!=',False),('timesheet_ids','!=',False),('issue_type','!=','preventive check'),('stage_id.closed','=',True),('sale_order_id','=',False),('invoice_ids','=',False),('id','in',issue_ids),('analytic_account_id','in',self._context.get('active_ids', False))],order='categ_id asc,product_id asc,create_date asc')
         self.issue_invoice_ids=issue_ids
         self.write({'state':'done'})
         return {
@@ -204,10 +204,13 @@ class IssueInvoiceWizard(models.TransientModel):
     def invoice_contracts(self):
         wizard_obj=self.env['project.issue.helpdesk.invoice.wizard']
         invoices_list_issues=[]
+        issue_list=[]
         invoice_sale_list=[]
         invoice_preventive_check_list=[]
         if self.issue_invoice_ids:
-            invoices_list_issues=wizard_obj.generate_invoices(self.issue_invoice_ids,self.group_customer,self.line_detailed)
+            for issue in self.issue_invoice_ids:
+                issue_list.append(issue.id)
+            invoices_list_issues=wizard_obj.generate_invoices(self.issue_invoice_ids,issue_list,self.group_customer,self.line_detailed)
         if self.sale_order_invoice_ids:
             invoice_sale_list=self.generate_invoice_sale_order(self.sale_order_invoice_ids)
         if self.contract_preventive_check_ids:
@@ -233,7 +236,7 @@ class IssueInvoiceWizard(models.TransientModel):
     @api.onchange('filter')
     def get_account_issues(self):
         if self.filter=='filter_issue':
-            self.init_onchange_call=self.env['project.issue'].search(['|','|',('backorder_ids','!=',False),('expense_line_ids','!=',False),('timesheet_ids','!=',False),('issue_type','!=','preventive check'),('stage_id.closed','=',True),('sale_order_id','=',False),('invoice_id','=',False),('analytic_account_id','in',self._context.get('active_ids', False))])
+            self.init_onchange_call=self.env['project.issue'].search(['|','|',('backorder_ids','!=',False),('expense_line_ids','!=',False),('timesheet_ids','!=',False),('issue_type','!=','preventive check'),('stage_id.closed','=',True),('sale_order_id','=',False),('invoice_ids','=',False),('analytic_account_id','in',self._context.get('active_ids', False))])
         else:
             self.issue_ids=False
     @api.onchange('state')
@@ -241,8 +244,8 @@ class IssueInvoiceWizard(models.TransientModel):
         if 'active_ids' in self._context and self._context.get('active_ids'):
             self.sale_order_invoice_ids=self.env['sale.order'].search([('project_id','in',self._context.get('active_ids', False)),('state','=','manual'),('invoice_ids','=',False)])
             self.contract_preventive_check_ids=self.env['account.analytic.account'].search([('id','in',self._context.get('active_ids', False)),('invoice_preventive_check','!=',False)])
-    line_detailed=fields.Boolean( string="Detailed",default=True)
-    group_customer=fields.Boolean( string="Group by customer",default=False)
+    line_detailed=fields.Boolean(string="Product lines separate service lines",default=True)
+    group_customer=fields.Boolean( string="Group by customer",default=True)
     filter=fields.Selection([('filter_no','No Filter'),('filter_date','Date'),('filter_period','Period'),('filter_partner','Partner'),('filter_issue','Issue')],string="Filter",required=True,default='filter_no')
     date_from=fields.Date(string="Start Date")
     date_to=fields.Date(string="End Date")

@@ -9,7 +9,7 @@
             <field name="arch" type="xml">
                 <xpath expr="/form/sheet/notebook/page[@string='Order Lines']" position="after">
                     <page string="Issues">
-                        <field name="issue_ids" context="{'tree_view_ref' : 'project_issue_helpdesk.project_issue_tree_view'}" widget="many2many" domain="['|',('partner_id','=',partner_id),('branch_id','=',partner_id),('stage_id.closed','!=',True),('invoice_id','=',False)]" colspan="4" nolabel="1" attrs="{'readonly': [('state','not in',('draft','sent'))]}">
+                        <field name="issue_ids" context="{'tree_view_ref' : 'project_issue_helpdesk.project_issue_tree_view'}" widget="many2many" domain="['|',('partner_id','=',partner_id),('branch_id','=',partner_id),('stage_id.closed','!=',True),('invoice_ids','=',False),('invoice_sale_id','=',False)]" colspan="4" nolabel="1" attrs="{'readonly': [('state','not in',('draft','sent'))]}">
                             <tree string="Issues Lines">
                                 <field name="issue_number"/>
                                 <field name="issue_type"/>
@@ -33,9 +33,9 @@
             <field name="priority" eval="30"/>
             <field name="arch" type="xml">
                 <xpath expr="/form/sheet/notebook/page[@string='Extra Info']/group/group[@string='Status']" position="inside">
-                        <field name="sale_order_id" attrs="{'readonly':[('sale_order_id', '!=', False),('invoice_id', '!=', False)]}"/>
+                        <field name="sale_order_id" attrs="{'readonly':[('sale_order_id', '!=', False),('invoice_ids', '!=', False)]}"/>
                         <field name="invoice_sale_id" readonly="1" attrs="{'invisible':[('sale_order_id', '!=', True)]}"/>
-                        <field name="invoice_id" readonly="1" attrs="{'invisible':[('invoice_sale_id', '!=', False)]}"/>
+                        <field name="invoice_ids" readonly="1" widget="many2many_tags" attrs="{'invisible':[('invoice_sale_id', '!=', False)]}"/>
                 </xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Delivery Orders']" position="after">
                     <page string="Expenses Lines">
@@ -72,6 +72,9 @@
                 </xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']/field[@name='task_id']" position="attributes"> 
                     <attribute name="domain">[('stage_id.closed','!=',True)]</attribute>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']/field[@name='task_id']" position="attributes"> 
+                    <attribute name="attrs">{'readonly': [('issue_id','!=',False)]}</attribute>
                 </xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']/field[@name='analytic_account']" position="attributes"> 
                     <attribute name="domain">[('id','in',init_onchange_call[0][2]),('type','in',['normal','contract'])]</attribute>

@@ -58,7 +58,7 @@ class ProjectIssue(models.Model):
     expense_line_ids=fields.One2many('hr.expense.line','issue_id')
     sale_order_id=fields.Many2one('sale.order','Sale Order')
     invoice_sale_id=fields.Char(string='Invoice Number',related='sale_order_id.invoice_ids.internal_number')
-    invoice_id=fields.Many2one('account.invoice',string='Invoice Number')
+    invoice_ids=fields.Many2many('account.invoice','account_invoice_project_issue_rel',string='Invoices Numbers')
     
 class ResPartner(models.Model):
     _inherit = 'res.partner'
@@ -340,7 +340,7 @@ class AccountInvoice(models.Model):
                             backorder.move_lines.write({'invoice_state':'none'})
         return models.Model.unlink(self)
     task_ids=fields.One2many('project.task','invoice_id')
-    issue_ids=fields.One2many('project.issue','invoice_id')
+    issue_ids=fields.Many2many('project.issue','account_invoice_project_issue_rel',string='Issues')
     quoted_cost=fields.Float(compute="get_profitability",store=True, readonly=True,digits=(16,2),string="Quoted Cost")
     quoted_price=fields.Float(compute="get_profitability",store=True, readonly=True,digits=(16,2),string="Quoted Price")
     expected_margin=fields.Float(compute="get_profitability",store=True, readonly=True,digits=(16,2),string="Expected Margin")
