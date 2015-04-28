@@ -82,7 +82,10 @@ class IssueInvoiceWizard(models.TransientModel):
         ctx = dict(self._context)
         invoices_list=[]
         for contract in contracts:
-            import_currency_rate = contract.pricelist_id.currency_id.get_exchange_rate(contract.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+            if contract.pricelist_id.currency_id.id != contract.company_id.currency_id.id:
+                import_currency_rate = contract.pricelist_id.currency_id.get_exchange_rate(contract.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+            else:
+                import_currency_rate = 1
             if contract.invoice_partner_type=='branch':
                 for branch in contract.branch_ids:
                     date_due = False

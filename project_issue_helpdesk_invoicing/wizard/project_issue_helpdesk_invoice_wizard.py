@@ -19,7 +19,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from datetime import datetime
+from datetime import date,datetime
 from openerp import models, fields, api, _
 from openerp.tools.translate import _
 import time
@@ -29,7 +29,6 @@ class IssueInvoiceWizard(models.TransientModel):
     _name='project.issue.helpdesk.invoice.wizard'
     @api.multi
     def create_invoice_lines_issues(self,issues,invoice_dict,line_detailed):
-        account_obj=self.env['account.analytic.account']
         invoice_obj=self.env['account.invoice']
         user = self.env['res.users'].browse(self._uid)
         total_expenses=0.0
@@ -45,14 +44,29 @@ class IssueInvoiceWizard(models.TransientModel):
                 for account_line in timesheet.line_id:
                     if not account_line.invoice_id:
                         total_timesheet=0.0
-                        total_timesheet=account_obj._get_invoice_price(account_line.account_id,account_line.date,timesheet.start_time,timesheet.end_time,issue.product_id.id,issue.categ_id.id,account_line.unit_amount,timesheet.service_type,account_line.to_invoice.id)
+                        #total_timesheet=account_obj._get_invoice_price(account_line.account_id,account_line.date,timesheet.start_time,timesheet.end_time,issue.product_id.id,issue.categ_id.id,account_line.unit_amount,timesheet.service_type,account_line.to_invoice.id)
                         if (timesheet.end_time-timesheet.start_time!=0 or total_timesheet!=0):
+                            invoice_line={
+                                        'product_id':account_line.product_id.id ,
+                                        'name': issue.product_id.description or issue.product_id.name,
+                                        'quantity':timesheet.end_time-timesheet.start_time,
+                                        'price_unit':total_timesheet,
+                                        'uos_id':account_line.account_line.uom_id.id,
+                                        'discount':account_line.account_id.to_invoice.factor,
+                                        'account_analytic_id':account_line.account_id.id,
+                                        'reference':timesheet.ticket_number
+                                        }
+                            if issue.branch_id and issue.partner_id:
+                                invoice_line['account_id']=issue.branch_id.property_account_receivable.id,
+                            elif not issue.branch_id and issue.partner_id:
+                                invoice_line['account_id']=issue.partner_id.property_account_receivable.id,
+                            if issue.warranty=='seller':
+                                invoice_line['price_unit']=0
                             if count_lines<=limit_lines or limit_lines==0 or limit_lines==-1:
-                                inv.write({'invoice_line':[(0,0, {'name': _(('Service Hours - %s' % str(timesheet.end_time-timesheet.start_time))),'quantity':1,'price_unit':total_timesheet})]})
+                                inv.write({'invoice_line':[(0,0,invoice_line)]})
                                 if issue.issue_number not in inv.origin:
                                     inv.write({'origin':inv.origin + issue.issue_number +'-'})
                                 inv.write({'issue_ids':[(4,issue.id)]})
-                                #issue seller 0
                                 count_lines+=1
                             else:
                                 if issue.issue_number not in inv.origin:
@@ -60,7 +74,7 @@ class IssueInvoiceWizard(models.TransientModel):
                                 inv=invoice_obj.create(invoice_dict)
                                 invoices_list.append(inv.id)
                                 count_lines=1
-                                inv.write({'invoice_line':[(0,0, {'name': _(('Service Hours - %s' % str(timesheet.end_time-timesheet.start_time))),'quantity':1,'price_unit':total_timesheet})]})
+                                inv.write({'invoice_line':[(0,0,invoice_line)]})
                                 if issue.issue_number not in inv.origin:
                                     inv.write({'origin':inv.origin + issue.issue_number +'-'})
                                 inv.write({'issue_ids':[(4,issue.id)]})
@@ -69,7 +83,27 @@ class IssueInvoiceWizard(models.TransientModel):
             for backorder in issue.backorder_ids:
                 if backorder.delivery_note_id and backorder.invoice_state!='invoiced' and backorder.state=='done':
                     for delivery_note_lines in backorder.delivery_note_id.note_lines:
-                        total_backorder=0.0
+                        if delivery_note_lines.note_id.currency_id.id != issue.analytic_account_id.company_id.currency_id.id:
+                            import_currency_rate=delivery_note_lines.note_id.currency_id.get_exchange_rate(issue.analytic_account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                        else:
+                            import_currency_rate = 1
+                        invoice_line={
+                                    'product_id':delivery_note_lines.product_id.id,
+                                    'name': delivery_note_lines.product_id.description or delivery_note_lines.product_id.name,
+                                    'quantity':delivery_note_lines.quantity,
+                                    'uos_id':delivery_note_lines.product_uos.id,
+                                    'price_unit':delivery_note_lines.price_unit*import_currency_rate,
+                                    'discount':delivery_note_lines.discount,
+                                    'invoice_line_tax_id':[(6, 0, [tax.id for tax in delivery_note_lines.taxes_id])],
+                                    'account_analytic_id':issue.analytic_account_id.id,
+                                    'reference':delivery_note_lines.note_id.name,
+                                    }
+                        if issue.branch_id and issue.partner_id:
+                            invoice_line['account_id']=issue.branch_id.property_account_receivable.id,
+                        elif not issue.branch_id and issue.partner_id:
+                            invoice_line['account_id']=issue.partner_id.property_account_receivable.id,
+                        if issue.warranty=='seller':
+                            invoice_line['price_unit']=0
                         if line_detailed==True:
                             if first_line_product==0:
                                 inv_prod=invoice_obj.create(invoice_dict)
@@ -80,7 +114,7 @@ class IssueInvoiceWizard(models.TransientModel):
                             if count_lines_products<=limit_lines or limit_lines==0 or limit_lines==-1:
                                 if issue.issue_number not in inv_prod.origin:
                                     inv_prod.write({'origin':inv_prod.origin + issue.issue_number +'-'})
-                                inv_prod.write({'invoice_line':[(0,0, {'name': delivery_note_lines.product_id.name,'quantity':delivery_note_lines.quantity,'price_unit':delivery_note_lines.price_unit})]})
+                                inv_prod.write({'invoice_line':[(0,0,invoice_line)]})
                                 inv_prod.write({'issue_ids':[(4,issue.id)]})
                                 count_lines_products+=1
                             else:
@@ -91,14 +125,14 @@ class IssueInvoiceWizard(models.TransientModel):
                                 count_lines_products=0
                                 if issue.issue_number not in inv_prod.origin:
                                     inv_prod.write({'origin':inv_prod.origin + issue.issue_number +'-'})
-                                inv_prod.write({'invoice_line':[(0,0, {'name': delivery_note_lines.product_id.name,'quantity':delivery_note_lines.quantity,'price_unit':delivery_note_lines.price_unit})]})
+                                inv_prod.write({'invoice_line':[(0,0,invoice_line)]})
                                 inv_prod.write({'issue_ids':[(4,issue.id)]})
                                 count_lines_products+=1
                         else:
                             if count_lines<=limit_lines or limit_lines==0 or limit_lines==-1:
                                 if issue.issue_number not in inv.origin:
                                     inv.write({'origin':inv.origin + issue.issue_number +'-'})
-                                inv.write({'invoice_line':[(0,0, {'name': delivery_note_lines.product_id.name,'quantity':delivery_note_lines.quantity,'price_unit':delivery_note_lines.price_unit})]})
+                                inv.write({'invoice_line':[(0,0,invoice_line)]})
                                 inv.write({'issue_ids':[(4,issue.id)]})
                                 count_lines+=1
                             else:
@@ -109,7 +143,7 @@ class IssueInvoiceWizard(models.TransientModel):
                                 count_lines=1
                                 if issue.issue_number not in inv.origin:
                                     inv.write({'origin':inv.origin + issue.issue_number +'-'})
-                                inv.write({'invoice_line':[(0,0, {'name': delivery_note_lines.product_id.name,'quantity':delivery_note_lines.quantity,'price_unit':delivery_note_lines.price_unit})]})
+                                inv.write({'invoice_line':[(0,0,invoice_line)]})
                                 inv.write({'issue_ids':[(4,issue.id)]})
                                 count_lines+=1
                         backorder.write({'invoice_state':'invoiced'})
@@ -120,13 +154,24 @@ class IssueInvoiceWizard(models.TransientModel):
                         for lines in move_lines.analytic_lines:
                             if lines.account_id==expense_line.analytic_account and lines.name==expense_line.name and lines.unit_amount==expense_line.unit_quantity and (lines.amount*-1/lines.unit_amount)==expense_line.unit_amount and not lines.invoice_id:
                                 factor = self.env['hr_timesheet_invoice.factor'].browse(lines.to_invoice.id)
-                                total_expenses+=(lines.amount*-1)*(100-factor.factor or 0.0) / 100.0
+                                if expense_line.expense_id.currency_id.id != lines.account_id.company_id.currency_id.id:
+                                    import_currency_rate=expense_line.expense_id.currency_id.get_exchange_rate(lines.account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                else:
+                                    import_currency_rate=1
+                                total_expenses+=((lines.amount*-1)*import_currency_rate)*(100-factor.factor or 0.0) / 100.0
                                 lines.write({'invoice_id':inv.id})
             if total_expenses>0:
+                invoice_line={
+                              'name': _(('Expenses of Issue #') + issue.issue_number),
+                              'quantity':1,
+                              'price_unit':total_expenses,
+                              }
+                if issue.warranty=='seller':
+                    invoice_line['price_unit']=0
                 if count_lines<=limit_lines or limit_lines==0 or limit_lines==-1:
                     if issue.issue_number not in inv.origin:
                         inv.write({'origin':inv.origin + issue.issue_number +'-'})
-                    inv.write({'invoice_line':[(0,0, {'name': _(('Expenses of Issue #') + issue.issue_number ),'quantity':1,'price_unit':total_expenses})]})
+                    inv.write({'invoice_line':[(0,0,invoice_line)]})
                     inv.write({'issue_ids':[(4,issue.id)]})
                     count_lines+=1
                 else:
@@ -137,7 +182,7 @@ class IssueInvoiceWizard(models.TransientModel):
                     count_lines=1
                     if issue.issue_number not in inv.origin:
                         inv.write({'origin':inv.origin + issue.issue_number +'-'})
-                    inv.write({'invoice_line':[(0,0, {'name': _(('Expenses of Issue #') + issue.issue_number ),'quantity':1,'price_unit':total_expenses})]})
+                    inv.write({'invoice_line':[(0,0,invoice_line)]})
                     inv.write({'issue_ids':[(4,issue.id)]})
                     count_lines+=1
                 total_expenses=0
@@ -156,18 +201,14 @@ class IssueInvoiceWizard(models.TransientModel):
         return date_due
     @api.multi
     def generate_invoices_issues(self,issues_ids,group,line_detailed):
-        invoice_obj=self.env['account.invoice']
         issue_obj=self.env['project.issue']
         partner_obj=self.env['res.partner']
         user = self.env['res.users'].browse(self._uid)
         invoices_list=[]
-        issues_filter=[]
         branch_issue_ids=[]
         partner_issue_ids=[]
         partner_group_ids=[]
         branch_group_ids=[]
-        branch_issue_number=''
-        partner_issue_number=''
         if group==False:
             for issue in issues_ids:
                 invoice={
@@ -248,7 +289,6 @@ class IssueInvoiceWizard(models.TransientModel):
     @api.multi
     def generate_invoices_warranty_manufacturer(self,issues_ids,line_detailed):
         journal_obj=self.env['account.journal']
-        invoice_obj=self.env['account.invoice']
         invoices_list=[]
         for issue in issues_ids:
             journal_id=journal_obj.search([('warranty_manufacturer', '=', True)])
