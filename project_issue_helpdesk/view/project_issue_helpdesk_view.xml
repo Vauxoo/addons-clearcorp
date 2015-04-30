@@ -114,6 +114,7 @@
                 </field>
                 <field name="analytic_account_id" position="attributes">
                     <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                    <attribute name="required">1</attribute>
                 </field>
                 <field name="partner_id"  position="after"> 
                     <field name="branch_id" on_change="onchange_branch_id(branch_id)" domain="[('parent_id','=',partner_id),('partner_type','=','branch')]"  attrs="{'invisible':[('have_branch', '=', False)],'required':[('have_branch', '=', True)],'readonly':[('is_closed', '=', True)]}"/>
@@ -169,6 +170,9 @@
                 </xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='unit_amount']" position="attributes"> 
                     <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='account_id']" position="attributes"> 
+                    <attribute name="domain">[('id','=',parent.analytic_account_id)]</attribute>
                 </xpath>
             </field>
         </record>

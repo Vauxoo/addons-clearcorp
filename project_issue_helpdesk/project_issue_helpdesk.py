@@ -63,9 +63,9 @@ class ProjectIssue(osv.Model):
             partner_ids=partner_obj.search(cr, uid,[('parent_id','=',partner_id),('partner_type','=','branch')])
             result.update({'domain':{'backorder_ids':domain}})
             if not partner_ids:
-                 result.update({'value':{'have_branch': False,'branch_id':False}})
-            if partner_ids:                    
-                 result.update({'value':{'have_branch': True}})
+                result.update({'value':{'have_branch': False,'branch_id':False,'analytic_account_id':False}})
+            if partner_ids:
+                result.update({'value':{'have_branch': True,'branch_id':False,'analytic_account_id':False}})
   
         return result
     def onchange_prodlot_id(self, cr, uid, ids, prodlot_id,context={}):
