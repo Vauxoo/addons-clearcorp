@@ -24,49 +24,55 @@ from openerp import tools
 from openerp.tools.translate import _
 from openerp.addons.decimal_precision import decimal_precision as dp
 from datetime import datetime, timedelta
+from openerp.exceptions import Warning
 
 class account_analytic_account(osv.osv):
     _inherit = "account.analytic.account"
-
-    def _get_invoice_price(self, cr, uid, account, date,start_time,end_time, product_id,categ_id,qty,service_type,factor_id,context = {}):
-        factor = self.pool.get('hr_timesheet_invoice.factor').browse(cr, uid, factor_id, context=context)
-        regular_hours=0.0
-        extra_hours=0.0
-        amount=0.0
-        pricelist_obj=self.pool.get('contract.pricelist')
-        holiday_state=False
-        date_number=datetime.strptime(date, '%Y-%m-%d').weekday()
+    def _is_holiday_pricelist(self,cr,uid,date,account,context={}):
         holidays=account.holidays_calendar_id.holiday_ids
         if holidays:
             for holiday in holidays:
                 if holiday.date==date:
-                    holiday_state=True
-                    break
-        else:
-            holiday_state=False
+                    return True
+        return False
+    
+    def _is_extra_hour_pricelist(self,cr,uid,date,account,start_time,end_time,context={}):
+        is_extra=False
+        date_number=datetime.strptime(date, '%Y-%m-%d').weekday()
         schedules=account.regular_schedule_id.attendance_ids
         if schedules:
             for schedule in schedules:
                 if str(date_number)==schedule.dayofweek:
                     if start_time>=schedule.hour_from and end_time<=schedule.hour_to:
-                        regular_hours=qty
-                        extra_hours=0.0
+                        is_extra=False
                         break
-                    elif start_time>schedule.hour_to and end_time>schedule.hour_to:
-                        extra_hours=qty
-                        regular_hours=0
-                    elif start_time<schedule.hour_from and end_time<schedule.hour_from:
-                        extra_hours=qty
-                        regular_hours=0
+                    elif start_time>=schedule.hour_to and end_time>schedule.hour_to:
+                        is_extra=True
                         break
-                else:
-                    regular_hours=qty
+                    elif start_time<schedule.hour_from and end_time<=schedule.hour_from:
+                        is_extra=True
+                        break
+            else:
+                is_extra=False
         else:
-            regular_hours=qty
+            is_extra=False
+        return is_extra
+            
+    def _get_invoice_price(self, cr, uid, account, date,start_time,end_time, product_id,categ_id,qty,service_type,employee_id,factor_id,context = {}):
+        timesheet_obj=self.pool.get('hr.analytic.timesheet')
+        pricelist_obj=self.pool.get('contract.pricelist')
+        issue_obj=self.pool.get('project.issue')
+        product_ids=[]
+        categ_ids=[]
+        amount=0.0
+        count_limit=0.0
+        count_extra=0.0
+        origin_start_time=start_time
+        origin_end_time=end_time
+        original_quantity=qty
 
         pricelist_product_ids=pricelist_obj.search(cr,uid,[('contract_id','=', account.id),('product_id','=', product_id)])
         pricelist_category_ids=pricelist_obj.search(cr,uid,[('contract_id','=', account.id),('categ_id','=', categ_id)])
-        
         if pricelist_product_ids or pricelist_category_ids:
             if pricelist_product_ids and pricelist_category_ids:
                 pricelist=pricelist_obj.browse(cr, uid, pricelist_product_ids, context=context)
@@ -74,20 +80,73 @@ class account_analytic_account(osv.osv):
                 pricelist=pricelist_obj.browse(cr, uid, pricelist_category_ids, context=context)
             elif  pricelist_product_ids and not pricelist_category_ids:
                 pricelist=pricelist_obj.browse(cr, uid, pricelist_product_ids, context=context)
-            
             for list in pricelist:
-                if service_type=='expert':
-                    if holiday_state==True:
-                        amount=(list.technical_rate*list.holiday_multiplier*qty)*((100-factor.factor or 0.0) / 100.0)
-                    elif holiday_state==False:
-                        amount=((list.technical_rate*list.overtime_multiplier*extra_hours)+(list.technical_rate*regular_hours))*((100-factor.factor or 0.0) / 100.0)
-                elif service_type=='assistant':
-                    if holiday_state==True:
-                        amount=(list.assistant_rate*list.holiday_multiplier)*(100-factor.factor or 0.0) / 100.0
-                    elif holiday_state==False:
-                        amount=((list.assistant_rate*list.overtime_multiplier*extra_hours)+(list.assistant_rate*regular_hours))*((100-factor.factor or 0.0) / 100.0)
-        return amount
-
+                minimun_time_ids=pricelist_obj.search(cr,uid,[('contract_id','=', account.id),('minimum_time','=', list.minimum_time),('technical_rate','=', list.technical_rate),('assistant_rate','=', list.assistant_rate)])
+                pricelist_times=pricelist_obj.browse(cr,uid,minimun_time_ids,context=context)
+                for pricelist in pricelist_times:
+                    if pricelist.pricelist_line_type=='category':
+                        categ_ids.append(pricelist.categ_id.id)
+                    elif pricelist.pricelist_line_type=='product':
+                        product_ids.append(pricelist.product_id.id)
+                issues_ids=issue_obj.search(cr,uid,['|',('product_id','in',product_ids),('categ_id','in',categ_ids),('analytic_account_id','=',account.id)])
+                timesheets_before_ids=timesheet_obj.search(cr,uid,[('issue_id','in',issues_ids),('date','=',date),('end_time','<=',start_time),('service_type','=',service_type),('employee_id','=',employee_id)],order='end_time desc')
+                timesheets_before=timesheet_obj.browse(cr,uid,timesheets_before_ids,context=context)
+                timesheets_after_ids=timesheet_obj.search(cr,uid,[('issue_id','in',issues_ids),('date','=',date),('start_time','>=',end_time),('service_type','=',service_type),('employee_id','=',employee_id)],order='start_time asc')
+                timesheets_after=timesheet_obj.browse(cr,uid,timesheets_after_ids,context=context)
+        
+                count_limit+=qty
+                if timesheets_before or timesheets_after:
+                    for timesheet in timesheets_before:
+                        if timesheet.end_time==start_time:
+                            count_limit+=timesheet.end_time-timesheet.start_time
+                            start_time=timesheet.start_time
+                    for timesheet in timesheets_after:
+                        if timesheet.start_time==end_time:
+                            count_limit+=timesheet.end_time-timesheet.start_time
+                            end_time=timesheet.end_time
+                    if count_limit<list.minimum_time:
+                        qty=qty/count_limit
+                else:
+                    if qty<list.minimum_time:
+                        qty=list.minimum_time
+                holiday_state=self._is_holiday_pricelist(cr,uid,date,account,context={})
+                if holiday_state==True:
+                    if service_type=='expert':
+                        amount=(list.technical_rate*list.holiday_multiplier)
+                    elif service_type=='assistant':
+                        amount=list.assistant_rate*list.holiday_multiplier
+                else:
+                    if service_type=='expert':
+                        rate=list.technical_rate
+                    elif service_type=='assistant':
+                        rate=list.assistant_rate
+                    is_extra=self._is_extra_hour_pricelist(cr,uid,date,account,origin_start_time,origin_end_time,context={})
+                    if is_extra==True:
+                        count_extra+=original_quantity
+                        if timesheets_before or timesheets_after:
+                            for timesheet in timesheets_before:
+                                if timesheet.end_time==origin_start_time:
+                                    if self._is_extra_hour_pricelist(cr,uid,timesheet.date,account,timesheet.start_time,timesheet.end_time,context={})==True:
+                                        count_extra+=timesheet.end_time-timesheet.start_time
+                                        origin_start_time=timesheet.start_time
+                                    else:
+                                        is_extra=False
+                            for timesheet in timesheets_after:
+                                if timesheet.start_time==origin_end_time:
+                                    if self._is_extra_hour_pricelist(cr,uid,timesheet.date,account,timesheet.start_time,timesheet.end_time,context={})==True:
+                                        count_extra+=timesheet.end_time-timesheet.start_time
+                                        origin_end_time=timesheet.end_time
+                            if count_extra<1 and is_extra==False:
+                                amount=rate
+                            elif count_extra>=1:
+                                amount=rate*list.overtime_multiplier
+                            else:
+                                amount=rate*list.overtime_multiplier
+                        else:
+                            amount=rate*list.overtime_multiplier
+                    else:
+                        amount=rate
+        return qty,amount
     def _analysis_all(self, cr, uid, ids, fields, arg, context=None):
         total=0.0
         res=super(account_analytic_account,self)._analysis_all(cr, uid, ids, fields, arg, context)
@@ -97,7 +156,7 @@ class account_analytic_account(osv.osv):
                 for account in accounts:
                     if account.pricelist_ids:
                         cr.execute("""
-                            SELECT line.to_invoice, sum(line.unit_amount), line.name,sheet.issue_id,issue.categ_id,issue.product_id,line.date,sheet.service_type,sheet.start_time,sheet.end_time
+                            SELECT line.to_invoice, sum(line.unit_amount), line.name,sheet.issue_id,issue.categ_id,issue.product_id,line.date,sheet.service_type,sheet.start_time,sheet.end_time,sheet.employee_id
                             FROM project_issue issue
                             LEFT JOIN hr_analytic_timesheet sheet on (issue.id=sheet.issue_id)
                             LEFT JOIN account_analytic_line line on (line.id=sheet.line_id)
@@ -105,9 +164,11 @@ class account_analytic_account(osv.osv):
                             WHERE account_id = %s AND journal.type != 'purchase'
                                   AND line.invoice_id IS NULL
                                   AND to_invoice IS NOT NULL
-                            GROUP BY line.to_invoice, line.product_uom_id, line.name,sheet.service_type,line.date,sheet.start_time,sheet.end_time,sheet.issue_id,issue.categ_id,issue.product_id""", (account.id,))
-                        for factor_id, qty, line_name, issue_id,categ_id,product_id, date, service_type, start_time,end_time in cr.fetchall():
-                                total+=self._get_invoice_price(cr, uid, account, date,start_time,end_time, product_id,categ_id,qty,service_type,factor_id,context)
+                            GROUP BY line.to_invoice, line.product_uom_id, line.name,sheet.service_type,line.date,sheet.start_time,sheet.employee_id,sheet.end_time,sheet.issue_id,issue.categ_id,issue.product_id""", (account.id,))
+                        for factor_id, qty, line_name, issue_id,categ_id,product_id, date, service_type, start_time,end_time,employee_id in cr.fetchall():
+                                factor = self.pool.get('hr_timesheet_invoice.factor').browse(cr,uid,factor_id,context=context)
+                                qty,amount=self._get_invoice_price(cr, uid, account, date,start_time,end_time, product_id,categ_id,qty,service_type,employee_id,factor_id,context)
+                                total+=qty*amount*(100-factor.factor or 0.0) / 100.0
                         res[account.id][f] = total
         return res
 
@@ -202,12 +263,16 @@ class HrAnaliticTimeSheet(osv.osv):
                     if str(date_number)==schedule.dayofweek:
                         if timesheet.start_time>=schedule.hour_from and timesheet.end_time<=schedule.hour_to:
                             res=True
-                        elif timesheet.start_time>schedule.hour_to and timesheet.end_time>schedule.hour_to:
+                            break
+                        elif timesheet.start_time>=schedule.hour_to and timesheet.end_time>schedule.hour_to:
                             res=True
-                        elif timesheet.start_time<schedule.hour_from and timesheet.end_time<schedule.hour_from:
+                            break
+                        elif timesheet.start_time<schedule.hour_from and timesheet.end_time<=schedule.hour_from:
                             res=True
+                            break
                         else:
                             res=False
+                            break
                     else:
                         res=True
             else:

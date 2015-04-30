@@ -29,6 +29,7 @@ class IssueInvoiceWizard(models.TransientModel):
     _name='project.issue.helpdesk.invoice.wizard'
     @api.multi
     def create_invoice_lines_issues(self,issues,invoice_dict,line_detailed):
+        account_obj=self.env['account.analytic.account']
         invoice_obj=self.env['account.invoice']
         user = self.env['res.users'].browse(self._uid)
         total_expenses=0.0
@@ -44,17 +45,24 @@ class IssueInvoiceWizard(models.TransientModel):
                 for account_line in timesheet.line_id:
                     if not account_line.invoice_id:
                         total_timesheet=0.0
-                        #total_timesheet=account_obj._get_invoice_price(account_line.account_id,account_line.date,timesheet.start_time,timesheet.end_time,issue.product_id.id,issue.categ_id.id,account_line.unit_amount,timesheet.service_type,account_line.to_invoice.id)
+                        quantity,total_timesheet=account_obj._get_invoice_price(account_line.account_id,account_line.date,timesheet.start_time,timesheet.end_time,issue.product_id.id,issue.categ_id.id,account_line.unit_amount,timesheet.service_type,timesheet.employee_id.id,account_line.to_invoice.id)
+                        if account_line.account_id.pricelist_id.currency_id.id != account_line.account_id.company_id.currency_id.id:
+                            import_currency_rate=account_line.account_id.pricelist_id.currency_id.get_exchange_rate(account_line.account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                        else:
+                            import_currency_rate = 1
                         if (timesheet.end_time-timesheet.start_time!=0 or total_timesheet!=0):
                             invoice_line={
                                         'product_id':account_line.product_id.id ,
                                         'name': issue.product_id.description or issue.product_id.name,
-                                        'quantity':timesheet.end_time-timesheet.start_time,
-                                        'price_unit':total_timesheet,
-                                        'uos_id':account_line.account_line.uom_id.id,
+                                        'real_quantity':timesheet.end_time-timesheet.start_time,
+                                        'quantity':quantity,
+                                        'price_unit':total_timesheet*import_currency_rate,
+                                        'uos_id':account_line.product_id.uom_id.id,
                                         'discount':account_line.account_id.to_invoice.factor,
                                         'account_analytic_id':account_line.account_id.id,
-                                        'reference':timesheet.ticket_number
+                                        'reference':timesheet.ticket_number,
+                                        'price_subtotal':total_timesheet*quantity,
+                                        'invoice_line_tax_id':[(6, 0, [tax.id for tax in account_line.product_id.taxes_id])],
                                         }
                             if issue.branch_id and issue.partner_id:
                                 invoice_line['account_id']=issue.branch_id.property_account_receivable.id,
@@ -91,6 +99,7 @@ class IssueInvoiceWizard(models.TransientModel):
                                     'product_id':delivery_note_lines.product_id.id,
                                     'name': delivery_note_lines.product_id.description or delivery_note_lines.product_id.name,
                                     'quantity':delivery_note_lines.quantity,
+                                    'real_quantity':delivery_note_lines.quantity,
                                     'uos_id':delivery_note_lines.product_uos.id,
                                     'price_unit':delivery_note_lines.price_unit*import_currency_rate,
                                     'discount':delivery_note_lines.discount,

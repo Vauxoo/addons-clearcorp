@@ -25,7 +25,7 @@ from datetime import date
 import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-
+from openerp.addons.decimal_precision import decimal_precision as dp
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
@@ -286,7 +286,13 @@ class AccountInvoice(models.Model):
                     for timesheet in issue.timesheet_ids:
                         for account_line in timesheet.line_id:
                             if not account_line.invoice_id:
-                                total_timesheet+=account_obj._get_invoice_price(account_line.account_id,account_line.date,timesheet.start_time,timesheet.end_time,issue.product_id.id,issue.categ_id.id,account_line.unit_amount,timesheet.service_type)
+                                factor = self.pool.get('hr_timesheet_invoice.factor').browse(account_line.factor_id.id)
+                                qty,mount=account_obj._get_invoice_price(account_line.account_id,account_line.date,timesheet.start_time,timesheet.end_time,issue.product_id.id,issue.categ_id.id,account_line.unit_amount,timesheet.service_type,timesheet.employee_id.id)
+                                if account_line.account_id.pricelist_id.currency_id.id != invoice.currency_id.id:
+                                    import_currency_rate=account_line.account_id.pricelist_id.currency_id.get_exchange_rate(invoice.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                else:
+                                    import_currency_rate = 1
+                                total_timesheet+=qty*mount*import_currency_rate*(100-factor.factor or 0.0) / 100.0
                         if timesheet.employee_id.product_id:
                             total_cost_timesheet+=(timesheet.end_time-timesheet.start_time)*timesheet.employee_id.product_id.standard_price
                     for backorder in issue.backorder_ids:
@@ -499,7 +505,7 @@ class ContractPreventiveCheck(models.Model):
                }
 class account_invoice_line(models.Model):
     _inherit = "account.invoice.line"
-    
+    real_quantity = fields.Float(string='Real Quantity',digits=dp.get_precision('Product Unit of Measure'))
     supply_type = fields.Selection(string='Use',related='product_id.supply_type')
     reference = fields.Char(string='Reference',help="Reference of origin of line invoice")
     

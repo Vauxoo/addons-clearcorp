@@ -350,6 +350,10 @@
                     <field name="supply_type" readonly="1"/>
                     <field name="reference" readonly="1"/>
                 </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Invoice Lines']/field[@name='invoice_line']/tree[@string='Invoice Lines']/field[@name='quantity']" position="before"> 
+                    <field name="real_quantity" readonly="1"/>
+                </xpath>
+                
             </field>
         </record>
         <!--Tree View Inherit timesheet line-->
