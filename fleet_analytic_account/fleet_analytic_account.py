@@ -40,7 +40,11 @@ class FleetVehicle(models.Model):
         
     @api.multi
     def write(self, vals):
+        acount_obj=self.env['account.analytic.account']
         res = super(FleetVehicle, self).write(vals)
+        if not self.analytic_account_id:
+            account_id=acount_obj.create({'name':self._vehicle_name_get(self)})
+            self.write({'analytic_account_id':account_id.id})
         self.analytic_account_id.write({'name':self.name})
         return res
     
