@@ -8,26 +8,92 @@
             <field name="priority" eval="50" />
             <field name="type">qweb</field>
             <field name="arch" type="xml">
-                <xpath
-                    expr="//t/div/div/div/table/tr/td/span[@t-field='o.amount_tax']/../.."
-                    position="before">
+       <xpath expr="//t/div/table[@class='table table-condensed']/thead/tr"  position="replace">
                     <tr>
-                        <td>Discount</td>
+                        <th><strong>Reference</strong></th>
+                        <th><strong>Description</strong></th>
+                        <th class="text-right"><strong>Qty</strong></th>
+                        <th class="text-right"><strong>Unit Price</strong></th>
+                        <th class="text-right"><strong>Net Price</strong></th>
+                    </tr>
+       </xpath>
+       <xpath expr="//t/div/table[@class='table table-condensed']/tbody/tr"  position="replace">
+                  <tr t-foreach="o.order_line" t-as="line">
+                   <td><span t-field="line.product_id.default_code"/></td>
+                        <td>
+                            <span t-field="line.name"/>
+                        </td>
                         <td class="text-right">
-                            <span t-field="o.amount_discount"
-                                t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}' />
+                            <span t-field="line.product_qty"/>
+                            <span t-field="line.product_uom.name" groups="product.group_uom"/>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="line.price_unit"/>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="line.price_subtotal"
+                                t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
                         </td>
                     </tr>
-                </xpath>
-                <xpath expr="//t/div/p[@t-field='o.notes']"
-                    position="after">
-                    <strong>Realized by:</strong>
-                    <span t-field="o.validator" />
-                    <br />
-                    <strong>Autorized by: ______________________
-                    </strong>
-                </xpath>
+       </xpath>
+       <xpath expr="//t/div/h2" position="replace">
+       </xpath> 
+       <xpath expr="//t/div/div[@class='row mt32 mb32']" position="replace">
+       </xpath>
+       <xpath expr="//t/div/div/div[@class='col-xs-6']/.." position="replace">
+      <div class="row">
+            <div class="col-xs-6">
+            <strong>Supplier:</strong>
+             <span t-field="o.partner_id"/>
+             <br/>
+            <strong>Phone:</strong>
+             <span t-field="o.partner_id.phone"/>
+             <br/>
+            <strong>Shipping address:</strong>
+                    <div t-if="o.dest_address_id">
+                        <div t-field="o.dest_address_id"
+                            t-field-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": true}'/>
+                    </div>
+
+                    <div t-if="not o.dest_address_id and o.picking_type_id and o.picking_type_id.warehouse_id">
+                        <span t-field="o.picking_type_id.warehouse_id.name"/>
+                        <div t-field="o.picking_type_id.warehouse_id.partner_id"
+                            t-field-options='{"widget": "contact", "fields": ["address", "phone", "fax"], "no_marker": true}'/>
+                    </div>
+            </div>
+            <div class="col-xs-6">
+             <strong><span>Order Date:</span></strong>
+             <span t-field="o.date_order"/>
+             <br/>
+             <strong>Date Expected:</strong>
+             <span t-field="o.date_approve"/>
+             <br/>
+             <strong>Payment method:</strong>
+             <span t-field="o.invoice_method"/>
+            </div>
+      </div>
+            <br/>
+            <br/>
+       </xpath>
+       <xpath expr="//t/div/p[@t-field='o.notes']" position="replace">
+       </xpath>
+       <xpath expr="//t/div/div/div[@class='col-xs-4 pull-right']" position="before">
+                   <div class="col-xs-4 pull-center">
+                <span t-field="o.notes"/>
+                </div>
+       </xpath> 
+        <xpath expr="//t/div/div/div[@class='col-xs-6']/.." position="before">
+        <h2 t-if="o.state != 'draft'">Purchase Order Confirmation N°<span t-field="o.name"/></h2>
+        </xpath>  
             </field>
         </record>
     </data>
 </openerp>
+
+
+
+
+
+
+
+
