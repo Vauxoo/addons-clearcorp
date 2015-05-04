@@ -32,10 +32,12 @@ Extends Project Issue Helpdesk Invoicing
 ===============================================
 
 """,
-    'depends': ['project_issue_helpdesk','hr_expense','sale_margin','analytic_contract_hr_expense','analytic_user_function','sale_service'],
+    'depends': ['account_invoice_line_limit','res_currency_priority','base_action_rule','project_issue_helpdesk','project_task_helpdesk','hr_expense','sale_margin','analytic_contract_hr_expense','analytic_user_function','sale_service'],
     'init_xml': [],
     'demo_xml': [],
-    'data': ['view/project_issue_helpdesk_invoicing.xml',
+    'data': ['view/res_config.xml',
+             'view/project_issue_helpdesk_invoicing.xml',
+             'view/project_issue_helpdesk_invoicing_server_action.xml',
              'wizard/project_issue_helpdesk_invoice_wizard.xml',
              'wizard/project_issue_invoice_account_wizard.xml',
              ],
