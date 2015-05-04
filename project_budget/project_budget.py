@@ -30,7 +30,7 @@ class AnalyticAccount(models.Model):
     def _compute_recursive_budget_amount(self):
         budget_amount = 0.0
         for line in self.crossovered_budget_line:
-            budget_amount += line.planned_amount - line.practical_amount
+            budget_amount += line.planned_amount + line.practical_amount
         return sum([budget_amount] + [child_account._compute_recursive_budget_amount()[0] for
             child_account in self.child_complete_ids])
 
