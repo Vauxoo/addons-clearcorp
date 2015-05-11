@@ -18,7 +18,7 @@ msgstr ""
 #. module: pos_discount_confirm
 #: model:res.groups,name:pos_discount_confirm.group_pos_discount
 msgid "Allowed to apply POS discounts"
-msgstr "Permido aplicar descuentos de PdV"
+msgstr "Permitido aplicar descuentos de PdV"
 
 #. module: pos_discount_confirm
 #. openerp-web

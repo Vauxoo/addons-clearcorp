@@ -18,7 +18,7 @@ msgstr ""
 #. module: pos_price_confirm
 #: model:res.groups,name:pos_price_confirm.group_pos_price
 msgid "Allowed to modify POS prices"
-msgstr "Permitodo modificar precios de PdV"
+msgstr "Permitido modificar precios de PdV"
 
 #. module: pos_price_confirm
 #. openerp-web

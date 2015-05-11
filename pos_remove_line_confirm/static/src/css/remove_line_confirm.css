@@ -20,12 +20,12 @@
 #
 ##############################################################################*/
 
-.pos .popup-price-confirm table.login tr td {
+.pos .popup-remove-line-confirm table.login tr td {
     text-align: right;
     padding-left: 10px;
     padding-top: 3px;
 }
 
-.pos .popup-price-confirm div.login {
+.pos .popup-remove-line-confirm div.login {
     padding-top: 20px;
 }

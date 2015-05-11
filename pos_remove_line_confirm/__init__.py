@@ -1,4 +1,4 @@
-/*# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -18,14 +18,6 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-##############################################################################*/
+##############################################################################
 
-.pos .popup-price-confirm table.login tr td {
-    text-align: right;
-    padding-left: 10px;
-    padding-top: 3px;
-}
-
-.pos .popup-price-confirm div.login {
-    padding-top: 20px;
-}
+import res_users

@@ -1,4 +1,4 @@
-/*# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -18,14 +18,27 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-##############################################################################*/
+##############################################################################
 
-.pos .popup-price-confirm table.login tr td {
-    text-align: right;
-    padding-left: 10px;
-    padding-top: 3px;
-}
+from openerp import models, api
+from openerp.exceptions import AccessDenied
 
-.pos .popup-price-confirm div.login {
-    padding-top: 20px;
-}
+
+class Users(models.Model):
+
+    _inherit = 'res.users'
+
+    @api.model
+    def pos_verify_remove_line(self, login, password):
+        # Look for the user with login = user
+        user = self.search([('login','=', login)], limit=1)
+        if user:
+            # Check the user credentials
+            try:
+                user.check_credentials(password)
+                if user.has_group('pos_remove_line_confirm.group_pos_remove'):
+                    return 'go'
+                return 'no-group'
+            except AccessDenied:
+                return 'error'
+        return 'error'
