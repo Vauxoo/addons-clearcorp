@@ -22,7 +22,7 @@
 {
     'name': 'Account Bank Balance Report',
     'version': '1.0',
-    'author': 'CLEARCORP S.A.',
+    'author': 'Clearcorp',
     'category': 'Finance',
     'description': """
 Install the Account Bank Balance Report.
@@ -36,6 +36,7 @@ Install the Account Bank Balance Report
              'report/report.xml',
              'wizard/account_bank_balance_report_wizard.xml',
              'report_menus.xml',
+             'views/report_bank_balance.xml'
              ],                
     'installable': True,
     'auto_install': False,
