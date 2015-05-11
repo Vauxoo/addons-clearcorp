@@ -98,11 +98,12 @@ openerp.pos_price_confirm = function (instance) {
                             var user_model = new instance.web.Model('res.users');
                             user_model.call('pos_verify_remove_line', [login, password]).then(function(result) {
                                 if (result == 'go') {
+                                    self.state.set({'buffer': ""})
                                     return _super();
                                 } else if (result == 'no-group') {
                                     self.pos_widget.screen_selector.show_popup('error',{
                                         'message':_t('Error: User permissions.'),
-                                        'comment':_t('The user is not able to modify prices.'),
+                                        'comment':_t('The user is not able to remove lines.'),
                                     });
                                 } else {
                                     self.pos_widget.screen_selector.show_popup('error',{
