@@ -100,27 +100,26 @@ class IssueInvoiceWizard(models.TransientModel):
         invoice_sale=[]
         order_obj=self.pool.get('sale.order')
         for sale in sale_orders:
-            if not sale.invoice_exists:
-                if sale.partner_id and sale.partner_id.property_payment_term.id:
-                    pay_term = sale.partner_id.property_payment_term.id
-                else:
-                    pay_term = False
-                inv = {
-                    'name': sale.client_order_ref or '',
-                    'origin': sale.name,
-                    'type': 'out_invoice',
-                    'reference': "P%dSO%d" % (sale.partner_id.id, sale.id),
-                    'account_id': sale.partner_id.property_account_receivable.id,
-                    'partner_id': sale.partner_invoice_id.id,
-                    'currency_id' : sale.pricelist_id.currency_id.id,
-                    'comment': sale.note,
-                    'payment_term': pay_term,
-                    'fiscal_position': sale.fiscal_position.id or sale.partner_id.property_account_position.id,
-                    'user_id': sale.user_id and sale.user_id.id or False,
-                    'company_id': sale.company_id and sale.company_id.id or False,
-                    'date_invoice': fields.date.today()
-                }
-                invoice_sale+=self.create_invoice_lines(inv,sale)
+            if sale.partner_id and sale.partner_id.property_payment_term.id:
+                pay_term = sale.partner_id.property_payment_term.id
+            else:
+                pay_term = False
+            inv = {
+                'name': sale.client_order_ref or '',
+                'origin': sale.name,
+                'type': 'out_invoice',
+                'reference': "P%dSO%d" % (sale.partner_id.id, sale.id),
+                'account_id': sale.partner_id.property_account_receivable.id,
+                'partner_id': sale.partner_invoice_id.id,
+                'currency_id' : sale.pricelist_id.currency_id.id,
+                'comment': sale.note,
+                'payment_term': pay_term,
+                'fiscal_position': sale.fiscal_position.id or sale.partner_id.property_account_position.id,
+                'user_id': sale.user_id and sale.user_id.id or False,
+                'company_id': sale.company_id and sale.company_id.id or False,
+                'date_invoice': fields.date.today()
+            }
+            invoice_sale+=self.create_invoice_lines(inv,sale)
         return invoice_sale
     @api.multi
     def generate_preventive_check(self, contracts):
@@ -293,7 +292,7 @@ class IssueInvoiceWizard(models.TransientModel):
     @api.onchange('state')
     def get_account(self):
         if 'active_ids' in self._context and self._context.get('active_ids'):
-            self.sale_order_invoice_ids=self.env['sale.order'].search([('project_id','in',self._context.get('active_ids', False)),('state','=','manual'),('invoice_ids','=',False)])
+            self.sale_order_invoice_ids=self.env['sale.order'].search([('project_id','in',self._context.get('active_ids', False)),('state','=','manual')])
             self.contract_preventive_check_ids=self.env['account.analytic.account'].search([('id','in',self._context.get('active_ids', False)),('invoice_preventive_check','!=',False)])
     line_detailed=fields.Boolean(string="Product lines separate service lines",default=True)
     group_customer=fields.Boolean( string="Group by customer",default=True)
