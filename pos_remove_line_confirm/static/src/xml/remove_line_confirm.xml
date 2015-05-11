@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates id="template" xml:space="preserve">
+    <t t-name="RemoveLineConfirmPopupWidget">
+        <div class="modal-dialog">
+            <div class="popup popup-remove-line-confirm">
+                <p class="message"><t t-esc=" widget.message || 'Authorized User ?' " /></p>
+                <div align="center" class="login">
+                    <table class="login">
+                        <tr>
+                            <td>
+                                <span>Login:</span>
+                            </td>
+                            <td>
+                                <input class="username"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Password:</span>
+                            </td>
+                            <td>
+                                <input class="password" type="password"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="footer">
+                    <div class="button confirm">
+                        Confirm 
+                    </div>
+                    <div class="button cancel">
+                        Cancel 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>
