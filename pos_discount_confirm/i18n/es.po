@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-08 17:27+0000\n"
-"PO-Revision-Date: 2015-05-08 17:27+0000\n"
+"POT-Creation-Date: 2015-05-11 18:14+0000\n"
+"PO-Revision-Date: 2015-05-11 18:14+0000\n"
 "Last-Translator: Glen Sojo <glen.sojo@clearcorp.co.cr>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -50,17 +50,17 @@ msgstr "Error: No se pudo comprobar sus permisos."
 
 #. module: pos_discount_confirm
 #. openerp-web
-#: code:addons/pos_discount_confirm/static/src/js/discount_confirm.js:117
+#: code:addons/pos_discount_confirm/static/src/js/discount_confirm.js:116
 #, python-format
 msgid "Error: Could not login."
-msgstr "Error: No se pudo realizar el login."
+msgstr "Error: No se pudo iniciar sesión."
 
 #. module: pos_discount_confirm
 #. openerp-web
-#: code:addons/pos_discount_confirm/static/src/js/discount_confirm.js:124
+#: code:addons/pos_discount_confirm/static/src/js/discount_confirm.js:123
 #, python-format
 msgid "Error: Could not verify the login."
-msgstr "Error: No se pudo verificar el login."
+msgstr "Error: No se pudo verificar el inicio de sesión."
 
 #. module: pos_discount_confirm
 #. openerp-web
@@ -81,14 +81,14 @@ msgstr "Login:"
 #: code:addons/pos_discount_confirm/static/src/xml/discount_confirm.xml:20
 #, python-format
 msgid "Password:"
-msgstr "Password:"
+msgstr "Contraseña:"
 
 #. module: pos_discount_confirm
 #. openerp-web
 #: code:addons/pos_discount_confirm/static/src/js/discount_confirm.js:100
 #, python-format
 msgid "Please authenticate as an authorized user."
-msgstr "Por favor autenticarse como usuario autorizado."
+msgstr "Por favor autenticarse como un usuario autorizado."
 
 #. module: pos_discount_confirm
 #. openerp-web
@@ -105,14 +105,14 @@ msgstr "Usuarios"
 #. module: pos_discount_confirm
 #. openerp-web
 #: code:addons/pos_discount_confirm/static/src/js/discount_confirm.js:86
-#: code:addons/pos_discount_confirm/static/src/js/discount_confirm.js:125
+#: code:addons/pos_discount_confirm/static/src/js/discount_confirm.js:124
 #, python-format
 msgid "Your Internet connection is probably down."
 msgstr "Tu conexión a internet está posiblemente caída."
 
 #. module: pos_discount_confirm
 #. openerp-web
-#: code:addons/pos_discount_confirm/static/src/js/discount_confirm.js:118
+#: code:addons/pos_discount_confirm/static/src/js/discount_confirm.js:117
 #, python-format
 msgid "Your user or password is incorrect."
-msgstr "Tu usuario o password es incorrecto."
+msgstr "Tu usuario o contraseña son incorrectos."
