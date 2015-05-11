@@ -53,8 +53,6 @@ class IssueInvoiceWizard(models.TransientModel):
                         count_lines=1
                         inv.write({'invoice_line':[(4,line_id[0])]})
                         count_lines+=1
-#         for invoice in invoice_obj.browse(invoice_id):
-#             for order in invoice.order_ids:
             for task in sale.task_ids:
                 if not task.invoice_id:
                     if task.is_closed==False:
@@ -122,9 +120,6 @@ class IssueInvoiceWizard(models.TransientModel):
                     'company_id': sale.company_id and sale.company_id.id or False,
                     'date_invoice': fields.date.today()
                 }
-                #inv_id = self.pool.get('account.invoice').create(cr, uid, inv)
-                #res_invoice=order_obj.action_invoice_create(self._cr,self._uid,sale.id, grouped=False, date_invoice=False)
-                #invoice_sale.append(res_invoice)
                 invoice_sale+=self.create_invoice_lines(inv,sale)
         return invoice_sale
     @api.multi
