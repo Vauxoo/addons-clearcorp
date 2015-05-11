@@ -126,8 +126,8 @@ openerp.pos_price_confirm = function (instance) {
                             });
                         },
                     });
-                    return res;
                 }
+                return res;
             } else {
                 return this._super(event);
             }
