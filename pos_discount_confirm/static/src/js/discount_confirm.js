@@ -93,9 +93,9 @@ openerp.pos_discount_confirm = function (instance) {
             var newMode = event.currentTarget.attributes['data-mode'].value;
             if (newMode == 'discount') {
                 var oldMode = this.state.get('mode');
-                if (this.authDiscount) {
-                    return this._super(event);
-                } else {
+                var res = this._super(event);
+                if (!this.authDiscount) {
+                    self.state.changeMode(oldMode);
                     self.pos.pos_widget.screen_selector.show_popup('discount-confirm', {
                         message: _t('Please authenticate as an authorized user.'),
                         confirm: function(login, password, discount){
@@ -111,7 +111,6 @@ openerp.pos_discount_confirm = function (instance) {
                                         'message':_t('Error: User permissions.'),
                                         'comment':_t('The user is not able to apply discounts.'),
                                     });
-                                   self.state.changeMode(oldMode);
                                 } else {
                                     self.pos_widget.screen_selector.show_popup('error',{
                                         'message':_t('Error: Could not login.'),
@@ -126,14 +125,9 @@ openerp.pos_discount_confirm = function (instance) {
                                 });
                             });
                         },
-                        cancel: function(){
-                            self.state.changeMode(oldMode);
-                        },
                     });
-                    // Avoid super because when method ends
-                    // super will change the state and we want to avoid it.
-                    return false;
                 }
+                return res;
             } else {
                 return this._super(event);
             }
