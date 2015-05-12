@@ -63,11 +63,8 @@ class IssueInvoiceWizard(models.TransientModel):
                                         'reference':timesheet.ticket_number,
                                         'price_subtotal':total_timesheet*quantity,
                                         'invoice_line_tax_id':[(6, 0, [tax.id for tax in account_line.product_id.taxes_id])],
+                                        'account_id':issue.product_id.property_account_income.id
                                         }
-                            if issue.branch_id and issue.partner_id:
-                                invoice_line['account_id']=issue.branch_id.property_account_receivable.id,
-                            elif not issue.branch_id and issue.partner_id:
-                                invoice_line['account_id']=issue.partner_id.property_account_receivable.id,
                             if issue.warranty=='seller':
                                 invoice_line['price_unit']=0
                             if count_lines<=limit_lines or limit_lines==0 or limit_lines==-1:
@@ -89,7 +86,7 @@ class IssueInvoiceWizard(models.TransientModel):
                                 count_lines+=1
                         account_line.write({'invoice_id':inv.id})
             for backorder in issue.backorder_ids:
-                if backorder.delivery_note_id and backorder.invoice_state!='invoiced' and backorder.state=='done':
+                if backorder.delivery_note_id and backorder.picking_type_id.code=='outgoing' and backorder.invoice_state!='invoiced' and backorder.state=='done':
                     for delivery_note_lines in backorder.delivery_note_id.note_lines:
                         if delivery_note_lines.note_id.currency_id.id != issue.analytic_account_id.company_id.currency_id.id:
                             import_currency_rate=delivery_note_lines.note_id.currency_id.get_exchange_rate(issue.analytic_account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
@@ -106,11 +103,8 @@ class IssueInvoiceWizard(models.TransientModel):
                                     'invoice_line_tax_id':[(6, 0, [tax.id for tax in delivery_note_lines.taxes_id])],
                                     'account_analytic_id':issue.analytic_account_id.id,
                                     'reference':delivery_note_lines.note_id.name,
+                                    'account_id':delivery_note_lines.product_id.property_account_income.id
                                     }
-                        if issue.branch_id and issue.partner_id:
-                            invoice_line['account_id']=issue.branch_id.property_account_receivable.id,
-                        elif not issue.branch_id and issue.partner_id:
-                            invoice_line['account_id']=issue.partner_id.property_account_receivable.id,
                         if issue.warranty=='seller':
                             invoice_line['price_unit']=0
                         if line_detailed==True:
@@ -167,13 +161,16 @@ class IssueInvoiceWizard(models.TransientModel):
                                     import_currency_rate=expense_line.expense_id.currency_id.get_exchange_rate(lines.account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
                                 else:
                                     import_currency_rate=1
+                                account_exp=lines.product_id.property_account_income.id
                                 total_expenses+=((lines.amount*-1)*import_currency_rate)*(100-factor.factor or 0.0) / 100.0
                                 lines.write({'invoice_id':inv.id})
             if total_expenses>0:
                 invoice_line={
                               'name': _(('Expenses of Issue #') + issue.issue_number),
+                              'real_quantity':1,
                               'quantity':1,
                               'price_unit':total_expenses,
+                              'account_id':account_exp
                               }
                 if issue.warranty=='seller':
                     invoice_line['price_unit']=0

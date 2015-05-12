@@ -58,13 +58,19 @@ class IssueInvoiceWizard(models.TransientModel):
                     if task.is_closed==False:
                         raise Warning(_('Task pending for close in the sale order %s' %sale.name))
                     else:
+                        account_id=sale.order_line[0].product_id.property_account_income.id
+                        if not account_id:
+                            account_id = sale.order_line[0].product_id.categ_id.property_account_income_categ.id
+                            if not account_id:
+                                prop = self.env['ir.property'].get('property_account_income_categ', 'product.category')
+                                account_id = prop and prop.id or False
                         invoice_line={
                                     'name': task.name,
                                     'quantity':1,
                                     'price_unit':0,
                                     'discount':sale.project_id.to_invoice.factor,
                                     'account_analytic_id':sale.project_id.id,
-                                    'account_id': sale.partner_id.property_account_receivable.id,
+                                    'account_id': account_id,
                                     'sequence':100
                                     }
                         if count_lines<=limit_lines or limit_lines==0 or limit_lines==-1:
@@ -120,6 +126,7 @@ class IssueInvoiceWizard(models.TransientModel):
                 'date_invoice': fields.date.today()
             }
             invoice_sale+=self.create_invoice_lines(inv,sale)
+            sale.write({'state':'progress'})
         return invoice_sale
     @api.multi
     def generate_preventive_check(self, contracts):
@@ -133,6 +140,12 @@ class IssueInvoiceWizard(models.TransientModel):
                 import_currency_rate = contract.pricelist_id.currency_id.get_exchange_rate(contract.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
             else:
                 import_currency_rate = 1
+            account_id=contract.product_preventive_check_ids[0].product_id.property_account_income.id
+            if not account_id:
+                account_id = contract.product_preventive_check_ids.order_line[0].product_id.categ_id.property_account_income_categ.id
+                if not account_id:
+                    prop = self.env['ir.property'].get('property_account_income_categ', 'product.category')
+                    account_id = prop and prop.id or False
             if contract.invoice_partner_type=='branch':
                 for branch in contract.branch_ids:
                     date_due = False
@@ -165,7 +178,7 @@ class IssueInvoiceWizard(models.TransientModel):
                                   'price_unit':contract.amount_preventive_check*import_currency_rate,
                                   'discount':contract.to_invoice.factor,
                                   'account_analytic_id': contract.id,
-                                  'account_id':branch.property_account_receivable.id
+                                  'account_id':account_id
                                   }
                     inv.write({'invoice_line':[(0,0,invoice_line)]})
             elif contract.invoice_partner_type=='customer':
@@ -199,7 +212,7 @@ class IssueInvoiceWizard(models.TransientModel):
                               'price_unit':contract.amount_preventive_check*import_currency_rate,
                               'discount':contract.to_invoice.factor,
                               'account_analytic_id': contract.id,
-                              'account_id':contract.partner_id.property_account_receivable.id
+                              'account_id':account_id
                               }
                 inv.write({'invoice_line':[(0,0,invoice_line)]})
         return invoices_list
