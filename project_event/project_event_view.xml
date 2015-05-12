@@ -12,7 +12,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//form/sheet/notebook" position="inside">
                     <page name="events" string="Events">
-                        <field name="event_ids" />
+                        <field name="event_ids" readonly="1" />
                     </page>
                 </xpath>
             </field>

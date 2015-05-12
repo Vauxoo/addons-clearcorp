@@ -173,7 +173,7 @@ class Event(models.Model):
         for reservation in self.reservation_ids:
             reservation.validate_reservation()
 
-    name = fields.Char('Event', size=128, required=True,
+    name = fields.Char('Event', size=128, required=False,
         states={'valid': [('readonly', True)], 'cancel': [('readonly', True)]})
     allday = fields.Boolean('All Day', default=True, states={'valid': [('readonly', True)],
         'cancel': [('readonly', True)]})
