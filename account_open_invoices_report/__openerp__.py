@@ -22,7 +22,7 @@
 {
     'name': 'Open Invoices Report',
     'version': '1.0',
-    'author': 'Clearcorp',
+    'author': 'ClearCorp',
     'category': 'Accounting & Finance',
     'description': """
 Open Invoice Report.
