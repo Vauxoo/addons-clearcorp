@@ -22,7 +22,7 @@
 {
     "name" : 'Account Distribution Line',
     "version" : '1.0',
-    "author" : 'CLEARCORP S.A.',
+    "author" : 'ClearCorp',
     'category': 'Accounting & Finance',
     "description": """
 Account Distribution Line:
