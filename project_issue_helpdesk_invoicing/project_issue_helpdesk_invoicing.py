@@ -46,10 +46,13 @@ class ProjectIssue(models.Model):
                 if type.closed==True:
                     for issue in issues:
                         for backorder in issue.backorder_ids:
-                            if backorder.state!='done':
-                                raise Warning(_('Pending transfer the backorder: %s' % backorder.name))
-                            elif not backorder.delivery_note_id:
-                                raise Warning(_('Pending generate delivery note for backorder: %s' % backorder.name))
+                            if backorder.picking_type_id.code=='outgoing':
+                                if backorder.state!='done':
+                                    raise Warning(_('Pending transfer the backorder: %s' % backorder.name))
+                                elif not backorder.delivery_note_id:
+                                    raise Warning(_('Pending generate delivery note for backorder: %s' % backorder.name))
+                                elif backorder.delivery_note_id.state=='draft':
+                                    raise Warning(_('Pending confirm delivery note for backorder: %s' % backorder.name))
                         for expense_line in issue.expense_line_ids:
                             if not expense_line.expense_id.state in ['done','pain']:
                                 raise Warning(_('Pending change status to done or paid of expense: %s' % expense_line.expense_id.name))
@@ -411,10 +414,13 @@ class ProjectTask(models.Model):
                 if type.closed==True:
                     for task in tasks:
                         for backorder in task.backorder_ids:
-                            if backorder.state!='done':
-                                raise Warning(_('Pending transfer the backorder: %s' % backorder.name))
-                            elif not backorder.delivery_note_id:
-                                raise Warning(_('Pending generate delivery note for backorder: %s' % backorder.name))
+                            if backorder.picking_type_id.code=='outgoing':
+                                if backorder.state!='done':
+                                    raise Warning(_('Pending transfer the backorder: %s' % backorder.name))
+                                elif not backorder.delivery_note_id:
+                                    raise Warning(_('Pending generate delivery note for backorder: %s' % backorder.name))
+                                elif backorder.delivery_note_id.state=='draft':
+                                    raise Warning(_('Pending confirm delivery note for backorder: %s' % backorder.name))
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
         if 'name' in vals:
             if len(vals.get('name'))>user.company_id.maximum_name_task:

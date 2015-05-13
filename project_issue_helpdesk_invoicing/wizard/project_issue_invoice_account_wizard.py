@@ -89,9 +89,12 @@ class IssueInvoiceWizard(models.TransientModel):
                                 if not account_line.invoice_id:
                                     account_line.write({'invoice_id':inv.id})
                         for backorder in task.backorder_ids:
-                            if backorder.delivery_note_id and backorder.invoice_state!='invoiced' and backorder.state=='done':
+                            if backorder.delivery_note_id and backorder.picking_type_id.code=='outgoing' and backorder.delivery_note_id.state=='done' and backorder.invoice_state!='invoiced' and backorder.state=='done':
                                 backorder.write({'invoice_state':'invoiced'})
                                 backorder.move_lines.write({'invoice_state':'invoiced'})
+                                backorder.delivery_note_id.write({'state':'invoiced'})
+                                for invoice in invoices_list:
+                                    backorder.delivery_note_id.write({'invoice_ids':[(4,invoice)]})
                         for expense_line in task.expense_line_ids:
                             if expense_line.expense_id.state=='done':
                                 for move_lines in expense_line.expense_id.account_move_id.line_id:

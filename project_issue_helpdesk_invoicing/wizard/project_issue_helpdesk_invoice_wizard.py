@@ -86,7 +86,7 @@ class IssueInvoiceWizard(models.TransientModel):
                                 count_lines+=1
                         account_line.write({'invoice_id':inv.id})
             for backorder in issue.backorder_ids:
-                if backorder.delivery_note_id and backorder.picking_type_id.code=='outgoing' and backorder.invoice_state!='invoiced' and backorder.state=='done':
+                if backorder.delivery_note_id and backorder.delivery_note_id.state=='done' and backorder.picking_type_id.code=='outgoing' and backorder.invoice_state!='invoiced' and backorder.state=='done':
                     for delivery_note_lines in backorder.delivery_note_id.note_lines:
                         if delivery_note_lines.note_id.currency_id.id != issue.analytic_account_id.company_id.currency_id.id:
                             import_currency_rate=delivery_note_lines.note_id.currency_id.get_exchange_rate(issue.analytic_account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
@@ -119,6 +119,7 @@ class IssueInvoiceWizard(models.TransientModel):
                                     inv_prod.write({'origin':inv_prod.origin + issue.issue_number +'-'})
                                 inv_prod.write({'invoice_line':[(0,0,invoice_line)]})
                                 inv_prod.write({'issue_ids':[(4,issue.id)]})
+                                backorder.delivery_note_id.write({'invoice_ids':[(4,inv_prod.id)]})
                                 count_lines_products+=1
                             else:
                                 if issue.issue_number not in inv_prod.origin:
@@ -130,6 +131,7 @@ class IssueInvoiceWizard(models.TransientModel):
                                     inv_prod.write({'origin':inv_prod.origin + issue.issue_number +'-'})
                                 inv_prod.write({'invoice_line':[(0,0,invoice_line)]})
                                 inv_prod.write({'issue_ids':[(4,issue.id)]})
+                                backorder.delivery_note_id.write({'invoice_ids':[(4,inv_prod.id)]})
                                 count_lines_products+=1
                         else:
                             if count_lines<=limit_lines or limit_lines==0 or limit_lines==-1:
@@ -137,6 +139,7 @@ class IssueInvoiceWizard(models.TransientModel):
                                     inv.write({'origin':inv.origin + issue.issue_number +'-'})
                                 inv.write({'invoice_line':[(0,0,invoice_line)]})
                                 inv.write({'issue_ids':[(4,issue.id)]})
+                                backorder.delivery_note_id.write({'invoice_ids':[(4,inv.id)]})
                                 count_lines+=1
                             else:
                                 if issue.issue_number not in inv.origin:
@@ -148,9 +151,11 @@ class IssueInvoiceWizard(models.TransientModel):
                                     inv.write({'origin':inv.origin + issue.issue_number +'-'})
                                 inv.write({'invoice_line':[(0,0,invoice_line)]})
                                 inv.write({'issue_ids':[(4,issue.id)]})
+                                backorder.delivery_note_id.write({'invoice_ids':[(4,inv.id)]})
                                 count_lines+=1
                         backorder.write({'invoice_state':'invoiced'})
                         backorder.move_lines.write({'invoice_state':'invoiced'})
+                        backorder.delivery_note_id.write({'state':'invoiced'})
             for expense_line in issue.expense_line_ids:
                 if expense_line.expense_id.state=='done':
                     for move_lines in expense_line.expense_id.account_move_id.line_id:
