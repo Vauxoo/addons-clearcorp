@@ -342,11 +342,17 @@ class AccountInvoice(models.Model):
                         if backorder.invoice_state=='invoiced':
                             backorder.write({'invoice_state':'none'})
                             backorder.move_lines.write({'invoice_state':'none'})
+                            for delivery in backorder.delivery_note_id:
+                                if delivery.state=='invoiced' and len(delivery.invoice_ids)==1:
+                                    delivery.write({'state':'done'})
             for task in invoice.task_ids:
                 for backorder in task.backorder_ids:
                         if backorder.invoice_state=='invoiced':
                             backorder.write({'invoice_state':'none'})
                             backorder.move_lines.write({'invoice_state':'none'})
+                            for delivery in backorder.delivery_note_id:
+                                if delivery.state=='invoiced' and not len(delivery.invoice_ids)==1:
+                                    delivery.write({'state':'done'})
         return models.Model.unlink(self)
     task_ids=fields.One2many('project.task','invoice_id')
     issue_ids=fields.Many2many('project.issue','account_invoice_project_issue_rel',string='Issues')
