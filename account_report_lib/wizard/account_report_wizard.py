@@ -20,7 +20,12 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
+import time
+from lxml import etree
+
+from openerp.osv import fields, osv
+from openerp.osv.orm import setup_modifiers
+from openerp.tools.translate import _
 
 class accountCommonwizard (osv.TransientModel):
     
@@ -37,13 +42,23 @@ class accountCommonwizard (osv.TransientModel):
                 
     """
     _name = "account.report.wiz"
-    _inherit = "account.common.report"
     _description = "Account Common Wizard"
 
     #=======================================================
     
+    def onchange_chart_id(self, cr, uid, ids, chart_account_id=False, context=None):
+        res = {}
+        if chart_account_id:
+            company_id = self.pool.get('account.account').browse(cr, uid, chart_account_id, context=context).company_id.id
+            now = time.strftime('%Y-%m-%d')
+            domain = [('company_id', '=', company_id), ('date_start', '<', now), ('date_stop', '>', now)]
+            fiscalyears = self.pool.get('account.fiscalyear').search(cr, uid, domain, limit=1)
+            res['value'] = {'company_id': company_id, 'fiscalyear_id': fiscalyears and fiscalyears[0] or False}
+        return res
+    
     #This fields are added, because the account.common.report doesn't have by default    
     _columns = {
+        'chart_account_id': fields.many2one('account.account', 'Chart of Account', help='Select Charts of Accounts', required=True, domain = [('parent_id','=',False)]),
         'account_ids': fields.many2many('account.account', string='Accounts'),
         'journal_ids': fields.many2many('account.journal', string='Journals', required=False), #redefined journal_ids, remove attribute required
         'res_partners_ids': fields.many2many('res.partner', string='Partners',), 
@@ -54,11 +69,108 @@ class accountCommonwizard (osv.TransientModel):
         'out_format': fields.selection([('pdf','PDF'),('xls','XLS')], 'Print Format'),
         #This field could be redefined by another wizards, they could add more options
         'sort_selection': fields.selection([('date', 'Date'), ('name', 'Name'),], 'Entries Sorted by',),
+        'company_id': fields.related('chart_account_id', 'company_id', type='many2one', relation='res.company', string='Company', readonly=True),
+        'fiscalyear_id': fields.many2one('account.fiscalyear', 'Fiscal Year', help='Keep empty for all open fiscal year'),
+        'filter': fields.selection([('filter_no', 'No Filters'), ('filter_date', 'Date'), ('filter_period', 'Periods')], "Filter by", required=True),
+        'period_from': fields.many2one('account.period', 'Start Period'),
+        'period_to': fields.many2one('account.period', 'End Period'),
+        'date_from': fields.date("Start Date"),
+        'date_to': fields.date("End Date"),
+        'target_move': fields.selection([('posted', 'All Posted Entries'),
+                                         ('all', 'All Entries'),
+                                        ], 'Target Moves', required=True),
     }
     
+    def _check_company_id(self, cr, uid, ids, context=None):
+        for wiz in self.browse(cr, uid, ids, context=context):
+            company_id = wiz.company_id.id
+            if wiz.fiscalyear_id and company_id != wiz.fiscalyear_id.company_id.id:
+                return False
+            if wiz.period_from and company_id != wiz.period_from.company_id.id:
+                return False
+            if wiz.period_to and company_id != wiz.period_to.company_id.id:
+                return False
+        return True
+
+    _constraints = [
+        (_check_company_id, 'The fiscalyear, periods or chart of account chosen have to belong to the same company.', ['chart_account_id','fiscalyear_id','period_from','period_to']),
+    ]
+    
+    def fields_view_get(self, cr, uid, view_id=None, view_type='form', context=None, toolbar=False, submenu=False):
+        if context is None:context = {}
+        res = super(accountCommonwizard, self).fields_view_get(cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=False)
+        if context.get('active_model', False) == 'account.account':
+            doc = etree.XML(res['arch'])
+            nodes = doc.xpath("//field[@name='chart_account_id']")
+            for node in nodes:
+                node.set('readonly', '1')
+                node.set('help', 'If you print the report from Account list/form view it will not consider Charts of account')
+                setup_modifiers(node, res['fields']['chart_account_id'])
+            res['arch'] = etree.tostring(doc)
+        return res
+
+    def onchange_filter(self, cr, uid, ids, filter='filter_no', fiscalyear_id=False, context=None):
+        res = {'value': {}}
+        if filter == 'filter_no':
+            res['value'] = {'period_from': False, 'period_to': False, 'date_from': False ,'date_to': False}
+        if filter == 'filter_date':
+            res['value'] = {'period_from': False, 'period_to': False, 'date_from': time.strftime('%Y-01-01'), 'date_to': time.strftime('%Y-%m-%d')}
+        if filter == 'filter_period' and fiscalyear_id:
+            start_period = end_period = False
+            cr.execute('''
+                SELECT * FROM (SELECT p.id
+                               FROM account_period p
+                               LEFT JOIN account_fiscalyear f ON (p.fiscalyear_id = f.id)
+                               WHERE f.id = %s
+                               AND p.special = false
+                               ORDER BY p.date_start ASC, p.special ASC
+                               LIMIT 1) AS period_start
+                UNION ALL
+                SELECT * FROM (SELECT p.id
+                               FROM account_period p
+                               LEFT JOIN account_fiscalyear f ON (p.fiscalyear_id = f.id)
+                               WHERE f.id = %s
+                               AND p.date_start < NOW()
+                               AND p.special = false
+                               ORDER BY p.date_stop DESC
+                               LIMIT 1) AS period_stop''', (fiscalyear_id, fiscalyear_id))
+            periods =  [i[0] for i in cr.fetchall()]
+            if periods and len(periods) > 1:
+                start_period = periods[0]
+                end_period = periods[1]
+            res['value'] = {'period_from': start_period, 'period_to': end_period, 'date_from': False, 'date_to': False}
+        return res
+
+    def _get_account(self, cr, uid, context=None):
+        user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
+        accounts = self.pool.get('account.account').search(cr, uid, [('parent_id', '=', False), ('company_id', '=', user.company_id.id)], limit=1)
+        return accounts and accounts[0] or False
+
+    def _get_fiscalyear(self, cr, uid, context=None):
+        if context is None:
+            context = {}
+        now = time.strftime('%Y-%m-%d')
+        company_id = False
+        ids = context.get('active_ids', [])
+        if ids and context.get('active_model') == 'account.account':
+            company_id = self.pool.get('account.account').browse(cr, uid, ids[0], context=context).company_id.id
+        else:  # use current company id
+            company_id = self.pool.get('res.users').browse(cr, uid, uid, context=context).company_id.id
+        domain = [('company_id', '=', company_id), ('date_start', '<', now), ('date_stop', '>', now)]
+        fiscalyears = self.pool.get('account.fiscalyear').search(cr, uid, domain, limit=1)
+        return fiscalyears and fiscalyears[0] or False
+
+    def _get_all_journal(self, cr, uid, context=None):
+        return self.pool.get('account.journal').search(cr, uid ,[])
+
     _defaults = {
-        'journal_ids':[],
+        'fiscalyear_id': _get_fiscalyear,
+        'company_id': lambda self,cr,uid,c: self.pool.get('res.company')._company_default_get(cr, uid, 'account.common.report',context=c),
+        'journal_ids': _get_all_journal,
         'res_partners_ids':[],
+        'chart_account_id': _get_account,
+        'target_move': 'posted',
+        
     }
     
     #Redefine this method, because in the "original" take both periods (start and end) and some reports don't need both periods
@@ -91,6 +203,9 @@ class accountCommonwizard (osv.TransientModel):
             result['period_to'] = data['form']['period_to']
             
         return result 
+    
+    def _print_report(self, cr, uid, ids, data, context=None):
+        raise (_('Error!'), _('Not implemented.'))
     
     #Add the new fields 
     def check_report(self, cr, uid, ids, context=None):
