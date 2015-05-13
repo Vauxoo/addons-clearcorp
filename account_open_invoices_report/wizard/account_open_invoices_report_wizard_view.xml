@@ -61,7 +61,7 @@
                         <field name="res_partners_ids" nolabel="1" domain="['|', ('customer','=', True),('supplier','=',True)]"/>
                     </field>
                     <group string="Journals" position="attributes">
-                        <attribute name="attrs">{'invisible': False}</attribute>
+                        <attribute name="attrs">{'invisible': True}</attribute>
                     </group>
                     <field name="amount_currency" position="attributes">
                         <attribute name="attrs">{'invisible': True}</attribute>
