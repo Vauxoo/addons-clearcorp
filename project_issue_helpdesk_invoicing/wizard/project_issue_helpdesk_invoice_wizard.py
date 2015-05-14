@@ -37,9 +37,16 @@ class IssueInvoiceWizard(models.TransientModel):
         count_lines_products=1
         first_line_product=0
         invoices_list=[]
+        cont_invoice=0
         limit_lines=user.company_id.maximum_invoice_lines
-        inv=invoice_obj.create(invoice_dict)
-        invoices_list.append(inv.id)
+        if line_detailed==True:
+            for issue in issues:
+                if issue.timesheet_ids or issue.expense_line_ids and cont_invoice==0:
+                    cont_invoice=1
+                    break
+        if cont_invoice==1 or line_detailed==False:
+            inv=invoice_obj.create(invoice_dict)
+            invoices_list.append(inv.id)
         for issue in issues:
             for timesheet in issue.timesheet_ids:
                 for account_line in timesheet.line_id:
