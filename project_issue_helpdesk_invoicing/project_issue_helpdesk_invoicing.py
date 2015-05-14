@@ -46,10 +46,13 @@ class ProjectIssue(models.Model):
                 if type.closed==True:
                     for issue in issues:
                         for backorder in issue.backorder_ids:
-                            if backorder.state!='done':
-                                raise Warning(_('Pending transfer the backorder: %s' % backorder.name))
-                            elif not backorder.delivery_note_id:
-                                raise Warning(_('Pending generate delivery note for backorder: %s' % backorder.name))
+                            if backorder.picking_type_id.code=='outgoing':
+                                if backorder.state!='done':
+                                    raise Warning(_('Pending transfer the backorder: %s' % backorder.name))
+                                elif not backorder.delivery_note_id:
+                                    raise Warning(_('Pending generate delivery note for backorder: %s' % backorder.name))
+                                elif backorder.delivery_note_id.state=='draft':
+                                    raise Warning(_('Pending confirm delivery note for backorder: %s' % backorder.name))
                         for expense_line in issue.expense_line_ids:
                             if not expense_line.expense_id.state in ['done','pain']:
                                 raise Warning(_('Pending change status to done or paid of expense: %s' % expense_line.expense_id.name))
@@ -339,11 +342,17 @@ class AccountInvoice(models.Model):
                         if backorder.invoice_state=='invoiced':
                             backorder.write({'invoice_state':'none'})
                             backorder.move_lines.write({'invoice_state':'none'})
+                            for delivery in backorder.delivery_note_id:
+                                if delivery.state=='invoiced' and len(delivery.invoice_ids)==1:
+                                    delivery.write({'state':'done'})
             for task in invoice.task_ids:
                 for backorder in task.backorder_ids:
                         if backorder.invoice_state=='invoiced':
                             backorder.write({'invoice_state':'none'})
                             backorder.move_lines.write({'invoice_state':'none'})
+                            for delivery in backorder.delivery_note_id:
+                                if delivery.state=='invoiced' and not len(delivery.invoice_ids)==1:
+                                    delivery.write({'state':'done'})
         return models.Model.unlink(self)
     task_ids=fields.One2many('project.task','invoice_id')
     issue_ids=fields.Many2many('project.issue','account_invoice_project_issue_rel',string='Issues')
@@ -411,10 +420,13 @@ class ProjectTask(models.Model):
                 if type.closed==True:
                     for task in tasks:
                         for backorder in task.backorder_ids:
-                            if backorder.state!='done':
-                                raise Warning(_('Pending transfer the backorder: %s' % backorder.name))
-                            elif not backorder.delivery_note_id:
-                                raise Warning(_('Pending generate delivery note for backorder: %s' % backorder.name))
+                            if backorder.picking_type_id.code=='outgoing':
+                                if backorder.state!='done':
+                                    raise Warning(_('Pending transfer the backorder: %s' % backorder.name))
+                                elif not backorder.delivery_note_id:
+                                    raise Warning(_('Pending generate delivery note for backorder: %s' % backorder.name))
+                                elif backorder.delivery_note_id.state=='draft':
+                                    raise Warning(_('Pending confirm delivery note for backorder: %s' % backorder.name))
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
         if 'name' in vals:
             if len(vals.get('name'))>user.company_id.maximum_name_task:

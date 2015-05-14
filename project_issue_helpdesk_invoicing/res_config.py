@@ -25,8 +25,6 @@ class ResCompany(osv.Model):
     _inherit = 'res.company'
 
     _columns = {
-            'maximum_description_product': fields.integer('Maximum quantity of character in description of product',
-            help='This allows define the maximum quantity of character in description of product. If use value 0, the quantity is not limited '),
             'maximum_name_task': fields.integer('Maximum quantity of character in name of task project',
             help='This allows define the maximum quantity of character in name of task project. If use value 0, the quantity is not limited ')
             }

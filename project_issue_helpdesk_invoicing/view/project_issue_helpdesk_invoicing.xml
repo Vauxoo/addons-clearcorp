@@ -102,8 +102,8 @@
                         <field name="pricelist_ids" colspan="4" nolabel="1" attrs="{'invisible': [('fix_price_invoices','=',False),('invoice_on_timesheets','=',False),('charge_expenses','=',False)]}">
                             <tree editable="top" string="Pricelist Lines">
                                 <field name="pricelist_line_type"/>
-                                <field name="categ_id" attrs="{'invisible':[('pricelist_line_type', '!=', 'category')]}"/>
-                                <field name="product_id" attrs="{'invisible':[('pricelist_line_type', '!=', 'product')]}"/>
+                                <field name="categ_id" domain="[('supply_type','=','equipment')]" attrs="{'invisible':[('pricelist_line_type', '!=', 'category')]}"/>
+                                <field name="product_id" domain="[('supply_type','=','equipment')]" attrs="{'invisible':[('pricelist_line_type', '!=', 'product')]}"/>
                                 <field name="technical_rate"/>
                                 <field name="assistant_rate"/>
                                 <field name="overtime_multiplier"/>
@@ -126,7 +126,7 @@
                         </p>
                         <field name="product_preventive_check_ids" colspan="4" nolabel="1" attrs="{'invisible': [('invoice_preventive_check','=',False)]}">
                             <tree editable="top" string="Product Lines">
-                                <field name="product_id" required="1"/>
+                                <field name="product_id" domain="[('supply_type','=','equipment')]" required="1"/>
                                 <field name="interval_number" required="1"/>
                                 <field name="interval_type" required="1"/>
                                 <field name="date_execute_issue" required="1" attrs="{'readonly': [('first_execute_issue','=',True)]}"/>

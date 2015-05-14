@@ -424,7 +424,7 @@ class StockPicking(orm.Model):
 
     def get_domain_issue_id(self,cr,uid,ids,partner_id,context=None):
         if partner_id:
-            issue_ids=self.pool.get('project.issue').search(cr,uid,['|',('branch_id','=',partner_id),('partner_id','=',partner_id)])
+            issue_ids=self.pool.get('project.issue').search(cr,uid,['|',('branch_id','=',partner_id),('partner_id','=',partner_id),('is_closed','=',False)])
             return {'domain':{'issue_id':[('id','in',issue_ids)]},'value':{'issue_id':False}}
         else:
             return {'domain':{'issue_id':False},'value':{'issue_id':False}}
@@ -440,7 +440,8 @@ class StockPicking(orm.Model):
         for picking in self.browse(cr, uid, ids, context=context):
             issue_ids=issue_obj.search(cr, uid, ['|',('branch_id','=',picking.partner_id.id),('partner_id','=',picking.partner_id.id)])
             for issue in issue_obj.browse(cr, uid, issue_ids, context=context):
-                picking_ids.append(issue.id)
+                if issue.is_closed==False:
+                    picking_ids.append(issue.id)
         res[picking.id]=picking_ids
         return res
     

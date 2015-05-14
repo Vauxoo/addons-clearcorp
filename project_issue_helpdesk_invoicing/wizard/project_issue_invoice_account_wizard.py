@@ -28,51 +28,108 @@ from dateutil.relativedelta import relativedelta
 
 class IssueInvoiceWizard(models.TransientModel):
     _name='project.issue.invoice.account.wizard'
-    def create_task_invoice_lines(self,invoice_id,sale):
+    def create_invoice_lines(self,invoice_dict,sales):
+        task_obj=self.pool.get('project.task')
         invoice_obj=self.env['account.invoice']
         sale_line=self.env['sale.order.line']
-        expenses_count=0
-        for invoice in invoice_obj.browse(invoice_id):
-            for order in invoice.order_ids:
-                for task in order.task_ids:
-                    if not task.invoice_id:
-                        if task.is_closed==False:
-                            raise Warning(_('Task pending for close in the sale order %s' %sale.name))
+        user = self.env['res.users'].browse(self._uid)
+        invoices_list=[]
+        count_lines=1
+        limit_lines=user.company_id.maximum_invoice_lines
+        inv=invoice_obj.create(invoice_dict)
+        sales.write({'invoice_ids':[(4,inv.id)]})
+        invoices_list.append(inv.id)
+        for sale in sales:
+            for line in sale.order_line:
+                if (not line.invoiced) and (line.state not in ('draft', 'cancel')):
+                    line_id = line.invoice_line_create()
+                    if count_lines<=limit_lines or limit_lines==0 or limit_lines==-1:
+                        inv.write({'invoice_line':[(4,line_id[0])]})
+                        count_lines+=1
+                    else:
+                        inv=invoice_obj.create(invoice_dict)
+                        sale.write({'invoice_ids':[(4,inv.id)]})
+                        invoices_list.append(inv.id)
+                        count_lines=1
+                        inv.write({'invoice_line':[(4,line_id[0])]})
+                        count_lines+=1
+            for task in sale.task_ids:
+                if not task.invoice_id:
+                    if task.is_closed==False:
+                        raise Warning(_('Task pending for close in the sale order %s' %sale.name))
+                    else:
+                        account_id=sale.order_line[0].product_id.property_account_income.id
+                        if not account_id:
+                            account_id = sale.order_line[0].product_id.categ_id.property_account_income_categ.id
+                            if not account_id:
+                                prop = self.env['ir.property'].get('property_account_income_categ', 'product.category')
+                                account_id = prop and prop.id or False
+                        invoice_line={
+                                    'name': task.name,
+                                    'quantity':1,
+                                    'price_unit':0,
+                                    'discount':sale.project_id.to_invoice.factor,
+                                    'account_analytic_id':sale.project_id.id,
+                                    'account_id': account_id,
+                                    'sequence':100
+                                    }
+                        if count_lines<=limit_lines or limit_lines==0 or limit_lines==-1:
+                            inv.write({'invoice_line':[(0,0,invoice_line)]})
+                            count_lines+=1
                         else:
-                            invoice_line={
-                                        'name': task.name,
-                                        'quantity':1,
-                                        'price_unit':0,
-                                        'discount':order.project_id.to_invoice.factor,
-                                        'account_analytic_id':order.project_id.id,
-                                        'account_id': order.partner_id.property_account_receivable.id,
-                                        }
-                            invoice.write({'invoice_line':[(0,0,invoice_line)]})
-                            for timesheet in task.timesheet_ids:
-                                for account_line in timesheet.line_id:
-                                    if not account_line.invoice_id:
-                                        account_line.write({'invoice_id':invoice.id})
-                            for backorder in task.backorder_ids:
-                                if backorder.delivery_note_id and backorder.invoice_state!='invoiced' and backorder.state=='done':
-                                    backorder.write({'invoice_state':'invoiced'})
-                                    backorder.move_lines.write({'invoice_state':'invoiced'})
-                            for expense_line in task.expense_line_ids:
-                                if expense_line.expense_id.state=='done':
-                                    for move_lines in expense_line.expense_id.account_move_id.line_id:
-                                        for lines in move_lines.analytic_lines:
-                                            if lines.account_id==expense_line.analytic_account and lines.name==expense_line.name and lines.unit_amount==expense_line.unit_quantity and (lines.amount*-1/lines.unit_amount)==expense_line.unit_amount and not lines.invoice_id:
-                                                lines.write({'invoice_id':invoice.id})
-                            task.write({'invoice_id':invoice.id})
+                            inv=invoice_obj.create(invoice_dict)
+                            sale.write({'invoice_ids':[(4,inv.id)]})
+                            invoices_list.append(inv.id)
+                            count_lines=1
+                            inv.write({'invoice_line':[(0,0,invoice_line)]})
+                            count_lines+=1
+                        
+                        for timesheet in task.timesheet_ids:
+                            for account_line in timesheet.line_id:
+                                if not account_line.invoice_id:
+                                    account_line.write({'invoice_id':inv.id})
+                        for backorder in task.backorder_ids:
+                            if backorder.delivery_note_id and backorder.picking_type_id.code=='outgoing' and backorder.delivery_note_id.state=='done' and backorder.invoice_state!='invoiced' and backorder.state=='done':
+                                backorder.write({'invoice_state':'invoiced'})
+                                backorder.move_lines.write({'invoice_state':'invoiced'})
+                                backorder.delivery_note_id.write({'state':'invoiced'})
+                                for invoice in invoices_list:
+                                    backorder.delivery_note_id.write({'invoice_ids':[(4,invoice)]})
+                        for expense_line in task.expense_line_ids:
+                            if expense_line.expense_id.state=='done':
+                                for move_lines in expense_line.expense_id.account_move_id.line_id:
+                                    for lines in move_lines.analytic_lines:
+                                        if lines.account_id==expense_line.analytic_account and lines.name==expense_line.name and lines.unit_amount==expense_line.unit_quantity and (lines.amount*-1/lines.unit_amount)==expense_line.unit_amount and not lines.invoice_id:
+                                            lines.write({'invoice_id':inv.id})
+                        task_obj.write(self._cr,self._uid,task.id,{'invoice_id':inv.id})
+        return invoices_list
     @api.multi
     def generate_invoice_sale_order(self, sale_orders):
         result={}
         invoice_sale=[]
         order_obj=self.pool.get('sale.order')
         for sale in sale_orders:
-            if not sale.invoice_exists:
-                res_invoice=order_obj.action_invoice_create(self._cr,self._uid,sale.id, grouped=False, date_invoice=False)
-                invoice_sale.append(res_invoice)
-                self.create_task_invoice_lines(res_invoice,sale)
+            if sale.partner_id and sale.partner_id.property_payment_term.id:
+                pay_term = sale.partner_id.property_payment_term.id
+            else:
+                pay_term = False
+            inv = {
+                'name': sale.client_order_ref or '',
+                'origin': sale.name,
+                'type': 'out_invoice',
+                'reference': "P%dSO%d" % (sale.partner_id.id, sale.id),
+                'account_id': sale.partner_id.property_account_receivable.id,
+                'partner_id': sale.partner_invoice_id.id,
+                'currency_id' : sale.pricelist_id.currency_id.id,
+                'comment': sale.note,
+                'payment_term': pay_term,
+                'fiscal_position': sale.fiscal_position.id or sale.partner_id.property_account_position.id,
+                'user_id': sale.user_id and sale.user_id.id or False,
+                'company_id': sale.company_id and sale.company_id.id or False,
+                'date_invoice': fields.date.today()
+            }
+            invoice_sale+=self.create_invoice_lines(inv,sale)
+            sale.write({'state':'progress'})
         return invoice_sale
     @api.multi
     def generate_preventive_check(self, contracts):
@@ -86,6 +143,12 @@ class IssueInvoiceWizard(models.TransientModel):
                 import_currency_rate = contract.pricelist_id.currency_id.get_exchange_rate(contract.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
             else:
                 import_currency_rate = 1
+            account_id=contract.product_preventive_check_ids[0].product_id.property_account_income.id
+            if not account_id:
+                account_id = contract.product_preventive_check_ids.order_line[0].product_id.categ_id.property_account_income_categ.id
+                if not account_id:
+                    prop = self.env['ir.property'].get('property_account_income_categ', 'product.category')
+                    account_id = prop and prop.id or False
             if contract.invoice_partner_type=='branch':
                 for branch in contract.branch_ids:
                     date_due = False
@@ -118,7 +181,7 @@ class IssueInvoiceWizard(models.TransientModel):
                                   'price_unit':contract.amount_preventive_check*import_currency_rate,
                                   'discount':contract.to_invoice.factor,
                                   'account_analytic_id': contract.id,
-                                  'account_id':branch.property_account_receivable.id
+                                  'account_id':account_id
                                   }
                     inv.write({'invoice_line':[(0,0,invoice_line)]})
             elif contract.invoice_partner_type=='customer':
@@ -152,7 +215,7 @@ class IssueInvoiceWizard(models.TransientModel):
                               'price_unit':contract.amount_preventive_check*import_currency_rate,
                               'discount':contract.to_invoice.factor,
                               'account_analytic_id': contract.id,
-                              'account_id':contract.partner_id.property_account_receivable.id
+                              'account_id':account_id
                               }
                 inv.write({'invoice_line':[(0,0,invoice_line)]})
         return invoices_list
@@ -245,7 +308,7 @@ class IssueInvoiceWizard(models.TransientModel):
     @api.onchange('state')
     def get_account(self):
         if 'active_ids' in self._context and self._context.get('active_ids'):
-            self.sale_order_invoice_ids=self.env['sale.order'].search([('project_id','in',self._context.get('active_ids', False)),('state','=','manual'),('invoice_ids','=',False)])
+            self.sale_order_invoice_ids=self.env['sale.order'].search([('project_id','in',self._context.get('active_ids', False)),('state','=','manual')])
             self.contract_preventive_check_ids=self.env['account.analytic.account'].search([('id','in',self._context.get('active_ids', False)),('invoice_preventive_check','!=',False)])
     line_detailed=fields.Boolean(string="Product lines separate service lines",default=True)
     group_customer=fields.Boolean( string="Group by customer",default=True)
