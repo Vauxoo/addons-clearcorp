@@ -844,7 +844,7 @@ msgstr "Margen de variación(%)"
 #: field:account.invoice,variation_price:0
 #: field:account.invoice.line,variation_price:0
 msgid "Variation Price"
-msgstr "Variation Price"
+msgstr "Variación Precio"
 
 #. module: project_issue_helpdesk_invoicing
 #: field:account.invoice,porcent_variation_price:0
