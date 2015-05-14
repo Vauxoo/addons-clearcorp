@@ -24,10 +24,10 @@
             <field name="priority" eval="50"/>
             <field name="arch" type="xml">
                  <field name="reviewer_id" position="after">
-                    <field name="categ_id" attrs="{'readonly':[('is_closed', '=', True)]}"/>
+                    <field name="categ_id" domain="[('supply_type','=','equipment')]" attrs="{'readonly':[('is_closed', '=', True)]}"/>
                 </field>
                 <field name="categ_id" position="after">
-                    <field name="product_id" domain="[('categ_id','=',categ_id)]" attrs="{'readonly':[('is_closed', '=', True)]}"/>
+                    <field name="product_id" domain="[('categ_id','=',categ_id),('supply_type','=','equipment')]" attrs="{'readonly':[('is_closed', '=', True)]}"/>
                 </field>
                 <field name="name" position="attributes">
                     <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
