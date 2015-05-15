@@ -137,16 +137,16 @@ class StockMoveReport(report_sxw.rml_parse):
 
         return product_id,date_from,date_to,partner_ids,source_location_ids,destination_location_ids,picking_type_ids
     
-    def get_moves_lines(self,data,product_id,location_id=None):
+    def get_moves_lines(self,data,product_id,location_id):
         stock_lines_obj = self.pool.get('stock.move')
         domain=[]
         
         product_id,date_from,date_to,partner_ids,source_location_ids,destination_location_ids,picking_type_ids=self.get_search_criteria(data,product_id)
 
         if location_id:#One location
-            moves_ids = stock_lines_obj.search(self.cr, self.uid, ['&','&','&','&','&',('partner_id','in',partner_ids),('picking_id.picking_type_id','in',picking_type_ids),('date','>=',date_from), ('date','<=',date_to), ('product_id', '=', product_id), '|',('location_id', '=', location_id), ('location_dest_id', '=', location_id)],order="date asc", context=None)
+            moves_ids = stock_lines_obj.search(self.cr, self.uid, ['&','&','&','&','&','|','|',('picking_id.partner_id','=',False),('picking_id.partner_id','in',partner_ids),('picking_id.partner_id.parent_id','in',partner_ids),('picking_id.picking_type_id','in',picking_type_ids),('date','>=',date_from), ('date','<=',date_to), ('product_id', '=', product_id),'|',('location_id', '=', location_id), ('location_dest_id', '=', location_id)],order="date asc", context=None)
         else:#All locations
-            moves_ids = stock_lines_obj.search(self.cr, self.uid, ['&','&','&','&','&',('partner_id','in',partner_ids),('picking_id.picking_type_id','in',picking_type_ids),('date','>=',date_from), ('date','<=',date_to), ('product_id', '=', product_id), '|',('location_id', 'in', source_location_ids), ('location_dest_id', 'in', destination_location_ids)], context=None)
+            moves_ids = stock_lines_obj.search(self.cr, self.uid, ['&','&','&','&','&','|','|',('picking_id.partner_id','=',False),('picking_id.partner_id','in',partner_ids),('picking_id.partner_id.parent_id','in',partner_ids),('picking_id.picking_type_id','in',picking_type_ids),('date','>=',date_from), ('date','<=',date_to), ('product_id', '=', product_id),'|',('location_id', 'in', source_location_ids),('location_dest_id', 'in', destination_location_ids)], context=None)
         moves_obj=stock_lines_obj.browse(self.cr, self.uid, moves_ids, context=None)
         
         return  moves_obj
@@ -258,17 +258,33 @@ class StockMoveReport(report_sxw.rml_parse):
         stock_moves=[]
         group_lines=[]
         group_location=[]
-        
+        source_location_ids=[]
+        destination_location_ids=[]
+        if self.get_source_location_ids(data):
+            for loc in self.get_source_location_ids(data):
+                source_location_ids.append(loc.id)
+        else:
+            for loc in self.pool.get('stock.location').search(self.cr, self.uid, []):
+                source_location_ids.append(loc)
+        if self.get_destination_location_ids(data):
+            for loc in self.get_destination_location_ids(data):
+                destination_location_ids.append(loc.id)
+        else:
+            for loc in self.pool.get('stock.location').search(self.cr, self.uid, []):
+                destination_location_ids.append(loc)
         lines_obj=self.get_moves_lines(data,product_id,None)
         for line in lines_obj:
-            line_report={}
-            line_report['location_id']=line.location_id.id  
-            line_report['complete_name']=line.location_id.complete_name
-            line_report['location_id']=line.location_dest_id.id  
-            line_report['complete_name']=line.location_dest_id.complete_name
-            stock_moves.append(line_report)
+            if line.location_id.id in source_location_ids:
+                line_report={}
+                line_report['location_id']=line.location_id.id  
+                line_report['complete_name']=line.location_id.complete_name
+                stock_moves.append(line_report)
+            if line.location_dest_id.id in destination_location_ids:
+                line_report={}
+                line_report['location_id']=line.location_dest_id.id  
+                line_report['complete_name']=line.location_dest_id.complete_name
+                stock_moves.append(line_report)
         locations_list = [dict(tupleized) for tupleized in set(tuple(item.items()) for item in stock_moves)]
-
         for key,items in itertools.groupby(locations_list,operator.itemgetter('location_id')):
              group_location.append(list(items))
         return group_location
@@ -279,32 +295,34 @@ class StockMoveReport(report_sxw.rml_parse):
         self.localcontext['final_quantity'] = opening_quantity
         lines_obj=self.get_moves_lines(data,product_id,location_id)
         for line in lines_obj:
-            final_quantity = self.get_product_quantity(line, location_id, opening_quantity)
-            final_cost = self.get_opening_cost(data, product_id,location_id, opening_quantity)
-            sign = 1
-            line_report={}
-            line_report['date']=line.date
-            line_report['origin']=line.origin or ''
-
-            if  line.location_id.id == location_id:
-                 line_report['quantity_input']=0.00
-                 line_report['quantity_output']=line.product_qty
-                 self.localcontext['final_quantity'] -= line.product_qty
-                 line_report['final_quantify_move']=self.localcontext['final_quantity']
-                 sign = -1
-            elif line.location_dest_id.id ==location_id:
-                 line_report['quantity_input']=line.product_qty
-                 line_report['quantity_output']=0.00
-                 self.localcontext['final_quantity'] += line.product_qty
-                 line_report['final_quantify_move']=self.localcontext['final_quantity']
-            
-            line_report['standard_price'],total=self.get_standard_price(data,line)
-            line_report['total']=total
-            final_cost += total * sign
-            line_report['final_cost']=final_cost
-            self.localcontext['final_cost'] = final_cost 
-            line_report['final_cost']=final_cost
-            stock_moves.append(line_report)
+            if  line.location_id.id == location_id or line.location_dest_id.id ==location_id:
+                final_quantity = self.get_product_quantity(line, location_id, opening_quantity)
+                final_cost = self.get_opening_cost(data, product_id,location_id, opening_quantity)
+                sign = 1
+                line_report={}
+                line_report['date']=line.date
+                line_report['origin']=line.origin or ''
+                line_report['company']=line.picking_id.partner_id.name or ''
+    
+                if  line.location_id.id == location_id:
+                    line_report['quantity_input']=0.00
+                    line_report['quantity_output']=line.product_qty or 0.00
+                    self.localcontext['final_quantity'] -= line.product_qty
+                    line_report['final_quantify_move']=self.localcontext['final_quantity']
+                    sign = -1
+                elif line.location_dest_id.id ==location_id:
+                    line_report['quantity_input']=line.product_qty or 0.00
+                    line_report['quantity_output']=0.00
+                    self.localcontext['final_quantity'] += line.product_qty
+                    line_report['final_quantify_move']=self.localcontext['final_quantity']
+                
+                line_report['standard_price'],total=self.get_standard_price(data,line)
+                line_report['total']=total
+                final_cost += total * sign
+                line_report['final_cost']=final_cost
+                self.localcontext['final_cost'] = final_cost 
+                line_report['final_cost']=final_cost
+                stock_moves.append(line_report)
 
         return stock_moves
 
@@ -314,7 +332,7 @@ class StockMoveReport(report_sxw.rml_parse):
 
         date_from,partner_ids,picking_type_ids=self.search_criteria_opening_info(data)
         
-        stock_move_ids = stock_move_obj.search(self.cr, self.uid, ['&', '&','&','&', ('partner_id','in',partner_ids),('picking_id.picking_type_id','in',picking_type_ids),('date','<',date_from), ('product_id', '=', product_id), '|',('location_id', '=', location_id), ('location_dest_id', '=', location_id)])
+        stock_move_ids = stock_move_obj.search(self.cr, self.uid, ['&','&','&','&','|','|',('picking_id.partner_id','=',False),('picking_id.partner_id','in',partner_ids),('picking_id.partner_id.parent_id','in',partner_ids),('picking_id.picking_type_id','in',picking_type_ids),('date','<',date_from), ('product_id', '=', product_id),'|',('location_id', '=', location_id), ('location_dest_id', '=', location_id)])
         stock_moves = stock_move_obj.browse(self.cr, self.uid, stock_move_ids)
         
         for stock_move in stock_moves:
@@ -366,7 +384,7 @@ class StockMoveReport(report_sxw.rml_parse):
         
         date_from,partner_ids,picking_type_ids=self.search_criteria_opening_info(data)
         
-        stock_move_ids = stock_move_obj.search(self.cr, self.uid, ['&', '&','&','&', ('partner_id','in',partner_ids),('picking_id.picking_type_id','in',picking_type_ids),('date','<',date_from), ('product_id', '=', product_id), '|',('location_id', '=', location_id), ('location_dest_id', '=', location_id)])
+        stock_move_ids = stock_move_obj.search(self.cr, self.uid, ['&','&','&','&','|','|',('picking_id.partner_id','=',False),('picking_id.partner_id','in',partner_ids),('picking_id.partner_id.parent_id','in',partner_ids),('picking_id.picking_type_id','in',picking_type_ids),('date','<',date_from), ('product_id', '=', product_id),'|',('location_id', '=', location_id), ('location_dest_id', '=', location_id)])
         stock_moves = stock_move_obj.browse(self.cr, self.uid, stock_move_ids)
         if stock_moves:
             for stock_move in stock_moves:

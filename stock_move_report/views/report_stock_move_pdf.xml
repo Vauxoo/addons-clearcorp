@@ -56,7 +56,7 @@
 	                                 <t t-if="get_include_costs(data)==True">
 		                               	<thead style="background-color:#E0E0E0" class="text-left">
 		                                    <tr>
-												<th  colspan="8" style="border: 1px solid black">
+												<th  colspan="9" style="border: 1px solid black">
 	                                    			<span t-esc="location[0]['complete_name']"/>
 		                                    	</th>
 	                                        </tr>
@@ -65,14 +65,15 @@
 		                               
 		                                <tbody class="text-left">
 		                                	<tr>
-		                                		<td colspan="4" style="border: 1px solid black">Opening Quantity: <span t-esc="formatLang(set_opening_quantity(data,product.id,location[0]['location_id']))"/></td>
-		                                		<td colspan="4" style="border: 1px solid black">Opening Cost: <span t-esc="formatLang(get_opening_cost(data,product.id,location[0]['location_id'],return_opening_quantity()))"/></td>   
+		                                		<td colspan="4" style="padding-top:0.5px;padding-bottom:0.5px;border: 1px solid black">Opening Quantity: <span t-esc="formatLang(set_opening_quantity(data,product.id,location[0]['location_id']))"/></td>
+		                                		<td colspan="5" style="padding-top:0.5px;padding-bottom:0.5px;border: 1px solid black">Opening Cost: <span t-esc="formatLang(get_opening_cost(data,product.id,location[0]['location_id'],return_opening_quantity()))"/></td>   
 		                                	</tr>
 		                                </tbody>
 	                        			<thead class="text-center"  style="background-color:#E0E0E0">
 	                            			<tr>
 		                                    	<th class="text-center" style="border: 1px solid black">Date</th>
 		                                    	<th class="text-center" style="border: 1px solid black">Origin</th>
+		                                    	<th class="text-center" style="border: 1px solid black">Company</th>
 		                                    	<th class="text-center" style="border: 1px solid black">Quantity Input</th>
 		                                    	<th class="text-center" style="border: 1px solid black">Quantity Output</th>
 		                                    	<th class="text-center" style="border: 1px solid black">Final Quantity</th>
@@ -84,38 +85,40 @@
 		                                
 		                                <tbody>
 		                                	<tr  t-foreach="get_group_moves(data,product.id,location[0]['location_id'],return_opening_quantity())" t-as="move">
-		                                		<td class="text-left" style="border: 1px solid black"><span t-esc="formatLang(move['date'],date=True)"/></td>
-		                                		<td class="text-left" style="border: 1px solid black"><span t-esc="move['origin']"/></td>
-		                                		<td class="text-right" style="border: 1px solid black"><span t-esc="formatLang(move['quantity_input'])"/></td>
-		                                		<td class="text-right" style="border: 1px solid black"><span t-esc="formatLang(move['quantity_output'])"/></td>
-		                                		<td class="text-right" style="border: 1px solid black"><span t-esc="formatLang(move['final_quantify_move'])"/></td>
-		                                		<td class="text-right" style="border: 1px solid black"><span t-esc="formatLang(move['standard_price'])"/></td>
-		                                		<td class="text-right" style="border: 1px solid black"><span t-esc="formatLang(move['final_cost'])"/></td>
-		                                		<td class="text-right" style="border: 1px solid black"><span t-esc="formatLang(move['total'])"/></td>
+		                                		<td class="text-left" style="padding-top:0.5px;padding-bottom:0.5px;border: 1px solid black"><span t-esc="formatLang(move['date'],date=True)"/></td>
+		                                		<td class="text-left" style="padding-top:0.5px;padding-bottom:0.5px;border: 1px solid black"><span t-esc="move['origin']"/></td>
+		                                		<td class="text-left" style="padding-top:0.5px;padding-bottom:0.5px;border: 1px solid black"><span t-esc="move['company']"/></td>
+		                                		<td class="text-right" style="padding-top:0.5px;padding-bottom:0.5px;border: 1px solid black"><span t-esc="formatLang(move['quantity_input'])"/></td>
+		                                		<td class="text-right" style="padding-top:0.5px;padding-bottom:0.5px;border: 1px solid black"><span t-esc="formatLang(move['quantity_output'])"/></td>
+		                                		<td class="text-right" style="padding-top:0.5px;padding-bottom:0.5px;border: 1px solid black"><span t-esc="formatLang(move['final_quantify_move'])"/></td>
+		                                		<td class="text-right" style="padding-top:0.5px;padding-bottom:0.5px;border: 1px solid black"><span t-esc="formatLang(move['standard_price'])"/></td>
+		                                		<td class="text-right" style="padding-top:0.5px;padding-bottom:0.5px;border: 1px solid black"><span t-esc="formatLang(move['final_cost'])"/></td>
+		                                		<td class="text-right" style="padding-top:0.5px;padding-bottom:0.5px;border: 1px solid black"><span t-esc="formatLang(move['total'])"/></td>
 		                                	</tr>
 		                                	<tr>
-		                                		<td class="text-left" colspan="4" style="border: 1px solid black">Final Quantity: <span t-esc="formatLang(get_final_quantity())"/></td>
-		                                		<td class="text-left" colspan="4" style="border: 1px solid black">Final Cost: <span t-esc="formatLang(return_final_cost())"/></td>   
+		                                		<td class="text-left" colspan="4" style="padding-top:0.5px;padding-bottom:0.5px;border: 1px solid black">Final Quantity: <span t-esc="formatLang(get_final_quantity())"/></td>
+		                                		<td class="text-left" colspan="5" style="padding-top:0.5px;padding-bottom:0.5px;border: 1px solid black">Final Cost: <span t-esc="formatLang(return_final_cost())"/></td>   
 		                                	</tr>
 		                             </tbody>
 		                           </t>
 		                           <t t-if="get_include_costs(data)==False">
 		                               	<thead style="background-color:#E0E0E0" class="text-left">
 		                                    <tr>
-												<th  colspan="5" style="border: 1px solid black">
+												<th  colspan="6" style="border: 1px solid black">
 	                                    			<span t-esc="location[0]['complete_name']"/>
 		                                    	</th>
 	                                        </tr>
 		                                </thead>
 		                                <tbody class="text-left">
 		                                	<tr>
-		                                		<td colspan="5" style="border: 1px solid black">Opening Quantity: <span t-esc="formatLang(set_opening_quantity(data,product.id,location[0]['location_id']))"/></td>
+		                                		<td colspan="6" style="padding-top:0.5px;padding-bottom:0.5px;border: 1px solid black">Opening Quantity: <span t-esc="formatLang(set_opening_quantity(data,product.id,location[0]['location_id']))"/></td>
 		                                	</tr>
 		                                </tbody>
 	                        			<thead class="text-center"  style="background-color:#E0E0E0">
 	                            			<tr>
 		                                    	<th class="text-center" style="border: 1px solid black">Date</th>
 		                                    	<th class="text-center" style="border: 1px solid black">Origin</th>
+		                                    	<th class="text-center" style="border: 1px solid black">Company</th>
 		                                    	<th class="text-center" style="border: 1px solid black">Quantity Input</th>
 		                                    	<th class="text-center" style="border: 1px solid black">Quantity Output</th>
 		                                    	<th class="text-center" style="border: 1px solid black">Final Quantity</th>
@@ -124,14 +127,15 @@
 		                                
 		                                <tbody>
 		                                	<tr  t-foreach="get_group_moves(data,product.id,location[0]['location_id'],return_opening_quantity())" t-as="move">
-		                                		<td class="text-left" style="border: 1px solid black"><span t-esc="formatLang(move['date'],date=True)"/></td>
-		                                		<td class="text-left" style="border: 1px solid black"><span t-esc="move['origin']"/></td>
-		                                		<td class="text-right" style="border: 1px solid black"><span t-esc="formatLang(move['quantity_input'])"/></td>
-		                                		<td class="text-right" style="border: 1px solid black"><span t-esc="formatLang(move['quantity_output'])"/></td>
-		                                		<td class="text-right" style="border: 1px solid black"><span t-esc="formatLang(move['final_quantify_move'])"/></td>
+		                                		<td class="text-left" style="padding-top:0.5px;padding-bottom:0.5px;border: 1px solid black"><span t-esc="formatLang(move['date'],date=True)"/></td>
+		                                		<td class="text-left" style="padding-top:0.5px;padding-bottom:0.5px;border: 1px solid black"><span t-esc="move['origin']"/></td>
+		                                		<td class="text-left" style="padding-top:0.5px;padding-bottom:0.5px;border: 1px solid black"><span t-esc="move['company']"/></td>
+		                                		<td class="text-right" style="padding-top:0.5px;padding-bottom:0.5px;border: 1px solid black"><span t-esc="formatLang(move['quantity_input'])"/></td>
+		                                		<td class="text-right" style="padding-top:0.5px;padding-bottom:0.5px;border: 1px solid black"><span t-esc="formatLang(move['quantity_output'])"/></td>
+		                                		<td class="text-right" style="padding-top:0.5px;padding-bottom:0.5px;border: 1px solid black"><span t-esc="formatLang(move['final_quantify_move'])"/></td>
 		                                	</tr>
 		                                	<tr>
-		                                		<td class="text-left" colspan="5" style="border: 1px solid black">Final Quantity: <span t-esc="formatLang(get_final_quantity())"/></td>  
+		                                		<td class="text-left" colspan="6" style="padding-top:0.5px;padding-bottom:0.5px;border: 1px solid black">Final Quantity: <span t-esc="formatLang(get_final_quantity())"/></td>  
 		                                	</tr>
 		                             </tbody>
 		                           </t>
