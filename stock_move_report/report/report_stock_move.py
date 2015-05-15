@@ -400,3 +400,9 @@ class report_stock_move_pdf(models.AbstractModel):
     _inherit = 'report.abstract_report'
     _template = 'stock_move_report.report_stock_move_pdf'
     _wrapped_report_class = StockMoveReport
+    
+class  report_stock_move_xls(models.AbstractModel):
+    _name = 'report.stock_move_report.report_stock_move_xls'
+    _inherit = 'report.abstract_report'
+    _template = 'stock_move_report.report_stock_move_xls'
+    _wrapped_report_class = StockMoveReport

@@ -38,6 +38,7 @@ This module add stock move report
                     'views/report_stock_move_pdf.xml',
                     'views/report_picking.xml',
                     'report/stock_move_analysis.xml',
+                    'views/report_stock_move_xls.xml',
                     'wizard/stock_move_report_wizard.xml',
                     ],
     'license': 'AGPL-3',
