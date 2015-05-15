@@ -48,11 +48,11 @@ class StockMoveWizard(models.TransientModel):
         if self.out_format=='qweb-PDF':
             res = self.env['report'].get_action(doc_ids,
             'stock_move_report.report_stock_move_pdf', data=data)
-            return res        
-        #elif self.out_format=='qweb-XLS':
-            #res = self.env['report'].get_action(self.product_ids,
-            #'stock_move_report.report_stock_move_pdf_xls', data=data)
-            #return res
+            return res
+        elif self.out_format=='qweb-XLS':
+            res = self.env['report'].get_action(doc_ids,
+            'stock_move_report.report_stock_move_xls', data=data)
+            return res
 
     date_from=fields.Date(string='Start Date',required=True)
     date_to=fields.Date(string='End Date',required=True)
@@ -63,8 +63,7 @@ class StockMoveWizard(models.TransientModel):
     source_location_ids=fields.Many2many('stock.location',relation='stock_location_stock_move_report_wiz_source_rel',string='Source Locations')
     destination_location_ids=fields.Many2many('stock.location',relation='stock_location_stock_move_report_wiz_dest_rel',string='Destination Locations')
     picking_type_ids = fields.Many2many('stock.picking.type',relation='stock_picking_type_stock_move_report_wiz_dest_rel',string='Picking Type')
-    out_format=fields.Selection([('qweb-PDF', 'Portable Document Format (.pdf)')],string='Print Format',required=True)
-    #out_format=fields.Selection([('qweb-PDF', 'Portable Document Format (.pdf)'), ('qweb-XLS','Microsoft Excel 97/2000/XP/2003 (.xls)')], string="Print Format",required=True)
+    out_format=fields.Selection([('qweb-PDF', 'Portable Document Format (.pdf)'), ('qweb-XLS','Microsoft Excel 97/2000/XP/2003 (.xls)')], string="Print Format",required=True)
     
     _defaults={
               'out_format':'qweb-PDF',
