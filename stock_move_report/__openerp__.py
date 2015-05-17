@@ -31,7 +31,7 @@ This module add stock move report
 """,
     'website': 'http://clearcorp.co.cr',
     'depends': [
-                'stock','product'
+                'stock','product','report_xls'
                 ],
     'data': [
                     'stock_move_report_report.xml',
