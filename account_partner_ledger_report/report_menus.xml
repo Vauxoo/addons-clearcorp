@@ -6,6 +6,6 @@
             name="Partner Ledger"
             action="action_account_partner_ledger_report_wizard"
             id="account.menu_account_partner_ledger"
-            parent="account.next_id_22"/>                    
+            parent="account.next_id_22"/>
     </data>
 </openerp>
