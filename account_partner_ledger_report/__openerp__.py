@@ -22,7 +22,7 @@
 {
     'name': 'Partner Ledger Report',
     'version': '1.0',
-    'author': 'CLEARCORP S.A.',
+    'author': 'ClearCorp',
     'category': 'Accounting & Finance',
     'description': """
 Partner Ledger Report.
@@ -31,10 +31,12 @@ This module modifies the partner ledger report """,
     'website': 'http://clearcorp.co.cr',
     'depends': ['account','account_report_lib',],
     'data': [
+             'data/report_paperformat.xml',
              'security/ir.model.access.csv',
              'wizard/account_partner_ledger_report_wizard_view.xml',
              'report/report.xml',
              'report_menus.xml',
+             'views/report_account_partner_ledger.xml',
             ],
     'active': False,
     'installable': True,    

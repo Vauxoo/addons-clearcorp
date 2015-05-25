@@ -5,7 +5,7 @@
             <field name="name">Account Partner Ledger Report </field>
             <field name="model">partner.ledger.wiz</field>
             <field name="type">form</field>
-            <field name="inherit_id" ref="account_report_lib.account_report_lib_wizard_view"/>
+            <field name="inherit_id" ref="account_report_lib.account_report_lib_wizard_form_view"/>
             <field name="arch" type="xml">
                 <data>
                     <xpath expr="/form/label[@string='']" position="replace">
