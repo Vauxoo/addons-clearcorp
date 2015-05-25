@@ -32,9 +32,9 @@ class productProductinherit(models.Model):
 
      #Change sequence. It depends of category assigned to product
      @api.onchange('ir_sequence_id')
-     def onchange_categ_id(self,categ_id):
-         if categ_id:
-             cat_obj = self.env['product.category'].browse(categ_id.id)
+     def onchange_categ_id(self):
+         if self.categ_id:
+             cat_obj = self.env['product.category'].browse(self.categ_id.id)
              if cat_obj.ir_sequence_cat_id:
                  return {'value': {'ir_sequence_id': cat_obj.ir_sequence_cat_id.id}}
              else:
