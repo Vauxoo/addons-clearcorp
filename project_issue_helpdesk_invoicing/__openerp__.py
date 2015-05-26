@@ -40,6 +40,7 @@ Extends Project Issue Helpdesk Invoicing
              'view/project_issue_helpdesk_invoicing_server_action.xml',
              'wizard/project_issue_helpdesk_invoice_wizard.xml',
              'wizard/project_issue_invoice_account_wizard.xml',
+             'security/ir.model.access.csv',
              ],
     'license': 'AGPL-3',
     'installable': True,
