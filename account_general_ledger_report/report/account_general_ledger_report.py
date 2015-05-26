@@ -20,7 +20,8 @@
 #
 ##############################################################################
 
-import pooler
+from openerp import pooler
+from openerp.osv import fields, osv
 from openerp.addons.account_report_lib.account_report_base import accountReportbase
 from openerp.report import report_sxw
 
@@ -34,7 +35,7 @@ class Parser(accountReportbase):
         self.localcontext.update({
             'cr': cr,
             'uid': uid,
-            'get_data':self.get_data,            
+            'get_data':self.get_data,
                
             #====================SET AND GET METHODS ===========================
             'storage':{},
@@ -63,9 +64,9 @@ class Parser(accountReportbase):
         })
     
     #set data to use in odt template. 
-    def set_data_template(self, cr, uid, data):        
+    def set_data_template(self, data):
         
-        account_list_obj, account_lines, account_conciliation, account_balance = self.get_data(cr, uid, data)
+        account_list_obj, account_lines, account_conciliation, account_balance = self.get_data(self.cr, self.uid, data)
         
         dict_update = {
                        'account_list_obj': account_list_obj,
@@ -223,7 +224,7 @@ class Parser(accountReportbase):
         target_move = self.get_target_move(data)
         
         #From the wizard can select specific account, extract this accounts
-        account_selected = self.get_accounts_ids(cr, uid, data)
+        account_selected = self.get_accounts_ids(data)
         
         if not account_selected:
             account_selected = [chart_account.id]
@@ -318,3 +319,10 @@ class Parser(accountReportbase):
         
         
         return account_list_obj, account_lines, account_conciliation, account_balance
+
+
+class report_partnerledger(osv.AbstractModel):
+    _name = 'report.account_general_ledger_report.report_general_ledger'
+    _inherit = 'report.abstract_report'
+    _template = 'account_general_ledger_report.report_general_ledger'
+    _wrapped_report_class = Parser

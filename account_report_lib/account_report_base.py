@@ -124,9 +124,9 @@ class accountReportbase(report_sxw.rml_parse, WebKitHelper):
         return self._get_form_param('date_to', data)
     
     #Case special for conciliation bank -> account_ids is an unicode.
-    def get_accounts_ids (self, cr, uid, data):
+    def get_accounts_ids (self, data):
         if isinstance(data['form']['account_ids'], unicode):
-            return self.pool.get('account.account').browse(cr, uid, [int(data['form']['account_ids'])])[0]
+            return self.pool.get('account.account').browse(self.cr, self.uid, [int(data['form']['account_ids'])])[0]
         
         return self._get_info(data,'account_ids', 'account.account')
     

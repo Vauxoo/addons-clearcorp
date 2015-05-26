@@ -23,7 +23,7 @@
 {
     'name': 'General Ledger Report',
     'version': '1.0',
-    'author': 'CLEARCORP S.A.',
+    'author': 'ClearCorp',
     'category': 'Accounting & Finance',
     'description': """
 General Ledger Report.
@@ -32,10 +32,12 @@ This module modifies the general ledger report""",
     'website': 'http://clearcorp.co.cr',
     'depends': ['account_report_lib',],
     'data': [
+               'data/report_paperformat.xml',
                'security/ir.model.access.csv',
                'report/report.xml',
                'wizard/account_general_ledger_report_wizard.xml',
                'report_menus.xml',
+               'views/report_general_ledger.xml',
             ],
     'active': False,
     'installable': True,    
