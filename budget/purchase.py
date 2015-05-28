@@ -21,7 +21,7 @@
 ##############################################################################
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
-import decimal_precision as dp
+import openerp.addons.decimal_precision as dp
 
 
 class purchase_order(osv.osv):
@@ -79,7 +79,7 @@ class purchase_order(osv.osv):
                     if po_line.invoice_lines:
                         inv_line = po_line.invoice_lines[0]
                         obj_bud_line.write(cr, uid, [asoc_bud_line_id],{'inv_line_id': inv_line.id}, context=context)
-                obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_execute', context=context)
+                obj_bud_mov.signal_workflow(cr, uid, [move_id], 'button_execute', context=context)
         return res     
 
     
@@ -93,7 +93,7 @@ class purchase_order(osv.osv):
             reserved_amount = purchase.amount_total
             if reserved_amount != 0.0:
                 move_id = purchase.budget_move_id.id
-                obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_reserve', context=context)
+                obj_bud_mov.signal_workflow(cr, uid, [move_id], 'button_reserve', context=context)
                 self.write(cr, uid, [purchase.id], {'state': 'budget_approved', 'reserved_amount': reserved_amount})
             else:
                 raise osv.except_osv(_('Error!'), _('You cannot approve an order with amount zero '))   
@@ -113,7 +113,7 @@ class purchase_order(osv.osv):
             if not purchase.order_line:
                 raise osv.except_osv(_('Error!'),_('You cannot confirm a purchase order without any purchase order line.'))
             move_id = purchase.budget_move_id.id
-            obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_compromise', context=context)
+            obj_bud_mov.signal_workflow(cr, uid, [move_id], 'button_compromise', context=context)
         self.write(cr, uid, ids, {'state': 'awarded'})
         return True
     
@@ -121,7 +121,7 @@ class purchase_order(osv.osv):
         obj_bud_mov = self.pool.get('budget.move')
         for purchase in self.browse(cr, uid, ids, context=context):
             move_id = purchase.budget_move_id.id
-            obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_cancel', context=context)
+            obj_bud_mov.signal_workflow(cr, uid, [move_id], 'button_cancel', context=context)
         self.write(cr, uid, ids, {'state': 'deserted'})
         return True
     
@@ -129,7 +129,7 @@ class purchase_order(osv.osv):
         obj_bud_mov = self.pool.get('budget.move')
         for purchase in self.browse(cr, uid, ids, context=context):
             move_id = purchase.budget_move_id.id
-            obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_cancel', context=context) 
+            obj_bud_mov.signal_workflow(cr, uid, [move_id], 'button_cancel', context=context) 
         self.write(cr, uid, ids, {'state': 'ineffectual'})
         return True
     
@@ -145,7 +145,7 @@ class purchase_order(osv.osv):
             if bud_move:
                 for bud_line in bud_move.move_lines:
                      amld_obj.create(cr, uid, {'distribution_percentage':100.0, 'distribution_amount':bud_line.compromised, 'target_budget_move_line_id':bud_line.id, 'account_move_line_type': 'void'})
-            obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_execute', context=context)
+            obj_bud_mov.signal_workflow(cr, uid, [move_id], 'button_execute', context=context)
         return True
     
     def action_cancel(self, cr, uid, ids, context=None):
@@ -153,7 +153,7 @@ class purchase_order(osv.osv):
         for purchase in self.browse(cr, uid, ids, context=context):
             bud_move = purchase.budget_move_id
             move_id = bud_move.id
-            obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_cancel', context=context)
+            obj_bud_mov.signal_workflow(cr, uid, [move_id], 'button_cancel', context=context)
         super(purchase_order, self).action_cancel(cr, uid, ids, context=context)
     
     def action_draft(self, cr, uid, ids, context=None):
@@ -162,7 +162,7 @@ class purchase_order(osv.osv):
             bud_move = purchase.budget_move_id
             if bud_move:
                 move_id = purchase.budget_move_id.id
-                obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_draft', context=context)
+                obj_bud_mov.signal_workflow(cr, uid, [move_id], 'button_draft', context=context)
 
         self.write(cr, uid, ids, {'state': 'draft'})
     
@@ -368,6 +368,6 @@ class purchase_line_invoice(osv.osv_memory):
                     obj_bud_line.write(cr, uid, [asoc_bud_line_id],{'inv_line_id': inv_line.id}, context=context)
                     move_id = po_line.order_id.budget_move_id.id
                     invoice_obj.write(cr, uid, [inv_line.invoice_id.id], {'budget_move_id': move_id, 'from_order':True}, context=context)
-                    obj_bud_mov._workflow_signal(cr, uid, [move_id], 'button_execute', context=context)
+                    obj_bud_mov.signal_workflow(cr, uid, [move_id], 'button_execute', context=context)
         return result
         

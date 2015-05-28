@@ -23,7 +23,7 @@
     'name': 'Public Budget',
     'version': '0.1',
     'url': 'http://launchpad.net/openerp-ccorp-addons',
-    'author': 'ClearCorp S.A.',
+    'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'category': 'Generic Modules/Base',
     'description': """ This module adds the logic for Public Budget management and it's different processes

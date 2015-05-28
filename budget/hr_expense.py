@@ -21,8 +21,8 @@
 ##############################################################################
 from openerp.tools.translate import _
 from openerp.osv import fields, osv
-import netsvc
-import decimal_precision as dp
+import openerp.netsvc
+import openerp.addons.decimal_precision as dp
 
 class hr_expense_expense(osv.osv):
     _name = "hr.expense.expense"
@@ -63,7 +63,7 @@ class hr_expense_expense(osv.osv):
             for line in expense.line_ids:
                 created_line_id = self.create_budget_move_line(cr, uid, line.id, context=context)
         bud_move_obj.write(cr, uid, [move_id], {'fixed_amount': expense_amount})
-        bud_move_obj._workflow_signal(cr, uid, [move_id], 'button_reserve', context=context)
+        bud_move_obj.signal_workflow(cr, uid, [move_id], 'button_reserve', context=context)
         return exp_id
         
     def write(self, cr, uid, ids, vals, context=None):        
@@ -92,7 +92,7 @@ class hr_expense_expense(osv.osv):
         bud_move_obj = self.pool.get('budget.move')
         exp_id = super(hr_expense_expense,self).expense_canceled(cr, uid, ids, context=context)
         for expense in self.browse(cr, uid, ids, context=context):
-            bud_move_obj._workflow_signal(cr, uid, [expense.budget_move_id.id], 'button_cancel', context=context)
+            bud_move_obj.signal_workflow(cr, uid, [expense.budget_move_id.id], 'button_cancel', context=context)
             bud_move_obj.recalculate_values(cr, uid, [expense.budget_move_id.id], context=context)
     
     def expense_draft(self, cr, uid, ids, context=None):
@@ -100,8 +100,8 @@ class hr_expense_expense(osv.osv):
         self.write(cr, uid, ids, {'state': 'draft'},context=context)
         for expense in self.browse(cr, uid, ids, context=context):
             if expense.budget_move_id:
-                bud_move_obj._workflow_signal(cr, uid, [expense.budget_move_id.id], 'button_draft', context=context)
-                bud_move_obj._workflow_signal(cr, uid, [expense.budget_move_id.id], 'button_reserve', context=context)
+                bud_move_obj.signal_workflow(cr, uid, [expense.budget_move_id.id], 'button_draft', context=context)
+                bud_move_obj.signal_workflow(cr, uid, [expense.budget_move_id.id], 'button_reserve', context=context)
                 bud_move_obj.recalculate_values(cr, uid, [expense.budget_move_id.id], context=context)
                 
     def action_receipt_create(self, cr, uid, ids, context=None):
@@ -115,8 +115,8 @@ class hr_expense_expense(osv.osv):
             acc_move_obj.write(cr , uid, [acc_move_id], {'budget_type': 'budget'}, context=context)
             for bud_mov_line in exp.budget_move_id.move_lines:
                 mov_line_obj.write(cr, uid, [bud_mov_line.id], {'account_move_id' : acc_move_id}, context=context)
-            bud_move_obj._workflow_signal(cr, uid, [exp.budget_move_id.id], 'button_compromise', context=context)
-            bud_move_obj._workflow_signal(cr, uid, [exp.budget_move_id.id], 'button_execute', context=context)
+            bud_move_obj.signal_workflow(cr, uid, [exp.budget_move_id.id], 'button_compromise', context=context)
+            bud_move_obj.signal_workflow(cr, uid, [exp.budget_move_id.id], 'button_execute', context=context)
             
             exp_lines = exp.line_ids
             taxes_per_line = self.tax_per_exp_line(cr, uid, exp_lines, context=context)

@@ -23,7 +23,7 @@
 	                	</xpath>
 	                	<xpath expr="/form/header/button[@name='wkf_send_rfq' and @states='draft']" position="replace"/>			
 	                	<xpath expr="/form/header/button[@name='wkf_send_rfq' and @states='sent']" position="replace"/>
-	                	<xpath expr="/form/header/button[@name='wkf_send_rfq' and @states='confirmed']" position="replace"/>
+	                	<xpath expr="/form/header/button[@name='purchase_approve' and @states='confirmed']" position="replace"/>
 	                	<xpath expr="/form/header/button[@name='purchase_confirm' and @states='draft']" position="attributes">
 	                		<attribute name="states" >awarded</attribute>
 	                		<attribute name="string" >Confirm Order</attribute>
@@ -41,17 +41,17 @@
 	                		<field name="state" widget="statusbar" statusbar_visible="draft,budget_approved,published,review,awarded,approved,done" statusbar_colors='{"except_picking":"red","except_invoice":"red","confirmed":"blue"}' readonly="1"/>
 	                	</xpath>
 	                	
-	                	<xpath expr="/form/sheet/notebook/page[@string='Purchase Order']/field[@name='order_line']/tree/field[@name='taxes_id']" position="attributes">
+	                	<xpath expr="/form/sheet/notebook/page[@string='Products']/field[@name='order_line']/tree/field[@name='taxes_id']" position="attributes">
 	                		<attribute name="invisible">True</attribute>
 
 	                	</xpath>
 	                	
-	                	<xpath expr="/form/sheet/notebook/page[@string='Purchase Order']/field[@name='order_line']/tree/field[@name='product_uom']" position="after">
+	                	<xpath expr="/form/sheet/notebook/page[@string='Products']/field[@name='order_line']/tree/field[@name='product_uom']" position="after">
 	                		<field name="program_line_id" domain="[('type','=','budget'), ('active_for_view','=',True)]" on_change="on_change_program_line(program_line_id)" required="True"/>
 	                    	<field name="line_available" readonly="True"/>
 	                	</xpath>
 	                	
-	                	<page string="Purchase Order" position="after">
+	                	<page string="Products" position="after">
 	                		<page string="Budget Info">
 		                    	<group>
 			                    	<field name="reserved_amount"/>

@@ -121,6 +121,6 @@ class hr_payslip(osv.osv):
                             vals['move_line_id'] = move_line.id
                             obj_bud_line.create(cr, uid, vals, context=context )
             obj_bud_mov.write(cr, uid, [bud_move_id], {'fixed_amount':payslip_total}, context=context)
-            obj_bud_mov._workflow_signal(cr, uid, [bud_move_id], 'button_compromise', context=context)
-            obj_bud_mov._workflow_signal(cr, uid, [bud_move_id], 'button_execute', context=context)
+            obj_bud_mov.signal_workflow(cr, uid, [bud_move_id], 'button_compromise', context=context)
+            obj_bud_mov.signal_workflow(cr, uid, [bud_move_id], 'button_execute', context=context)
         return result

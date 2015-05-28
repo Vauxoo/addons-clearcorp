@@ -21,7 +21,7 @@
 ##############################################################################
 
 from openerp.osv import fields, orm, osv
-import decimal_precision as dp
+import openerp.addons.decimal_precision as dp
 from openerp.tools.translate import _
 from datetime import datetime
 from copy import copy
@@ -57,7 +57,7 @@ class AccountMoveReconcile(orm.Model):
         if budget_move_ids:
             bud_mov_obj.recalculate_values(cr, uid, budget_move_ids, context=context)
             for mov_id in budget_move_ids:
-                bud_mov_obj._workflow_signal(cr, uid, [mov_id], 'button_check_execution', context=context)
+                bud_mov_obj.signal_workflow(cr, uid, [mov_id], 'button_check_execution', context=context)
         return super(AccountMoveReconcile, self).unlink(cr, uid, ids, context=context)
      
     def create(self, cr, uid, vals, context=None):
@@ -314,7 +314,7 @@ class AccountMoveReconcile(orm.Model):
                     'account_move_line_type':       'liquid',
                 }
                 budget_res.append(dist_obj.create(cr, uid, vals, context = context))
-                bud_move_obj._workflow_signal(cr, uid, [line.budget_move_id.id], 'button_check_execution', context=context)
+                bud_move_obj.signal_workflow(cr, uid, [line.budget_move_id.id], 'button_check_execution', context=context)
                 
             
             # Liquid list
@@ -334,7 +334,7 @@ class AccountMoveReconcile(orm.Model):
                     'type':                         'auto',
                 }
                 liquid_res.append(dist_obj.create(cr, uid, vals, context = context))
-                bud_move_obj._workflow_signal(cr, uid, [line.budget_move_id.id], 'button_check_execution', context=context)
+                bud_move_obj.signal_workflow(cr, uid, [line.budget_move_id.id], 'button_check_execution', context=context)
             
         distributed_amount = budget_distributed + liquid_distributed
         
@@ -469,7 +469,7 @@ class AccountMoveReconcile(orm.Model):
                     'account_move_line_type':       'liquid',
                 }
                 budget_res.append(dist_obj.create(cr, uid, vals, context = context))
-                bud_move_obj._workflow_signal(cr, uid, [line.budget_move_id.id], 'button_check_execution', context=context)
+                bud_move_obj.signal_workflow(cr, uid, [line.budget_move_id.id], 'button_check_execution', context=context)
         
         distributed_amount = budget_distributed
         

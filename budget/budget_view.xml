@@ -201,10 +201,12 @@
             			</h1>
             			<group>
             				<field name="state" invisible="True"/>
-            				<field name="name" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+            				<field name="name" attrs="{'readonly':[('state', '=', 'draft')]}"/>
+            			   <!-- <field name="name"/> -->
             				<field name="previous_year_line_id" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
             				<field name="account_id" domain="[('account_type','=','budget'), ('active','=','True')]"/>
-            				<field name="program_id" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+            				<field name="program_id" attrs="{'readonly':[('state', '=', 'draft')]}"/>
+                           <!-- <field name="program_id"/> -->
             				<field name="type"/>
             				<field name="assigned_amount" attrs="{'invisible':[('type', '!=', 'budget')],'readonly':[('state', '!=', 'draft')]}"/>
             				<field name="total_assigned" attrs="{'invisible':[('type', '=', 'budget')]}"/>
@@ -551,7 +553,7 @@
             				<field name="fixed_amount" required="True" />
             				<field name="type" invisible="True" />
             				<field name="state" invisible="True" />
-            				<field name="modified"/>
+            				<field name="changed"/>
             				<field name="extended"/>
 							<field name="reserved"/>
 							<field name="compromised"/>

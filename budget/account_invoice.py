@@ -20,8 +20,8 @@
 #
 ##############################################################################
 
-import netsvc
-import decimal_precision as dp
+import openerp.netsvc
+import openerp.addons.decimal_precision as dp
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
@@ -44,18 +44,18 @@ class account_invoice(osv.osv):
         res = super(account_invoice, self).action_cancel(cr, uid, ids, context=context)
         for invoice in self.browse(cr, uid, ids, context=context):
             if invoice.budget_move_id:
-                invoice.budget_move_id._workflow_signal('button_cancel', context=context)
+                invoice.budget_move_id.signal_workflow('button_cancel', context=context)
         return res
 
     def action_cancel_draft(self, cr, uid, ids, *args):
         res = super(account_invoice, self).action_cancel_draft(cr, uid, ids, *args)
         for invoice in self.browse(cr, uid, ids):
             if invoice.budget_move_id:
-                invoice.budget_move_id._workflow_signal('button_draft')
+                invoice.budget_move_id.signal_workflow('button_draft')
         return res
 
     _columns= {
-    'budget_move_id': fields.many2one('budget.move', 'Budget move', readonly=True, ),
+    'budget_move_id': fields.many2one('budget.move', 'Budget move', readonly=True),
     'from_order': fields.boolean('From order')
     }
     _defaults={
@@ -221,7 +221,7 @@ class account_invoice(osv.osv):
                             obj_bud_move_line.write(cr, uid, [bud_line.id],{'move_line_id':move_line.id})
                             assigned_mov_lines.append(move_line.id)
                 
-                obj_bud_move._workflow_signal(cr, uid, [move_id], 'button_execute', context=context)
+                obj_bud_move.signal_workflow(cr, uid, [move_id], 'button_execute', context=context)
         else:
             for invoice in self.browse(cr,uid,ids, context=context):
                 for inv_line in invoice.invoice_line:
@@ -244,7 +244,7 @@ class account_invoice(osv.osv):
                             obj_bud_move_line.write(cr, uid, [bud_line.id],{'move_line_id':move_line.id})
                             assigned_mov_lines.append(move_line.id)
                 
-                obj_bud_move._workflow_signal(cr, uid, [move_id], 'button_execute', context=context)
+                obj_bud_move.signal_workflow(cr, uid, [move_id], 'button_execute', context=context)
                     
         return validate_result
     
@@ -295,10 +295,10 @@ class account_invoice_line(osv.osv):
     
     
     _columns= {
-    'program_line_id': fields.many2one('budget.program.line', 'Program line', ),
-    'invoice_from_order': fields.function(_check_from_order, type='boolean', method=True, string='From order',readonly=True,),
+    'program_line_id': fields.many2one('budget.program.line', 'Program line'),
+    'invoice_from_order': fields.function(_check_from_order, type='boolean', method=True, string='From order',readonly=True),
     'line_available':fields.float('Line available',digits_compute=dp.get_precision('Account'),readonly=True),
-    'subtotal_discounted_taxed': fields.function(_subtotal_discounted_taxed, digits_compute= dp.get_precision('Account'), string='Subtotal', ),
+    'subtotal_discounted_taxed': fields.function(_subtotal_discounted_taxed, digits_compute= dp.get_precision('Account'), string='Subtotal'),
     }
     
     _defaults = {}
