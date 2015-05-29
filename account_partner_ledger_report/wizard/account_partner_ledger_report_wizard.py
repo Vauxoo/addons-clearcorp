@@ -22,7 +22,7 @@
 
 from openerp.osv import fields, osv, orm
 
-class AccountJournalReportWizard(orm.Model):
+class AccountJournalReportWizard(osv.Model):
 
     _inherit = "account.report.wiz"
     _name = "partner.ledger.wiz"
@@ -39,7 +39,7 @@ class AccountJournalReportWizard(orm.Model):
     def _print_report(self, cr, uid, ids, data, context=None):
         mimetype = self.pool.get('report.mimetypes')
         report_obj = self.pool.get('ir.actions.report.xml')
-        report_name = ''
+        report_name = 'account_partner_ledger_report.report_account_partner_ledger'
       
         context = context or {}
             
@@ -64,7 +64,7 @@ class AccountJournalReportWizard(orm.Model):
         #=======================================================================
         
         #1. Find out_format selected
-        out_format_obj = mimetype.browse(cr, uid, [int(data['form']['out_format'])], context)[0]
+        """out_format_obj = mimetype.browse(cr, uid, [int(data['form']['out_format'])], context)[0]
 
         #2. Check out_format and set report_name for each format
         if out_format_obj.code == 'oo-pdf':
@@ -84,12 +84,12 @@ class AccountJournalReportWizard(orm.Model):
             data.update({'model': report_xml.model, 'report_type':'aeroo', 'id': report_xml.id})
             
             #Write out_format choosed in wizard
-            report_xml.write({'out_format': out_format_obj.id}, context=context)
+            report_xml.write({'out_format': out_format_obj.id}, context=context)"""
            
-            return {
-                'type': 'ir.actions.report.xml',
-                'report_name': report_name,
-                'datas': data,
-                'context':context
-            }
+        return {
+            'type': 'ir.actions.report.xml',
+            'report_name': report_name,
+            'datas': data,
+            'context':context
+        }
       

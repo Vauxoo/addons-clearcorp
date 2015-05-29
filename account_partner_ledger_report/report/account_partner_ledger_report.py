@@ -21,8 +21,9 @@
 ##############################################################################
 
 import time
-import pooler
+from openerp import pooler
 from openerp.report import report_sxw
+from openerp.osv import osv
 import locale
 from openerp.tools.translate import _
 from collections import OrderedDict
@@ -46,13 +47,13 @@ class Parser(accountReportbase):
             'get_partner_name': self.get_partner_name,
             'get_currency_name':self.get_currency_name,
             #=======Built data and results
-            'built_result': self.built_result,       
+            'built_result': self.built_result,
             'get_amounts_move_line':self.get_amounts_move_line,
             'compute_inicial_balance':self.compute_inicial_balance,
             'compute_cum_balance': self.compute_cum_balance,
             'result_lines':self.result_lines,
             #=====Get and set data
-            'get_initial_balance': self.get_initial_balance,            
+            'get_initial_balance': self.get_initial_balance,
             'reset_values':self.reset_values,
             'total_by_type': self.total_by_type,     
             'get_final_cumul_balance': self.get_final_cumul_balance,
@@ -80,7 +81,7 @@ class Parser(accountReportbase):
         partner_ids = []
         
         #== Filter type
-        filter_type = self.get_filter(data)        
+        filter_type = self.get_filter(data)
         if filter_type == 'filter_date':
             start_date = self.get_date_from(data)
             stop_date = self.get_date_to(data)
@@ -88,7 +89,7 @@ class Parser(accountReportbase):
             filter_data.append(start_date)
             filter_data.append(stop_date)
             
-        elif filter_type == 'filter_period':            
+        elif filter_type == 'filter_period':
             start_period = self.get_start_period(data) #return the period object
             stop_period = self.get_end_period(data)
             
@@ -208,13 +209,13 @@ class Parser(accountReportbase):
                     if line.partner_id.id not in result[currency_company.id].keys():
                         result[currency_company.id][line.partner_id.id] = []
                         #==== ID list (without repeat id)                                  
-                        list_ids.append(line.partner_id.id)                         
+                        list_ids.append(line.partner_id.id)
                     result[currency_company.id][line.partner_id.id].append(line) 
                    
            else:
                if line.currency_id.id not in result.keys():
                    actual_currency = line.currency_id.id
-                   result[actual_currency] = {}                   
+                   result[actual_currency] = {}
                 
                if not line.partner_id:
                     if 'no_partner' not in result[actual_currency].keys():
@@ -251,7 +252,7 @@ class Parser(accountReportbase):
         res = {}
         values = {'invoice': 0.0, 'c_d_notes':0.0, 'payment':0.0, 'manual':0.0}
        
-        for line in move_lines:       
+        for line in move_lines:
             #Reset values
             values = {'invoice': 0.0, 'c_d_notes':0.0, 'payment':0.0, 'manual':0.0}
             res[line.id] = values
@@ -306,24 +307,25 @@ class Parser(accountReportbase):
         return res
         
     #5. Create a method that compute initial_balance by partner
-    def compute_inicial_balance(self, cr, uid, partner_id, currency_id, data):
+    def compute_inicial_balance(self, partner_id, currency_id, data):
         result = {}
         params = []
         where_clause = ''
 
         #Set value in localcontext
-        self.localcontext['cumul_balance'] = {}
+        if not self.localcontext['cumul_balance']:
+            self.localcontext['cumul_balance'] = {}
         
         #===Parameters
         fiscalyear_id = self.get_fiscalyear(data)
         filter_type = self.get_filter(data)
         account_ids = self.get_data_template('account_ids')
-        user = self.pool.get('res.users').browse(cr, uid, uid,context=None)
+        user = self.pool.get('res.users').browse(self.cr, self.uid, self.uid,context=None)
 
         #if filter_type == period, get all periods before period_start selected 
         if filter_type == 'filter_period':
             start_period = self.get_start_period(data) #return the period object
-            period_ids = self.pool.get('account.period').search(cr, uid,[('date_start', '<', start_period.date_start),('fiscalyear_id','=', fiscalyear_id.id)])
+            period_ids = self.pool.get('account.period').search(self.cr, self.uid,[('date_start', '<', start_period.date_start),('fiscalyear_id','=', fiscalyear_id.id)])
             
             #Add account and reconcile
             where_clause += "reconcile_id is not NULL " + "AND account_id in %s "
@@ -339,7 +341,7 @@ class Parser(accountReportbase):
                 params.append(tuple(period_ids))
             else:
                 #exclude all periods if doesn't exist previous period
-                period_ids = self.pool.get('account.period').search(cr, uid, [], )
+                period_ids = self.pool.get('account.period').search(self.cr, self.uid, [], )
                 where_clause += "AND period_id not in %s "
                 params.append(tuple(period_ids))
                 
@@ -396,7 +398,7 @@ class Parser(accountReportbase):
                 #set this result as the first amount of initial balance
                 self.localcontext['cumul_balance'][dict['partner']] = result[dict['partner']]
         else:
-            result[partner_id] = 0.0                                  
+            result[partner_id] = 0.0
             self.localcontext['cumul_balance'][partner_id] = 0.0
 
         return result
@@ -415,7 +417,7 @@ class Parser(accountReportbase):
         return cumul_balance
     
     #Return the total balance for each amount. Compute at the end of each partner
-    def total_by_type(self, move_lines):   
+    def total_by_type(self, move_lines):
                
         final = {'invoice' : 0.0, 'c_d_notes': 0.0, 'payment': 0.0, 'manual': 0.0,}
         
@@ -432,15 +434,15 @@ class Parser(accountReportbase):
       
     #=========== Methods to get and set data    
     #set data to use in odt template. 
-    def set_data_template(self, cr, uid, data):        
-        result, partner_ids_order = self.built_result(cr, uid, data)
-        dict_update = {'result': result, 'partners': partner_ids_order}        
+    def set_data_template(self, data):
+        result, partner_ids_order = self.built_result(self.cr, self.uid, data)
+        dict_update = {'result': result, 'partners': partner_ids_order}
         self.localcontext['storage'].update(dict_update)
         return False
     
     #Return a dictionary with all values for a move_lines list
-    def result_lines(self, cr, uid, move_lines, currency_id):
-        amount_per_line = self.get_amounts_move_line(cr, uid, move_lines, currency_id)        
+    def result_lines(self, move_lines, currency_id):
+        amount_per_line = self.get_amounts_move_line(self.cr, self.uid, move_lines, currency_id)
         dict_update = {'amount_per_line': amount_per_line}
         self.localcontext['storage'].update(dict_update)
         return False
@@ -451,9 +453,9 @@ class Parser(accountReportbase):
                
     #Return initial balance for a specific partner.
     """@param partner: partner is an id (integer). It's comming for the odt template """
-    def get_initial_balance(self, cr, uid, partner, currency, data):
-        self.compute_inicial_balance(cr, uid, partner, currency, data)
-        return self.localcontext['cumul_balance'][partner]         
+    def get_initial_balance(self, partner, currency, data):
+        self.compute_inicial_balance(partner, currency, data)
+        return self.localcontext['cumul_balance'][partner]
     
     #Return cumul_balance for a specific partner
     def get_final_cumul_balance(self, partner):
@@ -476,9 +478,9 @@ class Parser(accountReportbase):
     
     #=========Methods for display data 
     #Display name of a specific partner
-    def get_partner_name(self, cr, uid, partner_id):        
+    def get_partner_name(self, partner_id):
         if partner_id != 0:
-            partner = self.pool.get('res.partner').browse(cr, uid, partner_id)                  
+            partner = self.pool.get('res.partner').browse(self.cr, self.uid, partner_id)
             if partner.ref and partner.name:
                 return partner.name + ' - REF: ' + partner.ref 
             else:
@@ -487,6 +489,13 @@ class Parser(accountReportbase):
             return 'No partner'
     
     #Display the currency name    
-    def get_currency_name(self, cr, uid, currency_id):
-        return self.pool.get('res.currency').browse(cr, uid, currency_id).name
-                
+    def get_currency_name(self, currency_id):
+        return self.pool.get('res.currency').browse(self.cr, self.uid, currency_id).name
+        
+
+
+class report_partnerledger(osv.AbstractModel):
+    _name = 'report.account_partner_ledger_report.report_account_partner_ledger'
+    _inherit = 'report.abstract_report'
+    _template = 'account_partner_ledger_report.report_account_partner_ledger'
+    _wrapped_report_class = Parser
