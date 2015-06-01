@@ -26,8 +26,8 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import time
 import logging
-import netsvc
-import decimal_precision as dp
+import openerp.netsvc
+import openerp.addons.decimal_precision as dp
 from openerp.osv import fields, orm, osv
 
 ######################################################
@@ -192,7 +192,7 @@ class budget_plan(osv.osv):
             closeable_move_ids = self.get_budget_moves_for_close(cr, uid, plan.id, context=context)
             bud_move_obj.process_for_close(cr, uid, closeable_move_ids, plan.id, context=context)
             self.move_default_bud_program_line(cr, uid, ids , context=context)
-            bud_move_obj._workflow_signal(cr, uid, [plan.id], 'button_close', context=context)
+            bud_move_obj.signal_workflow(cr, uid, [plan.id], 'button_close', context=context)
             self.hide_program_lines(cr, uid, ids , context=context)
 
     def hide_program_lines(self, cr, uid, plan_ids , context=None):
@@ -356,7 +356,7 @@ class budget_program_line(osv.osv):
                      'total_assigned':'COALESCE(MAX(BPL.assigned_amount),0.0) AS total_assigned',
                      'executed':'COALESCE(SUM(BML.executed),0.0) AS executed_amount',
                      'reserved':'COALESCE(SUM(BML.reserved),0.0) AS reserved_amount',
-                     'modified':'COALESCE(SUM(BML.modified),0.0) AS modified_amount',
+                     'changed':'COALESCE(SUM(BML.changed),0.0) AS modified_amount',
                      'extended':'COALESCE(SUM(BML.extended),0.0) AS extended_amount',
                      'compromised':'COALESCE(SUM(BML.compromised),0.0) AS compromised_amount',
                 }
@@ -990,10 +990,10 @@ class budget_move(osv.osv):
             self.replace_budget_move(cr, uid, move.id, new_move_id, MOVE_RELATED_MODELS,context=context )
     
             if move.state == 'compromised':
-                self._workflow_signal(cr, uid, [new_move_id], 'button_reserve', context=context)
-                self._workflow_signal(cr, uid, [new_move_id], 'button_compromise', context=context)
+                self.signal_workflow(cr, uid, [new_move_id], 'button_reserve', context=context)
+                self.signal_workflow(cr, uid, [new_move_id], 'button_compromise', context=context)
             if move.state == 'in_execution':
-                self._workflow_signal(cr, uid, [new_move_id], 'button_execute', context=context)
+                self.signal_workflow(cr, uid, [new_move_id], 'button_execute', context=context)
             
     def replace_budget_move(self, cr, uid, old_id, new_id, models,context=None ):
         for model in models:
@@ -1004,10 +1004,10 @@ class budget_move(osv.osv):
     def process_for_close(self, cr, uid, closeable_move_ids, plan_id, context=None):
         for move in self.browse(cr, uid, closeable_move_ids, context=context):
             if move.state in ('draft', 'reserved'):
-                self._workflow_signal(cr, uid, [move.id], 'button_cancel', context=context)
+                self.signal_workflow(cr, uid, [move.id], 'button_cancel', context=context)
             if move.state in ('compromised', 'in_execution'):
                 self.transfer_to_next_year(cr, uid, [move.id], plan_id, context=context)
-                self._workflow_signal(cr, uid, [move.id], 'button_transfer', context=context)
+                self.signal_workflow(cr, uid, [move.id], 'button_transfer', context=context)
 
     def _check_values(self, cr, uid, ids, context=None):
         list_line_ids_repeat = []
@@ -1317,7 +1317,7 @@ class budget_move_line(osv.osv):
         'date': fields.datetime('Date created', required=True,),
         'fixed_amount': fields.float('Original amount',digits_compute=dp.get_precision('Account'),),
         'line_available':fields.float('Line available',digits_compute=dp.get_precision('Account'),readonly=True),
-        'modified': fields.function(_compute_modified, type='float', method=True, string='Modified',readonly=True, store=True),
+        'changed': fields.function(_compute_modified, type='float', method=True, string='Modified',readonly=True, store=True),
         'extended': fields.function(_compute_extended, type='float', method=True, string='Extended',readonly=True, store=True),
         'reserved': fields.function(_compute, type='float', method=True, multi=True, string='Reserved',readonly=True, store=True),
         'reversed': fields.function(_compute, type='float', method=True, multi=True, string='Reversed',readonly=True, store=True),
@@ -1335,10 +1335,10 @@ class budget_move_line(osv.osv):
         'state': fields.related('budget_move_id', 'state', type='char', relation='budget.move', string='State',  readonly=True),
         #=======bugdet move line distributions
         'budget_move_line_dist': fields.one2many('account.move.line.distribution','target_budget_move_line_id', 'Budget Move Line Distributions'),
-        'type_distribution':fields.related('budget_move_line_dist','type', type="selection", relation="account.move.line.distribution", string="Distribution type"),
+        'type_distribution':fields.related('budget_move_line_dist','type', type="selection", relation="account.move.line.distribution", string="Distribution type", selection=[('manual', 'Manual'), ('auto', 'Automatic')]),
         #=======Payslip lines
         'previous_move_line_id': fields.many2one('budget.move', 'Previous move line'),
-        'from_migration':fields.related('budget_move_id','from_migration', relation='budget.move', string='Transferred', readonly=True)
+        'from_migration':fields.related('budget_move_id','from_migration', type="boolean", string='Transferred', readonly=True)
 
     }
     _defaults = {

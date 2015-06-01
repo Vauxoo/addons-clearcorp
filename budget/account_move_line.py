@@ -21,7 +21,7 @@
 ##############################################################################
 
 from openerp.osv import fields, osv, orm
-from tools.translate import _
+from openerp.tools.translate import _
 
 class AccountMoveLine(osv.Model):
     _inherit = 'account.move.line'
@@ -126,7 +126,7 @@ class AccountMoveLine(osv.Model):
         
         #=======account move line distributions
         'account_move_line_dist': fields.one2many('account.move.line.distribution','account_move_line_id', 'Account Move Line Distributions'),
-        'type_distribution':fields.related('account_move_line_dist','type', type="selection", relation="account.move.line.distribution", string="Distribution type"),
+        'type_distribution':fields.related('account_move_line_dist','type', type="selection", relation="account.move.line.distribution", string="Distribution type", selection=[('manual', 'Manual'), ('auto', 'Automatic')]),
         
         #======budget program line
         'budget_program_line': fields.many2one('budget.program.line', 'Budget Program Line'),

@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from tools.translate import _
+from openerp.tools.translate import _
 from openerp.osv import fields, orm, osv
 
 class account_move_line_distribution(orm.Model):

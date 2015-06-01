@@ -193,7 +193,7 @@
             <field name="model">budget.program.line</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-            	<form string="Program lines" version="7.0" >
+            	<form string="Program lines" >
 
             		<sheet>
             			<h1>
@@ -551,7 +551,7 @@
             				<field name="fixed_amount" required="True" />
             				<field name="type" invisible="True" />
             				<field name="state" invisible="True" />
-            				<field name="modified"/>
+            				<field name="changed"/>
             				<field name="extended"/>
 							<field name="reserved"/>
 							<field name="compromised"/>

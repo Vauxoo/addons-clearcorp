@@ -76,7 +76,7 @@ class accountMove(orm.Model):
                                              'fixed_amount': amount,
                                              'move_line_id': move_line.id,
                                               }, context=context)
-                bud_mov_obj._workflow_signal(cr, uid, [bud_move_id], 'button_execute', context=context)
+                bud_mov_obj.signal_workflow(cr, uid, [bud_move_id], 'button_execute', context=context)
                 bud_mov_obj.recalculate_values(cr, uid, [bud_move_id], context=context)
         return created_move_ids
     
@@ -181,8 +181,8 @@ class accountMove(orm.Model):
         for acc_move in self.browse(cr, uid, ids, context=context):
             bud_move_id = acc_move.budget_move_id.id
             if bud_move_id:
-                bud_mov_obj._workflow_signal(cr, uid, [bud_move_id], 'button_cancel', context=context)
-                bud_mov_obj._workflow_signal(cr, uid, [bud_move_id], 'button_draft', context=context)
+                bud_mov_obj.signal_workflow(cr, uid, [bud_move_id], 'button_cancel', context=context)
+                bud_mov_obj.signal_workflow(cr, uid, [bud_move_id], 'button_draft', context=context)
                 bud_mov_obj.unlink(cr, uid, [bud_move_id], context=context)        
         super(accountMove, self).button_cancel(cr, uid, ids, context=context)
         return True    
