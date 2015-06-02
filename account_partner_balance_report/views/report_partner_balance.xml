@@ -19,7 +19,7 @@
                         <table>
                             <tr>
                                 <td>
-                                    <span style="white-space: pre;">      </span>
+                                    <span style="white-space: pre;">           </span>
                                 </td>
                                 <td style="text-align:center;">
                                     <h2><strong><span
@@ -116,15 +116,15 @@
                                             </td>
                                             <td style="border: 1px solid #000000 "
                                                 class="text-right">
-                                                <span>Balance</span>
+                                                <strong><span>Balance</span></strong>
                                             </td>
                                             <td style="border: 1px solid #000000 "
                                                 class="text-right">
-                                                <span t-esc="formatLang(total_debit)"/>
+                                                <strong><span t-esc="formatLang(total_debit)"/></strong>
                                             </td>
                                             <td style="border: 1px solid #000000 "
                                                 class="text-right">
-                                                <span t-esc="formatLang(total_credit)"/>
+                                                <strong><span t-esc="formatLang(total_credit)"/></strong>
                                             </td>
                                         </tr>
                                     </tbody>
