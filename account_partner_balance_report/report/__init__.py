@@ -20,24 +20,4 @@
 #
 ##############################################################################
 
-{
-    'name': 'Partner Balance Report',
-    'version': '1.0',
-    'author': 'CLEARCORP S.A.',
-    'category': 'Accounting & Finance',
-    'description': """
-Partner Balance Report.
-==========================
-This module modifies the Partner Balance Report. Add aeroo report support""",    
-    'website': 'http://clearcorp.co.cr',
-    'depends': [
-                'res_currency_sequence',
-                'account_report_lib',
-                ],
-    'data': [
-             'report/report.xml'
-            ],
-    'active': False,
-    'installable': True,    
-    'license': 'AGPL-3',
-}
+import account_partner_balance_report
