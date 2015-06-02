@@ -21,14 +21,15 @@
 ##############################################################################
 
 import time
+from openerp.osv import fields, osv
 from openerp.tools.translate import _
-import pooler
+from openerp import pooler
 
 from openerp.addons.account_report_lib.account_report_base import accountReportbase #Library Base
 
 class Parser(accountReportbase):
      
-    def __init__(self, cr, uid, name, context):        
+    def __init__(self, cr, uid, name, context):
         super(Parser, self).__init__(cr, uid, name, context=context)
         self.pool = pooler.get_pool(self.cr.dbname)
         
@@ -89,7 +90,7 @@ class Parser(accountReportbase):
        
        currency_company = self.pool.get('res.users').browse(cr, uid, [uid])[0].company_id.currency_id
         
-       """ 1. Extract partner's id and then search move lines."""        
+       """ 1. Extract partner's id and then search move lines."""
        for partner in objects:
            partner_ids.append(partner.id)
         
@@ -109,10 +110,10 @@ class Parser(accountReportbase):
            if not line.currency_id:
                if currency_company.id not in res[line.partner_id.id][line.account_id.type].keys():
                    res[line.partner_id.id][line.account_id.type][currency_company.id] = []
-               res[line.partner_id.id][line.account_id.type][currency_company.id].append(line)                
+               res[line.partner_id.id][line.account_id.type][currency_company.id].append(line)
 
            else:
-               if line.currency_id.id not in res[line.partner_id.id][line.account_id.type].keys():                   
+               if line.currency_id.id not in res[line.partner_id.id][line.account_id.type].keys():
                    res[line.partner_id.id][line.account_id.type][line.currency_id.id] = []
                res[line.partner_id.id][line.account_id.type][line.currency_id.id].append(line)
              
@@ -127,13 +128,13 @@ class Parser(accountReportbase):
         2. Return the value for debit or credit for each line
         @param line: A account_move_line line object
     """   
-    def define_debit_credit(self, cr, uid, line):
+    def define_debit_credit(self, line):
         debit = 0.0
         credit = 0.0
         
         res = {'debit':debit, 'credit':credit}
         
-        currency_company = self.pool.get('res.users').browse(cr, uid, [uid])[0].company_id.currency_id
+        currency_company = self.pool.get('res.users').browse(self.cr, self.uid, [self.uid])[0].company_id.currency_id
         
         #Use amount_currency in this case
         if (line.currency_id != currency_company) and line.currency_id:
@@ -141,7 +142,7 @@ class Parser(accountReportbase):
                 debit = line.amount_currency
             elif line.amount_currency < 0:
                 credit = line.amount_currency * -1
-            res.update({'debit':debit, 'credit':credit})            
+            res.update({'debit':debit, 'credit':credit})
         
         #currency_id = False, company_id currency
         else:
@@ -152,13 +153,13 @@ class Parser(accountReportbase):
         3. Compute debit and credit column for each lines block
         @param lines: A list of lines.
     """   
-    def compute_total_debit_credit(self, cr, uid, lines):
+    def compute_total_debit_credit(self, lines):
        debit = 0.0
        credit = 0.0
         
        res = {'debit':debit, 'credit':credit}
         
-       currency_company = self.pool.get('res.users').browse(cr, uid, [uid])[0].company_id.currency_id
+       currency_company = self.pool.get('res.users').browse(self.cr, self.uid, [self.uid])[0].company_id.currency_id
         
        for line in lines:
            #Use amount_currency in this case
@@ -180,23 +181,23 @@ class Parser(accountReportbase):
         Compute total by type 
         @param currency: A dictionary, it contains the type and amount per type
     """
-    def compute_total_currency_company(self, cr, uid, partner,type):        
+    def compute_total_currency_company(self, partner,type):
        debit = 0.0
        credit = 0.0
        amount = 0.0
         
-       currency_company = self.pool.get('res.users').browse(cr, uid, [uid])[0].company_id.currency_id.id
+       currency_company = self.pool.get('res.users').browse(self.cr, self.uid, [self.uid])[0].company_id.currency_id.id
        
        type_dict = self.get_data_by_partner(partner)[type]
        for currency, lines in type_dict.iteritems():
-           result = self.compute_total_debit_credit(cr, uid, lines)
+           result = self.compute_total_debit_credit(lines)
            
            #Compute all data for each type.
            #If type's currency is different from currency_company
            #the amount must be converted to currency_company
-           if currency != currency_company:                   
+           if currency != currency_company:
                amount_to_convert = result['debit'] - result['credit']
-               amount += self.currency_convert_amount(cr, uid, currency, currency_company, amount_to_convert)
+               amount += self.currency_convert_amount(self.cr, self.uid, currency, currency_company, amount_to_convert)
            
            else:
                subtotal = result['debit'] - result['credit']
@@ -204,17 +205,17 @@ class Parser(accountReportbase):
         
        return amount
    
-    def compute_exchange_rate(self, cr, uid, partner,type, context):        
+    def compute_exchange_rate(self, partner,type, context):
        debit = 0.0
        credit = 0.0
        amount = 0.0
         
-       currency_company = self.pool.get('res.users').browse(cr, uid, [uid])[0].company_id.currency_id
+       currency_company = self.pool.get('res.users').browse(self.cr, self.uid, [self.uid])[0].company_id.currency_id
        
        type_dict = self.get_data_by_partner(partner)[type]
        for currency, lines in type_dict.iteritems():
-          currency_current = self.pool.get('res.currency').browse(cr, uid, currency)
-          conversion_rate_str = self.get_conversion_rate(cr, uid, currency_current, currency_company, context)
+          currency_current = self.pool.get('res.currency').browse(self.cr, self.uid, currency)
+          conversion_rate_str = self.get_conversion_rate(self.cr, self.uid,currency_current, currency_company, context)
         
        return conversion_rate_str
        
@@ -241,10 +242,10 @@ class Parser(accountReportbase):
         @param type_name: Specific parameter for account's type. In this case,
                           it could be receivable or payable
     """
-    def get_print_name(self, cr, uid, id, type='', type_name='', context=None):
+    def get_print_name(self, id, type='', type_name='', context=None):
         
         if type == 'partner':
-            partner = self.pool.get('res.partner').browse(cr, uid, id)
+            partner = self.pool.get('res.partner').browse(self.cr, self.uid, id)
             return partner.name
         
         #for this case, 'id' parameter is a string
@@ -255,31 +256,30 @@ class Parser(accountReportbase):
                 return _('Receivable')
         
         if type == 'currency':
-            return self.pool.get('res.currency').browse(cr, uid, id, context=context).name
+            return self.pool.get('res.currency').browse(self.cr, self.uid, id, context=context).name
     
     """ 
         Return a conversion rate for today's date
         @param initial_currency: It must be a browse record
-        @param final_currency: It must be a browse record        
+        @param final_currency: It must be a browse record
     """    
-    def get_conversion_rate(self, cr, uid, initial_currency, final_currency, context): 
-        res_currency_obj = self.pool.get('res.currency')   
-        copy_context = context     
+    def get_conversion_rate(self, cr, uid, initial_currency, final_currency, context):
+        copy_context = context
         
-        now = time.strftime('%Y-%m-%d')        
-        conversion_rate = res_currency_obj.get_exchange_rate(cr, uid, initial_currency, final_currency, now, context=context)
+        now = time.strftime('%Y-%m-%d')
+        conversion_rate = initial_currency.get_exchange_rate(final_currency, now)
         now = time.strftime('%d-%m-%Y')
         
-        conversion_rate_str = now + ' '+ final_currency.symbol + ' ' + str(conversion_rate)
+        conversion_rate_str = now + ' '+ final_currency.symbol + ' ' + str(conversion_rate[0])
         
         return conversion_rate_str
         
     #================== METHODS TO SET AND GET DATA ===========================#
             
     """ Set data to use in odt template """
-    def set_data_template(self, cr, uid, objects):        
-        result, partner_ids_order = self.get_account_move_lines(cr, uid, objects,context=None)        
-        dict_update = {'result': result, 'partner_ids_order': partner_ids_order,}        
+    def set_data_template(self, objects):
+        result, partner_ids_order = self.get_account_move_lines(self.cr, self.uid, objects,context=None)
+        dict_update = {'result': result, 'partner_ids_order': partner_ids_order,}
         self.localcontext['storage'].update(dict_update)
         return False
     
@@ -305,10 +305,17 @@ class Parser(accountReportbase):
         return _("For this partner, doesn't exist payable or receivable pending invoices ")
     
     #Return company for logged user
-    def get_currency_company_user_name(self, cr, uid):        
-        currency_company = self.pool.get('res.users').browse(cr, uid, [uid])[0].company_id.currency_id.name
+    def get_currency_company_user_name(self):
+        currency_company = self.pool.get('res.users').browse(self.cr, self.uid, [self.uid])[0].company_id.currency_id.name
         return currency_company
     
-    def get_company_user(self, cr, uid):        
-        currency_company = self.pool.get('res.users').browse(cr, uid, [uid])[0].company_id.name
+    def get_company_user(self):
+        currency_company = self.pool.get('res.users').browse(self.cr, self.uid, [self.uid])[0].company_id.name
         return currency_company
+    
+
+class report_partnerledger(osv.AbstractModel):
+    _name = 'report.account_partner_balance_report.report_partner_balance'
+    _inherit = 'report.abstract_report'
+    _template = 'account_partner_balance_report.report_partner_balance'
+    _wrapped_report_class = Parser
