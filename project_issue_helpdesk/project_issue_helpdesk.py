@@ -106,24 +106,30 @@ class ProjectIssue(osv.Model):
         employee_obj=self.pool.get('hr.employee')
         issue_number = self.pool.get('ir.sequence').get(cr, uid, 'project.issue', context=context) or '/'
         vals['issue_number'] = issue_number
-        if vals.get('employee_id'):
-            employee=employee_obj.browse(cr,uid, vals.get('employee_id'),context=context)[0]
-            if employee.user_id:
-                 vals['user_id'] = employee.user_id.id
+        if 'employee_id' in vals:
+            if vals.get('employee_id'):
+                employee=employee_obj.browse(cr,uid, vals.get('employee_id'),context=context)[0]
+                if employee.user_id:
+                    vals['user_id'] = employee.user_id.id
+                else:
+                    raise osv.except_osv(_('Error!'), _('The employee asigned no have a user in the system'))
             else:
-                 vals['user_id'] = False
+                vals['user_id'] = False
         result = super(ProjectIssue, self).create(cr, uid, vals, context=context)
         return result
     
     def write(self, cr, uid, ids, vals, context=None):
          employee_obj=self.pool.get('hr.employee')
-         if vals.get('employee_id'):
-            employee=employee_obj.browse(cr,uid, vals.get('employee_id'),context=context)[0]
-            if employee.user_id:
-                 vals['user_id'] = employee.user_id.id
+         if 'employee_id' in vals:
+            if vals.get('employee_id'):
+                employee=employee_obj.browse(cr,uid, vals.get('employee_id'),context=context)[0]
+                if employee.user_id:
+                    vals['user_id'] = employee.user_id.id
+                else:
+                    raise osv.except_osv(_('Error!'), _('The employee asigned no have a user in the system'))
             else:
                 vals['user_id'] = False
-         res = super(ProjectIssue, self).write(cr, uid, ids, vals, context=context)        
+         res = super(ProjectIssue, self).write(cr, uid, ids, vals, context=context)
          return res
      
     def _check_issue_type(self, cr, uid, ids, context={}):
