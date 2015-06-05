@@ -17,6 +17,9 @@
                         <th class="text-right"><strong>Net Price</strong></th>
                     </tr>
        </xpath>
+     
+     
+     
        <xpath expr="//t/div/table[@class='table table-condensed']/tbody/tr"  position="replace">
                   <tr t-foreach="o.order_line" t-as="line">
                    <td><span t-field="line.product_id.default_code"/></td>
@@ -36,6 +39,14 @@
                         </td>
                     </tr>
        </xpath>
+       
+       
+       
+       
+       
+       
+       
+       
        <xpath expr="//t/div/h2" position="replace">
        </xpath> 
        <xpath expr="//t/div/div[@class='row mt32 mb32']" position="replace">
