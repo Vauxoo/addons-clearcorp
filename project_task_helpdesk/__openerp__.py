@@ -35,7 +35,7 @@ Extends Project Task
     'depends': ['project_issue_helpdesk','hr_expense','sale_service'],
     'init_xml': [],
     'demo_xml': [],
-    'data': ['view/project_task_helpdesk.xml',
+    'data': ['data/project_task_sequence_data.xml','view/project_task_helpdesk.xml',
              ],
     'license': 'AGPL-3',
     'installable': True,

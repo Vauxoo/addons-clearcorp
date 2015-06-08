@@ -16,6 +16,33 @@
                 </field>
            </field>
         </record>
+        <!--inherit project task tree-->
+        <record model="ir.ui.view" id="project_task_tree_view">
+            <field name="name">Project Task Tree</field>
+            <field name="model">project.task</field>
+            <field name="priority" eval="60"/>
+            <field name="inherit_id" ref="project.view_task_tree2"/>
+            <field name="arch" type="xml">
+                 <field name="name" position="after">
+                        <field name="code"/>
+                 </field>
+            </field>
+        </record>
+        <!--inherit project task search-->
+        <record model="ir.ui.view" id="project_task_search_view">
+            <field name="name">Project Task Search</field>
+            <field name="model">project.task</field>
+            <field name="priority" eval="100"/>
+            <field name="inherit_id" ref="project.view_task_search_form"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after"> 
+                    <field name="code"/>
+                </field>
+                <field name="project_id" position="replace"> 
+                    <field name="project_id" filter_domain="['|',('project_id.name','ilike',self),('project_id.code','ilike',self)]"/>
+                </field>
+            </field>
+        </record>
         <!--inherit project task form-->
          <record model="ir.ui.view" id="project_task_form_view">
             <field name="name">Project Task Form</field>
@@ -23,6 +50,9 @@
             <field name="inherit_id" ref="project.view_task_form2"/>
             <field name="priority" eval="50"/>
             <field name="arch" type="xml">
+                 <xpath expr="/form/sheet/group/group/field[@name='project_id']" position="before">
+                     <field name="code" readonly="1"/>
+                 </xpath>
                  <field name="reviewer_id" position="after">
                     <field name="categ_id" domain="[('supply_type','=','equipment')]" attrs="{'readonly':[('is_closed', '=', True)]}"/>
                 </field>

@@ -28,6 +28,33 @@ class StockPicking(models.Model):
     task_id=fields.Many2one('project.task',string="Project Task")
 class ProjectTask(models.Model):
     _inherit = 'project.task'
+    def name_get(self, cr, uid, ids, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        reads = self.read(cr, uid, ids, ['name','code',], context=context)
+        res = []
+        for record in reads:
+            name = record['name']
+            code=record['code']
+            if code:
+                name=code + ' '+ name
+            res.append((record['id'], name))
+        return res
+    @api.v7
+    def name_search(self,cr,uid,name,args=None, operator='ilike',context=None, limit=100):
+        res = super(ProjectTask, self).name_search(cr,uid,name, args = args, operator = 'ilike')
+        ids=self.search(cr,uid,[('code', operator, name)] + args,limit=limit, context=context)
+        ids2=self.search(cr,uid,[('project_id.code', operator, name)] + args,limit=limit, context=context)
+        ids3=self.search(cr,uid,[('project_id.analytic_account_id.code', operator, name)] + args,limit=limit, context=context)
+        res = list(set(res + self.name_get(cr, uid, ids, context=context)+self.name_get(cr, uid, ids2, context=context)+self.name_get(cr, uid, ids3, context=context)))
+        return res
+    def create(self, cr, uid, vals, context=None):
+        code = self.pool.get('ir.sequence').get(cr, uid, 'project.task', context=context) or '/'
+        vals['code'] = code
+        result = super(ProjectTask, self).create(cr, uid, vals, context=context)
+        return result
     @api.v7
     def write(self, cr, uid, ids, vals, context=None):
         tasks=self.browse(cr,uid,ids)
@@ -68,6 +95,7 @@ class ProjectTask(models.Model):
     is_closed = fields.Boolean(string='Is Closed',related='stage_id.closed',store=True)
     categ_id=fields.Many2one('product.category',string="Category Product")
     product_id=fields.Many2one('product.product',string="Product")
+    code = fields.Char(string='Reference')
 
 class HRExpenseLine(models.Model):
     _inherit = 'hr.expense.line'
