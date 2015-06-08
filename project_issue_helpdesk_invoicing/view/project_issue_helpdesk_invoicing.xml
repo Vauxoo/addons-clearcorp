@@ -92,6 +92,19 @@
             <field name="inherit_id" ref="hr_expense.view_expenses_form"/>
             <field name="priority" eval="80"/>
             <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/form[@string='Expense Lines']/group/group/field[@name='analytic_account']" position="before"> 
+                    <field name="task_id" attrs="{'readonly':[('issue_id','!=',False)]}" domain="[('stage_id.closed','!=',True)]"/>
+                    <field name="issue_id" attrs="{'readonly':[('task_id','!=',False)]}" domain="[('stage_id.closed','!=',True)]"/>
+                    <field name="init_onchange_call" invisible="1"/>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/form[@string='Expense Lines']/group/group/field[@name='analytic_account']" position="attributes"> 
+                    <attribute name="domain">[('id','in',init_onchange_call[0][2]),('type','in',['normal','contract'])]</attribute>
+                    <attribute name="attrs">{'required':['|',('issue_id','!=',False),('task_id','!=',False)]}</attribute>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/form[@string='Expense Lines']/group/group[2]/field[@name='date_value']" position="before"> 
+                    <field name="total_amount"/>
+                </xpath>
+
                 <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']/field[@name='analytic_account']" position="before">
                     <field name="issue_id" attrs="{'readonly':[('task_id','!=',False)]}" domain="[('stage_id.closed','!=',True)]"/>
                     <field name="init_onchange_call" invisible="1"/>
@@ -104,6 +117,9 @@
                 </xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']/field[@name='analytic_account']" position="attributes"> 
                     <attribute name="domain">[('id','in',init_onchange_call[0][2]),('type','in',['normal','contract'])]</attribute>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']" position="attributes"> 
+                    <attribute name="editable"/>
                 </xpath>
             </field>
         </record>
