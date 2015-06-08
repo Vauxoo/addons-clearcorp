@@ -410,6 +410,10 @@
                         <field name="code" readonly="1" string="Reference"/>
                     </h1>
                 </xpath>
+                <xpath expr="/form/sheet/notebook/page[@name='team']" position="attributes"> 
+                    <attribute name="string">Involved</attribute>
+                </xpath>
+
             </field>
         </record>
         <!--inherit project tree-->
