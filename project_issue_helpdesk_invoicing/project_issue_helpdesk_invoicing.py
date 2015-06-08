@@ -541,3 +541,31 @@ class account_invoice_line(models.Model):
     supply_type = fields.Selection(string='Use',related='product_id.supply_type')
     reference = fields.Char(string='Reference',help="Reference of origin of line invoice")
     
+class project_project(models.Model):
+    _inherit = "project.project"
+    def name_get(self, cr, uid, ids, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        reads = self.read(cr, uid, ids, ['name','code',], context=context)
+        res = []
+        for record in reads:
+            name = record['name']
+            code=record['code']
+            if code:
+                name=code + ' '+ name
+            res.append((record['id'], name))
+        return res
+    @api.v7
+    def name_search(self,cr,uid,name,args=None, operator='ilike',context=None, limit=100):
+        res = super(project_project, self).name_search(cr,uid,name, args = args, operator = 'ilike')
+        ids=self.search(cr,uid,[('code', operator, name)] + args,limit=limit, context=context)
+        res = list(set(res + self.name_get(cr, uid, ids, context=context)))
+        return res
+    def create(self, cr, uid, vals, context=None):
+        code = self.pool.get('ir.sequence').get(cr, uid, 'project.project', context=context) or '/'
+        vals['code'] = code
+        result = super(project_project, self).create(cr, uid, vals, context=context)
+        return result
+    code = fields.Char(string='Reference')

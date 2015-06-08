@@ -397,6 +397,45 @@
                     </field>
                 </field>
         </record>
+        <!--inherit project form-->
+        <record model="ir.ui.view" id="project_form_view">
+            <field name="name">Project Form</field>
+            <field name="model">project.project</field>
+            <field name="priority" eval="100"/>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/div[@class='oe_title']/label[@string='Project Name']" position="before"> 
+                    <label for="code" class="oe_edit_only" string="Reference"/>
+                    <h1>
+                        <field name="code" readonly="1" string="Reference"/>
+                    </h1>
+                </xpath>
+            </field>
+        </record>
+        <!--inherit project tree-->
+        <record model="ir.ui.view" id="project_tree_view">
+            <field name="name">Project Tree</field>
+            <field name="model">project.project</field>
+            <field name="priority" eval="100"/>
+            <field name="inherit_id" ref="project.view_project"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after"> 
+                    <field name="code"/>
+                </field>
+            </field>
+        </record>
+        <!--inherit project search-->
+        <record model="ir.ui.view" id="project_search_view">
+            <field name="name">Project Search</field>
+            <field name="model">project.project</field>
+            <field name="priority" eval="100"/>
+            <field name="inherit_id" ref="project.view_project_project_filter"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after"> 
+                    <field name="code"/>
+                </field>
+            </field>
+        </record>
         <record model="ir.actions.act_window" id="action_holiday_calendar_date">
             <field name="name">Holidays</field>
             <field name="res_model">holiday.calendar.date</field>
