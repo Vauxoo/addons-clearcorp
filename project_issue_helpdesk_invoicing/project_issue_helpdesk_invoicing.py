@@ -69,6 +69,26 @@ class ResPartner(models.Model):
 
 class AccountAnalyticAccount(models.Model):
     _inherit = 'account.analytic.account'
+    def name_get(self, cr, uid, ids, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        reads = self.read(cr, uid, ids, ['name','code',], context=context)
+        res = []
+        for record in reads:
+            name = record['name']
+            code=record['code']
+            if code:
+                name=code + ' '+ name
+            res.append((record['id'], name))
+        return res
+    @api.v7
+    def name_search(self,cr,uid,name,args=None, operator='ilike',context=None, limit=100):
+        res = super(AccountAnalyticAccount, self).name_search(cr,uid,name, args = args, operator = 'ilike')
+        ids=self.search(cr,uid,[('code', operator, name)] + args,limit=limit, context=context)
+        res = list(set(res + self.name_get(cr, uid, ids, context=context)))
+        return res
     @api.v7
     def create(self,cr, uid, vals, context=None):
         if 'invoice_partner_type' in vals and vals.get('invoice_partner_type')=='branch' and (vals.get('branch_ids')==False or not 'invoice_partner_type' in vals):
