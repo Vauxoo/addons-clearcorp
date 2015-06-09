@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* report_xls
+#	* report_xls_template
 #
 msgid ""
 msgstr ""
@@ -15,19 +15,19 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. module: report_xls
-#: code:addons/report_xls/report.py:104
+#. module: report_xls_template
+#: code:addons/report_xls_template/report.py:104
 #, python-format
 msgid "An error occurred while parsing the view into file."
 msgstr "Un error ocurrió mientras se analizaba la vista a un archivo."
 
-#. module: report_xls
-#: code:addons/report_xls/report.py:85
+#. module: report_xls_template
+#: code:addons/report_xls_template/report.py:85
 #, python-format
 msgid "Data"
 msgstr "Datos"
 
-#. module: report_xls
-#: model:ir.model,name:report_xls.model_report
+#. module: report_xls_template
+#: model:ir.model,name:report_xls_template.model_report
 msgid "Report"
 msgstr "Reporte"

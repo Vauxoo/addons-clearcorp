@@ -37,7 +37,7 @@ limits the use of stations when a production order is in progress.""",
     'images' : [],
     'depends': [
                 'mrp_operations',
-                'report_xls',
+                'report_xls_template',
                 ],
     'data': [
              'mrp_workcenter_station_view.xml',

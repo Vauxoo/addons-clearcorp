@@ -1,10 +1,10 @@
 /*Code inspired in OPENERP S.A report module */
 
-openerp.report_xls = function(instance) {
+openerp.report_xls_template = function(instance) {
 
     var trigger_download = function(session, response, c) {
         session.get_file({
-            url: '/reportxls/download',
+            url: '/reportxlstemplate/download',
             data: {data: JSON.stringify(response)},
             complete: openerp.web.unblockUI,
             error: c.rpc_error.bind(c)
@@ -23,13 +23,13 @@ openerp.report_xls = function(instance) {
                 var report_url = '';
                 switch (action.report_type) {
                     case 'qweb-xls':
-                        report_url = '/reportxls/xls/' + action.report_name;
+                        report_url = '/reportxlstemplate/xls/' + action.report_name;
                         break;
                     case 'qweb-ods':
-                        report_url = '/reportxls/ods/' + action.report_name;
+                        report_url = '/reportxlstemplate/ods/' + action.report_name;
                         break;
                     default:
-                        report_url = '/reportxls/xls/' + action.report_name;
+                        report_url = '/reportxlstemplate/xls/' + action.report_name;
                         break;
                 }
 

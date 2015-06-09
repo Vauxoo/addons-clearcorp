@@ -37,7 +37,7 @@ This module permits print the product invoice report.
                 'account',
                 'sale',
                 'report',
-                'report_xls'
+                'report_xls_template'
                 ],
     'data': [
              'views/report_product_invoice_pdf.xml',

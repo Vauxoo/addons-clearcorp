@@ -29,7 +29,7 @@ from StringIO import StringIO
 from openerp import models, api, _
 from openerp.exceptions import Warning
 
-_logger = logging.getLogger('report_xls')
+_logger = logging.getLogger('report_xls_template')
 
 class Report(models.Model):
 

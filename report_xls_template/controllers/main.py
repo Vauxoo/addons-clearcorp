@@ -31,8 +31,8 @@ from openerp.addons.web.controllers.main import _serialize_exception
 class ReportXLSController(Controller):
 
     @route([
-        '/reportxls/<path:converter>/<reportname>',
-        '/reportxls/<path:converter>/<reportname>/<docids>',
+        '/reportxlstemplate/<path:converter>/<reportname>',
+        '/reportxlstemplate/<path:converter>/<reportname>/<docids>',
     ], type='http', auth='user', website=True)
     def report_routes(self, reportname, docids=None, converter=None, **data):
         report_obj = request.registry['report']
@@ -62,7 +62,7 @@ class ReportXLSController(Controller):
         else:
             raise exceptions.HTTPException(description='Converter %s not implemented.' % converter)
 
-    @route(['/reportxls/download'], type='http', auth="user")
+    @route(['/reportxlstemplate/download'], type='http', auth="user")
     def report_download(self, data, token):
         """This function is used by 'report_xls.js' in order to trigger the download of xls/ods report.
         :param data: a javascript array JSON.stringified containg report internal url ([0]) and
@@ -73,7 +73,7 @@ class ReportXLSController(Controller):
         url, type = requestcontent[0], requestcontent[1]
         try:
             if type == 'qweb-xls':
-                reportname = url.split('/reportxls/xls/')[1].split('?')[0]
+                reportname = url.split('/reportxlstemplate/xls/')[1].split('?')[0]
                 docids = None
                 if '/' in reportname:
                     reportname, docids = reportname.split('/')
@@ -89,7 +89,7 @@ class ReportXLSController(Controller):
                 response.set_cookie('fileToken', token)
                 return response
             elif type =='qweb-ods':
-                reportname = url.split('/reportxls/ods/')[1].split('?')[0]
+                reportname = url.split('/reportxlstemplate/ods/')[1].split('?')[0]
                 docids = None
                 if '/' in reportname:
                     reportname, docids = reportname.split('/')
