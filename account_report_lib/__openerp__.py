@@ -27,7 +27,7 @@ Generic module that is the base for the reports.
 
 Observations about qweb_reports module:
 ----------------------------------------
-    * To obtain formats  xls and pdf you need to install report and report_xls
+    * To obtain formats  xls and pdf you need to install report and report_xls_template
     """,
     'version': '1.0',
     'author': 'ClearCorp',
@@ -38,7 +38,7 @@ Observations about qweb_reports module:
                 'account', 
                 'report_webkit_lib',
                 'report',
-                'report_xls',
+                'report_xls_template',
                 ],
     'init_xml': [],
     'demo' : [],
