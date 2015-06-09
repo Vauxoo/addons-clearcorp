@@ -32,7 +32,15 @@ class SaleOrder(models.Model):
     
     issue_ids=fields.One2many('project.issue','sale_order_id')
     task_ids=fields.One2many('project.task','sale_id')
-
+    
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
+    @api.constrains('price_unit','purchase_price')
+    def _check_price_lines(self):
+        for line in self:
+            if (line.price_unit<line.purchase_price):
+                raise Warning('Price unit must be greater or equal to cost price',['price_unit','purchase_price'])
+        return True
 class ProjectIssue(models.Model):
     _inherit = 'project.issue'
     @api.v7

@@ -176,7 +176,7 @@ class ProjectIssue(osv.Model):
                 'categ_id':fields.many2one('product.category',required=True,string="Category Product"),
                 'product_id':fields.many2one('product.product',string="Product"),
                 'prodlot_id':fields.many2one('stock.production.lot',string="Serial Number"),
-                'branch_id':fields.many2one('res.partner', type='many2one', string='Branch'),
+                'branch_id':fields.many2one('res.partner', string='Branch'),
                 'employee_id': fields.many2one('hr.employee', 'Technical Staff Assigned'),
                 'contact': fields.char(string="Reported by",required=True),
                 'have_branch':fields.boolean(string="Have Branch"),
