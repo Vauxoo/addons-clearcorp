@@ -31,7 +31,7 @@
     'website': 'http://clearcorp.co.cr',
     'complexity': 'easy',
     'images' : [],
-    'depends': ['report_xls'],
+    'depends': ['report_xls_template'],
     'data': [
              'views/account_invoice_report.xml',
              'report_xls_example_report.xml',

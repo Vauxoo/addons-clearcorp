@@ -38,7 +38,7 @@ class ReportAction(models.Model):
             # Check if the report type fits with xls or ods reports
             if r['report_type'] in ['qweb-xls', 'qweb-ods']:
                 # Return tuple (report name, report_type, module name)
-                return (r['report_name'],r['report_type'],'report_xls')
+                return (r['report_name'],r['report_type'],'report_xls_template')
         return super(ReportAction, self)._lookup_report(cr, name)
 
     def render_report(self, cr, uid, res_ids, name, data, context=None):
@@ -48,7 +48,7 @@ class ReportAction(models.Model):
         new_report = self._lookup_report(cr, name)
 
         if isinstance(new_report, tuple): # Check the type of object
-            if new_report[2] == 'report_xls': # Check if the module is report_xls
+            if new_report[2] == 'report_xls_template': # Check if the module is report_xls_template
                 # Check report type
                 if new_report[1] == 'qweb-xls':
                     return self.pool['report'].get_xls(cr, uid, res_ids, new_report[0],

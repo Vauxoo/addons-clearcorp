@@ -1,10 +1,10 @@
 /*Code inspired in OPENERP S.A report module */
 
-openerp.report_xls = function(instance) {
+openerp.report_xls_template = function(instance) {
 
     var trigger_download = function(session, response, c) {
         session.get_file({
-            url: '/reportxls/download',
+            url: '/reportxlstemplate/download',
             data: {data: JSON.stringify(response)},
             complete: openerp.web.unblockUI,
             error: c.rpc_error.bind(c)
