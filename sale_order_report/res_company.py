@@ -20,33 +20,15 @@
 #
 ##############################################################################
 
+from openerp import models, fields,api, _
+from datetime import datetime
+from openerp.exceptions import Warning
+import openerp.addons.decimal_precision as dp
+from openerp import tools
 
-{
-    "name" : 'Sale Order report',
-    "version" : '2.0',
-    "author" : 'ClearCorp',
-    'complexity': 'normal',
-    "description": """
-Sale order report in Qweb
-    """,
-    "category": 'Sales',
-    "sequence": 4,
-    "website" : "http://clearcorp.co.cr",
-    "images" : [],
-    "depends" : [
-        'sale_order_discount',
-        'sale_order_extended',
-        'account_report_lib',
-        ],
-    "init_xml" : [],
-    "demo_xml" : [],
-    "data" : [
-                 'views/report_sale_order.xml',
-                 'views/res_company.xml',
-                 ],
-    "test" : [],
-    "auto_install": False,
-    "application": False,
-    "installable": True,
-    'license': 'AGPL-3',
-}
+class Rescompany(models.Model):
+
+    _inherit = 'res.company'
+
+    number_trade = fields.Char('Number of Trade', size=128)
+    number_trade_date = fields.Date('Number of Trade Date:')
