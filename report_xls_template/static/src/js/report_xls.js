@@ -23,13 +23,13 @@ openerp.report_xls_template = function(instance) {
                 var report_url = '';
                 switch (action.report_type) {
                     case 'qweb-xls':
-                        report_url = '/reportxls/xls/' + action.report_name;
+                        report_url = '/reportxlstemplate/xls/' + action.report_name;
                         break;
                     case 'qweb-ods':
-                        report_url = '/reportxls/ods/' + action.report_name;
+                        report_url = '/reportxlstemplate/ods/' + action.report_name;
                         break;
                     default:
-                        report_url = '/reportxls/xls/' + action.report_name;
+                        report_url = '/reportxlstemplate/xls/' + action.report_name;
                         break;
                 }
 
