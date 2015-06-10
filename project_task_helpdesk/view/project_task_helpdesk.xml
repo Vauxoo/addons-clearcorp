@@ -38,9 +38,6 @@
                 <field name="name" position="after"> 
                     <field name="code"/>
                 </field>
-                <field name="project_id" position="replace"> 
-                    <field name="project_id" filter_domain="['|',('project_id.name','ilike',self),('project_id.code','ilike',self)]"/>
-                </field>
             </field>
         </record>
         <!--inherit project task form-->
