@@ -462,6 +462,7 @@
             <field name="arch" type="xml">
                 <field name="date" position="before">
                     <field name="issue_id"/>
+                    <field name="project_id"/>
                     <field name="task_id"/>
                     <field name="partner_id"/>
                     <field name="branch_id"/>
@@ -481,7 +482,8 @@
                  <xpath expr="/search/group/filter[@string='Timesheet Month']" position="after"> 
                     <filter string="Issues" context="{'group_by':'issue_id'}"/>
                 </xpath>
-                 <xpath expr="/search/group/filter[@string='Issues']" position="after"> 
+                 <xpath expr="/search/group/filter[@string='Issues']" position="after">
+                    <filter string="Project" context="{'group_by':'project_id'}"/>
                     <filter string="Tasks" context="{'group_by':'task_id'}"/>
                     <filter string="Partner" context="{'group_by':'partner_id'}"/>
                     <filter string="Branch" context="{'group_by':'branch_id'}"/>
