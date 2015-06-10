@@ -611,22 +611,29 @@ class HRAnalitycTimesheet(models.Model):
             self.pool.get('project.task').invalidate_cache(cr, uid, ['remaining_hours'], [vals['task_id']], context=context)
         return super(HRAnalitycTimesheet,self).create(cr, uid, vals, context=context)
     def write(self, cr, uid, ids, vals, context=None):
+        if 'task_id' in vals or 'issue_id' in vals:
+            if 'task_id' in vals and vals['task_id']:
+                vals['issue_id']=False
+            elif 'issue_id' in vals and vals['issue_id']:
+                vals['task_id']=False
         if 'start_time' in vals or 'end_time' in vals:
             task_obj = self.pool.get('project.task')
             for ts in self.browse(cr, uid, ids, context=context):
-                if 'start_time' in vals and not 'end_time' in vals:
-                    hours=ts.end_time-vals['start_time']
-                if not 'start_time' in vals and 'end_time' in vals:
-                    hours=vals['end_time']-ts.start_time
-                if  'start_time' in vals and 'end_time' in vals:
-                    hours=vals['end_time']-vals['start_time']
-                cr.execute('update project_task set remaining_hours=remaining_hours - %s + (%s) where id=%s', (hours, ts.end_time-ts.start_time, ts.task_id.id))
-                task_obj.invalidate_cache(cr, uid, ['remaining_hours'], [ts.task_id.id], context=context)
+                if ts.task_id:
+                    if 'start_time' in vals and not 'end_time' in vals:
+                        hours=ts.end_time-vals['start_time']
+                    if not 'start_time' in vals and 'end_time' in vals:
+                        hours=vals['end_time']-ts.start_time
+                    if  'start_time' in vals and 'end_time' in vals:
+                        hours=vals['end_time']-vals['start_time']
+                    cr.execute('update project_task set remaining_hours=remaining_hours - %s + (%s) where id=%s', (hours, ts.end_time-ts.start_time, ts.task_id.id))
+                    task_obj.invalidate_cache(cr, uid, ['remaining_hours'], [ts.task_id.id], context=context)
         return super(HRAnalitycTimesheet,self).write(cr, uid, ids, vals, context)
 
     def unlink(self, cr, uid, ids, context=None):
         task_obj = self.pool.get('project.task')
         for ts in self.browse(cr, uid, ids):
-            cr.execute('update project_task set remaining_hours=remaining_hours + %s where id=%s', (ts.end_time-ts.start_time, ts.task_id.id))
-            task_obj.invalidate_cache(cr, uid, ['remaining_hours'], [ts.task_id.id], context=context)
+            if ts.task_id:
+                cr.execute('update project_task set remaining_hours=remaining_hours + %s where id=%s', (ts.end_time-ts.start_time, ts.task_id.id))
+                task_obj.invalidate_cache(cr, uid, ['remaining_hours'], [ts.task_id.id], context=context)
         return super(HRAnalitycTimesheet,self).unlink(cr, uid, ids, context=context)

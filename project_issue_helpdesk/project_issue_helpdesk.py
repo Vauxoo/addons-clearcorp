@@ -23,6 +23,9 @@
 from openerp.osv import osv,fields, orm
 from openerp.tools.translate import _
 import math
+from datetime import datetime
+import pytz
+from openerp import SUPERUSER_ID
 
 class ProjectIssue(osv.Model):
     _inherit = 'project.issue'
@@ -219,8 +222,26 @@ class HrAnaliticTimeSheet(osv.Model):
                  vals['user_id'] = employee.user_id.id
             else:
                 raise osv.except_osv(_('Error!'), _('The employee asigned no have a user in the system'))
-         res = super(HrAnaliticTimeSheet, self).write(cr, uid, ids, vals, context=context)       
+         res = super(HrAnaliticTimeSheet, self).write(cr, uid, ids, vals, context=context)
          return res
+     
+    def _check_future_timesheets(self, cr, uid, ids, context={}):
+        user_pool = self.pool.get('res.users')
+        user = user_pool.browse(cr, SUPERUSER_ID, uid)
+        utc = pytz.timezone('UTC')
+        tz = pytz.timezone(user.partner_id.tz) or pytz.utc
+        for timesheet_obj in self.browse(cr, uid, ids, context=context):
+                hour_start = math.floor(timesheet_obj.start_time)
+                min_start = round((timesheet_obj.start_time % 1) * 60)
+                hour_end = math.floor(timesheet_obj.end_time)
+                min_end = round((timesheet_obj.end_time % 1) * 60)
+                datetime_start = tz.localize(datetime.strptime(timesheet_obj.date+' '+str(int(hour_start))+':'+str(int(min_start)),'%Y-%m-%d %H:%M'), is_dst=False)
+                datetime_end = tz.localize(datetime.strptime(timesheet_obj.date+' '+str(int(hour_end))+':'+str(int(min_end)),'%Y-%m-%d %H:%M'), is_dst=False)
+                datetime_start = datetime_start.astimezone(utc)
+                datetime_end = datetime_end.astimezone(utc)
+                if datetime_start>datetime.now(utc) or datetime_end>datetime.now(utc):
+                    return False
+        return True
      
     def _check_start_time(self, cr, uid, ids, context={}):
         hour=0.0
@@ -249,11 +270,12 @@ class HrAnaliticTimeSheet(osv.Model):
     
     def _check_ticket_number(self, cr, uid, ids, context={}):
         for timesheet_obj in self.browse(cr, uid, ids, context=context):
-            if timesheet_obj.issue_id.issue_type!="remote support":
-                if not timesheet_obj.ticket_number:
-                    return False
-                else:
-                    return True
+            if timesheet_obj.issue_id:
+                if timesheet_obj.issue_id.issue_type!="remote support":
+                    if not timesheet_obj.ticket_number:
+                        return False
+                    else:
+                        return True
         return True
      
     def onchange_start_time(self, cr, uid, ids, start_time, end_time):
@@ -286,7 +308,8 @@ class HrAnaliticTimeSheet(osv.Model):
         (_check_start_time,'Format Start Time incorrect',['start_time']
          ),
          (_check_end_time,'Format End Time incorrect',['end_time']
-         )]
+         ),
+         (_check_future_timesheets,'Date time is greater than now',['start_time','end_time','date'])]
       
     _sql_constraints = [('unique_ticket_number','UNIQUE(ticket_number)',
                          'Ticket number must be unique for every worklogs')]
