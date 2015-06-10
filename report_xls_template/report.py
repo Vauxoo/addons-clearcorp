@@ -134,9 +134,11 @@ class Report(models.Model):
             for div_worksheet in div_workbook.xpath("//div[@class='worksheet']"):
                 # Add a worksheet with the desired name
                 try:
+                    if not xlwt.Utils.valid_sheet_name(div_worksheet.get('name',_('Data') + str(worksheet_counter))):
+                        raise Warning(_('Invalid worksheet name.'))
                     worksheet = workbook.add_sheet(div_worksheet.get('name',_('Data') + str(worksheet_counter)))
-                except:
-                    raise Warning(_('Duplicated worksheet name.'))
+                except (Warning, Exception) as exc:
+                    raise Warning(exc.message)
                 # Find all tables to add tho the worksheet
                 row_index = 0
                 for table in div_worksheet.xpath("table"):

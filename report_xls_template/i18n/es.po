@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-06 14:50+0000\n"
-"PO-Revision-Date: 2014-10-06 14:50+0000\n"
+"POT-Creation-Date: 2015-06-10 14:30+0000\n"
+"PO-Revision-Date: 2015-06-10 14:30+0000\n"
 "Last-Translator: Glen Sojo <glen.sojo@clearcorp.co.cr>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,18 +16,25 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: report_xls_template
-#: code:addons/report_xls_template/report.py:104
+#: code:addons/report_xls_template/report.py:205
 #, python-format
 msgid "An error occurred while parsing the view into file."
 msgstr "Un error ocurrió mientras se analizaba la vista a un archivo."
 
 #. module: report_xls_template
-#: code:addons/report_xls_template/report.py:85
+#: code:addons/report_xls_template/report.py:137
+#: code:addons/report_xls_template/report.py:139
 #, python-format
 msgid "Data"
 msgstr "Datos"
 
 #. module: report_xls_template
+#: code:addons/report_xls_template/report.py:138
+#, python-format
+msgid "Invalid worksheet name."
+msgstr "Nombre de hoja de cálculo inválido."
+
+#. module: report_xls_template
 #: model:ir.model,name:report_xls_template.model_report
 msgid "Report"
-msgstr "Reporte"
+msgstr "Informe"
