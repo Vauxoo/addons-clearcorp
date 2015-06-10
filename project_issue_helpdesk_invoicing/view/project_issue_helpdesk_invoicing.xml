@@ -54,6 +54,9 @@
                 <field name="analytic_account_id" position="after"> 
                     <field name="invoice_ids" string="Invoice" filter_domain="[('invoice_ids.number', 'ilike', self)]"/>
                 </field>
+                <filter string="Create Day" position="after"> 
+                    <filter string="Close Day" context="{'group_by':'date_closed:day'}" help="Close Day"/>
+                </filter>
             </field>
         </record>
 
@@ -351,6 +354,11 @@
             <field name="inherit_id" ref="project_issue_sheet.project_issue_form_view"/>
             <field name="priority" eval="40"/>
             <field name="arch" type="xml">
+                 <xpath expr="/form/sheet/notebook/page[@string='Extra Info']/group/group/field[@name='days_since_creation']" position="after"> 
+                    <field name="create_date" readonly="1"/>
+                    <field name="date_action_last" readonly="1"/>
+                    <field name="date_closed" readonly="1"/>
+                </xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']/tree[@string='Timesheets']/field[@name='employee_id']"  position="attributes"> 
                     <attribute name="required">1</attribute>
                 </xpath>

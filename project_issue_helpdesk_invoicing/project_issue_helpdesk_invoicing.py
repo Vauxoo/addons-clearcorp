@@ -21,11 +21,15 @@
 ##############################################################################
 from openerp import models, fields, api, _
 from openerp.exceptions import Warning
+import math
 from datetime import date
 import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from openerp.addons.decimal_precision import decimal_precision as dp
+from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
+import pytz
+from openerp import SUPERUSER_ID
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
@@ -43,6 +47,28 @@ class SaleOrderLine(models.Model):
         return True
 class ProjectIssue(models.Model):
     _inherit = 'project.issue'
+    @api.v7
+    def onchange_stage_id(self, cr, uid, ids, stage_id, context=None):
+        timesheet_obj=self.pool.get('hr.analytic.timesheet')
+        res=super(ProjectIssue, self).onchange_stage_id(cr, uid, ids, stage_id, context)
+        issues=self.browse(cr,uid,ids)
+        stage = self.pool['project.task.type'].browse(cr, uid, stage_id, context=context)
+        if stage.closed==True:
+            for issue in issues:
+                if issue.timesheet_ids:
+                    timesheet_ids = timesheet_obj.search(cr, uid, [('issue_id','=',issue.id)], context=context, order="date desc, end_time desc")
+                    timesheet=timesheet_obj.browse(cr,uid,timesheet_ids)[0]
+                    minute, hour = math.modf(timesheet.end_time) 
+                    user_pool = self.pool.get('res.users')
+                    utc = pytz.timezone('UTC')
+                    user = user_pool.browse(cr, SUPERUSER_ID, uid)
+                    tz = pytz.timezone(user.partner_id.tz) or pytz.utc
+                    date_close = tz.localize(datetime.strptime(timesheet.date+' '+str(int(hour))+':'+str(int(minute*60)),'%Y-%m-%d %H:%M'), is_dst=False) # UTC = no DST
+                    date_close = date_close.astimezone(utc)
+                    res['value']['date_closed']= date_close
+                else:
+                    res['value']['date_closed']=fields.datetime.now()
+        return res
     @api.v7
     def write(self, cr, uid, ids, vals, context=None):
         issues=self.browse(cr,uid,ids)
