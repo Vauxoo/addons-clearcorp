@@ -154,6 +154,7 @@ class AccountAnalyticAccount(models.Model):
     preventive_check_interval_type=fields.Selection([('days','Days'),('weeks','Weeks'),('months','Months')],string="Interval Type")
     preventive_check_interval_invoice=fields.Char("Interval Invoice",compute='get_interval_invoice')
     currency_id=fields.Many2one(related='pricelist_id.currency_id',string='Currency',store=True)
+    property_account_income=fields.Many2one('account.account',string="Income Account",company_dependent=False)
     _defaults={
             'invoice_partner_type':'customer',
             'preventive_check_interval_number':1,

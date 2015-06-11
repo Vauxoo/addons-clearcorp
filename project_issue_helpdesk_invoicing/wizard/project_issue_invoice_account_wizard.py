@@ -143,12 +143,7 @@ class IssueInvoiceWizard(models.TransientModel):
                 import_currency_rate = contract.pricelist_id.currency_id.get_exchange_rate(contract.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
             else:
                 import_currency_rate = 1
-            account_id=contract.product_preventive_check_ids[0].product_id.property_account_income.id
-            if not account_id:
-                account_id = contract.product_preventive_check_ids.order_line[0].product_id.categ_id.property_account_income_categ.id
-                if not account_id:
-                    prop = self.env['ir.property'].get('property_account_income_categ', 'product.category')
-                    account_id = prop and prop.id or False
+            account_id=contract.property_account_income.id
             if contract.invoice_partner_type=='branch':
                 for branch in contract.branch_ids:
                     date_due = False
