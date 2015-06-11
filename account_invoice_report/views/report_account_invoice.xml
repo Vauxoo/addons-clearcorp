@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+        <!-- account.invoice.report -->
+        <record id="view_account invouce_report" model="ir.ui.view">
+            <field name="name">view.sale.order.report</field>
+            <field name="inherit_id" ref="account.report_invoice_document" />
+            <field name="priority" eval="50" />
+            <field name="type">qweb</field>
+            <field name="arch" type="xml">
+	            <xpath expr="//t[@t-call='report.external_layout']" position="replace">
+	               <div class="header">
+                        <t t-if="o and 'company_id' in o">
+                            <t t-set="company" t-value="o.company_id"></t>
+                        </t>
+                        <t t-if="not o or not 'company_id' in o">
+                            <t t-set="company" t-value="res_company"></t>
+                        </t>
+
+                        <div class="row">
+                            <div class="col-xs-5">
+                                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo"
+                                    style="max-height: 100px;" />
+                            </div>
+                            <div class="col-xs-5 text-left" style="margin-top:20px;">
+                                <h3>
+                                    <strong>
+                                        <span t-field="o.company_id" />
+                                    </strong>
+                                    <br />
+                                    <span t-field="o.company_id.company_registry" />
+                                </h3>
+                            </div>
+                            <div class="col-xs-2 text-left"
+                                style="margin-top:35px;border:2px solid black;border-radius:8px;">
+                                <h4>
+                                    <span t-if="o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">Invoice</span>
+		                            <span t-if="o.type == 'out_invoice' and o.state == 'proforma2'">PRO-FORMA</span>
+		                            <span t-if="o.type == 'out_invoice' and o.state == 'draft'">Draft Invoice</span>
+		                            <span t-if="o.type == 'out_invoice' and o.state == 'cancel'">Cancelled Invoice</span>
+		                            <span t-if="o.type == 'out_refund'">Refund</span>
+		                            <span t-if="o.type == 'in_refund'">Supplier Refund</span>
+		                            <span t-if="o.type == 'in_invoice'">Supplier Invoice</span>
+		                            <br />
+                                </h4> 
+                                 <h6><span t-field="o.number"/></h6>
+                            </div>
+                        </div>
+
+                        <div class="row zero_min_height">
+                            <div class="col-xs-12">
+                                <div style="border-bottom: 1px solid black;" />
+                            </div>
+                        </div>
+                    </div>
+	               
+			        <div class="page">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <strong>Partner:</strong>
+                                <span t-field="o.partner_id" />
+                                <br />
+                                <strong>Phone:</strong>
+                                <span t-field="o.partner_id.phone" />
+                                <br />
+					               <t t-if="o.partner_id.street">
+					                <strong>Invoice and shipping address:</strong>
+					                    <address t-field="o.partner_id"
+					                        t-field-options='{"widget": "contact", "fields": ["address"], "no_marker": true}' />
+					                    <span t-if="o.partner_id.vat">VAT: <span t-field="o.partner_id.vat"/></span>
+					               </t>
+                            </div>
+                            <div class="col-xs-6">
+                                <strong>
+                                    <span>Invoice Date:</span>
+                                </strong>
+                                <span t-field="o.date_invoice" t-field-options='{"format": "dd/MM/YYYY"}' />
+                                <br />
+                                <strong>Due Date:</strong>
+                                <span t-field="o.date_due" />
+                                <br />
+                                <strong>Payment Method:</strong>
+                                <span t-field="o.payment_term" />
+                            </div>
+                        </div>
+			            
+			            <table class="table table-condensed">
+			                <thead>
+			                <br />
+			                    <tr>
+			                        <th>Description</th>
+			                        <th>Quantity</th>
+			                        <th class="text-right">Unit Price</th>
+			                        <th class="text-right">Price</th>
+			                    </tr>
+			                </thead>
+			                <tbody class="invoice_tbody">
+			                    <tr t-foreach="o.invoice_line" t-as="l">
+			                        <td><span t-field="l.name"/></td>
+			                        <td>
+			                            <span t-field="l.quantity"/>
+			                            <span t-field="l.uos_id"  groups="product.group_uom"/>
+			                        </td>
+			                        <td class="text-right">
+			                            <span t-field="l.price_unit"
+			                            t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+			                        </td>
+			                        <td class="text-right">
+			                            <span t-field="l.price_subtotal" 
+			                                t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+			                        </td>
+			                    </tr>
+			                </tbody>
+			            </table>
+			
+			            <div class="row">
+			                <div class="col-xs-4 pull-right">
+			                    <table class="table table-condensed">
+			                        <tr class="border-black">
+			                            <td><strong>Total Without Taxes</strong></td>
+			                            <td class="text-right">
+			                                <span t-field="o.amount_untaxed" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+			                            </td>
+			                        </tr>
+			                        <tr>
+			                            <td>Taxes</td>
+			                            <td class="text-right">
+			                                <span t-field="o.amount_tax" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+			                            </td>
+			                        </tr>
+			                        <tr class="border-black">
+			                            <td><strong>Total</strong></td>
+			                            <td class="text-right">
+			                                 <span t-field="o.amount_total" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+			                            </td>
+			                        </tr>
+			                    </table>
+			                </div>
+			                <div class="col-xs-8 pull-left">
+			                
+			                <p t-if="o.comment">
+                            <strong>Comment:</strong>
+                            <span t-field="o.comment"/>
+                            </p>
+			                
+			                </div>
+			            </div>
+			        </div>
+	               
+	               
+                    <div class="footer text-center">
+                        <div class="text-center" style="border-top: 1px solid black;">
+                            <h6 style="margin:0px">
+                                <span>Authorized by Trade No.</span>
+                                <span t-field="company.number_trade" />
+                            </h6>
+                        </div>
+                        <div class="text-center">
+                            <h6 style="margin:0px">
+                                <span>Bank Accounts</span>
+                            </h6>
+                        </div>
+                        <t t-foreach="company.bank_ids" t-as="b">
+                            <div class="text-center">
+                                <h6 style="margin:0px">
+                                    <span t-field="b.acc_number" />
+                                    <span t-field="b.bank_name" />
+                                    <t t-if="b.currency_id">
+                                        (
+                                        <span t-field="b.currency_id.name" />
+                                        )
+                                    </t>
+                                </h6>
+                            </div>
+                        </t>
+                        <h6>
+                            <ul t-if="not company.custom_footer" class="list-inline">
+                                <li t-if="company.street">&amp;bull;</li>
+                                <li t-if="company.street">
+                                    Addres:
+                                    <span t-field="company.street" />
+                                </li>
+                                <li t-if="company.website">&amp;bull;</li>
+                                <li t-if="company.website">
+                                    Website:
+                                    <span t-field="company.website" />
+                                </li>
+                                <br />
+                                <li t-if="company.phone">&amp;bull;</li>
+                                <li t-if="company.phone">
+                                    Phone:
+                                    <span t-field="company.phone" />
+                                </li>
+                                <li t-if="company.email">&amp;bull;</li>
+                                <li t-if="company.email">
+                                    Email:
+                                    <span t-field="company.email" />
+                                </li>
+                            </ul>
+                        </h6>
+                    </div>
+	            </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

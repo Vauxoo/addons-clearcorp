@@ -20,5 +20,32 @@
 #
 ##############################################################################
 
-import report
-import account_invoice_webkit_report
+{
+    "name" : 'Invoice Report',
+    "version" : '1.0',
+    "author" : 'ClearCorp',
+    'complexity': 'normal',
+    "description": """
+            Invoice webkit report
+    """,
+    "category": 'Accounting & Finance',
+    "sequence": 4,
+    "website" : "http://clearcorp.co.cr",
+    "images" : [],
+    "icon" : False,
+    "depends" : [
+        'base',
+        'account_invoice_discount',
+        'sale_order_report',
+        ],
+    "init_xml" : [],
+    "demo_xml" : [],
+    "update_xml" : [
+                    'views/report_account_invoice.xml',
+                    ],
+    "test" : [],
+    "auto_install": False,
+    "application": False,
+    "installable": True,
+    'license': 'AGPL-3',
+}
