@@ -43,19 +43,7 @@ class PurchaseOrderLine(models.Model):
 
 class ProjectIssue(models.Model):
     _inherit = 'project.issue'
-    @api.v7
-    def create(self, cr, uid, vals, context=None):
-        if 'issue_type' in vals and vals.get('issue_type'):
-            if vals.get('issue_type')=='preventive check' and not 'active_model' in context:
-                raise Warning(_('You can not create an issue of preventive check type from this screen'))
-        return super(ProjectIssue, self).create(cr, uid, vals, context)
-    @api.v7
-    def write(self, cr, uid, ids, vals, context=None):
-        if 'issue_type' in vals and vals.get('issue_type'):
-            if vals.get('issue_type')=='preventive check' and not 'active_model' in context:
-                raise Warning(_('You can not create an issue of preventive check type from this screen'))
-        return super(ProjectIssue, self).write(cr, uid, ids, vals, context)
-    
+
     purchase_orde_line=fields.One2many('purchase.order.line','issue_id')
     is_closed = fields.Boolean(string='Is Closed',related='stage_id.closed',store=True)
     
