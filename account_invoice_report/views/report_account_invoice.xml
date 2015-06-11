@@ -57,7 +57,12 @@
 			        <div class="page">
                         <div class="row">
                             <div class="col-xs-6">
+                                <t t-if="o.type == 'in_invoice'">
+                                <strong>Supplier:</strong>
+                                </t>
+                                <t t-if="o.type == 'out_invoice'">
                                 <strong>Partner:</strong>
+                                </t>
                                 <span t-field="o.partner_id" />
                                 <br />
                                 <strong>Phone:</strong>
