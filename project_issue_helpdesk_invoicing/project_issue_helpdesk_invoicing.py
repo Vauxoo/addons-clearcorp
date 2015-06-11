@@ -21,20 +21,54 @@
 ##############################################################################
 from openerp import models, fields, api, _
 from openerp.exceptions import Warning
+import math
 from datetime import date
 import time
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from openerp.addons.decimal_precision import decimal_precision as dp
+from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
+import pytz
+from openerp import SUPERUSER_ID
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
     
     issue_ids=fields.One2many('project.issue','sale_order_id')
     task_ids=fields.One2many('project.task','sale_id')
-
+    
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
+    @api.constrains('price_unit','purchase_price')
+    def _check_price_lines(self):
+        for line in self:
+            if (line.price_unit<line.purchase_price):
+                raise Warning('Price unit must be greater or equal to cost price',['price_unit','purchase_price'])
+        return True
 class ProjectIssue(models.Model):
     _inherit = 'project.issue'
+    @api.v7
+    def onchange_stage_id(self, cr, uid, ids, stage_id, context=None):
+        timesheet_obj=self.pool.get('hr.analytic.timesheet')
+        res=super(ProjectIssue, self).onchange_stage_id(cr, uid, ids, stage_id, context)
+        issues=self.browse(cr,uid,ids)
+        stage = self.pool['project.task.type'].browse(cr, uid, stage_id, context=context)
+        if stage.closed==True:
+            for issue in issues:
+                if issue.timesheet_ids:
+                    timesheet_ids = timesheet_obj.search(cr, uid, [('issue_id','=',issue.id)], context=context, order="date desc, end_time desc")
+                    timesheet=timesheet_obj.browse(cr,uid,timesheet_ids)[0]
+                    minute, hour = math.modf(timesheet.end_time) 
+                    user_pool = self.pool.get('res.users')
+                    utc = pytz.timezone('UTC')
+                    user = user_pool.browse(cr, SUPERUSER_ID, uid)
+                    tz = pytz.timezone(user.partner_id.tz) or pytz.utc
+                    date_close = tz.localize(datetime.strptime(timesheet.date+' '+str(int(hour))+':'+str(int(minute*60)),'%Y-%m-%d %H:%M'), is_dst=False) # UTC = no DST
+                    date_close = date_close.astimezone(utc)
+                    res['value']['date_closed']= date_close
+                else:
+                    res['value']['date_closed']=fields.datetime.now()
+        return res
     @api.v7
     def write(self, cr, uid, ids, vals, context=None):
         issues=self.browse(cr,uid,ids)
@@ -69,6 +103,26 @@ class ResPartner(models.Model):
 
 class AccountAnalyticAccount(models.Model):
     _inherit = 'account.analytic.account'
+    def name_get(self, cr, uid, ids, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        reads = self.read(cr, uid, ids, ['name','code',], context=context)
+        res = []
+        for record in reads:
+            name = record['name']
+            code=record['code']
+            if code:
+                name=code + ' '+ name
+            res.append((record['id'], name))
+        return res
+    @api.v7
+    def name_search(self,cr,uid,name,args=None, operator='ilike',context=None, limit=100):
+        res = super(AccountAnalyticAccount, self).name_search(cr,uid,name, args = args, operator = 'ilike')
+        ids=self.search(cr,uid,[('code', operator, name)] + args,limit=limit, context=context)
+        res = list(set(res + self.name_get(cr, uid, ids, context=context)))
+        return res
     @api.v7
     def create(self,cr, uid, vals, context=None):
         if 'invoice_partner_type' in vals and vals.get('invoice_partner_type')=='branch' and (vals.get('branch_ids')==False or not 'invoice_partner_type' in vals):
@@ -100,6 +154,7 @@ class AccountAnalyticAccount(models.Model):
     preventive_check_interval_type=fields.Selection([('days','Days'),('weeks','Weeks'),('months','Months')],string="Interval Type")
     preventive_check_interval_invoice=fields.Char("Interval Invoice",compute='get_interval_invoice')
     currency_id=fields.Many2one(related='pricelist_id.currency_id',string='Currency',store=True)
+    property_account_income=fields.Many2one('account.account',string="Income Account",company_dependent=False)
     _defaults={
             'invoice_partner_type':'customer',
             'preventive_check_interval_number':1,
@@ -521,3 +576,65 @@ class account_invoice_line(models.Model):
     supply_type = fields.Selection(string='Use',related='product_id.supply_type')
     reference = fields.Char(string='Reference',help="Reference of origin of line invoice")
     
+class project_project(models.Model):
+    _inherit = "project.project"
+    def name_get(self, cr, uid, ids, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        reads = self.read(cr, uid, ids, ['name','code',], context=context)
+        res = []
+        for record in reads:
+            name = record['name']
+            code=record['code']
+            if code:
+                name=code + ' '+ name
+            res.append((record['id'], name))
+        return res
+    @api.v7
+    def name_search(self,cr,uid,name,args=None, operator='ilike',context=None, limit=100):
+        res = super(project_project, self).name_search(cr,uid,name, args = args, operator = 'ilike')
+        ids=self.search(cr,uid,[('code', operator, name)] + args,limit=limit, context=context)
+        res = list(set(res + self.name_get(cr, uid, ids, context=context)))
+        return res
+    def create(self, cr, uid, vals, context=None):
+        code = self.pool.get('ir.sequence').get(cr, uid, 'project.project', context=context) or '/'
+        vals['code'] = code
+        result = super(project_project, self).create(cr, uid, vals, context=context)
+        return result
+    code = fields.Char(string='Reference')
+class HRAnalitycTimesheet(models.Model):
+    _inherit = "hr.analytic.timesheet"
+    def create(self, cr, uid, vals, context=None):
+        if 'task_id' in vals:
+            cr.execute('update project_task set remaining_hours=remaining_hours - %s where id=%s', (vals.get('end_time',0.0)-vals.get('start_time',0.0), vals['task_id']))
+            self.pool.get('project.task').invalidate_cache(cr, uid, ['remaining_hours'], [vals['task_id']], context=context)
+        return super(HRAnalitycTimesheet,self).create(cr, uid, vals, context=context)
+    def write(self, cr, uid, ids, vals, context=None):
+        if 'task_id' in vals or 'issue_id' in vals:
+            if 'task_id' in vals and vals['task_id']:
+                vals['issue_id']=False
+            elif 'issue_id' in vals and vals['issue_id']:
+                vals['task_id']=False
+        if 'start_time' in vals or 'end_time' in vals:
+            task_obj = self.pool.get('project.task')
+            for ts in self.browse(cr, uid, ids, context=context):
+                if ts.task_id:
+                    if 'start_time' in vals and not 'end_time' in vals:
+                        hours=ts.end_time-vals['start_time']
+                    if not 'start_time' in vals and 'end_time' in vals:
+                        hours=vals['end_time']-ts.start_time
+                    if  'start_time' in vals and 'end_time' in vals:
+                        hours=vals['end_time']-vals['start_time']
+                    cr.execute('update project_task set remaining_hours=remaining_hours - %s + (%s) where id=%s', (hours, ts.end_time-ts.start_time, ts.task_id.id))
+                    task_obj.invalidate_cache(cr, uid, ['remaining_hours'], [ts.task_id.id], context=context)
+        return super(HRAnalitycTimesheet,self).write(cr, uid, ids, vals, context)
+
+    def unlink(self, cr, uid, ids, context=None):
+        task_obj = self.pool.get('project.task')
+        for ts in self.browse(cr, uid, ids):
+            if ts.task_id:
+                cr.execute('update project_task set remaining_hours=remaining_hours + %s where id=%s', (ts.end_time-ts.start_time, ts.task_id.id))
+                task_obj.invalidate_cache(cr, uid, ['remaining_hours'], [ts.task_id.id], context=context)
+        return super(HRAnalitycTimesheet,self).unlink(cr, uid, ids, context=context)

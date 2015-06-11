@@ -16,6 +16,30 @@
                 </field>
            </field>
         </record>
+        <!--inherit project task tree-->
+        <record model="ir.ui.view" id="project_task_tree_view">
+            <field name="name">Project Task Tree</field>
+            <field name="model">project.task</field>
+            <field name="priority" eval="60"/>
+            <field name="inherit_id" ref="project.view_task_tree2"/>
+            <field name="arch" type="xml">
+                 <field name="name" position="after">
+                        <field name="code"/>
+                 </field>
+            </field>
+        </record>
+        <!--inherit project task search-->
+        <record model="ir.ui.view" id="project_task_search_view">
+            <field name="name">Project Task Search</field>
+            <field name="model">project.task</field>
+            <field name="priority" eval="100"/>
+            <field name="inherit_id" ref="project.view_task_search_form"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after"> 
+                    <field name="code"/>
+                </field>
+            </field>
+        </record>
         <!--inherit project task form-->
          <record model="ir.ui.view" id="project_task_form_view">
             <field name="name">Project Task Form</field>
@@ -23,6 +47,9 @@
             <field name="inherit_id" ref="project.view_task_form2"/>
             <field name="priority" eval="50"/>
             <field name="arch" type="xml">
+                 <xpath expr="/form/sheet/group/group/field[@name='project_id']" position="before">
+                     <field name="code" readonly="1"/>
+                 </xpath>
                  <field name="reviewer_id" position="after">
                     <field name="categ_id" domain="[('supply_type','=','equipment')]" attrs="{'readonly':[('is_closed', '=', True)]}"/>
                 </field>
@@ -138,6 +165,32 @@
             <field name="priority" eval="60"/>
             <field name="inherit_id" ref="purchase.purchase_order_form"/>
             <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[@string='Products']/field[@name='order_line']/tree[@string='Purchase Order Lines']" position="before">
+                    <form string="Expense Lines">
+                        <group>
+                            <group>
+                                <field name="product_id" on_change="onchange_product_id(parent.pricelist_id,product_id,0,False,parent.partner_id, parent.date_order,parent.fiscal_position,date_planned,False,False,parent.state,context)"/>
+                                <field name="name"/>
+                                <field name="date_planned"/>
+                                <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                                <field name="task_id" attrs="{'readonly':[('issue_id','!=',False)]}" domain="[('stage_id.closed','!=',True)]"/>
+                                <field name="issue_id" attrs="{'readonly':[('task_id','!=',False)]}" domain="[('stage_id.closed','!=',True)]"/>
+                                <field name="init_onchange_call" invisible="1"/>
+                                <field name="account_analytic_id" groups="purchase.group_analytic_accounting" attrs="{'required':['|',('issue_id','!=',False),('task_id','!=',False)]}" domain="[('id','in',init_onchange_call[0][2]),('type','not in',('view','template'))]"/>
+                            </group>
+                            <group>
+                                    <field name="product_qty" on_change="onchange_product_id(parent.pricelist_id,product_id,product_qty,product_uom,parent.partner_id,parent.date_order,parent.fiscal_position,date_planned,name,False,parent.state,context)"/>
+                                    <field name="product_uom" groups="product.group_uom" on_change="onchange_product_uom(parent.pricelist_id,product_id,product_qty,product_uom,parent.partner_id, parent.date_order,parent.fiscal_position,date_planned,name,False,parent.state,context)"/>
+                                    <field name="price_unit"/>
+                                    <field name="taxes_id" widget="many2many_tags" domain="[('parent_id','=',False),('type_tax_use','!=','sale')]"/>
+                                    <field name="price_subtotal"/>
+                            </group>
+                        </group>
+                    </form>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Products']/field[@name='order_line']/tree[@string='Purchase Order Lines']" position="attributes"> 
+                    <attribute name="editable"/>
+                </xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Products']/field[@name='order_line']/tree[@string='Purchase Order Lines']/field[@name='issue_id']" position="after">
                     <field name="task_id" domain="[('stage_id.closed','!=',True)]" attrs="{'readonly':[('issue_id','!=',False)]}"/>
                 </xpath>

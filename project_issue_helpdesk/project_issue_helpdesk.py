@@ -23,6 +23,9 @@
 from openerp.osv import osv,fields, orm
 from openerp.tools.translate import _
 import math
+from datetime import datetime
+import pytz
+from openerp import SUPERUSER_ID
 
 class ProjectIssue(osv.Model):
     _inherit = 'project.issue'
@@ -106,24 +109,30 @@ class ProjectIssue(osv.Model):
         employee_obj=self.pool.get('hr.employee')
         issue_number = self.pool.get('ir.sequence').get(cr, uid, 'project.issue', context=context) or '/'
         vals['issue_number'] = issue_number
-        if vals.get('employee_id'):
-            employee=employee_obj.browse(cr,uid, vals.get('employee_id'),context=context)[0]
-            if employee.user_id:
-                 vals['user_id'] = employee.user_id.id
+        if 'employee_id' in vals:
+            if vals.get('employee_id'):
+                employee=employee_obj.browse(cr,uid, vals.get('employee_id'),context=context)[0]
+                if employee.user_id:
+                    vals['user_id'] = employee.user_id.id
+                else:
+                    raise osv.except_osv(_('Error!'), _('The employee asigned no have a user in the system'))
             else:
-                 vals['user_id'] = False
+                vals['user_id'] = False
         result = super(ProjectIssue, self).create(cr, uid, vals, context=context)
         return result
     
     def write(self, cr, uid, ids, vals, context=None):
          employee_obj=self.pool.get('hr.employee')
-         if vals.get('employee_id'):
-            employee=employee_obj.browse(cr,uid, vals.get('employee_id'),context=context)[0]
-            if employee.user_id:
-                 vals['user_id'] = employee.user_id.id
+         if 'employee_id' in vals:
+            if vals.get('employee_id'):
+                employee=employee_obj.browse(cr,uid, vals.get('employee_id'),context=context)[0]
+                if employee.user_id:
+                    vals['user_id'] = employee.user_id.id
+                else:
+                    raise osv.except_osv(_('Error!'), _('The employee asigned no have a user in the system'))
             else:
                 vals['user_id'] = False
-         res = super(ProjectIssue, self).write(cr, uid, ids, vals, context=context)        
+         res = super(ProjectIssue, self).write(cr, uid, ids, vals, context=context)
          return res
      
     def _check_issue_type(self, cr, uid, ids, context={}):
@@ -170,7 +179,7 @@ class ProjectIssue(osv.Model):
                 'categ_id':fields.many2one('product.category',required=True,string="Category Product"),
                 'product_id':fields.many2one('product.product',string="Product"),
                 'prodlot_id':fields.many2one('stock.production.lot',string="Serial Number"),
-                'branch_id':fields.many2one('res.partner', type='many2one', string='Branch'),
+                'branch_id':fields.many2one('res.partner', string='Branch'),
                 'employee_id': fields.many2one('hr.employee', 'Technical Staff Assigned'),
                 'contact': fields.char(string="Reported by",required=True),
                 'have_branch':fields.boolean(string="Have Branch"),
@@ -213,8 +222,26 @@ class HrAnaliticTimeSheet(osv.Model):
                  vals['user_id'] = employee.user_id.id
             else:
                 raise osv.except_osv(_('Error!'), _('The employee asigned no have a user in the system'))
-         res = super(HrAnaliticTimeSheet, self).write(cr, uid, ids, vals, context=context)       
+         res = super(HrAnaliticTimeSheet, self).write(cr, uid, ids, vals, context=context)
          return res
+     
+    def _check_future_timesheets(self, cr, uid, ids, context={}):
+        user_pool = self.pool.get('res.users')
+        user = user_pool.browse(cr, SUPERUSER_ID, uid)
+        utc = pytz.timezone('UTC')
+        tz = pytz.timezone(user.partner_id.tz) or pytz.utc
+        for timesheet_obj in self.browse(cr, uid, ids, context=context):
+                hour_start = math.floor(timesheet_obj.start_time)
+                min_start = round((timesheet_obj.start_time % 1) * 60)
+                hour_end = math.floor(timesheet_obj.end_time)
+                min_end = round((timesheet_obj.end_time % 1) * 60)
+                datetime_start = tz.localize(datetime.strptime(timesheet_obj.date+' '+str(int(hour_start))+':'+str(int(min_start)),'%Y-%m-%d %H:%M'), is_dst=False)
+                datetime_end = tz.localize(datetime.strptime(timesheet_obj.date+' '+str(int(hour_end))+':'+str(int(min_end)),'%Y-%m-%d %H:%M'), is_dst=False)
+                datetime_start = datetime_start.astimezone(utc)
+                datetime_end = datetime_end.astimezone(utc)
+                if datetime_start>datetime.now(utc) or datetime_end>datetime.now(utc):
+                    return False
+        return True
      
     def _check_start_time(self, cr, uid, ids, context={}):
         hour=0.0
@@ -243,11 +270,12 @@ class HrAnaliticTimeSheet(osv.Model):
     
     def _check_ticket_number(self, cr, uid, ids, context={}):
         for timesheet_obj in self.browse(cr, uid, ids, context=context):
-            if timesheet_obj.issue_id.issue_type!="remote support":
-                if not timesheet_obj.ticket_number:
-                    return False
-                else:
-                    return True
+            if timesheet_obj.issue_id:
+                if timesheet_obj.issue_id.issue_type!="remote support":
+                    if not timesheet_obj.ticket_number:
+                        return False
+                    else:
+                        return True
         return True
      
     def onchange_start_time(self, cr, uid, ids, start_time, end_time):
@@ -271,7 +299,8 @@ class HrAnaliticTimeSheet(osv.Model):
                 'service_type': fields.selection([('expert','Expert'),('assistant','Assistant')],string="Service Type"),
                 'employee_id': fields.many2one('hr.employee', 'Technical Staff'),
                 'amount_unit_calculate': fields.function(get_duration, method=True, type='float',string='Amount Unit'),
-                'task_id': fields.many2one('project.task', 'Task Assigned')
+                'task_id': fields.many2one('project.task', 'Task Assigned'),
+                'project_id':fields.related('task_id','project_id',type='many2one',relation='project.project',string='Project',readonly=True, store=True),
                 }
      
     _constraints = [
@@ -280,7 +309,8 @@ class HrAnaliticTimeSheet(osv.Model):
         (_check_start_time,'Format Start Time incorrect',['start_time']
          ),
          (_check_end_time,'Format End Time incorrect',['end_time']
-         )]
+         ),
+         (_check_future_timesheets,'Date time is greater than now',['start_time','end_time','date'])]
       
     _sql_constraints = [('unique_ticket_number','UNIQUE(ticket_number)',
                          'Ticket number must be unique for every worklogs')]

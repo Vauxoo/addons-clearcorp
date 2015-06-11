@@ -96,7 +96,7 @@ class IssueInvoiceWizard(models.TransientModel):
                                 for invoice in invoices_list:
                                     backorder.delivery_note_id.write({'invoice_ids':[(4,invoice)]})
                         for expense_line in task.expense_line_ids:
-                            if expense_line.expense_id.state=='done':
+                            if expense_line.expense_id.state=='done' or expense_line.expense_id.state=='paid':
                                 for move_lines in expense_line.expense_id.account_move_id.line_id:
                                     for lines in move_lines.analytic_lines:
                                         if lines.account_id==expense_line.analytic_account and lines.name==expense_line.name and lines.unit_amount==expense_line.unit_quantity and (lines.amount*-1/lines.unit_amount)==expense_line.unit_amount and not lines.invoice_id:
@@ -143,12 +143,7 @@ class IssueInvoiceWizard(models.TransientModel):
                 import_currency_rate = contract.pricelist_id.currency_id.get_exchange_rate(contract.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
             else:
                 import_currency_rate = 1
-            account_id=contract.product_preventive_check_ids[0].product_id.property_account_income.id
-            if not account_id:
-                account_id = contract.product_preventive_check_ids.order_line[0].product_id.categ_id.property_account_income_categ.id
-                if not account_id:
-                    prop = self.env['ir.property'].get('property_account_income_categ', 'product.category')
-                    account_id = prop and prop.id or False
+            account_id=contract.property_account_income.id
             if contract.invoice_partner_type=='branch':
                 for branch in contract.branch_ids:
                     date_due = False

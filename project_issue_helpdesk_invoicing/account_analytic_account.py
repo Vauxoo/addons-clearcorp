@@ -281,3 +281,82 @@ class HrAnaliticTimeSheet(osv.osv):
     _constraints = [
                     (is_permited_schedule, 'Can not mix regular and extra hours. Please check records or enter them separately',['start_time','end_time','date'])
                     ]
+class ProjectTask(osv.osv):
+    _inherit = 'project.task'
+
+    def _hours_get(self, cr, uid, ids, field_names, args, context=None):
+        res=super(ProjectTask, self)._hours_get(cr, uid, ids, field_names, args, context=None)
+        res = {}
+        cr.execute("SELECT task_id, COALESCE(SUM(end_time-start_time),0) FROM hr_analytic_timesheet WHERE task_id IN %s GROUP BY task_id",(tuple(ids),))
+        hours = dict(cr.fetchall())
+        for task in self.browse(cr, uid, ids, context=context):
+            res[task.id] = {'effective_hours': hours.get(task.id, 0.0), 'total_hours': (task.remaining_hours or 0.0) + hours.get(task.id, 0.0)}
+            res[task.id]['delay_hours'] = res[task.id]['total_hours'] - task.planned_hours
+            res[task.id]['progress'] = 0.0
+            if (task.remaining_hours + hours.get(task.id, 0.0)):
+                res[task.id]['progress'] = round(min(100.0 * hours.get(task.id, 0.0) / res[task.id]['total_hours'], 99.99),2)
+            if task.stage_id and (task.stage_id.fold or task.stage_id.closed==True):
+                res[task.id]['progress'] = 100.0
+        return res
+    
+    def _get_task(self, cr, uid, ids, context=None):
+        result = {}
+        for ts in self.pool.get('hr.analytic.timesheet').browse(cr, uid, ids, context=context):
+            if ts.task_id: result[ts.task_id.id] = True
+        return result.keys()
+    _columns = {
+        'effective_hours': fields.function(_hours_get, string='Hours Spent', multi='hours', help="Computed using the sum of the task work done.",
+            store = {
+                'project.task': (lambda self, cr, uid, ids, c={}: ids, ['timesheet_ids', 'remaining_hours', 'planned_hours'], 10),
+                'hr.analytic.timesheet': (_get_task, ['end_time','start_time'], 10),
+            }),
+        'total_hours': fields.function(_hours_get, string='Total', multi='hours', help="Computed as: Time Spent + Remaining Time.",
+            store = {
+                'project.task': (lambda self, cr, uid, ids, c={}: ids, ['timesheet_ids', 'remaining_hours', 'planned_hours'], 10),
+                'hr.analytic.timesheet': (_get_task, ['end_time','start_time'], 10),
+            }),
+        'progress': fields.function(_hours_get, string='Working Time Progress (%)', multi='hours', group_operator="avg", help="If the task has a progress of 99.99% you should close the task if it's finished or reevaluate the time",
+            store = {
+                'project.task': (lambda self, cr, uid, ids, c={}: ids, ['timesheet_ids', 'remaining_hours', 'planned_hours', 'state', 'stage_id'], 10),
+                'hr.analytic.timesheet': (_get_task, ['end_time','start_time'], 10),
+            }),
+        'delay_hours': fields.function(_hours_get, string='Delay Hours', multi='hours', help="Computed as difference between planned hours by the project manager and the total hours of the task.",
+            store = {
+                'project.task': (lambda self, cr, uid, ids, c={}: ids, ['timesheet_ids', 'remaining_hours', 'planned_hours'], 10),
+                'hr.analytic.timesheet': (_get_task, ['end_time','start_time'], 10),
+            })
+                }
+class ProjectProject(osv.osv):
+    _inherit = 'project.project'
+    def _get_projects_from_tasks(self, cr, uid, task_ids, context=None):
+        tasks = self.pool.get('project.task').browse(cr, uid, task_ids, context=context)
+        project_ids = [task.project_id.id for task in tasks if task.project_id]
+        return self.pool.get('project.project')._get_project_and_parents(cr, uid, project_ids, context)
+    def _progress_rate(self, cr, uid, ids, names, arg, context=None):
+        res=super(ProjectProject, self)._progress_rate(cr, uid, ids, names, arg, context=None)
+        return res
+    def _get_project_and_parents(self, cr, uid, ids, context=None):
+        res=super(ProjectProject, self)._get_project_and_parents(cr, uid, ids, context=None)
+        return res
+    _columns={   
+        'planned_hours': fields.function(_progress_rate, multi="progress", string='Planned Time', help="Sum of planned hours of all tasks related to this project and its child projects.",
+            store = {
+                'project.project': (_get_project_and_parents, ['tasks', 'parent_id', 'child_ids'], 10),
+                'project.task': (_get_projects_from_tasks, ['planned_hours', 'remaining_hours', 'timesheet_ids', 'stage_id'], 20),
+            }),
+        'effective_hours': fields.function(_progress_rate, multi="progress", string='Time Spent', help="Sum of spent hours of all tasks related to this project and its child projects.",
+            store = {
+                'project.project': (_get_project_and_parents, ['tasks', 'parent_id', 'child_ids'], 10),
+                'project.task': (_get_projects_from_tasks, ['planned_hours', 'remaining_hours', 'timesheet_ids', 'stage_id'], 20),
+            }),
+        'total_hours': fields.function(_progress_rate, multi="progress", string='Total Time', help="Sum of total hours of all tasks related to this project and its child projects.",
+            store = {
+                'project.project': (_get_project_and_parents, ['tasks', 'parent_id', 'child_ids'], 10),
+                'project.task': (_get_projects_from_tasks, ['planned_hours', 'remaining_hours', 'timesheet_ids', 'stage_id'], 20),
+            }),
+        'progress_rate': fields.function(_progress_rate, multi="progress", string='Progress', type='float', group_operator="avg", help="Percent of tasks closed according to the total of tasks todo.",
+            store = {
+                'project.project': (_get_project_and_parents, ['tasks', 'parent_id', 'child_ids'], 10),
+                'project.task': (_get_projects_from_tasks, ['planned_hours', 'remaining_hours', 'timesheet_ids', 'stage_id'], 20),
+            })
+              }

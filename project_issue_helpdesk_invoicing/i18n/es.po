@@ -285,7 +285,7 @@ msgstr "Días Feriados"
 #. module: project_issue_helpdesk_invoicing
 #: field:contract.pricelist,holiday_multiplier:0
 msgid "Holiday Multiplier"
-msgstr "Multiplicador de Horas Extras"
+msgstr "Multiplicador de Feriados"
 
 #. module: project_issue_helpdesk_invoicing
 #: field:holiday.calendar.date,name:0
