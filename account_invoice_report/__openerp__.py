@@ -36,7 +36,7 @@
     "depends" : [
         'base',
         'account_invoice_discount',
-        'sale_order_report',
+        'account_report_lib',
         ],
     "init_xml" : [],
     "demo_xml" : [],
