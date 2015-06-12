@@ -36,6 +36,7 @@
     'demo_xml': [],
     'update_xml': [
                    'views/report_purchase_order.xml',
+                   'views/report_purchasequotation.xml',
                    ],
     'license': 'AGPL-3',
     'installable': True,

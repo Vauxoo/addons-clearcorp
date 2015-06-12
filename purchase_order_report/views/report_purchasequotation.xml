@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+        <!-- sale.order.report -->
+        <record id="view_purchase order_report" model="ir.ui.view">
+            <field name="name">View Purchase Request for Quotation Report</field>
+            <field name="inherit_id" ref="purchase.report_purchasequotation_document" />
+            <field name="priority" eval="50" />
+            <field name="type">qweb</field>
+            <field name="arch" type="xml">
+                <xpath expr="//t[@t-call='report.external_layout']"  position="replace">
+                        
+                        <div class="header">
+                            <t t-if="o and 'company_id' in o">
+                                <t t-set="company" t-value="o.company_id"></t>
+                            </t>
+                            <t t-if="not o or not 'company_id' in o">
+                                <t t-set="company" t-value="res_company"></t>
+                            </t>
+    
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo"
+                                        style="max-height: 100px;" />
+                                </div>
+                                <div class="col-xs-5 text-left" style="margin-top:20px;">
+                                    <h3>
+                                        <strong>
+                                            <span t-field="o.company_id" />
+                                        </strong>
+                                        <br />
+                                        <span t-field="o.company_id.company_registry" />
+                                    </h3>
+                                </div>
+                                
+                                <div class="col-xs-3 text-center"
+                                    style="margin-top:30px;border:2px solid black;border-radius:8px;">
+                                    <h5>
+                                        <span>Request for Quotation </span>
+                                        <br />
+                                        <span t-field="o.name" />
+                                    </h5>
+                                </div>
+                            </div>
+    
+                            <div class="row zero_min_height">
+                                <div class="col-xs-12">
+                                    <div style="border-bottom: 1px solid black;" />
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="page">
+                            <div class="oe_structure"/>
+                            
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <strong>Supplier:</strong>
+                                <span t-field="o.partner_id" />
+                                <br />
+                                <strong>Phone:</strong>
+                                <span t-field="o.partner_id.phone" />
+                                <br />
+                                <strong>Shipping address:</strong>
+                                    <div t-if="o.dest_address_id">
+                                        <div t-field="o.dest_address_id"
+                                            t-field-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": true}'/>
+                                    </div>
+                
+                                    <div t-if="not o.dest_address_id and o.picking_type_id and o.picking_type_id.warehouse_id">
+                                        <span t-field="o.picking_type_id.warehouse_id.name"/>
+                                        <div t-field="o.picking_type_id.warehouse_id.partner_id"
+                                            t-field-options='{"widget": "contact", "fields": ["address", "phone", "fax"], "no_marker": true}'/>
+                                    </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <strong>
+                                    <span>Order Date:</span>
+                                </strong>
+                                <span t-field="o.date_order" t-field-options='{"format": "dd/MM/YYYY"}' />
+                                <br />
+                                <strong>Planned Date:</strong>
+                                <span t-field="o.minimum_planned_date" />
+                                <br />
+                                <strong>Payment Method:</strong>
+                                <span t-field="o.payment_term_id"/>
+                            </div>
+                        </div>
+                
+                            <table class="table table-condensed">
+                                <thead>
+                                    <br />
+                                    <tr>
+                                        <th><strong>Reference</strong></th>
+                                        <th><strong>Description</strong></th>
+                                        <th class="text-right"><strong>Quantity</strong></th>
+                                        <th class="text-right"><strong>Unit Price</strong></th>
+                                        <th class="text-right"><strong>Net Price</strong></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="o.order_line" t-as="line">
+                                        <td><span t-field="line.product_id.default_code"/></td>
+                                        <td>
+                                            <span t-field="line.name"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.product_qty"/>
+                                            <span t-field="line.product_uom.name" groups="product.group_uom"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.price_unit"
+                                            t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.price_subtotal"
+                                                t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                
+                            <div class="row">
+                                <div class="col-xs-4 pull-right">
+                                    <table class="table table-condensed">
+                                        <tr class="border-black">
+                                            <td><strong>Total Without Taxes</strong></td>
+                                            <td class="text-right">
+                                                <span t-field="o.amount_untaxed"
+                                                    t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Taxes</td>
+                                            <td class="text-right">
+                                                <span t-field="o.amount_tax"
+                                                    t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-black">
+                                            <td><strong>Total</strong></td>
+                                            <td class="text-right">
+                                                <span t-field="o.amount_total"
+                                                    t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-xs-8 pull-left">
+                                <p t-field="o.notes"/>
+                                </div>
+                            </div>
+                            <div class="oe_structure"/>
+                        </div>
+                        
+                        
+                        <div class="footer text-center">
+                        <div class="text-center" style="border-top: 1px solid black;">
+                            <h6 style="margin:0px">
+                                <span>Addres:</span>
+                                <span t-field="company.street" />
+                                <span>,</span>
+                                <span t-field="company.state_id" />
+                                <span>,</span>
+                                <span t-field="company.country_id" />
+                                <span t-if="company.phone">&amp;bull; </span>
+                                <span>Phone:</span>
+                                <span t-field="company.phone" />
+                                <span t-if="company.website">&amp;bull; </span>
+                                <span>Website:</span>
+                                <span t-field="company.website" />
+                            </h6>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
+
+
+
+
+
+
+
+
