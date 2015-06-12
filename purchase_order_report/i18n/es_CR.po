@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-11 15:07+0000\n"
-"PO-Revision-Date: 2015-05-11 15:07+0000\n"
+"POT-Creation-Date: 2015-06-12 15:28+0000\n"
+"PO-Revision-Date: 2015-06-12 15:28+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,62 +16,92 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
-msgid "Date Expected:"
-msgstr "Fecha Esperada:"
+#: view:website:purchase.report_purchasequotation_document
+msgid "&bull;"
+msgstr "&bull;"
 
 #. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
+#: view:website:purchase.report_purchasequotation_document
+msgid "Addres:"
+msgstr "Dirección:"
+
+#. module: purchase_order_report
+#: view:website:purchase.report_purchasequotation_document
 msgid "Description"
 msgstr "Descripción"
 
 #. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
+#: view:website:purchase.report_purchasequotation_document
 msgid "Net Price"
 msgstr "Precio neto"
 
 #. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
+#: view:website:purchase.report_purchasequotation_document
 msgid "Order Date:"
 msgstr "Fecha de pedido:"
 
 #. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
-msgid "Payment method:"
-msgstr "Método de Pago:"
+#: view:website:purchase.report_purchasequotation_document
+msgid "Payment Method:"
+msgstr "Forma de pago:"
 
 #. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
+#: view:website:purchase.report_purchasequotation_document
 msgid "Phone:"
 msgstr "Teléfono:"
 
 #. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
-msgid "Purchase Order Confirmation N°"
-msgstr "Confirmación pedido de compra Nº"
+#: view:website:purchase.report_purchasequotation_document
+msgid "Planned Date:"
+msgstr "Fecha prevista:"
 
 #. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
-msgid "Qty"
+#: view:website:purchase.report_purchasequotation_document
+msgid "Quantity"
 msgstr "Cantidad"
 
 #. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
+#: view:website:purchase.report_purchasequotation_document
 msgid "Reference"
 msgstr "Referencia"
 
 #. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
+#: view:website:purchase.report_purchasequotation_document
+msgid "Request for Quotation"
+msgstr "Solicitud de presupuesto"
+
+#. module: purchase_order_report
+#: view:website:purchase.report_purchasequotation_document
 msgid "Shipping address:"
 msgstr "Dirección de envío:"
 
 #. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
+#: view:website:purchase.report_purchasequotation_document
 msgid "Supplier:"
 msgstr "Proveedor:"
 
 #. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
+#: view:website:purchase.report_purchasequotation_document
+msgid "Taxes"
+msgstr "Impuestos"
+
+#. module: purchase_order_report
+#: view:website:purchase.report_purchasequotation_document
+msgid "Total"
+msgstr "Total"
+
+#. module: purchase_order_report
+#: view:website:purchase.report_purchasequotation_document
+msgid "Total Without Taxes"
+msgstr "Total sin impuestos"
+
+#. module: purchase_order_report
+#: view:website:purchase.report_purchasequotation_document
 msgid "Unit Price"
 msgstr "Precio unidad"
+
+#. module: purchase_order_report
+#: view:website:purchase.report_purchasequotation_document
+msgid "Website:"
+msgstr "Sitio web:"
 
