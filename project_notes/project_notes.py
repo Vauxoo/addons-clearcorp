@@ -22,13 +22,19 @@
 
 from openerp import models, fields
 
+
 class Project(models.Model):
 
     _inherit = 'project.project'
 
     notes = fields.Text('Notes')
-    project_objective_ids = fields.One2many('project.notes.objetives' , 'project_id', string='Indicators')
-    
+    project_objective_ids = fields.One2many(
+        'project.notes.objetives',
+        'project_id',
+        string='Indicators'
+    )
+
+
 class Project_notes_objetives(models.Model):
     """Objectives"""
 
