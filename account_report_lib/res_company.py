@@ -19,9 +19,16 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import wizard
-import account_report_base
-import account_common_library
-import account_financial_report_build
-import tools
-import res_company
+
+from openerp import models, fields,api, _
+from datetime import datetime
+from openerp.exceptions import Warning
+import openerp.addons.decimal_precision as dp
+from openerp import tools
+
+class Rescompany(models.Model):
+
+    _inherit = 'res.company'
+
+    number_trade = fields.Char('Number of Trade', size=128)
+    number_trade_date = fields.Date('Number of Trade Date:')

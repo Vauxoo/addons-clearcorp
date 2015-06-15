@@ -44,6 +44,7 @@ Observations about qweb_reports module:
     'demo' : [],
     'data': [
              'security/ir.model.access.csv',
+             'res_company.xml',
              'data/account_base_type.xml',
              'tools/tools_modules_extended.xml',
              'wizard/account_report_wizard.xml',
