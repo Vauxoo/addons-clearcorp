@@ -20,5 +20,3 @@
 #
 ##############################################################################
 
-import report
-import account_invoice_webkit_report

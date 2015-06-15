@@ -21,9 +21,9 @@
 ##############################################################################
 
 {
-    "name" : 'Invoice Webkit Report',
+    "name" : 'Invoice Report',
     "version" : '1.0',
-    "author" : 'CLEARCORP S.A',
+    "author" : 'ClearCorp',
     'complexity': 'normal',
     "description": """
             Invoice webkit report
@@ -35,15 +35,13 @@
     "icon" : False,
     "depends" : [
         'base',
+        'account_invoice_discount',
         'account_report_lib',
-        'account_invoice_global_discount',
         ],
     "init_xml" : [],
     "demo_xml" : [],
     "update_xml" : [
-                    'data/account_invoice_webkit_report_header.xml',
-                    'account_invoice_webkit_report.xml',
-                    'report/report.xml'
+                    'views/report_account_invoice.xml',
                     ],
     "test" : [],
     "auto_install": False,
