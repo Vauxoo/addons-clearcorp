@@ -34,7 +34,10 @@ class IssueInvoiceWizard(models.TransientModel):
         sale_line=self.env['sale.order.line']
         user = self.env['res.users'].browse(self._uid)
         invoices_list=[]
+        invoices_list_extra=[]
         count_lines=1
+        first_line_extra=0
+        count_lines_extra=1
         limit_lines=user.company_id.maximum_invoice_lines
         inv=invoice_obj.create(invoice_dict)
         sales.write({'invoice_ids':[(4,inv.id)]})
@@ -65,44 +68,61 @@ class IssueInvoiceWizard(models.TransientModel):
                                 prop = self.env['ir.property'].get('property_account_income_categ', 'product.category')
                                 account_id = prop and prop.id or False
                         invoice_line={
-                                    'name': task.name,
-                                    'quantity':1,
-                                    'price_unit':0,
-                                    'discount':sale.project_id.to_invoice.factor,
-                                    'account_analytic_id':sale.project_id.id,
-                                    'account_id': account_id,
-                                    'sequence':100
-                                    }
-                        if count_lines<=limit_lines or limit_lines==0 or limit_lines==-1:
-                            inv.write({'invoice_line':[(0,0,invoice_line)]})
-                            count_lines+=1
-                        else:
-                            inv=invoice_obj.create(invoice_dict)
-                            sale.write({'invoice_ids':[(4,inv.id)]})
-                            invoices_list.append(inv.id)
-                            count_lines=1
-                            inv.write({'invoice_line':[(0,0,invoice_line)]})
-                            count_lines+=1
-                        
+                                   'name': task.name,
+                                   'quantity':1,
+                                   'price_unit':0,
+                                   'discount':sale.project_id.to_invoice.factor,
+                                   'account_analytic_id':sale.project_id.id,
+                                   'account_id': account_id,
+                                   'sequence':100
+                                   }
+                        if task.extra==True:
+                            if first_line_extra==0:
+                                inv2=invoice_obj.create(invoice_dict)
+                                invoices_list_extra.append(inv2.id)
+                                first_line_extra=+1
+                            if count_lines_extra<=limit_lines or limit_lines==0 or limit_lines==-1:
+                                inv2.write({'invoice_line':[(0,0,invoice_line)]})
+                                count_lines+=1
+                            else:
+                                inv2=invoice_obj.create(invoice_dict)
+                                sales.write({'invoice_ids':[(4,inv2.id)]})
+                                invoices_list_extra.append(inv2.id)
+                                count_lines=1
+                                inv2.write({'invoice_line':[(0,0,invoice_line)]})
+                                count_lines+=1
                         for timesheet in task.timesheet_ids:
                             for account_line in timesheet.line_id:
                                 if not account_line.invoice_id:
-                                    account_line.write({'invoice_id':inv.id})
+                                    if task.extra==True:
+                                        account_line.write({'invoice_id':inv2.id})
+                                    else:
+                                        account_line.write({'invoice_id':inv.id})
                         for backorder in task.backorder_ids:
                             if backorder.delivery_note_id and backorder.picking_type_id.code=='outgoing' and backorder.delivery_note_id.state=='done' and backorder.invoice_state!='invoiced' and backorder.state=='done':
                                 backorder.write({'invoice_state':'invoiced'})
                                 backorder.move_lines.write({'invoice_state':'invoiced'})
                                 backorder.delivery_note_id.write({'state':'invoiced'})
-                                for invoice in invoices_list:
-                                    backorder.delivery_note_id.write({'invoice_ids':[(4,invoice)]})
+                                if task.extra==True:
+                                    for invoice in invoices_list_extra:
+                                        backorder.delivery_note_id.write({'invoice_ids':[(4,invoice)]})
+                                else:
+                                    for invoice in invoices_list:
+                                         backorder.delivery_note_id.write({'invoice_ids':[(4,invoice)]})
                         for expense_line in task.expense_line_ids:
                             if expense_line.expense_id.state=='done' or expense_line.expense_id.state=='paid':
                                 for move_lines in expense_line.expense_id.account_move_id.line_id:
                                     for lines in move_lines.analytic_lines:
                                         if lines.account_id==expense_line.analytic_account and lines.name==expense_line.name and lines.unit_amount==expense_line.unit_quantity and (lines.amount*-1/lines.unit_amount)==expense_line.unit_amount and not lines.invoice_id:
-                                            lines.write({'invoice_id':inv.id})
-                        task_obj.write(self._cr,self._uid,task.id,{'invoice_id':inv.id})
-        return invoices_list
+                                            if task.extra==True:
+                                                lines.write({'invoice_id':inv2.id})
+                                            else:
+                                                lines.write({'invoice_id':inv.id})
+                        if task.extra==True:
+                            task_obj.write(self._cr,self._uid,task.id,{'invoice_id':inv2.id})
+                        else:
+                            task_obj.write(self._cr,self._uid,task.id,{'invoice_id':inv.id})
+        return invoices_list+invoices_list_extra
     @api.multi
     def generate_invoice_sale_order(self, sale_orders):
         result={}
