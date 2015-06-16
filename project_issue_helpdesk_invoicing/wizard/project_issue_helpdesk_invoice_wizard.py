@@ -60,14 +60,14 @@ class IssueInvoiceWizard(models.TransientModel):
                         if (timesheet.end_time-timesheet.start_time!=0 or total_timesheet!=0):
                             invoice_line={
                                         'product_id':account_line.product_id.id ,
-                                        'name': issue.product_id.description or issue.product_id.name,
+                                        'name': account_line.product_id.description+'-'+issue.product_id.description,
                                         'real_quantity':timesheet.end_time-timesheet.start_time,
                                         'quantity':quantity,
                                         'price_unit':total_timesheet*import_currency_rate,
                                         'uos_id':account_line.product_id.uom_id.id,
                                         'discount':account_line.account_id.to_invoice.factor,
                                         'account_analytic_id':account_line.account_id.id,
-                                        'reference':timesheet.ticket_number,
+                                        'reference':'R#'+timesheet.ticket_number,
                                         'price_subtotal':total_timesheet*quantity,
                                         'invoice_line_tax_id':[(6, 0, [tax.id for tax in account_line.product_id.taxes_id])],
                                         'account_id':issue.product_id.property_account_income.id
@@ -101,7 +101,7 @@ class IssueInvoiceWizard(models.TransientModel):
                             import_currency_rate = 1
                         invoice_line={
                                     'product_id':delivery_note_lines.product_id.id,
-                                    'name': delivery_note_lines.product_id.description or delivery_note_lines.product_id.name,
+                                    'name': issue.product_id.description +'-'+delivery_note_lines.product_id.description,
                                     'quantity':delivery_note_lines.quantity,
                                     'real_quantity':delivery_note_lines.quantity,
                                     'uos_id':delivery_note_lines.product_uos.id,
@@ -109,7 +109,7 @@ class IssueInvoiceWizard(models.TransientModel):
                                     'discount':delivery_note_lines.discount,
                                     'invoice_line_tax_id':[(6, 0, [tax.id for tax in delivery_note_lines.taxes_id])],
                                     'account_analytic_id':issue.analytic_account_id.id,
-                                    'reference':delivery_note_lines.note_id.name,
+                                    'reference':'NE#'+delivery_note_lines.note_id.name,
                                     'account_id':delivery_note_lines.product_id.property_account_income.id
                                     }
                         if issue.warranty=='seller':
