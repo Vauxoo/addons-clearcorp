@@ -2,8 +2,8 @@
 <openerp>
     <data>
         <!-- account.invoice.report -->
-        <record id="view_account invouce_report" model="ir.ui.view">
-            <field name="name">view.sale.order.report</field>
+        <record id="view_account invoice_report" model="ir.ui.view">
+            <field name="name">view.account.report</field>
             <field name="inherit_id" ref="account.report_invoice_document" />
             <field name="priority" eval="50" />
             <field name="type">qweb</field>
@@ -184,6 +184,10 @@
                                 <li t-if="company.street">
                                     Addres:
                                     <span t-field="company.street" />
+                                    <span>,</span>
+	                                <span t-field="company.state_id" />
+	                                <span>,</span>
+	                                <span t-field="company.country_id" />
                                 </li>
                                 <li t-if="company.website">&amp;bull;</li>
                                 <li t-if="company.website">
