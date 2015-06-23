@@ -483,49 +483,6 @@ class StockPicking(orm.Model):
     _defaults = {
           'issue_required':_compute_issue_required
                 }
-
-class StockTransferDetail(osv.osv_memory):
-    _inherit = 'stock.transfer_details'
-    
-    def do_enter_transfer_partner(self, cr, uid,ids, context=None):
-        stock_move_obj=self.pool.get('stock.move')
-        stock_picking_obj=self.pool.get('stock.picking')
-        stock_picking_type_obj=self.pool.get('stock.picking.type')
-        stock_pack_operation_obj=self.pool.get('stock.pack.operation')
-        stock_move_ids=[]
-        
-        for transfer in self.browse(cr, uid, ids, context=context):
-            location_dest_original=transfer.picking_id.location_dest_id.id
-            partner_original=transfer.picking_id.partner_id.id
-            picking_type_original=transfer.picking_id.picking_type_id.id
-            if transfer.picking_id.issue_id.branch_id:
-                location_dest_actual=transfer.picking_id.issue_id.branch_id.property_stock_customer.id
-                partner_actual=transfer.picking_id.issue_id.branch_id.id
-            elif transfer.picking_id.issue_id.partner_id:
-                location_dest_actual=transfer.picking_id.issue_id.partner_id.property_stock_customer.id
-                partner_actual=transfer.picking_id.issue_id.partner_id.id
-            else:
-                raise osv.except_osv(_('Warning!'), _('You can not transfer to a partner, if you have not selected an issue'))  
-            
-            picking_type_id=stock_picking_type_obj.search(cr, uid,[('code','=','outgoing'),('warehouse_id','=',transfer.picking_id.picking_type_id.warehouse_id.id)])
-            for move in transfer.picking_id.move_lines:
-                stock_move_obj.write(cr,uid, move.id,{'location_dest_id': location_dest_actual,'partner_id':partner_actual,'picking_type_id':picking_type_id[0]})
-                stock_move_ids.append(move.id)
-            stock_picking_obj.write(cr,uid, transfer.picking_id.id,{'location_dest_id': location_dest_actual,'partner_id':partner_actual,'picking_type_id':picking_type_id[0]})
-            self.do_detailed_transfer(cr,uid,ids,context)
-            for pack in transfer.picking_id.pack_operation_ids:
-                stock_pack_operation_obj.write(cr,uid,pack.id,{'location_dest_id': location_dest_actual})
-            move_ids=stock_move_obj.search(cr, uid,[('split_from','in',stock_move_ids)])
-            
-            for move in stock_move_obj.browse(cr, uid, move_ids, context=context):
-                    stock_move_obj.write(cr,uid, move.id,{'state': 'draft'})
-                    stock_move_obj.write(cr,uid, move.id,{'location_dest_id': location_dest_original,'partner_id':partner_original,'state': 'done','picking_type_id':picking_type_original})
-                    pack_operation_ids=stock_pack_operation_obj.search(cr, uid,[('picking_id','=',move.picking_id.id)])
-                    for pack in stock_pack_operation_obj.browse(cr, uid, pack_operation_ids, context=context):
-                        stock_pack_operation_obj.write(cr,uid, pack.id,{'location_dest_id': location_dest_original})
-            stock_picking_obj.write(cr,uid, transfer.picking_id.id,{'invoice_state': 'none','picking_type_id':picking_type_id[0]})
-            
-
 class SaleOrder(orm.Model):
     _inherit = 'sale.order'
     
