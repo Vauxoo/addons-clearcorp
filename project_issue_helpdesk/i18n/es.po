@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-01 21:39+0000\n"
-"PO-Revision-Date: 2015-04-01 21:39+0000\n"
+"POT-Creation-Date: 2015-06-25 16:33+0000\n"
+"PO-Revision-Date: 2015-06-25 16:33+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -22,9 +22,9 @@ msgid "<p class=\"oe_view_nocontent_create\">Create new issue origin</p>\n"
 msgstr "Crear un nuevo medio"
 
 #. module: project_issue_helpdesk
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk_purchase.py:75
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk_purchase.py:77
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk_purchase.py:79
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk_purchase.py:63
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk_purchase.py:65
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk_purchase.py:67
 #, python-format
 msgid "Already exist worklogs register with this range of dates. Ticket Number #%s"
 msgstr "Ya existen registros de trabajo con estos mismos rangos de fecha. Número de boleta #%s"
@@ -52,6 +52,7 @@ msgid "Branch"
 msgstr "Sucursal"
 
 #. module: project_issue_helpdesk
+#: view:project.issue:project_issue_helpdesk.view_project_issue_filter
 #: field:project.issue,categ_id:0
 msgid "Category Product"
 msgstr "Categoría de Producto"
@@ -62,6 +63,11 @@ msgid "Company"
 msgstr "Compañía"
 
 #. module: project_issue_helpdesk
+#: view:project.issue:project_issue_helpdesk.view_project_issue_filter
+msgid "Contract"
+msgstr "Contrato"
+
+#. module: project_issue_helpdesk
 #: field:project.issue.origin,create_uid:0
 msgid "Created by"
 msgstr "Creado por"
@@ -70,6 +76,16 @@ msgstr "Creado por"
 #: field:project.issue.origin,create_date:0
 msgid "Created on"
 msgstr "Creado el"
+
+#. module: project_issue_helpdesk
+#: view:project.issue:project_issue_helpdesk.view_project_issue_filter
+msgid "Date"
+msgstr "Fecha"
+
+#. module: project_issue_helpdesk
+#: constraint:hr.analytic.timesheet:0
+msgid "Date time is greater than now"
+msgstr "Fecha/Hora mayor que la Fecha/Hora actual"
 
 #. module: project_issue_helpdesk
 #: view:project.issue:project_issue_helpdesk.view_project_issue_form
@@ -99,8 +115,10 @@ msgid "Equipment"
 msgstr "Equipo"
 
 #. module: project_issue_helpdesk
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:204
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:215
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:118
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:132
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:213
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:224
 #, python-format
 msgid "Error!"
 msgstr "Error!"
@@ -266,6 +284,7 @@ msgstr "Revisión Preventiva"
 
 #. module: project_issue_helpdesk
 #: model:ir.model,name:project_issue_helpdesk.model_product_product
+#: view:project.issue:project_issue_helpdesk.view_project_issue_filter
 #: field:project.issue,product_id:0
 msgid "Product"
 msgstr "Producto"
@@ -281,6 +300,8 @@ msgid "Product Template"
 msgstr "Plantilla de producto"
 
 #. module: project_issue_helpdesk
+#: view:hr.analytic.timesheet:project_issue_helpdesk.hr_timesheet_line_search
+#: field:hr.analytic.timesheet,project_id:0
 #: field:sale.order,project_project_id:0
 msgid "Project"
 msgstr "Proyecto"
@@ -315,6 +336,11 @@ msgstr "Soporte Remoto"
 #: selection:product.template,supply_type:0
 msgid "Replacement"
 msgstr "Repuesto"
+
+#. module: project_issue_helpdesk
+#: view:project.issue:project_issue_helpdesk.view_project_issue_filter
+msgid "Report by"
+msgstr "Reportado por"
 
 #. module: project_issue_helpdesk
 #: field:project.issue,contact:0
@@ -395,13 +421,10 @@ msgid "Technical Staff Assigned"
 msgstr "Técnico Asignado"
 
 #. module: project_issue_helpdesk
-#: view:stock.transfer_details:project_issue_helpdesk.view_stock_enter_transfer_details_form
-msgid "The destination location of this movement will be assigned to the client. Continue?"
-msgstr "La ubicación destino de este movimiento será la asignada al cliente. Desea continuar?"
-
-#. module: project_issue_helpdesk
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:204
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:215
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:118
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:132
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:213
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:224
 #, python-format
 msgid "The employee asigned no have a user in the system"
 msgstr "Debe asignar un usuario al empleado seleccionado"
@@ -424,24 +447,13 @@ msgstr "El número de reporte técnicos es unico para los registros de trabajo"
 #. module: project_issue_helpdesk
 #: model:ir.model,name:project_issue_helpdesk.model_hr_analytic_timesheet
 msgid "Timesheet Line"
-msgstr "Línea del parte de horas"
-
-#. module: project_issue_helpdesk
-#: view:stock.transfer_details:project_issue_helpdesk.view_stock_enter_transfer_details_form
-msgid "Transfer to partner"
-msgstr "Transferir al cliente"
+msgstr "Línea de la hoja de servicios"
 
 #. module: project_issue_helpdesk
 #: view:hr.analytic.timesheet:project_issue_helpdesk.timesheet_line_tree_view
 #: view:project.issue:project_issue_helpdesk.view_project_issue_sheet_form
 msgid "True"
 msgstr "True"
-
-#. module: project_issue_helpdesk
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:477
-#, python-format
-msgid "Warning!"
-msgstr "Alerta!"
 
 #. module: project_issue_helpdesk
 #: field:project.issue,warranty:0
@@ -454,17 +466,9 @@ msgid "Workshop Repair"
 msgstr "Reparación en taller"
 
 #. module: project_issue_helpdesk
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk_purchase.py:50
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk_purchase.py:56
-#, python-format
-msgid "You can not create an issue of preventive check type from this screen"
-msgstr "No se pueden crear incidencias de Mantenimiento Preventivo desde este formulario"
-
-#. module: project_issue_helpdesk
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:477
-#, python-format
-msgid "You can not transfer to a partner, if you have not selected an issue"
-msgstr "No puede realizar la transferencia al cliente, si no ha seleccionado una incidencia"
+#: view:project.issue:project_issue_helpdesk.view_project_issue_sheet_form
+msgid "[('id','=',parent.analytic_account_id)]"
+msgstr "[('id','=',parent.analytic_account_id)]"
 
 #. module: project_issue_helpdesk
 #: view:hr.analytic.timesheet:project_issue_helpdesk.timesheet_line_tree_view
@@ -497,7 +501,7 @@ msgstr "ej. Experto en TI"
 #: help:project.issue,init_onchange_call:0
 #: help:stock.picking,init_onchange_call:0
 msgid "field at view init"
-msgstr "field at view init"
+msgstr "Campo para inicializar vista"
 
 #. module: project_issue_helpdesk
 #: view:stock.picking:project_issue_helpdesk.view_stock_picking_form
