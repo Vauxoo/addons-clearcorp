@@ -109,7 +109,7 @@ class IssueInvoiceWizard(models.TransientModel):
                                     'discount':delivery_note_lines.discount,
                                     'invoice_line_tax_id':[(6, 0, [tax.id for tax in delivery_note_lines.taxes_id])],
                                     'account_analytic_id':issue.analytic_account_id.id,
-                                    'reference':'NE#'+delivery_note_lines.note_id.name,
+                                    'reference':'NE#'+ delivery_note_lines.note_id.delivery_note_origin.name or delivery_note_lines.note_id.name,
                                     'account_id':delivery_note_lines.product_id.property_account_income.id
                                     }
                         if issue.warranty=='seller':
