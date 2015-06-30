@@ -211,7 +211,6 @@ class Report(models.Model):
                                         column_index += colspan_number
                                     if rowspan_number:
                                         merged_rows.append(rowspan_number)
-                                        #row_index += int(rowspan_number)-1
                                 except:
                                     _logger.info('An error ocurred while loading the style')
                             column_index += 1
