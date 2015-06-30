@@ -145,10 +145,13 @@ class Report(models.Model):
                     # Write all headers to the worksheet
                     for header_row in table.xpath("thead/tr"):
                         column_index = 0
+                        merged_rows = []
                         for column in header_row.xpath('th'):
                             style = None
                             try:
                                 colspan_number = column.get('colspan',False)
+                                rowspan_number = column.get('rowspan',False)
+                                
                                 style_str = column.get('easyfx', False)
                                 format_str=column.get('num_format_str', False)
                                 if style_str  and format_str:
@@ -163,21 +166,37 @@ class Report(models.Model):
                                 worksheet.write(row_index, column_index, column.text, style)
                             else:
                                 worksheet.write(row_index, column_index, column.text)
-                            if colspan_number:
+                            if colspan_number or rowspan_number:
                                 try:
-                                    worksheet.merge(row_index,row_index,column_index,column_index+int(colspan_number)-1)
-                                    column_index += int(colspan_number)-1
+                                    colspan_number = colspan_number and int(colspan_number)-1 or 0
+                                    rowspan_number = rowspan_number and int(rowspan_number)-1 or 0
+                                    worksheet.merge(row_index, row_index + rowspan_number, column_index, column_index + colspan_number)
+                                    if colspan_number:
+                                        column_index += colspan_number
+                                    if rowspan_number:
+                                        merged_rows.append(rowspan_number)
+                                        #row_index += int(rowspan_number)-1
                                 except:
                                     _logger.info('An error ocurred while loading the style')
+#                             if rowspan_number:
+#                                 try:
+#                                     worksheet.merge(row_index,row_index+int(rowspan_number)-1,column_index,column_index) 
+#                                     row_index += int(rowspan_number)-1
+#                                 except:
+#                                     _logger.info('An error ocurred while loading the style')
                             column_index += 1
-                        row_index += 1
+                            #row_index +=1
+                        row_index += merged_rows and max(merged_rows) + 1 or 1
                     # Write all content to the worksheet
                     for content_row in table.xpath("tbody/tr"):
                         column_index = 0
+                        merged_rows = []
+                        #row_number = 0
                         for column in content_row.xpath('td'):
                             style = None
                             try:
                                 colspan_number = column.get('colspan',False)
+                                rowspan_number = column.get('rowspan',False)
                                 style_str = column.get('easyfx', False)
                                 format_str=column.get('num_format_str', False)
                                 if style_str  and format_str:
@@ -192,14 +211,28 @@ class Report(models.Model):
                                 worksheet.write(row_index, column_index, render_element_type(render_element_content(column)), style)
                             else:
                                 worksheet.write(row_index, column_index, render_element_type(render_element_content(column)))
-                            if colspan_number:
-                                 try:
-                                    worksheet.merge(row_index,row_index,column_index,column_index+int(colspan_number)-1)
-                                    column_index += int(colspan_number)-1
-                                 except:
+                            if colspan_number or rowspan_number:
+                                try:
+                                    colspan_number = colspan_number and int(colspan_number)-1 or 0
+                                    rowspan_number = rowspan_number and int(rowspan_number)-1 or 0
+                                    worksheet.merge(row_index, row_index + rowspan_number, column_index, column_index + colspan_number)
+                                    if colspan_number:
+                                        column_index += colspan_number
+                                    if rowspan_number:
+                                        merged_rows.append(rowspan_number)
+                                        #row_index += int(rowspan_number)-1
+                                except:
                                     _logger.info('An error ocurred while loading the style')
                             column_index += 1
-                        row_index += 1
+                            
+#                             if rowspan_number:
+#                                  try:
+#                                     worksheet.merge(row_index,row_index+int(rowspan_number)-1,column_index,column_index)
+#                                     column_index += int(rowspan_number)-1
+#                                  except:
+#                                     _logger.info('An error ocurred while loading the style')
+                            #row_index += 1
+                        row_index += merged_rows and max(merged_rows) + 1 or 1
                 worksheet_counter += 1
         except:
             raise Warning(_('An error occurred while parsing the view into file.'))
