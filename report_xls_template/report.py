@@ -175,23 +175,14 @@ class Report(models.Model):
                                         column_index += colspan_number
                                     if rowspan_number:
                                         merged_rows.append(rowspan_number)
-                                        #row_index += int(rowspan_number)-1
                                 except:
                                     _logger.info('An error ocurred while loading the style')
-#                             if rowspan_number:
-#                                 try:
-#                                     worksheet.merge(row_index,row_index+int(rowspan_number)-1,column_index,column_index) 
-#                                     row_index += int(rowspan_number)-1
-#                                 except:
-#                                     _logger.info('An error ocurred while loading the style')
                             column_index += 1
-                            #row_index +=1
                         row_index += merged_rows and max(merged_rows) + 1 or 1
                     # Write all content to the worksheet
                     for content_row in table.xpath("tbody/tr"):
                         column_index = 0
                         merged_rows = []
-                        #row_number = 0
                         for column in content_row.xpath('td'):
                             style = None
                             try:
@@ -224,14 +215,6 @@ class Report(models.Model):
                                 except:
                                     _logger.info('An error ocurred while loading the style')
                             column_index += 1
-                            
-#                             if rowspan_number:
-#                                  try:
-#                                     worksheet.merge(row_index,row_index+int(rowspan_number)-1,column_index,column_index)
-#                                     column_index += int(rowspan_number)-1
-#                                  except:
-#                                     _logger.info('An error ocurred while loading the style')
-                            #row_index += 1
                         row_index += merged_rows and max(merged_rows) + 1 or 1
                 worksheet_counter += 1
         except:
