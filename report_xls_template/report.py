@@ -108,7 +108,6 @@ class Report(models.Model):
                     res += element.text
                  else:
                      res += element.text.strip()
-                 print res
              for child in element:
                  res += render_element_content(child)
              if isinstance(element.tail,(str, unicode)):
