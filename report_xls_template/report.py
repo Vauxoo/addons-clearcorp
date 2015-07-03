@@ -102,12 +102,17 @@ class Report(models.Model):
 
         # Method should be rewriten for a more complex rendering
         def render_element_content(element):
-             res = ""
+             res = ''
              if isinstance(element.text,(str, unicode)):
-                 res += element.text.strip()
+                 if element.tag == 'pre':
+                    res += element.text
+                 else:
+                     res += element.text.strip()
+                 print res
              for child in element:
                  res += render_element_content(child)
              if isinstance(element.tail,(str, unicode)):
+                 #print element
                  res += element.tail.strip()
              return res
         #Method identify the data type
