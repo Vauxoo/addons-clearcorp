@@ -28,6 +28,7 @@ from openerp.osv import osv
 from openerp.addons.web.http import Controller, route, request
 from openerp.addons.web.controllers.main import _serialize_exception
 
+
 class ReportXLSController(Controller):
 
     @route([
@@ -44,64 +45,85 @@ class ReportXLSController(Controller):
         if data.get('options'):
             options_data = simplejson.loads(data['options'])
         if data.get('context'):
-            # Ignore 'lang' here, because the context in data is the one from the webclient *but* if
-            # the user explicitely wants to change the lang, this mechanism overwrites it. 
+            # Ignore 'lang' here, because the context in data is the
+            # one from the webclient *but* if the user explicitely
+            # wants to change the lang, this mechanism overwrites it.
             data_context = simplejson.loads(data['context'])
             if data_context.get('lang'):
                 del data_context['lang']
             context.update(data_context)
 
         if converter == 'xls':
-            xls = report_obj.get_xls(cr, uid, docids, reportname, data=options_data, context=context)
-            xlshttpheaders = [('Content-Type', 'application/vnd.ms-excel'), ('Content-Length', len(xls))]
+            xls = report_obj.get_xls(cr, uid, docids, reportname,
+                                     data=options_data, context=context)
+            xlshttpheaders = [('Content-Type', 'application/vnd.ms-excel'),
+                              ('Content-Length', len(xls))]
             return request.make_response(xls, headers=xlshttpheaders)
         elif converter == 'ods':
-            ods = report_obj.get_ods(cr, uid, docids, reportname, data=options_data, context=context)
-            odshttpheaders = [('Content-Type', 'application/vnd.oasis.opendocument.spreadsheet'), ('Content-Length', len(ods))]
+            ods = report_obj.get_ods(cr, uid, docids, reportname,
+                                     data=options_data, context=context)
+            odshttpheaders = [
+                ('Content-Type',
+                 'application/vnd.oasis.opendocument.spreadsheet'),
+                ('Content-Length', len(ods))]
             return request.make_response(ods, headers=odshttpheaders)
         else:
-            raise exceptions.HTTPException(description='Converter %s not implemented.' % converter)
+            raise exceptions.HTTPException(
+                description='Converter %s not implemented.' % converter)
 
     @route(['/reportxlstemplate/download'], type='http', auth="user")
     def report_download(self, data, token):
-        """This function is used by 'report_xls.js' in order to trigger the download of xls/ods report.
-        :param data: a javascript array JSON.stringified containg report internal url ([0]) and
-        type [1]
+        """This function is used by 'report_xls.js' in order to
+        trigger the download of xls/ods report.
+        :param data: a javascript array JSON.stringified containg
+        report internal url ([0]) and type [1]
         :returns: Response with a filetoken cookie and an attachment header
         """
         requestcontent = simplejson.loads(data)
-        url, type = requestcontent[0], requestcontent[1]
+        url, report_type = requestcontent[0], requestcontent[1]
         try:
-            if type == 'qweb-xls':
-                reportname = url.split('/reportxlstemplate/xls/')[1].split('?')[0]
+            if report_type == 'qweb-xls':
+                reportname = url.split(
+                    '/reportxlstemplate/xls/')[1].split('?')[0]
                 docids = None
                 if '/' in reportname:
                     reportname, docids = reportname.split('/')
                 if docids:
                     # Generic report:
-                    response = self.report_routes(reportname, docids=docids, converter='xls')
+                    response = self.report_routes(
+                        reportname, docids=docids, converter='xls')
                 else:
                     # Particular report:
-                    data = url_decode(url.split('?')[1]).items()  # decoding the args represented in JSON
-                    response = self.report_routes(reportname, converter='xls', **dict(data))
+                    # Decoding the args represented in JSON
+                    data = url_decode(url.split('?')[1]).items()
+                    response = self.report_routes(
+                        reportname, converter='xls', **dict(data))
 
-                response.headers.add('Content-Disposition', 'attachment; filename=%s.xls;' % reportname)
+                response.headers.add(
+                    'Content-Disposition',
+                    'attachment; filename=%s.xls;' % reportname)
                 response.set_cookie('fileToken', token)
                 return response
-            elif type =='qweb-ods':
-                reportname = url.split('/reportxlstemplate/ods/')[1].split('?')[0]
+            elif report_type == 'qweb-ods':
+                reportname = url.split(
+                    '/reportxlstemplate/ods/')[1].split('?')[0]
                 docids = None
                 if '/' in reportname:
                     reportname, docids = reportname.split('/')
                 if docids:
                     # Generic report:
-                    response = self.report_routes(reportname, docids=docids, converter='ods')
+                    response = self.report_routes(
+                        reportname, docids=docids, converter='ods')
                 else:
                     # Particular report:
-                    data = url_decode(url.split('?')[1]).items()  # decoding the args represented in JSON
-                    response = self.report_routes(reportname, converter='ods', **dict(data))
+                    # Decoding the args represented in JSON
+                    data = url_decode(url.split('?')[1]).items()
+                    response = self.report_routes(
+                        reportname, converter='ods', **dict(data))
 
-                response.headers.add('Content-Disposition', 'attachment; filename=%s.ods;' % reportname)
+                response.headers.add(
+                    'Content-Disposition',
+                    'attachment; filename=%s.ods;' % reportname)
                 response.set_cookie('fileToken', token)
                 return response
             else:
