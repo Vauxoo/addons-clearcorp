@@ -112,7 +112,6 @@ class Report(models.Model):
              for child in element:
                  res += render_element_content(child)
              if isinstance(element.tail,(str, unicode)):
-                 #print element
                  res += element.tail.strip()
              return res
         #Method identify the data type
