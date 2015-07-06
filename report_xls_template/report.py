@@ -155,6 +155,16 @@ class Report(models.Model):
                             'name', _('Data') + str(worksheet_counter)))
                 except (Warning, Exception) as exc:
                     raise Warning(exc.message)
+                # Set number of pages
+                fixpages = div_worksheet.get('fixpages', False)
+                wpages = div_worksheet.get('wpages', False)
+                hpages = div_worksheet.get('hpages', False)
+                if fixpages:
+                    worksheet.set_fit_num_pages(int(fixpages))
+                if wpages:
+                    worksheet.set_fit_width_to_pages(int(wpages))
+                if hpages:
+                    worksheet.set_fit_height_to_pages(int(hpages))
                 # Find all tables to add tho the worksheet
                 row_index = 0
                 for table in div_worksheet.xpath("table"):
