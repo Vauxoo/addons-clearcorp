@@ -79,6 +79,40 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div class="row">
+                        <t t-if="len(docs)&lt;=1">
+                            <t t-if="o.employee_id.parent_id.name is not False">
+                                <div align="center" class="col-xs-6">
+                                    <h4>
+                                        <strong>_____________________________
+                                        </strong>
+                                    </h4>
+                                    <h5>
+                                        <strong>
+                                            <span t-field="o.employee_id.parent_id" />
+                                        </strong>
+                                    </h5>
+                                    <h5>
+                                        <span t-field="o.employee_id.parent_id.job_id" />
+                                    </h5>
+                                </div>
+                            </t>
+                            <div align="center" class="col-xs-6">
+                                <h4>
+                                    <strong>_____________________________
+                                    </strong>
+                                </h4>
+                                <h5>
+                                    <strong>
+                                        <span t-field="o.employee_id.name" />
+                                    </strong>
+                                </h5>
+                                <h5>
+                                    <span t-field="o.employee_id.job_id" />
+                                </h5>
+                            </div>
+                         </t>
+                    </div>
                 </div>
             </t>
         </template>
