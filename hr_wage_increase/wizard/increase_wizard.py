@@ -83,7 +83,7 @@ class WageIncreaseWizard(osv.TransientModel):
 
     _constraints = [(_check_amount_percentage,
                      'Value must be greater than 0 and lower or equal than 100.',
-                     ['Increase Percentage']),
+                     ['amount_percentage']),
                     (_check_amount_fixed,
                      'Value must be greater than 0.',
-                     ['Amount'])]
+                     ['amount_fixed'])]
