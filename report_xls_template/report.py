@@ -106,9 +106,6 @@ class Report(models.Model):
         # Ensure the current document is utf-8 encoded.
         html = html.decode('utf-8')
 
-        # Get the ir.actions.report.xml record we are working on.
-        report = report_obj._get_xls_report_from_name(cr, uid, report_name)
-
         # Method should be rewriten for a more complex rendering
         def render_element_content(element):
             res = ''
@@ -135,6 +132,78 @@ class Report(models.Model):
                     return float(value)
                 except:  # Not Float Type
                     return value
+
+        def write_column(
+                worksheet, column, row_index,
+                column_index, rowspan_number, colspan_number):
+            style = None
+            colwidth = column.get('colwidth', False)
+            try:
+                style_str = column.get('easyfx', False)
+                format_str = column.get('num_format_str', False)
+                if style_str and format_str:
+                    style = xlwt.easyxf(style_str, num_format_str=format_str)
+                elif style_str and not format_str:
+                    style = xlwt.easyxf(style_str, None)
+                elif format_str and not style_str:
+                    style = xlwt.easyxf('', num_format_str=format_str)
+            except:
+                _logger.info('An error ocurred while loading the style')
+            if colspan_number or rowspan_number:
+                try:
+                    colspan_number = colspan_number and \
+                        (colspan_number - 1) or 0
+                    rowspan_number = rowspan_number and \
+                        (rowspan_number - 1) or 0
+                    if style:
+                        worksheet.write_merge(
+                            row_index, row_index + rowspan_number,
+                            column_index, column_index + colspan_number,
+                            render_element_type(
+                                render_element_content(column)
+                            ), style)
+                    else:
+                        # Use default style
+                        worksheet.write_merge(
+                            row_index, row_index + rowspan_number,
+                            column_index, column_index + colspan_number,
+                            render_element_type(
+                                render_element_content(column)))
+                    # Review column width
+                    if colwidth:
+                        factor = 1
+                        if colspan_number:
+                            factor += colspan_number
+                        colwidth = int(colwidth) // factor
+                        for i in range(column_index, column_index + factor):
+                            try:
+                                worksheet.col(i).width = int(colwidth) * 256
+                            except:
+                                _logger.info(
+                                    'An error ocurred setting the '
+                                    'column width.')
+                except:
+                    _logger.info(
+                        'An error ocurred while merging cells')
+            else:
+                if style:
+                    worksheet.write(
+                        row_index, column_index, render_element_type(
+                            render_element_content(column)),
+                        style)
+                else:
+                    # Use default style
+                    worksheet.write(
+                        row_index, column_index, render_element_type(
+                            render_element_content(column)))
+                # Review column width
+                if colwidth:
+                    try:
+                        worksheet.col(column_index).width = int(colwidth) * 256
+                    except:
+                        _logger.info(
+                            'An error ocurred setting the '
+                            'column width.')
 
         # Create the workbook
         workbook = xlwt.Workbook()
@@ -173,186 +242,33 @@ class Report(models.Model):
                         column_index = 0
                         merged_rows = []
                         for column in header_row.xpath('th'):
-                            style = None
-                            colwidth = column.get('colwidth', False)
-                            colspan_number = column.get('colspan', False)
-                            rowspan_number = column.get('rowspan', False)
-                            try:
-                                style_str = column.get('easyfx', False)
-                                format_str = column.get(
-                                    'num_format_str', False)
-                                if style_str and format_str:
-                                    style = xlwt.easyxf(
-                                        style_str, num_format_str=format_str)
-                                elif style_str and not format_str:
-                                    style = xlwt.easyxf(style_str, None)
-                                elif format_str and not style_str:
-                                    style = xlwt.easyxf(
-                                        '', num_format_str=format_str)
-                            except:
-                                _logger.info(
-                                    'An error ocurred while loading the style')
-                            if colspan_number or rowspan_number:
-                                try:
-                                    colspan_number = colspan_number and \
-                                        int(colspan_number)-1 or 0
-                                    rowspan_number = rowspan_number and \
-                                        int(rowspan_number)-1 or 0
-                                    if style:
-                                        worksheet.write_merge(
-                                            row_index, row_index +
-                                            rowspan_number, column_index,
-                                            column_index + colspan_number,
-                                            column.text, style)
-                                    else:
-                                        # Use default style
-                                        worksheet.write_merge(
-                                            row_index, row_index +
-                                            rowspan_number, column_index,
-                                            column_index + colspan_number,
-                                            column.text)
-                                    # Review column width
-                                    if colwidth:
-                                        factor = 1
-                                        if colspan_number:
-                                            factor += colspan_number
-                                        colwidth = int(colwidth) // factor
-                                        for i in range(
-                                                column_index,
-                                                column_index + factor):
-                                            try:
-                                                worksheet.col(
-                                                    i
-                                                ).width = int(colwidth) * 256
-                                            except:
-                                                _logger.info(
-                                                    'An error ocurred setting '
-                                                    'the column width.')
-                                    if colspan_number:
-                                        column_index += colspan_number
-                                    if rowspan_number:
-                                        merged_rows.append(rowspan_number)
-                                except:
-                                    _logger.info(
-                                        'An error ocurred while merging cells')
-                            else:
-                                if style:
-                                    worksheet.write(
-                                        row_index, column_index,
-                                        column.text, style)
-                                else:
-                                    # To use default style
-                                    worksheet.write(
-                                        row_index, column_index, column.text)
-                                # Review column width
-                                if colwidth:
-                                    try:
-                                        worksheet.col(
-                                            column_index
-                                        ).width = int(colwidth) * 256
-                                    except:
-                                        _logger.info(
-                                            'An error ocurred setting the '
-                                            'column width.')
+                            colspan_number = int(column.get('colspan', False))
+                            rowspan_number = int(column.get('rowspan', False))
+                            write_column(
+                                worksheet, column, row_index,
+                                column_index, rowspan_number, colspan_number)
+                            if colspan_number:
+                                column_index += (colspan_number - 1)
+                            if rowspan_number:
+                                merged_rows.append(rowspan_number)
                             column_index += 1
-                        row_index += merged_rows and max(merged_rows) + 1 or 1
+                        row_index += merged_rows and max(merged_rows) or 1
                     # Write all content to the worksheet
                     for content_row in table.xpath("tbody/tr"):
                         column_index = 0
                         merged_rows = []
                         for column in content_row.xpath('td'):
-                            style = None
-                            colwidth = column.get('colwidth', False)
-                            colspan_number = column.get('colspan', False)
-                            rowspan_number = column.get('rowspan', False)
-                            try:
-                                style_str = column.get('easyfx', False)
-                                format_str = column.get(
-                                    'num_format_str', False)
-                                if style_str and format_str:
-                                    style = xlwt.easyxf(
-                                        style_str,
-                                        num_format_str=format_str)
-                                elif style_str and not format_str:
-                                    style = xlwt.easyxf(style_str, None)
-                                elif format_str and not style_str:
-                                    style = xlwt.easyxf(
-                                        '', num_format_str=format_str)
-                            except:
-                                _logger.info(
-                                    'An error ocurred while loading the style')
-                            if colspan_number or rowspan_number:
-                                try:
-                                    colspan_number = colspan_number and \
-                                        int(colspan_number)-1 or 0
-                                    rowspan_number = rowspan_number and \
-                                        int(rowspan_number)-1 or 0
-                                    if style:
-                                        worksheet.write_merge(
-                                            row_index, row_index +
-                                            rowspan_number, column_index,
-                                            column_index + colspan_number,
-                                            render_element_type(
-                                                render_element_content(column)
-                                            ), style)
-                                    else:
-                                        # Use default style
-                                        worksheet.write_merge(
-                                            row_index, row_index +
-                                            rowspan_number, column_index,
-                                            column_index + colspan_number,
-                                            render_element_type(
-                                                render_element_content(column))
-                                        )
-                                    # Review column width
-                                    if colwidth:
-                                        factor = 1
-                                        if colspan_number:
-                                            factor += colspan_number
-                                        colwidth = int(colwidth) // factor
-                                        for i in range(
-                                                column_index,
-                                                column_index + factor):
-                                            try:
-                                                worksheet.col(
-                                                    i
-                                                ).width = int(colwidth) * 256
-                                            except:
-                                                _logger.info(
-                                                    'An error ocurred setting '
-                                                    'the column width.')
-                                    if colspan_number:
-                                        column_index += colspan_number
-                                    if rowspan_number:
-                                        merged_rows.append(rowspan_number)
-                                except:
-                                    _logger.info(
-                                        'An error ocurred while merging cells')
-                            else:
-                                if style:
-                                    worksheet.write(
-                                        row_index, column_index,
-                                        render_element_type(
-                                            render_element_content(column)),
-                                        style)
-                                else:
-                                    # Use default style
-                                    worksheet.write(
-                                        row_index, column_index,
-                                        render_element_type(
-                                            render_element_content(column)))
-                                # Review column width
-                                if colwidth:
-                                    try:
-                                        worksheet.col(
-                                            column_index
-                                        ).width = int(colwidth) * 256
-                                    except:
-                                        _logger.info(
-                                            'An error ocurred setting the '
-                                            'column width.')
+                            colspan_number = int(column.get('colspan', False))
+                            rowspan_number = int(column.get('rowspan', False))
+                            write_column(
+                                worksheet, column, row_index,
+                                column_index, rowspan_number, colspan_number)
+                            if colspan_number:
+                                column_index += (colspan_number - 1)
+                            if rowspan_number:
+                                merged_rows.append(rowspan_number)
                             column_index += 1
-                        row_index += merged_rows and max(merged_rows) + 1 or 1
+                        row_index += merged_rows and max(merged_rows) or 1
                 worksheet_counter += 1
         except:
             raise Warning(
