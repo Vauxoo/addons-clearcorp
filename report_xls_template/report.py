@@ -174,6 +174,7 @@ class Report(models.Model):
                         merged_rows = []
                         for column in header_row.xpath('th'):
                             style = None
+                            colwidth = column.get('colwidth', False)
                             colspan_number = column.get('colspan', False)
                             rowspan_number = column.get('rowspan', False)
                             try:
@@ -210,6 +211,23 @@ class Report(models.Model):
                                             rowspan_number, column_index,
                                             column_index + colspan_number,
                                             column.text)
+                                    # Review column width
+                                    if colwidth:
+                                        factor = 1
+                                        if colspan_number:
+                                            factor += colspan_number
+                                        colwidth = int(colwidth) // factor
+                                        for i in range(
+                                                column_index,
+                                                column_index + factor):
+                                            try:
+                                                worksheet.col(
+                                                    i
+                                                ).width = int(colwidth) * 256
+                                            except:
+                                                _logger.info(
+                                                    'An error ocurred setting '
+                                                    'the column width.')
                                     if colspan_number:
                                         column_index += colspan_number
                                     if rowspan_number:
@@ -226,6 +244,16 @@ class Report(models.Model):
                                     # To use default style
                                     worksheet.write(
                                         row_index, column_index, column.text)
+                                # Review column width
+                                if colwidth:
+                                    try:
+                                        worksheet.col(
+                                            column_index
+                                        ).width = int(colwidth) * 256
+                                    except:
+                                        _logger.info(
+                                            'An error ocurred setting the '
+                                            'column width.')
                             column_index += 1
                         row_index += merged_rows and max(merged_rows) + 1 or 1
                     # Write all content to the worksheet
@@ -234,6 +262,7 @@ class Report(models.Model):
                         merged_rows = []
                         for column in content_row.xpath('td'):
                             style = None
+                            colwidth = column.get('colwidth', False)
                             colspan_number = column.get('colspan', False)
                             rowspan_number = column.get('rowspan', False)
                             try:
@@ -275,6 +304,23 @@ class Report(models.Model):
                                             render_element_type(
                                                 render_element_content(column))
                                         )
+                                    # Review column width
+                                    if colwidth:
+                                        factor = 1
+                                        if colspan_number:
+                                            factor += colspan_number
+                                        colwidth = int(colwidth) // factor
+                                        for i in range(
+                                                column_index,
+                                                column_index + factor):
+                                            try:
+                                                worksheet.col(
+                                                    i
+                                                ).width = int(colwidth) * 256
+                                            except:
+                                                _logger.info(
+                                                    'An error ocurred setting '
+                                                    'the column width.')
                                     if colspan_number:
                                         column_index += colspan_number
                                     if rowspan_number:
@@ -295,6 +341,16 @@ class Report(models.Model):
                                         row_index, column_index,
                                         render_element_type(
                                             render_element_content(column)))
+                                # Review column width
+                                if colwidth:
+                                    try:
+                                        worksheet.col(
+                                            column_index
+                                        ).width = int(colwidth) * 256
+                                    except:
+                                        _logger.info(
+                                            'An error ocurred setting the '
+                                            'column width.')
                             column_index += 1
                         row_index += merged_rows and max(merged_rows) + 1 or 1
                 worksheet_counter += 1
