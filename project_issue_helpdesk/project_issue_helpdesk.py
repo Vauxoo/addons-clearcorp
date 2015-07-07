@@ -411,7 +411,7 @@ class ProductTemplate(orm.Model):
         'category_ids':fields.related('product_variant_ids', 'category_ids', relation='hr.employee.category', type='many2many', string='Employee Profile'),
         'init_onchange_call': fields.function(get_accessory_product, method=True, type='many2many', relation='product.product',string='Nothing Display', help='field at view init'),
         'supply_type':fields.selection([('equipment','Equipment'),('replacement','Replacement'),('supply','Supply'),
-                                               ('input','Input')],string="Supply Type"),
+                                               ('input','Input'),('service','Service')],string="Supply Type"),
          }
 
 class Product(orm.Model):
@@ -442,7 +442,7 @@ class ProductCategory(orm.Model):
      
      _columns = {
          'supply_type':fields.selection([('equipment','Equipment'),('replacement','Replacement'),('supply','Supply'),
-                                               ('input','Input')],string="Supply Type")
+                                               ('input','Input'),('service','Service')],string="Supply Type")
          }
 
 class StockPickingType(orm.Model):

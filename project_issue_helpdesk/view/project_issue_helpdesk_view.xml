@@ -72,10 +72,10 @@
                     </page>
                 </xpath>
                 <xpath expr="/form/sheet[@string='Issue']/group/group[1]/div" position="after">
-                    <field name="categ_id" domain="[('supply_type','=','equipment')]" attrs="{'readonly':[('is_closed','=',True)]}" on_change="onchange_categ_id(categ_id)"/>
+                    <field name="categ_id" domain="[('supply_type','in',('equipment','service')),]" attrs="{'readonly':[('is_closed','=',True)]}" on_change="onchange_categ_id(categ_id)"/>
                 </xpath>
                 <field name="categ_id" position="after"> 
-                    <field name="product_id" domain="[('categ_id','=',categ_id),('supply_type','=','equipment')]" on_change="onchange_product_id(product_id)"/> 
+                    <field name="product_id" domain="[('categ_id','=',categ_id),('supply_type','in',('equipment','service'))]" on_change="onchange_product_id(product_id)"/> 
                 </field> 
                 <field name="product_id"  position="after"> 
                     <field name="prodlot_id" attrs="{'readonly':[('is_closed','=',True)]}" domain="[('product_id','=',product_id)]" on_change="onchange_prodlot_id(prodlot_id)"/> 
