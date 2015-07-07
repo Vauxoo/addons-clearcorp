@@ -80,10 +80,19 @@ class ProjectIssue(osv.Model):
     
     def onchange_product_id(self, cr, uid, ids, product_id,context={}):
         data = {}
+        domain=[]
+        employee_ids=[]
         if product_id:
             product = self.pool.get('product.product').browse(cr, uid, product_id, context)
+            employee_obj = self.pool.get('hr.employee')
+            if product.category_ids:
+                for categ_prod in product.category_ids:
+                    for employee in categ_prod.employee_ids:
+                        employee_ids.append(employee.id)
+                if employee_ids:
+                    domain.append(('id', 'in',employee_ids))
             data.update({'categ_id': product.categ_id.id,'prodlot_id': False})
-        return {'value': data}
+        return {'value': data,'domain':{'employee_id':domain}}
     
     def onchange_categ_id(self, cr, uid,ids,categ_id,context={}):
             data={}
