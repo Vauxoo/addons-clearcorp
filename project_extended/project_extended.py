@@ -23,21 +23,32 @@ from openerp.osv import osv, fields
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
 
-_TASK_STATE = [('draft', 'New'),('open', 'In Progress'),('pending', 'Pending'), ('done', 'Done'), ('cancelled', 'Cancelled')]
+_TASK_STATE = [('draft', 'New'), ('open', 'In Progress'), ('pending', 'Pending'), ('done', 'Done'), ('cancelled', 'Cancelled')]
 
 class project_task_type(osv.Model):
     
-    _inherit= 'project.task.type'
+    _inherit = 'project.task.type'
 
     _columns = {
         'state': fields.selection(_TASK_STATE, 'Related Status', required=True),
+        'task_type':fields.many2one('task.type', string='Task Type'),
     }
+    
+    def mark_done(self, cr, uid, ids, context=None):
+        values = {
+            'state': 'done',
+            'name': _('Done'),
+            'readonly':'True',
+        }
+        self.write(cr, uid, ids, values, context=context)
+        return True
 
     _defaults = {
         'state': 'open',
         'fold': False,
         'case_default': False,
      }
+    
 
 class project(osv.Model):
     _inherit = 'project.project'
@@ -62,7 +73,7 @@ class project(osv.Model):
             res.append((project.id, data))
         return res
 
-    def shortcut_name_compute(self, cr, uid, ids, field_name, arg, context=None):
+    def _shortcut_name(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
         for m in self.browse(cr, uid, ids, context=context):
             res = self.name_get(cr, uid, ids)
@@ -70,7 +81,7 @@ class project(osv.Model):
         return res
 
     _columns = {
-        'shortcut_name':        fields.function(shortcut_name_compute, method=True, store=True, string='Project Name', type='char', size=350),
+        'shortcut_name':        fields.function(_shortcut_name, method=True, store=True, string='Project Name', type='char', size=350),
         'ir_sequence_id':       fields.many2one('ir.sequence', 'Sequence'),
         
     }
@@ -78,7 +89,7 @@ class project(osv.Model):
     def create(self, cr, uid, vals, context=None):
         ir_sequence_obj = self.pool.get('ir.sequence')        
         project_id = super(project, self).create(cr, uid, vals, context)
-        shortcut_name_dict = self.shortcut_name_compute(cr, uid, [project_id], None, None)
+        shortcut_name_dict = self._shortcut_name(cr, uid, [project_id], None, None)
         sequence_name = "Project_" + str(project_id) + " " + shortcut_name_dict[project_id]
         ir_sequence_id = ir_sequence_obj.create(cr, uid, {'name': sequence_name}, context)
         self.write(cr, uid, project_id, {'ir_sequence_id': ir_sequence_id }, context)
@@ -109,8 +120,7 @@ class project(osv.Model):
         return self.name_get(cr, uid, ids, context=context)
 
 class task(osv.Model):
-
-    _inherit = 'project.task' 
+    _inherit = 'project.task'
 
     def _get_color_code(self, date_start, date_deadline, planned_hours, state):
         """Calculate the current color code for the task depending on the state
@@ -128,7 +138,7 @@ class task(osv.Model):
         @return: An integer that represents the current task state as a color
         """
         if state == 'done':
-            #Done task COLOR: GRAY
+            # Done task COLOR: GRAY
             return '1'
         else:
             if date_deadline:
@@ -168,7 +178,7 @@ class task(osv.Model):
     def _compute_color(self, cr, uid, ids, field_name, args, context={}):
         res = {}
         for task in self.browse(cr, uid, ids, context=context):
-            res[task.id] = self._get_color_code(task.date_start, task.date_deadline, task.planned_hours,task.state)
+            res[task.id] = self._get_color_code(task.date_start, task.date_deadline, task.planned_hours, task.state)
         return res
 
     _columns = {
@@ -177,6 +187,7 @@ class task(osv.Model):
         'color': fields.function(_compute_color, type='integer', string='Color Index'),
         'state': fields.related('stage_id', 'state', type="selection", store=True,
                 selection=_TASK_STATE, string="Status", readonly=True, select=True),
+        'kind_task_id':fields.many2one('ccorp.project.oerp.work.type','Type of task',required=True),
         }
 
     _defaults = {
@@ -223,7 +234,7 @@ class task(osv.Model):
         ids = []
         
         if name:
-            ids = self.search(cr, uid,[('number', operator, name)] + args,
+            ids = self.search(cr, uid, [('number', operator, name)] + args,
                               limit=limit, context=context)
         else:
             ids = self.search(cr, uid, args, limit=limit, context=context)
@@ -235,23 +246,3 @@ class proyectCategory(osv.Model):
     _columns = {
                 'tag_code': fields.char(size=10, string="Tag Code", required=True)
                 }
-
-class accountAnalityc(osv.Model):
- 
-    _inherit = "account.analytic.account"
- 
-    def write(self, cr, uid, ids, values, context=None):
-        if isinstance(ids, (int, long)):
-            ids = [ids]
-        res = super(accountAnalityc, self).write(cr, uid, ids, values, context=context)
-        project_obj = self.pool.get('project.project')
-        for account in self.browse(cr, uid, ids, context=context):
-            project_ids = project_obj.search(cr, uid, [])
-            for project_id in project_ids:
-                project = project_obj.browse(cr, uid, project_id, context=context)
-                result = project.shortcut_name_compute({'name':project.name },None, context=context)
-                for key, value in result.iteritems():
-                    project_name = value
-                    project.shortcut_name = project_name
-        return res
-
