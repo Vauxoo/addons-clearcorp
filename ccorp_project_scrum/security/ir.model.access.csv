@@ -7,5 +7,3 @@ access_ccorp_project_scrum_feature_manager,access.ccorp.project.scrum.feature.ma
 access_ccorp_project_scrum_feature_user,access.ccorp.project.scrum.feature.user,model_ccorp_project_scrum_feature,project.group_project_user,1,0,0,0
 access_ccorp_project_scrum_release_backlog_manager,access.ccorp.project.scrum.release.backlog.manager,model_ccorp_project_scrum_release_backlog,project.group_project_manager,1,1,1,1
 access_ccorp_project_scrum_release_backlog_user,access.ccorp.project.scrum.release.backlog.user,model_ccorp_project_scrum_release_backlog,project.group_project_user,1,0,0,0
-access_ccorp_project_scrum_product_backlog_manager,access.ccorp.project.scrum.product.backlog.manager,model_ccorp_project_scrum_product_backlog,project.group_project_manager,1,1,1,1
-access_ccorp_project_scrum_product_backlog_user,access.ccorp.project.scrum.product.backlog.user,model_ccorp_project_scrum_product_backlog,project.group_project_user,1,0,0,0
