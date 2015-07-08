@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+
+        <record id="view_task_billing_wizard_form" model="ir.ui.view">
+            <field name="name">view.task.billing.wizard.form</field>
+            <field name="model">task.billing.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Task Billing Wizard" version="7.0">
+                  <h1>
+                      <span>Invoicing Task</span>
+                  </h1>
+                    <group>
+                        <group>
+	                        <!-- <label for= "journal_id" string="Journal:"/> -->
+	                        <field name="journal_id" class="oe_inline"/>
+	                        <!-- <label for= "invoice_date" string="Invoice date:"/> -->
+	                        <field name="invoice_date" class="oe_inline"/>
+                            <field name="group" class="oe_inline"/>
+                        </group><group>
+                            <!-- <label for= "account_id" string="Account:"/> -->
+	                        <!-- <field name="account_id" class="oe_inline"/> -->
+	                        <!-- <label for= "group" string="Group by project"/>
+	                        <field name="group" /> -->
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Create" type="object" name="create_bill_tasks"
+                            class="oe_highlight" confirm="Are you sure you want to continue?" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</openerp>
