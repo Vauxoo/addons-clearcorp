@@ -138,6 +138,7 @@ class Report(models.Model):
                 column_index, rowspan_number, colspan_number):
             style = None
             colwidth = column.get('colwidth', False)
+            formula = bool(column.get('formula', False))
             try:
                 style_str = column.get('easyfx', False)
                 format_str = column.get('num_format_str', False)
@@ -156,19 +157,40 @@ class Report(models.Model):
                     rowspan_number = rowspan_number and \
                         (rowspan_number - 1) or 0
                     if style:
-                        worksheet.write_merge(
-                            row_index, row_index + rowspan_number,
-                            column_index, column_index + colspan_number,
-                            render_element_type(
-                                render_element_content(column)
-                            ), style)
+                        if formula:
+                            try:
+                                worksheet.write_merge(
+                                    row_index, row_index + rowspan_number,
+                                    column_index, column_index +
+                                    colspan_number, xlwt.Formula(column.text),
+                                    style)
+                            except:
+                                _logger.info(
+                                    'An error ocurred writing the formula.')
+                        else:
+                            worksheet.write_merge(
+                                row_index, row_index + rowspan_number,
+                                column_index, column_index + colspan_number,
+                                render_element_type(
+                                    render_element_content(column)
+                                ), style)
                     else:
                         # Use default style
-                        worksheet.write_merge(
-                            row_index, row_index + rowspan_number,
-                            column_index, column_index + colspan_number,
-                            render_element_type(
-                                render_element_content(column)))
+                        if formula:
+                            try:
+                                worksheet.write_merge(
+                                    row_index, row_index + rowspan_number,
+                                    column_index, column_index +
+                                    colspan_number, xlwt.Formula(column.text))
+                            except:
+                                _logger.info(
+                                    'An error ocurred writing the formula.')
+                        else:
+                            worksheet.write_merge(
+                                row_index, row_index + rowspan_number,
+                                column_index, column_index + colspan_number,
+                                render_element_type(
+                                    render_element_content(column)))
                     # Review column width
                     if colwidth:
                         factor = 1
@@ -187,15 +209,33 @@ class Report(models.Model):
                         'An error ocurred while merging cells')
             else:
                 if style:
-                    worksheet.write(
-                        row_index, column_index, render_element_type(
-                            render_element_content(column)),
-                        style)
+                    if formula:
+                        try:
+                            worksheet.write(
+                                row_index, column_index,
+                                xlwt.Formula(column.text), style)
+                        except:
+                            _logger.info(
+                                'An error ocurred writing the formula.')
+                    else:
+                        worksheet.write(
+                            row_index, column_index, render_element_type(
+                                render_element_content(column)),
+                            style)
                 else:
                     # Use default style
-                    worksheet.write(
-                        row_index, column_index, render_element_type(
-                            render_element_content(column)))
+                    if formula:
+                        try:
+                            worksheet.write(
+                                row_index, column_index,
+                                xlwt.Formula(column.text))
+                        except:
+                            _logger.info(
+                                'An error ocurred writing the formula.')
+                    else:
+                        worksheet.write(
+                            row_index, column_index, render_element_type(
+                                render_element_content(column)))
                 # Review column width
                 if colwidth:
                     try:
