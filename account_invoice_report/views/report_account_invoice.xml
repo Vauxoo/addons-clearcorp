@@ -115,10 +115,10 @@
                                 <thead>
                                 <br/>
                                     <tr>
-                                        <th class="text-center" style="border:1px solid black;min-width:270px;">Descripción</th>
-                                        <th style="border:1px solid black;" width="10%">Cantidad</th>
-                                        <th class="text-center" style="border:1px solid black;" width="16%">Precio unitario</th>
-                                        <th class="text-center" style="border:1px solid black;" width="17%">Precio total</th>
+                                        <th class="text-center" style="border:1px solid black;min-width:270px;">Description</th>
+                                        <th style="border:1px solid black;" width="10%">Quantity</th>
+                                        <th class="text-center" style="border:1px solid black;" width="16%">Price unit</th>
+                                        <th class="text-center" style="border:1px solid black;" width="17%">Price total</th>
                                     </tr>
                                 </thead>
                                 <tbody class="invoice_tbody">
@@ -148,7 +148,7 @@
                                         </td>
                                         <td style="border:none;" width="10%">
                                         </td>
-                                        <td class="text-right" style="border:1px solid black;" width="16%"><b>subtotal</b></td>
+                                        <td class="text-right" style="border:1px solid black;" width="16%"><b>Subtotal</b></td>
                                         <td class="text-right" style="border:1px solid black;" width="17%">
                                             <span t-field="o.amount_untaxed_not_discounted" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
                                         </td>
