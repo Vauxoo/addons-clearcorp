@@ -20,10 +20,13 @@
 #
 ##############################################################################
 
+import os
 import xlwt
 import lxml.html
 import logging
+import base64
 import datetime
+from tempfile import mkstemp
 from StringIO import StringIO
 from openerp import models, api, _
 from openerp.exceptions import Warning
@@ -132,6 +135,25 @@ class Report(models.Model):
                     return float(value)
                 except:  # Not Float Type
                     return value
+
+        def insert_bitmap(worksheet, image, row_index, column_index):
+            src = image.get('src', False)
+            scale_x = float(image.get('scale_x', False)) or 1
+            scale_y = float(image.get('scale_y', False)) or 1
+            offset_x = float(image.get('offset_x', False)) or 1
+            offset_y = float(image.get('offset_y', False)) or 1
+            if not src:
+                return
+            src = src.replace('data:image/bmp;base64,', '')
+            image_fd, image_path = mkstemp(suffix='.bmp', prefix='report.tmp.')
+            tmp_file = open(image_path, 'wb')
+            tmp_file.write(base64.decodestring(src))
+            tmp_file.close()
+            os.close(image_fd)
+            worksheet.insert_bitmap(
+                image_path, row_index, column_index, x=offset_x, y=offset_y,
+                scale_x=scale_x, scale_y=scale_y)
+            os.remove(image_path)
 
         def write_column(
                 worksheet, column, row_index,
@@ -244,6 +266,12 @@ class Report(models.Model):
                         _logger.info(
                             'An error ocurred setting the '
                             'column width.')
+            try:
+                # Insert all bitmaps
+                for image in column.xpath('img'):
+                    insert_bitmap(worksheet, image, row_index, column_index)
+            except:
+                _logger.info('An error ocurred inserting images.')
 
         # Create the workbook
         workbook = xlwt.Workbook()
