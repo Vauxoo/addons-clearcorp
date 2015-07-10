@@ -39,37 +39,6 @@ class Report(models.Model):
     _inherit = 'report'
 
     @api.v7
-    def datetime_from_str(self, dt_str):
-        """
-        :returns: a datetime, if it matches the formats set
-        """
-        formats = [
-            # <scope>, <pattern>, <format>
-            ('day', 'YYYY-MM-DD', '%Y-%m-%d'),
-            ('second', 'YYYY-MM-DD HH:MM:SS', '%Y-%m-%d %H:%M:%S'),
-            ('microsecond', 'YYYY-MM-DD HH:MM:SS', '%Y-%m-%d %H:%M:%S'),
-        ]
-        for scope, pattern, format in formats:
-            if scope == 'microsecond':
-                if dt_str.count('.') != 1:
-                    continue
-                dt_str, microseconds_str = dt_str.split('.')
-                try:
-                    microsecond = int((microseconds_str + '000000')[:6])
-                except ValueError:
-                    continue
-            try:
-                t = datetime.datetime.strptime(dt_str, format)
-            except ValueError:
-                pass
-            else:
-                if scope == 'microsecond':
-                    t = t.replace(microsecond=microsecond)
-                return t
-        else:
-            raise ValueError
-
-    @api.v7
     def get_html(self, cr, uid, ids, report_name, data=None, context=None):
         report = self._get_xls_report_from_name(cr, uid, report_name)
         if report:
@@ -109,6 +78,33 @@ class Report(models.Model):
         # Ensure the current document is utf-8 encoded.
         html = html.decode('utf-8')
 
+        def datetime_from_str(dt_str):
+            formats = [
+                # <scope>, <pattern>, <format>
+                ('day', 'YYYY-MM-DD', '%Y-%m-%d'),
+                ('second', 'YYYY-MM-DD HH:MM:SS', '%Y-%m-%d %H:%M:%S'),
+                ('microsecond', 'YYYY-MM-DD HH:MM:SS', '%Y-%m-%d %H:%M:%S'),
+            ]
+            for scope, pattern, format in formats:
+                if scope == 'microsecond':
+                    if dt_str.count('.') != 1:
+                        continue
+                    dt_str, microseconds_str = dt_str.split('.')
+                    try:
+                        microsecond = int((microseconds_str + '000000')[:6])
+                    except ValueError:
+                        continue
+                try:
+                    t = datetime.datetime.strptime(dt_str, format)
+                except ValueError:
+                    pass
+                else:
+                    if scope == 'microsecond':
+                        t = t.replace(microsecond=microsecond)
+                    return t
+            else:
+                raise ValueError
+
         # Method should be rewriten for a more complex rendering
         def render_element_content(element):
             res = ''
@@ -127,7 +123,7 @@ class Report(models.Model):
         def render_element_type(value):
             dt = ''
             try:
-                dt = self.datetime_from_str(value)
+                dt = datetime_from_str(value)
                 if dt or dt is not None:
                     return dt
             except:
