@@ -150,8 +150,8 @@
                         <field name="pricelist_ids" colspan="4" nolabel="1" attrs="{'invisible': [('fix_price_invoices','=',False),('invoice_on_timesheets','=',False),('charge_expenses','=',False)]}">
                             <tree editable="top" string="Pricelist Lines">
                                 <field name="pricelist_line_type"/>
-                                <field name="categ_id" domain="[('supply_type','=','equipment')]" attrs="{'invisible':[('pricelist_line_type', '!=', 'category')]}"/>
-                                <field name="product_id" domain="[('supply_type','=','equipment')]" attrs="{'invisible':[('pricelist_line_type', '!=', 'product')]}"/>
+                                <field name="categ_id" domain="[('supply_type','in',('equipment','service'))]" attrs="{'invisible':[('pricelist_line_type', '!=', 'category')]}"/>
+                                <field name="product_id" domain="[('supply_type','in',('equipment','service'))]" attrs="{'invisible':[('pricelist_line_type', '!=', 'product')]}"/>
                                 <field name="technical_rate"/>
                                 <field name="assistant_rate"/>
                                 <field name="overtime_multiplier"/>
