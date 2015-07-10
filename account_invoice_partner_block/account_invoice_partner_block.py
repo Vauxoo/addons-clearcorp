@@ -32,4 +32,4 @@ class account_invoice(models.Model):
         for invoice in self.browse(cr, uid , ids, context=context):
             if invoice.partner_id.invoice_warn == 'block':
                 raise Warning (invoice.partner_id.invoice_warn_msg)
-        return True
+        return res
