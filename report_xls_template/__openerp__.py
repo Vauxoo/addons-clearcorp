@@ -33,9 +33,9 @@ Allow you to print reports on xls format.
 
 Main Features
 -------------
-* Editable
 * Uses QWeb templates
-* Allows the creation of worksheets""",
+* Allows the creation of worksheets
+* Supports base 64 encoded 24 bits True Color bitmaps""",
     'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'complexity': 'normal',

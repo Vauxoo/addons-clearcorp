@@ -27,7 +27,7 @@ import logging
 import base64
 import datetime
 from tempfile import mkstemp
-from StringIO import StringIO
+from cStringIO import StringIO
 from openerp import models, api, _
 from openerp.exceptions import Warning
 
