@@ -9,22 +9,15 @@
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.edit_project" />
             <field name="arch" type="xml">
-                <xpath expr="//form/sheet/div/div/label[@for='use_tasks']"
-                    position="after">
-                    <field name="is_scrum" class="oe_inline"
-                        attrs="{'invisible': [('use_tasks','=',False)]}" />
-                    <label for="is_scrum"
-                        attrs="{'invisible': [('use_tasks','=',False)]}" />
-                        </xpath>
-                             <xpath expr="//form/sheet/notebook/page[@string='Other Info']"
-                    position="after">
-                            <page string="Release Backlogs" name="release_backlogs">
-                                 <field name="release_backlog_ids"
-                                    attrs="{'readonly':['!','|',('state','=','open'),('state','=','pending')]}"
-                                    context="{'project_id': id}" />
-                            </page>
-                            </xpath>
-                
+                <xpath expr="//form/sheet/div/div/label[@for='use_tasks']" position="after">
+                    <field name="is_scrum" class="oe_inline" attrs="{'invisible': [('use_tasks','=',False)]}" />
+                    <label for="is_scrum" attrs="{'invisible': [('use_tasks','=',False)]}" />
+                 </xpath>
+                 <xpath expr="//form/sheet/notebook/page[@string='Other Info']" position="after">
+                    <page string="Release Backlogs" name="release_backlogs">
+                        <field name="release_backlog_ids" attrs="{'readonly':['!','|',('state','=','open'),('state','=','pending')]}" context="{'project_id': id}" />
+                     </page>
+                 </xpath>
             </field>
         </record>
 

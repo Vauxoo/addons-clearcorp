@@ -643,73 +643,6 @@ class project(osv.Model):
                 res[id] = deadline
         return res
     
-    def _expected_hours(self, cr, uid, ids, field_name, arg, context=None):
-        """Calculate the expected hours from features related 
-        to each product backlog."""
-        res = {}
-        for id in ids:
-            features = self.browse(cr, uid, id, context=context).feature_ids
-            sum = reduce(lambda result, feature: result + feature.expected_hours,
-                         features, 0.0)
-            res[id] = sum
-        return res
-    
-    def _remaining_hours(self, cr, uid, ids, field_name, arg, context=None):
-        """Calculate the difference between expected and effective
-        hours from each product backlog."""
-        res = {}
-        backlogs = self.browse(cr, uid, ids, context=context)
-        for backlog in backlogs:
-            res[backlog.id] = backlog.expected_hours - backlog.effective_hours
-        return res
-    
-    def _progress(self, cr, uid, ids, field_name, arg, context=None):
-        """Calculate the total progress for each product backlog"""
-        res = {}
-        for id in ids:
-            features = self.browse(cr, uid, id, context=context).feature_ids
-            if features:
-                sum = reduce(lambda result, feature: result + feature.progress,
-                             features, 0.0)
-                res[id] = sum / len(features)
-            else:
-                res[id] = 0.0
-        return res
-    
-    def _set_done(self, cr, uid, ids, context=None):
-        project = self.browse(cr, uid, ids[0], context=context).project_id
-        for stage in project.type_ids:
-            if stage.state == 'cancelled':
-                return self.write(cr, uid, ids[0], {'stage_id':stage.id}, context=context)
-        raise osv.except_osv(_('Error'), _('There is no done state configured for'
-                             ' the project %s') % project.name)
-    
-    def do_done(self, cr, uid, ids, context=None):
-        backlogs = self.browse(cr, uid, ids[0], context=context).release_backlog_ids
-        for backlog in backlogs:
-            if backlog.state != 'cancelled' and backlog.state != 'done':
-                raise osv.except_osv(_('Error'), _('You can not set as done a product backlog if '
-                                     'all release backlogs related to it are not cancelled'
-                                     ' or done'))
-        return self._set_cancel(cr, uid, ids, context=context)
-    
-    def _set_cancel(self, cr, uid, ids, context=None):
-        project = self.browse(cr, uid, ids[0], context=context).project_id
-        for stage in project.type_ids:
-            if stage.state == 'cancelled':
-                return self.write(cr, uid, ids[0], {'stage_id':stage.id}, context=context)
-        raise osv.except_osv(_('Error'), _('There is no cancelled state configured for'
-                             ' the project %s') % project.name)
-    
-    def do_cancel(self, cr, uid, ids, context=None):
-        backlogs = self.browse(cr, uid, ids[0], context=context).release_backlog_ids
-        for backlog in backlogs:
-            if backlog.state != 'cancelled' and backlog.state != 'done':
-                raise osv.except_osv(_('Error'), _('You can not cancel a product backlog if '
-                                     'all release backlogs related to it are not cancelled'
-                                     ' or done'))
-        return self._set_cancel(cr, uid, ids, context=context)
-    
         
     _columns = {
                 'is_scrum': fields.boolean('Scrum'),
@@ -721,8 +654,4 @@ class project(osv.Model):
                     'if any feature has no deadline.'),
                 'release_backlog_ids': fields.one2many('ccorp.project.scrum.release.backlog',
                     'id', string='Release Backlogs'),
-                'stage_id': fields.many2one('project.task.type', string='Stage', domain="[('fold', '=', False)]"),
-                'state': fields.related('stage_id', 'state', type='selection', selection=STATES,
-                    string='State', readonly=True),
-                'color': fields.integer('Color Index'),
                 }
