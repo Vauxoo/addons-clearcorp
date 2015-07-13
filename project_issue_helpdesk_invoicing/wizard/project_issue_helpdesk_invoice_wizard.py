@@ -70,7 +70,7 @@ class IssueInvoiceWizard(models.TransientModel):
                                         'reference':'R#'+timesheet.ticket_number,
                                         'price_subtotal':total_timesheet*quantity,
                                         'invoice_line_tax_id':[(6, 0, [tax.id for tax in account_line.product_id.taxes_id])],
-                                        'account_id':issue.product_id.property_account_income.id
+                                        'account_id':issue.product_id.property_account_income.id or issue.product_id.categ_id.property_account_income_categ.id
                                         }
                             if issue.warranty=='seller':
                                 invoice_line['price_unit']=0
@@ -110,7 +110,7 @@ class IssueInvoiceWizard(models.TransientModel):
                                     'invoice_line_tax_id':[(6, 0, [tax.id for tax in delivery_note_lines.taxes_id])],
                                     'account_analytic_id':issue.analytic_account_id.id,
                                     'reference':'NE#'+ delivery_note_lines.note_id.delivery_note_origin.name or delivery_note_lines.note_id.name,
-                                    'account_id':delivery_note_lines.product_id.property_account_income.id
+                                    'account_id':delivery_note_lines.product_id.property_account_income.id or delivery_note_lines.product_id.categ_id.property_account_income_categ.id
                                     }
                         if issue.warranty=='seller':
                             invoice_line['price_unit']=0
@@ -173,7 +173,7 @@ class IssueInvoiceWizard(models.TransientModel):
                                     import_currency_rate=expense_line.expense_id.currency_id.get_exchange_rate(lines.account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
                                 else:
                                     import_currency_rate=1
-                                account_exp=lines.product_id.property_account_income.id
+                                account_exp=lines.product_id.property_account_income.id or lines.product_id.categ_id.property_account_income_categ.id
                                 total_expenses+=((lines.amount*-1)*import_currency_rate)*(100-factor.factor or 0.0) / 100.0
                                 lines.write({'invoice_id':inv.id})
             if total_expenses>0:
