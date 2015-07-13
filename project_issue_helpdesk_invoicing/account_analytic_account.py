@@ -220,6 +220,8 @@ class ProjectIssue(osv.osv):
         result = super(ProjectIssue, self).onchange_partner_id(cr, uid, ids, partner_id)
         if partner_id:
             domain.append(('type', '!=', 'view'))
+            domain.append(('use_issues', '=', True))
+            domain.append(('state', 'not in',('cancelled','close')))
             contract_ids = self.pool.get('account.analytic.account').search(cr,uid,[('partner_id','=',partner_id)])
             if contract_ids:
                 domain.append(('partner_id', '=',partner_id))
@@ -239,6 +241,8 @@ class ProjectIssue(osv.osv):
         result = super(ProjectIssue, self).onchange_branch_id(cr, uid, ids, branch_id)
         if branch_id:
             domain.append(('type', '!=', 'view'))
+            domain.append(('use_issues', '=', True))
+            domain.append(('state', 'not in',('cancelled','close')))
             contract_ids = self.pool.get('account.analytic.account').search(cr,uid,[('branch_ids.id','=',branch_id)])
             if contract_ids:
                 domain.append(('branch_ids.id', '=',branch_id))
