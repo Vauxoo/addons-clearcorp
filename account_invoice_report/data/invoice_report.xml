@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="account.account_invoices" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paperformat_invoice" />
+            <field name="attachment">(object.state in ('open','paid')) and ((object.number or '').replace('/','')+'.pdf')</field>
+        </record>
+    </data>
+</openerp>
+
