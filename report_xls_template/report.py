@@ -305,6 +305,7 @@ class Report(models.Model):
                     for header_row in table.xpath("thead/tr"):
                         column_index = 0
                         merged_rows = []
+                        rowheight = header_row.get('rowheight', False)
                         for column in header_row.xpath('th'):
                             colspan_number = int(column.get('colspan', False))
                             rowspan_number = int(column.get('rowspan', False))
@@ -316,11 +317,20 @@ class Report(models.Model):
                             if rowspan_number:
                                 merged_rows.append(rowspan_number)
                             column_index += 1
+                        if rowheight:
+                            worksheet.row(
+                                row_index).height = int(rowheight) * 256
+                            fnt = xlwt.Font()
+                            fnt.height = int(rowheight) * 256
+                            style = xlwt.XFStyle()
+                            style.font = fnt
+                            worksheet.row(row_index).set_style(style)
                         row_index += merged_rows and max(merged_rows) or 1
                     # Write all content to the worksheet
                     for content_row in table.xpath("tbody/tr"):
                         column_index = 0
                         merged_rows = []
+                        rowheight = content_row.get('rowheight', False)
                         for column in content_row.xpath('td'):
                             colspan_number = int(column.get('colspan', False))
                             rowspan_number = int(column.get('rowspan', False))
@@ -332,6 +342,14 @@ class Report(models.Model):
                             if rowspan_number:
                                 merged_rows.append(rowspan_number)
                             column_index += 1
+                        if rowheight:
+                            worksheet.row(
+                                row_index).height = int(rowheight) * 256
+                            fnt = xlwt.Font()
+                            fnt.height = int(rowheight) * 256
+                            style = xlwt.XFStyle()
+                            style.font = fnt
+                            worksheet.row(row_index).set_style(style)
                         row_index += merged_rows and max(merged_rows) or 1
                 worksheet_counter += 1
         except:
