@@ -53,10 +53,28 @@ class IssueInvoiceWizard(models.TransientModel):
                     if not account_line.invoice_id:
                         total_timesheet=0.0
                         quantity,total_timesheet=account_obj._get_invoice_price(account_line.account_id,account_line.date,timesheet.start_time,timesheet.end_time,issue.product_id.id,issue.categ_id.id,account_line.unit_amount,timesheet.service_type,timesheet.employee_id.id,account_line.to_invoice.id)
-                        if account_line.account_id.pricelist_id.currency_id.id != account_line.account_id.company_id.currency_id.id:
-                            import_currency_rate=account_line.account_id.pricelist_id.currency_id.get_exchange_rate(account_line.account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
-                        else:
-                            import_currency_rate = 1
+                        if issue.partner_id and issue.branch_id:
+                            if issue.branch_id.property_product_pricelist:
+                                if account_line.account_id.pricelist_id.currency_id.id != issue.branch_id.property_product_pricelist.currency_id.id:
+                                    import_currency_rate=account_line.account_id.pricelist_id.currency_id.get_exchange_rate(issue.branch_id.property_product_pricelist.currency_id.id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                else:
+                                    import_currency_rate = 1
+                            else:
+                                if account_line.account_id.pricelist_id.currency_id.id != account_line.account_id.company_id.currency_id.id:
+                                    import_currency_rate=account_line.account_id.pricelist_id.currency_id.get_exchange_rate(account_line.account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                else:
+                                    import_currency_rate = 1
+                        elif issue.partner_id and not issue.branch_id:
+                            if issue.partner_id.property_product_pricelist:
+                                if account_line.account_id.pricelist_id.currency_id.id != issue.partner_id.property_product_pricelist.currency_id.id:
+                                    import_currency_rate=account_line.account_id.pricelist_id.currency_id.get_exchange_rate(issue.partner_id.property_product_pricelist.currency_id.id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                else:
+                                    import_currency_rate = 1
+                            else:
+                                if account_line.account_id.pricelist_id.currency_id.id != account_line.account_id.company_id.currency_id.id:
+                                    import_currency_rate=account_line.account_id.pricelist_id.currency_id.get_exchange_rate(account_line.account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                else:
+                                    import_currency_rate = 1
                         if (timesheet.end_time-timesheet.start_time!=0 or total_timesheet!=0):
                             invoice_line={
                                         'product_id':account_line.product_id.id ,
@@ -95,10 +113,29 @@ class IssueInvoiceWizard(models.TransientModel):
             for backorder in issue.backorder_ids:
                 if backorder.delivery_note_id and backorder.delivery_note_id.state=='done' and backorder.picking_type_id.code=='outgoing' and backorder.invoice_state!='invoiced' and backorder.state=='done':
                     for delivery_note_lines in backorder.delivery_note_id.note_lines:
-                        if delivery_note_lines.note_id.currency_id.id != issue.analytic_account_id.company_id.currency_id.id:
-                            import_currency_rate=delivery_note_lines.note_id.currency_id.get_exchange_rate(issue.analytic_account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
-                        else:
-                            import_currency_rate = 1
+                        if issue.partner_id and issue.branch_id:
+                            if issue.branch_id.property_product_pricelist:
+                                if delivery_note_lines.note_id.currency_id.id != issue.branch_id.property_product_pricelist.currency_id.id:
+                                    import_currency_rate=delivery_note_lines.note_id.currency_id.get_exchange_rate(issue.branch_id.property_product_pricelist.currency_id.id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                else:
+                                    import_currency_rate = 1
+                            else:
+                                if delivery_note_lines.note_id.currency_id.id != account_line.account_id.company_id.currency_id.id:
+                                    import_currency_rate=delivery_note_lines.note_id.currency_id.get_exchange_rate(account_line.account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                else:
+                                    import_currency_rate = 1
+                        elif issue.partner_id and not issue.branch_id:
+                            if issue.partner_id.property_product_pricelist:
+                                if delivery_note_lines.note_id.currency_id.id != issue.partner_id.property_product_pricelist.currency_id.id:
+                                    import_currency_rate=delivery_note_lines.note_id.currency_id.get_exchange_rate(issue.partner_id.property_product_pricelist.currency_id.id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                else:
+                                    import_currency_rate = 1
+                            else:
+                                if delivery_note_lines.note_id.currency_id.id != account_line.account_id.company_id.currency_id.id:
+                                    import_currency_rate=delivery_note_lines.note_id.currency_id.get_exchange_rate(account_line.account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                else:
+                                    import_currency_rate = 1
+
                         invoice_line={
                                     'product_id':delivery_note_lines.product_id.id,
                                     'name': issue.product_id.description +'-'+delivery_note_lines.product_id.description,
@@ -169,10 +206,28 @@ class IssueInvoiceWizard(models.TransientModel):
                         for lines in move_lines.analytic_lines:
                             if lines.account_id==expense_line.analytic_account and lines.name==expense_line.name and lines.unit_amount==expense_line.unit_quantity and (lines.amount*-1/lines.unit_amount)==expense_line.unit_amount and not lines.invoice_id:
                                 factor = self.env['hr_timesheet_invoice.factor'].browse(lines.to_invoice.id)
-                                if expense_line.expense_id.currency_id.id != lines.account_id.company_id.currency_id.id:
-                                    import_currency_rate=expense_line.expense_id.currency_id.get_exchange_rate(lines.account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
-                                else:
-                                    import_currency_rate=1
+                                if issue.partner_id and issue.branch_id:
+                                    if issue.branch_id.property_product_pricelist:
+                                        if expense_line.expense_id.currency_id.id != issue.branch_id.property_product_pricelist.currency_id.id:
+                                            import_currency_rate=expense_line.expense_id.currency_id.get_exchange_rate(issue.branch_id.property_product_pricelist.currency_id.id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                        else:
+                                            import_currency_rate = 1
+                                    else:
+                                        if expense_line.expense_id.currency_id.id != account_line.account_id.company_id.currency_id.id:
+                                            import_currency_rate=expense_line.expense_id.currency_id.get_exchange_rate(account_line.account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                        else:
+                                            import_currency_rate = 1
+                                elif issue.partner_id and not issue.branch_id:
+                                    if issue.partner_id.property_product_pricelist:
+                                        if expense_line.expense_id.currency_id.id != issue.partner_id.property_product_pricelist.currency_id.id:
+                                            import_currency_rate=expense_line.expense_id.currency_id.get_exchange_rate(issue.partner_id.property_product_pricelist.currency_id.id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                        else:
+                                            import_currency_rate = 1
+                                    else:
+                                        if expense_line.expense_id.currency_id != account_line.account_id.company_id.currency_id.id:
+                                            import_currency_rate=expense_line.expense_id.currency_id.get_exchange_rate(account_line.account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                        else:
+                                            import_currency_rate = 1
                                 account_exp=lines.product_id.property_account_income.id or lines.product_id.categ_id.property_account_income_categ.id
                                 total_expenses+=((lines.amount*-1)*import_currency_rate)*(100-factor.factor or 0.0) / 100.0
                                 lines.write({'invoice_id':inv.id})
@@ -205,7 +260,6 @@ class IssueInvoiceWizard(models.TransientModel):
                     count_lines+=1
                 total_expenses=0
         return invoices_list
-    
     @api.multi
     def get_date_due(self,partner):
         account_payment_term_obj = self.env['account.payment.term']
@@ -232,7 +286,6 @@ class IssueInvoiceWizard(models.TransientModel):
                 invoice={
                     'date_invoice':datetime.strftime(datetime.today(), "%Y-%m-%d"),
                     'company_id':issue.analytic_account_id.company_id.id,
-                    'currency_id':issue.analytic_account_id.company_id.currency_id.id,
                     'fiscal_position':issue.product_id.manufacturer.property_account_position.id,
                     'origin':_(('Issue #'))
                     }
@@ -242,12 +295,14 @@ class IssueInvoiceWizard(models.TransientModel):
                 if issue.branch_id and issue.partner_id:
                     invoice['partner_id']=issue.branch_id.id
                     invoice['account_id']=issue.branch_id.property_account_receivable.id
+                    invoice['currency_id']=issue.branch_id.property_product_pricelist.currency_id.id or issue.analytic_account_id.company_id.currency_id.id
                     invoice['payment_term']=issue.branch_id.property_payment_term.id
                     invoice['date_due']=self.get_date_due(issue.branch_id)
                     ctx['lang']=issue.branch_id.lang
                 elif not issue.branch_id and issue.partner_id:
                     invoice['partner_id']=issue.partner_id.id
                     invoice['account_id']=issue.partner_id.property_account_receivable.id
+                    invoice['currency_id']=issue.partner_id.property_product_pricelist.currency_id.id or issue.analytic_account_id.company_id.currency_id.id
                     invoice['payment_term']=issue.partner_id.property_payment_term.id
                     invoice['date_due']=self.get_date_due(issue.partner_id)
                     ctx['lang']=issue.partner_id.lang
@@ -269,7 +324,7 @@ class IssueInvoiceWizard(models.TransientModel):
                 invoice={
                         'date_invoice':datetime.strftime(datetime.today(), "%Y-%m-%d"),
                         'company_id':user.company_id.id,
-                        'currency_id':user.company_id.currency_id.id,
+                        'currency_id':partner_id.property_product_pricelist.currency_id.id or user.company_id.currency_id.id,
                         'fiscal_position':partner_id.property_account_position.id,
                         'origin':_(('Issue #')),
                         'partner_id':partner_id.id,
@@ -289,7 +344,7 @@ class IssueInvoiceWizard(models.TransientModel):
                 invoice={
                         'date_invoice':datetime.strftime(datetime.today(), "%Y-%m-%d"),
                         'company_id':user.company_id.id,
-                        'currency_id':user.company_id.currency_id.id,
+                        'currency_id':branch_id.property_product_pricelist.currency_id.id or user.company_id.currency_id.id,
                         'fiscal_position':branch_id.property_account_position.id,
                         'origin':_(('Issue #')),
                         'partner_id':branch_id.id,
