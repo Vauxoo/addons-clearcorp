@@ -32,3 +32,4 @@ class Rescompany(models.Model):
 
     number_trade = fields.Char('Number of Trade', size=128)
     number_trade_date = fields.Date('Number of Trade Date:')
+    logo_report = fields.Binary('Report Logo', help="Upload a high definition logo to print on reports.")

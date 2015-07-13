@@ -18,150 +18,150 @@ msgstr ""
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Amount"
-msgstr "Total"
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account_invoice_report.invoice_layout_header
 msgid "Cancelled Invoice"
-msgstr "Factura Cancelada"
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Comment:"
-msgstr "Notas:"
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Customer:"
-msgstr "Cliente:"
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Description"
-msgstr "Detalle"
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Description:"
-msgstr "Detalle:"
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Disc."
-msgstr "Desc."
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Discount ("
-msgstr "Descuento ("
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account_invoice_report.invoice_layout_header
 msgid "Draft Invoice"
-msgstr "Factura Borrador"
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account_invoice_report.invoice_layout_header
 msgid "Due date:"
-msgstr "Vence:"
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Fiscal Position Remark:"
-msgstr "Nota de exoneración:"
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account_invoice_report.invoice_layout_header
 msgid "Invoice"
-msgstr "Factura"
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account_invoice_report.invoice_layout_header
 msgid "Invoice date:"
-msgstr "Fecha:"
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account_invoice_report.invoice_layout_header
 msgid "PRO-FORMA"
-msgstr "Factura Pro-Forma"
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account_invoice_report.invoice_layout_header
 msgid "Page:"
-msgstr "Pág:"
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Payment Term:"
-msgstr "Términos de pago:"
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account_invoice_report.invoice_layout_header
 msgid "Payment terms:"
-msgstr "Plazo de pago:"
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Quant."
-msgstr "Cant."
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Reference:"
-msgstr "Referencia:"
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account_invoice_report.invoice_layout_header
 msgid "Refund"
-msgstr "Nota de Crédito"
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account_invoice_report.invoice_layout_header
 msgid "Salesperson:"
-msgstr "Comercial:"
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Source:"
-msgstr "Doc. origen:"
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account_invoice_report.invoice_layout_header
 msgid "Supplier Invoice"
-msgstr "Factura de Proveedor"
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account_invoice_report.invoice_layout_header
 msgid "Supplier Refund"
-msgstr "Nota de Débito"
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Tax"
-msgstr "IV"
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Taxes"
-msgstr "Impuesto"
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Total"
-msgstr "Total"
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Total Without Taxes"
-msgstr "Subtotal"
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Unit Price"
-msgstr "Precio unit."
+msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "XMT"
-msgstr "Exe"
+msgstr ""
 

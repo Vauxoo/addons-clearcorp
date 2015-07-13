@@ -41,6 +41,11 @@
     "init_xml" : [],
     "demo_xml" : [],
     "update_xml" : [
+                    'data/report.paperformat.xml',
+                    'data/invoice_report.xml',
+                    'views/report_invoice_layout.xml',
+                    'views/report_invoice_layout_header.xml',
+                    'views/report_invoice_layout_footer.xml',
                     'views/report_account_invoice.xml',
                     ],
     "test" : [],
