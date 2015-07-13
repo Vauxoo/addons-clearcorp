@@ -125,6 +125,7 @@
                 </field>
                 <field name="analytic_account_id" position="attributes">
                     <attribute name="attrs">{'readonly':[('is_closed', '=', True)]}</attribute>
+                    <attribute name="domain">[('partner_id', '=', partner_id),('type', '!=', 'view'),('use_issues', '=', True),('state', 'not in',('cancelled','close'))]</attribute>
                     <attribute name="required">1</attribute>
                 </field>
                 <field name="partner_id"  position="after"> 
