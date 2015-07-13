@@ -60,6 +60,9 @@
                         <field name="number" readonly="1" />
                         <field name="state" invisible="1" />
                     </xpath>
+                    <xpath expr="//form/sheet/h1/field[@name='name']" position="attributes">
+                        <attribute name="class"></attribute>
+                    </xpath> 
                 </data>
             </field>
         </record>
