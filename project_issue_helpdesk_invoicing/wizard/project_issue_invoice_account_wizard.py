@@ -159,13 +159,19 @@ class IssueInvoiceWizard(models.TransientModel):
         ctx = dict(self._context)
         invoices_list=[]
         for contract in contracts:
-            if contract.pricelist_id.currency_id.id != contract.company_id.currency_id.id:
-                import_currency_rate = contract.pricelist_id.currency_id.get_exchange_rate(contract.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
-            else:
-                import_currency_rate = 1
             account_id=contract.property_account_income.id
             if contract.invoice_partner_type=='branch':
                 for branch in contract.branch_ids:
+                    if branch.property_product_pricelist:
+                        if contract.pricelist_id.currency_id.id != branch.property_product_pricelist.currency_id.id:
+                            import_currency_rate=contract.pricelist_id.currency_id.get_exchange_rate(branch.property_product_pricelist.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                        else:
+                            import_currency_rate = 1
+                    else:
+                        if contract.pricelist_id.currency_id.id != contract.company_id.currency_id.id:
+                            import_currency_rate=contract.pricelist_id.currency_id.get_exchange_rate(contract.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                        else:
+                            import_currency_rate = 1
                     date_due = False
                     if branch.property_payment_term:
                         pterm_list= account_payment_term_obj.compute(branch.property_payment_term.id, value=1,date_ref=time.strftime('%Y-%m-%d'))
@@ -179,7 +185,7 @@ class IssueInvoiceWizard(models.TransientModel):
                             'payment_term':branch.property_payment_term.id,
                             'account_id':branch.property_account_receivable.id,
                             'name':contract.name,
-                            'currency_id':contract.company_id.currency_id.id,
+                            'currency_id':branch.property_product_pricelist.currency_id.id or contract.company_id.currency_id.id,
                             'fiscal_position':branch.property_account_position.id,
                             'date_due':date_due
                             }
@@ -201,6 +207,16 @@ class IssueInvoiceWizard(models.TransientModel):
                     inv.write({'invoice_line':[(0,0,invoice_line)]})
             elif contract.invoice_partner_type=='customer':
                 date_due = False
+                if contract.partner_id.property_product_pricelist:
+                    if contract.pricelist_id.currency_id.id != contract.partner_id.property_product_pricelist.currency_id.id:
+                        import_currency_rate=contract.pricelist_id.currency_id.get_exchange_rate(contract.partner_id.property_product_pricelist.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                    else:
+                        import_currency_rate = 1
+                else:
+                    if contract.pricelist_id.currency_id.id != contract.company_id.currency_id.id:
+                        import_currency_rate=contract.pricelist_id.currency_id.get_exchange_rate(contract.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                    else:
+                        import_currency_rate = 1
                 if contract.partner_id.property_payment_term:
                     pterm_list= account_payment_term_obj.compute(contract.partner_id.property_payment_term.id, value=1,date_ref=time.strftime('%Y-%m-%d'))
                     if pterm_list:
