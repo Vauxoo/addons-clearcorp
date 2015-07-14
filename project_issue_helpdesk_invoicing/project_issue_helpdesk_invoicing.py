@@ -226,7 +226,7 @@ class ContractPriceList(models.Model):
     @api.constrains('technical_rate','assistant_rate')
     def _check_rates(self):
         for rate in self:
-            if (rate.technical_rate<1.0 or rate.assistant_rate<1.0):
+            if (rate.technical_rate<1.0 or rate.assistant_rate<0.0):
                 raise Warning('Rates must be greater or equal to one',['technical_rate','assistant_rate'])
         return True
     
