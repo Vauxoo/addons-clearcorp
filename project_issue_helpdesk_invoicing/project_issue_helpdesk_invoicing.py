@@ -125,16 +125,49 @@ class AccountAnalyticAccount(models.Model):
         return res
     @api.v7
     def create(self,cr, uid, vals, context=None):
+        pricelist_obj=self.pool.get('contract.pricelist')
         if 'invoice_partner_type' in vals and vals.get('invoice_partner_type')=='branch' and (vals.get('branch_ids')==False or not 'invoice_partner_type' in vals):
             raise Warning(_('Not branches in contract'))
-        return super(AccountAnalyticAccount, self).create(cr, uid, vals, context=context)
+        res=super(AccountAnalyticAccount, self).create(cr, uid, vals, context=context)
+        new_contract=self.browse(cr,uid,res,context)
+        if new_contract.template_id:
+            for pricelist in new_contract.template_id.pricelist_ids:
+                pricelist_obj.copy(cr,uid,pricelist.id,{'contract_id':res})
+        
+        return res
     @api.v7
     def write(self, cr, uid, ids, vals, context=None):
+        pricelist_obj=self.pool.get('contract.pricelist')
         if 'invoice_partner_type' in vals and vals.get('invoice_partner_type')=='branch' and not 'branch_ids' in vals:
             for contract in self.browse(cr,uid,ids,context):
                 if not contract.branch_ids:
                     raise Warning(_('Not branches in contract'))
-        return super(AccountAnalyticAccount, self).write(cr, uid, ids, vals, context)
+        contract=self.browse(cr,uid,ids,context)
+        if 'template_id' in vals and vals.get('template_id'):
+            for pricelist in contract.pricelist_ids:
+                pricelist_obj.unlink(cr,uid,pricelist.id,context)
+                
+        res=super(AccountAnalyticAccount, self).write(cr, uid, ids, vals, context)
+        if 'template_id' in vals and vals.get('template_id'):
+            for pricelist in contract.template_id.pricelist_ids:
+                pricelist_obj.copy(cr,uid,pricelist.id,{'contract_id':contract.id})
+        return res
+    @api.v7
+    def on_change_template(self, cr, uid, ids, template_id, date_start=False, context=None):
+        res=super(AccountAnalyticAccount, self).on_change_template(cr, uid, ids, template_id, date_start=False, context=None)
+        if not template_id:
+            return {}
+        template = self.browse(cr, uid, template_id, context=context)
+        res['value']['holidays_calendar_id'] = template.holidays_calendar_id
+        res['value']['regular_schedule_id'] = template.regular_schedule_id
+        res['value']['invoice_preventive_check'] = template.invoice_preventive_check
+        res['value']['fix_price_invoices'] = template.fix_price_invoices
+        res['value']['invoice_on_timesheets'] = template.invoice_on_timesheets
+        res['value']['charge_expenses'] = template.charge_expenses
+        res['value']['use_issues'] = template.charge_expenses
+        res['value']['use_timesheets'] = template.use_timesheets
+        res['value']['use_tasks'] = template.use_tasks
+        return res
     @api.depends('preventive_check_interval_number','preventive_check_interval_type')
     @api.one
     def get_interval_invoice(self):

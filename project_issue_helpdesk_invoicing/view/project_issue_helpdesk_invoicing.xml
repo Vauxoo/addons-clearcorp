@@ -136,9 +136,6 @@
                 <xpath expr="//field[@name='pricelist_id']" position="attributes">
                     <attribute name="attrs">{'required': ['|','|','|',('invoice_preventive_check','=',True),('fix_price_invoices','=',True),('invoice_on_timesheets','=',True),('charge_expenses','=',True)], 'invisible':[('invoice_preventive_check','=',False),('fix_price_invoices','=',False),('invoice_on_timesheets','=',False), ('charge_expenses','=',False)]}</attribute>
                 </xpath>
-                 <xpath expr="//field[@name='code']" position="attributes">
-                    <attribute name="attrs">{'readonly': True}</attribute>
-                </xpath>
                 <div name="user_function_price" position="before">
                     <div name="product_function_price">
                         <separator string="Invoice Price Rate per Contract" attrs="{'invisible': [('fix_price_invoices','=',False),('invoice_on_timesheets','=',False),('charge_expenses','=',False)]}"/>
