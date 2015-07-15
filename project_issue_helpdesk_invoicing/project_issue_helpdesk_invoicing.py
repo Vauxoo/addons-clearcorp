@@ -146,11 +146,11 @@ class AccountAnalyticAccount(models.Model):
         if 'template_id' in vals and vals.get('template_id'):
             for pricelist in contract.pricelist_ids:
                 pricelist_obj.unlink(cr,uid,pricelist.id,context)
-                
-        res=super(AccountAnalyticAccount, self).write(cr, uid, ids, vals, context)
-        if 'template_id' in vals and vals.get('template_id'):
+            res=super(AccountAnalyticAccount, self).write(cr, uid, ids, vals, context)
             for pricelist in contract.template_id.pricelist_ids:
                 pricelist_obj.copy(cr,uid,pricelist.id,{'contract_id':contract.id})
+            return res
+        res=super(AccountAnalyticAccount, self).write(cr, uid, ids, vals, context)
         return res
     @api.v7
     def on_change_template(self, cr, uid, ids, template_id, date_start=False, context=None):
