@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <openerp>
     <data>
-        <record id="report_invoice_document" model="ir.ui.view">
-            <field name="name">report.account_invoice_report_document</field>
-            <field name="inherit_id" ref="account.report_invoice_document" />
-            <field name="priority" eval="50" />
-            <field name="type">qweb</field>
-            <field name="arch" type="xml">
-                <xpath expr="//t[@t-call='report.external_layout']" position="replace">
+        <template id="account_invoice_report" inherit_id="account.report_invoice_document">
+            <xpath expr="." position="replace">
+                <t t-name="account.report_invoice_document">
                     <t t-call="account_invoice_report.invoice_layout">
                         <t t-if="o.partner_id.parent_id">
                             <t t-set="customer" t-value="o.partner_id.parent_id"/>
@@ -161,8 +157,8 @@
                             </div>
                         </div>
                     </t>
-                </xpath>
-            </field>
-        </record>
+                </t>
+            </xpath>
+        </template>
     </data>
 </openerp>
