@@ -73,7 +73,7 @@ class project(osv.Model):
             res.append((project.id, data))
         return res
 
-    def _shortcut_name(self, cr, uid, ids, field_name, arg, context=None):
+    def shortcut_name_compute(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
         for m in self.browse(cr, uid, ids, context=context):
             res = self.name_get(cr, uid, ids)
@@ -81,7 +81,7 @@ class project(osv.Model):
         return res
 
     _columns = {
-        'shortcut_name':        fields.function(_shortcut_name, method=True, store=True, string='Project Name', type='char', size=350),
+        'shortcut_name':        fields.function(shortcut_name_compute, method=True, store=True, string='Project Name', type='char', size=350),
         'ir_sequence_id':       fields.many2one('ir.sequence', 'Sequence'),
         
     }
@@ -89,7 +89,7 @@ class project(osv.Model):
     def create(self, cr, uid, vals, context=None):
         ir_sequence_obj = self.pool.get('ir.sequence')        
         project_id = super(project, self).create(cr, uid, vals, context)
-        shortcut_name_dict = self._shortcut_name(cr, uid, [project_id], None, None)
+        shortcut_name_dict = self.shortcut_name_compute(cr, uid, [project_id], None, None)
         sequence_name = "Project_" + str(project_id) + " " + shortcut_name_dict[project_id]
         ir_sequence_id = ir_sequence_obj.create(cr, uid, {'name': sequence_name}, context)
         self.write(cr, uid, project_id, {'ir_sequence_id': ir_sequence_id }, context)
@@ -246,3 +246,22 @@ class proyectCategory(osv.Model):
     _columns = {
                 'tag_code': fields.char(size=10, string="Tag Code", required=True)
                 }
+                
+class accountAnalityc(osv.Model):
+ 
+    _inherit = "account.analytic.account"
+ 
+    def write(self, cr, uid, ids, values, context=None):
+        if isinstance(ids, (int, long)):
+            ids = [ids]
+        res = super(accountAnalityc, self).write(cr, uid, ids, values, context=context)
+        project_obj = self.pool.get('project.project')
+        for account in self.browse(cr, uid, ids, context=context):
+            project_ids = project_obj.search(cr, uid, [])
+            for project_id in project_ids:
+                project = project_obj.browse(cr, uid, project_id, context=context)
+                result = project.shortcut_name_compute({'name':project.name },None, context=context)
+                for key, value in result.iteritems():
+                    project_name = value
+                    project.shortcut_name = project_name
+        return res
