@@ -187,7 +187,6 @@ class task(osv.Model):
         'color': fields.function(_compute_color, type='integer', string='Color Index'),
         'state': fields.related('stage_id', 'state', type="selection", store=True,
                 selection=_TASK_STATE, string="Status", readonly=True, select=True),
-        'kind_task_id':fields.many2one('ccorp.project.oerp.work.type','Type of task',required=True),
         }
 
     _defaults = {
