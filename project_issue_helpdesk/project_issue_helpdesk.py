@@ -320,7 +320,11 @@ class HrAnaliticTimeSheet(osv.Model):
          (_check_end_time,'Format End Time incorrect',['end_time']
          ),
          (_check_future_timesheets,'Date time is greater than now',['start_time','end_time','date'])]
-      
+    
+    _defaults = {
+          'service_type':'expert'
+                }
+
     _sql_constraints = [('unique_ticket_number','UNIQUE(ticket_number)',
                          'Ticket number must be unique for every worklogs')]
 class StockPicking(orm.Model):
