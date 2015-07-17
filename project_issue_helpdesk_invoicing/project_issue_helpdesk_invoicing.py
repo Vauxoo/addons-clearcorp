@@ -399,7 +399,10 @@ class AccountInvoice(models.Model):
                                     for quant in move.quant_ids:
                                         quantity+=abs(quant.qty)
                                         final_cost_quant+=(quant.cost)*abs(quant.qty)
-                                    standart_price=(final_cost_quant/quantity)
+                                    if quantity!=0:
+                                        standart_price=(final_cost_quant/quantity)
+                                    else:
+                                        standart_price=0
                                     total_backorder_cost+=standart_price*move.product_qty
                 invoice.real_price=total_timesheet+total_backorder
                 invoice.real_cost=total_cost_timesheet+total_backorder_cost
