@@ -97,11 +97,12 @@ class IssueInvoiceWizard(models.TransientModel):
                                         'uos_id':account_line.product_id.uom_id.id,
                                         'discount':account_line.account_id.to_invoice.factor,
                                         'account_analytic_id':account_line.account_id.id,
-                                        'reference':'R#'+timesheet.ticket_number or '',
                                         'price_subtotal':total_timesheet*quantity,
                                         'invoice_line_tax_id':[(6, 0, [tax.id for tax in account_line.product_id.taxes_id])],
                                         'account_id':issue.product_id.property_account_income.id or issue.product_id.categ_id.property_account_income_categ.id
                                         }
+                            if timesheet.ticket_number:
+                                invoice_line['reference']='R#'+timesheet.ticket_number
                             if issue.warranty=='seller':
                                 invoice_line['price_unit']=0
                             if count_lines<=limit_lines or limit_lines==0 or limit_lines==-1:

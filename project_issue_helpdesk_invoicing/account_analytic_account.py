@@ -171,7 +171,22 @@ class account_analytic_account(osv.osv):
                                 total+=qty*amount*(100-factor.factor or 0.0) / 100.0
                         res[account.id][f] = total
         return res
-
+    def validate_products(self, cr, uid, ids, context=None):
+        res=False
+        for account in self.browse(cr, uid, ids, context=context):
+            if account.use_issues==True:
+                for pricelist in account.pricelist_ids:
+                    for item in pricelist:
+                        if item.pricelist_line_type=='product':
+                            contracts=self.search(cr,uid,[('use_issues', '=',True),('id', '!=',account.id),('branch_ids.id', '=',account.branch_ids.id),('partner_id', '=',account.partner_id.id),('pricelist_ids.pricelist_line_type', '=','product'),('pricelist_ids.product_id', '=',item.product_id.id)])
+                            if len(contracts)>=1:
+                                return False
+                        if item.pricelist_line_type=='category':
+                                contracts=self.search(cr,uid,[('use_issues', '=',True),('id', '!=',account.id),('branch_ids.id', '=',account.branch_ids.id),('partner_id', '=',account.partner_id.id),('pricelist_ids.pricelist_line_type', '=','category'),('pricelist_ids.categ_id', '=',item.categ_id.id)])
+                                if len(contracts)>=1:
+                                    return False
+        return True
+            
     _columns = {
         'ca_to_invoice': fields.function(_analysis_all, multi='analytic_analysis', type='float', string='Uninvoiced Amount',
             help="If invoice from analytic account, the remaining amount you can invoice to the customer based on the total costs.",
@@ -192,6 +207,10 @@ class account_analytic_account(osv.osv):
         'month_ids': fields.function(_analysis_all, multi='analytic_analysis', type='many2many', relation='account_analytic_analysis.summary.month', string='Month'),
         'user_ids': fields.function(_analysis_all, multi='analytic_analysis', type="many2many", relation='account_analytic_analysis.summary.user', string='User'),
                 }
+    _constraints = [
+                (validate_products, 'Already exist product or category product associated to other contract',['pricelist_ids','template_id','use_issues','partner_id','branch_ids'])
+                ]
+
 class account_invoice_report(osv.osv):
     _inherit = "account.invoice.report"
     _columns = {
@@ -202,8 +221,7 @@ class account_invoice_report(osv.osv):
          'account.invoice.line': ['porcent_variation_margin','variation_margin'],
     }
      
-    def _select(
-         self):
+    def _select(self):
         return  super(account_invoice_report, self)._select() + ", sub.porcent_variation_margin as porcent_variation_margin, sub.variation_margin as variation_margin"
     
     def _sub_select(self):
@@ -214,6 +232,51 @@ class account_invoice_report(osv.osv):
 
 class ProjectIssue(osv.osv):
     _inherit = 'project.issue'
+    
+    def onchange_product_id(self, cr, uid, ids,product_id,partner_id,branch_id, context=None):
+        contract_ids=False
+        result={}
+        domain=[]
+        domain_product=[]
+        domain_category=[]
+        result = super(ProjectIssue, self).onchange_product_id(cr, uid, ids, product_id,partner_id,branch_id)
+        if product_id:
+            product_obj=self.pool.get('product.product')
+            contract_obj=self.pool.get('account.analytic.account')
+            domain.append(('type', '!=', 'view'))
+            domain.append(('use_issues', '=', True))
+            domain.append(('state', 'not in',('cancelled','close')))
+            if partner_id and branch_id:
+                domain.append(('partner_id', '=',partner_id))
+                domain.append(('branch_ids.id', '=',branch_id))
+                product=product_obj.browse(cr,uid,product_id)
+                domain_product.append(('pricelist_ids.pricelist_line_type', '=','product'))
+                domain_product.append(('pricelist_ids.product_id', '=',product.id))
+                contract_ids = self.pool.get('account.analytic.account').search(cr,uid,domain+domain_product)
+                result['domain']['analytic_account_id']=domain+domain_product
+                if not contract_ids:
+                     domain_category.append(('pricelist_ids.pricelist_line_type', '=','category'))
+                     domain_category.append(('pricelist_ids.categ_id', '=',product.categ_id.id))
+                     contract_ids = self.pool.get('account.analytic.account').search(cr,uid,domain+domain_category)
+                     result['domain']['analytic_account_id']=domain+domain_category
+            elif partner_id and not branch_id:
+                domain.append(('partner_id', '=',partner_id))
+                product=product_obj.browse(cr,uid,product_id)
+                domain_product.append(('pricelist_ids.pricelist_line_type', '=','product'))
+                domain_product.append(('pricelist_ids.product_id', '=',product.id))
+                contract_ids = self.pool.get('account.analytic.account').search(cr,uid,domain+domain_product)
+                result['domain']['analytic_account_id']=domain+domain_product
+                if not contract_ids:
+                     domain_category.append(('pricelist_ids.pricelist_line_type', '=','category'))
+                     domain_category.append(('pricelist_ids.categ_id', '=',product.categ_id.id))
+                     contract_ids = self.pool.get('account.analytic.account').search(cr,uid,domain+domain_category)
+                     result['domain']['analytic_account_id']=domain+domain_category
+            if contract_ids:
+                result['value']['analytic_account_id']=contract_ids[0]
+            else:
+                result['value']['analytic_account_id']=False
+        return result
+            
     def onchange_partner_id(self, cr, uid, ids, partner_id, context=None):
         result={}
         domain=[]
@@ -228,13 +291,14 @@ class ProjectIssue(osv.osv):
             if not contract_ids:
                 contract_ids = self.pool.get('account.analytic.account').search(cr,uid,[('partner_id','=',False)])
                 domain.append(('partner_id', '=',False))
+            result['value']['product_id']=False
             result['domain']['analytic_account_id']=domain
             if contract_ids:
                 result['value']['analytic_account_id']=contract_ids[0]
             else:
                 result['value']['analytic_account_id']=False
         return result
-    
+     
     def onchange_branch_id(self, cr, uid, ids, branch_id, context=None):
         result={}
         domain=[]
@@ -249,6 +313,7 @@ class ProjectIssue(osv.osv):
             if not contract_ids:
                 contract_ids = self.pool.get('account.analytic.account').search(cr,uid,[('partner_id','=',False)])
                 domain.append(('partner_id', '=',False))
+            result['value']['product_id']=False
             result['domain']['analytic_account_id']=domain
             if contract_ids:
                 result['value']['analytic_account_id']=contract_ids[0]

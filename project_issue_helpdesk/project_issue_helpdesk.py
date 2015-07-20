@@ -78,7 +78,7 @@ class ProjectIssue(osv.Model):
             data.update({'product_id': prodlot.product_id.id})
         return {'value': data}
     
-    def onchange_product_id(self, cr, uid, ids, product_id,context={}):
+    def onchange_product_id(self, cr, uid, ids, product_id,partner_id,branch_id,context={}):
         data = {}
         domain=[]
         employee_ids=[]
