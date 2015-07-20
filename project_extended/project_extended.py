@@ -250,17 +250,29 @@ class accountAnalityc(osv.Model):
  
     _inherit = "account.analytic.account"
  
+    def _get_all_project_and_children(self, cr, uid, project_id, project_list=[], context=None):
+        project_obj = self.pool.get('project.project')
+        project_list.append(project_id)
+        child_parent = project_obj._get_project_and_children(cr, uid, [project_id], context)
+        for key, value in child_parent.iteritems():
+            if value == project_id:
+                project_list.extend(self._get_all_project_and_children(cr, uid, key, project_list, context=context))
+        return project_list
+                
+ 
     def write(self, cr, uid, ids, values, context=None):
         if isinstance(ids, (int, long)):
             ids = [ids]
         res = super(accountAnalityc, self).write(cr, uid, ids, values, context=context)
         project_obj = self.pool.get('project.project')
         for account in self.browse(cr, uid, ids, context=context):
-            project_ids = project_obj.search(cr, uid, [])
+            project_ids = project_obj.search(cr, uid, [('analytic_account_id','in',ids)])
             for project_id in project_ids:
-                project = project_obj.browse(cr, uid, project_id, context=context)
-                result = project.shortcut_name_compute({'name':project.name },None, context=context)
-                for key, value in result.iteritems():
-                    project_name = value
-                    project.shortcut_name = project_name
+                project_child_ids = self._get_all_project_and_children(cr, uid, project_id, [], context=context)
+                for pchild_id in project_child_ids:
+                    project = project_obj.browse(cr, uid, pchild_id, context=context)
+                    result = project.shortcut_name_compute({'name':project.name },None, context=context)
+                    for key, value in result.iteritems():
+                        project_name = value
+                        project.shortcut_name = project_name
         return res
