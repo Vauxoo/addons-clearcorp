@@ -21,8 +21,8 @@
                             </div>
                             <div class="col-xs-4">
                                 <b>
-                                    <span t-if="o.state != 'draft'">Purchase Order N°</span>
-                                    <span t-if="o.state == 'draft'">Quotation N°</span>
+                                    <span t-if="o.state != 'draft'">Purchase:</span>
+                                    <span t-if="o.state == 'draft'">Cot. purchase:</span>
                                     <span t-field="o.name"/>
                                 </b>
                             </div>
@@ -53,6 +53,12 @@
                                     </t>
                                 </t><br />
                                 <span class="fa fa-globe" style="width: 14px; text-align: center; margin-right: 3px" /><span t-field="company.website" /><br />
+                            </div>
+                            <div class="col-xs-4">
+                                <b>Reference: </b><span t-field="o.partner_ref"/><br />
+                                <b>Purchase order: </b><span t-field="o.date_order"/><br />
+                                <b>Est.delivery date: </b><span t-field="o.minimum_planned_date"/><br />
+                                <b>Approved: </b><span t-field="o.date_approve"/><br />
                             </div>
                         </div>
                         <div class="row mt8 mb2">
