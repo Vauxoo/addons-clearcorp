@@ -136,9 +136,6 @@
                 <xpath expr="//field[@name='pricelist_id']" position="attributes">
                     <attribute name="attrs">{'required': ['|','|','|',('invoice_preventive_check','=',True),('fix_price_invoices','=',True),('invoice_on_timesheets','=',True),('charge_expenses','=',True)], 'invisible':[('invoice_preventive_check','=',False),('fix_price_invoices','=',False),('invoice_on_timesheets','=',False), ('charge_expenses','=',False)]}</attribute>
                 </xpath>
-                 <xpath expr="//field[@name='code']" position="attributes">
-                    <attribute name="attrs">{'readonly': True}</attribute>
-                </xpath>
                 <div name="user_function_price" position="before">
                     <div name="product_function_price">
                         <separator string="Invoice Price Rate per Contract" attrs="{'invisible': [('fix_price_invoices','=',False),('invoice_on_timesheets','=',False),('charge_expenses','=',False)]}"/>
@@ -147,7 +144,7 @@
                             and type technical staff to use these data instead
                             of the default values when invoicing the customer.
                         </p>
-                        <field name="pricelist_ids" colspan="4" nolabel="1" attrs="{'invisible': [('fix_price_invoices','=',False),('invoice_on_timesheets','=',False),('charge_expenses','=',False)]}">
+                        <field name="pricelist_ids" colspan="4" nolabel="1" attrs="{'invisible': [('invoice_preventive_check','=',False),('fix_price_invoices','=',False),('invoice_on_timesheets','=',False),('charge_expenses','=',False)]}">
                             <tree editable="top" string="Pricelist Lines">
                                 <field name="pricelist_line_type"/>
                                 <field name="categ_id" domain="[('supply_type','in',('equipment','service'))]" attrs="{'invisible':[('pricelist_line_type', '!=', 'category')]}"/>
