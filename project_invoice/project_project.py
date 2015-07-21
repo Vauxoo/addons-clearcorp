@@ -40,17 +40,6 @@ class Task(models.Model):
                  ('not_invoice', 'Not Invoice'),
                  ('tobeinvoice', 'To be Invoice'),
                  ], string = "Invoice", help = "is a invoiced task", default = "tobeinvoice", required = True)
-    
-    @api.multi
-    def send_email(self):
-         return {'type': 'ir.actions.act_window',
-                'res_model': 'mail.compose.message',
-                'view_type': 'form',
-                'view_mode': 'form',
-                'nodestroy': True,
-                'target': 'new',
-                'flags': {'form': {'action_buttons': True}}
-                }
          
     @api.multi
     def split_task(self):
@@ -128,7 +117,7 @@ class Task(models.Model):
             return currency
 
     @api.multi
-    def action_invoice_create(self, data, journal_id=False, group=False, account=False, date_invoice=False):
+    def action_invoice_create(self, data, journal_id=False, account=False, date_invoice=False):
         cost=0
         invoice_obj = self.env['account.invoice']
         invoice_line_obj = self.env['account.invoice.line']
