@@ -716,7 +716,7 @@ msgstr "Repetir"
 #. module: project_issue_helpdesk_invoicing
 #: field:res.company,logo_report:0
 msgid "Report Logo"
-msgstr "Report Logo"
+msgstr "Logo de Reporte"
 
 #. module: project_issue_helpdesk_invoicing
 #: field:account.invoice.line,sale_lines:0
@@ -830,7 +830,7 @@ msgstr "Calendario Linea"
 #. module: project_issue_helpdesk_invoicing
 #: help:res.company,logo_report:0
 msgid "Upload a high definition logo to print on reports."
-msgstr "Upload a high definition logo to print on reports."
+msgstr "Actualiza logo a alta definición para imprimir reportes
 
 #. module: project_issue_helpdesk_invoicing
 #: selection:project.issue.helpdesk.invoice.wizard,state:0
