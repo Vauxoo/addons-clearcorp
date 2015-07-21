@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-09 20:37+0000\n"
-"PO-Revision-Date: 2015-06-09 20:37+0000\n"
+"POT-Creation-Date: 2015-07-21 15:11+0000\n"
+"PO-Revision-Date: 2015-07-21 15:11+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -17,28 +17,23 @@ msgstr ""
 
 #. module: sale_order_report
 #: view:website:sale.report_saleorder_document
-msgid "&bull;"
-msgstr "&bull;"
+msgid "Amount"
+msgstr "Importe"
 
 #. module: sale_order_report
 #: view:website:sale.report_saleorder_document
-msgid "Addres:"
-msgstr "Dirección:"
+msgid "Contract:"
+msgstr "Contrato:"
 
 #. module: sale_order_report
 #: view:website:sale.report_saleorder_document
-msgid "Authorized by Trade No."
-msgstr "Autorizada mediante oficio No."
+msgid "Customer:"
+msgstr "Cliente:"
 
 #. module: sale_order_report
-#: view:website:sale.report_saleorder_document
-msgid "Bank Accounts"
-msgstr "Cuentas bancarias"
-
-#. module: sale_order_report
-#: model:ir.model,name:sale_order_report.model_res_company
-msgid "Companies"
-msgstr "Compañias"
+#: view:website:sale_order_report.sale_layout_header
+msgid "Date:"
+msgstr "Fecha:"
 
 #. module: sale_order_report
 #: view:website:sale.report_saleorder_document
@@ -47,88 +42,93 @@ msgstr "Descripción"
 
 #. module: sale_order_report
 #: view:website:sale.report_saleorder_document
-msgid "Disc.(%)"
-msgstr "Desc.(%)"
+msgid "Disc."
+msgstr "Desc."
 
 #. module: sale_order_report
 #: view:website:sale.report_saleorder_document
-msgid "Email:"
-msgstr "Correo electrónico:"
+msgid "Discount ("
+msgstr "Descuento ("
 
 #. module: sale_order_report
 #: view:website:sale.report_saleorder_document
-msgid "Expiration Date:"
-msgstr "Fecha Expiración:"
+msgid "Fiscal Position Remark:"
+msgstr "Observaciones de la posición fiscal"
 
 #. module: sale_order_report
 #: view:website:sale.report_saleorder_document
-msgid "Invoice address:"
-msgstr "Dirección de facturación:"
+msgid "Incoterm:"
+msgstr "Incoterm:"
 
 #. module: sale_order_report
 #: view:website:sale.report_saleorder_document
-msgid "Invoice and shipping address:"
-msgstr "Dirección de facturación y de envío:"
+msgid "Invoice address"
+msgstr "Dirrección de factura"
 
 #. module: sale_order_report
-#: field:res.company,number_trade:0
-msgid "Number of Trade"
-msgstr "Numero de Oficio"
-
-#. module: sale_order_report
-#: field:res.company,number_trade_date:0
-msgid "Number of Trade Date:"
-msgstr "Fecha Numero de Oficio:"
+#: view:website:sale_order_report.sale_layout_header
+msgid "Page:"
+msgstr "Página:"
 
 #. module: sale_order_report
 #: view:website:sale.report_saleorder_document
-msgid "Order Date:"
-msgstr "Fecha de pedido:"
+msgid "Payment Term:"
+msgstr "Plazo de pago:"
+
+#. module: sale_order_report
+#: view:website:sale_order_report.sale_layout_header
+msgid "Payment terms:"
+msgstr "Términos de pago:"
 
 #. module: sale_order_report
 #: view:website:sale.report_saleorder_document
-msgid "Order N°"
-msgstr "Pedido Nº"
+msgid "Quant."
+msgstr "Cant."
+
+#. module: sale_order_report
+#: view:website:sale_order_report.sale_layout_header
+msgid "Quote:"
+msgstr "Cotización:"
 
 #. module: sale_order_report
 #: view:website:sale.report_saleorder_document
-msgid "Partner:"
-msgstr "Cliente:"
+msgid "Reference:"
+msgstr "Referencia:"
+
+#. module: sale_order_report
+#: view:website:sale_order_report.sale_layout_header
+msgid "Sale order:"
+msgstr "Orden de venta:"
+
+#. module: sale_order_report
+#: view:website:sale_order_report.sale_layout_header
+msgid "Salesperson:"
+msgstr "Comercial:"
 
 #. module: sale_order_report
 #: view:website:sale.report_saleorder_document
-msgid "Payment Method:"
-msgstr "Forma de pago:"
+msgid "Shipping address"
+msgstr "Dirección de entrega"
 
 #. module: sale_order_report
 #: view:website:sale.report_saleorder_document
-msgid "Phone:"
-msgstr "Teléfono:"
+msgid "Source:"
+msgstr "Origen:"
 
 #. module: sale_order_report
 #: view:website:sale.report_saleorder_document
-msgid "Price"
-msgstr "Precio"
-
-#. module: sale_order_report
-#: view:website:sale.report_saleorder_document
-msgid "Quantity"
-msgstr "Cantidad"
-
-#. module: sale_order_report
-#: view:website:sale.report_saleorder_document
-msgid "Quotation N°"
-msgstr "Presupuesto Nº"
-
-#. module: sale_order_report
-#: view:website:sale.report_saleorder_document
-msgid "Shipping address:"
-msgstr "Dirección de envío:"
+msgid "Tax"
+msgstr "Impuesto"
 
 #. module: sale_order_report
 #: view:website:sale.report_saleorder_document
 msgid "Taxes"
 msgstr "Impuestos"
+
+#. module: sale_order_report
+#: view:website:sale.report_saleorder_document
+msgid "Terms and Conditions:"
+msgstr "Términos y condiciones:"
 
 #. module: sale_order_report
 #: view:website:sale.report_saleorder_document
@@ -138,30 +138,20 @@ msgstr "Total"
 #. module: sale_order_report
 #: view:website:sale.report_saleorder_document
 msgid "Total Without Taxes"
-msgstr "Total sin impuestos"
+msgstr "Subtotal"
 
 #. module: sale_order_report
 #: view:website:sale.report_saleorder_document
 msgid "Unit Price"
-msgstr "Precio unidad"
+msgstr "Precio unitario"
+
+#. module: sale_order_report
+#: view:website:sale_order_report.sale_layout_header
+msgid "Valid until:"
+msgstr "Válido hasta:"
 
 #. module: sale_order_report
 #: view:website:sale.report_saleorder_document
-msgid "VAT:"
-msgstr "NIF:"
-
-#. module: sale_order_report
-#: view:website:sale.report_saleorder_document
-msgid "Website:"
-msgstr "Sitio web:"
-
-#. module: sale_order_report
-#: view:website:sale.report_saleorder_document
-msgid "date"
-msgstr "Fecha"
-
-#. module: sale_order_report
-#: view:website:sale.report_saleorder_document
-msgid "from the D.G.T.D."
-msgstr "de la D.G.T.D."
+msgid "XMT"
+msgstr "XMT"
 
