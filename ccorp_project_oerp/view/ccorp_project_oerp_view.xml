@@ -1,31 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
 	<data>
-		<!-- actions -->
-		<!-- ccorp.project.oerp.feature.import.wizard -->
-		<record model="ir.actions.act_window" id="action_feature_import_wizard">
-			<field name="name">Feature Import</field>
-			<field name="res_model">ccorp.project.oerp.feature.import.wizard</field>
-			<field name="view_mode">form</field>
-			<field name="target">new</field>
-		</record>
-
-		<!-- ccorp.project.oerp.task.create.wizard -->
-		<record model="ir.actions.act_window" id="action_task_create_wizard">
-			<field name="name">Create Tasks from Sequence</field>
-			<field name="res_model">ccorp.project.oerp.task.create.wizard</field>
-			<field name="view_mode">form</field>
-			<field name="target">new</field>
-		</record>
-
-		<!-- ccorp.project.oerp.sprint.close.wizard -->
-		<record model="ir.actions.act_window" id="action_sprint_close_wizard">
-			<field name="name">Close Sprint</field>
-			<field name="res_model">ccorp.project.oerp.sprint.close.wizard</field>
-			<field name="view_mode">form</field>
-			<field name="target">new</field>
-		</record>
-
+    
 		<!-- views -->
 		<!-- ccorp.project.oerp.work.type -->
 		<!-- form -->
@@ -77,9 +53,8 @@
 					position="after">
 					<page string="Feature Hours" name="feature_hours">
 						<field name="id" invisible="True" />
-						<field name="hour_ids" context="{'feature_id': active_id}">
+						<field name="hour_ids" context="{'feature_id': active_id}" attrs="{'readonly':[('state','=','approved')]}">
 							<tree editable="bottom">
-								<!-- <field name="department_id" /> -->
 								<field name="work_type_id" />
 								<field name="expected_hours" sum="Total Planned" />
 								<field name="effective_hours" sum="Total Spent" />
@@ -99,13 +74,20 @@
 			<field name="inherit_id" ref="project.view_task_form2" />
 			<field name="priority" eval="100" />
 			<field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/group/field[@name='project_id']"
+                    position="after">
+                    <field name="kind_task_id"/>
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page/group/group/field[@name='effective_hours']"
+                    position="after">
+                    <field name="reassignment_hour"/>
+               </xpath>
 				<xpath expr="//form/sheet/notebook/page[@name='sequence']"
 					position="before">
 					<page string="Feature Hours" name="feature_hours"
 						attrs="{'invisible': [('feature_id','=',False)]}">
 						<field name="feature_hour_ids">
 							<tree>
-								<!-- <field name="department_id" /> -->
 								<field name="work_type_id" />
 								<field name="expected_hours" sum="Planned Hour(s)" />
 								<field name="effective_hours" sum="Spent Hour(s)" />
@@ -124,30 +106,6 @@
 			<field name="model">ccorp.project.scrum.sprint</field>
 			<field name="inherit_id" ref="ccorp_project_scrum.view_sprint_form" />
 			<field name="arch" type="xml">
-				<xpath
-					expr="//form/sheet/div[@name='buttons']/button[@name='tasks_from_features']"
-					position="attributes">
-					<attribute name="invisible">1</attribute>
-				</xpath>
-				<xpath
-					expr="//form/sheet/div[@name='buttons']/button[@name='tasks_from_features']"
-					position="after">
-					<button name="tasks_from_features_oerp" string="Tasks from Features"
-						type="object"
-						attrs="{'invisible':['|',('state','=','cancelled'),'|',
-                                    ('state','=','draft'),('state','=','done')]}"
-						confirm="Are you sure you want to create a task for each feature related to this sprint?" />
-				</xpath>
-				<xpath
-					expr="//form/sheet/div[@name='buttons']/button[@name='tasks_from_features']"
-					position="before">
-					<button name="%(action_task_create_wizard)d" string="Tasks from Sequence"
-						type="action"
-						attrs="{'invisible':['|',('state','=','cancelled'),'|',('state','=','draft'),('state','=','done')]}"
-						context="{'sprint_id': active_id}" />
-					<button name="queue_tasks" string="Queue Tasks" type="object"
-						confirm="Are you sure you want to queue all tasks?" />
-				</xpath>
 				<xpath expr="//form/sheet/notebook/page[@name='tasks']"
 					position="after">
 					<page string="Planned Tasks" name="desirable_tasks">
@@ -157,7 +115,96 @@
 			</field>
 		</record>
         
-        <!-- ACTIONS -->
+            <record id="view_reassignment_task_form" model="ir.ui.view">
+            <field name="name">view.reassignment.hours.form</field>
+            <field name="model">ccorp.project.oerp.reassignment.hours</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Reassignment Task Hours" version="7.0">
+                <header>
+                <field name="state" widget="statusbar" statusbar_visible="draft,reassignment"
+                            statusbar_colors='{"draft":"red","reassignment":"blue"}' />
+                        <button name="reassignment_hours" type="object"
+                            string="Approve" class="oe_highlight"  attrs="{'invisible': [('state','=', 'reassignment')]}"/>
+                </header>
+                <sheet>
+                  <h3>
+                      <span>Reassignment Task Hours</span>
+                  </h3>
+                    <group>
+                            <field name="date" class="oe_inline"  attrs="{'readonly': [('state','!=', 'draft')]}"/>
+                            <field name="target_task" class="oe_inline" attrs="{'readonly': [('state','!=', 'draft')]}"/>
+                            <field name="detail" class="oe_inline" attrs="{'readonly': [('state','!=', 'draft')]}"/>
+                            <field name="project_id" attrs="{'invisible': 1}"/>
+                            <field name="type_task_id" attrs="{'invisible': 1}"/>
+                            <field name="origin_task_ids" attrs="{'readonly': [('state','!=', 'draft')]}">
+                               <tree editable="bottom">
+                                    <field name="origin_task_id" 
+                                           domain="[('project_id','=',parent.project_id),('kind_task_id','=',parent.type_task_id),('remaining_hours','>',0)]"/>
+                                    <field name="project_origin_task"/>
+                                    <field name="user_origin_task"/>
+                                    <field name="ph_origin_task"/>
+                                    <field name="rh_origin_task"/>
+                                    <field name="reassignment_hour"/>
+                               </tree> 
+                           </field>
+                           <field name="total_time_reassignment" class="oe_inline" attrs="{'readonly': [('state','!=', 'draft')]}"/>
+                    </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"
+                            groups="base.group_user" />
+                        <field name="message_ids" widget="mail_thread" />
+                    </div>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_reassignment_task_tree" model="ir.ui.view">
+            <field name="name">view.reassignment.hours.tree</field>
+            <field name="model">ccorp.project.oerp.reassignment.hours</field>
+            <field name="priority" eval="16" />
+            <field name="arch" type="xml">
+                <tree string="Reassignment Task Hours">
+                    <field name="date"/>
+                    <field name="target_task"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- actions -->
+        <!-- ccorp.project.oerp.feature.import.wizard -->
+        <record model="ir.actions.act_window" id="action_feature_import_wizard">
+            <field name="name">Feature Import</field>
+            <field name="res_model">ccorp.project.oerp.feature.import.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <!-- ccorp.project.oerp.task.create.wizard -->
+        <record model="ir.actions.act_window" id="action_task_create_wizard">
+            <field name="name">Create Tasks from Sequence</field>
+            <field name="res_model">ccorp.project.oerp.task.create.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <!-- ccorp.project.oerp.sprint.close.wizard -->
+        <record model="ir.actions.act_window" id="action_sprint_close_wizard">
+            <field name="name">Close Sprint</field>
+            <field name="res_model">ccorp.project.oerp.sprint.close.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+        <!-- ccorp.project.oerp.reassignment.hours.wizard -->
+        <record model="ir.actions.act_window" id="action_reassignment">
+            <field name="name">Reassignment Task Hours</field>
+            <field name="res_model">ccorp.project.oerp.reassignment.hours</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
         <record id="action_work_type" model="ir.actions.act_window">
             <field name="name">Work Types</field>
             <field name="res_model">ccorp.project.oerp.work.type</field>

@@ -22,3 +22,4 @@
 
 import ccorp_project_oerp
 import wizard
+import reassignment_hours
