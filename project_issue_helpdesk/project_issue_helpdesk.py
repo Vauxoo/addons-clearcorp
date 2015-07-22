@@ -132,6 +132,7 @@ class ProjectIssue(osv.Model):
     
     def write(self, cr, uid, ids, vals, context=None):
          employee_obj=self.pool.get('hr.employee')
+         type_obj=self.pool.get('project.task.type')
          if 'employee_id' in vals:
             if vals.get('employee_id'):
                 employee=employee_obj.browse(cr,uid, vals.get('employee_id'),context=context)[0]
@@ -141,6 +142,12 @@ class ProjectIssue(osv.Model):
                     raise osv.except_osv(_('Error!'), _('The employee asigned no have a user in the system'))
             else:
                 vals['user_id'] = False
+         if 'stage_id' in vals:
+             if vals.get('stage_id'):
+                 type=type_obj.browse(cr,uid, vals.get('stage_id'),context=context)[0]
+                 issue=self.browse(cr,uid,ids,context)
+                 if type.closed==False and issue.stage_id.closed==True:
+                     raise osv.except_osv(_('Error!'), _('The issue is closed, can not change the state'))
          res = super(ProjectIssue, self).write(cr, uid, ids, vals, context=context)
          return res
      

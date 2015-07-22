@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-07 21:10+0000\n"
-"PO-Revision-Date: 2015-07-07 21:10+0000\n"
+"POT-Creation-Date: 2015-07-22 19:31+0000\n"
+"PO-Revision-Date: 2015-07-22 19:31+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -116,9 +116,10 @@ msgstr "Equipo"
 
 #. module: project_issue_helpdesk
 #: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:127
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:141
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:222
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:233
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:142
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:150
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:229
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:240
 #, python-format
 msgid "Error!"
 msgstr "Error!"
@@ -282,7 +283,7 @@ msgstr "Revisión Preventiva"
 #: view:project.issue:project_issue_helpdesk.view_project_issue_filter
 #: field:project.issue,product_id:0
 msgid "Product"
-msgstr "Producto/Servicio"
+msgstr "Producto"
 
 #. module: project_issue_helpdesk
 #: model:ir.model,name:project_issue_helpdesk.model_product_category
@@ -345,7 +346,7 @@ msgstr "Reportado por"
 #. module: project_issue_helpdesk
 #: model:ir.model,name:project_issue_helpdesk.model_sale_order
 msgid "Sales Order"
-msgstr "Pedido de venta"
+msgstr "Ordenes de Venta"
 
 #. module: project_issue_helpdesk
 #: selection:project.issue,warranty:0
@@ -423,12 +424,18 @@ msgstr "Técnico Asignado"
 
 #. module: project_issue_helpdesk
 #: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:127
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:141
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:222
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:233
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:142
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:229
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:240
 #, python-format
 msgid "The employee asigned no have a user in the system"
 msgstr "Debe asignar un usuario al empleado seleccionado"
+
+#. module: project_issue_helpdesk
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:150
+#, python-format
+msgid "The issue is closed, can not change the state"
+msgstr "La incidencia está cerrada, no es posible cambiar el estado actual"
 
 #. module: project_issue_helpdesk
 #: model:ir.model,name:project_issue_helpdesk.model_stock_picking_type
@@ -454,7 +461,7 @@ msgstr "Calendario Linea"
 #: view:hr.analytic.timesheet:project_issue_helpdesk.timesheet_line_tree_view
 #: view:project.issue:project_issue_helpdesk.view_project_issue_sheet_form
 msgid "True"
-msgstr "True"
+msgstr "Verdadero"
 
 #. module: project_issue_helpdesk
 #: field:project.issue,warranty:0
@@ -485,6 +492,11 @@ msgstr "[('id','in',init_onchange_call[0][2]),('type','not in',['view','template
 #: view:hr.analytic.timesheet:project_issue_helpdesk.timesheet_line_tree_view
 msgid "[('id','in',init_onchange_factor[0][2])]"
 msgstr "[('id','in',init_onchange_factor[0][2])]"
+
+#. module: project_issue_helpdesk
+#: view:project.issue:project_issue_helpdesk.view_project_issue_form
+msgid "[('partner_id', '=', partner_id),('type', '!=', 'view'),('use_issues', '=', True),('state', 'not in',('cancelled','close'))]"
+msgstr "[('partner_id', '=', partner_id),('type', '!=', 'view'),('use_issues', '=', True),('state', 'not in',('cancelled','close'))]"
 
 #. module: project_issue_helpdesk
 #: view:project.issue:project_issue_helpdesk.view_project_issue_form
@@ -533,6 +545,11 @@ msgstr "{'readonly':[('is_closed', '=', True)]}"
 #: view:purchase.order:project_issue_helpdesk.view_purchase_order_form
 msgid "{'required': [('issue_id', '!=', False)]}"
 msgstr "{'required': [('issue_id', '!=', False)]}"
+
+#. module: project_issue_helpdesk
+#: view:project.issue:project_issue_helpdesk.view_project_issue_form
+msgid "{'required':True,'readonly':['|',('partner_id', '=', False),('is_closed', '=', True)]}"
+msgstr "{'required':True,'readonly':['|',('partner_id', '=', False),('is_closed', '=', True)]}"
 
 #. module: project_issue_helpdesk
 #: view:project.issue:project_issue_helpdesk.view_project_issue_form
