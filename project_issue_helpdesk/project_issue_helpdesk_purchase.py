@@ -151,7 +151,7 @@ class HrAnaliticTimeSheet(models.Model):
                 else:
                     self.branch_id=False
 
-    partner_id = fields.Many2one('res.partner',compute="get_partner_timesheet",string='Partner')
-    branch_id = fields.Many2one('res.partner',compute="get_branch_timesheet",string='Branch')
+    partner_id = fields.Many2one('res.partner',compute="get_partner_timesheet",store=True,string='Partner')
+    branch_id = fields.Many2one('res.partner',compute="get_branch_timesheet",store=True,string='Branch')
     init_onchange_account= fields.Many2many('account.analytic.account',compute="get_account_selected",string='Nothing Display', help='field at view init')
     init_onchange_factor= fields.Many2many('hr_timesheet_invoice.factor',compute="get_factor_invoice_selected",string='Nothing Display', help='field at view init')
