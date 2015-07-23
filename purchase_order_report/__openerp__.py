@@ -36,6 +36,8 @@
     'init_xml': [],
     'demo_xml': [],
     'update_xml': [
+                   'data/report_paperformat.xml',
+                   'data/purchase_report.xml',
                    'views/report_purchase_order.xml',
                    'views/report_purchasequotation.xml',
                    'views/report_purchase_layout_footer.xml',
