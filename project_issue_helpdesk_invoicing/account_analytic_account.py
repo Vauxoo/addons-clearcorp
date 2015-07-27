@@ -178,11 +178,11 @@ class account_analytic_account(osv.osv):
                 for pricelist in account.pricelist_ids:
                     for item in pricelist:
                         if item.pricelist_line_type=='product':
-                            contracts=self.search(cr,uid,[('use_issues', '=',True),('id', '!=',account.id),('branch_ids.id', '=',account.branch_ids.id),('partner_id', '=',account.partner_id.id),('pricelist_ids.pricelist_line_type', '=','product'),('pricelist_ids.product_id', '=',item.product_id.id)])
+                            contracts=self.search(cr,uid,[('use_issues', '=',True),('id', '!=',account.id),('partner_id', '=',account.partner_id.id),('pricelist_ids.pricelist_line_type', '=','product'),('pricelist_ids.product_id', '=',item.product_id.id)])
                             if len(contracts)>=1:
                                 return False
                         if item.pricelist_line_type=='category':
-                                contracts=self.search(cr,uid,[('use_issues', '=',True),('id', '!=',account.id),('branch_ids.id', '=',account.branch_ids.id),('partner_id', '=',account.partner_id.id),('pricelist_ids.pricelist_line_type', '=','category'),('pricelist_ids.categ_id', '=',item.categ_id.id)])
+                                contracts=self.search(cr,uid,[('use_issues', '=',True),('id', '!=',account.id),('partner_id', '=',account.partner_id.id),('pricelist_ids.pricelist_line_type', '=','category'),('pricelist_ids.categ_id', '=',item.categ_id.id)])
                                 if len(contracts)>=1:
                                     return False
         return True
