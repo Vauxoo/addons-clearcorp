@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <openerp>
     <data>
-        <record id="invoice_layout_header" model="ir.ui.view">
-            <field name="name">account_invoice_report.invoice_layout_header</field>
+        <record id="purchase_layout_header" model="ir.ui.view">
+            <field name="name">purchase_order_report.purchase_layout_header</field>
             <field name="type">qweb</field>
             <field name="arch" type="xml">
-                <t t-name="account_invoice_report.invoice_layout_header">
+                <t t-name="purchase_order_report.purchase_layout_header">
                     <div class="header">
                         <div class="row">
                             <div class="col-xs-10 mt32">
@@ -21,14 +21,9 @@
                             </div>
                             <div class="col-xs-4">
                                 <b>
-                                    <span t-if="o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">Invoice</span>
-                                    <span t-if="o.type == 'out_invoice' and o.state == 'proforma2'">PRO-FORMA</span>
-                                    <span t-if="o.type == 'out_invoice' and o.state == 'draft'">Draft Invoice</span>
-                                    <span t-if="o.type == 'out_invoice' and o.state == 'cancel'">Cancelled Invoice</span>
-                                    <span t-if="o.type == 'out_refund'">Refund</span>
-                                    <span t-if="o.type == 'in_refund'">Supplier Refund</span>
-                                    <span t-if="o.type == 'in_invoice'">Supplier Invoice</span>
-                                    <span t-field="o.number"/>
+                                    <span t-if="o.state != 'draft'">Purchase:</span>
+                                    <span t-if="o.state == 'draft'">Quote purchase:</span>
+                                    <span t-field="o.name"/>
                                 </b>
                             </div>
                         </div>
@@ -60,10 +55,18 @@
                                 <span class="fa fa-globe" style="width: 14px; text-align: center; margin-right: 3px" /><span t-field="company.website" /><br />
                             </div>
                             <div class="col-xs-4">
-                                <b>Invoice date: </b><span t-field="o.date_invoice"/><br />
-                                <b>Due date: </b><span t-field="o.date_due"/><br />
-                                <b>Payment terms: </b><span t-if="o.payment_term" t-field="o.payment_term.name"/><br />
-                                <b>Salesperson: </b><span t-if="o.user_id" t-field="o.user_id.name"/>
+                                <t t-if="o.partner_ref">
+                                    <b>Reference: </b><span t-field="o.partner_ref"/><br />
+                                </t>
+                                <t t-if="o.date_order">
+                                    <b>Purchase date: </b><span t-field="o.date_order"/><br />
+                                </t>
+                                <t t-if="o.minimum_planned_date">
+                                    <b>Est. delivery date: </b><span t-field="o.minimum_planned_date"/><br />
+                                </t>
+                                <t t-if="o.date_approve">
+                                    <b>Approved: </b><span t-field="o.date_approve"/>
+                                </t>
                             </div>
                         </div>
                         <div class="row mt8 mb2">
