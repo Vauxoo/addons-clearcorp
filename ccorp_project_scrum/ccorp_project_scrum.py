@@ -35,9 +35,9 @@ PRIORITY = {
             }
 
 STATES = [('draft', 'Draft'),('new', 'New'), ('open', 'In Progress'),
-          ('pending', 'Pending'),('ready', 'Ready'), ('done', 'Done'),
+          ('pending', 'Pending'),('done', 'Done'),
           ('cancelled', 'Cancelled')]
-    
+
 class featureType(osv.Model):
     
     _name = 'ccorp.project.scrum.feature.type'
@@ -58,23 +58,116 @@ class featureType(osv.Model):
     
 class Feature(osv.Model):
     
+    _inherit = 'mail.thread'
     _name = 'ccorp.project.scrum.feature'
     
-    def _effective_hours(self, cr, uid, ids, field_name, arg, context=None):
-       # Calculate the planned hours based on the tasks from sprints 
-        #related to each feature
+    def _date_start(self, cr, uid, ids, field_name, arg, context=None):
+        """Calculate the date_start based on the tasks from sprints 
+        related to each feature"""
         res = {}
+        for id in ids:
+            task_ids = [x.id for x in
+                          self.browse(cr, uid, id,
+                              context=context).task_ids]
+            task_obj = self.pool.get('project.task')
+            task_ids = task_obj.search(cr, uid,
+                                       [('id','in',task_ids),
+                                        ('feature_id','=',id),
+                                        '!',('state','in',['cancelled','draft'])],
+                                       context=context)
+            tasks = task_obj.browse(cr,uid,task_ids,context=context)
+            date_start = False
+            for task in tasks:
+                if task.date_start:
+                    date = datetime.strptime(task.date_start,'%Y-%m-%d %H:%M:%S')
+                    if not date_start:
+                        date_start = date
+                    else:
+                        if date_start > date:
+                            date_start = date
+            if date_start:
+                date_start = datetime.strftime(date_start,'%Y-%m-%d %H:%M:%S') 
+            res[id] = date_start
         return res
     
-    def _remaining_hours(self, cr, uid, ids, field_name, arg, context=None):
-        #Calculate the difference between planned and effective hours
+    def _date_end(self, cr, uid, ids, field_name, arg, context=None):
+        """Calculate the end date based on the tasks from sprints 
+        related to each feature"""
         res = {}
+        for id in ids:
+            task_ids = [x.id for x in
+                          self.browse(cr, uid, id,
+                              context=context).task_ids]
+            task_obj = self.pool.get('project.task')
+            task_ids = task_obj.search(cr, uid,
+                                       [('id','in',task_ids),
+                                        ('feature_id','=',id),
+                                        '!',('state','in',['cancelled','draft'])],
+                                       context=context)
+            tasks = task_obj.browse(cr,uid,task_ids,context=context)
+            date_end = False
+            for task in tasks:
+                if task.date_end:
+                    date = datetime.strptime(task.date_end,'%Y-%m-%d %H:%M:%S')
+                    if not date_end:
+                        date_end = date
+                    else:
+                        if date > date_end:
+                            date_end = date
+            if date_end:
+                date_end = datetime.strftime(date_end,'%Y-%m-%d %H:%M:%S') 
+            res[id] = date_end
+        return res
+    
+    def _effective_hours(self, cr, uid, ids, field_name, arg, context=None):
+        """Calculate the planned hours based on the tasks  
+        related to each feature"""
+
+        res = {}
+        for id in ids:
+            task_ids = [x.id for x in
+                              self.browse(cr, uid, id,
+                                  context=context).task_ids]
+            task_obj = self.pool.get('project.task')
+            task_ids = task_obj.search(cr, uid,
+                                           [('id','in',task_ids),
+                                            ('feature_id','=',id)],
+                                           context=context)
+            tasks = task_obj.browse(cr,uid,task_ids,context=context)
+            sum = reduce(lambda result,task: result+task.effective_hours,
+                             tasks, 0.0)
+            res[id] = sum
+            return res
+    
+    def _remaining_hours(self, cr, uid, ids, field_name, arg, context=None):
+        """Calculate the difference between planned and effective hours"""
+        res={}
+        features = self.browse(cr, uid, ids, context=context)
+        for feature in features:
+            res[feature.id] = feature.expected_hours - \
+            feature.effective_hours
         return res
     
     def _progress(self, cr, uid, ids, field_name, arg, context=None):
-        #Calculate the total progress based on the tasks from sprints 
-        #related to each feature
+        """Calculate the total progress based on the tasks from sprints 
+        related to each feature"""
         res = {}
+        for id in ids:
+            task_ids = [x.id for x in
+                          self.browse(cr, uid, id,
+                              context=context).task_ids]
+            task_obj = self.pool.get('project.task')
+            task_ids = task_obj.search(cr, uid,
+                                       [('id','in',task_ids),
+                                        ('feature_id','=',id)],
+                                       context=context)
+            tasks = task_obj.browse(cr,uid,task_ids,context=context)
+            if tasks:
+                sum = reduce(lambda result,task: result+task.progress,
+                             tasks, 0.0)
+                res[id] = sum/len(tasks)
+            else:
+                res[id] = 0.0
         return res
     
     def set_open(self, cr, uid, ids, context=None):
@@ -120,20 +213,20 @@ class Feature(osv.Model):
                 'priority': fields.selection([(5, '5 - Very Low'), (4, '4 - Low'), (3, '3 - Medium'), (2, '2 - High'),
                     (1, '1 - Very High')], string='Priority', required=True),
                 'task_ids': fields.one2many('project.task', 'feature_id', string='Tasks', readonly=True),
-                'date_start': fields.datetime(string='Start Date'),
-                'date_end': fields.datetime(string='End Date'),
-                'deadline': fields.datetime(string='Deadline'),
+                'date_start': fields.function(_date_start, type='datetime', string='Start Date', store=True),
+                'date_end': fields.function(_date_end, type='datetime', string='End Date', store=True),
+                'deadline': fields.date(string='Deadline'),
                 'expected_hours': fields.float('Initially Planned Hour(s)',
                     help='Total planned hours for the development of '
                     'this feature.\nRecommended values are:\n 1h, 2h, 4h,'
                     ' or 8h'),
                 'effective_hours': fields.function(
                     _effective_hours, type='float', string='Spent Hour(s)',
-                    help='Total effective hours from tasks related to this feature.'),
+                    help='Total effective hours from tasks related to this feature.', store=True),
                 'remaining_hours': fields.function(
                     _remaining_hours, type='float', string='Remaining Hour(s)',
-                    help='Difference between planned hours and spent hours.'),
-                'progress': fields.function(_progress, type='float', string='Progress (%)'),
+                    help='Difference between planned hours and spent hours.', store=True),
+                'progress': fields.function(_progress, type='float', string='Progress (%)', store=True),
                 'state': fields.selection([('draft', 'New'), ('approved', 'Approved'),
                     ('open', 'In Progress'), ('cancelled', 'Cancelled'), ('done', 'Done'), ],
                     'Status', required=True),
@@ -348,12 +441,12 @@ class Sprint(osv.Model):
                 'partner_id': fields.many2one('res.users', string='User', size=128, required=True),
                 'task_ids': fields.one2many('project.task', 'sprint_id', string='Tasks'),
                 'date_start': fields.datetime('Start Date', required=True),
-                'date_end': fields.function(_date_end, type='datetime', string='End Date'),
+                'date_end': fields.function(_date_end, type='datetime', string='End Date', store=True),
                 'deadline': fields.date('Deadline', required=True),
-                'expected_hours': fields.function(_expected_hours, type='float', string='Initially Planned Hour(s)'),
-                'effective_hours': fields.function(_effective_hours, type='float', string='Spent Hour(s)'),
-                'remaining_hours': fields.function(_remaining_hours, type='float', string='Remaining Hour(s)'),
-                'progress': fields.function(_progress, type='float', string='Progress (%)'),
+                'expected_hours': fields.function(_expected_hours, type='float', string='Initially Planned Hour(s)', store=True),
+                'effective_hours': fields.function(_effective_hours, type='float', string='Spent Hour(s)', store=True),
+                'remaining_hours': fields.function(_remaining_hours, type='float', string='Remaining Hour(s)', store=True),
+                'progress': fields.function(_progress, type='float', string='Progress (%)', store=True),
                 'stage_id': fields.many2one('project.task.type', string='Stage', domain="[('fold', '=', False)]"),
                 'state': fields.related('stage_id', 'state', selection=STATES, type='selection', string='State', readonly=True),
                 'color': fields.integer('Color Index'),
@@ -481,6 +574,46 @@ class releaseBacklog(osv.Model):
     
     _name = 'ccorp.project.scrum.release.backlog'
     
+    def _date_end(self, cr, uid, ids, field_name, arg, context=None):
+        """Calculate the end date from sprints related to 
+        each backlog"""
+        res = {}
+        for id in ids:
+            features = self.browse(cr, uid, id, context=context).feature_ids
+            date_end = False
+            for feature in features:
+                if feature.date_end and feature.state not in ['draft','cancelled']:
+                    date = datetime.strptime(feature.date_end, '%Y-%m-%d %H:%M:%S')
+                    if not date_end:
+                        date_end = date
+                    else:
+                        if date_end < date:
+                            date_end = date
+            if date_end:
+                date_end = date_end.strftime('%Y-%m-%d %H:%M:%S')
+            res[id] = date_end
+        return res
+    
+    def _date_start(self, cr, uid, ids, field_name, arg, context=None):
+        """Calculate the start date from sprints related to 
+        each backlog"""
+        res = {}
+        for id in ids:
+            features = self.browse(cr, uid, id, context=context).feature_ids
+            date_start = False
+            for feature in features:
+                if feature.date_start and feature.state not in ['draft','cancelled']:
+                    date = datetime.strptime(feature.date_start, '%Y-%m-%d %H:%M:%S')
+                    if not date_start:
+                        date_start = date
+                    else:
+                        if date_start > date:
+                            date_start = date
+            if date_start:
+                date_start = date_start.strftime('%Y-%m-%d %H:%M:%S')
+            res[id] = date_start
+        return res
+    
     def _expected_hours(self, cr, uid, ids, field_name, arg, context=None):
         """Calculate the expected hours from sprints related to 
         each backlog"""
@@ -566,23 +699,23 @@ class releaseBacklog(osv.Model):
                 'project_id': fields.many2one('project.project', string='Project', required=True),
                 'feature_ids': fields.one2many('ccorp.project.scrum.feature', 'release_backlog_id',
                     string='Features'),
-                'date_start': fields.datetime( string='Start Date', readonly=True,
-                    help='Calculated Start Date, will be empty if any sprint has no start date.'),
-                'date_end': fields.datetime(string='End Date', readonly=True,
-                    help='Calculated End Date, will be empty if any sprint has no end date.'),
+                'date_start': fields.function(_date_start, type='datetime', string='Start Date',
+                    help='Calculated Start Date, will be empty if any sprint has no start date.', store=True),
+                'date_end': fields.function(_date_end, type='datetime', string='End Date',
+                    help='Calculated End Date, will be empty if any sprint has no end date.', store=True),
                 'deadline': fields.datetime( string='Deadline',
                     help='Calculated Deadline, will be empty if any sprint has no deadline.'),
                 'expected_hours': fields.function(_expected_hours, type='float',
                     string='Initially Planned Hour(s)', help='Total planned hours calculated '
-                    'from sprints.'),
+                    'from sprints.', store=True),
                 'effective_hours': fields.function(_effective_hours, type='float',
                     string='Spent Hour(s)', help='Total spent hours calculated '
-                    'from sprints.'),
+                    'from sprints.', store=True),
                 'remaining_hours': fields.function(_remaining_hours, type='float',
                     string='Remaining Hour(s)', help='Difference between planned '
-                    'hours and spent hours.'),
+                    'hours and spent hours.', store=True),
                 'progress': fields.function(_progress, type='float', string='Progress (%)',
-                    help='Total progress percentage calculated from sprints'),
+                    help='Total progress percentage calculated from sprints', store=True),
                 'stage_id': fields.many2one('project.task.type', string='Stage', domain="['&', ('fold', '=', False),"
                     " ('project_ids', '=', project_id)]"),
                 'state': fields.related('stage_id', 'state', type='selection', selection=STATES,
