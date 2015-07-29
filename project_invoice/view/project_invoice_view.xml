@@ -12,8 +12,6 @@
             <field name="priority" eval="100" />
             <field name="arch" type="xml">
                 <xpath expr="//form/header/field[@name='stage_id']" position="before">
-                    <button name="send_email" type="object" string="Ask for more time"
-                        class="oe_highlight" />
                     <button name="split_task" type="object" string="Split task"
                         class="oe_highlight" />
                 </xpath>
