@@ -119,6 +119,7 @@ msgid "The old value was:"
 msgstr "El antiguo valor era"
 
 #. module: hr_personnel_actions
+#: report:ir.actions.report.xml:hr_personnel_actions.personnel_action_report_id
 #: report:ir.actions.report.xml:hr_personnel_actions.user_personnel_action_report_id
 #: model:ir.actions.report.xml,name:hr_personnel_actions.personnel_action_report_id
 msgid "Personnel Actions Report"
