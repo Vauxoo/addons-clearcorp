@@ -84,7 +84,7 @@ msgstr "Plazo de pago:"
 #. module: purchase_order_report
 #: view:website:purchase_order_report.purchase_layout_header
 msgid "Purchase date:"
-msgstr "Fecha de compra:"
+msgstr "Fecha:"
 
 #. module: purchase_order_report
 #: view:website:purchase_order_report.purchase_layout_header
