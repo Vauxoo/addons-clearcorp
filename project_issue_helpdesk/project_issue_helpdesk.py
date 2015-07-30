@@ -452,6 +452,7 @@ class ProductCategory(orm.Model):
      _inherit = 'product.category'
      
      _columns = {
+         'department_ids':fields.many2many('hr.department',string='Department'),
          'supply_type':fields.selection([('equipment','Equipment'),('replacement','Replacement'),('supply','Supply'),
                                                ('input','Input'),('service','Service')],string="Supply Type")
          }
@@ -532,4 +533,37 @@ class SaleOrder(orm.Model):
     _columns = {
          'project_project_id':fields.many2one('project.project',string="Project")
               }
+class ResUsers(orm.Model):
+    _inherit = 'res.users'
+    def _get_user_from_employee(self, cr, uid, ids, name, arg, context=None):
+        """Computes the fields.function employee_id"""
+        result = {}
+        for user in self.read(cr, uid, ids, ['id', 'name'], context=context):
+            res_search = self.pool.get('hr.employee').search(cr, uid,
+                    [('user_id', '=', user['id'])], context=context)
+            if len(res_search) == 1:
+                result[user['id']] = res_search[0]
+            elif len(res_search) > 1:
+                list_employee_names = u''
+                for employee in self.pool.get('hr.employee').read(cr, uid, res_search, ['name'], context=context):
+                    list_employee_names += employee['name'] + u', '
+                raise osv.except_osv(_('Error :'), _("You have several employees (%s) pointing to the same user '%s'")% (list_employee_names, user['name']))
+            else:
+                result[user['id']] = False
+        return result
+    def _get_employee_from_user(self, cr, uid, ids, context=None):
+        users_of_updated_employees = []
+        for employee in self.read(cr, uid, ids, ['name', 'user_id'], context=context):
+            if employee['user_id']:
+                users_of_updated_employees.append(employee['user_id'][0])
+        res= self.pool.get('res.users').search(cr, uid, ['|', '|', ('employee_id', 'in', ids), ('employee_id', '=', False), ('id', 'in', users_of_updated_employees)], context=context)
+        return res
+    
+    _columns = {
+        'employee_id': fields.function(_get_user_from_employee, string='Employee',
+            type='many2one', relation='hr.employee', store={
+                'hr.employee': (_get_employee_from_user, ['user_id'], 10),
+            }, help="Related employee. This field is automatically computed from the 'User' field on the 'Employees' form in the Human Resources menu.")
+    }
+    
     
