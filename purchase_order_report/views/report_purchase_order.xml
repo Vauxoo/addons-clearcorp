@@ -26,7 +26,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <t t-if="supplier.ref"><span class="fa fa-check-square-o" style="width: 14px; text-align: center; margin-right: 3px" /><span t-field="customer.ref"/><br /></t>
+                                    <t t-if="supplier.ref"><span class="fa fa-check-square-o" style="width: 14px; text-align: center; margin-right: 3px" /><span t-field="supplier.ref"/><br /></t>
                                     <t t-if="contact"><span class="fa fa-user" style="width: 14px; text-align: center; margin-right: 3px" /><span t-field="contact.name"/><br /></t>
                                     <t t-if="o.partner_id.phone"><span class="fa fa-phone" style="width: 14px; text-align: center; margin-right: 3px" /><span t-field="o.partner_id.phone"/><br /></t>
                                     <t t-if="o.partner_id.email"><span class="fa fa-envelope-o" style="width: 14px; text-align: center; margin-right: 3px" /><span t-field="o.partner_id.email"/><br /></t>
