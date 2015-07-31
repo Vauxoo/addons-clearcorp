@@ -34,6 +34,7 @@
     "depends" : [
                  'ccorp_project_scrum',
                    'hr',
+                   'project_issue',
                  ],
     "data" : [
               'wizard/wizard_view.xml',
