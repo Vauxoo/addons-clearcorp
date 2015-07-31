@@ -42,6 +42,9 @@ Sale order report in Qweb
     "demo_xml" : [],
     "data" : [
                  'views/report_sale_order.xml',
+                 'views/report_sale_order_layout.xml',
+                 'views/report_sale_order_layout_header.xml',
+                 'views/report_sale_order_layout_footer.xml',
                  ],
     "test" : [],
     "auto_install": False,

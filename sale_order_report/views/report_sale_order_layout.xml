@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openerp>
+    <data>
+        <record id="sale_layout" model="ir.ui.view">
+            <field name="name">sale_layout</field>
+            <field name="type">qweb</field>
+            <field name="arch" type="xml">
+                <t t-name="sale_order_report.sale_layout">
+                    <link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css' />
+                    <style type="text/css">
+                        <![CDATA[
+                            body {
+                                font-family: 'Droid Sans', Arial, sans-serif;
+                            }
+                        ]]>
+                    </style>
+                    <!-- Multicompany -->
+                    <t t-if="o and 'company_id' in o">
+                        <t t-set="company" t-value="o.company_id"/>
+                    </t>
+                    <t t-if="not o or not 'company_id' in o">
+                        <t t-set="company" t-value="res_company"/>
+                    </t>
+
+                    <t t-call="sale_order_report.sale_layout_header"/>
+                    <t t-raw="0"/>
+                    <t t-call="sale_order_report.sale_layout_footer"/>
+                </t>
+            </field>
+        </record>
+    </data>
+</openerp>
