@@ -72,7 +72,7 @@
                     </page>
                 </xpath>
                 <xpath expr="/form/sheet[@string='Issue']/group/group[1]/div" position="after">
-                    <field name="categ_id" domain="[('supply_type','in',('equipment','service')),]" attrs="{'readonly':[('is_closed','=',True)]}" on_change="onchange_categ_id(categ_id)"/>
+                    <field name="categ_id" domain="[('supply_type','in',('equipment','service'))]" attrs="{'readonly':[('is_closed','=',True)]}" on_change="onchange_categ_id(categ_id)"/>
                 </xpath>
                 <field name="categ_id" position="after"> 
                     <field name="product_id" domain="[('categ_id','=',categ_id),('supply_type','in',('equipment','service'))]" on_change="onchange_product_id(product_id,partner_id,branch_id)"/> 
@@ -334,9 +334,10 @@
             <field name="name">view.product.category.form</field>
             <field name="model">product.category</field>
             <field name="inherit_id" ref="product.product_category_form_view"/>
-            <field name="arch" type="xml">        
+            <field name="arch" type="xml">
                 <field name="type"  position="after"> 
-                    <field name="supply_type"/>  
+                    <field name="supply_type"/>
+                    <field name="department_ids" attrs="{'invisible':[('supply_type','not in',('equipment','service'))],'required':[('supply_type','in',('equipment','service'))]}" widget="many2many_tags"/>
                 </field>
             </field>
         </record>

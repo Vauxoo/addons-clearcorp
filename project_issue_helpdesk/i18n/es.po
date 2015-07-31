@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-22 19:31+0000\n"
-"PO-Revision-Date: 2015-07-22 19:31+0000\n"
+"POT-Creation-Date: 2015-07-30 22:37+0000\n"
+"PO-Revision-Date: 2015-07-30 22:37+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -46,6 +46,7 @@ msgstr "Ordenes de Entrega"
 
 #. module: project_issue_helpdesk
 #: view:hr.analytic.timesheet:project_issue_helpdesk.hr_timesheet_line_search
+#: field:hr.analytic.timesheet,branch_id:0
 #: view:project.issue:project_issue_helpdesk.view_project_issue_filter
 #: field:project.issue,branch_id:0
 msgid "Branch"
@@ -93,9 +94,19 @@ msgid "Delivery Orders"
 msgstr "Ordenes de Entrega"
 
 #. module: project_issue_helpdesk
+#: field:product.category,department_ids:0
+msgid "Department"
+msgstr "Departamento"
+
+#. module: project_issue_helpdesk
 #: field:project.issue.origin,description:0
 msgid "Description"
 msgstr "Descripción"
+
+#. module: project_issue_helpdesk
+#: field:res.users,employee_id:0
+msgid "Employee"
+msgstr "Empleado"
 
 #. module: project_issue_helpdesk
 #: field:product.product,category_ids:0
@@ -113,6 +124,12 @@ msgstr "Hora Final"
 #: selection:product.template,supply_type:0
 msgid "Equipment"
 msgstr "Equipo"
+
+#. module: project_issue_helpdesk
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:550
+#, python-format
+msgid "Error :"
+msgstr "Error :"
 
 #. module: project_issue_helpdesk
 #: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:127
@@ -323,6 +340,11 @@ msgid "Purchase orde line"
 msgstr "Línea de orden de compra"
 
 #. module: project_issue_helpdesk
+#: help:res.users,employee_id:0
+msgid "Related employee. This field is automatically computed from the 'User' field on the 'Employees' form in the Human Resources menu."
+msgstr "Empleado relacionado.Este campo es calculado automaticamente desde el campo usuario en la ficha del empleado en el menu de recursos humanos."
+
+#. module: project_issue_helpdesk
 #: selection:project.issue,issue_type:0
 msgid "Remote Support"
 msgstr "Soporte Remoto"
@@ -464,6 +486,11 @@ msgid "True"
 msgstr "Verdadero"
 
 #. module: project_issue_helpdesk
+#: model:ir.model,name:project_issue_helpdesk.model_res_users
+msgid "Users"
+msgstr "Usuarios"
+
+#. module: project_issue_helpdesk
 #: field:project.issue,warranty:0
 msgid "Warranty"
 msgstr "Garantía"
@@ -472,6 +499,12 @@ msgstr "Garantía"
 #: selection:project.issue,issue_type:0
 msgid "Workshop Repair"
 msgstr "Reparación en taller"
+
+#. module: project_issue_helpdesk
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:550
+#, python-format
+msgid "You have several employees (%s) pointing to the same user '%s'"
+msgstr "Tiene varios empleados (%s) apuntando al mismo usuario '%s'"
 
 #. module: project_issue_helpdesk
 #: view:project.issue:project_issue_helpdesk.view_project_issue_sheet_form
