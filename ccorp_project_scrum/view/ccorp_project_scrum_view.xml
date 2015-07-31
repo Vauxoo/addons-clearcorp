@@ -126,7 +126,7 @@
                         <notebook>
                             <page string="Features" name="features">
                                 <field name="feature_ids" widget="many2many"
-                                    domain="[('release_backlog_id','=',False),('state','in',['approved','open'])]"
+                                    domain="[('release_backlog_id','=',False),('state','in',['approved','open']),('project_id','=',project_id)]"
                                     attrs="{'readonly':['|',('state','=', 'cancelled'),('state','=', 'done')]}"/>
                             </page>
                         </notebook>
@@ -271,12 +271,9 @@
             <field name="arch" type="xml">
                 <form string="Feature" version="7.0">
                     <header>
-                        <button name="set_approved" type="object"
-                            string="Approved" class="oe_highlight"
-                            states="draft" />
                         <button name="set_open" type="object"
                             string="Open" class="oe_highlight"
-                            states="approved,cancelled,done" />
+                            states="draft,cancelled,done" />
                         <button name="set_done" type="object"
                             string="Done" class="oe_highlight" states="open" />
                         <button name="set_cancel" type="object"
@@ -305,7 +302,8 @@
                         <group>
                             <group>
                                 <field name="project_id" />
-                                <field name="release_backlog_id" domain="[('project_id','=',project_id)]"/>
+                                <field name="release_backlog_id" domain="[('project_id','=',project_id)]"
+                                       attrs="{'readonly':[('state','=','open')]}"/>/>
                                 <field name="partner_id" />
                                 <field name="priority" />
                                 <field name="type_id" />
