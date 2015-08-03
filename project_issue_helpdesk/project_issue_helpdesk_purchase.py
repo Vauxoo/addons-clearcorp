@@ -50,7 +50,6 @@ class ProjectIssue(models.Model):
             if self.create_uid.employee_id:
                 self.department_id=self.create_uid.employee_id.department_id.id
                     
-
     purchase_orde_line=fields.One2many('purchase.order.line','issue_id')
     is_closed = fields.Boolean(string='Is Closed',related='stage_id.closed',store=True)
     department_id = fields.Many2one('hr.department',compute='get_department',store=True,string='Department')
