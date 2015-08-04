@@ -43,10 +43,17 @@ class PurchaseOrderLine(models.Model):
 
 class ProjectIssue(models.Model):
     _inherit = 'project.issue'
-
+    @api.depends('create_uid')
+    @api.one
+    def get_department(self):
+        if self.create_uid:
+            if self.create_uid.employee_id:
+                self.department_id=self.create_uid.employee_id.department_id.id
+                    
     purchase_orde_line=fields.One2many('purchase.order.line','issue_id')
     is_closed = fields.Boolean(string='Is Closed',related='stage_id.closed',store=True)
-    
+    department_id = fields.Many2one('hr.department',compute='get_department',store=True,string='Department')
+
 class HrAnaliticTimeSheet(models.Model):
     _inherit = 'hr.analytic.timesheet'
     @api.constrains('start_time','end_time','employee_id','date')
