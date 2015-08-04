@@ -32,24 +32,33 @@
                                     <t t-if="o.partner_id.email"><span class="fa fa-envelope-o" style="width: 14px; text-align: center; margin-right: 3px" /><span t-field="o.partner_id.email"/><br /></t>
                                 </div>
                                 <div class="col-xs-5">
-                                    <t t-if="o.location_id.partner_id">
+                                    <t t-if="(o.related_usage == 'customer') and (o.dest_address_id)">
+                                        <t t-set="dest_address" t-value="o.dest_address_id"/>
+                                    </t>
+                                    <t t-if="(o.related_usage != 'customer') and (o.location_id.partner_id)">
+                                        <t t-set="dest_address" t-value="o.location_id.partner_id"/>
+                                    </t>
+                                    <t t-if="(o.related_usage != 'customer') and (not o.location_id.partner_id)">
+                                        <t t-set="dest_address" t-value="o.company_id.partner_id"/>
+                                    </t>
+                                    <t t-if="dest_address">
                                         <b><span>Delivery address:</span></b><br />
-                                        <span class="fa fa-map-marker" style="width: 14px; text-align: center; margin-right: 3px" /><t t-if="o.location_id.partner_id.street"><span t-field="o.location_id.partner_id.street" /><br /></t>
-                                        <t t-if="o.location_id.partner_id.street2"><span style="margin-left: 17px" t-field="o.location_id.partner_id.street2" /><br /></t>
-                                        <t t-if="o.location_id.partner_id.zip or o.location_id.partner_id.city">
-                                            <t t-if="o.location_id.partner_id.zip">
-                                                <span style="margin-left: 17px" t-field="o.location_id.partner_id.zip" /> 
+                                        <span class="fa fa-map-marker" style="width: 14px; text-align: center; margin-right: 3px" /><t t-if="dest_address.street"><span t-field="dest_address.street" /><br /></t>
+                                        <t t-if="dest_address.street2"><span style="margin-left: 17px" t-field="dest_address.street2" /><br /></t>
+                                        <t t-if="dest_address.zip or dest_address.city">
+                                            <t t-if="dest_address.zip">
+                                                <span style="margin-left: 17px" t-field="dest_address.zip" /> 
                                             </t>
-                                            <t t-if="o.location_id.partner_id.city">
-                                                <span t-att-style="not o.location_id.partner_id.zip and 'margin-left: 17px;' or ''" t-field="o.location_id.partner_id.city" /> 
+                                            <t t-if="dest_address.city">
+                                                <span t-att-style="not dest_address.zip and 'margin-left: 17px;' or ''" t-field="dest_address.city" /> 
                                             </t><br />
                                         </t>
-                                        <t t-if="o.location_id.partner_id.state_id or o.location_id.partner_id.country_id">
-                                            <t t-if="o.location_id.partner_id.state_id">
-                                                <span style="margin-left: 17px" t-field="o.location_id.partner_id.state_id.name" /><t t-if="o.location_id.partner_id.country_id">, </t>
+                                        <t t-if="dest_address.state_id or dest_address.country_id">
+                                            <t t-if="dest_address.state_id">
+                                                <span style="margin-left: 17px" t-field="dest_address.state_id.name" /><t t-if="dest_address.country_id">, </t>
                                             </t>
-                                            <t t-if="o.location_id.partner_id.country_id">
-                                                <span t-att-style="not o.location_id.partner_id.state_id and 'margin-left: 17px;' or ''" t-field="o.location_id.partner_id.country_id.code" /> 
+                                            <t t-if="dest_address.country_id">
+                                                <span t-att-style="not dest_address.state_id and 'margin-left: 17px;' or ''" t-field="dest_address.country_id.code" /> 
                                             </t>
                                         </t>
                                     </t>
