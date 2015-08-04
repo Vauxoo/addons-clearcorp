@@ -18,7 +18,7 @@ msgstr ""
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Amount"
-msgstr "Importe"
+msgstr "Total"
 
 #. module: account_invoice_report
 #: view:website:account_invoice_report.invoice_layout_header
@@ -33,12 +33,12 @@ msgstr "Cliente:"
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Description"
-msgstr "Descripción"
+msgstr "Detalle"
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Description:"
-msgstr "Descripción:"
+msgstr "Detalle:"
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
@@ -88,7 +88,7 @@ msgstr "Pág:"
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Payment Term:"
-msgstr "Plazo de pago:"
+msgstr "Términos de pago:"
 
 #. module: account_invoice_report
 #: view:website:account_invoice_report.invoice_layout_header
