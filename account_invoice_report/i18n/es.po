@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-13 19:58+0000\n"
-"PO-Revision-Date: 2015-07-13 19:58+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2015-08-04 20:27+0000\n"
+"PO-Revision-Date: 2015-08-04 20:27+0000\n"
+"Last-Translator: Glen Sojo <glen.sojo@clearcorp.co.cr>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,17 +18,12 @@ msgstr ""
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Amount"
-msgstr "Total"
+msgstr "Importe"
 
 #. module: account_invoice_report
 #: view:website:account_invoice_report.invoice_layout_header
 msgid "Cancelled Invoice"
 msgstr "Factura Cancelada"
-
-#. module: account_invoice_report
-#: view:website:account.report_invoice_document
-msgid "Comment:"
-msgstr "Notas:"
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
@@ -38,12 +33,12 @@ msgstr "Cliente:"
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Description"
-msgstr "Detalle"
+msgstr "Descripción"
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Description:"
-msgstr "Detalle:"
+msgstr "Descripción:"
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
@@ -58,7 +53,7 @@ msgstr "Descuento ("
 #. module: account_invoice_report
 #: view:website:account_invoice_report.invoice_layout_header
 msgid "Draft Invoice"
-msgstr "Factura Borrador"
+msgstr "Factura borrador"
 
 #. module: account_invoice_report
 #: view:website:account_invoice_report.invoice_layout_header
@@ -93,7 +88,7 @@ msgstr "Pág:"
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Payment Term:"
-msgstr "Términos de pago:"
+msgstr "Plazo de pago:"
 
 #. module: account_invoice_report
 #: view:website:account_invoice_report.invoice_layout_header
@@ -126,6 +121,11 @@ msgid "Source:"
 msgstr "Doc. origen:"
 
 #. module: account_invoice_report
+#: view:website:account.report_invoice_document
+msgid "Subtotal"
+msgstr "Subtotal"
+
+#. module: account_invoice_report
 #: view:website:account_invoice_report.invoice_layout_header
 msgid "Supplier Invoice"
 msgstr "Factura de Proveedor"
@@ -143,17 +143,17 @@ msgstr "IV"
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Taxes"
-msgstr "Impuesto"
+msgstr "Impuestos"
+
+#. module: account_invoice_report
+#: view:website:account.report_invoice_document
+msgid "Terms & Conditions:"
+msgstr "Términos & Condiciones:"
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
 msgid "Total"
 msgstr "Total"
-
-#. module: account_invoice_report
-#: view:website:account.report_invoice_document
-msgid "Total Without Taxes"
-msgstr "Subtotal"
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
@@ -164,4 +164,3 @@ msgstr "Precio unit."
 #: view:website:account.report_invoice_document
 msgid "XMT"
 msgstr "Exe"
-

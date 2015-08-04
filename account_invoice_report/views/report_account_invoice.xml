@@ -94,7 +94,7 @@
                             <div class="row" style="margin: none;">
                                 <div class="col-xs-8" style="vertical-align: top; page-break-inside:auto;padding-right: 30px">
                                     <p t-if="o.comment" style="padding: 15px 25px 15px 25px; background-color: #EEEEEE; margin-top: 16px; page-break-inside:avoid">
-                                        <strong>Comment:</strong>
+                                        <strong>Terms &amp; Conditions:</strong>
                                         <span t-field="o.comment"/>
                                     </p>
                                     <p t-if="o.payment_term.note" style="padding: 15px 25px 15px 25px; background-color: #EEEEEE; margin-top: 16px; page-break-inside:avoid">
@@ -110,7 +110,7 @@
                                     <table class="table table-condensed mt0" style="width: auto; float: right; page-break-inside:avoid">
                                         <tr class="border-black text-right" style="white-space: nowrap">
                                             <td t-att-colspan="(o.amount_discounted != 0.0) and '5' or '4'" style="padding-left: 24px; padding-right: 15px">
-                                                <b>Total Without Taxes</b>
+                                                <b>Subtotal</b>
                                             </td>
                                             <td>
                                                 <b><span t-field="o.amount_untaxed_not_discounted" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/></b>
