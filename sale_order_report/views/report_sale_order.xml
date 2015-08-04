@@ -97,8 +97,8 @@
                                 <div class="col-xs-4">
                                     <t t-if="o.client_order_ref"><b>Reference: </b><span t-field="o.client_order_ref"/><br /></t>
                                     <t t-if="o.origin"><b>Source: </b><span t-field="o.origin"/><br /></t>
-                                    <t t-if="o.origin"><b>Incoterm: </b><span t-field="o.incoterm"/><br /></t>
-                                    <t t-if="o.origin"><b>Contract: </b><span t-field="o.project_id.name"/><br /></t>
+                                    <t t-if="'incoterm' in o._columns and o.incoterm"><b>Incoterm: </b><span t-field="o.incoterm"/><br/></t>
+                                    <t t-if="o.project_id"><b>Contract: </b><span t-field="o.project_id.name"/><br /></t>
                                 </div>
                             </div>
     
