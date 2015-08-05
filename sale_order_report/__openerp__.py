@@ -22,28 +22,33 @@
 
 
 {
-    "name" : 'Sale Order report',
-    "version" : '2.0',
-    "author" : 'ClearCorp',
+    "name": 'Sale Order report',
+    "version": '2.0',
+    "author": 'ClearCorp',
     'complexity': 'normal',
     "description": """
 Sale order report in Qweb
     """,
     "category": 'Sales',
     "sequence": 4,
-    "website" : "http://clearcorp.co.cr",
-    "images" : [],
-    "depends" : [
+    "website": "http://clearcorp.co.cr",
+    "images": [],
+    "depends": [
         'sale_order_discount',
         'sale_order_extended',
         'account_report_lib',
         ],
-    "init_xml" : [],
-    "demo_xml" : [],
-    "data" : [
-                 'views/report_sale_order.xml',
-                 ],
-    "test" : [],
+    "init_xml": [],
+    "demo_xml": [],
+    "data": [
+                'data/report.paperformat.xml',
+                'data/sale_report.xml',
+                'views/report_sale_order.xml',
+                'views/report_sale_order_layout.xml',
+                'views/report_sale_order_layout_header.xml',
+                'views/report_sale_order_layout_footer.xml',
+                ],
+    "test": [],
     "auto_install": False,
     "application": False,
     "installable": True,

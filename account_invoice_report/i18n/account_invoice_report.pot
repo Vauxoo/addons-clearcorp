@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-13 19:58+0000\n"
-"PO-Revision-Date: 2015-07-13 19:58+0000\n"
+"POT-Creation-Date: 2015-08-04 20:27+0000\n"
+"PO-Revision-Date: 2015-08-04 20:27+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -23,11 +23,6 @@ msgstr ""
 #. module: account_invoice_report
 #: view:website:account_invoice_report.invoice_layout_header
 msgid "Cancelled Invoice"
-msgstr ""
-
-#. module: account_invoice_report
-#: view:website:account.report_invoice_document
-msgid "Comment:"
 msgstr ""
 
 #. module: account_invoice_report
@@ -126,6 +121,11 @@ msgid "Source:"
 msgstr ""
 
 #. module: account_invoice_report
+#: view:website:account.report_invoice_document
+msgid "Subtotal"
+msgstr ""
+
+#. module: account_invoice_report
 #: view:website:account_invoice_report.invoice_layout_header
 msgid "Supplier Invoice"
 msgstr ""
@@ -147,12 +147,12 @@ msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
-msgid "Total"
+msgid "Terms & Conditions:"
 msgstr ""
 
 #. module: account_invoice_report
 #: view:website:account.report_invoice_document
-msgid "Total Without Taxes"
+msgid "Total"
 msgstr ""
 
 #. module: account_invoice_report
@@ -164,4 +164,3 @@ msgstr ""
 #: view:website:account.report_invoice_document
 msgid "XMT"
 msgstr ""
-

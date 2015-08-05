@@ -214,6 +214,9 @@
                 <xpath expr="/search/filter[@string='Company']" position="after"> 
                     <filter string="Branch" domain="[('branch_id.partner_type','=','branch')]" help="Branch" icon="terp-check"/>
                 </xpath>
+                <xpath expr="/search/group/filter[@string='Priority']" position="before"> 
+                    <filter string="Department" context="{'group_by':'department_id'}"/>
+                </xpath>
                 <xpath expr="/search/group/filter[@string='Stage']" position="after"> 
                     <filter string="Company" context="{'group_by':'partner_id'}"/>
                 </xpath>
