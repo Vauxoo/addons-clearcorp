@@ -132,6 +132,7 @@ class ProjectIssue(osv.Model):
     
     def write(self, cr, uid, ids, vals, context=None):
          employee_obj=self.pool.get('hr.employee')
+         type_obj=self.pool.get('project.task.type')
          if 'employee_id' in vals:
             if vals.get('employee_id'):
                 employee=employee_obj.browse(cr,uid, vals.get('employee_id'),context=context)[0]
@@ -141,6 +142,12 @@ class ProjectIssue(osv.Model):
                     raise osv.except_osv(_('Error!'), _('The employee asigned no have a user in the system'))
             else:
                 vals['user_id'] = False
+         if 'stage_id' in vals:
+             if vals.get('stage_id'):
+                 type=type_obj.browse(cr,uid, vals.get('stage_id'),context=context)[0]
+                 issue=self.browse(cr,uid,ids,context)
+                 if type.closed==False and issue.stage_id.closed==True:
+                     raise osv.except_osv(_('Error!'), _('The issue is closed, can not change the state'))
          res = super(ProjectIssue, self).write(cr, uid, ids, vals, context=context)
          return res
      
@@ -307,7 +314,7 @@ class HrAnaliticTimeSheet(osv.Model):
                 'end_time': fields.float(string="End Time"),
                 'service_type': fields.selection([('expert','Expert'),('assistant','Assistant')],string="Service Type"),
                 'employee_id': fields.many2one('hr.employee', 'Technical Staff'),
-                'amount_unit_calculate': fields.function(get_duration, method=True, type='float',string='Amount Unit'),
+                'amount_unit_calculate': fields.function(get_duration, method=True, store=True,type='float',string='Amount Unit'),
                 'task_id': fields.many2one('project.task', 'Task Assigned'),
                 'project_id':fields.related('task_id','project_id',type='many2one',relation='project.project',string='Project',readonly=True, store=True),
                 }
@@ -445,6 +452,7 @@ class ProductCategory(orm.Model):
      _inherit = 'product.category'
      
      _columns = {
+         'department_ids':fields.many2many('hr.department',string='Department'),
          'supply_type':fields.selection([('equipment','Equipment'),('replacement','Replacement'),('supply','Supply'),
                                                ('input','Input'),('service','Service')],string="Supply Type")
          }
@@ -525,4 +533,37 @@ class SaleOrder(orm.Model):
     _columns = {
          'project_project_id':fields.many2one('project.project',string="Project")
               }
+class ResUsers(orm.Model):
+    _inherit = 'res.users'
+    def _get_user_from_employee(self, cr, uid, ids, name, arg, context=None):
+        """Computes the fields.function employee_id"""
+        result = {}
+        for user in self.read(cr, uid, ids, ['id', 'name'], context=context):
+            res_search = self.pool.get('hr.employee').search(cr, uid,
+                    [('user_id', '=', user['id'])], context=context)
+            if len(res_search) == 1:
+                result[user['id']] = res_search[0]
+            elif len(res_search) > 1:
+                list_employee_names = u''
+                for employee in self.pool.get('hr.employee').read(cr, uid, res_search, ['name'], context=context):
+                    list_employee_names += employee['name'] + u', '
+                raise osv.except_osv(_('Error :'), _("You have several employees (%s) pointing to the same user '%s'")% (list_employee_names, user['name']))
+            else:
+                result[user['id']] = False
+        return result
+    def _get_employee_from_user(self, cr, uid, ids, context=None):
+        users_of_updated_employees = []
+        for employee in self.read(cr, uid, ids, ['name', 'user_id'], context=context):
+            if employee['user_id']:
+                users_of_updated_employees.append(employee['user_id'][0])
+        res= self.pool.get('res.users').search(cr, uid, ['|', '|', ('employee_id', 'in', ids), ('employee_id', '=', False), ('id', 'in', users_of_updated_employees)], context=context)
+        return res
+    
+    _columns = {
+        'employee_id': fields.function(_get_user_from_employee, string='Employee',
+            type='many2one', relation='hr.employee', store={
+                'hr.employee': (_get_employee_from_user, ['user_id'], 10),
+            }, help="Related employee. This field is automatically computed from the 'User' field on the 'Employees' form in the Human Resources menu.")
+    }
+    
     

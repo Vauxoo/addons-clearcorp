@@ -18,7 +18,7 @@ msgstr ""
 #. module: sale_order_report
 #: view:website:sale.report_saleorder_document
 msgid "Amount"
-msgstr "Importe"
+msgstr "Total"
 
 #. module: sale_order_report
 #: view:website:sale.report_saleorder_document
@@ -153,5 +153,5 @@ msgstr "Válido hasta:"
 #. module: sale_order_report
 #: view:website:sale.report_saleorder_document
 msgid "XMT"
-msgstr "XMT"
+msgstr "Exe"
 

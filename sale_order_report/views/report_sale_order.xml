@@ -97,8 +97,8 @@
                                 <div class="col-xs-4">
                                     <t t-if="o.client_order_ref"><b>Reference: </b><span t-field="o.client_order_ref"/><br /></t>
                                     <t t-if="o.origin"><b>Source: </b><span t-field="o.origin"/><br /></t>
-                                    <t t-if="o.origin"><b>Incoterm: </b><span t-field="o.incoterm"/><br /></t>
-                                    <t t-if="o.origin"><b>Contract: </b><span t-field="o.project_id.name"/><br /></t>
+                                    <t t-if="'incoterm' in o._columns and o.incoterm"><b>Incoterm: </b><span t-field="o.incoterm"/><br/></t>
+                                    <t t-if="o.project_id"><b>Contract: </b><span t-field="o.project_id.name"/><br /></t>
                                 </div>
                             </div>
     
@@ -173,13 +173,6 @@
                                                 <span t-field="o.amount_discounted" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
                                             </td>
                                         </tr>
-                                        <!-- <t t-if="o.amount_tax != 0.0">
-                                            <tr class="text-right" style="white-space: nowrap; border: none">
-                                                <td t-att-colspan="(o.amount_discounted != 0.0) and '5' or '4'" style="padding-left: 24px; padding-right: 15px">
-                                                    <span t-field="o.amount_tax" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
-                                                </td>
-                                            </tr>
-                                        </t> -->
                                         <t t-if="o.amount_tax == 0.0">
                                             <tr class="text-right" style="white-space: nowrap; border: none">
                                                 <td t-att-colspan="(o.amount_discounted != 0.0) and '5' or '4'" style="padding-left: 24px; padding-right: 15px">

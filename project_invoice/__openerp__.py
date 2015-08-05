@@ -35,7 +35,7 @@
     'data': ['wizard/wizard_view.xml','view/project_invoice_view.xml'], 
     'test' : [],
     'demo': [],
-    'installable': True,    
+    'installable': True,
     'auto_install': False,
     'application': False,
     'license': 'AGPL-3',

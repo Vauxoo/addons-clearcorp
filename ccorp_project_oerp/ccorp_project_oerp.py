@@ -21,6 +21,7 @@
 ##############################################################################
 
 from openerp.osv import fields, osv
+from openerp.tools.translate import _
 
 PRIORITY = {
             5: '4',
@@ -127,8 +128,8 @@ class FeatureHours(osv.Model):
     
     def _remaining_hours(self, cr , uid, ids, field_name, arg, context=None):
         res = {}
-        for hour in self.browse(cr, uid, ids, context=context):
-            res[hour.id] = hour.expected_hours - hour.effective_hours
+        for task in self.browse(cr, uid, ids, context=context):
+            res[task.id] = task.expected_hours - task.effective_hours
         return res
 
 
@@ -138,8 +139,8 @@ class FeatureHours(osv.Model):
                     ondelete='cascade'),
                 'work_type_id': fields.many2one('ccorp.project.oerp.work.type', string='Work Type'),
                 'expected_hours': fields.float('Planned Hour(s)', required=True),
-                'effective_hours': fields.function(_effective_hours, type='float', string='Spent Hour(s)'),
-                'remaining_hours': fields.function(_remaining_hours, type='float', string='Remaining Hour(s)'),
+                'effective_hours': fields.function(_effective_hours, type='float', string='Spent Hour(s)', store=True),
+                'remaining_hours': fields.function(_remaining_hours, type='float', string='Remaining Hour(s)', store=True),
                 }
     
     _defaults = {
@@ -231,11 +232,29 @@ class Task(osv.Model):
     def onchange_sprint(self, cr, uid, ids, sprint_id, context=None):
        res = {}
        return res
- 
+
+    def _remaining_hours(self, cr , uid, ids, field_name, arg, context=None):
+        res = {}
+        effective_hours=0
+        for task in self.browse(cr, uid, ids, context=context):
+            for work in task.work_ids:
+                effective_hours = effective_hours + work.hours
+            remaining = task.planned_hours - effective_hours + task.reassignment_hour
+            if remaining < 0:
+                raise osv.except_osv(
+                _('Error'),
+                _('Your time ivested in this task has exeded the planed time frame'))
+            else:
+                res[task.id] = remaining
+        return res
+
     _columns = {
                 'feature_hour_ids': fields.related('feature_id', 'hour_ids', type='one2many',
                     relation='ccorp.project.oerp.feature.hours', string='Feature Hours', readonly=True),
                 'task_hour_ids': fields.one2many('ccorp.project.oerp.task.hour', 'task_id', string='Task Hours'),
+                'kind_task_id':fields.many2one('ccorp.project.oerp.work.type','Type of task',required=True),
+                'reassignment_hour': fields.float('Reassignment Hour', readonly=True),
+                'remaining_hours': fields.function(_remaining_hours, type='float', string='Remaining Hour(s)', store=True),
                 }
 
     def create(self, cr, uid, values, context=None):
@@ -276,27 +295,6 @@ class Task(osv.Model):
             super(Task, self).write(cr, uid, task.id, values, context)
         return True
 
-class TaskWork(osv.Model):
-
-    _inherit = 'project.task.work'
-
-    def _check_work_type(self, cr , uid, ids, context=None):
-        works = self.browse(cr, uid, ids, context=context)
-        for work in works:
-            if work.work_type_id:
-                if work.task_id.feature_id:
-                    feature = work.task_id.feature_id
-                    flag = True
-                    for hour in feature.hour_ids:
-                        if hour.work_type_id == work.work_type_id:
-                            flag = False
-                    if flag:
-                        return False
-        return True
-
-    _columns = {
-                'work_type_id': fields.many2one('ccorp.project.oerp.work.type', string='Work Type'),
-                }
-
-    _constraints = [(_check_work_type, 'The selected Work Type has not been '
-                     'planned in the selected Feature.', ['Work Type'])]
+    _defaults = {
+        'state': 'draft',
+        }

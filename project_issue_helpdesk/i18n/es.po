@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-07 21:10+0000\n"
-"PO-Revision-Date: 2015-07-07 21:10+0000\n"
+"POT-Creation-Date: 2015-08-03 22:26+0000\n"
+"PO-Revision-Date: 2015-08-03 22:26+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -22,9 +22,9 @@ msgid "<p class=\"oe_view_nocontent_create\">Create new issue origin</p>\n"
 msgstr "Crear un nuevo medio"
 
 #. module: project_issue_helpdesk
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk_purchase.py:63
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk_purchase.py:65
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk_purchase.py:67
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk_purchase.py:71
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk_purchase.py:73
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk_purchase.py:75
 #, python-format
 msgid "Already exist worklogs register with this range of dates. Ticket Number #%s"
 msgstr "Ya existen registros de trabajo con estos mismos rangos de fecha. Número de boleta #%s"
@@ -46,6 +46,7 @@ msgstr "Ordenes de Entrega"
 
 #. module: project_issue_helpdesk
 #: view:hr.analytic.timesheet:project_issue_helpdesk.hr_timesheet_line_search
+#: field:hr.analytic.timesheet,branch_id:0
 #: view:project.issue:project_issue_helpdesk.view_project_issue_filter
 #: field:project.issue,branch_id:0
 msgid "Branch"
@@ -93,9 +94,21 @@ msgid "Delivery Orders"
 msgstr "Ordenes de Entrega"
 
 #. module: project_issue_helpdesk
+#: field:product.category,department_ids:0
+#: view:project.issue:project_issue_helpdesk.view_project_issue_filter
+#: field:project.issue,department_id:0
+msgid "Department"
+msgstr "Departamento"
+
+#. module: project_issue_helpdesk
 #: field:project.issue.origin,description:0
 msgid "Description"
 msgstr "Descripción"
+
+#. module: project_issue_helpdesk
+#: field:res.users,employee_id:0
+msgid "Employee"
+msgstr "Empleado"
 
 #. module: project_issue_helpdesk
 #: field:product.product,category_ids:0
@@ -115,10 +128,17 @@ msgid "Equipment"
 msgstr "Equipo"
 
 #. module: project_issue_helpdesk
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:550
+#, python-format
+msgid "Error :"
+msgstr "Error :"
+
+#. module: project_issue_helpdesk
 #: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:127
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:141
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:222
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:233
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:142
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:150
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:229
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:240
 #, python-format
 msgid "Error!"
 msgstr "Error!"
@@ -282,7 +302,7 @@ msgstr "Revisión Preventiva"
 #: view:project.issue:project_issue_helpdesk.view_project_issue_filter
 #: field:project.issue,product_id:0
 msgid "Product"
-msgstr "Producto/Servicio"
+msgstr "Producto"
 
 #. module: project_issue_helpdesk
 #: model:ir.model,name:project_issue_helpdesk.model_product_category
@@ -322,6 +342,11 @@ msgid "Purchase orde line"
 msgstr "Línea de orden de compra"
 
 #. module: project_issue_helpdesk
+#: help:res.users,employee_id:0
+msgid "Related employee. This field is automatically computed from the 'User' field on the 'Employees' form in the Human Resources menu."
+msgstr "Empleado relacionado.Este campo es calculado automaticamente desde el campo usuario en la ficha del empleado en el menu de recursos humanos."
+
+#. module: project_issue_helpdesk
 #: selection:project.issue,issue_type:0
 msgid "Remote Support"
 msgstr "Soporte Remoto"
@@ -345,7 +370,7 @@ msgstr "Reportado por"
 #. module: project_issue_helpdesk
 #: model:ir.model,name:project_issue_helpdesk.model_sale_order
 msgid "Sales Order"
-msgstr "Pedido de venta"
+msgstr "Ordenes de Venta"
 
 #. module: project_issue_helpdesk
 #: selection:project.issue,warranty:0
@@ -423,12 +448,18 @@ msgstr "Técnico Asignado"
 
 #. module: project_issue_helpdesk
 #: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:127
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:141
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:222
-#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:233
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:142
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:229
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:240
 #, python-format
 msgid "The employee asigned no have a user in the system"
 msgstr "Debe asignar un usuario al empleado seleccionado"
+
+#. module: project_issue_helpdesk
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:150
+#, python-format
+msgid "The issue is closed, can not change the state"
+msgstr "La incidencia está cerrada, no es posible cambiar el estado actual"
 
 #. module: project_issue_helpdesk
 #: model:ir.model,name:project_issue_helpdesk.model_stock_picking_type
@@ -454,7 +485,12 @@ msgstr "Calendario Linea"
 #: view:hr.analytic.timesheet:project_issue_helpdesk.timesheet_line_tree_view
 #: view:project.issue:project_issue_helpdesk.view_project_issue_sheet_form
 msgid "True"
-msgstr "True"
+msgstr "Verdadero"
+
+#. module: project_issue_helpdesk
+#: model:ir.model,name:project_issue_helpdesk.model_res_users
+msgid "Users"
+msgstr "Usuarios"
 
 #. module: project_issue_helpdesk
 #: field:project.issue,warranty:0
@@ -465,6 +501,12 @@ msgstr "Garantía"
 #: selection:project.issue,issue_type:0
 msgid "Workshop Repair"
 msgstr "Reparación en taller"
+
+#. module: project_issue_helpdesk
+#: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:550
+#, python-format
+msgid "You have several employees (%s) pointing to the same user '%s'"
+msgstr "Tiene varios empleados (%s) apuntando al mismo usuario '%s'"
 
 #. module: project_issue_helpdesk
 #: view:project.issue:project_issue_helpdesk.view_project_issue_sheet_form
@@ -485,6 +527,11 @@ msgstr "[('id','in',init_onchange_call[0][2]),('type','not in',['view','template
 #: view:hr.analytic.timesheet:project_issue_helpdesk.timesheet_line_tree_view
 msgid "[('id','in',init_onchange_factor[0][2])]"
 msgstr "[('id','in',init_onchange_factor[0][2])]"
+
+#. module: project_issue_helpdesk
+#: view:project.issue:project_issue_helpdesk.view_project_issue_form
+msgid "[('partner_id', '=', partner_id),('type', '!=', 'view'),('use_issues', '=', True),('state', 'not in',('cancelled','close'))]"
+msgstr "[('partner_id', '=', partner_id),('type', '!=', 'view'),('use_issues', '=', True),('state', 'not in',('cancelled','close'))]"
 
 #. module: project_issue_helpdesk
 #: view:project.issue:project_issue_helpdesk.view_project_issue_form
@@ -533,6 +580,11 @@ msgstr "{'readonly':[('is_closed', '=', True)]}"
 #: view:purchase.order:project_issue_helpdesk.view_purchase_order_form
 msgid "{'required': [('issue_id', '!=', False)]}"
 msgstr "{'required': [('issue_id', '!=', False)]}"
+
+#. module: project_issue_helpdesk
+#: view:project.issue:project_issue_helpdesk.view_project_issue_form
+msgid "{'required':True,'readonly':['|',('partner_id', '=', False),('is_closed', '=', True)]}"
+msgstr "{'required':True,'readonly':['|',('partner_id', '=', False),('is_closed', '=', True)]}"
 
 #. module: project_issue_helpdesk
 #: view:project.issue:project_issue_helpdesk.view_project_issue_form

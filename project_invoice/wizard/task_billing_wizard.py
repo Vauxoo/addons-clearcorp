@@ -5,9 +5,7 @@ class TaskBillingWizard(models.TransientModel):
     _name = 'task.billing.wizard'
 
     journal_id = fields.Many2one('account.journal', string="Journal: ")
-    group= fields.Boolean("Group by customer")
     invoice_date = fields.Date('Invoice Date')
-    #account_id = fields.Many2one('account.account', string="Account: ")
     
     @api.multi
     def view_init(self,fields_list):
@@ -34,11 +32,8 @@ class TaskBillingWizard(models.TransientModel):
     def create_bill_tasks(self):
         task_pool = self.env['project.task']
         active_ids = self._context.get('active_ids', [])
-        if self.group:
-            res = task_pool.action_invoice_create(active_ids, self.journal_id.id, self.group, self.invoice_date)
-        else:
-            data = self.group_by_project(active_ids)
-            res = task_pool.action_invoice_create(data, self.journal_id.id, self.group, self.invoice_date)
+        data = self.group_by_project(active_ids)
+        res = task_pool.action_invoice_create(data, self.journal_id.id, self.invoice_date)
         return res
         
 

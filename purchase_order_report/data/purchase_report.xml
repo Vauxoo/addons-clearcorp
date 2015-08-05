@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+        <record id="purchase.action_report_purchase_order" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paperformat_purchaseorder" />
+        </record>
+    </data>
+</openerp>

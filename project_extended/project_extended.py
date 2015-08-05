@@ -23,7 +23,7 @@ from openerp.osv import osv, fields
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
 
-_TASK_STATE = [('draft', 'New'), ('open', 'In Progress'), ('pending', 'Pending'), ('done', 'Done'), ('cancelled', 'Cancelled')]
+_TASK_STATE = [('draft', 'New'), ('open', 'In Progress'), ('pending', 'Pending'), ('ready', 'Ready'), ('done', 'Done'), ('cancelled', 'Cancelled')]
 
 class project_task_type(osv.Model):
     
