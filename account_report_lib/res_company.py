@@ -20,16 +20,13 @@
 #
 ##############################################################################
 
-from openerp import models, fields,api, _
-from datetime import datetime
-from openerp.exceptions import Warning
-import openerp.addons.decimal_precision as dp
-from openerp import tools
+from openerp import models, fields
 
-class Rescompany(models.Model):
+class Company(models.Model):
 
     _inherit = 'res.company'
 
     number_trade = fields.Char('Number of Trade', size=128)
     number_trade_date = fields.Date('Number of Trade Date:')
     logo_report = fields.Binary('Report Logo', help="Upload a high definition logo to print on reports.")
+    logo_report_wide = fields.Boolean('Wide Report Logo', help="Check this if your logo has a wide aspect relation.")

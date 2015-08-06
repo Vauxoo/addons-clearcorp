@@ -53,8 +53,8 @@ class ProjectReportReport(report_sxw.rml_parse):
             task_works = task_work_obj.browse(self.cr, self.uid, task_works)
             total_hours = 0.00
             for work in task_works:
-                work.hours = round(work.hours, 2)
-                total_hours += work.hours
+                work_hours = round(work.hours, 2)
+                total_hours += work_hours
             result.append((task,task_works,total_hours))
         return result
 
@@ -70,12 +70,12 @@ class ProjectReportReport(report_sxw.rml_parse):
         for work in task_works:
             if work.user_id.id in user_hours:
                 user_hours[work.user_id.id] = (work.user_id, user_hours[work.user_id.id][1] + work.hours)
-                work.hours = round(work.hours, 2)
-                total_hours += work.hours
+                work_hours = round(work.hours, 2)
+                total_hours += work_hours
             else:
                 user_hours[work.user_id.id] = (work.user_id, work.hours)
-                work.hours = round(work.hours, 2)
-                total_hours += work.hours
+                work_hours = round(work.hours, 2)
+                total_hours += work_hours
         user_hours['total'] = total_hours
         return user_hours
 

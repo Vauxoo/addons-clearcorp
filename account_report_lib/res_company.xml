@@ -14,7 +14,8 @@
                        <field name="number_trade_date"/>
                    </field>
                     <xpath expr="//page[@string='Report Configuration']/group[@string='Configuration']" position="inside">
-                        <field name="logo_report" widget="image" />
+                        <field name="logo_report" widget="image" class="oe_avatar" />
+                        <field name="logo_report_wide" />
                     </xpath>
                 </data>
             </field>
