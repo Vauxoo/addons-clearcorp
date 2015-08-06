@@ -1,0 +1,84 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* sale_order_terms_and_conds
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-06 15:26+0000\n"
+"PO-Revision-Date: 2015-08-06 15:26+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sale_order_terms_and_conds
+#: field:sale.order.termsandconditions,create_uid:0
+msgid "Created by"
+msgstr ""
+
+#. module: sale_order_terms_and_conds
+#: field:sale.order.termsandconditions,create_date:0
+msgid "Created on"
+msgstr ""
+
+#. module: sale_order_terms_and_conds
+#: field:sale.order.termsandconditions,id:0
+msgid "ID"
+msgstr ""
+
+#. module: sale_order_terms_and_conds
+#: field:sale.order.termsandconditions,write_uid:0
+msgid "Last Updated by"
+msgstr ""
+
+#. module: sale_order_terms_and_conds
+#: field:sale.order.termsandconditions,write_date:0
+msgid "Last Updated on"
+msgstr ""
+
+#. module: sale_order_terms_and_conds
+#: field:sale.order.termsandconditions,name:0
+msgid "Name"
+msgstr ""
+
+#. module: sale_order_terms_and_conds
+#: model:ir.model,name:sale_order_terms_and_conds.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: sale_order_terms_and_conds
+#: field:sale.order,terms_id:0
+msgid "Template"
+msgstr ""
+
+#. module: sale_order_terms_and_conds
+#: view:sale.order.termsandconditions:sale_order_terms_and_conds.view_sale_order_termsandconditions_form
+msgid "Template Terms and Conditions"
+msgstr ""
+
+#. module: sale_order_terms_and_conds
+#: field:sale.order.termsandconditions,html_template:0
+msgid "Template html"
+msgstr ""
+
+#. module: sale_order_terms_and_conds
+#: model:ir.model,name:sale_order_terms_and_conds.model_sale_order_termsandconditions
+#: view:sale.order.termsandconditions:sale_order_terms_and_conds.view_sale_order_termsandconditions_tree
+msgid "Templates"
+msgstr ""
+
+#. module: sale_order_terms_and_conds
+#: model:ir.ui.menu,name:sale_order_terms_and_conds.menu_terms_and_conditions
+msgid "Terms & Conditions"
+msgstr ""
+
+#. module: sale_order_terms_and_conds
+#: model:ir.actions.act_window,name:sale_order_terms_and_conds.action_terms_and_conditions
+#: view:sale.order:sale_order_terms_and_conds.view_order_form
+msgid "Terms and Conditions"
+msgstr ""
+
