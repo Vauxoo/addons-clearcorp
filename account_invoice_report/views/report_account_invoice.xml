@@ -27,24 +27,27 @@
                                     <t t-if="o.partner_id.email"><span class="fa fa-envelope-o" style="width: 14px; text-align: center; margin-right: 3px" /><span t-field="o.partner_id.email"/><br /></t>
                                 </div>
                                 <div class="col-xs-5">
-                                    <span class="fa fa-map-marker" style="width: 14px; text-align: center; margin-right: 3px" /><t t-if="o.partner_id.street"><span t-field="o.partner_id.street" /><br /></t>
-                                    <t t-if="o.partner_id.street2"><span style="margin-left: 17px" t-field="o.partner_id.street2" /><br /></t>
-                                    <t t-if="o.partner_id.zip or o.partner_id.city">
-                                        <t t-if="o.partner_id.zip">
-                                            <span style="margin-left: 17px" t-field="o.partner_id.zip" /> 
-                                        </t>
-                                        <t t-if="o.partner_id.city">
-                                            <span t-att-style="not o.partner_id.zip and 'margin-left: 17px;' or ''" t-field="o.partner_id.city" /> 
-                                        </t><br />
-                                    </t>
-                                    <t t-if="o.partner_id.state_id or o.partner_id.country_id">
-                                        <t t-if="o.partner_id.state_id">
-                                            <span style="margin-left: 17px" t-field="o.partner_id.state_id.name" /><t t-if="o.partner_id.country_id">, </t>
-                                        </t>
-                                        <t t-if="o.partner_id.country_id">
-                                            <span t-att-style="not o.partner_id.state_id and 'margin-left: 17px;' or ''" t-field="o.partner_id.country_id.code" /> 
-                                        </t>
-                                    </t>
+                                    <t t-if="o.partner_id.street or o.partner_id.street2 or o.partner_id.zip or o.partner_id.city or o.partner_id.state_id or o.partner_id.country_id">
+                                        <span class="fa fa-map-marker" style="width: 14px; text-align: center; margin-right: 3px" />
+	                                    <t t-if="o.partner_id.street"><span t-field="o.partner_id.street" /><br /></t>
+	                                    <t t-if="o.partner_id.street2"><span style="margin-left: 17px" t-field="o.partner_id.street2" /><br /></t>
+	                                    <t t-if="o.partner_id.zip or o.partner_id.city">
+	                                        <t t-if="o.partner_id.zip">
+	                                            <span style="margin-left: 17px" t-field="o.partner_id.zip" /> 
+	                                        </t>
+	                                        <t t-if="o.partner_id.city">
+	                                            <span t-att-style="not o.partner_id.zip and 'margin-left: 17px;' or ''" t-field="o.partner_id.city" /> 
+	                                        </t><br />
+	                                    </t>
+	                                    <t t-if="o.partner_id.state_id or o.partner_id.country_id">
+	                                        <t t-if="o.partner_id.state_id">
+	                                            <span style="margin-left: 17px" t-field="o.partner_id.state_id.name" /><t t-if="o.partner_id.country_id">, </t>
+	                                        </t>
+	                                        <t t-if="o.partner_id.country_id">
+	                                            <span t-att-style="not o.partner_id.state_id and 'margin-left: 17px;' or ''" t-field="o.partner_id.country_id.code" /> 
+	                                        </t>
+	                                    </t>
+	                                </t>
                                 </div>
                                 <div class="col-xs-4">
                                     <t t-if="o.name"><b>Description: </b><span t-field="o.name"/><br /></t>
