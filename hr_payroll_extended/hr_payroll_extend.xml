@@ -30,11 +30,15 @@
                     <button string = "Generate Payslips" position = "replace"> 
                         <button name="%(hr_payroll.action_hr_payslip_by_employees)d" context="{'schedule_pay': schedule_pay}" type="action" states="draft" icon="gtk-execute" string="Generate Payslips" />
                     </button>
-                    <button string = "Generate Payslips" position = "after"> 
-                        <button name="confirm_payslips" type="object" states="draft" icon="STOCK_GOTO_BOTTOM" string="Confirm Payslips" />
+                    <button string = "Generate Payslips" position = "after">
+                        <button name="compute_payslips" type="object"
+                            states="draft" icon="terp-stock_zoom"
+                            string="Compute Payslips" />
+                        <button name="confirm_payslips" type="object"
+                            states="draft" icon="STOCK_GOTO_BOTTOM"
+                            string="Confirm Payslips" />
                     </button>
                 </data>
-                
             </field>
         </record>
        <!-- Employee wizard -->

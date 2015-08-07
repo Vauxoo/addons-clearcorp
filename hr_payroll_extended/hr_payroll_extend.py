@@ -41,7 +41,7 @@ class SalaryRule(osv.Model):
     _columns = {
         'appears_on_report': fields.boolean(
             'Appears on Report',
-            help='Used for the display of rule on payslip reports'),
+            help='Used to display of rule on payslip reports'),
     }
 
     _defaults = {
@@ -87,7 +87,7 @@ class PayslipRun(osv.Model):
                     if payslip.state == 'draft':
                         raise osv.except_osv(
                             _('Warning !'),
-                            _('You did not confirm some of the payroll'))
+                            _('You did not confirm a payslip'))
                         break
         return result
 
@@ -101,6 +101,16 @@ class PayslipRun(osv.Model):
                             cr, uid, [payslip.id], context=context)
                         payslip_obj.process_sheet(
                             cr, uid, [payslip.id], context=context)
+        return True
+
+    def compute_payslips(self, cr, uid, ids, context=None):
+        payslip_obj = self.pool.get('hr.payslip')
+        for batches in self.browse(cr, uid, ids, context=context):
+            payslip_ids = map(lambda x: x.id, batches.slip_ids)
+            for payslip in payslip_obj.browse(cr, uid, payslip_ids):
+                if payslip.state == 'draft':
+                    payslip_obj.compute_sheet(
+                        cr, uid, [payslip.id], context=context)
         return True
 
 
