@@ -26,7 +26,8 @@
                         <field name="period_from" domain="[('fiscalyear_id', '=', fiscalyear_id)]" attrs="{'required':[('filter','=','filter_period')], 'invisible':[('filter','!=','filter_period')]}"/>
                         <field name="period_to" domain="[('fiscalyear_id', '=', fiscalyear_id)]" attrs="{'required':[('filter','=','filter_period')], 'invisible':[('filter','!=','filter_period')]}"/>
                         <field name="partner_ids" domain="[('customer','=',True),('partner_type','in',('company','branch'))]" attrs="{'required':[('filter','=','filter_partner')], 'invisible':[('filter','!=','filter_partner')]}"/>
-                        <field name="issue_ids" context="{'tree_view_ref':'project_issue_helpdesk.project_issue_tree_view'}" domain="[('issue_type','!=','preventive check'),('stage_id.closed','=',True),('sale_order_id','=',False),('invoice_ids','=',False)]" attrs="{'required':[('filter','=','filter_issue')],'invisible':[('filter','!=','filter_issue')]}"/>
+                        <field name="init_onchange_call" invisible="1"/>
+                        <field name="issue_ids" context="{'tree_view_ref':'project_issue_helpdesk.project_issue_tree_view'}" domain="[('id','in',init_onchange_call[0][2])]" attrs="{'required':[('filter','=','filter_issue')],'invisible':[('filter','!=','filter_issue')]}"/>
                     </group>
                     <group states="done">
                         <group colspan="4">

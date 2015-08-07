@@ -462,6 +462,37 @@
                 </field>
             </field>
         </record>
+        <!--inherit account move line search-->
+        <record model="ir.ui.view" id="account_move_line_search_view">
+            <field name="name">Journal Items</field>
+            <field name="model">account.move.line</field>
+            <field name="priority" eval="100"/>
+            <field name="inherit_id" ref="account.view_account_move_line_filter"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="before">
+                    <field name="company_parent_id"/>
+                </field>
+                <xpath expr="/search/group/filter[@string='Partner']" position="before"> 
+                    <filter name="group_by_parent_id" string="Parent Partner" context="{'group_by':'company_parent_id'}"/>
+                </xpath>
+            </field>
+        </record>
+        <!--inherit account move search-->
+        <record model="ir.ui.view" id="account_move_search_view">
+            <field name="name">account.move.select</field>
+            <field name="model">account.move</field>
+            <field name="priority" eval="100"/>
+            <field name="inherit_id" ref="account.view_account_move_filter"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="before">
+                    <field name="company_parent_id"/>
+                </field>
+                <xpath expr="/search/group/filter[@string='Partner']" position="before"> 
+                    <filter name="group_by_parent_id" string="Parent Partner" context="{'group_by':'company_parent_id'}"/>
+                </xpath>
+            </field>
+        </record>
+
         <record model="ir.actions.act_window" id="action_holiday_calendar_date">
             <field name="name">Holidays</field>
             <field name="res_model">holiday.calendar.date</field>
