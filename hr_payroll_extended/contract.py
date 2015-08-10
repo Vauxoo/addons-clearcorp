@@ -20,5 +20,17 @@
 #
 ##############################################################################
 
-import hr_payroll_extend
-import contract
+from openerp import models, fields
+import openerp.addons.decimal_precision as dp
+
+
+class Contract(models.Model):
+
+    _inherit = 'hr.contract'
+
+    use_fixed_working_hours = fields.Boolean('Use Work Hours')
+    fixed_working_hours = fields.Float(
+        'Work Hours', digits=dp.get_precision('Payroll'))
+    fixed_working_days = fields.Float(
+        'Work Days', digits=dp.get_precision('Payroll'))
+    fixed_working_hours_code = fields.Char('Code', size=8)

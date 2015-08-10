@@ -198,6 +198,28 @@ class Payslip(osv.osv):
         })
         return res
 
+    def get_worked_day_lines(
+            self, cr, uid, contract_ids,
+            date_from, date_to, context=None):
+        res = []
+        for contract in self.pool.get('hr.contract').browse(
+                cr, uid, contract_ids, context=context):
+            # Check if the contract uses fixed working hours
+            if not contract.use_fixed_working_hours:
+                continue
+            attendances = {
+                 'name': _("Worked Hours"),
+                 'sequence': 1,
+                 'code': contract.fixed_working_hours_code,
+                 'number_of_days': contract.fixed_working_hours,
+                 'number_of_hours': contract.fixed_working_days,
+                 'contract_id': contract.id,
+            }
+            res += [attendances]
+        res += super(Payslip, self).get_worked_day_lines(
+            cr, uid, contract_ids, date_from, date_to, context=context)
+        return res
+
     def process_sheet(self, cr, uid, ids, context=None):
         res = super(Payslip, self).process_sheet(cr, uid, ids, context=context)
         account_move_obj = self.pool.get('account.move')

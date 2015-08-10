@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <openerp>
     <data>
-        <!-- Jobs -->
+        <!-- views -->
+        <!-- hr.job -->
         <record id="hr_job_period_rule_form" model="ir.ui.view">
             <field name="name">hr.job.period.rule.form</field>
             <field name="model">hr.job</field>
@@ -15,7 +17,28 @@
                 </data>
             </field>
         </record>
-        <!-- Payroll_run-->
+
+        <!-- hr.contract -->
+        <record id="view_structure_form" model="ir.ui.view">
+            <field name="name">view.contract.form</field>
+            <field name="model">hr.contract</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/notebook/page[@name='information']/group/group[@name='duration_group']/field[@name='working_hours']" position="after">
+                    <field name="use_fixed_working_hours"/>
+                    <field name="fixed_working_days"
+                        attrs="{'invisible':[('use_fixed_working_hours','=',False)],'required':[('use_fixed_working_hours','=',True)]}"/>
+                    <field name="fixed_working_hours"
+                        attrs="{'invisible':[('use_fixed_working_hours','=',False)],'required':[('use_fixed_working_hours','=',True)]}"/>
+                    <field name="fixed_working_hours_code"
+                        attrs="{'invisible':[('use_fixed_working_hours','=',False)],'required':[('use_fixed_working_hours','=',True)]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- hr.payslip.run -->
          <record id="inherit_hr_payslip_run_form" model="ir.ui.view">
             <field name="name">hr.payslip.run.form</field>
             <field name="model">hr.payslip.run</field>
@@ -41,7 +64,39 @@
                 </data>
             </field>
         </record>
-       <!-- Employee wizard -->
+
+        <!-- hr.payslip  -->
+        <record id="view_hr_payslip_form_inherit" model="ir.ui.view">
+            <field name="name">view.hr.payslip.form.inherit</field>
+            <field name="model">hr.payslip</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//form/sheet/group/field[@name='credit_note']" position="after">
+                        <field name="forced_period_id"/>
+                    </xpath>
+                    <xpath expr="//form/sheet/group/field[@name='contract_id']" position="attributes">
+                        <attribute name="required">True</attribute>
+                    </xpath>
+                </data>
+            </field> 
+        </record>
+
+        <!-- hr.salary.rule -->
+        <record id="hr_salary_rule_form_inherit" model="ir.ui.view">
+            <field name="name">hr.salary.rule.form.inherit</field>
+            <field name="model">hr.salary.rule</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="hr_payroll.hr_salary_rule_form"/>
+            <field name="arch" type="xml">
+                <field name="appears_on_payslip" position="after">
+                    <field name="appears_on_report"/>
+                </field>
+            </field>
+        </record>
+
+       <!-- hr.payslip.employees -->
         <record id="inherit_view_hr_payslip_by_employees" model="ir.ui.view">
             <field name="name">hr_payroll_payslip_employees</field>
             <field name="model">hr.payslip.employees</field>
@@ -55,21 +110,8 @@
                 </data>
             </field> 
         </record>
-        <!-- forced period Payslip  -->
-        <record id="view_hr_payslip_form_inherit" model="ir.ui.view">
-            <field name="name">view.hr.payslip.form.inherit</field>
-            <field name="model">hr.payslip</field>
-            <field name="type">form</field>
-            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
-            <field name="arch" type="xml">
-                <data>
-                    <field name="credit_note" position="after">
-                        <field name="forced_period_id"/>
-                    </field>
-                </data>
-            </field> 
-        </record> 
 
+        <!-- res.company -->
         <record id="view_company_form_inherit" model="ir.ui.view">
             <field name="name">view.company.form.inherit</field>
             <field name="model">res.company</field>
@@ -81,18 +123,6 @@
                             <field name="payslip_footer" groups="base.group_no_one" nolabel="1"/>
                         </group>
                 </page>
-            </field>
-        </record>
-
-        <record id="hr_salary_rule_form_inherit" model="ir.ui.view">
-            <field name="name">hr.salary.rule.form.inherit</field>
-            <field name="model">hr.salary.rule</field>
-            <field name="type">form</field>
-            <field name="inherit_id" ref="hr_payroll.hr_salary_rule_form"/>
-            <field name="arch" type="xml">
-                <field name="appears_on_payslip" position="after">
-                    <field name="appears_on_report"/>
-                </field>
             </field>
         </record>
     </data>
