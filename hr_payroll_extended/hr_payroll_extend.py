@@ -125,7 +125,7 @@ class Payslip(osv.osv):
         'forced_period_id': fields.related(
             'payslip_run_id', 'period_id',
             type="many2one", relation="account.period",
-            string="Force period", store=True, readonly=True),
+            string="Force Period", store=True, readonly=True),
     }
 
     def onchange_employee_id(
