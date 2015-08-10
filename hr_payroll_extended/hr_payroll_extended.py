@@ -41,7 +41,7 @@ class SalaryRule(osv.Model):
     _columns = {
         'appears_on_report': fields.boolean(
             'Appears on Report',
-            help='Used to display of rule on payslip reports'),
+            help='Used to display the rule on reports'),
     }
 
     _defaults = {

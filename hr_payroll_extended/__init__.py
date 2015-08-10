@@ -20,6 +20,6 @@
 #
 ##############################################################################
 
-import hr_payroll_extend
+import hr_payroll_extended
 import contract
 import worked_days
