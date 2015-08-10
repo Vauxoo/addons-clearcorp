@@ -181,11 +181,17 @@ class Payslip(osv.osv):
                 if worked_days_line['code'] == 'HR':
                     has_hr = True
             # Change lines where code == WORK100
+            _model, code_id = self.pool.get(
+                'ir.model.data').get_object_reference(
+                    cr, uid, 'hr_payroll_extended', 'data_worked_days_value_1')
+            work_value = self.pool.get(
+                'hr.payroll.extended.worked_days.value').browse(
+                    cr, uid, code_id, context=context)
             for worked_days_line in day_lines:
                 if worked_days_line['code'] == 'WORK100':
                     # Change it if there is no HN
                     if not has_hr:
-                        worked_days_line['code'] = 'HN'
+                        worked_days_line['code'] = work_value.code
                         worked_days_line['name'] = name
                     # Ignore it if there is another HN line
                     else:
@@ -211,8 +217,8 @@ class Payslip(osv.osv):
                  'name': _("Worked Hours"),
                  'sequence': 1,
                  'code': contract.fixed_working_hours_code,
-                 'number_of_days': contract.fixed_working_hours,
-                 'number_of_hours': contract.fixed_working_days,
+                 'number_of_days': contract.fixed_working_days,
+                 'number_of_hours': contract.fixed_working_hours,
                  'contract_id': contract.id,
             }
             res += [attendances]

@@ -66,8 +66,8 @@
         </record>
 
         <!-- hr.payslip  -->
-        <record id="view_hr_payslip_form_inherit" model="ir.ui.view">
-            <field name="name">view.hr.payslip.form.inherit</field>
+        <record id="view_payslip_form" model="ir.ui.view">
+            <field name="name">view.payslip.form</field>
             <field name="model">hr.payslip</field>
             <field name="type">form</field>
             <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
@@ -78,6 +78,18 @@
                     </xpath>
                     <xpath expr="//form/sheet/group/field[@name='contract_id']" position="attributes">
                         <attribute name="required">True</attribute>
+                    </xpath>
+                    <xpath expr="//form/sheet/notebook/page/field[@name='worked_days_line_ids']/tree/field[@name='code']" position="before">
+                        <field name="work_code"/>
+                    </xpath>
+                    <xpath expr="//form/sheet/notebook/page/field[@name='worked_days_line_ids']/tree/field[@name='code']" position="attributes">
+                        <attribute name="invisible">True</attribute>
+                    </xpath>
+                    <xpath expr="//form/sheet/notebook/page/field[@name='worked_days_line_ids']/form/group/field[@name='code']" position="before">
+                        <field name="work_code"/>
+                    </xpath>
+                    <xpath expr="//form/sheet/notebook/page/field[@name='worked_days_line_ids']/form/group/field[@name='code']" position="attributes">
+                        <attribute name="invisible">True</attribute>
                     </xpath>
                 </data>
             </field> 
@@ -96,7 +108,19 @@
             </field>
         </record>
 
-       <!-- hr.payslip.employees -->
+        <!-- hr.payroll.extended.worked_days.value -->
+        <record id="view_worked_days_value_tree" model="ir.ui.view">
+            <field name="name">Worked Days Tree</field>
+            <field name="model">hr.payroll.extended.worked_days.value</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree editable="top">
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- hr.payslip.employees -->
         <record id="inherit_view_hr_payslip_by_employees" model="ir.ui.view">
             <field name="name">hr_payroll_payslip_employees</field>
             <field name="model">hr.payslip.employees</field>

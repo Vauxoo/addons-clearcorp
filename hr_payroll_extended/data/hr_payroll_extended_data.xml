@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+        <record id="data_worked_days_value_1" model="hr.payroll.extended.worked_days.value">
+            <field name="code">HN</field>
+        </record>
+        <record id="data_worked_days_value_2" model="hr.payroll.extended.worked_days.value">
+            <field name="code">HE</field>
+        </record>
+        <record id="data_worked_days_value_3" model="hr.payroll.extended.worked_days.value">
+            <field name="code">HR</field>
+        </record>
+    </data>
+</openerp>

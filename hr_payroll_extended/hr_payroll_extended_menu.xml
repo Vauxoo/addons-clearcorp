@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+        <!-- actions -->
+        <record id="action_worked_days_value" model="ir.actions.act_window">
+            <field name="name">Work Codes</field>
+            <field name="res_model">hr.payroll.extended.worked_days.value</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <!-- menuitems -->
+        <menuitem id="menu_action_worked_days_value"
+            parent="hr_payroll.payroll_configure"
+            name="Work Codes"
+            action="action_worked_days_value"
+            sequence="30"/>
+    </data>
+</openerp>

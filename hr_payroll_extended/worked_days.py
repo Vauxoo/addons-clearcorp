@@ -20,6 +20,36 @@
 #
 ##############################################################################
 
-import hr_payroll_extend
-import contract
-import worked_days
+from openerp import models, fields
+
+
+class WorkedDaysValue(models.Model):
+
+    _name = 'hr.payroll.extended.worked_days.value'
+    _rec_name = 'code'
+
+    code = fields.Char(size=8)
+
+
+class WorkedDays(models.Model):
+
+    _inherit = 'hr.payslip.worked_days'
+
+    def _compute_work_code(self):
+        for worked_day in self:
+            if worked_day.code:
+                value = self.env[
+                        'hr.payroll.extended.worked_days.value'
+                    ].search(
+                        [('code', '=', worked_day.code)])
+                worked_day.work_code = value.id
+            else:
+                worked_day.work_code = False
+
+    def _inverse_work_code(self):
+        for worked_day in self:
+            worked_day.code = worked_day.work_code.code
+
+    work_code = fields.Many2one(
+        'hr.payroll.extended.worked_days.value', compute='_compute_work_code',
+        inverse='_inverse_work_code', string='Code')
