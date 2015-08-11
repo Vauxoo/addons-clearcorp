@@ -22,6 +22,7 @@
 
 from openerp.osv import osv, fields
 
+
 class GeneratorWizard(osv.TransientModel):
 
     _name = 'hr.payroll.pay.generator.generator.wizard'
@@ -30,8 +31,16 @@ class GeneratorWizard(osv.TransientModel):
         return True
 
     _columns = {
-        'pay_type_id': fields.many2one('hr.payroll.pay.generator.pay.type', string='Pay Type', required=True),
-        'payslip_run_id': fields.many2one('hr.payslip.run', string='Payslip Batch', required=True),
-        'salary_rule_id': fields.many2one('hr.salary.rule', string='Salary Rule', required=True),
-        'employee_ids': fields.many2many('hr.employee', string='Employees', required=True),
+        'pay_type_id': fields.many2one(
+            'hr.payroll.pay.generator.pay.type',
+            string='Pay Type', required=True),
+        'payslip_run_id': fields.many2one(
+            'hr.payslip.run', string='Payslip Batch',
+            required=True),
+        'salary_rule_id': fields.many2one(
+            'hr.salary.rule', string='Salary Rule',
+            required=True),
+        'employee_ids': fields.many2many(
+            'hr.employee', string='Employees',
+            required=True),
     }

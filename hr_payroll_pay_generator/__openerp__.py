@@ -31,17 +31,15 @@ Base for Payroll Generators
 ===========================
 
 Provide a common base for Payroll Generator""",
-    'author': 'CLEARCORP S.A.',
+    'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
-    'complexity': 'easy',
-    'images' : [],
     'depends': ['hr_payroll'],
     'data': [
-             'view/hr_payroll_pay_generator_view.xml',
-             'wizard/wizard.xml',
-             'security/ir.model.access.csv',
-             ],
-    'test' : [],
+        'hr_payroll_pay_generator_view.xml',
+        'wizard/wizard.xml',
+        'security/ir.model.access.csv',
+    ],
+    'test': [],
     'demo': [],
     'installable': True,
     'auto_install': False,

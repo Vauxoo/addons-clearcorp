@@ -1,13 +1,13 @@
-# Translation of OpenERP Server.
+# Translation of Odoo Server.
 # This file contains the translation of the following modules:
 #	* hr_payroll_pay_generator
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 7.0\n"
+"Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-25 22:16+0000\n"
-"PO-Revision-Date: 2014-06-25 22:16+0000\n"
+"POT-Creation-Date: 2015-08-11 16:57+0000\n"
+"PO-Revision-Date: 2015-08-11 16:57+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,20 +16,30 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: hr_payroll_pay_generator
-#: view:hr.payroll.pay.generator.pay.type:0
-#: model:ir.actions.act_window,name:hr_payroll_pay_generator.action_pay_type
-#: model:ir.ui.menu,name:hr_payroll_pay_generator.menu_pay_type
-msgid "Pay Types"
+#: view:hr.payroll.pay.generator.generator.wizard:hr_payroll_pay_generator.view_generator_wizard_form
+msgid "Are you sure you want to continue?"
 msgstr ""
 
 #. module: hr_payroll_pay_generator
-#: view:hr.payroll.pay.generator.generator.wizard:0
-msgid "Execute"
+#: view:hr.payroll.pay.generator.generator.wizard:hr_payroll_pay_generator.view_generator_wizard_form
+msgid "Cancel"
 msgstr ""
 
 #. module: hr_payroll_pay_generator
 #: field:hr.payroll.pay.generator.pay.type,code:0
 msgid "Code"
+msgstr ""
+
+#. module: hr_payroll_pay_generator
+#: field:hr.payroll.pay.generator.generator.wizard,create_uid:0
+#: field:hr.payroll.pay.generator.pay.type,create_uid:0
+msgid "Created by"
+msgstr ""
+
+#. module: hr_payroll_pay_generator
+#: field:hr.payroll.pay.generator.generator.wizard,create_date:0
+#: field:hr.payroll.pay.generator.pay.type,create_date:0
+msgid "Created on"
 msgstr ""
 
 #. module: hr_payroll_pay_generator
@@ -43,8 +53,36 @@ msgid "Employees"
 msgstr ""
 
 #. module: hr_payroll_pay_generator
-#: field:hr.payroll.pay.generator.generator.wizard,payslip_run_id:0
-msgid "Payslip Batch"
+#: view:hr.payroll.pay.generator.generator.wizard:hr_payroll_pay_generator.view_generator_wizard_form
+msgid "Execute"
+msgstr ""
+
+#. module: hr_payroll_pay_generator
+#: view:hr.payroll.pay.generator.generator.wizard:hr_payroll_pay_generator.view_generator_wizard_form
+msgid "Generator Wizard"
+msgstr ""
+
+#. module: hr_payroll_pay_generator
+#: field:hr.payroll.pay.generator.generator.wizard,id:0
+#: field:hr.payroll.pay.generator.pay.type,id:0
+msgid "ID"
+msgstr ""
+
+#. module: hr_payroll_pay_generator
+#: field:hr.payroll.pay.generator.generator.wizard,write_uid:0
+#: field:hr.payroll.pay.generator.pay.type,write_uid:0
+msgid "Last Updated by"
+msgstr ""
+
+#. module: hr_payroll_pay_generator
+#: field:hr.payroll.pay.generator.generator.wizard,write_date:0
+#: field:hr.payroll.pay.generator.pay.type,write_date:0
+msgid "Last Updated on"
+msgstr ""
+
+#. module: hr_payroll_pay_generator
+#: field:hr.payroll.pay.generator.pay.type,name:0
+msgid "Name"
 msgstr ""
 
 #. module: hr_payroll_pay_generator
@@ -54,19 +92,21 @@ msgid "Pay Generator"
 msgstr ""
 
 #. module: hr_payroll_pay_generator
-#: view:hr.payroll.pay.generator.generator.wizard:0
-msgid "Generator Wizard"
-msgstr ""
-
-#. module: hr_payroll_pay_generator
 #: field:hr.payroll.pay.generator.generator.wizard,pay_type_id:0
 #: model:ir.model,name:hr_payroll_pay_generator.model_hr_payroll_pay_generator_pay_type
 msgid "Pay Type"
 msgstr ""
 
 #. module: hr_payroll_pay_generator
-#: view:hr.payroll.pay.generator.generator.wizard:0
-msgid "Cancel"
+#: view:hr.payroll.pay.generator.pay.type:hr_payroll_pay_generator.view_pay_type_tree
+#: model:ir.actions.act_window,name:hr_payroll_pay_generator.action_pay_type
+#: model:ir.ui.menu,name:hr_payroll_pay_generator.menu_pay_type
+msgid "Pay Types"
+msgstr ""
+
+#. module: hr_payroll_pay_generator
+#: field:hr.payroll.pay.generator.generator.wizard,payslip_run_id:0
+msgid "Payslip Batch"
 msgstr ""
 
 #. module: hr_payroll_pay_generator
@@ -75,16 +115,6 @@ msgid "Salary Rule"
 msgstr ""
 
 #. module: hr_payroll_pay_generator
-#: view:hr.payroll.pay.generator.generator.wizard:0
+#: view:hr.payroll.pay.generator.generator.wizard:hr_payroll_pay_generator.view_generator_wizard_form
 msgid "or"
-msgstr ""
-
-#. module: hr_payroll_pay_generator
-#: view:hr.payroll.pay.generator.generator.wizard:0
-msgid "Are you sure you want to continue?"
-msgstr ""
-
-#. module: hr_payroll_pay_generator
-#: field:hr.payroll.pay.generator.pay.type,name:0
-msgid "Name"
 msgstr ""

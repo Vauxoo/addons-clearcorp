@@ -22,13 +22,14 @@
 
 from openerp.osv import osv, fields
 
+
 class PayType(osv.Model):
     """Pay Type"""
- 
+
     _name = 'hr.payroll.pay.generator.pay.type'
- 
+
     _description = __doc__
- 
+
     _columns = {
         'code': fields.char('Code', size=16, required=True, readonly=True),
         'name': fields.char('Name', size=64),
