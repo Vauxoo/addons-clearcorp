@@ -20,5 +20,29 @@
 #
 ##############################################################################
 
-import hr_payroll_pay_generator
-import wizard
+{
+    'name': 'Payroll Pay Generator',
+    'version': '1.0',
+    'category': 'Hidden',
+    'sequence': 3,
+    'summary': 'Base for Payroll Generators',
+    'description': """
+Base for Payroll Generators
+===========================
+
+Provide a common base for Payroll Generator""",
+    'author': 'ClearCorp',
+    'website': 'http://clearcorp.co.cr',
+    'depends': ['hr_payroll'],
+    'data': [
+        'hr_payroll_pay_generator_view.xml',
+        'wizard/wizard.xml',
+        'security/ir.model.access.csv',
+    ],
+    'test': [],
+    'demo': [],
+    'installable': True,
+    'auto_install': False,
+    'application': False,
+    'license': 'AGPL-3',
+}
