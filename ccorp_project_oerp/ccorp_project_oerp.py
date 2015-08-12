@@ -45,7 +45,9 @@ class WorkType(osv.Model):
                 }
     
 class Sprint(osv.Model):
-    
+
+    _inherit = 'ccorp.project.scrum.sprint'
+
     def tasks_from_features_oerp(self, cr, uid, ids, context=None):
         task_obj = self.pool.get('project.task')
         task_hour_obj = self.pool.get('ccorp.project.oerp.task.hour')
@@ -101,8 +103,7 @@ class Sprint(osv.Model):
                     task.write({'sprint_id': sprint.id}, context=context)
         return True
     
-    _inherit = 'ccorp.project.scrum.sprint'
-    
+
     _columns = {
                 'planned_task_ids': fields.many2many('project.task', string='Desirable Tasks'),
                 }
@@ -153,6 +154,8 @@ class Feature(osv.Model):
     
     _columns = {
                 'hour_ids': fields.one2many('ccorp.project.oerp.feature.hours', 'feature_id', string='Feature Hours'),
+                'acceptance_requirements_client': fields.text('Acceptance requirements by client'),
+                'acceptance_requirements_supplier': fields.text('Funtional acceptance requirements'),
                 }
     
     def write(self, cr, uid, ids, values, context=None):
@@ -240,14 +243,16 @@ class Task(osv.Model):
             for work in task.work_ids:
                 effective_hours = effective_hours + work.hours
             remaining = task.planned_hours - effective_hours + task.reassignment_hour
-            if remaining < 0:
-                raise osv.except_osv(
-                _('Error'),
-                _('Your time ivested in this task has exeded the planed time frame'))
-            else:
-                res[task.id] = remaining
+            res[task.id] = remaining
         return res
 
+    def _check_remaining_hours(self, cr, uid, ids, context=None):
+        for task in self.browse(cr, uid, ids, context=context):
+            if task.remaining_hours < 0:
+                return False
+            else:
+                return True
+        
     _columns = {
                 'feature_hour_ids': fields.related('feature_id', 'hour_ids', type='one2many',
                     relation='ccorp.project.oerp.feature.hours', string='Feature Hours', readonly=True),
@@ -273,7 +278,7 @@ class Task(osv.Model):
     def write(self, cr, uid, ids, values, context=None):
         if not isinstance(ids, list):
             ids = [ids]
-        for task in self.browse(cr, uid, ids, context=context):
+        for task in self.browse(cr, uid, ids, context=context)[0]:
             if task.project_id.is_scrum:
                 if 'task_hour_ids' in values:
                     sum = 0.0
@@ -293,7 +298,12 @@ class Task(osv.Model):
                             sum += task_hour.expected_hours
                     values['planned_hours'] = sum
             super(Task, self).write(cr, uid, task.id, values, context)
-        return True
+            if task._check_remaining_hours():
+                return True
+            else:
+                raise osv.except_osv(
+                _('Error'),
+                _('Your time ivested in this task has exeded the planed time frame'))
 
     _defaults = {
         'state': 'draft',

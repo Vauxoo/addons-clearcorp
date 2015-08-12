@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+base.access_invoice_type_user,invoice_type_user,project_invoice.model_invoice_type,base.group_user,1,0,0,0
+account.access_invoice_type_account_user,invoice_type_account_user,project_invoice.model_invoice_type,account.group_account_user,1,1,1,1
+base.access_invoice_type_sale_salesman,invoice_type_sale_salesman,project_invoice.model_invoice_type,base.group_sale_salesman,1,1,1,0
+project.access_invoice_type_project_user,invoice_type_project_user,project_invoice.model_invoice_type,project.group_project_user,1,0,0,0
+project.access_invoice_type_project_manager,invoice_type_project_manager,project_invoice.model_invoice_type,project.group_project_manager,1,1,1,1
+base.access_invoice_type_portal,invoice_type_portal,project_invoice.model_invoice_type,base.group_portal,1,0,0,0
+base.access_invoice_type_public,invoice_type_public,project_invoice.model_invoice_type,base.group_public,1,0,0,0

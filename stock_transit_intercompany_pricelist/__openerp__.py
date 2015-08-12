@@ -19,36 +19,21 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 {
-    "name" : 'CCorp Project OpenERP Methodology',
-    "version" : '1.0',
-    "author" : 'ClearCorp',
-    'complexity': 'normal',
-    "description": """
+    'name': 'Stock Transit Intercompany Pricelist',
+    'version': '1.0',
+    'author': 'ClearCorp',
+    'category': 'Warehouse Management',
+    'description': """
+Product sequence ccorp
+========================
+This module adds a field 'Intercompany Price' to make the transfer InterCompany
 """,
-    "category": 'Project Management',
-    "sequence": 10,
-    "website" : "http://clearcorp.co.cr",
-    "images" : [],
-    "depends" : [
-                 'ccorp_project_scrum',
-                   'hr',
-                   'project_issue',
-                 ],
-    "data" : [
-              'security/project_security.xml',
-              'wizard/wizard_view.xml',
-              'view/ccorp_project_oerp_view.xml',
-              'view/ccorp_project_oerp_menu.xml',
-              'security/ir.model.access.csv',
-              ],
-    "init_xml" : [],
-    "demo_xml" : [],
-    "update_xml" : [],
-    "test" : [],
-    "auto_install": False,
-    "application": False,
-    "installable": True,
+    'website': 'http://clearcorp.co.cr',
+    'depends': ['stock',],
+    'data': [],
+    'installable': True,
+    'auto_install': False,
+    'application': False,    
     'license': 'AGPL-3',
 }

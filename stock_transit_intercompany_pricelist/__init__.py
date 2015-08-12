@@ -19,32 +19,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-{
-    'name': 'Payroll Pay Generator',
-    'version': '1.0',
-    'category': 'Hidden',
-    'sequence': 3,
-    'summary': 'Base for Payroll Generators',
-    'description': """
-Base for Payroll Generators
-===========================
-
-Provide a common base for Payroll Generator""",
-    'author': 'CLEARCORP S.A.',
-    'website': 'http://clearcorp.co.cr',
-    'complexity': 'easy',
-    'images' : [],
-    'depends': ['hr_payroll'],
-    'data': [
-             'view/hr_payroll_pay_generator_view.xml',
-             'wizard/wizard.xml',
-             'security/ir.model.access.csv',
-             ],
-    'test' : [],
-    'demo': [],
-    'installable': True,
-    'auto_install': False,
-    'application': False,
-    'license': 'AGPL-3',
-}
+import stock_transit_intercompany_pricelist
