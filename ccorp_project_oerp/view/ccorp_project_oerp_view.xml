@@ -63,6 +63,16 @@
 						</field>
 					</page>
 				</xpath>
+                <xpath expr="//form/sheet/notebook/page[@name='description']"
+                    position="after">
+                    <page string="Acceptance Requirements" name="acceptance_requirements">
+                    <label for="acceptance_requirements_client" string="Please describe what you expect of this functionality"/>
+                    <field name="acceptance_requirements_client"/>
+                    <br/><br/>
+                    <label for="acceptance_requirements_supplier" string="Please describe the functional analysis of this functionality"/>
+                    <field name="acceptance_requirements_supplier"/>
+                    </page>
+               </xpath>
 			</field>
 		</record>
 
@@ -98,6 +108,34 @@
 				</xpath>
 			</field>
 		</record>
+        
+        <record id="view_task_form_user" model="ir.ui.view">
+            <field name="name">view.task.form</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2" />
+            <field name="priority" eval="50" />
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/group/field[@name='planned_hours']"
+                        position="attributes">
+                        <attribute name="readonly">True</attribute>
+                </xpath>
+              </field>
+        </record>
+        
+        <record id="view_task_form_teammanager" model="ir.ui.view">
+            <field name="name">view.task.form</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2" />
+            <field name="priority" eval="100" />
+            <field name="groups_id" eval="[(4, ref('project.group_project_team_manager'))]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/group/field[@name='planned_hours']"
+                        position="attributes">
+                        <attribute name="readonly">False</attribute>
+                        <attribute name="attrs">{'readonly': [('state','!=','draft')]}</attribute>
+                </xpath>
+              </field>
+        </record>
 
 		<!-- ccorp.project.scrum.sprint -->
 		<!-- form -->
@@ -108,8 +146,8 @@
 			<field name="arch" type="xml">
 				<xpath expr="//form/sheet/notebook/page[@name='tasks']"
 					position="after">
-					<page string="Planned Tasks" name="desirable_tasks">
-						<field name="planned_task_ids" />
+					<page string="Planned Tasks" name="desirable_tasks" attrs="{'invisible': [('state','=', 'new')]}">
+						<field name="planned_task_ids" attrs="{'invisible': [('state','=', 'new')]}"/>
 					</page>
 				</xpath>
 			</field>
@@ -170,6 +208,34 @@
                     <field name="target_task"/>
                     <field name="state"/>
                 </tree>
+            </field>
+        </record>
+        
+<record model="ir.ui.view" id="project_issue_form_view">
+            <field name="name">Project Issue Tracker Form</field>
+            <field name="model">project.issue</field>
+            <field name="inherit_id" ref="project_issue.project_issue_form_view" />
+            <field name="arch" type="xml">
+            <xpath expr="//form/sheet/group/group/field[@name='user_id']" position="before">
+                    <field name="work_type_id"/>
+            </xpath>
+            <xpath expr="//form/sheet/group/group/label[@for='task_id']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//form/sheet/group/group/div/field[@name='task_id']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+            </xpath>
+                <xpath expr="//notebook/page[@string='Extra Info']" position="before">
+                    <page string="Task Sumary">
+                        <field name="task_ids" colspan="4" nolabel="1">
+                            <tree editable="top" string="Tasks">
+                                 <field name="name"/>
+                                 <field name="kind_task_id"/>
+                                 <field name="user_id"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
             </field>
         </record>
         

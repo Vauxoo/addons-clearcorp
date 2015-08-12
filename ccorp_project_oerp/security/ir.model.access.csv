@@ -5,3 +5,4 @@ access_ccorp_project_oerp_task_hour_manager,access.ccorp.project.oerp.task.hour.
 access_ccorp_project_oerp_task_hour_user,access.ccorp.project.oerp.task.hour.user,model_ccorp_project_oerp_task_hour,project.group_project_user,1,0,0,0
 access_ccorp_project_oerp_feature_hours_manager,access.ccorp.project.oerp.feature.hours.manager,model_ccorp_project_oerp_feature_hours,project.group_project_manager,1,1,1,1
 access_ccorp_project_oerp_feature_hours_user,access.ccorp.project.oerp.feature.hours.user,model_ccorp_project_oerp_feature_hours,project.group_project_user,1,0,0,0
+access_project_task_user,access.project.task.user,model_project_task,project.group_project_user,1,1,0,0
