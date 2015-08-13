@@ -94,7 +94,7 @@ class ProjectIssue(models.Model):
    
     expense_line_ids=fields.One2many('hr.expense.line','issue_id')
     sale_order_id=fields.Many2one('sale.order','Sale Order')
-    invoice_sale_id=fields.Char(string='Invoice Number',related='sale_order_id.invoice_ids.internal_number')
+    invoice_sale_id=fields.Char(string='Invoice Number',related='sale_order_id.invoice_ids.internal_number',store=True)
     invoice_ids=fields.Many2many('account.invoice','account_invoice_project_issue_rel',string='Invoices Numbers')
     
 class ResPartner(models.Model):

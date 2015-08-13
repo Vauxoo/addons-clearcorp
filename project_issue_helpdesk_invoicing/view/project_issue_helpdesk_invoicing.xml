@@ -34,7 +34,7 @@
             <field name="arch" type="xml">
                 <xpath expr="/form/sheet/notebook/page[@string='Extra Info']/group/group[@string='Status']" position="inside">
                         <field name="sale_order_id" attrs="{'readonly':[('sale_order_id', '!=', False),('invoice_ids', '!=', False)]}"/>
-                        <field name="invoice_sale_id" readonly="1" attrs="{'invisible':[('sale_order_id', '!=', True)]}"/>
+                        <field name="invoice_sale_id" readonly="1" attrs="{'invisible':[('sale_order_id', '=', False)]}"/>
                         <field name="invoice_ids" readonly="1" widget="many2many_tags" attrs="{'invisible':[('invoice_sale_id', '!=', False)]}"/>
                 </xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Delivery Orders']" position="after">
