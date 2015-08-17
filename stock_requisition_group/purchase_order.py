@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from openerp import models, api
+from openerp import models, fields, api
 
 
 class PurchaseOrder(models.Model):
@@ -44,3 +44,12 @@ class PurchaseOrder(models.Model):
                 dest_id = order_line.procurement_ids.move_dest_id
                 move_lines[i]['move_dest_id'] = dest_id.id
         return move_lines
+
+
+class PurchaseOrderLine(models.Model):
+
+    _inherit = 'purchase.order.line'
+
+    requisition_id = fields.Many2one(
+        'purchase.requisition', related='order_id.requisition_id',
+        string='Requisition', readonly=True)

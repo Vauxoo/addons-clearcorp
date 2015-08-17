@@ -27,6 +27,15 @@ class ProcurementOrder(models.Model):
 
     _inherit = 'procurement.order'
 
+    _rec_name = 'origin'
+
+    @api.multi
+    def name_get(self):
+        result = []
+        for procurement in self:
+            result.append((procurement.id, '%s' % (procurement.origin or '')))
+        return result
+
     @api.model
     def _run(self, procurement):
         if procurement.rule_id and procurement.rule_id.action == 'buy' and \
@@ -48,11 +57,9 @@ class ProcurementOrder(models.Model):
             else:
                 # Assign the procurement group and
                 # assign the sequence to the requisition
-                sequence = self.env['ir.sequence'].next_by_code(
-                    'purchase.order.requisition')
                 procurement.requisition_id.write({
                     'group_id': procurement.group_id.id,
-                    'name': sequence,
+                    'name': procurement.origin,
                 })
                 for line in procurement.requisition_id.line_ids:
                     line.procurement_id = procurement.id
