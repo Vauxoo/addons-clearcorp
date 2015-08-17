@@ -26,8 +26,6 @@
     'category': 'Warehouse Management',
     'sequence': 18,
     'summary': 'Group requisitions',
-    'description': """
-TODO""",
     'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'depends': ['purchase_requisition'],
