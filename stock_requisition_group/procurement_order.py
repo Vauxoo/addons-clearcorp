@@ -27,13 +27,13 @@ class ProcurementOrder(models.Model):
 
     _inherit = 'procurement.order'
 
-    _rec_name = 'origin'
-
     @api.multi
     def name_get(self):
         result = []
         for procurement in self:
-            result.append((procurement.id, '%s' % (procurement.origin or '')))
+            result.append((procurement.id, '%s: %s' % (
+                procurement.product_id.display_name or '',
+                procurement.origin or '')))
         return result
 
     @api.model
