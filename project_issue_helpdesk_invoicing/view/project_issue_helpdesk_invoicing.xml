@@ -164,7 +164,7 @@
                                  <field name="preventive_check_interval_number" class="oe_inline" attrs="{'required': [('invoice_preventive_check','!=',False)]}"/>
                                  <field name="preventive_check_interval_type" class="oe_inline" attrs="{'required': [('invoice_preventive_check','!=',False)]}"/>
                              </div>
-                             <field name="property_account_income" class="oe_inline" domain="[('type','=','other')]" attrs="{'required': [('invoice_preventive_check','!=',False)],'invisible': [('invoice_preventive_check','=',False)]}" groups="account.group_account_user"/>
+                             <field name="product_id" class="oe_inline" domain="['|',('type','=','service'),('supply_type','=','service')]" attrs="{'required': [('invoice_preventive_check','!=',False)],'invisible': [('invoice_preventive_check','=',False)]}"/>
                         </group>
                         <separator string="Product list for preventive check and periodic rate" attrs="{'invisible': [('invoice_preventive_check','=',False)]}"/>
                         <p class="oe_grey oe_edit_only" attrs="{'invisible': [('invoice_preventive_check','=',False)]}">

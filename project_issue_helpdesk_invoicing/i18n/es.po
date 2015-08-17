@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-07 23:17+0000\n"
-"PO-Revision-Date: 2015-08-07 23:17+0000\n"
+"POT-Creation-Date: 2015-08-17 15:09+0000\n"
+"PO-Revision-Date: 2015-08-17 15:09+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -102,11 +102,6 @@ msgstr "Categoría"
 #: field:contract.pricelist,categ_id:0
 msgid "Category Product"
 msgstr "Categoría de Producto"
-
-#. module: project_issue_helpdesk_invoicing
-#: help:res.company,logo_report_wide:0
-msgid "Check this if your logo has a wide aspect relation."
-msgstr "Compruebe si su logo tiene una relación de aspecto ancho."
 
 #. module: project_issue_helpdesk_invoicing
 #: view:project.issue:project_issue_helpdesk_invoicing.view_project_issue_filter
@@ -343,11 +338,6 @@ msgid "ID"
 msgstr "ID"
 
 #. module: project_issue_helpdesk_invoicing
-#: field:account.analytic.account,property_account_income:0
-msgid "Income Account"
-msgstr "Cuenta de Ingresos"
-
-#. module: project_issue_helpdesk_invoicing
 #: field:contract.preventive.check,interval_number:0
 msgid "Interval Number"
 msgstr "Intervalo"
@@ -381,6 +371,7 @@ msgid "Invoice Line"
 msgstr "Línea de Factura"
 
 #. module: project_issue_helpdesk_invoicing
+#: field:project.issue,invoice_sale_id:0
 #: field:project.task,invoice_id:0
 msgid "Invoice Number"
 msgstr "Número de Factura"
@@ -402,7 +393,7 @@ msgstr "Tipo de Facturación para mantenimientos preventivos y tarifas periodica
 
 #. module: project_issue_helpdesk_invoicing
 #: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:496
-#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_invoice_account_wizard.py:320
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_invoice_account_wizard.py:331
 #, python-format
 msgid "Invoices"
 msgstr "Facturación"
@@ -468,7 +459,7 @@ msgstr "Líneas de incidencia"
 
 #. module: project_issue_helpdesk_invoicing
 #: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:475
-#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_invoice_account_wizard.py:290
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_invoice_account_wizard.py:301
 #, python-format
 msgid "Issues to Invoice"
 msgstr "Incidencias a facturar"
@@ -648,6 +639,11 @@ msgid "Product Lines"
 msgstr "Líneas de Productos"
 
 #. module: project_issue_helpdesk_invoicing
+#: field:account.analytic.account,product_id:0
+msgid "Product for Invoice"
+msgstr "Producto/Servicio a facturar"
+
+#. module: project_issue_helpdesk_invoicing
 #: field:project.issue.helpdesk.invoice.wizard,line_detailed:0
 #: field:project.issue.invoice.account.wizard,line_detailed:0
 msgid "Product lines separate service lines"
@@ -779,7 +775,7 @@ msgstr "Fecha Inicial"
 
 #. module: project_issue_helpdesk_invoicing
 #: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:503
-#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_invoice_account_wizard.py:327
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_invoice_account_wizard.py:338
 #, python-format
 msgid "Start Date must be less than End Date"
 msgstr "Fecha inicial debe ser menor que fecha final"
@@ -792,7 +788,7 @@ msgstr "Período de inicio"
 
 #. module: project_issue_helpdesk_invoicing
 #: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:508
-#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_invoice_account_wizard.py:332
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_invoice_account_wizard.py:343
 #, python-format
 msgid "Start Period must be less than End Period"
 msgstr "Período inicial debe ser menor que el período final"
@@ -848,6 +844,11 @@ msgstr "Permite definir la cantidad máxima de caracteres en el nombre de la tar
 #: model:ir.model,name:project_issue_helpdesk_invoicing.model_hr_analytic_timesheet
 msgid "Timesheet Line"
 msgstr "Calendario Linea"
+
+#. module: project_issue_helpdesk_invoicing
+#: help:project.issue,invoice_sale_id:0
+msgid "Unique number of the invoice, computed automatically when the invoice is created."
+msgstr "Número único de factura, cálculado automáticamente cuandola factura es creada."
 
 #. module: project_issue_helpdesk_invoicing
 #: selection:project.issue.helpdesk.invoice.wizard,state:0
@@ -921,11 +922,6 @@ msgstr "Ver items a facturar"
 #: selection:contract.preventive.check,interval_type:0
 msgid "Weeks"
 msgstr "Semanas"
-
-#. module: project_issue_helpdesk_invoicing
-#: field:res.company,logo_report_wide:0
-msgid "Wide Report Logo"
-msgstr "Ancho del Logo de Reporte"
 
 #. module: project_issue_helpdesk_invoicing
 #: view:hr.expense.expense:project_issue_helpdesk_invoicing.view_expenses_form
