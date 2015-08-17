@@ -129,7 +129,7 @@
                     <attribute name="required">1</attribute>
                 </field>
                 <field name="partner_id"  position="after"> 
-                    <field name="branch_id" on_change="onchange_branch_id(branch_id)" domain="[('parent_id','=',partner_id),('partner_type','=','branch')]"  attrs="{'invisible':[('have_branch', '=', False)],'required':[('have_branch', '=', True)],'readonly':[('is_closed', '=', True)]}"/>
+                    <field name="branch_id" on_change="onchange_branch_id(branch_id)" domain="[('parent_id','=',partner_id),('partner_type','=','branch')]"  attrs="{'invisible':[('have_branch', '=', False)],'readonly':[('is_closed', '=', True)]}"/>
                     <field name="have_branch" invisible="1"/> 
                 </field>
                 <label for="name"  position="before">
