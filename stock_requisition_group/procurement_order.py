@@ -41,7 +41,8 @@ class ProcurementOrder(models.Model):
                  ('company_id', '=', procurement.company_id.id)], limit=1)
             if requisition:
                 for line in procurement.requisition_id.line_ids:
-                    line.write({'requisition_id': requisition.id})
+                    line.procurement_id = procurement.id
+                    line.requisition_id = requisition.id
                 procurement.requisition_id.unlink()
                 procurement.requisition_id = requisition.id
             else:
@@ -53,6 +54,8 @@ class ProcurementOrder(models.Model):
                     'group_id': procurement.group_id.id,
                     'name': sequence,
                 })
+                for line in procurement.requisition_id.line_ids:
+                    line.procurement_id = procurement.id
             return res
         else:
             return super(ProcurementOrder, self)._run(procurement)

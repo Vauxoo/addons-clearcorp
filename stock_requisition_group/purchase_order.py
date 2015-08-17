@@ -30,10 +30,17 @@ class PurchaseOrder(models.Model):
     @api.model
     def _prepare_order_line_move(
             self, order, order_line, picking_id, group_id):
-        if order.requisition_id and order.requisition_id.group_id:
-            if group_id:
-                group = self.env['procurement.group'].browse(group_id)
-                group.unlink()
-            group_id = order.requisition_id.group_id.id
-        return super(PurchaseOrder, self)._prepare_order_line_move(
+        if order.requisition_id:
+            if order.requisition_id.group_id:
+                if group_id:
+                    group = self.env['procurement.group'].browse(group_id)
+                    group.unlink()
+                group_id = order.requisition_id.group_id.id
+        move_lines = super(PurchaseOrder, self)._prepare_order_line_move(
             order, order_line, picking_id, group_id)
+        if order_line.procurement_ids and \
+                order_line.procurement_ids.move_dest_id:
+            for i in range(0, len(move_lines)):
+                dest_id = order_line.procurement_ids.move_dest_id
+                move_lines[i]['move_dest_id'] = dest_id.id
+        return move_lines
