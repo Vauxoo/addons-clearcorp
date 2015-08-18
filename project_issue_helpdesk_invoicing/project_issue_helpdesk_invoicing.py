@@ -94,7 +94,7 @@ class ProjectIssue(models.Model):
    
     expense_line_ids=fields.One2many('hr.expense.line','issue_id')
     sale_order_id=fields.Many2one('sale.order','Sale Order')
-    invoice_sale_id=fields.Char(string='Invoice Number',related='sale_order_id.invoice_ids.internal_number')
+    invoice_sale_id=fields.Char(string='Invoice Number',related='sale_order_id.invoice_ids.internal_number',store=True)
     invoice_ids=fields.Many2many('account.invoice','account_invoice_project_issue_rel',string='Invoices Numbers')
     
 class ResPartner(models.Model):
@@ -674,3 +674,13 @@ class HRAnalitycTimesheet(models.Model):
                 cr.execute('update project_task set remaining_hours=remaining_hours + %s where id=%s', (ts.end_time-ts.start_time, ts.task_id.id))
                 task_obj.invalidate_cache(cr, uid, ['remaining_hours'], [ts.task_id.id], context=context)
         return super(HRAnalitycTimesheet,self).unlink(cr, uid, ids, context=context)
+    
+class AccountMoveLine(models.Model):
+        _inherit = "account.move.line"
+        
+        company_parent_id=fields.Many2one('res.partner',related='partner_id.parent_id',store=True,string="Parent Company")
+
+class AccountMove(models.Model):
+        _inherit = "account.move"
+        
+        company_parent_id=fields.Many2one('res.partner',related='partner_id.parent_id',store=True,string="Parent Company")

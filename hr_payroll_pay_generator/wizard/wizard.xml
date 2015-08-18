@@ -6,7 +6,7 @@
             <field name="model">hr.payroll.pay.generator.generator.wizard</field>
             <field name="priority" eval="16"/>
             <field name="arch" type="xml">
-                <form string="Generator Wizard" version="7.0">
+                <form string="Generator Wizard">
                     <group>
                         <group>
                             <field name="pay_type_id" widget="selection"/>

@@ -173,9 +173,6 @@ class Feature(osv.Model):
     def set_open(self, cr, uid, ids, context=None):
         return self.write(cr, uid, ids, {'state':'open'}, context=context)
     
-    def set_approved(self, cr, uid, ids, context=None):
-        return self.write(cr, uid, ids, {'state':'approved'}, context=context)
-    
     def set_done(self, cr, uid, ids, context=None):
         return self.write(cr, uid, ids, {'state':'done'}, context=context)
     
@@ -227,8 +224,8 @@ class Feature(osv.Model):
                     _remaining_hours, type='float', string='Remaining Hour(s)',
                     help='Difference between planned hours and spent hours.', store=True),
                 'progress': fields.function(_progress, type='float', string='Progress (%)', store=True),
-                'state': fields.selection([('draft', 'New'), ('approved', 'Approved'),
-                    ('open', 'In Progress'), ('cancelled', 'Cancelled'), ('done', 'Done'), ],
+                'state': fields.selection([('draft', 'New'), ('open', 'In Progress'), 
+                                           ('cancelled', 'Cancelled'), ('done', 'Done'), ],
                     'Status', required=True),
                 'color': fields.integer('Color Index'),
                 }
@@ -453,6 +450,7 @@ class Sprint(osv.Model):
                 }
     
     _defaults = {
+                 'state': 'new',
                  'date_start': lambda *a: datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S'),
                  'deadline': lambda *a: datetime.strftime(datetime.now(), '%Y-%m-%d'),
                  }

@@ -21,34 +21,28 @@
 ##############################################################################
 
 {
-    "name" : 'CCorp Project OpenERP Methodology',
-    "version" : '1.0',
-    "author" : 'ClearCorp',
-    'complexity': 'normal',
-    "description": """
-""",
-    "category": 'Project Management',
-    "sequence": 10,
-    "website" : "http://clearcorp.co.cr",
-    "images" : [],
-    "depends" : [
-                 'ccorp_project_scrum',
-                   'hr',
-                   'project_issue',
-                 ],
-    "data" : [
-              'security/project_security.xml',
-              'wizard/wizard_view.xml',
-              'view/ccorp_project_oerp_view.xml',
-              'view/ccorp_project_oerp_menu.xml',
-              'security/ir.model.access.csv',
-              ],
-    "init_xml" : [],
-    "demo_xml" : [],
-    "update_xml" : [],
-    "test" : [],
-    "auto_install": False,
-    "application": False,
-    "installable": True,
+    'name': 'Payroll Pay Generator',
+    'version': '1.0',
+    'category': 'Hidden',
+    'sequence': 3,
+    'summary': 'Base for Payroll Generators',
+    'description': """
+Base for Payroll Generators
+===========================
+
+Provide a common base for Payroll Generator""",
+    'author': 'ClearCorp',
+    'website': 'http://clearcorp.co.cr',
+    'depends': ['hr_payroll'],
+    'data': [
+        'hr_payroll_pay_generator_view.xml',
+        'wizard/wizard.xml',
+        'security/ir.model.access.csv',
+    ],
+    'test': [],
+    'demo': [],
+    'installable': True,
+    'auto_install': False,
+    'application': False,
     'license': 'AGPL-3',
 }

@@ -20,35 +20,27 @@
 #
 ##############################################################################
 
-{
-    "name" : 'CCorp Project OpenERP Methodology',
-    "version" : '1.0',
-    "author" : 'ClearCorp',
-    'complexity': 'normal',
-    "description": """
-""",
-    "category": 'Project Management',
-    "sequence": 10,
-    "website" : "http://clearcorp.co.cr",
-    "images" : [],
-    "depends" : [
-                 'ccorp_project_scrum',
-                   'hr',
-                   'project_issue',
-                 ],
-    "data" : [
-              'security/project_security.xml',
-              'wizard/wizard_view.xml',
-              'view/ccorp_project_oerp_view.xml',
-              'view/ccorp_project_oerp_menu.xml',
-              'security/ir.model.access.csv',
-              ],
-    "init_xml" : [],
-    "demo_xml" : [],
-    "update_xml" : [],
-    "test" : [],
-    "auto_install": False,
-    "application": False,
-    "installable": True,
-    'license': 'AGPL-3',
-}
+from openerp.osv import osv, fields
+
+
+class GeneratorWizard(osv.TransientModel):
+
+    _name = 'hr.payroll.pay.generator.generator.wizard'
+
+    def generator_exectute(self, cr, uid, ids, context=None):
+        return True
+
+    _columns = {
+        'pay_type_id': fields.many2one(
+            'hr.payroll.pay.generator.pay.type',
+            string='Pay Type', required=True),
+        'payslip_run_id': fields.many2one(
+            'hr.payslip.run', string='Payslip Batch',
+            required=True),
+        'salary_rule_id': fields.many2one(
+            'hr.salary.rule', string='Salary Rule',
+            required=True),
+        'employee_ids': fields.many2many(
+            'hr.employee', string='Employees',
+            required=True),
+    }

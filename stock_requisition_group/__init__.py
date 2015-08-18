@@ -20,35 +20,7 @@
 #
 ##############################################################################
 
-{
-    "name" : 'CCorp Project OpenERP Methodology',
-    "version" : '1.0',
-    "author" : 'ClearCorp',
-    'complexity': 'normal',
-    "description": """
-""",
-    "category": 'Project Management',
-    "sequence": 10,
-    "website" : "http://clearcorp.co.cr",
-    "images" : [],
-    "depends" : [
-                 'ccorp_project_scrum',
-                   'hr',
-                   'project_issue',
-                 ],
-    "data" : [
-              'security/project_security.xml',
-              'wizard/wizard_view.xml',
-              'view/ccorp_project_oerp_view.xml',
-              'view/ccorp_project_oerp_menu.xml',
-              'security/ir.model.access.csv',
-              ],
-    "init_xml" : [],
-    "demo_xml" : [],
-    "update_xml" : [],
-    "test" : [],
-    "auto_install": False,
-    "application": False,
-    "installable": True,
-    'license': 'AGPL-3',
-}
+import purchase_requisition
+import procurement_order
+import purchase_order
+import stock_move
