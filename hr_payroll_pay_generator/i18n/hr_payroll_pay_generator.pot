@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-11 16:57+0000\n"
-"PO-Revision-Date: 2015-08-11 16:57+0000\n"
+"POT-Creation-Date: 2015-08-19 16:33+0000\n"
+"PO-Revision-Date: 2015-08-19 16:33+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -45,6 +45,11 @@ msgstr ""
 #. module: hr_payroll_pay_generator
 #: field:hr.payroll.pay.generator.pay.type,description:0
 msgid "Description"
+msgstr ""
+
+#. module: hr_payroll_pay_generator
+#: model:ir.model,name:hr_payroll_pay_generator.model_hr_employee
+msgid "Employee"
 msgstr ""
 
 #. module: hr_payroll_pay_generator
@@ -92,6 +97,7 @@ msgid "Pay Generator"
 msgstr ""
 
 #. module: hr_payroll_pay_generator
+#: field:hr.employee,pay_type_id:0
 #: field:hr.payroll.pay.generator.generator.wizard,pay_type_id:0
 #: model:ir.model,name:hr_payroll_pay_generator.model_hr_payroll_pay_generator_pay_type
 msgid "Pay Type"
