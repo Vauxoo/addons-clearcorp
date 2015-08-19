@@ -20,27 +20,23 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
+from openerp import models, fields, api
 
 
-class GeneratorWizard(osv.TransientModel):
+class GeneratorWizard(models.TransientModel):
 
     _name = 'hr.payroll.pay.generator.generator.wizard'
 
-    def generator_exectute(self, cr, uid, ids, context=None):
-        return True
+    @api.multi
+    def generator_exectute(self):
+        raise NotImplementedError
 
-    _columns = {
-        'pay_type_id': fields.many2one(
-            'hr.payroll.pay.generator.pay.type',
-            string='Pay Type', required=True),
-        'payslip_run_id': fields.many2one(
-            'hr.payslip.run', string='Payslip Batch',
-            required=True),
-        'salary_rule_id': fields.many2one(
-            'hr.salary.rule', string='Salary Rule',
-            required=True),
-        'employee_ids': fields.many2many(
-            'hr.employee', string='Employees',
-            required=True),
-    }
+    pay_type_id = fields.Many2one(
+        'hr.payroll.pay.generator.pay.type',
+        string='Pay Type', required=True)
+    payslip_run_id = fields.Many2one(
+        'hr.payslip.run', string='Payslip Batch', required=True)
+    salary_rule_id = fields.Many2one(
+        'hr.salary.rule', string='Salary Rule', required=True)
+    employee_ids = fields.Many2many(
+        'hr.employee', string='Employees', required=True)

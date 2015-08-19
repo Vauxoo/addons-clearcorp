@@ -26,11 +26,6 @@
     'category': 'Hidden',
     'sequence': 3,
     'summary': 'Base for Payroll Generators',
-    'description': """
-Base for Payroll Generators
-===========================
-
-Provide a common base for Payroll Generator""",
     'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'depends': ['hr_payroll'],

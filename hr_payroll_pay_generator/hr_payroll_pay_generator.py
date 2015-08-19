@@ -20,18 +20,16 @@
 #
 ##############################################################################
 
-from openerp.osv import osv, fields
+from openerp import models, fields
 
 
-class PayType(osv.Model):
+class PayType(models.Model):
     """Pay Type"""
 
     _name = 'hr.payroll.pay.generator.pay.type'
 
     _description = __doc__
 
-    _columns = {
-        'code': fields.char('Code', size=16, required=True, readonly=True),
-        'name': fields.char('Name', size=64),
-        'description': fields.text('Description'),
-    }
+    code = fields.Char('Code', size=16, required=True, readonly=True)
+    name = fields.Char('Name', size=64)
+    description = fields.Text('Description')

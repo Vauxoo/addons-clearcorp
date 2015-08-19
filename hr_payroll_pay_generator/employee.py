@@ -20,6 +20,12 @@
 #
 ##############################################################################
 
-import hr_payroll_pay_generator
-import employee
-import wizard
+from openerp import models, fields
+
+
+class Employee(models.Model):
+
+    _inherit = 'hr.employee'
+
+    pay_type_id = fields.Many2one(
+        'hr.payroll.pay.generator.pay.type', string='Pay Type')
