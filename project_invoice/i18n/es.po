@@ -1,0 +1,205 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* project_invoice
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-20 17:23+0000\n"
+"PO-Revision-Date: 2015-08-20 17:23+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: project_invoice
+#: model:ir.model,name:project_invoice.model_account_analytic_account
+msgid "Analytic Account"
+msgstr "Cuenta analítica"
+
+#. module: project_invoice
+#: view:task.billing.wizard:project_invoice.view_task_billing_wizard_form
+msgid "Are you sure you want to continue?"
+msgstr "¿Desea continuar?"
+
+#. module: project_invoice
+#: model:ir.ui.menu,name:project_invoice.tasks_charge
+msgid "Billing Task"
+msgstr "Facturar Tareas"
+
+#. module: project_invoice
+#: view:task.billing.wizard:project_invoice.view_task_billing_wizard_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: project_invoice
+#: field:invoice.type,contract_type_id:0
+msgid "Contract type id"
+msgstr "Tipo de contrato"
+
+#. module: project_invoice
+#: view:task.billing.wizard:project_invoice.view_task_billing_wizard_form
+msgid "Create"
+msgstr "Crear"
+
+#. module: project_invoice
+#: model:ir.actions.act_window,name:project_invoice.action_task_invoice_wizard
+msgid "Create Draft Invoices"
+msgstr "Crear facturas borrador"
+
+#. module: project_invoice
+#: field:invoice.type,create_uid:0
+#: field:task.billing.wizard,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: project_invoice
+#: field:invoice.type,create_date:0
+#: field:task.billing.wizard,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: project_invoice
+#: view:project.task:project_invoice.view_task_search
+msgid "Done"
+msgstr "Hecho"
+
+#. module: project_invoice
+#: view:project.task:project_invoice.view_task_search
+msgid "For Invoiced"
+msgstr "Por facturar"
+
+#. module: project_invoice
+#: field:invoice.type,id:0
+#: field:task.billing.wizard,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: project_invoice
+#: field:project.task,invoiced:0
+#: selection:project.task,invoiced:0
+msgid "Invoice"
+msgstr "Facturado"
+
+#. module: project_invoice
+#: view:account.analytic.account:project_invoice.analytic_analytic_account_form2
+msgid "Invoice Comfiguration"
+msgstr "Configurar facturación"
+
+#. module: project_invoice
+#: field:task.billing.wizard,invoice_date:0
+msgid "Invoice Date"
+msgstr "Fecha facturación"
+
+#. module: project_invoice
+#: view:account.analytic.account:project_invoice.analytic_analytic_account_form2
+#: field:account.analytic.account,invoice_type_id:0
+msgid "Invoice Type"
+msgstr "Tipo de factura"
+
+#. module: project_invoice
+#: view:project.task:project_invoice.view_task_form3_inherid
+msgid "Invoiced"
+msgstr "Facturado"
+
+#. module: project_invoice
+#: view:task.billing.wizard:project_invoice.view_task_billing_wizard_form
+msgid "Invoicing Task"
+msgstr "facturación de tareas"
+
+#. module: project_invoice
+#: field:invoice.type,invoice:0
+msgid "Is Invoiced?"
+msgstr "¿Es facturable?"
+
+#. module: project_invoice
+#: field:task.billing.wizard,journal_id:0
+msgid "Journal: "
+msgstr "Diario: "
+
+#. module: project_invoice
+#: field:invoice.type,write_uid:0
+#: field:task.billing.wizard,write_uid:0
+msgid "Last Updated by"
+msgstr "Last Updated by"
+
+#. module: project_invoice
+#: field:invoice.type,write_date:0
+#: field:task.billing.wizard,write_date:0
+msgid "Last Updated on"
+msgstr "Last Updated on"
+
+#. module: project_invoice
+#: field:invoice.type,name:0
+msgid "Name"
+msgstr "Nombre"
+
+#. module: project_invoice
+#: code:addons/project_invoice/wizard/task_billing_wizard.py:16
+#, python-format
+msgid "None of these task lists require invoicing."
+msgstr "Ninguna de estas tareas necesita ser facturada."
+
+#. module: project_invoice
+#: selection:project.task,invoiced:0
+msgid "Not Invoice"
+msgstr "No facturable"
+
+#. module: project_invoice
+#: field:invoice.type,price:0
+msgid "Price"
+msgstr "Precio"
+
+#. module: project_invoice
+#: field:invoice.type,product_id:0
+msgid "Product id"
+msgstr "Producto"
+
+#. module: project_invoice
+#: view:project.task:project_invoice.view_task_search
+msgid "Project"
+msgstr "Proyecto"
+
+#. module: project_invoice
+#: view:project.task:project_invoice.view_task_form3_inherid
+msgid "Split task"
+msgstr "Separar tarea"
+
+#. module: project_invoice
+#: model:ir.model,name:project_invoice.model_project_task
+msgid "Task"
+msgstr "Tarea"
+
+#. module: project_invoice
+#: view:task.billing.wizard:project_invoice.view_task_billing_wizard_form
+msgid "Task Billing Wizard"
+msgstr "Asistente de facturacion de tareas"
+
+#. module: project_invoice
+#: model:ir.actions.act_window,name:project_invoice.action_task_invoice
+msgid "Task Charge"
+msgstr "Cargar tarea"
+
+#. module: project_invoice
+#: view:project.task:project_invoice.view_task_search
+msgid "Tasks"
+msgstr "Tareas"
+
+#. module: project_invoice
+#: selection:project.task,invoiced:0
+msgid "To be Invoice"
+msgstr "Para ser facturado"
+
+#. module: project_invoice
+#: help:project.task,invoiced:0
+msgid "is a invoiced task"
+msgstr "¿Es facturable la tarea?"
+
+#. module: project_invoice
+#: view:task.billing.wizard:project_invoice.view_task_billing_wizard_form
+msgid "or"
+msgstr "o"
+
