@@ -175,6 +175,12 @@ class AccountAnalyticAccount(models.Model):
             self.preventive_check_interval_invoice=str(self.preventive_check_interval_number)+ ' ' + self.preventive_check_interval_type
         else:
             self.preventive_check_interval_invoice=False
+    @api.v7
+    def on_change_partner_id(self, cr, uid, ids, partner_id, name,context=None):
+        res=super(AccountAnalyticAccount, self).on_change_partner_id(cr, uid, ids, partner_id, name, context=None)
+        res['value']['branch_ids'] = False
+        return res
+         
     branch_ids=fields.Many2many('res.partner','account_analytic_partner_rel')
     holidays_calendar_id=fields.Many2one('holiday.calendar',string="Holidays Calendar")
     pricelist_ids=fields.One2many('contract.pricelist','contract_id')
