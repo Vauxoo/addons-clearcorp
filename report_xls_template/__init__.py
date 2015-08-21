@@ -21,5 +21,6 @@
 ##############################################################################
 
 import report
+import abstract_report
 import controllers
 import ir_actions_report_xml
