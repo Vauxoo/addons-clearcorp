@@ -105,7 +105,10 @@ class account_analytic_account(osv.osv):
                             count_limit+=timesheet.end_time-timesheet.start_time
                             end_time=timesheet.end_time
                     if count_limit<list.minimum_time:
-                        qty=qty/count_limit
+                        if count_limit!=0:
+                            qty=qty/count_limit
+                        else:
+                            qty=0
                 else:
                     if qty<list.minimum_time:
                         qty=list.minimum_time
