@@ -160,7 +160,7 @@ class IssueInvoiceWizard(models.TransientModel):
         ctx = dict(self._context)
         invoices_list=[]
         for contract in contracts:
-            account_id=contract.property_account_income.id
+            account_id=contract.product_id.property_account_income.id or contract.product_id.categ_id.property_account_income_categ.id
             if contract.invoice_partner_type=='branch':
                 for branch in contract.branch_ids:
                     if branch.property_product_pricelist:
@@ -198,11 +198,13 @@ class IssueInvoiceWizard(models.TransientModel):
                     inv=invoice_obj.create(invoice)
                     invoices_list.append(inv.id)
                     invoice_line={
+                                  'product_id':contract.product_id.id,
                                   'name': contract.name,
                                   'quantity':1,
                                   'price_unit':contract.amount_preventive_check*import_currency_rate,
                                   'discount':contract.to_invoice.factor,
                                   'account_analytic_id': contract.id,
+                                  'invoice_line_tax_id':[(6, 0, [tax.id for tax in contract.product_id.taxes_id])],
                                   'account_id':account_id
                                   }
                     inv.write({'invoice_line':[(0,0,invoice_line)]})
@@ -242,11 +244,13 @@ class IssueInvoiceWizard(models.TransientModel):
                 inv=invoice_obj.create(invoice)
                 invoices_list.append(inv.id)
                 invoice_line={
+                              'product_id':contract.product_id.id,
                               'name': contract.name,
                               'quantity':1,
                               'price_unit':contract.amount_preventive_check*import_currency_rate,
                               'discount':contract.to_invoice.factor,
                               'account_analytic_id': contract.id,
+                              'invoice_line_tax_id':[(6, 0, [tax.id for tax in contract.product_id.taxes_id])],
                               'account_id':account_id
                               }
                 inv.write({'invoice_line':[(0,0,invoice_line)]})
