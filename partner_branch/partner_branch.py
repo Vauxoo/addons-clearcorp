@@ -31,7 +31,7 @@ class ResPartner(orm.Model):
         if partner_type=='company':
             res['is_company'] = True
         elif partner_type=='branch':
-            res['is_company'] = True
+            res['is_company'] = False
         elif partner_type=='contact':
             res['is_company'] = False
         return {'value': res}
