@@ -38,5 +38,18 @@
                 </xpath>
             </field>
         </record>
+        <!-- stock.account.move.line tree -->
+        <record id="view_stock_account_move_line_tree" model="ir.ui.view">
+            <field name="name">stock.account.move.line</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_tree" />
+            <field name="priority" eval="100" />
+            <field name="arch" type="xml">
+                <xpath expr="//tree/field[@name='move_id']" position="after">
+                    <field name="quantity"/>
+                    <field name="unit_cost"/>
+                </xpath>
+            </field>
+        </record>
     </data>
 </openerp>
