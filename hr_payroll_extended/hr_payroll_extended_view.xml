@@ -79,6 +79,9 @@
                     <xpath expr="//form/sheet/group/field[@name='contract_id']" position="attributes">
                         <attribute name="required">True</attribute>
                     </xpath>
+                    <xpath expr="//form/sheet/notebook/page/field[@name='worked_days_line_ids']" position="attributes">
+                        <attribute name="context">{'default_contract_id': contract_id}</attribute>
+                    </xpath>
                     <xpath expr="//form/sheet/notebook/page/field[@name='worked_days_line_ids']/tree/field[@name='code']" position="before">
                         <field name="work_code"/>
                     </xpath>
@@ -89,6 +92,21 @@
                         <field name="work_code"/>
                     </xpath>
                     <xpath expr="//form/sheet/notebook/page/field[@name='worked_days_line_ids']/form/group/field[@name='code']" position="attributes">
+                        <attribute name="invisible">True</attribute>
+                    </xpath>
+                    <xpath expr="//form/sheet/notebook/page/field[@name='input_line_ids']" position="attributes">
+                        <attribute name="context">{'default_contract_id': contract_id}</attribute>
+                    </xpath>
+                    <xpath expr="//form/sheet/notebook/page/field[@name='input_line_ids']/tree/field[@name='code']" position="before">
+                        <field name="input_code"/>
+                    </xpath>
+                    <xpath expr="//form/sheet/notebook/page/field[@name='input_line_ids']/tree/field[@name='code']" position="attributes">
+                        <attribute name="invisible">True</attribute>
+                    </xpath>
+                    <xpath expr="//form/sheet/notebook/page/field[@name='input_line_ids']/form/group/field[@name='code']" position="before">
+                        <field name="input_code"/>
+                    </xpath>
+                    <xpath expr="//form/sheet/notebook/page/field[@name='input_line_ids']/form/group/field[@name='code']" position="attributes">
                         <attribute name="invisible">True</attribute>
                     </xpath>
                 </data>
@@ -108,14 +126,15 @@
             </field>
         </record>
 
-        <!-- hr.payroll.extended.worked_days.value -->
-        <record id="view_worked_days_value_tree" model="ir.ui.view">
-            <field name="name">Worked Days Tree</field>
-            <field name="model">hr.payroll.extended.worked_days.value</field>
+        <!-- hr.payroll.extended.input.value -->
+        <record id="view_input_value_tree" model="ir.ui.view">
+            <field name="name">Inputs Tree</field>
+            <field name="model">hr.payroll.extended.input.value</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree editable="top">
                     <field name="code"/>
+                    <field name="type"/>
                 </tree>
             </field>
         </record>

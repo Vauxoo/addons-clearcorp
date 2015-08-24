@@ -21,5 +21,5 @@
 ##############################################################################
 
 import hr_payroll_extended
+import inputs
 import contract
-import worked_days

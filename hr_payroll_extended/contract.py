@@ -33,4 +33,6 @@ class Contract(models.Model):
         'Work Hours', digits=dp.get_precision('Payroll'))
     fixed_working_days = fields.Float(
         'Work Days', digits=dp.get_precision('Payroll'))
-    fixed_working_hours_code = fields.Char('Code', size=8)
+    fixed_working_hours_code = fields.Many2one(
+        'hr.payroll.extended.input.value', string='Code',
+        domain=[('type', '=', 'worked_days')])

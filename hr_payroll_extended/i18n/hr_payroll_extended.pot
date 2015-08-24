@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-10 22:11+0000\n"
-"PO-Revision-Date: 2015-08-10 22:11+0000\n"
+"POT-Creation-Date: 2015-08-24 17:18+0000\n"
+"PO-Revision-Date: 2015-08-24 17:18+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: hr_payroll_extended
-#: code:addons/hr_payroll_extended/hr_payroll_extend.py:172
+#: code:addons/hr_payroll_extended/hr_payroll_extended.py:172
 #, python-format
 msgid "%s payroll of %s from %s to %s"
 msgstr ""
@@ -44,7 +44,7 @@ msgstr ""
 #. module: hr_payroll_extended
 #: field:hr.contract,fixed_working_hours_code:0
 #: field:hr.job,code:0
-#: field:hr.payroll.extended.worked_days.value,code:0
+#: field:hr.payroll.extended.input.value,code:0
 msgid "Code"
 msgstr ""
 
@@ -69,18 +69,18 @@ msgid "Contract"
 msgstr ""
 
 #. module: hr_payroll_extended
-#: field:hr.payroll.extended.worked_days.value,create_uid:0
+#: field:hr.payroll.extended.input.value,create_uid:0
 msgid "Created by"
 msgstr ""
 
 #. module: hr_payroll_extended
-#: field:hr.payroll.extended.worked_days.value,create_date:0
+#: field:hr.payroll.extended.input.value,create_date:0
 msgid "Created on"
 msgstr ""
 
 #. module: hr_payroll_extended
-#: field:hr.payslip.run,period_id:0
 #: field:hr.payslip,forced_period_id:0
+#: field:hr.payslip.run,period_id:0
 msgid "Force Period"
 msgstr ""
 
@@ -90,8 +90,14 @@ msgid "Generate Payslips"
 msgstr ""
 
 #. module: hr_payroll_extended
-#: field:hr.payroll.extended.worked_days.value,id:0
+#: field:hr.payroll.extended.input.value,id:0
 msgid "ID"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.actions.act_window,name:hr_payroll_extended.action_input_value
+#: model:ir.ui.menu,name:hr_payroll_extended.menu_action_input_value
+msgid "Input Codes"
 msgstr ""
 
 #. module: hr_payroll_extended
@@ -100,18 +106,23 @@ msgid "Job Position"
 msgstr ""
 
 #. module: hr_payroll_extended
-#: field:hr.payroll.extended.worked_days.value,write_uid:0
+#: field:hr.payroll.extended.input.value,write_uid:0
 msgid "Last Updated by"
 msgstr ""
 
 #. module: hr_payroll_extended
-#: field:hr.payroll.extended.worked_days.value,write_date:0
+#: field:hr.payroll.extended.input.value,write_date:0
 msgid "Last Updated on"
 msgstr ""
 
 #. module: hr_payroll_extended
 #: selection:hr.payslip.run,schedule_pay:0
 msgid "Monthly"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: selection:hr.payroll.extended.input.value,type:0
+msgid "Other Inputs"
 msgstr ""
 
 #. module: hr_payroll_extended
@@ -122,6 +133,11 @@ msgstr ""
 #. module: hr_payroll_extended
 #: model:ir.model,name:hr_payroll_extended.model_hr_payslip_run
 msgid "Payslip Batches"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model,name:hr_payroll_extended.model_hr_payslip_input
+msgid "Payslip Input"
 msgstr ""
 
 #. module: hr_payroll_extended
@@ -146,11 +162,6 @@ msgid "Report Configuration"
 msgstr ""
 
 #. module: hr_payroll_extended
-#: model:ir.model,name:hr_payroll_extended.model_hr_payroll_structure
-msgid "Salary Structure"
-msgstr ""
-
-#. module: hr_payroll_extended
 #: view:hr.payslip.run:hr_payroll_extended.inherit_hr_payslip_run_form
 msgid "Schedule pay"
 msgstr ""
@@ -171,6 +182,11 @@ msgid "True"
 msgstr ""
 
 #. module: hr_payroll_extended
+#: field:hr.payroll.extended.input.value,type:0
+msgid "Type"
+msgstr ""
+
+#. module: hr_payroll_extended
 #: field:hr.contract,use_fixed_working_hours:0
 msgid "Use Work Hours"
 msgstr ""
@@ -181,7 +197,7 @@ msgid "Used to display the rule on reports"
 msgstr ""
 
 #. module: hr_payroll_extended
-#: code:addons/hr_payroll_extended/hr_payroll_extend.py:89
+#: code:addons/hr_payroll_extended/hr_payroll_extended.py:89
 #, python-format
 msgid "Warning !"
 msgstr ""
@@ -189,12 +205,6 @@ msgstr ""
 #. module: hr_payroll_extended
 #: selection:hr.payslip.run,schedule_pay:0
 msgid "Weekly"
-msgstr ""
-
-#. module: hr_payroll_extended
-#: model:ir.actions.act_window,name:hr_payroll_extended.action_worked_days_value
-#: model:ir.ui.menu,name:hr_payroll_extended.menu_action_worked_days_value
-msgid "Work Codes"
 msgstr ""
 
 #. module: hr_payroll_extended
@@ -208,25 +218,35 @@ msgid "Work Hours"
 msgstr ""
 
 #. module: hr_payroll_extended
-#: code:addons/hr_payroll_extended/hr_payroll_extend.py:217
+#: selection:hr.payroll.extended.input.value,type:0
+msgid "Worked Days"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: code:addons/hr_payroll_extended/hr_payroll_extended.py:217
 #, python-format
 msgid "Worked Hours"
 msgstr ""
 
 #. module: hr_payroll_extended
-#: code:addons/hr_payroll_extended/hr_payroll_extend.py:90
+#: code:addons/hr_payroll_extended/hr_payroll_extended.py:90
 #, python-format
 msgid "You did not confirm a payslip"
 msgstr ""
 
 #. module: hr_payroll_extended
-#: code:addons/hr_payroll_extended/hr_payroll_extend.py:164
+#: code:addons/hr_payroll_extended/hr_payroll_extended.py:164
 #, python-format
 msgid "monthly"
 msgstr ""
 
 #. module: hr_payroll_extended
-#: code:addons/hr_payroll_extended/hr_payroll_extend.py:162
+#: code:addons/hr_payroll_extended/hr_payroll_extended.py:162
 #, python-format
 msgid "weekly"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: view:hr.payslip:hr_payroll_extended.view_payslip_form
+msgid "{'default_contract_id': contract_id}"
 msgstr ""
