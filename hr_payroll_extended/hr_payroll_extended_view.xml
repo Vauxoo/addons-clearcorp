@@ -139,6 +139,19 @@
             </field>
         </record>
 
+        <!-- hr.salary.rule,category -->
+        <record id="view_salary_rule_category_form" model="ir.ui.view">
+            <field name="name">Salary Rule Category Form</field>
+            <field name="model">hr.salary.rule.category</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="hr_payroll.hr_salary_rule_category_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/group/field[@name='parent_id']" position="after">
+                    <field name="active"/>
+                </xpath>
+            </field>
+        </record>
+
         <!-- hr.payroll.extended.input.value -->
         <record id="view_input_value_tree" model="ir.ui.view">
             <field name="name">Inputs Tree</field>
