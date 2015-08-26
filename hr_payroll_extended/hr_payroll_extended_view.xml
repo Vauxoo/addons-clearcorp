@@ -19,7 +19,7 @@
         </record>
 
         <!-- hr.contract -->
-        <record id="view_structure_form" model="ir.ui.view">
+        <record id="view_contract_form" model="ir.ui.view">
             <field name="name">view.contract.form</field>
             <field name="model">hr.contract</field>
             <field name="type">form</field>
@@ -111,6 +111,19 @@
                     </xpath>
                 </data>
             </field> 
+        </record>
+
+        <!-- hr.payroll.structure -->
+        <record id="view_structure_form" model="ir.ui.view">
+            <field name="name">Structure Form</field>
+            <field name="model">hr.payroll.structure</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_employee_grade_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/group/field[@name='parent_id']" position="after">
+                    <field name="active"/>
+                </xpath>
+            </field>
         </record>
 
         <!-- hr.salary.rule -->

@@ -20,7 +20,11 @@
 #
 ##############################################################################
 
-import hr_payroll_extended
-import inputs
-import contract
-import structure
+from openerp import models, fields
+
+
+class Structure(models.Model):
+
+    _inherit = 'hr.payroll.structure'
+
+    active = fields.Boolean(default=True)
