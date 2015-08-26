@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-24 17:18+0000\n"
-"PO-Revision-Date: 2015-08-24 17:18+0000\n"
+"POT-Creation-Date: 2015-08-26 16:00+0000\n"
+"PO-Revision-Date: 2015-08-26 16:00+0000\n"
 "Last-Translator: Glen Sojo <glen.sojo@clearcorp.co.cr>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -20,6 +20,11 @@ msgstr ""
 #, python-format
 msgid "%s payroll of %s from %s to %s"
 msgstr "%s nómina de %s desde %s hasta %s"
+
+#. module: hr_payroll_extended
+#: field:hr.payroll.structure,active:0
+msgid "Active"
+msgstr "Activo"
 
 #. module: hr_payroll_extended
 #: selection:hr.payslip.run,schedule_pay:0
@@ -51,7 +56,7 @@ msgstr "Código"
 #. module: hr_payroll_extended
 #: model:ir.model,name:hr_payroll_extended.model_res_company
 msgid "Companies"
-msgstr "Compañías"
+msgstr "Compañias"
 
 #. module: hr_payroll_extended
 #: view:hr.payslip.run:hr_payroll_extended.inherit_hr_payslip_run_form
@@ -83,6 +88,11 @@ msgstr "Creado el"
 #: field:hr.payslip.run,period_id:0
 msgid "Force Period"
 msgstr "Forzar período"
+
+#. module: hr_payroll_extended
+#: selection:hr.payslip.run,schedule_pay:0
+msgid "Fortnightly"
+msgstr "Quincenal"
 
 #. module: hr_payroll_extended
 #: view:hr.payslip.run:hr_payroll_extended.inherit_hr_payslip_run_form
@@ -162,6 +172,11 @@ msgid "Report Configuration"
 msgstr "Configuración de informes"
 
 #. module: hr_payroll_extended
+#: model:ir.model,name:hr_payroll_extended.model_hr_payroll_structure
+msgid "Salary Structure"
+msgstr "Estructura salarial"
+
+#. module: hr_payroll_extended
 #: view:hr.payslip.run:hr_payroll_extended.inherit_hr_payslip_run_form
 msgid "Schedule pay"
 msgstr "Pago planificado"
@@ -175,11 +190,6 @@ msgstr "Pago Planificado"
 #: selection:hr.payslip.run,schedule_pay:0
 msgid "Semi-annually"
 msgstr "Semestralmente"
-
-#. module: hr_payroll_extended
-#: view:hr.payslip:hr_payroll_extended.view_payslip_form
-msgid "True"
-msgstr "True"
 
 #. module: hr_payroll_extended
 #: field:hr.payroll.extended.input.value,type:0
@@ -200,7 +210,7 @@ msgstr "Usado para mostrar la regla en reportes"
 #: code:addons/hr_payroll_extended/hr_payroll_extended.py:89
 #, python-format
 msgid "Warning !"
-msgstr "Warning !"
+msgstr "Advertencia !"
 
 #. module: hr_payroll_extended
 #: selection:hr.payslip.run,schedule_pay:0
@@ -245,8 +255,3 @@ msgstr "mensual"
 #, python-format
 msgid "weekly"
 msgstr "semanal"
-
-#. module: hr_payroll_extended
-#: view:hr.payslip:hr_payroll_extended.view_payslip_form
-msgid "{'default_contract_id': contract_id}"
-msgstr "{'default_contract_id': contract_id}"
