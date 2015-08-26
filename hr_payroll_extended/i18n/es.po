@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-26 16:00+0000\n"
-"PO-Revision-Date: 2015-08-26 16:00+0000\n"
+"POT-Creation-Date: 2015-08-26 21:16+0000\n"
+"PO-Revision-Date: 2015-08-26 21:16+0000\n"
 "Last-Translator: Glen Sojo <glen.sojo@clearcorp.co.cr>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -23,6 +23,7 @@ msgstr "%s nómina de %s desde %s hasta %s"
 
 #. module: hr_payroll_extended
 #: field:hr.payroll.structure,active:0
+#: field:hr.salary.rule.category,active:0
 msgid "Active"
 msgstr "Activo"
 
@@ -170,6 +171,11 @@ msgstr "Trimestral"
 #: view:res.company:hr_payroll_extended.view_company_form_inherit
 msgid "Report Configuration"
 msgstr "Configuración de informes"
+
+#. module: hr_payroll_extended
+#: model:ir.model,name:hr_payroll_extended.model_hr_salary_rule_category
+msgid "Salary Rule Category"
+msgstr "Categoría de regla de salario"
 
 #. module: hr_payroll_extended
 #: model:ir.model,name:hr_payroll_extended.model_hr_payroll_structure
