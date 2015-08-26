@@ -26,11 +26,6 @@
     'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'category': 'Human Resources',
-    'description': """
-Payroll Extended
-================
-This module adds different fields and functions to hr models. Also, is the
-base of some hr payroll reports.""",
     'depends': [
         'hr_payroll',
         'account',
