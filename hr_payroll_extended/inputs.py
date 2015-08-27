@@ -47,7 +47,7 @@ class WorkedDays(models.Model):
 
     work_code = fields.Many2one(
         'hr.payroll.extended.input.value', string='Code',
-        domain=[('type', '=', 'worked_days')])
+        ondelete='restrict', domain=[('type', '=', 'worked_days')])
 
 
 class Input(models.Model):
@@ -63,4 +63,4 @@ class Input(models.Model):
 
     input_code = fields.Many2one(
         'hr.payroll.extended.input.value', string='Code',
-        domain=[('type', '=', 'other_inputs')])
+        ondelete='restrict', domain=[('type', '=', 'other_inputs')])
