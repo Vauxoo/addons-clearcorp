@@ -191,6 +191,7 @@ class Payslip(osv.osv):
                 if worked_days_line['code'] == 'WORK100':
                     # Change it if there is no HN
                     if not has_hr:
+                        worked_days_line['work_code'] = input_value.id
                         worked_days_line['code'] = input_value.code
                         worked_days_line['name'] = name
                     # Ignore it if there is another HN line
@@ -216,6 +217,7 @@ class Payslip(osv.osv):
             attendances = {
                  'name': _("Worked Hours"),
                  'sequence': 1,
+                 'work_code': contract.fixed_working_hours_code.id,
                  'code': contract.fixed_working_hours_code.code,
                  'number_of_days': contract.fixed_working_days,
                  'number_of_hours': contract.fixed_working_hours,
