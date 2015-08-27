@@ -24,12 +24,6 @@
     'name': 'Invoice discount',
     'version': '1.0',
     'author': 'ClearCorp',
-    'description': """
-Adds a discount feature for invoice.
-
-With it one can add a discount percent to all invoice lines on an invoice.
-It adds the discounted and undiscounted amounts on the invoice totals.
-    """,
     'category': 'Accounting & Finance',
     'sequence': 4,
     'website': "http://clearcorp.co.cr",
