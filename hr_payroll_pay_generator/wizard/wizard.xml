@@ -12,10 +12,11 @@
                             <field name="pay_type_id" widget="selection"/>
                         </group>
                         <group>
-                            <field name="payslip_run_id" widget="selection"/>
-                            <field name="salary_rule_id" widget="selection"/>
+                            <field name="payslip_run_id"/>
+                            <field name="salary_rule_id"/>
                         </group>
-                        <field name="employee_ids" nolabel="1" colspan="2"/>
+                        <field name="employee_ids" nolabel="1" colspan="2"
+                            domain="[('pay_type_id', '=', pay_type_id)]"/>
                     </group>
                     <footer>
                         <button string="Execute" name="generator_exectute" type="object" confirm="Are you sure you want to continue?" class="oe_highlight"/> or
