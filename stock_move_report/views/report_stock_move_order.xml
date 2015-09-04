@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="report_stock_move_order">
+            <div class="header">
+                <t t-if="o and 'company_id' in o">
+                    <t t-set="company" t-value="o.company_id"></t>
+                </t>
+                <t t-if="not o or not 'company_id' in o">
+                    <t t-set="company" t-value="res_company"></t>
+                </t>
+                <div class="row">
+                    <div class="col-xs-3">
+                        <img t-if="company.logo"
+                            t-att-src="'data:image/png;base64,%s' % company.logo"
+                            style="max-height: 60px;" />
+                    </div>
+                    <div class="col-xs-9 text-left">
+                        <table>
+                            <tr>
+                                <td style="text-align:left;">
+                                    <h2><strong><span
+                                        style="margin:0px;margin-bottom:30px;"
+                                        t-field="company.name">
+                                    </span></strong></h2>
+                                    <h2><strong>stock move order</strong></h2>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row zero_min_height" style="margin-bottom:30px;">
+                    <div class="col-xs-12">
+                        <div style="border-bottom: 1px solid black;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="page">
+                <table class="table table-condensed">
+	                <thead style="background-color:#E0E0E0">
+	                    <tr style="border: 1px" >
+	                        <th style="border: 1px solid #000000 "
+	                                class="text-center">Product</th>
+	                        <th style="border: 1px solid #000000 "
+	                                class="text-center">Qty Available </th>
+	                        <th style="border: 1px solid #000000 "
+	                                class="text-center">Virtual available</th>
+	                        <th style="border: 1px solid #000000 "
+	                                class="text-center">Sale Order</th>
+	                        <th style="border: 1px solid #000000 "
+	                                class="text-center">Quantity delivery</th>
+	                        <th style="border: 1px solid #000000 "
+	                                class="text-center">Purchase order</th>
+	                        <th style="border: 1px solid #000000 "
+                                    class="text-center">Quantity to receive</th>
+	                    </tr>
+	                </thead>
+                   <tbody>
+                        <t t-set="products" t-value="get_data(cr, uid, data)[0]"/> 
+                        <tr>
+                            <td style="border: 1px solid black">
+                                <span t-esc= "products['product']"></span>
+                            </td>
+                            <td style="border: 1px solid black">
+                                <span t-esc= "products['qyt_available']"></span>
+                            </td>
+                            <td style="border: 1px solid black">
+                                <span t-esc= "products['virtual_available']"></span>
+                            </td>
+                            <t t-foreach="products['sale_order']" t-as="sale"> 
+	                            <td style="border: 1px solid black" >
+	                                <span t-esc= "sale"></span>
+	                            </td>
+	                            <td style="border: 1px solid black">
+	                                <span t-esc= "sale"></span>
+	                            </td>
+	                        </t>
+                            <td style="border: 1px solid black">
+                                <span t-esc= "products['purchase_order'][0]"></span>
+                            </td>
+                            <td style="border: 1px solid black">
+                                <span t-esc= "products['purchase_order'][1]"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </template>
+    </data>
+</openerp>
