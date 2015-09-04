@@ -166,7 +166,7 @@ class IssueInvoiceWizard(models.TransientModel):
                             origin=delivery_note_lines.note_id.name
                         invoice_line={
                                     'product_id':delivery_note_lines.product_id.id,
-                                    'name': issue.product_id.description +'-'+delivery_note_lines.product_id.description,
+                                    'name': issue.product_id.description +'-'+delivery_note_lines.name,
                                     'quantity':delivery_note_lines.quantity,
                                     'real_quantity':delivery_note_lines.quantity,
                                     'uos_id':delivery_note_lines.product_uos.id,
