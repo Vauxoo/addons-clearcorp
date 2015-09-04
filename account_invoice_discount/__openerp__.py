@@ -21,31 +21,20 @@
 ##############################################################################
 
 {
-    "name" : 'Invoice discount',
-    "version" : '1.0',
-    "author" :  'ClearCorp',
-    'complexity': 'normal',
-    "description": """
-Adds a discount feature for invoice.
-
-With it one can add a discount percent to all invoice lines on an invoice.
-It adds the discounted and undiscounted amounts on the invoice totals.
-    """,
-    "category": 'Accounting & Finance',
-    "sequence": 4,
-    "website" : "http://clearcorp.co.cr",
-    "images" : [],
-    "depends" : ['account'],
-    "init_xml" : [],
-    "demo_xml" : [],
-    "update_xml" : [],
-    "data" : [
+    'name': 'Invoice discount',
+    'version': '1.0',
+    'author': 'ClearCorp',
+    'category': 'Accounting & Finance',
+    'sequence': 4,
+    'website': "http://clearcorp.co.cr",
+    'depends': ['account'],
+    'data': [
         'account_invoice_discount_view.xml',
     ],
-    "test" : [],
-    "auto_install": False,
-    "application": False,
-    "installable": True,
+    'test': [],
+    'auto_install': False,
+    'application': False,
+    'installable': True,
     'license': 'AGPL-3',
 }
 

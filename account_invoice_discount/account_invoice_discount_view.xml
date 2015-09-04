@@ -4,7 +4,7 @@
         <!-- Form views -->
         <!-- invoice supplier form -->
            <record id="account_invoice_supplier_form_ccorp1" model="ir.ui.view">
-            <field name="name">account.invoice.supplier.form.ccorp1</field>
+            <field name="name">account.invoice.supplier.form.ccorp</field>
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.invoice_supplier_form"/>
             <field name="arch" type="xml">
@@ -48,10 +48,10 @@
             </field>
         </record>
 
-                        <!-- Tree views -->
+          <!-- Tree views -->
           <!-- invoice tree -->
           <record id="invoice_tree_ccorp1" model="ir.ui.view">
-            <field name="name">account.invoice.tree_ccorp1</field>
+            <field name="name">account.invoice.tree_ccorp</field>
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.invoice_tree"/>
             <field name="arch" type="xml">
