@@ -277,7 +277,7 @@ class IssueInvoiceWizard(models.TransientModel):
             if total_expenses>0:
                 invoice_line={
                               'product_id':product_expense,
-                              'name': _(('Expenses of Issue #') + issue.issue_number),
+                              'name': _('Expenses of Issue #' + issue.issue_number),
                               'real_quantity':1,
                               'quantity':1,
                               'price_unit':total_expenses,
@@ -332,7 +332,7 @@ class IssueInvoiceWizard(models.TransientModel):
                     'date_invoice':datetime.strftime(datetime.today(), "%Y-%m-%d"),
                     'company_id':issue.analytic_account_id.company_id.id,
                     'fiscal_position':issue.product_id.manufacturer.property_account_position.id,
-                    'origin':_(('Issue #'))
+                    'origin':_('Issue #')
                     }
                 ctx = dict(self._context)
                 ctx['force_company']=issue.analytic_account_id.company_id.id
@@ -371,7 +371,7 @@ class IssueInvoiceWizard(models.TransientModel):
                         'company_id':user.company_id.id,
                         'currency_id':partner_id.property_product_pricelist.currency_id.id or user.company_id.currency_id.id,
                         'fiscal_position':partner_id.property_account_position.id,
-                        'origin':_(('Issue #')),
+                        'origin':_('Issue #'),
                         'partner_id':partner_id.id,
                         'account_id':partner_id.property_account_receivable.id,
                         'payment_term':partner_id.property_payment_term.id,
@@ -391,7 +391,7 @@ class IssueInvoiceWizard(models.TransientModel):
                         'company_id':user.company_id.id,
                         'currency_id':branch_id.property_product_pricelist.currency_id.id or user.company_id.currency_id.id,
                         'fiscal_position':branch_id.property_account_position.id,
-                        'origin':_(('Issue #')),
+                        'origin':_('Issue #'),
                         'partner_id':branch_id.id,
                         'account_id':branch_id.property_account_receivable.id,
                         'payment_term':branch_id.property_payment_term.id,
@@ -418,12 +418,12 @@ class IssueInvoiceWizard(models.TransientModel):
                     'account_id':issue.product_id.manufacturer.property_account_receivable.id,
                     'payment_term':issue.product_id.manufacturer.property_payment_term.id,
                     'date_invoice':datetime.strftime(datetime.today(), "%Y-%m-%d"),
-                    'name':_(('(Warranty Manufacturer)')),
+                    'name':_('(Warranty Manufacturer)'),
                     'company_id':issue.analytic_account_id.company_id.id,
                     'currency_id':issue.product_id.manufacturer.property_product_pricelist_purchase.currency_id.id or issue.analytic_account_id.company_id.currency_id.id,
                     'fiscal_position':issue.product_id.manufacturer.property_account_position.id,
                     'date_due':self.get_date_due(issue.product_id.manufacturer),
-                    'origin':_(('Issue #'))
+                    'origin':_('Issue #')
                     }
             ctx = dict(self._context)
             ctx['lang']=issue.product_id.manufacturer.lang
