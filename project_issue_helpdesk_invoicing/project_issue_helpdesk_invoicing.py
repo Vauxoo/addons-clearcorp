@@ -690,3 +690,8 @@ class AccountMove(models.Model):
         _inherit = "account.move"
         
         company_parent_id=fields.Many2one('res.partner',related='partner_id.parent_id',store=True,string="Parent Company")
+        
+class HRExpenseLine(models.Model):
+        _inherit = "hr.expense.line"
+        
+        billable=fields.Boolean(string="Billable")

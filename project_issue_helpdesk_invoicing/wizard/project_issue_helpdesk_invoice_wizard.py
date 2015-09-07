@@ -34,6 +34,7 @@ class IssueInvoiceWizard(models.TransientModel):
         user = self.env['res.users'].browse(self._uid)
         total_expenses=0.0
         count_lines=1
+        product_expense=False
         count_lines_products=1
         first_line_product=0
         invoices_list=[]
@@ -229,7 +230,7 @@ class IssueInvoiceWizard(models.TransientModel):
                         backorder.move_lines.write({'invoice_state':'invoiced'})
                         backorder.delivery_note_id.write({'state':'invoiced'})
             for expense_line in issue.expense_line_ids:
-                if expense_line.expense_id.state=='done' or expense_line.expense_id.state=='paid':
+                if expense_line.expense_id.state=='done' or expense_line.expense_id.state=='paid' and expense_line.billable==True:
                     for move_lines in expense_line.expense_id.account_move_id.line_id:
                         for lines in move_lines.analytic_lines:
                             if lines.account_id==expense_line.analytic_account and lines.name==expense_line.name and lines.unit_amount==expense_line.unit_quantity and (lines.amount*-1/lines.unit_amount)==expense_line.unit_amount and not lines.invoice_id:
@@ -270,10 +271,12 @@ class IssueInvoiceWizard(models.TransientModel):
                                             import_currency_rate = 1
                                 account_exp=lines.product_id.property_account_income.id or lines.product_id.categ_id.property_account_income_categ.id
                                 total_expenses+=((lines.amount*-1)*import_currency_rate)*(100-factor.factor or 0.0) / 100.0
+                                if product_expense==False:
+                                    product_expense=lines.product_id.id
                                 lines.write({'invoice_id':inv.id})
             if total_expenses>0:
                 invoice_line={
-                              'product_id':issue.expense_line_ids[0].product_id.id,
+                              'product_id':product_expense,
                               'name': _(('Expenses of Issue #') + issue.issue_number),
                               'real_quantity':1,
                               'quantity':1,
