@@ -37,6 +37,7 @@ Sale order report in Qweb
         'sale_order_discount',
         'sale_order_extended',
         'account_report_lib',
+        'website_quote',
         ],
     "init_xml": [],
     "demo_xml": [],
