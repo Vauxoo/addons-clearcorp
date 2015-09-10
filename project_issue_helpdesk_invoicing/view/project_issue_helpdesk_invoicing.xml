@@ -124,6 +124,12 @@
                 <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']" position="attributes"> 
                     <attribute name="editable"/>
                 </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']/field[@name='total_amount']" position="after">
+                    <field name="billable"/>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/form[@string='Expense Lines']/group/group/field[@name='total_amount']"  position="after">
+                    <field name="billable"/> 
+                </xpath>
             </field>
         </record>
         <!--Form View Inherit Account Analytic requiredAccount-->

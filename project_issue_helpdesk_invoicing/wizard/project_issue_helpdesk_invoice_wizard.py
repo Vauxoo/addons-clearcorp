@@ -34,6 +34,7 @@ class IssueInvoiceWizard(models.TransientModel):
         user = self.env['res.users'].browse(self._uid)
         total_expenses=0.0
         count_lines=1
+        product_expense=False
         count_lines_products=1
         first_line_product=0
         invoices_list=[]
@@ -166,7 +167,7 @@ class IssueInvoiceWizard(models.TransientModel):
                             origin=delivery_note_lines.note_id.name
                         invoice_line={
                                     'product_id':delivery_note_lines.product_id.id,
-                                    'name': issue.product_id.description +'-'+delivery_note_lines.product_id.description,
+                                    'name': issue.product_id.description +'-'+delivery_note_lines.name,
                                     'quantity':delivery_note_lines.quantity,
                                     'real_quantity':delivery_note_lines.quantity,
                                     'uos_id':delivery_note_lines.product_uos.id,
@@ -229,11 +230,80 @@ class IssueInvoiceWizard(models.TransientModel):
                         backorder.move_lines.write({'invoice_state':'invoiced'})
                         backorder.delivery_note_id.write({'state':'invoiced'})
             for expense_line in issue.expense_line_ids:
-                if expense_line.expense_id.state=='done' or expense_line.expense_id.state=='paid':
+                if expense_line.expense_id.state=='done' or expense_line.expense_id.state=='paid' and expense_line.billable==True:
                     for move_lines in expense_line.expense_id.account_move_id.line_id:
                         for lines in move_lines.analytic_lines:
                             if lines.account_id==expense_line.analytic_account and lines.name==expense_line.name and lines.unit_amount==expense_line.unit_quantity and (lines.amount*-1/lines.unit_amount)==expense_line.unit_amount and not lines.invoice_id:
+                                factor = self.env['hr_timesheet_invoice.factor'].browse(lines.to_invoice.id)
+                                if is_warranty==False:
+                                    if issue.partner_id and issue.branch_id:
+                                        if issue.branch_id.property_product_pricelist:
+                                            if expense_line.expense_id.currency_id.id != issue.branch_id.property_product_pricelist.currency_id.id:
+                                                import_currency_rate=expense_line.expense_id.currency_id.get_exchange_rate(issue.branch_id.property_product_pricelist.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                            else:
+                                                import_currency_rate = 1
+                                        else:
+                                            if expense_line.expense_id.currency_id.id != lines.account_id.company_id.currency_id.id:
+                                                import_currency_rate=expense_line.expense_id.currency_id.get_exchange_rate(lines.account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                            else:
+                                                import_currency_rate = 1
+                                    elif issue.partner_id and not issue.branch_id:
+                                        if issue.partner_id.property_product_pricelist:
+                                            if expense_line.expense_id.currency_id.id != issue.partner_id.property_product_pricelist.currency_id.id:
+                                                import_currency_rate=expense_line.expense_id.currency_id.get_exchange_rate(issue.partner_id.property_product_pricelist.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                            else:
+                                                import_currency_rate = 1
+                                        else:
+                                            if expense_line.expense_id.currency_id != lines.account_id.company_id.currency_id.id:
+                                                import_currency_rate=expense_line.expense_id.currency_id.get_exchange_rate(lines.account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                            else:
+                                                import_currency_rate = 1
+                                elif is_warranty==True:
+                                    if  issue.product_id.manufacturer.property_product_pricelist_purchase:
+                                        if expense_line.expense_id.currency_id.id != issue.product_id.manufacturer.property_product_pricelist_purchase.currency_id.id:
+                                            import_currency_rate=expense_line.expense_id.currency_id.get_exchange_rate(issue.product_id.manufacturer.property_product_pricelist_purchase.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                        else:
+                                            import_currency_rate = 1
+                                    else:
+                                        if expense_line.expense_id.currency_id.id != lines.account_id.company_id.currency_id.id:
+                                            import_currency_rate=expense_line.expense_id.currency_id.get_exchange_rate(lines.account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                        else:
+                                            import_currency_rate = 1
+                                account_exp=lines.product_id.property_account_income.id or lines.product_id.categ_id.property_account_income_categ.id
+                                total_expenses+=((lines.amount*-1)*import_currency_rate)*(100-factor.factor or 0.0) / 100.0
+                                if product_expense==False:
+                                    product_expense=lines.product_id.id
                                 lines.write({'invoice_id':inv.id})
+            if total_expenses>0:
+                invoice_line={
+                              'product_id':product_expense,
+                              'name': _('Expenses of Issue #' + issue.issue_number),
+                              'real_quantity':1,
+                              'quantity':1,
+                              'price_unit':total_expenses,
+                              'account_id':account_exp,
+                              'account_analytic_id':issue.analytic_account_id.id
+                              }
+                if issue.warranty=='seller':
+                    invoice_line['price_unit']=0
+                if count_lines<=limit_lines or limit_lines==0 or limit_lines==-1:
+                    if issue.issue_number not in inv.origin:
+                        inv.write({'origin':inv.origin + issue.issue_number +'-'})
+                    inv.write({'invoice_line':[(0,0,invoice_line)]})
+                    inv.write({'issue_ids':[(4,issue.id)]})
+                    count_lines+=1
+                else:
+                    if issue.issue_number not in inv.origin:
+                        inv.write({'origin':inv.origin + issue.issue_number})
+                    inv=invoice_obj.create(invoice_dict)
+                    invoices_list.append(inv.id)
+                    count_lines=1
+                    if issue.issue_number not in inv.origin:
+                        inv.write({'origin':inv.origin + issue.issue_number +'-'})
+                    inv.write({'invoice_line':[(0,0,invoice_line)]})
+                    inv.write({'issue_ids':[(4,issue.id)]})
+                    count_lines+=1
+                total_expenses=0
         return invoices_list
     @api.multi
     def get_date_due(self,partner):
@@ -262,7 +332,7 @@ class IssueInvoiceWizard(models.TransientModel):
                     'date_invoice':datetime.strftime(datetime.today(), "%Y-%m-%d"),
                     'company_id':issue.analytic_account_id.company_id.id,
                     'fiscal_position':issue.product_id.manufacturer.property_account_position.id,
-                    'origin':_(('Issue #'))
+                    'origin':_('Issue #')
                     }
                 ctx = dict(self._context)
                 ctx['force_company']=issue.analytic_account_id.company_id.id
@@ -301,7 +371,7 @@ class IssueInvoiceWizard(models.TransientModel):
                         'company_id':user.company_id.id,
                         'currency_id':partner_id.property_product_pricelist.currency_id.id or user.company_id.currency_id.id,
                         'fiscal_position':partner_id.property_account_position.id,
-                        'origin':_(('Issue #')),
+                        'origin':_('Issue #'),
                         'partner_id':partner_id.id,
                         'account_id':partner_id.property_account_receivable.id,
                         'payment_term':partner_id.property_payment_term.id,
@@ -321,7 +391,7 @@ class IssueInvoiceWizard(models.TransientModel):
                         'company_id':user.company_id.id,
                         'currency_id':branch_id.property_product_pricelist.currency_id.id or user.company_id.currency_id.id,
                         'fiscal_position':branch_id.property_account_position.id,
-                        'origin':_(('Issue #')),
+                        'origin':_('Issue #'),
                         'partner_id':branch_id.id,
                         'account_id':branch_id.property_account_receivable.id,
                         'payment_term':branch_id.property_payment_term.id,
@@ -348,12 +418,12 @@ class IssueInvoiceWizard(models.TransientModel):
                     'account_id':issue.product_id.manufacturer.property_account_receivable.id,
                     'payment_term':issue.product_id.manufacturer.property_payment_term.id,
                     'date_invoice':datetime.strftime(datetime.today(), "%Y-%m-%d"),
-                    'name':_(('(Warranty Manufacturer)')),
+                    'name':_('(Warranty Manufacturer)'),
                     'company_id':issue.analytic_account_id.company_id.id,
                     'currency_id':issue.product_id.manufacturer.property_product_pricelist_purchase.currency_id.id or issue.analytic_account_id.company_id.currency_id.id,
                     'fiscal_position':issue.product_id.manufacturer.property_account_position.id,
                     'date_due':self.get_date_due(issue.product_id.manufacturer),
-                    'origin':_(('Issue #'))
+                    'origin':_('Issue #')
                     }
             ctx = dict(self._context)
             ctx['lang']=issue.product_id.manufacturer.lang
