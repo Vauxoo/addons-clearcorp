@@ -55,12 +55,18 @@
                                 <span class="fa fa-globe" style="width: 14px; text-align: center; margin-right: 3px" /><span t-field="company.website" /><br />
                             </div>
                             <div class="col-xs-4">
-                                <b>Date: </b><span t-field="o.date_order"/><br />
-                                <t t-if="company.partner_id.country_id">
+                                <t t-if="o.date_order">
+                                    <b>Date: </b><span t-field="o.date_order"/><br />
+                                </t>
+                                <t t-if="o.validity_date">
                                     <b>Valid until: </b><span t-field="o.validity_date"/><br />
                                 </t>
-                                <b>Payment terms: </b><span t-if="o.payment_term" t-field="o.payment_term.name"/><br />
-                                <b>Salesperson: </b><span t-if="o.user_id" t-field="o.user_id.name"/>
+                                <t t-if="o.payment_term">
+                                    <b>Payment terms: </b><span t-if="o.payment_term" t-field="o.payment_term.name"/><br />
+                                </t>
+                                <t t-if="o.user_id">
+                                    <b>Salesperson: </b><span t-if="o.user_id" t-field="o.user_id.name"/>
+                                </t>
                             </div>
                         </div>
                         <div class="row mt8 mb2">
