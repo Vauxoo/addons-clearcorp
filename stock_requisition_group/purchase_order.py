@@ -21,6 +21,7 @@
 ##############################################################################
 
 from openerp import models, fields, api
+from openerp.api import onchange
 
 
 class PurchaseOrder(models.Model):
@@ -45,10 +46,44 @@ class PurchaseOrder(models.Model):
                 move_lines[i]['move_dest_id'] = dest_id.id
         return move_lines
 
+    @api.multi
+    def wkf_confirm_order(self):
+        for po in self:
+            for line in po.order_line:
+                line.match_procurement()
+        return True
+
 
 class PurchaseOrderLine(models.Model):
 
     _inherit = 'purchase.order.line'
+
+    @api.one
+    def match_procurement(self):
+        if self.requisition_id and not self.procurement_ids:
+            # rq_line_obj = self.env['purchase.requisition.line']
+            self._cr.execute("""SELECT prl.id, prl.product_qty,
+(SELECT COUNT(*)
+ FROM procurement_order
+ WHERE purchase_line_id = prl.id) AS assigned
+FROM purchase_requisition_line AS prl
+WHERE prl.requisition_id = %s
+AND prl.product_id = %s""", [self.requisition_id.id,
+                             self.product_id.id])
+            possible_matches = self._cr.dictfetchall()
+            # Find the perfect match
+            for match in possible_matches:
+                if match['product_qty'] - \
+                        match['assigned'] == self.product_qty:
+                    self.procurement_ids = [(4, match['id'])]
+                    return True
+            # Fit it in place with a posible match
+            for match in possible_matches:
+                if match['product_qty'] - \
+                        match['assigned'] < self.product_qty:
+                    return True
+            # Raise an error if no match is found
+            raise Exception
 
     requisition_id = fields.Many2one(
         'purchase.requisition', related='order_id.requisition_id',

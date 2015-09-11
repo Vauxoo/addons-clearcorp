@@ -25,8 +25,8 @@
                 <xpath expr="//form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_unit']" position="before">
                     <field name="requisition_id" invisible="1" />
                     <field name="procurement_ids" widget="many2many_tags"
-                        domain="[('requisition_id', '=', requisition_id)]"
-                        attrs="{'required': [('requisition_id', '!=', False)]}"/>
+                        domain="[('requisition_id', '=', requisition_id)]"/>
+                        <!--attrs="{'required': [('requisition_id', '!=', False)]}"-->
                 </xpath>
             </field>
         </record>
