@@ -50,7 +50,13 @@ class StockMoveOder(report_sxw.rml_parse):
             sale_order_ids = sale_obj.search(self.cr, self.uid, [('order_line','in',sale_line_ids)])
             sale_orders = sale_obj.browse(self.cr, self.uid, sale_order_ids)
             sale_orders_list = []
+            purchase_line_ids = purchase_line_obj.search(self.cr, self.uid, [('product_id', '=', product_id),('order_id.shipped', '=', False)])
+            purchase_order_ids = purchase_obj.search(self.cr, self.uid, [('order_line','in',purchase_line_ids)])
+            purchase_orders = purchase_obj.browse(self.cr, self.uid, purchase_order_ids)
             for sale_order in sale_orders:
+#             cont=0
+#             while(cont < max(iterable))
+            
                 sale_product_quantity = 0.0
                 for sale_order_line in sale_order.order_line:
                     if sale_order_line.product_id.id == product_id:
@@ -61,21 +67,19 @@ class StockMoveOder(report_sxw.rml_parse):
                         if move.product_id.id == product_id and move.location_id.id == stock_location and move.state == 'done':
                             sale_product_quantity -= move.product_uom_qty
                 if sale_product_quantity != 0.0:
-                    sale_order_line_dict = {sale_order.name: sale_product_quantity}
+                    sale_order_line_dict = {'sale' : sale_order.name,
+                                            'quantity' : sale_product_quantity,}
                     sale_orders_list.append(sale_order_line_dict)
-                    print sale_orders_list
             line = {
                 'product': product.name,
                 'qyt_available': product.qty_available,
                 'virtual_available': product.virtual_available,
-                'sale_order': sale_orders_list,
-                'purchase_order': [],
+                'product_lines': [],
                 }
-            # product_lines_to_print.append(line)
             # if product is a purchase
-            purchase_line_ids = purchase_line_obj.search(self.cr, self.uid, [('product_id', '=', product_id),('order_id.shipped', '=', False)])
-            purchase_order_ids = purchase_obj.search(self.cr, self.uid, [('order_line','in',purchase_line_ids)])
-            purchase_orders = purchase_obj.browse(self.cr, self.uid, purchase_order_ids)
+#             purchase_line_ids = purchase_line_obj.search(self.cr, self.uid, [('product_id', '=', product_id),('order_id.shipped', '=', False)])
+#             purchase_order_ids = purchase_obj.search(self.cr, self.uid, [('order_line','in',purchase_line_ids)])
+#             purchase_orders = purchase_obj.browse(self.cr, self.uid, purchase_order_ids)
             purchase_orders_list = []
             for purchase_order in purchase_orders:
                 purchase_product_quantity = 0.0
@@ -87,13 +91,17 @@ class StockMoveOder(report_sxw.rml_parse):
                         if move.product_id.id == product_id and move.location_dest_id.id == stock_location and move.state == 'done':
                             purchase_product_quantity -= move.product_uom_qty
                 if purchase_product_quantity != 0.0:
-                    purchase_order_line_dict = {purchase_order.name: purchase_product_quantity}
+
+                    purchase_order_line_dict = {'purchase' : purchase_order.name,
+                                                'quantity' : purchase_product_quantity,}
                     purchase_orders_list.append(purchase_order_line_dict)
-                    print purchase_orders_list
-            line['purchase_order'] = purchase_orders_list
+                    product_lines=[]
+                    product_lines.append(sale_orders_list)
+                    product_lines.append(purchase_orders_list)
+            line['product_lines'] = product_lines
+            line['max'] = max([len(purchase_orders_list), len(sale_orders_list)])
             product_lines_to_print.append(line)
         return product_lines_to_print
-
 
 class report_stock_move_order(models.AbstractModel):
     _name = 'report.stock_move_report.report_stock_move_order'
