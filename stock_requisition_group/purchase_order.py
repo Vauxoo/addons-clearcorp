@@ -21,7 +21,8 @@
 ##############################################################################
 
 from openerp import models, fields, api
-from openerp.api import onchange
+from openerp.exceptions import Warning
+from openerp.tools.translate import _
 
 
 class PurchaseOrder(models.Model):
@@ -62,10 +63,13 @@ class PurchaseOrderLine(models.Model):
     def match_procurement(self):
         if self.requisition_id and not self.procurement_ids:
             # rq_line_obj = self.env['purchase.requisition.line']
-            self._cr.execute("""SELECT prl.id, prl.product_qty,
-(SELECT COUNT(*)
- FROM procurement_order
- WHERE purchase_line_id = prl.id) AS assigned
+            self._cr.execute("""SELECT prl.id, prl.product_qty, prl.procurement_id,
+(SELECT COALESCE(SUM(rql.product_qty), 0.0)
+ FROM purchase_requisition_line AS rql,
+   procurement_order AS pro
+ WHERE rql.id = prl.id
+ AND pro.purchase_line_id IS NOT NULL
+ AND rql.procurement_id = pro.id) AS assigned
 FROM purchase_requisition_line AS prl
 WHERE prl.requisition_id = %s
 AND prl.product_id = %s""", [self.requisition_id.id,
@@ -75,15 +79,24 @@ AND prl.product_id = %s""", [self.requisition_id.id,
             for match in possible_matches:
                 if match['product_qty'] - \
                         match['assigned'] == self.product_qty:
-                    self.procurement_ids = [(4, match['id'])]
+                    self.procurement_ids = [(4, match['procurement_id'])]
                     return True
             # Fit it in place with a posible match
+            diff = self.product_qty
             for match in possible_matches:
-                if match['product_qty'] - \
-                        match['assigned'] < self.product_qty:
-                    return True
+                if (match['product_qty'] -
+                        match['assigned'] <= diff) and \
+                        (match['product_qty'] - match['assigned'] != 0):
+                    diff = diff - (match['product_qty'] -
+                                   match['assigned'])
+                    # Assign the match
+                    self.procurement_ids = [
+                        (4, match['procurement_id'])]
             # Raise an error if no match is found
-            raise Exception
+            if diff > 0:
+                raise Warning(_('It was unable to be processed due '
+                                'to the error in the match of quantities.'))
+            return True
 
     requisition_id = fields.Many2one(
         'purchase.requisition', related='order_id.requisition_id',
