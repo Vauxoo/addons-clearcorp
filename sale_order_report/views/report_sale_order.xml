@@ -179,7 +179,7 @@
                                                     Taxes
                                                 </td>
                                                 <td t-att-colspan="(o.amount_discounted != 0.0) and '5' or '4'" style="padding-left: 24px; padding-right: 15px">
-                                                    <span t-field="o.amount_tax"/>
+                                                    <span t-field="o.amount_tax" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
                                                 </td>
                                             </tr>
                                         </t>
