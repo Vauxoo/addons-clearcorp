@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+        <record id="data_input_value_1" model="hr.payroll.extended.input.value">
+            <field name="code">HN</field>
+            <field name="type">worked_days</field>
+        </record>
+        <record id="data_input_value_2" model="hr.payroll.extended.input.value">
+            <field name="code">HE</field>
+            <field name="type">worked_days</field>
+        </record>
+        <record id="data_input_value_3" model="hr.payroll.extended.input.value">
+            <field name="code">HR</field>
+            <field name="type">worked_days</field>
+        </record>
+        <record id="data_input_value_4" model="hr.payroll.extended.input.value">
+            <field name="code">EXT</field>
+            <field name="type">other_inputs</field>
+        </record>
+    </data>
+</openerp>

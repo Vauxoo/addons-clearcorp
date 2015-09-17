@@ -21,21 +21,21 @@
 ##############################################################################
 
 {
-    'name': 'Hr Payroll Extended',
+    'name': 'Payroll Extended',
     'version': '1.0',
-    "author" : 'ClearCorp',
+    'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'category': 'Human Resources',
-    'description': """
-Hr Payroll Extended
-=====================
-This module adds different fields and functions to hr models. Also, is the
-base of some hr payroll reports.""",
     'depends': [
-                'hr_payroll',
-                'account',
-                ],
-    'data': ['hr_payroll_extend.xml'],
+        'hr_payroll',
+        'account',
+    ],
+    'data': [
+        'hr_payroll_extended_view.xml',
+        'hr_payroll_extended_menu.xml',
+        'data/hr_payroll_extended_data.xml',
+        'security/ir.model.access.csv',
+    ],
     'active': False,
     'installable': True,
     'license': 'AGPL-3',

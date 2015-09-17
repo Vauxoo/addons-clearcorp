@@ -21,7 +21,7 @@
 ##############################################################################
 {
     'name': 'Hr Contract Extended',
-    'version': '1.0',
+    'version': '1.1',
     'url': 'http://launchpad.net/openerp-ccorp-addons',
     'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
