@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-07 17:10+0000\n"
-"PO-Revision-Date: 2015-09-07 17:10+0000\n"
+"POT-Creation-Date: 2015-09-17 22:42+0000\n"
+"PO-Revision-Date: 2015-09-17 22:42+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: project_issue_helpdesk_invoicing
-#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:421
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:424
 #, python-format
 msgid "(Warranty Manufacturer)"
 msgstr "(Garantía de Fabricante)"
@@ -263,7 +263,7 @@ msgid "Expenses Lines"
 msgstr "Líneas de gasto"
 
 #. module: project_issue_helpdesk_invoicing
-#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:280
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:282
 #, python-format
 msgid "Expenses of Issue #"
 msgstr "Gastos de Incidencia #"
@@ -409,7 +409,7 @@ msgid "Invoice type for preventive check and Periodic Rate"
 msgstr "Tipo de Facturación para mantenimientos preventivos y tarifas periodicas"
 
 #. module: project_issue_helpdesk_invoicing
-#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:501
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:504
 #: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_invoice_account_wizard.py:331
 #, python-format
 msgid "Invoices"
@@ -443,10 +443,10 @@ msgid "Issue"
 msgstr "Incidencia"
 
 #. module: project_issue_helpdesk_invoicing
-#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:335
-#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:374
-#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:394
-#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:426
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:338
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:377
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:397
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:429
 #, python-format
 msgid "Issue #"
 msgstr "Incidencia #"
@@ -484,7 +484,7 @@ msgid "Issues Lines"
 msgstr "Líneas de incidencia"
 
 #. module: project_issue_helpdesk_invoicing
-#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:480
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:483
 #: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_invoice_account_wizard.py:301
 #, python-format
 msgid "Issues to Invoice"
@@ -543,7 +543,7 @@ msgid "Mount to Invoice"
 msgstr "Monto a facturar"
 
 #. module: project_issue_helpdesk_invoicing
-#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:414
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:417
 #, python-format
 msgid "Must configure a journal for warranty manufacturer"
 msgstr "Debe configurar un diario para las garantías de fabricante"
@@ -791,7 +791,7 @@ msgstr "Ordenes de Venta"
 #. module: project_issue_helpdesk_invoicing
 #: model:ir.model,name:project_issue_helpdesk_invoicing.model_sale_order_line
 msgid "Sales Order Line"
-msgstr "Línea pedido de venta"
+msgstr "Línea de pedido de venta"
 
 #. module: project_issue_helpdesk_invoicing
 #: field:project.issue.helpdesk.invoice.wizard,date_from:0
@@ -800,7 +800,7 @@ msgid "Start Date"
 msgstr "Fecha Inicial"
 
 #. module: project_issue_helpdesk_invoicing
-#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:508
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:511
 #: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_invoice_account_wizard.py:338
 #, python-format
 msgid "Start Date must be less than End Date"
@@ -813,7 +813,7 @@ msgid "Start Period"
 msgstr "Período de inicio"
 
 #. module: project_issue_helpdesk_invoicing
-#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:513
+#: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_helpdesk_invoice_wizard.py:516
 #: code:addons/project_issue_helpdesk_invoicing/wizard/project_issue_invoice_account_wizard.py:343
 #, python-format
 msgid "Start Period must be less than End Period"

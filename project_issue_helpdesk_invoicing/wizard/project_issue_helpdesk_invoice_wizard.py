@@ -279,7 +279,7 @@ class IssueInvoiceWizard(models.TransientModel):
             if total_expenses>0:
                 invoice_line={
                               'product_id':product_expense,
-                              'name': _('Expenses of Issue #' + issue.issue_number),
+                              'name': _('Expenses of Issue #') + issue.issue_number,
                               'real_quantity':1,
                               'quantity':1,
                               'price_unit':total_expenses,
