@@ -255,8 +255,8 @@ class accountAnalityc(osv.Model):
         project_list.append(project_id)
         child_parent = project_obj._get_project_and_children(cr, uid, [project_id], context)
         for key, value in child_parent.iteritems():
-            if value == project_id:
-                project_list.extend(self._get_all_project_and_children(cr, uid, key, project_list, context=context))
+            if key not in  project_list:
+                self._get_all_project_and_children(cr, uid, key, project_list, context=context)
         return project_list
                 
  
