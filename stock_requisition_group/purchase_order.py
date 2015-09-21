@@ -62,7 +62,8 @@ class PurchaseOrderLine(models.Model):
     @api.one
     def match_procurement(self):
         if self.requisition_id and not self.procurement_ids:
-            # rq_line_obj = self.env['purchase.requisition.line']
+            if not self.product_id:
+                return True
             self._cr.execute("""SELECT prl.id, prl.product_qty, prl.procurement_id,
 (SELECT COALESCE(SUM(rql.product_qty), 0.0)
  FROM purchase_requisition_line AS rql,
