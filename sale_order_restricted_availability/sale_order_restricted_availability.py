@@ -31,6 +31,7 @@ class SaleOrder(models.Model):
             if not self.env['res.users'].has_group(
             'sale_order_restricted_availability.group_exceeding_limits_stock_sale'):
                 for line in sale_order.order_line:
-                    if line.product_id.type!='service' and (line.product_id.qty_available<line.product_uom_qty or line.product_id.qty_available<=0):
-                        raise Warning(_('Not enough stock for product %s. Stock Actual: %s' %('['+line.product_id.default_code+']'+line.product_id.name,line.product_id.qty_available)))
+                    if line.product_id:
+                        if line.product_id.type!='service' and (line.product_id.qty_available<line.product_uom_qty or line.product_id.qty_available<=0):
+                            raise Warning(_('Not enough stock for product %s. Stock Actual: %s' %('['+line.product_id.default_code+']'+line.product_id.name,line.product_id.qty_available)))
         return super(SaleOrder,self).action_button_confirm()
