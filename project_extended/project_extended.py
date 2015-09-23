@@ -252,13 +252,10 @@ class accountAnalityc(osv.Model):
  
     def _get_all_project_and_children(self, cr, uid, project_id, project_list=[], context=None):
         project_obj = self.pool.get('project.project')
-        project_list.append(project_id)
         child_parent = project_obj._get_project_and_children(cr, uid, [project_id], context)
-        for key, value in child_parent.iteritems():
-            if value == project_id:
-                project_list.extend(self._get_all_project_and_children(cr, uid, key, project_list, context=context))
+        project_list = child_parent.keys()
         return project_list
-                
+        
  
     def write(self, cr, uid, ids, values, context=None):
         if isinstance(ids, (int, long)):
