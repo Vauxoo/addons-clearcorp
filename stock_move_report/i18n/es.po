@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-15 22:00+0000\n"
-"PO-Revision-Date: 2015-05-15 22:00+0000\n"
+"POT-Creation-Date: 2015-09-24 20:53+0000\n"
+"PO-Revision-Date: 2015-09-24 20:53+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -47,6 +47,7 @@ msgid "All Products"
 msgstr "Todos"
 
 #. module: stock_move_report
+#: view:report.stock.move.order.wiz:stock_move_report.report_stock_move_order_wizard_form
 #: view:stock.move.report.wiz:stock_move_report.stock_move_report_wizard_form_view
 msgid "Cancel"
 msgstr "Cancelar"
@@ -82,11 +83,13 @@ msgid "Company"
 msgstr "Empresa"
 
 #. module: stock_move_report
+#: field:report.stock.move.order.wiz,create_uid:0
 #: field:stock.move.report.wiz,create_uid:0
 msgid "Created by"
 msgstr "Creado por"
 
 #. module: stock_move_report
+#: field:report.stock.move.order.wiz,create_date:0
 #: field:stock.move.report.wiz,create_date:0
 msgid "Created on"
 msgstr "Creado en"
@@ -113,7 +116,7 @@ msgstr "Descripción"
 #. module: stock_move_report
 #: view:website:stock.report_picking
 msgid "Destination"
-msgstr "Destino"
+msgstr "Destinación"
 
 #. module: stock_move_report
 #: view:stock.move.analysis:stock_move_report.view_stock_move_analysis_search
@@ -180,6 +183,8 @@ msgid "Group By..."
 msgstr "Agrupar por..."
 
 #. module: stock_move_report
+#: field:report.stock.move.order.wiz,id:0
+#: field:report.stock_move_report.report_stock_move_order,id:0
 #: field:report.stock_move_report.report_stock_move_pdf,id:0
 #: field:report.stock_move_report.report_stock_move_xls,id:0
 #: field:stock.move.analysis,id:0
@@ -193,11 +198,13 @@ msgid "Include costs"
 msgstr "Incluir costos"
 
 #. module: stock_move_report
+#: field:report.stock.move.order.wiz,write_uid:0
 #: field:stock.move.report.wiz,write_uid:0
 msgid "Last Updated by"
 msgstr "Ultima Actualización por"
 
 #. module: stock_move_report
+#: field:report.stock.move.order.wiz,write_date:0
 #: field:stock.move.report.wiz,write_date:0
 msgid "Last Updated on"
 msgstr "Ultima Actualización en"
@@ -256,6 +263,7 @@ msgid "Portable Document Format (.pdf)"
 msgstr "Portable Document Format (.pdf)"
 
 #. module: stock_move_report
+#: view:report.stock.move.order.wiz:stock_move_report.report_stock_move_order_wizard_form
 #: view:stock.move.report.wiz:stock_move_report.stock_move_report_wizard_form_view
 msgid "Print"
 msgstr "Imprimir"
@@ -266,19 +274,32 @@ msgid "Print Format"
 msgstr "Formato de Impresión"
 
 #. module: stock_move_report
+#: field:report.stock.move.order.wiz,product_ids:0
 #: view:stock.move.analysis:stock_move_report.view_stock_move_analysis_search
 #: field:stock.move.analysis,product_id:0
 #: field:stock.move.report.wiz,product_ids:0
 #: view:website:stock.report_picking
+#: view:website:stock_move_report.report_stock_move_order
 msgid "Product"
 msgstr "Producto"
 
 #. module: stock_move_report
+#: view:report.stock.move.order.wiz:stock_move_report.report_stock_move_order_wizard_form
 #: view:stock.move.report.wiz:stock_move_report.stock_move_report_wizard_form_view
 #: view:website:stock_move_report.report_stock_move_pdf
 #: view:website:stock_move_report.report_stock_move_xls
 msgid "Products"
 msgstr "Productos"
+
+#. module: stock_move_report
+#: view:website:stock_move_report.report_stock_move_order
+msgid "Purchase order"
+msgstr "Purchase order"
+
+#. module: stock_move_report
+#: view:website:stock_move_report.report_stock_move_order
+msgid "Qty Available"
+msgstr "Inventario Actual"
 
 #. module: stock_move_report
 #: field:stock.move.analysis,product_qty:0
@@ -299,9 +320,31 @@ msgid "Quantity Output"
 msgstr "Cant. de salida"
 
 #. module: stock_move_report
+#: view:website:stock_move_report.report_stock_move_order
+msgid "Quantity delivery"
+msgstr "Cantidad a entregar"
+
+#. module: stock_move_report
+#: view:website:stock_move_report.report_stock_move_order
+msgid "Quantity to receive"
+msgstr "Cantidad por recibir"
+
+#. module: stock_move_report
+#: view:report.stock.move.order.wiz:stock_move_report.report_stock_move_order_wizard_form
 #: view:stock.move.report.wiz:stock_move_report.stock_move_report_wizard_form_view
 msgid "Report Options"
 msgstr "Opciones de reporte"
+
+#. module: stock_move_report
+#: model:ir.actions.act_window,name:stock_move_report.action_report_stock_move_order_wizard_view
+#: model:ir.ui.menu,name:stock_move_report.menu_report_stock_move_order
+msgid "Report Stock Move Order"
+msgstr "Movimientos de stock"
+
+#. module: stock_move_report
+#: view:website:stock_move_report.report_stock_move_order
+msgid "Sale Order"
+msgstr "Pedido de venta"
 
 #. module: stock_move_report
 #: view:website:stock.report_picking
@@ -335,6 +378,16 @@ msgid "Start Date"
 msgstr "Fecha inicial"
 
 #. module: stock_move_report
+#: field:report.stock.move.order.wiz,stock_location:0
+msgid "Stock Location"
+msgstr "Ubicación de stock"
+
+#. module: stock_move_report
+#: view:report.stock.move.order.wiz:stock_move_report.report_stock_move_order_wizard_form
+msgid "Stock Locations"
+msgstr "Ubicaciones de stock"
+
+#. module: stock_move_report
 #: model:ir.actions.act_window,name:stock_move_report.action_stock_move_analysis_report
 #: model:ir.model,name:stock_move_report.model_stock_move_analysis
 #: model:ir.ui.menu,name:stock_move_report.menu_action_stock_move_analysis_report
@@ -342,6 +395,16 @@ msgstr "Fecha inicial"
 #: view:stock.move.analysis:stock_move_report.view_stock_move_analysis_tree
 msgid "Stock Move Analysis"
 msgstr "Análisis Movimientos de Producto"
+
+#. module: stock_move_report
+#: model:ir.actions.report.xml,name:stock_move_report.action_report_stock_move_order
+msgid "Stock Move Order"
+msgstr "Movimientos de stock"
+
+#. module: stock_move_report
+#: view:report.stock.move.order.wiz:stock_move_report.report_stock_move_order_wizard_form
+msgid "Stock Move Order Report"
+msgstr "Reporte de movimientos de stock"
 
 #. module: stock_move_report
 #: model:ir.actions.act_window,name:stock_move_report.action_stock_move_report_wizard_view
@@ -357,6 +420,21 @@ msgstr "Movimientos de Producto"
 #: view:website:stock_move_report.report_stock_move_pdf
 msgid "Stock Moves Report"
 msgstr "Movimientos de Producto"
+
+#. module: stock_move_report
+#: view:website:stock_move_report.report_stock_move_order
+msgid "Stock move order"
+msgstr "Movimientos de stock"
+
+#. module: stock_move_report
+#: view:website:stock_move_report.report_stock_move_order
+msgid "This product not have moves"
+msgstr "Este producto no tiene movientos"
+
+#. module: stock_move_report
+#: view:report.stock.move.order.wiz:stock_move_report.report_stock_move_order_wizard_form
+msgid "This report allows to print a report stock move order."
+msgstr "Este reporte le permite imprimir un reporte de movmientos de stock."
 
 #. module: stock_move_report
 #: view:stock.move.report.wiz:stock_move_report.stock_move_report_wizard_form_view
@@ -377,9 +455,15 @@ msgid "Total"
 msgstr "Total"
 
 #. module: stock_move_report
+#: view:website:stock_move_report.report_stock_move_order
+msgid "Virtual available"
+msgstr "Inventario previsto"
+
+#. module: stock_move_report
+#: view:report.stock.move.order.wiz:stock_move_report.report_stock_move_order_wizard_form
 #: view:stock.move.report.wiz:stock_move_report.stock_move_report_wizard_form_view
 msgid "or"
-msgstr "or"
+msgstr "o"
 
 #. module: stock_move_report
 #: view:website:stock.report_picking

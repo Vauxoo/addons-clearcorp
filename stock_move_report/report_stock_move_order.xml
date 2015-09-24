@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
-        
         <!--Report PDF-->
         <report 
             id="action_report_stock_move_order"

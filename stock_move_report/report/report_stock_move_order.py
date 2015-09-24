@@ -38,8 +38,8 @@ class StockMoveOder(report_sxw.rml_parse):
         product_product_obj = self.pool.get('product.product')
         sale_line_obj = self.pool.get('sale.order.line')
         sale_obj = self.pool.get('sale.order')
-        purchase_obj = self.pool.get('purchase.order')
         purchase_line_obj = self.pool.get('purchase.order.line')
+        purchase_obj = self.pool.get('purchase.order')
         product_ids = data['form']['product_ids']
         stock_location = data['form']['stock_location'][0]
         product_lines_to_print = []
@@ -54,14 +54,10 @@ class StockMoveOder(report_sxw.rml_parse):
             purchase_order_ids = purchase_obj.search(self.cr, self.uid, [('order_line','in',purchase_line_ids)])
             purchase_orders = purchase_obj.browse(self.cr, self.uid, purchase_order_ids)
             for sale_order in sale_orders:
-#             cont=0
-#             while(cont < max(iterable))
-            
                 sale_product_quantity = 0.0
                 for sale_order_line in sale_order.order_line:
                     if sale_order_line.product_id.id == product_id:
                         sale_product_quantity += sale_order_line.product_uom_qty
-                #  nota sumar los cantidades del los sale.order.line dentro de este for al sale_order_list
                 for picking in sale_order.picking_ids:
                     for move in picking.move_lines:
                         if move.product_id.id == product_id and move.location_id.id == stock_location and move.state == 'done':
@@ -76,10 +72,7 @@ class StockMoveOder(report_sxw.rml_parse):
                 'virtual_available': product.virtual_available,
                 'product_lines': [],
                 }
-            # if product is a purchase
-#             purchase_line_ids = purchase_line_obj.search(self.cr, self.uid, [('product_id', '=', product_id),('order_id.shipped', '=', False)])
-#             purchase_order_ids = purchase_obj.search(self.cr, self.uid, [('order_line','in',purchase_line_ids)])
-#             purchase_orders = purchase_obj.browse(self.cr, self.uid, purchase_order_ids)
+            # is product are in purchase
             purchase_orders_list = []
             for purchase_order in purchase_orders:
                 purchase_product_quantity = 0.0
@@ -91,15 +84,13 @@ class StockMoveOder(report_sxw.rml_parse):
                         if move.product_id.id == product_id and move.location_dest_id.id == stock_location and move.state == 'done':
                             purchase_product_quantity -= move.product_uom_qty
                 if purchase_product_quantity != 0.0:
-
                     purchase_order_line_dict = {'purchase' : purchase_order.name,
                                                 'quantity' : purchase_product_quantity,}
                     purchase_orders_list.append(purchase_order_line_dict)
-                    product_lines=[]
-                    product_lines.append(sale_orders_list)
-                    product_lines.append(purchase_orders_list)
+            product_lines=[]
+            product_lines.append(sale_orders_list)
+            product_lines.append(purchase_orders_list)
             line['product_lines'] = product_lines
-            line['max'] = max([len(purchase_orders_list), len(sale_orders_list)])
             product_lines_to_print.append(line)
         return product_lines_to_print
 

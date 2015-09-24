@@ -34,29 +34,9 @@ class ReportStockMoveOrder(models.TransientModel):
 
     @api.multi
     def print_report(self):
-        """if not self.product_ids and not self.stock_location:
-            doc_ids = self.env['product.product'].search([], order="default_code ASC")
-        else:
-            location_list_ids=[]
-            product_list_ids=[]
-            for location in self.stock_location:
-                location_list_ids.append(location.id)
-            for product in self.product_ids:
-                product_list_ids.append(product.id)
-            doc_ids = self.env['product.product'].search(['|',('id','in',product_list_ids),('product_tmpl_id.categ_id','in',location_list_ids)] , order="default_code ASC")
-        data = {}
-        data['form'] = self.read(['stock_location', 'product_ids'])[0]
-        res = self.env['report'].get_action(doc_ids,
-            'stock_move_report.report_stock_move_order', data=data)
-        return res"""
         data = {}
         doc_ids = self
         data['form'] = self.read(['stock_location', 'product_ids'])[0]
         res = self.env['report'].get_action(doc_ids,
             'stock_move_report.report_stock_move_order', data=data)
         return res
-        """
-        return {'type': 'ir.actions.report.xml',
-                'report_name': 'stock_move_report.report_stock_move_order',
-                'data': data}
-        """
