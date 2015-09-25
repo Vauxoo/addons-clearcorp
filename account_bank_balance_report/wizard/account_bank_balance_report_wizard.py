@@ -37,6 +37,7 @@ class accountBankbalanceReportwizard(osv.osv_memory):
     _defaults = {
        'journal_ids':[],
        'out_format': 'pdf',
+       'filter': 'filter_period',
        }
     
     def pre_print_report(self, cr, uid, ids, data, context=None):
@@ -74,4 +75,3 @@ class accountBankbalanceReportwizard(osv.osv_memory):
             'datas': data,
             'context':context
         }
-    
