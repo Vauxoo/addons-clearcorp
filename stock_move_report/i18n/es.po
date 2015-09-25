@@ -116,7 +116,7 @@ msgstr "Descripción"
 #. module: stock_move_report
 #: view:website:stock.report_picking
 msgid "Destination"
-msgstr "Destinación"
+msgstr "Destino"
 
 #. module: stock_move_report
 #: view:stock.move.analysis:stock_move_report.view_stock_move_analysis_search
@@ -294,7 +294,7 @@ msgstr "Productos"
 #. module: stock_move_report
 #: view:website:stock_move_report.report_stock_move_order
 msgid "Purchase order"
-msgstr "Purchase order"
+msgstr "Pedido de compra"
 
 #. module: stock_move_report
 #: view:website:stock_move_report.report_stock_move_order
