@@ -34,12 +34,16 @@ This module add stock move report
                 'stock','product','report_xls_template'
                 ],
     'data': [
+                    'security/ir.model.access.csv',
                     'stock_move_report_report.xml',
+                    'report_stock_move_order.xml',
                     'views/report_stock_move_pdf.xml',
                     'views/report_picking.xml',
                     'report/stock_move_analysis.xml',
                     'views/report_stock_move_xls.xml',
+                    'views/report_stock_move_order.xml',
                     'wizard/stock_move_report_wizard.xml',
+                    'wizard/stock_move_order_wizard.xml',
                     ],
     'license': 'AGPL-3',
     'installable': True,

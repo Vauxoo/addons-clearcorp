@@ -20,6 +20,23 @@
 #
 ##############################################################################
 
-import stock_move_analysis
-import report_stock_move
-import report_stock_move_order
+
+from openerp import models, fields, api
+
+
+class ReportStockMoveOrder(models.TransientModel):
+    _name = 'report.stock.move.order.wiz'
+
+    stock_location = fields.Many2one('stock.location',
+                                     string='Stock Location')
+    product_ids = fields.Many2many('product.product',
+                                   string='Product')
+
+    @api.multi
+    def print_report(self):
+        data = {}
+        doc_ids = self
+        data['form'] = self.read(['stock_location', 'product_ids'])[0]
+        res = self.env['report'].get_action(doc_ids,
+            'stock_move_report.report_stock_move_order', data=data)
+        return res
