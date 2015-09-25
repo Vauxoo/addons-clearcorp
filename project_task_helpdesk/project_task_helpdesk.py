@@ -89,6 +89,7 @@ class ProjectTask(models.Model):
             
     purchase_orde_line=fields.One2many('purchase.order.line','task_id')
     expense_line_ids=fields.One2many('hr.expense.line','task_id')
+    account_invoice_line_ids=fields.One2many('account.invoice.line','task_id')
     timesheet_ids=fields.One2many('hr.analytic.timesheet','task_id')
     backorder_ids= fields.One2many('stock.picking','task_id')
     analytic_account_id = fields.Many2one('account.analytic.account',compute="get_account_id",string='Analytic Account',store=True)
@@ -109,6 +110,12 @@ class HRExpenseLine(models.Model):
         else:
             self.analytic_account=False
     task_id=fields.Many2one('project.task',string="Project Task")
+    
+class AccountInvoiceLine(models.Model):
+    _inherit = 'account.invoice.line'
+    
+    task_id=fields.Many2one('project.task',string="Project Task")
+
 
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
