@@ -238,7 +238,7 @@ msgstr "Define las tarifas de servicios de productos y categorías, tipos de per
 #. module: project_issue_helpdesk_invoicing
 #: view:account.invoice:project_issue_helpdesk_invoicing.view_account_invoice_form
 msgid "Description..."
-msgstr "Description..."
+msgstr "Descripción..."
 
 #. module: project_issue_helpdesk_invoicing
 #: selection:project.issue.helpdesk.invoice.wizard,state:0
