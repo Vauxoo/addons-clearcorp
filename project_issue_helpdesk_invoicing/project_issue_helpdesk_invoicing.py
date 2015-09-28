@@ -93,6 +93,7 @@ class ProjectIssue(models.Model):
         return super(ProjectIssue, self).write(cr, uid, ids, vals, context)
    
     expense_line_ids=fields.One2many('hr.expense.line','issue_id')
+    account_invoice_line_ids=fields.One2many('account.invoice.line','issue_id')
     sale_order_id=fields.Many2one('sale.order','Sale Order')
     invoice_sale_id=fields.Char(string='Invoice Number',related='sale_order_id.invoice_ids.internal_number',store=True)
     invoice_ids=fields.Many2many('account.invoice','account_invoice_project_issue_rel',string='Invoices Numbers')
@@ -219,6 +220,37 @@ class HRExpenseLine(models.Model):
             self.analytic_account=False
     init_onchange_call= fields.Many2many('account.analytic.account',compute="get_account_issue",string='Nothing Display', help='field at view init')
     issue_id=fields.Many2one('project.issue','Issue')
+
+class AccountInvoiceLine(models.Model):
+    _inherit = 'account.invoice.line'
+    @api.depends('issue_id')
+    @api.one
+    def get_account_issue(self):
+        account_obj=self.env['account.analytic.account']
+        if self.issue_id:
+            self.init_onchange_call=self.issue_id.analytic_account_id
+        else:
+            self.init_onchange_call=account_obj.search([('type','in',['normal','contract'])])
+    @api.onchange('issue_id')
+    def get_account(self):
+        if self.issue_id.analytic_account_id:
+            self.account_analytic_id=self.issue_id.analytic_account_id
+        else:
+            self.account_analytic_id=False
+    
+    @api.onchange('task_id')
+    def get_account_task(self):
+        if self.task_id:
+            if self.task_id.analytic_account_id:
+                self.account_analytic_id=self.task_id.analytic_account_id
+            else:
+                self.account_analytic_id=False
+        else:
+            self.account_analytic_id=False
+                
+    init_onchange_call= fields.Many2many('account.analytic.account',compute="get_account_issue",string='Nothing Display', help='field at view init')
+    issue_id=fields.Many2one('project.issue','Issue')
+    billable=fields.Boolean(string="Billable")
     
         
 class HolidayCalendar(models.Model):

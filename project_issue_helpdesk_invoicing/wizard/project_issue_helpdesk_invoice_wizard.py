@@ -230,6 +230,99 @@ class IssueInvoiceWizard(models.TransientModel):
                         backorder.write({'invoice_state':'invoiced'})
                         backorder.move_lines.write({'invoice_state':'invoiced'})
                         backorder.delivery_note_id.write({'state':'invoiced'})
+            for invoice_lines in issue.account_invoice_line_ids:
+                if invoice_lines.invoice_id.state in ('open','paid') and invoice_lines.billable==True:
+                        if is_warranty==False:
+                            if issue.partner_id and issue.branch_id:
+                                if issue.branch_id.property_product_pricelist:
+                                    if invoice_lines.invoice_id.currency_id.id != issue.branch_id.property_product_pricelist.currency_id.id:
+                                        import_currency_rate=invoice_lines.invoice_id.currency_id.currency_id.get_exchange_rate(issue.branch_id.property_product_pricelist.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                    else:
+                                        import_currency_rate = 1
+                                else:
+                                    if invoice_lines.invoice_id.currency_id.id !=  issue.analytic_account_id.company_id.currency_id.id:
+                                        import_currency_rate=invoice_lines.invoice_id.currency_id.get_exchange_rate(issue.analytic_account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                    else:
+                                        import_currency_rate = 1
+                            elif issue.partner_id and not issue.branch_id:
+                                if issue.partner_id.property_product_pricelist:
+                                    if invoice_lines.invoice_id.currency_id.id != issue.partner_id.property_product_pricelist.currency_id.id:
+                                        import_currency_rate=invoice_lines.invoice_id.currency_id.get_exchange_rate(issue.partner_id.property_product_pricelist.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                    else:
+                                        import_currency_rate = 1
+                                else:
+                                    if invoice_lines.invoice_id.currency_id.id !=  issue.analytic_account_id.company_id.currency_id.id:
+                                        import_currency_rate=invoice_lines.invoice_id.currency_id.get_exchange_rate(issue.analytic_account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                    else:
+                                        import_currency_rate = 1
+                        elif is_warranty==True:
+                            if  issue.product_id.manufacturer.property_product_pricelist_purchase:
+                                if invoice_lines.invoice_id.currency_id.id != issue.product_id.manufacturer.property_product_pricelist_purchase.currency_id.id:
+                                    import_currency_rate=invoice_lines.invoice_id.currency_id.get_exchange_rate(issue.product_id.manufacturer.property_product_pricelist_purchase.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                else:
+                                    import_currency_rate = 1
+                            else:
+                                if invoice_lines.invoice_id.currency_id.id !=issue.analytic_account_id.company_id.currency_id.id:
+                                    import_currency_rate=invoice_lines.invoice_id.currency_id.get_exchange_rate(issue.analytic_account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                else:
+                                    import_currency_rate = 1
+                        invoice_line={
+                                    'product_id':invoice_lines.product_id.id or False,
+                                    'name': issue.product_id.description +'-'+ invoice_lines.name,
+                                    'quantity':invoice_lines.quantity,
+                                    'real_quantity':invoice_lines.quantity,
+                                    'uos_id':invoice_lines.uos_id.id or False,
+                                    'price_unit':invoice_lines.price_unit*import_currency_rate,
+                                    'discount':invoice_lines.discount,
+                                    'invoice_line_tax_id':[(6, 0, [tax.id for tax in invoice_lines.product_id.taxes_id])],
+                                    'account_analytic_id':issue.analytic_account_id.id,
+                                    'reference':_('Supplier Invoice#') + invoice_lines.invoice_id.supplier_invoice_number,
+                                    'account_id':invoice_lines.product_id.property_account_income.id or invoice_lines.product_id.categ_id.property_account_income_categ.id or issue.product_id.property_account_income.id or issue.product_id.categ_id.property_account_income_categ.id
+                                    }
+                        if issue.warranty=='seller':
+                            invoice_line['price_unit']=0
+                        if line_detailed==True:
+                            if first_line_product==0:
+                                inv_prod=invoice_obj.create(invoice_dict)
+                                if issue.issue_number not in inv_prod.origin:
+                                    inv_prod.write({'origin':inv_prod.origin + issue.issue_number +'-'})
+                                invoices_list.append(inv_prod.id)
+                                first_line_product+=1
+                            if count_lines_products<=limit_lines or limit_lines==0 or limit_lines==-1:
+                                if issue.issue_number not in inv_prod.origin:
+                                    inv_prod.write({'origin':inv_prod.origin + issue.issue_number +'-'})
+                                inv_prod.write({'invoice_line':[(0,0,invoice_line)]})
+                                inv_prod.write({'issue_ids':[(4,issue.id)]})
+                                count_lines_products+=1
+                            else:
+                                if issue.issue_number not in inv_prod.origin:
+                                    inv_prod.write({'origin':inv_prod.origin + issue.issue_number})
+                                inv_prod=invoice_obj.create(invoice_dict)
+                                invoices_list.append(inv_prod.id)
+                                count_lines_products=0
+                                if issue.issue_number not in inv_prod.origin:
+                                    inv_prod.write({'origin':inv_prod.origin + issue.issue_number +'-'})
+                                inv_prod.write({'invoice_line':[(0,0,invoice_line)]})
+                                inv_prod.write({'issue_ids':[(4,issue.id)]})
+                                count_lines_products+=1
+                        else:
+                            if count_lines<=limit_lines or limit_lines==0 or limit_lines==-1:
+                                if issue.issue_number not in inv.origin:
+                                    inv.write({'origin':inv.origin + issue.issue_number +'-'})
+                                inv.write({'invoice_line':[(0,0,invoice_line)]})
+                                inv.write({'issue_ids':[(4,issue.id)]})
+                                count_lines+=1
+                            else:
+                                if issue.issue_number not in inv.origin:
+                                    inv.write({'origin':inv.origin + issue.issue_number})
+                                inv=invoice_obj.create(invoice_dict)
+                                invoices_list.append(inv.id)
+                                count_lines=1
+                                if issue.issue_number not in inv.origin:
+                                    inv.write({'origin':inv.origin + issue.issue_number +'-'})
+                                inv.write({'invoice_line':[(0,0,invoice_line)]})
+                                inv.write({'issue_ids':[(4,issue.id)]})
+                                count_lines+=1
             for expense_line in issue.expense_line_ids:
                 if expense_line.billable==True and (expense_line.expense_id.state=='done' or expense_line.expense_id.state=='paid'):
                     for move_lines in expense_line.expense_id.account_move_id.line_id:

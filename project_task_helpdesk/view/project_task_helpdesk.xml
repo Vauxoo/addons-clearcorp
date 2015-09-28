@@ -139,7 +139,12 @@
                         <field name="expense_line_ids" readonly="1" widget="many2many"/>
                     </page>
                 </xpath>
-                <xpath expr="/form/sheet/notebook/page[@string='Delivery Orders']" position="after">
+                <xpath expr="///notebook/page[@string='Delivery Orders']" position="after">
+                    <page string="Supplier Invoices Lines">
+                        <field name="account_invoice_line_ids" readonly="1" widget="many2many"/>
+                    </page>
+                </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Supplier Invoices Lines']" position="after">
                     <page string="Purchase Lines">
                         <field name="purchase_orde_line" readonly="1" widget="many2many"/>
                     </page>
@@ -154,6 +159,18 @@
             <field name="priority" eval="50"/>
             <field name="arch" type="xml">
                 <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']/field[@name='analytic_account']" position="before">
+                    <field name="task_id" domain="[('stage_id.closed','!=',True)]"/>
+                </xpath>
+            </field>
+        </record>
+        <!--Form View Inherit account invoice-->
+        <record id="view_account_invoice_form" model="ir.ui.view">
+            <field name="name">view.account.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="priority" eval="50"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[@string='Invoice']/field[@name='invoice_line']/tree[@string='Invoice lines']/field[@name='account_analytic_id']" position="before">
                     <field name="task_id" domain="[('stage_id.closed','!=',True)]"/>
                 </xpath>
             </field>
