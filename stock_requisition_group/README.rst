@@ -34,4 +34,4 @@ Maintainer
    :alt: ClearCorp
    :target: http://clearcorp.cr
 
-This module is maintained by the ClearCorp.
+This module is maintained by ClearCorp.
