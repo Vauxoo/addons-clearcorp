@@ -30,7 +30,7 @@ class ReportStockMoveOrder(models.TransientModel):
     stock_location = fields.Many2one('stock.location',
                                      string='Stock Location')
     product_ids = fields.Many2many('product.product',
-                                   string='Product')
+                                   string='Product', domain=[('type','=','product')])
 
     @api.multi
     def print_report(self):
