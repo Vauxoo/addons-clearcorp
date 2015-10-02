@@ -188,7 +188,7 @@ class IssueInvoiceWizard(models.TransientModel):
                             'name':contract.name,
                             'currency_id':branch.property_product_pricelist.currency_id.id or contract.company_id.currency_id.id,
                             'fiscal_position':branch.property_account_position.id,
-                            'date_due':date_due
+                            'date_due':date_due,
                             }
                     ctx = dict(self._context)
                     ctx['lang']=branch.lang
@@ -205,7 +205,8 @@ class IssueInvoiceWizard(models.TransientModel):
                                   'discount':contract.to_invoice.factor,
                                   'account_analytic_id': contract.id,
                                   'invoice_line_tax_id':[(6, 0, [tax.id for tax in contract.product_id.taxes_id])],
-                                  'account_id':account_id
+                                  'account_id':account_id,
+                                  'reference':_('Contract')
                                   }
                     inv.write({'invoice_line':[(0,0,invoice_line)]})
             elif contract.invoice_partner_type=='customer':
@@ -251,7 +252,8 @@ class IssueInvoiceWizard(models.TransientModel):
                               'discount':contract.to_invoice.factor,
                               'account_analytic_id': contract.id,
                               'invoice_line_tax_id':[(6, 0, [tax.id for tax in contract.product_id.taxes_id])],
-                              'account_id':account_id
+                              'account_id':account_id,
+                              'reference':_('Contract')
                               }
                 inv.write({'invoice_line':[(0,0,invoice_line)]})
             for issue in issue_obj.search([('stage_id.closed','=',True),('sale_order_id','=',False),('invoice_ids','=',False),('analytic_account_id','=',contract.id)]):
