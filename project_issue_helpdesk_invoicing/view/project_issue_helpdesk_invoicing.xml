@@ -466,6 +466,11 @@
                 <field name="project_id" position="attributes">
                     <attribute name="attrs">{'required':[('extra', '=', True)]}</attribute>
                 </field>
+                <xpath expr="/form/sheet/notebook/page[@string='Delivery Orders']" position="after">
+                    <page string="Supplier Invoices Lines">
+                        <field name="account_invoice_line_ids" readonly="1" widget="many2many"/>
+                    </page>
+                </xpath>
             </field>
         </record>
         <!--inherit account invoice form-->
