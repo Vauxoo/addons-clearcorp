@@ -188,7 +188,7 @@ class IssueInvoiceWizard(models.TransientModel):
                             'name':contract.name,
                             'currency_id':branch.property_product_pricelist.currency_id.id or contract.company_id.currency_id.id,
                             'fiscal_position':branch.property_account_position.id,
-                            'date_due':date_due,
+                            'date_due':date_due
                             }
                     ctx = dict(self._context)
                     ctx['lang']=branch.lang
