@@ -276,7 +276,6 @@ class IssueInvoiceWizard(models.TransientModel):
                                     'discount':invoice_lines.discount,
                                     'invoice_line_tax_id':[(6, 0, [tax.id for tax in invoice_lines.product_id.taxes_id])],
                                     'account_analytic_id':issue.analytic_account_id.id,
-                                    'reference':_('Supplier Invoice#') + invoice_lines.invoice_id.supplier_invoice_number,
                                     'account_id':invoice_lines.product_id.property_account_income.id or invoice_lines.product_id.categ_id.property_account_income_categ.id or issue.product_id.property_account_income.id or issue.product_id.categ_id.property_account_income_categ.id
                                     }
                         if issue.warranty=='seller':
