@@ -90,6 +90,9 @@ class ProjectIssue(models.Model):
                         for expense_line in issue.expense_line_ids:
                             if not expense_line.expense_id.state in ['done','pain']:
                                 raise Warning(_('Pending change status to done or paid of expense: %s' % expense_line.expense_id.name))
+                        for invoice_line in issue.account_invoice_line_ids:
+                            if not invoice_line.invoice_id.state in ['open','pain']:
+                                raise Warning(_('Pending change status to open or paid of invoice supplier: %s' % invoice_line.invoice_id.supplier_invoice_number))
         return super(ProjectIssue, self).write(cr, uid, ids, vals, context)
    
     expense_line_ids=fields.One2many('hr.expense.line','issue_id')
