@@ -130,6 +130,15 @@
                 ${format(inv.payment_term and inv.payment_term.note)}</td></tr>
             %endif
         </table>
+        <table id = "signature">
+            <tr>
+                <br/><br/><br/><br/>
+                <td><b>${_("Name")}:&nbsp;________________________&nbsp;&nbsp;</b></td>
+                <td><b>${_("Identification")}:&nbsp;________________________&nbsp;&nbsp;</b></td>
+                <td><b>${_("Signature")}:&nbsp;________________________</b></td>
+                
+            </tr>
+        </table>
     </div>
     %endfor
 </body>
