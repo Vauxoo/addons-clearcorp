@@ -133,9 +133,9 @@
         <table id = "signature">
             <tr>
                 <br/><br/><br/><br/>
-                <td><b>${_("Name")}:&nbsp;________________________&nbsp;&nbsp;</b></td>
-                <td><b>${_("Identification")}:&nbsp;________________________&nbsp;&nbsp;</b></td>
-                <td><b>${_("Signature")}:&nbsp;________________________</b></td>
+                <td><b>${_("Name")}:&nbsp;______________________&nbsp;&nbsp;</b></td>
+                <td><b>${_("Identification")}:&nbsp;______________________&nbsp;&nbsp;</b></td>
+                <td><b>${_("Signature")}:&nbsp;______________________</b></td>
                 
             </tr>
         </table>
