@@ -31,3 +31,14 @@ class res_company(osv.osv):
            }
     
 res_company()
+
+class account_invoice(osv.osv):
+    _inherit = 'account.invoice'
+    
+    def invoice_print(self, cr, uid, ids, context=None):
+        res = super(account_invoice, self).invoice_print(cr, uid, ids, context=context)
+        report_name = {'report_name': 'account.invoice.layout_ccorp'}
+        res.update(report_name)
+        return res
+
+account_invoice()

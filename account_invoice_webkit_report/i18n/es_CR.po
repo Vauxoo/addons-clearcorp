@@ -187,3 +187,17 @@ msgstr "Total"
 msgid "Salesman"
 msgstr "Vendedor"
 
+#. module: account_invoice_webkit_report
+#: report:addons/account_invoice_webkit_report/report/invoice.mako:136
+msgid "Name"
+msgstr "Nombre"
+
+#. module: account_invoice_webkit_report
+#: report:addons/account_invoice_webkit_report/report/invoice.mako:137
+msgid "Identification"
+msgstr "Cédula jurídica"
+
+#. module: account_invoice_webkit_report
+#: report:addons/account_invoice_webkit_report/report/invoice.mako:138
+msgid "Signature"
+msgstr "Firma"
