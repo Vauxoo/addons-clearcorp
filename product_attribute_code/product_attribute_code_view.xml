@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="products_attribute_code_tree_view" model="ir.ui.view">
+            <field name="name">attribute.code.tree</field>
+            <field name="model">product.attribute.value</field>
+            <field name="inherit_id" ref="product.variants_tree_view"/>
+            <field name="sequence" eval="100"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="product_code"/>
+                </field>
+            </field>
+        </record>
+        
+        <record id="product_category_form_inherit" model="ir.ui.view">
+            <field name="name">product.category.form.inherit</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_form_view"/>
+            <field name="sequence" eval="100"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/group/field[@name='type']" position="after">
+                    <span></span>
+                    <span></span>
+                    <field name="product_code_from_attributes"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
