@@ -30,7 +30,6 @@ class account_invoice(models.Model):
     def copy(self, cr, uid, id, default=None, context=None):
         if default is None:
             default = {}
-        invoice = self.browse(cr, uid, id, context=context)
         default['user_id'] = uid
         return super(account_invoice, self)\
             .copy(cr, uid, id, default=default, context=context)
