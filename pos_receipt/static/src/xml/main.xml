@@ -34,7 +34,7 @@
                 </colgroup>
                 <tr>
                     <td class="pos-left-align">Qty</td>
-                    <td class="pos-left-align">Desc</td>
+                    <td class="pos-left-align">Item</td>
                     <td class="pos-right-align">Price</td>
                     <td class="pos-right-align">Total</td>
                 </tr>
@@ -51,6 +51,15 @@
                         </td>
                         <td class="pos-right-align">
                             <t t-esc="widget.format_currency(orderline.get_display_price_without_discount())"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                             <t t-if="orderline.get_discount() > 0">
+                                <div class="pos-disc-font">
+                                    With a <t t-esc="orderline.get_discount()"/>% discount
+                                </div>
+                            </t>
                         </td>
                     </tr>
                 </t>
@@ -144,7 +153,7 @@
                         <left>
                             <span>Qty</span>
                             <span> </span>
-                            <span>Desc</span>
+                            <span>Item</span>
                         </left>
                         <right>
                             <span>Price</span>
@@ -166,6 +175,9 @@
                                 <value><t t-esc='line.price_display_without_discount' /></value>
                             </right>
                         </line>
+                        <t t-if='line.discount !== 0'>
+                            <line indent='1'><left>Discount: <t t-esc='line.discount' />%</left></line>
+                        </t>
                     </t>
                 </div>
                 <br />

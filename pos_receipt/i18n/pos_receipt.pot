@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-21 17:55+0000\n"
-"PO-Revision-Date: 2015-10-21 17:55+0000\n"
+"POT-Creation-Date: 2015-10-21 20:47+0000\n"
+"PO-Revision-Date: 2015-10-21 20:47+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -17,24 +17,31 @@ msgstr ""
 
 #. module: pos_receipt
 #. openerp-web
+#: code:addons/pos_receipt/static/src/xml/main.xml:60
+#, python-format
+msgid "% discount"
+msgstr ""
+
+#. module: pos_receipt
+#. openerp-web
 #: code:addons/pos_receipt/static/src/xml/main.xml:11
-#: code:addons/pos_receipt/static/src/xml/main.xml:125
+#: code:addons/pos_receipt/static/src/xml/main.xml:134
 #, python-format
 msgid "Cash Invoice"
 msgstr ""
 
 #. module: pos_receipt
 #. openerp-web
-#: code:addons/pos_receipt/static/src/xml/main.xml:100
-#: code:addons/pos_receipt/static/src/xml/main.xml:204
+#: code:addons/pos_receipt/static/src/xml/main.xml:109
+#: code:addons/pos_receipt/static/src/xml/main.xml:213
 #, python-format
 msgid "Change:"
 msgstr ""
 
 #. module: pos_receipt
 #. openerp-web
-#: code:addons/pos_receipt/static/src/xml/main.xml:105
-#: code:addons/pos_receipt/static/src/xml/main.xml:208
+#: code:addons/pos_receipt/static/src/xml/main.xml:114
+#: code:addons/pos_receipt/static/src/xml/main.xml:217
 #, python-format
 msgid "Client Sign: ___________________"
 msgstr ""
@@ -42,7 +49,7 @@ msgstr ""
 #. module: pos_receipt
 #. openerp-web
 #: code:addons/pos_receipt/static/src/xml/main.xml:12
-#: code:addons/pos_receipt/static/src/xml/main.xml:126
+#: code:addons/pos_receipt/static/src/xml/main.xml:135
 #, python-format
 msgid "Client:"
 msgstr ""
@@ -50,23 +57,16 @@ msgstr ""
 #. module: pos_receipt
 #. openerp-web
 #: code:addons/pos_receipt/static/src/xml/main.xml:8
-#: code:addons/pos_receipt/static/src/xml/main.xml:122
+#: code:addons/pos_receipt/static/src/xml/main.xml:131
 #, python-format
 msgid "Company Registry:"
 msgstr ""
 
 #. module: pos_receipt
 #. openerp-web
-#: code:addons/pos_receipt/static/src/xml/main.xml:37
-#: code:addons/pos_receipt/static/src/xml/main.xml:147
-#, python-format
-msgid "Desc"
-msgstr ""
-
-#. module: pos_receipt
-#. openerp-web
-#: code:addons/pos_receipt/static/src/xml/main.xml:67
-#: code:addons/pos_receipt/static/src/xml/main.xml:181
+#: code:addons/pos_receipt/static/src/xml/main.xml:76
+#: code:addons/pos_receipt/static/src/xml/main.xml:179
+#: code:addons/pos_receipt/static/src/xml/main.xml:190
 #, python-format
 msgid "Discount:"
 msgstr ""
@@ -74,23 +74,31 @@ msgstr ""
 #. module: pos_receipt
 #. openerp-web
 #: code:addons/pos_receipt/static/src/xml/main.xml:10
-#: code:addons/pos_receipt/static/src/xml/main.xml:124
+#: code:addons/pos_receipt/static/src/xml/main.xml:133
 #, python-format
 msgid "Fax:"
 msgstr ""
 
 #. module: pos_receipt
 #. openerp-web
-#: code:addons/pos_receipt/static/src/xml/main.xml:107
-#: code:addons/pos_receipt/static/src/xml/main.xml:210
+#: code:addons/pos_receipt/static/src/xml/main.xml:116
+#: code:addons/pos_receipt/static/src/xml/main.xml:219
 #, python-format
 msgid "Identification: ___________________"
 msgstr ""
 
 #. module: pos_receipt
 #. openerp-web
+#: code:addons/pos_receipt/static/src/xml/main.xml:37
+#: code:addons/pos_receipt/static/src/xml/main.xml:156
+#, python-format
+msgid "Item"
+msgstr ""
+
+#. module: pos_receipt
+#. openerp-web
 #: code:addons/pos_receipt/static/src/xml/main.xml:9
-#: code:addons/pos_receipt/static/src/xml/main.xml:123
+#: code:addons/pos_receipt/static/src/xml/main.xml:132
 #, python-format
 msgid "Phone:"
 msgstr ""
@@ -98,7 +106,7 @@ msgstr ""
 #. module: pos_receipt
 #. openerp-web
 #: code:addons/pos_receipt/static/src/xml/main.xml:38
-#: code:addons/pos_receipt/static/src/xml/main.xml:150
+#: code:addons/pos_receipt/static/src/xml/main.xml:159
 #, python-format
 msgid "Price"
 msgstr ""
@@ -106,7 +114,7 @@ msgstr ""
 #. module: pos_receipt
 #. openerp-web
 #: code:addons/pos_receipt/static/src/xml/main.xml:36
-#: code:addons/pos_receipt/static/src/xml/main.xml:145
+#: code:addons/pos_receipt/static/src/xml/main.xml:154
 #, python-format
 msgid "Qty"
 msgstr ""
@@ -114,7 +122,7 @@ msgstr ""
 #. module: pos_receipt
 #. openerp-web
 #: code:addons/pos_receipt/static/src/xml/main.xml:13
-#: code:addons/pos_receipt/static/src/xml/main.xml:129
+#: code:addons/pos_receipt/static/src/xml/main.xml:138
 #, python-format
 msgid "Salesman:"
 msgstr ""
@@ -122,15 +130,15 @@ msgstr ""
 #. module: pos_receipt
 #. openerp-web
 #: code:addons/pos_receipt/static/src/xml/main.xml:14
-#: code:addons/pos_receipt/static/src/xml/main.xml:130
+#: code:addons/pos_receipt/static/src/xml/main.xml:139
 #, python-format
 msgid "Shop:"
 msgstr ""
 
 #. module: pos_receipt
 #. openerp-web
-#: code:addons/pos_receipt/static/src/xml/main.xml:61
-#: code:addons/pos_receipt/static/src/xml/main.xml:176
+#: code:addons/pos_receipt/static/src/xml/main.xml:70
+#: code:addons/pos_receipt/static/src/xml/main.xml:185
 #, python-format
 msgid "Subtotal:"
 msgstr ""
@@ -138,15 +146,22 @@ msgstr ""
 #. module: pos_receipt
 #. openerp-web
 #: code:addons/pos_receipt/static/src/xml/main.xml:39
-#: code:addons/pos_receipt/static/src/xml/main.xml:151
+#: code:addons/pos_receipt/static/src/xml/main.xml:160
 #, python-format
 msgid "Total"
 msgstr ""
 
 #. module: pos_receipt
 #. openerp-web
-#: code:addons/pos_receipt/static/src/xml/main.xml:81
-#: code:addons/pos_receipt/static/src/xml/main.xml:192
+#: code:addons/pos_receipt/static/src/xml/main.xml:90
+#: code:addons/pos_receipt/static/src/xml/main.xml:201
 #, python-format
 msgid "Total:"
+msgstr ""
+
+#. module: pos_receipt
+#. openerp-web
+#: code:addons/pos_receipt/static/src/xml/main.xml:59
+#, python-format
+msgid "With a"
 msgstr ""
