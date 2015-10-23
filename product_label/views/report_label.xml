@@ -9,7 +9,7 @@
                     padding: 0px;
                     margin: 15px;
                     width: 315px;
-                    height: 106px;
+                    height: 90px;
                 }
                 .table-inline {
                     display: inline;
@@ -23,18 +23,24 @@
                 .table-label thead tr th.name span {
                     margin-left: 10px;
                 }
+                .table-label thead tr th.info-right {
+                    text-align: right;
+                }
                 .table-label tbody tr td.price {
                     font-size: xx-large;
                     text-align: center;
                 }
                 .table-label tbody tr td.info span {
-                    margin: 2px;
+                    margin: 1px;
+                }
+                .table-label tbody tr td.info-right {
+                    text-align: right;
                 }
                 .table-label tbody tr td.barcode {
                     text-align: center;
                 }
                 .table-label tbody tr td.info img {
-                    margin: 2px;
+                    margin: 1px;
                 }
             </style>
             <t t-call="report.html_container">
@@ -55,7 +61,7 @@
                                             <th class="name" colspan="2">
                                                 <span t-field="o.name"/>
                                             </th>
-                                            <th>
+                                            <th class="info-right">
                                                 <span t-field="o.label_packaging"/>
                                                 <span t-field="o.label_uom_id"/>
                                             </th>
@@ -69,22 +75,20 @@
                                             </td>
                                         </tr>
                                         <tr>
+                                            <td class="info barcode" colspan="3">
+                                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', o.ean13, 160, 15)" />
+                                            </td>
+                                        </tr>
+                                        <tr>
                                             <td class="info">
                                                 <span t-field="o.default_code"/>
                                             </td>
                                             <td class="info barcode">
-                                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', o.ean13, 200, 15)" />
-                                            </td>
-                                            <td class="info">
-                                                <span t-field="o.label_price_per_uom" /> x <span t-field="o.label_uom_id"/>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="info"/>
-                                            <td class="info barcode">
                                                 <span t-field="o.ean13"/>
                                             </td>
-                                            <td class="info"/>
+                                            <td class="info info-right">
+                                                <span t-field="o.label_price_per_uom" /> x <span t-field="o.label_uom_id"/>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
