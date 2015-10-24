@@ -32,7 +32,7 @@ Extends Project Task
 ===============================================
 
 """,
-    'depends': ['project_issue_helpdesk','hr_expense','sale_service'],
+    'depends': ['purchase_order_discount','project_issue_helpdesk','hr_expense','sale_service'],
     'init_xml': [],
     'demo_xml': [],
     'data': ['data/project_task_sequence_data.xml','view/project_task_helpdesk.xml',
