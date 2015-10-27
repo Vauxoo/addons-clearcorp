@@ -106,9 +106,12 @@
             </table>
             <br />
             <table>
-                <tr><td>Change:</td><td class="pos-right-align">
-                    <t t-esc="widget.format_currency(order.getChange())"/>
-                    </td></tr>
+                <tr class="emph">
+                    <td>Change:</td>
+                    <td class="pos-right-align">
+                        <t t-esc="widget.format_currency(order.getChange())"/>
+                    </td>
+                </tr>
             </table>
             <br />
             <br />
@@ -209,7 +212,7 @@
                     </line>
                 </t>
                 <br />
-                <line>
+                <line size='double-height'>
                     <left><pre>Change:</pre></left>
                     <right><value><t t-esc='receipt.change' /></value></right>
                 </line>
