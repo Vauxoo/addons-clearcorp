@@ -195,7 +195,7 @@ msgstr "Nombre"
 #. module: account_invoice_webkit_report
 #: report:addons/account_invoice_webkit_report/report/invoice.mako:137
 msgid "Identification"
-msgstr "Cédula jurídica"
+msgstr "Cédula"
 
 #. module: account_invoice_webkit_report
 #: report:addons/account_invoice_webkit_report/report/invoice.mako:138
