@@ -418,8 +418,8 @@ class AccountInvoice(models.Model):
                     for timesheet in issue.timesheet_ids:
                         for account_line in timesheet.line_id:
                             if not account_line.invoice_id:
-                                factor = self.pool.get('hr_timesheet_invoice.factor').browse(account_line.factor_id.id)
-                                qty,mount=account_obj._get_invoice_price(account_line.account_id,account_line.date,timesheet.start_time,timesheet.end_time,issue.product_id.id,issue.categ_id.id,account_line.unit_amount,timesheet.service_type,timesheet.employee_id.id)
+                                factor = self.pool.get('hr_timesheet_invoice.factor').browse(self._cr,self._uid,account_line.to_invoice.id)
+                                qty,mount=account_obj._get_invoice_price(account_line.account_id,account_line.date,timesheet.start_time,timesheet.end_time,issue.product_id.id,issue.categ_id.id,account_line.unit_amount,timesheet.service_type,timesheet.employee_id.id,factor)
                                 if account_line.account_id.pricelist_id.currency_id.id != invoice.currency_id.id:
                                     import_currency_rate=account_line.account_id.pricelist_id.currency_id.get_exchange_rate(invoice.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
                                 else:
