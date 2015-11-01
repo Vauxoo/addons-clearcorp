@@ -34,7 +34,7 @@
                                     <t t-set="purchase" t-value="product['product_lines']"/>
                                     <tr>
                                         <td colspan="4" easyfx="align: horizontal left; borders: bottom thin, top thin, left thin, right thin;">
-                                            <span t-esc= "product['product']"/>
+                                            <span t-esc= "product['name']"/>
                                         </td>
                                         <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
                                             <span t-esc= "product['qyt_available']"/>
@@ -211,6 +211,13 @@
                     </table>
                 </div>
             </div>
+        </template>
+        <template id="report_stock_move">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'report_stock_move_order')"/>
+                </t>
+            </t>
         </template>
     </data>
 </openerp>

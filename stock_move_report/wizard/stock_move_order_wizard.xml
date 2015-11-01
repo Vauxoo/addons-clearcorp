@@ -38,6 +38,7 @@
             <field name="view_mode">form</field>
             <field name="view_id" ref="report_stock_move_order_wizard_form"/>
             <field name="target">new</field>
+            <!-- parent="stock.next_id_61" -->
         </record>
         <!-- Menu -->
         <menuitem icon="STOCK_PRINT"

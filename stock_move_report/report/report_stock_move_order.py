@@ -21,7 +21,7 @@
 ##############################################################################
 
 
-from openerp import models, api
+from openerp import models, api, _
 from openerp.report import report_sxw
 
 
@@ -45,14 +45,42 @@ class StockMoveOder(report_sxw.rml_parse):
         product_lines_to_print = []
 
         for product_id in product_ids:
-            product = product_product_obj.browse(self.cr, self.uid, product_id)[0]
-            sale_line_ids = sale_line_obj.search(self.cr, self.uid, [('product_id', '=', product_id),('order_id.shipped', '=', False)])            
-            sale_order_ids = sale_obj.search(self.cr, self.uid, [('order_line','in',sale_line_ids)])
+            product = product_product_obj.browse(self.cr,
+                                                 self.uid, product_id)[0]
+            sale_line_ids = sale_line_obj.search(self.cr,
+                                                 self.uid,
+                                                 [('product_id',
+                                                   '=',
+                                                   product_id),
+                                                  ('order_id.shipped',
+                                                   '=',
+                                                   False)]
+                                                 )
+            sale_order_ids = sale_obj.search(
+                                             self.cr,
+                                             self.uid,
+                                             [('order_line',
+                                               'in',
+                                               sale_line_ids)]
+                                             )
             sale_orders = sale_obj.browse(self.cr, self.uid, sale_order_ids)
             sale_orders_list = []
-            purchase_line_ids = purchase_line_obj.search(self.cr, self.uid, [('product_id', '=', product_id),('order_id.shipped', '=', False)])
-            purchase_order_ids = purchase_obj.search(self.cr, self.uid, [('order_line','in',purchase_line_ids)])
-            purchase_orders = purchase_obj.browse(self.cr, self.uid, purchase_order_ids)
+            purchase_line_ids = purchase_line_obj.search(self.cr,
+                                                         self.uid,
+                                                         [('product_id',
+                                                           '=',
+                                                           product_id),
+                                                          ('order_id.shipped',
+                                                           '=',
+                                                           False)])
+            purchase_order_ids = purchase_obj.search(self.cr,
+                                                     self.uid,
+                                                     [('order_line',
+                                                       'in',
+                                                       purchase_line_ids)]
+                                                     )
+            purchase_orders = purchase_obj.browse(self.cr, self.uid,
+                                                  purchase_order_ids)
             for sale_order in sale_orders:
                 sale_product_quantity = 0.0
                 for sale_order_line in sale_order.order_line:
@@ -63,11 +91,13 @@ class StockMoveOder(report_sxw.rml_parse):
                         if move.product_id.id == product_id and move.location_id.id == stock_location and move.state == 'done':
                             sale_product_quantity -= move.product_uom_qty
                 if sale_product_quantity != 0.0:
-                    sale_order_line_dict = {'sale' : sale_order.name,
-                                            'quantity' : sale_product_quantity,}
+                    sale_order_line_dict = {'sale': sale_order.name,
+                                            'quantity': sale_product_quantity,
+                                            }
                     sale_orders_list.append(sale_order_line_dict)
             line = {
-                'product': product.name,
+                'name': _(product.name),
+                'product': product,
                 'qyt_available': product.qty_available,
                 'virtual_available': product.virtual_available,
                 'product_lines': [],
@@ -84,15 +114,17 @@ class StockMoveOder(report_sxw.rml_parse):
                         if move.product_id.id == product_id and move.location_dest_id.id == stock_location and move.state == 'done':
                             purchase_product_quantity -= move.product_uom_qty
                 if purchase_product_quantity != 0.0:
-                    purchase_order_line_dict = {'purchase' : purchase_order.name,
-                                                'quantity' : purchase_product_quantity,}
+                    purchase_order_line_dict = {'purchase': purchase_order.name,
+                                                'quantity': purchase_product_quantity,
+                                                }
                     purchase_orders_list.append(purchase_order_line_dict)
-            product_lines=[]
+            product_lines = []
             product_lines.append(sale_orders_list)
             product_lines.append(purchase_orders_list)
             line['product_lines'] = product_lines
             product_lines_to_print.append(line)
         return product_lines_to_print
+
 
 class report_stock_move_order(models.AbstractModel):
     _name = 'report.stock_move_report.report_stock_move_order'
