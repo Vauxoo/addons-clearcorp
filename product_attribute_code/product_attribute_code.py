@@ -51,16 +51,21 @@ class product_product(models.Model):
         res = super(product_product, self).create(cr, uid, vals, context=None)
         product = self.browse(cr, uid, res, context=context)
 
-        template_id = vals['product_tmpl_id']
-        product_templ = product_tpl_obj.browse(cr, uid, template_id, context=context)
+        if 'product_tmpl_id' in vals.keys():
+            template_id = vals['product_tmpl_id']
+            product_templ = product_tpl_obj.browse(cr, uid, template_id,
+                                                   context=context)
 
-        if product_templ.categ_id.product_code_from_attributes \
-                and ('default_code' in vals.keys() or not product.default_code):
-            attribute_ids = vals['attribute_value_ids'][0][2]
-            order_attributes_ids = attribute_value_obj.search(cr, uid, [('id','in',attribute_ids)],
-                                                              order= "sequence")
-            code = ""
-            for attribute in attribute_value_obj.browse(cr, uid, order_attributes_ids, context=context):
-                code += attribute.product_code
-            self.write(cr, uid, product.id, {'default_code': code}, context=context)
+            if product_templ.categ_id.product_code_from_attributes \
+                    and ('default_code' in vals.keys() or not product.default_code):
+                attribute_ids = vals['attribute_value_ids'][0][2]
+                order_attributes_ids = attribute_value_obj.search(cr,
+                                                                  uid,
+                                                                  [('id','in',attribute_ids)],
+                                                                  order= "sequence"
+                                                                  )
+                code = ""
+                for attribute in attribute_value_obj.browse(cr, uid, order_attributes_ids, context=context):
+                    code += attribute.product_code
+                self.write(cr, uid, product.id, {'default_code': code}, context=context)
         return res
