@@ -47,7 +47,7 @@ class Product(models.Model):
     @api.model
     def _get_label_uom_id(self):
         uom = self.env['product.uom'].search([], limit=1, order='id')
-        return uom.id or False
+        return uom or False
 
     @api.one
     # @api.depends('product_label_pricelist_id')
