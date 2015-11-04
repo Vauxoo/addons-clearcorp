@@ -32,7 +32,7 @@ class StockMoveOder(report_sxw.rml_parse):
                   'get_data': self.get_data,
                   'cr': cr,
                   'uid': uid,
-                                                   })
+                })
 
     def get_data(self, cr, uid, data):
         product_product_obj = self.pool.get('product.product')
@@ -46,7 +46,8 @@ class StockMoveOder(report_sxw.rml_parse):
 
         for product_id in product_ids:
             product = product_product_obj.browse(self.cr,
-                                                 self.uid, product_id)[0]
+                                                 self.uid, product_id,
+                                                 context=self.localcontext)[0]
             sale_line_ids = sale_line_obj.search(self.cr,
                                                  self.uid,
                                                  [('product_id',
@@ -72,7 +73,8 @@ class StockMoveOder(report_sxw.rml_parse):
                                                            product_id),
                                                           ('order_id.shipped',
                                                            '=',
-                                                           False)])
+                                                           False)]
+                                                         )
             purchase_order_ids = purchase_obj.search(self.cr,
                                                      self.uid,
                                                      [('order_line',
@@ -80,7 +82,8 @@ class StockMoveOder(report_sxw.rml_parse):
                                                        purchase_line_ids)]
                                                      )
             purchase_orders = purchase_obj.browse(self.cr, self.uid,
-                                                  purchase_order_ids)
+                                                  purchase_order_ids,
+                                                  context=self.localcontext)
             for sale_order in sale_orders:
                 sale_product_quantity = 0.0
                 for sale_order_line in sale_order.order_line:
@@ -96,7 +99,7 @@ class StockMoveOder(report_sxw.rml_parse):
                                             }
                     sale_orders_list.append(sale_order_line_dict)
             line = {
-                'name': _(product.name),
+                'name': product.name,
                 'product': product,
                 'qyt_available': product.qty_available,
                 'virtual_available': product.virtual_available,
