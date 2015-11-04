@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-         
          <record id="account_sale_report_odt" model="ir.actions.report.xml">
             <field name="name">Account Sale Report</field>
             <field name="type">ir.actions.report.xml</field>
-            <field name="model">account.invoice</field>
+            <field name="model">sale.report.wiz</field>
             <field name="report_name">account_sale_report</field>
             <field name="report_type">aeroo</field>
             <field name="in_format">oo-odt</field>
