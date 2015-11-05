@@ -118,11 +118,16 @@ class account_analytic_account(osv.osv):
                         amount=(list.technical_rate*list.holiday_multiplier)
                     elif service_type=='assistant':
                         amount=list.assistant_rate*list.holiday_multiplier
+                    elif service_type=='basic':
+                        amount=0.0
+                    
                 else:
                     if service_type=='expert':
                         rate=list.technical_rate
                     elif service_type=='assistant':
                         rate=list.assistant_rate
+                    elif service_type=='basic':
+                        rate=0.0
                     is_extra=self._is_extra_hour_pricelist(cr,uid,date,account,origin_start_time,origin_end_time,context={})
                     if is_extra==True:
                         count_extra+=original_quantity
