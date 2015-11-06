@@ -39,6 +39,7 @@
             <field name="view_id" ref="report_stock_move_order_wizard_form"/>
             <field name="target">new</field>
         </record>
+        
         <!-- Menu -->
         <menuitem icon="STOCK_PRINT"
          name="Report Stock Move Order" 

@@ -34,7 +34,7 @@
                                     <t t-set="purchase" t-value="product['product_lines']"/>
                                     <tr>
                                         <td colspan="4" easyfx="align: horizontal left; borders: bottom thin, top thin, left thin, right thin;">
-                                            <span t-esc= "product['product']"/>
+                                            <span t-esc= "product['name']"/>
                                         </td>
                                         <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
                                             <span t-esc= "product['qyt_available']"/>
