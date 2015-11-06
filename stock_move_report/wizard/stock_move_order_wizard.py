@@ -28,7 +28,7 @@ class ReportStockMoveOrder(osv.osv_memory):
     _name = 'report.stock.move.order.wiz'
 
     _columns = {
-        'stock_location': fields.many2one('stock.location', 
+        'stock_location': fields.many2one('stock.location',
                                           string='Stock Location'),
         'product_ids': fields.many2many('product.product',
                                         string='Product',
@@ -53,18 +53,3 @@ class ReportStockMoveOrder(osv.osv_memory):
                                               uid, [],
                                               'stock_move_report.report_stock_move_order',
                                               data=datas, context=context)
-
-        # return res
-    """def print_report_(self, cr, uid, ids, context=None):
-        if context is None:
-            context = {}
-        datas = {'ids': context.get('active_ids', [])}
-        res = self.read(cr, uid, ids, ['date_start', 'date_end', 'user_ids'], context=context)
-        res = res and res[0] or {}
-        datas['form'] = res
-        if res.get('id',False):
-            datas['ids']=[res['id']]
-        return self.pool['report'].get_action(cr, uid, [], 'point_of_sale.report_detailsofsales', data=datas, context=context)
-        """
-        
-

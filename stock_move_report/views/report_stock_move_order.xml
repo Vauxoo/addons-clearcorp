@@ -18,7 +18,6 @@
                         <thead>
                             <tr>
                                 <th colspan="4" rowspan="2" easyfx="font:height 200,bold on;align: wrap on, vert center;borders: bottom thin, top thin, left thin, right thin;">Product</th>
-                                <th colspan="1" rowspan="2" easyfx="font:height 200,bold on;align: wrap on, vert center;borders: bottom thin, top thin, left thin, right thin;">Model</th>
                                 <th colspan="1" rowspan="2" easyfx="font:height 200,bold on;align: wrap on, vert center; borders: bottom thin, top thin, left thin, right thin;">Qty Available </th>
                                 <th colspan="1" rowspan="2" easyfx="font:height 200,bold on;align: wrap on, vert center;borders: bottom thin, top thin, left thin, right thin;">Virtual available</th>
                                 <th colspan="1" rowspan="2" easyfx="font:height 200,bold on;align: wrap on, vert center;borders: bottom thin, top thin, left thin, right thin;">Sale Order</th>
@@ -36,12 +35,6 @@
                                     <tr>
                                         <td colspan="4" easyfx="align: horizontal left; borders: bottom thin, top thin, left thin, right thin;">
                                             <span t-esc= "product['name']"/>
-                                        </td>
-                                        <td colspan="1" easyfx="align: horizontal left; borders: bottom thin, top thin, left thin, right thin;">
-                                            <t t-set="p" t-value="product['product']"/>
-                                            <t t-if="p.x_model"">
-                                                <span t-esc="p.x_model"/>
-                                            </t>
                                         </td>
                                         <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
                                             <span t-esc= "product['qyt_available']"/>
