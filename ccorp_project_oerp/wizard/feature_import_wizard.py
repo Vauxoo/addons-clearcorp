@@ -39,8 +39,8 @@ class FeatureImportWizard(osv.TransientModel):
             raise osv.except_osv(_('Error'),_('An error occurred while reading the file. Please '
                                               'check if the format is correct.'))
         
-        department_obj = self.pool.get('hr.department')
-        department_ids = department_obj.search(cr, uid, [], context=context)
+        #department_obj = self.pool.get('hr.department')
+        #department_ids = department_obj.search(cr, uid, [], context=context)
         work_type_obj = self.pool.get('ccorp.project.oerp.work.type')
         work_type_ids = work_type_obj.search(cr, uid, [('department_id','in',department_ids)], context=context)
         work_types = work_type_obj.browse(cr, uid, work_type_ids, context=context)
@@ -64,7 +64,7 @@ class FeatureImportWizard(osv.TransientModel):
                     values = {
                               'code': row[1],
                               'name': row[3],
-                              'product_backlog_id': wizard.product_backlog_id.id,
+                              'release_backlog_id': wizard.release_backlog_id.id,
                               'description': row[4],
                               'priority': int(row[5]),
                               'type_id': feature_type_id,
@@ -81,7 +81,7 @@ class FeatureImportWizard(osv.TransientModel):
                             if planned_hours != 0.0:
                                 vals = {
                                         'project_id': wizard.project_id.id,
-                                        'department_id': work_type.department_id.id,
+                                        #'department_id': work_type.department_id.id,
                                         'work_type_id': work_type.id,
                                         'expected_hours': planned_hours,
                                         }
@@ -111,7 +111,7 @@ class FeatureImportWizard(osv.TransientModel):
     _columns = {
                 'project_id': fields.many2one('project.project', string='Project', required=True,
                     domain="[('is_scrum','=',True)]"),
-                'product_backlog_id': fields.many2one('ccorp.project.scrum.product.backlog', string='Product Backlog',
+                'release_backlog_id': fields.many2one('ccorp.project.scrum.release.backlog', string='Release Backlog',
                     required=True, domain="[('project_id','=',project_id)]"),
                 'file': fields.binary('File to Import', required=True),
                 'state': fields.selection([('new','New'),('done','Done')], string='State'),

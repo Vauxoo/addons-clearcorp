@@ -121,9 +121,8 @@ class FeatureHours(osv.Model):
             tasks = task_obj.browse(cr, uid, task_ids, context=context)
             sum = 0.0
             for task in tasks:
-                for work in task.work_ids:
-                    if work.work_type_id == hour.work_type_id:
-                        sum += work.hours
+                if task.kind_task_id == hour.work_type_id:
+                    sum += task.effective_hours
             res[hour.id] = sum
         return res
     
@@ -154,10 +153,37 @@ class Feature(osv.Model):
     
     _columns = {
                 'hour_ids': fields.one2many('ccorp.project.oerp.feature.hours', 'feature_id', string='Feature Hours'),
-                'acceptance_requirements_client': fields.text('Acceptance requirements by client'),
-                'acceptance_requirements_supplier': fields.text('Funtional acceptance requirements'),
+                'acceptance_requirements_client': fields.text('Acceptance requirements by client'), #cambiar al scrum
+                'acceptance_requirements_supplier': fields.text('Funtional acceptance requirements'), #cambiar al scrum
+                'validation_date': fields.date('Validation Date'), #cambiar al scrum
                 }
     
+    def create_tasks(self, cr, uid, context):
+        active_ids = context.get('active_ids', [])
+        feature_obj = self.pool.get('ccorp.project.scrum.feature')
+        for feature in feature_obj.browse(cr, uid, active_ids, context=context):
+            for feature_hour in feature.hour_ids:
+                try:
+                    values = {
+                                  'name': feature.code + ' ' + feature.name,
+                                  'project_id': feature.project_id.id,
+                                  'kind_task_id': feature_hour.work_type_id.id,
+                                  'sprint_id': False,
+                                  'feature_id': feature.id,
+                                  'description': feature.description,
+                                  'planned_hours': feature_hour.expected_hours,
+                                  'priority': PRIORITY[feature.priority],
+                                  'date_deadline': feature.deadline,
+                                  'date_start': feature.date_start,
+                                  'is_scrum': True,
+                                  }
+                    task_obj = self.pool.get('project.task')
+                    task_id = task_obj.create(cr, uid, values, context=context)
+                except:
+                    raise osv.except_osv(_('Error'),_('An error occurred while creating the tasks. '
+                                                      'Please contact your system administrator.'))
+               
+           
     def write(self, cr, uid, ids, values, context=None):
         if 'hour_ids' in values:
             hours = values['hour_ids']
@@ -304,6 +330,8 @@ class Task(osv.Model):
                 raise osv.except_osv(
                 _('Error'),
                 _('Your time ivested in this task has exeded the planed time frame'))
+                
+
 
     _defaults = {
         'state': 'draft',

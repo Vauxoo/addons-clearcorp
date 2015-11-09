@@ -33,7 +33,7 @@ This module added id_task in project task
     'sequence': 4,
     'website' : 'http://clearcorp.co.cr',
     'depends' : ['base','project'],
-    'data' : ["project_extended_view.xml", "project_extended_data.xml",'security/ir.model.access.csv',],
+    'data' : ["project_extended_view.xml", "project_extended_data.xml",'security/ir.model.access.csv','project_extended_data.xml'],
     'auto_install': False,
     'application': False,
     'installable': True,

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-20 17:23+0000\n"
-"PO-Revision-Date: 2015-08-20 17:23+0000\n"
+"POT-Creation-Date: 2015-10-09 20:21+0000\n"
+"PO-Revision-Date: 2015-10-09 20:21+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,11 +16,28 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: project_invoice
+#: field:account.analytic.account,acc_analytic_qty_grp_ids:0
+msgid "Acc analytic qty grp ids"
+msgstr "Grupos de hora"
+
+#. module: project_invoice
+#: field:account.analytic.quantity_max_group,active:0
+msgid "Active"
+msgstr "Activo"
+
+#. module: project_invoice
+#: view:sale.order.wizard:project_invoice.view_sale_order_wizard_form
+msgid "Add"
+msgstr "Agregar"
+
+#. module: project_invoice
+#: field:account.analytic.quantity_max_group,analitic_account_id:0
 #: model:ir.model,name:project_invoice.model_account_analytic_account
 msgid "Analytic Account"
 msgstr "Cuenta analítica"
 
 #. module: project_invoice
+#: view:sale.order.wizard:project_invoice.view_sale_order_wizard_form
 #: view:task.billing.wizard:project_invoice.view_task_billing_wizard_form
 msgid "Are you sure you want to continue?"
 msgstr "¿Desea continuar?"
@@ -31,12 +48,20 @@ msgid "Billing Task"
 msgstr "Facturar Tareas"
 
 #. module: project_invoice
+#: view:ccorp.project.scrum.feature:project_invoice.view_feature_extra_form
+#: view:sale.order.wizard:project_invoice.view_sale_order_wizard_form
 #: view:task.billing.wizard:project_invoice.view_task_billing_wizard_form
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "Cancelado"
+
+#. module: project_invoice
+#: selection:ticket.invoice.type,ticket_type:0
+msgid "Change Request"
+msgstr "Solicitud de cambio"
 
 #. module: project_invoice
 #: field:invoice.type,contract_type_id:0
+#: field:ticket.invoice.type,contract_type_id:0
 msgid "Contract type id"
 msgstr "Tipo de contrato"
 
@@ -51,21 +76,72 @@ msgid "Create Draft Invoices"
 msgstr "Crear facturas borrador"
 
 #. module: project_invoice
+#: view:ccorp.project.scrum.feature:project_invoice.view_feature_extra_form
+msgid "Create Sale Order"
+msgstr "Crear orden de compra"
+
+#. module: project_invoice
+#: field:account.analytic.quantity_max_group,create_uid:0
+#: field:account.analytic.quantity_max_group.assigment,create_uid:0
+#: field:account.analytic.quantity_max_group_xissue,create_uid:0
 #: field:invoice.type,create_uid:0
+#: field:sale.order.wizard,create_uid:0
 #: field:task.billing.wizard,create_uid:0
+#: field:ticket.invoice.type,create_uid:0
 msgid "Created by"
 msgstr "Creado por"
 
 #. module: project_invoice
+#: field:account.analytic.quantity_max_group,create_date:0
+#: field:account.analytic.quantity_max_group.assigment,create_date:0
+#: field:account.analytic.quantity_max_group_xissue,create_date:0
 #: field:invoice.type,create_date:0
+#: field:sale.order.wizard,create_date:0
 #: field:task.billing.wizard,create_date:0
+#: field:ticket.invoice.type,create_date:0
 msgid "Created on"
-msgstr "Created on"
+msgstr "Creado en"
 
 #. module: project_invoice
+#: field:account.analytic.quantity_max_group.assigment,date:0
+msgid "Date:"
+msgstr "Fecha:"
+
+#. module: project_invoice
+#: view:ccorp.project.scrum.feature:project_invoice.view_feature_extra_form
 #: view:project.task:project_invoice.view_task_search
 msgid "Done"
-msgstr "Hecho"
+msgstr "Realizado"
+
+#. module: project_invoice
+#: model:ir.model,name:project_invoice.model_ccorp_project_scrum_feature
+msgid "Email Thread"
+msgstr "Tema de Correos"
+
+#. module: project_invoice
+#: field:account.analytic.quantity_max_group_xissue,expent_hours:0
+msgid "Expent hours"
+msgstr "Horas gastadas"
+
+#. module: project_invoice
+#: field:account.analytic.quantity_max_group_xissue,extra_amount:0
+msgid "Extra amount"
+msgstr "Monto extra"
+
+#. module: project_invoice
+#: field:account.analytic.quantity_max_group_xissue,extra_hours:0
+msgid "Extra hours"
+msgstr "Horas extra"
+
+#. module: project_invoice
+#: field:account.analytic.quantity_max_group_xissue,feature_hours:0
+msgid "Feature hours"
+msgstr "Horas de caracteristica"
+
+#. module: project_invoice
+#: field:account.analytic.quantity_max_group_xissue,feature_id:0
+msgid "Feature id"
+msgstr "Caracteristica"
 
 #. module: project_invoice
 #: view:project.task:project_invoice.view_task_search
@@ -73,8 +149,24 @@ msgid "For Invoiced"
 msgstr "Por facturar"
 
 #. module: project_invoice
+#: field:account.analytic.quantity_max_group.assigment,group_id:0
+#: field:account.analytic.quantity_max_group_xissue,group_id:0
+msgid "Group id"
+msgstr "Grupo"
+
+#. module: project_invoice
+#: view:account.analytic.account:project_invoice.analytic_analytic_account_form3
+msgid "Hours Groups"
+msgstr "Grupos de hora"
+
+#. module: project_invoice
+#: field:account.analytic.quantity_max_group,id:0
+#: field:account.analytic.quantity_max_group.assigment,id:0
+#: field:account.analytic.quantity_max_group_xissue,id:0
 #: field:invoice.type,id:0
+#: field:sale.order.wizard,id:0
 #: field:task.billing.wizard,id:0
+#: field:ticket.invoice.type,id:0
 msgid "ID"
 msgstr "ID"
 
@@ -86,8 +178,8 @@ msgstr "Facturado"
 
 #. module: project_invoice
 #: view:account.analytic.account:project_invoice.analytic_analytic_account_form2
-msgid "Invoice Comfiguration"
-msgstr "Configurar facturación"
+msgid "Invoice Configuration"
+msgstr "Configuración facturación"
 
 #. module: project_invoice
 #: field:task.billing.wizard,invoice_date:0
@@ -103,7 +195,7 @@ msgstr "Tipo de factura"
 #. module: project_invoice
 #: view:project.task:project_invoice.view_task_form3_inherid
 msgid "Invoiced"
-msgstr "Facturado"
+msgstr "Estado de facturación:"
 
 #. module: project_invoice
 #: view:task.billing.wizard:project_invoice.view_task_billing_wizard_form
@@ -116,24 +208,46 @@ msgid "Is Invoiced?"
 msgstr "¿Es facturable?"
 
 #. module: project_invoice
+#: selection:ticket.invoice.type,ticket_type:0
+msgid "Issue"
+msgstr "Incidencia"
+
+#. module: project_invoice
+#: field:ticket.invoice.type,ticket_type:0
+msgid "Issue Type"
+msgstr "Tipo de incidencia"
+
+#. module: project_invoice
 #: field:task.billing.wizard,journal_id:0
 msgid "Journal: "
 msgstr "Diario: "
 
 #. module: project_invoice
+#: field:account.analytic.quantity_max_group,write_uid:0
+#: field:account.analytic.quantity_max_group.assigment,write_uid:0
+#: field:account.analytic.quantity_max_group_xissue,write_uid:0
 #: field:invoice.type,write_uid:0
+#: field:sale.order.wizard,write_uid:0
 #: field:task.billing.wizard,write_uid:0
+#: field:ticket.invoice.type,write_uid:0
 msgid "Last Updated by"
-msgstr "Last Updated by"
+msgstr "Última actualización por"
 
 #. module: project_invoice
+#: field:account.analytic.quantity_max_group,write_date:0
+#: field:account.analytic.quantity_max_group.assigment,write_date:0
+#: field:account.analytic.quantity_max_group_xissue,write_date:0
 #: field:invoice.type,write_date:0
+#: field:sale.order.wizard,write_date:0
 #: field:task.billing.wizard,write_date:0
+#: field:ticket.invoice.type,write_date:0
 msgid "Last Updated on"
-msgstr "Last Updated on"
+msgstr "Última actualización en"
 
 #. module: project_invoice
+#: field:account.analytic.quantity_max_group,name:0
 #: field:invoice.type,name:0
+#: field:ticket.invoice.type,name:0
 msgid "Name"
 msgstr "Nombre"
 
@@ -149,9 +263,29 @@ msgid "Not Invoice"
 msgstr "No facturable"
 
 #. module: project_invoice
+#: view:ccorp.project.scrum.feature:project_invoice.view_feature_extra_form
+msgid "Open"
+msgstr "Abierto"
+
+#. module: project_invoice
+#: field:invoice.type,acc_analytic_qty_grp_id:0
+msgid "Prepay Hours"
+msgstr "Horas pre-contratadas"
+
+#. module: project_invoice
+#: field:account.analytic.quantity_max_group_xissue,prepay_hours:0
+msgid "Prepay hours"
+msgstr "Horas pre-contratadas"
+
+#. module: project_invoice
 #: field:invoice.type,price:0
 msgid "Price"
 msgstr "Precio"
+
+#. module: project_invoice
+#: selection:ticket.invoice.type,ticket_type:0
+msgid "Problem"
+msgstr "Problema"
 
 #. module: project_invoice
 #: field:invoice.type,product_id:0
@@ -162,6 +296,42 @@ msgstr "Producto"
 #: view:project.task:project_invoice.view_task_search
 msgid "Project"
 msgstr "Proyecto"
+
+#. module: project_invoice
+#: field:account.analytic.quantity_max_group,quatity:0
+msgid "Quantity"
+msgstr "Cantidad"
+
+#. module: project_invoice
+#: view:sale.order.wizard:project_invoice.view_sale_order_wizard_form
+msgid "Quoting Features"
+msgstr "Caracteristica por cotizar"
+
+#. module: project_invoice
+#: field:account.analytic.quantity_max_group_xissue,remaining_hours:0
+msgid "Remaining hours"
+msgstr "Horas restantes"
+
+#. module: project_invoice
+#: field:sale.order.wizard,sale_order_id:0
+msgid "Sale Order"
+msgstr "Orden de venta"
+
+#. module: project_invoice
+#: model:ir.actions.act_window,name:project_invoice.action_saleorder_wizard
+#: view:sale.order.wizard:project_invoice.view_sale_order_wizard_form
+msgid "Sale Order Wizard"
+msgstr "Asistente orden de venta"
+
+#. module: project_invoice
+#: field:ccorp.project.scrum.feature,sale_order_id:0
+msgid "Sale order id"
+msgstr "Orden de venta"
+
+#. module: project_invoice
+#: selection:ticket.invoice.type,ticket_type:0
+msgid "Service Request"
+msgstr "Solicitud de servicio"
 
 #. module: project_invoice
 #: view:project.task:project_invoice.view_task_form3_inherid
@@ -189,9 +359,35 @@ msgid "Tasks"
 msgstr "Tareas"
 
 #. module: project_invoice
+#: view:account.analytic.account:project_invoice.analytic_analytic_account_form2
+#: field:account.analytic.account,ticket_invoice_type_ids:0
+msgid "Ticket Type"
+msgstr "Tipo de ticket"
+
+#. module: project_invoice
 #: selection:project.task,invoiced:0
 msgid "To be Invoice"
 msgstr "Para ser facturado"
+
+#. module: project_invoice
+#: field:account.analytic.quantity_max_group_xissue,tobe_approve:0
+msgid "To be approve hours"
+msgstr "Horas para aprobar"
+
+#. module: project_invoice
+#: field:ccorp.project.scrum.feature,invoiceable:0
+msgid "To be invoice?"
+msgstr "¿Es Facturable?"
+
+#. module: project_invoice
+#: field:invoice.type,product_price:0
+msgid "Use product price"
+msgstr "¿Usa precio del producto?"
+
+#. module: project_invoice
+#: field:ticket.invoice.type,warranty:0
+msgid "Warranty?"
+msgstr "¿Garantia?"
 
 #. module: project_invoice
 #: help:project.task,invoiced:0
@@ -199,6 +395,7 @@ msgid "is a invoiced task"
 msgstr "¿Es facturable la tarea?"
 
 #. module: project_invoice
+#: view:sale.order.wizard:project_invoice.view_sale_order_wizard_form
 #: view:task.billing.wizard:project_invoice.view_task_billing_wizard_form
 msgid "or"
 msgstr "o"

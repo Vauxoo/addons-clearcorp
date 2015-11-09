@@ -79,7 +79,6 @@ ORDER BY types.sequence ASC;''', (feature.id,))
                               'department_id': sprint.department_id.id,
                               'date_deadline': sprint.deadline,
                               'date_start': sprint.date_start,
-                              'sequence': number,
                               'is_scrum': True,
                               }
                     

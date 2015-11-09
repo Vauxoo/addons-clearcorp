@@ -58,7 +58,7 @@
                     position="replace">
                     <br />
                     <br />
-                    <form string="Invoice Comfiguration">
+                    <form string="Invoice Configuration">
                         <div>
                             <label for="invoice_type_id" string="Invoice Type" class="oe_inline"
                                 attrs="{'invisible': [('invoice_on_timesheets','=',False)]}" />
@@ -66,11 +66,22 @@
                                 attrs="{'invisible': [('invoice_on_timesheets','=',False)], 'required': [('invoice_on_timesheets','=',True)]}">
                                 <tree editable="bottom">
                                     <field name="name" />
-                                    <field name="invoice" />
+                                    <field name="invoice"/>
+                                    <field name="product_price"/>
                                     <field name="product_id"
-                                           attrs="{'readonly': [('invoice','=',False)], 'required': [('invoice','=',True)]}"/>
+                                           attrs="{'required': [('invoice','=',True)]}"/>
                                     <field name="price"
-                                        attrs="{'readonly': [('invoice','=',False)], 'required': [('invoice','=',True)]}" />
+                                        attrs="{'required': [('invoice','=',True)], 'readonly': [('product_price','=',True)]}" />
+                                   <field name="acc_analytic_qty_grp_id"/>
+                                </tree>
+                            </field>
+                            <br/><br/>
+                            <label for="ticket_invoice_type_id" string="Ticket Type" class="oe_inline" />
+                            <field name="ticket_invoice_type_ids" string="Ticket Type" class="oe_inline">
+                                <tree editable="bottom">
+                                    <field name="name" />
+                                    <field name="ticket_type"/>
+                                    <field name="warranty"/>
                                 </tree>
                             </field>
                         </div>
@@ -78,7 +89,98 @@
                 </xpath>
             </field>
         </record>
-
+        
+        <record id="analytic_analytic_account_form3" model="ir.ui.view">
+            <field name="name">Hours groups</field>
+            <field name="model">account.analytic.account</field>
+            <field name="priority" eval="160" />
+            <field name="inherit_id"
+                ref="analytic.view_account_analytic_account_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/notebook/page[@name='contract_page']" position="after">
+                    <page string="Hours Groups" name="hours_group">
+                        <field name="acc_analytic_qty_grp_ids">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="quatity"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+           </field>
+       </record>
+       
+     <record id="account_analytic_account_invoice_form_inherit2" model="ir.ui.view">
+            <field name="name">account.analytic.account.invoice.form.inherit2</field>
+            <field name="model">account.analytic.account</field>
+            <field name="priority" eval="40" />
+            <field name="inherit_id"
+                ref="account_analytic_analysis.account_analytic_account_form_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//div/field[@name='recurring_invoice_line_ids']/tree/field[@name='price_subtotal']" 
+                       position="after">
+                            <field name="partner_id"/>
+                            <field name="amount_po"/>
+                </xpath>
+           </field>
+       </record>
+       
+        <record id="action_saleorder_wizard" model="ir.actions.act_window">
+            <field name="name">Sale Order Wizard</field>
+            <field name="res_model">sale.order.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_sale_order_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+        
+        <record id="view_feature_extra_form" model="ir.ui.view">
+            <field name="name">Feature</field>
+            <field name="model">ccorp.project.scrum.feature</field>
+            <field name="priority" eval="160" />
+            <field name="inherit_id" ref="ccorp_project_scrum.view_feature_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//form/header"
+                    position="replace">
+                      <header>
+                        <button name="set_open" type="object"
+                            string="Open" class="oe_highlight"
+                            states="draft,cancelled,done,quote_pending" />
+                        <button name="set_done" type="object"
+                            string="Done" class="oe_highlight" states="open" />
+                        <button name="set_cancel" type="object"
+                            string="Cancel" states="open,quote_pending" />
+                        <button name="%(action_saleorder_wizard)d" type="action" string="Create Sale Order"/>
+                        <field name="state" widget="statusbar"/>
+                        </header>
+                </xpath>
+                <xpath expr="//form/sheet/group/group/field[@name='project_id']"
+                    position="before">
+                    <field name="invoiceable"/>
+               </xpath>
+            </field>
+         </record>
+         
+          <record model="ir.ui.view" id="project_issue_form_view_invoice">
+            <field name="name">Project Issue Tracker Form</field>
+            <field name="model">project.issue</field>
+            <field name="inherit_id" ref="project_issue.project_issue_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@string='Extra Info']" position="before">
+                    <page string="Approvals" name="prepaycontracts">
+                        <field name="group_approved">
+                            <tree>
+                                <field name="ticket_id"/>
+                                <field name="user_id"/>
+                                <field name="date"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+            
+                
        <record id="action_task_invoice" model="ir.actions.act_window">
             <field name="name">Task Charge</field>
             <field name="res_model">project.task</field>
@@ -101,6 +203,9 @@
             view_type="form"
             target="new"
             id="action_task_invoice_wizard"/>
+            
+            
+     
 
 </data>
 </openerp>

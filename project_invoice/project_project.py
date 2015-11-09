@@ -21,15 +21,35 @@
 ##############################################################################
 
 from openerp import models, fields, api
+from datetime import date
+import time
 
 class invoice_type (models.Model):
     _name = 'invoice.type'
     
     name= fields.Many2one('ccorp.project.oerp.work.type',required='True')
     invoice = fields.Boolean('Is Invoiced?')
+    product_price = fields.Boolean('Use product price')
     product_id = fields.Many2one('product.product')
     price= fields.Float('Price')
     contract_type_id = fields.Many2one('contract.type')
+    acc_analytic_qty_grp_id = fields.Many2one('account.analytic.quantity_max_group', string='Prepay Hours')
+    
+    @api.one
+    @api.onchange("name")
+    def onchange_name(self):
+        self.product_id = self.name.product_id
+        return True
+
+"""class ticket_invoice_type (models.Model):
+    _name = 'ticket.invoice.type'
+    
+    name= fields.Char('Name',required='True')
+    warranty = fields.Boolean('Warranty?')
+    ticket_type = fields.Selection([('change_request','Change Request'),('service_request','Service Request'),
+                                   ('issue','Issue'),('problem','Problem')], 
+                                  string='Issue Type', default='issue',required=True)
+    contract_type_id = fields.Many2one('contract.type')"""
 
 class Task(models.Model):
 
@@ -39,8 +59,54 @@ class Task(models.Model):
                  ('invoice', 'Invoice'),
                  ('not_invoice', 'Not Invoice'),
                  ('tobeinvoice', 'To be Invoice'),
-                 ], string = "Invoice", help = "is a invoiced task", default = "tobeinvoice", required = True)
-         
+                 ], string = "Invoice", help = "is a invoiced task", compute='_compute_invoice', store=True)
+    
+    @api.one
+    @api.depends("ticket_ids")
+    def _compute_invoice_ticket(self):
+        if self.project_id:
+            for ticket_id in self.ticket_ids:
+                if self.project_id == ticket_id.project_id:
+                    for ticket_kind in self.project_id.analytic_account_id.ticket_invoice_type_ids:
+                        if ticket_kind.name == ticket_id.issue_type:
+                            if ticket_kind.warranty:
+                                self.invoiced = 'not_invoice'
+                                return False
+                            else: 
+                                self.invoiced = 'tobeinvoice'
+                                return True   
+    
+    
+    @api.one
+    @api.depends("kind_task_id")
+    def _compute_invoice(self):
+        if self.ticket_ids:
+            if self.project_id:
+                for ticket_id in self.ticket_ids:
+                    if self.project_id == ticket_id.project_id:
+                        for ticket_kind in self.project_id.analytic_account_id.ticket_invoice_type_ids:
+                            if ticket_kind.name == ticket_id.issue_type:
+                                if ticket_kind.warranty:
+                                    self.invoiced = 'not_invoice'
+                                    return False
+                                else: 
+                                    self.invoiced = 'tobeinvoice'
+                                    return True
+        else:
+            if self.project_id:
+                for kind in self.project_id.analytic_account_id.invoice_type_id:
+                    if kind.name == self.kind_task_id:
+                        if kind.invoice:
+                            self.invoiced = 'tobeinvoice'
+                            return True
+                        if self.feature_id.invoiceable:
+                                self.invoiced = 'tobeinvoice'
+                                return True
+                        else:
+                                self.invoiced = 'not_invoice'
+                                return False
+                         
+                      
     @api.multi
     def split_task(self):
         task_copy = self.copy()
@@ -57,7 +123,7 @@ class Task(models.Model):
         project = self.env['account.analytic.account']
         project = project.search([('id', '=', project_id.analytic_account_id.id)])
         if project.invoice_on_timesheets:
-            line_invoice_type = project.invoice_type_id.search([('name','=',task.kind_task_id.name),('invoice','=', True),('contract_type_id','=',project_id.analytic_account_id.id)])
+            line_invoice_type = project.invoice_type_id.search([('name','=',task.kind_task_id.name),('contract_type_id','=',project_id.analytic_account_id.id)])
             if line_invoice_type.invoice:
                 return True
             else:
@@ -67,8 +133,8 @@ class Task(models.Model):
         project = self.env['account.analytic.account']
         project = project.search([('id', '=', project_id.analytic_account_id.id)])
         if project.invoice_on_timesheets:
-            cost= project.invoice_type_id.search([('name','=',task.kind_task_id.name),('invoice','=', True),('contract_type_id','=',project_id.analytic_account_id.id)])
-            cost= cost.price * task.effective_hours
+            cost= project.invoice_type_id.search([('name','=',task.kind_task_id.name),('contract_type_id','=',project_id.analytic_account_id.id)])
+            cost= cost.price * task.planned_hours
         else: 
             cost= project.fix_price_to_invoice
         return cost
@@ -77,19 +143,19 @@ class Task(models.Model):
         project = self.env['account.analytic.account']
         project = project.search([('id', '=', project_id.analytic_account_id.id)])
         if project.invoice_on_timesheets:
-            product= project.invoice_type_id.search([('name','=',task.kind_task_id.name),('invoice','=', True),('contract_type_id','=',project_id.analytic_account_id.id)])
+            product= project.invoice_type_id.search([('name','=',task.kind_task_id.name),('contract_type_id','=',project_id.analytic_account_id.id)])
             return product.product_id.id
     
     def get_price_hour(self, task, project_id):
         project = self.env['account.analytic.account']
         project = project.search([('id', '=', project_id.analytic_account_id.id)])
         if project.invoice_on_timesheets:
-            price_hour= project.invoice_type_id.search([('name','=',task.kind_task_id.name),('invoice','=', True),('contract_type_id','=',project_id.analytic_account_id.id)])
+            price_hour= project.invoice_type_id.search([('name','=',task.kind_task_id.name),('contract_type_id','=',project_id.analytic_account_id.id)])
             return price_hour.price
 
     def get_contract(self, task, project_id):
         project = self.env['account.analytic.account']
-        project= project.invoice_type_id.search([('name','=',task.kind_task_id.name),('invoice','=', True),('contract_type_id','=',project_id.analytic_account_id.id)])
+        project= project.invoice_type_id.search([('name','=',task.kind_task_id.name),('contract_type_id','=',project_id.analytic_account_id.id)])
         if project:
             project = project.search([('id', '=', project_id.analytic_account_id.id)])
             return project.id
@@ -115,6 +181,13 @@ class Task(models.Model):
         if project:
             currency = project.analytic_account_id.currency_id.id
             return currency
+        
+    def get_product_price(self, task, project_id):
+        project = self.env['account.analytic.account']
+        project = project.search([('id', '=', project_id.analytic_account_id.id)])
+        if project.invoice_on_timesheets:
+            product_price= project.invoice_type_id.search([('name','=',task.kind_task_id.name),('product_price','=', True),('contract_type_id','=',project_id.analytic_account_id.id)])
+            return product_price.product_price
 
     @api.multi
     def action_invoice_create(self, data, journal_id=False, account=False, date_invoice=False):
@@ -134,7 +207,6 @@ class Task(models.Model):
             for value in values:
                 task = task_obj.search([('id', '=', value)])
                 if task.invoiced == 'tobeinvoice':
-                    if self.get_invoce(task, task.project_id):
                         invoice_line_vals={
                                            'invoice_id': invoice_create_id.id,
                                            'product_id': self.get_product(task, task.project_id),
@@ -142,16 +214,114 @@ class Task(models.Model):
                                            'account_id': self.get_partner_account(key),
                                            'account_analytic_id': self.get_contract(task, task.project_id),
                                            'quantity': task.effective_hours,
-                                           'price_unit':self.get_price_hour(task, task.project_id),
-                                           'price_subtotal':self.get_contract_price(task, task.project_id),
                                            }
-                        invoice_line_create_id = invoice_line_obj.create(invoice_line_vals)
-                        task.invoiced = 'invoice'
+                        if not self.get_product_price(task, task.project_id):
+                            invoice_line_vals['price_unit']= self.get_price_hour(task, task.project_id)
+                            invoice_line_vals['price_subtotal']= self.get_contract_price(task, task.project_id)
+                            invoice_line_create_id = invoice_line_obj.create(invoice_line_vals)
+                        else:
+                            draft_invoice_line = self.env['account.invoice.line']
+                            x = draft_invoice_line.product_id_change(self.get_product(task, task.project_id), False, False, False, False, self.get_contract_partner_id(key) )
+                            invoice_line_vals['price_unit']= x['value']['price_unit']
+                            invoice_line_vals['price_subtotal']= invoice_line_vals['price_unit'] * task.planned_hours
+                            invoice_line_create_id = invoice_line_obj.create(invoice_line_vals)
+                        
+                task.invoiced = 'invoice'
         return True
+    
+class Feature(models.Model):
+    
+    _inherit = 'ccorp.project.scrum.feature'
+    
+    invoiceable= fields.Boolean('To be invoice?')
+    state= fields.Selection([('draft', 'New'), ('open', 'In Progress'), 
+                             ('cancelled', 'Cancelled'), ('done', 'Done'), ('quote_pending', 'Quote Pending')],
+                             'Status', required=True)
+    sale_order_id = fields.Many2one('sale.order')
+    
+    @api.multi
+    def generate_so(self, feat, sale_order_id=False):
+        today = date.today().strftime('%Y-%m-%d')
+        sum_cost=0
+        sum_hours=1
+        sale_order_obj = self.env['sale.order']
+        sale_order_line_obj = self.env['sale.order.line']
+        for hour in feat.hour_ids:
+            if not feat.project_id.analytic_account_id.invoice_type_id.search([('name','=', hour.work_type_id.name)]).product_price:
+                price= feat.project_id.analytic_account_id.invoice_type_id.search([('name','=', hour.work_type_id.name)]).price * hour.expected_hours
+            else:
+                product_id= feat.project_id.analytic_account_id.invoice_type_id.search([('name','=', hour.work_type_id.name)]).product_id
+                product = feat.env['product.product'].browse(product_id.id)
+                price= product[0].lst_price * hour.expected_hours
+            sum_cost = sum_cost + price
+         
+        if not sale_order_id:   
+            #create the sale order
+            sale_order_vals = {
+                             'partner_id':  feat.project_id.partner_id.id,
+                             'date_order': today,
+                             'project_id': feat.project_id.analytic_account_id.id
+                             }
+            sale_order_create_id = sale_order_obj.create(sale_order_vals)
+            
+            #create sale order line
+            if feat.description:
+                saleorder_line_vals={
+                                         'order_id': sale_order_create_id.id,
+                                         'name': feat.description, 
+                                         'product_uom_qty': sum_hours,
+                                         'price_unit':sum_cost,
+                                         'price_subtotal':sum_cost,
+                                        }
+            else:
+                saleorder_line_vals={
+                                         'order_id': sale_order_create_id.id,
+                                         'name': feat.name, 
+                                         'product_uom_qty': sum_hours,
+                                         'price_unit':sum_cost,
+                                         'price_subtotal':sum_cost,
+                                        }
+            saleorder_line_create_id = sale_order_line_obj.create(saleorder_line_vals)
+            feat.state = 'quote_pending'
+            feat.sale_order_id = sale_order_create_id
+            return sale_order_create_id
+        else:
+            if feat.description:
+                saleorder_line_vals={
+                                         'order_id': sale_order_id.id,
+                                         'name': feat.description, 
+                                         'product_uom_qty': sum_hours,
+                                         'price_unit':sum_cost,
+                                         'price_subtotal':sum_cost,
+                                        }
+            else:
+                saleorder_line_vals={
+                                         'order_id': sale_order_id.id,
+                                         'name': feat.name, 
+                                         'product_uom_qty': sum_hours,
+                                         'price_unit':sum_cost,
+                                         'price_subtotal':sum_cost,
+                                        }
+            saleorder_line_create_id = sale_order_line_obj.create(saleorder_line_vals)
+            feat.state = 'quote_pending'
+            feat.sale_order_id = sale_order_id
+            return sale_order_id
+    
+    _defaults = {'state': 'draft'}
 
 class account_analitic(models.Model):
 
     _inherit = 'account.analytic.account'
     
     invoice_type_id= fields.One2many('invoice.type', 'contract_type_id', string='Invoice Type', required=True)
+    #ticket_invoice_type_ids = fields.One2many('ticket.invoice.type', 'contract_type_id', string='Ticket Type')
+    acc_analytic_qty_grp_ids = fields.One2many('account.analytic.quantity_max_group','analitic_account_id')
+    
+class account_analytic_invoice_line(models.Model):
+
+    _inherit = 'account.analytic.invoice.line'
+    
+    partner_id = fields.Many2one('res.partner',string='Supplier' )
+    amount_po = fields.Float('Price')
+    
    

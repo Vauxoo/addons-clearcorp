@@ -14,7 +14,7 @@
                     </header>
                     <group states="new">
                         <field name="project_id"/>
-                        <field name="product_backlog_id"/>
+                        <!--<field name="product_backlog_id"/>-->
                         <field name="file"/>
                     </group>
                     <footer>

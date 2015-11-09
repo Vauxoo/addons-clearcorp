@@ -1,13 +1,13 @@
-# Translation of OpenERP Server.
+# Translation of Odoo Server.
 # This file contains the translation of the following modules:
 #	* ccorp_project_oerp
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 7.0\n"
+"Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-09 19:58+0000\n"
-"PO-Revision-Date: 2014-06-09 19:58+0000\n"
+"POT-Creation-Date: 2015-08-20 18:53+0000\n"
+"PO-Revision-Date: 2015-08-20 18:53+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,102 +16,27 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: ccorp_project_oerp
-#: field:ccorp.project.oerp.feature.import.wizard,file:0
-msgid "File to Import"
-msgstr "Archivo a importar"
+#: view:ccorp.project.scrum.feature:ccorp_project_oerp.view_feature_form
+msgid "Acceptance Requirements"
+msgstr "Criterios de aceptación"
 
 #. module: ccorp_project_oerp
-#: field:ccorp.project.oerp.work.type.template,filename:0
-#: field:ccorp.project.oerp.work.type.template.group,filename:0
-msgid "Filename"
-msgstr "Nombre de archivo"
+#: field:ccorp.project.scrum.feature,acceptance_requirements_client:0
+msgid "Acceptance requirements by client"
+msgstr "Criterios de aceptación por el cliente"
 
 #. module: ccorp_project_oerp
-#: field:ccorp.project.oerp.work.type.mapping,template_id:0
-#: field:ccorp.project.oerp.work.type.template,name:0
-msgid "Template"
-msgstr "Plantilla"
+#: code:addons/ccorp_project_oerp/wizard/sprint_close_wizard.py:64
+#, python-format
+msgid "An error occurred while closing the sprint."
+msgstr "Un error ocurrió mientras se cerraba el sprint."
 
 #. module: ccorp_project_oerp
-#: field:ccorp.project.oerp.work.type.template.group,name:0
-msgid "Group Name"
-msgstr "Nombre del Grupo"
-
-#. module: ccorp_project_oerp
-#: field:ccorp.project.oerp.phase.create.wizard,product_uom:0
-msgid "Unit of Measure"
-msgstr "Unidad de medida"
-
-#. module: ccorp_project_oerp
-#: model:ir.actions.act_window,name:ccorp_project_oerp.action_phase_create_wizard
-msgid "Create Phase from Template"
-msgstr "Crear fase desde plantilla"
-
-#. module: ccorp_project_oerp
-#: field:ccorp.project.oerp.phase.create.wizard,work_type_template_id:0
-#: view:ccorp.project.oerp.work.type.template:0
-#: model:ir.actions.act_window,name:ccorp_project_oerp.action_work_type_template
-msgid "Work Type Template"
-msgstr "Plantilla de tipo de trabajo"
-
-#. module: ccorp_project_oerp
-#: view:ccorp.project.oerp.feature.import.wizard:0
-msgid "Feature Import Wizard"
-msgstr "Asistente de importación de características"
-
-#. module: ccorp_project_oerp
-#: field:ccorp.project.oerp.task.hour,expected_hours:0
-msgid "Initially Planned Hour(s)"
-msgstr "Horas planeadas inicialmente"
-
-#. module: ccorp_project_oerp
-#: field:ccorp.project.oerp.sprint.close.wizard,opening_sprint_id:0
-msgid "Opening Sprint"
-msgstr "Sprint de apertura"
-
-#. module: ccorp_project_oerp
-#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_tec_wor
-msgid "Workflows"
-msgstr "Flujos de trabajo"
-
-#. module: ccorp_project_oerp
-#: field:ccorp.project.oerp.task.hour,task_id:0
-#: model:ir.model,name:ccorp_project_oerp.model_project_task
-msgid "Task"
-msgstr "Tarea"
-
-#. module: ccorp_project_oerp
-#: view:ccorp.project.oerp.work.type.template:0
-#: field:ccorp.project.oerp.work.type.template,work_type_mapping_ids:0
-#: view:project.phase:0
-#: field:project.phase,work_type_ids:0
-msgid "Work Types"
-msgstr "Tipos de trabajo"
-
-#. module: ccorp_project_oerp
-#: field:ccorp.project.oerp.feature.import.wizard,product_backlog_id:0
-#: field:ccorp.project.oerp.phase.create.wizard,product_backlog_id:0
-#: field:project.phase,product_backlog_id:0
-msgid "Product Backlog"
-msgstr "Pila de producto"
-
-#. module: ccorp_project_oerp
-#: field:ccorp.project.oerp.feature.hours,project_id:0
-#: field:ccorp.project.oerp.feature.import.wizard,project_id:0
-#: field:ccorp.project.oerp.phase.create.wizard,project_id:0
-#: field:ccorp.project.oerp.task.hour,project_id:0
-msgid "Project"
-msgstr "Proyecto"
-
-#. module: ccorp_project_oerp
-#: model:ir.ui.menu,name:ccorp_project_oerp.menu_feature_import_wizard
-msgid "Import Features"
-msgstr "Importar características"
-
-#. module: ccorp_project_oerp
-#: model:ccorp.project.oerp.work.type.template,name:ccorp_project_oerp.data_work_type_template_fun
-msgid "Functional Analysis"
-msgstr "Análisis funcional"
+#: code:addons/ccorp_project_oerp/ccorp_project_oerp.py:183
+#: code:addons/ccorp_project_oerp/wizard/task_create_wizard.py:120
+#, python-format
+msgid "An error occurred while creating the tasks. Please contact your system administrator."
+msgstr "Un error ocurrió mientras se creaban las tareas. Por favor contacte a sus administrador de sistema."
 
 #. module: ccorp_project_oerp
 #: code:addons/ccorp_project_oerp/wizard/feature_import_wizard.py:97
@@ -122,101 +47,49 @@ msgstr "Un error ocurrió mientras se importaban las características. El error 
 ""
 
 #. module: ccorp_project_oerp
-#: field:ccorp.project.oerp.feature.hours,work_type_id:0
-#: field:ccorp.project.oerp.task.hour,work_type_id:0
-#: field:project.task.work,work_type_id:0
-msgid "Work Type"
-msgstr "Tipo de trabajo"
-
-#. module: ccorp_project_oerp
-#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_tec_fun
-msgid "Functional Fields"
-msgstr "Campos funcionales"
-
-#. module: ccorp_project_oerp
-#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_tec_met
-msgid "Methods"
-msgstr "Métodos"
-
-#. module: ccorp_project_oerp
-#: model:ccorp.project.oerp.work.type.template,name:ccorp_project_oerp.data_work_type_template_tec
-msgid "Technical Analysis"
-msgstr "Análisis técnico"
-
-#. module: ccorp_project_oerp
-#: view:ccorp.project.scrum.feature:0
-msgid "Total Planned"
-msgstr "Total planeado"
-
-#. module: ccorp_project_oerp
-#: view:ccorp.project.oerp.work.type.template.group:0
-#: model:ir.actions.act_window,name:ccorp_project_oerp.action_work_type_template_group
-msgid "Work Type Template Group"
-msgstr "Grupo de Plantillas de tipo de trabajo"
-
-#. module: ccorp_project_oerp
-#: field:ccorp.project.oerp.sprint.close.wizard,closing_sprint_id:0
-msgid "Closing Sprint"
-msgstr "Sprint de clausura"
-
-#. module: ccorp_project_oerp
-#: view:ccorp.project.oerp.phase.create.wizard:0
-#: view:ccorp.project.oerp.sprint.close.wizard:0
-#: view:ccorp.project.oerp.task.create.wizard:0
-msgid "Are you sure you want to continue?"
-msgstr "¿Estás seguro que deseas continuar?"
-
-#. module: ccorp_project_oerp
-#: view:project.phase:0
-#: field:project.phase,sprint_ids:0
-msgid "Sprints"
-msgstr "Sprints"
-
-#. module: ccorp_project_oerp
-#: view:ccorp.project.scrum.feature:0
-#: field:ccorp.project.scrum.feature,hour_ids:0
-#: view:project.task:0
-#: field:project.task,feature_hour_ids:0
-msgid "Feature Hours"
-msgstr "Horas de característica"
-
-#. module: ccorp_project_oerp
-#: view:ccorp.project.oerp.phase.create.wizard:0
-#: view:ccorp.project.oerp.task.create.wizard:0
-msgid "Create"
-msgstr "Crear"
-
-#. module: ccorp_project_oerp
-#: field:ccorp.project.oerp.feature.import.wizard,state:0
-msgid "State"
-msgstr "Estado"
-
-#. module: ccorp_project_oerp
-#: constraint:project.phase:0
-msgid "All sprints must belong to the selected product backlog."
-msgstr "Todos los sprints deben pertenecer a la pila de producto seleccionada."
-
-#. module: ccorp_project_oerp
 #: code:addons/ccorp_project_oerp/wizard/feature_import_wizard.py:39
 #, python-format
 msgid "An error occurred while reading the file. Please check if the format is correct."
 msgstr "Un error ocurrió mientras se leía el archivo. Por favor verifique que el formato sea correcto."
 
 #. module: ccorp_project_oerp
-#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_fun_dia
-msgid "Diagrams"
-msgstr "Diagramas"
+#: code:addons/ccorp_project_oerp/wizard/feature_import_wizard.py:90
+#, python-format
+msgid "An error occurred while reading the planned hours from file in column %s for work type %s"
+msgstr "Un error ocurrió mientras se leían las horas planeadas desde el archivo en la columna %s para el tipo de trabajo %s"
 
 #. module: ccorp_project_oerp
-#: view:ccorp.project.oerp.work.type.template.group:0
-#: model:ir.ui.menu,name:ccorp_project_oerp.menu_work_type_template
-msgid "Phase Templates"
-msgstr "Plantillas de fase"
+#: view:ccorp.project.oerp.reassignment.hours:ccorp_project_oerp.view_reassignment_task_form
+msgid "Approve"
+msgstr "Aprobado"
 
 #. module: ccorp_project_oerp
-#: model:ir.actions.act_window,name:ccorp_project_oerp.action_task_create_wizard
-msgid "Create Tasks from Sequence"
-msgstr "Crear tareas desde secuencia"
+#: view:ccorp.project.oerp.sprint.close.wizard:ccorp_project_oerp.view_sprint_close_wizard_form
+#: view:ccorp.project.oerp.task.create.wizard:ccorp_project_oerp.view_task_create_wizard_form
+msgid "Are you sure you want to continue?"
+msgstr "¿Estás seguro que deseas continuar?"
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.oerp.feature.import.wizard:ccorp_project_oerp.view_feature_import_wizard_form
+msgid "Are you sure you want to import this file?"
+msgstr "¿Estás seguro que deseas importar este archivo?"
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.oerp.feature.import.wizard:ccorp_project_oerp.view_feature_import_wizard_form
+#: view:ccorp.project.oerp.sprint.close.wizard:ccorp_project_oerp.view_sprint_close_wizard_form
+#: view:ccorp.project.oerp.task.create.wizard:ccorp_project_oerp.view_task_create_wizard_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: ccorp_project_oerp
+#: selection:project.issue,issue_type:0
+msgid "Change Request"
+msgstr "Solicitud de cambio"
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.oerp.sprint.close.wizard:ccorp_project_oerp.view_sprint_close_wizard_form
+msgid "Close"
+msgstr "Cerrado"
 
 #. module: ccorp_project_oerp
 #: model:ir.actions.act_window,name:ccorp_project_oerp.action_sprint_close_wizard
@@ -225,162 +98,88 @@ msgid "Close Sprint"
 msgstr "Cerrar sprint"
 
 #. module: ccorp_project_oerp
-#: view:ccorp.project.oerp.work.type.template:0
-msgid "Work Type Templates"
-msgstr "Plantillas de tipo de trabajo"
-
-#. module: ccorp_project_oerp
-#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_fun_int
-#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_tec_int
-msgid "Interface"
-msgstr "Interfaz"
-
-#. module: ccorp_project_oerp
-#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_fun_conf
-msgid "Configuration"
-msgstr "Configuración"
-
-#. module: ccorp_project_oerp
-#: view:ccorp.project.scrum.sprint:0
-msgid "Are you sure you want to queue all tasks?"
-msgstr "¿Estás seguro que deseas poner en cola todas las tareas?"
-
-#. module: ccorp_project_oerp
-#: view:project.task:0
-#: field:project.task,task_hour_ids:0
-msgid "Task Hours"
-msgstr "Horas de tarea"
-
-#. module: ccorp_project_oerp
-#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_fun_intr
-msgid "Interaction"
-msgstr "Interacción"
-
-#. module: ccorp_project_oerp
-#: field:ccorp.project.oerp.work.type,column_number:0
-#: field:ccorp.project.oerp.work.type.mapping,column_number:0
-msgid "Column Number"
-msgstr "Número de columna"
-
-#. module: ccorp_project_oerp
-#: field:ccorp.project.oerp.feature.hours,expected_hours:0
-#: view:project.task:0
-msgid "Planned Hour(s)"
-msgstr "Horas planeadas"
-
-#. module: ccorp_project_oerp
-#: view:ccorp.project.oerp.feature.import.wizard:0
-msgid "Are you sure you want to import this file?"
-msgstr "¿Estás seguro que deseas importar este archivo?"
-
-#. module: ccorp_project_oerp
-#: model:ir.ui.menu,name:ccorp_project_oerp.menu_phase_create_wizard
-msgid "Create Phase"
-msgstr "Crear fase"
-
-#. module: ccorp_project_oerp
-#: view:ccorp.project.oerp.sprint.close.wizard:0
+#: view:ccorp.project.oerp.sprint.close.wizard:ccorp_project_oerp.view_sprint_close_wizard_form
 msgid "Close Sprint Wizard"
 msgstr "Cerrar asistente de sprint"
 
 #. module: ccorp_project_oerp
-#: model:ir.actions.act_window,name:ccorp_project_oerp.action_feature_import_wizard
-msgid "Feature Import"
-msgstr "Importación de características"
+#: field:ccorp.project.oerp.sprint.close.wizard,closing_sprint_id:0
+msgid "Closing Sprint"
+msgstr "Sprint de clausura"
 
 #. module: ccorp_project_oerp
-#: model:ir.ui.menu,name:ccorp_project_oerp.menu_task_create_wizard
-msgid "Create Tasks"
-msgstr "Crear tareas"
+#: field:ccorp.project.oerp.work.type,column_number:0
+msgid "Column Number"
+msgstr "Número de columna"
 
 #. module: ccorp_project_oerp
-#: field:project.phase,is_scrum:0
-msgid "Is Scrum"
-msgstr "Es scrum"
+#: view:ccorp.project.oerp.task.create.wizard:ccorp_project_oerp.view_task_create_wizard_form
+msgid "Create"
+msgstr "Crear"
 
 #. module: ccorp_project_oerp
-#: view:ccorp.project.scrum.sprint:0
-#: field:ccorp.project.scrum.sprint,desirable_task_ids:0
+#: field:ccorp.project.oerp.feature.hours,create_uid:0
+#: field:ccorp.project.oerp.feature.import.wizard,create_uid:0
+#: field:ccorp.project.oerp.origin.task,create_uid:0
+#: field:ccorp.project.oerp.reassignment.hours,create_uid:0
+#: field:ccorp.project.oerp.sprint.close.wizard,create_uid:0
+#: field:ccorp.project.oerp.task.create.wizard,create_uid:0
+#: field:ccorp.project.oerp.task.hour,create_uid:0
+#: field:ccorp.project.oerp.work.type,create_uid:0
+msgid "Created by"
+msgstr "Created by"
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.feature.hours,create_date:0
+#: field:ccorp.project.oerp.feature.import.wizard,create_date:0
+#: field:ccorp.project.oerp.origin.task,create_date:0
+#: field:ccorp.project.oerp.reassignment.hours,create_date:0
+#: field:ccorp.project.oerp.sprint.close.wizard,create_date:0
+#: field:ccorp.project.oerp.task.create.wizard,create_date:0
+#: field:ccorp.project.oerp.task.hour,create_date:0
+#: field:ccorp.project.oerp.work.type,create_date:0
+msgid "Created on"
+msgstr "Created on"
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.reassignment.hours,date:0
+msgid "Date"
+msgstr "Fecha"
+
+#. module: ccorp_project_oerp
+#: help:ccorp.project.oerp.reassignment.hours,message_last_post:0
+msgid "Date of the last message posted on the record."
+msgstr "Date of the last message posted on the record."
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.scrum.sprint,planned_task_ids:0
 msgid "Desirable Tasks"
 msgstr "Tareas deseables"
 
 #. module: ccorp_project_oerp
-#: view:ccorp.project.oerp.feature.import.wizard:0
-#: view:ccorp.project.oerp.phase.create.wizard:0
-#: view:ccorp.project.oerp.sprint.close.wizard:0
-#: view:ccorp.project.oerp.task.create.wizard:0
-msgid "or"
-msgstr "o"
+#: field:ccorp.project.oerp.reassignment.hours,detail:0
+msgid "Detail"
+msgstr "Detalle"
 
 #. module: ccorp_project_oerp
-#: constraint:project.task.work:0
-msgid "The selected Work Type has not been planned in the selected Feature."
-msgstr "El tipo de trabajo seleccionado no ha sido planeado en la característica seleccionada."
+#: selection:ccorp.project.oerp.feature.import.wizard,state:0
+msgid "Done"
+msgstr "Realizado"
 
 #. module: ccorp_project_oerp
-#: field:ccorp.project.oerp.work.type.template,group_id:0
-msgid "Group"
-msgstr "Grupo"
+#: selection:ccorp.project.oerp.reassignment.hours,state:0
+msgid "Draft"
+msgstr "Borrador"
 
 #. module: ccorp_project_oerp
-#: model:ir.model,name:ccorp_project_oerp.model_project_task_work
-msgid "Project Task Work"
-msgstr "Trabajo de tarea de proyecto"
+#: model:ir.model,name:ccorp_project_oerp.model_ccorp_project_oerp_reassignment_hours
+#: model:ir.model,name:ccorp_project_oerp.model_ccorp_project_scrum_feature
+msgid "Email Thread"
+msgstr "Tema de Correos"
 
 #. module: ccorp_project_oerp
-#: view:ccorp.project.oerp.feature.import.wizard:0
-msgid "Import"
-msgstr "Importar"
-
-#. module: ccorp_project_oerp
-#: model:ir.actions.act_window,help:ccorp_project_oerp.action_work_type_template_group
-msgid "<p class=\"oe_view_nocontent_create\">Create new Work Type Template Group</p>\n"
-"            "
-msgstr "<p class=\"oe_view_nocontent_create\">Crear nuevo grupo de plantillas de tipo de trabajo</p>\n"
-"            "
-
-#. module: ccorp_project_oerp
-#: model:ir.actions.act_window,help:ccorp_project_oerp.action_work_type_template
-msgid "<p class=\"oe_view_nocontent_create\">Create new Work Type Template</p>\n"
-"            "
-msgstr "<p class=\"oe_view_nocontent_create\">Crear nueva plantilla de tipo de trabajo</p>\n"
-"            "
-
-#. module: ccorp_project_oerp
-#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_fun_tes
-#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_tec_tes
-msgid "Tests"
-msgstr "Pruebas"
-
-#. module: ccorp_project_oerp
-#: view:ccorp.project.oerp.phase.create.wizard:0
-msgid "Phase Create Wizard"
-msgstr "Asistente de creación de fase"
-
-#. module: ccorp_project_oerp
-#: view:ccorp.project.oerp.task.create.wizard:0
-msgid "Task Create Wizard"
-msgstr "Asistente de creación de tarea"
-
-#. module: ccorp_project_oerp
-#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_fun_per
-#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_tec_per
-msgid "Permissions"
-msgstr "Permisos"
-
-#. module: ccorp_project_oerp
-#: field:ccorp.project.oerp.feature.hours,effective_hours:0
-#: field:ccorp.project.oerp.task.hour,effective_hours:0
-#: view:project.task:0
-msgid "Spent Hour(s)"
-msgstr "Horas consumidas"
-
-#. module: ccorp_project_oerp
-#: view:ccorp.project.oerp.work.type.template.group:0
-msgid "Work Type Template Groups"
-msgstr "Grupos de plantillas de tipos de trabajo"
-
-#. module: ccorp_project_oerp
+#: code:addons/ccorp_project_oerp/ccorp_project_oerp.py:183
+#: code:addons/ccorp_project_oerp/ccorp_project_oerp.py:331
 #: code:addons/ccorp_project_oerp/wizard/feature_import_wizard.py:39
 #: code:addons/ccorp_project_oerp/wizard/feature_import_wizard.py:90
 #: code:addons/ccorp_project_oerp/wizard/feature_import_wizard.py:101
@@ -391,58 +190,153 @@ msgid "Error"
 msgstr "Error"
 
 #. module: ccorp_project_oerp
-#: view:ccorp.project.scrum.sprint:0
-msgid "Tasks from Sequence"
-msgstr "Tareas desde secuencia"
-
-#. module: ccorp_project_oerp
-#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_dev_gen
-msgid "General"
-msgstr "General"
-
-#. module: ccorp_project_oerp
-#: selection:ccorp.project.oerp.feature.import.wizard,state:0
-msgid "Done"
-msgstr "Realizado"
-
-#. module: ccorp_project_oerp
-#: view:ccorp.project.oerp.feature.import.wizard:0
-#: view:ccorp.project.oerp.phase.create.wizard:0
-#: view:ccorp.project.oerp.sprint.close.wizard:0
-#: view:ccorp.project.oerp.task.create.wizard:0
-msgid "Cancel"
-msgstr "Cancelar"
-
-#. module: ccorp_project_oerp
-#: view:ccorp.project.oerp.sprint.close.wizard:0
-msgid "Close"
-msgstr "Cerrado"
-
-#. module: ccorp_project_oerp
-#: field:ccorp.project.oerp.work.type,name:0
-#: field:ccorp.project.oerp.work.type.mapping,name:0
-msgid "Type Name"
-msgstr "Nombre del tipo"
-
-#. module: ccorp_project_oerp
-#: view:ccorp.project.scrum.sprint:0
-msgid "Queue Tasks"
-msgstr "Encolar tareas"
+#: view:ccorp.project.scrum.feature:ccorp_project_oerp.view_feature_form
+#: view:project.task:ccorp_project_oerp.view_task_form_teammanager
+msgid "False"
+msgstr "Falso"
 
 #. module: ccorp_project_oerp
 #: field:ccorp.project.oerp.feature.hours,feature_id:0
+#: field:project.issue,feature_id:0
 msgid "Feature"
 msgstr "Característica"
 
 #. module: ccorp_project_oerp
-#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_tec_load
-msgid "Data Loading"
-msgstr "Carga de datos"
+#: view:ccorp.project.scrum.feature:ccorp_project_oerp.view_feature_form
+#: field:ccorp.project.scrum.feature,hour_ids:0
+#: view:project.task:ccorp_project_oerp.view_task_form
+#: field:project.task,feature_hour_ids:0
+msgid "Feature Hours"
+msgstr "Horas de característica"
 
 #. module: ccorp_project_oerp
-#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_tec_wiz
-msgid "Wizards"
-msgstr "Asistentes"
+#: model:ir.actions.act_window,name:ccorp_project_oerp.action_feature_import_wizard
+msgid "Feature Import"
+msgstr "Importación de características"
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.oerp.feature.import.wizard:ccorp_project_oerp.view_feature_import_wizard_form
+msgid "Feature Import Wizard"
+msgstr "Asistente de importación de características"
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.feature.import.wizard,file:0
+msgid "File to Import"
+msgstr "Archivo a importar"
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.reassignment.hours,message_follower_ids:0
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.scrum.feature,acceptance_requirements_supplier:0
+msgid "Funtional acceptance requirements"
+msgstr "Criterios de aceptación funcionales"
+
+#. module: ccorp_project_oerp
+#: model:ir.actions.server,name:ccorp_project_oerp.action_create_tasks
+msgid "Generate Tasks"
+msgstr "Generar tareas"
+
+#. module: ccorp_project_oerp
+#: help:ccorp.project.oerp.reassignment.hours,message_summary:0
+msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.feature.hours,id:0
+#: field:ccorp.project.oerp.feature.import.wizard,id:0
+#: field:ccorp.project.oerp.origin.task,id:0
+#: field:ccorp.project.oerp.reassignment.hours,id:0
+#: field:ccorp.project.oerp.sprint.close.wizard,id:0
+#: field:ccorp.project.oerp.task.create.wizard,id:0
+#: field:ccorp.project.oerp.task.hour,id:0
+#: field:ccorp.project.oerp.work.type,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: ccorp_project_oerp
+#: help:ccorp.project.oerp.reassignment.hours,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr "Hay mensajes que requieren su atención"
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.oerp.feature.import.wizard:ccorp_project_oerp.view_feature_import_wizard_form
+msgid "Import"
+msgstr "Importar"
+
+#. module: ccorp_project_oerp
+#: model:ir.ui.menu,name:ccorp_project_oerp.menu_feature_import_wizard
+msgid "Import Features"
+msgstr "Importar características"
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.task.hour,expected_hours:0
+msgid "Initially Planned Hour(s)"
+msgstr "Horas planeadas inicialmente"
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.reassignment.hours,message_is_follower:0
+msgid "Is a Follower"
+msgstr "Es seguidor"
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.scrum.feature:ccorp_project_oerp.view_feature_form
+#: field:ccorp.project.scrum.feature,issue_id:0
+#: selection:project.issue,issue_type:0
+#: field:sale.order.line,issue_id:0
+msgid "Issue"
+msgstr "Incidencia"
+
+#. module: ccorp_project_oerp
+#: field:project.issue,issue_type:0
+msgid "Issue Type"
+msgstr "Tipo de incidencia"
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.reassignment.hours,message_last_post:0
+msgid "Last Message Date"
+msgstr "Fecha ultimo mensaje"
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.feature.hours,write_uid:0
+#: field:ccorp.project.oerp.feature.import.wizard,write_uid:0
+#: field:ccorp.project.oerp.origin.task,write_uid:0
+#: field:ccorp.project.oerp.reassignment.hours,write_uid:0
+#: field:ccorp.project.oerp.sprint.close.wizard,write_uid:0
+#: field:ccorp.project.oerp.task.create.wizard,write_uid:0
+#: field:ccorp.project.oerp.task.hour,write_uid:0
+#: field:ccorp.project.oerp.work.type,write_uid:0
+msgid "Last Updated by"
+msgstr "Ultima actualización por"
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.feature.hours,write_date:0
+#: field:ccorp.project.oerp.feature.import.wizard,write_date:0
+#: field:ccorp.project.oerp.origin.task,write_date:0
+#: field:ccorp.project.oerp.reassignment.hours,write_date:0
+#: field:ccorp.project.oerp.sprint.close.wizard,write_date:0
+#: field:ccorp.project.oerp.task.create.wizard,write_date:0
+#: field:ccorp.project.oerp.task.hour,write_date:0
+#: field:ccorp.project.oerp.work.type,write_date:0
+msgid "Last Updated on"
+msgstr "Ultima actualización"
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.reassignment.hours,message_ids:0
+msgid "Messages"
+msgstr "Mensajes"
+
+#. module: ccorp_project_oerp
+#: help:ccorp.project.oerp.reassignment.hours,message_ids:0
+msgid "Messages and communication history"
+msgstr "Historial de mensajes y comunicación"
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.origin.task,origin_task_id:0
+msgid "Name"
+msgstr "Nombre"
 
 #. module: ccorp_project_oerp
 #: selection:ccorp.project.oerp.feature.import.wizard,state:0
@@ -450,102 +344,130 @@ msgid "New"
 msgstr "Nuevo"
 
 #. module: ccorp_project_oerp
-#: field:project.phase,user_id:0
-msgid "Phase Manager"
-msgstr "Gerente de fase"
+#: field:ccorp.project.oerp.sprint.close.wizard,opening_sprint_id:0
+msgid "Opening Sprint"
+msgstr "Sprint de apertura"
 
 #. module: ccorp_project_oerp
-#: model:ccorp.project.oerp.work.type.template,name:ccorp_project_oerp.data_work_type_template_dev
-msgid "Development"
-msgstr "Desarrollo"
+#: field:ccorp.project.oerp.reassignment.hours,origin_task_ids:0
+msgid "Origin Task"
+msgstr "Tarea de origen"
 
 #. module: ccorp_project_oerp
-#: view:ccorp.project.scrum.feature:0
-msgid "Total Spent"
-msgstr "Total Consumido"
+#: field:ccorp.project.oerp.feature.hours,expected_hours:0
+#: view:project.task:ccorp_project_oerp.view_task_form
+msgid "Planned Hour(s)"
+msgstr "Horas planeadas"
 
 #. module: ccorp_project_oerp
-#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_fun_inf
-#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_tec_inf
-msgid "Informs"
-msgstr "Informes"
+#: view:ccorp.project.scrum.sprint:ccorp_project_oerp.view_sprint_form
+msgid "Planned Tasks"
+msgstr "Tareas planeadas"
 
 #. module: ccorp_project_oerp
-#: model:ccorp.project.oerp.work.type.mapping,name:ccorp_project_oerp.data_work_type_mapping_tec_obj
-msgid "Objects"
-msgstr "Objetos"
+#: view:ccorp.project.scrum.feature:ccorp_project_oerp.view_feature_form
+msgid "Please describe the functional analysis of this functionality"
+msgstr "Por favor describa el analisis funcional de este requerimiento"
 
 #. module: ccorp_project_oerp
-#: view:ccorp.project.scrum.feature:0
-msgid "Total Remaining"
-msgstr "Total restante"
+#: view:ccorp.project.scrum.feature:ccorp_project_oerp.view_feature_form
+msgid "Please describe what you expect of this functionality"
+msgstr "Por favor describa, que espera de este requerimiento"
 
 #. module: ccorp_project_oerp
-#: field:ccorp.project.oerp.feature.hours,phase_id:0
-#: field:ccorp.project.oerp.task.hour,phase_id:0
-#: field:ccorp.project.oerp.work.type,phase_id:0
-#: field:ccorp.project.scrum.sprint,phase_id:0
-#: field:project.task.work,phase_id:0
-msgid "Phase"
-msgstr "Fase"
+#: selection:project.issue,issue_type:0
+msgid "Problem"
+msgstr "Problema"
 
 #. module: ccorp_project_oerp
-#: field:ccorp.project.oerp.work.type.template.group,template_ids:0
-msgid "Templates"
-msgstr "Plantillas"
+#: field:ccorp.project.oerp.work.type,product_id:0
+msgid "Product"
+msgstr "Producto"
 
 #. module: ccorp_project_oerp
-#: model:ir.model,name:ccorp_project_oerp.model_project_phase
-msgid "Project Phase"
-msgstr "Fase proyecto"
+#: field:ccorp.project.oerp.feature.import.wizard,project_id:0
+#: field:ccorp.project.oerp.reassignment.hours,project_id:0
+#: field:ccorp.project.oerp.task.hour,project_id:0
+msgid "Project"
+msgstr "Proyecto"
 
 #. module: ccorp_project_oerp
-#: model:ccorp.project.oerp.work.type.template.group,name:ccorp_project_oerp.data_work_type_template_group
-msgid "Default Templates"
-msgstr "Plantillas por defecto"
+#: model:ir.model,name:ccorp_project_oerp.model_project_issue
+msgid "Project Issue"
+msgstr "Incidencia proyecto"
 
 #. module: ccorp_project_oerp
-#: code:addons/ccorp_project_oerp/wizard/feature_import_wizard.py:90
-#, python-format
-msgid "An error occurred while reading the planned hours from file in column %s for work type %s"
-msgstr "Un error ocurrió mientras se leían las horas planeadas desde el archivo en la columna %s para el tipo de trabajo %s"
+#: selection:ccorp.project.oerp.reassignment.hours,state:0
+msgid "Reassignment"
+msgstr "Reasignación"
 
 #. module: ccorp_project_oerp
-#: code:addons/ccorp_project_oerp/wizard/task_create_wizard.py:120
-#, python-format
-msgid "An error occurred while creating the tasks. Please contact your system administrator."
-msgstr "Un error ocurrió mientras se creaban las tareas. Por favor contacte a sus administrador de sistema."
+#: field:ccorp.project.oerp.origin.task,reassignment_hour:0
+#: field:project.task,reassignment_hour:0
+msgid "Reassignment Hour"
+msgstr "Reasignar horas"
 
 #. module: ccorp_project_oerp
-#: field:ccorp.project.oerp.work.type,sequence:0
-#: field:ccorp.project.oerp.work.type.mapping,sequence:0
-msgid "Sequence"
-msgstr "Secuencia"
+#: view:ccorp.project.oerp.reassignment.hours:ccorp_project_oerp.view_reassignment_task_form
+#: view:ccorp.project.oerp.reassignment.hours:ccorp_project_oerp.view_reassignment_task_tree
+#: model:ir.actions.act_window,name:ccorp_project_oerp.action_reassignment
+#: model:ir.ui.menu,name:ccorp_project_oerp.reassignment_hours
+msgid "Reassignment Task Hours"
+msgstr "Reasignar horas de tarea"
 
 #. module: ccorp_project_oerp
-#: code:addons/ccorp_project_oerp/wizard/sprint_close_wizard.py:64
-#, python-format
-msgid "An error occurred while closing the sprint."
-msgstr "Un error ocurrió mientras se cerraba el sprint."
+#: field:ccorp.project.oerp.origin.task,reassignment_hour_id:0
+msgid "Reassignment hour id"
+msgstr "Reasinganción de hora"
 
 #. module: ccorp_project_oerp
-#: field:ccorp.project.oerp.work.type.template,file:0
-#: field:ccorp.project.oerp.work.type.template.group,file:0
-msgid "File"
-msgstr "Archivo"
+#: field:ccorp.project.oerp.feature.import.wizard,release_backlog_id:0
+msgid "Release Backlog"
+msgstr "Pila de liberación"
 
 #. module: ccorp_project_oerp
 #: field:ccorp.project.oerp.feature.hours,remaining_hours:0
 #: field:ccorp.project.oerp.task.hour,remaining_hours:0
-#: view:project.task:0
+#: view:project.task:ccorp_project_oerp.view_task_form
 msgid "Remaining Hour(s)"
 msgstr "Horas restantes"
 
 #. module: ccorp_project_oerp
-#: view:ccorp.project.oerp.phase.create.wizard:0
-#: field:ccorp.project.oerp.phase.create.wizard,duration:0
-msgid "Duration"
-msgstr "Duración"
+#: view:project.issue:ccorp_project_oerp.project_issue_form_view
+msgid "Sale Order"
+msgstr "Pedido de venta"
+
+#. module: ccorp_project_oerp
+#: field:project.issue,saleorderline_id:0
+msgid "Sale order line"
+msgstr "Línea pedido de venta"
+
+#. module: ccorp_project_oerp
+#: model:ir.model,name:ccorp_project_oerp.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea pedido de venta"
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.work.type,sequence:0
+msgid "Sequence"
+msgstr "Secuencia"
+
+#. module: ccorp_project_oerp
+#: selection:project.issue,issue_type:0
+msgid "Service Request"
+msgstr "Solicitud de servicio"
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.reassignment.hours,inv_total_time_reassignment:0
+msgid "Set Total Time Reassignment"
+msgstr "Asignar tiempo recalculado"
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.feature.hours,effective_hours:0
+#: field:ccorp.project.oerp.task.hour,effective_hours:0
+#: view:project.task:ccorp_project_oerp.view_task_form
+msgid "Spent Hour(s)"
+msgstr "Horas consumidas"
 
 #. module: ccorp_project_oerp
 #: field:ccorp.project.oerp.task.create.wizard,sprint_id:0
@@ -553,11 +475,135 @@ msgid "Sprint"
 msgstr "Sprint"
 
 #. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.feature.import.wizard,state:0
+#: field:ccorp.project.oerp.reassignment.hours,state:0
+msgid "State"
+msgstr "Estado"
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.reassignment.hours,message_summary:0
+msgid "Summary"
+msgstr "resumen"
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.reassignment.hours,target_task:0
+msgid "Target Task"
+msgstr "Tarea destino"
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.task.hour,task_id:0
+#: model:ir.model,name:ccorp_project_oerp.model_project_task
+msgid "Task"
+msgstr "Tarea"
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.oerp.task.create.wizard:ccorp_project_oerp.view_task_create_wizard_form
+msgid "Task Create Wizard"
+msgstr "Asistente de creación de tarea"
+
+#. module: ccorp_project_oerp
+#: field:project.task,task_hour_ids:0
+msgid "Task Hours"
+msgstr "Horas de tarea"
+
+#. module: ccorp_project_oerp
+#: view:project.issue:ccorp_project_oerp.project_issue_form_view
+msgid "Task Sumary"
+msgstr "Resumen de tarea"
+
+#. module: ccorp_project_oerp
+#: model:ir.ui.menu,name:ccorp_project_oerp.task_work_type
+msgid "Task Types"
+msgstr "Tipo de tarea"
+
+#. module: ccorp_project_oerp
+#: field:project.issue,task_ids:0
+msgid "Task ids"
+msgstr "Tareas"
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.reassignment.hours,type_task_id:0
+msgid "Task type"
+msgstr "Tipo de tarea"
+
+#. module: ccorp_project_oerp
+#: view:project.issue:ccorp_project_oerp.project_issue_form_view
+msgid "Tasks"
+msgstr "Tareas"
+
+#. module: ccorp_project_oerp
 #: model:ir.ui.menu,name:ccorp_project_oerp.menu_tools
 msgid "Tools"
 msgstr "Herramientas"
 
 #. module: ccorp_project_oerp
-#: model:ir.ui.menu,name:ccorp_project_oerp.menu_work_type_template_group
-msgid "Phase Template Groups"
-msgstr "Grupos de plantillas de fase"
+#: view:ccorp.project.scrum.feature:ccorp_project_oerp.view_feature_form
+msgid "Total Planned"
+msgstr "Total planeado"
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.scrum.feature:ccorp_project_oerp.view_feature_form
+msgid "Total Remaining"
+msgstr "Total restante"
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.scrum.feature:ccorp_project_oerp.view_feature_form
+msgid "Total Spent"
+msgstr "Total Consumido"
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.scrum.feature:ccorp_project_oerp.view_feature_form
+#: view:project.issue:ccorp_project_oerp.project_issue_form_view
+#: view:project.task:ccorp_project_oerp.view_task_form_user
+msgid "True"
+msgstr "Verdadero"
+
+#. module: ccorp_project_oerp
+#: field:project.task,kind_task_id:0
+msgid "Type of task"
+msgstr "Tipo de tarea"
+
+#. module: ccorp_project_oerp
+#: field:project.issue,work_type_id:0
+msgid "Type of work"
+msgstr "Tipo de hora"
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.reassignment.hours,message_unread:0
+msgid "Unread Messages"
+msgstr "Mensajes sin leer"
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.feature.hours,work_type_id:0
+#: field:ccorp.project.oerp.task.hour,work_type_id:0
+msgid "Work Type"
+msgstr "Tipo de trabajo"
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.oerp.work.type:ccorp_project_oerp.view_work_type_tree
+msgid "Work Type Task"
+msgstr "Tipo de hora"
+
+#. module: ccorp_project_oerp
+#: model:ir.actions.act_window,name:ccorp_project_oerp.action_work_type
+msgid "Work Types"
+msgstr "Tipos de hora"
+
+#. module: ccorp_project_oerp
+#: code:addons/ccorp_project_oerp/ccorp_project_oerp.py:332
+#, python-format
+msgid "Your time ivested in this task has exeded the planed time frame"
+msgstr "Su tiempo para esta tarea ha excedido lo estimado"
+
+#. module: ccorp_project_oerp
+#: field:ccorp.project.oerp.work.type,name:0
+msgid "name"
+msgstr "nombre"
+
+#. module: ccorp_project_oerp
+#: view:ccorp.project.oerp.feature.import.wizard:ccorp_project_oerp.view_feature_import_wizard_form
+#: view:ccorp.project.oerp.sprint.close.wizard:ccorp_project_oerp.view_sprint_close_wizard_form
+#: view:ccorp.project.oerp.task.create.wizard:ccorp_project_oerp.view_task_create_wizard_form
+msgid "or"
+msgstr "o"
+

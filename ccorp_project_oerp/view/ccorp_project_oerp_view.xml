@@ -49,11 +49,15 @@
 					<attribute name="readonly">True</attribute>
 					<attribute name="required">False</attribute>
 				</xpath>
+				<xpath expr="//form/sheet/group/group/field[@name='progress']"
+                    position="after">
+                        <field name="validation_date"/>
+                 </xpath>
 				<xpath expr="//form/sheet/notebook/page[@name='description']"
 					position="after">
-					<page string="Feature Hours" name="feature_hours">
+					<page string="Feature Hours" name="d">
 						<field name="id" invisible="True" />
-						<field name="hour_ids" context="{'feature_id': active_id}" attrs="{'readonly':[('state','=','approved')]}">
+						<field name="hour_ids" attrs="{'readonly':[('state','=','approved')]}">
 							<tree editable="bottom">
 								<field name="work_type_id" />
 								<field name="expected_hours" sum="Total Planned" />
@@ -62,17 +66,14 @@
 							</tree>
 						</field>
 					</page>
-				</xpath>
-                <xpath expr="//form/sheet/notebook/page[@name='description']"
-                    position="after">
                     <page string="Acceptance Requirements" name="acceptance_requirements">
-                    <label for="acceptance_requirements_client" string="Please describe what you expect of this functionality"/>
-                    <field name="acceptance_requirements_client"/>
-                    <br/><br/>
-                    <label for="acceptance_requirements_supplier" string="Please describe the functional analysis of this functionality"/>
-                    <field name="acceptance_requirements_supplier"/>
+                            <label for="acceptance_requirements_client" string="Please describe what you expect of this functionality"/>
+                            <field name="acceptance_requirements_client"/>
+                            <br/><br/>
+                            <label for="acceptance_requirements_supplier" string="Please describe the functional analysis of this functionality"/>
+                            <field name="acceptance_requirements_supplier"/>
                     </page>
-               </xpath>
+				</xpath>
 			</field>
 		</record>
 
@@ -95,7 +96,7 @@
 				<xpath expr="//form/sheet/notebook/page[@name='sequence']"
 					position="before">
 					<page string="Feature Hours" name="feature_hours"
-						attrs="{'invisible': [('feature_id','=',False)]}">
+                        attrs="{'invisible': [('feature_id','=',False)]}">
 						<field name="feature_hour_ids">
 							<tree>
 								<field name="work_type_id" />
@@ -105,7 +106,7 @@
 							</tree>
 						</field>
 					</page>
-				</xpath>
+				</xpath>			
 			</field>
 		</record>
         
@@ -153,92 +154,9 @@
 			</field>
 		</record>
         
-            <record id="view_reassignment_task_form" model="ir.ui.view">
-            <field name="name">view.reassignment.hours.form</field>
-            <field name="model">ccorp.project.oerp.reassignment.hours</field>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-                <form string="Reassignment Task Hours" version="7.0">
-                <header>
-                <field name="state" widget="statusbar" statusbar_visible="draft,reassignment"
-                            statusbar_colors='{"draft":"red","reassignment":"blue"}' />
-                        <button name="reassignment_hours" type="object"
-                            string="Approve" class="oe_highlight"  attrs="{'invisible': [('state','=', 'reassignment')]}"/>
-                </header>
-                <sheet>
-                  <h3>
-                      <span>Reassignment Task Hours</span>
-                  </h3>
-                    <group>
-                            <field name="date" class="oe_inline"  attrs="{'readonly': [('state','!=', 'draft')]}"/>
-                            <field name="target_task" class="oe_inline" attrs="{'readonly': [('state','!=', 'draft')]}"/>
-                            <field name="detail" class="oe_inline" attrs="{'readonly': [('state','!=', 'draft')]}"/>
-                            <field name="project_id" attrs="{'invisible': 1}"/>
-                            <field name="type_task_id" attrs="{'invisible': 1}"/>
-                            <field name="origin_task_ids" attrs="{'readonly': [('state','!=', 'draft')]}">
-                               <tree editable="bottom">
-                                    <field name="origin_task_id" 
-                                           domain="[('project_id','=',parent.project_id),('kind_task_id','=',parent.type_task_id),('remaining_hours','>',0)]"/>
-                                    <field name="project_origin_task"/>
-                                    <field name="user_origin_task"/>
-                                    <field name="ph_origin_task"/>
-                                    <field name="rh_origin_task"/>
-                                    <field name="reassignment_hour"/>
-                               </tree> 
-                           </field>
-                           <field name="total_time_reassignment" class="oe_inline" attrs="{'readonly': [('state','!=', 'draft')]}"/>
-                    </group>
-                    </sheet>
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers"
-                            groups="base.group_user" />
-                        <field name="message_ids" widget="mail_thread" />
-                    </div>
-                </form>
-            </field>
-        </record>
+          
         
-        <record id="view_reassignment_task_tree" model="ir.ui.view">
-            <field name="name">view.reassignment.hours.tree</field>
-            <field name="model">ccorp.project.oerp.reassignment.hours</field>
-            <field name="priority" eval="16" />
-            <field name="arch" type="xml">
-                <tree string="Reassignment Task Hours">
-                    <field name="date"/>
-                    <field name="target_task"/>
-                    <field name="state"/>
-                </tree>
-            </field>
-        </record>
-        
-<record model="ir.ui.view" id="project_issue_form_view">
-            <field name="name">Project Issue Tracker Form</field>
-            <field name="model">project.issue</field>
-            <field name="inherit_id" ref="project_issue.project_issue_form_view" />
-            <field name="arch" type="xml">
-            <xpath expr="//form/sheet/group/group/field[@name='user_id']" position="before">
-                    <field name="work_type_id"/>
-            </xpath>
-            <xpath expr="//form/sheet/group/group/label[@for='task_id']" position="attributes">
-                    <attribute name="invisible">True</attribute>
-            </xpath>
-            <xpath expr="//form/sheet/group/group/div/field[@name='task_id']" position="attributes">
-                    <attribute name="invisible">True</attribute>
-            </xpath>
-                <xpath expr="//notebook/page[@string='Extra Info']" position="before">
-                    <page string="Task Sumary">
-                        <field name="task_ids" colspan="4" nolabel="1">
-                            <tree editable="top" string="Tasks">
-                                 <field name="name"/>
-                                 <field name="kind_task_id"/>
-                                 <field name="user_id"/>
-                            </tree>
-                        </field>
-                    </page>
-                </xpath>
-            </field>
-        </record>
-        
+
         <!-- actions -->
         <!-- ccorp.project.oerp.feature.import.wizard -->
         <record model="ir.actions.act_window" id="action_feature_import_wizard">
@@ -247,15 +165,7 @@
             <field name="view_mode">form</field>
             <field name="target">new</field>
         </record>
-
-        <!-- ccorp.project.oerp.task.create.wizard -->
-        <record model="ir.actions.act_window" id="action_task_create_wizard">
-            <field name="name">Create Tasks from Sequence</field>
-            <field name="res_model">ccorp.project.oerp.task.create.wizard</field>
-            <field name="view_mode">form</field>
-            <field name="target">new</field>
-        </record>
-
+        
         <!-- ccorp.project.oerp.sprint.close.wizard -->
         <record model="ir.actions.act_window" id="action_sprint_close_wizard">
             <field name="name">Close Sprint</field>
@@ -264,12 +174,7 @@
             <field name="target">new</field>
         </record>
         
-        <!-- ccorp.project.oerp.reassignment.hours.wizard -->
-        <record model="ir.actions.act_window" id="action_reassignment">
-            <field name="name">Reassignment Task Hours</field>
-            <field name="res_model">ccorp.project.oerp.reassignment.hours</field>
-            <field name="view_mode">tree,form</field>
-        </record>
+       
         
         <record id="action_work_type" model="ir.actions.act_window">
             <field name="name">Work Types</field>
@@ -277,5 +182,22 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
+        
+        <!-- Server actions -->
+       <record id="action_create_tasks" model="ir.actions.server">
+           <field name="name">Generate Tasks</field>
+           <field name="model_id" ref="model_ccorp_project_scrum_feature"/>
+                <field name="code">
+                    self.create_tasks(cr, uid, context)
+                </field>
+       </record>
+       
+         <record model="ir.values" id="menu_create_tasks">
+            <field name="key2">client_action_multi</field>
+            <field name="model">ccorp.project.scrum.feature</field>
+            <field name="name">Generate Tasks</field>
+            <field name="value" eval="'ir.actions.server,%d'%action_create_tasks"/>
+        </record>
+        
 	</data>
 </openerp>

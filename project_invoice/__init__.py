@@ -22,3 +22,4 @@
 
 import project_project
 import wizard
+import account_analytic_account_group

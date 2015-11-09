@@ -21,20 +21,15 @@
 ##############################################################################
 
 {
-    "name" : 'CCorp Project OpenERP Methodology',
+    "name" : 'Project scrum work type',
     "version" : '1.0',
     "author" : 'ClearCorp',
-    'complexity': 'normal',
-    "description": """
-""",
     "category": 'Project Management',
     "sequence": 10,
-    "website" : "http://clearcorp.co.cr",
-    "images" : [],
+    "website" : "http://clearcorp.cr",
     "depends" : [
-                 'ccorp_project_scrum',
+                   'ccorp_project_scrum',
                    'hr',
-                   'project_issue',
                  ],
     "data" : [
               'security/project_security.xml',
@@ -43,9 +38,7 @@
               'view/ccorp_project_oerp_menu.xml',
               'security/ir.model.access.csv',
               ],
-    "init_xml" : [],
     "demo_xml" : [],
-    "update_xml" : [],
     "test" : [],
     "auto_install": False,
     "application": False,

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+    <record id="issue_tt_analysis" model="project.issue.type">
+            <field name="sequence">1</field>
+            <field name="name">Analysis</field>
+            <field name="case_default" eval="True"/>
+            <field name="state">pending</field>
+        </record>
+        <record id="issue_tt_specification" model="project.issue.type">
+            <field name="sequence">10</field>
+            <field name="name">Specification</field>
+            <field name="case_default" eval="True"/>
+            <field name="state">pending</field>
+        </record>
+        <record id="issue_tt_design" model="project.issue.type">
+            <field name="sequence">11</field>
+            <field name="name">Design</field>
+            <field name="case_default" eval="True"/>
+            <field name="state">pending</field>
+        </record>
+        <record id="issue_tt_development" model="project.issue.type">
+            <field name="sequence">12</field>
+            <field name="name">Development</field>
+            <field name="case_default" eval="True"/>
+            <field name="state">pending</field>
+        </record>
+        <record id="issue_tt_testing" model="project.issue.type">
+            <field name="sequence">13</field>
+            <field name="name">Testing</field>
+            <field name="case_default" eval="True"/>
+            <field name="state">pending</field>
+        </record>
+        <record id="issue_tt_merge" model="project.issue.type">
+            <field name="sequence">14</field>
+            <field name="name">Merge</field>
+            <field name="case_default" eval="False"/>
+            <field name="fold" eval="True"/>
+            <field name="state">pending</field>
+        </record>
+        <record id="issue_tt_deployment" model="project.issue.type">
+            <field name="sequence">20</field>
+            <field name="name">Done</field>
+            <field name="case_default" eval="True"/>
+            <field name="fold" eval="True"/>
+            <field name="state">pending</field>
+        </record>
+        <record id="issue_tt_cancel" model="project.issue.type">
+            <field name="sequence">30</field>
+            <field name="name">Cancelled</field>
+            <field name="case_default" eval="True"/>
+            <field name="fold" eval="True"/>
+            <field name="state">pending</field>
+        </record>
+    </data>
+</openerp>
