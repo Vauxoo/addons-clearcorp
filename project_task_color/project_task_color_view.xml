@@ -9,6 +9,9 @@
             <field name="priority" eval="16" />
             <field name="inherit_id" ref="project.view_task_kanban" />
             <field name="arch" type="xml">
+                <xpath expr="//kanban/field[@name='sequence']" position="after">
+                    <field name="state" invisible="1" />
+                </xpath>
                 <xpath expr="//t[@t-name='kanban-box']" position="replace">
                     <t t-name="kanban-box">
                         <div

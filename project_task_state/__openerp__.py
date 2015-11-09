@@ -21,7 +21,7 @@
 ##############################################################################
 
 {
-    "name" : 'Project Task Color',
+    "name" : 'Project Task State',
     "version" : '1.0',
     "author" : 'ClearCorp',
     'complexity': 'easy',
@@ -29,8 +29,8 @@
     'category': 'Project Management',
     'sequence': 4,
     'website' : 'http://clearcorp.co.cr',
-    'depends' : ['base','project','project_task_state'],
-    'data' : ['project_task_color_view.xml'],
+    'depends' : ['base','project'],
+    'data' : ['project_task_state_view.xml'],
     'auto_install': False,
     'application': False,
     'installable': True,

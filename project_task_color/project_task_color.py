@@ -5,7 +5,7 @@ from datetime import datetime
 class task(osv.Model):
     _inherit = 'project.task'
 
-    def _get_color_code(self, date_start, date_deadline, planned_hours, stage_id):
+    def _get_color_code(self, date_start, date_deadline, planned_hours, state):
         """Calculate the current color code for the task depending on the state
         Colors:
         0 -> White          5 -> Aqua
@@ -20,7 +20,7 @@ class task(osv.Model):
         @param state: The current task state
         @return: An integer that represents the current task state as a color
         """
-        if stage_id:
+        if state == 'done':
             # Done task COLOR: GRAY
             return '1'
         else:
@@ -61,7 +61,7 @@ class task(osv.Model):
     def _compute_color(self, cr, uid, ids, field_name, args, context={}):
         res = {}
         for task in self.browse(cr, uid, ids, context=context):
-            res[task.id] = self._get_color_code(task.date_start, task.date_deadline, task.planned_hours, task.stage_id)
+            res[task.id] = self._get_color_code(task.date_start, task.date_deadline, task.planned_hours, task.state)
         return res
     
     _columns = {
