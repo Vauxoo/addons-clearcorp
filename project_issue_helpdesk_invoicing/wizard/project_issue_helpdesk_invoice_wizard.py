@@ -570,7 +570,8 @@ class IssueInvoiceWizard(models.TransientModel):
                 issue_ids.append(issue.id)
             issue_ids=issue_obj.search(['|','|',('backorder_ids','!=',False),('expense_line_ids','!=',False),('timesheet_ids','!=',False),('analytic_account_id','!=',False),('analytic_account_id','in',account_analytic_list),('analytic_account_id.charge_expenses','=',True),('stage_id.closed','=',True),('sale_order_id','=',False),('invoice_ids','=',False),('id','in',issue_ids)],order='categ_id asc,product_id asc,create_date asc')
         self.issue_invoice_ids=issue_ids
-        self.write({'state':'done'})
+        if self.filter:
+            self.write({'state':'done'})
         return {
             'name': _('Issues to Invoice'),
             'type': 'ir.actions.act_window',
