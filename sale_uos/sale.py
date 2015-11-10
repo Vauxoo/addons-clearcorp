@@ -29,7 +29,9 @@ class sale_order_line(models.Model):
     
     @api.onchange('price_unit_uos')
     def onchange_price_unit_uos(self):
-        self.price_unit = self.price_unit_uos / self.product_id.product_tmpl_id.uos_coeff
+        if self.product_id.product_tmpl_id.uos_coeff == 0:
+            self.product_id.product_tmpl_id.uos_coeff = 1
+        self.price_unit = self.price_unit_uos * self.product_id.product_tmpl_id.uos_coeff
     
     price_unit_uos = fields.Float ('Unit Price UoS', digits_compute= dp.get_precision('Product Price'), readonly=True, states={'draft':[('readonly',False)]})
     
