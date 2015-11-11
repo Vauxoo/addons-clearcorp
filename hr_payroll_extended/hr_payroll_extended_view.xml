@@ -73,9 +73,6 @@
             <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
             <field name="arch" type="xml">
                 <data>
-                    <xpath expr="//form/sheet/group/field[@name='credit_note']" position="after">
-                        <field name="forced_period_id"/>
-                    </xpath>
                     <xpath expr="//form/sheet/group/field[@name='contract_id']" position="attributes">
                         <attribute name="required">True</attribute>
                     </xpath>
