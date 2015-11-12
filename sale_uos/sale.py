@@ -31,10 +31,10 @@ class sale_order_line(models.Model):
     def onchange_price_unit_uos(self):
         if self.product_id.product_tmpl_id.uos_coeff == 0:
             self.product_id.product_tmpl_id.uos_coeff = 1
-        self.price_unit = self.price_unit_uos * self.product_id.product_tmpl_id.uos_coeff
+        self.price_unit = self.price_unit_uos * self.product_uos_qty
     
     price_unit_uos = fields.Float ('Unit Price UoS', digits_compute= dp.get_precision('Product Price'), readonly=True, states={'draft':[('readonly',False)]})
-    
+        
     @api.multi
     def product_id_change(self, pricelist, product, qty=0,
             uom=False, qty_uos=0, uos=False, name='', partner_id=False,
@@ -42,9 +42,9 @@ class sale_order_line(models.Model):
         res = super(sale_order_line,self).product_id_change(pricelist=pricelist,product=product,qty=qty,uom=uom,
                     qty_uos=qty_uos,uos=uos,name=name,partner_id=partner_id,lang=lang,update_tax=update_tax,
                     date_order=date_order,packaging=packaging,fiscal_position=fiscal_position,flag=flag)
-        if 'value' in res.keys() and 'price_unit' in res['value'].keys():
+        if 'value' in res.keys() and 'price_unit' in res['value'].keys() and 'product_uos_qty' in res['value'].keys():
             prod_obj = self.env['product.product']
             prod = prod_obj.browse(product)
-            res['value']['price_unit_uos'] = res['value']['price_unit'] * prod.uos_coeff
+            res['value']['price_unit_uos'] = res['value']['price_unit'] / res['value']['product_uos_qty']
         return res
-        
+    
