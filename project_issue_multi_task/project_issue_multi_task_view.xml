@@ -34,10 +34,10 @@
             <field name="inherit_id" ref="project.view_task_form2" />
             <field name="priority" eval="100" />
             <field name="arch" type="xml">
-                <xpath expr="//form/sheet/notebook/page[@name='feature_hours']"
-                position="before">
+                <xpath expr="//form/sheet/notebook/page[@name='sequence']"
+                    position="before">
                     <page string="Tickets" name="tickets">
-                       <field name="ticket_ids"/>
+                       <field name="tickets_ids"/>
                     </page>
                 </xpath>
             </field>

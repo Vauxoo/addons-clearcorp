@@ -788,3 +788,7 @@ class project(osv.Model):
                 'release_backlog_ids': fields.one2many('ccorp.project.scrum.release.backlog',
                     'id', string='Release Backlogs'),
                 }
+
+class Feature(osv.Model):
+    
+    _name = 'ccorp.project.product.backlog'
