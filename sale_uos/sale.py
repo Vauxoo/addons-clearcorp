@@ -31,7 +31,7 @@ class sale_order_line(models.Model):
     def onchange_price_unit_uos(self):
         if self.product_id.product_tmpl_id.uos_coeff == 0:
             self.product_id.product_tmpl_id.uos_coeff = 1
-        self.price_unit = self.price_unit_uos * self.product_uos_qty
+        self.price_unit = self.price_unit_uos * self.product_id.product_tmpl_id.uos_coeff
     
     price_unit_uos = fields.Float ('Unit Price UoS', digits_compute= dp.get_precision('Product Price'), readonly=True, states={'draft':[('readonly',False)]})
         
@@ -45,6 +45,6 @@ class sale_order_line(models.Model):
         if 'value' in res.keys() and 'price_unit' in res['value'].keys() and 'product_uos_qty' in res['value'].keys():
             prod_obj = self.env['product.product']
             prod = prod_obj.browse(product)
-            res['value']['price_unit_uos'] = res['value']['price_unit'] / res['value']['product_uos_qty']
+            res['value']['price_unit_uos'] = res['value']['price_unit'] / prod.uos_coeff
         return res
     
