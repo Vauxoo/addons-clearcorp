@@ -153,9 +153,6 @@ class Feature(osv.Model):
     
     _columns = {
                 'hour_ids': fields.one2many('ccorp.project.oerp.feature.hours', 'feature_id', string='Feature Hours'),
-                'acceptance_requirements_client': fields.text('Acceptance requirements by client'), #cambiar al scrum
-                'acceptance_requirements_supplier': fields.text('Funtional acceptance requirements'), #cambiar al scrum
-                'validation_date': fields.date('Validation Date'), #cambiar al scrum
                 }
     
     def create_tasks(self, cr, uid, context):
@@ -283,8 +280,6 @@ class Task(osv.Model):
                 'feature_hour_ids': fields.related('feature_id', 'hour_ids', type='one2many',
                     relation='ccorp.project.oerp.feature.hours', string='Feature Hours', readonly=True),
                 'task_hour_ids': fields.one2many('ccorp.project.oerp.task.hour', 'task_id', string='Task Hours'),
-                'kind_task_id':fields.many2one('ccorp.project.oerp.work.type','Type of task',required=True),
-                'reassignment_hour': fields.float('Reassignment Hour', readonly=True),
                 'remaining_hours': fields.function(_remaining_hours, type='float', string='Remaining Hour(s)', store=True),
                 }
 

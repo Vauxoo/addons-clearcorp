@@ -21,7 +21,7 @@
 ##############################################################################
 
 {
-    "name" : 'CCorp Project Scrum',
+    "name" : 'Project Scrum',
     "version" : '1.0',
     "author" : 'ClearCorp',
     'complexity': 'normal',
@@ -32,7 +32,8 @@
     "website" : "http://clearcorp.co.cr",
     "images" : [],
     "depends" : [
-                 'project',
+                 'project', 
+                 'project_task_state',
                  ],
     "data" : [
               'data/ccorp_project_scrum_data.xml',

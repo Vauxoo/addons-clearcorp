@@ -8,16 +8,16 @@
         <record id="view_task_form3_inherid" model="ir.ui.view">
             <field name="name">view.task.form3</field>
             <field name="model">project.task</field>
-            <field name="inherit_id" ref="ccorp_project_oerp.view_task_form" />
+            <field name="inherit_id" ref="project.view_task_form2"/>
             <field name="priority" eval="100" />
             <field name="arch" type="xml">
                 <xpath expr="//form/header/field[@name='stage_id']" position="before">
                     <button name="split_task" type="object" string="Split task"
                         class="oe_highlight" />
                 </xpath>
-                <xpath expr="//form/sheet/h1/field[@name='name']/.." position="after">
-                    <label for="invoiced" string="Invoiced" class="oe_inline" />
-                    <field name="invoiced" class="oe_inline" />
+                <xpath expr="//form/sheet/group/group/field[@name='project_id']"
+                    position="after">
+                    <field name="kind_task_id"/>
                 </xpath>
             </field>
         </record>
@@ -32,9 +32,6 @@
             <field name="arch" type="xml">
                 <search string="Tasks">
                     <field name="kind_task_id" />
-                    <separator />
-                    <filter icon="Invoiced" name="filter_invoiced" string="For Invoiced"
-                        domain="[('invoiced','=','tobeinvoice')]" />
                     <separator />
                     <filter icon="Invoiced" name="filter_done" string="Done"
                         domain="[('state','=','done')]" />
@@ -52,30 +49,27 @@
             <field name="model">account.analytic.account</field>
             <field name="priority" eval="160" />
             <field name="inherit_id"
-                ref="account_analytic_analysis.account_analytic_account_form_form" />
+                ref="analytic.view_account_analytic_account_form" />
             <field name="arch" type="xml">
-                <xpath expr="//group[@name='invoice_on_timesheets']/group"
-                    position="replace">
-                    <br />
-                    <br />
-                    <form string="Invoice Configuration">
+                <xpath expr="//notebook/page[@name='contract_page']"
+                    position="after">
+                    <page string="Invoice Configuration">
                         <div>
-                            <label for="invoice_type_id" string="Invoice Type" class="oe_inline"
-                                attrs="{'invisible': [('invoice_on_timesheets','=',False)]}" />
-                            <field name="invoice_type_id" string="Invoice Type" class="oe_inline"
-                                attrs="{'invisible': [('invoice_on_timesheets','=',False)], 'required': [('invoice_on_timesheets','=',True)]}">
+                            <label for="invoice_type_id" string="Invoice Type" class="oe_inline" />
+                            <field name="invoice_type_id" string="Invoice Type" class="oe_inline">
                                 <tree editable="bottom">
                                     <field name="name" />
-                                    <field name="invoice"/>
                                     <field name="product_price"/>
-                                    <field name="product_id"
-                                           attrs="{'required': [('invoice','=',True)]}"/>
+                                    <field name="product_id"/>
                                     <field name="price"
-                                        attrs="{'required': [('invoice','=',True)], 'readonly': [('product_price','=',True)]}" />
+                                        attrs="{'readonly': [('product_price','=',True)]}" />
                                 </tree>
                             </field>
                         </div>
-                    </form>
+                    </page>
                 </xpath>
             </field>
         </record>
+        
+</data>
+</openerp>

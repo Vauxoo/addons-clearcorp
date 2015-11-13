@@ -19,8 +19,9 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields, api
 
-class WorkType(osv.Model):
+class WorkType(models.Model):
     
     _name = 'ccorp.project.oerp.work.type'
     
@@ -29,33 +30,30 @@ class WorkType(osv.Model):
     name= fields.Char('name', size=128, required=True)
     product_id= fields.Many2one('product.product', string='Product', required='True')
     sequence= fields.Integer('Sequence', required=True)
-    column_number= fields.Integer('Column Number', required=True),
+    column_number= fields.Integer('Column Number', required=True)
+
+class invoice_type (models.Model):
+    _name = 'invoice.type'
     
-class Task(osv.Model):
+    name= fields.Many2one('ccorp.project.oerp.work.type',required='True')
+    product_price = fields.Boolean('Use product price')
+    product_id = fields.Many2one('product.product')
+    price= fields.Float('Price')
+    contract_type_id = fields.Many2one('contract.type')
+    acc_analytic_qty_grp_id = fields.Many2one('account.analytic.quantity_max_group', string='Prepay Hours')
+    
+    @api.one
+    @api.onchange("name")
+    def onchange_name(self):
+        self.product_id = self.name.product_id
+        return True
+    
+class Task(models.Model):
     
     _inherit = 'project.task'
-    
-    invoiced = fields.Selection([
-                 ('invoice', 'Invoice'),
-                 ('not_invoice', 'Not Invoice'),
-                 ('tobeinvoice', 'To be Invoice'),
-                 ], string = "Invoice", help = "is a invoiced task", compute='_compute_invoice', store=True)
+
     kind_task_id = fields.Many2one('ccorp.project.oerp.work.type','Type of task',required=True)
 
-    @api.one
-    @api.depends("ticket_ids")
-    def _compute_invoice(self):
-        if self.project_id:
-            for ticket_id in self.ticket_ids:
-                if self.project_id == ticket_id.project_id:
-                    for ticket_kind in self.project_id.analytic_account_id.ticket_invoice_type_ids:
-                        if ticket_kind.name == ticket_id.issue_type:
-                            if ticket_kind.warranty:
-                                self.invoiced = 'not_invoice'
-                                return False
-                            else: 
-                                self.invoiced = 'tobeinvoice'
-                                return True
 
 class account_analitic(models.Model):
 

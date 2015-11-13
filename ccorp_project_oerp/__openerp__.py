@@ -29,6 +29,7 @@
     "website" : "http://clearcorp.cr",
     "depends" : [
                    'ccorp_project_scrum',
+                   'project_work_type',
                    'hr',
                  ],
     "data" : [

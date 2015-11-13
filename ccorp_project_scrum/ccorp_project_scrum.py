@@ -225,9 +225,11 @@ class Feature(osv.Model):
                     help='Difference between planned hours and spent hours.', store=True),
                 'progress': fields.function(_progress, type='float', string='Progress (%)', store=True),
                 'state': fields.selection([('draft', 'New'), ('open', 'In Progress'), 
-                                           ('cancelled', 'Cancelled'), ('done', 'Done'), ],
-                    'Status', required=True),
+                                           ('cancelled', 'Cancelled'), ('done', 'Done'), ],'Status', required=True),
                 'color': fields.integer('Color Index'),
+                'acceptance_requirements_client': fields.text('Acceptance requirements by client'),
+                'acceptance_requirements_supplier': fields.text('Funtional acceptance requirements'), 
+                'validation_date': fields.date('Validation Date'),
                 }
     
     _defaults = {
