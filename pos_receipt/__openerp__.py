@@ -20,9 +20,21 @@
 #
 ##############################################################################
 
-import hr_payroll_extended
-import inputs
-import contract
-import structure
-import salary_rule_category
-import wizard
+{
+    'name': 'Point of Sale Receipt',
+    'version': '1.0',
+    'category': 'Point Of Sale',
+    'sequence': 7,
+    'summary': 'Standard Receipt',
+    'author': 'ClearCorp',
+    'website': 'http://clearcorp.co.cr',
+    'depends': ['point_of_sale'],
+    'data': ['pos_receipt.xml'],
+    'test': [],
+    'demo': [],
+    'qweb': ['static/src/xml/main.xml'],
+    'installable': True,
+    'auto_install': False,
+    'application': False,
+    'license': 'AGPL-3',
+}

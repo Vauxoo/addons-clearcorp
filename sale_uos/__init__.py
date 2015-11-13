@@ -20,9 +20,5 @@
 #
 ##############################################################################
 
-import hr_payroll_extended
-import inputs
-import contract
-import structure
-import salary_rule_category
-import wizard
+import sale
+import product

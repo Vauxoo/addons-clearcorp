@@ -20,9 +20,20 @@
 #
 ##############################################################################
 
-import hr_payroll_extended
-import inputs
-import contract
-import structure
-import salary_rule_category
-import wizard
+{
+    'name': 'Sale UOS',
+    'version': '1.0',
+    'category': 'Sales Management',
+    'sequence': 10,
+    'summary': 'This module allows you to add field in sale to calculate the price of the sale unit',
+    'author': 'ClearCorp',
+    'website': 'http://clearcorp.co.cr',
+    'depends': ['sale'],
+    'data': ['sale_uos_view.xml'],
+    'test': [],
+    'demo': [],
+    'installable': True,
+    'auto_install': False,
+    'application': False,
+    'license': 'AGPL-3',
+}

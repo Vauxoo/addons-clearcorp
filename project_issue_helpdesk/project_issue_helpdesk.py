@@ -312,7 +312,7 @@ class HrAnaliticTimeSheet(osv.Model):
                 'ticket_number': fields.char(string="Ticket Number"),
                 'start_time': fields.float(string="Start Time"),
                 'end_time': fields.float(string="End Time"),
-                'service_type': fields.selection([('expert','Expert'),('assistant','Assistant')],string="Service Type"),
+                'service_type': fields.selection([('expert','Expert'),('assistant','Assistant'),('basic','Basic')],string="Service Type"),
                 'employee_id': fields.many2one('hr.employee', 'Technical Staff'),
                 'amount_unit_calculate': fields.function(get_duration, method=True, store=True,type='float',string='Amount Unit'),
                 'task_id': fields.many2one('project.task', 'Task Assigned'),

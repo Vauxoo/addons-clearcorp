@@ -122,10 +122,6 @@ class Payslip(osv.osv):
         'name': fields.char(
             'Description', size=256, required=False,
             readonly=True, states={'draft': [('readonly', False)]}),
-        'forced_period_id': fields.related(
-            'payslip_run_id', 'period_id',
-            type="many2one", relation="account.period",
-            string="Force Period", store=True, readonly=True),
     }
 
     def onchange_employee_id(
@@ -228,23 +224,9 @@ class Payslip(osv.osv):
             cr, uid, contract_ids, date_from, date_to, context=context)
         return res
 
-    def process_sheet(self, cr, uid, ids, context=None):
-        res = super(Payslip, self).process_sheet(cr, uid, ids, context=context)
-        account_move_obj = self.pool.get('account.move')
-        account_move_line_obj = self.pool.get('account.move.line')
-        for payslip in self.browse(cr, uid, ids, context=context):
-            if payslip.forced_period_id:
-                self.write(
-                    cr, uid, [payslip.id],
-                    {'period_id': payslip.forced_period_id.id},
-                    context=context)
-                account_move_obj.write(
-                    cr, uid, [payslip.move_id.id],
-                    {'period_id': payslip.forced_period_id.id},
-                    context=context)
-                for line in payslip.move_id.line_id:
-                    account_move_line_obj.write(
-                        cr, uid, line.id,
-                        {'period_id': payslip.forced_period_id.id},
-                        context=context)
-        return res
+    def create(self, cr, uid, vals, context=None):
+        if context is None:
+            context = {}
+        if 'period_id' in context:
+            vals.update({'period_id': context.get('period_id')})
+        return super(Payslip, self).create(cr, uid, vals, context=context)

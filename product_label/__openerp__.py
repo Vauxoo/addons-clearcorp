@@ -20,9 +20,27 @@
 #
 ##############################################################################
 
-import hr_payroll_extended
-import inputs
-import contract
-import structure
-import salary_rule_category
-import wizard
+{
+    'name': 'Product Label',
+    'version': '1.0',
+    'category': 'Sales Management',
+    'sequence': 10,
+    'summary': 'Product label report',
+    'author': 'ClearCorp',
+    'website': 'http://clearcorp.co.cr',
+    'depends': [
+                'product',
+                'account',
+                ],
+    'data': [
+             'product_label_view.xml',
+             'views/report_label.xml',
+             'product_label_report.xml',
+             ],
+    'test': [],
+    'demo': [],
+    'installable': True,
+    'auto_install': False,
+    'application': False,
+    'license': 'AGPL-3',
+}

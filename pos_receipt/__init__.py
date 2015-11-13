@@ -19,10 +19,3 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-import hr_payroll_extended
-import inputs
-import contract
-import structure
-import salary_rule_category
-import wizard
