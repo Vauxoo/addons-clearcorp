@@ -51,7 +51,7 @@
             </field>
         </record>
         
-        <record model="ir.ui.view" id="project_issue_form_view_st">
+        <!--<record model="ir.ui.view" id="project_issue_form_view_st">
             <field name="name">Project Issue Tracker Form</field>
             <field name="model">project.issue</field>
             <field name="inherit_id" ref="project_issue.project_issue_form_view" />
@@ -63,26 +63,9 @@
                     </div>
                 </xpath>
             </field>
-        </record>
+        </record>-->
         
-        
-            <!-- ccorp.project.scrum.feature-->
-        <!-- form -->
-       <!-- <record id="view_feature_form" model="ir.ui.view">
-            <field name="name">view.feature.form</field>
-            <field name="model">ccorp.project.scrum.feature</field>
-            <field name="inherit_id" ref="ccorp_project_oerp.view_feature_form" />
-            <field name="arch" type="xml">
-                <xpath expr="//form/sheet/notebook/page[@name='description']"
-                    position="after">
-                    <page string="Tickets" name="issue">
-                        <field name="issue_ids" readonly="1"/>
-                    </page>
-                </xpath>
-            </field>
-        </record>    -->
-        
-    
+       
         <menuitem action="open_issue_type_form" name="Issue Stages" id="menu_issue_types_view" parent="base.menu_project_config_project" sequence="10"/>
 
     </data>
