@@ -22,15 +22,19 @@
 
 from openerp import models, fields, api
 
+class ticket_invoice_type_name (models.Model):
+    _name = 'ticket.invoice.type.name'
 
-class ticket_invoice_type (models.Model):
-    _name = 'ticket.invoice.type'
-    
     name= fields.Char('Name',required='True')
-    warranty = fields.Boolean('Warranty?')
     ticket_type = fields.Selection([('change_request','Change Request'),('service_request','Service Request'),
                                    ('issue','Issue'),('problem','Problem')], 
                                   string='Issue Type', default='issue',required=True)
+    
+class ticket_invoice_type (models.Model):
+    _name = 'ticket.invoice.type'
+    
+    name= fields.Many2one('ticket.invoice.type.name',required='True')
+    warranty = fields.Boolean('Warranty?')
     contract_type_id = fields.Many2one('contract.type')
     
 class project_issue(models.Model):
@@ -62,4 +66,4 @@ class account_analitic(models.Model):
 
     _inherit = 'account.analytic.account'
     
-    ticket_invoice_type_ids = fields.One2many('ticket.invoice.type', 'contract_type_id', string='Ticket Type')
+    ticket_invoice_type_ids = fields.One2many('ticket.invoice.type','contract_type_id', string='Ticket Type')

@@ -20,4 +20,4 @@
 #
 ##############################################################################
 
-import ccorp_project_scrum
+import project_scrum_method

@@ -17,7 +17,7 @@
                 </xpath>
                 <xpath expr="//form/sheet/group/group/field[@name='project_id']"
                     position="after">
-                    <field name="kind_task_id"/>
+                    <field name="work_type_id"/>
                 </xpath>
             </field>
         </record>
@@ -31,7 +31,7 @@
             <field name="inherit_id" ref="project.view_task_search_form" />
             <field name="arch" type="xml">
                 <search string="Tasks">
-                    <field name="kind_task_id" />
+                    <field name="" />
                     <separator />
                     <filter icon="Invoiced" name="filter_done" string="Done"
                         domain="[('state','=','done')]" />

@@ -23,7 +23,7 @@ from openerp import models, fields, api
 
 class WorkType(models.Model):
     
-    _name = 'ccorp.project.oerp.work.type'
+    _name = 'project.work.type'
     
     _order = 'sequence'
     
@@ -35,7 +35,7 @@ class WorkType(models.Model):
 class invoice_type (models.Model):
     _name = 'invoice.type'
     
-    name= fields.Many2one('ccorp.project.oerp.work.type',required='True')
+    name= fields.Many2one('project.work.type',required='True')
     product_price = fields.Boolean('Use product price')
     product_id = fields.Many2one('product.product')
     price= fields.Float('Price')
@@ -52,7 +52,7 @@ class Task(models.Model):
     
     _inherit = 'project.task'
 
-    kind_task_id = fields.Many2one('ccorp.project.oerp.work.type','Type of task',required=True)
+    work_type_id = fields.Many2one('project.work.type', 'Type of task', required=True)
 
 
 class account_analitic(models.Model):
