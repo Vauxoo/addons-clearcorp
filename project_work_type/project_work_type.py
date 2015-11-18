@@ -40,14 +40,13 @@ class invoice_type (models.Model):
     product_id = fields.Many2one('product.product')
     price= fields.Float('Price')
     contract_type_id = fields.Many2one('contract.type')
-    acc_analytic_qty_grp_id = fields.Many2one('account.analytic.quantity_max_group', string='Prepay Hours')
     
     @api.one
     @api.onchange("name")
     def onchange_name(self):
         self.product_id = self.name.product_id
         return True
-    
+   
 class Task(models.Model):
     
     _inherit = 'project.task'

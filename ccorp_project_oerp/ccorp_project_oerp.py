@@ -23,94 +23,9 @@
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
-PRIORITY = {
-            5: '4',
-            4: '3',
-            3: '2',
-            2: '1',
-            1: '0',
-            }
-
-class WorkType(osv.Model):
-    
-    _name = 'ccorp.project.oerp.work.type'
-    
-    _order = 'sequence'
-    
-    _columns = {
-                'name': fields.char('name', size=128, required=True),
-                'product_id': fields.many2one('product.product', string='Product', required='True'),
-                'sequence': fields.integer('Sequence', required=True),
-                'column_number': fields.integer('Column Number', required=True),
-                }
-    
-class Sprint(osv.Model):
-
-    _inherit = 'project.scrum.sprint'
-
-    def tasks_from_features_oerp(self, cr, uid, ids, context=None):
-        task_obj = self.pool.get('project.task')
-        task_hour_obj = self.pool.get('ccorp.project.oerp.task.hour')
-        task_ids = []
-        for sprint in self.browse(cr, uid, ids, context=context):
-            for feature in sprint.feature_ids: 
-                department_ids = []
-                for feature_hours in feature.hour_ids:
-                    department_ids.append(feature_hours.department_id.id)
-                department_ids = list (set(department_ids))
-                for department_id in department_ids:
-                    planned_hours = 0.0
-                    for feature_hours in feature.hour_ids:
-                        if feature_hours.department_id.id == department_id:
-                            planned_hours += feature_hours.expected_hours
-                    values = {
-                          'project_id': sprint.project_id.id,
-                          'product_backlog_id': sprint.product_backlog_id.id,
-                          'release_backlog_id': sprint.release_backlog_id.id,
-                          'sprint_id': False,
-                          'feature_id': feature.id,
-                          'user_id': uid,
-                          'planned_hours': planned_hours,
-                          'remaining_hours': planned_hours,
-                          'date_start': sprint.date_start,
-                          'date_end': sprint.deadline,
-                          'date_deadline': sprint.deadline,
-                          'priority': PRIORITY[feature.priority],
-                          'description': feature.description,
-                          'name': feature.code + ' ' + feature.name,
-                          'is_scrum': True,
-                          }
-                    task_id = task_obj.create(cr, uid, values, context=context)
-                    task_ids.append(task_id)
-                    for feature_hours in feature.hour_ids:
-                        if feature_hours.department_id.id == department_id:
-                            values = {
-                                'task_id': task_id,
-                                'project_id': sprint.project_id.id,
-                                'work_type_id': feature_hours.work_type_id.id,
-                                'expected_hours': feature_hours.expected_hours,
-                            }
-                            task_hour_obj.create(cr, uid, values, context=context)
-        for id in task_ids:
-            self.write(cr, uid, ids[0], {'desirable_task_ids': [[4, id]]}, context=context)
-        return True
-    
-    
-    def queue_tasks(self, cr, uid, ids, context=None):
-        sprint = self.browse(cr, uid, ids[0], context=context)
-        for task in sprint.desirable_task_ids:
-                if not task.sprint_id:
-                    task.write({'sprint_id': sprint.id}, context=context)
-        return True
-    
-
-    _columns = {
-                'planned_task_ids': fields.many2many('project.task', string='Desirable Tasks'),
-                }
-
 class FeatureHours(osv.Model):
     
-    _name = 'ccorp.project.oerp.feature.hours'
+    _name = 'project.scrum.feature.hours'
    
    
     def _effective_hours(self, cr , uid, ids, field_name, arg, context=None):
@@ -121,7 +36,7 @@ class FeatureHours(osv.Model):
             tasks = task_obj.browse(cr, uid, task_ids, context=context)
             sum = 0.0
             for task in tasks:
-                if task.kind_task_id == hour.work_type_id:
+                if task.work_type_id == hour.work_type_id:
                     sum += task.effective_hours
             res[hour.id] = sum
         return res
@@ -137,7 +52,7 @@ class FeatureHours(osv.Model):
     _columns = {
                 'feature_id': fields.many2one('project.scrum.feature', string='Feature', required=True,
                     ondelete='cascade'),
-                'work_type_id': fields.many2one('ccorp.project.oerp.work.type', string='Work Type'),
+                'work_type_id': fields.many2one('project.work.type', string='Work Type'),
                 'expected_hours': fields.float('Planned Hour(s)', required=True),
                 'effective_hours': fields.function(_effective_hours, type='float', string='Spent Hour(s)', store=True),
                 'remaining_hours': fields.function(_remaining_hours, type='float', string='Remaining Hour(s)', store=True),
@@ -152,7 +67,7 @@ class Feature(osv.Model):
     _inherit = 'project.scrum.feature'
     
     _columns = {
-                'hour_ids': fields.one2many('ccorp.project.oerp.feature.hours', 'feature_id', string='Feature Hours'),
+                'hour_ids': fields.one2many('project.scrum.feature.hours', 'feature_id', string='Feature Hours'),
                 }
     
     def create_tasks(self, cr, uid, context):
@@ -177,7 +92,7 @@ class Feature(osv.Model):
                     task_obj = self.pool.get('project.task')
                     task_id = task_obj.create(cr, uid, values, context=context)
                 except:
-                    raise osv.except_osv(_('Error'),_('An error occurred while creating the tasks. '
+                    raise osv.except_osv(_('Error'), _('An error occurred while creating the tasks. '
                                                       'Please contact your system administrator.'))
                
            
@@ -192,7 +107,7 @@ class Feature(osv.Model):
                     if 'expected_hours' in vals:
                         sum += vals['expected_hours']
                 else:
-                    hour_obj = self.pool.get('ccorp.project.oerp.feature.hours')
+                    hour_obj = self.pool.get('project.scrum.feature.hours')
                     sum += hour_obj.browse(cr, uid, id, context=context).expected_hours
             values['expected_hours'] = sum
         return super(Feature, self).write(cr, uid, ids, values, context=context)
@@ -208,14 +123,14 @@ class Feature(osv.Model):
                     if 'expected_hours' in vals:
                         sum += vals['expected_hours']
                 else:
-                    hour_obj = self.pool.get('ccorp.project.oerp.feature.hours')
+                    hour_obj = self.pool.get('project.scrum.feature.hours')
                     sum += hour_obj.browse(cr, uid, id, context=context).expected_hours
             values['expected_hours'] = sum
         return super(Feature, self).create(cr, uid, values, context=context)
     
 class TaskHours(osv.Model):
     
-    _name = 'ccorp.project.oerp.task.hour'
+    _name = 'project.task.hour'
     
     def _effective_hours(self, cr , uid, ids, field_name, arg, context=None):
         res = {}
@@ -240,7 +155,7 @@ class TaskHours(osv.Model):
                 'task_id': fields.many2one('project.task', string='Task', required=True, ondelete='cascade'),
                 'project_id': fields.related('task_id', 'project_id', type='many2one',
                     relation='project.project', string='Project'),
-                'work_type_id': fields.many2one('ccorp.project.oerp.work.type', string='Work Type', required=True),
+                'work_type_id': fields.many2one('project.work.type', string='Work Type', required=True),
                 'expected_hours': fields.float('Initially Planned Hour(s)', required=True),
                 'effective_hours': fields.function(_effective_hours, type='float', string='Spent Hour(s)'),
                 'remaining_hours': fields.function(_remaining_hours, type='float', string='Remaining Hour(s)'),
@@ -261,7 +176,7 @@ class Task(osv.Model):
 
     def _remaining_hours(self, cr , uid, ids, field_name, arg, context=None):
         res = {}
-        effective_hours=0
+        effective_hours = 0
         for task in self.browse(cr, uid, ids, context=context):
             for work in task.work_ids:
                 effective_hours = effective_hours + work.hours
@@ -278,8 +193,8 @@ class Task(osv.Model):
         
     _columns = {
                 'feature_hour_ids': fields.related('feature_id', 'hour_ids', type='one2many',
-                    relation='ccorp.project.oerp.feature.hours', string='Feature Hours', readonly=True),
-                'task_hour_ids': fields.one2many('ccorp.project.oerp.task.hour', 'task_id', string='Task Hours'),
+                    relation='project.scrum.feature.hours', string='Feature Hours', readonly=True),
+                'task_hour_ids': fields.one2many('project.task.hour', 'task_id', string='Task Hours'),
                 'remaining_hours': fields.function(_remaining_hours, type='float', string='Remaining Hour(s)', store=True),
                 }
 
@@ -310,11 +225,11 @@ class Task(osv.Model):
                             if 'expected_hours' in hour[2]:
                                 sum += hour[2]['expected_hours']
                             else:
-                                task_hour_obj = self.pool.get('ccorp.project.oerp.task.hour')
+                                task_hour_obj = self.pool.get('project.task.hour')
                                 task_hour = task_hour_obj.browse(cr, uid , hour[1], context=context)
                                 sum += task_hour.expected_hours
                         elif hour[0] == 4:
-                            task_hour_obj = self.pool.get('ccorp.project.oerp.task.hour')
+                            task_hour_obj = self.pool.get('project.task.hour')
                             task_hour = task_hour_obj.browse(cr, uid , hour[1], context=context)
                             sum += task_hour.expected_hours
                     values['planned_hours'] = sum

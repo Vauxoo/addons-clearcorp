@@ -24,39 +24,13 @@ from openerp import models, fields, api, _
 from openerp.exceptions import Warning
 from datetime import date
 
-_ISSUE_STATE = [('draft', 'New'), ('qualify', 'Qualify'), ('open', 'In Progress'), ('pending', 'Pending'), ('ready', 'Ready'), ('done', 'Done'), ('cancelled', 'Cancelled')]
-
 class project_issue_type(models.Model):
-    _name = 'project.issue.type'
-    _description = 'Issue Stage'
-    _order = 'sequence'
+    _inherit = 'project.task.type'
     
-    name = fields.Char('Stage Name', required=True, translate=True)
-    description= fields.Text('Description')
-    sequence= fields.Integer('Sequence')
-    case_default= fields.Boolean('Default for New Projects',
-                        help="If you check this field, this stage will be proposed by default on each new project. It will not assign this stage to existing projects.")
-    fold= fields.Boolean('Folded in Kanban View', help='This stage is folded in the kanban view when'
-                               'there are no records in that stage to display.')
-    state= fields.Selection(_ISSUE_STATE, 'Related Status', required=True)
+    type= fields.Selection([('task','Task'),('issue','Issue'),('both','Both')], 'Stage type', required=True)
     
-    _defaults = {
-        'state': 'open',
-                }
+
     
-class project_issue(models.Model):
-    
-    _inherit = 'project.issue'
-    
-    
-    stage_id = fields.Many2one ('project.issue.type', track_visibility='onchange', select=True, copy=False, domain="[]",)
-    
-    @api.multi
-    def onchange_stage_id(self,stage_id):
-        if not stage_id:
-            return {'value': {}}
-        if self.stage_id.state in ['done','cancel']:
-            return {'value': {'date_closed': fields.datetime.now()}}
-        return {'value': {'date_closed': False}}
+
 
         
