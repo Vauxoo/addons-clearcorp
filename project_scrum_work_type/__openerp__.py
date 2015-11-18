@@ -35,7 +35,7 @@
     "data" : [
               'security/project_security.xml',
               'wizard/wizard_view.xml',
-              'view/ccorp_project_oerp_view.xml',
+              'view/project_scrum_work_type.xml',
               'view/ccorp_project_oerp_menu.xml',
               'security/ir.model.access.csv',
               ],

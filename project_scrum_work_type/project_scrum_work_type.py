@@ -127,44 +127,6 @@ class Feature(osv.Model):
                     sum += hour_obj.browse(cr, uid, id, context=context).expected_hours
             values['expected_hours'] = sum
         return super(Feature, self).create(cr, uid, values, context=context)
-    
-class TaskHours(osv.Model):
-    
-    _name = 'project.task.hour'
-    
-    def _effective_hours(self, cr , uid, ids, field_name, arg, context=None):
-        res = {}
-        for hour in self.browse(cr, uid, ids, context=context):
-            work_obj = self.pool.get('project.task.work')
-            work_ids = work_obj.search(cr, uid, [('task_id', '=', hour.task_id.id),
-                ('work_type_id', '=', hour.work_type_id.id)], context=context)
-            works = work_obj.browse(cr, uid, work_ids, context=context)
-            sum = 0.0
-            for work in works:
-                sum += work.hours
-            res[hour.id] = sum
-        return res
-    
-    def _remaining_hours(self, cr , uid, ids, field_name, arg, context=None):
-        res = {}
-        for hour in self.browse(cr, uid, ids, context=context):
-            res[hour.id] = hour.expected_hours - hour.effective_hours
-        return res
-    
-    _columns = {
-                'task_id': fields.many2one('project.task', string='Task', required=True, ondelete='cascade'),
-                'project_id': fields.related('task_id', 'project_id', type='many2one',
-                    relation='project.project', string='Project'),
-                'work_type_id': fields.many2one('project.work.type', string='Work Type', required=True),
-                'expected_hours': fields.float('Initially Planned Hour(s)', required=True),
-                'effective_hours': fields.function(_effective_hours, type='float', string='Spent Hour(s)'),
-                'remaining_hours': fields.function(_remaining_hours, type='float', string='Remaining Hour(s)'),
-                }
-
-    _defaults = {
-                 'project_id': lambda slf, cr, uid, ctx: ctx.get('project_id', False),
-                 'task_id': lambda slf, cr, uid, ctx: ctx.get('task_id', False),
-                 }
 
 class Task(osv.Model):
     
