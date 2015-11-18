@@ -50,5 +50,13 @@ class project_issue(models.Model):
     
     
     stage_id = fields.Many2one ('project.issue.type', track_visibility='onchange', select=True, copy=False, domain="[]",)
+    
+    @api.multi
+    def onchange_stage_id(self,stage_id):
+        if not stage_id:
+            return {'value': {}}
+        if self.stage_id.state in ['done','cancel']:
+            return {'value': {'date_closed': fields.datetime.now()}}
+        return {'value': {'date_closed': False}}
 
         
