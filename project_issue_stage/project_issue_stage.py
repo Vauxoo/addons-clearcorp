@@ -49,6 +49,6 @@ class project_issue(models.Model):
     _inherit = 'project.issue'
     
     
-    stage_id = fields.Many2one ('project.issue.type', track_visibility='onchange', select=True, copy=False)
+    stage_id = fields.Many2one ('project.issue.type', track_visibility='onchange', select=True, copy=False, domain="[]",)
 
         

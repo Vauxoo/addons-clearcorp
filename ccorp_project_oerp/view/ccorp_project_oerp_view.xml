@@ -41,8 +41,8 @@
 		<!-- form -->
 		<record id="view_feature_form" model="ir.ui.view">
 			<field name="name">view.feature.form</field>
-			<field name="model">ccorp.project.scrum.feature</field>
-			<field name="inherit_id" ref="ccorp_project_scrum.view_feature_form" />
+			<field name="model">project.scrum.feature</field>
+			<field name="inherit_id" ref="project_scrum_method.view_feature_form" />
 			<field name="arch" type="xml">
 				<xpath expr="//form/sheet/group/group/field[@name='expected_hours']"
 					position="attributes">
@@ -127,8 +127,8 @@
 		<!-- form -->
 		<record id="view_sprint_form" model="ir.ui.view">
 			<field name="name">view.sprint.form</field>
-			<field name="model">ccorp.project.scrum.sprint</field>
-			<field name="inherit_id" ref="ccorp_project_scrum.view_sprint_form" />
+			<field name="model">project.scrum.sprint</field>
+			<field name="inherit_id" ref="project_scrum_method.view_sprint_form" />
 			<field name="arch" type="xml">
 				<xpath expr="//form/sheet/notebook/page[@name='tasks']"
 					position="after">
@@ -171,7 +171,7 @@
         <!-- Server actions -->
        <record id="action_create_tasks" model="ir.actions.server">
            <field name="name">Generate Tasks</field>
-           <field name="model_id" ref="model_ccorp_project_scrum_feature"/>
+           <field name="model_id" ref="model_project_scrum_feature"/>
                 <field name="code">
                     self.create_tasks(cr, uid, context)
                 </field>

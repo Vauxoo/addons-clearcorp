@@ -18,7 +18,7 @@
                         <field name="task_ids" colspan="4" nolabel="1" domain="[('project_id','=',project_id)]" context="{'default_name': name, 'default_project_id': project_id, 'default_description': description}">
                             <tree string="Tasks">
                                 <field name="name"/>
-                                <field name="kind_task_id"/>
+                                <field name="work_type_id"/>
                                 <field name="user_id"/>
                             </tree>
                         </field>

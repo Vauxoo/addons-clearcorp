@@ -36,9 +36,9 @@
                  'project_task_state',
                  ],
     "data" : [
-              'data/ccorp_project_scrum_data.xml',
-              'view/ccorp_project_scrum_view.xml',
-              'view/ccorp_project_scrum_menu.xml',
+              'data/project_scrum_data.xml',
+              'view/project_scrum_view.xml',
+              'view/project_scrum_menu.xml',
               'security/ir.model.access.csv',
               ],
     "css" : ['static/src/css/ccorp_project_scrum.css'],

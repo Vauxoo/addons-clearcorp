@@ -28,7 +28,7 @@
     "sequence": 10,
     "website" : "http://clearcorp.cr",
     "depends" : [
-                   'ccorp_project_scrum',
+                   'project_scrum_method',
                    'project_work_type',
                    'hr',
                  ],

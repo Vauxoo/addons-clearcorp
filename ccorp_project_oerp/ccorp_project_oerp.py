@@ -46,7 +46,7 @@ class WorkType(osv.Model):
     
 class Sprint(osv.Model):
 
-    _inherit = 'ccorp.project.scrum.sprint'
+    _inherit = 'project.scrum.sprint'
 
     def tasks_from_features_oerp(self, cr, uid, ids, context=None):
         task_obj = self.pool.get('project.task')
@@ -135,7 +135,7 @@ class FeatureHours(osv.Model):
 
     
     _columns = {
-                'feature_id': fields.many2one('ccorp.project.scrum.feature', string='Feature', required=True,
+                'feature_id': fields.many2one('project.scrum.feature', string='Feature', required=True,
                     ondelete='cascade'),
                 'work_type_id': fields.many2one('ccorp.project.oerp.work.type', string='Work Type'),
                 'expected_hours': fields.float('Planned Hour(s)', required=True),
@@ -149,7 +149,7 @@ class FeatureHours(osv.Model):
     
 class Feature(osv.Model):
     
-    _inherit = 'ccorp.project.scrum.feature'
+    _inherit = 'project.scrum.feature'
     
     _columns = {
                 'hour_ids': fields.one2many('ccorp.project.oerp.feature.hours', 'feature_id', string='Feature Hours'),
@@ -157,14 +157,14 @@ class Feature(osv.Model):
     
     def create_tasks(self, cr, uid, context):
         active_ids = context.get('active_ids', [])
-        feature_obj = self.pool.get('ccorp.project.scrum.feature')
+        feature_obj = self.pool.get('project.scrum.feature')
         for feature in feature_obj.browse(cr, uid, active_ids, context=context):
             for feature_hour in feature.hour_ids:
                 try:
                     values = {
                                   'name': feature.code + ' ' + feature.name,
                                   'project_id': feature.project_id.id,
-                                  'kind_task_id': feature_hour.work_type_id.id,
+                                  'work_type_id': feature_hour.work_type_id.id,
                                   'sprint_id': False,
                                   'feature_id': feature.id,
                                   'description': feature.description,
