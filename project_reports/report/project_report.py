@@ -25,13 +25,15 @@ from openerp.report import report_sxw
 from openerp import models
 from openerp.tools.translate import _
 
+
 class ProjectReportReport(report_sxw.rml_parse):
-        
+
     def __init__(self, cr, uid, name, context):
-        super(ProjectReportReport, self).__init__(cr, uid, name, context=context)
+        super(ProjectReportReport, self).__init__(cr, uid, name,
+                                                  context=context)
         self.localcontext.update({
             'time': time,
-            'report_name':_('Project Report'),
+            'report_name': _('Project Report'),
             'get_task_by_dates': self._get_task_by_dates,
             'get_projects': self._get_projects,
             'get_hours_projects': self._get_hours_projects,
@@ -40,36 +42,50 @@ class ProjectReportReport(report_sxw.rml_parse):
     def _get_task_by_dates(self, project_id, start_date, end_date):
         task_work_obj = self.pool.get('project.task.work')
         task_obj = self.pool.get('project.task')
-        task_ids=task_obj.search(self.cr, self.uid,[('project_id', '=', project_id)])
-        task_work_ids = task_work_obj.search(self.cr, self.uid, [('date','>=',start_date),
-            ('date','<=',end_date), ('task_id', 'in', task_ids)])
-        task_ids=task_obj.search(self.cr, self.uid,[('project_id', '=', project_id),
-            ('work_ids', 'in', task_work_ids)])
+        task_ids = task_obj.search(self.cr, self.uid, [('project_id', '=',
+                                                        project_id)])
+        task_work_ids = task_work_obj.search(self.cr,
+                                             self.uid,
+                                             [('date', '>=', start_date),
+                                              ('date', '<=', end_date),
+                                              ('task_id', 'in', task_ids)])
+        task_ids = task_obj.search(self.cr, self.uid,
+                                   [('project_id', '=', project_id),
+                                    ('work_ids', 'in', task_work_ids)])
         tasks = task_obj.browse(self.cr, self.uid, task_ids)
         result = []
         for task in tasks:
             task_works = task_work_obj.search(self.cr, self.uid,
-                [('task_id', '=', task.id),('id', 'in', task_work_ids)])
+                                              [('task_id', '=', task.id),
+                                               ('id', 'in', task_work_ids)])
             task_works = task_work_obj.browse(self.cr, self.uid, task_works)
             total_hours = 0.00
             for work in task_works:
                 work_hours = round(work.hours, 2)
                 total_hours += work_hours
-            result.append((task,task_works,total_hours))
+            result.append((task, task_works, total_hours))
         return result
 
     def _get_hours_projects(self, project_ids, start_date, end_date):
         task_obj = self.pool.get('project.task')
         task_work_obj = self.pool.get('project.task.work')
-        task_ids=task_obj.search(self.cr, self.uid,[('project_id', 'in', project_ids)])
-        task_work_ids = task_work_obj.search(self.cr, self.uid, [('date','>=',start_date),
-            ('date','<=',end_date), ('task_id', 'in', task_ids)])
+        task_ids = task_obj.search(self.cr, self.uid,
+                                   [('project_id', 'in', project_ids)])
+        task_work_ids = task_work_obj.search(self.cr,
+                                             self.uid,
+                                             [('date', '>=', start_date),
+                                              ('date', '<=', end_date),
+                                              ('task_id', 'in', task_ids)])
         user_hours = {}
         total_hours = 0.00
         task_works = task_work_obj.browse(self.cr, self.uid, task_work_ids)
         for work in task_works:
             if work.user_id.id in user_hours:
-                user_hours[work.user_id.id] = (work.user_id, user_hours[work.user_id.id][1] + work.hours)
+                user_hours[work.user_id.id] = (work.user_id,
+                                               user_hours[work.
+                                                          user_id.
+                                                          id][1] + work.hours
+                                               )
                 work_hours = round(work.hours, 2)
                 total_hours += work_hours
             else:
@@ -87,7 +103,9 @@ class ProjectReportReport(report_sxw.rml_parse):
         return project_tasks
 
     def _get_projects(self, project_ids):
-        return self.pool.get('project.project').browse(self.cr, self.uid, project_ids)
+        return self.pool.get('project.project').browse(self.cr, self.uid,
+                                                       project_ids)
+
 
 class report_project_project(models.AbstractModel):
     _name = 'report.project_reports.report_project_project'

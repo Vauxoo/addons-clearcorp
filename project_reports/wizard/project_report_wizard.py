@@ -22,30 +22,33 @@
 
 from openerp.osv import osv, fields
 
+
 class project_report_wizard (osv.TransientModel):
     _name = 'project.report.wizard'
     _columns = {
-        'date_from' : fields.date('Start Date', required=True),
-        'date_to' : fields.date('End Date', required=True),
-        'project_ids' : fields.many2many('project.project', string='Projects'),
+        'date_from': fields.date('Start Date', required=True),
+        'date_to': fields.date('End Date', required=True),
+        'project_ids': fields.many2many('project.project', string='Projects'),
     }
 
     def print_report(self, cr, uid, ids, datas, context=None):
         context = context or {}
-        wizard = self.browse(cr, uid, ids[0],context=context)
+        wizard = self.browse(cr, uid, ids[0], context=context)
         if wizard.project_ids:
             project_ids = [project.id for project in wizard.project_ids]
         else:
             project_ids = self.pool.get('project.project').search(
-                cr, uid, [('use_tasks','=',True)],context=context)
+                cr, uid, [('use_tasks', '=', True)], context=context)
         data = {
             'form': {
                 'date_from': wizard.date_from,
                 'date_to': wizard.date_to,
             }
         }
-        res = self.pool.get('report').get_action(cr, uid, project_ids,
-            'project_reports.report_project_project', data=data, context=context)
+        res = self.pool.get('report') \
+            .get_action(cr, uid, project_ids,
+                        'project_reports.report_project_project',
+                        data=data, context=context)
         return res
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
