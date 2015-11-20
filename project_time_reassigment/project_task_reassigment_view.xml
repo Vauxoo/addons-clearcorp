@@ -60,7 +60,21 @@
             </field>
         </record>
         
-
+        <!-- project.task -->
+        <!-- form -->
+        <record id="view_task_form" model="ir.ui.view">
+            <field name="name">view.task.form</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2" />
+            <field name="priority" eval="100" />
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/notebook/page/group/group/field[@name='effective_hours']"
+                    position="after">
+                    <field name="reassignment_hour"/>
+               </xpath>         
+            </field>
+        </record>
+        
      <!-- ccorp.project.oerp.reassignment.hours.wizard -->
         <record model="ir.actions.act_window" id="action_reassignment">
             <field name="name">Reassignment Task Hours</field>

@@ -163,7 +163,7 @@
         
         <record id="action_work_type" model="ir.actions.act_window">
             <field name="name">Work Types</field>
-            <field name="res_model">ccorp.project.oerp.work.type</field>
+            <field name="res_model">project.work.type</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
@@ -179,7 +179,7 @@
        
          <record model="ir.values" id="menu_create_tasks">
             <field name="key2">client_action_multi</field>
-            <field name="model">ccorp.project.scrum.feature</field>
+            <field name="model">project.scrum.feature</field>
             <field name="name">Generate Tasks</field>
             <field name="value" eval="'ir.actions.server,%d'%action_create_tasks"/>
         </record>

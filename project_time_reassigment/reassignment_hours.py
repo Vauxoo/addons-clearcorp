@@ -83,4 +83,10 @@ class ReassignmentHours(models.Model):
                 reassignment.target_task.write({'reassignment_hour': self.total_time_reassignment})
         reassignment.state = 'reassignment'
         return True
+    
+class projectTask(models.Model):
+    
+    _inherit = 'project.task'
+    
+    reassignment_hour= fields.Float('Reassignment Hour', readonly=True)
 
