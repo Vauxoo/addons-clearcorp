@@ -41,7 +41,7 @@
               'view/project_scrum_menu.xml',
               'security/ir.model.access.csv',
               ],
-    "css" : ['static/src/css/ccorp_project_scrum.css'],
+    "css" : ['static/src/css/project_scrum.css'],
     "init_xml" : [],
     "demo_xml" : [],
     "update_xml" : [],

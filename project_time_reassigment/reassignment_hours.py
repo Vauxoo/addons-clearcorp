@@ -3,11 +3,11 @@ from openerp.exceptions import Warning
 
 class origin_task(models.Model):
     
-    _name = 'ccorp.project.oerp.origin.task'
+    _name = 'project.origin.task'
 
     origin_task_id = fields.Many2one('project.task', string="Name")
-    reassignment_hour= fields.Float('Reassignment Hour')
-    reassignment_hour_id = fields.Many2one('ccorp.project.oerp.reassignment.hours')
+    reassignment_hour = fields.Float('Reassignment Hour')
+    reassignment_hour_id = fields.Many2one('project.reassignment.hours')
     project_origin_task = fields.Many2one('project.project', string='Project', related='origin_task_id.project_id', readonly=True)
     user_origin_task = fields.Many2one('res.users', string='User', related='origin_task_id.user_id', readonly=True)
     ph_origin_task = fields.Float('Planned hours', related='origin_task_id.planned_hours', readonly=True)
@@ -21,17 +21,17 @@ class origin_task(models.Model):
 class ReassignmentHours(models.Model):
     
     _inherit = 'mail.thread'
-    _name = 'ccorp.project.oerp.reassignment.hours'
+    _name = 'project.reassignment.hours'
     
     target_task = fields.Many2one('project.task', string="Target Task")
-    origin_task_ids = fields.One2many('ccorp.project.oerp.origin.task', 'reassignment_hour_id',string="Origin Task")
+    origin_task_ids = fields.One2many('project.origin.task', 'reassignment_hour_id', string="Origin Task")
     project_id = fields.Integer('Project')
     type_task_id = fields.Integer('Task type')
     total_time_reassignment = fields.Float('Total Time Reassignment', compute='_compute_total_time_reassignment', inverse='_inverse_total_time_reassignment')
     inv_total_time_reassignment = fields.Float('Set Total Time Reassignment', default=0)
     date = fields.Date('Date')
-    detail= fields.Char('Detail', size=200)
-    state = fields.Selection([('draft', 'Draft'),('reassignment', 'Reassignment')], string='State', default='draft')
+    detail = fields.Char('Detail', size=200)
+    state = fields.Selection([('draft', 'Draft'), ('reassignment', 'Reassignment')], string='State', default='draft')
 
     @api.onchange('target_task')
     def onchange_target_task(self):
@@ -40,7 +40,7 @@ class ReassignmentHours(models.Model):
 
     @api.onchange('origin_task_ids')
     def onchange_origin_task(self):
-        self.inv_total_time_reassignment =0
+        self.inv_total_time_reassignment = 0
 
     @api.depends('origin_task_ids')
     def _compute_total_time_reassignment(self):
@@ -88,5 +88,5 @@ class projectTask(models.Model):
     
     _inherit = 'project.task'
     
-    reassignment_hour= fields.Float('Reassignment Hour', readonly=True)
+    reassignment_hour = fields.Float('Reassignment Hour', readonly=True)
 

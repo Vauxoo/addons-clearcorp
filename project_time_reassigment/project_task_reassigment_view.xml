@@ -4,7 +4,7 @@
     
     <record id="view_reassignment_task_form" model="ir.ui.view">
             <field name="name">view.reassignment.hours.form</field>
-            <field name="model">ccorp.project.oerp.reassignment.hours</field>
+            <field name="model">project.reassignment.hours</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Reassignment Task Hours" version="7.0">
@@ -49,7 +49,7 @@
         
         <record id="view_reassignment_task_tree" model="ir.ui.view">
             <field name="name">view.reassignment.hours.tree</field>
-            <field name="model">ccorp.project.oerp.reassignment.hours</field>
+            <field name="model">project.reassignment.hours</field>
             <field name="priority" eval="16" />
             <field name="arch" type="xml">
                 <tree string="Reassignment Task Hours">
@@ -75,10 +75,10 @@
             </field>
         </record>
         
-     <!-- ccorp.project.oerp.reassignment.hours.wizard -->
+
         <record model="ir.actions.act_window" id="action_reassignment">
             <field name="name">Reassignment Task Hours</field>
-            <field name="res_model">ccorp.project.oerp.reassignment.hours</field>
+            <field name="res_model">project.reassignment.hours</field>
             <field name="view_mode">tree,form</field>
         </record>
         

@@ -173,7 +173,7 @@ class Task(osv.Model):
                     values['planned_hours'] = sum
         return super(Task, self).create(cr, uid, values, context=context)
 
-    """def write(self, cr, uid, ids, values, context=None):
+    def write(self, cr, uid, ids, values, context=None):
         if not isinstance(ids, list):
             ids = [ids]
         for task in self.browse(cr, uid, ids, context=context)[0]:
@@ -201,7 +201,7 @@ class Task(osv.Model):
             else:
                 raise osv.except_osv(
                 _('Error'),
-                _('Your time ivested in this task has exeded the planed time frame'))"""
+                _('Your time ivested in this task has exeded the planed time frame'))
                 
 
 

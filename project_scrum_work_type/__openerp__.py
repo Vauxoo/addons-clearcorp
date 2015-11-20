@@ -34,7 +34,6 @@
                  ],
     "data" : [
               'security/project_security.xml',
-              'wizard/wizard_view.xml',
               'view/view.xml',
               'view/menu.xml',
               'security/ir.model.access.csv',

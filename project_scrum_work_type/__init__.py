@@ -20,5 +20,5 @@
 #
 ##############################################################################
 
-import ccorp_project_oerp
+import project_scrum_work_type
 import wizard

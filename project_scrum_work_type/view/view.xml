@@ -2,42 +2,8 @@
 <openerp>
 	<data>
     
-		<!-- views -->
-		<!-- ccorp.project.oerp.work.type -->
-		<!-- form -->
-		 <record id="view_work_type_form" model="ir.ui.view">
-			<field name="name">view.worktype.form</field>
-			<field name="model">ccorp.project.oerp.work.type</field>
-			<field name="type">form</field>
-            <field name="priority" eval="16" />
-			<field name="arch" type="xml">
-			<form>
-			<group>
-			  <group>
-			  <field name="name"/>
-			  <field name="product_id"/>
-			  </group><group>
-			  <field name="sequence" />
-			  <field name="column_number" />
-			  </group>
-			  </group>
-			  </form>
-			</field>
-		</record>
-        
-        <record id="view_work_type_tree" model="ir.ui.view">
-            <field name="name">view.worktype.form</field>
-            <field name="model">ccorp.project.oerp.work.type</field>
-            <field name="priority" eval="16" />
-            <field name="arch" type="xml">
-                <tree string="Work Type Task">
-                    <field name="name"/>
-                    <field name="product_id"/>
-                </tree>
-            </field>
-        </record>
 
-		<!-- ccorp.project.scrum.feature -->
+		<!-- project.scrum.feature -->
 		<!-- form -->
 		<record id="view_feature_form" model="ir.ui.view">
 			<field name="name">view.feature.form</field>
@@ -123,7 +89,7 @@
               </field>
         </record>
 
-		<!-- ccorp.project.scrum.sprint -->
+		<!-- project.scrum.sprint -->
 		<!-- form -->
 		<record id="view_sprint_form" model="ir.ui.view">
 			<field name="name">view.sprint.form</field>
@@ -143,18 +109,18 @@
         
 
         <!-- actions -->
-        <!-- ccorp.project.oerp.feature.import.wizard -->
+        <!-- project.feature.import.wizard -->
         <record model="ir.actions.act_window" id="action_feature_import_wizard">
             <field name="name">Feature Import</field>
-            <field name="res_model">ccorp.project.oerp.feature.import.wizard</field>
+            <field name="res_model">project.feature.import.wizard</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>
         </record>
         
-        <!-- ccorp.project.oerp.sprint.close.wizard -->
+        <!-- project.sprint.close.wizard -->
         <record model="ir.actions.act_window" id="action_sprint_close_wizard">
             <field name="name">Close Sprint</field>
-            <field name="res_model">ccorp.project.oerp.sprint.close.wizard</field>
+            <field name="res_model">project.sprint.close.wizard</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>
         </record>

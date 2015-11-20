@@ -89,7 +89,7 @@ msgid "Done"
 msgstr "Hecho"
 
 #. module: project_issue_extended
-#: model:ir.model,name:project_issue_extended.model_ccorp_project_scrum_feature
+#: model:ir.model,name:project_issue_extended.model_project_scrum_feature
 msgid "Email Thread"
 msgstr "Tema de Correos"
 
@@ -133,7 +133,7 @@ msgid "Issue Stages"
 msgstr "Etapas de Incidencia"
 
 #. module: project_issue_extended
-#: field:ccorp.project.scrum.feature,issue_ids:0
+#: field:project.scrum.feature,issue_ids:0
 msgid "Issue ids"
 msgstr "Incidencias"
 
@@ -229,7 +229,7 @@ msgid "Ticket ids"
 msgstr "Tiquetes"
 
 #. module: project_issue_extended
-#: view:ccorp.project.scrum.feature:project_issue_extended.view_feature_form
+#: view:project.scrum.feature:project_issue_extended.view_feature_form
 #: view:project.task:project_issue_extended.view_task_form
 msgid "Tickets"
 msgstr "Tiquetes"

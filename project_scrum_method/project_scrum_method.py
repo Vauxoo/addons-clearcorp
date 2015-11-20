@@ -550,9 +550,9 @@ class Task(osv.Model):
                 'feature_id': fields.many2one('project.scrum.feature', string='Feature'),
                 'feature_type_id': fields.related('feature_id', 'type_id', type='many2one', string='Feature Type',
                     relation='project.scrum.feature.type', readonly=True),
-                'previous_task_ids': fields.many2many('project.task', 'ccorp_project_scrum_task_previous_tasks',
+                'previous_task_ids': fields.many2many('project.task', 'project_scrum_task_previous_tasks',
                     'task_id', 'previous_task_id', string='Previous Tasks', domain="['!',('id','=',id)]"),
-                'next_task_ids': fields.many2many('project.task', 'ccorp_project_scrum_task_next_tasks',
+                'next_task_ids': fields.many2many('project.task', 'project_scrum_task_next_tasks',
                     'task_id', 'next_task_id', string='Next Tasks', domain="['!',('state','in',['done','cancelled']),"
                     "'!',('id','=',id)]"),
                 }
@@ -789,6 +789,3 @@ class project(osv.Model):
                     'id', string='Release Backlogs'),
                 }
 
-class Feature(osv.Model):
-    
-    _name = 'ccorp.project.product.backlog'
