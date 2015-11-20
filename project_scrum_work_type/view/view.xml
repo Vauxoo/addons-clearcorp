@@ -125,14 +125,6 @@
             <field name="target">new</field>
         </record>
         
-       
-        
-        <record id="action_work_type" model="ir.actions.act_window">
-            <field name="name">Work Types</field>
-            <field name="res_model">project.work.type</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-        </record>
         
         <!-- Server actions -->
        <record id="action_create_tasks" model="ir.actions.server">
