@@ -156,7 +156,6 @@ class Task(osv.Model):
     _columns = {
                 'feature_hour_ids': fields.related('feature_id', 'hour_ids', type='one2many',
                     relation='project.scrum.feature.hours', string='Feature Hours', readonly=True),
-                'task_hour_ids': fields.one2many('project.task.hour', 'task_id', string='Task Hours'),
                 'remaining_hours': fields.function(_remaining_hours, type='float', string='Remaining Hour(s)', store=True),
                 }
 

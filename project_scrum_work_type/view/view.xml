@@ -15,10 +15,6 @@
 					<attribute name="readonly">True</attribute>
 					<attribute name="required">False</attribute>
 				</xpath>
-				<xpath expr="//form/sheet/group/group/field[@name='progress']"
-                    position="after">
-                        <field name="validation_date"/>
-                 </xpath>
 				<xpath expr="//form/sheet/notebook/page[@name='description']"
 					position="after">
 					<page string="Feature Hours" name="d">
@@ -89,42 +85,6 @@
               </field>
         </record>
 
-		<!-- project.scrum.sprint -->
-		<!-- form -->
-		<record id="view_sprint_form" model="ir.ui.view">
-			<field name="name">view.sprint.form</field>
-			<field name="model">project.scrum.sprint</field>
-			<field name="inherit_id" ref="project_scrum_method.view_sprint_form" />
-			<field name="arch" type="xml">
-				<xpath expr="//form/sheet/notebook/page[@name='tasks']"
-					position="after">
-					<page string="Planned Tasks" name="desirable_tasks" attrs="{'invisible': [('state','=', 'new')]}">
-						<field name="planned_task_ids" attrs="{'invisible': [('state','=', 'new')]}"/>
-					</page>
-				</xpath>
-			</field>
-		</record>
-        
-          
-        
-
-        <!-- actions -->
-        <!-- project.feature.import.wizard -->
-        <record model="ir.actions.act_window" id="action_feature_import_wizard">
-            <field name="name">Feature Import</field>
-            <field name="res_model">project.feature.import.wizard</field>
-            <field name="view_mode">form</field>
-            <field name="target">new</field>
-        </record>
-        
-        <!-- project.sprint.close.wizard -->
-        <record model="ir.actions.act_window" id="action_sprint_close_wizard">
-            <field name="name">Close Sprint</field>
-            <field name="res_model">project.sprint.close.wizard</field>
-            <field name="view_mode">form</field>
-            <field name="target">new</field>
-        </record>
-        
         
         <!-- Server actions -->
        <record id="action_create_tasks" model="ir.actions.server">

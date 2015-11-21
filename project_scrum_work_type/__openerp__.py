@@ -35,7 +35,6 @@
     "data" : [
               'security/project_security.xml',
               'view/view.xml',
-              'view/menu.xml',
               'security/ir.model.access.csv',
               ],
     "demo_xml" : [],

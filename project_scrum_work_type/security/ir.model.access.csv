@@ -1,8 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_project_work_type_manager,access.project.work.type.manager,model_project_work_type,project.group_project_manager,1,1,1,1
-access_project_work_type_user,access.project.work.type.user,model_project_work_type,project.group_project_user,1,0,0,0
-access_project_task_hour_manager,access.project.task.hour.manager,model_project_task_hour,project.group_project_manager,1,1,1,1
-access_project_task_hour_user,access.project.task.hour.user,model_project_task_hour,project.group_project_user,1,0,0,0
-access_project_feature_hours_manager,access.project.feature.hours.manager,model_project_feature_hours,project.group_project_manager,1,1,1,1
-access_project_feature_hours_user,access.project.feature.hours.user,model_project_feature_hours,project.group_project_user,1,0,0,0
-access_project_task_user,access.project.task.user,model_project_task,project.group_project_user,1,1,0,0
+access_project_scrum_feature_hours_manager,access.project.scrum.feature.hours.manager,model_project_scrum_feature_hours,project.group_project_manager,1,1,1,1
+access_project_scrum_feature_hours_user,access.project.scrum.feature.hours.user,model_project_scrum_feature_hours,project.group_project_user,1,0,0,0
