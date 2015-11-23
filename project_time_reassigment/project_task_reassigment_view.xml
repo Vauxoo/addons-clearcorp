@@ -27,7 +27,7 @@
                             <field name="origin_task_ids" attrs="{'readonly': [('state','!=', 'draft')]}">
                                <tree editable="bottom">
                                     <field name="origin_task_id" 
-                                           domain="[('project_id','=',parent.project_id),('kind_task_id','=',parent.type_task_id),('remaining_hours','>',0)]"/>
+                                           domain="[('project_id','=',parent.project_id),('work_type_id','=',parent.type_task_id),('remaining_hours','>',0)]"/>
                                     <field name="project_origin_task"/>
                                     <field name="user_origin_task"/>
                                     <field name="ph_origin_task"/>

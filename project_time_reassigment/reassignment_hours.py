@@ -36,7 +36,7 @@ class ReassignmentHours(models.Model):
     @api.onchange('target_task')
     def onchange_target_task(self):
         self.project_id = self.target_task.project_id
-        self.type_task_id = self.target_task.kind_task_id
+        self.type_task_id = self.target_task.work_type_id
 
     @api.onchange('origin_task_ids')
     def onchange_origin_task(self):

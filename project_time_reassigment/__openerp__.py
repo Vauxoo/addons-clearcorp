@@ -30,7 +30,7 @@
     'sequence': 4,
     'website' : 'http://clearcorp.co.cr',
     'depends' : ['base','project'],
-    'data' : ['project_task_reassigment_view.xml',],
+    'data' : ['project_task_reassigment_view.xml', 'security/ir.model.access.csv'],
     'auto_install': False,
     'application': False,
     'installable': True,
