@@ -84,7 +84,6 @@ class Feature(osv.Model):
                                   'feature_id': feature.id,
                                   'description': feature.description,
                                   'planned_hours': feature_hour.expected_hours,
-                                  'priority': PRIORITY[feature.priority],
                                   'date_deadline': feature.deadline,
                                   'date_start': feature.date_start,
                                   'is_scrum': True,
