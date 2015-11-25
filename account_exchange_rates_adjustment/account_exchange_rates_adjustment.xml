@@ -1,13 +1,11 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <openerp>
     <data>
-        
         <!--
         ======================================
         account.account
         ======================================
         -->
-        
         <record id="account_view_form" model="ir.ui.view">
             <field name="name">account.view.form</field>
             <field name="model">account.account</field>
@@ -24,13 +22,11 @@
                 </data>
             </field>
         </record>
-        
         <!--
         ======================================
         account.move.line
         ======================================
         -->
-        
         <record model = "ir.ui.view" id = "view_move_line_form_l10n_cr">
             <field name = "name">view.move.line.form.l10n.cr</field>
             <field name = "model">account.move.line</field>
@@ -60,7 +56,5 @@
                 </data>
             </field>
         </record>
-        
     </data>
 </openerp>
-

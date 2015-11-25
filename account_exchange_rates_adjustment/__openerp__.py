@@ -23,25 +23,21 @@
 {
     "name" : 'Account Exchange Rates Adjustment',
     "version" : '1.0',
-    "author" : 'CLEARCORP S.A',
     "category": 'Accounting & Finance',
-    "description": """
-Account Exchange Rates Adjustment:
-====================================
-    Adjust the amount of currency, 
-    at the exchange rate on a specified day
-    """,    
+    'summary': 'Adjust the amount of currency at the exchange rate on a specified day',
+    "author" : 'ClearCorp',
+    'website': 'http://clearcorp.co.cr',
     "depends" : [
                  "account_report_lib",
                  "account_reconcile_forced_partner",
-                 "currency_rate_update_BCCR", 
-                 "res_currency_sequence",
+                 "currency_second_rate_BCCR",
+                 "res_currency_priority",
                 ],
 
     "data" : [
-                "wizard/account_exchange_rates_adjustment.xml",
-                "account_exchange_rates_adjustment.xml",                 
-                ],
+              "wizard/account_exchange_rates_adjustment.xml",
+              "account_exchange_rates_adjustment.xml",
+              ],
     'installable': True,
     'auto_install': False,
     'license': 'AGPL-3',

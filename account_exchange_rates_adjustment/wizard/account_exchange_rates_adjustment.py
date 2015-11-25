@@ -23,17 +23,23 @@
 from openerp.osv import osv, fields
 from openerp.tools.translate import _
 
+
 class GenerateExchangeRatesWizard(osv.osv_memory):
     _name = "generate.exchange.rates.wizard"
     _description = "generate.exchange.rates.wizard"
-    
+
     _columns = {
         'reference': fields.char('Reference', size=256, required=True),
-        'journal_id': fields.many2one('account.journal', 'Journal', required=True, help="Choose the journal for the move automatically generated"),
-        'period_id': fields.many2one('account.period', 'Period', required=True, help="Choose the journal for the move automatically generated"),
-        'exchange_rate_date': fields.date('Force adjustment date', help="The moves are adjusted before this date and the exchange rate used will be on this date"),
+        'journal_id': fields.many2one('account.journal', 'Journal',
+                                      required=True, 
+                                      help="Choose the journal for the move automatically generated"),
+        'period_id': fields.many2one('account.period',
+                                     'Period', required=True,
+                                     help="Choose the journal for the move automatically generated"),
+        'exchange_rate_date': fields.date('Force adjustment date',
+                                          help="The moves are adjusted before this date and the exchange rate used will be on this date"),
     }
-   
+
     def _get_period(self, cr, uid, context=None):
         periods = self.pool.get('account.period').find(cr, uid)
         if periods:
@@ -51,7 +57,9 @@ class GenerateExchangeRatesWizard(osv.osv_memory):
         journal = data[0].journal_id
         period = data[0].period_id
         exchange_rate_date = data[0].exchange_rate_date or False
-        created_move_id = account_move_obj.generate_adjustment_move(cr, uid, reference, journal, period, exchange_rate_date, context=context)
+        created_move_id = account_move_obj.generate_adjustment_move(
+            cr, uid, reference, journal, period, exchange_rate_date,
+            context=context)
         return {
             'name': _('Created Account Moves'),
             'view_type': 'form',
