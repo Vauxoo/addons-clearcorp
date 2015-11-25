@@ -29,7 +29,7 @@
     'author': 'ClearCorp',
     'website': 'http://clearcorp.cr',
     'depends': ['project_issue',],
-    'data': ['project_issue_type_view.xml',], 
+    'data': ['project_issue_type_view.xml','security/ir.model.access.csv'], 
     'test' : [],
     'demo': [],
     'installable': True,
