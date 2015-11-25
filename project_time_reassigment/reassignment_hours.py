@@ -73,7 +73,10 @@ class ReassignmentHours(models.Model):
                     else:
                         raise Warning('Remaining hours should be more than Reassignment hours')
             if not reassignment.origin_task_ids:
-                reassignment.target_task.write({'reassignment_hour': self.total_time_reassignment})
+                if not reassignment.target_task.reassignment_hour:
+                    reassignment.target_task.write({'reassignment_hour': self.total_time_reassignment})
+                else:
+                    reassignment.target_task.write({'reassignment_hour': reassignment.target_task.reassignment_hour+self.total_time_reassignment})
             else:
                 for task in reassignment.origin_task_ids:
                     if task.reassignment_hour <= task.origin_task_id.remaining_hours:
