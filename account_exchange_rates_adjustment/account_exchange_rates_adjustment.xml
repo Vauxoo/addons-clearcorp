@@ -17,7 +17,7 @@
                     </field>
                     <field name="currency_mode" position="after">
                         <field name="exchange_rate_adjustment" attrs="{'invisible': [('currency_id', '=', False), ('reconcile', '=', False)]}"/>
-                        <field name="rate_adjustment" attrs="{'invisible':['|', ('currency_id','=',False), ('exchange_rate_adjustment','=',False)]}"/>
+                        <field name="rate_adjustment" attrs="{'invisible':['|', ('currency_id','=',False), ('exchange_rate_adjustment','=',False)], 'required':[('exchange_rate_adjustment','=',True)]}"/>
                     </field>
                 </data>
             </field>

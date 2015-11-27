@@ -50,41 +50,6 @@ class AccountAccount(osv.osv):
 
         return res
 
-    """
-        Redefine create and write. It exists a "bug", when field selection 
-        rate_adjustment is readonly, the value doesn't save when the account
-        is created or written. 
-        Check if currency has not second_rate and rate_adjustment is secondary,
-        throw an exception. 
-    """
-
-    def create(self, cr, uid, vals, context={}):
-        if 'currency_id' in vals.keys() and vals['currency_id']:
-            if 'rate_adjustment' in vals.keys():
-                currency = self.pool.get('res.currency').browse(
-                    cr, uid, vals['currency_id'], context=context)
-                if not currency.base and not currency.second_rate and \
-                        (vals['rate_adjustment'] == 'secondary'):
-                    raise osv.except_osv(
-                        _('Error!'),
-                        _('The secondary currency does not allow secondary rate adjustment\n'))
-
-        return super(AccountAccount, self).create(cr, uid, vals, context)
-
-    def write(self, cr, uid, ids, vals, context=None):
-        #if currency_id doesn't allow second_rate, rate_adjustment must be primary
-        for account in self.browse(cr, uid, ids, context=context):
-            if account.currency_id:
-                if 'rate_adjustment' in vals.keys():
-                    if not account.currency_id.base and \
-                            not account.currency_id.second_rate and \
-                            (vals['rate_adjustment'] == 'secondary'):
-                        raise osv.except_osv(_('Error!'),
-                                              _('The secondary currency does not allow secondary rate adjustment\n'))
-
-        return super(AccountAccount, self).write(cr, uid, ids,
-                                                 vals, context=context)
-
 
 class AccountMoveLine(osv.osv):
     _name = "account.move.line"
@@ -206,6 +171,9 @@ class AccountMove(osv.osv):
             #Check if account in line use primary or second rate. 
             if line.account_id.exchange_rate_adjustment:
                 if line.account_id.rate_adjustment == 'secondary':
+                    if not company_currency.second_rate:
+                        raise osv.except_osv(_('Error!'),
+                                              _('The company currency does not allow secondary rate adjustment\n'))
                     second_rate = True
                 else:
                     second_rate = False
@@ -341,6 +309,9 @@ class AccountMove(osv.osv):
             #Check if account in line use primary or second rate. 
             if account.exchange_rate_adjustment:
                 if account.rate_adjustment == 'secondary':
+                    if not company_currency.second_rate:
+                        raise osv.except_osv(_('Error!'),
+                                              _('The company currency does not allow secondary rate adjustment\n'))
                     second_rate = True
                 else:
                     second_rate = False
