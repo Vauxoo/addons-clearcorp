@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mro_order_parts_line_extra_manager,mro.order.parts.line.extra manager,model_mro_order_parts_line_extra,asset.group_mro_manager,1,1,1,1
+access_mro_order_parts_line_extra_user,mro.order.parts.line.extra user,model_mro_order_parts_line_extra,asset.group_mro_user,1,1,1,1
