@@ -7,9 +7,9 @@
                     <table>
                          <tbody>
                             <tr>
-                                <td colspan="2" easyfx="font: height 200;align: horizontal left,vert center" num_format_str="dd/mm/yyyy hh:mm">
-                                    <span t-esc="datetime.now()"/>
-                                </td>
+                            <td colspan="2" easyfx="font: height 200;align: horizontal left,vert center" num_format_str="dd/mm/yyyy hh:mm">
+                                    <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                            </td>
                                 <td colspan="6" easyfx="align: horizontal right,vert center">
                                     <span t-esc="company.name"/>
                                 </td>
