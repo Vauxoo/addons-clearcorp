@@ -20,24 +20,11 @@
 #
 ##############################################################################
 from openerp import models, fields
-import openerp.addons.decimal_precision as dp
 
 class stock_move_thread(models.Model):
     
     _inherit = ['stock.move', 'mail.thread']
     _name = "stock.move"
-    _description = "Stock Move"
-    _order = 'date_expected desc, id'
-    _log_create = False
     
-    product_id= fields.Many2one('product.product', 'Product', required=True, select=True, domain=[('type', '<>', 'service')], states={'done': [('readonly', True)]}, track_visibility='onchange')
-    product_uom_qty= fields.Float('Quantity', digits_compute=dp.get_precision('Product Unit of Measure'),
-            required=True, states={'done': [('readonly', True)]}, track_visibility='onchange',
-            help="This is the quantity of products from an inventory "
-                "point of view. For moves in the state 'done', this is the "
-                "quantity of products that were actually moved. For other "
-                "moves, this is the quantity of product that is planned to "
-                "be moved. Lowering this quantity does not generate a "
-                "backorder. Changing this quantity on assigned moves affects "
-                "the product reservation, and should be done with care."
-        )
+    product_id= fields.Many2one(track_visibility='onchange')
+    product_uom_qty= fields.Float(track_visibility='onchange')
