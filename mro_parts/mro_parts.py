@@ -38,7 +38,7 @@ class mro_order(models.Model):
                         order.asset_id.property_stock_asset.id and
                         move.state == 'done'
                     ]
-            self.parts_returned_lines = done_line_ids
+            order.parts_returned_lines = done_line_ids
         return True
 
     stock_picking_count = fields.Integer(
