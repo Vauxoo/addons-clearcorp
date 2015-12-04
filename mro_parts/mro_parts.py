@@ -19,53 +19,49 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 from openerp import models, fields, api, _
-import openerp.addons.decimal_precision as dp
 
-class mro_order_parts_line_extra(models.Model):
-    _name = 'mro.order.parts.line.extra'
-    
-    name= fields.Char('Description', size=64)
-    parts_id= fields.Many2one('product.product', 'Parts', required=True)
-    parts_qty= fields.Float('Quantity', digits_compute=dp.get_precision('Product Unit of Measure'), required=True, default=1)
-    parts_uom= fields.Many2one('product.uom', 'Unit of Measure', required=True)
-    maintenance_id= fields.Many2one('mro.order', 'Maintenance Order', select=True)
-    
-   
-    @api.onchange('parts_id')
-    def onchange_parts(self):
-        """onchange handler of parts_id."""
-        self.parts_uom = self.parts_id.uom_id
-    
 
-    
 class mro_order(models.Model):
-    
+
     _inherit = 'mro.order'
-    
+
     def _compute_returned_parts(self):
         for order in self:
             done_line_ids = []
             if order.procurement_group_id:
                 for procurement in order.procurement_group_id.procurement_ids:
-                    #line_ids += [move.id for move in procurement.move_ids if move.location_dest_id.id == order.asset_id.property_stock_asset.id]
-                    #available_line_ids += [move.id for move in procurement.move_ids if move.location_dest_id.id == order.asset_id.property_stock_asset.id and move.state == 'assigned']
-                    done_line_ids += [move.id for move in procurement.move_ids if move.location_id.id == order.asset_id.property_stock_asset.id and move.state == 'done']
+                    done_line_ids += [
+                        move.id for move in procurement.move_ids
+                        if move.location_id.id ==
+                        order.asset_id.property_stock_asset.id and
+                        move.state == 'done'
+                    ]
             self.parts_returned_lines = done_line_ids
         return True
 
-    
-    stock_picking_count = fields.Integer(string='Picking Count', compute='_compute_stock_picking_count')
-    parts_returned_lines = fields.Many2many('stock.move', compute='_compute_returned_parts')
+    stock_picking_count = fields.Integer(
+        'Picking Count', compute='_compute_stock_picking_count')
+    parts_returned_lines = fields.Many2many(
+        'stock.move', compute='_compute_returned_parts')
 
     def _compute_stock_picking_count(self):
-           self.stock_picking_count = self.env['stock.picking'].search_count([('group_id','=',self.procurement_group_id.id)])
-           return True
-       
+        if self.procurement_group_id:
+            self.stock_picking_count = self.env['stock.picking'].search_count(
+                [('group_id', '=', self.procurement_group_id.id)])
+        else:
+            self.stock_picking_count = 0
+        return True
+
     @api.multi
     def view_related_pickings(self):
-        pickings = self.env['stock.picking'].search([('group_id','=',self.procurement_group_id.id)])
-        domain = [('id', 'in', pickings._ids)]
+        if self.procurement_group_id:
+            pickings = self.env['stock.picking'].search(
+                [('group_id', '=', self.procurement_group_id.id)])
+            domain = [('id', 'in', pickings._ids)]
+        else:
+            domain = [('id', 'in', [])]
         return {
             'name': _('Pickings'),
             'domain': domain,
@@ -76,4 +72,3 @@ class mro_order(models.Model):
             'view_type': 'form',
             'limit': 20
         }
-    
