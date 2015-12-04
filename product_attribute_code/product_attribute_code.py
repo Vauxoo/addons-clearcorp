@@ -21,22 +21,22 @@
 ##############################################################################
 
 
-from openerp import models,fields
-from openerp.tools.translate import _
+from openerp import models, fields
 
 
 class product_attribute_value(models.Model):
 
     _inherit = 'product.attribute.value'
 
-    product_code = fields.Char(string="Product Code")
+    product_code = fields.Char(string="Product Code", default='')
 
 
 class product_category(models.Model):
 
     _inherit = 'product.category'
 
-    product_code_from_attributes = fields.Boolean(string="Product Code From Attributes")
+    product_code_from_attributes = fields.Boolean(
+        string="Product Code From Attributes")
 
 
 class product_product(models.Model):
@@ -56,16 +56,18 @@ class product_product(models.Model):
             product_templ = product_tpl_obj.browse(cr, uid, template_id,
                                                    context=context)
 
-            if product_templ.categ_id.product_code_from_attributes \
-                    and ('default_code' in vals.keys() or not product.default_code):
+            if product_templ.categ_id.product_code_from_attributes and \
+                    ('default_code' in vals.keys() or not
+                     product.default_code):
                 attribute_ids = vals['attribute_value_ids'][0][2]
-                order_attributes_ids = attribute_value_obj.search(cr,
-                                                                  uid,
-                                                                  [('id','in',attribute_ids)],
-                                                                  order= "sequence"
-                                                                  )
+                order_attributes_ids = attribute_value_obj.search(
+                    cr, uid, [('id', 'in', attribute_ids)],
+                    order="sequence")
                 code = ""
-                for attribute in attribute_value_obj.browse(cr, uid, order_attributes_ids, context=context):
-                    code += attribute.product_code
-                self.write(cr, uid, product.id, {'default_code': code}, context=context)
+                for attribute in attribute_value_obj.browse(
+                        cr, uid, order_attributes_ids, context=context):
+                    if attribute.product_code:
+                        code += attribute.product_code
+                self.write(cr, uid, product.id,
+                           {'default_code': code}, context=context)
         return res
