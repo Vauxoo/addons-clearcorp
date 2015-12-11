@@ -45,6 +45,8 @@
             <field name="arch" type="xml">
                 <form string="Personnel Actions" version="7.0">
                 <header>
+                    <button name="action_approved" states="draft" string="Approved" type="object" groups="base.group_hr_user" class="oe_highlight"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approved"/>
                 </header>
                 <sheet>
                     <label for="title" class="oe_edit_only" string="Title" />
@@ -77,6 +79,7 @@
                     <field name="employee_id"/>
                     <field name="type_id"/>
                     <field name="date"/>
+                    <field name="state"/>
                 </tree>
             </field>
         </record>
