@@ -21,7 +21,7 @@
 ##############################################################################
 
 
-from openerp import models, fields
+from openerp import models, fields, api
 
 
 class product_attribute_value(models.Model):
@@ -39,26 +39,42 @@ class product_category(models.Model):
         string="Product Code From Attributes")
 
 
+class product_template(models.Model):
+
+    _inherit = 'product.template'
+
+    @api.multi
+    def update_product_attribute_code(self):
+        attribute_value_obj = self.env['product.attribute.value']
+        for template in self:
+            for product in template.product_variant_ids:
+                if product.categ_id.product_code_from_attributes:
+                        attribute_ids = product.attribute_value_ids._ids
+                        order_attributes_ids = attribute_value_obj.search(
+                            [('id', 'in', attribute_ids)], order='sequence')
+                        code = ""
+                        for attribute in order_attributes_ids:
+                            if attribute.product_code:
+                                code += attribute.product_code
+                        product.write({'default_code': code})
+        return True
+
+
 class product_product(models.Model):
 
     _inherit = 'product.product'
 
     def create(self, cr, uid, vals, context=None):
-        product_tpl_obj = self.pool.get('product.template')
         attribute_value_obj = self.pool.get('product.attribute.value')
         if context is None:
             context = {}
         res = super(product_product, self).create(cr, uid, vals, context=None)
         product = self.browse(cr, uid, res, context=context)
 
-        if 'product_tmpl_id' in vals.keys():
-            template_id = vals['product_tmpl_id']
-            product_templ = product_tpl_obj.browse(cr, uid, template_id,
-                                                   context=context)
-
-            if product_templ.categ_id.product_code_from_attributes and \
-                    ('default_code' in vals.keys() or not
-                     product.default_code):
+        if product.categ_id.product_code_from_attributes and \
+                ('default_code' in vals.keys() or not
+                 product.default_code):
+            if 'attribute_value_ids'in vals.keys():
                 attribute_ids = vals['attribute_value_ids'][0][2]
                 order_attributes_ids = attribute_value_obj.search(
                     cr, uid, [('id', 'in', attribute_ids)],
