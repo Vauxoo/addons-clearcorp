@@ -17,6 +17,7 @@ Contributors
 ------------
 
 * Fabio Vílchez <fabio.vilchez@clearcorp.co.cr>
+* Glen Sojo <glen.sojo@clearcorp.co.cr>
 
 
 
