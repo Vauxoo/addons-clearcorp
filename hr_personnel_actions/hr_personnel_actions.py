@@ -73,7 +73,7 @@ class personnelActionsPersonnelAction(osv.Model):
                                        required=True, select=True),
         'state': fields.selection(
             [('draft', 'Draft'), ('approved', 'Approved'),
-             ('cancel', 'Cancelled')],
+             ('cancelled', 'Cancelled')],
             string='Status', index=True,
             readonly=True, default='draft')
     }
@@ -82,6 +82,10 @@ class personnelActionsPersonnelAction(osv.Model):
         sequence = self.pool.get('ir.sequence').get(
             cr, uid, 'personnel.actions')
         self.write(cr, uid, ids, {'state': 'approved', 'sequence': sequence},
+                   context=context)
+
+    def action_cancel(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {'state': 'cancelled'},
                    context=context)
 
 
