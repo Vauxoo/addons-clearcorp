@@ -47,27 +47,6 @@ class product_template(osv.osv):
 class product_product(osv.osv):
     _inherit = "product.product"
     
-    def search(self, cr, uid, args, offset=0, limit=None, order=None, context=None, count=False):
-        res = {}
-        new_args = []
-        cont=0
-
-        if not args:
-            args = []
-        number_params = len(args)
-
-        while cont<number_params:
-            param=args[cont]
-            if ('part_number' in param) or ('default_code' in param) or ('name' in param):
-                search_vals = param[2].split()
-                for val in search_vals:
-                    new_args = new_args + [[param[0],'ilike', val]]
-            cont = cont +1
-        if len(new_args) > 0:
-            args = new_args
-        res = super(product_product, self).search(cr, uid, args, offset, limit, order, context, count)
-        return res
-        
     _columns = {
         'part_number': fields.char('Part Number', size=90),
         'manufacturer':fields.many2one('res.partner',string="Manufacturer")
