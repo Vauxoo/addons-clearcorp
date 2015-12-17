@@ -25,6 +25,17 @@ from openerp.tools.translate import _
 from openerp import SUPERUSER_ID
 import openerp.addons.decimal_precision as dp
 
+class res_partner(osv.osv):
+    _name = 'res.partner'
+    _inherit = 'res.partner'
+    
+    _columns = {
+        'property_product_pricelist_intercompany': fields.property(
+          type='many2one', 
+          relation='product.pricelist', 
+          domain=[('type','=','sale')],
+          string="Intercompany Pricelist"),
+    }
 
 class stock_move(osv.osv):
     _inherit = 'stock.move'
@@ -42,9 +53,9 @@ class stock_move(osv.osv):
                     res_id = 'res.partner,'+str(move.company_id.partner_id.id) # Costa Rica
                     ctx = context.copy()
                     ctx['force_company'] = quant.company_id.id
-                    domain = ir_property_obj._get_domain(cr, uid, 'property_product_pricelist', 'res.partner', context=ctx)
+                    domain = ir_property_obj._get_domain(cr, uid, 'property_product_pricelist_intercompany', 'res.partner', context=ctx)
                     if domain is None:
-                        raise osv.except_osv(_('Error'),_('There is no property defined for Sale Pricelist'))
+                        raise osv.except_osv(_('Error'),_('There is no property defined for Intercompany Pricelist'))
 
                     domain = ['|',('res_id', '=', res_id),('res_id','=',False)] + domain
                     #make the search with company_id asc to make sure that properties specific to a company are given first

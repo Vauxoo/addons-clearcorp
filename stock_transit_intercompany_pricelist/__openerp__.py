@@ -31,7 +31,9 @@ This module adds a field 'Intercompany Price' to make the transfer InterCompany
 """,
     'website': 'http://clearcorp.co.cr',
     'depends': ['stock',],
-    'data': [],
+    'data': [
+        'stock_transit_intercompany_pricelist_view.xml',
+    ],
     'installable': True,
     'auto_install': False,
     'application': False,    
