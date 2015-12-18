@@ -107,8 +107,8 @@ class hrContract(osv.Model):
                 'employee_id': var_contract.employee_id.id,
                 }
             action_obj = self.pool.get('hr.personnel.actions.personnel.action')
-            action_obj.create(cr, uid, new_action, context=context)
-            action_obj.action_approved(cr, uid, ids, context=context)
+            action_id = action_obj.create(cr, uid, new_action, context=context)
+            action_obj.action_approved(cr, uid, action_id, context=context)
         else:
             raise osv.except_osv(_(
                 'Personnel Actions Error'),
