@@ -28,11 +28,6 @@ msgid "Intercompany Price"
 msgstr "Precio Inter-Compañia"
 
 #. module: stock_transit_intercompany_pricelist
-#: field:res.partner,property_product_pricelist_intercompany:0
-msgid "Intercompany Pricelist"
-msgstr "Tarifa intercompañía"
-
-#. module: stock_transit_intercompany_pricelist
 #: model:ir.model,name:stock_transit_intercompany_pricelist.model_product_template
 msgid "Product Template"
 msgstr "Plantilla de producto"
@@ -45,8 +40,8 @@ msgstr "Movimiento de existencias"
 #. module: stock_transit_intercompany_pricelist
 #: code:addons/stock_transit_intercompany_pricelist/stock_transit_intercompany_pricelist.py:47
 #, python-format
-msgid "There is no property defined for Intercompany Pricelist"
-msgstr "No hay propiedad definida para la lista de precio intercompañía"
+msgid "There is no property defined for Sale Pricelist"
+msgstr "No hay propiedad definida para la lista de precio de ventas"
 
 #. module: stock_transit_intercompany_pricelist
 #: code:addons/stock_transit_intercompany_pricelist/stock_transit_intercompany_pricelist.py:53
