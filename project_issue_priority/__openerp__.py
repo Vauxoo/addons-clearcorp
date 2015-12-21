@@ -21,13 +21,13 @@
 ##############################################################################
 
 {
-    'name': 'Project issue priority',
+    'name': 'Project Issue Priority',
     'version': '1.0',
     'category': 'Project Management',
     'sequence': 10,
-    'summary': 'Project Issue Priority',
+    'summary': 'Adds 5 stars to issues',
     'author': 'ClearCorp',
-    'website': 'http://clearcorp.co.cr',
+    'website': 'http://clearcorp.cr',
     'depends': ['project_issue'],
     'data': [],
     'test': [],
