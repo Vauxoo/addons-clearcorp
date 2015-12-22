@@ -7,7 +7,8 @@ Project Issue Stage History
 ===========================
 
 This module was written to extend the functionality of project_issue to support
- history changes in a project issue and allow you to see the changes over time
+history changes of the stages in a project issue and allow you to see 
+time differences between changes
 
 Contributors
 ------------
