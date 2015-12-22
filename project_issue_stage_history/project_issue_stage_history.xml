@@ -9,7 +9,7 @@
     <field name="arch" type="xml">
         <xpath expr="//form/sheet/notebook/page[@string='Extra Info']" position="after">
             <page string="Stage History">
-                <field name="issue_stage_history_ids" modifiers="{'readonly': true}">
+                <field name="issue_stage_history_ids" >
                     <tree>
                         <field name="stage_from_id"/>
                         <field name="stage_to_id"/>

@@ -61,7 +61,8 @@ class ProjectIssue(models.Model):
     _inherit = 'project.issue'
 
     issue_stage_history_ids = fields.One2many(
-        'project.issue.stage.history', 'issue_id', string='Stage History')
+        'project.issue.stage.history', 'issue_id', string='Stage History',
+        readonly=True)
 
     @api.multi
     def write(self, values):
