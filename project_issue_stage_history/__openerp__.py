@@ -29,7 +29,7 @@
     'author': 'ClearCorp',
     'website': 'http://clearcorp.cr',
     'depends': ['project_issue'],
-    'data': [],
+    'data': ['project_issue_stage_history.xml'],
     'test': [],
     'demo': [],
     'installable': True,

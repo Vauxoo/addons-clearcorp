@@ -2,53 +2,17 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-==============
-{module_title}
-==============
+===========================
+Project Issue Stage History
+===========================
 
-This module was written to extend the functionality of ... to support ...
-and allow you to ...
-
-Installation
-============
-
-To install this module, you need to:
-
-* do this ...
-
-Configuration
-=============
-
-To configure this module, you need to:
-
-* go to ...
-
-Usage
-=====
-
-To use this module, you need to:
-
-* go to ...
-
-Known issues / Roadmap
-======================
-
-* ...
-
-Bug Tracker
-===========
-
-Bugs are tracked on ...
-
-
-Credits
-=======
+This module was written to extend the functionality of project_issue to support
+ history changes in a project issue and allow you to see the changes over time
 
 Contributors
 ------------
 
-* Firstname Lastname <email.address@example.org>
-* Second Person <second.person@example.org>
+* Lesmed Gutierrez <lesmed.gutierrez@clearcorp.cr>
 
 
 Maintainer
