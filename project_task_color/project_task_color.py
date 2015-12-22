@@ -1,11 +1,15 @@
-from openerp.osv import osv, fields
-from dateutil.relativedelta import relativedelta
-from datetime import datetime
+from openerp import models, fields, api
 
-class task(osv.Model):
+
+class task(models.Model):
     _inherit = 'project.task'
 
-    def _get_color_code(self, date_start, date_deadline, planned_hours, state):
+    @api.one
+    @api.depends('state',
+                 'date_deadline',
+                 'planned_hours',
+                 'progress')
+    def _get_color_code(self):
         """Calculate the current color code for the task depending on the state
         Colors:
         0 -> White          5 -> Aqua
@@ -14,56 +18,43 @@ class task(osv.Model):
         3 -> Orange         8 -> Purple
         4 -> Green          9 -> Pink
         @param self: The object pointer.
-        @param date_start: The string initial date
         @param date_deadline: The string dateline
         @param planned_hours: Total planned hours for the task
         @param state: The current task state
+        @param progress: The current task progress
         @return: An integer that represents the current task state as a color
         """
-        if state == 'done':
+        if self.state == 'done':
             # Done task COLOR: GRAY
-            return '1'
+            self.color = 1
         else:
-            if date_deadline:
-                if date_start:
-                    if planned_hours:
-                        date_start = datetime.strptime(date_start, '%Y-%m-%d %H:%M:%S')
-                        date_deadline = datetime.strptime(date_deadline, '%Y-%m-%d')
-                        total_time_delta = relativedelta(date_deadline, date_start)
-                        left_hours_delta = relativedelta(date_deadline, datetime.today())
-                        total_time = (total_time_delta.days * 24) + total_time_delta.hours + (total_time_delta.minutes / 60)
-                        left_hours = (left_hours_delta.days * 24) + left_hours_delta.hours + (left_hours_delta.minutes / 60)
-                        percentage_left = float(left_hours) / float(total_time)
-                        if percentage_left >= 0.70:
-                            # COLOR: BLUE
-                            return '7'
-                        elif percentage_left >= 0.50:
-                            # COLOR: GREEN
-                            return '4'
-                        elif percentage_left >= 0.30:
-                            # COLOR: ORANGE
-                            return '3'
-                        else:
-                            # COLOR: RED
-                            return '2'
-                        # COLOR: PINK
-                        return '9'
-                    else:
-                        # Not planned hours available COLOR: PURPLE
-                        return '8'
+            if self.date_deadline and self.date_deadline < fields.Date.today():
+                # COLOR: RED
+                self.color = 2
+            if self.planned_hours:
+                if self.progress >= 70.0:
+                    # COLOR: BLUE
+                    self.color = 7
+                elif self.progress >= 50.0:
+                    # COLOR: GREEN
+                    self.color = 4
+                elif self.progress >= 30.0:
+                    # COLOR: ORANGE
+                    self.color = 3
                 else:
-                    # No date_start COLOR: AQUA
-                    return '6'
+                    # COLOR: RED
+                    self.color = 2
             else:
-                # No deadline available COLOR: WHITE
-                return '0'
+                # Not planned hours available COLOR: PURPLE
+                self.color = 8
 
-    def _compute_color(self, cr, uid, ids, field_name, args, context={}):
-        res = {}
-        for task in self.browse(cr, uid, ids, context=context):
-            res[task.id] = self._get_color_code(task.date_start, task.date_deadline, task.planned_hours, task.state)
-        return res
-    
-    _columns = {
-        'color': fields.function(_compute_color, type='integer', string='Color Index'),
-        }
+    def set_kanban_state_blocked(self):
+        return self.write({'kanban_state': 'blocked'})
+
+    def set_kanban_state_normal(self):
+        return self.write({'kanban_state': 'normal'})
+
+    def set_kanban_state_done(self):
+        return self.write({'kanban_state': 'done'})
+
+    color = fields.Integer(compute='_get_color_code', string='Color Index')

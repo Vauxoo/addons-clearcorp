@@ -19,50 +19,49 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
-from dateutil.relativedelta import relativedelta
-from datetime import datetime
 
-_TASK_STATE = [('draft', 'New'), ('open', 'In Progress'), ('pending', 'Pending'), ('ready', 'Ready'), ('done', 'Done'), ('cancelled', 'Cancelled')]
+from openerp import models, fields, api, _
 
-class project_task_type(osv.Model):
-    
+_TASK_STATE = [('draft', 'New'), ('open', 'In Progress'),
+               ('pending', 'Pending'), ('ready', 'Ready'),
+               ('done', 'Done'), ('cancelled', 'Cancelled')]
+
+
+class project_task_type(models.Model):
+
     _inherit = 'project.task.type'
+    state = fields.Selection(_TASK_STATE, 'Related Status', required=True,
+                             default='open')
+    task_type = fields.Many2one('task.type', string='Task Type')
 
-    _columns = {
-        'state': fields.selection(_TASK_STATE, 'Related Status', required=True),
-        'task_type':fields.many2one('task.type', string='Task Type'),
-    }
-    
-    def mark_done(self, cr, uid, ids, context=None):
+    @api.multi
+    def mark_done(self):
         values = {
             'state': 'done',
             'name': _('Done'),
-            'readonly':'True',
+            'readonly': 'True',
         }
-        self.write(cr, uid, ids, values, context=context)
+        self.write(values)
         return True
 
     _defaults = {
-        'state': 'open',
         'fold': False,
-        'case_default': False,
-     }
-    
-class task(osv.Model):
+        'case_default': False
+    }
+
+
+class task(models.Model):
+
     _inherit = 'project.task'
-    
-    _columns = {
-        'state': fields.related('stage_id', 'state', type="selection", store=True,
-                selection=_TASK_STATE, string="Status", readonly=True, select=True),
-        }
-    
-    def set_kanban_state_blocked(self, cr, uid, ids, context=None):
-        return self.write(cr, uid, ids, {'kanban_state': 'blocked'}, context=context)
 
-    def set_kanban_state_normal(self, cr, uid, ids, context=None):
-        return self.write(cr, uid, ids, {'kanban_state': 'normal'}, context=context)
+    @api.one
+    @api.depends('stage_id')
+    def _compute_state(self):
+        if self.stage_id:
+            self.state = self.stage_id.state
+        else:
+            self.state = 'draft'
 
-    def set_kanban_state_done(self, cr, uid, ids, context=None):
-        self.write(cr, uid, ids, {'kanban_state': 'done'}, context=context)
-        return False
+    state = fields.Selection(
+        _TASK_STATE, string="Status", readonly=True, store=True,
+        compute='_compute_state')
