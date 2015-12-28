@@ -8,7 +8,7 @@
     <field name="inherit_id" ref="calendar.view_calendar_event_form" />
     <field name="arch" type="xml">
         <xpath expr="//form/sheet/notebook/page/group/group/field[@name='location']" position="after">
-            <field name="lead_id"/>
+            <field name="opportunity_id"/>
         </xpath>
     </field>
 </record>
@@ -18,7 +18,7 @@
     <field name="inherit_id" ref="calendar.view_calendar_event_form_popup" />
     <field name="arch" type="xml">
         <xpath expr="//form/group/group/field[@name='location']" position="after">
-            <field name="lead_id" modifiers="{'readonly': True}"/>
+            <field name="opportunity_id" modifiers="{'readonly': True}"/>
         </xpath>
     </field>
 </record>
