@@ -19,3 +19,16 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import models, fields
+
+
+class CrmLead(models.Model):
+    _inherit = 'crm.lead'
+
+    event_id = fields.One2many('calendar.event', 'lead_id', string='Event')
+
+
+class CalendarEvent(models.Model):
+    _inherit = 'calendar.event'
+
+    lead_id = fields.Many2one('crm.lead', 'Lead')
