@@ -23,7 +23,7 @@
 {
     'name': 'CRM Opportunity Event',
     'version': '1.0',
-    'category': 'Calendar, CRM',
+    'category': 'Customer Relationship Management',
     'sequence': 10,
     'summary': 'Allow to set a lead in a calendar event',
     'author': 'ClearCorp',
