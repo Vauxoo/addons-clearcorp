@@ -21,18 +21,15 @@
 ##############################################################################
 
 {
-    'name': 'Project Issue Stage Histoy',
+    'name': 'CRM Opportunity Event',
     'version': '1.0',
-    'category': 'Project Management',
+    'category': 'Customer Relationship Management',
     'sequence': 10,
-    'summary': 'Allows to save when the issue stage is changed',
+    'summary': 'Allow to set a lead in a calendar event',
     'author': 'ClearCorp',
     'website': 'http://clearcorp.cr',
-    'depends': ['project_issue'],
-    'data': [
-             'project_issue_stage_history.xml',
-             'security/ir.model.access.csv',
-             ],
+    'depends': ['calendar', 'crm'],
+    'data': ['crm_opportunity_event_view.xml'],
     'test': [],
     'demo': [],
     'installable': True,

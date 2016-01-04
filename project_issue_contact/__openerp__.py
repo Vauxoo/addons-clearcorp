@@ -21,18 +21,15 @@
 ##############################################################################
 
 {
-    'name': 'Project Issue Stage Histoy',
+    'name': 'Project Issue Contact',
     'version': '1.0',
     'category': 'Project Management',
     'sequence': 10,
-    'summary': 'Allows to save when the issue stage is changed',
+    'summary': 'Prevent contact change once the project is assigned',
     'author': 'ClearCorp',
     'website': 'http://clearcorp.cr',
     'depends': ['project_issue'],
-    'data': [
-             'project_issue_stage_history.xml',
-             'security/ir.model.access.csv',
-             ],
+    'data': ['project_issue_contact.xml'],
     'test': [],
     'demo': [],
     'installable': True,

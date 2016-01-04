@@ -19,24 +19,3 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-{
-    'name': 'Project Issue Stage Histoy',
-    'version': '1.0',
-    'category': 'Project Management',
-    'sequence': 10,
-    'summary': 'Allows to save when the issue stage is changed',
-    'author': 'ClearCorp',
-    'website': 'http://clearcorp.cr',
-    'depends': ['project_issue'],
-    'data': [
-             'project_issue_stage_history.xml',
-             'security/ir.model.access.csv',
-             ],
-    'test': [],
-    'demo': [],
-    'installable': True,
-    'auto_install': False,
-    'application': False,
-    'license': 'AGPL-3',
-}

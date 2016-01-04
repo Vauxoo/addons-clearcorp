@@ -21,16 +21,19 @@
 ##############################################################################
 
 {
-    'name': 'Project issue multi taks',
+    'name': 'Project issue multi task',
     'version': '1.0',
     'category': 'Project Management',
     'sequence': 9,
     'summary': 'Project Issue',
     'author': 'ClearCorp',
     'website': 'http://clearcorp.cr',
-    'depends': ['project_issue'],
-    'data': ['project_issue_multi_task_view.xml'], 
-    'test' : [],
+    'depends': [
+                'project_issue',
+                'project_task_state',
+                ],
+    'data': ['project_issue_multi_task_view.xml'],
+    'test': [],
     'demo': [],
     'installable': True,
     'auto_install': False,
