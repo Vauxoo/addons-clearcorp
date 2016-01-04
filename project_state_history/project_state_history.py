@@ -48,11 +48,11 @@ class ProjectStateHistory(models.Model):
     state_from = fields.Selection([
         ('template', 'Template'), ('draft', 'New'), ('open', 'In Progress'),
         ('cancelled', 'Cancelled'), ('pending', 'Pending'),
-        ('close', 'Closed')], 'Status', required=True, copy=False)
+        ('close', 'Closed')], 'Status from', required=True, copy=False)
     state_to = fields.Selection([
         ('template', 'Template'), ('draft', 'New'), ('open', 'In Progress'),
         ('cancelled', 'Cancelled'), ('pending', 'Pending'),
-        ('close', 'Closed')], 'Status', required=True, copy=False)
+        ('close', 'Closed')], 'Status to', required=True, copy=False)
 
     date = fields.Datetime(
         'Date', default=lambda self: fields.Datetime.now(), required=True)

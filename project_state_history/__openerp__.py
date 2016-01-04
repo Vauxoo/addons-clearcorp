@@ -21,7 +21,7 @@
 ##############################################################################
 
 {
-    'name': 'Prject State History',
+    'name': 'Project State History',
     'version': '1.0',
     'category': 'Project Management',
     'sequence': 10,
