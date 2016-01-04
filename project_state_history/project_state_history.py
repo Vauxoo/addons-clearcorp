@@ -55,7 +55,7 @@ class ProjectStateHistory(models.Model):
         ('close', 'Closed')], 'Status', required=True, copy=False)
 
     date = fields.Datetime(
-        'Date', default=fields.Datetime.now(), required=True)
+        'Date', default=lambda self: fields.Datetime.now(), required=True)
     project_id = fields.Many2one('project.project', 'Project', required=True)
     value = fields.Float('Value', store=True, compute='_compute_value')
 
