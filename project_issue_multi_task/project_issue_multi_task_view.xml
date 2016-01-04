@@ -1,7 +1,6 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        
         <record model="ir.ui.view" id="project_issue_form_view_mt">
             <field name="name">Project Issue Tracker Form</field>
             <field name="model">project.issue</field>
@@ -20,7 +19,6 @@
                             context="{'default_name': name, 'default_project_id': project_id, 'default_description': description}">
                             <tree string="Tasks">
                                 <field name="name"/>
-                                <field name="work_type_id"/>
                                 <field name="user_id"/>
                             </tree>
                         </field>
@@ -28,16 +26,14 @@
                 </xpath>
             </field>
         </record>
-        
-        
+
         <record id="view_task_form" model="ir.ui.view">
             <field name="name">view.task.form</field>
             <field name="model">project.task</field>
             <field name="inherit_id" ref="project.view_task_form2" />
-            <field name="priority" eval="100" />
+            <field name="priority" eval="150" />
             <field name="arch" type="xml">
-                <xpath expr="//form/sheet/notebook/page[@name='sequence']"
-                    position="before">
+                <xpath expr="//form/sheet/notebook" position="inside">
                     <page string="Tickets" name="tickets">
                        <field name="tickets_ids"/>
                     </page>
