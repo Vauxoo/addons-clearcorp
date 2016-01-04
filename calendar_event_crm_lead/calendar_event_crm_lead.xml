@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+<data>
+<record model="ir.ui.view" id="view_calendar_event_crm_lead_form">
+    <field name="name">Calendar Event CRM Lead</field>
+    <field name="model">calendar.event</field>
+    <field name="inherit_id" ref="calendar.view_calendar_event_form" />
+    <field name="arch" type="xml">
+        <xpath expr="//form/sheet/notebook/page/group/group/field[@name='location']" position="after">
+            <field name="opportunity_id"/>
+        </xpath>
+    </field>
+</record>
+<record model="ir.ui.view" id="view_calendar_event_crm_lead_form_popup">
+    <field name="name">Calendar</field>
+    <field name="model">calendar.event</field>
+    <field name="inherit_id" ref="calendar.view_calendar_event_form_popup" />
+    <field name="arch" type="xml">
+        <xpath expr="//form/group/group/field[@name='location']" position="after">
+            <field name="opportunity_id" modifiers="{'readonly': True}"/>
+        </xpath>
+    </field>
+</record>
+</data>
+</openerp>
