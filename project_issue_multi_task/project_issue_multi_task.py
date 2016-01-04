@@ -20,16 +20,18 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, _
-    
+from openerp import models, fields
+
+
 class project_issue(models.Model):
-    
+
     _inherit = 'project.issue'
-    
+
     task_ids = fields.Many2many('project.task', string='Tasks')
-    
+
+
 class project_task(models.Model):
-    
+
     _inherit = 'project.task'
-    
+
     tickets_ids = fields.Many2many('project.issue', string='Tickets')
