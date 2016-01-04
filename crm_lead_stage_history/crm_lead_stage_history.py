@@ -49,7 +49,7 @@ class CRMLeadStageHistory(models.Model):
     stage_to_id = Many2one('crm.case.stage', 'Stage to',
                            select=True, copy=False)
     date = fields.Datetime(
-        'Date', default=fields.Datetime.now(), required=True)
+        'Date', default=lambda self: fields.Datetime.now(), required=True)
     lead_id = fields.Many2one('crm.lead', 'Lead', required=True)
     value = fields.Float('Value', store=True, compute='_compute_value')
 
