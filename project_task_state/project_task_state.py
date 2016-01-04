@@ -32,7 +32,6 @@ class project_task_type(models.Model):
     _inherit = 'project.task.type'
     state = fields.Selection(_TASK_STATE, 'Related Status', required=True,
                              default='open')
-    task_type = fields.Many2one('task.type', string='Task Type')
 
     @api.multi
     def mark_done(self):
