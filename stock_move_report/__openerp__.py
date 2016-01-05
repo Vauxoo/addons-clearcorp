@@ -42,6 +42,7 @@ This module add stock move report
                     'report/stock_move_analysis.xml',
                     'views/report_stock_move_xls.xml',
                     'views/report_stock_move_order.xml',
+                    'views/view_company_form.xml',
                     'wizard/stock_move_report_wizard.xml',
                     'wizard/stock_move_order_wizard.xml',
                     ],
