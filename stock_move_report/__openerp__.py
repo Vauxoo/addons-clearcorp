@@ -22,29 +22,29 @@
 {
     'name': 'Stock Move Report',
     'version': '1.0',
-    "author" : 'ClearCorp',
+    "author": 'ClearCorp',
     'category': 'Warehouse Management',
     'description': """
 Stock Move Report
-====================    
+====================
 This module add stock move report
 """,
     'website': 'http://clearcorp.co.cr',
     'depends': [
-                'stock','product','report_xls_template'
-                ],
-    'data': [
-                    'security/ir.model.access.csv',
-                    'stock_move_report_report.xml',
-                    'report_stock_move_order.xml',
-                    'views/report_stock_move_pdf.xml',
-                    'views/report_picking.xml',
-                    'report/stock_move_analysis.xml',
-                    'views/report_stock_move_xls.xml',
-                    'views/report_stock_move_order.xml',
-                    'wizard/stock_move_report_wizard.xml',
-                    'wizard/stock_move_order_wizard.xml',
-                    ],
+                'stock', 'product', 'report_xls_template'
+        ],
+    'data': ['security/ir.model.access.csv',
+             'stock_move_report_report.xml',
+             'report_stock_move_order.xml',
+             'views/report_stock_move_pdf.xml',
+             'views/report_picking.xml',
+             'report/stock_move_analysis.xml',
+             'views/report_stock_move_xls.xml',
+             'views/report_stock_move_order.xml',
+             'views/view_company_form.xml',
+             'wizard/stock_move_report_wizard.xml',
+             'wizard/stock_move_order_wizard.xml'
+             ],
     'license': 'AGPL-3',
     'installable': True,
     'active': False,

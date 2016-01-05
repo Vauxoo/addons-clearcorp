@@ -19,8 +19,11 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from openerp import fields, models
 
-import stock_move_analysis
-import report_stock_move
-import report_stock_move_order
-import res_company
+
+class Company(models.Model):
+    _inherit = 'res.company'
+
+    logo_report_bmp = fields.Binary('Logo Report BMP',
+                                    help='Upload a logo in format \"bmp\"')
