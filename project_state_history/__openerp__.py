@@ -29,7 +29,10 @@
     'author': 'ClearCorp',
     'website': 'http://clearcorp.cr',
     'depends': ['project'],
-    'data': ['project_state_history.xml'],
+    'data': [
+             'project_state_history.xml',
+             'security/ir.model.access.csv',
+             ],
     'test': [],
     'demo': [],
     'installable': True,
