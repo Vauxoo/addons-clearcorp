@@ -29,7 +29,7 @@
     'author': 'ClearCorp',
     'website': 'http://clearcorp.cr',
     'depends': ['crm'],
-    'data': ['crm_lead_stage_history.xml'],
+    'data': ['crm_lead_stage_history.xml', 'security/ir.model.access.csv'],
     'test': [],
     'demo': [],
     'installable': True,
