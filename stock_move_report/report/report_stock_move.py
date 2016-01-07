@@ -325,8 +325,8 @@ class StockMoveReport(report_sxw.rml_parse):
                 stock_moves.append(line_report)
         locations_list = [dict(tupleized) for tupleized in
                           set(tuple(item.items()) for item in stock_moves)]
-        for items in itertools.groupby(locations_list,
-                                       operator.itemgetter('location_id')):
+        for key, items in itertools.groupby(
+                locations_list, operator.itemgetter('location_id')):
             group_location.append(list(items))
         return group_location
 
