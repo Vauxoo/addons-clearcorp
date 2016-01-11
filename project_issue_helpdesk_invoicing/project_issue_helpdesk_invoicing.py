@@ -94,7 +94,14 @@ class ProjectIssue(models.Model):
                             if not invoice_line.invoice_id.state in ['open','paid']:
                                 raise Warning(_('Pending change status to open or paid of invoice supplier: %s' % invoice_line.invoice_id.supplier_invoice_number))
         return super(ProjectIssue, self).write(cr, uid, ids, vals, context)
-   
+    
+    @api.v7
+    def copy(self, cr, uid, id, default={}, context=None):
+        default.update({
+            'invoice_ids':False,
+            'invoice_sale_id':False,
+        })
+        return super(ProjectIssue, self).copy(cr, uid, id, default, context)
     expense_line_ids=fields.One2many('hr.expense.line','issue_id')
     account_invoice_line_ids=fields.One2many('account.invoice.line','issue_id')
     sale_order_id=fields.Many2one('sale.order','Sale Order')
