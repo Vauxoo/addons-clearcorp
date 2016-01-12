@@ -543,7 +543,16 @@ class Task(osv.Model):
                 if next_task.id == task.id:
                     return False
         return True
-    
+
+    def _date_end(self, cr, uid, ids, field_name, arg, context=None):
+        res = {}
+        tasks = self.browse(cr, uid, ids, context=context)
+        for task in tasks:
+            if task.stage_id.state == 'ready':
+                date_end = datetime.strftime(datetime.now(),'%Y-%m-%d %H:%M:%S')
+                res[task.id] = date_end
+        return res
+
     _columns = {
                 'is_scrum': fields.boolean('Scrum'),
                 'sprint_id': fields.many2one('project.scrum.sprint', string='Sprint'),
