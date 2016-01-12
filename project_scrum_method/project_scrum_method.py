@@ -499,7 +499,7 @@ class Task(osv.Model):
             res = {'value': {}}
             res['value']['date_deadline'] = False
         return res
-    
+
     def onchange_feature(self, cr, uid, ids, feature_id, context=None):
         if feature_id:
             feature = self.pool.get('project.scrum.feature').browse(
@@ -530,14 +530,14 @@ class Task(osv.Model):
                     return False
         return True
 
-    def _date_end(self, cr, uid, ids, field_name, arg, context=None):
-        res = {}
-        tasks = self.browse(cr, uid, ids, context=context)
-        for task in tasks:
+    def write(self, cr, uid, ids, values, context=None):
+        for task in self.browse(cr, uid, ids, context=context)[0]:
             if task.stage_id.state == 'done':
                 date_end = datetime.strftime(datetime.now(),'%Y-%m-%d %H:%M:%S')
-                res[task.id] = date_end
-        return res
+                values = {
+                          'date_end': date_end,
+                          }
+        return super(Task, self).write(cr, uid, task.id, values, context)
 
     _columns = {
                 'is_scrum': fields.boolean('Scrum'),
@@ -550,9 +550,8 @@ class Task(osv.Model):
                 'next_task_ids': fields.many2many('project.task', 'project_scrum_task_next_tasks',
                     'task_id', 'next_task_id', string='Next Tasks', domain="['!',('state','in',['done','cancelled']),"
                     "'!',('id','=',id)]"),
-                'date_end': fields.function(_date_end, type='datetime', string='Date End', store=False),
                 }
-    
+
     _defaults = {
                  'date_start': lambda *a: datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S'),
                  'project_id': lambda slf, cr, uid, ctx: ctx.get('project_id', False),
