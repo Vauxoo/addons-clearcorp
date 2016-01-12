@@ -288,7 +288,7 @@ class ContractPriceList(models.Model):
             elif self.pricelist_line_type=='product':
                 self.categ_id=""
         elif not self.pricelist_line_type:
-             self.product_id=""and backorder.state=='done'
+             self.product_id=""
              self.categ_id=""
              
     @api.constrains('pricelist_line_type')
