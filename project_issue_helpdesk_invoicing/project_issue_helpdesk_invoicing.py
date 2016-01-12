@@ -81,9 +81,9 @@ class ProjectIssue(models.Model):
                     for issue in issues:
                         for backorder in issue.backorder_ids:
                             if backorder.picking_type_id.code=='outgoing':
-                                if backorder.state!='done':
+                                if backorder.state!='done' and backorder.state!='cancel':
                                     raise Warning(_('Pending transfer the backorder: %s' % backorder.name))
-                                elif not backorder.delivery_note_id:
+                                elif not backorder.delivery_note_id and backorder.state=='done':
                                     raise Warning(_('Pending generate delivery note for backorder: %s' % backorder.name))
                                 elif backorder.delivery_note_id.state=='draft':
                                     raise Warning(_('Pending confirm delivery note for backorder: %s' % backorder.name))
@@ -560,9 +560,9 @@ class ProjectTask(models.Model):
                     for task in tasks:
                         for backorder in task.backorder_ids:
                             if backorder.picking_type_id.code=='outgoing':
-                                if backorder.state!='done':
+                                if backorder.state!='done' and backorder.state!='cancel':
                                     raise Warning(_('Pending transfer the backorder: %s' % backorder.name))
-                                elif not backorder.delivery_note_id:
+                                elif not backorder.delivery_note_id and backorder.state=='done':
                                     raise Warning(_('Pending generate delivery note for backorder: %s' % backorder.name))
                                 elif backorder.delivery_note_id.state=='draft':
                                     raise Warning(_('Pending confirm delivery note for backorder: %s' % backorder.name))
