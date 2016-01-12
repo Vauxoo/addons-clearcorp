@@ -534,7 +534,7 @@ class Task(osv.Model):
         res = {}
         tasks = self.browse(cr, uid, ids, context=context)
         for task in tasks:
-            if task.stage_id.state == 'ready':
+            if task.stage_id.state == 'done':
                 date_end = datetime.strftime(datetime.now(),'%Y-%m-%d %H:%M:%S')
                 res[task.id] = date_end
         return res
