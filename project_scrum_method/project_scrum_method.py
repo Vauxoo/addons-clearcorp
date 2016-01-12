@@ -461,23 +461,9 @@ class Sprint(osv.Model):
                     (_check_deadline, 'Deadline must be greater than Start Date', ['Start Date', 'Deadline'])]
     
 class Task(osv.Model):
-    
+
     _inherit = 'project.task'
-    
-    def _end_date(self, works):
-        date_end = False
-        for work in works:
-            if work.date:
-                date = datetime.strptime(work.date, '%Y-%m-%d %H:%M:%S')
-                if not date_end:
-                    date_end = date
-                else:
-                    if date_end < date:
-                        date_end = date
-        if date_end:
-            return datetime.strftime(date_end, '%Y-%m-%d %H:%M:%S')
-        return date_end
-    
+
     def onchange_project(self, cr, uid, ids, project_id, context=None):
         res = super(Task, self).onchange_project(cr, uid, ids, project_id, context=context)
         if project_id:
@@ -564,11 +550,11 @@ class Task(osv.Model):
                 'next_task_ids': fields.many2many('project.task', 'project_scrum_task_next_tasks',
                     'task_id', 'next_task_id', string='Next Tasks', domain="['!',('state','in',['done','cancelled']),"
                     "'!',('id','=',id)]"),
+                'date_end': fields.function(_date_end, type='datetime', string='Date End', store=False),
                 }
     
     _defaults = {
                  'date_start': lambda *a: datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S'),
-                 'date_end': lambda *a: datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S'),
                  'project_id': lambda slf, cr, uid, ctx: ctx.get('project_id', False),
                  'release_backlog_id': lambda slf, cr, uid, ctx: ctx.get('release_backlog_id', False),
                  'sprint_id': lambda slf, cr, uid, ctx: ctx.get('sprint_id', False),
