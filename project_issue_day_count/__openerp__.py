@@ -21,15 +21,15 @@
 ##############################################################################
 
 {
-    'name': 'Project Issue Deadline',
+    'name': 'Project Issue Day Count',
     'version': '1.0',
     'category': 'Project',
     'sequence': 10,
-    'summary': 'Project Issue Deadline',
+    'summary': 'Count of days left to deadline',
     'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'depends': ['base', 'project_issue'],
-    'data': ['project_issue_deadline_view.xml'],
+    'data': ['project_issue_day_count_view.xml'],
     'test': [],
     'demo': [],
     'installable': True,

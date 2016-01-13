@@ -20,4 +20,4 @@
 #
 ##############################################################################
 
-import project_issue_deadline
+import project_issue_day_count
