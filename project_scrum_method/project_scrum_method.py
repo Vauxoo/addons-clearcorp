@@ -461,23 +461,9 @@ class Sprint(osv.Model):
                     (_check_deadline, 'Deadline must be greater than Start Date', ['Start Date', 'Deadline'])]
     
 class Task(osv.Model):
-    
+
     _inherit = 'project.task'
-    
-    def _end_date(self, works):
-        date_end = False
-        for work in works:
-            if work.date:
-                date = datetime.strptime(work.date, '%Y-%m-%d %H:%M:%S')
-                if not date_end:
-                    date_end = date
-                else:
-                    if date_end < date:
-                        date_end = date
-        if date_end:
-            return datetime.strftime(date_end, '%Y-%m-%d %H:%M:%S')
-        return date_end
-    
+
     def onchange_project(self, cr, uid, ids, project_id, context=None):
         res = super(Task, self).onchange_project(cr, uid, ids, project_id, context=context)
         if project_id:
@@ -513,7 +499,7 @@ class Task(osv.Model):
             res = {'value': {}}
             res['value']['date_deadline'] = False
         return res
-    
+
     def onchange_feature(self, cr, uid, ids, feature_id, context=None):
         if feature_id:
             feature = self.pool.get('project.scrum.feature').browse(
@@ -543,7 +529,16 @@ class Task(osv.Model):
                 if next_task.id == task.id:
                     return False
         return True
-    
+
+    def write(self, cr, uid, ids, values, context=None):
+        for task in self.browse(cr, uid, ids, context=context)[0]:
+            if task.stage_id.state == 'done':
+                date_end = datetime.strftime(datetime.now(),'%Y-%m-%d %H:%M:%S')
+                values = {
+                          'date_end': date_end,
+                          }
+        return super(Task, self).write(cr, uid, task.id, values, context)
+
     _columns = {
                 'is_scrum': fields.boolean('Scrum'),
                 'sprint_id': fields.many2one('project.scrum.sprint', string='Sprint'),
@@ -556,10 +551,9 @@ class Task(osv.Model):
                     'task_id', 'next_task_id', string='Next Tasks', domain="['!',('state','in',['done','cancelled']),"
                     "'!',('id','=',id)]"),
                 }
-    
+
     _defaults = {
                  'date_start': lambda *a: datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S'),
-                 'date_end': lambda *a: datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S'),
                  'project_id': lambda slf, cr, uid, ctx: ctx.get('project_id', False),
                  'release_backlog_id': lambda slf, cr, uid, ctx: ctx.get('release_backlog_id', False),
                  'sprint_id': lambda slf, cr, uid, ctx: ctx.get('sprint_id', False),
