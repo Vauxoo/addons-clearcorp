@@ -2,9 +2,9 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-======================
-Project Issue Deadline
-======================
+=======================
+Project Issue Day Count
+=======================
 
 This module was written to add deadline at tickets and total day.
 
