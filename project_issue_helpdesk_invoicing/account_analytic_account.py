@@ -66,6 +66,7 @@ class account_analytic_account(osv.osv):
         categ_ids=[]
         amount=0.0
         count_limit=0.0
+        cont_timesheets=0.0
         count_extra=0.0
         origin_start_time=start_time
         origin_end_time=end_time
@@ -100,13 +101,18 @@ class account_analytic_account(osv.osv):
                         if timesheet.end_time==start_time:
                             count_limit+=timesheet.end_time-timesheet.start_time
                             start_time=timesheet.start_time
+                            cont_timesheets+=1
                     for timesheet in timesheets_after:
                         if timesheet.start_time==end_time:
                             count_limit+=timesheet.end_time-timesheet.start_time
                             end_time=timesheet.end_time
+                            cont_timesheets+=1
                     if count_limit<list.minimum_time:
                         if count_limit!=0:
-                            qty=qty/count_limit
+                            if cont_timesheets>0:
+                                qty=qty/count_limit
+                            else:
+                                qty=list.minimum_time
                         else:
                             qty=0
                 else:
