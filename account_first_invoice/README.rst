@@ -2,9 +2,9 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-==============
+=====================
 Account First Invoice
-==============
+=====================
 
 This module was written to set the first invoice of every client
 
