@@ -20,6 +20,7 @@
                   </h3>
                     <group>
                             <field name="date" class="oe_inline"  attrs="{'readonly': [('state','!=', 'draft')]}"/>
+                            <field name="reason" class="oe_inline"  attrs="{'readonly': [('state','!=', 'draft')]}"/>
                             <field name="target_task" class="oe_inline" attrs="{'readonly': [('state','!=', 'draft')]}"/>
                             <field name="detail" class="oe_inline" attrs="{'readonly': [('state','!=', 'draft')]}"/>
                             <field name="project_id" attrs="{'invisible': 1}"/>
@@ -60,6 +61,18 @@
             </field>
         </record>
         
+        <record id="view_reassignment_reason_tree" model="ir.ui.view">
+            <field name="name">view.reassignment.reason.tree</field>
+            <field name="model">project.reassignment.reason</field>
+            <field name="priority" eval="16" />
+            <field name="arch" type="xml">
+                <tree string="Reassignment Reasons">
+                    <field name="name"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+        
         <!-- project.task -->
         <!-- form -->
         <record id="view_task_form" model="ir.ui.view">
@@ -83,7 +96,15 @@
         </record>
         
         <menuitem name="Reassignment Task Hours" id="reassignment_hours" sequence="50"
-            parent="base.menu_definitions" action="action_reassignment" />
-        
+            parent="base.menu_definitions" action="action_reassignment"/>
+
+        <record model="ir.actions.act_window" id="action_reassignment_reason">
+            <field name="name">Project Reassignment Reason</field>
+            <field name="res_model">project.reassignment.reason</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Reassignment Reasons" id="reassignment_reasons" sequence="20"
+            parent="base.menu_definitions" action="action_reassignment_reason"/>
 </data>
 </openerp>
