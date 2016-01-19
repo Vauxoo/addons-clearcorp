@@ -98,11 +98,20 @@ class StockMoveOder(report_sxw.rml_parse):
                                             'quantity': sale_product_quantity,
                                             }
                     sale_orders_list.append(sale_order_line_dict)
+            context = {'location': stock_location}
             line = {
                 'name': product.name,
                 'product': product,
-                'qyt_available': product.qty_available,
-                'virtual_available': product.virtual_available,
+                'qyt_available':
+                    product_product_obj._product_available(
+                        self.cr, self.uid, [product_id], field_names=None,
+                        arg=False,  context=context)
+                    [product_id]['qty_available'],
+                'virtual_available':
+                    product_product_obj._product_available(
+                        self.cr, self.uid, [product_id], field_names=None,
+                        arg=False,  context=context)
+                    [product_id]['virtual_available'],
                 'product_lines': [],
                 }
             # is product are in purchase
