@@ -124,7 +124,7 @@
                                                         </td>
                                                     </t>
                                                     <t t-if="len(purchase[1]) > 1">
-                                                        <t t-if="not purchase_cont > len(purchase[1])">
+                                                        <t t-if="not purchase_cont >= len(purchase[1])">
                                                             <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
                                                                 <span t-esc="purchase[1][purchase_cont]['purchase']"></span>
                                                             </td>
