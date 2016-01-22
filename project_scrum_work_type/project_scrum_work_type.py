@@ -158,7 +158,8 @@ class Task(osv.Model):
                 'remaining_hours': fields.function(_remaining_hours, type='float', string='Remaining Hour(s)', store=True),
                 }
     _constraints = [
-        (_validate_planned_hours, 'Planned hours can\'t be 0', [])
+        (_validate_planned_hours, 'Planned hours can\'t be zero',
+         ['planned_hours'])
     ]
 
 
