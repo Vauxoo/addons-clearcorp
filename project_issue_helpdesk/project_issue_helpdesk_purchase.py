@@ -49,11 +49,17 @@ class ProjectIssue(models.Model):
         if self.create_uid:
             if self.create_uid.employee_id:
                 self.department_id=self.create_uid.employee_id.department_id.id
-                    
+    @api.one
+    @api.depends("timesheet_ids")
+    def compute_timesheet_total(self):
+        total=0.0
+        for th in self.timesheet_ids:
+            total+=th.amount_unit_calculate
+        self.total_timesheets=total
     purchase_orde_line=fields.One2many('purchase.order.line','issue_id')
     is_closed = fields.Boolean(string='Is Closed',related='stage_id.closed',store=True)
     department_id = fields.Many2one('hr.department',compute='get_department',store=True,string='Department')
-
+    total_timesheets= fields.Float(compute="compute_timesheet_total",string="Total Timesheets")
 class HrAnaliticTimeSheet(models.Model):
     _inherit = 'hr.analytic.timesheet'
     @api.constrains('start_time','end_time','employee_id','date')
