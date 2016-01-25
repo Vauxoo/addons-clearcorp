@@ -278,7 +278,7 @@ msgstr "Horas planeadas inicialmente"
 
 #. module: project_scrum_work_type
 #: constraint:project.task:0
-msgid "Planned hours can't be 0"
+msgid "Planned hours can't be zero"
 msgstr "Horas iniciales planificadas no pueden ser cero"
 
 #. module: project_scrum_work_type
