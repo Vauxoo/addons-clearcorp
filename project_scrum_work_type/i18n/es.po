@@ -277,6 +277,11 @@ msgid "Initially Planned Hour(s)"
 msgstr "Horas planeadas inicialmente"
 
 #. module: project_scrum_work_type
+#: constraint:project.task:0
+msgid "Planned hours can't be zero"
+msgstr "Horas iniciales planificadas no pueden ser cero"
+
+#. module: project_scrum_work_type
 #: field:project.reassignment.hours,message_is_follower:0
 msgid "Is a Follower"
 msgstr "Es seguidor"
