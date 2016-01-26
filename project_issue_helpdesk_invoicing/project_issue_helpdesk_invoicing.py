@@ -220,8 +220,6 @@ class HRExpenseLine(models.Model):
         account_obj=self.env['account.analytic.account']
         if self.issue_id:
             self.init_onchange_call=self.issue_id.analytic_account_id
-        else:
-            self.init_onchange_call=account_obj.search([('type','in',['normal','contract'])])
     @api.onchange('issue_id')
     def get_account(self):
         if self.issue_id.analytic_account_id:
@@ -239,8 +237,7 @@ class AccountInvoiceLine(models.Model):
         account_obj=self.env['account.analytic.account']
         if self.issue_id:
             self.init_onchange_call=self.issue_id.analytic_account_id
-        else:
-            self.init_onchange_call=account_obj.search([('type','in',['normal','contract'])])
+
     @api.onchange('issue_id')
     def get_account(self):
         if self.issue_id.analytic_account_id:
