@@ -38,7 +38,8 @@
                     </field>
                     <field name="name" position="replace"/>
                     <field name="user_id" position="replace">
-                        <field name="employee_id"/> 
+                        <field name="employee_id"/>
+                        <field name="total_timesheets"/>
                     </field>
                     <field name="partner_id" position="after"> 
                         <field name="branch_id"/>
