@@ -15,8 +15,9 @@
                 <xpath expr="//notebook/page[@string='Extra Info']" position="before">
                     <page string="Task Sumary">
                         <field name="task_ids" colspan="4" nolabel="1" 
-                            domain="[('project_id','=',project_id),('state','not in', ['done', 'cancelled'])]" 
-                            context="{'default_name': name, 'default_project_id': project_id, 'default_description': description}">
+                            domain="[('project_id','=',project_id)]" 
+                            context="{'default_name': name, 'default_project_id': project_id, 'default_description': description,
+                             'search_default_filter_draft': True, 'search_default_filter_open': True}">
                             <tree string="Tasks">
                                 <field name="name"/>
                                 <field name="user_id"/>
