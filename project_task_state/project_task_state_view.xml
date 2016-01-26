@@ -63,6 +63,23 @@
                 </xpath>
             </field>
         </record>
+
+        <!--project.stage search view -->
+        <record id="project_stage_search view" model="ir.ui.view">
+            <field name="name">project.stage.search.view</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_search_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//search/filter[@string='New']" position="replace">
+                    <filter string="New" name="filter_draft" domain="[('stage_id.state', '=', 'draft')]" />
+                    <filter string="In Progress" name="filter_open" domain="[('stage_id.state', '=', 'open')]"/>
+                    <filter string="Pending" name="filter_pending" domain="[('stage_id.state', '=', 'pending')]"/>
+                    <filter string="Ready" name="filter_ready" domain="[('stage_id.state', '=', 'ready')]"/>
+                    <filter string="Done" name="filter_done" domain="[('stage_id.state', '=', 'done')]"/>
+                    <filter string="Cancelled" name="filter_cancelled" domain="[('stage_id.state', '=', 'cancelled')]"/>
+                </xpath>
+            </field>
+        </record>
         
 </data>
 </openerp>
