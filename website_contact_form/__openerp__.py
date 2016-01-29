@@ -9,7 +9,7 @@ OpenERP Contact Form
 ====================
 
         """,
-    'author': 'OpenERP SA',
+    'author': 'ClearCorp',
     'depends': ['website_partner', 'crm', 'website_crm'],
     'installable': True,
     'auto_install': False,
