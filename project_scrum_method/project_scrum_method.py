@@ -531,13 +531,15 @@ class Task(osv.Model):
         return True
 
     def write(self, cr, uid, ids, values, context=None):
-        for task in self.browse(cr, uid, ids, context=context)[0]:
-            if task.stage_id.state == 'done' and not task.date_end:
-                    date_end = datetime.strftime(datetime.now(),'%Y-%m-%d %H:%M:%S')
-                    values = {
+        if 'stage_id' in values:
+            stage_obj = self.pool.get('project.task.type')
+            stage = stage_obj.browse(cr, uid, values['stage_id'], context=context)
+            if stage.state == 'done':
+                date_end = datetime.strftime(datetime.now(),'%Y-%m-%d %H:%M:%S')
+                values.update({
                           'date_end': date_end,
-                          }
-        return super(Task, self).write(cr, uid, task.id, values, context)
+                              })
+        return super(Task, self).write(cr, uid, ids, values, context)
 
     _columns = {
                 'is_scrum': fields.boolean('Scrum'),
