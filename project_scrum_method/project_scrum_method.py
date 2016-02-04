@@ -533,8 +533,15 @@ class Task(osv.Model):
     def write(self, cr, uid, ids, values, context=None):
         for task in self.browse(cr, uid, ids, context=context)[0]:
             if task.stage_id.state == 'done':
-                date_end = datetime.strftime(datetime.now(),'%Y-%m-%d %H:%M:%S')
-                values = {
+                if task.date_end:
+                    if values['stage_id'] != task.stage_id.id:
+                        values = {
+                          'date_end': False,
+                          'stage_id': values['stage_id']
+                          }
+                else:
+                    date_end = datetime.strftime(datetime.now(),'%Y-%m-%d %H:%M:%S')
+                    values = {
                           'date_end': date_end,
                           }
         return super(Task, self).write(cr, uid, task.id, values, context)

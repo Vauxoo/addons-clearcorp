@@ -4,9 +4,6 @@
 		<menuitem id="menu_scrum" parent="base.menu_main_pm" name="Scrum Project"
 			sequence="2" />
 
-		<!--<menuitem id="menu_product_backlog" parent="menu_scrum" name="Product Backlogs"
-			action="action_product_backlog" sequence="10" />-->
-
 		<menuitem id="menu_feature" parent="menu_scrum" name="Features"
 			action="action_feature" sequence="30" />
 
