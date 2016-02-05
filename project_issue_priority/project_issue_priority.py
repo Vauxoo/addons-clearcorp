@@ -23,7 +23,9 @@ from openerp import models, fields
 
 
 class ProjectIssue(models.Model):
+
     _inherit = 'project.issue'
-    priority = fields.Selection([('0', 'None'), ('1', 'Very low'),
-                                 ('2', 'Low'), ('3', 'Normal'), ('4', 'High'),
-                                 ('6', 'Very high')], 'Priority', select=True)
+
+    priority = fields.Selection(
+        selection_add=[('0', 'None'), ('1', 'Very low'), ('2', 'Low'),
+                       ('3', 'Normal'), ('4', 'High'), ('6', 'Very high')])
