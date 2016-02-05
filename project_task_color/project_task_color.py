@@ -48,13 +48,4 @@ class task(models.Model):
                 # Not planned hours available COLOR: PURPLE
                 self.color = 8
 
-    def set_kanban_state_blocked(self):
-        return self.write({'kanban_state': 'blocked'})
-
-    def set_kanban_state_normal(self):
-        return self.write({'kanban_state': 'normal'})
-
-    def set_kanban_state_done(self):
-        return self.write({'kanban_state': 'done'})
-
     color = fields.Integer(compute='_get_color_code', string='Color Index')
