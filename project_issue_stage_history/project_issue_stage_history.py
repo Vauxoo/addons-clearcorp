@@ -62,7 +62,7 @@ class ProjectIssue(models.Model):
 
     issue_stage_history_ids = fields.One2many(
         'project.issue.stage.history', 'issue_id', string='Stage History',
-        readonly=True)
+        readonly=True, ondelete='cascade')
 
     @api.multi
     def write(self, values):
