@@ -52,7 +52,7 @@ class ProjectIssueStageHistory(models.Model):
                            select=True, copy=False)
     date = fields.Datetime(
         'Date', default=lambda self: fields.Datetime.now(), required=True)
-    issue_id = fields.Many2one('project.issue', 'Issue', required=True)
+    issue_id = fields.Many2one('project.issue', 'Issue', required=True, ondelete='cascade')
     value = fields.Float('Value', store=True, compute='_compute_value')
 
 
@@ -62,7 +62,7 @@ class ProjectIssue(models.Model):
 
     issue_stage_history_ids = fields.One2many(
         'project.issue.stage.history', 'issue_id', string='Stage History',
-        readonly=True, ondelete='cascade')
+        readonly=True)
 
     @api.multi
     def write(self, values):
