@@ -10,7 +10,12 @@
                 Phone: <t t-esc="widget.pos.company.phone || ''"/><br />
                 Fax: <t t-esc="widget.pos.company.fax || ''"/><br />
                 Cash Invoice<br />
-                Client: <t t-esc="order.get_client_name()"/><br />
+                <t t-if="order.get_client_name()">
+	               Client: <t t-esc="order.get_client_name()"/><br />
+	            </t>
+	             <t t-if="order.get_client() and order.get_client().vat">
+	                Client TIN: <t t-esc="order.get_client().vat"/><br />
+                </t>
                 Salesman: <t t-esc="widget.pos.cashier ? widget.pos.cashier.name : widget.pos.user.name"/><br />
                 Shop: <t t-esc="widget.pos.shop.name"/><br />
             </div>
@@ -136,9 +141,12 @@
                     Phone: <t t-esc="receipt.company.phone || ''"/><br />
                     Fax: <t t-esc="receipt.company.fax || ''"/><br />
                     Cash Invoice<br />
-                    Client: <t t-if='receipt.client'>
-                        <t t-esc="receipt.client"/>
-                    </t><br />
+                    <t t-if='receipt.client'>
+                        Client: <t t-esc="receipt.client"/><br />
+                        <t t-if='receipt.client_vat'>
+	                       Client TIN: <t t-esc="receipt.client_vat"/><br />
+	                    </t>
+                    </t>
                     Salesman: <t t-esc="receipt.cashier || ''"/><br />
                     Shop: <t t-esc="receipt.shop.name"/><br />
                     <t t-esc="new Date().toString(Date.CultureInfo.formatPatterns.shortDate + ' ' + Date.CultureInfo.formatPatterns.longTime)"/><br />

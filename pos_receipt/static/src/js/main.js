@@ -57,8 +57,13 @@ openerp.pos_receipt = function (instance) {
     module.Order.prototype.export_for_printing = function() {
         var res = _order_export_for_printing_.call(this);
         var company = this.pos.company;
+        var client_vat = '';
+        if (this.get('client')) {
+            client_vat = this.get('client').vat;
+        }
         res.subtotal_without_discount = this.getSubtotalWithoutDiscount();
         res.company.fax = company.fax
+        res.client_vat = client_vat
         return res
     };
 }
