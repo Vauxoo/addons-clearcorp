@@ -70,4 +70,5 @@ class task(models.Model):
                 # COLOR: WHITE
                 self.color = 0
 
-    color = fields.Integer(compute='_get_color_code', string='Color Index')
+    color = fields.Integer(compute='_get_color_code', string='Color Index',
+                           store=True)
