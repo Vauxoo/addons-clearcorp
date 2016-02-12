@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="website_sale_simple" name="Website Sale Simple"
+            inherit_id="website_sale.checkout">
+            <xpath expr="." position="replace">
+                <t t-name="website_sale.checkout">
+                    <t t-call="website.layout">
+                        <t t-set="additional_title">Shop - Checkout</t>
+                        <div id="wrap">
+                            <div class="container oe_website_sale">
+                                <ul class="wizard pull-right">
+                                    <li>
+                                        <a href="/shop/cart" class="text-success">
+                                            Review Order
+                                            <span class="chevron" />
+                                        </a>
+                                    </li>
+                                    <li class="text-primary">Shipping
+                                        &amp; Billing
+                                        <span class="chevron" />
+                                    </li>
+                                    <li class="text-muted">
+                                        Payment
+                                        <span class="chevron" />
+                                    </li>
+                                    <li class="text-muted">
+                                        Confirmation
+                                        <span class="chevron" />
+                                    </li>
+                                </ul>
+                                <h1>Your Address</h1>
+                                <form action="/shop/confirm_order"
+                                    method="post">
+
+                                    <div class="row">
+                                        <div class="col-md-8 oe_cart">
+                                            <h3 class="page-header mt16">
+                                                Billing Information
+                                                <small
+                                                    groups="base.group_public">
+                                                    or
+                                                    <a class="btn btn-primary"
+                                                        t-if="not partner"
+                                                        t-attf-href="/web?redirect=#{ request.httprequest.url }">Sign
+                                                        in</a>
+                                                </small>
+                                            </h3>
+                                            <div class="row">
+                                                <div
+                                                    t-attf-class="form-group #{error.get('name') and 'has-error' or ''} col-lg-6">
+                                                    <label
+                                                        class="control-label"
+                                                        for="contact_name">Your Name
+                                                    </label>
+                                                    <input type="text"
+                                                        name="name"
+                                                        class="form-control"
+                                                        t-att-value="checkout.get('name')" />
+                                                </div>
+                                                <div t-if="has_check_vat"
+                                                    class="clearfix" />
+                                                <div
+                                                    t-attf-class="form-group #{error.get('street') and 'has-error' or ''} col-lg-6">
+                                                    <label
+                                                        class="control-label"
+                                                        for="street"
+                                                        style="font-weight: normal">Company
+                                                        Name</label>
+                                                    <input type="text"
+                                                        name="street"
+                                                        class="form-control"
+                                                        t-att-value="checkout.get('street')" />
+                                                </div>
+                                                <div t-if="has_check_vat"
+                                                    t-attf-class="form-group #{error.get('vat') and 'has-error' or ''} col-lg-6">
+                                                    <label
+                                                        class="control-label"
+                                                        for="vat"
+                                                        style="font-weight: normal">VAT Number
+                                                    </label>
+                                                    <input type="text"
+                                                        name="vat"
+                                                        class="form-control"
+                                                        t-att-value="checkout.get('vat')" />
+                                                </div>
+                                                <div
+                                                    t-attf-class="form-group #{error.get('email') and 'has-error' or ''} col-lg-6">
+                                                    <label
+                                                        class="control-label"
+                                                        for="contact_name">Email
+                                                    </label>
+                                                    <input type="email"
+                                                        name="email"
+                                                        class="form-control"
+                                                        t-att-value="checkout.get('email')" />
+                                                </div>
+                                                <div
+                                                    t-attf-class="form-group #{error.get('phone') and 'has-error' or ''} col-lg-6">
+                                                    <label
+                                                        class="control-label"
+                                                        for="phone">Phone
+                                                    </label>
+                                                    <input type="tel"
+                                                        name="phone"
+                                                        class="form-control"
+                                                        t-att-value="checkout.get('phone')" />
+                                                </div>
+                                                <STYLE>
+                                                    .invisible { visibility : hidden }
+                                                </STYLE>
+                                                <div class="invisible">
+                                                    <label>Shipping
+                                                    </label>
+                                                    <select
+                                                        name="shipping_id"
+                                                        invisible="1">
+                                                        <option
+                                                            value="0">Ship
+                                                            to the same
+                                                            address
+                                                        </option>
+                                                        <t t-foreach="shippings"
+                                                            t-as="shipping">
+                                                            <option
+                                                                t-att-value="shipping.id"
+                                                                t-att-selected="shipping.id == shipping_id"
+                                                                t-att-data-shipping_name="shipping.name"
+                                                                t-att-data-shipping_phone="shipping.phone"
+                                                                t-att-data-shipping_street="shipping.street"
+                                                                t-att-data-shipping_city="shipping.city"
+                                                                t-att-data-shipping_zip="shipping.zip"
+                                                                t-att-data-shipping_state_id="shipping.state_id and shipping.state_id.id"
+                                                                t-att-data-shipping_country_id="shipping.country_id and shipping.country_id.id">
+                                                                <t
+                                                                    t-esc="', '.join('\n'.join(shipping.name_get()[0][1].split(',')).split('\n')[1:])" />
+                                                            </option>
+                                                        </t>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix">
+                                                <a href="/shop/cart"
+                                                    class="btn btn-default mb32">
+                                                    <span
+                                                        class="fa fa-long-arrow-left" />
+                                                    Return to Cart
+                                                </a>
+                                                <a
+                                                    class="btn btn-default btn-primary pull-right mb32 a-submit">
+                                                    Confirm
+                                                    <span
+                                                        class="fa fa-long-arrow-right" />
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="col-lg-offset-1 col-lg-3 col-md-3 text-muted">
+                                            <h3 class="page-header mt16">
+                                                Your Order
+                                                <small>
+                                                    <a href="/shop/cart">
+                                                        <span
+                                                            class="fa fa-arrow-right" />
+                                                        change
+                                                    </a>
+                                                </small>
+                                            </h3>
+                                            <t t-set="website_sale_order"
+                                                t-value="website.sale_get_order()" />
+                                            <div class="row">
+                                                <div
+                                                    class="col-sm-6 text-right">Subtotal:
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <span
+                                                        style="white-space: nowrap;"
+                                                        t-field="website_sale_order.amount_untaxed"
+                                                        t-field-options="{                       &quot;widget&quot;: &quot;monetary&quot;,                       &quot;from_currency&quot;: &quot;website_sale_order.pricelist_id.currency_id&quot;,                       &quot;display_currency&quot;: &quot;user_id.partner_id.property_product_pricelist.currency_id&quot;                   }" />
+                                                </div>
+                                                <div
+                                                    class="col-sm-6 text-right">Taxes: </div>
+                                                <div class="col-sm-6">
+                                                    <span
+                                                        style="white-space: nowrap;"
+                                                        t-field="website_sale_order.amount_tax"
+                                                        t-field-options="{                       &quot;widget&quot;: &quot;monetary&quot;,                       &quot;from_currency&quot;: &quot;website_sale_order.pricelist_id.currency_id&quot;,                       &quot;display_currency&quot;: &quot;user_id.partner_id.property_product_pricelist.currency_id&quot;                   }" />
+                                                </div>
+                                                <div
+                                                    class="col-sm-6 text-right">
+                                                    <h4>Total To Pay:
+                                                    </h4>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <h4>
+                                                        <span
+                                                            style="white-space: nowrap;"
+                                                            t-field="website_sale_order.amount_total"
+                                                            t-field-options="{                       &quot;widget&quot;: &quot;monetary&quot;,                       &quot;from_currency&quot;: &quot;website_sale_order.pricelist_id.currency_id&quot;,                       &quot;display_currency&quot;: &quot;user_id.partner_id.property_product_pricelist.currency_id&quot;                   }" />
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </t>
+                </t>
+            </xpath>
+        </template>
+    </data>
+</openerp>
