@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-<data>
-	<template id="contact_snippet"
-	          name="Contact Snippet"
-	          inherit_id="website.snippets">
-	<xpath expr="//div[@id='snippet_feature']" position="inside">
-	<div>
-		<div class="oe_snippet_thumbnail">
-            <img class="oe_snippet_thumbnail_img" src="website_contact_form/static/src/img/contact_form.png"/>
-            <span class="oe_snippet_thumbnail_title">Contact Form</span>
-        </div>
-	    <section class="oe_snippet_body">
-            <div id="contactus_form" class="container" >
-            <div class="row">
-            <form action="/website_contact_form/contact" method="post"  class="form-inline" enctype="multipart/form-data" role="form">
-                <div class="form-group">
-                      <input type="text"  class="form-control" name="contact_name" required="True" placeholder="Nombre ó Empresa" />
-                      <input type="text"  class="form-control" name="phone"   placeholder="Teléfono" />
-                      <input type="email" class="form-control" name="email_from" placeholder="Correo Electrónico"/>
-                      <button class="btn btn-primary btn-lg">Enviar</button>
+    <data>
+    	<template id="contact_snippet"
+    	          name="Contact Snippet"
+    	          inherit_id="website.snippets">
+        	<xpath expr="//div[@id='snippet_feature']" position="inside">
+            	<div>
+            		<div class="oe_snippet_thumbnail">
+                        <img class="oe_snippet_thumbnail_img" src="/website_contact_form/static/src/img/contact_form.png"/>
+                        <span class="oe_snippet_thumbnail_title">Contact Form</span>
+                    </div>
+            	    <section class="oe_snippet_body">
+                        <div class="container" >
+                            <div class="row">
+                                <form action="/website_contact_form/contact" method="post" enctype="multipart/form-data" role="form">
+                                    <div class="form-group">
+                                          <div class="mt32 mb32 col-md-2 col-md-offset-2">
+                                              <input type="text" name="contact_name" class="form-control" required="True" placeholder="Nombre ó Empresa" />
+                                          </div>
+                                          <div class="mt32 mb32 col-md-2">
+                                              <input type="text"   name="phone" class="form-control" placeholder="Teléfono" />
+                                          </div>
+                                          <div class="mt32 mb32 col-md-2">
+                                              <input type="email" name="email_from" class="form-control" placeholder="Correo Electrónico"/>
+                                          </div>
+                                          <div class="mt32 mb32 col-md-2">
+                                              <button class="btn btn-primary btn-md">Enviar</button>
+                                          </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </section>
                 </div>
-            </form>
-        </div>
-        </div>
-        </section>
-        <style>
-        #contactus_form{
-            text-align:center;
-        }
-    </style>
-        </div>
-	</xpath>
-	</template>
-
-    
-
-</data>
+            </xpath>
+        </template>
+    </data>
 </openerp>
