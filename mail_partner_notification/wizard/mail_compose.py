@@ -35,15 +35,10 @@ class Compose(models.TransientModel):
         fol_ids = fol_obj.search(
             self._cr, SUPERUSER_ID, [('res_model', '=', model),
                                      ('res_id', 'in', [res_id])])
-
         followers = fol_obj.browse(self._cr, self._uid, fol_ids)
         partner_ids = []
         for fol in followers:
             partner_ids.append(fol.partner_id.id)
-        print partner_ids
-        print "\n\n\n"
-        print fol_ids
-        print "\n\n\n"
         return self.pool.get('res.partner').browse(self._cr, self._uid,
                                                    partner_ids)
 
