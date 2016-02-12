@@ -7,7 +7,7 @@
 	<xpath expr="//div[@id='snippet_feature']" position="inside">
 	<div>
 		<div class="oe_snippet_thumbnail">
-            <img class="oe_snippet_thumbnail_img" src="website_contact_form/static/src/img/contact_form.png"/>
+            <img class="oe_snippet_thumbnail_img" src="/website_contact_form/static/src/img/contact_form.png"/>
             <span class="oe_snippet_thumbnail_title">Contact Form</span>
         </div>
 	    <section class="oe_snippet_body">
