@@ -31,6 +31,8 @@ class Notification(models.Model):
                 force_send=False, user_signature=True):
         if 'notify' in self.env.context and not self.env.context['notify']:
             partners_to_notify = self.env.context.get('partners_to_notify', [])
+        elif 'notify' in self.env.context and self.env.context['notify']:
+            partners_to_notify = self.env.context.get('partners_to_notify', [])
         return super(Notification, self)._notify(
             message_id, partners_to_notify=partners_to_notify,
             force_send=force_send, user_signature=user_signature)
