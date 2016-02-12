@@ -62,6 +62,7 @@ class account_analytic_account(osv.osv):
         timesheet_obj=self.pool.get('hr.analytic.timesheet')
         pricelist_obj=self.pool.get('contract.pricelist')
         issue_obj=self.pool.get('project.issue')
+        multiple=1.0
         product_ids=[]
         categ_ids=[]
         amount=0.0
@@ -107,7 +108,7 @@ class account_analytic_account(osv.osv):
                             count_limit+=timesheet.end_time-timesheet.start_time
                             end_time=timesheet.end_time
                             cont_timesheets+=1
-                    if count_limit<list.minimum_time:
+                    if count_limit<=list.minimum_time:
                         if count_limit!=0:
                             if cont_timesheets>0:
                                 qty=qty/count_limit
@@ -117,13 +118,18 @@ class account_analytic_account(osv.osv):
                             qty=0
                 else:
                     if qty<list.minimum_time:
+                        if list.minimum_time<1:
+                            multiple=1/list.minimum_time
                         qty=list.minimum_time
+                    elif qty==list.minimum_time:
+                        if list.minimum_time<1:
+                            multiple=1/list.minimum_time
                 holiday_state=self._is_holiday_pricelist(cr,uid,date,account,context={})
                 if holiday_state==True:
                     if service_type=='expert':
-                        amount=(list.technical_rate*list.holiday_multiplier)
+                        amount=(list.technical_rate*list.holiday_multiplier)*multiple
                     elif service_type=='assistant':
-                        amount=list.assistant_rate*list.holiday_multiplier
+                        amount=list.assistant_rate*list.holiday_multiplier*multiple
                     elif service_type=='basic':
                         amount=0.0
                     
@@ -151,15 +157,15 @@ class account_analytic_account(osv.osv):
                                         count_extra+=timesheet.end_time-timesheet.start_time
                                         origin_end_time=timesheet.end_time
                             if count_extra<1 and is_extra==False:
-                                amount=rate
+                                amount=rate*multiple
                             elif count_extra>=1:
-                                amount=rate*list.overtime_multiplier
+                                amount=rate*list.overtime_multiplier*multiple
                             else:
-                                amount=rate*list.overtime_multiplier
+                                amount=rate*list.overtime_multiplier*multiple
                         else:
-                            amount=rate*list.overtime_multiplier
+                            amount=rate*list.overtime_multiplier*multiple
                     else:
-                        amount=rate
+                        amount=rate*multiple
         return qty,amount
     def _analysis_all(self, cr, uid, ids, fields, arg, context=None):
         total=0.0
