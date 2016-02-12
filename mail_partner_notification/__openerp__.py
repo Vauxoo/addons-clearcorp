@@ -21,7 +21,7 @@
 ##############################################################################
 
 {
-    'name': 'Mail Additional Parter',
+    'name': 'Mail Partner Notification',
     'version': '1.0',
     'category': 'Mail',
     'sequence': 10,
