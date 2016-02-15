@@ -16,16 +16,16 @@
                                 <form action="/website_contact_form/contact" method="post" enctype="multipart/form-data" role="form">
                                     <div class="form-group">
                                           <div class="mt32 mb32 col-md-2 col-md-offset-2">
-                                              <input type="text" name="contact_name" class="form-control" required="True" placeholder="Nombre ó Empresa" />
+                                              <input type="text" name="contact_name" class="form-control" required="True" placeholder="Name or Company" />
                                           </div>
                                           <div class="mt32 mb32 col-md-2">
-                                              <input type="text"   name="phone" class="form-control" placeholder="Teléfono" />
+                                              <input type="text"   name="phone" class="form-control" placeholder="Phone number" />
                                           </div>
                                           <div class="mt32 mb32 col-md-2">
-                                              <input type="email" name="email_from" class="form-control" placeholder="Correo Electrónico"/>
+                                              <input type="email" name="email_from" class="form-control" placeholder="E-mail"/>
                                           </div>
                                           <div class="mt32 mb32 col-md-2">
-                                              <button class="btn btn-primary btn-md">Enviar</button>
+                                              <button class="btn btn-primary btn-md">Send</button>
                                           </div>
                                     </div>
                                 </form>
