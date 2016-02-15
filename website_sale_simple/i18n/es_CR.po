@@ -1,0 +1,142 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* website_sale_simple
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-02-15 15:52+0000\n"
+"PO-Revision-Date: 2016-02-15 15:52+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: website_sale_simple
+#: view:website:website_sale.checkout
+msgid "Billing Information"
+msgstr "Información de facturación"
+
+#. module: website_sale_simple
+#: view:website:website_sale.checkout
+msgid "Company\n"
+"                                                        Name"
+msgstr "Compañia\n"
+"                                                        Nombre"
+
+#. module: website_sale_simple
+#: view:website:website_sale.checkout
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. module: website_sale_simple
+#: view:website:website_sale.checkout
+msgid "Confirmation"
+msgstr "Confirmación"
+
+#. module: website_sale_simple
+#: view:website:website_sale.checkout
+msgid "Email"
+msgstr "Correo Electrónico"
+
+#. module: website_sale_simple
+#: view:website:website_sale.checkout
+msgid "Payment"
+msgstr "Pago"
+
+#. module: website_sale_simple
+#: view:website:website_sale.checkout
+msgid "Phone"
+msgstr "Teléfono"
+
+#. module: website_sale_simple
+#: view:website:website_sale.checkout
+msgid "Return to Cart"
+msgstr "Volver al carro"
+
+#. module: website_sale_simple
+#: view:website:website_sale.checkout
+msgid "Review Order"
+msgstr "Revisar pedido"
+
+#. module: website_sale_simple
+#: view:website:website_sale.checkout
+msgid "Ship\n"
+"                                                            to the same\n"
+"                                                            address"
+msgstr "Enviar\n"
+"                                                            a la misma\n"
+"                                                            dirección"
+
+#. module: website_sale_simple
+#: view:website:website_sale.checkout
+msgid "Shipping"
+msgstr "Envío"
+
+#. module: website_sale_simple
+#: view:website:website_sale.checkout
+msgid "Shipping\n"
+"                                        & Billing"
+msgstr "Envio\n"
+"                                        y facturación"
+
+#. module: website_sale_simple
+#: view:website:website_sale.checkout
+msgid "Shop - Checkout"
+msgstr "Tienda - Compra"
+
+#. module: website_sale_simple
+#: view:website:website_sale.checkout
+msgid "Sign\n"
+"                                                        in"
+msgstr "Firmar\n"
+"                                                        en"
+
+#. module: website_sale_simple
+#: view:website:website_sale.checkout
+msgid "Subtotal:"
+msgstr "Subtotal:"
+
+#. module: website_sale_simple
+#: view:website:website_sale.checkout
+msgid "Taxes:"
+msgstr "Impuestos:"
+
+#. module: website_sale_simple
+#: view:website:website_sale.checkout
+msgid "Total To Pay:"
+msgstr "Total a pagar:"
+
+#. module: website_sale_simple
+#: view:website:website_sale.checkout
+msgid "VAT Number"
+msgstr "NIF"
+
+#. module: website_sale_simple
+#: view:website:website_sale.checkout
+msgid "Your Address"
+msgstr "Dirección"
+
+#. module: website_sale_simple
+#: view:website:website_sale.checkout
+msgid "Your Name"
+msgstr "Nombre"
+
+#. module: website_sale_simple
+#: view:website:website_sale.checkout
+msgid "Your Order"
+msgstr "Su pedido"
+
+#. module: website_sale_simple
+#: view:website:website_sale.checkout
+msgid "change"
+msgstr "cambiar"
+
+#. module: website_sale_simple
+#: view:website:website_sale.checkout
+msgid "or"
+msgstr "o"
+

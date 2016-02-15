@@ -11,9 +11,11 @@ from openerp.addons.website_sale.controllers.main import website_sale
 
 class website_sale_simple(website_sale):
 
-    @http.route(['/shop/confirm_order'], type='http', auth="public", website=True)
+    @http.route(['/shop/confirm_order'],
+                type='http', auth="public", website=True)
     def confirm_order(self, **post):
-        cr, uid, context, registry = request.cr, request.uid, request.context, request.registry
+        cr, uid, context, registry = request.cr, request.uid, request.context,
+        request.registry
         order = request.website.sale_get_order(context=context)
         if not order:
             return request.redirect("/shop")
