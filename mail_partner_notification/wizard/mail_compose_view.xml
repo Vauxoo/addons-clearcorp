@@ -12,10 +12,13 @@
                     <field name="followers_ids" widget="many2many_tags_email" 
                         placeholder="Followers" context="{'force_email':True, 'show_email':True}"
                         attrs="{'invisible': [('notify', '=', False)]}"/>
+                    <field name="privacity" widget="radio"/>
+                        
                 </xpath>
                 <xpath expr="//form/group/field[@name='notify']" position="attributes">
                     <attribute name="attrs">{'invisible':False}</attribute>
                 </xpath>
+                
             </field>
         </record>
     </data>

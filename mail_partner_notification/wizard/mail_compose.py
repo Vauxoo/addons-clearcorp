@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp import models, api, SUPERUSER_ID
+from openerp import models, api, SUPERUSER_ID, fields
 from openerp.fields import Many2many
 
 
@@ -27,8 +27,15 @@ class Compose(models.TransientModel):
 
     _inherit = 'mail.compose.message'
 
+    privacity = fields.Selection(
+        [('public', 'Public'), ('private', 'Private')],
+        'Privacity', default='public')
+
     @api.model
     def _default_partner_followers(self):
+        if (not self._context['default_model'] or not
+                self._context['default_model']):
+            return None
         model = self._context['default_model']
         res_id = self._context['default_res_id']
         fol_obj = self.pool.get('mail.followers')
@@ -59,3 +66,10 @@ class Compose(models.TransientModel):
                 notify=True,
                 partners_to_notify=all_partners)).send_mail()
         return super(Compose, self).send_mail()
+
+    @api.model
+    def get_mail_values(self, wizard, res_ids):
+        res = super(Compose, self).get_mail_values(wizard, res_ids)
+        for res_id in res.iteritems():
+            res_id[1].update({'privacity': wizard.privacity})
+        return res
