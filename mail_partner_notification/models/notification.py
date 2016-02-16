@@ -36,4 +36,3 @@ class Notification(models.Model):
         return super(Notification, self)._notify(
             message_id, partners_to_notify=partners_to_notify,
             force_send=force_send, user_signature=user_signature)
-
