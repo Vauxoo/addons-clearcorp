@@ -30,6 +30,7 @@
     'website': 'http://clearcorp.cr',
     'depends': ['mail', 'base'],
     'data': ['wizard/mail_compose_view.xml'],
+    'qweb': ['static/src/xml/mail.xml'],
     'test': [],
     'demo': [],
     'installable': True,

@@ -56,6 +56,7 @@ class Compose(models.TransientModel):
 
     @api.multi
     def send_mail(self):
+        self._validate_partners()
         if not self.notify:
             return super(Compose, self.with_context(
                 notify=False,
@@ -73,3 +74,22 @@ class Compose(models.TransientModel):
         for res_id in res.iteritems():
             res_id[1].update({'privacity': wizard.privacity})
         return res
+
+    @api.depends('privacity')
+    def _validate_partners(self):
+        if self.privacity == 'public':
+            self.followers_ids = None
+            self.followers_ids = self._default_partner_followers()
+            print "\n\npublic\n\n"
+        else:
+            all_partners = self.partner_ids + self.followers_ids
+            print "\n\n\n", all_partners, "\n\n\n"
+            for partner in all_partners:
+                if partner.user_ids:
+                    for user in partner.user_ids:
+                        if user.has_group('base.group_portal'):
+                            self.partner_ids = self.partner_ids - partner
+                            self.followers_ids = self.followers_ids - partner
+                            all_partners = all_partners - partner
+                            pass
+            print "\n\n\n", all_partners, "\n\n\n"
