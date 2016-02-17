@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <template id="assets_backend" name="mail_partner_notification_assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/mail_partner_notification/static/src/js/mail.js"/>
+            </xpath>
+        </template>
+    </data>
+</openerp>

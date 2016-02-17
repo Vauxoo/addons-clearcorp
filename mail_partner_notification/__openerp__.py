@@ -29,7 +29,11 @@
     'author': 'ClearCorp',
     'website': 'http://clearcorp.cr',
     'depends': ['mail', 'base'],
-    'data': ['wizard/mail_compose_view.xml'],
+    'data': [
+        'views/assets_backend.xml',
+        'wizard/mail_compose_view.xml',
+        'security/mail_partner_notification_security.xml',
+    ],
     'qweb': ['static/src/xml/mail.xml'],
     'test': [],
     'demo': [],
