@@ -1,4 +1,4 @@
-openerp.mail_partner_notification = function(session) {
+openerp.mail_private_message = function(session) {
 
     session.mail.ThreadComposeMessage.include({
         bind_events: function () {

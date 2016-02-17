@@ -21,18 +21,18 @@
 ##############################################################################
 
 {
-    'name': 'Mail Partner Notification',
+    'name': 'Mail Private Message',
     'version': '1.0',
     'category': 'Mail',
     'sequence': 10,
-    'summary': """Module allows to disable notification to the followers""",
+    'summary': """Private messages and notifications""",
     'author': 'ClearCorp',
     'website': 'http://clearcorp.cr',
     'depends': ['mail', 'base'],
     'data': [
         'views/assets_backend.xml',
         'wizard/mail_compose_view.xml',
-        'security/mail_partner_notification_security.xml',
+        'security/mail_private_messages_security.xml',
     ],
     'qweb': ['static/src/xml/mail.xml'],
     'test': [],
