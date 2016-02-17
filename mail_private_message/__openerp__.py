@@ -32,7 +32,7 @@
     'data': [
         'views/assets_backend.xml',
         'wizard/mail_compose_view.xml',
-        'security/mail_private_messages_security.xml',
+        'security/mail_private_message_security.xml',
     ],
     'qweb': ['static/src/xml/mail.xml'],
     'test': [],
