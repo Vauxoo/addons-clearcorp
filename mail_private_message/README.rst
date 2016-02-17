@@ -2,12 +2,13 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-=========================
-Mail Partner Notification
-=========================
+====================
+Mail Private Message
+====================
 
-This module was written to extend the functionality of mail
-to disable notification to the followers
+Features
+* Private messages only visible to employees.
+* Disable notifications to followers.
 
 Credits
 =======
@@ -15,9 +16,8 @@ Credits
 Contributors
 ------------
 
-* Lesmed Gutiérrez <lesmed.gutierrez@clearcorp.cr>
 * Glen Sojo <glen.sojo@clearcorp.co.cr>
-
+* Lesmed Gutiérrez <lesmed.gutierrez@clearcorp.cr>
 
 Maintainer
 ----------

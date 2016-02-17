@@ -8,10 +8,12 @@
             <field name="arch" type="xml">
                 <xpath expr="//form/group/div[2]/span[2]" position="replace">
                 </xpath>
-                <xpath expr="//form/group/field[@name='notify']" position="attributes">
-                    <attribute name="attrs">{'invisible':False}</attribute>
+                <xpath expr="//form/group/field[@name='notify']" position="before">
+                    <field name="privacity" widget="radio"/>
                 </xpath>
-                
+                <xpath expr="//form/group/field[@name='notify']" position="attributes">
+                    <attribute name="attrs">{'invisible': False}</attribute>
+                </xpath>
             </field>
         </record>
     </data>

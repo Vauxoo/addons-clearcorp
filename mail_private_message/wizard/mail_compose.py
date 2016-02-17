@@ -19,12 +19,16 @@
 #
 ##############################################################################
 
-from openerp import models, api
+from openerp import models, fields, api
 
 
 class Compose(models.TransientModel):
 
     _inherit = 'mail.compose.message'
+
+    privacity = fields.Selection(
+        [('public', 'Public'), ('private', 'Private')],
+        'Privacity', default='public')
 
     @api.multi
     def send_mail(self):
@@ -33,3 +37,10 @@ class Compose(models.TransientModel):
                 notify=False,
                 partners_to_notify=self.partner_ids._ids)).send_mail()
         return super(Compose, self).send_mail()
+
+    @api.model
+    def get_mail_values(self, wizard, res_ids):
+        res = super(Compose, self).get_mail_values(wizard, res_ids)
+        for res_id in res.keys():
+            res[res_id].update({'privacity': wizard.privacity})
+        return res

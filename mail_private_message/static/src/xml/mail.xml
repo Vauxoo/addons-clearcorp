@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- vim:fdl=1:
+-->
+<templates id="template" xml:space="preserve">
+    <t t-tname="ComposeMessagePrivacity" t-extend="mail.compose_message">
+        <t t-jquery="button.oe_post" t-operation="after">
+            <t t-if="widget.options.display_log_button">
+                <button class="oe_post_private">
+                    <t t-if="!widget.is_log">Send as private</t>
+                </button>
+            </t>
+        </t>
+        <t t-jquery="button.oe_post" t-operation="replace">
+            <button class="oe_post oe_highlight">
+                <t t-if="!widget.is_log">Send</t>
+                <t t-if="widget.is_log">Log an internal note</t>
+            </button>
+        </t>
+    </t>
+</templates>

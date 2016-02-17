@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <record id="rule_portal_public_msg" model="ir.rule">
+            <field name="name">Portal Public Messages</field>
+            <field name="model_id" ref="model_mail_message"/> 
+            <field name="domain_force">[('privacity', '=', 'public')]</field>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+        </record>
+    </data>
+</openerp>

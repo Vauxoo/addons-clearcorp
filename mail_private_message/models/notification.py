@@ -30,8 +30,17 @@ class Notification(models.Model):
     def _notify(self, message_id, partners_to_notify=None,
                 force_send=False, user_signature=True):
         if 'notify' in self.env.context and not self.env.context['notify']:
+            partner_obj = self.env['res.partner']
+            message = self.env['mail.message'].browse(message_id)
             partners_to_notify = self.env.context.get('partners_to_notify', [])
+            if message.privacity == 'private':
+                clean_partners = []
+                # clean partners to notify only internal users
+                for partner in partner_obj.browse(partners_to_notify):
+                    for user in partner.user_ids:
+                        if user.has_group('base.group_user'):
+                            clean_partners.append(partner.id)
+                partners_to_notify = clean_partners
         return super(Notification, self)._notify(
             message_id, partners_to_notify=partners_to_notify,
             force_send=force_send, user_signature=user_signature)
-
