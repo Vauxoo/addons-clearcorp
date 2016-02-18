@@ -25,7 +25,7 @@
     'version': '1.0',
     'category': 'Mail',
     'sequence': 10,
-    'summary': """Followers in partner_ids field""",
+    'summary': """Load followers in partner ids field""",
     'author': 'ClearCorp',
     'website': 'http://clearcorp.cr',
     'depends': ['mail', 'base'],
