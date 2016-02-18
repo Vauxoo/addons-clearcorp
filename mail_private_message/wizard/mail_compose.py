@@ -29,6 +29,7 @@ class Compose(models.TransientModel):
     privacity = fields.Selection(
         [('public', 'Public'), ('private', 'Private')],
         'Privacity', default='public')
+    notify = fields.Boolean(default=True)
 
     @api.multi
     def send_mail(self):
