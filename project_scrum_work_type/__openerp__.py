@@ -33,7 +33,6 @@
                    'hr',
                  ],
     "data" : [
-              'security/project_security.xml',
               'view/view.xml',
               'security/ir.model.access.csv',
               ],

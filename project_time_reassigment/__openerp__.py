@@ -29,7 +29,7 @@
     'category': 'Project Management',
     'sequence': 4,
     'website': 'http://clearcorp.co.cr',
-    'depends': ['base', 'project'],
+    'depends': ['base', 'project', 'project_work_type'],
     'data': ['project_task_reassigment_view.xml',
              'security/ir.model.access.csv'],
     'auto_install': False,
