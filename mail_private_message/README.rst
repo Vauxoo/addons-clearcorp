@@ -7,6 +7,7 @@ Mail Private Message
 ====================
 
 Features
+
 * Private messages only visible to employees.
 * Disable notifications to followers.
 
