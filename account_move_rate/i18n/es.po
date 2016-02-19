@@ -25,5 +25,5 @@ msgstr "Apuntes contables"
 #: code:addons/account_move_rate/account_move_rate.py:47
 #, python-format
 msgid "There is no rate available for currency %s"
-msgstr "No hay tarifa disponible para la moneda %s"
+msgstr "No hay una tasa disponible para la moneda %s"
 
