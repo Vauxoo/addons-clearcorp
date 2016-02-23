@@ -41,6 +41,7 @@ class MailMessage(models.Model):
 
         notification_obj = self.env['mail.notification']
         partner_obj = self.env['res.partner']
+        user_obj = self.pool.get('res.users')
         partners_to_notify = set([])
 
         # all followers of the mail.message document have to be added
@@ -76,7 +77,7 @@ class MailMessage(models.Model):
         # clean partners to notify only internal users
         for partner in partner_obj.browse(list(partners_to_notify)):
             for user in partner.user_ids:
-                if user.has_group('base.group_user'):
+                if user_obj.has_group(self._cr, user.id, 'base.group_user'):
                     clean_partners.append(partner.id)
 
         # notify
