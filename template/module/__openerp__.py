@@ -1,39 +1,38 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    OpenERP, Open Source Management Solution
-#    Addons modules by CLEARCORP S.A.
-#    Copyright (C) 2009-TODAY CLEARCORP S.A. (<http://clearcorp.co.cr>).
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © <YEAR(S)> ClearCorp
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
     'name': 'Module name',
-    'version': '1.0',
-    'category': 'Uncategorized',
-    'sequence': 10,
     'summary': 'Module summary',
+    'version': '8.0.1.0',
+    'category': 'Uncategorized',
+    'website': 'http://clearcorp.cr',
     'author': 'ClearCorp',
-    'website': 'http://clearcorp.co.cr',
-    'depends': [],
-    'data': [],
-    'test': [],
-    'demo': [],
+    'license': 'AGPL-3',
+    'sequence': 10,
+    'application': False,
     'installable': True,
     'auto_install': False,
-    'application': False,
-    'license': 'AGPL-3',
+    'external_dependencies': {
+        'python': [],
+        'bin': [],
+    },
+    'depends': [
+        'base',
+    ],
+    'data': [
+        "security/module_name_security.xml",
+        "security/ir.model.access.csv",
+        "views/assets.xml",
+        "views/report_name.xml",
+        "views/model_name_view.xml",
+        "wizards/wizard_model_view.xml",
+    ],
+    'demo': [
+        "demo/module_name_demo.xml",
+    ],
+    'qweb': [
+        "static/src/xml/module_name.xml",
+    ],
 }
