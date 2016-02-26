@@ -26,7 +26,8 @@ import openerp.addons.decimal_precision as dp
 
 class product_template(models.Model):
     _inherit = "product.template"
-    
+
+
     @api.onchange('list_price_uos','uos_coeff')
     def onchange_list_price_uos(self):
         if self.uos_coeff == 0:
