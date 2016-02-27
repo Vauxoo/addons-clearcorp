@@ -100,6 +100,7 @@ class ProjectIssue(models.Model):
         default.update({
             'invoice_ids':False,
             'invoice_sale_id':False,
+            'sale_order_id':False,
         })
         return super(ProjectIssue, self).copy(cr, uid, id, default, context)
     expense_line_ids=fields.One2many('hr.expense.line','issue_id')
