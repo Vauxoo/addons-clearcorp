@@ -39,7 +39,7 @@
             <field name="inherit_id" ref="project.view_project_project_filter" />
             <field name="arch" type="xml">
                 <data>
-                    <xpath expr="//search/field[@name='name']" position="replace">
+                    <xpath expr="//search/field[@name='name']" position="before">
                         <field name="complete_name" string="Project Name"/>
                     </xpath>
                 </data>
