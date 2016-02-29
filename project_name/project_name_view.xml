@@ -32,6 +32,19 @@
             </field>
         </record>
 
+        <record id="view_project_search" model="ir.ui.view">
+            <field name="name">view.project.search</field>
+            <field name="model">project.project</field>
+            <field name="type">search</field>
+            <field name="inherit_id" ref="project.view_project_project_filter" />
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//search/field[@name='name']" position="replace">
+                        <field name="complete_name" string="Project Name"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
 
     </data>
 </openerp>
