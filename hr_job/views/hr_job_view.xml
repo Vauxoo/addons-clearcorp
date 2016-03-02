@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © <YEAR(S)> ClearCorp
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+
+<openerp>
+    <data>
+        
+            <record id="hr_job_form" model="ir.ui.view">
+            <field name="name">hr.job</field>
+            <field name="model">hr.job</field>
+            <field name="inherit_id" ref="hr.view_hr_job_form"/>
+            <field name="arch" type="xml">
+            <data>
+                 <xpath expr="//form/sheet/group[@name='employee_data']/field[@name='department_id']" position="before">
+                        <field name="active"/>
+                </xpath>
+                <xpath expr="//form/sheet/group[@name='employee_data']/field[@name='department_id']" position="after">
+                        <field name="real_no_of_employee"/>
+                </xpath>
+            </data>
+            </field>
+        </record>
+        
+    </data>
+</openerp>
