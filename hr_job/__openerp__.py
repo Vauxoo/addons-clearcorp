@@ -6,7 +6,7 @@
     'name': 'HR Job',
     'summary': 'Active or inactive the job profile in HR',
     'version': '8.0.1.0',
-    'category': 'HR',
+    'category': 'Human Resources',
     'website': 'http://clearcorp.cr',
     'author': 'ClearCorp',
     'license': 'AGPL-3',
