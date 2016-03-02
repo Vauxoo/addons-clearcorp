@@ -13,5 +13,6 @@ class hr_job(models.Model):
         self.real_no_of_employee = nb_employees
         return nb_employees
 
-    active = fields.Boolean('Active')
-    real_no_of_employee = fields.Integer(compute="_count_employees", string="Real no of employee")
+    active = fields.Boolean('Active', default= True)
+    real_no_of_employee = fields.Integer(compute="_count_employees",
+                                         string="Real no of employee")
