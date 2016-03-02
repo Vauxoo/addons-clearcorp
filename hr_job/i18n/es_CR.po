@@ -1,0 +1,34 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* hr_job
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-02 16:03+0000\n"
+"PO-Revision-Date: 2016-03-02 16:03+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: hr_job
+#: field:hr.job,active:0
+msgid "Active"
+msgstr "Activo"
+
+#. module: hr_job
+#: model:ir.model,name:hr_job.model_hr_job
+msgid "Job Description"
+msgstr "Descripción del puesto"
+
+#. module: hr_job
+#: field:hr.job,real_no_of_employee:0
+msgid "Real no of employee"
+msgstr "Número real de empleados"
+
+
+
