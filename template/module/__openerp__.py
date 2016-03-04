@@ -22,17 +22,17 @@
         'base',
     ],
     'data': [
-        "security/module_name_security.xml",
-        "security/ir.model.access.csv",
-        "views/assets.xml",
-        "views/report_name.xml",
-        "views/model_name_view.xml",
-        "wizards/wizard_model_view.xml",
+        'security/module_name_security.xml',
+        'security/ir.model.access.csv',
+        'views/assets.xml',
+        'views/report_name.xml',
+        'views/model_name_view.xml',
+        'wizards/wizard_model_view.xml',
     ],
     'demo': [
-        "demo/module_name_demo.xml",
+        'demo/module_name_demo.xml',
     ],
     'qweb': [
-        "static/src/xml/module_name.xml",
+        'static/src/xml/module_name.xml',
     ],
 }
