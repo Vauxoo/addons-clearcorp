@@ -5,7 +5,7 @@
 {
     'name': 'Module name',
     'summary': 'Module summary',
-    'version': '8.0.1.0',
+    'version': '9.0.1.0',
     'category': 'Uncategorized',
     'website': 'http://clearcorp.cr',
     'author': 'ClearCorp',
