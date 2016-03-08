@@ -5,7 +5,7 @@
 from openerp.osv import fields, orm
 
 
-class res_company(orm.Model):
+class ResCompany(orm.Model):
     _name = "res.company"
     _inherit = 'res.company'
     _order = 'prefix'
