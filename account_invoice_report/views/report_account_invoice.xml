@@ -68,7 +68,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="invoice_tbody">
-                                    <tr t-foreach="o.invoice_line" t-as="l">
+                                    <tr t-foreach="o.invoice_line_ids" t-as="l">
                                         <td style="white-space: nowrap">
                                             <span t-esc="'{:,.16g}'.format(l.quantity)"/>
                                             <span t-field="l.uos_id" groups="product.group_uom"/>
@@ -77,10 +77,10 @@
                                             <span t-field="l.name"/>
                                         </td>
                                         <td style="white-space: nowrap">
-                                            <t t-if="l.invoice_line_tax_id">
-                                                <span t-esc="', '.join(map(lambda x: x.description and x.description or x.name, l.invoice_line_tax_id))"/>
+                                            <t t-if="l.invoice_line_tax_ids">
+                                                <span t-esc="', '.join(map(lambda x: x.description and x.description or x.name, l.invoice_line_tax_ids))"/>
                                             </t>
-                                            <t t-if="not l.invoice_line_tax_id">
+                                            <t t-if="not l.invoice_line_tax_ids">
                                                 XMT
                                             </t>
                                         </td>
@@ -100,13 +100,13 @@
                                         <strong>Terms &amp; Conditions:</strong>
                                         <span t-field="o.comment"/>
                                     </p>
-                                    <p t-if="o.payment_term.note" style="padding: 15px 25px 15px 25px; background-color: #EEEEEE; margin-top: 16px; page-break-inside:avoid">
+                                    <p t-if="o.payment_term_id.note" style="padding: 15px 25px 15px 25px; background-color: #EEEEEE; margin-top: 16px; page-break-inside:avoid">
                                         <strong>Payment Term:</strong>
-                                        <span t-field="o.payment_term.note"/>
+                                        <span t-field="o.payment_term_id.note"/>
                                     </p>
-                                    <p t-if="o.fiscal_position.note" style="padding: 15px 25px 15px 25px; background-color: #EEEEEE; margin-top: 16px; page-break-inside:avoid">
+                                    <p t-if="o.fiscal_position_id.note" style="padding: 15px 25px 15px 25px; background-color: #EEEEEE; margin-top: 16px; page-break-inside:avoid">
                                         <strong>Fiscal Position Remark:</strong>
-                                        <span t-field="o.fiscal_position.note"/>
+                                        <span t-field="o.fiscal_position_id.note"/>
                                     </p>
                                 </div>
                                 <div class="col-xs-4" style="padding: none">
@@ -128,7 +128,7 @@
                                             </td>
                                         </tr>
                                         <t t-if="o.amount_tax != 0.0">
-                                            <tr class="text-right" style="white-space: nowrap; border: none" t-foreach="o.tax_line" t-as="t">
+                                            <tr class="text-right" style="white-space: nowrap; border: none" t-foreach="o.tax_line_ids" t-as="t">
                                                 <td t-att-colspan="(o.amount_discounted != 0.0) and '5' or '4'" style="padding-left: 24px; padding-right: 15px">
                                                     <span t-field="t.name" />
                                                 </td>

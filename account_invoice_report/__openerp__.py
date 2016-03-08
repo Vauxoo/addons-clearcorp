@@ -16,6 +16,7 @@
     'depends': [
         'base',
         'account_invoice_discount',
+        'base_reporting',
         ],
     'data': [
         'data/report.paperformat.xml',
