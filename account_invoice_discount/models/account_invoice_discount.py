@@ -29,7 +29,7 @@ class InvoiceLine(models.Model):
         store=True, string='Subtotal')
 
 
-class account_invoice(models.Model):
+class AccountInvoice(models.Model):
     """Inherits account.invoice to
     add global discount feature."""
 

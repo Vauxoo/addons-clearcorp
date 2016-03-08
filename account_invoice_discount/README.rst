@@ -2,9 +2,9 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-==============
+================
 Invoice Discount
-==============
+================
 
 Adds a discount feature for invoice.
 With it one can add a discount percent to all invoice lines on an invoice.
