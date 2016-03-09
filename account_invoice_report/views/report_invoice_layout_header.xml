@@ -62,7 +62,7 @@
                             <div class="col-xs-4">
                                 <b>Invoice date: </b><span t-field="o.date_invoice"/><br />
                                 <b>Due date: </b><span t-field="o.date_due"/><br />
-                                <b>Payment terms: </b><span t-if="o.payment_term" t-field="o.payment_term.name"/><br />
+                                <b>Payment terms: </b><span t-if="o.payment_term_id" t-field="o.payment_term_id.name"/><br />
                                 <b>Salesperson: </b><span t-if="o.user_id" t-field="o.user_id.name"/>
                             </div>
                         </div>
