@@ -207,7 +207,7 @@ class ProjectIssue(osv.Model):
     _defaults = {
         'date': fields.datetime.now,
     }
-
+    _order = "create_date desc"
 class ProjectIssueOrigin(osv.Model):
     _name = 'project.issue.origin'
      
