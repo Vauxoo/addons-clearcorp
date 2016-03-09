@@ -64,8 +64,8 @@
                                 <t t-if="o.date_order">
                                     <b>Purchase date: </b><span t-field="o.date_order"/><br />
                                 </t>
-                                <t t-if="o.minimum_planned_date">
-                                    <b>Est. delivery date: </b><span t-field="o.minimum_planned_date"/><br />
+                                <t t-if="o.date_planned">
+                                    <b>Est. delivery date: </b><span t-field="o.date_planned"/><br />
                                 </t>
                                 <t t-if="o.date_approve">
                                     <b>Approved: </b><span t-field="o.date_approve"/>
