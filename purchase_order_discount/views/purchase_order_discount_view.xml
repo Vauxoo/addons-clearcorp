@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <openerp>
     <data>
-       <record id="purchase_order_form_inherit" model="ir.ui.view">
+       <record id="purchase_order_form_view" model="ir.ui.view">
             <field name="name">purchase.order.form.inherit</field>
             <field name="model">purchase.order</field>
             <field name="type">form</field>
             <field name="inherit_id" ref="purchase.purchase_order_form"/>
             <field name="arch" type="xml"> 
             <data> 
-                <xpath expr="/form/sheet/notebook/page[@string='Products']/field[@name='order_line']/tree[@string='Purchase Order Lines']" position="attributes">
+                <xpath expr="/form/sheet/notebook/page/field[@name='order_line']" position="attributes">
                         <attribute name="editable"></attribute>
                  </xpath>
-                <xpath expr="/form/sheet/notebook/page[@string='Products']/field[@name='order_line']/tree/field[@name='price_unit']" position="after">
+                <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_unit']" position="after">
                     <field name="discount" /> 
                 </xpath>
-                <xpath expr="/form/sheet/notebook/page[@string='Products']/group[1]" position="replace">
+                <xpath expr="/form/sheet/notebook/page/group[1]" position="replace">
                     <group colspan="4" col="8">
                         <group colspan="4" col="4"> </group>
                         <group colspan="2" col="2">
@@ -31,11 +31,11 @@
                </data>
             </field>
         </record> 
-        <record id="purchase_order_line_form_inherit" model="ir.ui.view">
+        <record id="purchase_order_line_form_view" model="ir.ui.view">
             <field name="name">purchase.order.line.form.inherit</field>
             <field name="model">purchase.order.line</field>
             <field name="type">form</field>
-            <field name="inherit_id" ref="purchase.purchase_order_line_form"/>
+            <field name="inherit_id" ref="purchase.purchase_order_line_form2"/>
             <field name="arch" type="xml">                   
                 <xpath expr="/form/sheet/group/group[2]/field[@name='company_id']" position="after">
                     <field name="discount" /> 
