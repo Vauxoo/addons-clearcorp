@@ -24,7 +24,6 @@
                             <field name = "amount_tax"></field>
                             <field name = "amount_total"></field>
                             <separator/>
-                            <button name="button_dummy"  states="draft" string="Compute" class="oe_link oe_edit_only" type="object" />
                         </group> 
                     </group>
                 </xpath>
