@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<!-- © <YEAR(S)> ClearCorp
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+
 <openerp>
     <data>
         <record id="view_order_form_inherit" model="ir.ui.view">
