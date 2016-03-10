@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<!-- © 2016 ClearCorp
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+
 <openerp>
     <data>
         <!-- purchase.order.report -->
@@ -32,13 +35,13 @@
                                     <t t-if="o.partner_id.email"><span class="fa fa-envelope-o" style="width: 14px; text-align: center; margin-right: 3px" /><span t-field="o.partner_id.email"/><br /></t>
                                 </div>
                                 <div class="col-xs-5">
-                                    <t t-if="(o.related_usage == 'customer') and (o.dest_address_id)">
+                                    <t t-if="(o.default_location_dest_id_usage == 'customer') and (o.dest_address_id)">
                                         <t t-set="dest_address" t-value="o.dest_address_id"/>
                                     </t>
-                                    <t t-if="(o.related_usage != 'customer') and (o.location_id.partner_id)">
-                                        <t t-set="dest_address" t-value="o.location_id.partner_id"/>
+                                    <t t-if="(o.default_location_dest_id_usage != 'customer') and (o.picking_type_id.default_location_dest_id.partner_id)">
+                                        <t t-set="dest_address" t-value="o.picking_type_id.default_location_dest_id.partner_id"/>
                                     </t>
-                                    <t t-if="(o.related_usage != 'customer') and (not o.location_id.partner_id)">
+                                    <t t-if="(o.default_location_dest_id_usage!= 'customer') and (not o.picking_type_id.default_location_dest_id.partner_id)">
                                         <t t-set="dest_address" t-value="o.company_id.partner_id"/>
                                     </t>
                                     <t t-if="dest_address">
@@ -64,7 +67,6 @@
                                     </t>
                                 </div>
                                 <div class="col-xs-4">
-                                    <t t-if="o.validator"><b>Approved by: </b><span t-field="o.validator"/><br /></t>
                                     <t t-if="o.payment_term_id"><b>Payment terms: </b><span t-field="o.payment_term_id"/><br /></t>
                                     <t t-if="o.incoterm_id"><b>Incoterm: </b><span t-field="o.incoterm_id"/></t>
                                 </div>
