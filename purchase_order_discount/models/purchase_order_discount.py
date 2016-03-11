@@ -3,17 +3,33 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp import api, fields, models
+import openerp.addons.decimal_precision as dp
 
 
-class purchase_order_line(models.Model):
+class PurchaseOrderLine(models.Model):
+
     _inherit = 'purchase.order.line'
     _description = 'Purchase Order Line'
 
-    discount = fields.Float('Discount (%)', digits=(16, 2))
+    @api.depends('product_qty', 'price_unit', 'taxes_id')
+    def _compute_amount(self):
+        super(PurchaseOrderLine, self)._compute_amount()
+        for line in self:
+            price = line.price_unit - (line.discount / 100 *
+                                       line.price_unit)
+            taxes = line.taxes_id.compute_all(
+                price, line.order_id.currency_id,
+                line.product_qty, product=line.product_id,
+                partner=line.order_id.partner_id)
+            line.update({
+                'price_tax': taxes['total_included'] - taxes['total_excluded'],
+                'price_total': taxes['total_included'],
+            })
 
-    _defaults = {
-        'discount': lambda *a: 0.0,
-        }
+    discount = fields.Float(
+        'Discount (%)',
+        digits=dp.get_precision('Discount'),
+        default=0.0)
 
     _sql_constraints = [
         ('check_discount', 'CHECK (discount < 100)',
@@ -21,13 +37,14 @@ class purchase_order_line(models.Model):
     ]
 
 
-class purchase_order(models.Model):
+class PurchaseOrder(models.Model):
+
     _inherit = 'purchase.order'
     _description = 'Purchase Order'
 
     @api.depends('order_line.price_total')
     def _amount_all(self):
-        super(purchase_order, self)._amount_all()
+        super(PurchaseOrder, self)._amount_all()
         for order in self:
             amount_discount = 0.0
             for line in order.order_line:
@@ -41,6 +58,7 @@ class purchase_order(models.Model):
                 'amount_total': order.currency_id.round(amount_total),
             })
 
+    amount_untaxed = fields.Monetary(string='Subtotal')
     amount_discount = fields.Monetary(compute='_amount_all',
                                       string='Discount', store=True)
 
@@ -56,7 +74,7 @@ class purchase_order(models.Model):
 
         account_invoice_line_obj = self.pool.get('account.invoice.line')
 
-        res = super(purchase_order, self).action_invoice_create(
+        res = super(PurchaseOrder, self).action_invoice_create(
             cr, uid, ids, context=context)
         invoice_lines_ids = account_invoice_line_obj.search(
             cr, uid, [('invoice_id', '=', res)], context=context)
