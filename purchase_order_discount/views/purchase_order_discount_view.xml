@@ -14,18 +14,8 @@
                 <xpath expr="/form/sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_unit']" position="after">
                     <field name="discount" /> 
                 </xpath>
-                <xpath expr="/form/sheet/notebook/page/group[1]" position="replace">
-                    <group colspan="4" col="8">
-                        <group colspan="4" col="4"> </group>
-                        <group colspan="2" col="2">
-                            <field name = "amount_untaxed"></field>
-                            <field name = "amount_discount"></field>
-                            <field name = "amount_subtotal_discount"></field>
-                            <field name = "amount_tax"></field>
-                            <field name = "amount_total"></field>
-                            <separator/>
-                        </group> 
-                    </group>
+                <xpath expr="/form/sheet/notebook/page/group[1]/field[@name='amount_untaxed']" position="after">
+                    <field name = "amount_discount"  widget="monetary" options="{'currency_field': 'currency_id'}"/>
                 </xpath>
                </data>
             </field>
