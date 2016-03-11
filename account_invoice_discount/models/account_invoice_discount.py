@@ -56,10 +56,6 @@ class AccountInvoice(models.Model):
             invoice.amount_discounted = amount_discounted
             invoice.invoice_discount = invoice_discount
 
-    invoice_discount = fields.Float(
-        compute='_compute_amount_all',
-        digits=dp.get_precision('Account'),
-        string='Discount (%)', store=True)
     amount_discounted = fields.Float(
         compute='_compute_amount_all',
         digits=dp.get_precision('Account'),

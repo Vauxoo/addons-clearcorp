@@ -16,7 +16,10 @@ Credits
 Contributors
 ------------
 
+* Glen Sojo <glen.sojo@clearcorp.co.cr>
 * Rodney Vargas <rodney.vargas@clearcorp.cr>
+* Dago Gallo <dago.gallo@clearcorp.co.cr>
+* Fabio Vilchez <fabio.vilchez@clearcorp.co.cr>
 
 
 Maintainer
