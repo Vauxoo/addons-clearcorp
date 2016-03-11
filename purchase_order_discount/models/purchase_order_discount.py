@@ -29,26 +29,20 @@ class purchase_order(models.Model):
     def _amount_all(self):
         super(purchase_order, self)._amount_all()
         for order in self:
-            amount_discount = amount_subtotal_discount = 0.0
+            amount_discount = 0.0
             for line in order.order_line:
-                amount_discount += (100 * line.discount / line.price_subtotal)
-            amount_subtotal_discount = order.amount_untaxed - amount_discount
+                amount_discount += ((line.discount / 100) *
+                                    line.price_subtotal)
+            amount_total = order.amount_untaxed + order.amount_tax - \
+                amount_discount
             order.update({
-                'amount_discount': order.currency_id.round(amount_discount),
-                'amount_subtotal_discount': order.currency_id.round(
-                    amount_subtotal_discount),
-                'amount_total': amount_subtotal_discount + order.amount_tax,
+                'amount_discount': order.currency_id.round(
+                    amount_discount),
+                'amount_total': order.currency_id.round(amount_total),
             })
-
-    amount_total = fields.Monetary(compute='_amount_all',
-                                   string='Total', store=True)
 
     amount_discount = fields.Monetary(compute='_amount_all',
                                       string='Discount', store=True)
-
-    amount_subtotal_discount = fields.Monetary(compute='_amount_all',
-                                               string='Subtotal Discount',
-                                               store=True)
 
     @api.cr_uid_id_context
     def action_invoice_create(self, cr, uid, ids, context=None):
