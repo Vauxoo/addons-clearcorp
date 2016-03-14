@@ -24,9 +24,9 @@
                             </div>
                             <div class="col-xs-4">
                                 <b>
-                                    <span t-if="o.state not in ['draft','sent']">Sale order: </span>
-                                    <span t-if="o.state in ['draft','sent']">Quote: </span>
-                                    <span t-field="o.name" />
+                                    <span t-if="doc.state not in ['draft','sent']">Sale order: </span>
+                                    <span t-if="doc.state in ['draft','sent']">Quote: </span>
+                                    <span t-field="doc.name" />
                                 </b>
                             </div>
                         </div>
@@ -58,17 +58,17 @@
                                 <span class="fa fa-globe" style="width: 14px; text-align: center; margin-right: 3px" /><span t-field="company.website" /><br />
                             </div>
                             <div class="col-xs-4">
-                                <t t-if="o.date_order">
-                                    <b>Date: </b><span t-field="o.date_order"/><br />
+                                <t t-if="doc.date_order">
+                                    <b>Date: </b><span t-field="doc.date_order"/><br />
                                 </t>
-                                <t t-if="o.validity_date">
-                                    <b>Valid until: </b><span t-field="o.validity_date"/><br />
+                                <t t-if="doc.validity_date">
+                                    <b>Valid until: </b><span t-field="doc.validity_date"/><br />
                                 </t>
-                                <t t-if="o.payment_term">
-                                    <b>Payment terms: </b><span t-if="o.payment_term" t-field="o.payment_term.name"/><br />
+                                <t t-if="doc.payment_term_id">
+                                    <b>Payment terms: </b><span t-if="doc.payment_term_id" t-field="doc.payment_term_id.name"/><br />
                                 </t>
-                                <t t-if="o.user_id">
-                                    <b>Salesperson: </b><span t-if="o.user_id" t-field="o.user_id.name"/>
+                                <t t-if="doc.user_id">
+                                    <b>Salesperson: </b><span t-if="doc.user_id" t-field="doc.user_id.name"/>
                                 </t>
                             </div>
                         </div>
