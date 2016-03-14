@@ -16,7 +16,7 @@
     "depends": [
         'sale'
     ],
-    "update_xml": [
+    'data': [
         'views/sale_order_discount_view.xml'
     ],
 }
