@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<!-- © 2016 ClearCorp
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+
 <openerp>
     <data>
         <record id="sale_layout" model="ir.ui.view">
@@ -15,10 +18,10 @@
                         ]]>
                     </style>
                     <!-- Multicompany -->
-                    <t t-if="o and 'company_id' in o">
-                        <t t-set="company" t-value="o.company_id"/>
+                    <t t-if="doc and 'company_id' in doc">
+                        <t t-set="company" t-value="doc.company_id"/>
                     </t>
-                    <t t-if="not o or not 'company_id' in o">
+                    <t t-if="not doc or not 'company_id' in doc">
                         <t t-set="company" t-value="res_company"/>
                     </t>
 
