@@ -15,7 +15,6 @@
     'auto_install': False,
     "depends": [
         'sale_order_discount',
-        'sale_order_extended',
         'base_reporting',
         ],
     "data": [
