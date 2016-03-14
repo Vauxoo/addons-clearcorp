@@ -170,7 +170,7 @@
                                         </tr>
                                         <tr t-if="doc.amount_discounted != 0.0" class="text-right" style="white-space: nowrap; border: none">
                                             <td colspan="5" style="padding-left: 24px; padding-right: 15px">
-                                                Discount (<span t-field="doc.order_discount" />%)
+                                                Discount
                                             </td>
                                             <td>
                                                 <span t-field="doc.amount_discounted" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;doc.currency_id&quot;}"/>
