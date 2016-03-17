@@ -41,9 +41,9 @@ class AccountInvoice(models.Model):
             elif self.partner_id.credit_limit == 0.0:
                 raise Warning('You credit is in cero')
             else:
-                return self.write({'state': 'open'})
+                super(AccountInvoice, self).invoice_validate()
         else:
-            return self.write({'state': 'open'})
+            super(AccountInvoice, self).invoice_validate()
 
 
 class SaleOrder(models.Model):
