@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* res_partner_slow_payer
+#	* partner_slow_payer
 #
 msgid ""
 msgstr ""
@@ -15,28 +15,33 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. module: res_partner_slow_payer
-#: model:ir.model,name:res_partner_slow_payer.model_account_invoice
+#. module: partner_slow_payer
+#: model:ir.model,name:partner_slow_payer.model_account_invoice
 msgid "Invoice"
 msgstr "Factura"
 
-#. module: res_partner_slow_payer
-#: model:ir.model,name:res_partner_slow_payer.model_res_partner
+#. module: partner_slow_payer
+#: model:ir.model,name:partner_slow_payer.model_res_partner
 msgid "Partner"
 msgstr "Empresa"
 
-#. module: res_partner_slow_payer
-#: model:ir.model,name:res_partner_slow_payer.model_sale_order
+#. module: partner_slow_payer
+#: model:ir.model,name:partner_slow_payer.model_sale_order
 msgid "Sales Order"
 msgstr "Pedido de venta"
 
-#. module: res_partner_slow_payer
-#: model:ir.model,name:res_partner_slow_payer.model_sale_order
+#. module: partner_slow_payer
+#: model:ir.model,name:partner_slow_payer.model_sale_order
 msgid "You have a pending invoice"
 msgstr "El cliente tiene facturas pendientes"
 
-#. module: res_partner_slow_payer
-#: model:ir.model,name:res_partner_slow_payer.model_sale_order
+#. module: partner_slow_payer
+#: model:ir.model,name:partner_slow_payer.model_sale_order
 msgid "You credit is in cero"
 msgstr "El cliente no tiene limite de credito"
+
+#. module: partner_slow_payer
+#: model:res.groups,name:partner_slow_payer.group_partner_slow_payer
+msgid "Sale and invoice slow payers"
+msgstr "Permitir venta y facturación en clientes morosos"
 

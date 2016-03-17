@@ -20,6 +20,7 @@
         'sale',
     ],
     'data': [
-        'views/res_partner_slow_payer_view.xml',
+        'views/partner_slow_payer_view.xml',
+        'security/partner_slow_payer_security.xml'
     ],
 }
