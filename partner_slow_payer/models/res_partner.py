@@ -34,10 +34,14 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def invoice_validate(self):
-        if self.partner_id.slow_payer:
-            raise Warning('You have a pending invoice')
-        elif self.partner_id.credit_limit == 0.0:
-            raise Warning('You credit is in cero')
+        if not self.env.user.has_group(
+                'partner_slow_payer.group_partner_slow_payer'):
+            if self.partner_id.slow_payer:
+                raise Warning('You have a pending invoice')
+            elif self.partner_id.credit_limit == 0.0:
+                raise Warning('You credit is in cero')
+            else:
+                return self.write({'state': 'open'})
         else:
             return self.write({'state': 'open'})
 
@@ -49,7 +53,9 @@ class SaleOrder(models.Model):
     @api.multi
     def action_wait(self):
         super(SaleOrder, self).action_wait()
-        if self.partner_id.credit_limit == 0.0:
-            raise Warning('You credit is in cero')
-        elif self.partner_id.slow_payer:
-            raise Warning('You have a pending invoice')
+        if not self.env.user.has_group(
+                'partner_slow_payer.group_partner_slow_payer'):
+            if self.partner_id.credit_limit == 0.0:
+                raise Warning('You credit is in cero')
+            elif self.partner_id.slow_payer:
+                raise Warning('You have a pending invoice')
