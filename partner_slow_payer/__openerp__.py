@@ -3,8 +3,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
-    'name': 'Res Partner Slow Payer',
-    'summary': 'Add the field slow_payer in the partner',
+    'name': 'Partner Slow Payer',
+    'summary': 'Identify slow payers',
     'version': '8.0.1.0',
     'category': 'Extra Tools',
     'website': 'http://clearcorp.cr',
@@ -20,6 +20,6 @@
         'sale',
     ],
     'data': [
-        "views/res_partner_slow_payer_view.xml",
+        'views/res_partner_slow_payer_view.xml',
     ],
 }
