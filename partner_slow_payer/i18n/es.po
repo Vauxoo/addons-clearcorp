@@ -45,3 +45,17 @@ msgstr "El cliente no tiene limite de credito"
 msgid "Sale and invoice slow payers"
 msgstr "Permitir venta y facturación en clientes morosos"
 
+#. module: partner_slow_payer
+#: code:addons/partner_slow_payer/models/res_partner.py:43
+#: code:addons/partner_slow_payer/models/res_partner.py:59
+#, python-format
+msgid "You credit is in cero"
+msgstr "No tiene limite de credito"
+
+#. module: partner_slow_payer
+#: code:addons/partner_slow_payer/models/res_partner.py:40
+#: code:addons/partner_slow_payer/models/res_partner.py:61
+#, python-format
+msgid "You have a pending invoice"
+msgstr "Tiene facturas pendientes"
+
