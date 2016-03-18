@@ -23,9 +23,8 @@ class ResPartner(models.Model):
                  ('state', '=', 'open')])
             if invoice:
                 partner.slow_payer = True
-                return True
             else:
-                return False
+                partner.slow_payer = False
 
 
 class AccountInvoice(models.Model):
@@ -34,16 +33,15 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def invoice_validate(self):
-        if not self.env.user.has_group(
-                'partner_slow_payer.group_partner_slow_payer'):
-            if self.partner_id.slow_payer:
-                raise Warning('You have a pending invoice')
-            elif self.partner_id.credit_limit == 0.0:
-                raise Warning('You credit is in cero')
-            else:
-                super(AccountInvoice, self).invoice_validate()
-        else:
-            super(AccountInvoice, self).invoice_validate()
+        for invoice in self:
+            if not self.env.user.has_group(
+                    'partner_slow_payer.group_partner_slow_payer'):
+                if invoice.partner_id.slow_payer:
+                    raise Warning('You have a pending invoice')
+                if invoice.partner_id.credit_limit - invoice.partner_id.credit - \
+                        invoice.amount_total <= 0.0:
+                    raise Warning('You credit is in cero')
+        super(AccountInvoice, self).invoice_validate()
 
 
 class SaleOrder(models.Model):
@@ -53,9 +51,11 @@ class SaleOrder(models.Model):
     @api.multi
     def action_wait(self):
         super(SaleOrder, self).action_wait()
-        if not self.env.user.has_group(
-                'partner_slow_payer.group_partner_slow_payer'):
-            if self.partner_id.credit_limit == 0.0:
-                raise Warning('You credit is in cero')
-            elif self.partner_id.slow_payer:
-                raise Warning('You have a pending invoice')
+        for sale in self:
+            if not self.env.user.has_group(
+                    'partner_slow_payer.group_partner_slow_payer'):
+                if sale.partner_id.credit_limit - sale.partner_id.credit - \
+                        sale.amount_total <= 0.0:
+                    raise Warning('You credit is in cero')
+                if sale.partner_id.slow_payer:
+                    raise Warning('You have a pending invoice')
