@@ -9,7 +9,7 @@
             <field name="arch" type="xml">
                 <xpath expr="/form/sheet/notebook/page[@string='Order Lines']" position="after">
                     <page string="Issues">
-                        <field name="issue_ids" context="{'tree_view_ref' : 'project_issue_helpdesk.project_issue_tree_view'}" widget="many2many" domain="[('stage_id.closed','!=',True),('invoice_ids','=',False),('invoice_sale_id','=',False)]" colspan="4" nolabel="1" attrs="{'readonly': [('state','not in',('draft','sent'))]}">
+                        <field name="issue_ids" context="{'tree_view_ref' : 'project_issue_helpdesk.project_issue_tree_view'}" widget="many2many" domain="[('stage_id.closed','!=',True),('invoice_ids','=',False),('invoice_sale_id','=',False)]" colspan="4" nolabel="1" attrs="{'readonly': [('state','=','done')]}">
                             <tree string="Issues Lines">
                                 <field name="issue_number"/>
                                 <field name="issue_type"/>
