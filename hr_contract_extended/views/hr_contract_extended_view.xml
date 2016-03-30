@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="hr_contract_salary_rule_form" model="ir.ui.view">
+            <field name="name">hr.contract.salary.rule.form</field>
+            <field name="model">hr.contract</field>
+            <field name="priority" eval="16"/>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='working_hours']" position="before">
+                    <label for="duration_years" string="Time Worked"/>
+                    <div>
+                        <field name="duration_years" class="oe_inline" nolabel="1"/>
+                        <label string="year(s) - "/>
+                        <field name="duration_months" class="oe_inline" nolabel="1"/>
+                        <label string="month(s) - "/>
+                        <field name="duration_days" class="oe_inline" nolabel="1"/>
+                        <label string="day(s)"/>
+                    </div>
+                </xpath>
+                 <xpath expr="//page[@string='Information']" position="after">
+                    <page string="Salary Rules">
+                        <field name="hr_salary_rule_ids"/>
+                    </page>
+                    <page string="Academic">
+                        <group>
+                            <field name="academic_achievement" nolabel="1">
+                                <tree string="Invoice lines" editable="bottom">
+                                    <field name="degree_obtained"/>
+                                    <field name="institution"/>
+                                    <field name="date_obtained"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                </xpath>
+            </data>
+            </field>
+        </record>
+
+        <record id="hr_payroll.action_salary_rule_form" model="ir.actions.act_window">
+            <field name="domain">[('parent_rule_id','=',False), ('contract_id','=',False)]</field>
+        </record>
+        
+        <menuitem action="hr_contract.action_hr_contract" id="hr_contract.hr_menu_contract" parent="hr.menu_hr_main" name="Contracts" sequence="4" groups="base.group_user"/>
+
+    </data>
+</openerp>
+

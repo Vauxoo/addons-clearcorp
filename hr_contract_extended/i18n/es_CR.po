@@ -1,0 +1,105 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* hr_contract_extended
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-09-13 19:54+0000\n"
+"PO-Revision-Date: 2013-09-13 19:54+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: hr_contract_extended
+#: view:hr.contract:0
+msgid "day(s)"
+msgstr "día(s)"
+
+#. module: hr_contract_extended
+#: model:ir.model,name:hr_contract_extended.model_hr_contract_academic_achievement
+msgid "Hr Contract Academic Achievement"
+msgstr "Hr Contrat Logros Académicos"
+
+#. module: hr_contract_extended
+#: view:hr.contract:0
+msgid "Time Worked"
+msgstr "Tiempo Laborado"
+
+#. module: hr_contract_extended
+#: field:hr.contract.academic.achievement,degree_obtained:0
+msgid "Degree Obtained"
+msgstr "Título Obtenido"
+
+#. module: hr_contract_extended
+#: field:hr.contract,duration_months:0
+msgid "Months"
+msgstr "Meses"
+
+#. module: hr_contract_extended
+#: field:hr.contract,duration_days:0
+msgid "Days"
+msgstr "Días"
+
+#. module: hr_contract_extended
+#: field:hr.salary.rule,contract_id:0
+#: model:ir.model,name:hr_contract_extended.model_hr_contract
+msgid "Contract"
+msgstr "Contrato"
+
+#. module: hr_contract_extended
+#: view:hr.contract:0
+msgid "Invoice lines"
+msgstr "Líneas de Factura"
+
+#. module: hr_contract_extended
+#: model:ir.model,name:hr_contract_extended.model_hr_salary_rule
+msgid "hr.salary.rule"
+msgstr "hr.salary.rule"
+
+#. module: hr_contract_extended
+#: view:hr.contract:0
+msgid "Academic"
+msgstr "Formación Académica"
+
+#. module: hr_contract_extended
+#: field:hr.contract,academic_achievement:0
+#: field:hr.contract.academic.achievement,contract_academic_achievement:0
+msgid "Academic Achievements"
+msgstr "Logros Académicos"
+
+#. module: hr_contract_extended
+#: view:hr.contract:0
+msgid "year(s) - "
+msgstr "año(s) - "
+
+#. module: hr_contract_extended
+#: field:hr.contract.academic.achievement,date_obtained:0
+msgid "Date Obtained"
+msgstr "Fecha de Obtención"
+
+#. module: hr_contract_extended
+#: view:hr.contract:0
+#: field:hr.contract,hr_salary_rule_ids:0
+msgid "Salary Rules"
+msgstr "Reglas de Salario"
+
+#. module: hr_contract_extended
+#: field:hr.contract.academic.achievement,institution:0
+msgid "Institution"
+msgstr "Institución"
+
+#. module: hr_contract_extended
+#: view:hr.contract:0
+msgid "month(s) - "
+msgstr "mes(es) - "
+
+#. module: hr_contract_extended
+#: field:hr.contract,duration_years:0
+msgid "Years"
+msgstr "Años"
+

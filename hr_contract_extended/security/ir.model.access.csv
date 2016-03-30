@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_contract_emp,hr.contract,model_hr_contract,base.group_user,1,0,0,0
+access_hr_salary_rule_emp,hr.salary.rule,model_hr_salary_rule,base.group_user,1,0,0,0
+access_hr_contract_academic_achievement_emp,hr.contract.academic.achievement,model_hr_contract_academic_achievement,base.group_user,1,0,0,0
+access_hr_contract_academic_achievement_man,hr.contract.academic.achievement.manager,model_hr_contract_academic_achievement,base.group_hr_manager,1,1,1,1
