@@ -20,7 +20,7 @@
                         <label string="day(s)"/>
                     </div>
                 </xpath>
-                 <xpath expr="//page[@string='Information']" position="after">
+                 <xpath expr="//page[@name='information']" position="after">
                     <page string="Salary Rules">
                         <field name="hr_salary_rule_ids"/>
                     </page>

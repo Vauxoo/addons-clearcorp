@@ -10,7 +10,7 @@ class HrSalaryRule(models.Model):
 
     contract_id = fields.Many2one('hr.contract', string='Contract')
 
-    @api.Model
+    @api.model
     def satisfy_condition(self, rule_id, localdict):
         """
         @param rule_id: id of hr.salary.rule to be tested
@@ -29,12 +29,12 @@ class HrSalaryRule(models.Model):
 
     @api.model
     def create(self, vals):
-        res = super(HrSalaryRule, self).eate(vals)
-        structure_obj = self.pool.get('hr.payroll.structure')
-        for salary_rule in self.browse(res):
+        res = super(HrSalaryRule, self).create(vals)
+        print "\nres: ", res
+        structure_obj = self.env['hr.payroll.structure']
+        for salary_rule in res:
             if salary_rule.contract_id:
-                structure_obj.write(salary_rule.contract_id.struct_id.id,
-                                    {'rule_ids': [(4, salary_rule.id)]})
+                structure_obj.write(salary_rule.contract_id.struct_id.id)
         return res
 
 

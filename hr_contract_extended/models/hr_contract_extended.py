@@ -13,7 +13,7 @@ class HrContractAcademicAchievement(models.Model):
 
     degree_obtained = fields.Char('Degree Obtained', size=96, required=True)
     institution = fields.Char('Institution', size=64)
-    date_obtained = fields.date('Date Obtained')
+    date_obtained = fields.Date(string='Date Obtained')
     contract_academic_achievement = fields.Many2one(
         'hr.contract', string='Academic Achievements')
 
@@ -43,11 +43,11 @@ class HrSalaryRule(models.Model):
     @api.model
     def create(self, vals):
         res = super(HrSalaryRule, self).create(vals)
-        structure_obj = self.pool.get('hr.payroll.structure')
-        for salary_rule in self.browse(res):
+        print "\nres: ", res
+        structure_obj = self.env['hr.payroll.structure']
+        for salary_rule in res:
             if salary_rule.contract_id:
-                structure_obj.write([salary_rule.contract_id.struct_id.id],
-                                    {'rule_ids': [(4, salary_rule.id)]})
+                structure_obj.write([salary_rule.contract_id.struct_id.id])
         return res
 
 
@@ -70,7 +70,7 @@ class HrContract(models.Model):
         return relativedelta(end_date, start_date).years
 
     @api.multi
-    def _compute_duration(self, field_name, arg):
+    def _compute_duration(self):
         res = {}
         for contract in self:
             start_date = datetime.strptime(contract.date_start, "%Y-%m-%d")

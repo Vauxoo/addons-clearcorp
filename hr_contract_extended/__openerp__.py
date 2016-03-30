@@ -8,6 +8,7 @@
     'author': 'ClearCorp',
     'website': 'http://clearcorp.cr',
     'category': 'Human Resources',
+    'summary': 'Extend functionality to HR Contract',
     'sequence': 10,
     'license': 'AGPL-3',
     'application': False,
