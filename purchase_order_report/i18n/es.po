@@ -4,11 +4,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 8.0\n"
+"Project-Id-Version: Odoo Server 9.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-23 21:53+0000\n"
-"PO-Revision-Date: 2015-07-23 21:53+0000\n"
-"Last-Translator: Fabio Vílchez\n"
+"POT-Creation-Date: 2016-03-30 23:45+0000\n"
+"PO-Revision-Date: 2016-03-30 23:45+0000\n"
+"Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -16,153 +16,154 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
+#: model:ir.ui.view,arch_db:purchase_order_report.view_purchase order_report
+msgid "<b><span>Delivery address:</span></b><br/>\n"
+"                                        <span class=\"fa fa-map-marker\" style=\"width: 14px; text-align: center; margin-right: 3px\"/>"
+msgstr "<b><span>Dirección de entrega:</span></b><br/>\n"
+"                                        <span class=\"fa fa-map-marker\" style=\"width: 14px; text-align: center; margin-right: 3px\"/>"
+
+#. module: purchase_order_report
+#: model:ir.ui.view,arch_db:purchase_order_report.purchase_layout_header
+msgid "<b>Approved: </b>"
+msgstr "<b>Aprobado: </b>"
+
+#. module: purchase_order_report
+#: model:ir.ui.view,arch_db:purchase_order_report.purchase_layout_header
+msgid "<b>Est. delivery date: </b>"
+msgstr "<b>Fecha de entrega estimada: </b>"
+
+#. module: purchase_order_report
+#: model:ir.ui.view,arch_db:purchase_order_report.view_purchase order_report
+msgid "<b>Incoterm: </b>"
+msgstr "<b>Incoterm: </b>"
+
+#. module: purchase_order_report
+#: model:ir.ui.view,arch_db:purchase_order_report.purchase_layout_header
+msgid "<b>Page: </b><span class=\"page\"/> / <span class=\"topage\"/>"
+msgstr "<b>Página: </b><span class=\"page\"/> / <span class=\"topage\"/>"
+
+#. module: purchase_order_report
+#: model:ir.ui.view,arch_db:purchase_order_report.view_purchase order_report
+msgid "<b>Payment terms: </b>"
+msgstr "<b>Terminos de pago: </b>"
+
+#. module: purchase_order_report
+#: model:ir.ui.view,arch_db:purchase_order_report.purchase_layout_header
+msgid "<b>Purchase date: </b>"
+msgstr "<b>Fecha de pedido de venta: </b>"
+
+#. module: purchase_order_report
+#: model:ir.ui.view,arch_db:purchase_order_report.purchase_layout_header
+msgid "<b>Reference: </b>"
+msgstr "<b>Referencia: </b>"
+
+#. module: purchase_order_report
+#: model:ir.ui.view,arch_db:purchase_order_report.view_purchase order_report
+msgid "<b>Total Without Taxes</b>"
+msgstr "<b>Total sin impuestos</b>"
+
+#. module: purchase_order_report
+#: model:ir.ui.view,arch_db:purchase_order_report.view_purchase order_report
+msgid "<b>Total</b>"
+msgstr "<b>Total</b>"
+
+#. module: purchase_order_report
+#: model:ir.ui.view,arch_db:purchase_order_report.view_purchasequotation_order_report
+msgid "<span>Regards,</span>"
+msgstr "<span>Saludos,</span>"
+
+#. module: purchase_order_report
+#: model:ir.ui.view,arch_db:purchase_order_report.view_purchasequotation_order_report
+msgid "<strong>Description</strong>"
+msgstr "<strong>Descripción</strong>"
+
+#. module: purchase_order_report
+#: model:ir.ui.view,arch_db:purchase_order_report.view_purchasequotation_order_report
+msgid "<strong>Expected Date</strong>"
+msgstr "<strong>Fecha prevista</strong>"
+
+#. module: purchase_order_report
+#: model:ir.ui.view,arch_db:purchase_order_report.view_purchasequotation_order_report
+msgid "<strong>Qty</strong>"
+msgstr "<strong>Cant</strong>"
+
+#. module: purchase_order_report
+#: model:ir.ui.view,arch_db:purchase_order_report.view_purchasequotation_order_report
+msgid "<strong>Shipping address:</strong>"
+msgstr "<strong>Dirección de Envío</strong>"
+
+#. module: purchase_order_report
+#: model:ir.ui.view,arch_db:purchase_order_report.view_purchase order_report
+msgid "<strong>Terms &amp; Conditions:</strong>"
+msgstr "<strong>Términos &amp; Condiciones:</strong>"
+
+#. module: purchase_order_report
+#: model:ir.ui.view,arch_db:purchase_order_report.view_purchase order_report
 msgid "Amount"
 msgstr "Total"
 
 #. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
-msgid "Approved by:"
-msgstr "Aprobado por:"
-
-#. module: purchase_order_report
-#: view:website:purchase_order_report.purchase_layout_header
-msgid "Approved:"
-msgstr "Aprobado:"
-
-#. module: purchase_order_report
-#: view:website:purchase_order_report.purchase_layout_header
-msgid "Quote purchase:"
-msgstr "Cot. de compra:"
-
-#. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
-msgid "Delivery address:"
-msgstr "Dirección de entrega:"
-
-#. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
-#: view:website:purchase.report_purchasequotation_document
+#: model:ir.ui.view,arch_db:purchase_order_report.view_purchase order_report
 msgid "Description"
 msgstr "Detalle"
 
 #. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
+#: model:ir.ui.view,arch_db:purchase_order_report.view_purchase order_report
 msgid "Disc."
 msgstr "Desc."
 
 #. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
-msgid "Discount ("
-msgstr "Descuento ("
+#: model:ir.ui.view,arch_db:purchase_order_report.view_purchase order_report
+msgid "Discount"
+msgstr "Descuento"
 
 #. module: purchase_order_report
-#: view:website:purchase_order_report.purchase_layout_header
-msgid "Est. delivery date:"
-msgstr "Entrega prevista:"
-
-#. module: purchase_order_report
-#: view:website:purchase.report_purchasequotation_document
-msgid "Expected Date"
-msgstr "Fecha prevista"
-
-#. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
-msgid "Incoterm:"
-msgstr "Incoterm:"
-
-#. module: purchase_order_report
-#: view:website:purchase_order_report.purchase_layout_header
-msgid "Page:"
-msgstr "Pág:"
-
-#. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
-msgid "Payment terms:"
-msgstr "Plazo de pago:"
-
-#. module: purchase_order_report
-#: view:website:purchase_order_report.purchase_layout_header
-msgid "Purchase date:"
-msgstr "Fecha:"
-
-#. module: purchase_order_report
-#: view:website:purchase_order_report.purchase_layout_header
+#: model:ir.ui.view,arch_db:purchase_order_report.purchase_layout_header
 msgid "Purchase:"
 msgstr "Compra:"
 
 #. module: purchase_order_report
-#: view:website:purchase.report_purchasequotation_document
-msgid "Qty"
-msgstr "Cant"
-
-#. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
+#: model:ir.ui.view,arch_db:purchase_order_report.view_purchase order_report
 msgid "Quant."
 msgstr "Cant."
 
 #. module: purchase_order_report
-#: view:website:purchase_order_report.purchase_layout_header
-msgid "Reference:"
-msgstr "Referencia:"
+#: model:ir.ui.view,arch_db:purchase_order_report.purchase_layout_header
+msgid "Quote purchase:"
+msgstr "Cot. de compra:"
 
 #. module: purchase_order_report
-#: view:website:purchase.report_purchasequotation_document
-msgid "Regards,"
-msgstr "Recuerdos,"
-
-#. module: purchase_order_report
-#: view:website:purchase.report_purchasequotation_document
+#: model:ir.ui.view,arch_db:purchase_order_report.view_purchasequotation_order_report
 msgid "Request for Quotation"
 msgstr "Solicitud de presupuesto"
 
 #. module: purchase_order_report
-#: view:website:purchase.report_purchasequotation_document
-msgid "Shipping address:"
-msgstr "Dirección de envío:"
-
-#. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
+#: model:ir.ui.view,arch_db:purchase_order_report.view_purchase order_report
 msgid "Supplier:"
 msgstr "Proveedor:"
 
 #. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
+#: model:ir.ui.view,arch_db:purchase_order_report.view_purchase order_report
 msgid "Tax"
 msgstr "IV"
 
 #. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
+#: model:ir.ui.view,arch_db:purchase_order_report.view_purchase order_report
 msgid "Taxes"
 msgstr "Impuestos"
 
 #. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
-msgid "Terms & Conditions:"
-msgstr "Términos & Condiciones:"
-
-#. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
-msgid "Total"
-msgstr "Total"
-
-#. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
-msgid "Total Without Taxes"
-msgstr "Subtotal"
-
-#. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
+#: model:ir.ui.view,arch_db:purchase_order_report.view_purchase order_report
 msgid "Unit Price"
 msgstr "Precio unit."
 
 #. module: purchase_order_report
-#: view:website:purchase.report_purchasequotation_document
+#: model:ir.ui.view,arch_db:purchase_order_report.view_purchasequotation_order_report
 msgid "VAT:"
 msgstr "IVA:"
 
 #. module: purchase_order_report
-#: view:website:purchase.report_purchaseorder_document
+#: model:ir.ui.view,arch_db:purchase_order_report.view_purchase order_report
 msgid "XMT"
 msgstr "Exe"
 
