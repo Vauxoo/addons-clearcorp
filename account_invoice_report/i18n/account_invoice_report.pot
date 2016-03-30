@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 8.0\n"
+"Project-Id-Version: Odoo Server 9.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-04 20:27+0000\n"
-"PO-Revision-Date: 2015-08-04 20:27+0000\n"
+"POT-Creation-Date: 2016-03-30 23:12+0000\n"
+"PO-Revision-Date: 2016-03-30 23:12+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,151 +16,155 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: account_invoice_report
-#: view:website:account.report_invoice_document
+#: model:ir.ui.view,arch_db:account_invoice_report.account_invoice_report
+msgid "<b>Description: </b>"
+msgstr ""
+
+#. module: account_invoice_report
+#: model:ir.ui.view,arch_db:account_invoice_report.invoice_layout_header
+msgid "<b>Invoice date: </b>"
+msgstr ""
+
+#. module: account_invoice_report
+#: model:ir.ui.view,arch_db:account_invoice_report.invoice_layout_header
+msgid "<b>Page: </b><span class=\"page\"/> / <span class=\"topage\"/>"
+msgstr ""
+
+#. module: account_invoice_report
+#: model:ir.ui.view,arch_db:account_invoice_report.account_invoice_report
+msgid "<b>Reference: </b>"
+msgstr ""
+
+#. module: account_invoice_report
+#: model:ir.ui.view,arch_db:account_invoice_report.account_invoice_report
+msgid "<b>Source: </b>"
+msgstr ""
+
+#. module: account_invoice_report
+#: model:ir.ui.view,arch_db:account_invoice_report.account_invoice_report
+msgid "<b>Subtotal</b>"
+msgstr ""
+
+#. module: account_invoice_report
+#: model:ir.ui.view,arch_db:account_invoice_report.account_invoice_report
+msgid "<b>Total</b>"
+msgstr ""
+
+#. module: account_invoice_report
+#: model:ir.ui.view,arch_db:account_invoice_report.invoice_layout_header
+msgid "<br/>\n"
+"                                <b>Due date: </b>"
+msgstr ""
+
+#. module: account_invoice_report
+#: model:ir.ui.view,arch_db:account_invoice_report.invoice_layout_header
+msgid "<br/>\n"
+"                                <b>Payment terms: </b>"
+msgstr ""
+
+#. module: account_invoice_report
+#: model:ir.ui.view,arch_db:account_invoice_report.invoice_layout_header
+msgid "<br/>\n"
+"                                <b>Salesperson: </b>"
+msgstr ""
+
+#. module: account_invoice_report
+#: model:ir.ui.view,arch_db:account_invoice_report.account_invoice_report
+msgid "<strong>Fiscal Position Remark:</strong>"
+msgstr ""
+
+#. module: account_invoice_report
+#: model:ir.ui.view,arch_db:account_invoice_report.account_invoice_report
+msgid "<strong>Payment Term:</strong>"
+msgstr ""
+
+#. module: account_invoice_report
+#: model:ir.ui.view,arch_db:account_invoice_report.account_invoice_report
+msgid "<strong>Terms &amp; Conditions:</strong>"
+msgstr ""
+
+#. module: account_invoice_report
+#: model:ir.ui.view,arch_db:account_invoice_report.account_invoice_report
 msgid "Amount"
 msgstr ""
 
 #. module: account_invoice_report
-#: view:website:account_invoice_report.invoice_layout_header
+#: model:ir.ui.view,arch_db:account_invoice_report.invoice_layout_header
 msgid "Cancelled Invoice"
 msgstr ""
 
 #. module: account_invoice_report
-#: view:website:account.report_invoice_document
+#: model:ir.ui.view,arch_db:account_invoice_report.account_invoice_report
 msgid "Customer:"
 msgstr ""
 
 #. module: account_invoice_report
-#: view:website:account.report_invoice_document
+#: model:ir.ui.view,arch_db:account_invoice_report.account_invoice_report
 msgid "Description"
 msgstr ""
 
 #. module: account_invoice_report
-#: view:website:account.report_invoice_document
-msgid "Description:"
-msgstr ""
-
-#. module: account_invoice_report
-#: view:website:account.report_invoice_document
+#: model:ir.ui.view,arch_db:account_invoice_report.account_invoice_report
 msgid "Disc."
 msgstr ""
 
 #. module: account_invoice_report
-#: view:website:account.report_invoice_document
-msgid "Discount ("
+#: model:ir.ui.view,arch_db:account_invoice_report.account_invoice_report
+msgid "Discount"
 msgstr ""
 
 #. module: account_invoice_report
-#: view:website:account_invoice_report.invoice_layout_header
+#: model:ir.ui.view,arch_db:account_invoice_report.invoice_layout_header
 msgid "Draft Invoice"
 msgstr ""
 
 #. module: account_invoice_report
-#: view:website:account_invoice_report.invoice_layout_header
-msgid "Due date:"
-msgstr ""
-
-#. module: account_invoice_report
-#: view:website:account.report_invoice_document
-msgid "Fiscal Position Remark:"
-msgstr ""
-
-#. module: account_invoice_report
-#: view:website:account_invoice_report.invoice_layout_header
+#: model:ir.ui.view,arch_db:account_invoice_report.invoice_layout_header
 msgid "Invoice"
 msgstr ""
 
 #. module: account_invoice_report
-#: view:website:account_invoice_report.invoice_layout_header
-msgid "Invoice date:"
-msgstr ""
-
-#. module: account_invoice_report
-#: view:website:account_invoice_report.invoice_layout_header
+#: model:ir.ui.view,arch_db:account_invoice_report.invoice_layout_header
 msgid "PRO-FORMA"
 msgstr ""
 
 #. module: account_invoice_report
-#: view:website:account_invoice_report.invoice_layout_header
-msgid "Page:"
-msgstr ""
-
-#. module: account_invoice_report
-#: view:website:account.report_invoice_document
-msgid "Payment Term:"
-msgstr ""
-
-#. module: account_invoice_report
-#: view:website:account_invoice_report.invoice_layout_header
-msgid "Payment terms:"
-msgstr ""
-
-#. module: account_invoice_report
-#: view:website:account.report_invoice_document
+#: model:ir.ui.view,arch_db:account_invoice_report.account_invoice_report
 msgid "Quant."
 msgstr ""
 
 #. module: account_invoice_report
-#: view:website:account.report_invoice_document
-msgid "Reference:"
-msgstr ""
-
-#. module: account_invoice_report
-#: view:website:account_invoice_report.invoice_layout_header
+#: model:ir.ui.view,arch_db:account_invoice_report.invoice_layout_header
 msgid "Refund"
 msgstr ""
 
 #. module: account_invoice_report
-#: view:website:account_invoice_report.invoice_layout_header
-msgid "Salesperson:"
-msgstr ""
-
-#. module: account_invoice_report
-#: view:website:account.report_invoice_document
-msgid "Source:"
-msgstr ""
-
-#. module: account_invoice_report
-#: view:website:account.report_invoice_document
-msgid "Subtotal"
-msgstr ""
-
-#. module: account_invoice_report
-#: view:website:account_invoice_report.invoice_layout_header
+#: model:ir.ui.view,arch_db:account_invoice_report.invoice_layout_header
 msgid "Supplier Invoice"
 msgstr ""
 
 #. module: account_invoice_report
-#: view:website:account_invoice_report.invoice_layout_header
+#: model:ir.ui.view,arch_db:account_invoice_report.invoice_layout_header
 msgid "Supplier Refund"
 msgstr ""
 
 #. module: account_invoice_report
-#: view:website:account.report_invoice_document
+#: model:ir.ui.view,arch_db:account_invoice_report.account_invoice_report
 msgid "Tax"
 msgstr ""
 
 #. module: account_invoice_report
-#: view:website:account.report_invoice_document
+#: model:ir.ui.view,arch_db:account_invoice_report.account_invoice_report
 msgid "Taxes"
 msgstr ""
 
 #. module: account_invoice_report
-#: view:website:account.report_invoice_document
-msgid "Terms & Conditions:"
-msgstr ""
-
-#. module: account_invoice_report
-#: view:website:account.report_invoice_document
-msgid "Total"
-msgstr ""
-
-#. module: account_invoice_report
-#: view:website:account.report_invoice_document
+#: model:ir.ui.view,arch_db:account_invoice_report.account_invoice_report
 msgid "Unit Price"
 msgstr ""
 
 #. module: account_invoice_report
-#: view:website:account.report_invoice_document
+#: model:ir.ui.view,arch_db:account_invoice_report.account_invoice_report
 msgid "XMT"
 msgstr ""
+
