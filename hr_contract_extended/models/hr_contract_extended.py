@@ -11,8 +11,9 @@ class HrContractAcademicAchievement(models.Model):
     _name = 'hr.contract.academic.achievement'
     _description = 'Hr Contract Academic Achievement'
 
-    degree_obtained = fields.Char('Degree Obtained', size=96, required=True)
-    institution = fields.Char('Institution', size=64)
+    degree_obtained = fields.Char(string='Degree Obtained', size=96,
+                                  required=True)
+    institution = fields.Char(string='Institution', size=64)
     date_obtained = fields.Date(string='Date Obtained')
     contract_academic_achievement = fields.Many2one(
         'hr.contract', string='Academic Achievements')
@@ -86,7 +87,7 @@ class HrContract(models.Model):
                                          string='Salary Rules'),
     academic_achievement = fields.One2many(
         'hr.contract.academic.achievement', 'contract_academic_achievement',
-        'Academic Achievements')
+        string='Academic Achievements')
     duration_years = fields.Integer(
         compute=_compute_duration, string="Years", multi="sums")
     duration_months = fields.Integer(
