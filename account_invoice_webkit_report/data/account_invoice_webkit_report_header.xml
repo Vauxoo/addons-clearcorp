@@ -155,7 +155,7 @@
             <tbody>
                 <tr>
                     <td class="company_logo">
-                        ${helper.embed_logo_by_name('default_logo', width=200)|n} 
+                        ${helper.embed_logo_by_name('default_logo', width=400)|n} 
                     </td>
                 </tr>
                 <tr>
