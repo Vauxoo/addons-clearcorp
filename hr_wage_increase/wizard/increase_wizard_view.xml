@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="view_increase_wizard_form" model="ir.ui.view">
+            <field name="name">view.increase.wizard.form</field>
+            <field name="model">hr.wage.increase.increase.wizard</field>
+            <field name="type">form</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form string="Wage Increase" version="7.0">
+                    <group>
+                        <group name="grp_type">
+                            <field name="increase_type"/>
+                        </group>
+                        <group name="grp_amount">
+                            <field name="amount_percentage" attrs="{'invisible': ['|',('increase_type','=','fixed_amount'),('increase_type','=',False)], 'required': [('increase_type','=','percentage')]}"/>
+                            <field name="amount_fixed" attrs="{'invisible': ['|',('increase_type','=','percentage'),('increase_type','=',False)], 'required': [('increase_type','=','fixed_amount')]}"/>
+                        </group>
+                        <field name="contract_ids" nolabel="1" colspan="2">
+                            <tree>
+                                <field name="name"/>
+                                <field name="employee_id"/>
+                                <field name="type_id"/>
+                                <field name="job_id"/>
+                                <field name="working_hours"/>
+                                <field name="date_start"/>
+                                <field name="date_end"/>
+                                <field name="wage"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button name="process_wage_increase" type="object" class="oe_highlight" string="Process" confirm="Are you sure want to process the selected contracts? You will be redirected to the updated contracts."/> or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>
