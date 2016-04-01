@@ -1,0 +1,281 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* hr_payroll_extended
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 9.0e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-31 21:56+0000\n"
+"PO-Revision-Date: 2016-03-31 21:56+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: hr_payroll_extended
+#: code:addons/hr_payroll_extended/models/hr_payroll_extended.py:150
+#, python-format
+msgid "%s payroll of %s from %s to %s"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model.fields,field_description:hr_payroll_extended.field_hr_payroll_structure_active
+#: model:ir.model.fields,field_description:hr_payroll_extended.field_hr_salary_rule_category_active
+msgid "Active"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: selection:hr.payslip.run,schedule_pay:0
+msgid "Annually"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model.fields,field_description:hr_payroll_extended.field_hr_salary_rule_appears_on_report
+msgid "Appears on Report"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: selection:hr.payslip.run,schedule_pay:0
+msgid "Bi-monthly"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: selection:hr.payslip.run,schedule_pay:0
+msgid "Bi-weekly"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model.fields,field_description:hr_payroll_extended.field_hr_contract_fixed_working_hours_code
+#: model:ir.model.fields,field_description:hr_payroll_extended.field_hr_job_code
+#: model:ir.model.fields,field_description:hr_payroll_extended.field_hr_payroll_extended_input_value_code
+#: model:ir.model.fields,field_description:hr_payroll_extended.field_hr_payslip_input_input_code
+#: model:ir.model.fields,field_description:hr_payroll_extended.field_hr_payslip_worked_days_work_code
+msgid "Code"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model,name:hr_payroll_extended.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.ui.view,arch_db:hr_payroll_extended.inherit_hr_payslip_run_form
+msgid "Compute Payslips"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.ui.view,arch_db:hr_payroll_extended.inherit_hr_payslip_run_form
+msgid "Confirm Payslips"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model,name:hr_payroll_extended.model_hr_contract
+msgid "Contract"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model.fields,field_description:hr_payroll_extended.field_hr_payroll_extended_input_value_create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model.fields,field_description:hr_payroll_extended.field_hr_payroll_extended_input_value_create_date
+msgid "Created on"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model.fields,field_description:hr_payroll_extended.field_hr_payroll_extended_input_value_display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model.fields,field_description:hr_payroll_extended.field_hr_payslip_run_period_id
+msgid "Force Period"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.ui.view,arch_db:hr_payroll_extended.inherit_hr_payslip_run_form
+msgid "Generate Payslips"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model,name:hr_payroll_extended.model_hr_payslip_employees
+msgid "Generate payslips for all selected employees"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model.fields,field_description:hr_payroll_extended.field_hr_payroll_extended_input_value_id
+msgid "ID"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.actions.act_window,name:hr_payroll_extended.action_input_value
+#: model:ir.ui.menu,name:hr_payroll_extended.menu_action_input_value
+msgid "Input Codes"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model,name:hr_payroll_extended.model_hr_job
+msgid "Job Position"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model.fields,field_description:hr_payroll_extended.field_hr_payroll_extended_input_value___last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model.fields,field_description:hr_payroll_extended.field_hr_payroll_extended_input_value_write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model.fields,field_description:hr_payroll_extended.field_hr_payroll_extended_input_value_write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: selection:hr.payslip.run,schedule_pay:0
+msgid "Monthly"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: selection:hr.payroll.extended.input.value,type:0
+msgid "Other Inputs"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model,name:hr_payroll_extended.model_hr_payslip
+msgid "Pay Slip"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model,name:hr_payroll_extended.model_hr_payslip_run
+msgid "Payslip Batches"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model,name:hr_payroll_extended.model_hr_payslip_input
+msgid "Payslip Input"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model,name:hr_payroll_extended.model_hr_payslip_worked_days
+msgid "Payslip Worked Days"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model.fields,field_description:hr_payroll_extended.field_res_company_payslip_footer
+#: model:ir.ui.view,arch_db:hr_payroll_extended.view_company_form_inherit
+msgid "Payslip footer"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: selection:hr.payslip.run,schedule_pay:0
+msgid "Quarterly"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model,name:hr_payroll_extended.model_hr_salary_rule_category
+msgid "Salary Rule Category"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model,name:hr_payroll_extended.model_hr_payroll_structure
+msgid "Salary Structure"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.ui.view,arch_db:hr_payroll_extended.inherit_hr_payslip_run_form
+msgid "Schedule pay"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model.fields,field_description:hr_payroll_extended.field_hr_payslip_run_schedule_pay
+msgid "Scheduled Pay"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: selection:hr.payslip.run,schedule_pay:0
+msgid "Semi-annually"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model.fields,field_description:hr_payroll_extended.field_hr_payroll_extended_input_value_type
+msgid "Type"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model.fields,field_description:hr_payroll_extended.field_hr_contract_use_fixed_working_hours
+msgid "Use Work Hours"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model.fields,help:hr_payroll_extended.field_hr_salary_rule_appears_on_report
+msgid "Used to display the rule on reports"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: code:addons/hr_payroll_extended/models/hr_payroll_extended.py:71
+#, python-format
+msgid "Warning !"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: selection:hr.payslip.run,schedule_pay:0
+msgid "Weekly"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model.fields,field_description:hr_payroll_extended.field_hr_contract_fixed_working_days
+msgid "Work Days"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model.fields,field_description:hr_payroll_extended.field_hr_contract_fixed_working_hours
+msgid "Work Hours"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: selection:hr.payroll.extended.input.value,type:0
+msgid "Worked Days"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: code:addons/hr_payroll_extended/models/hr_payroll_extended.py:196
+#, python-format
+msgid "Worked Hours"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: code:addons/hr_payroll_extended/models/hr_payroll_extended.py:72
+#, python-format
+msgid "You did not confirm a payslip"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model,name:hr_payroll_extended.model_hr_payroll_extended_input_value
+msgid "hr.payroll.extended.input.value"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: model:ir.model,name:hr_payroll_extended.model_hr_salary_rule
+msgid "hr.salary.rule"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: code:addons/hr_payroll_extended/models/hr_payroll_extended.py:142
+#, python-format
+msgid "monthly"
+msgstr ""
+
+#. module: hr_payroll_extended
+#: code:addons/hr_payroll_extended/models/hr_payroll_extended.py:140
+#, python-format
+msgid "weekly"
+msgstr ""
+
+
