@@ -2,10 +2,10 @@
 <openerp>
     <data>
         <menuitem id="menu_increase_wizard"
-            parent="hr.menu_hr_main"
+            parent="hr_contract.hr_menu_contract"
             name="Wage Increase"
             action="action_increase_wizard"
             groups="base.group_hr_manager"
-            sequence="10"/>
+            sequence="50"/>
     </data>
 </openerp>
