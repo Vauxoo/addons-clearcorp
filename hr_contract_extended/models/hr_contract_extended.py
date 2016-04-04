@@ -84,7 +84,7 @@ class HrContract(models.Model):
         return res
 
     hr_salary_rule_ids = fields.One2many('hr.salary.rule', 'contract_id',
-                                         string='Salary Rules'),
+                                         string='Salary Rules')
     academic_achievement = fields.One2many(
         'hr.contract.academic.achievement', 'contract_academic_achievement',
         string='Academic Achievements')
