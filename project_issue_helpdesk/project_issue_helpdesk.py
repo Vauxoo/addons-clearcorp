@@ -184,7 +184,7 @@ class ProjectIssue(osv.Model):
      
     _columns = {
                 'issue_type': fields.selection([('remote support','Remote Support'),('site support','Site Visit'),('preventive check','Preventive Check'),
-                                              ('workshop repair','Workshop Repair'),('installation','Installation')],
+                                              ('workshop repair','Workshop Repair'),('installation','Installation'),('In Office','In Office')],
                                              required=True,string="Issue Type"),
                 'issue_number': fields.char(string='Issue Number', select=True),
                 'warranty': fields.selection([('seller','Seller'),('manufacturer','Manufacturer')],string="Warranty"),

@@ -508,6 +508,11 @@ msgid "Workshop Repair"
 msgstr "Reparación en taller"
 
 #. module: project_issue_helpdesk
+#: selection:project.issue,issue_type:0
+msgid "In Office"
+msgstr "En Oficina"
+
+#. module: project_issue_helpdesk
 #: code:addons/project_issue_helpdesk/project_issue_helpdesk.py:550
 #, python-format
 msgid "You have several employees (%s) pointing to the same user '%s'"
