@@ -1,0 +1,39 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* account_voucher_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-04-05 15:02+0000\n"
+"PO-Revision-Date: 2016-04-05 15:02+0000\n"
+"Last-Translator: Fabio Vilchez\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_voucher_report
+#: model:ir.actions.report.xml,name:account_voucher_report.action_account_voucher
+msgid "Account Voucher"
+msgstr "Cuenta de cheques"
+
+#. module: account_voucher_report
+#: code:addons/account_voucher_report/report/account_voucher_report.py:39
+#, python-format
+msgid "Currency not supported by this report."
+msgstr "La moneda no es compatible para este informe."
+
+#. module: account_voucher_report
+#: field:report.account_voucher_report.report_account_voucher_chec,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: account_voucher_report
+#: code:addons/account_voucher_report/report/account_voucher_report.py:54
+#, python-format
+msgid "Language not supported by this report."
+msgstr "El idioma no es compatible con este informe."
+

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2016 ClearCorp
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+     
+<openerp>
+    <data>
+        <!-- QWeb Reports -->
+        <report id="action_account_voucher" 
+        model="account.voucher"
+        string="Account Voucher" 
+        report_type="qweb-pdf"
+        name="account_voucher_report.report_account_voucher_chec"
+        file="account_voucher_report.report_account_voucher_chec"
+        menu="True"
+        />
+         <record id="action_account_voucher" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paperformat_account_voucher"/>
+        </record>
+    </data>
+</openerp>

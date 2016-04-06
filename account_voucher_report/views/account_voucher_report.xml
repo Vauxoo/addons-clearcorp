@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2016 ClearCorp
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+
+<openerp>
+    <data>
+        <template id="accountvoucher_report">
+            <div class="page">
+                <div class="row">
+                    <div class="col-xs-6">
+		              <span style="white-space: pre;"> </span>
+	                </div>
+	                <div class="col-xs-6">
+                       <span t-field="o.date" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-1">
+                        <span style="white-space: pre;"> </span>
+                    </div>
+                    <div class="col-xs-7">
+                        <span style="white-space: pre;"> </span>
+                        <span t-field="o.partner_id"/>
+                    </div>
+                    <div class="col-xs-4">
+                        <span t-field="o.amount"/>
+                    </div>
+                </div>
+                <br></br>
+                <div class="row">
+                    <div class="col-xs-1">
+                        <span style="white-space: pre;"> </span>
+                    </div>
+                    <div class="col-xs-7">
+                        <span t-esc="get_text_amount(o.amount, o.currency_id.id, o.partner_id.lang)"/>
+                    </div>
+                    <div class="col-xs-4">
+                        <span style="white-space: pre;"> </span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-xs-6">
+                        <span style="white-space: pre;">  </span>
+                    </div>
+                    <div class="col-xs-6">
+                        <span style="white-space: pre;">  </span>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-xs-12">
+                        <span t-field="o.narration"/>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <template id="report_account_voucher_chec">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'account_voucher_report.accountvoucher_report')"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>
