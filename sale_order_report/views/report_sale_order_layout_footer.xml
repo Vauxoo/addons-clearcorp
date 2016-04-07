@@ -15,6 +15,7 @@
                                 <t t-if="company.custom_footer">
                                     <span t-raw="company.rml_footer"/>
                                 </t>
+                                <br/>
                                 <b>Page: </b><span class="page"/> / <span class="topage"/>
                             </div>
                         </div>
