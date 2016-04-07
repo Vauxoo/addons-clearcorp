@@ -127,7 +127,7 @@
                                         </td>
                                         <td style="white-space: nowrap">
                                             <t t-if="l.tax_id">
-                                                <span t-esc="', '.join(map(lambda x: x.name, l.tax_id))"/>
+                                                <span t-esc="', '.join(map(lambda x: x.description and x.description or x.name, l.tax_id))"/>
                                             </t>
                                             <t t-if="not l.tax_id">
                                                 XMT
@@ -181,7 +181,7 @@
                                                 <td t-att-colspan="(doc.amount_discounted != 0.0) and '5' or '4'" style="padding-left: 24px; padding-right: 15px">
                                                     Taxes
                                                 </td>
-                                                <td t-att-colspan="(doc.amount_discounted != 0.0) and '5' or '4'" style="padding-left: 24px; padding-right: 15px">
+                                                <td>
                                                     <span t-field="doc.amount_tax" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;doc.currency_id&quot;}"/>
                                                 </td>
                                             </tr>
