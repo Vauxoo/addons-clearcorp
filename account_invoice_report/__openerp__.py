@@ -21,6 +21,7 @@
     'data': [
         'data/report.paperformat.xml',
         'data/invoice_report.xml',
+        'views/res_company_view.xml',
         'views/report_invoice_layout.xml',
         'views/report_invoice_layout_header.xml',
         'views/report_invoice_layout_footer.xml',
