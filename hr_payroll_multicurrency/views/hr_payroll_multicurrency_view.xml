@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2016 ClearCorp
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+
+<openerp>
+    <data>
+
+        <record id="view_contract_form" model="ir.ui.view">
+            <field name="name">view.contract.form</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/notebook/page[@name='information']/group/group/field[@name='wage']"
+                    position="after">
+                    <field name="currency_id" String="Currency"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_hr_payslip" model="ir.ui.view">
+            <field name="name">view.hr.payslip</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/field[@name='number']"
+                    position="after">
+                    <field name="currency_id" String="Currency"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>
