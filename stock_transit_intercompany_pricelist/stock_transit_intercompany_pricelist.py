@@ -39,25 +39,9 @@ class stock_move(osv.osv):
                 for quant in move.reserved_quant_ids:
                     quant.product_id.write({'intercompany_price': quant.cost})
 
-                    res_id = 'res.partner,'+str(move.company_id.partner_id.id) # Costa Rica
-                    ctx = context.copy()
-                    ctx['force_company'] = quant.company_id.id
-                    domain = ir_property_obj._get_domain(cr, uid, 'property_product_pricelist', 'res.partner', context=ctx)
-                    if domain is None:
-                        raise osv.except_osv(_('Error'),_('There is no property defined for Sale Pricelist'))
-
-                    domain = ['|',('res_id', '=', res_id),('res_id','=',False)] + domain
-                    #make the search with company_id asc to make sure that properties specific to a company are given first
-                    nid = ir_property_obj.search(cr, SUPERUSER_ID, domain, limit=1, order='company_id asc, res_id asc', context=context)
-                    if not nid:
-                        raise osv.except_osv(_('Error'),_('There is not pricelist available for partner %s') % move.company_id.partner_id)
-
-                    record = ir_property_obj.browse(cr, SUPERUSER_ID, nid[0], context=context)
-                    pricelist = ir_property_obj.get_by_record(cr, SUPERUSER_ID, record, context=context)
-
-                    price = pricelist_obj.price_get(cr, SUPERUSER_ID, [pricelist.id],
+                    price = pricelist_obj.price_get(cr, SUPERUSER_ID, [move.picking_id.partner_id.property_product_pricelist_purchase.id],
                             quant.product_id.id, quant.qty, move.company_id.partner_id.id, {
-                                })[pricelist.id]
+                                })[move.picking_id.partner_id.property_product_pricelist_purchase.id]
                     quant.write({'cost': price})
 
         return super(stock_move, self).action_done(cr, uid, ids, context=context)
