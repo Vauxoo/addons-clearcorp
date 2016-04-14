@@ -34,13 +34,19 @@ class AccountInvoice(models.Model):
     @api.multi
     def invoice_validate(self):
         for invoice in self:
-            if not self.env.user.has_group(
-                    'partner_slow_payer.group_partner_slow_payer'):
-                if invoice.partner_id.slow_payer:
-                    raise Warning(_('You have a pending invoice'))
-                if invoice.partner_id.credit_limit - invoice.partner_id.credit - \
-                        invoice.amount_total <= 0.0:
-                    raise Warning(_('You credit is in cero'))
+            if invoice.payment_term:
+                sum = 0
+                for line in invoice.payment_term.line_ids:
+                    sum += line.days
+                if sum > 0:
+                    if not self.env.user.has_group(
+                            'partner_slow_payer.group_partner_slow_payer'):
+                        if invoice.partner_id.slow_payer:
+                            raise Warning(_('You have a pending invoice'))
+                        if invoice.partner_id.credit_limit - invoice.partner_id.credit - \
+                                invoice.amount_total <= 0.0:
+                            raise Warning(_('You credit is in cero'))
+
         super(AccountInvoice, self).invoice_validate()
 
 
@@ -52,10 +58,16 @@ class SaleOrder(models.Model):
     def action_wait(self):
         super(SaleOrder, self).action_wait()
         for sale in self:
-            if not self.env.user.has_group(
-                    'partner_slow_payer.group_partner_slow_payer'):
-                if sale.partner_id.credit_limit - sale.partner_id.credit - \
-                        sale.amount_total <= 0.0:
-                    raise Warning(_('You credit is in cero'))
-                if sale.partner_id.slow_payer:
-                    raise Warning(_('You have a pending invoice'))
+            if sale.payment_term:
+                sum = 0
+                for line in sale.payment_term.line_ids:
+                    sum += line.days
+                if sum > 0:
+                    if not self.env.user.has_group(
+                            'partner_slow_payer.group_partner_slow_payer'):
+                        if sale.partner_id.credit_limit - \
+                                sale.partner_id.credit - \
+                                sale.amount_total <= 0.0:
+                            raise Warning(_('You credit is in cero'))
+                        if sale.partner_id.slow_payer:
+                            raise Warning(_('You have a pending invoice'))
