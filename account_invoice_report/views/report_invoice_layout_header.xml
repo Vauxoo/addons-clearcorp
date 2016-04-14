@@ -12,7 +12,6 @@
                                 <img t-if="company.logo_report" t-att-src="'data:image/png;base64,%s' % company.logo_report" style="max-height: 50px"/>
                             </div>
                             <div class="col-xs-2 mt32" style="text-align: right; font-size: 85%">
-                                <b>Page: </b><span class="page"/> / <span class="topage"/>
                             </div>
                         </div>
                         <div class="row mt16 mb8" style="font-size:130%">
