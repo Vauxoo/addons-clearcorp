@@ -236,7 +236,7 @@ class IssueInvoiceWizard(models.TransientModel):
                             if issue.partner_id and issue.branch_id:
                                 if issue.branch_id.property_product_pricelist:
                                     if invoice_lines.invoice_id.currency_id.id != issue.branch_id.property_product_pricelist.currency_id.id:
-                                        import_currency_rate=invoice_lines.invoice_id.currency_id.currency_id.get_exchange_rate(issue.branch_id.property_product_pricelist.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                        import_currency_rate=invoice_lines.invoice_id.currency_id.get_exchange_rate(issue.branch_id.property_product_pricelist.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
                                     else:
                                         import_currency_rate = 1
                                 else:
