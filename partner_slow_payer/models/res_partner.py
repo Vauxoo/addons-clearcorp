@@ -15,7 +15,7 @@ class ResPartner(models.Model):
 
     @api.multi
     def _compute_slow_payer(self):
-        today = date.today().strftime('%d-%m-%Y')
+        today = date.today().strftime('%Y-%m-%d')
         for partner in self:
             invoice = self.env['account.invoice'].search(
                 [('partner_id', '=', partner.id),
