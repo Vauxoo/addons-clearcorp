@@ -9,7 +9,7 @@
             <field name="model">hr.salary.rule</field>
             <field name="inherit_id" ref="hr_payroll_account.hr_salary_rule_form_inherit"/>
             <field name="arch" type="xml">
-                <xpath expr="//form/notebook/page[@string='Accounting']/group" position="after">
+                <xpath expr="//form/notebook/page/group/field[@name='account_debit']/.." position="after">
                     <group name="partner_rule_types">
                         <group>
                             <field name="rule_type_debit"/>
