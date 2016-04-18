@@ -33,6 +33,7 @@
         'account',
         'purchase',
         'sale',
+        'sale_stock',
         'purchase_order_discount',
         'hr_payroll',
         'hr_payroll_account',
@@ -58,7 +59,7 @@
         'purchase_view.xml',
         'purchase_workflow.xml',
         'hr_payroll.xml'
-#        'sale_view.xml'
+        #'sale_view.xml'
         ],
     'license': 'AGPL-3',
     'installable': True,

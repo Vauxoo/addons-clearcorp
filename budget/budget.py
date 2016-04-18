@@ -1338,7 +1338,7 @@ class budget_move_line(osv.osv):
         'type_distribution':fields.related('budget_move_line_dist','type', type="selection", relation="account.move.line.distribution", string="Distribution type", selection=[('manual', 'Manual'), ('auto', 'Automatic')]),
         #=======Payslip lines
         'previous_move_line_id': fields.many2one('budget.move', 'Previous move line'),
-        'from_migration':fields.related('budget_move_id','from_migration', type="boolean", string='Transferred', readonly=True)
+        'from_migration':fields.related('budget_move_id','from_migration', type="boolean", relation='budget.move', string='Transferred', readonly=True)
 
     }
     _defaults = {
