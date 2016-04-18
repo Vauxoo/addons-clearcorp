@@ -23,7 +23,7 @@
 	                	</xpath>
 	                	<xpath expr="/form/header/button[@name='wkf_send_rfq' and @states='draft']" position="replace"/>			
 	                	<xpath expr="/form/header/button[@name='wkf_send_rfq' and @states='sent']" position="replace"/>
-	                	<xpath expr="/form/header/button[@name='purchase_approve' and @states='confirmed']" position="replace"/>
+	                	<xpath expr="/form/header/button[@name='picking_ok' and @states='except_picking']" position="before"/>
 	                	<xpath expr="/form/header/button[@name='purchase_confirm' and @states='draft']" position="attributes">
 	                		<attribute name="states" >awarded</attribute>
 	                		<attribute name="string" >Confirm Order</attribute>
