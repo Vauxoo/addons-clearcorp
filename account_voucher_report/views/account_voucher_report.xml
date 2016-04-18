@@ -11,7 +11,13 @@
 		              <span style="white-space: pre;"> </span>
 	                </div>
 	                <div class="col-xs-6">
-                       <span t-field="o.date" />
+	                   <b>
+	                       <span t-field="o.date" t-field-options='{"format": "d"}'/>
+	                       <span>of</span>
+	                       <span t-field="o.date" t-field-options='{"format": "MMMM"}'/>
+	                       <span>of</span>
+	                       <span t-field="o.date" t-field-options='{"format": "y"}'/>
+                       </b>
                     </div>
                 </div>
                 <div class="row">
@@ -19,11 +25,13 @@
                         <span style="white-space: pre;"> </span>
                     </div>
                     <div class="col-xs-7">
+                    <b>
                         <span style="white-space: pre;"> </span>
-                        <span t-field="o.partner_id"/>
+                        <span style="text-transform:uppercase;" t-field="o.partner_id"/>
+                    </b>
                     </div>
                     <div class="col-xs-4">
-                        <span t-field="o.amount"/>
+                        <b><span t-field="o.amount"/></b>
                     </div>
                 </div>
                 <br></br>
@@ -32,7 +40,7 @@
                         <span style="white-space: pre;"> </span>
                     </div>
                     <div class="col-xs-7">
-                        <span t-esc="get_text_amount(o.amount, o.currency_id.id, o.partner_id.lang)"/>
+                        <b><span t-esc="get_text_amount(o.amount, o.currency_id.id, o.partner_id.lang)"/></b>
                     </div>
                     <div class="col-xs-4">
                         <span style="white-space: pre;"> </span>
@@ -54,8 +62,33 @@
                 <br />
                 <br />
                 <div class="row">
-                    <div class="col-xs-12">
-                        <span t-field="o.narration"/>
+                    <div class="col-xs-12" style="font-size: 10px">
+                        <table class="table table-condensed">
+                            <thead>
+	                            <tr>
+	                                <th class="text-center" style="border: 1px solid #000000">Journal Entry.</th>
+	                                <th class="text-center" style="border: 1px solid #000000">Fact Supplier</th>
+	                                <th class="text-center" style="border: 1px solid #000000">Debit</th>
+	                                <th class="text-center" style="border: 1px solid #000000">Credit</th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                           <tr t-foreach="o.move_ids" t-as="m">
+	                               <td class="text-left" style="border-bottom: 1px solid #000000">
+	                                   <b><span t-field="m.account_id"/></b>
+	                               </td>
+	                               <td class="text-center" style="border-bottom: 1px solid #000000">
+                                       <b><span t-field="m.ref"/></b>
+                                   </td>
+                                   <td class="text-center" style="border-bottom: 1px solid #000000">
+                                       <b><span t-field="m.debit"/></b>
+                                   </td>
+                                   <td class="text-center" style="border-bottom: 1px solid #000000">
+                                       <b><span t-field="m.credit"/></b>
+                                   </td>
+	                           </tr>
+	                        </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
