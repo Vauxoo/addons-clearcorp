@@ -34,6 +34,7 @@ Limit the discount amount allowed in Sale Orders and Invoices""",
                  ],
     'data' : [
               'views/sale_max_discount_view.xml',
+              'account_invoice_view.xml',
               'views/sale_config_settings_view.xml',
               'security/sale_max_discount_security.xml',
               ],

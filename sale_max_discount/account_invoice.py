@@ -26,35 +26,12 @@ import openerp.addons.decimal_precision as dp
 
 class Invoice(osv.Model):
 
-    _inherit = 'account.invoice'
-
-    def invoice_validate(self, cr, uid, ids, context=None):
-        # Check if user is in group 'group_account_invoice_limit_discount'
-        if not self.pool.get('res.users').has_group(cr, uid,
-        'sale_max_discount.group_sale_max_discount'):
-            for invoice in self.browse(cr, uid, ids, context=context):
-                if invoice.type == 'out_invoice' or invoice.type == 'out_refund':
-                    pricelist = invoice.pricelist_id
-                    if pricelist and pricelist.discount_active:
-                        max_discount = [pricelist.max_discount]
-                    else:
-                        max_discount = []
-                    for line in invoice.invoice_line:
-                        line_discount = max_discount
-                        if line.product_id:
-                            if line.product_id.categ_id.discount_active:
-                                line_discount.append(line.product_id.categ_id.max_discount)
-                        if line_discount:
-                            lower_discount = min(line_discount)
-                            if line.discount and line.discount > lower_discount:
-                                raise osv.except_osv(_('Discount Error'),
-                                    _('The maximum discount for %s is %s.') %(line.name,lower_discount))
-                        else:
-                            #Get company for user currently logged
-                            company = self.pool.get('res.users').browse(cr, uid, uid).company_id
-                            if company.limit_discount_active:
-                                max_company_discount = company.limit_discount_max_discount 
-                                if line.discount > max_company_discount:
-                                    raise osv.except_osv(_('Discount Error'), _('The discount for %s exceeds the'
-                                        ' company\'s discount limit.') % line.name)
-        return super(Invoice, self).invoice_validate(cr, uid, ids, context=context)
+    _inherit = 'account.invoice.line'
+    
+    def _compute_payment_term(self):
+        for line in self:
+            line.discount_func = line.discount
+    
+    _columns = {
+        'discount_func': fields.function(_compute_discount, digits_compute=dp.get_precision('Discount'), string='Discount (%)'),
+    }
