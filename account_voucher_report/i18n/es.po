@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-18 17:53+0000\n"
-"PO-Revision-Date: 2016-04-18 17:53+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2016-04-22 16:17+0000\n"
+"PO-Revision-Date: 2016-04-22 16:17+0000\n"
+"Last-Translator: Fabio Vilchez\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,25 +37,30 @@ msgid "Debit"
 msgstr "Débito"
 
 #. module: account_voucher_report
-#: view:website:account_voucher_report.accountvoucher_report
-msgid "Fact Supplier"
-msgstr "Fact Proveedor"
-
-#. module: account_voucher_report
 #: field:report.account_voucher_report.report_account_voucher_chec,id:0
 msgid "ID"
 msgstr "ID"
 
 #. module: account_voucher_report
 #: view:website:account_voucher_report.accountvoucher_report
-msgid "Journal Entry."
-msgstr "Cuenta Contable."
+msgid "Invoice Number"
+msgstr "Número Fact."
+
+#. module: account_voucher_report
+#: view:website:account_voucher_report.accountvoucher_report
+msgid "Journal Entry"
+msgstr "Cuenta Contable"
 
 #. module: account_voucher_report
 #: code:addons/account_voucher_report/report/account_voucher_report.py:54
 #, python-format
 msgid "Language not supported by this report."
 msgstr "El idioma no es compatible con este informe."
+
+#. module: account_voucher_report
+#: view:website:account_voucher_report.accountvoucher_report
+msgid "Num. Voucher:"
+msgstr "Num. Cheque:"
 
 #. module: account_voucher_report
 #: view:website:account_voucher_report.accountvoucher_report
