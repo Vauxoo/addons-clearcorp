@@ -27,8 +27,7 @@
             <field name="priority" eval="16" />
             <field name="inherit_id" ref="product.product_pricelist_view" />
             <field name="arch" type="xml">
-                <xpath expr="//form/group/field[@name='type']"
-                    position="after">
+                <xpath expr="//form/group/field[@name='type']" position="after">
                     <field name="discount_active" />
                     <field name="max_discount" attrs="{'invisible': [('discount_active','=',False)], 'required': [('discount_active','=',True)]}"/>
                 </xpath>

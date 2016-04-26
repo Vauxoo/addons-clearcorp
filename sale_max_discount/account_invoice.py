@@ -28,10 +28,13 @@ class Invoice(osv.Model):
 
     _inherit = 'account.invoice.line'
     
-    def _compute_payment_term(self):
-        for line in self:
-            line.discount_func = line.discount
-    
+    def _compute_discount(self, cr, uid, ids, name, args, context=None):
+        res = {}
+        for line in self.browse(cr, uid, ids, context=context):
+            res[line.id] = line.discount
+            print res
+        return res
+
     _columns = {
-        'discount_func': fields.function(_compute_discount, digits_compute=dp.get_precision('Discount'), string='Discount (%)'),
+        'discount_func': fields.function(_compute_discount, string='Discount (%)', type="float"),
     }
