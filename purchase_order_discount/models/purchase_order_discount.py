@@ -99,3 +99,15 @@ class PurchaseOrder(models.Model):
                         cr, uid, [invoice_line.id], {'discount': discount},
                         context=context)
         return res
+
+
+class AccountInvoice(models.Model):
+    _inherit = 'account.invoice'
+
+    @api.onchange('purchase_id')
+    def purchase_order_change(self):
+        super(AccountInvoice, self).purchase_order_change()
+        for invoice_line in self.invoice_line_ids:
+            if invoice_line.purchase_line_id:
+                invoice_line.discount = invoice_line.purchase_line_id.discount
+        return {}
