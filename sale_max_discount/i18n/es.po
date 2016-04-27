@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: OpenERP Server 7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-10 18:32+0000\n"
-"PO-Revision-Date: 2014-11-10 18:32+0000\n"
+"POT-Creation-Date: 2016-04-26 18:46+0000\n"
+"PO-Revision-Date: 2016-04-26 18:46+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,11 +16,25 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: sale_max_discount
-#: code:addons/sale_max_discount/account_invoice.py:51
 #: code:addons/sale_max_discount/sale_order.py:49
 #, python-format
 msgid "The maximum discount for %s is %s."
 msgstr "El descuento máximo para %s es %s."
+
+#. module: sale_max_discount
+#: model:ir.model,name:sale_max_discount.model_product_category
+msgid "Product Category"
+msgstr "Categoría de producto"
+
+#. module: sale_max_discount
+#: model:ir.model,name:sale_max_discount.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: sale_max_discount
+#: model:ir.model,name:sale_max_discount.model_sale_config_settings
+msgid "sale.config.settings"
+msgstr "Parámetros de configuración de las ventas"
 
 #. module: sale_max_discount
 #: model:res.groups,name:sale_max_discount.group_sale_max_discount
@@ -28,12 +42,22 @@ msgid "Allowed to exceed the discount limits"
 msgstr "Permitido exceder los límites de descuento"
 
 #. module: sale_max_discount
+#: model:ir.model,name:sale_max_discount.model_res_company
+msgid "Companies"
+msgstr "Compañías"
+
+#. module: sale_max_discount
+#: view:account.invoice:0
+#: model:ir.model,name:sale_max_discount.model_account_invoice_line
+msgid "Invoice Line"
+msgstr "Línea de factura"
+
+#. module: sale_max_discount
 #: view:sale.config.settings:0
 msgid "Discount Active"
 msgstr "Descuento activo"
 
 #. module: sale_max_discount
-#: code:addons/sale_max_discount/account_invoice.py:58
 #: code:addons/sale_max_discount/sale_order.py:56
 #, python-format
 msgid "The discount for %s exceeds the company's discount limit."
@@ -67,13 +91,26 @@ msgid "Max discount allowed in sales."
 msgstr "Descuento máximo permitido en ventas."
 
 #. module: sale_max_discount
-#: code:addons/sale_max_discount/account_invoice.py:50
-#: code:addons/sale_max_discount/account_invoice.py:58
 #: code:addons/sale_max_discount/sale_order.py:48
 #: code:addons/sale_max_discount/sale_order.py:56
 #, python-format
 msgid "Discount Error"
 msgstr "Error de descuento"
+
+#. module: sale_max_discount
+#: model:ir.model,name:sale_max_discount.model_product_pricelist
+msgid "Pricelist"
+msgstr "Tarifa"
+
+#. module: sale_max_discount
+#: field:account.invoice.line,discount_func:0
+msgid "Discount (%)"
+msgstr "Descuento (%)"
+
+#. module: sale_max_discount
+#: field:sale.config.settings,limit_discount_company_id:0
+msgid "Company"
+msgstr "Compañia"
 
 #. module: sale_max_discount
 #: field:product.category,discount_active:0
@@ -82,3 +119,4 @@ msgstr "Error de descuento"
 #: field:sale.config.settings,limit_discount_active:0
 msgid "Discount Applicable"
 msgstr "Descuento aplicable"
+
