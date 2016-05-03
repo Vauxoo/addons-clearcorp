@@ -33,13 +33,15 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def invoice_validate(self):
+        users = self.pool('res.users')
         for invoice in self:
             if invoice.payment_term:
                 sum = 0
                 for line in invoice.payment_term.line_ids:
                     sum += line.days
                 if sum > 0:
-                    if not self.env.user.has_group(
+                    if not users.has_group(
+                        self._cr, self._uid,
                             'partner_slow_payer.group_partner_slow_payer'):
                         if invoice.partner_id.slow_payer:
                             raise Warning(_('You have a pending invoice'))
@@ -56,6 +58,7 @@ class SaleOrder(models.Model):
 
     @api.multi
     def action_wait(self):
+        users = self.pool('res.users')
         super(SaleOrder, self).action_wait()
         for sale in self:
             if sale.payment_term:
@@ -63,7 +66,8 @@ class SaleOrder(models.Model):
                 for line in sale.payment_term.line_ids:
                     sum += line.days
                 if sum > 0:
-                    if not self.env.user.has_group(
+                    if not users.has_group(
+                        self._cr, self._uid,
                             'partner_slow_payer.group_partner_slow_payer'):
                         if sale.partner_id.credit_limit - \
                                 sale.partner_id.credit - \
