@@ -20,6 +20,7 @@ class ResPartner(models.Model):
             invoice = self.env['account.invoice'].search(
                 [('partner_id', '=', partner.id),
                  ('date_due', '<', today),
+                 ('type', '=', 'out_invoice'),
                  ('state', '=', 'open')])
             if invoice:
                 partner.slow_payer = True
@@ -35,20 +36,20 @@ class AccountInvoice(models.Model):
     def invoice_validate(self):
         users = self.pool('res.users')
         for invoice in self:
-            if invoice.payment_term:
-                sum = 0
-                for line in invoice.payment_term.line_ids:
-                    sum += line.days
-                if sum > 0:
-                    if not users.has_group(
-                        self._cr, self._uid,
-                            'partner_slow_payer.group_partner_slow_payer'):
-                        if invoice.partner_id.slow_payer:
-                            raise Warning(_('You have a pending invoice'))
-                        if invoice.partner_id.credit_limit - invoice.partner_id.credit - \
-                                invoice.amount_total <= 0.0:
-                            raise Warning(_('You credit is in cero'))
-
+            if invoice.type == 'out_invoice':
+                if invoice.payment_term:
+                    sum = 0
+                    for line in invoice.payment_term.line_ids:
+                        sum += line.days
+                    if sum > 0:
+                        if not users.has_group(
+                            self._cr, self._uid,
+                                'partner_slow_payer.group_partner_slow_payer'):
+                            if invoice.partner_id.slow_payer:
+                                raise Warning(_('You have a pending invoice'))
+                            if invoice.partner_id.credit_limit - invoice.partner_id.credit - \
+                                    invoice.amount_total <= 0.0:
+                                raise Warning(_('You credit is in cero'))
         super(AccountInvoice, self).invoice_validate()
 
 
