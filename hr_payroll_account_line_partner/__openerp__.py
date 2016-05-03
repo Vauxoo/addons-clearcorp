@@ -4,15 +4,14 @@
 
 {
     'name': 'Payroll Account Line Partner',
-    'version': '1.0',
+    'version': '9.0.1.0.2',
     'author': 'ClearCorp',
     'summary': ''' Add partners and employees in payroll entries''',
     'category': 'Human Resources',
-    'sequence': 10,
     'website': 'http://clearcorp.cr',
-    'auto_install': False,
     'application': False,
     'installable': True,
+    'auto_install': False,
     'license': 'AGPL-3',
     'depends': [
         'hr_payroll_account',

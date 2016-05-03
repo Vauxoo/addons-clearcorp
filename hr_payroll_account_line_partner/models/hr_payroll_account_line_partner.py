@@ -4,23 +4,24 @@
 
 from openerp import models, fields, api
 
+_RULE_TYPES = [
+    ('partner', 'Partner'),
+    ('employee', 'Employee'),
+]
+
 
 class SalaryRule(models.Model):
 
-    _RULE_TYPES = [
-        ('partner', 'Partner'),
-        ('employee', 'Employee'),
-    ]
-
     _inherit = 'hr.salary.rule'
+
     rule_type_credit = fields.Selection(
-        _RULE_TYPES, string='Credit Rule Type', default='employee'),
+        _RULE_TYPES, string='Credit Rule Type', default='employee')
     rule_type_debit = fields.Selection(
-        _RULE_TYPES, string='Debit Rule Type', default='employee'),
+        _RULE_TYPES, string='Debit Rule Type', default='employee')
     res_partner_credit = fields.Many2one(
-        'res.partner', string='Credit Partner'),
+        'res.partner', string='Credit Partner')
     res_partner_debit = fields.Many2one(
-        'res.partner', string='Debit Partner'),
+        'res.partner', string='Debit Partner')
 
 
 class PaySlip(models.Model):
