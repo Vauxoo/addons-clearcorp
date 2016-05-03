@@ -22,7 +22,7 @@ msgstr "Contrato"
 
 #. module: hr_payroll_multicurrency
 #: field:hr.contract,currency_id:0
-msgid "Currency id"
+msgid "Currency"
 msgstr "Moneda"
 
 #. module: hr_payroll_multicurrency
