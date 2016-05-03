@@ -7,13 +7,13 @@ from openerp import models, fields, api
 class HRContract(models.Model):
     _inherit = 'hr.contract'
 
-    currency_id = fields.Many2one('res.currency')
+    currency_id = fields.Many2one('res.currency', string='Currency')
 
 
 class HRPayslip(models.Model):
     _inherit = 'hr.payslip'
 
-    currency_id = fields.Many2one('res.currency', compute='_compute_currency')
+    currency_id = fields.Many2one('res.currency', compute='_compute_currency', string='Currency')
 
     @api.depends('contract_id')
     def _compute_currency(self):
