@@ -12,7 +12,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//form/sheet/notebook/page[@name='information']/group/group/field[@name='wage']"
                     position="after">
-                    <field name="currency_id" String="Currency"/>
+                    <field name="currency_id" />
                 </xpath>
             </field>
         </record>
@@ -24,7 +24,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//form/sheet/group/field[@name='number']"
                     position="after">
-                    <field name="currency_id" String="Currency"/>
+                    <field name="currency_id" />
                 </xpath>
             </field>
         </record>
