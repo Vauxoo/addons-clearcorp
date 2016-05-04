@@ -68,14 +68,15 @@
                        </tr>
                     </tbody>
                 </table>
-                <t t-set="prueba" t-value="set_data_template(data)"/>
+                <t t-set="set_data" t-value="set_data_template(data)"/>
                     <t t-foreach="get_data_template('result').iteritems()" t-as="account">
-                        <t t-foreach="get_data_template('result').iteritems()" t-as="move_lines">
+                        <t t-set="account_id" t-value="account[0]" />
+                        <t t-foreach="account[1]" t-as="move_lines">
                             <span t-esc="display_account_name(data, account)"></span>
-                            <t t-if="account_has_move_lines(account)">
+                            <t t-if="account_has_move_lines(account_id)">
                                 <span>Initial Balance</span>
-                                <span t-esc="display_symbol_account(account)"></span>
-                                <span t-esc="formatLang(return_balance_account(data, account))"></span>
+                                <span t-esc="display_symbol_account(account_id)"></span>
+                                <span t-esc="formatLang(return_balance_account(data, account_id))"></span>
                                 <table class="table table-condensed">
                                     <br />
                                     <thead style="background-color:#E0E0E0" >
@@ -136,14 +137,13 @@
                                         </t>
                                         <tr>
                                         <span>Final Balance</span>
-                                        <span t-esc="display_symbol_account(account)"></span>
+                                        <span t-esc="display_symbol_account(account_id)"></span>
                                         </tr>
                                     </tbody>
                                 </table>
                             </t>
                             <br />
-                            <span t-esc="messages()"></span>
-                            <t t-set="test" t-value="reset_data()"/>
+                            <t t-set="reset_dat" t-value="reset_data()"/>
                         </t>
                     </t>
                
