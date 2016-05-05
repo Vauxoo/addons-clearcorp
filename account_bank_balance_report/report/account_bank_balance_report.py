@@ -54,8 +54,8 @@ class Parser(accountReportbase):
                 bank_account.default_debit_account_id:
             if bank_account.default_credit_account_id.id ==\
                     bank_account.default_debit_account_id.id:
-                str_name = bank_account.default_credit_account_id.code + ' - '
-                + bank_account.default_credit_account_id.name + ' - '
+                str_name = bank_account.default_credit_account_id.code +\
+                    ' - ' + bank_account.default_credit_account_id.name + ' - '
                 if bank_account.default_credit_account_id.currency_id:
                     str_name +=\
                         bank_account.default_credit_account_id.currency_id.name
@@ -73,7 +73,6 @@ class Parser(accountReportbase):
                             str_name += cred.currency_id.name
                         else:
                             str_name += user.company_id.currency_id.name
-
                 elif bank_account.default_debit_account_id:
                     if bank_account.default_debit_account_id.id == account_id:
                         str_name = _('Default debit account: ') +\
