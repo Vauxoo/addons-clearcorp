@@ -59,3 +59,8 @@ msgstr "No tiene suficiente credito"
 msgid "You have a pending invoice"
 msgstr "Tiene facturas pendientes"
 
+#. module: partner_slow_payer
+#: field:res.partner,slow_payer:0
+msgid "Slow payer"
+msgstr "Moroso"
+

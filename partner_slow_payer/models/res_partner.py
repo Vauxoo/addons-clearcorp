@@ -47,8 +47,8 @@ class AccountInvoice(models.Model):
                                 'partner_slow_payer.group_partner_slow_payer'):
                             if invoice.partner_id.slow_payer:
                                 raise Warning(_('You have a pending invoice'))
-                            if invoice.partner_id.credit_limit - invoice.partner_id.credit - \
-                                    invoice.amount_total <= 0.0:
+                            if invoice.partner_id.credit_limit - \
+                                    invoice.partner_id.credit <= 0.0:
                                 raise Warning(_('You credit is in cero'))
         super(AccountInvoice, self).invoice_validate()
 
