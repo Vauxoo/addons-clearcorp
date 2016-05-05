@@ -29,13 +29,17 @@ class IssueInvoiceWizard(models.TransientModel):
     _name='project.issue.helpdesk.invoice.wizard'
     @api.multi
     def create_invoice_lines_expenses(self,issue,is_warranty,total_expenses,product_expense,count_lines,limit_lines,invoice_dict,invoices_list,inv):
+        #Method for invoice each expenses lines included in issue, the lines are grouped into a single line expenses.
+        #Exchange currency rates, based in parter settings of invoice
         invoice_obj=self.env['account.invoice']
         for expense_line in issue.expense_line_ids:
+            #Only invoice lines with checkbox billable, in state done or paid
             if expense_line.billable==True and (expense_line.expense_id.state=='done' or expense_line.expense_id.state=='paid'):
                 for move_lines in expense_line.expense_id.account_move_id.line_id:
                     for lines in move_lines.analytic_lines:
                         if lines.account_id==expense_line.analytic_account and lines.name==expense_line.name and lines.unit_amount==expense_line.unit_quantity and (lines.amount*-1/lines.unit_amount)==expense_line.unit_amount and not lines.invoice_id:
                             factor = self.env['hr_timesheet_invoice.factor'].browse(lines.to_invoice.id)
+                            #If not is warranty, the invoice lines use the customer partner settings
                             if is_warranty==False:
                                 if issue.partner_id and issue.branch_id:
                                     if issue.branch_id.property_product_pricelist:
@@ -59,6 +63,7 @@ class IssueInvoiceWizard(models.TransientModel):
                                             import_currency_rate=expense_line.expense_id.currency_id.get_exchange_rate(lines.account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
                                         else:
                                             import_currency_rate = 1
+                            #If is warranty, the invoice lines use the manufacturer partner settings of product associated to issue
                             elif is_warranty==True:
                                 if  issue.product_id.manufacturer.property_product_pricelist_purchase:
                                     if expense_line.expense_id.currency_id.id != issue.product_id.manufacturer.property_product_pricelist_purchase.currency_id.id:
@@ -77,6 +82,7 @@ class IssueInvoiceWizard(models.TransientModel):
                                 taxes_expenses=[(6, 0, [tax.id for tax in lines.product_id.taxes_id])]
                             lines.write({'invoice_id':inv.id})
         if total_expenses>0:
+            #Add line to invoice, included the line of expenses
             invoice_line={
                           'product_id':product_expense,
                           'name': _('Expenses of Issue #') + issue.issue_number,
@@ -87,8 +93,10 @@ class IssueInvoiceWizard(models.TransientModel):
                           'account_id':account_exp,
                           'account_analytic_id':issue.analytic_account_id.id
                           }
+            #If Warranty is seller, the line invoices to customer included prices in zero
             if issue.warranty=='seller':
                 invoice_line['price_unit']=0
+            #Condition for determine if the invoice doesn't exceed the limit of lines, if is exceed a new invoice should be generated
             if count_lines<=limit_lines or limit_lines==0 or limit_lines==-1:
                 if issue.issue_number not in inv.origin:
                     inv.write({'origin':inv.origin + issue.issue_number +'-'})
@@ -111,8 +119,11 @@ class IssueInvoiceWizard(models.TransientModel):
     
     @api.multi
     def create_invoice_lines_additional_costs(self,issue,count_lines,limit_lines,is_warranty,inv,invoice_dict,invoices_list):
+        #Method for invoice each additional costs lines included in issue
+        #Exchange currency rates, based in parter settings of invoice
         invoice_obj=self.env['account.invoice']
         for additional_cost in issue.additional_cost_ids:
+            #If not is warranty, the invoice lines use the customer partner settings
             if is_warranty==False:
                 if issue.partner_id and issue.branch_id:
                     if issue.branch_id.property_product_pricelist:
@@ -136,6 +147,7 @@ class IssueInvoiceWizard(models.TransientModel):
                             import_currency_rate=additional_cost.currency_id.get_exchange_rate(issue.analytic_account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
                         else:
                             import_currency_rate = 1
+            #If is warranty, the invoice lines use the manufacturer partner settings of product associated to issue
             elif is_warranty==True:
                 if issue.partner_id and issue.branch_id:
                     if  issue.product_id.manufacturer.property_product_pricelist_purchase:
@@ -159,6 +171,7 @@ class IssueInvoiceWizard(models.TransientModel):
                             import_currency_rate=additional_cost.currency_id.get_exchange_rate(issue.analytic_account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
                         else:
                             import_currency_rate = 1
+            #Add line to invoice, included the line of additional cost
             invoice_line={
                     'product_id':additional_cost.product_id.id or False,
                     'name':additional_cost.name or additional_cost.product_id.description or False,
@@ -170,8 +183,10 @@ class IssueInvoiceWizard(models.TransientModel):
                     'account_analytic_id':issue.analytic_account_id.id,
                     'account_id':additional_cost.product_id.property_account_income.id or additional_cost.product_id.categ_id.property_account_income_categ.id or issue.product_id.property_account_income.id or issue.product_id.categ_id.property_account_income_categ.id
                             }
+            #If Warranty is seller, the line invoices to customer included prices in zero
             if issue.warranty=='seller':
                 invoice_line['price_unit']=0
+            #Condition for determine if the invoice doesn't exceed the limit of lines, if is exceed a new invoice should be generated
             if count_lines<=limit_lines or limit_lines==0 or limit_lines==-1:
                 if issue.issue_number not in inv.origin:
                     inv.write({'origin':inv.origin + issue.issue_number +'-'})
@@ -193,9 +208,13 @@ class IssueInvoiceWizard(models.TransientModel):
 
     @api.multi
     def create_invoice_lines_supplier_invoices(self,issue,is_warranty,line_detailed,first_line_product,invoice_dict,invoices_list,count_lines_products,limit_lines,count_lines,inv,inv_prod):
+        #Method for invoice each supplier lines invoice included in issue
+        #Exchange currency rates, based in parter settings of invoice
         invoice_obj=self.env['account.invoice']
         for invoice_lines in issue.account_invoice_line_ids:
+            #Only invoice lines with checkbox billable, in state open or paid
             if invoice_lines.invoice_id.state in ('open','paid') and invoice_lines.billable==True:
+                #If not is warranty, the invoice lines use the customer partner settings
                 if is_warranty==False:
                     if issue.partner_id and issue.branch_id:
                         if issue.branch_id.property_product_pricelist:
@@ -219,6 +238,7 @@ class IssueInvoiceWizard(models.TransientModel):
                                 import_currency_rate=invoice_lines.invoice_id.currency_id.get_exchange_rate(issue.analytic_account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
                             else:
                                 import_currency_rate = 1
+                #If is warranty, the invoice lines use the manufacturer partner settings of product associated to issue
                 elif is_warranty==True:
                     if issue.product_id.manufacturer.property_product_pricelist_purchase:
                         if invoice_lines.invoice_id.currency_id.id != issue.product_id.manufacturer.property_product_pricelist_purchase.currency_id.id:
@@ -230,6 +250,7 @@ class IssueInvoiceWizard(models.TransientModel):
                             import_currency_rate=invoice_lines.invoice_id.currency_id.get_exchange_rate(issue.analytic_account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
                         else:
                             import_currency_rate = 1
+                #Add line to invoice, included the line of supplier invoice line
                 invoice_line={
                               'product_id':invoice_lines.product_id.id or False,
                               'name': issue.product_id.description +'-'+ invoice_lines.name,
@@ -242,8 +263,10 @@ class IssueInvoiceWizard(models.TransientModel):
                               'account_analytic_id':issue.analytic_account_id.id,
                               'account_id':invoice_lines.product_id.property_account_income.id or invoice_lines.product_id.categ_id.property_account_income_categ.id or issue.product_id.property_account_income.id or issue.product_id.categ_id.property_account_income_categ.id
                                     }
+                #If Warranty is seller, the line invoices to customer included prices in zero
                 if issue.warranty=='seller':
                     invoice_line['price_unit']=0
+                #If lines detail, the invoice of products should be different to invoice services
                 if line_detailed==True:
                     if first_line_product==0:
                         inv_prod=invoice_obj.create(invoice_dict)
@@ -251,6 +274,7 @@ class IssueInvoiceWizard(models.TransientModel):
                             inv_prod.write({'origin':inv_prod.origin + issue.issue_number +'-'})
                         invoices_list.append(inv_prod.id)
                         first_line_product+=1
+                    #Condition for determine if the invoice doesn't exceed the limit of lines of products, if is exceed a new invoice should be generated
                     if count_lines_products<=limit_lines or limit_lines==0 or limit_lines==-1:
                         if issue.issue_number not in inv_prod.origin:
                             inv_prod.write({'origin':inv_prod.origin + issue.issue_number +'-'})
@@ -270,6 +294,7 @@ class IssueInvoiceWizard(models.TransientModel):
                         count_lines_products+=1
                 else:
                     inv_prod=False
+                    #Condition for determine if the invoice doesn't exceed the limit of lines, if is exceed a new invoice should be generated
                     if count_lines<=limit_lines or limit_lines==0 or limit_lines==-1:
                         if issue.issue_number not in inv.origin:
                             inv.write({'origin':inv.origin + issue.issue_number +'-'})
@@ -290,10 +315,14 @@ class IssueInvoiceWizard(models.TransientModel):
         return count_lines,inv or False,count_lines_products,invoices_list,first_line_product,count_lines_products,inv_prod
     @api.multi
     def create_invoice_lines_backorders(self,issue,count_lines,limit_lines,line_detailed,first_line_product,count_lines_products,is_warranty,inv,invoice_dict,invoices_list,inv_prod):
+        #Method for invoice each delivery note line included in issue
+        #Exchange currency rates, based in parter settings of invoice
         invoice_obj=self.env['account.invoice']
         for backorder in issue.backorder_ids:
+            #Only invoice lines with state done, when the picking is type outgoing
             if backorder.delivery_note_id and backorder.delivery_note_id.state=='done' and backorder.picking_type_id.code=='outgoing' and backorder.invoice_state!='invoiced' and backorder.state=='done':
                 for delivery_note_lines in backorder.delivery_note_id.note_lines:
+                    #If not is warranty, the invoice lines use the customer partner settings
                     if is_warranty==False:
                         if issue.partner_id and issue.branch_id:
                             if issue.branch_id.property_product_pricelist:
@@ -317,6 +346,7 @@ class IssueInvoiceWizard(models.TransientModel):
                                     import_currency_rate=delivery_note_lines.note_id.currency_id.get_exchange_rate(issue.analytic_account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
                                 else:
                                     import_currency_rate = 1
+                    #If Warranty is seller, the line invoices to customer included prices in zero
                     elif is_warranty==True:
                         if  issue.product_id.manufacturer.property_product_pricelist_purchase:
                             if delivery_note_lines.note_id.currency_id.id != issue.product_id.manufacturer.property_product_pricelist_purchase.currency_id.id:
@@ -332,6 +362,7 @@ class IssueInvoiceWizard(models.TransientModel):
                         origin=delivery_note_lines.note_id.delivery_note_origin.name
                     else:
                         origin=delivery_note_lines.note_id.name
+                        #Add line to invoice, included the line of delivery note
                         invoice_line={
                                     'product_id':delivery_note_lines.product_id.id,
                                     'name': issue.product_id.description +'-'+delivery_note_lines.name,
@@ -345,8 +376,10 @@ class IssueInvoiceWizard(models.TransientModel):
                                     'reference':'NE#'+ origin,
                                     'account_id':delivery_note_lines.product_id.property_account_income.id or delivery_note_lines.product_id.categ_id.property_account_income_categ.id
                                     }
+                        #If Warranty is seller, the line invoices to customer included prices in zero
                         if issue.warranty=='seller':
                             invoice_line['price_unit']=0
+                        #If lines detail, the invoice of products should be different to invoice services
                         if line_detailed==True:
                             if first_line_product==0:
                                 inv_prod=invoice_obj.create(invoice_dict)
@@ -354,6 +387,7 @@ class IssueInvoiceWizard(models.TransientModel):
                                     inv_prod.write({'origin':inv_prod.origin + issue.issue_number +'-'})
                                 invoices_list.append(inv_prod.id)
                                 first_line_product+=1
+                            #Condition for determine if the invoice doesn't exceed the limit of lines of products, if is exceed a new invoice should be generated
                             if count_lines_products<=limit_lines or limit_lines==0 or limit_lines==-1:
                                 if issue.issue_number not in inv_prod.origin:
                                     inv_prod.write({'origin':inv_prod.origin + issue.issue_number +'-'})
@@ -375,6 +409,7 @@ class IssueInvoiceWizard(models.TransientModel):
                                 count_lines_products+=1
                         else:
                             inv_prod=False
+                            #Condition for determine if the invoice doesn't exceed the limit of lines, if is exceed a new invoice should be generated
                             if count_lines<=limit_lines or limit_lines==0 or limit_lines==-1:
                                 if issue.issue_number not in inv.origin:
                                     inv.write({'origin':inv.origin + issue.issue_number +'-'})
@@ -400,13 +435,17 @@ class IssueInvoiceWizard(models.TransientModel):
         return count_lines,inv or False,count_lines_products,invoices_list,first_line_product,count_lines_products,inv_prod
     @api.multi
     def create_invoice_lines_timesheets(self,issue,count_lines,limit_lines,is_warranty,inv,invoice_dict,invoices_list):
+        #Method for invoice each timesheet line included in issue
+        #Exchange currency rates, based in parter settings of invoice
         account_obj=self.env['account.analytic.account']
         invoice_obj=self.env['account.invoice']
         for timesheet in issue.timesheet_ids:
             for account_line in timesheet.line_id:
                 if not account_line.invoice_id:
                     total_timesheet=0.0
+                    # Get quantity and price of timesheet based in rate prices of analytic account
                     quantity,total_timesheet=account_obj._get_invoice_price(account_line.account_id,account_line.date,timesheet.start_time,timesheet.end_time,issue.product_id.id,issue.categ_id.id,account_line.unit_amount,timesheet.service_type,timesheet.employee_id.id,account_line.to_invoice.id)
+                    #If not is warranty, the invoice lines use the customer partner settings
                     if is_warranty==False:
                         if issue.partner_id and issue.branch_id:
                             if issue.branch_id.property_product_pricelist:
@@ -430,6 +469,7 @@ class IssueInvoiceWizard(models.TransientModel):
                                     import_currency_rate=account_line.account_id.pricelist_id.currency_id.get_exchange_rate(account_line.account_id.company_id.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
                                 else:
                                     import_currency_rate = 1
+                    #If Warranty is seller, the line invoices to customer included prices in zero
                     elif is_warranty==True:
                         if issue.product_id.manufacturer.property_product_pricelist_purchase:
                             if account_line.account_id.pricelist_id.currency_id.id != issue.product_id.manufacturer.property_product_pricelist_purchase.currency_id.id:
@@ -442,6 +482,7 @@ class IssueInvoiceWizard(models.TransientModel):
                             else:
                                 import_currency_rate = 1
                     if (timesheet.end_time-timesheet.start_time!=0 or total_timesheet!=0):
+                        #Add line to invoice, included the line of timesheet
                         invoice_line={
                                       'product_id':account_line.product_id.id ,
                                       'name': account_line.product_id.description+'-'+issue.product_id.description,
@@ -457,8 +498,10 @@ class IssueInvoiceWizard(models.TransientModel):
                                         }
                         if timesheet.ticket_number:
                             invoice_line['reference']='R#'+timesheet.ticket_number
+                        #If Warranty is seller, the line invoices to customer included prices in zero
                         if issue.warranty=='seller':
                             invoice_line['price_unit']=0
+                        #Condition for determine if the invoice doesn't exceed the limit of lines, if is exceed a new invoice should be generated
                         if count_lines<=limit_lines or limit_lines==0 or limit_lines==-1:
                             inv.write({'invoice_line':[(0,0,invoice_line)]})
                             if issue.issue_number not in inv.origin:
@@ -490,15 +533,18 @@ class IssueInvoiceWizard(models.TransientModel):
         invoices_list=[]
         cont_invoice=0
         inv_prod=False
+        #Define maximun number lines by invoice
         limit_lines=user.company_id.maximum_invoice_lines
         if line_detailed==True:
             for issue in issues:
                 if issue.timesheet_ids or issue.expense_line_ids and cont_invoice==0:
                     cont_invoice=1
                     break
+        #Define the initial invoice
         if cont_invoice==1 or line_detailed==False:
             inv=invoice_obj.create(invoice_dict)
             invoices_list.append(inv.id)
+        #For each issue realized the invoices of a items (timesheets, backorders,supllier invoices lines, expenses lines, additional costs). Return the list of invoices generated
         for issue in issues:
             count_lines,inv,invoices_list=self.create_invoice_lines_timesheets(issue,count_lines,limit_lines,is_warranty,inv,invoice_dict,invoices_list)
             count_lines,inv,count_lines_products,invoices_list,first_line_product,count_lines_products,inv_prod=self.create_invoice_lines_backorders(issue,count_lines,limit_lines,line_detailed,first_line_product,count_lines_products,is_warranty,inv,invoice_dict,invoices_list,inv_prod)
@@ -519,6 +565,7 @@ class IssueInvoiceWizard(models.TransientModel):
         return date_due
     @api.multi
     def generate_invoices_issues(self,issues_ids,group,line_detailed):
+        #Define the structure of invoices generated with the issues invoices wizard, based in parameters selected
         issue_obj=self.env['project.issue']
         partner_obj=self.env['res.partner']
         user = self.env['res.users'].browse(self._uid)
@@ -607,6 +654,7 @@ class IssueInvoiceWizard(models.TransientModel):
         return invoices_list
     @api.multi
     def generate_invoices_warranty_manufacturer(self,issues_ids,line_detailed):
+        #Define the structure of warrant invoices generated with the issues invoices wizard, based in parameters selected
         journal_obj=self.env['account.journal']
         invoices_list=[]
         for issue in issues_ids:
@@ -654,6 +702,7 @@ class IssueInvoiceWizard(models.TransientModel):
 
     @api.multi
     def validate_issues(self):
+        #Define filter of issues to invoice based in parameters wizard
         account_analytic_list=[]
         partner_ids=[]
         issue_ids=[]
