@@ -18,7 +18,7 @@
         'security/ir.model.access.csv',
         'wizard/account_bank_balance_report_wizard.xml',
         'views/report.xml',
-        'viewsreport_menus.xml',
+        'views/report_menus.xml',
         'views/report_bank_balance.xml'
     ]
 }
