@@ -47,8 +47,21 @@
                         <field name="expense_line_ids" readonly="1" widget="many2many"/>
                     </page>
                 </xpath>
+                <xpath expr="/form/sheet/notebook/page[@string='Expenses Lines']" position="after">
+                    <page string="Additional Cost">
+                        <field name="additional_cost_ids" nolabel="1">
+                            <tree editable="top" string="Additional Costs">
+                                <field name="date" required="1"/>
+                                <field name="product_id" required="1"/>
+                                <field name="name"/>
+                                <field name="price_amount" required="1"/>
+                                <field name="currency_id" required="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
             </field>
-        </record>
+        </record>       
        <!--Form Search issue-->
        <record id="view_project_issue_filter" model="ir.ui.view">
             <field name="name">view.project.issue.filter</field>
@@ -87,9 +100,15 @@
             <field name="arch" type="xml">
                 <field name="website" position="after"> 
                     <field name="is_provision" attrs="{'invisible':[('customer', '!=', True)]}"/>
+                    <field name="provision_amount" attrs="{'invisible':[('is_provision', '!=', True)],'required':[('is_provision', '=', True)]}"/>
+                    <field name="provision_currency_id" attrs="{'invisible':[('is_provision', '!=', True)],'required':[('is_provision', '=', True)]}"/>
+                    <field name="provision_product_id" attrs="{'invisible':[('is_provision', '!=', True)],'required':[('is_provision', '=', True)]}"/>
                 </field>
                 <xpath expr="/form/sheet/notebook/page[@string='Contacts']/field[@name='child_ids']/form[@string='Contact']/sheet/group/field[@name='ref']" position="after">
                     <field name="is_provision" attrs="{'invisible':[('customer', '!=', True)]}"/>
+                    <field name="provision_amount" attrs="{'invisible':[('is_provision', '!=', True)],'required':[('is_provision', '=', True)]}"/>
+                    <field name="provision_currency_id" attrs="{'invisible':[('is_provision', '!=', True)],'required':[('is_provision', '=', True)]}"/>
+                    <field name="provision_product_id" attrs="{'invisible':[('is_provision', '!=', True)],'required':[('is_provision', '=', True)]}"/>
                 </xpath>
             </field>
         </record>

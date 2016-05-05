@@ -48,7 +48,20 @@ class SaleOrderLine(models.Model):
 class ProjectIssue(models.Model):
     _inherit = 'project.issue'
     @api.v7
+    def create(self,cr, uid, vals, context=None):
+        additional_cost=self.pool.get('project.issue.additional.cost')
+        res=super(ProjectIssue, self).create(cr, uid, vals, context=context)
+        issue_id=self.browse(cr,uid,res,context)
+        if issue_id.branch_id:
+            if issue_id.branch_id.is_provision:
+                adit_res=additional_cost.create(cr, uid,{'product_id':issue_id.branch_id.provision_product_id.id,'price_amount':issue_id.branch_id.provision_amount,'is_provision':True,'issue_id':issue_id.id,'currency_id':issue_id.branch_id.provision_currency_id.id})
+        else:
+            if issue_id.partner_id.is_provision:
+                adit_res=additional_cost.create(cr, uid,{'product_id':issue_id.partner_id.provision_product_id.id,'price_amount':issue_id.partner_id.provision_amount,'is_provision':True,'issue_id':issue_id.id,'currency_id':issue_id.partner_id.provision_currency_id.id})
+        return res
+    @api.v7
     def onchange_stage_id(self, cr, uid, ids, stage_id, context=None):
+        additional_cost_obj=self.pool.get('project.issue.additional.cost')
         timesheet_obj=self.pool.get('hr.analytic.timesheet')
         res=super(ProjectIssue, self).onchange_stage_id(cr, uid, ids, stage_id, context)
         issues=self.browse(cr,uid,ids)
@@ -68,6 +81,9 @@ class ProjectIssue(models.Model):
                     res['value']['date_closed']= date_close
                 else:
                     res['value']['date_closed']=fields.datetime.now()
+                if not issue.analytic_account_id.charge_expenses or not issue.analytic_account_id.invoice_on_timesheets:
+                        for additiona_cost in issue.additional_cost_ids:
+                            additional_cost_obj.unlink(cr, uid,additiona_cost.id, context=None)
         return res
     @api.v7
     def write(self, cr, uid, ids, vals, context=None):
@@ -103,6 +119,8 @@ class ProjectIssue(models.Model):
             'sale_order_id':False,
         })
         return super(ProjectIssue, self).copy(cr, uid, id, default, context)
+    
+    additional_cost_ids=fields.One2many('project.issue.additional.cost','issue_id')
     expense_line_ids=fields.One2many('hr.expense.line','issue_id')
     account_invoice_line_ids=fields.One2many('account.invoice.line','issue_id')
     sale_order_id=fields.Many2one('sale.order','Sale Order')
@@ -112,6 +130,25 @@ class ProjectIssue(models.Model):
 class ResPartner(models.Model):
     _inherit = 'res.partner'
     is_provision=fields.Boolean('Provision Apply')
+    provision_amount=fields.Float('Provision Amount')
+    provision_product_id=fields.Many2one('product.product', string='Provision Product')
+    provision_currency_id=fields.Many2one('res.currency','Provision Currency')
+    
+class project_issue_additional_cost(models.Model):
+    _name="project.issue.additional.cost"
+    
+    date=fields.Date('Date')
+    name=fields.Char('Description')
+    product_id=fields.Many2one('product.product','Product')
+    price_amount=fields.Float('Price Amount')
+    issue_id=fields.Many2one('project.issue','Project Issue')
+    is_provision=fields.Boolean('Provision Apply')
+    currency_id=fields.Many2one('res.currency','Currency')
+    
+    _defaults={
+               'date':fields.Date.today(),
+               'price_amount':0.0
+               }
 
 class AccountAnalyticAccount(models.Model):
     _inherit = 'account.analytic.account'
