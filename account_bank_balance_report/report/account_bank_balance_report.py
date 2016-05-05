@@ -171,7 +171,8 @@ class Parser(accountReportbase):
         account = self.pool.get('account.account').browse(self.cr, self.uid,
                                                           account_id)
         currency_company = self.get_currency_company()
-        if account.currency_id == currency_company or not account.currency_id:
+        if account.currency_id.id == currency_company or\
+                not account.currency_id:
             # initialize cum_balance
             dict_update = {'cumul_balance': balance[account_id]['balance']}
             self.localcontext['storage'].update(dict_update)
@@ -247,8 +248,8 @@ class Parser(accountReportbase):
                 self.cr, self.uid, start_period=period,
                 fiscal_year=fiscal_year)
 
-        if account.currency_id.id == currency_company or not\
-                account.currency_id:
+        if account.currency_id.id == currency_company or\
+                not account.currency_id:
             account_balance = library_obj.get_account_balance(
                 self.cr, self.uid, [account_id], ['balance'],
                 initial_balance=True, fiscal_year_id=fiscal_year.id,
