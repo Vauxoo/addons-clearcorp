@@ -19,7 +19,4 @@
         'account',
         'base_company_prefix',
     ],
-    'data': [
-        'views/model_name_view.xml',
-    ],
 }
