@@ -11,7 +11,7 @@ class ResCompany(orm.Model):
     _order = 'prefix'
 
     _columns = {
-        'prefix': fields.char('Prefix', size=10),
+        'prefix': fields.char('Prefix', size=10, default=''),
     }
 
     def name_get(self, cr, uid, ids, context=None):

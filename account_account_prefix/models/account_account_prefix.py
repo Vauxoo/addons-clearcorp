@@ -12,10 +12,14 @@ class AccountAccount(models.Model):
     @api.multi
     @api.depends('name', 'code')
     def name_get(self):
-        res = super(AccountAccount, self).name_get()
+        _res = super(AccountAccount, self).name_get()
         result = []
         for account in self:
-            name = '['+account.company_id.prefix+']' + ' ' +
-            account.code + ' ' + account.name
+            name = ''
+            if account.company_id.prefix:
+                name += '['+account.company_id.prefix+']' + \
+                    ' ' + account.code + ' ' + account.name
+            else:
+                name += account.code + ' ' + account.name
             result.append((account.id, name))
         return result
