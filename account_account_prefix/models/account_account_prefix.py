@@ -15,6 +15,6 @@ class AccountAccount(models.Model):
         res = super(AccountAccount, self).name_get()
         result = []
         for account in self:
-            name = account.company_id.prefix+' '+account.name
+            name = '['+account.company_id.prefix+']'+' '+account.name
             result.append((account.id, name))
         return result
