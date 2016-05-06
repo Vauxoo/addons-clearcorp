@@ -20,14 +20,14 @@
         <record id="view_invoice_form_inherit_2" model="ir.ui.view">
             <field name="name">view.invoice.form.inherit.2</field>
             <field name="model">account.invoice</field>
-            <field name="inherit_id" ref="view_invoice_form_inherit"/>
+            <field name="inherit_id" ref="account.invoice_form"/>
             <field name="groups_id" eval="[(4, ref('group_sale_max_discount'))]"/>
             <field name="priority" eval="250"/>
             <field name="arch" type="xml">
-                <xpath expr="//form/sheet/notebook/page/field/form/group/group/field[@name='discount']" position="attributes">
+                <xpath expr="//form/sheet/notebook/page[@string='Invoice Lines']/field/tree/field[@name='discount']" position="attributes">
                     <attribute name="invisible">0</attribute>
                 </xpath>
-                <xpath expr="//form/sheet/notebook/page/field/form/group/group/field[@name='discount_func']" position="attributes">
+                <xpath expr="//form/sheet/notebook/page[@string='Invoice Lines']/field/tree/field[@name='discount_func']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
             </field>
