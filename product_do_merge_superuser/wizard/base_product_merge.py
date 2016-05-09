@@ -2,21 +2,25 @@
 # © 2016 ClearCorp
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import models, api
+from openerp.osv import osv
+from openerp import SUPERUSER_ID
 
 
-class MergeProductAutomatic(models.TransientModel):
+class MergeProductAutomatic(osv.TransientModel):
 
     _inherit = 'base.product.merge.automatic.wizard'
 
-    @api.multi
-    def start_process_cb(self):
-        self.sudo().super(MergeProductAutomatic, self).start_process_cb()
+    def start_process_cb(self, cr, uid, ids, context=None):
+        res = super(MergeProductAutomatic, self).start_process_cb(
+            cr, SUPERUSER_ID, ids, context=context)
+        return res
 
-    @api.multi
-    def next_cb(self):
-        self.sudo().super(MergeProductAutomatic, self).next_vb()
+    def next_cb(self, cr, uid, ids, context=None):
+        res = super(MergeProductAutomatic, self).next_cb(
+            cr, SUPERUSER_ID, ids, context=context)
+        return res
 
-    @api.multi
-    def merge_cb(self):
-        self.sudo().super(MergeProductAutomatic, self).merge_cb()
+    def merge_cb(self, cr, uid, ids, context=None):
+        res = super(MergeProductAutomatic, self).merge_cb(
+            cr, SUPERUSER_ID, ids, context=context)
+        return res
