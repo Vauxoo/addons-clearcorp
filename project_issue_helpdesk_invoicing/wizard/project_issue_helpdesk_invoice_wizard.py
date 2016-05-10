@@ -363,75 +363,75 @@ class IssueInvoiceWizard(models.TransientModel):
                     else:
                         origin=delivery_note_lines.note_id.name
                         #Add line to invoice, included the line of delivery note
-                        invoice_line={
-                                    'product_id':delivery_note_lines.product_id.id,
-                                    'name': issue.product_id.description +'-'+delivery_note_lines.name,
-                                    'quantity':delivery_note_lines.quantity,
-                                    'real_quantity':delivery_note_lines.quantity,
-                                    'uos_id':delivery_note_lines.product_uos.id,
-                                    'price_unit':delivery_note_lines.price_unit*import_currency_rate,
-                                    'discount':delivery_note_lines.discount,
-                                    'invoice_line_tax_id':[(6, 0, [tax.id for tax in delivery_note_lines.taxes_id])],
-                                    'account_analytic_id':issue.analytic_account_id.id,
-                                    'reference':'NE#'+ origin,
-                                    'account_id':delivery_note_lines.product_id.property_account_income.id or delivery_note_lines.product_id.categ_id.property_account_income_categ.id
-                                    }
-                        #If Warranty is seller, the line invoices to customer included prices in zero
-                        if issue.warranty=='seller':
-                            invoice_line['price_unit']=0
-                        #If lines detail, the invoice of products should be different to invoice services
-                        if line_detailed==True:
-                            if first_line_product==0:
-                                inv_prod=invoice_obj.create(invoice_dict)
-                                if issue.issue_number not in inv_prod.origin:
-                                    inv_prod.write({'origin':inv_prod.origin + issue.issue_number +'-'})
-                                invoices_list.append(inv_prod.id)
-                                first_line_product+=1
-                            #Condition for determine if the invoice doesn't exceed the limit of lines of products, if is exceed a new invoice should be generated
-                            if count_lines_products<=limit_lines or limit_lines==0 or limit_lines==-1:
-                                if issue.issue_number not in inv_prod.origin:
-                                    inv_prod.write({'origin':inv_prod.origin + issue.issue_number +'-'})
-                                inv_prod.write({'invoice_line':[(0,0,invoice_line)]})
-                                inv_prod.write({'issue_ids':[(4,issue.id)]})
-                                backorder.delivery_note_id.write({'invoice_ids':[(4,inv_prod.id)]})
-                                count_lines_products+=1
-                            else:
-                                if issue.issue_number not in inv_prod.origin:
-                                    inv_prod.write({'origin':inv_prod.origin + issue.issue_number})
-                                inv_prod=invoice_obj.create(invoice_dict)
-                                invoices_list.append(inv_prod.id)
-                                count_lines_products=0
-                                if issue.issue_number not in inv_prod.origin:
-                                    inv_prod.write({'origin':inv_prod.origin + issue.issue_number +'-'})
-                                inv_prod.write({'invoice_line':[(0,0,invoice_line)]})
-                                inv_prod.write({'issue_ids':[(4,issue.id)]})
-                                backorder.delivery_note_id.write({'invoice_ids':[(4,inv_prod.id)]})
-                                count_lines_products+=1
+                    invoice_line={
+                                'product_id':delivery_note_lines.product_id.id,
+                                'name': issue.product_id.description +'-'+delivery_note_lines.name,
+                                'quantity':delivery_note_lines.quantity,
+                                'real_quantity':delivery_note_lines.quantity,
+                                'uos_id':delivery_note_lines.product_uos.id,
+                                'price_unit':delivery_note_lines.price_unit*import_currency_rate,
+                                'discount':delivery_note_lines.discount,
+                                'invoice_line_tax_id':[(6, 0, [tax.id for tax in delivery_note_lines.taxes_id])],
+                                'account_analytic_id':issue.analytic_account_id.id,
+                                'reference':'NE#'+ origin,
+                                'account_id':delivery_note_lines.product_id.property_account_income.id or delivery_note_lines.product_id.categ_id.property_account_income_categ.id
+                                }
+                    #If Warranty is seller, the line invoices to customer included prices in zero
+                    if issue.warranty=='seller':
+                        invoice_line['price_unit']=0
+                    #If lines detail, the invoice of products should be different to invoice services
+                    if line_detailed==True:
+                        if first_line_product==0:
+                            inv_prod=invoice_obj.create(invoice_dict)
+                            if issue.issue_number not in inv_prod.origin:
+                                inv_prod.write({'origin':inv_prod.origin + issue.issue_number +'-'})
+                            invoices_list.append(inv_prod.id)
+                            first_line_product+=1
+                        #Condition for determine if the invoice doesn't exceed the limit of lines of products, if is exceed a new invoice should be generated
+                        if count_lines_products<=limit_lines or limit_lines==0 or limit_lines==-1:
+                            if issue.issue_number not in inv_prod.origin:
+                                inv_prod.write({'origin':inv_prod.origin + issue.issue_number +'-'})
+                            inv_prod.write({'invoice_line':[(0,0,invoice_line)]})
+                            inv_prod.write({'issue_ids':[(4,issue.id)]})
+                            backorder.delivery_note_id.write({'invoice_ids':[(4,inv_prod.id)]})
+                            count_lines_products+=1
                         else:
-                            inv_prod=False
-                            #Condition for determine if the invoice doesn't exceed the limit of lines, if is exceed a new invoice should be generated
-                            if count_lines<=limit_lines or limit_lines==0 or limit_lines==-1:
-                                if issue.issue_number not in inv.origin:
-                                    inv.write({'origin':inv.origin + issue.issue_number +'-'})
-                                inv.write({'invoice_line':[(0,0,invoice_line)]})
-                                inv.write({'issue_ids':[(4,issue.id)]})
-                                backorder.delivery_note_id.write({'invoice_ids':[(4,inv.id)]})
-                                count_lines+=1
-                            else:
-                                if issue.issue_number not in inv.origin:
-                                    inv.write({'origin':inv.origin + issue.issue_number})
-                                inv=invoice_obj.create(invoice_dict)
-                                invoices_list.append(inv.id)
-                                count_lines=1
-                                if issue.issue_number not in inv.origin:
-                                    inv.write({'origin':inv.origin + issue.issue_number +'-'})
-                                inv.write({'invoice_line':[(0,0,invoice_line)]})
-                                inv.write({'issue_ids':[(4,issue.id)]})
-                                backorder.delivery_note_id.write({'invoice_ids':[(4,inv.id)]})
-                                count_lines+=1
-                        backorder.write({'invoice_state':'invoiced'})
-                        backorder.move_lines.write({'invoice_state':'invoiced'})
-                        backorder.delivery_note_id.write({'state':'invoiced'})
+                            if issue.issue_number not in inv_prod.origin:
+                                inv_prod.write({'origin':inv_prod.origin + issue.issue_number})
+                            inv_prod=invoice_obj.create(invoice_dict)
+                            invoices_list.append(inv_prod.id)
+                            count_lines_products=0
+                            if issue.issue_number not in inv_prod.origin:
+                                inv_prod.write({'origin':inv_prod.origin + issue.issue_number +'-'})
+                            inv_prod.write({'invoice_line':[(0,0,invoice_line)]})
+                            inv_prod.write({'issue_ids':[(4,issue.id)]})
+                            backorder.delivery_note_id.write({'invoice_ids':[(4,inv_prod.id)]})
+                            count_lines_products+=1
+                    else:
+                        inv_prod=False
+                        #Condition for determine if the invoice doesn't exceed the limit of lines, if is exceed a new invoice should be generated
+                        if count_lines<=limit_lines or limit_lines==0 or limit_lines==-1:
+                            if issue.issue_number not in inv.origin:
+                                inv.write({'origin':inv.origin + issue.issue_number +'-'})
+                            inv.write({'invoice_line':[(0,0,invoice_line)]})
+                            inv.write({'issue_ids':[(4,issue.id)]})
+                            backorder.delivery_note_id.write({'invoice_ids':[(4,inv.id)]})
+                            count_lines+=1
+                        else:
+                            if issue.issue_number not in inv.origin:
+                                inv.write({'origin':inv.origin + issue.issue_number})
+                            inv=invoice_obj.create(invoice_dict)
+                            invoices_list.append(inv.id)
+                            count_lines=1
+                            if issue.issue_number not in inv.origin:
+                                inv.write({'origin':inv.origin + issue.issue_number +'-'})
+                            inv.write({'invoice_line':[(0,0,invoice_line)]})
+                            inv.write({'issue_ids':[(4,issue.id)]})
+                            backorder.delivery_note_id.write({'invoice_ids':[(4,inv.id)]})
+                            count_lines+=1
+                    backorder.write({'invoice_state':'invoiced'})
+                    backorder.move_lines.write({'invoice_state':'invoiced'})
+                    backorder.delivery_note_id.write({'state':'invoiced'})
         return count_lines,inv or False,count_lines_products,invoices_list,first_line_product,count_lines_products,inv_prod
     @api.multi
     def create_invoice_lines_timesheets(self,issue,count_lines,limit_lines,is_warranty,inv,invoice_dict,invoices_list):
