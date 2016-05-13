@@ -2,44 +2,16 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-==============
-{module_title}
-==============
+=========================
+Account Distribution Line
+=========================
 
-This module was written to extend the functionality of ... to support ...
-and allow you to ...
+This module is the base for distribution lines in Budget and Cash Flow report 
+modules. It provides basic functions and attributes for both modules, and then, 
+they implement their own functions: Budget Move Lines for Budget and Cash Flow 
+Line for Cash Flow Report.
 
-Installation
-============
-
-To install this module, you need to:
-
-* do this ...
-
-Configuration
-=============
-
-To configure this module, you need to:
-
-* go to ...
-
-Usage
-=====
-
-To use this module, you need to:
-
-* go to ...
-
-Known issues / Roadmap
-======================
-
-* ...
-
-Bug Tracker
-===========
-
-Bugs are tracked on ...
-
+Also includes functions for Account Reconcile that are in common with both models.
 
 Credits
 =======
@@ -47,8 +19,7 @@ Credits
 Contributors
 ------------
 
-* Firstname Lastname <email.address@example.org>
-* Second Person <second.person@example.org>
+* Lesmed Gutiérrez <lesmed.gutierrez@clearcorp.co.cr>
 
 
 Maintainer
