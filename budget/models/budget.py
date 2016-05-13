@@ -994,40 +994,55 @@ class budget_move(osv.osv):
 
     def _check_values(self, cr, uid, ids, context=None):
         list_line_ids_repeat = []
-        
         for move in self.browse(cr, uid, ids, context=context):
-            if  move.type in ('invoice_in','manual_invoice_in','expense', 'opening','extension') and move.fixed_amount <= 0:
-                return [False,_('The reserved amount must be positive')]
-            if  move.type in ('payroll') and move.fixed_amount < 0:
-                return [False,_('The reserved amount must be positive')]
-            if  move.type in ('invoice_out','manual_invoice_out') and move.fixed_amount >= 0:
-                return [False,_('The reserved amount must be negative')]
-            if  move.type in ('modifications') and move.fixed_amount != 0:
-                return [False,_('The sum of addition and subtractions from program lines must be zero')]
-            
-            #Check if exist a repeated program_line
-            if move.standalone_move == True:                
+            if move.type in (
+                    'invoice_in', 'manual_invoice_in', 'expense', 'opening',
+                    'extension') and move.fixed_amount <= 0:
+                return [False, _('The reserved amount must be positive')]
+            if move.type in ('payroll') and move.fixed_amount < 0:
+                return [False, _('The reserved amount must be positive')]
+            if move.type in ('invoice_out', 'manual_invoice_out') and\
+                    move.fixed_amount >= 0:
+                return [False, _('The reserved amount must be negative')]
+            if move.type in ('modifications') and move.fixed_amount != 0:
+                return [False, _(
+                    """The sum of addition and subtractions
+                        from program lines must be zero""")]
+            # Check if exist a repeated program_line
+            if move.standalone_move:
                 for line in move.move_lines:
                     list_line_ids_repeat.append(line.program_line_id.id)
-                
-                list_line_ids = list(set(list_line_ids_repeat)) #Delete repeated items
-                
+                # Delete repeated items
+                list_line_ids = list(set(list_line_ids_repeat))
                 if len(list_line_ids_repeat) > len(list_line_ids):
-                    return [False,_('Program lines in budget move lines cannot be repeated')]
-            
-            #Check amount for each move_line
+                    return [False, _(
+                        'Program lines in budget move lines cannot be repeated'
+                    )]
+            # Check amount for each move_line
             for line in move.move_lines:
-                if line.type =='extension':
-                    if line.fixed_amount < 0 :
-                        return [False, _('An extension amount cannot be negative')]
-                elif line.type =='modification':
-                    if (line.fixed_amount < 0) & (line.program_line_id.available_budget < abs(line.fixed_amount)):
-                        return [False, _('The amount to substract from ') + line.program_line_id.name + _(' is greater than the available ')]
-                elif line.type in ('opening','manual_invoice_in', 'expense', 'invoice_in', 'manual'):
-                    if line.program_line_id.available_budget < line.fixed_amount:
-                        return [False, _('The amount to substract from ') + line.program_line_id.name + _(' is greater than the available ')]
-        return [True,'']
-    
+                if line.type == 'extension':
+                    if line.fixed_amount < 0:
+                        return [False, _(
+                            'An extension amount cannot be negative')]
+                elif line.type == 'modification':
+                    if (line.fixed_amount < 0) & (
+                            line.program_line_id.available_budget <
+                            abs(line.fixed_amount)):
+                        print "\n1"
+                        return [False, _(
+                            """The amount to substract from %s is greater
+                            than the available""" % line.program_line_id.name)]
+                elif line.type in (
+                        'opening', 'manual_invoice_in', 'expense',
+                        'invoice_in', 'manual'):
+                    if line.program_line_id.available_budget <\
+                            line.fixed_amount:
+                        print "\n2"
+                        return [False, _(
+                            """The amount to substract from %s is greater
+                            than the available""" % line.program_line_id.name)]
+        return [True, '']
+
     def create(self, cr, uid, vals, context={}):
         bud_program_lines_obj = self.pool.get('budget.program.line')
         bud_program_lines = []

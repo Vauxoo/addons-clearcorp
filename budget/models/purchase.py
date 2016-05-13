@@ -214,6 +214,7 @@ class purchase_order_line(osv.osv):
                 bud_line_ids = bud_line_obj.search(cr, uid, [('po_line_id','=', po_line_id)], context=context)
                 for bud_line in bud_line_obj.browse(cr, uid,bud_line_ids, context=context):
                     result[po_line_id] = bud_line.program_line_id.available_budget
+        print "\n _check_available POL: ", result
         return result
                              
     _columns = {    
