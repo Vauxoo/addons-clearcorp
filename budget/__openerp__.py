@@ -1,69 +1,50 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    OpenERP, Open Source Management Solution
-#    Addons modules by CLEARCORP S.A.
-#    Copyright (C) 2009-TODAY CLEARCORP S.A. (<http://clearcorp.co.cr>).
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2016 ClearCorp
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+
 {
     'name': 'Public Budget',
-    'version': '0.1',
-    'url': 'http://launchpad.net/openerp-ccorp-addons',
+    'version': '8.0.1.0',
+    'summary': "Goverment Institutions Budget",
     'author': 'ClearCorp',
-    'website': 'http://clearcorp.co.cr',
+    'website': 'http://clearcorp.cr',
     'category': 'Generic Modules/Base',
-    'description': """ This module adds the logic for Public Budget management and it's different processes
-    """,
+    'license': 'AGPL-3',
+    'sequence': 10,
+    'application': False,
+    'installable': True,
+    'auto_install': False,
     'depends': [
         'base',
-        'account',
-        'purchase',
-        'sale',
-        'sale_stock',
-        'purchase_order_discount',
-        'hr_payroll',
-        'hr_payroll_account',
-        'hr_expense',
         'account_account_extended_ccorp',
-        'expense_line_partner',
         'account_distribution_line',
+        'account',
+        'expense_line_partner',
+        'hr_expense',
+        'hr_payroll_account',
+        'hr_payroll',
+        'purchase_order_discount',
+        'purchase',
+        'sale_stock',
+        'sale',
         ],
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
-        'budget_workflow.xml',
-        'wizard/budget_program_populate_view.xml',
-        'budget_view.xml',
+        'views/account_invoice_view.xml',
+        'views/account_move_line.xml',
+        'views/account_view.xml',
+        'views/budget_sequence.xml',
+        'views/budget_view.xml',
+        'views/budget_workflow.xml',
+        'views/hr_expense_view.xml',
+        'views/hr_expense_workflow.xml',
+        'views/hr_payroll.xml'
+        'views/purchase_view.xml',
+        'views/purchase_workflow.xml',
+        'views/res_partner_view.xml',
+        'views/sale_view.xml'
         'wizard/budget_import_catalog_view.xml',
-        'res_partner_view.xml',
-        'budget_sequence.xml',
-        'account_invoice_view.xml',
-        'account_view.xml',
-        'account_move_line.xml',
-        'hr_expense_view.xml',
-        'hr_expense_workflow.xml',
-        'purchase_view.xml',
-        'purchase_workflow.xml',
-        'hr_payroll.xml'
-        #'sale_view.xml'
-        ],
-    'license': 'AGPL-3',
-    'installable': True,
-    'active': False,
-    'application': True,
-
+        'wizard/budget_program_populate_view.xml'
+        ]
 }
