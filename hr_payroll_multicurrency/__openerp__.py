@@ -4,7 +4,7 @@
 
 {
     'name': 'HR Payroll MultiCurrency',
-    'summary': 'Module summary',
+    'summary': 'Add multicurrency to payroll',
     'version': '8.0.1.0',
     'category': 'HR',
     'website': 'http://clearcorp.cr',
