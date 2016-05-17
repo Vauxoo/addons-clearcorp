@@ -2,11 +2,10 @@
 # © 2016 ClearCorp
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp.osv import fields, osv
+from openerp import models, fields
 
-class res_partner(osv.osv):
+
+class res_partner(models.Model):
     _inherit = 'res.partner'
-    
-    _columns = {
-        'sponsor': fields.boolean('Sponsor',),
-    }
+
+    sponsor = fields.Boolean(string='Sponsor')
