@@ -28,6 +28,9 @@
 	                		<attribute name="states" >awarded</attribute>
 	                		<attribute name="string" >Confirm Order</attribute>
 	                	</xpath>
+                        <xpath expr="/form/header/button[@name='view_invoice']" position="attributes">
+                            <attribute name="states" >approved</attribute>
+                        </xpath>
 	                	
 	                	<label string="Request for Quotation " position="replace">
 	                		<label string="Request for Quotation " attrs="{'invisible': [('state','not in',('draft','budget_approval','sent'))]}"/>
