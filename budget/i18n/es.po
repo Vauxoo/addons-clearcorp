@@ -956,7 +956,7 @@ msgid ""
 "a approved or closed budget plan"
 msgstr ""
 "No es posible crear un movimiento de presupuesto que tenga asociadas lineas "
-"pertenecientes a un plan en estado cerrado o cancelado"
+"pertenecientes a un plan en estado aprovado o cerrado"
 
 #. module: budget
 #: code:addons/budget/budget.py:965 code:addons/budget/budget.py:1056
