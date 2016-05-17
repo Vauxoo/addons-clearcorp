@@ -1028,7 +1028,6 @@ class budget_move(osv.osv):
                     if (line.fixed_amount < 0) & (
                             line.program_line_id.available_budget <
                             abs(line.fixed_amount)):
-                        print "\n1"
                         return [False, _(
                             """The amount to substract from %s is greater
                             than the available""" % line.program_line_id.name)]
@@ -1037,7 +1036,6 @@ class budget_move(osv.osv):
                         'invoice_in', 'manual'):
                     if line.program_line_id.available_budget <\
                             line.fixed_amount:
-                        print "\n2"
                         return [False, _(
                             """The amount to substract from %s is greater
                             than the available""" % line.program_line_id.name)]

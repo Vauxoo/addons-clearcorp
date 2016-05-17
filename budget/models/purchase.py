@@ -137,7 +137,9 @@ class purchase_order(osv.osv):
             bud_move = purchase.budget_move_id
             move_id = bud_move.id
             obj_bud_mov.signal_workflow(cr, uid, [move_id], 'button_cancel', context=context)
+        self.write(cr, uid, ids, {'state': 'cancel'})
         super(purchase_order, self).action_cancel(cr, uid, ids, context=context)
+		
     
     def action_draft(self, cr, uid, ids, context=None):
         obj_bud_mov = self.pool.get('budget.move')
@@ -214,7 +216,6 @@ class purchase_order_line(osv.osv):
                 bud_line_ids = bud_line_obj.search(cr, uid, [('po_line_id','=', po_line_id)], context=context)
                 for bud_line in bud_line_obj.browse(cr, uid,bud_line_ids, context=context):
                     result[po_line_id] = bud_line.program_line_id.available_budget
-        print "\n _check_available POL: ", result
         return result
                              
     _columns = {    
@@ -314,7 +315,10 @@ class purchase_order_line(osv.osv):
             for bud_line in bud_lines:
                 if bud_line.fixed_amount == line.price_subtotal:
                     if 'price_subtotal' in vals:
-                        bud_line_obj.write(cr, uid, [bud_line.id], {'fixed_amount':updated_fields['price_subtotal']})
+                        bud_line_obj.write(cr, uid, [bud_line.id], {'fixed_amount': vals['price_subtotal']})
+                        moves_to_update.append(bud_line.budget_move_id.id)
+                    if 'price_unit' in vals:
+                        bud_line_obj.write(cr, uid, [bud_line.id], {'fixed_amount': vals['price_unit']})
                         moves_to_update.append(bud_line.budget_move_id.id)
                 if 'program_line_id' in vals:
                     bud_line_obj.write(cr, uid, [bud_line.id], {'program_line_id': vals['program_line_id']})
