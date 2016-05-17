@@ -9,6 +9,9 @@ import account_move_line
 import account_move_line_distribution
 import account_period
 import budget
+import budget_move
+import budget_move_line
+import budget_program
 import hr_expense
 import hr_payroll
 import purchase
