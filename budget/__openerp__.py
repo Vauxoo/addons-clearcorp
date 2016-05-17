@@ -39,11 +39,11 @@
         'views/budget_workflow.xml',
         'views/hr_expense_view.xml',
         'views/hr_expense_workflow.xml',
-        'views/hr_payroll.xml'
+        'views/hr_payroll.xml',
         'views/purchase_view.xml',
         'views/purchase_workflow.xml',
         'views/res_partner_view.xml',
-        'views/sale_view.xml'
+        'views/sale_view.xml',
         'wizard/budget_import_catalog_view.xml',
         'wizard/budget_program_populate_view.xml'
         ]
