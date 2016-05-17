@@ -4,7 +4,7 @@
 
 
 from openerp import models, api
-from openerp.exceptions import Warming
+from openerp.exceptions import Warning
 from openerp.tools.translate import _
 
 
@@ -42,7 +42,7 @@ class AccountPeriodClose(models.Model):
                         for line_distribution in line_distribution_list:
                             if line_distribution.distribution_percentage < 100:
                                 # Create a error that show line reference
-                                raise Warming(_(
+                                raise Warning(_(
                                     """All entry lines must be distributed in a
                         100 percentage.The move line with reference: '%s' is
                         not completely distributed""") % (line.ref,))
