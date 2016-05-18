@@ -6,7 +6,7 @@
 from openerp import models, fields, api
 
 
-class HRSalaryRule(models):
+class HRSalaryRule(models.Model):
 
     _inherit = 'hr.salary.rule'
 
@@ -76,33 +76,27 @@ class HRPayslip(models.Model):
                     print move_line_credit
                     if move_line_name != payslip_line_name:
                         continue
+                    vals = {
+                        'origin': payslip_line.name,
+                        'budget_move_id': bud_move_id,
+                        'payslip_line_id': payslip_line.id,
+                        'move_line_id': move_line.id
+                    }
                     if not is_debit and\
                             payslip_line_credit_account_id == move_line_account_id and\
                             payslip_line_credit_budget_program_id:
-                        vals = {}
                         payslip_total += move_line_credit
                         vals['fixed_amount'] = move_line_credit * -1
                         vals['program_line_id'] =\
                             payslip_line_credit_budget_program_id
-                        vals['origin'] = payslip_line.name
-                        vals['budget_move_id'] = bud_move_id
-                        vals['payslip_line_id'] = payslip_line.id
-                        vals['move_line_id'] = move_line.id
-                        obj_bud_line.create(vals)
-
                     if is_debit and\
                             payslip_line_debit_account_id == move_line_account_id and\
                             payslip_line_debit_budget_program_id:
-                        vals = {}
                         payslip_total += move_line_debit
                         vals['fixed_amount'] = move_line_debit
                         vals['program_line_id'] =\
                             payslip_line_debit_budget_program_id
-                        vals['origin'] = payslip_line.name
-                        vals['budget_move_id'] = bud_move_id
-                        vals['payslip_line_id'] = payslip_line.id
-                        vals['move_line_id'] = move_line.id
-                        obj_bud_line.create(vals)
+                    obj_bud_line.create(vals)
             obj_bud_mov.write([bud_move_id], {'fixed_amount': payslip_total})
             obj_bud_mov.signal_workflow([bud_move_id], 'button_compromise')
             obj_bud_mov.signal_workflow([bud_move_id], 'button_execute')
