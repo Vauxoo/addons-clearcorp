@@ -112,8 +112,8 @@ class budget_move_line(osv.osv):
         res = {}
         lines = self.browse(cr, uid, ids,context=context) 
         for line in lines:
-            name = line.budget_move_id.code+ "\\" + line.origin 
-            res[line.id]= name 
+            name = str(line.budget_move_id.code) + "\\" + str(line.origin)
+            res[line.id] = name 
         return res
     
     
