@@ -16,5 +16,6 @@
     'auto_install': False,
     'depends': [
         'hr_payroll_multicurrency',
+        'hr_payroll_account',
     ],
 }
