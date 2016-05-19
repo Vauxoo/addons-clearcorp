@@ -105,18 +105,14 @@ class budget_move_line(osv.osv):
                     next_line = self.get_next_year_line(cr, uid, [line.id], context=context)[line.id]
                     if not next_line:
                         return False
-                
         return True
-        
+
     def _line_name(self, cr, uid, ids, field_name, args, context=None):
         res = {}
-        lines = self.browse(cr, uid, ids,context=context) 
-        for line in lines:
-            name = str(line.budget_move_id.code) + "\\" + str(line.origin)
-            res[line.id] = name 
+        for line in self.browse(cr, uid, ids, context=context):
+            res[line.id] = "%s \\ %s" % (line.budget_move_id.code, line.origin)
         return res
-    
-    
+
     _columns = {
         'origin': fields.char('Origin', size=64, ),
         'budget_move_id': fields.many2one('budget.move', 'Budget Move', required=True, ondelete='cascade'),
