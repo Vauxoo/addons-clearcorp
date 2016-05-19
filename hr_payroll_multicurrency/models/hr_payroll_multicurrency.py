@@ -17,5 +17,6 @@ class HRPayslip(models.Model):
                                   string='Currency')
 
     @api.depends('contract_id')
+    @api.one
     def _compute_currency(self):
         self.currency_id = self.contract_id.currency_id
