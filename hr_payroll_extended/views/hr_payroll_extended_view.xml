@@ -191,5 +191,17 @@
                 </page>
             </field>
         </record>
+        <!-- hr.salary.rule.list-->
+        <record id="view_rule_list" model="ir.ui.view">
+            <field name="name">Salary Rules tree</field>
+            <field name="model">hr.salary.rule</field>
+            <field name="type">tree</field>
+            <field name="inherit_id" ref="hr_payroll.hr_salary_rule_list"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree/field[@name='sequence']" position="attributes">
+                        <attribute name="invisible">0</attribute>
+                </xpath>
+            </field>
+        </record>
     </data>
 </openerp>
