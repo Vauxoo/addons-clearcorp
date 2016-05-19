@@ -86,7 +86,18 @@ class hr_expense_expense(osv.osv):
                 bud_move_obj.signal_workflow(cr, uid, [expense.budget_move_id.id], 'button_draft', context=context)
                 bud_move_obj.signal_workflow(cr, uid, [expense.budget_move_id.id], 'button_reserve', context=context)
                 bud_move_obj.recalculate_values(cr, uid, [expense.budget_move_id.id], context=context)
-                
+
+    def expense_accept(self, cr, uid, ids, context=None):
+        bud_move_obj = self.pool.get('budget.move')
+        for expense in self.browse(cr, uid, ids, context=context):
+            bud_move_obj.signal_workflow(
+                cr, uid, [expense.budget_move_id.id], 'button_compromise',
+                context=context)
+            bud_move_obj.recalculate_values(
+                cr, uid, [expense.budget_move_id.id], context=context)
+        return super(hr_expense_expense, self).expense_accept(
+            cr, uid, ids, context=context)
+
     def action_receipt_create(self, cr, uid, ids, context=None):
         mov_line_obj = self.pool.get('budget.move.line')
         bud_move_obj = self.pool.get('budget.move')
