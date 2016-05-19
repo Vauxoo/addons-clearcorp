@@ -48,16 +48,24 @@ class hr_expense_expense(osv.osv):
         bud_move_obj.write(cr, uid, [move_id], {'fixed_amount': expense_amount})
         bud_move_obj.signal_workflow(cr, uid, [move_id], 'button_reserve', context=context)
         return exp_id
-        
-    def write(self, cr, uid, ids, vals, context=None):        
+
+    def write(self, cr, uid, ids, vals, context=None):
         bud_move_obj = self.pool.get('budget.move')
-        result = super(hr_expense_expense, self).write(cr, uid, ids, vals, context=context)
+        result = super(hr_expense_expense, self).write(
+            cr, uid, ids, vals, context=context)
         for exp in self.browse(cr, uid, ids, context=context):
-            if exp.budget_move_id and exp.budget_move_id.state !='draft':
-                bud_move_obj.write(cr, uid, [exp.budget_move_id.id], {'fixed_amount':exp.amount})
-                bud_move_obj.recalculate_values(cr, uid, [exp.budget_move_id.id], context=context)
-        return result   
-        
+            if exp.budget_move_id and exp.budget_move_id.state != 'draft':
+                bud_move_obj.write(
+                    cr, uid, [exp.budget_move_id.id],
+                    {'fixed_amount': exp.amount})
+                bud_move_obj.recalculate_values(
+                    cr, uid, [exp.budget_move_id.id], context=context)
+            if 'state' in vals:
+                if vals['state'] == 'paid':
+                    bud_move_obj.action_execute(
+                        cr, uid, [exp.budget_move_id.id], context=context)
+        return result
+
     def create_budget_move(self,cr, uid, ids, context=None):
         bud_move_obj = self.pool.get('budget.move')
         move_id = bud_move_obj.create(cr, uid, { 'type': 'expense' }, context=context)
