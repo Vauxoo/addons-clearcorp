@@ -2,67 +2,71 @@
 # © 2016 ClearCorp
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp.osv import fields, osv, orm
+from openerp import models, fields, api
+from openerp.exceptions import Warning
 from openerp.tools.translate import _
 
-class accountMove(orm.Model):
+
+class AccountMove(models.Model):
     _name = "account.move"
     _inherit = ['account.move', 'mail.thread']
-    
+
     OPTIONS = [
         ('void', 'Voids budget move'),
         ('budget', 'Budget move'),
     ]
-    
-    _columns = {
-        'budget_move_id': fields.many2one('budget.move', 'Budget move'),
-        'budget_type': fields.selection(OPTIONS, 'budget_type', readonly=True),
-    }
-    
-    def copy(self, cr, uid, id, default, context=None):
-       default = {} if default is None else default.copy()
-       default.update({
-            'budget_move_id':False
+
+    budget_move_id = fields.Many2one('budget.move', 'Budget move')
+    budget_type = fields.Selection(OPTIONS, 'budget_type', readonly=True)
+
+    @api.one
+    def copy(self, default):
+        default = {} if default is None else default.copy()
+        default.update({
+            'budget_move_id': False
         })
-       return super(accountMove, self).copy(cr, uid, id, default, context)
-    
-    def check_moves_budget(self, cr, uid, ids, context=None):
-        moves = self.browse(cr, uid, ids, context=context)
-        res = False
-        for move in moves:
-            for move_line in move.line_id:
-                if move_line.budget_program_line:
-                    return True
-        return res
-    
-    def create_budget_moves(self, cr, uid, ids, context=None):
-        bud_mov_obj = self.pool.get('budget.move')
-        bud_line_obj = self.pool.get('budget.move.line')
-        acc_mov_obj = self.pool.get('account.move')
-        moves = self.browse(cr, uid, ids, context=context)
-        created_move_ids =[] 
-        for move in moves:
-            if self.check_moves_budget(cr, uid, [move.id], context=context):
-                bud_move_id = bud_mov_obj.create(cr, uid, { 'type':'manual' ,'origin':move.name}, context=context)
-                acc_mov_obj.write(cr, uid, [move.id], {'budget_type': 'budget', 'budget_move_id':bud_move_id}, context=context)
+        return super(AccountMove, self).copy(default)
+
+    @api.one
+    def check_moves_budget(self):
+        for move_line in self.line_id:
+            if move_line.budget_program_line:
+                return True
+        return False
+
+    @api.multi
+    def create_budget_moves(self):
+        bud_mov_obj = self.env['budget.move']
+        bud_line_obj = self.env['budget.move.line']
+        created_move_ids = []
+        for move in self:
+            if move.check_moves_budget():
+                bud_move_id = bud_mov_obj.create(
+                    {'type': 'manual', 'origin': move.name})
+                move.write(
+                    {'budget_type': 'budget', 'budget_move_id': bud_move_id})
                 created_move_ids.append(bud_move_id)
                 for move_line in move.line_id:
                     if move_line.budget_program_line:
                         amount = 0.0
                         if move_line.credit > 0.0:
-                            amount = move_line.credit *-1
+                            amount = move_line.credit * -1
                         if move_line.debit > 0.0:
                             amount = move_line.debit
-                        new_line_id=bud_line_obj.create(cr, uid, {'budget_move_id': bud_move_id,
-                                             'origin' : move_line.name,
-                                             'program_line_id': move_line.budget_program_line.id, 
-                                             'fixed_amount': amount,
-                                             'move_line_id': move_line.id,
-                                              }, context=context)
-                bud_mov_obj.signal_workflow(cr, uid, [bud_move_id], 'button_execute', context=context)
-                bud_mov_obj.recalculate_values(cr, uid, [bud_move_id], context=context)
+                        _new_line_id = bud_line_obj.create(
+                            {
+                                'budget_move_id': bud_move_id,
+                                'origin': move_line.name,
+                                'program_line_id':
+                                    move_line.budget_program_line.id,
+                                'fixed_amount': amount,
+                                'move_line_id': move_line.id,
+                            })
+                bud_move = bud_mov_obj.browse(bud_move_id)
+                bud_move.signal_workflow('button_execute')
+                bud_move.recalculate_values()
         return created_move_ids
-    
+
     def rewrite_bud_move_names(self, cr, uid, acc_ids, context=None):
         bud_mov_obj = self.pool.get('budget.move')
         acc_mov_obj = self.pool.get('account.move')
