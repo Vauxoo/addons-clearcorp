@@ -22,7 +22,7 @@ class HRPayslip(models.Model):
 
     budget_move_id = fields.Many2one('budget.move', 'Budget move')
 
-    @api.multi
+    @api.one
     def process_sheet(self):
         obj_bud_mov = self.env['budget.move']
         obj_bud_line = self.env['budget.move.line']
@@ -30,7 +30,7 @@ class HRPayslip(models.Model):
             payslip_total = 0.0
             bud_move_id = obj_bud_mov.create(
                 {'origin': payslip.name, 'type': 'payroll'})
-            self.write([payslip.id], {'budget_move_id': bud_move_id})
+            payslip.write({'budget_move_id': bud_move_id.id})
         result = super(HRPayslip, self).process_sheet()
 
         for payslip in self:
@@ -97,7 +97,8 @@ class HRPayslip(models.Model):
                         vals['program_line_id'] =\
                             payslip_line_debit_budget_program_id
                     obj_bud_line.create(vals)
-            obj_bud_mov.write([bud_move_id], {'fixed_amount': payslip_total})
-            obj_bud_mov.signal_workflow([bud_move_id], 'button_compromise')
-            obj_bud_mov.signal_workflow([bud_move_id], 'button_execute')
+            bud_mov = obj_bud_mov.browse(bud_move_id)
+            bud_mov.write({'fixed_amount': payslip_total})
+            bud_mov.signal_workflow('button_compromise')
+            bud_mov.signal_workflow('button_execute')
         return result
