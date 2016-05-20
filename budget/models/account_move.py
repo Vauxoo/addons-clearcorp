@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp import models, fields, api
-from openerp.exceptions import Warning
+from openerp.exceptions import ValidationError
 from openerp.tools.translate import _
 
 
@@ -68,108 +68,114 @@ class AccountMove(models.Model):
         return created_move_ids
 
     def rewrite_bud_move_names(self, cr, uid, acc_ids, context=None):
-        bud_mov_obj = self.pool.get('budget.move')
-        acc_mov_obj = self.pool.get('account.move')
-        moves = self.browse(cr, uid, acc_ids, context=context) 
-        for move in moves:
-            if move.budget_move_id:
-                bud_mov_obj.write(cr, uid, [move.id],{'origin' : move_line.name,})
- 
-    def post(self, cr, uid, ids, context=None):
+        for account_move in self:
+            if account_move.budget_move_id:
+                account_move.budget_move_id.write(
+                    {'origin': account_move.name})
+
+    @api.one
+    def post(self):
+        context = self.env.context
         if context is None:
             context = {}
         invoice = context.get('invoice', False)
-        valid_moves = self.validate(cr, uid, ids, context)
+        valid_moves = self.validate()
 
         if not valid_moves:
-            raise osv.except_osv(_('Error!'), _('You cannot validate a non-balanced entry.\nMake sure you have configured payment terms properly.\nThe latest payment term line should be of the "Balance" type.'))
-        
-        obj_sequence = self.pool.get('ir.sequence')
-        
-        created_move_ids =  self.create_budget_moves(cr, uid, ids, context=context)
-        #=============================================================================#
+            raise ValidationError(_(
+                """You cannot validate a non-balanced entry.
+                Make sure you have configured payment terms properly.
+                The latest payment term line should be of the "Balance" type.
+                """))
+        obj_sequence = self.env['ir.sequence']
+        _created_move_ids = self.create_budget_moves()
+        # ===========================================================
         check_lines = []
         next_step = False
         amount = 0.0
         percentage = 0.0
-        obj_move_line = self.pool.get('account.move.line')
-        
-        #Check if this account.move has distributions lines and check (only in valid_moves -> is a account.move object)
-        for move in self.browse(cr, uid, valid_moves, context=context):
-            move_lines = obj_move_line.search(cr, uid, [('move_id','=',move.id)])
-            
-            for line in obj_move_line.browse(cr, uid, move_lines):
+        obj_move_line = self.env['account.move.line']
+
+        # Check if this account.move has distributions lines and check
+        # (only in valid_moves -> is a account.move object)
+        for move in self.browse(valid_moves):
+            move_lines = obj_move_line.search([('move_id', '=', move.id)])
+            for line in move_lines:
                 if line.account_id.moves_cash:
-                     check_lines.append(line)
-        
-            #Check amount in line.distribution (if there exist any line.id)
+                    check_lines.append(line)
+            # Check amount in line.distribution (if there exist any line.id)
             if len(check_lines) > 0:
-                for line in check_lines: 
-                    distribution_lines = self.pool.get('account.move.line.distribution').search(cr, uid, [('account_move_line_id', '=', line.id)])
-                    
+                for line in check_lines:
+                    distribution_lines =\
+                        self.env['account.move.line.distribution'].search(
+                            [('account_move_line_id', '=', line.id)])
                     if len(distribution_lines) > 0:
-                        #Sum distribution_amount. This amount is equal to line.amount (debit or credit).
-                        for distribution in self.pool.get('account.move.line.distribution').browse(cr, uid, distribution_lines):
+                        # Sum distribution_amount. This amount is equal to
+                        # line.amount (debit or credit).
+                        for distribution in distribution_lines:
                             amount += distribution.distribution_amount
                             percentage += distribution.distribution_percentage
-                        
-                        #Find amount (debit or credit) and compare. 
+                        # Find amount (debit or credit) and compare.
                         if line.debit > 0:
                             amount_check = line.debit
                         else:
                             amount_check = line.credit
-                        
-                        #Continue with normal process
-                        if (amount_check == amount) and (percentage == 100):                        
+                        # Continue with normal process
+                        if (amount_check == amount) and (percentage == 100):
                             next_step = True
-                            
                         else:
                             next_step = False
-                            return {'value': {'account_move_line_id': line.id},
-                                    'warning':{'title':'Warning','message':'Distribution amount for this move line does not match with original amount line'}}
-    
-                    #Continue with normal process
+                            return {
+                                'value': {'account_move_line_id': line.id},
+                                'warning': {
+                                    'title': 'Warning',
+                                    'message': """
+                                    Distribution amount for this move line does
+                                    not match with original amount line"""
+                                }
+                            }
+                    # Continue with normal process
                     else:
                         next_step = True
-            
             else:
                 next_step = True
-            
-            #=============================================================================#
+            # ===============================================================#
             if next_step:
-                for move in self.browse(cr, uid, valid_moves, context=context):
-                    if move.name =='/':
+                for move in self.browse(valid_moves):
+                    if move.name == '/':
                         new_name = False
                         journal = move.journal_id
-        
                         if invoice and invoice.internal_number:
                             new_name = invoice.internal_number
                         else:
                             if journal.sequence_id:
-                                c = {'fiscalyear_id': move.period_id.fiscalyear_id.id}
-                                new_name = obj_sequence.next_by_id(cr, uid, journal.sequence_id.id, c)
+                                c = {
+                                    'fiscalyear_id':
+                                        move.period_id.fiscalyear_id.id}
+                                new_name = obj_sequence.next_by_id(
+                                    journal.sequence_id.id, c)
                             else:
-                                raise osv.except_osv(_('Error!'), _('Please define a sequence on the journal.'))
-                        
+                                raise ValidationError(_(
+                                    'Please define a sequence on the journal.'
+                                    ))
+
                         if new_name:
-                            self.write(cr, uid, [move.id], {'name':new_name})
-        
-                cr.execute('UPDATE account_move '\
-                           'SET state=%s '\
-                           'WHERE id IN %s',
-                           ('posted', tuple(valid_moves),))
-        super_result = super(accountMove, self).post(cr, uid, ids, context=context)
-        self.rewrite_bud_move_names(cr, uid, ids, context=context)
+                            move.write({'name': new_name})
+
+                self._cr.execute(
+                    """UPDATE account_move SET state=%s WHERE id IN %s""" %
+                    ('posted', tuple(valid_moves),))
+        super_result = super(AccountMove, self).post()
+        self.rewrite_bud_move_names()
         return super_result
 
+    @api.multi
     def button_cancel(self, cr, uid, ids, context=None):
-        amld_obj=self.pool.get('account.move.line.distribution')
-        bud_mov_obj=self.pool.get('budget.move')
-        for acc_move in self.browse(cr, uid, ids, context=context):
-            bud_move_id = acc_move.budget_move_id.id
-            if bud_move_id:
-                bud_mov_obj.signal_workflow(cr, uid, [bud_move_id], 'button_cancel', context=context)
-                bud_mov_obj.signal_workflow(cr, uid, [bud_move_id], 'button_draft', context=context)
-                bud_mov_obj.unlink(cr, uid, [bud_move_id], context=context)        
-        super(accountMove, self).button_cancel(cr, uid, ids, context=context)
-        return True    
+        for acc_move in self:
+            bud_move = acc_move.budget_move_id
+            if bud_move:
+                bud_move.signal_workflow('button_cancel')
+                bud_move.signal_workflow('button_draft')
+                bud_move.unlink()
+        super(AccountMove, self).button_cancel(cr, uid, ids, context=context)
+        return True
