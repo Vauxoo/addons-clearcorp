@@ -4,13 +4,12 @@
 
 
 from openerp import models, fields, api
-from openerp.exceptions import Warning
+from openerp.exceptions import Warning, ValidationError
 from openerp.tools.translate import _
 import openerp.addons.decimal_precision as dp
-import time
 
 
-class budget_move_line(models.Model):
+class BudgetMoveLine(models.Model):
     _name = "budget.move.line"
     _description = "Budget Move Line"
 
@@ -74,40 +73,42 @@ class budget_move_line(models.Model):
     def _compute_modified(self):
         for line in self:
             total = 0.0
-            if line.state == 'executed':
-                if line.type == 'modification':
-                    total = line.fixed_amount
+            if line.state == 'executed'and line.type == 'modification':
+                total = line.fixed_amount
             line.canged = total
 
-    def _compute_extended(self, cr, uid, ids, field_name, args, context=None):
-        res = {}
-        lines = self.browse(cr, uid, ids,context=context) 
-        for line in lines:
+    @api.multi
+    def _compute_extended(self):
+        for line in self:
             total = 0.0
-            if line.state == 'executed':
-                if line.type == 'extension':
-                    total = line.fixed_amount
-            res[line.id]= total 
-        return res
-    
-    def _check_non_zero(self, cr, uid, ids, context=None):
-        for obj_bm in  self.browse(cr, uid, ids, context=context):
-            if (obj_bm.fixed_amount == 0.0 or obj_bm.fixed_amount == None) and obj_bm.standalone_move == True and obj_bm.state in ('draft','reserved'):
+            if line.state == 'executed' and line.type == 'extension':
+                total = line.fixed_amount
+            line.extended = total
+
+    @api.multi
+    def _check_non_zero(self):
+        for obj_bm in self:
+            if (obj_bm.fixed_amount == 0.0 or obj_bm.fixed_amount is None)\
+                    and obj_bm.standalone_move and obj_bm.state in (
+                    'draft', 'reserved'):
                 return False
         return True
-    
-    def _check_plan_state(self, cr, uid, ids, context=None):
-        for line in self.browse(cr,uid,ids,context=context):
-            if line.program_line_id.state != 'approved':
-                if not line.from_migration:
-                    next_line = self.get_next_year_line(cr, uid, [line.id], context=context)[line.id]
-                    if not next_line:
-                        return False
+
+    @api.one
+    @api.constrains('fixed_amount', 'type')
+    def _check_plan_state(self):
+        if self.program_line_id.state != 'approved':
+            if not self.from_migration:
+                next_line = self.get_next_year_line()[self.id]
+                if not next_line:
+                    raise ValidationError(_("""
+                The plan for this program line must be in approved state"""))
         return True
 
-    def _line_name(self, cr, uid, ids, field_name, args, context=None):
+    @api.multi
+    def _line_name(self):
         res = {}
-        for line in self.browse(cr, uid, ids, context=context):
+        for line in self:
             res[line.id] = "%s \\ %s" % (line.budget_move_id.code, line.origin)
         return res
 
@@ -176,43 +177,44 @@ class budget_move_line(models.Model):
         related='budget_move_id.from_migration', string='Transferred',
         readonly=True, default=False)
 
-    _constraints = [
-        (_check_plan_state, 'Error!\n The plan for this program line must be in approved state', ['fixed_amount','type']),
-        ]
-    
-    def get_next_year_line(self, cr, uid, ids, context=None):
+    @api.multi
+    def get_next_year_line(self):
         res = {}
-        for line in self.browse(cr, uid, ids, context=context):
-            result = self.search(cr, uid, [('previous_move_line_id','=',line.id)],context=context)
+        for line in self:
+            result = self.search([('previous_move_line_id', '=', line.id)])
             if result:
-                res[line.id]=result[0]
+                res[line.id] = result[0]
             else:
-                res[line.id]=None
+                res[line.id] = None
         return res
-    
-    def create(self, cr, uid, vals, context={}):
-        program_line_obj = self.pool.get('budget.program.line')
-        program_line = program_line_obj.browse(cr, uid, [vals['program_line_id']],context=context)[0]
-        if program_line.program_id.plan_id.state in ('cancel', 'closed'):
-            raise osv.except_osv(_('Error!'), _('You cannot create a budget move line from an cancel or closed plan'))
-        return super(budget_move_line, self).create(cr, uid, vals, context)
-       
-    def write(self, cr, uid, ids, vals, context=None):
-        bud_move_obj = self.pool.get('budget.move')
-        
-        for bud_move_line in self.browse(cr, uid, ids, context=context):
-             if bud_move_line.program_line_id.program_id.plan_id.state in ('cancel','closed'):
-                 next_line = self.get_next_year_line(cr, uid, [bud_move_line.id], context=context)[bud_move_line.id]
-                 if not next_line:
-                     raise osv.except_osv(_('Error!'), _('You cannot create a budget move line with a canceled or closed plan'))
-            
-        super(budget_move_line, self).write(cr, uid, ids, vals, context=context)
-        
-        next_year_lines = self.get_next_year_line(cr, uid, ids, context=context)
+
+    @api.model
+    def create(self, vals):
+        program_line = self.env['budget.program.line'].browse(
+            vals['program_line_id'] or False)
+        if program_line:
+            if program_line.program_id.plan_id.state in ('cancel', 'closed'):
+                raise Warning(_("""
+        You cannot create a budget move line from an cancel or closed plan"""))
+        return super(BudgetMoveLine, self).create(vals)
+
+    @api.multi
+    def write(self, vals):
+        for bud_move_line in self:
+            if bud_move_line.program_line_id.program_id.plan_id.state in (
+                    'cancel', 'closed'):
+                next_line =\
+                    bud_move_line.get_next_year_line()[bud_move_line.id]
+                if not next_line:
+                    raise Warning(_("""
+                You cannot create a budget move line with a canceled or
+                closed plan"""))
+        super(BudgetMoveLine, self).write(vals)
+        next_year_lines = self.get_next_year_line()
         for line_id in next_year_lines.keys():
             if next_year_lines[line_id]:
-                next_line =self.browse(cr, uid, [next_year_lines[line_id]], context=context)[0]
-                bud_move_obj.recalculate_values(cr, uid,[next_line.budget_move_id.id], context=context)    
+                next_line = self.browse([next_year_lines[line_id]])[0]
+                next_line.budget_move_id.recalculate_values()
 
     @api.multi
     def unlink(self):
@@ -221,4 +223,4 @@ class budget_move_line(models.Model):
                     'cancel', 'closed'):
                 raise Warning(_("""
             You cannot create a budget move with a canceled or closed plan"""))
-        super(budget_move_line, self).unlink()
+        super(BudgetMoveLine, self).unlink()
