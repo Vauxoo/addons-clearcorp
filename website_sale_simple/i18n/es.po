@@ -128,12 +128,12 @@ msgstr "NIF"
 #. module: website_sale_simple
 #: view:website:website_sale.checkout
 msgid "Your Address"
-msgstr "Su dirección"
+msgstr "Dirección"
 
 #. module: website_sale_simple
 #: view:website:website_sale.checkout
 msgid "Your Name"
-msgstr "Su nombre"
+msgstr "Nombre"
 
 #. module: website_sale_simple
 #: view:website:website_sale.checkout
