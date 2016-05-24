@@ -8,7 +8,7 @@
             <field name="name">Purchase</field>
             <field name="format">Letter</field>
             <field name="orientation">Portrait</field>
-            <field name="margin_top">58</field>
+            <field name="margin_top">65</field>
             <field name="margin_bottom">15</field>
             <field name="margin_left">7</field>
             <field name="margin_right">7</field>

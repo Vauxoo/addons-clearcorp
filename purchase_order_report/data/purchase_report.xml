@@ -7,5 +7,8 @@
         <record id="purchase.action_report_purchase_order" model="ir.actions.report.xml">
             <field name="paperformat_id" ref="paperformat_purchaseorder" />
         </record>
+        <record id="purchase.report_purchase_quotation" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paperformat_purchaseorder" />
+        </record>
     </data>
 </openerp>
