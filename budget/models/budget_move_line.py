@@ -19,7 +19,9 @@ class BudgetMoveLine(models.Model):
             self.line_available = line.available_budget
 
     @api.multi
-    def _compute(self, ignore_dist_ids=[]):
+    @api.depends(
+        'date', 'state', 'executed', 'compromised', 'reserved', 'reversed')
+    def _compute_values(self, ignore_dist_ids=[]):
         amld = self.env['account.move.line.distribution']
         _fields = ['compromised', 'executed', 'reversed', 'reserved']
         res = {}
@@ -28,6 +30,7 @@ class BudgetMoveLine(models.Model):
             executed = 0.0
             compromised = 0.0
             reserved = 0.0
+            _reversed = 0.0
             if line.state in ('executed', 'in_execution', 'transferred'):
                 if line.type == 'opening':
                     executed = line.fixed_amount
@@ -47,27 +50,27 @@ class BudgetMoveLine(models.Model):
             for void_line in void_line_ids_amld:
                 if void_line.id in ignore_dist_ids:
                     continue
-                reversed += void_line
+                _reversed += void_line
 
             if line.previous_move_line_id:
                 executed += line.previous_move_line_id.executed
-                reversed += line.previous_move_line_id.reversed
+                _reversed += line.previous_move_line_id.reversed
 
             if line.state in ('compromised', 'executed', 'in_execution',
                               'transferred'):
                 compromised = line.fixed_amount - executed - line.reversed
             if line.state == 'reserved':
-                    reserved = line.fixed_amount - reversed
+                    reserved = line.fixed_amount - _reversed
 
             line.excecuted = executed
             line.compromised = compromised
-            line.reversed = reversed
+            line.reversed = _reversed
             line.reserved = reserved
         return res
 
     @api.multi
     def compute(self, ignore_dist_ids=[]):
-        return self._compute(ignore_dist_ids)
+        return self._compute_values(ignore_dist_ids)
 
     @api.multi
     def _compute_modified(self):
@@ -116,7 +119,7 @@ class BudgetMoveLine(models.Model):
     budget_move_id = fields.Many2one(
         'budget.move', 'Budget Move', required=True, ondelete='cascade')
     name = fields.Char(
-        compute='_line_name', string='Name', readonly=True, store=True)
+        compute='_line_name', string='Name', store=True)
     code = fields.Char(related='origin', size=64, string='Origin')
     program_line_id = fields.Many2one(
         'budget.program.line', 'Program line', required=True)
@@ -128,20 +131,17 @@ class BudgetMoveLine(models.Model):
     line_available = fields.Float(
         'Line available', digits=dp.get_precision('Account'), readonly=True)
     changed = fields.Float(
-        compute='_compute_modified', string='Modified', readonly=True,
-        store=True)
+        compute='_compute_modified', string='Modified', store=True)
     extended = fields.Float(
-        compute='_compute_extended', string='Extended', readonly=True,
-        store=True)
+        compute='_compute_extended', string='Extended', store=True)
     reserved = fields.Float(
-        compute='_compute', string='Reserved', readonly=True, store=True)
+        compute='_compute_values', string='Reserved',  store=True)
     reversed = fields.Float(
-        compute='_compute', string='Reversed', readonly=True, store=True,
-        default=0.0)
+        compute='_compute_values', string='Reversed',  store=True, default=0.0)
     compromised = fields.Float(
-        compute='_compute', string='Compromised', readonly=True, store=True)
+        compute='_compute_values', string='Compromised',  store=True)
     executed = fields.Float(
-        compute='_compute', string='Executed', readonly=True, store=True)
+        compute='_compute_values', string='Executed',  store=True)
     po_line_id = fields.Many2one(
         'purchase.order.line', string='Purchase order line')
     so_line_id = fields.Many2one(
