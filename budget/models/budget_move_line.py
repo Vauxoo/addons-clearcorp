@@ -122,8 +122,7 @@ class BudgetMoveLine(models.Model):
         'budget.program.line', 'Program line', required=True)
     date = fields.Datetime(
         'Date created', required=True,
-        default=lambda self: fields.Datetime.now().strftime('%Y-%m-%d %H:%M:%S'
-                                                            ))
+        default=lambda self: fields.Datetime.now())
     fixed_amount = fields.Float(
         'Original amount', digits=dp.get_precision('Account'))
     line_available = fields.Float(
@@ -159,10 +158,11 @@ class BudgetMoveLine(models.Model):
         'account.move.line', string='Move line', )
     account_move_id = fields.Many2one(
         'account.move', string='Account Move', )
-    type = fields.Char(
+    type = fields.Selection(
         related='budget_move_id.type', string='Type', readonly=True)
-    state = fields.Char(
-        related='budget_move_id.state', string='State',  readonly=True)
+    state = fields.Selection(
+        related='budget_move_id.state', string='State',
+        readonly=True)
     # =======bugdet move line distributions
     budget_move_line_dist = fields.One2many(
         'account.move.line.distribution', 'target_budget_move_line_id',
