@@ -149,20 +149,19 @@ class AccountMove(models.Model):
                             new_name = invoice.internal_number
                         else:
                             if journal.sequence_id:
-                                c = {
-                                    'fiscalyear_id':
-                                        move.period_id.fiscalyear_id.id}
-                                new_name = obj_sequence.next_by_id(
-                                    journal.sequence_id.id, c)
+                                new_name = journal.sequence_id.next_by_id(
+                                    move.period_id.fiscalyear_id.id)
                             else:
                                 raise ValidationError(_(
                                     'Please define a sequence on the journal.'
                                     ))
                         if new_name:
                             move.write({'name': new_name})
-                self._cr.execute(
-                    """UPDATE account_move SET state=%s WHERE id IN %s""" %
-                    ('posted', tuple(valid_moves),))
+                update_query =\
+                    "UPDATE account_move SET state=%s WHERE id IN %s" %\
+                    ('posted', tuple(valid_moves))
+                print "\n update_query: ", update_query
+                self._cr.execute(update_query)
         super_result = super(AccountMove, self).post()
         self.rewrite_bud_move_names()
         return super_result
