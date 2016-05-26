@@ -44,7 +44,8 @@ class AccountMove(models.Model):
                 bud_move_id = bud_mov_obj.create(
                     {'type': 'manual', 'origin': move.name})
                 move.write(
-                    {'budget_type': 'budget', 'budget_move_id': bud_move_id})
+                    {'budget_type': 'budget',
+                     'budget_move_id': bud_move_id.id})
                 created_move_ids.append(bud_move_id)
                 for move_line in move.line_id:
                     if move_line.budget_program_line:
@@ -55,16 +56,15 @@ class AccountMove(models.Model):
                             amount = move_line.debit
                         _new_line_id = bud_line_obj.create(
                             {
-                                'budget_move_id': bud_move_id,
+                                'budget_move_id': bud_move_id.id,
                                 'origin': move_line.name,
                                 'program_line_id':
                                     move_line.budget_program_line.id,
                                 'fixed_amount': amount,
                                 'move_line_id': move_line.id,
                             })
-                bud_move = bud_mov_obj.browse(bud_move_id)
-                bud_move.signal_workflow('button_execute')
-                bud_move.recalculate_values()
+                bud_move_id.signal_workflow('button_execute')
+                bud_move_id.recalculate_values()
         return created_move_ids
 
     def rewrite_bud_move_names(self, cr, uid, acc_ids, context=None):
@@ -158,10 +158,8 @@ class AccountMove(models.Model):
                                 raise ValidationError(_(
                                     'Please define a sequence on the journal.'
                                     ))
-
                         if new_name:
                             move.write({'name': new_name})
-
                 self._cr.execute(
                     """UPDATE account_move SET state=%s WHERE id IN %s""" %
                     ('posted', tuple(valid_moves),))
