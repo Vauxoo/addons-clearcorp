@@ -19,7 +19,7 @@
                             <div class="col-xs-8">
                                 <b><span t-field="company.name"/></b>
                             </div>
-                            <div class="col-xs-4">
+                            <div class="col-xs-4" style="font-size:85%">
                                 <b>
                                     <span t-if="o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">Invoice</span>
                                     <span t-if="o.type == 'out_invoice' and o.state == 'proforma2'">PRO-FORMA</span>
