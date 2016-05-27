@@ -380,7 +380,7 @@
             		</header>
             		<sheet>
             			<h1>
-            				<label string=" Budget Moves"/>	
+            				<label string="Budget Moves"/>	
             			</h1>
             			<group>
             				<group>
@@ -509,7 +509,7 @@
 	            				<field name="date"/>
 	            				<field name="standalone_move"  readonly="True"/>
 	            				<field name="fixed_amount" readonly="True"/>
-	            				<button name="dummy_button" type="object" string="recalculate" />
+	            				<!-- button name="dummy_button" type="object" string="recalculate" /-->
             				</group>
 							<group>
 								<field name="reserved"/>
@@ -539,13 +539,13 @@
             <field name="model">budget.move.line</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-            	<form string="Budget Move Line" version="7.0" >
+            	<form string="Budget Move Line" >
             		<sheet>
             			<h1>
             				<label string="Budget move line"/>	
             			</h1>
             			<group>
-            				<field name="program_line_id" domain="[('type','=','budget')]" on_change="on_change_program_line(program_line_id)"/>
+            				<field name="program_line_id" domain="[('type','=','budget')]"/>
             				<field name="line_available"/>
             				<field name="date"/>  
             				<field name="fixed_amount" required="True" />
@@ -556,6 +556,7 @@
 							<field name="reserved"/>
 							<field name="compromised"/>
             				<field name="executed"/>
+            				<field name="type" />
             			</group>
             			<notebook>
             			     <page string="Budget Move Lines Distribution">

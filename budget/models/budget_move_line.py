@@ -15,7 +15,7 @@ class BudgetMoveLine(models.Model):
 
     @api.onchange('program_line_id')
     def on_change_program_line(self):
-        for line in self:
+        for line in self.program_line_id:
             self.line_available = line.available_budget
 
     @api.multi
@@ -158,11 +158,8 @@ class BudgetMoveLine(models.Model):
         'account.move.line', string='Move line', )
     account_move_id = fields.Many2one(
         'account.move', string='Account Move', )
-    type = fields.Selection(
-        related='budget_move_id.type', string='Type', readonly=True)
-    state = fields.Selection(
-        related='budget_move_id.state', string='State',
-        readonly=True)
+    type = fields.Selection(related='budget_move_id.type', store=True)
+    state = fields.Selection(related='budget_move_id.state', store=True)
     # =======bugdet move line distributions
     budget_move_line_dist = fields.One2many(
         'account.move.line.distribution', 'target_budget_move_line_id',
