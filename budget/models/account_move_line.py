@@ -2,62 +2,66 @@
 # © 2016 ClearCorp
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp.osv import fields, osv, orm
+from openerp import models, fields, api
 from openerp.tools.translate import _
 
-class AccountMoveLine(osv.Model):
+
+class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
-    
-    #===========================================================================
-    # 
-    # distribution_percentage_sum compute the percentage for the account.move.line.
+
+    # ========================================================================
+    #
+    # distribution_percentage_sum compute the percentage for the
+    # account.move.line.
     # Check the account.move.line.distribution and sum where id is the same for
     # account.move.line.
-    # 
+    #
     # distribution_amount_sum compute the amount for the account.move.line.
     # Check the account.move.line.distribution and sum where id is the same for
     # account.move.line.
-    # 
-    #_account_move_lines_mod method return the account.move.line id's where the
-    # store apply the change. This method is necessary to create a store. This
-    # help to compute in a "automatic way" those fields (percentage and sum) and
-    # is more easy to get this values from those fields. 
     #
-    #===========================================================================
-    
-    def _sum_distribution_per(self, cr, uid, ids, field_name, args, context=None):
-        res = {}       
-        for id in ids:
-            res[id] =0.0
-        query = 'SELECT amld.id, SUM(amld.distribution_percentage) AS dis_per FROM '\
-        'account_move_line_distribution amld '\
-        'WHERE amld.id IN %s GROUP BY amld.id'
-        params = (tuple(ids),)
-        cr.execute(query,params)
-        for row in cr.dictfetchall():
-            res[row['id']] = row['dis_per']        
-        return res
-    
-    def _sum_distribution_amount(self, cr, uid, ids, field_name, args, context=None):
+    # account_move_lines_mod method return the account.move.line id's where the
+    # store apply the change. This method is necessary to create a store. This
+    # help to compute in a "automatic way" those fields (percentage and sum)
+    # and is easier to get this values from those fields.
+    #
+    # =========================================================================
+
+    @api.multi
+    def _sum_distribution_per(self):
         res = {}
-        for id in ids:
-            res[id] =0.0      
-        query = 'SELECT amld.id, SUM(amld.distribution_amount) AS dis_amount FROM '\
-        'account_move_line_distribution amld '\
-        'WHERE amld.id =  %s GROUP BY amld.id' % id
-        cr.execute(query)
-        for row in cr.dictfetchall():
-            res[row['id']] = abs(row['dis_amount'])        
+        for line in self:
+            res[line.id] = 0.0
+        query = """SELECT amld.id, SUM(amld.distribution_percentage) AS dis_per FROM
+        'account_move_line_distribution amld
+        'WHERE amld.id IN %s GROUP BY amld.id"""
+        params = self._ids
+        self._cr.execute(query, params)
+        for row in self._cr.dictfetchall():
+            res[row['id']] = row['dis_per']
         return res
-           
-    def _account_move_lines_mod(self, cr, uid, amld_ids, context=None):
-        list = []
-        amld_obj = self.pool.get('account.move.line.distribution')
-        
-        for line in amld_obj.browse(cr, uid, amld_ids, context=context):
-            list.append(line.account_move_line_id.id)
-        return list
-    
+
+    @api.multi
+    def _sum_distribution_amount(self):
+        res = {}
+        for line in self:
+            res[line.id] = 0.0
+        query = """SELECT amld.id, SUM(amld.distribution_amount) AS dis_amount FROM
+        'account_move_line_distribution amld
+        'WHERE amld.id =  %s GROUP BY amld.id""" % id
+        self._cr.execute(query)
+        for row in self._cr.dictfetchall():
+            res[row['id']] = abs(row['dis_amount'])
+        return res
+
+    @api.multi
+    def _account_move_lines_mod(self, amld_ids):
+        list_amld = []
+        amld_obj = self.env['account.move.line.distribution']
+        for line in amld_obj.browse(amld_ids):
+            list_amld.append(line.account_move_line_id.id)
+        return list_amld
+
     def name_get(self, cr, uid, ids, context=None):
         if not ids:
             return []
