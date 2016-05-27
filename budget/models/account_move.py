@@ -67,7 +67,8 @@ class AccountMove(models.Model):
                 bud_move_id.recalculate_values()
         return created_move_ids
 
-    def rewrite_bud_move_names(self, cr, uid, acc_ids, context=None):
+    @api.multi
+    def rewrite_bud_move_names(self):
         for account_move in self:
             if account_move.budget_move_id:
                 account_move.budget_move_id.write(
@@ -158,21 +159,19 @@ class AccountMove(models.Model):
                         if new_name:
                             move.write({'name': new_name})
                 update_query =\
-                    "UPDATE account_move SET state=%s WHERE id IN %s" %\
-                    ('posted', tuple(valid_moves))
-                print "\n update_query: ", update_query
-                self._cr.execute(update_query)
+                    "UPDATE account_move SET state=%s WHERE id IN %s"
+                self._cr.execute(update_query, ('posted', tuple(valid_moves)))
         super_result = super(AccountMove, self).post()
         self.rewrite_bud_move_names()
         return super_result
 
     @api.multi
-    def button_cancel(self, cr, uid, ids, context=None):
+    def button_cancel(self):
         for acc_move in self:
             bud_move = acc_move.budget_move_id
             if bud_move:
                 bud_move.signal_workflow('button_cancel')
                 bud_move.signal_workflow('button_draft')
                 bud_move.unlink()
-        super(AccountMove, self).button_cancel(cr, uid, ids, context=context)
+        super(AccountMove, self).button_cancel()
         return True
