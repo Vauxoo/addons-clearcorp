@@ -30,22 +30,28 @@ class AccountMoveLine(models.Model):
     @api.one
     @api.depends('account_move_line_dist')
     def _sum_distribution_per(self):
-        query = """SELECT amld.id, SUM(amld.distribution_percentage) AS dis_per FROM
-        'account_move_line_distribution amld
-        'WHERE amld.id IN %s GROUP BY amld.id"""
-        self._cr.execute(query, self.account_move_line_dist.id)
-        for row in self._cr.dictfetchall():
-            self.distribution_percentage_sum = row['dis_per']
+        if self.account_move_line_dist:
+            query = """
+                SELECT amld.id, SUM(amld.distribution_percentage) AS dis_per
+                    FROM account_move_line_distribution amld
+                    WHERE amld.id IN %s GROUP BY amld.id"""
+            params = [self.account_move_line_dist.id]
+            self._cr.execute(query, params)
+            for row in self._cr.dictfetchall():
+                self.distribution_percentage_sum = row['dis_per']
 
     @api.one
     @api.depends('account_move_line_dist')
     def _sum_distribution_amount(self):
-        query = """SELECT amld.id, SUM(amld.distribution_amount) AS dis_amount FROM
-        'account_move_line_distribution amld
-        'WHERE amld.id =  %s GROUP BY amld.id"""
-        self._cr.execute(query, self.account_move_line_dist.id)
-        for row in self._cr.dictfetchall():
-            self.distribution_amount_sum = abs(row['dis_amount'])
+        if self.account_move_line_dist:
+            query = """
+                SELECT amld.id, SUM(amld.distribution_amount) AS dis_amount
+                    FROM account_move_line_distribution amld
+                    WHERE amld.id=%s GROUP BY amld.id"""
+            params = [self.account_move_line_dist.id]
+            self._cr.execute(query, params)
+            for row in self._cr.dictfetchall():
+                self.distribution_amount_sum = abs(row['dis_amount'])
 
     @api.multi
     def _account_move_lines_mod(self, amld_ids):

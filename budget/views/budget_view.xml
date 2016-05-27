@@ -556,7 +556,6 @@
 							<field name="reserved"/>
 							<field name="compromised"/>
             				<field name="executed"/>
-            				<field name="type" />
             			</group>
             			<notebook>
             			     <page string="Budget Move Lines Distribution">
