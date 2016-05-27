@@ -27,32 +27,25 @@ class AccountMoveLine(models.Model):
     #
     # =========================================================================
 
-    @api.multi
+    @api.one
+    @api.depends('account_move_line_dist')
     def _sum_distribution_per(self):
-        res = {}
-        for line in self:
-            res[line.id] = 0.0
         query = """SELECT amld.id, SUM(amld.distribution_percentage) AS dis_per FROM
         'account_move_line_distribution amld
         'WHERE amld.id IN %s GROUP BY amld.id"""
-        params = self._ids
-        self._cr.execute(query, params)
+        self._cr.execute(query, self.account_move_line_dist.id)
         for row in self._cr.dictfetchall():
-            res[row['id']] = row['dis_per']
-        return res
+            self.distribution_percentage_sum = row['dis_per']
 
-    @api.multi
+    @api.one
+    @api.depends('account_move_line_dist')
     def _sum_distribution_amount(self):
-        res = {}
-        for line in self:
-            res[line.id] = 0.0
         query = """SELECT amld.id, SUM(amld.distribution_amount) AS dis_amount FROM
         'account_move_line_distribution amld
-        'WHERE amld.id =  %s GROUP BY amld.id""" % id
-        self._cr.execute(query)
+        'WHERE amld.id =  %s GROUP BY amld.id"""
+        self._cr.execute(query, self.account_move_line_dist.id)
         for row in self._cr.dictfetchall():
-            res[row['id']] = abs(row['dis_amount'])
-        return res
+            self.distribution_amount_sum = abs(row['dis_amount'])
 
     @api.multi
     def _account_move_lines_mod(self, amld_ids):
@@ -62,63 +55,74 @@ class AccountMoveLine(models.Model):
             list_amld.append(line.account_move_line_id.id)
         return list_amld
 
-    def name_get(self, cr, uid, ids, context=None):
-        if not ids:
-            return []
+    @api.multi
+    def name_get(self):
         result = []
-        for line in self.browse(cr, uid, ids, context=context):
-            new_line = ""
-            deb=""
+        for line in self:
+            deb = ""
             cred = ""
             am_curr = ""
-            
             if line.debit:
-                deb= _( "D:") + str(round(line.debit, self.pool.get('decimal.precision').precision_get(cr, uid, 'Account')))
+                deb = _("D:") + str(round(
+                    line.debit,
+                    self.env['decimal.precision'].precision_get('Account')))
             if line.credit:
-                cred= _( "C:") + str(round(line.credit, self.pool.get('decimal.precision').precision_get(cr, uid, 'Account')))
+                cred = _("C:") + str(round(
+                    line.credit,
+                    self.env['decimal.precision'].precision_get('Account')))
             if line.amount_currency:
-                am_curr= _( "AC:") + str(round(line.amount_currency, self.pool.get('decimal.precision').precision_get(cr, uid, 'Account')))
-                
+                am_curr = _("AC:") + str(round(
+                    line.amount_currency,
+                    self.env['decimal.precision'].precision_get('Account')))
             if line.ref:
-                result.append((line.id, (line.move_id.name or '')+' ('+line.ref+')'+" "+ deb +" "+ cred +" "+ am_curr))
+                result.append((
+                    line.id,
+                    (line.move_id.name or '') + ' (' + line.ref + ')' + " " +
+                    deb + " " + cred + " " + am_curr))
             else:
-                result.append((line.id, line.move_id.name +" "+ deb +" "+ cred +" "+ am_curr))
+                result.append((
+                    line.id,
+                    line.move_id.name + " " + deb + " " + cred + " " + am_curr
+                    ))
         return result
-    
-    def copy(self, cr, uid, id, default, context=None):
-       default = {} if default is None else default.copy()
-       default.update({
-            'budget_move_lines':False
-        })
-       return super(AccountMoveLine, self).copy(cr, uid, id, default, context)
-        
-        
-    def copy_data(self, cr, uid, id, default=None, context=None):
+
+    @api.one
+    def copy(self, default=None):
         default = {} if default is None else default.copy()
         default.update({
-            'budget_move_lines':False
-            })
-        return super(AccountMoveLine, self).copy_data(cr, uid, id, default, context)
-    
-    _columns = {
-        #=======Budget Move Line
-        'budget_move_lines': fields.one2many('budget.move.line','move_line_id', 'Budget Move Lines'),
-        
-        #=======Percentage y amount distribution
-        'distribution_percentage_sum': fields.function(_sum_distribution_per, type="float", method=True, string="Distributed percentage",
-                                                   store={'account.move.line.distribution': (_account_move_lines_mod, ['distribution_amount','distribution_percentage'], 10)}),        
-        'distribution_amount_sum': fields.function(_sum_distribution_amount, type="float", method=True, string="Distributed amount",
-                                                   store={'account.move.line.distribution': (_account_move_lines_mod, ['distribution_amount','distribution_percentage'], 10)}),        
-        
-        #=======account move line distributions
-        'account_move_line_dist': fields.one2many('account.move.line.distribution','account_move_line_id', 'Account Move Line Distributions'),
-        'type_distribution':fields.related('account_move_line_dist','type', type="selection", relation="account.move.line.distribution", string="Distribution type", selection=[('manual', 'Manual'), ('auto', 'Automatic')]),
-        
-        #======budget program line
-        'budget_program_line': fields.many2one('budget.program.line', 'Budget Program Line'),
-    }
-    
-    _defaults = {
-        'distribution_percentage_sum': 0.0, 
-        'distribution_amount_sum': 0.0,
-    }
+            'budget_move_lines': False
+        })
+        return super(AccountMoveLine, self).copy(default)
+
+    @api.one
+    def copy_data(self, default=None):
+        default = {} if default is None else default.copy()
+        default.update({
+            'budget_move_lines': False
+        })
+        return super(AccountMoveLine, self).copy_data(default)
+
+    # =======Budget Move Line
+    budget_move_lines = fields.One2many(
+        'budget.move.line', 'move_line_id', 'Budget Move Lines')
+
+    # =======Percentage y amount distribution
+    distribution_percentage_sum = fields.Float(
+        compute='_sum_distribution_per', string="Distributed percentage",
+        default=0.0,
+        store=True)
+    distribution_amount_sum = fields.Float(
+        compute='_sum_distribution_amount', string="Distributed amount",
+        default=0.0,
+        store=True)
+
+    # =======account move line distributions
+    account_move_line_dist = fields.One2many(
+        'account.move.line.distribution', 'account_move_line_id',
+        string='Account Move Line Distributions')
+    type_distribution = fields.Selection(
+        related='account_move_line_dist.type', string="Distribution type")
+
+    # ======budget program line
+    budget_program_line = fields.Many2one(
+        'budget.program.line', 'Budget Program Line')
