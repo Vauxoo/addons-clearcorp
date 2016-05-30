@@ -88,7 +88,6 @@ class AccountMove(models.Model):
                 Make sure you have configured payment terms properly.
                 The latest payment term line should be of the "Balance" type.
                 """))
-        obj_sequence = self.env['ir.sequence']
         _created_move_ids = self.create_budget_moves()
         # ===========================================================
         check_lines = []

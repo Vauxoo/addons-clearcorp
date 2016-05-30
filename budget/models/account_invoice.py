@@ -2,47 +2,40 @@
 # © 2016 ClearCorp
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import openerp.netsvc
-import openerp.addons.decimal_precision as dp
-from openerp.osv import fields, osv
-from openerp.tools.translate import _
 
-class account_invoice(osv.osv):
+import openerp.addons.decimal_precision as dp
+from openerp import models, fields, api
+
+
+class account_invoice(models.Model):
     _name = 'account.invoice'
     _inherit = 'account.invoice'
-    
-    def _check_from_order(self, cr, uid, context=None, ids=None):
-        if context is None:
-            context = {}
-            res = False
-        if ids:
-            for invoice in self.browse(cr, uid, ids, context=context):
-                return invoice.from_order
+
+    budget_move_id = fields.Many2one(
+        'budget.move', string='Budget move', readonly=True)
+    from_order = fields.Boolean('From order', default=_check_from_order)
+
+    @api.one
+    def _check_from_order(self):
+        if self:
+            return self.from_order
         else:
-            res = context.get('from_order', False)
+            res = self.env.context.get('from_order', False)
+            return res
+
+    @api.one
+    def action_cancel(self):
+        res = super(account_invoice, self).action_cancel()
+        if self.budget_move_id:
+            self.budget_move_id.signal_workflow('button_cancel')
         return res
 
-    def action_cancel(self, cr, uid, ids, context=None):
-        res = super(account_invoice, self).action_cancel(cr, uid, ids, context=context)
-        for invoice in self.browse(cr, uid, ids, context=context):
-            if invoice.budget_move_id:
-                invoice.budget_move_id.signal_workflow('button_cancel', context=context)
+    @api.one
+    def action_cancel_draft(self):
+        res = super(account_invoice, self).action_cancel_draft()
+        if self.budget_move_id:
+            self.budget_move_id.signal_workflow('button_draft')
         return res
-
-    def action_cancel_draft(self, cr, uid, ids, *args):
-        res = super(account_invoice, self).action_cancel_draft(cr, uid, ids, *args)
-        for invoice in self.browse(cr, uid, ids):
-            if invoice.budget_move_id:
-                invoice.budget_move_id.signal_workflow('button_draft')
-        return res
-
-    _columns= {
-    'budget_move_id': fields.many2one('budget.move', 'Budget move', readonly=True),
-    'from_order': fields.boolean('From order')
-    }
-    _defaults={
-     'from_order': _check_from_order
-    }
 
 
     def create_budget_move(self,cr, uid, ids, context=None):

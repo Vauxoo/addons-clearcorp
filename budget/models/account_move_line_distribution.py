@@ -92,7 +92,7 @@ class AccountMoveLineDistribution(models.Model):
         return result
 
     @api.one
-    @api.constraint('distribution_amount')
+    @api.constrains('distribution_amount')
     def _check_plan_distribution_line(self):
         plan_obj = self.env['budget.plan']
         # Get plan for distribution lines
