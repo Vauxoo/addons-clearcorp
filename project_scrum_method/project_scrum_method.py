@@ -733,7 +733,9 @@ class project(osv.Model):
         each product backlog."""
         res = {}
         for id in ids: 
-            features = self.browse(cr, uid, id, context=context).feature_ids
+            backlog_obj = self.pool.get('project.scrum.release.backlog')
+            backlog_ids = backlog_obj.search(cr, uid, [('project_id', '=', id)])
+            features = backlog_obj.browse(cr, uid, backlog_ids, context=context).feature_ids
             date_end = False
             for feature in features:
                 if feature.date_end and feature.state not in ['draft', 'cancelled']:
@@ -754,8 +756,10 @@ class project(osv.Model):
         estimated end_date from features related to 
         each product backlog."""
         res = {}
-        for id in ids: 
-            features = self.browse(cr, uid, id, context=context).feature_ids
+        for id in ids:
+            backlog_obj = self.pool.get('project.scrum.release.backlog')
+            backlog_ids = backlog_obj.search(cr, uid, [('project_id', '=', id)])
+            features = backlog_obj.browse(cr, uid, backlog_ids, context=context).feature_ids
             deadline = False
             for feature in features:
                 if feature.date_end and feature.state not in ['draft', 'cancelled']:
