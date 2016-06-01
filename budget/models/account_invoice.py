@@ -13,7 +13,7 @@ class account_invoice(models.Model):
 
     budget_move_id = fields.Many2one(
         'budget.move', string='Budget move', readonly=True)
-    from_order = fields.Boolean('From order', default='_check_from_order')
+    from_order = fields.Boolean('From order', default=_check_from_order)
 
     @api.one
     def _check_from_order(self):

@@ -3,24 +3,16 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 
-from operator import itemgetter
+from openerp import models, fields, api
 from openerp.tools.translate import _
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
-import time
-import logging
-import openerp.netsvc
 import openerp.addons.decimal_precision as dp
-from openerp.osv import fields, orm, osv
+import time
 
-##
-# MOVE
-## 
 
-class budget_move(osv.osv):
+class BudgetMove(models.Model):
     _name = "budget.move"
     _description = "Budget Move"
-    
+
     STATE_SELECTION = [
         ('draft', 'Draft'),
         ('reserved', 'Reserved'),
@@ -30,29 +22,87 @@ class budget_move(osv.osv):
         ('transferred', 'Transferred'),
         ('cancel', 'Canceled'),
     ]
-    
+
     MOVE_TYPE = [
-    ('invoice_in',_('Purchase invoice')),
-    ('invoice_out',_('Sale invoice')),
-    ('manual_invoice_in',_('Manual purchase invoice')),
-    ('manual_invoice_out',_('Manual sale invoice')),
-    ('expense',_('Expense')),
-    ('payroll',_('Payroll')),
-    ('manual',_('From account move')),
-    ('modification',_('Modification')),
-    ('extension',_('Extension')),
-    ('opening',_('Opening')),
+        ('invoice_in', _('Purchase invoice')),
+        ('invoice_out', _('Sale invoice')),
+        ('manual_invoice_in', _('Manual purchase invoice')),
+        ('manual_invoice_out', _('Manual sale invoice')),
+        ('expense', _('Expense')),
+        ('payroll', _('Payroll')),
+        ('manual', _('From account move')),
+        ('modification', _('Modification')),
+        ('extension', _('Extension')),
+        ('opening', _('Opening'))
     ]
-        
+
+    code = fields.Char('Code', size=64, )
+    name = fields.Char(related='code')
+    origin = fields.Char(
+        'Origin', size=64, readonly=True,
+        states={'draft': [('readonly', False)]})
+    program_line_id = fields.Many2one(
+        'budget.program.line', 'Program line', readonly=True,
+        states={'draft': [('readonly', False)]})
+    date = fields.datetime(
+        'Date created', required=True, readonly=True,
+        default=lambda self: fields.Datetime.now(),
+        states={'draft': [('readonly', False)]}, )
+    state = fields.Selection(
+        STATE_SELECTION, 'State', readonly=True, select=True, default='draft',
+        help="""
+        The state of the move. A move that is still under planning is in a
+        'Draft' state. Then the move goes to 'Reserved' state in order to
+        reserve the designated amount. This move goes to 'Compromised' state
+        when the purchase operation is confirmed. Finally goes to the
+        'Executed' state where the amount is finally discounted from the budget
+        available amount""")
+    company_id = fields.Many2one('res.company', 'Company', required=True)
+    fixed_amount = fields.Float(
+        'Fixed amount', digits=dp.get_precision('Account'))
+    standalone_move = fields.Boolean(
+        'Standalone move', readonly=True, default=_check_manual,
+        states={'draft': [('readonly', False)]})
+    arch_reserved = fields.Float(
+        'Original Reserved', digits=dp.get_precision('Account'))
+    reserved = fields.Float(
+        compute='_calc_reserved', string='Reserved', store=True)
+    reversed = fields.Float(
+        compute='_calc_reversed', string='Reversed', store=True)
+    arch_compromised = fields.Float(
+        'Original compromised', digits=dp.get_precision('Account'),)
+    compromised = fields.Float(
+        compute='_compute_compromised', string='Compromised', store=True)
+    executed = fields.Float(
+        compute='_compute_executed', string='Executed', store=True)
+    account_invoice_ids = fields.One2many(
+        'account.invoice', 'budget_move_id', string='Invoices')
+    move_lines = fields.One2many(
+        'budget.move.line', 'budget_move_id', string='Move lines')
+    budget_move_line_dist = fields.One2many(
+        related='move_lines.budget_move_line_dist',
+        string='Account Move Line Distribution')
+    type = fields.Selection(
+        selection='_select_types', string='Move Type', required=True,
+        readonly=True, states={'draft': [('readonly', False)]})
+    previous_move_id = fields.Many2one('budget.move', 'Previous move')
+    from_migration = fields.Boolean('Created from migration')
+
+    _defaults = {
+        'company_id': lambda self: self.env'res.users').browse(cr, uid, uid, c).company_id.id,
+    }
+
+
+    @api.one
     def distribution_get(self, cr, uid, ids, *args):
         amld_obj = self.pool.get('account.move.line.distribution')
         result = []
-        search_ids= []
+        search_ids = []
         for move in self.browse(cr, uid, ids):
             for bud_move_line in move.move_lines:
-                
+
                 search_ids = amld_obj.search(cr, uid, [('target_budget_move_line_id','=', bud_move_line.id)])
-            result=result + search_ids
+            result = result + search_ids
         return result
 
  
@@ -134,13 +184,12 @@ class budget_move(osv.osv):
                 ('extension',_('Extension')),
                 ('opening',_('Opening')),
                 ]
-            
-    def _check_manual(self, cr, uid, context=None):
-        if context.get('standalone_move',False):
-            return True
-        else:
-            return False
-    
+
+    @api.one
+    def _check_manual(self):
+        return True if self.env.context.get('standalone_move', False)\
+            else False
+
     def _get_budget_moves_from_dist(self, cr, uid, ids, context=None):
         if ids:
             dist_obj = self.pool.get('account.move.line.distribution')
@@ -172,37 +221,7 @@ class budget_move(osv.osv):
         'budget.move.line':                 (_get_budget_moves_from_lines, [], 10),
     }
     
-    _columns = {
-        'code': fields.char('Code', size=64, ),
-        'name':fields.related('code', type='char'),
-        'origin': fields.char('Origin', size=64, readonly=True, states={'draft':[('readonly',False)]}),
-        'program_line_id': fields.many2one('budget.program.line', 'Program line', readonly=True, states={'draft':[('readonly',False)]},),
-        'date': fields.datetime('Date created', required=True, readonly=True, states={'draft':[('readonly',False)]}),
-        'state':fields.selection(STATE_SELECTION, 'State', readonly=True, 
-        help="The state of the move. A move that is still under planning is in a 'Draft' state. Then the move goes to 'Reserved' state in order to reserve the designated amount. This move goes to 'Compromised' state when the purchase operation is confirmed. Finally goes to the 'Executed' state where the amount is finally discounted from the budget available amount", select=True),
-        'company_id': fields.many2one('res.company', 'Company', required=True),
-        'fixed_amount' : fields.float('Fixed amount', digits_compute=dp.get_precision('Account'),),
-        'standalone_move' : fields.boolean('Standalone move', readonly=True, states={'draft':[('readonly',False)]} ),
-        'arch_reserved':fields.float('Original Reserved', digits_compute=dp.get_precision('Account'),),
-        'reserved': fields.function(_calc_reserved, type='float', method=True, string='Reserved',readonly=True, store=STORE),
-        'reversed': fields.function(_calc_reversed, type='float', method=True, string='Reversed',readonly=True, store=STORE),
-        'arch_compromised':fields.float('Original compromised',digits_compute=dp.get_precision('Account'),),
-        'compromised': fields.function(_compute_compromised, type='float', method=True, string='Compromised',readonly=True, store=STORE ),
-        'executed': fields.function(_compute_executed, type='float', method=True, string='Executed',readonly=True, store=STORE ),
-        'account_invoice_ids': fields.one2many('account.invoice', 'budget_move_id', 'Invoices' ),
-        'move_lines': fields.one2many('budget.move.line', 'budget_move_id', 'Move lines' ),
-        'budget_move_line_dist': fields.related('move_lines', 'budget_move_line_dist', type='one2many', relation="account.move.line.distribution", string='Account Move Line Distribution'),
-        'type': fields.selection(_select_types, 'Move Type', required=True, readonly=True, states={'draft':[('readonly',False)]}),
-        'previous_move_id': fields.many2one('budget.move', 'Previous move'),
-        'from_migration':fields.boolean('Created from migration')
-    }
-    _defaults = {
-        'state': 'draft',
-        'company_id': lambda self,cr,uid,c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.id,
-        'date': lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'),
-        'standalone_move':_check_manual
-    }
-    
+
     def transfer_to_next_year(self, cr, uid, move_ids, plan_id, context=None):
         MOVE_RELATED_MODELS=['account.invoice',
                                'account.move',
