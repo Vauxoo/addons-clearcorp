@@ -70,7 +70,7 @@ class BudgetMoveLine(models.Model):
 
     @api.multi
     def compute(self, ignore_dist_ids=[]):
-        return self._compute_values(ignore_dist_ids)
+        return self._compute_values(ignore_dist_ids=ignore_dist_ids)
 
     @api.multi
     def _compute_modified(self):

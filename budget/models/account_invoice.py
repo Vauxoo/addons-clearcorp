@@ -11,10 +11,6 @@ class account_invoice(models.Model):
     _name = 'account.invoice'
     _inherit = 'account.invoice'
 
-    budget_move_id = fields.Many2one(
-        'budget.move', string='Budget move', readonly=True)
-    from_order = fields.Boolean('From order', default=_check_from_order)
-
     @api.one
     def _check_from_order(self):
         if self:
@@ -22,6 +18,10 @@ class account_invoice(models.Model):
         else:
             res = self.env.context.get('from_order', False)
             return res
+
+    budget_move_id = fields.Many2one(
+        'budget.move', string='Budget move', readonly=True)
+    from_order = fields.Boolean('From order', default=_check_from_order)
 
     @api.one
     def action_cancel(self):

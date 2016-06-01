@@ -519,7 +519,7 @@
             			</group>
             			<notebook>
             				<page string="Move lines">
-            					<field name="move_lines" on_change="on_change_move_line(move_lines)" attrs="{'readonly':[('state', '&lt;&gt;','draft')]}">
+            					<field name="move_lines" attrs="{'readonly':[('state', '&lt;&gt;','draft')]}">
             						<tree>
             							<field name="origin"/>
             							<field name="program_line_id" domain="[('type','=','budget')]"/>
