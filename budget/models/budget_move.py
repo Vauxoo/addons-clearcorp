@@ -386,7 +386,7 @@ class BudgetMove(models.Model):
             for line in self.move_lines:
                 res_amount += line.fixed_amount
             vals['fixed_amount'] = res_amount
-            return super(self, self).write({'fixed_amount': res_amount})
+            return super(BudgetMove, self).write({'fixed_amount': res_amount})
 
     @api.multi
     @api.onchange('move_lines')
@@ -449,7 +449,7 @@ class BudgetMove(models.Model):
         self.write({'state': 'transferred'})
         return True
 
-    @api.one
+    @api.multi
     def name_get(self):
         res = []
         if not self:
