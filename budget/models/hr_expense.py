@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp.tools.translate import _
+from openerp.exceptions import Warning
 from openerp import models, fields, api
 
 
@@ -32,17 +33,15 @@ class HRExpenseExpense(models.Model):
 
     @api.model
     def create(self, vals):
-        bud_move_obj = self.env['budget.move']
         exp_id = super(HRExpenseExpense, self).create(vals)
-        exp_obj_id = self.browse(exp_id)
-        move_id = self.create_budget_move([exp_id])
-        exp_obj_id.write({'budget_move_id': move_id})
-        expense_amount = exp_obj_id.amount
-        for line in exp_obj_id.line_ids:
+        move_id = exp_id.create_budget_move()[0]
+        exp_id.write({'budget_move_id': move_id.id})
+        expense_amount = exp_id.amount
+
+        for line in exp_id.line_ids:
             self.create_budget_move_line(line.id)
-        bud_move = bud_move_obj.browse(move_id)
-        bud_move.write({'fixed_amount': expense_amount})
-        bud_move.signal_workflow('button_reserve')
+        move_id.write({'fixed_amount': expense_amount})
+        move_id.signal_workflow('button_reserve')
         return exp_id
 
     @api.one

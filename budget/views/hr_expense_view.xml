@@ -16,12 +16,12 @@
  	                    </field>
 	               	                
 		                <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/form[@string='Expense Lines']/group/group/field[@name='ref']" position="after">
-		                	<field name="program_line_id" domain="[('type','=','budget'), ('active_for_view','=',True)]" on_change="on_change_program_line(program_line_id)" required="True"/>
+		                	<field name="program_line_id" domain="[('type','=','budget'), ('active_for_view','=',True)]" required="True"/>
 		                	<field name="line_available" readonly="True"/>
 		                </xpath>
 		                
 		                <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree/field[@name='ref']" position="after">
-		                	<field name="program_line_id" domain="[('type','=','budget'), ('active_for_view','=',True)]" on_change="on_change_program_line(program_line_id)" required="True"/>
+		                	<field name="program_line_id" domain="[('type','=','budget'), ('active_for_view','=',True)]" required="True"/>
 		                	<field name="line_available" readonly="True"/>
 		                </xpath>
 	            	</data>    
@@ -36,7 +36,7 @@
 	            <field name="arch" type="xml">
 	                <data>
 	                    <field name="ref" position="after" >
-	                    	<field name="program_line_id" domain="[('type','=','budget'), ('active_for_view','=',True)]" on_change="on_change_program_line(program_line_id)" required="True"/>
+	                    	<field name="program_line_id" domain="[('type','=','budget'), ('active_for_view','=',True)]" required="True"/>
 	                    	<field name="line_available" readonly="True"/>
  	                    </field>
 	            	</data>    
