@@ -4,6 +4,7 @@
 
 
 import openerp.addons.decimal_precision as dp
+from openerp.exceptions import Warning
 from openerp import models, fields, api
 
 
@@ -169,11 +170,10 @@ class account_invoice(models.Model):
                             account_id == move_line.account_id.id:
                         bud_line.write({'move_line_id': move_line.id})
                         assigned_mov_lines.append(move_line.id)
-            move_id.signal_workflow('button_execute')
+                move_id.signal_workflow('button_execute')
         else:
             for inv_line in self.invoice_line:
-                bud_line = obj_bud_move_line.search(
-                    [('inv_line_id', '=', inv_line.id)])[0]
+                bud_line = inv_line.budget_move_id.move_lines
                 move_id = bud_line.budget_move_id
                 move_lines = self.move_id.line_id
                 assigned_mov_lines = []
@@ -192,7 +192,7 @@ class account_invoice(models.Model):
                             account_id == move_line.account_id.id:
                         bud_line.write({'move_line_id': move_line.id})
                         assigned_mov_lines.append(move_line.id)
-            move_id.signal_workflow('button_execute')
+                move_id.signal_workflow('button_execute')
         return validate_result
 
     @api.one
