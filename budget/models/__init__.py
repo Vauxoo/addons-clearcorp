@@ -12,6 +12,7 @@ import budget
 import budget_move
 import budget_move_line
 import budget_program
+import budget_program_line
 import hr_expense
 import hr_payroll
 import purchase
