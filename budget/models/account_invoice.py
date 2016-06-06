@@ -172,7 +172,7 @@ class account_invoice(models.Model):
                 move_id.signal_workflow('button_execute')
         else:
             for inv_line in self.invoice_line:
-                bud_line = inv_line.budget_move_id.move_lines
+                bud_line = inv_line.invoice_id.budget_move_id.move_lines
                 move_id = bud_line.budget_move_id
                 move_lines = self.move_id.line_id
                 assigned_mov_lines = []

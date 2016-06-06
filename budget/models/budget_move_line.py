@@ -66,6 +66,12 @@ class BudgetMoveLine(models.Model):
             line.compromised = compromised
             line.reversed = _reversed
             line.reserved = reserved
+            res[line.id] = {
+                'executed': executed,
+                'compromised': compromised,
+                'reversed': _reversed,
+                'reserved': reserved
+            }
         return res
 
     @api.multi

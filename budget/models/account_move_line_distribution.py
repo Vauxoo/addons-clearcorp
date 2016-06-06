@@ -33,8 +33,11 @@ class AccountMoveLineDistribution(models.Model):
     def _check_distribution_percentage(self):
         # distribution_percentage_sum compute all the percentages for a
         # specific move line.
-        line_percentage =\
-            self.account_move_line_id.distribution_percentage_sum or 0.0
+        line_percentage = 0.0
+        if self.account_move_line_id.distribution_percentage_sum:
+            line_percentage =\
+                self.account_move_line_id.distribution_percentage_sum -\
+                self.distribution_percentage
         line_percentage_remaining = 100 - line_percentage
         if self.distribution_percentage >\
                 line_percentage_remaining:
@@ -49,11 +52,13 @@ class AccountMoveLineDistribution(models.Model):
     @api.constrains('distribution_amount')
     def _check_distribution_amount(self):
         amount = 0.0
-        # ==== self_amount_sum compute all the percentages for a
+        line_amount_dis = 0.0
+        # ==== distribution_amount_sum compute all the percentages for a
         # specific move line.
-        line_amount_dis =\
-            self.account_move_line_id.self_amount_sum\
-            or 0.0
+        if self.account_move_line_id.distribution_amount_sum:
+            line_amount_dis =\
+                self.account_move_line_id.distribution_amount_sum -\
+                self.distribution_amount
         # =====Find amount for the move_line
         if self.account_move_line_id.credit > 0:
             amount = self.account_move_line_id.credit
@@ -67,10 +72,10 @@ class AccountMoveLineDistribution(models.Model):
         # Check which is the remaining between the amount line and sum of
         # amount in selfs.
         amount_remaining = amount - line_amount_dis
-        if self.self_amount > amount_remaining:
+        if self.distribution_amount > amount_remaining:
             raise Warning(_("""
-                The self amount can not be greater than maximum amount of
-                remaining amount for account move line selected
+                The distribution amount can not be greater than maximum amount
+                of remaining amount for account move line selected
             """))
 
     # Check the plan for distribution line
@@ -78,7 +83,7 @@ class AccountMoveLineDistribution(models.Model):
     def get_plan_for_distributions(self, dist_ids):
         query = """
         SELECT AMLD.id AS dist_id, BP.id AS plan_id FROM
-            AccountMoveLineDistribution AMLD
+            account_move_line_distribution AMLD
             INNER JOIN budget_move_line BML ON
                 AMLD.target_budget_move_line_id = BML.id
             INNER JOIN  budget_move BM ON BML.budget_move_id=BM.id
@@ -96,13 +101,13 @@ class AccountMoveLineDistribution(models.Model):
     def _check_plan_distribution_line(self):
         plan_obj = self.env['budget.plan']
         # Get plan for distribution lines
-        result = self.get_plan_for_distributions()
+        result = self.get_plan_for_distributions(self._ids)
         # Check plan's state
         for dist_id in result:
             plan = plan_obj.browse([dist_id['plan_id']])[0]
-            if plan.state in ('closed'):
+            if plan.state in ('closed', 'cancel'):
                 raise Warning(_("""
-                    You cannot create a distribution with a approved or closed
+                    You cannot create a distribution with a closed or cancelled
                     plan
                 """))
 
@@ -124,8 +129,7 @@ class AccountMoveLineDistribution(models.Model):
     @api.one
     @api.constrains('distribution_amount')
     def _check_distribution_amount_budget(self):
-        computes = self.env['budget.move.line'].compute(
-            [self.target_budget_move_line_id.id], ['compromised'], None,
+        computes = self.target_budget_move_line_id.compute(
             ignore_dist_ids=[self.id])
         compromised = round(
             computes[self.target_budget_move_line_id.id]['compromised'],
@@ -164,7 +168,7 @@ class AccountMoveLineDistribution(models.Model):
         plan_obj = self.env['budget.plan']
 
         # Get plan for distribution lines
-        result = self.get_plan_for_distributions()
+        result = self.get_plan_for_distributions(self._ids)
 
         # Check plan's state
         for dist_id in result:
@@ -179,7 +183,7 @@ class AccountMoveLineDistribution(models.Model):
         plan_obj = self.env['budget.plan']
         bud_move_obj = self.env['budget.move']
         if self:
-            result = self.get_plan_for_distributions()
+            result = self.get_plan_for_distributions(self._ids)
             # Check plan's state
             for dist_id in result:
                 plan = plan_obj.browse([dist_id['plan_id']])[0]
@@ -187,7 +191,7 @@ class AccountMoveLineDistribution(models.Model):
                     if not is_incremental:
                         raise Warning(_(
                             """
-                    You cannot delete a distribution with a closedplan"""))
+                    You cannot delete a distribution with a closed plan"""))
             move_ids = []
             if self.target_budget_move_line_id:
                 move_ids.append(

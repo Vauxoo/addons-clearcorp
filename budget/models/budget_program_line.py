@@ -26,7 +26,6 @@ class BudgetProgramLine(models.Model):
                 child_child_ids.append(child_child.id)
         if child_child_ids:
             child_child_ids = self._get_children_and_consol(child_child_ids)
-        # print "\n get chil consol: ", list(child_ids._ids) + child_child_ids
         return list(child_ids._ids) + child_child_ids
 
     @api.one
@@ -34,7 +33,8 @@ class BudgetProgramLine(models.Model):
     def _compute_values(self):
         field_names = [
             'total_assigned', 'executed_amount', 'reserved_amount',
-            'modified_amount', 'extended_amount', 'compromised_amount']
+            'modified_amount', 'extended_amount', 'compromised_amount',
+            'available_cash', 'available_budget', 'execution_percentage']
 
         children_and_consolidated = self._get_children_and_consol(self._ids)[0]
         prg_lines = {}
@@ -64,7 +64,6 @@ class BudgetProgramLine(models.Model):
                 ' GROUP BY BPL.id')
 
             params = (tuple(children_and_consolidated),)
-            # print "\n ", children_and_consolidated, request % params
             self.env.cr.execute(request, params)
             for row in self.env.cr.dictfetchall():
                 prg_lines[row['id']] = row
@@ -77,8 +76,6 @@ class BudgetProgramLine(models.Model):
                 for fn in field_names:
                     sums.setdefault(current.id, {})[fn] = prg_lines.get(
                         current.id, {}).get(fn, 0.0)
-                    # print "\n fors:", current, sums, current.child_id, "\n"
-                    # raise Warning("lel")
                     for child in current.child_id:
                         if child.company_id.currency_id.id ==\
                                 current.company_id.currency_id.id:
@@ -128,7 +125,6 @@ class BudgetProgramLine(models.Model):
                     current.available_budget = available_budget
                     current.available_cash = available_cash
                     current.execution_percentage = exc_perc
-            print "\n sums: ", sums
 
     @api.one
     @api.constrains('account_id', 'program_id')
@@ -161,9 +157,7 @@ class BudgetProgramLine(models.Model):
             for acc in self.child_consol_ids:
                 if acc.id not in result[self.id]:
                     result[self.id].append(acc.id)
-        # print "\n get_child_ids: ", self.child_id
         self.child_id = result[self.id]
-        # print "\n get_child_ids: ", self.id, result, result[self.id]
 
     @api.multi
     def get_next_year_line(self):

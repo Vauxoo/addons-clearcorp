@@ -370,10 +370,10 @@ class BudgetMove(models.Model):
             program_line_id = bud_line[2]['program_line_id']
             bud_program_lines.append(program_line_id)
         for line in bud_program_lines_obj.browse(bud_program_lines):
-            if line.program_id.plan_id.state in ('approved', 'closed'):
+            if line.program_id.plan_id.state in ('closed', 'cancel'):
                 raise Warning(_(
                     """You cannot create a budget move that have associated
-                budget move lines with a approved or closed budget plan"""))
+                budget move lines with a closed or canceled budget plan"""))
 
         res = super(BudgetMove, self).create(vals)
         return res

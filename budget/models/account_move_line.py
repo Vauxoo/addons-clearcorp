@@ -35,7 +35,7 @@ class AccountMoveLine(models.Model):
                 SELECT amld.id, SUM(amld.distribution_percentage) AS dis_per
                     FROM account_move_line_distribution amld
                     WHERE amld.id IN %s GROUP BY amld.id"""
-            params = [self.account_move_line_dist.id]
+            params = [(self.account_move_line_dist.id,)]
             self._cr.execute(query, params)
             for row in self._cr.dictfetchall():
                 self.distribution_percentage_sum = row['dis_per']
