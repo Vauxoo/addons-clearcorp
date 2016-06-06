@@ -34,38 +34,43 @@
                                     <t t-if="o.partner_id.phone"><span class="fa fa-phone" style="width: 14px; text-align: center; margin-right: 3px" /><span t-field="o.partner_id.phone"/><br /></t>
                                     <t t-if="o.partner_id.email"><span class="fa fa-envelope-o" style="width: 14px; text-align: center; margin-right: 3px" /><span t-field="o.partner_id.email"/><br /></t>
                                 </div>
-                                <div class="col-xs-5">
-                                    <t t-if="(o.default_location_dest_id_usage == 'customer') and (o.dest_address_id)">
-                                        <t t-set="dest_address" t-value="o.dest_address_id"/>
-                                    </t>
-                                    <t t-if="(o.default_location_dest_id_usage != 'customer') and (o.picking_type_id.default_location_dest_id.partner_id)">
-                                        <t t-set="dest_address" t-value="o.picking_type_id.default_location_dest_id.partner_id"/>
-                                    </t>
-                                    <t t-if="(o.default_location_dest_id_usage!= 'customer') and (not o.picking_type_id.default_location_dest_id.partner_id)">
-                                        <t t-set="dest_address" t-value="o.company_id.partner_id"/>
-                                    </t>
-                                    <t t-if="dest_address">
-                                        <b><span>Delivery address:</span></b><br />
-                                        <span class="fa fa-map-marker" style="width: 14px; text-align: center; margin-right: 3px" /><t t-if="dest_address.street"><span t-field="dest_address.street" /><br /></t>
-                                        <t t-if="dest_address.street2"><span style="margin-left: 17px" t-field="dest_address.street2" /><br /></t>
-                                        <t t-if="dest_address.zip or dest_address.city">
-                                            <t t-if="dest_address.zip">
-                                                <span style="margin-left: 17px" t-field="dest_address.zip" /> 
-                                            </t>
-                                            <t t-if="dest_address.city">
-                                                <span t-att-style="not dest_address.zip and 'margin-left: 17px;' or ''" t-field="dest_address.city" /> 
-                                            </t><br />
-                                        </t>
-                                        <t t-if="dest_address.state_id or dest_address.country_id">
-                                            <t t-if="dest_address.state_id">
-                                                <span style="margin-left: 17px" t-field="dest_address.state_id.name" /><t t-if="dest_address.country_id">, </t>
-                                            </t>
-                                            <t t-if="dest_address.country_id">
-                                                <span t-att-style="not dest_address.state_id and 'margin-left: 17px;' or ''" t-field="dest_address.country_id.code" /> 
-                                            </t>
-                                        </t>
-                                    </t>
-                                </div>
+                                <div class="col-xs-5 col-md-5">
+									<t t-if="(o.default_location_dest_id_usage == 'customer') and (o.dest_address_id)">
+										<t t-set="dest_address" t-value="o.dest_address_id"/>
+									</t>
+									<t t-if="(o.default_location_dest_id_usage != 'customer') and (o.picking_type_id.default_location_dest_id.partner_id)">
+										<t t-set="dest_address" t-value="o.picking_type_id.default_location_dest_id.partner_id"/>
+									</t>
+									<t t-if="(o.default_location_dest_id_usage!= 'customer') and (not o.picking_type_id.default_location_dest_id.partner_id)">
+										<t t-set="dest_address" t-value="o.company_id.partner_id"/>
+									</t>
+									<t t-if="dest_address" >
+										<b><span>Delivery address:</span></b><br/>
+										<t t-if="o.dest_address_id"><span  style="margin-left: 5px; width: 14px; text-align: center; margin-right: 3px"
+											t-field="o.dest_address_id" />
+										</t><br/>
+										<span class="fa fa-map-marker" style="width: 14px; text-align: center; margin-right: 3px"/><t t-if="dest_address.street"><span
+													  t-field="dest_address.street" />
+											 </t>
+										<t t-if="dest_address.street2"><span style="margin-left: 5px; width: 14px;  text-align: center;" t-field="dest_address.street2"/>.</t>
+										<t t-if="dest_address.zip or dest_address.city">
+											<t t-if="dest_address.zip">
+												<span style="margin-left: 5px  text-align: center;" t-field="dest_address.zip"/> 
+											</t>
+											<t t-if="dest_address.city">
+												<span style=" text-align: center;" t-att-style="not dest_address.zip and 'margin-left: 5px;' or ''"  t-field="dest_address.city"/> 
+											</t>.
+										</t>
+										<t t-if="dest_address.state_id or dest_address.country_id">
+											<t t-if="dest_address.state_id">
+												<span style="margin-left: 5px;  text-align: center;" t-field="dest_address.state_id.name"/><t t-if="dest_address.country_id">, </t>
+											</t>
+											<t t-if="dest_address.country_id">
+												<span style=" text-align: center;" t-att-style="not dest_address.state_id and 'margin-left: 5px;' or ''" t-field="dest_address.country_id.code"/>.
+											</t>
+										</t>
+									</t>
+								</div>
                                 <div class="col-xs-4">
                                     <t t-if="o.payment_term_id"><b>Payment terms: </b><span t-field="o.payment_term_id"/><br /></t>
                                     <t t-if="o.incoterm_id"><b>Incoterm: </b><span t-field="o.incoterm_id"/></t>
