@@ -36,7 +36,7 @@ class BudgetMove(models.Model):
         ('opening', _('Opening'))
     ]
 
-    @api.one
+    @api.model
     def _check_manual(self):
         return True if self.env.context.get('standalone_move', False)\
             else False
@@ -388,16 +388,15 @@ class BudgetMove(models.Model):
             vals['fixed_amount'] = res_amount
             return super(BudgetMove, self).write({'fixed_amount': res_amount})
 
-    @api.multi
+    @api.one
     @api.onchange('move_lines')
     def on_change_move_line(self):
         res_amount = 0.0
-        for move in self:
-            if move.standalone_move:
-                res_amount = 0.0
-                for line in move.move_lines:
-                        res_amount += line.fixed_amount
-            move.fixed_amount = res_amount
+        if self.standalone_move:
+            res_amount = 0.0
+            for line in self.move_lines:
+                res_amount += line.fixed_amount
+        self.fixed_amount = res_amount
 
     @api.one
     def action_draft(self):

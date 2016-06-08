@@ -13,10 +13,14 @@ class BudgetMoveLine(models.Model):
     _name = "budget.move.line"
     _description = "Budget Move Line"
 
+    @api.one
     @api.onchange('program_line_id')
     def on_change_program_line(self):
+        res_amount = 0.0
         for line in self.program_line_id:
-            self.line_available = line.available_budget
+            res_amount += line.available_budget
+        self.line_available = res_amount
+        self.write({'line_available': res_amount})
 
     @api.multi
     @api.depends(
