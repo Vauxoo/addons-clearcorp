@@ -20,7 +20,16 @@ class BudgetMoveLine(models.Model):
         for line in self.program_line_id:
             res_amount += line.available_budget
         self.line_available = res_amount
-        self.write({'line_available': res_amount})
+
+    @api.one
+    @api.depends(
+        'program_line_id', 'date', 'state', 'executed', 'compromised',
+        'reserved', 'reversed', 'program_line_id.available_budget')
+    def _compute_line_available(self):
+        res_amount = 0.0
+        for line in self.program_line_id:
+            res_amount += line.available_budget
+        self.line_available = res_amount
 
     @api.multi
     @api.depends(
@@ -139,7 +148,8 @@ class BudgetMoveLine(models.Model):
     fixed_amount = fields.Float(
         'Original amount', digits=dp.get_precision('Account'))
     line_available = fields.Float(
-        'Line available', digits=dp.get_precision('Account'), readonly=True)
+        'Line available', digits=dp.get_precision('Account'), readonly=True,
+        compute='_compute_line_available', store=True,)
     changed = fields.Float(
         compute='_compute_modified', string='Modified', store=True)
     extended = fields.Float(

@@ -143,8 +143,6 @@ class BudgetMove(models.Model):
         if self.state == 'reserved':
             for line in self.move_lines:
                 res_amount += line.reserved
-        else:
-            res_amount = 0
         self.reserved = res_amount
 
     @api.one
@@ -438,9 +436,10 @@ class BudgetMove(models.Model):
         self.write({'state': 'executed'})
         return True
 
-    def action_cancel(self, cr, uid, ids, context=None):
-        self.write(cr, uid, ids, {'state': 'cancel'})
-        self.recalculate_values(cr, uid, ids, context=context)
+    @api.one
+    def action_cancel(self):
+        self.write({'state': 'cancel'})
+        self.recalculate_values()
         return True
 
     @api.one
