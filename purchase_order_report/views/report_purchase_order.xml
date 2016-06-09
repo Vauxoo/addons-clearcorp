@@ -47,8 +47,8 @@
                                     <t t-if="dest_address" >
                                         <b><span>Delivery address:</span></b><br/>
                                         <t t-if="o.dest_address_id"><span  style="margin-left: 5px; width: 14px; text-align: center; margin-right: 3px"
-                                            t-field="o.dest_address_id" />
-                                        </t><br/>
+                                            t-field="o.dest_address_id" /><br/>
+                                        </t>
                                         <span class="fa fa-map-marker" style="width: 14px; text-align: center; margin-right: 3px"/><t t-if="dest_address.street"><span
                                                       t-field="dest_address.street" />
                                              </t>
