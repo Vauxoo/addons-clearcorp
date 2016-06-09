@@ -401,7 +401,7 @@ class AccountInvoice(models.Model):
             invoice_line.write({'porcent_variation_margin':0.0})
 
     @api.multi
-    @api.depends('invoice_line','quoted_cost','quoted_price','real_cost','real_price')
+    @api.depends('invoice_line','quoted_cost','quoted_price','real_cost','real_price','state')
     def get_profitability(self):
         for invoice in self:
             if invoice.order_ids and not invoice.order_ids.issue_ids:
@@ -454,6 +454,8 @@ class AccountInvoice(models.Model):
                 total_timesheet=0.0
                 total_cost_timesheet=0.0
                 total_backorder=0.0
+                total_supplier_invoice=0.0
+                total_expense=0.0
                 total_backorder_cost=0.0
                 for issue in invoice.order_ids.issue_ids:
                     account_obj=self.env['account.analytic.account']
@@ -468,13 +470,25 @@ class AccountInvoice(models.Model):
                                     import_currency_rate = 1
                                 total_timesheet+=qty*mount*import_currency_rate*(100-factor.factor or 0.0) / 100.0
                         if timesheet.employee_id.product_id:
-                            total_cost_timesheet+=(timesheet.end_time-timesheet.start_time)*timesheet.employee_id.product_id.standard_price
+                            if issue.company_id.currency_id.id != invoice.currency_id.id:
+                                import_currency_rate=issue.company.currency_id.get_exchange_rate(invoice.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                            else:
+                                import_currency_rate = 1
+                            total_cost_timesheet+=((timesheet.end_time-timesheet.start_time)*timesheet.employee_id.product_id.standard_price)*import_currency_rate
                     for backorder in issue.backorder_ids:
-                        if backorder.delivery_note_id and backorder.invoice_state!='invoiced':
+                        if backorder.delivery_note_id and backorder.delivery_note_id.state!='cancel' and backorder.picking_type_id.code=='outgoing' and backorder.invoice_state!='invoiced' and backorder.state=='done':
                             for delivery_note_lines in backorder.delivery_note_id.note_lines:
+                                if delivery_note_lines.note_id.currency_id.id != invoice.currency_id.id:
+                                    import_currency_rate=delivery_note_lines.note_id.currency_id.get_exchange_rate(invoice.currency_id.id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                else:
+                                    import_currency_rate = 1
                                 total_backorder+=delivery_note_lines.quantity*delivery_note_lines.price_unit
                         if backorder.move_lines:
                             for move in backorder.move_lines:
+                                if issue.company_id.currency_id.id != invoice.currency_id.id:
+                                    import_currency_rate=issue.company.currency_id.get_exchange_rate(invoice.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                else:
+                                    import_currency_rate = 1
                                 standart_price=0.0
                                 quantity=0.0
                                 final_cost_quant=0.0
@@ -483,12 +497,28 @@ class AccountInvoice(models.Model):
                                         quantity+=abs(quant.qty)
                                         final_cost_quant+=(quant.cost)*abs(quant.qty)
                                     if quantity!=0:
-                                        standart_price=(final_cost_quant/quantity)
+                                        standart_price=(final_cost_quant/quantity)*import_currency_rate
                                     else:
                                         standart_price=0
                                     total_backorder_cost+=standart_price*move.product_qty
-                invoice.real_price=total_timesheet+total_backorder
-                invoice.real_cost=total_cost_timesheet+total_backorder_cost
+                for expense_line in issue.expense_line_ids:
+                    if expense_line.expense_id.state=='done' or expense_line.expense_id.state=='paid':
+                        for move_lines in expense_line.expense_id.account_move_id.line_id:
+                            for lines in move_lines.analytic_lines:
+                                if expense_line.expense_id.currency_id.id != invoice.currency_id.id:
+                                    import_currency_rate=expense_line.expense_id.currency_id.get_exchange_rate(invoice.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                else:
+                                    import_currency_rate = 1
+                                total_expense+=((lines.amount*-1)*import_currency_rate)*(100-factor.factor or 0.0) / 100.0
+                for invoice_lines in issue.account_invoice_line_ids:
+                    if invoice_lines.invoice_id.state in ('open','paid'):
+                        if invoice_lines.invoice_id.currency_id.id != invoice.currency_id.id:
+                            import_currency_rate=invoice_lines.invoice_id.currency_id.get_exchange_rate(invoice.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                        else:
+                            import_currency_rate = 1
+                        total_supplier_invoice+=invoice_lines.quantity*invoice_lines.price_unit*import_currency_rate
+                invoice.real_price=total_timesheet+total_backorder+total_expense+total_supplier_invoice
+                invoice.real_cost=total_cost_timesheet+total_backorder_cost+total_expense+total_supplier_invoice
                 invoice.expected_margin=invoice.quoted_price-invoice.quoted_cost
                 invoice.real_margin=invoice.real_price-invoice.real_cost
                 invoice.variation_cost=invoice.real_cost-invoice.quoted_cost
