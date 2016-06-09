@@ -71,9 +71,6 @@ class HRPayslip(models.Model):
 
                     payslip_line_amount = payslip_line.total
                     payslip_line_name = payslip_line.name
-                    print payslip_line_amount
-                    print move_line_debit
-                    print move_line_credit
                     if move_line_name != payslip_line_name:
                         continue
                     vals = {
