@@ -11,7 +11,7 @@ class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
     _description = 'Purchase Order Line'
 
-    @api.depends('product_qty', 'price_unit', 'taxes_id','discount')
+    @api.depends('product_qty', 'price_unit', 'taxes_id', 'discount')
     def _compute_amount(self):
         super(PurchaseOrderLine, self)._compute_amount()
         for line in self:
