@@ -34,37 +34,37 @@ class AccountMove(models.Model):
                 return True
         return False
 
-    @api.multi
+    @api.one
     def create_budget_moves(self):
         bud_mov_obj = self.env['budget.move']
         bud_line_obj = self.env['budget.move.line']
         created_move_ids = []
-        for move in self:
-            if move.check_moves_budget():
-                bud_move_id = bud_mov_obj.create(
-                    {'type': 'manual', 'origin': move.name})
-                move.write(
-                    {'budget_type': 'budget',
-                     'budget_move_id': bud_move_id.id})
-                created_move_ids.append(bud_move_id)
-                for move_line in move.line_id:
-                    if move_line.budget_program_line:
-                        amount = 0.0
-                        if move_line.credit > 0.0:
-                            amount = move_line.credit * -1
-                        if move_line.debit > 0.0:
-                            amount = move_line.debit
-                        _new_line_id = bud_line_obj.create(
-                            {
-                                'budget_move_id': bud_move_id.id,
-                                'origin': move_line.name,
-                                'program_line_id':
-                                    move_line.budget_program_line.id,
-                                'fixed_amount': amount,
-                                'move_line_id': move_line.id,
-                            })
-                bud_move_id.signal_workflow('button_execute')
-                bud_move_id.recalculate_values()
+        res_check_moves_budget = self.check_moves_budget()[0]
+        if res_check_moves_budget:
+            bud_move_id = bud_mov_obj.create(
+                {'type': 'manual', 'origin': self.name})
+            self.write(
+                {'budget_type': 'budget',
+                 'budget_move_id': bud_move_id.id})
+            created_move_ids.append(bud_move_id)
+            for move_line in self.line_id:
+                if move_line.budget_program_line:
+                    amount = 0.0
+                    if move_line.credit > 0.0:
+                        amount = move_line.credit * -1
+                    if move_line.debit > 0.0:
+                        amount = move_line.debit
+                    _new_line_id = bud_line_obj.create(
+                        {
+                            'budget_move_id': bud_move_id.id,
+                            'origin': move_line.name,
+                            'program_line_id':
+                                move_line.budget_program_line.id,
+                            'fixed_amount': amount,
+                            'move_line_id': move_line.id,
+                        })
+            bud_move_id.signal_workflow('button_execute')
+            bud_move_id.recalculate_values()
         return created_move_ids
 
     @api.multi

@@ -32,8 +32,7 @@ class BudgetMoveLine(models.Model):
         self.line_available = res_amount
 
     @api.multi
-    @api.depends(
-        'date', 'state', 'executed', 'compromised', 'reserved', 'reversed')
+    @api.depends('date', 'state', 'fixed_amount', 'budget_move_line_dist')
     def _compute_values(self, ignore_dist_ids=[]):
         amld = self.env['account.move.line.distribution']
         _fields = ['compromised', 'executed', 'reversed', 'reserved']
@@ -89,7 +88,8 @@ class BudgetMoveLine(models.Model):
 
     @api.multi
     def compute(self, ignore_dist_ids=[]):
-        return self._compute_values(ignore_dist_ids=ignore_dist_ids)
+        res_compute = self._compute_values(ignore_dist_ids=ignore_dist_ids)
+        return res_compute
 
     @api.multi
     def _compute_modified(self):
@@ -185,8 +185,7 @@ class BudgetMoveLine(models.Model):
         'account.move.line.distribution', 'target_budget_move_line_id',
         string='Budget Move Line Distributions')
     type_distribution = fields.Selection(
-        related='budget_move_line_dist.type', string="Distribution type",
-        selection=[('manual', 'Manual'), ('auto', 'Automatic')])
+        related='budget_move_line_dist.type', string="Distribution type")
     # =======Payslip lines
     previous_move_line_id = fields.Many2one(
         'budget.move', 'Previous move line')

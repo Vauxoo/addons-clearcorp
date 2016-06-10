@@ -41,6 +41,14 @@ class BudgetMove(models.Model):
         return True if self.env.context.get('standalone_move', False)\
             else False
 
+    @api.one
+    def _default_budget_moves_distribution_lines(self):
+        dist_lines_ids = []
+        for moves in self.move_lines:
+            for dist in moves.budget_move_line_dist:
+                dist_lines_ids.append(dist.id)
+        return dist_lines_ids
+
     code = fields.Char('Code', size=64, )
     name = fields.Char(related='code')
     origin = fields.Char(
@@ -372,7 +380,6 @@ class BudgetMove(models.Model):
                 raise Warning(_(
                     """You cannot create a budget move that have associated
                 budget move lines with a closed or canceled budget plan"""))
-
         res = super(BudgetMove, self).create(vals)
         return res
 
