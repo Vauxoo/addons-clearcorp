@@ -129,16 +129,18 @@ class AccountMoveLineDistribution(models.Model):
     @api.one
     @api.constrains('distribution_amount')
     def _check_distribution_amount_budget(self):
-        computes = self.target_budget_move_line_id.compute(
-            ignore_dist_ids=[self.id])
+        # computes = self.target_budget_move_line_id.compute(
+        #    ignore_dist_ids=[self.id])
         compromised = round(
-            computes[self.target_budget_move_line_id.id]['compromised'],
+            self.target_budget_move_line_id.compromised,
             self.env['decimal.precision'].precision_get('Account'))
+        
         if abs(self.distribution_amount) > abs(compromised):
+            print "\n _check_distribution_amount_budget: ", compromised
             raise Warning(_("""
                 The distribution amount can not be greater than compromised
-                amount in budget move line selected
-            """))
+                amount in budget move line selected: self.distri_amount %s , compro: %s
+            """ % (self.distribution_amount, compromised)))
 
     @api.model
     def clean_reconcile_entries(self, move_line_ids):

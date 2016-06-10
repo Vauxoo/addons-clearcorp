@@ -32,7 +32,7 @@ class BudgetMoveLine(models.Model):
         self.line_available = res_amount
 
     @api.multi
-    @api.depends('date', 'state', 'fixed_amount', 'budget_move_line_dist')
+    @api.depends('date', 'state', 'fixed_amount')
     def _compute_values(self, ignore_dist_ids=[]):
         amld = self.env['account.move.line.distribution']
         _fields = ['compromised', 'executed', 'reversed', 'reserved']
@@ -84,6 +84,7 @@ class BudgetMoveLine(models.Model):
                 'reversed': _reversed,
                 'reserved': reserved
             }
+        print "\n compute_values: ", res
         return res
 
     @api.multi

@@ -175,7 +175,7 @@ class AccountMoveReconcile(orm.Model):
                 #target_budget_move_line_id field.
                 elif object == "budget":
                     if last_dist.target_budget_move_line_id and \
-                        abs(distribution_amount) > abs(last_dist.target_budget_move_line_id.fixed_amount):
+                        abs(distribution_amount) <= abs(last_dist.target_budget_move_line_id.fixed_amount):
                         # New value is bigger than allowed value
                         dist_obj.unlink(cr, uid, dist_ids, context=context)
                         return []
