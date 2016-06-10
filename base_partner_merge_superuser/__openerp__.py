@@ -15,6 +15,6 @@
     'installable': True,
     'auto_install': False,
     'depends': [
-        'base_partner_merge',
+        'crm',
     ],
 }
