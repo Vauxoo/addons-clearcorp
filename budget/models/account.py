@@ -303,7 +303,7 @@ class AccountMoveReconcile(orm.Model):
             # Liquid list
             for line in liquid_lines.values():
                 distribution_amount = liquid_amounts[line.id]
-                if line.fixed_amount < 0:
+                if line.debit - line.credit > 0:
                     signed_dist_amount = distribution_amount * -1
                 else:
                     signed_dist_amount = distribution_amount
