@@ -404,51 +404,51 @@ class AccountInvoice(models.Model):
     @api.depends('invoice_line','quoted_cost','quoted_price','real_cost','real_price','state')
     def get_profitability(self):
         for invoice in self:
-            if invoice.order_ids and not invoice.order_ids.issue_ids:
+            if invoice.order_ids and not invoice.order_ids.issue_ids:                     #Runs the sale order to invoices
                 quoted_cost=0.0
                 quoted_price=0.0
                 real_cost=0.0
                 real_price=0.0
                 for sale_line in invoice.order_ids.order_line:
-                    quoted_cost+=sale_line.product_uom_qty*sale_line.purchase_price
-                    quoted_price+=sale_line.price_subtotal
+                    quoted_cost+=sale_line.product_uom_qty*sale_line.purchase_price      #Set quoted cost of sale orders lines
+                    quoted_price+=sale_line.price_subtotal                               #Set quoted price of sale orders lines
                 invoice.quoted_cost=quoted_cost
                 invoice.quoted_price=quoted_price
                 for invoice_line in invoice.invoice_line:
-                    real_price+=invoice_line.price_subtotal
+                    real_price+=invoice_line.price_subtotal                                              #Set a real price of invoice lines
                     if not invoice_line.sale_lines:
-                        real_cost+=invoice_line.product_id.standard_price*invoice_line.quantity
+                        real_cost+=invoice_line.product_id.standard_price*invoice_line.quantity          #Set a real price of invoice lines
                     else:
                         real_cost+=invoice_line.sale_lines.purchase_price*invoice_line.quantity
                 invoice.real_price=real_price
                 invoice.real_cost=real_cost
-                invoice.expected_margin=invoice.quoted_price-invoice.quoted_cost
-                invoice.real_margin=invoice.real_price-invoice.real_cost
-                invoice.variation_cost=invoice.real_cost-invoice.quoted_cost
-                invoice.variation_price=invoice.real_price-invoice.quoted_price
-                invoice.variation_margin=invoice.real_margin-invoice.expected_margin
+                invoice.expected_margin=invoice.quoted_price-invoice.quoted_cost                         #Compute a expected margin
+                invoice.real_margin=invoice.real_price-invoice.real_cost                                 #Compute a real margin
+                invoice.variation_cost=invoice.real_cost-invoice.quoted_cost                             #Compute a variation cost
+                invoice.variation_price=invoice.real_price-invoice.quoted_price                          #Compute a variation price
+                invoice.variation_margin=invoice.real_margin-invoice.expected_margin                     #Compute a variation margin
                 if invoice.quoted_cost!=0:
-                    invoice.porcent_variation_cost=(invoice.real_cost-invoice.quoted_cost)/invoice.quoted_cost*100
+                    invoice.porcent_variation_cost=(invoice.real_cost-invoice.quoted_cost)/invoice.quoted_cost*100       #Compute porcent variation cost
                 else:
                     invoice.porcent_variation_cost=0.0
                 if invoice.quoted_price!=0:
-                    invoice.porcent_variation_price=(invoice.real_price-invoice.quoted_price)/invoice.quoted_price*100
+                    invoice.porcent_variation_price=(invoice.real_price-invoice.quoted_price)/invoice.quoted_price*100   #Compute porcent variation price
                 else:
                     invoice.porcent_variation_price=0.0
                 if invoice.expected_margin!=0:
-                    invoice.porcent_variation_margin=(invoice.real_margin-invoice.expected_margin)/invoice.expected_margin*100
+                    invoice.porcent_variation_margin=(invoice.real_margin-invoice.expected_margin)/invoice.expected_margin*100  #Compute porcent variation margin
                 else:
                     invoice.porcent_variation_margin=0.0
                 for invoice_line in invoice.invoice_line:
                     invoice.get_profitability_line(invoice_line)
-            elif invoice.order_ids and invoice.order_ids.issue_ids:
+            elif invoice.order_ids and invoice.order_ids.issue_ids:               #Runs the sale order and issues of sale orders to invoices
                 quoted_cost=0.0
                 quoted_price=0.0
                 real_cost=0.0
                 real_price=0.0
                 for sale_line in invoice.order_ids.order_line:
-                    quoted_cost+=sale_line.product_uom_qty*sale_line.purchase_price
-                    quoted_price+=sale_line.price_subtotal
+                    quoted_cost+=sale_line.product_uom_qty*sale_line.purchase_price      #Set quoted cost of sale orders lines
+                    quoted_price+=sale_line.price_subtotal                               #Set quoted price of sale orders lines
                 invoice.quoted_cost=quoted_cost
                 invoice.quoted_price=quoted_price
                 total_timesheet=0.0
@@ -457,34 +457,38 @@ class AccountInvoice(models.Model):
                 total_supplier_invoice=0.0
                 total_expense=0.0
                 total_backorder_cost=0.0
-                for issue in invoice.order_ids.issue_ids:
+                for issue in invoice.order_ids.issue_ids:                               #Run issues in sale order
                     account_obj=self.env['account.analytic.account']
-                    for timesheet in issue.timesheet_ids:
+                    for timesheet in issue.timesheet_ids:                               #Run timesheets for set cost and price
                         for account_line in timesheet.line_id:
                             if not account_line.invoice_id:
                                 factor = self.pool.get('hr_timesheet_invoice.factor').browse(self._cr,self._uid,account_line.to_invoice.id)
                                 qty,mount=account_obj._get_invoice_price(account_line.account_id,account_line.date,timesheet.start_time,timesheet.end_time,issue.product_id.id,issue.categ_id.id,account_line.unit_amount,timesheet.service_type,timesheet.employee_id.id,factor)
+                                #Set a currency exchange rate for timesheets
                                 if account_line.account_id.pricelist_id.currency_id.id != invoice.currency_id.id:
                                     import_currency_rate=account_line.account_id.pricelist_id.currency_id.get_exchange_rate(invoice.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
                                 else:
                                     import_currency_rate = 1
-                                total_timesheet+=qty*mount*import_currency_rate*(100-factor.factor or 0.0) / 100.0
+                                total_timesheet+=qty*mount*import_currency_rate*(100-factor.factor or 0.0) / 100.0              #Set total of timesheets prices
                         if timesheet.employee_id.product_id:
+                            #Set a currency exchange rate for timesheets
                             if issue.company_id.currency_id.id != invoice.currency_id.id:
                                 import_currency_rate=issue.company.currency_id.get_exchange_rate(invoice.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
                             else:
                                 import_currency_rate = 1
-                            total_cost_timesheet+=((timesheet.end_time-timesheet.start_time)*timesheet.employee_id.product_id.standard_price)*import_currency_rate
-                    for backorder in issue.backorder_ids:
+                            total_cost_timesheet+=((timesheet.end_time-timesheet.start_time)*timesheet.employee_id.product_id.standard_price)*import_currency_rate             #Set total of timesheets cost
+                    for backorder in issue.backorder_ids:                   #Run backorders for set cost and price
                         if backorder.delivery_note_id and backorder.delivery_note_id.state!='cancel' and backorder.picking_type_id.code=='outgoing' and backorder.invoice_state!='invoiced' and backorder.state=='done':
                             for delivery_note_lines in backorder.delivery_note_id.note_lines:
+                                #Set a currency exchange rate for backorders
                                 if delivery_note_lines.note_id.currency_id.id != invoice.currency_id.id:
                                     import_currency_rate=delivery_note_lines.note_id.currency_id.get_exchange_rate(invoice.currency_id.id,date.strftime(date.today(), "%Y-%m-%d"))[0]
                                 else:
                                     import_currency_rate = 1
-                                total_backorder+=delivery_note_lines.quantity*delivery_note_lines.price_unit
+                                total_backorder+=delivery_note_lines.quantity*delivery_note_lines.price_unit              #Set total of backorders prices
                         if backorder.move_lines:
                             for move in backorder.move_lines:
+                                #Set a currency exchange rate for backorders
                                 if issue.company_id.currency_id.id != invoice.currency_id.id:
                                     import_currency_rate=issue.company.currency_id.get_exchange_rate(invoice.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
                                 else:
@@ -500,40 +504,42 @@ class AccountInvoice(models.Model):
                                         standart_price=(final_cost_quant/quantity)*import_currency_rate
                                     else:
                                         standart_price=0
-                                    total_backorder_cost+=standart_price*move.product_qty
-                for expense_line in issue.expense_line_ids:
+                                    total_backorder_cost+=standart_price*move.product_qty                 # Set total of backorders cost based in quants related
+                for expense_line in issue.expense_line_ids:               #Run expenses for set cost and price
                     if expense_line.expense_id.state=='done' or expense_line.expense_id.state=='paid':
                         for move_lines in expense_line.expense_id.account_move_id.line_id:
                             for lines in move_lines.analytic_lines:
+                                #Set a currency exchange rate for expense
                                 if expense_line.expense_id.currency_id.id != invoice.currency_id.id:
                                     import_currency_rate=expense_line.expense_id.currency_id.get_exchange_rate(invoice.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
                                 else:
                                     import_currency_rate = 1
-                                total_expense+=((lines.amount*-1)*import_currency_rate)*(100-factor.factor or 0.0) / 100.0
-                for invoice_lines in issue.account_invoice_line_ids:
+                                total_expense+=((lines.amount*-1)*import_currency_rate)*(100-factor.factor or 0.0) / 100.0   # Set total of expenses cost and price
+                for invoice_lines in issue.account_invoice_line_ids:     #Run supplier invoice for set cost and price
                     if invoice_lines.invoice_id.state in ('open','paid'):
+                        #Set a currency exchange rate for supplier invoices
                         if invoice_lines.invoice_id.currency_id.id != invoice.currency_id.id:
                             import_currency_rate=invoice_lines.invoice_id.currency_id.get_exchange_rate(invoice.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
                         else:
                             import_currency_rate = 1
-                        total_supplier_invoice+=invoice_lines.quantity*invoice_lines.price_unit*import_currency_rate
-                invoice.real_price=total_timesheet+total_backorder+total_expense+total_supplier_invoice
-                invoice.real_cost=total_cost_timesheet+total_backorder_cost+total_expense+total_supplier_invoice
-                invoice.expected_margin=invoice.quoted_price-invoice.quoted_cost
-                invoice.real_margin=invoice.real_price-invoice.real_cost
-                invoice.variation_cost=invoice.real_cost-invoice.quoted_cost
-                invoice.variation_price=invoice.real_price-invoice.quoted_price
-                invoice.variation_margin=invoice.real_margin-invoice.expected_margin
+                        total_supplier_invoice+=invoice_lines.quantity*invoice_lines.price_unit*import_currency_rate   # Set total of suplier invoices cost and price
+                invoice.real_price=total_timesheet+total_backorder+total_expense+total_supplier_invoice          #Compute a real price
+                invoice.real_cost=total_cost_timesheet+total_backorder_cost+total_expense+total_supplier_invoice #Compute real cost
+                invoice.expected_margin=invoice.quoted_price-invoice.quoted_cost                                 #Compute expected margin
+                invoice.real_margin=invoice.real_price-invoice.real_cost                                         #Compute real margin
+                invoice.variation_cost=invoice.real_cost-invoice.quoted_cost                                      #Compute variation cost
+                invoice.variation_price=invoice.real_price-invoice.quoted_price                                  #Compute variation price
+                invoice.variation_margin=invoice.real_margin-invoice.expected_margin                             #Compute variation margin
                 if invoice.quoted_cost!=0:
-                    invoice.porcent_variation_cost=(invoice.real_cost-invoice.quoted_cost)/invoice.quoted_cost*100
+                    invoice.porcent_variation_cost=(invoice.real_cost-invoice.quoted_cost)/invoice.quoted_cost*100 #Compute Porcent variation cost
                 else:
                     invoice.porcent_variation_cost=0.0
                 if invoice.quoted_price!=0:
-                    invoice.porcent_variation_price=(invoice.real_price-invoice.quoted_price)/invoice.quoted_price*100
+                    invoice.porcent_variation_price=(invoice.real_price-invoice.quoted_price)/invoice.quoted_price*100 #Compute Porcent variation price
                 else:
                     invoice.porcent_variation_price=0.0
                 if invoice.expected_margin!=0:
-                    invoice.porcent_variation_margin=(invoice.real_margin-invoice.expected_margin)/invoice.expected_margin*100
+                    invoice.porcent_variation_margin=(invoice.real_margin-invoice.expected_margin)/invoice.expected_margin*100 #Compute Porcent variation margin
                 else:
                     invoice.porcent_variation_margin=0.0
         
