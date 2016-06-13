@@ -124,8 +124,8 @@ class AccountMoveLineDistribution(models.Model):
                 line or a budget move line
             """))
 
-    # Distribution amount must be less than compromised amount in budget move
-    # line
+    # Distribution amount must be less than compromised + executed amount in
+    # budget move line
     @api.one
     @api.constrains('distribution_amount')
     def _check_distribution_amount_budget(self):
@@ -134,12 +134,13 @@ class AccountMoveLineDistribution(models.Model):
         compromised = round(
             self.target_budget_move_line_id.compromised,
             self.env['decimal.precision'].precision_get('Account'))
-        
-        if abs(self.distribution_amount) > abs(compromised):
-            print "\n _check_distribution_amount_budget: ", compromised
+        executed = round(
+            self.target_budget_move_line_id.executed,
+            self.env['decimal.precision'].precision_get('Account'))
+        if abs(self.distribution_amount) > abs(compromised) + abs(executed):
             raise Warning(_("""
                 The distribution amount can not be greater than compromised
-                amount in budget move line selected: self.distri_amount %s , compro: %s
+                amount in budget move line selected
             """ % (self.distribution_amount, compromised)))
 
     @api.model

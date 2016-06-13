@@ -74,7 +74,7 @@ class BudgetMoveLine(models.Model):
             if line.state == 'reserved':
                     reserved = line.fixed_amount - _reversed
 
-            line.excecuted = executed
+            line.executed = executed
             line.compromised = compromised
             line.reversed = _reversed
             line.reserved = reserved
@@ -84,7 +84,6 @@ class BudgetMoveLine(models.Model):
                 'reversed': _reversed,
                 'reserved': reserved
             }
-        print "\n compute_values: ", res
         return res
 
     @api.multi
