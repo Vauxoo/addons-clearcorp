@@ -22,6 +22,7 @@
 
 from openerp.osv import osv, fields
 
+
 class MoveLine(osv.Model):
 
     _inherit = 'account.move.line'

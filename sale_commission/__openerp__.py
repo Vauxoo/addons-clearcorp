@@ -41,7 +41,7 @@ Main Features
     'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'complexity': 'normal',
-    'images' : [],
+    'images': [],
     'depends': [
                 'sale',
                 'account_invoice_discount',
@@ -56,7 +56,7 @@ Main Features
              'sale_commission_report.xml',
              'wizard/wizard.xml',
              ],
-    'test' : [],
+    'test': [],
     'demo': [],
     'installable': True,
     'auto_install': False,
