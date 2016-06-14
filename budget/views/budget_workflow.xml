@@ -163,21 +163,23 @@
             <field name="act_to" ref="act_bud_mov_in_execution"/>
             <field name="signal">button_execute</field>
         </record>
+
+        <record id="trans_bud_mov_executed_in_execution" model="workflow.transition">
+            <field name="act_from" ref="act_bud_mov_executed"/>
+            <field name="act_to" ref="act_bud_mov_in_execution"/>
+            <field name="condition">is_in_execution()</field>
+            <field name="signal">button_check_execution</field>
+            <field name="sequence">10</field>
+        </record>
         
         <record id="trans_bud_mov_in_execution_executed" model="workflow.transition">
             <field name="act_from" ref="act_bud_mov_in_execution"/>
             <field name="act_to" ref="act_bud_mov_executed"/>
             <field name="condition">is_executed()</field>
             <field name="signal">button_check_execution</field>
+            <field name="sequence">50</field>
         </record>
-        
-        <record id="trans_bud_mov_executed_in_execution" model="workflow.transition">
-            <field name="act_from" ref="act_bud_mov_executed"/>
-            <field name="act_to" ref="act_bud_mov_in_execution"/>
-            <field name="condition">is_in_execution()</field>
-            <field name="signal">button_check_execution</field>
-        </record>
-        
+
         <record id="trans_bud_mov_reserved_canceled" model="workflow.transition">
             <field name="act_from" ref="act_bud_mov_reserved"/>
             <field name="act_to" ref="act_bud_mov_canceled"/>

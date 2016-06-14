@@ -41,14 +41,6 @@ class BudgetMove(models.Model):
         return True if self.env.context.get('standalone_move', False)\
             else False
 
-    @api.one
-    def _default_budget_moves_distribution_lines(self):
-        dist_lines_ids = []
-        for moves in self.move_lines:
-            for dist in moves.budget_move_line_dist:
-                dist_lines_ids.append(dist.id)
-        return dist_lines_ids
-
     code = fields.Char('Code', size=64, )
     name = fields.Char(related='code')
     origin = fields.Char(
@@ -95,7 +87,8 @@ class BudgetMove(models.Model):
     move_lines = fields.One2many(
         'budget.move.line', 'budget_move_id', string='Move lines')
     budget_move_line_dist = fields.One2many(
-        related='move_lines.budget_move_line_dist',
+        'account.move.line.distribution',
+        compute='_compute_move_lines_dist',
         string='Account Move Line Distribution')
     type = fields.Selection(
         selection='_select_types', string='Move Type', required=True,
@@ -107,6 +100,14 @@ class BudgetMove(models.Model):
         'company_id': lambda self: self.env.user.company_id.id
     }
 
+    @api.one
+    def _compute_move_lines_dist(self):
+        dist_lines_ids = []
+        for move in self.move_lines:
+            for dist in move.budget_move_line_dist:
+                dist_lines_ids.append(dist.id)
+        self.budget_move_line_dist = list(set(dist_lines_ids))
+
     @api.multi
     def distribution_get(self):
         amld_obj = self.env['account.move.line.distribution']
@@ -116,7 +117,7 @@ class BudgetMove(models.Model):
             for bud_move_line in move.move_lines:
                 search_ids = amld_obj.search(
                     [('target_budget_move_line_id', '=', bud_move_line.id)])
-            result += search_ids._ids
+                result += search_ids._ids
         return result
 
     @api.one
@@ -386,6 +387,8 @@ class BudgetMove(models.Model):
     @api.one
     def write(self, vals):
         super(BudgetMove, self).write(vals)
+        if 'state' in vals.keys() and vals['state']=='executed':
+            raise Warning("executed" + str(vals))
         if self.state in ('reserved', 'draft') and self.standalone_move:
             res_amount = 0
             for line in self.move_lines:
@@ -440,7 +443,6 @@ class BudgetMove(models.Model):
     def action_execute(self):
         self.write({'state': 'executed'})
         self.recalculate_values()
-        self.write({'state': 'executed'})
         return True
 
     @api.one

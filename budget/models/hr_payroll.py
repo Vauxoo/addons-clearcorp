@@ -96,6 +96,7 @@ class HRPayslip(models.Model):
                             payslip_line_debit_budget_program_id
                     obj_bud_line.create(vals)
             bud_move.write({'fixed_amount': payslip_total})
+            bud_move.signal_workflow('button_reserve')
             bud_move.signal_workflow('button_compromise')
             bud_move.signal_workflow('button_execute')
         return result
