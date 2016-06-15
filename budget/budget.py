@@ -1015,11 +1015,11 @@ class budget_move(osv.osv):
         for move in self.browse(cr, uid, ids, context=context):
             if  move.type in ('invoice_in','manual_invoice_in','expense', 'opening','extension') and move.fixed_amount <= 0:
                 return [False,_('The reserved amount must be positive')]
-            if  move.type in ('payroll') and move.fixed_amount < 0:
+            if  move.type == 'payroll' and move.fixed_amount < 0:
                 return [False,_('The reserved amount must be positive')]
             if  move.type in ('invoice_out','manual_invoice_out') and move.fixed_amount >= 0:
                 return [False,_('The reserved amount must be negative')]
-            if  move.type in ('modifications') and move.fixed_amount != 0:
+            if  move.type == 'modifications' and move.fixed_amount != 0:
                 return [False,_('The sum of addition and subtractions from program lines must be zero')]
             
             #Check if exist a repeated program_line
