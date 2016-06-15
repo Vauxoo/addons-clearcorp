@@ -387,8 +387,6 @@ class BudgetMove(models.Model):
     @api.one
     def write(self, vals):
         super(BudgetMove, self).write(vals)
-        if 'state' in vals.keys() and vals['state']=='executed':
-            raise Warning("executed" + str(vals))
         if self.state in ('reserved', 'draft') and self.standalone_move:
             res_amount = 0
             for line in self.move_lines:

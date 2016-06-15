@@ -167,7 +167,7 @@
         <record id="trans_bud_mov_executed_in_execution" model="workflow.transition">
             <field name="act_from" ref="act_bud_mov_executed"/>
             <field name="act_to" ref="act_bud_mov_in_execution"/>
-            <field name="condition">is_in_execution()</field>
+            <field name="condition">is_in_execution()[0]</field>
             <field name="signal">button_check_execution</field>
             <field name="sequence">10</field>
         </record>
@@ -175,7 +175,7 @@
         <record id="trans_bud_mov_in_execution_executed" model="workflow.transition">
             <field name="act_from" ref="act_bud_mov_in_execution"/>
             <field name="act_to" ref="act_bud_mov_executed"/>
-            <field name="condition">is_executed()</field>
+            <field name="condition">is_executed()[0]</field>
             <field name="signal">button_check_execution</field>
             <field name="sequence">50</field>
         </record>
