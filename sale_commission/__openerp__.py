@@ -4,22 +4,10 @@
 
 {
     'name': 'Sale Commission',
-    'version': '1.0',
+    'version': '8.0.1.1',
     'category': 'Sales Management',
     'sequence': 3,
     'summary': 'Commissions over Sales',
-    'description': """
-Commissions Rules for Sales
-===========================
-This module allow Sale Manager to define commission rules based on preset
-conditions.
-
-Main Features
--------------
-* Commission Percentage
-* Post-Expiration Day
-* Conditions based on Pricelist, Payment Terms, Amount of Sales, etc.
-""",
     'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'complexity': 'normal',
