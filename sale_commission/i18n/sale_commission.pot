@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-22 15:24+0000\n"
-"PO-Revision-Date: 2014-12-22 15:24+0000\n"
+"POT-Creation-Date: 2016-06-15 16:43+0000\n"
+"PO-Revision-Date: 2016-06-15 16:43+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -38,6 +38,7 @@ msgstr ""
 
 #. module: sale_commission
 #: view:sale.commission.commission:sale_commission.view_commission_form
+#: view:sale.commission.modify.wizard:sale_commission.view_modify_wizard_form
 #: view:sale.commission.pay.wizard:sale_commission.view_pay_wizard_form
 msgid "Cancel"
 msgstr ""
@@ -105,7 +106,7 @@ msgid "Commissions"
 msgstr ""
 
 #. module: sale_commission
-#: code:addons/sale_commission/sale_commission.py:151
+#: code:addons/sale_commission/sale_commission.py:159
 #, python-format
 msgid "Commissions can not be copied in order to maintain integrity with the payments."
 msgstr ""
@@ -122,14 +123,41 @@ msgid "Conditions"
 msgstr ""
 
 #. module: sale_commission
-#: code:addons/sale_commission/wizard/pay_wizard.py:316
+#: code:addons/sale_commission/wizard/pay_wizard.py:351
 #, python-format
 msgid "Created Commissions"
 msgstr ""
 
 #. module: sale_commission
+#: field:sale.commission.commission,create_uid:0
+#: field:sale.commission.modify.wizard,create_uid:0
+#: field:sale.commission.pay.wizard,create_uid:0
+#: field:sale.commission.rule,create_uid:0
+#: field:sale.commission.rule.line,create_uid:0
+msgid "Created by"
+msgstr ""
+
+#. module: sale_commission
+#: field:sale.commission.commission,create_date:0
+#: field:sale.commission.modify.wizard,create_date:0
+#: field:sale.commission.pay.wizard,create_date:0
+#: field:sale.commission.rule,create_date:0
+#: field:sale.commission.rule.line,create_date:0
+msgid "Created on"
+msgstr ""
+
+#. module: sale_commission
 #: field:sale.commission.commission,currency_id:0
 msgid "Currency"
+msgstr ""
+
+#. module: sale_commission
+#: field:sale.commission.commission,display_name:0
+#: field:sale.commission.modify.wizard,display_name:0
+#: field:sale.commission.pay.wizard,display_name:0
+#: field:sale.commission.rule,display_name:0
+#: field:sale.commission.rule.line,display_name:0
+msgid "Display Name"
 msgstr ""
 
 #. module: sale_commission
@@ -149,7 +177,7 @@ msgid "Expired"
 msgstr ""
 
 #. module: sale_commission
-#: code:addons/sale_commission/sale_commission.py:150
+#: code:addons/sale_commission/sale_commission.py:158
 #, python-format
 msgid "Failed to copy the record"
 msgstr ""
@@ -167,6 +195,15 @@ msgstr ""
 #. module: sale_commission
 #: view:sale.commission.commission:sale_commission.view_commission_search
 msgid "Group By..."
+msgstr ""
+
+#. module: sale_commission
+#: field:sale.commission.commission,id:0
+#: field:sale.commission.modify.wizard,id:0
+#: field:sale.commission.pay.wizard,id:0
+#: field:sale.commission.rule,id:0
+#: field:sale.commission.rule.line,id:0
+msgid "ID"
 msgstr ""
 
 #. module: sale_commission
@@ -189,7 +226,35 @@ msgstr ""
 
 #. module: sale_commission
 #: model:ir.model,name:sale_commission.model_account_move_line
+#: field:res.users,journal_item_count:0
 msgid "Journal Items"
+msgstr ""
+
+#. module: sale_commission
+#: field:sale.commission.commission,__last_update:0
+#: field:sale.commission.modify.wizard,__last_update:0
+#: field:sale.commission.pay.wizard,__last_update:0
+#: field:sale.commission.rule,__last_update:0
+#: field:sale.commission.rule.line,__last_update:0
+msgid "Last Modified on"
+msgstr ""
+
+#. module: sale_commission
+#: field:sale.commission.commission,write_uid:0
+#: field:sale.commission.modify.wizard,write_uid:0
+#: field:sale.commission.pay.wizard,write_uid:0
+#: field:sale.commission.rule,write_uid:0
+#: field:sale.commission.rule.line,write_uid:0
+msgid "Last Updated by"
+msgstr ""
+
+#. module: sale_commission
+#: field:sale.commission.commission,write_date:0
+#: field:sale.commission.modify.wizard,write_date:0
+#: field:sale.commission.pay.wizard,write_date:0
+#: field:sale.commission.rule,write_date:0
+#: field:sale.commission.rule.line,write_date:0
+msgid "Last Updated on"
 msgstr ""
 
 #. module: sale_commission
@@ -271,6 +336,12 @@ msgid "Pay Commission"
 msgstr ""
 
 #. module: sale_commission
+#: model:ir.actions.act_window,name:sale_commission.action_modify_wizard
+#: view:sale.commission.modify.wizard:sale_commission.view_modify_wizard_form
+msgid "Pay Commissions"
+msgstr ""
+
+#. module: sale_commission
 #: view:sale.commission.pay.wizard:sale_commission.view_pay_wizard_form
 msgid "Pay Wizard"
 msgstr ""
@@ -314,6 +385,11 @@ msgid "Pricelist"
 msgstr ""
 
 #. module: sale_commission
+#: field:res.users,property_product_pricelist_purchase:0
+msgid "Purchase Pricelist"
+msgstr ""
+
+#. module: sale_commission
 #: help:account.invoice,post_expiration_days:0
 #: help:sale.commission.rule,post_expiration_days:0
 msgid "Quantity of days of tolerance between the invoice due date and the payment date."
@@ -354,6 +430,12 @@ msgid "Salesperson"
 msgstr ""
 
 #. module: sale_commission
+#: code:addons/sale_commission/wizard/modify_commission_wizard.py:23
+#, python-format
+msgid "Selected commission(s) cannot be paid as they are not in \"New\" state."
+msgstr ""
+
+#. module: sale_commission
 #: field:sale.commission.rule.line,sequence:0
 msgid "Sequence"
 msgstr ""
@@ -368,6 +450,11 @@ msgstr ""
 #: field:sale.commission.commission,state:0
 #: view:website:sale_commission.report_sale_commission
 msgid "State"
+msgstr ""
+
+#. module: sale_commission
+#: view:sale.commission.modify.wizard:sale_commission.view_modify_wizard_form
+msgid "This wizard allows you to pay commissions in bulk."
 msgstr ""
 
 #. module: sale_commission
@@ -427,6 +514,18 @@ msgid "Value must be greater than 0."
 msgstr ""
 
 #. module: sale_commission
+#: view:sale.commission.modify.wizard:sale_commission.view_modify_wizard_form
 #: view:sale.commission.pay.wizard:sale_commission.view_pay_wizard_form
 msgid "or"
 msgstr ""
+
+#. module: sale_commission
+#: view:account.invoice:sale_commission.view_account_invoice_group_form
+msgid "{'invisible':[('force_commission','=',False)],'required':[('force_commission','=',True)],'readonly':[('state','not in','draft')]}"
+msgstr ""
+
+#. module: sale_commission
+#: view:account.invoice:sale_commission.view_account_invoice_group_form
+msgid "{'readonly':[('state','not in','draft')]}"
+msgstr ""
+

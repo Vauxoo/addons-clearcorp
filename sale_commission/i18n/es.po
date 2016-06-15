@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-22 15:24+0000\n"
-"PO-Revision-Date: 2014-12-22 15:24+0000\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2016-06-15 16:43+0000\n"
+"PO-Revision-Date: 2016-06-15 16:43+0000\n"
+"Last-Translator: Glen Sojo <glen.sojo@clearcorp.co.cr>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,6 +38,7 @@ msgstr "Monto base"
 
 #. module: sale_commission
 #: view:sale.commission.commission:sale_commission.view_commission_form
+#: view:sale.commission.modify.wizard:sale_commission.view_modify_wizard_form
 #: view:sale.commission.pay.wizard:sale_commission.view_pay_wizard_form
 msgid "Cancel"
 msgstr "Descartar"
@@ -105,7 +106,7 @@ msgid "Commissions"
 msgstr "Comisiones"
 
 #. module: sale_commission
-#: code:addons/sale_commission/sale_commission.py:151
+#: code:addons/sale_commission/sale_commission.py:159
 #, python-format
 msgid "Commissions can not be copied in order to maintain integrity with the payments."
 msgstr "Las comisiones no pueden ser copiadas con el fin de mantener la integridad con los pagos."
@@ -122,15 +123,42 @@ msgid "Conditions"
 msgstr "Condiciones"
 
 #. module: sale_commission
-#: code:addons/sale_commission/wizard/pay_wizard.py:316
+#: code:addons/sale_commission/wizard/pay_wizard.py:351
 #, python-format
 msgid "Created Commissions"
 msgstr "Comisiones creadas"
 
 #. module: sale_commission
+#: field:sale.commission.commission,create_uid:0
+#: field:sale.commission.modify.wizard,create_uid:0
+#: field:sale.commission.pay.wizard,create_uid:0
+#: field:sale.commission.rule,create_uid:0
+#: field:sale.commission.rule.line,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: sale_commission
+#: field:sale.commission.commission,create_date:0
+#: field:sale.commission.modify.wizard,create_date:0
+#: field:sale.commission.pay.wizard,create_date:0
+#: field:sale.commission.rule,create_date:0
+#: field:sale.commission.rule.line,create_date:0
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: sale_commission
 #: field:sale.commission.commission,currency_id:0
 msgid "Currency"
 msgstr "Divisa"
+
+#. module: sale_commission
+#: field:sale.commission.commission,display_name:0
+#: field:sale.commission.modify.wizard,display_name:0
+#: field:sale.commission.pay.wizard,display_name:0
+#: field:sale.commission.rule,display_name:0
+#: field:sale.commission.rule.line,display_name:0
+msgid "Display Name"
+msgstr "Nombre para mostrar"
 
 #. module: sale_commission
 #: view:website:sale_commission.report_sale_commission
@@ -149,10 +177,10 @@ msgid "Expired"
 msgstr "Vencida"
 
 #. module: sale_commission
-#: code:addons/sale_commission/sale_commission.py:150
+#: code:addons/sale_commission/sale_commission.py:158
 #, python-format
 msgid "Failed to copy the record"
-msgstr "Fallo al copiar el registro"
+msgstr "Falló al copiar el registro"
 
 #. module: sale_commission
 #: field:account.invoice,force_commission:0
@@ -170,6 +198,15 @@ msgid "Group By..."
 msgstr "Agrupar por..."
 
 #. module: sale_commission
+#: field:sale.commission.commission,id:0
+#: field:sale.commission.modify.wizard,id:0
+#: field:sale.commission.pay.wizard,id:0
+#: field:sale.commission.rule,id:0
+#: field:sale.commission.rule.line,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: sale_commission
 #: model:ir.model,name:sale_commission.model_account_invoice
 #: view:sale.commission.commission:sale_commission.view_commission_search
 #: field:sale.commission.commission,invoice_id:0
@@ -180,7 +217,7 @@ msgstr "Factura"
 #: field:sale.commission.commission,date_invoice:0
 #: view:website:sale_commission.report_sale_commission
 msgid "Invoice Date"
-msgstr "Fecha de factura"
+msgstr "Fecha factura"
 
 #. module: sale_commission
 #: model:ir.model,name:sale_commission.model_account_journal
@@ -189,8 +226,36 @@ msgstr "Diario"
 
 #. module: sale_commission
 #: model:ir.model,name:sale_commission.model_account_move_line
+#: field:res.users,journal_item_count:0
 msgid "Journal Items"
 msgstr "Apuntes contables"
+
+#. module: sale_commission
+#: field:sale.commission.commission,__last_update:0
+#: field:sale.commission.modify.wizard,__last_update:0
+#: field:sale.commission.pay.wizard,__last_update:0
+#: field:sale.commission.rule,__last_update:0
+#: field:sale.commission.rule.line,__last_update:0
+msgid "Last Modified on"
+msgstr "Última modificación el"
+
+#. module: sale_commission
+#: field:sale.commission.commission,write_uid:0
+#: field:sale.commission.modify.wizard,write_uid:0
+#: field:sale.commission.pay.wizard,write_uid:0
+#: field:sale.commission.rule,write_uid:0
+#: field:sale.commission.rule.line,write_uid:0
+msgid "Last Updated by"
+msgstr "Última modificación por"
+
+#. module: sale_commission
+#: field:sale.commission.commission,write_date:0
+#: field:sale.commission.modify.wizard,write_date:0
+#: field:sale.commission.pay.wizard,write_date:0
+#: field:sale.commission.rule,write_date:0
+#: field:sale.commission.rule.line,write_date:0
+msgid "Last Updated on"
+msgstr "Última actualización el"
 
 #. module: sale_commission
 #: help:sale.commission.rule.line,sequence:0
@@ -271,6 +336,12 @@ msgid "Pay Commission"
 msgstr "Pagar comisión"
 
 #. module: sale_commission
+#: model:ir.actions.act_window,name:sale_commission.action_modify_wizard
+#: view:sale.commission.modify.wizard:sale_commission.view_modify_wizard_form
+msgid "Pay Commissions"
+msgstr "Pagar comisiones"
+
+#. module: sale_commission
 #: view:sale.commission.pay.wizard:sale_commission.view_pay_wizard_form
 msgid "Pay Wizard"
 msgstr "Asistente de pago"
@@ -314,6 +385,11 @@ msgid "Pricelist"
 msgstr "Tarifa"
 
 #. module: sale_commission
+#: field:res.users,property_product_pricelist_purchase:0
+msgid "Purchase Pricelist"
+msgstr "Purchase Pricelist"
+
+#. module: sale_commission
 #: help:account.invoice,post_expiration_days:0
 #: help:sale.commission.rule,post_expiration_days:0
 msgid "Quantity of days of tolerance between the invoice due date and the payment date."
@@ -354,6 +430,12 @@ msgid "Salesperson"
 msgstr "Comercial"
 
 #. module: sale_commission
+#: code:addons/sale_commission/wizard/modify_commission_wizard.py:23
+#, python-format
+msgid "Selected commission(s) cannot be paid as they are not in \"New\" state."
+msgstr "Las comisiones seleccionadas no pueden ser pagadas ya que no se encuentran en el estado \"Nueva\"."
+
+#. module: sale_commission
 #: field:sale.commission.rule.line,sequence:0
 msgid "Sequence"
 msgstr "Secuencia"
@@ -369,6 +451,11 @@ msgstr "La secuencia debe ser única para cada línea en una regla de comisión.
 #: view:website:sale_commission.report_sale_commission
 msgid "State"
 msgstr "Estado"
+
+#. module: sale_commission
+#: view:sale.commission.modify.wizard:sale_commission.view_modify_wizard_form
+msgid "This wizard allows you to pay commissions in bulk."
+msgstr "Este asistente te permite pagar comisiones en bulto."
 
 #. module: sale_commission
 #: view:website:sale_commission.report_sale_commission
@@ -427,6 +514,18 @@ msgid "Value must be greater than 0."
 msgstr "El valor debe ser mayor que 0."
 
 #. module: sale_commission
+#: view:sale.commission.modify.wizard:sale_commission.view_modify_wizard_form
 #: view:sale.commission.pay.wizard:sale_commission.view_pay_wizard_form
 msgid "or"
 msgstr "o"
+
+#. module: sale_commission
+#: view:account.invoice:sale_commission.view_account_invoice_group_form
+msgid "{'invisible':[('force_commission','=',False)],'required':[('force_commission','=',True)],'readonly':[('state','not in','draft')]}"
+msgstr "{'invisible':[('force_commission','=',False)],'required':[('force_commission','=',True)],'readonly':[('state','not in','draft')]}"
+
+#. module: sale_commission
+#: view:account.invoice:sale_commission.view_account_invoice_group_form
+msgid "{'readonly':[('state','not in','draft')]}"
+msgstr "{'readonly':[('state','not in','draft')]}"
+
