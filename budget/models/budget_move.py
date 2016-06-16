@@ -320,12 +320,12 @@ class BudgetMove(models.Model):
                     'invoice_in', 'manual_invoice_in', 'expense', 'opening',
                     'extension') and move.fixed_amount <= 0:
                 return [False, _('The reserved amount must be positive')]
-            if move.type in ('payroll') and move.fixed_amount < 0:
+            if move.type == 'payroll' and move.fixed_amount < 0:
                 return [False, _('The reserved amount must be positive')]
             if move.type in ('invoice_out', 'manual_invoice_out') and\
                     move.fixed_amount >= 0:
                 return [False, _('The reserved amount must be negative')]
-            if move.type in ('modifications') and move.fixed_amount != 0:
+            if move.type == 'modifications' and move.fixed_amount != 0:
                 return [False, _(
                     """The sum of addition and subtractions
                         from program lines must be zero""")]
