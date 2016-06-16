@@ -210,10 +210,19 @@ class AccountInvoiceLine(models.Model):
     invoice_from_order = fields.Boolean(
         compute='_check_from_order', string='From order')
     line_available = fields.Float(
-        'Line available', digits=dp.get_precision('Account'), readonly=True)
+        'Line available', digits=dp.get_precision('Account'), readonly=True,
+        compute='_compute_line_available', store=True)
     subtotal_discounted_taxed = fields.Float(
         compute='_subtotal_discounted_taxed',
         digits=dp.get_precision('Account'), string='Subtotal')
+
+    @api.one
+    @api.depends('program_line_id')
+    def _compute_line_available(self):
+        res_amount = 0.0
+        for line in self.program_line_id:
+            res_amount += line.available_budget
+        self.line_available = res_amount
 
     @api.one
     def _check_from_order(self):
