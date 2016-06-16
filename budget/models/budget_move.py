@@ -357,6 +357,16 @@ class BudgetMove(models.Model):
                         'invoice_in', 'manual'):
                     if line.program_line_id.available_budget <\
                             line.fixed_amount:
+                        query = """SELECT id, fixed_amount FROM
+                            budget_move_line WHERE id=%s"""
+                        new_cr = self.pool.cursor()
+                        new_cr.execute(query, (line.id,))
+                        res_query = new_cr.dictfetchall()[0]
+                        new_cr.close()
+                        if (line.program_line_id.available_budget +
+                                res_query['fixed_amount']) >=\
+                                line.fixed_amount:
+                            return [True, '']
                         return [False, _(
                             """The amount to substract from %s is greater
                             than the available""" % line.program_line_id.name)]

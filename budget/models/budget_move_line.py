@@ -21,6 +21,7 @@ class BudgetMoveLine(models.Model):
             res_amount += line.available_budget
         self.line_available = res_amount
 
+
     @api.one
     @api.depends(
         'program_line_id', 'date', 'state', 'executed', 'compromised',
@@ -214,7 +215,7 @@ class BudgetMoveLine(models.Model):
         You cannot create a budget move line from an cancel or closed plan"""))
         return super(BudgetMoveLine, self).create(vals)
 
-    @api.multi
+    @api.one
     def write(self, vals):
         for bud_move_line in self:
             if bud_move_line.program_line_id.program_id.plan_id.state in (
