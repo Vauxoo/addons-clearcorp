@@ -9,8 +9,8 @@ from openerp.exceptions import Warning
 import openerp.addons.decimal_precision as dp
 
 
-class BudgetMove(models.Model):
-    _name = "budget.move"
+class CashBudgetMove(models.Model):
+    _name = "cash.budget.move"
     _description = "Budget Move"
 
     STATE_SELECTION = [
@@ -47,7 +47,7 @@ class BudgetMove(models.Model):
         'Origin', size=64, readonly=True,
         states={'draft': [('readonly', False)]})
     program_line_id = fields.Many2one(
-        'budget.program.line', 'Program line', readonly=True,
+        'cash.budget.program.line', 'Program line', readonly=True,
         states={'draft': [('readonly', False)]})
     date = fields.Datetime(
         string='Date created', required=True, readonly=True,
@@ -85,7 +85,7 @@ class BudgetMove(models.Model):
     account_invoice_ids = fields.One2many(
         'account.invoice', 'budget_move_id', string='Invoices')
     move_lines = fields.One2many(
-        'budget.move.line', 'budget_move_id', string='Move lines')
+        'cash.budget.move.line', 'budget_move_id', string='Move lines')
     budget_move_line_dist = fields.One2many(
         'account.move.line.distribution',
         compute='_compute_move_lines_dist',
@@ -93,7 +93,7 @@ class BudgetMove(models.Model):
     type = fields.Selection(
         selection='_select_types', string='Move Type', required=True,
         readonly=True, states={'draft': [('readonly', False)]})
-    previous_move_id = fields.Many2one('budget.move', 'Previous move')
+    previous_move_id = fields.Many2one('cash.budget.move', 'Previous move')
     from_migration = fields.Boolean('Created from migration')
 
     _defaults = {
@@ -213,7 +213,7 @@ class BudgetMove(models.Model):
 
     def _get_budget_moves_from_lines(self, cr, uid, ids, context=None):
         if ids:
-            lines_obj = self.pool.get('budget.move.line')
+            lines_obj = self.pool.get('cash.budget.move.line')
             lines = lines_obj.browse(cr, uid, ids, context=context)
             budget_move_ids = []
             for line in lines:
@@ -225,8 +225,8 @@ class BudgetMove(models.Model):
 
     # Store triggers for functional fields
     STORE = {
-        'budget.move': (lambda self, cr, uid, ids, context={}: ids, [], 10),
-        'budget.move.line': (_get_budget_moves_from_lines, [], 10),
+        'cash.budget.move': (lambda self, cr, uid, ids, context={}: ids, [], 10),
+        'cash.budget.move.line': (_get_budget_moves_from_lines, [], 10),
         'account.move.line.distribution': (_get_budget_moves_from_dist, [], 10)
     }
 
@@ -239,7 +239,7 @@ class BudgetMove(models.Model):
            'hr.payslip',
            'purchase.order',
         ]
-        obj_bud_line = self.env['budget.move.line']
+        obj_bud_line = self.env['cash.budget.move.line']
         for move in self.browse(move_ids):
             vals = {
                 'origin': move.origin,
@@ -374,12 +374,12 @@ class BudgetMove(models.Model):
 
     @api.model
     def create(self, vals):
-        bud_program_lines_obj = self.env['budget.program.line']
+        bud_program_lines_obj = self.env['cash.budget.program.line']
         bud_program_lines = []
         if 'code' not in vals.keys():
-            vals['code'] = self.env['ir.sequence'].get('budget.move')
+            vals['code'] = self.env['ir.sequence'].get('cash.budget.move')
         elif vals['code'] is None or vals['code'] == '':
-            vals['code'] = self.env['ir.sequence'].get('budget.move')
+            vals['code'] = self.env['ir.sequence'].get('cash.budget.move')
         # Extract program_line_id from values
         # (move_lines is a budget move line list)
         for bud_line in vals.get('move_lines', []):

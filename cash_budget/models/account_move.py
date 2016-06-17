@@ -16,7 +16,7 @@ class AccountMove(models.Model):
         ('budget', 'Budget move'),
     ]
 
-    budget_move_id = fields.Many2one('budget.move', 'Budget move')
+    budget_move_id = fields.Many2one('cash.budget.move', 'Budget move')
     budget_type = fields.Selection(OPTIONS, 'budget_type', readonly=True)
 
     @api.one
@@ -36,8 +36,8 @@ class AccountMove(models.Model):
 
     @api.one
     def create_budget_moves(self):
-        bud_mov_obj = self.env['budget.move']
-        bud_line_obj = self.env['budget.move.line']
+        bud_mov_obj = self.env['cash.budget.move']
+        bud_line_obj = self.env['cash.budget.move.line']
         created_move_ids = []
         res_check_moves_budget = self.check_moves_budget()[0]
         if res_check_moves_budget:

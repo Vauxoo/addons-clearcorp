@@ -19,7 +19,7 @@ class AccountMoveLineDistribution(models.Model):
         [('liquid', 'Liquid'), ('void', 'Void')], string='Budget Type',
         select=True)
     target_budget_move_line_id = fields.Many2one(
-        'budget.move.line', 'Target Budget Move Line',)
+        'cash.budget.move.line', 'Target Budget Move Line',)
     type = fields.Selection(
         [('manual', 'Manual'), ('auto', 'Automatic')],
         string='Distribution Type', select=True, default='manual')
@@ -99,7 +99,7 @@ class AccountMoveLineDistribution(models.Model):
     @api.one
     @api.constrains('distribution_amount')
     def _check_plan_distribution_line(self):
-        plan_obj = self.env['budget.plan']
+        plan_obj = self.env['cash.budget.plan']
         # Get plan for distribution lines
         result = self.get_plan_for_distributions(self._ids)
         # Check plan's state
@@ -166,7 +166,7 @@ class AccountMoveLineDistribution(models.Model):
 
     @api.one
     def write(self, vals):
-        plan_obj = self.env['budget.plan']
+        plan_obj = self.env['cash.budget.plan']
 
         # Get plan for distribution lines
         result = self.get_plan_for_distributions(self._ids)
@@ -181,8 +181,8 @@ class AccountMoveLineDistribution(models.Model):
 
     @api.one
     def unlink(self, is_incremental=False):
-        plan_obj = self.env['budget.plan']
-        bud_move_obj = self.env['budget.move']
+        plan_obj = self.env['cash.budget.plan']
+        bud_move_obj = self.env['cash.budget.move']
         if self:
             result = self.get_plan_for_distributions(self._ids)
             # Check plan's state

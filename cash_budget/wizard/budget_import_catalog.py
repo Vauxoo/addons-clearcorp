@@ -13,7 +13,7 @@ class budget_import_catalog(osv.osv_memory):
     _name = 'budget.import.catalog'
     
     _columns = {
-        'parent_account': fields.many2one('budget.account', 'Catalog parent', domain=[('account_type','in',('view','institutional')), ('parent_id','=',False), ('active','=','True')]),
+        'parent_account': fields.many2one('cash.budget.account', 'Catalog parent', domain=[('account_type','in',('view','institutional')), ('parent_id','=',False), ('active','=','True')]),
         'catalog_file':fields.binary('File', filters = '*.csv')
         }
          
@@ -39,7 +39,7 @@ class budget_import_catalog(osv.osv_memory):
             if context is None:
                 context = {}
             logger = logging.getLogger('budget.import.catalog')
-            account_obj= self.pool.get('budget.account')
+            account_obj= self.pool.get('cash.budget.account')
             account_list = [ ]#list of dictionaries
             data = self.browse(cr, uid, ids, context=context)[0]
             file_str = base64.decodestring(data.catalog_file)

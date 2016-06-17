@@ -110,7 +110,7 @@ class AccountMoveLine(models.Model):
 
     # =======Budget Move Line
     budget_move_lines = fields.One2many(
-        'budget.move.line', 'move_line_id', 'Budget Move Lines')
+        'cash.budget.move.line', 'move_line_id', 'Budget Move Lines')
 
     # =======Percentage y amount distribution
     distribution_percentage_sum = fields.Float(
@@ -131,4 +131,4 @@ class AccountMoveLine(models.Model):
 
     # ======budget program line
     budget_program_line = fields.Many2one(
-        'budget.program.line', 'Budget Program Line')
+        'cash.budget.program.line', 'Budget Program Line')

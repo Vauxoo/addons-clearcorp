@@ -6,7 +6,7 @@
 Goverment Institutions Budget
 =============================
 
-This module adds the logic for Goverment Institutions Budget management 
+This module adds the logic for Goverment Institutions Cash Budget management
 and it's differents processes
 
 

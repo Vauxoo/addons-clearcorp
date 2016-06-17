@@ -11,21 +11,21 @@ class HRSalaryRule(models.Model):
     _inherit = 'hr.salary.rule'
 
     debit_budget_program_line = fields.Many2one(
-        'budget.program.line', string='Debit Budget Program Line')
+        'cash.budget.program.line', string='Debit Budget Program Line')
     credit_budget_program_line = fields.Many2one(
-        'budget.program.line', string='Credit Budget Program Line')
+        'cash.budget.program.line', string='Credit Budget Program Line')
 
 
 class HRPayslip(models.Model):
 
     _inherit = 'hr.payslip'
 
-    budget_move_id = fields.Many2one('budget.move', 'Budget move')
+    budget_move_id = fields.Many2one('cash.budget.move', 'Budget move')
 
     @api.multi
     def process_sheet(self):
-        obj_bud_mov = self.env['budget.move']
-        obj_bud_line = self.env['budget.move.line']
+        obj_bud_mov = self.env['cash.budget.move']
+        obj_bud_line = self.env['cash.budget.move.line']
         for payslip in self:
             payslip_total = 0.0
             bud_move_id = obj_bud_mov.create(

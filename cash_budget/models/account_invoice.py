@@ -20,7 +20,7 @@ class account_invoice(models.Model):
             return res
 
     budget_move_id = fields.Many2one(
-        'budget.move', string='Budget move', readonly=True)
+        'cash.budget.move', string='Budget move', readonly=True)
     from_order = fields.Boolean('From order', default=_check_from_order)
 
     @api.one
@@ -39,7 +39,7 @@ class account_invoice(models.Model):
 
     @api.one
     def create_budget_move(self):
-        bud_move_obj = self.env['budget.move']
+        bud_move_obj = self.env['cash.budget.move']
         _type = False
         if self.type in ('in_invoice', 'out_refund'):
             _type = 'manual_invoice_in'
@@ -63,7 +63,7 @@ class account_invoice(models.Model):
     @api.model
     def create_budget_move_line_from_invoice(self, line_id, is_tax=False):
         inv_line_obj = self.env['account.invoice.line']
-        bud_line_obj = self.env['budget.move.line']
+        bud_line_obj = self.env['cash.budget.move.line']
         fixed_amount = 0.0
         invoice_line = inv_line_obj.browse(line_id)
         invoice = invoice_line.invoice_id
@@ -95,7 +95,7 @@ class account_invoice(models.Model):
     @api.model
     def create_budget_move_line_from_tax(self, line_id):
         acc_inv_tax_obj = self.env['account.invoice.tax']
-        bud_line_obj = self.env['budget.move.line']
+        bud_line_obj = self.env['cash.budget.move.line']
         fixed_amount = 0.0
         tax_line = acc_inv_tax_obj.browse(line_id)
         invoice = tax_line.invoice_id
@@ -128,7 +128,7 @@ class account_invoice(models.Model):
 
     @api.one
     def invoice_validate(self):
-        obj_bud_move_line = self.env['budget.move.line']
+        obj_bud_move_line = self.env['cash.budget.move.line']
         validate_result = super(account_invoice, self).invoice_validate()
         if not self._check_from_order():
             move_id = self.budget_move_id if self.budget_move_id else\
@@ -206,7 +206,7 @@ class AccountInvoiceLine(models.Model):
     _name = 'account.invoice.line'
     _inherit = 'account.invoice.line'
 
-    program_line_id = fields.Many2one('budget.program.line', 'Program line')
+    program_line_id = fields.Many2one('cash.budget.program.line', 'Program line')
     invoice_from_order = fields.Boolean(
         compute='_check_from_order', string='From order')
     line_available = fields.Float(

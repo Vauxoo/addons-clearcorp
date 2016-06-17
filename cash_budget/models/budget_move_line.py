@@ -9,8 +9,8 @@ from openerp.tools.translate import _
 import openerp.addons.decimal_precision as dp
 
 
-class BudgetMoveLine(models.Model):
-    _name = "budget.move.line"
+class CashBudgetMoveLine(models.Model):
+    _name = 'cash.budget.move.line'
     _description = "Budget Move Line"
 
     @api.one
@@ -137,12 +137,12 @@ class BudgetMoveLine(models.Model):
 
     origin = fields.Char(string='Origin', size=64)
     budget_move_id = fields.Many2one(
-        'budget.move', 'Budget Move', required=True, ondelete='cascade')
+        'cash.budget.move', 'Budget Move', required=True, ondelete='cascade')
     name = fields.Char(
         compute='_line_name', string='Name', store=True)
     code = fields.Char(related='origin', size=64, string='Origin')
     program_line_id = fields.Many2one(
-        'budget.program.line', 'Program line', required=True)
+        'cash.budget.program.line', 'Program line', required=True)
     date = fields.Datetime(
         'Date created', required=True,
         default=lambda self: fields.Datetime.now())
@@ -189,7 +189,7 @@ class BudgetMoveLine(models.Model):
         related='budget_move_line_dist.type', string="Distribution type")
     # =======Payslip lines
     previous_move_line_id = fields.Many2one(
-        'budget.move', 'Previous move line')
+        'cash.budget.move', 'Previous move line')
     from_migration = fields.Boolean(
         related='budget_move_id.from_migration', string='Transferred',
         readonly=True, default=False)
@@ -207,7 +207,7 @@ class BudgetMoveLine(models.Model):
 
     @api.model
     def create(self, vals):
-        program_line = self.env['budget.program.line'].browse(
+        program_line = self.env['cash.budget.program.line'].browse(
             vals['program_line_id'] or False)
         if program_line:
             if program_line.program_id.plan_id.state in ('cancel', 'closed'):

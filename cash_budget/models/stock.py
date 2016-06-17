@@ -11,8 +11,8 @@ class StockPicking(models.Model):
     @api.one
     def action_invoice_create(self, journal_id=False, group=False,
                               type='out_invoice'):
-        obj_bud_mov = self.env['budget.move']
-        obj_bud_line = self.env['budget.move.line']
+        obj_bud_mov = self.env['cash.budget.move']
+        obj_bud_line = self.env['cash.budget.move.line']
         purchase_line_obj = self.env['purchase.order.line']
         invoice_obj = self.env['account.invoice']
         invoices = super(StockPicking, self).action_invoice_create(

@@ -11,11 +11,11 @@ class sale_order(osv.osv):
     _inherit = 'sale.order'
     
     _columns= {
-    'budget_move_id': fields.many2one('budget.move', 'Budget move' )
+    'budget_move_id': fields.many2one('cash.budget.move', 'Budget move' )
     }
     
     def action_invoice_create(self, cr, uid, ids, grouped=False, states=None, date_invoice = False, context=None):
-        obj_bud_mov = self.pool.get('budget.move')
+        obj_bud_mov = self.pool.get('cash.budget.move')
         acc_inv_mov = self.pool.get('account.invoice')
         res = False
         for id in ids:
@@ -29,12 +29,12 @@ class sale_order(osv.osv):
         return res
     
     def create_budget_move(self,cr, uid, vals, context=None):
-        bud_move_obj = self.pool.get('budget.move')
+        bud_move_obj = self.pool.get('cash.budget.move')
         move_id = bud_move_obj.create(cr, uid, { 'type':'invoice_out' }, context=context)
         return move_id
     
     def create(self, cr, uid, vals, context=None):
-        obj_bud_move = self.pool.get('budget.move')
+        obj_bud_move = self.pool.get('cash.budget.move')
         move_id = self.create_budget_move(cr, uid, vals, context=context)
         vals['budget_move_id'] = move_id
         order_id =  super(sale_order, self).create(cr, uid, vals, context=context)
@@ -43,7 +43,7 @@ class sale_order(osv.osv):
         return order_id
     
     def write(self, cr, uid, ids, vals, context=None):
-        bud_move_obj = self.pool.get('budget.move')
+        bud_move_obj = self.pool.get('cash.budget.move')
         result = super(sale_order, self).write(cr, uid, ids, vals, context=context)
         for order in self.browse(cr, uid, ids, context=context):
             move_id = order.budget_move_id.id
@@ -68,7 +68,7 @@ class sale_order_line(osv.osv):
         return res
                                 
     _columns = {    
-    'program_line_id': fields.many2one('budget.program.line', 'Program line', required=True),
+    'program_line_id': fields.many2one('cash.budget.program.line', 'Program line', required=True),
     'subtotal_discounted_taxed': fields.function(_subtotal_discounted_taxed, digits_compute= dp.get_precision('Account'), string='Subtotal', ),
     }
     
@@ -76,8 +76,8 @@ class sale_order_line(osv.osv):
         
         sale_order_obj = self.pool.get('sale.order')
         sale_line_obj = self.pool.get('sale.order.line')
-        bud_move_obj = self.pool.get('budget.move')
-        bud_line_obj = self.pool.get('budget.move.line')
+        bud_move_obj = self.pool.get('cash.budget.move')
+        bud_line_obj = self.pool.get('cash.budget.move.line')
         
         so_id = vals['order_id'] 
         order = sale_order_obj.browse(cr, uid, [so_id], context=context)[0]
@@ -98,7 +98,7 @@ class sale_order_line(osv.osv):
 #    
     def write(self, cr, uid, ids, vals, context=None):
         
-        bud_line_obj = self.pool.get('budget.move.line')
+        bud_line_obj = self.pool.get('cash.budget.move.line')
         result = super(sale_order_line, self).write(cr, uid, ids, vals, context=context) 
         for line in self.browse(cr, uid, ids, context=context):
             search_result = bud_line_obj.search(cr, uid,[('so_line_id','=', line.id)], context=context) 

@@ -32,7 +32,7 @@ class purchase_order(osv.osv):
     
     _columns = {
         'reserved_amount' : fields.float('Reserved', digits=(12,3), readonly=True, ),
-        'budget_move_id': fields.many2one('budget.move', 'Budget move'),
+        'budget_move_id': fields.many2one('cash.budget.move', 'Budget move'),
         'state': fields.selection(STATE_SELECTION, 'Status', readonly=True, help="The status of the purchase order or the quotation request. A quotation is a purchase order in a 'Draft' status. Then the order has to be confirmed by the user, the status switch to 'Confirmed'. Then the supplier must confirm the order to change the status to 'Approved'. When the purchase order is paid and received, the status becomes 'Done'. If a cancel action occurs in the invoice or in the reception of goods, the status becomes in exception.", select=True),
         'partner_id':fields.many2one('res.partner', 'Supplier', states={'confirmed':[('readonly',True)], 'approved':[('readonly',True)],'done':[('readonly',True)]},
             change_default=True, track_visibility='always'),
@@ -45,8 +45,8 @@ class purchase_order(osv.osv):
         return {'domain': {'program_line_id': [('program_id','=',program_id),], }}
     
     def action_invoice_create(self, cr, uid, ids, context=None):
-        obj_bud_mov = self.pool.get('budget.move')
-        obj_bud_line = self.pool.get('budget.move.line')
+        obj_bud_mov = self.pool.get('cash.budget.move')
+        obj_bud_line = self.pool.get('cash.budget.move.line')
         acc_inv_mov = self.pool.get('account.invoice')
         obj_inv_line = self.pool.get('account.invoice.line')
         res = False
@@ -71,7 +71,7 @@ class purchase_order(osv.osv):
         return True
     
     def action_approve_budget(self, cr, uid, ids, context=None):
-        obj_bud_mov = self.pool.get('budget.move')
+        obj_bud_mov = self.pool.get('cash.budget.move')
         for purchase in self.browse(cr, uid, ids, context=context):
             reserved_amount = purchase.amount_total
             if reserved_amount != 0.0:
@@ -91,7 +91,7 @@ class purchase_order(osv.osv):
         return True
     
     def action_award(self, cr, uid, ids, context=None):
-        obj_bud_mov = self.pool.get('budget.move')
+        obj_bud_mov = self.pool.get('cash.budget.move')
         for purchase in self.browse(cr, uid, ids, context=context):
             if not purchase.order_line:
                 raise osv.except_osv(_('Error!'),_('You cannot confirm a purchase order without any purchase order line.'))
@@ -101,7 +101,7 @@ class purchase_order(osv.osv):
         return True
     
     def action_desert(self, cr, uid, ids, context=None):
-        obj_bud_mov = self.pool.get('budget.move')
+        obj_bud_mov = self.pool.get('cash.budget.move')
         for purchase in self.browse(cr, uid, ids, context=context):
             move_id = purchase.budget_move_id.id
             obj_bud_mov.signal_workflow(cr, uid, [move_id], 'button_cancel', context=context)
@@ -109,7 +109,7 @@ class purchase_order(osv.osv):
         return True
     
     def action_ineffectual(self, cr, uid, ids, context=None):
-        obj_bud_mov = self.pool.get('budget.move')
+        obj_bud_mov = self.pool.get('cash.budget.move')
         for purchase in self.browse(cr, uid, ids, context=context):
             move_id = purchase.budget_move_id.id
             obj_bud_mov.signal_workflow(cr, uid, [move_id], 'button_cancel', context=context) 
@@ -132,7 +132,7 @@ class purchase_order(osv.osv):
         return True
     
     def action_cancel(self, cr, uid, ids, context=None):
-        obj_bud_mov = self.pool.get('budget.move')
+        obj_bud_mov = self.pool.get('cash.budget.move')
         for purchase in self.browse(cr, uid, ids, context=context):
             bud_move = purchase.budget_move_id
             move_id = bud_move.id
@@ -142,7 +142,7 @@ class purchase_order(osv.osv):
 		
     
     def action_draft(self, cr, uid, ids, context=None):
-        obj_bud_mov = self.pool.get('budget.move')
+        obj_bud_mov = self.pool.get('cash.budget.move')
         for purchase in self.browse(cr, uid, ids, context=context):
             bud_move = purchase.budget_move_id
             if bud_move:
@@ -152,12 +152,12 @@ class purchase_order(osv.osv):
         self.write(cr, uid, ids, {'state': 'draft'})
     
     def create_budget_move(self,cr, uid, vals, context=None):
-        bud_move_obj = self.pool.get('budget.move')
+        bud_move_obj = self.pool.get('cash.budget.move')
         move_id = bud_move_obj.create(cr, uid, { 'type':'invoice_in' ,}, context=context)
         return move_id
     
     def create(self, cr, uid, vals, context=None):
-        obj_bud_move = self.pool.get('budget.move')
+        obj_bud_move = self.pool.get('cash.budget.move')
         move_id = self.create_budget_move(cr, uid, vals, context=context)
         vals['budget_move_id'] = move_id
         order_id =  super(purchase_order, self).create(cr, uid, vals, context=context)
@@ -166,7 +166,7 @@ class purchase_order(osv.osv):
         return order_id
     
     def write(self, cr, uid, ids, vals, context=None):
-        bud_move_obj = self.pool.get('budget.move')
+        bud_move_obj = self.pool.get('cash.budget.move')
         result = super(purchase_order, self).write(cr, uid, ids, vals, context=context)
         for order in self.browse(cr, uid, ids, context=context):
             move_id = order.budget_move_id.id
@@ -193,7 +193,7 @@ class purchase_order_line(osv.osv):
        
     def on_change_program_line(self, cr, uid, ids, program_line, context=None):
         if program_line:
-            for line in self.pool.get('budget.program.line').browse(cr, uid,[program_line], context=context):
+            for line in self.pool.get('cash.budget.program.line').browse(cr, uid,[program_line], context=context):
                 return {'value': {'line_available':line.available_budget},}
         return {'value': {}}
     
@@ -209,7 +209,7 @@ class purchase_order_line(osv.osv):
         return True
     
     def _check_available(self, cr, uid, ids, field_name, args, context=None):
-        bud_line_obj = self.pool.get('budget.move.line')
+        bud_line_obj = self.pool.get('cash.budget.move.line')
         result ={}
         if ids: 
             for po_line_id in ids:    
@@ -219,7 +219,7 @@ class purchase_order_line(osv.osv):
         return result
                              
     _columns = {    
-    'program_line_id': fields.many2one('budget.program.line', 'Program line', required=True),
+    'program_line_id': fields.many2one('cash.budget.program.line', 'Program line', required=True),
     'line_available': fields.function(_check_available,  type='float', method=True, string='Line available',readonly=True),
     'subtotal_discounted_taxed': fields.function(_subtotal_discounted_taxed, digits_compute= dp.get_precision('Account'), string='Subtotal', ),
     }
@@ -232,7 +232,7 @@ class purchase_order_line(osv.osv):
 # Methods used to create budget move lines for the tax amount of each purchase order line
 #*************************************************************************************
 #    def create_bud_tax_line(self, cr, uid, line_id,vals=None, context=None):
-#        bud_line_obj = self.pool.get('budget.move.line')
+#        bud_line_obj = self.pool.get('cash.budget.move.line')
 #        tax_obj = self.pool.get('account.tax')
 #        order_line = self.browse(cr, uid, [line_id], context=context)[0]
 #        move_id = order_line.order_id.budget_move_id.id
@@ -246,8 +246,8 @@ class purchase_order_line(osv.osv):
 #                                          }, context=context)
 
 #    def write(self, cr, uid, ids, vals, context=None):
-#        bud_line_obj = self.pool.get('budget.move.line')
-#        bud_move_obj = self.pool.get('budget.move')
+#        bud_line_obj = self.pool.get('cash.budget.move.line')
+#        bud_move_obj = self.pool.get('cash.budget.move')
 #        result = False
 #        for line in self.browse(cr, uid, ids, context=context):
 #            search_result = bud_line_obj.search(cr, uid,[('po_line_id','=', line.id)], context=context) 
@@ -270,8 +270,8 @@ class purchase_order_line(osv.osv):
         
         purch_order_obj = self.pool.get('purchase.order')
         purch_line_obj = self.pool.get('purchase.order.line')
-        bud_move_obj = self.pool.get('budget.move')
-        bud_line_obj = self.pool.get('budget.move.line')
+        bud_move_obj = self.pool.get('cash.budget.move')
+        bud_line_obj = self.pool.get('cash.budget.move.line')
         
         po_id = vals['order_id'] 
         order = purch_order_obj.browse(cr, uid, [po_id], context=context)[0]
@@ -289,7 +289,7 @@ class purchase_order_line(osv.osv):
         return new_line_id
   
     def check_budget_from_po_line(self, cr, uid, po_line_ids, context=None):
-        bud_move_obj = self.pool.get('budget.move')
+        bud_move_obj = self.pool.get('cash.budget.move')
         for order_line in self.browse(cr, uid, po_line_ids, context=context):
             result = bud_move_obj._check_values(cr, uid, [order_line.order_id.budget_move_id.id], context)
             if result[0]:
@@ -306,8 +306,8 @@ class purchase_order_line(osv.osv):
         return line_id
 
     def write(self, cr, uid, ids, vals, context=None):
-        bud_line_obj = self.pool.get('budget.move.line')
-        bud_move_obj = self.pool.get('budget.move')
+        bud_line_obj = self.pool.get('cash.budget.move.line')
+        bud_move_obj = self.pool.get('cash.budget.move')
         moves_to_update = []
         for line in self.browse(cr, uid, ids, context=context):
             search_result = bud_line_obj.search(cr, uid,[('po_line_id','=', line.id)], context=context) 
@@ -339,8 +339,8 @@ class purchase_line_invoice(osv.osv_memory):
         
         record_ids =  context.get('active_ids',[])
         if record_ids:
-            obj_bud_mov = self.pool.get('budget.move')
-            obj_bud_line = self.pool.get('budget.move.line')
+            obj_bud_mov = self.pool.get('cash.budget.move')
+            obj_bud_line = self.pool.get('cash.budget.move.line')
             purchase_line_obj = self.pool.get('purchase.order.line')
             
             invoice_obj = self.pool.get('account.invoice')

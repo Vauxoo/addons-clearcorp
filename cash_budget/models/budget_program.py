@@ -8,17 +8,17 @@ from openerp.tools.translate import _
 from datetime import datetime
 
 
-class BudgetProgram(models.Model):
-    _name = 'budget.program'
+class CashBudgetProgram(models.Model):
+    _name = 'cash.budget.program'
     _description = 'Program'
 
     code = fields.Char('Code', size=64)
     name = fields.Char('Name', size=64, required=True)
-    plan_id = fields.Many2one('budget.plan', 'Budget plan', required=True)
+    plan_id = fields.Many2one('cash.budget.plan', 'Budget plan', required=True)
     program_lines = fields.One2many(
-        'budget.program.line', 'program_id', string='Lines')
+        'cash.budget.program.line', 'program_id', string='Lines')
     previous_program_id = fields.Many2one(
-        'budget.program', string='Previous program')
+        'cash.budget.program', string='Previous program')
     state = fields.Selection(related='plan_id.state', readonly=True)
 
     _sql_constraints = [
@@ -57,7 +57,7 @@ class BudgetProgram(models.Model):
 
     @api.model
     def create(self, vals):
-        plan_obj = self.env['budget.plan']
+        plan_obj = self.env['cash.budget.plan']
         plan = plan_obj.browse(vals['plan_id'])
         stop_date = datetime.strptime(plan.date_stop, '%Y-%m-%d')
         year = datetime.strftime(stop_date, '%Y')

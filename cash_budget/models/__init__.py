@@ -8,9 +8,10 @@ import account_invoice
 import account_move_line
 import account_move_line_distribution
 import account_period
-import budget
+import budget_account
 import budget_move
 import budget_move_line
+import budget_plan
 import budget_program
 import budget_program_line
 import hr_expense

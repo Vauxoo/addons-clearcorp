@@ -9,7 +9,7 @@ from openerp.tools.translate import _
 from datetime import datetime
 from copy import copy
 
-class BudgetDistributionError(osv.except_osv):
+class CashBudgetDistributionError(osv.except_osv):
     name =""
     value = ""
     move_id=0 
@@ -26,7 +26,7 @@ class AccountMoveReconcile(orm.Model):
     
     def unlink(self, cr, uid, ids, context={}):
         dist_obj = self.pool.get('account.move.line.distribution')
-        bud_mov_obj = self.pool.get('budget.move')
+        bud_mov_obj = self.pool.get('cash.budget.move')
         dist_ids = dist_obj.search(cr, uid, [('reconcile_ids.id','in',ids)], context=context)
         dists = dist_obj.browse(cr, uid, dist_ids, context=context)
         budget_move_ids = []
@@ -88,8 +88,8 @@ class AccountMoveReconcile(orm.Model):
         acc_vouch_obj = self.pool.get('account.voucher')
         move_line_obj = self.pool.get('account.move.line')
         amld = self.pool.get('account.move.line.distribution')
-        bud_move_obj = self.pool.get('budget.move')
-        bud_move_line_obj = self.pool.get('budget.move.line')
+        bud_move_obj = self.pool.get('cash.budget.move')
+        bud_move_line_obj = self.pool.get('cash.budget.move.line')
         
         currency_id = None
         amount = 0
@@ -159,7 +159,7 @@ class AccountMoveReconcile(orm.Model):
         """
         
         dist_obj = self.pool.get('account.move.line.distribution')
-        budget_move_line_obj = self.pool.get('budget.move.line')
+        budget_move_line_obj = self.pool.get('cash.budget.move.line')
         
         # Check if not first call and void type line. This kind of lines only can be navigated when called first by the main method.
         if actual_line and actual_line.move_id.budget_type == 'void':
@@ -256,7 +256,7 @@ class AccountMoveReconcile(orm.Model):
         liquid_res = []
         budget_distributed = 0.0
         liquid_distributed = 0.0
-        bud_move_obj = self.pool.get('budget.move')
+        bud_move_obj = self.pool.get('cash.budget.move')
         if budget_lines or liquid_lines:
             # Write dists and build lists
             
@@ -271,7 +271,7 @@ class AccountMoveReconcile(orm.Model):
             for lines in budget_lines.values():
                 budget_budget_move_lines_ids += lines
             #Browse record: lines is an int not an object! 
-            budget_budget_move_lines = self.pool.get('budget.move.line').browse(cr,uid, budget_budget_move_lines_ids,context=context)
+            budget_budget_move_lines = self.pool.get('cash.budget.move.line').browse(cr,uid, budget_budget_move_lines_ids,context=context)
             for line in budget_budget_move_lines:
                 budget_budget_move_line_ids.append(line.id)
                 budget_total += abs(line.fixed_amount)
@@ -335,7 +335,7 @@ class AccountMoveReconcile(orm.Model):
         Returns the list of account.move.line.distribution created, or an empty list.
         """
         
-        budget_move_line_obj = self.pool.get('budget.move.line')
+        budget_move_line_obj = self.pool.get('cash.budget.move.line')
         
         # Check if not first call and void type line. This kind of lines only can be navigated when called first by the main method.
         if actual_line and actual_line.move_id.budget_type == 'void':
@@ -426,7 +426,7 @@ class AccountMoveReconcile(orm.Model):
             budget_total = 0.0
             budget_budget_move_line_ids = []
             budget_budget_move_lines = []
-            bud_move_obj = self.pool.get('budget.move')
+            bud_move_obj = self.pool.get('cash.budget.move')
             for lines in budget_lines.values():
                 budget_budget_move_lines += lines
             for line in budget_budget_move_lines:
@@ -499,7 +499,7 @@ class AccountMoveReconcile(orm.Model):
                     if dist.target_budget_move_line_id and dist.target_budget_move_line_id.budget_move_id:
                         budget_move_ids.append(dist.target_budget_move_line_id.budget_move_id.id)
                 if budget_move_ids:
-                    budget_move_obj = self.pool.get('budget.move')
+                    budget_move_obj = self.pool.get('cash.budget.move')
                     budget_move_obj.recalculate_values(cr, uid, budget_move_ids, context = context)
         return res 
 
@@ -507,5 +507,5 @@ class Account(osv.Model):
     _inherit = 'account.account'
     
     _columns = {
-        'default_budget_program_line' : fields.many2one('budget.program.line','Default budget program line'),
+        'default_budget_program_line' : fields.many2one('cash.budget.program.line','Default budget program line'),
     }

@@ -12,12 +12,12 @@ class HRExpenseExpense(models.Model):
     _inherit = 'hr.expense.expense'
 
     budget_move_id = fields.Many2one(
-        'budget.move', 'Budget move', readonly=True)
+        'cash.budget.move', 'Budget move', readonly=True)
 
     @api.model
     def create_budget_move_line(self, line_id):
         exp_line_obj = self.env['hr.expense.line']
-        bud_line_obj = self.env['budget.move.line']
+        bud_line_obj = self.env['cash.budget.move.line']
         expense_line = exp_line_obj.browse(line_id)
         expense = expense_line.expense_id
         move_id = expense.budget_move_id
@@ -57,7 +57,7 @@ class HRExpenseExpense(models.Model):
 
     @api.one
     def create_budget_move(self):
-        bud_move_obj = self.env['budget.move']
+        bud_move_obj = self.env['cash.budget.move']
         move_id = bud_move_obj.create({'type': 'expense'})
         return move_id
 
@@ -69,7 +69,7 @@ class HRExpenseExpense(models.Model):
 
     @api.one
     def expense_canceled(self):
-        bud_move_obj = self.pool.get('budget.move')
+        bud_move_obj = self.pool.get('cash.budget.move')
         super(HRExpenseExpense, self).expense_canceled()
         self.budget_move_id.signal_workflow('button_cancel')
         bud_move_obj.recalculate_values()
@@ -90,7 +90,7 @@ class HRExpenseExpense(models.Model):
 
     @api.one
     def action_receipt_create(self):
-        mov_line_obj = self.env['budget.move.line']
+        mov_line_obj = self.env['cash.budget.move.line']
         result = super(HRExpenseExpense, self).action_receipt_create()
         self.account_move_id.write({'budget_type': 'budget'})
         self.budget_move_id.move_lines.write(
@@ -244,7 +244,7 @@ class HRExpenseLine(models.Model):
     _name = "hr.expense.line"
     _inherit = 'hr.expense.line'
 
-    program_line_id = fields.Many2one('budget.program.line', 'Program line')
+    program_line_id = fields.Many2one('cash.budget.program.line', 'Program line')
     line_available = fields.Float(
         compute='_check_available', string='Line available')
 
@@ -272,7 +272,7 @@ class HRExpenseLine(models.Model):
 
     @api.one
     def _check_available(self):
-        bud_line_obj = self.env['budget.move.line']
+        bud_line_obj = self.env['cash.budget.move.line']
         bud_line_ids = bud_line_obj.search([('expense_line_id', '=', self.id)])
         for bud_line in bud_line_ids:
             self.line_available = bud_line.program_line_id.available_budget
@@ -280,7 +280,7 @@ class HRExpenseLine(models.Model):
     @api.one
     def create_budget_move_line(self, line_id):
         exp_line_obj = self.env['hr.expense.line']
-        bud_line_obj = self.env['budget.move.line']
+        bud_line_obj = self.env['cash.budget.move.line']
         expense_line = exp_line_obj.browse(line_id)
         expense = expense_line
         move_id = expense.budget_move_id
@@ -307,7 +307,7 @@ class HRExpenseLine(models.Model):
 
     @api.one
     def write(self, vals):
-        bud_line_obj = self.env['budget.move.line']
+        bud_line_obj = self.env['cash.budget.move.line']
         write_result = True
         bud_line_dict = {}
         if 'unit_amount' in vals.keys() or 'program_line_id' in vals.keys() or\

@@ -13,14 +13,14 @@ class budget_program_populate(osv.osv_memory):
     _name = 'budget.program.populate'
     
     _columns = {
-        'parent_account': fields.many2one('budget.account', 'Catalog parent', domain=[('account_type','!=','budget'), ('active','=','True')], required=True),
+        'parent_account': fields.many2one('cash.budget.account', 'Catalog parent', domain=[('account_type','!=','budget'), ('active','=','True')], required=True),
         
     }
 
     def create_prog_line(self, cr, uid, program_id, program_code, parent_account_id=None, parent_line_id=None, previous_program_id=None,context=None ):
-        prog_obj = self.pool.get('budget.program')
-        line_obj = self.pool.get('budget.program.line')
-        account_obj = self.pool.get('budget.account')
+        prog_obj = self.pool.get('cash.budget.program')
+        line_obj = self.pool.get('cash.budget.program.line')
+        account_obj = self.pool.get('cash.budget.account')
         for account in account_obj.browse(cr, uid, [parent_account_id], context=context):
 #            for child in account_obj.browse(cr, uid, account.child_parent_ids, context=context):
             if account.child_parent_ids:
@@ -47,9 +47,9 @@ class budget_program_populate(osv.osv_memory):
         return True
     
     def bulk_line_create(self, cr, uid, ids, context=None):
-        prog_obj = self.pool.get('budget.program')
-        line_obj = self.pool.get('budget.program.line')
-        account_obj = self.pool.get('budget.account')
+        prog_obj = self.pool.get('cash.budget.program')
+        line_obj = self.pool.get('cash.budget.program.line')
+        account_obj = self.pool.get('cash.budget.account')
         data = self.browse(cr, uid, ids, context=context)[0]
         for program in prog_obj.browse(cr, uid, context['active_ids'], context=context):
             current_lines = len(program.program_lines)

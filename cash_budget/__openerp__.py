@@ -3,12 +3,12 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
-    'name': 'Public Budget',
+    'name': 'Cash Budget',
     'version': '8.0.1.0',
-    'summary': "Goverment Institutions Budget",
+    'summary': "Goverment Institutions Cash Budget",
     'author': 'ClearCorp',
     'website': 'http://clearcorp.cr',
-    'category': 'Generic Modules/Base',
+    'category': 'Accounting & Finance',
     'license': 'AGPL-3',
     'sequence': 10,
     'application': False,

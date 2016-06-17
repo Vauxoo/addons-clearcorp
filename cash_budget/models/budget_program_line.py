@@ -8,8 +8,8 @@ from openerp.tools.translate import _
 import openerp.addons.decimal_precision as dp
 
 
-class BudgetProgramLine(models.Model):
-    _name = 'budget.program.line'
+class CashBudgetProgramLine(models.Model):
+    _name = 'cash.budget.program.line'
     _description = 'Program line'
     _order = "parent_left"
     _parent_order = "name"
@@ -183,11 +183,11 @@ class BudgetProgramLine(models.Model):
 
     name = fields.Char('Name', size=64, required=True)
     parent_id = fields.Many2one(
-        'budget.program.line', string='Parent line', ondelete='cascade')
+        'cash.budget.program.line', string='Parent line', ondelete='cascade')
     account_id = fields.Many2one(
-        'budget.account', string='Budget account', required=True)
+        'cash.budget.account', string='Budget account', required=True)
     program_id = fields.Many2one(
-        'budget.program', string='Program', required=True, ondelete='cascade')
+        'cash.budget.program', string='Program', required=True, ondelete='cascade')
     assigned_amount = fields.Float(
         string='Assigned amount', digits=dp.get_precision('Account'),
         default=0.0, required=True)
@@ -215,15 +215,15 @@ class BudgetProgramLine(models.Model):
     parent_left = fields.Integer('Parent Left', select=True)
     parent_right = fields.Integer('Parent Right', select=True)
     child_parent_ids = fields.One2many(
-        'budget.program.line', 'parent_id', string='Children')
+        'cash.budget.program.line', 'parent_id', string='Children')
     child_consol_ids = fields.Many2many(
-        'budget.program.line', 'budget_program_line_consol_rel', 'parent_id',
+        'cash.budget.program.line', 'budget_program_line_consol_rel', 'parent_id',
         'consol_child_id', string='Consolidated Children')
     child_id = fields.Many2many(
-        'budget.program.line',
+        'cash.budget.program.line',
         compute='_get_child_ids', string="Child Accounts")
     previous_year_line_id = fields.Many2one(
-        'budget.program.line', 'Previous year line')
+        'cash.budget.program.line', 'Previous year line')
     active_for_view = fields.Boolean('Active', default=True)
 
     _sql_constraints = [
@@ -253,7 +253,7 @@ class BudgetProgramLine(models.Model):
 
     @api.model
     def create(self, vals):
-        program_obj = self.env['budget.program']
+        program_obj = self.env['cash.budget.program']
         program = program_obj.browse([vals['program_id']])
         if program.plan_id.state in ('approved', 'closed'):
             raise Warning(_(
