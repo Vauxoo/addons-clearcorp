@@ -10,7 +10,7 @@ import logging
 
 
 class budget_import_catalog(osv.osv_memory):
-    _name = 'budget.import.catalog'
+    _name = 'cash.budget.import.catalog'
     
     _columns = {
         'parent_account': fields.many2one('cash.budget.account', 'Catalog parent', domain=[('account_type','in',('view','institutional')), ('parent_id','=',False), ('active','=','True')]),

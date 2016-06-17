@@ -2,8 +2,8 @@
 <openerp>
     <data>
         <record id="view_budget_program_populate" model="ir.ui.view">
-            <field name="name">budget.program.populate.form</field>
-            <field name="model">budget.program.populate</field>
+            <field name="name">cash.budget.program.populate.form</field>
+            <field name="model">cash.budget.program.populate</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Create program lines from catalog">
@@ -21,7 +21,7 @@
 		<record id="action_budget_program_populate" model="ir.actions.act_window">
             <field name="name">Create lines from catalog</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">budget.program.populate</field>
+            <field name="res_model">cash.budget.program.populate</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="view_id" ref="view_budget_program_populate"/>

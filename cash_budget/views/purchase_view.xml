@@ -2,7 +2,7 @@
 <openerp>
     <data>
 		<record id="budget_purchase_order_form" model="ir.ui.view" >
-	            <field name="name">budget.purchase.order.form</field>
+	            <field name="name">cash.budget.purchase.order.form</field>
 	            <field name="model">purchase.order</field>
 	            <field name="type">form</field>
 	            <field name="inherit_id" ref="purchase.purchase_order_form"/>
@@ -67,7 +67,7 @@
 	     </record>
 	     
 		<record id="budget_purchase_order_line_form" model="ir.ui.view">
-			<field name="name">budget.purchase.order.line.form</field>
+			<field name="name">cash.budget.purchase.order.line.form</field>
 	            <field name="model">purchase.order.line</field>
 	            <field name="type">form</field>
 	            <field name="inherit_id" ref="purchase.purchase_order_line_form"/>
@@ -94,7 +94,7 @@
         </record>
         
         <record id="budget_view_purchase_order_filter" model="ir.ui.view">
-            <field name="name">budget.purchase.order.list.select</field>
+            <field name="name">cash.budget.purchase.order.list.select</field>
             <field name="model">purchase.order</field>
             <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
             <field name="arch" type="xml">

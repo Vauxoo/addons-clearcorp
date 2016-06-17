@@ -3,8 +3,8 @@
     <data>
     	<!-- Plan-->
     	<record id="wkf_budget_plan" model="workflow">
-            <field name="name">budget.plan.basic</field>
-            <field name="osv">budget.plan</field>
+            <field name="name">cash.budget.plan.basic</field>
+            <field name="osv">cash.budget.plan</field>
             <field name="on_create">True</field>
         </record>
         
@@ -79,8 +79,8 @@
         <!-- Move-->
         
     	<record id="wkf_budget_move" model="workflow">
-            <field name="name">budget.move.basic</field>
-            <field name="osv">budget.move</field>
+            <field name="name">cash.budget.plan.basic</field>
+            <field name="osv">cash.budget.plan</field>
             <field name="on_create">True</field>
         </record>
         

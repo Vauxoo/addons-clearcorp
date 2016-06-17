@@ -2,8 +2,8 @@
 <openerp>
     <data>
         <record id="view_budget_import_catalog" model="ir.ui.view">
-            <field name="name">budget.import.catalog.wizard</field>
-            <field name="model">budget.import.catalog</field>
+            <field name="name">cash.budget.import.catalog.wizard</field>
+            <field name="model">cash.budget.import.catalog</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string="Import Account Catalog">
@@ -22,7 +22,7 @@
         <record id="action_budget_import_catalog" model="ir.actions.act_window">
             <field name="name">Import Catalog</field>
             <field name="type">ir.actions.act_window</field>
-            <field name="res_model">budget.import.catalog</field>
+            <field name="res_model">cash.budget.import.catalog</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="view_id" ref="view_budget_import_catalog"/>

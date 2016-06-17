@@ -2,7 +2,7 @@
 <openerp>
 	<data>
 		 <record id="budget_view_expenses_form" model="ir.ui.view" >
-	            <field name="name">budget.hr.expense.form</field>
+	            <field name="name">cash.budget.hr.expense.form</field>
 	            <field name="model">hr.expense.expense</field>
 	            <field name="inherit_id" ref="hr_expense.view_expenses_form"/>
 	            <field name="priority" eval="25"/>
@@ -29,7 +29,7 @@
 	     </record>
 	     
 	     <record id="budget_expenses_line_tree" model="ir.ui.view" >
-	            <field name="name">budget.hr.expense.line.tree</field>
+	            <field name="name">cash.budget.hr.expense.line.tree</field>
 	            <field name="model">hr.expense.line</field>
 	            <field name="inherit_id" ref="hr_expense.view_expenses_line_tree"/>
 	            <field name="priority" eval="25"/>

@@ -10,7 +10,7 @@ import logging
 
 
 class budget_program_populate(osv.osv_memory):
-    _name = 'budget.program.populate'
+    _name = 'cash.budget.program.populate'
     
     _columns = {
         'parent_account': fields.many2one('cash.budget.account', 'Catalog parent', domain=[('account_type','!=','budget'), ('active','=','True')], required=True),

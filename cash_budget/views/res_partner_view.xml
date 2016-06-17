@@ -3,7 +3,7 @@
     <data>
 
         <record model = "ir.ui.view" id = "budget_res_partner_form">
-            <field name = "name">budget.res.partner.form</field>
+            <field name = "name">cash.budget.res.partner.form</field>
             <field name = "model">res.partner</field>
             <field name = "type">form</field>
             <field name="inherit_id" ref="base.view_partner_form"/>

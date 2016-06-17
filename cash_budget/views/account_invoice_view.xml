@@ -2,7 +2,7 @@
 <openerp>
     <data>
 		<record id="budget_account_invoice_supplier_form" model="ir.ui.view" >
-	            <field name="name">budget.account.invoice.supplier.form</field>
+	            <field name="name">cash.budget.account.invoice.supplier.form</field>
 	            <field name="model">account.invoice</field>
 	            <field name="type">form</field>
 	            <field name="inherit_id" ref="account.invoice_supplier_form"/>
@@ -21,7 +21,7 @@
 	     </record>
 	     
 	     <record id="budget_account_invoice_form" model="ir.ui.view" >
-	            <field name="name">budget.account.invoice.form</field>
+	            <field name="name">cash.budget.account.invoice.form</field>
 	            <field name="model">account.invoice</field>
 	            <field name="type">form</field>
 	            <field name="inherit_id" ref="account.invoice_form"/>
@@ -42,7 +42,7 @@
 	     
 	     
 	     <record id="budget_account_invoice_line_form" model="ir.ui.view" >
-	            <field name="name">budget.account.invoice.line.form</field>
+	            <field name="name">cash.budget.account.invoice.line.form</field>
 	            <field name="model">account.invoice.line</field>
 	            <field name="type">form</field>
 	            <field name="inherit_id" ref="account.view_invoice_line_form"/>
