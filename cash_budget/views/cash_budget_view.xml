@@ -23,7 +23,7 @@
             <field name="model">cash.budget.plan</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-            	<form string="Plans" version="7.0" >
+            	<form string="Plans"  >
             		<header>
         			    <button name="button_cancel" states="draft,confirmed" string="Cancel" />
         	            <button name="button_confirm" states="draft" string="Apply for approval" />
@@ -82,7 +82,7 @@
             <field name="model">cash.budget.program</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-            	<form string="Programs" version="7.0" >
+            	<form string="Programs"  >
             		<header>
                     	<button name="cash.budget.action_budget_program_populate" type="action" confirm="If you have not set a previous program for this program, new program lines won't inherit their previous program lines, do you want to continue? " string="Create lines from accounts" class="oe_highlight" />
             		</header>
@@ -301,7 +301,7 @@
             <field name="model">cash.budget.account</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-            	<form string="Budget Accounts" version="7.0">
+            	<form string="Budget Accounts" >
             		<sheet>
 	            		<h1>
 	            			<label string=" Budget Account "/>	
@@ -374,7 +374,7 @@
             <field name="model">cash.budget.move</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-            	<form string="Budget Move" version="7.0" >
+            	<form string="Budget Move"  >
             		<header>
                     	<field name="state" widget="statusbar" statusbar_visible="draft,reserved,compromised,executed"/>
             		</header>
@@ -489,7 +489,7 @@
             <field name="model">cash.budget.move</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-            	<form string="Budget Move" version="7.0" >
+            	<form string="Budget Move"  >
             		<header>
             	        <button name="button_execute" states="draft" string="Execute" />
                     	<field name="state" widget="statusbar" statusbar_visible="draft,executed"/>

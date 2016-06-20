@@ -79,8 +79,8 @@
         <!-- Move-->
         
     	<record id="wkf_budget_move" model="workflow">
-            <field name="name">cash.budget.plan.basic</field>
-            <field name="osv">cash.budget.plan</field>
+            <field name="name">cash.budget.move.basic</field>
+            <field name="osv">cash.budget.move</field>
             <field name="on_create">True</field>
         </record>
         
