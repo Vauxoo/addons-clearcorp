@@ -84,12 +84,12 @@ class AccountMoveLineDistribution(models.Model):
         query = """
         SELECT AMLD.id AS dist_id, BP.id AS plan_id FROM
             account_move_line_distribution AMLD
-            INNER JOIN budget_move_line BML ON
+            INNER JOIN cash_budget_move_line BML ON
                 AMLD.target_budget_move_line_id = BML.id
-            INNER JOIN  budget_move BM ON BML.budget_move_id=BM.id
-            INNER JOIN budget_program_line BPL ON BPL.id=BML.program_line_id
-            INNER JOIN budget_program BPR ON BPR.id=BPL.program_id
-            INNER JOIN budget_plan BP ON BP.id=BPR.plan_id
+            INNER JOIN cash_budget_move BM ON BML.budget_move_id=BM.id
+            INNER JOIN cash_budget_program_line BPL ON BPL.id=BML.program_line_id
+            INNER JOIN cash_budget_program BPR ON BPR.id=BPL.program_id
+            INNER JOIN cash_budget_plan BP ON BP.id=BPR.plan_id
             WHERE AMLD.id IN %s"""
         params = (tuple(dist_ids),)
         self._cr.execute(query, params)

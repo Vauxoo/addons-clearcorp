@@ -17,7 +17,7 @@ from openerp.osv import fields, orm, osv
 ##
 # ACCOUNT
 ##
-class budget_account(osv.osv):
+class cash_budget_account(osv.osv):
     _name = 'cash.budget.account'
     _description = 'Budget Account'
     _order = "parent_left"
@@ -152,11 +152,11 @@ class budget_account(osv.osv):
         'child_parent_ids': fields.one2many('cash.budget.account', 'parent_id',
                                             'Children'),
         'child_consol_ids': fields.many2many('cash.budget.account',
-                                             'budget_account_consol_rel',
+                                             'cash_budget_account_consol_rel',
                                              'parent_id', 'consol_child_id',
                                              'Consolidated Children'),
         'child_id': fields.function(_get_child_ids, type='many2many',
-                                    relation="budget.account",
+                                    relation="cash.budget.account",
                                     string="Child Accounts"),
         'allows_reimbursement': fields.boolean('Allows reimbursement'),
         'allows_reduction': fields.boolean('Allows reduction'),
@@ -194,7 +194,7 @@ class budget_account(osv.osv):
          ['parent_id']),
     ]
     _sql_constraints = [
-        ('check_unique_budget_account', 'unique (parent_id,code,company_id)',
+        ('check_unique_cash_budget_account', 'unique (parent_id,code,company_id)',
          'The code is defined for another account with the same parent')
     ]
 
@@ -202,7 +202,7 @@ class budget_account(osv.osv):
         if default is None:
             default = {}
         default = default.copy()
-        return super(budget_account, self).copy(cr, uid, id, default, context)
+        return super(cash_budget_account, self).copy(cr, uid, id, default, context)
 
     def name_get(self, cr, uid, ids, context=None):
         if context is None:
@@ -227,7 +227,7 @@ class budget_account(osv.osv):
                               limit=limit, context=context)
             if ids and len(ids) > 0:
                 return self.name_get(cr, uid, ids, context)
-        return super(budget_account, self).name_search(cr, uid, name, args,
+        return super(cash_budget_account, self).name_search(cr, uid, name, args,
                                                        operator=operator,
                                                        context=context,
                                                        limit=limit)
@@ -262,7 +262,7 @@ class budget_account(osv.osv):
                 raise osv.except_osv(_('Error!'), _(
                     'You cannot delete an account used by a program line'))
             else:
-                return super(budget_account, self).unlink(cr, uid, ids,
+                return super(cash_budget_account, self).unlink(cr, uid, ids,
                                                           context=context)
 
     def write(self, cr, uid, ids, vals, context=None):
@@ -277,6 +277,6 @@ class budget_account(osv.osv):
                                                   context=context)
                 self.write(cr, uid, children, {'active': vals['active']},
                            context=context)
-        return super(budget_account, self).write(cr, uid, ids, vals,
+        return super(cash_budget_account, self).write(cr, uid, ids, vals,
                                                  context=context)
 

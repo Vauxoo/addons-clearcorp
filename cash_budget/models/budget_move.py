@@ -358,7 +358,7 @@ class CashBudgetMove(models.Model):
                     if line.program_line_id.available_budget <\
                             line.fixed_amount:
                         query = """SELECT id, fixed_amount FROM
-                            budget_move_line WHERE id=%s"""
+                            cash_budget_move_line WHERE id=%s"""
                         new_cr = self.pool.cursor()
                         new_cr.execute(query, (line.id,))
                         res_query = new_cr.dictfetchall()[0]

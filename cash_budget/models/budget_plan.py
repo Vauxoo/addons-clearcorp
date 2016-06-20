@@ -21,7 +21,7 @@ from openerp.osv import fields, orm, osv
 #PLAN
 ## 
 
-class budget_plan(osv.osv):
+class cash_budget_plan(osv.osv):
     _name = 'cash.budget.plan'
     _description = 'Plan'
 
@@ -109,8 +109,8 @@ class budget_plan(osv.osv):
                 'AND active = true '\
                 'EXCEPT '\
                 'SELECT BA.id, BA.code , BA.name FROM '\
-                'budget_account BA INNER JOIN budget_program_line BPL ON BA.ID = BPL.account_id '\
-                'INNER JOIN budget_program BP ON BPL.program_id = BP.id '\
+                'budget_account BA INNER JOIN cash_budget_program_line BPL ON BA.ID = BPL.account_id '\
+                'INNER JOIN cash_budget_program BP ON BPL.program_id = BP.id '\
                 'WHERE BP.id = %(program_id)d' % {'program_id':program_id, 'account_type':'budget'}
                 cr.execute(query)
                 result = cr.fetchall()
@@ -168,7 +168,7 @@ class budget_plan(osv.osv):
         for plan in self.browse(cr, uid,ids, context=context):
             if plan.state in ('approved','closed'):
                 raise osv.except_osv(_('Error!'), _('You cannot delete an approved or closed plan'))
-        return super(budget_plan, self).unlink(cr, uid, ids, context=context)
+        return super(cash_budget_plan, self).unlink(cr, uid, ids, context=context)
     
     def close_plan(self, cr, uid, ids, context=None):
         bud_move_obj= self.pool.get('cash.budget.move')
@@ -206,11 +206,11 @@ class budget_plan(osv.osv):
 
 
     def get_budget_moves_for_close(self, cr, uid, plan_id, context=None):
-        query = 'SELECT DISTINCT BM.id FROM budget_move BM '\
-                'INNER JOIN budget_move_line BML ON BML.budget_move_id=BM.id '\
-                'INNER JOIN budget_program_line BPL ON BPL.id=BML.program_line_id '\
-                'INNER JOIN budget_program BPR ON BPR.id=BPL.program_id '\
-                'INNER JOIN budget_plan BP ON BP.id=BPR.plan_id '\
+        query = 'SELECT DISTINCT BM.id FROM cash_budget_move BM '\
+                'INNER JOIN cash_budget_move_line BML ON BML.budget_move_id=BM.id '\
+                'INNER JOIN cash_budget_program_line BPL ON BPL.id=BML.program_line_id '\
+                'INNER JOIN cash_budget_program BPR ON BPR.id=BPL.program_id '\
+                'INNER JOIN cash_budget_plan BP ON BP.id=BPR.plan_id '\
                 'WHERE BM.state IN %s'\
                 'AND BP.id = %s'
         params = (('draft', 'reserved', 'compromised', 'in_execution'), plan_id)

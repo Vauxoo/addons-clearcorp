@@ -57,8 +57,8 @@ class CashBudgetProgramLine(models.Model):
             request = (
                 'SELECT BPL.id, ' +
                 ', '.join(mapping.values()) +
-                ' FROM budget_program_line BPL' +
-                ' LEFT OUTER JOIN budget_move_line' +
+                ' FROM cash_budget_program_line BPL' +
+                ' LEFT OUTER JOIN cash_budget_move_line' +
                 ' BML ON BPL.id = BML.program_line_id' +
                 ' WHERE BPL.id IN %s' +
                 ' GROUP BY BPL.id')
