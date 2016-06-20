@@ -1,0 +1,370 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* mrp_bom_history
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-06-17 03:23+0000\n"
+"PO-Revision-Date: 2016-06-17 03:23+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: mrp_bom_history
+#: help:mrp.bom.history,product_efficiency:0
+msgid "A factor of 0.9 means a loss of 10% during the production process."
+msgstr ""
+
+#. module: mrp_bom_history
+#: help:mrp.bom.line.history,product_efficiency:0
+msgid "A factor of 0.9 means a loss of 10% within the production process."
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,active:0
+msgid "Active"
+msgstr ""
+
+#. module: mrp_bom_history
+#: help:mrp.bom.line.history,attribute_value_ids:0
+msgid "BOM Product Variants needed form apply this line."
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.line.history,child_line_ids:0
+msgid "BOM lines of the referred bom"
+msgstr ""
+
+#. module: mrp_bom_history
+#: model:ir.model,name:mrp_bom_history.model_mrp_bom
+#: field:mrp.bom.history,bom_id:0
+msgid "Bill of Material"
+msgstr ""
+
+#. module: mrp_bom_history
+#: model:ir.model,name:mrp_bom_history.model_mrp_bom_history
+msgid "Bill of Material History"
+msgstr ""
+
+#. module: mrp_bom_history
+#: model:ir.model,name:mrp_bom_history.model_mrp_bom_line_history
+msgid "Bill of Material Line History"
+msgstr ""
+
+#. module: mrp_bom_history
+#: model:ir.actions.act_window,name:mrp_bom_history.action_bom_history_tree
+msgid "Bill of Materials History"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.line.history,type:0
+msgid "BoM Line Type"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,bom_line_ids:0
+msgid "BoM Lines"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,type:0
+msgid "BoM Type"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,company_id:0
+msgid "Company"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,create_uid:0
+#: field:mrp.bom.line.history,create_uid:0
+msgid "Created by"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,create_date:0
+#: field:mrp.bom.line.history,create_date:0
+msgid "Created on"
+msgstr ""
+
+#. module: mrp_bom_history
+#: help:mrp.bom.history,message_last_post:0
+msgid "Date of the last message posted on the record."
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,display_name:0
+#: field:mrp.bom.line.history,display_name:0
+msgid "Display Name"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,message_follower_ids:0
+msgid "Followers"
+msgstr ""
+
+#. module: mrp_bom_history
+#: help:mrp.bom.history,sequence:0
+msgid "Gives the sequence order when displaying a list of bills of material."
+msgstr ""
+
+#. module: mrp_bom_history
+#: help:mrp.bom.line.history,sequence:0
+msgid "Gives the sequence order when displaying."
+msgstr ""
+
+#. module: mrp_bom_history
+#: view:mrp.bom:mrp_bom_history.view_bom_form
+msgid "History"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom,history_item_count:0
+msgid "History Items Count"
+msgstr ""
+
+#. module: mrp_bom_history
+#: help:mrp.bom.history,message_summary:0
+msgid "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,id:0
+#: field:mrp.bom.line.history,id:0
+msgid "ID"
+msgstr ""
+
+#. module: mrp_bom_history
+#: help:mrp.bom.history,product_id:0
+msgid "If a product variant is defined the BOM is available only for this product."
+msgstr ""
+
+#. module: mrp_bom_history
+#: help:mrp.bom.history,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr ""
+
+#. module: mrp_bom_history
+#: help:mrp.bom.history,active:0
+msgid "If the active field is set to False, it will allow you to hide the bills of material without removing it."
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,position:0
+msgid "Internal Reference"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,message_is_follower:0
+msgid "Is a Follower"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,message_last_post:0
+msgid "Last Message Date"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,__last_update:0
+#: field:mrp.bom.line.history,__last_update:0
+msgid "Last Modified on"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,write_uid:0
+#: field:mrp.bom.line.history,write_uid:0
+msgid "Last Updated by"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,write_date:0
+#: field:mrp.bom.line.history,write_date:0
+msgid "Last Updated on"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,product_efficiency:0
+#: field:mrp.bom.line.history,product_efficiency:0
+msgid "Manufacturing Efficiency"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,message_ids:0
+msgid "Messages"
+msgstr ""
+
+#. module: mrp_bom_history
+#: help:mrp.bom.history,message_ids:0
+msgid "Messages and communication history"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,name:0
+msgid "Name"
+msgstr ""
+
+#. module: mrp_bom_history
+#: selection:mrp.bom.history,type:0
+#: selection:mrp.bom.line.history,type:0
+msgid "Normal"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.line.history,bom_id:0
+msgid "Parent BoM"
+msgstr ""
+
+#. module: mrp_bom_history
+#: selection:mrp.bom.line.history,type:0
+msgid "Phantom"
+msgstr ""
+
+#. module: mrp_bom_history
+#: help:mrp.bom.line.history,type:0
+msgid "Phantom: this product line will not appear in the raw materials of manufacturing orders,it will be directly replaced by the raw materials of its own BoM, without triggeringan extra manufacturing order."
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,product_tmpl_id:0
+#: field:mrp.bom.line.history,product_id:0
+msgid "Product"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,product_qty:0
+#: field:mrp.bom.line.history,product_qty:0
+msgid "Product Quantity"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,product_rounding:0
+#: field:mrp.bom.line.history,product_rounding:0
+msgid "Product Rounding"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.line.history,product_uos:0
+msgid "Product UOS"
+msgstr ""
+
+#. module: mrp_bom_history
+#: help:mrp.bom.line.history,product_uos:0
+msgid "Product UOS (Unit of Sale) is the unit of measurement for the invoicing and promotion of stock."
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.line.history,product_uos_qty:0
+msgid "Product UOS Qty"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,product_uom:0
+#: field:mrp.bom.line.history,product_uom:0
+msgid "Product Unit of Measure"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,product_id:0
+msgid "Product Variant"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,property_ids:0
+#: field:mrp.bom.line.history,property_ids:0
+msgid "Properties"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,code:0
+msgid "Reference"
+msgstr ""
+
+#. module: mrp_bom_history
+#: help:mrp.bom.history,position:0
+msgid "Reference to a position in an external plan."
+msgstr ""
+
+#. module: mrp_bom_history
+#: help:mrp.bom.history,product_rounding:0
+#: help:mrp.bom.line.history,product_rounding:0
+msgid "Rounding applied on the product quantity."
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,routing_id:0
+#: field:mrp.bom.line.history,routing_id:0
+msgid "Routing"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,sequence:0
+#: field:mrp.bom.line.history,sequence:0
+msgid "Sequence"
+msgstr ""
+
+#. module: mrp_bom_history
+#: selection:mrp.bom.history,type:0
+msgid "Set"
+msgstr ""
+
+#. module: mrp_bom_history
+#: help:mrp.bom.history,type:0
+msgid "Set: When processing a sales order for this product, the delivery order will contain the raw materials, instead of the finished product."
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,message_summary:0
+msgid "Summary"
+msgstr ""
+
+#. module: mrp_bom_history
+#: help:mrp.bom.history,routing_id:0
+#: help:mrp.bom.line.history,routing_id:0
+msgid "The list of operations (list of work centers) to produce the finished product. The routing is mainly used to compute work center costs during operations and to plan future loads on work centers based on production planning."
+msgstr ""
+
+#. module: mrp_bom_history
+#: help:mrp.bom.history,product_uom:0
+#: help:mrp.bom.line.history,product_uom:0
+msgid "Unit of Measure (Unit of Measure) is the unit of measurement for the inventory control"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,message_unread:0
+msgid "Unread Messages"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,date_start:0
+#: field:mrp.bom.line.history,date_start:0
+msgid "Valid From"
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.history,date_stop:0
+#: field:mrp.bom.line.history,date_stop:0
+msgid "Valid Until"
+msgstr ""
+
+#. module: mrp_bom_history
+#: help:mrp.bom.line.history,date_start:0
+#: help:mrp.bom.line.history,date_stop:0
+msgid "Validity of component. Keep empty if it's always valid."
+msgstr ""
+
+#. module: mrp_bom_history
+#: help:mrp.bom.history,date_start:0
+#: help:mrp.bom.history,date_stop:0
+msgid "Validity of this BoM. Keep empty if it's always valid."
+msgstr ""
+
+#. module: mrp_bom_history
+#: field:mrp.bom.line.history,attribute_value_ids:0
+msgid "Variants"
+msgstr ""

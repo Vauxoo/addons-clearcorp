@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mrp_bom_history_user,access.mrp.bom.history.user,model_mrp_bom_history,mrp.group_mrp_user,1,0,0,0
+access_mrp_bom_history_line_user,access.mrp.bom.history.line.user,model_mrp_bom_line_history,mrp.group_mrp_user,1,0,0,0
+access_mrp_bom_history_manager,access.mrp.bom.history.manager,model_mrp_bom_history,mrp.group_mrp_manager,1,1,1,1
+access_mrp_bom_history_line_manager,access.mrp.bom.history.line.manager,model_mrp_bom_line_history,mrp.group_mrp_manager,1,1,1,1
