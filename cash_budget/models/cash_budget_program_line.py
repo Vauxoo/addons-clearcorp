@@ -238,7 +238,7 @@ class CashBudgetProgramLine(models.Model):
                 raise Warning(_(
                     'You cannot delete a line from an approved or closed plan'
                 ))
-        return super(BudgetProgramLine, self).unlink()
+        return super(CashBudgetProgramLine, self).unlink()
 
     @api.one
     def write(self, vals):
@@ -249,7 +249,7 @@ class CashBudgetProgramLine(models.Model):
                 raise Warning(_(
                     'You cannot modify a line from an approved or closed plan'
                 ))
-        return super(BudgetProgramLine, self).write(vals)
+        return super(CashBudgetProgramLine, self).write(vals)
 
     @api.model
     def create(self, vals):
@@ -259,4 +259,4 @@ class CashBudgetProgramLine(models.Model):
             raise Warning(_(
                 'You cannot create a line from an approved or closed plan'))
 
-        return super(BudgetProgramLine, self).create(vals)
+        return super(CashBudgetProgramLine, self).create(vals)

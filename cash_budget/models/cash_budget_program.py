@@ -66,7 +66,7 @@ class CashBudgetProgram(models.Model):
         if plan.state in ('approved', 'closed'):
             raise Warning(_(
                 'You cannot create a program with a approved or closed plan'))
-        res = super(BudgetProgram, self).create(vals)
+        res = super(CashBudgetProgram, self).create(vals)
         return res
 
     @api.multi
@@ -76,11 +76,11 @@ class CashBudgetProgram(models.Model):
                 raise Warning(_("""
                     You cannot delete a program that is associated with an
                     approved or closed plan"""))
-        return super(BudgetProgram, self).unlink()
+        return super(CashBudgetProgram, self).unlink()
 
     @api.one
     def write(self, vals):
         if self.plan_id.state in ('approved', 'closed'):
             raise Warning(_(
                 'You cannot modify a program with a approved or closed plan'))
-        return super(BudgetProgram, self).write(vals)
+        return super(CashBudgetProgram, self).write(vals)

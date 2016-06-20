@@ -391,18 +391,18 @@ class CashBudgetMove(models.Model):
                 raise Warning(_(
                     """You cannot create a budget move that have associated
                 budget move lines with a closed or canceled budget plan"""))
-        res = super(BudgetMove, self).create(vals)
+        res = super(CashBudgetMove, self).create(vals)
         return res
 
     @api.one
     def write(self, vals):
-        super(BudgetMove, self).write(vals)
+        super(CashBudgetMove, self).write(vals)
         if self.state in ('reserved', 'draft') and self.standalone_move:
             res_amount = 0
             for line in self.move_lines:
                 res_amount += line.fixed_amount
             vals['fixed_amount'] = res_amount
-            return super(BudgetMove, self).write({'fixed_amount': res_amount})
+            return super(CashBudgetMove, self).write({'fixed_amount': res_amount})
 
     @api.one
     @api.onchange('move_lines')
@@ -536,4 +536,4 @@ class CashBudgetMove(models.Model):
                     You cannot delete a budget move budget move that have
                 associated budget lines with a approved or closed budge
                 plan"""))
-        super(BudgetMove, self).unlink()
+        super(CashBudgetMove, self).unlink()
