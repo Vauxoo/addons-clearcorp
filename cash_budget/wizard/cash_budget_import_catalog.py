@@ -38,7 +38,7 @@ class cash_budget_import_catalog(osv.osv_memory):
         try:
             if context is None:
                 context = {}
-            logger = logging.getLogger('budget.import.catalog')
+            logger = logging.getLogger('cash.budget.import.catalog')
             account_obj= self.pool.get('cash.budget.account')
             account_list = [ ]#list of dictionaries
             data = self.browse(cr, uid, ids, context=context)[0]
