@@ -244,7 +244,8 @@ class HRExpenseLine(models.Model):
     _name = "hr.expense.line"
     _inherit = 'hr.expense.line'
 
-    program_line_id = fields.Many2one('cash.budget.program.line', 'Program line')
+    program_line_id = fields.Many2one(
+        'cash.budget.program.line', 'Program line')
     line_available = fields.Float(
         compute='_check_available', string='Line available')
 

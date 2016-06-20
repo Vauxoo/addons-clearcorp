@@ -87,7 +87,8 @@ class AccountMoveLineDistribution(models.Model):
             INNER JOIN cash_budget_move_line BML ON
                 AMLD.target_budget_move_line_id = BML.id
             INNER JOIN cash_budget_move BM ON BML.budget_move_id=BM.id
-            INNER JOIN cash_budget_program_line BPL ON BPL.id=BML.program_line_id
+            INNER JOIN cash_budget_program_line BPL ON
+                BPL.id=BML.program_line_id
             INNER JOIN cash_budget_program BPR ON BPR.id=BPL.program_id
             INNER JOIN cash_budget_plan BP ON BP.id=BPR.plan_id
             WHERE AMLD.id IN %s"""

@@ -187,7 +187,8 @@ class CashBudgetProgramLine(models.Model):
     account_id = fields.Many2one(
         'cash.budget.account', string='Budget account', required=True)
     program_id = fields.Many2one(
-        'cash.budget.program', string='Program', required=True, ondelete='cascade')
+        'cash.budget.program', string='Program', required=True,
+        ondelete='cascade')
     assigned_amount = fields.Float(
         string='Assigned amount', digits=dp.get_precision('Account'),
         default=0.0, required=True)
@@ -197,15 +198,24 @@ class CashBudgetProgramLine(models.Model):
     state = fields.Selection(
         related='program_id.state', string='State', readonly=True)
 
-    total_assigned = fields.Float(compute='_compute_values', string='Assigned')
-    extended_amount = fields.Float(compute='_compute_values', string='Extensions')
-    modified_amount = fields.Float(compute='_compute_values', string='Modifications')
-    reserved_amount = fields.Float(compute='_compute_values', string='Reservations')
-    compromised_amount = fields.Float(compute='_compute_values', string='Compromises')
-    executed_amount = fields.Float(compute='_compute_values', string='Executed')
-    available_budget = fields.Float(compute='_compute_values', string='Available Budget')
-    available_cash = fields.Float(compute='_compute_values', string='Available Cash')
-    execution_percentage = fields.Float(compute='_compute_values', string='Execution Percentage')
+    total_assigned = fields.Float(
+        compute='_compute_values', string='Assigned')
+    extended_amount = fields.Float(
+        compute='_compute_values', string='Extensions')
+    modified_amount = fields.Float(
+        compute='_compute_values', string='Modifications')
+    reserved_amount = fields.Float(
+        compute='_compute_values', string='Reservations')
+    compromised_amount = fields.Float(
+        compute='_compute_values', string='Compromises')
+    executed_amount = fields.Float(
+        compute='_compute_values', string='Executed')
+    available_budget = fields.Float(
+        compute='_compute_values', string='Available Budget')
+    available_cash = fields.Float(
+        compute='_compute_values', string='Available Cash')
+    execution_percentage = fields.Float(
+        compute='_compute_values', string='Execution Percentage')
 
     sponsor_id = fields.Many2one('res.partner', 'Sponsor')
     company_id = fields.Many2one(
@@ -217,8 +227,8 @@ class CashBudgetProgramLine(models.Model):
     child_parent_ids = fields.One2many(
         'cash.budget.program.line', 'parent_id', string='Children')
     child_consol_ids = fields.Many2many(
-        'cash.budget.program.line', 'budget_program_line_consol_rel', 'parent_id',
-        'consol_child_id', string='Consolidated Children')
+        'cash.budget.program.line', 'budget_program_line_consol_rel',
+        'parent_id', 'consol_child_id', string='Consolidated Children')
     child_id = fields.Many2many(
         'cash.budget.program.line',
         compute='_get_child_ids', string="Child Accounts")

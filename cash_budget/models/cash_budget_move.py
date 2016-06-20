@@ -225,7 +225,8 @@ class CashBudgetMove(models.Model):
 
     # Store triggers for functional fields
     STORE = {
-        'cash.budget.move': (lambda self, cr, uid, ids, context={}: ids, [], 10),
+        'cash.budget.move': (
+            lambda self, cr, uid, ids, context={}: ids, [], 10),
         'cash.budget.move.line': (_get_budget_moves_from_lines, [], 10),
         'account.move.line.distribution': (_get_budget_moves_from_dist, [], 10)
     }
@@ -402,7 +403,8 @@ class CashBudgetMove(models.Model):
             for line in self.move_lines:
                 res_amount += line.fixed_amount
             vals['fixed_amount'] = res_amount
-            return super(CashBudgetMove, self).write({'fixed_amount': res_amount})
+            return super(CashBudgetMove, self).write(
+                {'fixed_amount': res_amount})
 
     @api.one
     @api.onchange('move_lines')

@@ -206,7 +206,8 @@ class AccountInvoiceLine(models.Model):
     _name = 'account.invoice.line'
     _inherit = 'account.invoice.line'
 
-    program_line_id = fields.Many2one('cash.budget.program.line', 'Program line')
+    program_line_id = fields.Many2one(
+        'cash.budget.program.line', 'Program line')
     invoice_from_order = fields.Boolean(
         compute='_check_from_order', string='From order')
     line_available = fields.Float(

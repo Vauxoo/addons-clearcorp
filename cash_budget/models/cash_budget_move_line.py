@@ -21,7 +21,6 @@ class CashBudgetMoveLine(models.Model):
             res_amount += line.available_budget
         self.line_available = res_amount
 
-
     @api.one
     @api.depends(
         'program_line_id', 'date', 'state', 'executed', 'compromised',
@@ -213,7 +212,7 @@ class CashBudgetMoveLine(models.Model):
             if program_line.program_id.plan_id.state in ('cancel', 'closed'):
                 raise Warning(_("""
         You cannot create a budget move line from an cancel or closed plan"""))
-        return super(CashBudgetMove, self).create(vals)
+        return super(CashBudgetMoveLine, self).create(vals)
 
     @api.one
     def write(self, vals):
@@ -226,7 +225,7 @@ class CashBudgetMoveLine(models.Model):
                     raise Warning(_("""
                 You cannot create a budget move line with a canceled or
                 closed plan"""))
-        super(CashBudgetMove, self).write(vals)
+        super(CashBudgetMoveLine, self).write(vals)
         next_year_lines = self.get_next_year_line()
         for line_id in next_year_lines.keys():
             if next_year_lines[line_id]:
@@ -240,4 +239,4 @@ class CashBudgetMoveLine(models.Model):
                     'cancel', 'closed'):
                 raise Warning(_("""
             You cannot create a budget move with a canceled or closed plan"""))
-        super(CashBudgetMove, self).unlink()
+        super(CashBudgetMoveLine, self).unlink()
