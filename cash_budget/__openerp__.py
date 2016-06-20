@@ -34,9 +34,9 @@
         'views/account_invoice_view.xml',
         'views/account_move_line.xml',
         'views/account_view.xml',
-        'views/budget_sequence.xml',
-        'views/budget_view.xml',
-        'views/budget_workflow.xml',
+        'views/cash_budget_sequence.xml',
+        'views/cash_budget_view.xml',
+        'views/cash_budget_workflow.xml',
         'views/hr_expense_view.xml',
         'views/hr_expense_workflow.xml',
         'views/hr_payroll.xml',
@@ -44,7 +44,7 @@
         'views/purchase_workflow.xml',
         'views/res_partner_view.xml',
         'views/sale_view.xml',
-        'wizard/budget_import_catalog_view.xml',
-        'wizard/budget_program_populate_view.xml'
+        'wizard/cash_budget_import_catalog_view.xml',
+        'wizard/cash_budget_program_populate_view.xml'
         ]
 }

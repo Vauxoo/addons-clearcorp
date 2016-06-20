@@ -2,5 +2,5 @@
 # © 2016 ClearCorp
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import budget_import_catalog
-import budget_program_populate
+import cash_budget_import_catalog
+import cash_budget_program_populate

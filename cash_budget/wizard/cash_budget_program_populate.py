@@ -9,7 +9,7 @@ import base64
 import logging
 
 
-class budget_program_populate(osv.osv_memory):
+class cash_budget_program_populate(osv.osv_memory):
     _name = 'cash.budget.program.populate'
     
     _columns = {

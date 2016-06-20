@@ -9,7 +9,7 @@ import base64
 import logging
 
 
-class budget_import_catalog(osv.osv_memory):
+class cash_budget_import_catalog(osv.osv_memory):
     _name = 'cash.budget.import.catalog'
     
     _columns = {
