@@ -25,7 +25,7 @@ class CashBudgetProgramLine(models.Model):
             for child_child in child.child_consol_ids:
                 child_child_ids.append(child_child.id)
         if child_child_ids:
-            child_child_ids = self._get_children_and_consol(child_child_ids)
+            child_child_ids = self._get_children_and_consol(child_child_ids)[0]
         return list(child_ids._ids) + child_child_ids
 
     @api.one

@@ -91,14 +91,15 @@ class HRExpenseExpense(models.Model):
     @api.one
     def action_receipt_create(self):
         mov_line_obj = self.env['cash.budget.move.line']
-        result = super(HRExpenseExpense, self).action_receipt_create()
+        # result = super(HRExpenseExpense, self).action_receipt_create()
         self.account_move_id.write({'budget_type': 'budget'})
         self.budget_move_id.move_lines.write(
             {'account_move_id': self.account_move_id.id})
         self.budget_move_id.signal_workflow('button_compromise')
         self.budget_move_id.signal_workflow('button_execute')
         exp_lines = self.line_ids
-        taxes_per_line = self.tax_per_exp_line(exp_lines)
+        # taxes_per_line = self.tax_per_exp_line(exp_lines)
+        taxes_per_line = {}
         # list of associated expense lines with account move lines
         assigned_exp_lines = []
         # list of expense lines whose tax has been associated with account move
@@ -106,16 +107,16 @@ class HRExpenseExpense(models.Model):
         assigned_tax_exp_lines = []
         for acc_move_line in self.account_move_id.line_id:
             for exp_line in exp_lines:
-                exp_acc = exp_line.product_id.property_account_expense or\
+                exp_acc = exp_line.product_id.property_account_expense or \
                     exp_line.product_id.categ_id.property_account_expense_categ
                 exp_name = exp_line.name
                 exp_amount = exp_line.total_amount
-                acc_move_line_amount =\
-                    abs(acc_move_line.debit - acc_move_line.credit) or\
+                acc_move_line_amount = \
+                    abs(acc_move_line.debit - acc_move_line.credit) or \
                     abs(acc_move_line.amount_currency)
-                if exp_name.find(acc_move_line.name) != -1 and\
+                if exp_name.find(acc_move_line.name) != -1 and \
                         exp_amount == acc_move_line_amount and \
-                        exp_acc.id == acc_move_line.account_id.id and\
+                        exp_acc.id == acc_move_line.account_id.id and \
                         exp_line.id not in assigned_exp_lines:
                     bud_move_id = mov_line_obj.search(
                         [('expense_line_id', '=', exp_line.id)])
@@ -126,9 +127,9 @@ class HRExpenseExpense(models.Model):
                     if exp_line.id not in assigned_tax_exp_lines:
                         exp_line_taxes = taxes_per_line.get(exp_line.id, [])
                         for tax_amount in exp_line_taxes:
-                            fixed_amount =\
+                            fixed_amount = \
                                 abs(acc_move_line.debit -
-                                    acc_move_line.credit) or\
+                                    acc_move_line.credit) or \
                                 abs(acc_move_line.amount_currency)
                             if fixed_amount == tax_amount:
                                 mov_line_obj.create({
@@ -148,7 +149,7 @@ class HRExpenseExpense(models.Model):
                                 })
                                 assigned_tax_exp_lines.append(exp_line.id)
 
-        return result
+        return True
 
     @api.model
     def tax_per_exp_line(self, expense_lines):
@@ -238,6 +239,12 @@ class HRExpenseExpense(models.Model):
                 Budget uses the currency of the company, if you use other,
                 you should change the unit price
             """))
+
+    @api.one
+    def action_move_create(self):
+        res = super(HRExpenseExpense, self).action_move_create()
+        self.action_receipt_create()
+        return res
 
 
 class HRExpenseLine(models.Model):
