@@ -49,7 +49,7 @@ class AccountMoveReconcile(orm.Model):
         reconcile_id = super(AccountMoveReconcile, self).create(cr, uid, vals, context=context)
         try:
             self.reconcile_budget_check(cr, uid, [reconcile_id], context=context, is_incremental=is_incremental) 
-        except BudgetDistributionError, error:
+        except CashBudgetDistributionError, error:
             msg= _('Budget distributions cannot be created automatically for this reconcile')
             account_move_obj.message_post(cr, uid, [error.move_id], body=msg, context=context)
         return reconcile_id
@@ -143,7 +143,7 @@ class AccountMoveReconcile(orm.Model):
             if move_line.debit and move_line.budget_program_line:
                 debit_bud = True
         if credit_bud and debit_bud:
-            raise BudgetDistributionError(_('Error'), _('Budget distributions cannot be created automatically for this reconcile'), line.move_id.id)
+            raise CashBudgetDistributionError(_('Error'), _('Budget distributions cannot be created automatically for this reconcile'), line.move_id.id)
         
         for move_line in line.move_id.line_id:
             if (is_debit and move_line.credit) or (not is_debit and move_line.debit):
