@@ -18,7 +18,7 @@ msgstr ""
 #. module: account_voucher_report
 #: model:ir.actions.report.xml,name:account_voucher_report.action_account_voucher
 msgid "Account Voucher"
-msgstr "Cuenta de cheques"
+msgstr "Reporte de cheques"
 
 #. module: account_voucher_report
 #: view:website:account_voucher_report.accountvoucher_report
