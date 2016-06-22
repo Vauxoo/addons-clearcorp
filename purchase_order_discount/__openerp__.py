@@ -15,6 +15,7 @@
     'auto_install': False,
     'depends': [
         'purchase',
+        'account_invoice_discount',
     ],
     'data': [
         'views/purchase_order_discount_view.xml',
