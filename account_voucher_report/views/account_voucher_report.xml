@@ -8,29 +8,29 @@
             <div class="page">
                 <div class="row">
                     <div class="col-xs-6">
-		              <span style="white-space: pre;"> </span>
-	                </div>
-	                <div class="col-xs-6">
-	                   <b>
-	                       <span t-field="o.date" t-field-options='{"format": "d"}'/>
-	                       <span>of</span>
-	                       <span t-field="o.date" t-field-options='{"format": "MMMM"}'/>
-	                       <span>of</span>
-	                       <span t-field="o.date" t-field-options='{"format": "y"}'/>
-                       </b>
+                        <span style="white-space: pre;"> </span>
+                    </div>
+                    <div class="col-xs-6">
+                        <b>
+                            <span t-field="o.date" t-field-options='{"format": "d"}'/>
+                            <span>of</span>
+                            <span t-field="o.date" t-field-options='{"format": "MMMM"}'/>
+                            <span>of</span>
+                            <span t-field="o.date" t-field-options='{"format": "y"}'/>
+                        </b>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" style="margin-top: 12px;">
                     <div class="col-xs-1">
                         <span style="white-space: pre;"> </span>
                     </div>
-                    <div class="col-xs-7">
+                    <div class="col-xs-8">
                     <b>
                         <span style="white-space: pre;"> </span>
                         <span style="text-transform:uppercase;" t-field="o.partner_id"/>
                     </b>
                     </div>
-                    <div class="col-xs-4">
+                    <div class="col-xs-3">
                         <b><span t-field="o.amount"/></b>
                     </div>
                 </div>
@@ -39,10 +39,10 @@
                     <div class="col-xs-1">
                         <span style="white-space: pre;"> </span>
                     </div>
-                    <div class="col-xs-7">
+                    <div class="col-xs-9">
                         <b><span t-esc="get_text_amount(o.amount, o.currency_id.id, o.partner_id.lang)"/></b>
                     </div>
-                    <div class="col-xs-4">
+                    <div class="col-xs-2">
                         <span style="white-space: pre;"> </span>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
                 <br />
                 <br />
                 <br />
-                <div class="row">
+                <div class="row" style="margin-top: 50px;">
                     <div class="col-xs-6">
                         <b><span>Num. Voucher: </span>
                         <span t-field="o.reference"> </span></b>
@@ -68,67 +68,61 @@
                         <span style="white-space: pre;">  </span>
                     </div>
                 </div>
-                <br />
-                <br />
                 <div class="row">
                     <div class="col-xs-12" style="font-size: 10px">
-                        <t t-if="o.line_cr_ids or o.line_dr_ids">
-	                        <table class="table table-condensed">
-	                            <thead>
-		                            <tr>
-		                                <th class="text-center" style="border: 1px solid #000000">Journal Entry</th>
-		                                <th class="text-center" style="border: 1px solid #000000">Invoice Number</th>
-		                                <th class="text-center" style="border: 1px solid #000000">Debit</th>
-		                                <th class="text-center" style="border: 1px solid #000000">Credit</th>
-		                            </tr>
-		                        </thead>
-		                        <tbody>
-		                               <t t-foreach="o.line_cr_ids" t-as="m">
-				                           <tr t-if="m.amount != 0.0">
-				                               <td class="text-left" style="border-bottom: 1px solid #000000">
-				                                    <b><span t-field="m.account_id.code"/></b>
+                        <t t-if="o.line_cr_ids or o.line_dr_ids"><table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" style="border: 1px solid #000000">Journal Entry</th>
+                                    <th class="text-center" style="border: 1px solid #000000">Invoice Number</th>
+                                    <th class="text-center" style="border: 1px solid #000000">Debit</th>
+                                    <th class="text-center" style="border: 1px solid #000000">Credit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.line_cr_ids" t-as="m"><tr t-if="m.amount != 0.0">
+                                    <td class="text-left" style="border-bottom: 1px solid #000000">
+                                        <b><span t-field="m.account_id.code"/></b>
                                                     <b><span t-field="m.account_id.name"/></b>
-				                               </td>
-				                               <td class="text-center" style="border-bottom: 1px solid #000000">
-			                                       <b><span t-field="m.move_line_id.move_id"/></b>
-			                                   </td>
-			                                   <td class="text-center" style="border-bottom: 1px solid #000000">
-			                                       <b><span t-field="m.amount"/></b>
-			                                   </td>
-			                                   <td class="text-center" style="border-bottom: 1px solid #000000">
-			                                       <t t-set="balance" t-value="m.amount - m.amount_unreconciled"/>
-			                                            <b><span t-esc="balance"/></b>
-			                                   </td>
-				                           </tr>
-				                       </t>
-				                       <t t-foreach="o.line_dr_ids" t-as="m">
-				                           <tr t-if="m.amount != 0.0">
-			                                   <td class="text-left" style="border-bottom: 1px solid #000000">
-			                                       <b><span t-field="m.account_id.code"/></b>
-			                                       <b><span t-field="m.account_id.name"/></b>
-			                                   </td>
-			                                   <td class="text-center" style="border-bottom: 1px solid #000000">
-			                                       <t t-if="not m.move_line_id.invoice">
-			                                         <b><span t-field="m.move_line_id.move_id"/></b>
-			                                       </t>
-			                                       <t t-if="m.move_line_id.invoice">
-			                                         <t t-if="m.move_line_id.invoice.supplier_invoice_number">
-                                                        <b><span t-field="m.move_line_id.invoice.supplier_invoice_number"/> -</b>
-                                                     </t>
-                                                     <b><span t-field="m.move_line_id.invoice.number"/></b>
-                                                   </t>
-			                                   </td>
-			                                   <td class="text-center" style="border-bottom: 1px solid #000000">
-			                                       <b><span t-field="m.amount"/></b>
-			                                   </td>
-			                                   <td class="text-center" style="border-bottom: 1px solid #000000">
-			                                       <t t-set="balance" t-value="m.amount - m.amount_unreconciled"/>
-			                                            <b><span t-esc="balance"/></b>
-			                                   </td>
-			                               </tr>
-		                               </t>
-		                        </tbody>
-	                        </table>
+                                    </td>
+                                    <td class="text-center" style="border-bottom: 1px solid #000000">
+                                        <b><span t-field="m.move_line_id.move_id"/></b>
+                                    </td>
+                                    <td class="text-center" style="border-bottom: 1px solid #000000">
+                                        <b><span t-field="m.amount"/></b>
+                                    </td>
+                                    <td class="text-center" style="border-bottom: 1px solid #000000">
+                                        <t t-set="balance" t-value="m.amount - m.amount_unreconciled"/>
+                                        <b><span t-esc="balance"/></b>
+                                    </td>
+                                </tr></t><t t-foreach="o.line_dr_ids" t-as="m">
+                                <tr t-if="m.amount != 0.0">
+                                    <td class="text-left" style="border-bottom: 1px solid #000000">
+                                        <b><span t-field="m.account_id.code"/></b>
+                                        <b><span t-field="m.account_id.name"/></b>
+                                    </td>
+                                    <td class="text-center" style="border-bottom: 1px solid #000000">
+                                        <t t-if="not m.move_line_id.invoice">
+                                            <b><span t-field="m.move_line_id.move_id"/></b>
+                                        </t>
+                                        <t t-if="m.move_line_id.invoice">
+                                            <t t-if="m.move_line_id.invoice.supplier_invoice_number">
+                                                <b><span t-field="m.move_line_id.invoice.supplier_invoice_number"/> -</b>
+                                            </t>
+                                            <b><span t-field="m.move_line_id.invoice.number"/></b>
+                                        </t>
+                                    </td>
+                                    <td class="text-center" style="border-bottom: 1px solid #000000">
+                                        <b><span t-field="m.amount"/></b>
+                                    </td>
+                                    <td class="text-center" style="border-bottom: 1px solid #000000">
+                                        <t t-set="balance" t-value="m.amount - m.amount_unreconciled"/>
+                                        <b><span t-esc="balance"/></b>
+                                    </td>
+                                </tr>
+                            </t>
+                            </tbody>
+                        </table>
                         </t>
                     </div>
                 </div>
