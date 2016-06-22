@@ -227,7 +227,7 @@ class CashBudgetProgramLine(models.Model):
     child_parent_ids = fields.One2many(
         'cash.budget.program.line', 'parent_id', string='Children')
     child_consol_ids = fields.Many2many(
-        'cash.budget.program.line', 'budget_program_line_consol_rel',
+        'cash.budget.program.line', 'cash_budget_program_line_consol_rel',
         'parent_id', 'consol_child_id', string='Consolidated Children')
     child_id = fields.Many2many(
         'cash.budget.program.line',

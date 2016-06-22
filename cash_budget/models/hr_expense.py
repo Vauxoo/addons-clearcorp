@@ -64,15 +64,13 @@ class HRExpenseExpense(models.Model):
     @api.one
     def expense_confirm(self):
         super(HRExpenseExpense, self).expense_confirm()
-        move_id = self.budget_move_id
-        self.write({'budget_move_id': move_id.id})
+        self.write({'budget_move_id': self.budget_move_id.id})
 
     @api.one
     def expense_canceled(self):
-        bud_move_obj = self.pool.get('cash.budget.move')
         super(HRExpenseExpense, self).expense_canceled()
         self.budget_move_id.signal_workflow('button_cancel')
-        bud_move_obj.recalculate_values()
+        self.budget_move_id.recalculate_values()
 
     @api.one
     def expense_draft(self):

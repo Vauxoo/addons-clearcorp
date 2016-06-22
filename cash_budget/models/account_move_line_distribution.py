@@ -13,7 +13,7 @@ class AccountMoveLineDistribution(models.Model):
     _description = "Account move line distribution"
 
     reconcile_ids = fields.Many2many(
-        'account.move.reconcile', 'bud_reconcile_distribution_ids',
+        'account.move.reconcile', 'cash_bud_reconcile_distribution_ids',
         string='Budget Reconcile Distributions')
     account_move_line_type = fields.Selection(
         [('liquid', 'Liquid'), ('void', 'Void')], string='Budget Type',
