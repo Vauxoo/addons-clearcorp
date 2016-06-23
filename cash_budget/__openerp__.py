@@ -4,7 +4,7 @@
 
 {
     'name': 'Cash Budget',
-    'version': '8.0.1.0',
+    'version': '8.0.1.2',
     'summary': "Goverment Institutions Cash Budget",
     'author': 'ClearCorp',
     'website': 'http://clearcorp.cr',
