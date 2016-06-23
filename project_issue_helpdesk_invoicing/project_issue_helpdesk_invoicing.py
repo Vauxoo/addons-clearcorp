@@ -473,7 +473,7 @@ class AccountInvoice(models.Model):
                         if timesheet.employee_id.product_id:
                             #Set a currency exchange rate for timesheets
                             if issue.company_id.currency_id.id != invoice.currency_id.id:
-                                import_currency_rate=issue.company.currency_id.get_exchange_rate(invoice.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                import_currency_rate=issue.company_id.currency_id.get_exchange_rate(invoice.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
                             else:
                                 import_currency_rate = 1
                             total_cost_timesheet+=((timesheet.end_time-timesheet.start_time)*timesheet.employee_id.product_id.standard_price)*import_currency_rate             #Set total of timesheets cost
@@ -490,7 +490,7 @@ class AccountInvoice(models.Model):
                             for move in backorder.move_lines:
                                 #Set a currency exchange rate for backorders
                                 if issue.company_id.currency_id.id != invoice.currency_id.id:
-                                    import_currency_rate=issue.company.currency_id.get_exchange_rate(invoice.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
+                                    import_currency_rate=issue.company_id.currency_id.get_exchange_rate(invoice.currency_id,date.strftime(date.today(), "%Y-%m-%d"))[0]
                                 else:
                                     import_currency_rate = 1
                                 standart_price=0.0
