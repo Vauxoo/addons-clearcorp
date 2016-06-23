@@ -121,7 +121,7 @@ class CashBudgetMove(models.Model):
         return result
 
     @api.one
-    @api.depends('date', 'move_lines')
+    @api.depends('date', 'move_lines', 'state')
     def _compute_executed(self):
         total = 0.0
         for line in self.move_lines:
@@ -129,7 +129,7 @@ class CashBudgetMove(models.Model):
         self.executed = total
 
     @api.one
-    @api.depends('date', 'move_lines')
+    @api.depends('date', 'move_lines', 'state')
     def _compute_compromised(self):
         total = 0.0
         for line in self.move_lines:
@@ -326,7 +326,7 @@ class CashBudgetMove(models.Model):
             if move.type in ('invoice_out', 'manual_invoice_out') and\
                     move.fixed_amount >= 0:
                 return [False, _('The reserved amount must be negative')]
-            if move.type == 'modifications' and move.fixed_amount != 0:
+            if move.type == 'modification' and move.fixed_amount != 0:
                 return [False, _(
                     """The sum of addition and subtractions
                         from program lines must be zero""")]
@@ -347,7 +347,7 @@ class CashBudgetMove(models.Model):
                         return [False, _(
                             'An extension amount cannot be negative')]
                 elif line.type == 'modification':
-                    if (line.fixed_amount < 0) & (
+                    if (line.fixed_amount > 0) & (
                             line.program_line_id.available_budget <
                             abs(line.fixed_amount)):
                         return [False, _(
@@ -534,8 +534,8 @@ class CashBudgetMove(models.Model):
             for line in move.move_lines:
                 if line.program_line_id.program_id.plan_id.state in (
                         'approved', 'closed'):
-                    raise Warning(_("""
-                    You cannot delete a budget move budget move that have
-                associated budget lines with a approved or closed budge
-                plan"""))
+                    raise Warning(_(
+                        "You cannot delete a budget move budget "
+                        "move that have associated budget lines with an "
+                        "approved or closed budge plan"))
         super(CashBudgetMove, self).unlink()

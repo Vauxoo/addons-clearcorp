@@ -29,7 +29,7 @@ class CashBudgetProgramLine(models.Model):
         return list(child_ids._ids) + child_child_ids
 
     @api.one
-    @api.depends('child_consol_ids', 'program_id')
+    # @api.depends('child_consol_ids', 'program_id')
     def _compute_values(self):
         field_names = [
             'total_assigned', 'executed_amount', 'reserved_amount',

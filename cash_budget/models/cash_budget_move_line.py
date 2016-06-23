@@ -32,7 +32,7 @@ class CashBudgetMoveLine(models.Model):
         self.line_available = res_amount
 
     @api.multi
-    @api.depends('date', 'state', 'fixed_amount')
+    @api.depends('date', 'state', 'fixed_amount', 'type')
     def _compute_values(self, ignore_dist_ids=[]):
         amld = self.env['account.move.line.distribution']
         _fields = ['compromised', 'executed', 'reversed', 'reserved']
@@ -44,7 +44,7 @@ class CashBudgetMoveLine(models.Model):
             reserved = 0.0
             _reversed = 0.0
             if line.state in ('executed', 'in_execution', 'transferred'):
-                if line.type == 'opening':
+                if line.type not in ('opening', 'modification', 'extension'):
                     executed = line.fixed_amount
                 elif line.type in (
                         'manual_invoice_in', 'expense', 'invoice_in',
@@ -69,11 +69,12 @@ class CashBudgetMoveLine(models.Model):
                 _reversed += line.previous_move_line_id.reversed
 
             if line.state in ('compromised', 'executed', 'in_execution',
-                              'transferred'):
+                              'transferred') and\
+                    line.type not in ('opening', 'modification', 'extension'):
                 compromised = line.fixed_amount - executed - line.reversed
-            if line.state == 'reserved':
-                    reserved = line.fixed_amount - _reversed
-
+            if line.state == 'reserved' and\
+                    line.type not in ('opening', 'modification', 'extension'):
+                reserved = line.fixed_amount - _reversed
             line.executed = executed
             line.compromised = compromised
             line.reversed = _reversed
@@ -92,14 +93,16 @@ class CashBudgetMoveLine(models.Model):
         return res_compute
 
     @api.multi
+    @api.depends('state', 'type')
     def _compute_modified(self):
         for line in self:
             total = 0.0
             if line.state == 'executed'and line.type == 'modification':
                 total = line.fixed_amount
-            line.canged = total
+            line.changed = total
 
     @api.multi
+    @api.depends('state', 'type')
     def _compute_extended(self):
         for line in self:
             total = 0.0
