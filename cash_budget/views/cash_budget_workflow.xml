@@ -179,6 +179,11 @@
             <field name="signal">button_check_execution</field>
             <field name="sequence">50</field>
         </record>
+        <record id="trans_bud_mov_standalone" model="workflow.transition">
+            <field name="act_from" ref="act_bud_mov_in_execution"/>
+            <field name="act_to" ref="act_bud_mov_executed"/>
+            <field name="condition">type in ('modification', 'opening', 'extension')</field>
+        </record>
 
         <record id="trans_bud_mov_reserved_canceled" model="workflow.transition">
             <field name="act_from" ref="act_bud_mov_reserved"/>
