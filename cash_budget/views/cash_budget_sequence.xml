@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <openerp>
-<data noupdate="1">
-	<record model="ir.sequence.type" id="seq_type_budget_move">
-		<field name="name">Budget Move code</field>
-		<field name="code">cash.budget.plan</field>
+<data>
+	<record model="ir.sequence.type" id="seq_type_cash_budget_move">
+		<field name="name">Cash Budget Move code</field>
+		<field name="code">cash.budget.move</field>
 	</record>
-	<record model="ir.sequence" id="seq_budget_move">
-		<field name="name">Budget_move</field>
-		<field name="code">cash.budget.plan</field>
+	<record model="ir.sequence" id="seq_cash_budget_move">
+		<field name="name">Cash_Budget_move</field>
+		<field name="code">cash.budget.move</field>
 		<field name="prefix">BudMov-%(year)s-</field>
 		<field name="padding">8</field>
 		<field name="implementation">no_gap</field>
