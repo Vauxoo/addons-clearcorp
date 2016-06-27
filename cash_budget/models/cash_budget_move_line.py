@@ -126,8 +126,9 @@ class CashBudgetMoveLine(models.Model):
             if not self.from_migration:
                 next_line = self.get_next_year_line()[self.id]
                 if not next_line:
-                    raise ValidationError(_("""
-                The plan for this program line must be in approved state"""))
+                    raise ValidationError(_(
+                        "The plan for this program line must be in approved "
+                        "state"))
         return True
 
     @api.multi
@@ -213,8 +214,9 @@ class CashBudgetMoveLine(models.Model):
             vals['program_line_id'] or False)
         if program_line:
             if program_line.program_id.plan_id.state in ('cancel', 'closed'):
-                raise Warning(_("""
-        You cannot create a budget move line from an cancel or closed plan"""))
+                raise Warning(_(
+                    "You cannot create a budget move line from an cancel or "
+                    "closed plan"))
         return super(CashBudgetMoveLine, self).create(vals)
 
     @api.one
@@ -225,9 +227,9 @@ class CashBudgetMoveLine(models.Model):
                 next_line =\
                     bud_move_line.get_next_year_line()[bud_move_line.id]
                 if not next_line:
-                    raise Warning(_("""
-                You cannot create a budget move line with a canceled or
-                closed plan"""))
+                    raise Warning(_(
+                        "You cannot create a budget move line with a "
+                        "canceled or closed plan"))
         super(CashBudgetMoveLine, self).write(vals)
         next_year_lines = self.get_next_year_line()
         for line_id in next_year_lines.keys():
@@ -240,6 +242,7 @@ class CashBudgetMoveLine(models.Model):
         for bud_move_line in self:
             if bud_move_line.program_line_id.program_id.plan_id.state in (
                     'cancel', 'closed'):
-                raise Warning(_("""
-            You cannot create a budget move with a canceled or closed plan"""))
+                raise Warning(_(
+                    "You cannot create a budget move with a canceled or"
+                    "closed plan"))
         super(CashBudgetMoveLine, self).unlink()

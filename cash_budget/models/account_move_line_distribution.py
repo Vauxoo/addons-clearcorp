@@ -41,10 +41,10 @@ class AccountMoveLineDistribution(models.Model):
         line_percentage_remaining = 100 - line_percentage
         if self.distribution_percentage >\
                 line_percentage_remaining:
-            raise Warning(_("""
-            The distribution percentage can not be greater than sum of all
-            percentage for the account move line selected
-            """))
+            raise Warning(_(
+                "The distribution percentage can not be greater"
+                "than sum of all percentage for the account move line selected"
+            ))
 
     # ========= Check distribution percentage. Use distribution_amount_sum in
     # account.move.line to check
@@ -73,10 +73,10 @@ class AccountMoveLineDistribution(models.Model):
         # amount in selfs.
         amount_remaining = amount - line_amount_dis
         if self.distribution_amount > amount_remaining:
-            raise Warning(_("""
-                The distribution amount can not be greater than maximum amount
-                of remaining amount for account move line selected
-            """))
+            raise Warning(_(
+                "The distribution amount can not be greater than maximum"
+                "amount of remaining amount for account move line selected"
+            ))
 
     # Check the plan for distribution line
     @api.multi
@@ -107,10 +107,10 @@ class AccountMoveLineDistribution(models.Model):
         for dist_id in result:
             plan = plan_obj.browse([dist_id['plan_id']])[0]
             if plan.state in ('closed', 'cancel'):
-                raise Warning(_("""
-                    You cannot create a distribution with a closed or cancelled
-                    plan
-                """))
+                raise Warning(_(
+                    "You cannot create a distribution with a closed or "
+                    "cancelled plan"
+                ))
 
     # A distribution line only has one target. This target can be a move_line
     # or a budget_line
@@ -120,10 +120,10 @@ class AccountMoveLineDistribution(models.Model):
     def _check_target_move_line(self):
         if self.target_budget_move_line_id and\
                 self.target_account_move_line_id:
-            raise Warning(_("""
-                A Distribution Line only has one target. A target can be a move
-                line or a budget move line
-            """))
+            raise Warning(_(
+                "A Distribution Line only has one target. A target can be a "
+                "move line or a budget move line"
+            ))
 
     # Distribution amount must be less than compromised + executed amount in
     # budget move line
@@ -137,10 +137,10 @@ class AccountMoveLineDistribution(models.Model):
             self.target_budget_move_line_id.executed,
             self.env['decimal.precision'].precision_get('Account'))
         if abs(self.distribution_amount) > abs(compromised) + abs(executed):
-            raise Warning(_("""
-                The distribution amount can not be greater than compromised
-                amount in budget move line selected
-            """))
+            raise Warning(_(
+                "The distribution amount can not be greater than compromised"
+                "amount in budget move line selected"
+            ))
 
     @api.model
     def clean_reconcile_entries(self, move_line_ids):
@@ -192,8 +192,8 @@ class AccountMoveLineDistribution(models.Model):
                 if plan.state in ('closed'):
                     if not is_incremental:
                         raise Warning(_(
-                            """
-                    You cannot delete a distribution with a closed plan"""))
+                            "You cannot delete a distribution with a closed "
+                            "plan"))
             move_ids = []
             if self.target_budget_move_line_id:
                 move_ids.append(

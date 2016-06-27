@@ -55,13 +55,12 @@ class CashBudgetMove(models.Model):
         states={'draft': [('readonly', False)]})
     state = fields.Selection(
         STATE_SELECTION, 'State', readonly=True, select=True, default='draft',
-        help="""
-        The state of the move. A move that is still under planning is in a
-        'Draft' state. Then the move goes to 'Reserved' state in order to
-        reserve the designated amount. This move goes to 'Compromised' state
-        when the purchase operation is confirmed. Finally goes to the
-        'Executed' state where the amount is finally discounted from the budget
-        available amount""")
+        help="The state of the move. A move that is still under planning is "
+             "in a 'Draft' state. Then the move goes to 'Reserved' state in "
+             "order to reserve the designated amount. This move goes to "
+             "'Compromised' state when the purchase operation is confirmed. "
+             "Finally goes to the 'Executed' state where the amount is "
+             "finally discounted from the budget available amount")
     company_id = fields.Many2one(
         'res.company', 'Company', required=True,
         default=lambda self: self.env.user.company_id.id)
@@ -390,8 +389,8 @@ class CashBudgetMove(models.Model):
         for line in bud_program_lines_obj.browse(bud_program_lines):
             if line.program_id.plan_id.state in ('closed', 'cancel'):
                 raise Warning(_(
-                    """You cannot create a budget move that have associated
-                budget move lines with a closed or canceled budget plan"""))
+                    "You cannot create a budget move that have associated"
+                    "budget move lines with a closed or canceled budget plan"))
         res = super(CashBudgetMove, self).create(vals)
         return res
 

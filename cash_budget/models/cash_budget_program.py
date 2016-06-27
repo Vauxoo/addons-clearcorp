@@ -73,9 +73,9 @@ class CashBudgetProgram(models.Model):
     def unlink(self):
         for program in self:
             if program.plan_id.state in ('approved', 'closed'):
-                raise Warning(_("""
-                    You cannot delete a program that is associated with an
-                    approved or closed plan"""))
+                raise Warning(_(
+                    "You cannot delete a program that is associated with an "
+                    "approved or closed plan"))
         return super(CashBudgetProgram, self).unlink()
 
     @api.one

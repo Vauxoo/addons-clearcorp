@@ -43,8 +43,9 @@ class AccountPeriodClose(models.Model):
                             if line_distribution.distribution_percentage < 100:
                                 # Create a error that show line reference
                                 raise Warning(_(
-                                    """All entry lines must be distributed in a
-                        100 percentage.The move line with reference: '%s' is
-                        not completely distributed""") % (line.ref,))
+                                    "All entry lines must be distributed in a"
+                                    "100 percentage.The move line with"
+                                    "reference: '%s' is not completely"
+                                    "distributed") % (line.ref,))
 
         return super(AccountPeriodClose, self).data_save()

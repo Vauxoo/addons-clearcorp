@@ -1,196 +1,51 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* cash_budget
+#	* cash_budget
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-27 15:32+0000\n"
-"PO-Revision-Date: 2016-06-27 11:48-0600\n"
+"POT-Creation-Date: 2016-06-27 18:32+0000\n"
+"PO-Revision-Date: 2016-06-27 18:32+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
-"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"X-Generator: Poedit 1.8.7.1\n"
-
-#. module: cash_budget
-#: code:addons/cash_budget/models/account_move_line_distribution.py:110
-#, python-format
-msgid ""
-"\n"
-"                    You cannot create a distribution with a closed or cancelled\n"
-"                    plan\n"
-"                "
-msgstr ""
-"\n"
-"                    No es posible crear distribuciones con un plan cerrado o\n"
-"                    cancelado\n"
-"                "
-
-#. module: cash_budget
-#: code:addons/cash_budget/models/account_move_line_distribution.py:194
-#, python-format
-msgid ""
-"\n"
-"                    You cannot delete a distribution with a closed plan"
-msgstr ""
-"\n"
-"No es posible borrar una distribución de un plan cerrado"
-
-#. module: cash_budget
-#: code:addons/cash_budget/models/cash_budget_program.py:76
-#, python-format
-msgid ""
-"\n"
-"                    You cannot delete a program that is associated with an\n"
-"                    approved or closed plan"
-msgstr ""
-"\n"
-"No es posible borrar un programa que está asociado a un plan aprobado o cerrado"
-
-#. module: cash_budget
-#: code:addons/cash_budget/models/account_move_line_distribution.py:123
-#, python-format
-msgid ""
-"\n"
-"                A Distribution Line only has one target. A target can be a move\n"
-"                line or a budget move line\n"
-"            "
-msgstr ""
-"\n"
-"Una linea de distribución solo puede tener un objetivo. el objetivo puede ser una linea de asiento o una linea de movimiento presupuestario"
-
-#. module: cash_budget
-#: code:addons/cash_budget/models/hr_expense.py:236
-#, python-format
-msgid ""
-"\n"
-"                Budget uses the currency of the company, if you use other,\n"
-"                you should change the unit price\n"
-"            "
-msgstr ""
-"\n"
-"Presupuesto usa la moneda de la compañía, si usa otra, debe cambiar el precio el precio unidad"
-
-#. module: cash_budget
-#: code:addons/cash_budget/models/account_move_line_distribution.py:140
-#, python-format
-msgid ""
-"\n"
-"                The distribution amount can not be greater than compromised\n"
-"                amount in budget move line selected\n"
-"            "
-msgstr ""
-"\n"
-"El monto de distribución no puede ser mayor que el monto comprometido en la linea de presupuesto seleccionada"
-
-#. module: cash_budget
-#: code:addons/cash_budget/models/account_move_line_distribution.py:76
-#, python-format
-msgid ""
-"\n"
-"                The distribution amount can not be greater than maximum amount\n"
-"                of remaining amount for account move line selected\n"
-"            "
-msgstr ""
-"\n"
-"El monto a distribuir no puede ser mayor al monto restante par la linea de asiento seleccionada"
 
 #. module: cash_budget
 #: code:addons/cash_budget/models/cash_budget_move_line.py:129
 #, python-format
-msgid ""
-"\n"
+msgid "\n"
 "                The plan for this program line must be in approved state"
-msgstr ""
-"\n"
+msgstr "\n"
 "Error! El plan para esta línea de programa debe de estar en estado aprobado"
 
 #. module: cash_budget
-#: code:addons/cash_budget/models/cash_budget_move_line.py:228
-#, python-format
-msgid ""
-"\n"
-"                You cannot create a budget move line with a canceled or\n"
-"                closed plan"
-msgstr ""
-"\n"
-"No es posible crear una linea presupuesto para un plan cancelado o cerrado"
-
-#. module: cash_budget
-#: code:addons/cash_budget/models/account_move_line_distribution.py:44
-#, python-format
-msgid ""
-"\n"
-"            The distribution percentage can not be greater than sum of all\n"
-"            percentage for the account move line selected\n"
-"            "
-msgstr ""
-"\n"
-"El porcentaje de distribución no puede ser mayor a la suma de los porcentajes de la linea de asiento seleccionada"
-
-#. module: cash_budget
-#: code:addons/cash_budget/models/cash_budget_move_line.py:243
-#, python-format
-msgid ""
-"\n"
-"            You cannot create a budget move with a canceled or closed plan"
-msgstr ""
-"\n"
-"No es posible crear un movimiento de presupuesto en un plan cerrado o cancelado"
-
-#. module: cash_budget
-#: help:cash.budget.move,state:0 help:cash.budget.move.line,state:0
-msgid ""
-"\n"
+#: help:cash.budget.move,state:0
+#: help:cash.budget.move.line,state:0
+msgid "\n"
 "        The state of the move. A move that is still under planning is in a\n"
 "        'Draft' state. Then the move goes to 'Reserved' state in order to\n"
 "        reserve the designated amount. This move goes to 'Compromised' state\n"
 "        when the purchase operation is confirmed. Finally goes to the\n"
 "        'Executed' state where the amount is finally discounted from the budget\n"
 "        available amount"
-msgstr ""
-"\n"
-"El estado de un moviemiento. Un movimiento que está todavia bajo planeamiento está en un estado 'Borrador' . Despues el movimiento va al estado 'Reservado' para reservar el monto indicado. Este movimiento va al estado 'Comprometido' cuando la operación de la compra es confirmada. Finalmente va al estado 'Ejecutado' cuando el monto es descondado del monto disponible del presupuesto."
-
-#. module: cash_budget
-#: code:addons/cash_budget/models/hr_expense.py:265
-#, python-format
-msgid ""
-"\n"
-"        There is a tax defined for this product, its account or the account of\n"
-"        the product category. The tax must be included in the price of the\n"
-"        expense product."
-msgstr ""
-"\n"
-"Existe un impuesto definido para este producto, su cuenta o la cuenta de la categoría de producto. El precio debe estar incluido en el precio del producto."
-
-#. module: cash_budget
-#: code:addons/cash_budget/models/cash_budget_move_line.py:216
-#, python-format
-msgid ""
-"\n"
-"        You cannot create a budget move line from an cancel or closed plan"
-msgstr ""
-"\n"
-"\t\t\t\tNo es posible crear una linea de movimiento presupuestario en un plan \t\t\t\tcancelado o cerrado"
+msgstr "\n"
+"El estado de un movimiento. Un movimiento que está todavia bajo planeamiento está en un estado 'Borrador' . Despues el movimiento va al estado 'Reservado' para reservar el monto indicado. Este movimiento va al estado 'Comprometido' cuando la operación de la compra es confirmada. Finalmente va al estado 'Ejecutado' cuando el monto es descondado del monto disponible del presupuesto."
 
 #. module: cash_budget
 #: model:ir.actions.act_window,help:cash_budget.action_budget_move
-msgid ""
-"<field name=\"view_id\" ref=\"view_budget_move_tree\"/>\n"
+msgid "<field name=\"view_id\" ref=\"view_budget_move_tree\"/>\n"
 "              <p class=\"oe_view_nocontent_create\">\n"
 "                Click to start a new move.\n"
 "              </p><p>\n"
 "                Create moves to reserve,compromise or execute currency moves from specified budget plans \n"
 "              </p>\n"
 "            "
-msgstr ""
-"<field name=\"view_id\" ref=\"view_budget_move_tree\"/>\n"
+msgstr "<field name=\"view_id\" ref=\"view_budget_move_tree\"/>\n"
 "              <p class=\"oe_view_nocontent_create\">\n"
 "                Click para crear un nuevo movimiento.\n"
 "              </p><p>\n"
@@ -200,15 +55,13 @@ msgstr ""
 
 #. module: cash_budget
 #: model:ir.actions.act_window,help:cash_budget.action_budget_manual_move
-msgid ""
-"<p class=\"oe_view_nocontent_create\">\n"
+msgid "<p class=\"oe_view_nocontent_create\">\n"
 "                Click to start a new move.\n"
 "              </p><p>\n"
 "                Create moves to execute currency moves from specified budget plans \n"
 "              </p>\n"
 "            "
-msgstr ""
-"<p class=\"oe_view_nocontent_create\">\n"
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
 "                Click para añadir un nuevo movimiento.\n"
 "              </p><p>\n"
 "                Crea movimientos para ejecutar movimientos de dinero desde planes presupuestarios específicos \n"
@@ -217,16 +70,14 @@ msgstr ""
 
 #. module: cash_budget
 #: model:ir.actions.act_window,help:cash_budget.action_budget_plan
-msgid ""
-"<p class=\"oe_view_nocontent_create\">\n"
+msgid "<p class=\"oe_view_nocontent_create\">\n"
 "                Click to start a new plan.\n"
 "              </p><p>\n"
 "                Define your company's Budget according to your needs. A\n"
 "                budget plan allows you to distribute your resources into each budget entry \n"
 "              </p>\n"
 "            "
-msgstr ""
-"<p class=\"oe_view_nocontent_create\">\n"
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
 "                Click para iniciar un nuevo plan.\n"
 "              </p><p>\n"
 "                Defina la compañía del Presupuesto de acuerdo con sus necesidades. Un\n"
@@ -236,16 +87,14 @@ msgstr ""
 
 #. module: cash_budget
 #: model:ir.actions.act_window,help:cash_budget.action_budget_program
-msgid ""
-"<p class=\"oe_view_nocontent_create\">\n"
+msgid "<p class=\"oe_view_nocontent_create\">\n"
 "                Click to start a new program.\n"
 "              </p><p>\n"
 "                Define your company's Budget according to your needs. A\n"
 "                budget program allows you to manage your budget for any department or organizational unit. \n"
 "              </p>\n"
 "            "
-msgstr ""
-"<p class=\"oe_view_nocontent_create\">\n"
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
 "                Click para iniciar un nuevo programa.\n"
 "              </p><p>\n"
 "                Defina el presupuesto para su compañía de acuerdo a sus necesidades. Un\n"
@@ -255,22 +104,26 @@ msgstr ""
 
 #. module: cash_budget
 #: model:ir.actions.act_window,help:cash_budget.action_budget_program_line_list
-msgid ""
-"<p class=\"oe_view_nocontent_create\">\n"
+msgid "<p class=\"oe_view_nocontent_create\">\n"
 "                Click to start a new programgm line.\n"
 "              </p><p>\n"
 "                Define your company's Budget according to your needs. A\n"
 "                budget plan allows you to distribute your resources into each budget entry \n"
 "              </p>\n"
 "            "
-msgstr ""
-"<p class=\"oe_view_nocontent_create\">\n"
+msgstr "<p class=\"oe_view_nocontent_create\">\n"
 "                Click to start a new programgm line.\n"
 "              </p><p>\n"
 "                Define your company's Budget according to your needs. A\n"
 "                budget plan allows you to distribute your resources into each budget entry \n"
 "              </p>\n"
 "            "
+
+#. module: cash_budget
+#: code:addons/cash_budget/models/account_move_line_distribution.py:123
+#, python-format
+msgid "A Distribution Line only has one target. A target can be a move line or a budget move line"
+msgstr "A Distribution Line only has one target. A target can be a move line or a budget move line"
 
 #. module: cash_budget
 #: code:addons/cash_budget/models/account_move_line.py:80
@@ -279,7 +132,8 @@ msgid "AC:"
 msgstr "AC:"
 
 #. module: cash_budget
-#: view:cash.budget.account:cash_budget.budget_account_search_form_view model:ir.model,name:cash_budget.model_account_account
+#: view:cash.budget.account:cash_budget.budget_account_search_form_view
+#: model:ir.model,name:cash_budget.model_account_account
 msgid "Account"
 msgstr "Cuenta"
 
@@ -311,7 +165,7 @@ msgstr "Distribución para Líneas de Asiento"
 #. module: cash_budget
 #: model:ir.model,name:cash_budget.model_account_move_reconcile
 msgid "Account Reconciliation"
-msgstr "Conciliación contable"
+msgstr "Contabilidad. Conciliación"
 
 #. module: cash_budget
 #: view:cash.budget.account:cash_budget.budget_account_search_form_view
@@ -324,18 +178,16 @@ msgid "Account move line distribution"
 msgstr "Apunte contable de distribución"
 
 #. module: cash_budget
-#: field:cash.budget.account,active:0 field:cash.budget.program.line,active_for_view:0
+#: field:cash.budget.account,active:0
+#: field:cash.budget.program.line,active_for_view:0
 msgid "Active"
 msgstr "Activo"
 
 #. module: cash_budget
 #: code:addons/cash_budget/models/account_period.py:45
 #, python-format
-msgid ""
-"All entry lines must be distributed in a\n"
-"                        100 percentage.The move line with reference: '%s' is\n"
-"                        not completely distributed"
-msgstr "Todas las entradas deben estar distribuidas en un 100 por ciento. La linea de asiento con referencia: '%s' No se encuentra completamente distribuida."
+msgid "All entry lines must be distributed in a100 percentage.The move line withreference: '%s' is not completelydistributed"
+msgstr "All entry lines must be distributed in a100 percentage.The move line withreference: '%s' is not completelydistributed"
 
 #. module: cash_budget
 #: field:cash.budget.account,allows_reduction:0
@@ -348,7 +200,8 @@ msgid "Allows reimbursement"
 msgstr "Permitir reembolso"
 
 #. module: cash_budget
-#: view:cash.budget.move:cash_budget.view_budget_move_form view:cash.budget.move:cash_budget.view_budget_move_manual_form
+#: view:cash.budget.move:cash_budget.view_budget_move_form
+#: view:cash.budget.move:cash_budget.view_budget_move_manual_form
 msgid "Amount"
 msgstr "Monto"
 
@@ -397,7 +250,9 @@ msgstr "Monto asignado"
 #: code:addons/cash_budget/models/cash_budget_plan.py:97
 #, python-format
 msgid "At least one program should be asociated to this plan\n"
+""
 msgstr "Al menos un programa debe estar asociado a este plan\n"
+""
 
 #. module: cash_budget
 #: selection:account.move.line.distribution,type:0
@@ -420,22 +275,28 @@ msgid "Back to draft"
 msgstr "Volver a borrador"
 
 #. module: cash_budget
-#: model:ir.module.category,name:cash_budget.module_cash_budget_category model:ir.ui.menu,name:cash_budget.budget_main_menu model:ir.ui.menu,name:cash_budget.budget_menu
+#: model:ir.module.category,name:cash_budget.module_cash_budget_category
+#: model:ir.ui.menu,name:cash_budget.budget_main_menu
+#: model:ir.ui.menu,name:cash_budget.budget_menu
 msgid "Budget"
 msgstr "Presupuesto"
 
 #. module: cash_budget
-#: view:cash.budget.account:cash_budget.view_budget_account_form model:ir.model,name:cash_budget.model_cash_budget_account
+#: view:cash.budget.account:cash_budget.view_budget_account_form
+#: model:ir.model,name:cash_budget.model_cash_budget_account
 msgid "Budget Account"
 msgstr "Cuentas Presupuestarias"
 
 #. module: cash_budget
-#: view:cash.budget.account:cash_budget.view_budget_account_form model:ir.actions.act_window,name:cash_budget.action_budget_account_tree model:ir.ui.menu,name:cash_budget.budget_account_tree_menu
+#: view:cash.budget.account:cash_budget.view_budget_account_form
+#: model:ir.actions.act_window,name:cash_budget.action_budget_account_tree
+#: model:ir.ui.menu,name:cash_budget.budget_account_tree_menu
 msgid "Budget Accounts"
 msgstr "Cuentas presupuestarias"
 
 #. module: cash_budget
-#: model:ir.actions.act_window,name:cash_budget.action_budget_account_list model:ir.ui.menu,name:cash_budget.budget_account_list_menu
+#: model:ir.actions.act_window,name:cash_budget.action_budget_account_list
+#: model:ir.ui.menu,name:cash_budget.budget_account_list_menu
 msgid "Budget Accounts List"
 msgstr "Lista de cuentas presupuestarias"
 
@@ -450,12 +311,17 @@ msgid "Budget Info"
 msgstr "Información de presupuesto"
 
 #. module: cash_budget
-#: view:cash.budget.move:cash_budget.view_budget_move_form view:cash.budget.move:cash_budget.view_budget_move_manual_form field:cash.budget.move.line,budget_move_id:0 model:ir.actions.act_window,name:cash_budget.action_budget_move model:ir.model,name:cash_budget.model_cash_budget_move
+#: view:cash.budget.move:cash_budget.view_budget_move_form
+#: view:cash.budget.move:cash_budget.view_budget_move_manual_form
+#: field:cash.budget.move.line,budget_move_id:0
+#: model:ir.actions.act_window,name:cash_budget.action_budget_move
+#: model:ir.model,name:cash_budget.model_cash_budget_move
 msgid "Budget Move"
 msgstr "Movimiento de Presupuesto"
 
 #. module: cash_budget
-#: view:cash.budget.move.line:cash_budget.view_budget_move_line_form model:ir.model,name:cash_budget.model_cash_budget_move_line
+#: view:cash.budget.move.line:cash_budget.view_budget_move_line_form
+#: model:ir.model,name:cash_budget.model_cash_budget_move_line
 msgid "Budget Move Line"
 msgstr "Línea de movimiento de Presupuesto"
 
@@ -475,7 +341,9 @@ msgid "Budget Move Lines Distribution"
 msgstr "Distribución para Líneas de Movimientos Presupuestarios"
 
 #. module: cash_budget
-#: view:cash.budget.move:cash_budget.view_budget_move_form view:cash.budget.move:cash_budget.view_budget_move_manual_form model:ir.ui.menu,name:cash_budget.budget_move_menu
+#: view:cash.budget.move:cash_budget.view_budget_move_form
+#: view:cash.budget.move:cash_budget.view_budget_move_manual_form
+#: model:ir.ui.menu,name:cash_budget.budget_move_menu
 msgid "Budget Moves"
 msgstr "Movimientos presupuestarios"
 
@@ -485,17 +353,20 @@ msgid "Budget Plan"
 msgstr "Plan presupuestario"
 
 #. module: cash_budget
-#: model:ir.actions.act_window,name:cash_budget.action_budget_plan model:ir.ui.menu,name:cash_budget.budget_plan_menu
+#: model:ir.actions.act_window,name:cash_budget.action_budget_plan
+#: model:ir.ui.menu,name:cash_budget.budget_plan_menu
 msgid "Budget Plans"
 msgstr "Planes prespuestarios"
 
 #. module: cash_budget
-#: view:cash.budget.program:cash_budget.view_budget_program_form model:ir.actions.act_window,name:cash_budget.action_budget_program
+#: view:cash.budget.program:cash_budget.view_budget_program_form
+#: model:ir.actions.act_window,name:cash_budget.action_budget_program
 msgid "Budget Program"
 msgstr "Programa presupuestario"
 
 #. module: cash_budget
-#: field:account.move.line,budget_program_line:0 view:cash.budget.program.line:cash_budget.view_budget_program_line_form
+#: field:account.move.line,budget_program_line:0
+#: view:cash.budget.program.line:cash_budget.view_budget_program_line_form
 msgid "Budget Program Line"
 msgstr "Línea de programa de Presupuesto"
 
@@ -530,18 +401,26 @@ msgid "Budget account"
 msgstr "Cuenta presupuestaria"
 
 #. module: cash_budget
-#: view:cash.budget.account:cash_budget.view_budget_account_list view:cash.budget.account:cash_budget.view_budget_account_tree
+#: view:cash.budget.account:cash_budget.view_budget_account_list
+#: view:cash.budget.account:cash_budget.view_budget_account_tree
 msgid "Budget accounts"
 msgstr "Cuentas presupuestarias"
 
 #. module: cash_budget
-#: code:addons/cash_budget/models/account.py:53 code:addons/cash_budget/models/account.py:146
+#: code:addons/cash_budget/models/account.py:53
+#: code:addons/cash_budget/models/account.py:146
 #, python-format
 msgid "Budget distributions cannot be created automatically for this reconcile"
 msgstr "No pueden ser creadas distribuciones de presupuesto automáticamente para esta conciliación"
 
 #. module: cash_budget
-#: field:account.invoice,budget_move_id:0 field:account.move,budget_move_id:0 selection:account.move,budget_type:0 field:hr.expense.expense,budget_move_id:0 field:hr.payslip,budget_move_id:0 field:purchase.order,budget_move_id:0 field:sale.order,budget_move_id:0
+#: field:account.invoice,budget_move_id:0
+#: field:account.move,budget_move_id:0
+#: selection:account.move,budget_type:0
+#: field:hr.expense.expense,budget_move_id:0
+#: field:hr.payslip,budget_move_id:0
+#: field:purchase.order,budget_move_id:0
+#: field:sale.order,budget_move_id:0
 msgid "Budget move"
 msgstr "Asiento presupuestario"
 
@@ -556,13 +435,22 @@ msgid "Budget plan"
 msgstr "Plan presupuestario"
 
 #. module: cash_budget
+#: code:addons/cash_budget/models/hr_expense.py:236
+#, python-format
+msgid "Budget uses the currency of the company, if you use other, you should change the unit price"
+msgstr "Budget uses the currency of the company, if you use other, you should change the unit price"
+
+#. module: cash_budget
 #: code:addons/cash_budget/models/account_move_line.py:76
 #, python-format
 msgid "C:"
 msgstr "C:"
 
 #. module: cash_budget
-#: view:cash.budget.import.catalog:cash_budget.view_budget_import_catalog view:cash.budget.plan:cash_budget.view_budget_plan_form view:cash.budget.program.populate:cash_budget.view_budget_program_populate view:purchase.order:cash_budget.budget_purchase_order_form
+#: view:cash.budget.import.catalog:cash_budget.view_budget_import_catalog
+#: view:cash.budget.plan:cash_budget.view_budget_plan_form
+#: view:cash.budget.program.populate:cash_budget.view_budget_program_populate
+#: view:purchase.order:cash_budget.budget_purchase_order_form
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -577,17 +465,20 @@ msgid "Cancelled"
 msgstr "Cancelado"
 
 #. module: cash_budget
-#: field:cash.budget.import.catalog,parent_account:0 field:cash.budget.program.populate,parent_account:0
+#: field:cash.budget.import.catalog,parent_account:0
+#: field:cash.budget.program.populate,parent_account:0
 msgid "Catalog parent"
 msgstr "Catálogo padre"
 
 #. module: cash_budget
-#: field:cash.budget.account,child_id:0 field:cash.budget.program.line,child_id:0
+#: field:cash.budget.account,child_id:0
+#: field:cash.budget.program.line,child_id:0
 msgid "Child Accounts"
 msgstr "Cuentas Hijas"
 
 #. module: cash_budget
-#: field:cash.budget.account,child_parent_ids:0 field:cash.budget.program.line,child_parent_ids:0
+#: field:cash.budget.account,child_parent_ids:0
+#: field:cash.budget.program.line,child_parent_ids:0
 msgid "Children"
 msgstr "Hijos"
 
@@ -602,17 +493,24 @@ msgid "Closed"
 msgstr "Cerrado"
 
 #. module: cash_budget
-#: field:cash.budget.account,code:0 field:cash.budget.move,code:0 field:cash.budget.move,name:0 field:cash.budget.program,code:0
+#: field:cash.budget.account,code:0
+#: field:cash.budget.move,code:0
+#: field:cash.budget.move,name:0
+#: field:cash.budget.program,code:0
 msgid "Code"
 msgstr "Código"
 
 #. module: cash_budget
-#: field:cash.budget.account,company_id:0 field:cash.budget.move,company_id:0 field:cash.budget.program.line,company_id:0
+#: field:cash.budget.account,company_id:0
+#: field:cash.budget.move,company_id:0
+#: field:cash.budget.program.line,company_id:0
 msgid "Company"
 msgstr "Compañía"
 
 #. module: cash_budget
-#: field:cash.budget.move,compromised:0 selection:cash.budget.move,state:0 field:cash.budget.move.line,compromised:0
+#: field:cash.budget.move,compromised:0
+#: selection:cash.budget.move,state:0
+#: field:cash.budget.move.line,compromised:0
 msgid "Compromised"
 msgstr "Comprometido"
 
@@ -632,7 +530,8 @@ msgid "Confirm Order"
 msgstr "Confirmar pedido"
 
 #. module: cash_budget
-#: field:cash.budget.account,child_consol_ids:0 field:cash.budget.program.line,child_consol_ids:0
+#: field:cash.budget.account,child_consol_ids:0
+#: field:cash.budget.program.line,child_consol_ids:0
 msgid "Consolidated Children"
 msgstr "Hijos consolidados"
 
@@ -662,7 +561,15 @@ msgid "Create program lines from catalog"
 msgstr "Crear líneas de programa desde catálogo"
 
 #. module: cash_budget
-#: field:account.move.line.distribution,create_uid:0 field:cash.budget.account,create_uid:0 field:cash.budget.import.catalog,create_uid:0 field:cash.budget.move,create_uid:0 field:cash.budget.move.line,create_uid:0 field:cash.budget.plan,create_uid:0 field:cash.budget.program,create_uid:0 field:cash.budget.program.line,create_uid:0 field:cash.budget.program.populate,create_uid:0
+#: field:account.move.line.distribution,create_uid:0
+#: field:cash.budget.account,create_uid:0
+#: field:cash.budget.import.catalog,create_uid:0
+#: field:cash.budget.move,create_uid:0
+#: field:cash.budget.move.line,create_uid:0
+#: field:cash.budget.plan,create_uid:0
+#: field:cash.budget.program,create_uid:0
+#: field:cash.budget.program.line,create_uid:0
+#: field:cash.budget.program.populate,create_uid:0
 msgid "Created by"
 msgstr "Creado por"
 
@@ -672,7 +579,15 @@ msgid "Created from migration"
 msgstr "Creado desde migración"
 
 #. module: cash_budget
-#: field:account.move.line.distribution,create_date:0 field:cash.budget.account,create_date:0 field:cash.budget.import.catalog,create_date:0 field:cash.budget.move,create_date:0 field:cash.budget.move.line,create_date:0 field:cash.budget.plan,create_date:0 field:cash.budget.program,create_date:0 field:cash.budget.program.line,create_date:0 field:cash.budget.program.populate,create_date:0
+#: field:account.move.line.distribution,create_date:0
+#: field:cash.budget.account,create_date:0
+#: field:cash.budget.import.catalog,create_date:0
+#: field:cash.budget.move,create_date:0
+#: field:cash.budget.move.line,create_date:0
+#: field:cash.budget.plan,create_date:0
+#: field:cash.budget.program,create_date:0
+#: field:cash.budget.program.line,create_date:0
+#: field:cash.budget.program.populate,create_date:0
 msgid "Created on"
 msgstr "Creado en"
 
@@ -688,7 +603,8 @@ msgid "D:"
 msgstr "D:"
 
 #. module: cash_budget
-#: field:cash.budget.move,date:0 field:cash.budget.move.line,date:0
+#: field:cash.budget.move,date:0
+#: field:cash.budget.move.line,date:0
 msgid "Date created"
 msgstr "Fecha de creación"
 
@@ -708,7 +624,15 @@ msgid "Default budget program line"
 msgstr "Linea de presupuesto por defecto"
 
 #. module: cash_budget
-#: field:account.move.line.distribution,display_name:0 field:cash.budget.account,display_name:0 field:cash.budget.import.catalog,display_name:0 field:cash.budget.move,display_name:0 field:cash.budget.move.line,display_name:0 field:cash.budget.plan,display_name:0 field:cash.budget.program,display_name:0 field:cash.budget.program.line,display_name:0 field:cash.budget.program.populate,display_name:0
+#: field:account.move.line.distribution,display_name:0
+#: field:cash.budget.account,display_name:0
+#: field:cash.budget.import.catalog,display_name:0
+#: field:cash.budget.move,display_name:0
+#: field:cash.budget.move.line,display_name:0
+#: field:cash.budget.plan,display_name:0
+#: field:cash.budget.program,display_name:0
+#: field:cash.budget.program.line,display_name:0
+#: field:cash.budget.program.populate,display_name:0
 msgid "Display Name"
 msgstr "Nombre para mostrar"
 
@@ -728,7 +652,8 @@ msgid "Distribution Amount"
 msgstr "Monto de distribución"
 
 #. module: cash_budget
-#: view:cash.budget.move:cash_budget.view_budget_move_form view:cash.budget.move.line:cash_budget.view_budget_move_line_form
+#: view:cash.budget.move:cash_budget.view_budget_move_form
+#: view:cash.budget.move.line:cash_budget.view_budget_move_line_form
 msgid "Distribution Budget Lines"
 msgstr "Líneas de distribución de Presupuesto"
 
@@ -748,12 +673,14 @@ msgid "Distribution Type"
 msgstr "Tipo de Distribución"
 
 #. module: cash_budget
-#: field:account.move.line,type_distribution:0 field:cash.budget.move.line,type_distribution:0
+#: field:account.move.line,type_distribution:0
+#: field:cash.budget.move.line,type_distribution:0
 msgid "Distribution type"
 msgstr "Tipo de distribución"
 
 #. module: cash_budget
-#: selection:cash.budget.move,state:0 selection:cash.budget.plan,state:0
+#: selection:cash.budget.move,state:0
+#: selection:cash.budget.plan,state:0
 msgid "Draft"
 msgstr "Borrador"
 
@@ -769,66 +696,65 @@ msgid "Error"
 msgstr "Error"
 
 #. module: cash_budget
-#: code:addons/cash_budget/models/cash_budget_account.py:262 code:addons/cash_budget/models/cash_budget_account.py:273 code:addons/cash_budget/models/cash_budget_plan.py:97 code:addons/cash_budget/models/cash_budget_plan.py:122 code:addons/cash_budget/models/cash_budget_plan.py:139 code:addons/cash_budget/models/cash_budget_plan.py:158 code:addons/cash_budget/models/cash_budget_plan.py:170 code:addons/cash_budget/models/purchase.py:82 code:addons/cash_budget/models/purchase.py:97 code:addons/cash_budget/models/purchase.py:298 code:addons/cash_budget/wizard/cash_budget_import_catalog.py:80
-#: code:addons/cash_budget/wizard/cash_budget_import_catalog.py:83 code:addons/cash_budget/wizard/cash_budget_program_populate.py:57
+#: code:addons/cash_budget/models/cash_budget_account.py:262
+#: code:addons/cash_budget/models/cash_budget_account.py:273
+#: code:addons/cash_budget/models/cash_budget_plan.py:97
+#: code:addons/cash_budget/models/cash_budget_plan.py:122
+#: code:addons/cash_budget/models/cash_budget_plan.py:139
+#: code:addons/cash_budget/models/cash_budget_plan.py:158
+#: code:addons/cash_budget/models/cash_budget_plan.py:170
+#: code:addons/cash_budget/models/purchase.py:82
+#: code:addons/cash_budget/models/purchase.py:97
+#: code:addons/cash_budget/models/purchase.py:298
+#: code:addons/cash_budget/wizard/cash_budget_import_catalog.py:80
+#: code:addons/cash_budget/wizard/cash_budget_import_catalog.py:83
+#: code:addons/cash_budget/wizard/cash_budget_program_populate.py:57
 #, python-format
 msgid "Error!"
 msgstr "Error!"
 
 #. module: cash_budget
 #: constraint:purchase.order.line:0
-msgid ""
-"Error!\n"
+msgid "Error!\n"
 " There is a tax defined for this product, its account or the account of the product category. \n"
 " The tax must be included in the price of the product."
-msgstr ""
-"Error!\n"
+msgstr "Error!\n"
 " Existe un impuesto definido para este producto, su cuenta o la cuenta de la categoría de producto. \n"
 " El precio debe estar incluido en el precio del producto."
 
 #. module: cash_budget
 #: constraint:cash.budget.plan:0
-msgid ""
-"Error!\n"
+msgid "Error!\n"
 "The start date of the plan must not overlap with another plan"
-msgstr ""
-"Error!\n"
+msgstr "Error!\n"
 "La fecha de inicio del plan no puede traslaparse con otro plan"
 
 #. module: cash_budget
 #: constraint:cash.budget.plan:0
-msgid ""
-"Error!\n"
+msgid "Error!\n"
 "The start date of the plan must precede its end date"
-msgstr ""
-"Error!\n"
+msgstr "Error!\n"
 "La fecha de inicio del plan debe preceder la fecha final"
 
 #. module: cash_budget
 #: constraint:cash.budget.plan:0
-msgid ""
-"Error!\n"
+msgid "Error!\n"
 "The stop date of the plan must not overlap with another plan"
-msgstr ""
-"Error!\n"
+msgstr "Error!\n"
 "La fecha de finalización del plan no se debe traslapar con otro plan"
 
 #. module: cash_budget
 #: constraint:cash.budget.account:0
-msgid ""
-"Error!\n"
+msgid "Error!\n"
 "You can create only 1 top level institutional view."
-msgstr ""
-"Error!\n"
+msgstr "Error!\n"
 "Sólo se puede crear 1 Vista Institucional sin padres."
 
 #. module: cash_budget
 #: constraint:cash.budget.account:0
-msgid ""
-"Error!\n"
+msgid "Error!\n"
 "You cannot create recursive account templates."
-msgstr ""
-"Error!\n"
+msgstr "Error!\n"
 "No se pueden crear plantillas de cuentas recursivas "
 
 #. module: cash_budget
@@ -837,7 +763,10 @@ msgid "Execute"
 msgstr "Ejecutar"
 
 #. module: cash_budget
-#: field:cash.budget.move,executed:0 selection:cash.budget.move,state:0 field:cash.budget.move.line,executed:0 field:cash.budget.program.line,executed_amount:0
+#: field:cash.budget.move,executed:0
+#: selection:cash.budget.move,state:0
+#: field:cash.budget.move.line,executed:0
+#: field:cash.budget.program.line,executed_amount:0
 msgid "Executed"
 msgstr "Ejecutado"
 
@@ -847,7 +776,9 @@ msgid "Execution Percentage"
 msgstr "Porcentaje en ejecución"
 
 #. module: cash_budget
-#: code:addons/cash_budget/models/cash_budget_move.py:31 code:addons/cash_budget/models/cash_budget_move.py:190 model:ir.model,name:cash_budget.model_hr_expense_expense
+#: code:addons/cash_budget/models/cash_budget_move.py:31
+#: code:addons/cash_budget/models/cash_budget_move.py:190
+#: model:ir.model,name:cash_budget.model_hr_expense_expense
 #, python-format
 msgid "Expense"
 msgstr "Gasto"
@@ -868,7 +799,9 @@ msgid "Extended"
 msgstr "Extendido"
 
 #. module: cash_budget
-#: code:addons/cash_budget/models/cash_budget_move.py:35 code:addons/cash_budget/models/cash_budget_move.py:181 code:addons/cash_budget/models/cash_budget_move.py:194
+#: code:addons/cash_budget/models/cash_budget_move.py:35
+#: code:addons/cash_budget/models/cash_budget_move.py:181
+#: code:addons/cash_budget/models/cash_budget_move.py:194
 #, python-format
 msgid "Extension"
 msgstr "Extensión"
@@ -904,13 +837,15 @@ msgid "Followers"
 msgstr "Seguidores"
 
 #. module: cash_budget
-#: code:addons/cash_budget/models/cash_budget_move.py:33 code:addons/cash_budget/models/cash_budget_move.py:192
+#: code:addons/cash_budget/models/cash_budget_move.py:33
+#: code:addons/cash_budget/models/cash_budget_move.py:192
 #, python-format
 msgid "From account move"
 msgstr "Desde asiento contable"
 
 #. module: cash_budget
-#: field:account.invoice,from_order:0 field:account.invoice.line,invoice_from_order:0
+#: field:account.invoice,from_order:0
+#: field:account.invoice.line,invoice_from_order:0
 msgid "From order"
 msgstr "Desde orden"
 
@@ -920,7 +855,8 @@ msgid "Grant bill"
 msgstr "Adjudicar cartel"
 
 #. module: cash_budget
-#: view:cash.budget.account:cash_budget.budget_account_search_form_view view:cash.budget.program.line:cash_budget.budget_program_line_search_form_view
+#: view:cash.budget.account:cash_budget.budget_account_search_form_view
+#: view:cash.budget.program.line:cash_budget.budget_program_line_search_form_view
 msgid "Group by..."
 msgstr "Agrupar por..."
 
@@ -935,7 +871,15 @@ msgid "Holds the Chatter summary (number of messages, ...). This summary is dire
 msgstr "Holds the Chatter summary (number of messages, ...). This summary is directly in html format in order to be inserted in kanban views."
 
 #. module: cash_budget
-#: field:account.move.line.distribution,id:0 field:cash.budget.account,id:0 field:cash.budget.import.catalog,id:0 field:cash.budget.move,id:0 field:cash.budget.move.line,id:0 field:cash.budget.plan,id:0 field:cash.budget.program,id:0 field:cash.budget.program.line,id:0 field:cash.budget.program.populate,id:0
+#: field:account.move.line.distribution,id:0
+#: field:cash.budget.account,id:0
+#: field:cash.budget.import.catalog,id:0
+#: field:cash.budget.move,id:0
+#: field:cash.budget.move.line,id:0
+#: field:cash.budget.plan,id:0
+#: field:cash.budget.program,id:0
+#: field:cash.budget.program.line,id:0
+#: field:cash.budget.program.populate,id:0
 msgid "ID"
 msgstr "ID"
 
@@ -1025,17 +969,41 @@ msgid "Last Message Date"
 msgstr "Fecha de último mensaje"
 
 #. module: cash_budget
-#: field:account.move.line.distribution,__last_update:0 field:cash.budget.account,__last_update:0 field:cash.budget.import.catalog,__last_update:0 field:cash.budget.move,__last_update:0 field:cash.budget.move.line,__last_update:0 field:cash.budget.plan,__last_update:0 field:cash.budget.program,__last_update:0 field:cash.budget.program.line,__last_update:0 field:cash.budget.program.populate,__last_update:0
+#: field:account.move.line.distribution,__last_update:0
+#: field:cash.budget.account,__last_update:0
+#: field:cash.budget.import.catalog,__last_update:0
+#: field:cash.budget.move,__last_update:0
+#: field:cash.budget.move.line,__last_update:0
+#: field:cash.budget.plan,__last_update:0
+#: field:cash.budget.program,__last_update:0
+#: field:cash.budget.program.line,__last_update:0
+#: field:cash.budget.program.populate,__last_update:0
 msgid "Last Modified on"
 msgstr "Modificado por última vez"
 
 #. module: cash_budget
-#: field:account.move.line.distribution,write_uid:0 field:cash.budget.account,write_uid:0 field:cash.budget.import.catalog,write_uid:0 field:cash.budget.move,write_uid:0 field:cash.budget.move.line,write_uid:0 field:cash.budget.plan,write_uid:0 field:cash.budget.program,write_uid:0 field:cash.budget.program.line,write_uid:0 field:cash.budget.program.populate,write_uid:0
+#: field:account.move.line.distribution,write_uid:0
+#: field:cash.budget.account,write_uid:0
+#: field:cash.budget.import.catalog,write_uid:0
+#: field:cash.budget.move,write_uid:0
+#: field:cash.budget.move.line,write_uid:0
+#: field:cash.budget.plan,write_uid:0
+#: field:cash.budget.program,write_uid:0
+#: field:cash.budget.program.line,write_uid:0
+#: field:cash.budget.program.populate,write_uid:0
 msgid "Last Updated by"
 msgstr "Última actualización realizada por"
 
 #. module: cash_budget
-#: field:account.move.line.distribution,write_date:0 field:cash.budget.account,write_date:0 field:cash.budget.import.catalog,write_date:0 field:cash.budget.move,write_date:0 field:cash.budget.move.line,write_date:0 field:cash.budget.plan,write_date:0 field:cash.budget.program,write_date:0 field:cash.budget.program.line,write_date:0 field:cash.budget.program.populate,write_date:0
+#: field:account.move.line.distribution,write_date:0
+#: field:cash.budget.account,write_date:0
+#: field:cash.budget.import.catalog,write_date:0
+#: field:cash.budget.move,write_date:0
+#: field:cash.budget.move.line,write_date:0
+#: field:cash.budget.plan,write_date:0
+#: field:cash.budget.program,write_date:0
+#: field:cash.budget.program.line,write_date:0
+#: field:cash.budget.program.populate,write_date:0
 msgid "Last Updated on"
 msgstr "Actualizado el"
 
@@ -1050,7 +1018,10 @@ msgid "Line Type"
 msgstr "Tipo de línea"
 
 #. module: cash_budget
-#: field:account.invoice.line,line_available:0 field:cash.budget.move.line,line_available:0 field:hr.expense.line,line_available:0 field:purchase.order.line,line_available:0
+#: field:account.invoice.line,line_available:0
+#: field:cash.budget.move.line,line_available:0
+#: field:hr.expense.line,line_available:0
+#: field:purchase.order.line,line_available:0
 msgid "Line available"
 msgstr "Disponible en partida"
 
@@ -1080,13 +1051,15 @@ msgid "Manual Moves"
 msgstr "Movimientos manuales"
 
 #. module: cash_budget
-#: code:addons/cash_budget/models/cash_budget_move.py:29 code:addons/cash_budget/models/cash_budget_move.py:188
+#: code:addons/cash_budget/models/cash_budget_move.py:29
+#: code:addons/cash_budget/models/cash_budget_move.py:188
 #, python-format
 msgid "Manual purchase invoice"
 msgstr "Factura de compra manual"
 
 #. module: cash_budget
-#: code:addons/cash_budget/models/cash_budget_move.py:30 code:addons/cash_budget/models/cash_budget_move.py:189
+#: code:addons/cash_budget/models/cash_budget_move.py:30
+#: code:addons/cash_budget/models/cash_budget_move.py:189
 #, python-format
 msgid "Manual sale invoice"
 msgstr "Factura cliente manual"
@@ -1122,7 +1095,9 @@ msgid "Messages and communication history"
 msgstr "Mensajes e historial"
 
 #. module: cash_budget
-#: code:addons/cash_budget/models/cash_budget_move.py:34 code:addons/cash_budget/models/cash_budget_move.py:180 code:addons/cash_budget/models/cash_budget_move.py:193
+#: code:addons/cash_budget/models/cash_budget_move.py:34
+#: code:addons/cash_budget/models/cash_budget_move.py:180
+#: code:addons/cash_budget/models/cash_budget_move.py:193
 #, python-format
 msgid "Modification"
 msgstr "Modificación"
@@ -1138,7 +1113,8 @@ msgid "Modified"
 msgstr "Modificado"
 
 #. module: cash_budget
-#: field:cash.budget.move,type:0 field:cash.budget.move.line,type:0
+#: field:cash.budget.move,type:0
+#: field:cash.budget.move.line,type:0
 msgid "Move Type"
 msgstr "Tipo de movimiento"
 
@@ -1153,17 +1129,25 @@ msgid "Move line distributions"
 msgstr "Distribuciones de linea"
 
 #. module: cash_budget
-#: view:cash.budget.move:cash_budget.view_budget_move_form view:cash.budget.move:cash_budget.view_budget_move_manual_form field:cash.budget.move,move_lines:0
+#: view:cash.budget.move:cash_budget.view_budget_move_form
+#: view:cash.budget.move:cash_budget.view_budget_move_manual_form
+#: field:cash.budget.move,move_lines:0
 msgid "Move lines"
 msgstr "Líneas de movimiento"
 
 #. module: cash_budget
-#: view:cash.budget.move:cash_budget.view_budget_move_manual_tree view:cash.budget.move:cash_budget.view_budget_move_tree model:ir.ui.menu,name:cash_budget.next_id_25
+#: view:cash.budget.move:cash_budget.view_budget_move_manual_tree
+#: view:cash.budget.move:cash_budget.view_budget_move_tree
+#: model:ir.ui.menu,name:cash_budget.next_id_25
 msgid "Moves"
 msgstr "Movimientos"
 
 #. module: cash_budget
-#: field:cash.budget.account,name:0 field:cash.budget.move.line,name:0 field:cash.budget.plan,name:0 field:cash.budget.program,name:0 field:cash.budget.program.line,name:0
+#: field:cash.budget.account,name:0
+#: field:cash.budget.move.line,name:0
+#: field:cash.budget.plan,name:0
+#: field:cash.budget.program,name:0
+#: field:cash.budget.program.line,name:0
 msgid "Name"
 msgstr "Nombre"
 
@@ -1173,7 +1157,9 @@ msgid "No further moves will be created for this plan if it is closed, Will you 
 msgstr "No se crearán más movimientos para este plan si se cierra, ¿Continuar?"
 
 #. module: cash_budget
-#: code:addons/cash_budget/models/cash_budget_move.py:36 code:addons/cash_budget/models/cash_budget_move.py:182 code:addons/cash_budget/models/cash_budget_move.py:195
+#: code:addons/cash_budget/models/cash_budget_move.py:36
+#: code:addons/cash_budget/models/cash_budget_move.py:182
+#: code:addons/cash_budget/models/cash_budget_move.py:195
 #, python-format
 msgid "Opening"
 msgstr "Apertura"
@@ -1185,7 +1171,9 @@ msgid "Orders in state other than draft cannot be deleted"
 msgstr "Órdenes en otro estado que no sea borrador no pueden ser borradas"
 
 #. module: cash_budget
-#: field:cash.budget.move,origin:0 field:cash.budget.move.line,code:0 field:cash.budget.move.line,origin:0
+#: field:cash.budget.move,origin:0
+#: field:cash.budget.move.line,code:0
+#: field:cash.budget.move.line,origin:0
 msgid "Origin"
 msgstr "Orígen"
 
@@ -1205,17 +1193,20 @@ msgid "Original compromised"
 msgstr "Original comprometido"
 
 #. module: cash_budget
-#: view:cash.budget.account:cash_budget.budget_account_search_form_view field:cash.budget.account,parent_id:0
+#: view:cash.budget.account:cash_budget.budget_account_search_form_view
+#: field:cash.budget.account,parent_id:0
 msgid "Parent"
 msgstr "Padre"
 
 #. module: cash_budget
-#: field:cash.budget.account,parent_left:0 field:cash.budget.program.line,parent_left:0
+#: field:cash.budget.account,parent_left:0
+#: field:cash.budget.program.line,parent_left:0
 msgid "Parent Left"
 msgstr "Parent Left"
 
 #. module: cash_budget
-#: field:cash.budget.account,parent_right:0 field:cash.budget.program.line,parent_right:0
+#: field:cash.budget.account,parent_right:0
+#: field:cash.budget.program.line,parent_right:0
 msgid "Parent Right"
 msgstr "Parent Right"
 
@@ -1235,7 +1226,8 @@ msgid "Pay Slip"
 msgstr "Nómina"
 
 #. module: cash_budget
-#: code:addons/cash_budget/models/cash_budget_move.py:32 code:addons/cash_budget/models/cash_budget_move.py:191
+#: code:addons/cash_budget/models/cash_budget_move.py:32
+#: code:addons/cash_budget/models/cash_budget_move.py:191
 #, python-format
 msgid "Payroll"
 msgstr "Planillas"
@@ -1256,12 +1248,14 @@ msgid "Plan"
 msgstr "Plan"
 
 #. module: cash_budget
-#: model:ir.ui.menu,name:cash_budget.next_id_24 model:ir.ui.menu,name:cash_budget.next_id_27
+#: model:ir.ui.menu,name:cash_budget.next_id_24
+#: model:ir.ui.menu,name:cash_budget.next_id_27
 msgid "Planning"
 msgstr "Planificación"
 
 #. module: cash_budget
-#: view:cash.budget.plan:cash_budget.view_budget_plan_form view:cash.budget.plan:cash_budget.view_budget_plan_tree
+#: view:cash.budget.plan:cash_budget.view_budget_plan_form
+#: view:cash.budget.plan:cash_budget.view_budget_plan_tree
 msgid "Plans"
 msgstr "Planes"
 
@@ -1303,7 +1297,9 @@ msgid "Products"
 msgstr "Productos"
 
 #. module: cash_budget
-#: view:cash.budget.program.line:cash_budget.budget_program_line_search_form_view field:cash.budget.program.line,program_id:0 model:ir.model,name:cash_budget.model_cash_budget_program
+#: view:cash.budget.program.line:cash_budget.budget_program_line_search_form_view
+#: field:cash.budget.program.line,program_id:0
+#: model:ir.model,name:cash_budget.model_cash_budget_program
 msgid "Program"
 msgstr "Programa"
 
@@ -1313,22 +1309,33 @@ msgid "Program Line"
 msgstr "Línea de Programa"
 
 #. module: cash_budget
-#: model:ir.actions.act_window,name:cash_budget.action_budget_program_line_list model:ir.ui.menu,name:cash_budget.budget_program_line_list_menu
+#: model:ir.actions.act_window,name:cash_budget.action_budget_program_line_list
+#: model:ir.ui.menu,name:cash_budget.budget_program_line_list_menu
 msgid "Program Lines List"
 msgstr "Lista de líneas de programa"
 
 #. module: cash_budget
-#: model:ir.actions.act_window,name:cash_budget.action_budget_program_line_tree model:ir.ui.menu,name:cash_budget.budget_program_line_tree_menu
+#: model:ir.actions.act_window,name:cash_budget.action_budget_program_line_tree
+#: model:ir.ui.menu,name:cash_budget.budget_program_line_tree_menu
 msgid "Program Lines Tree"
 msgstr "Árbol de líneas de programa"
 
 #. module: cash_budget
-#: field:account.invoice.line,program_line_id:0 field:cash.budget.move,program_line_id:0 field:cash.budget.move.line,program_line_id:0 field:hr.expense.line,program_line_id:0 model:ir.model,name:cash_budget.model_cash_budget_program_line field:purchase.order.line,program_line_id:0 field:sale.order.line,program_line_id:0
+#: field:account.invoice.line,program_line_id:0
+#: field:cash.budget.move,program_line_id:0
+#: field:cash.budget.move.line,program_line_id:0
+#: field:hr.expense.line,program_line_id:0
+#: model:ir.model,name:cash_budget.model_cash_budget_program_line
+#: field:purchase.order.line,program_line_id:0
+#: field:sale.order.line,program_line_id:0
 msgid "Program line"
 msgstr "Línea de programa"
 
 #. module: cash_budget
-#: view:cash.budget.program:cash_budget.view_budget_program_form view:cash.budget.program.line:cash_budget.view_budget_program_line_form view:cash.budget.program.line:cash_budget.view_budget_program_line_list view:cash.budget.program.line:cash_budget.view_budget_program_line_tree
+#: view:cash.budget.program:cash_budget.view_budget_program_form
+#: view:cash.budget.program.line:cash_budget.view_budget_program_line_form
+#: view:cash.budget.program.line:cash_budget.view_budget_program_line_list
+#: view:cash.budget.program.line:cash_budget.view_budget_program_line_tree
 msgid "Program lines"
 msgstr "Líneas de programa"
 
@@ -1339,7 +1346,9 @@ msgid "Program lines in budget move lines cannot be repeated"
 msgstr "Las lineas de programa no se pueden repetir en las lineas de movimiento"
 
 #. module: cash_budget
-#: field:cash.budget.plan,program_ids:0 view:cash.budget.program:cash_budget.view_budget_program_form view:cash.budget.program:cash_budget.view_budget_program_tree
+#: field:cash.budget.plan,program_ids:0
+#: view:cash.budget.program:cash_budget.view_budget_program_form
+#: view:cash.budget.program:cash_budget.view_budget_program_tree
 msgid "Programs"
 msgstr "Programas"
 
@@ -1349,7 +1358,8 @@ msgid "Publish bill"
 msgstr "Publicar cartel"
 
 #. module: cash_budget
-#: model:ir.model,name:cash_budget.model_purchase_order view:purchase.order:cash_budget.budget_purchase_order_form
+#: model:ir.model,name:cash_budget.model_purchase_order
+#: view:purchase.order:cash_budget.budget_purchase_order_form
 msgid "Purchase Order"
 msgstr "Pedido de compra"
 
@@ -1364,7 +1374,8 @@ msgid "Purchase Order Line Make Invoice"
 msgstr "Línea pedido de compra realiza factura"
 
 #. module: cash_budget
-#: code:addons/cash_budget/models/cash_budget_move.py:27 code:addons/cash_budget/models/cash_budget_move.py:186
+#: code:addons/cash_budget/models/cash_budget_move.py:27
+#: code:addons/cash_budget/models/cash_budget_move.py:186
 #, python-format
 msgid "Purchase invoice"
 msgstr "Factura de proveedor"
@@ -1385,17 +1396,22 @@ msgid "Reservations"
 msgstr "Reservado"
 
 #. module: cash_budget
-#: field:cash.budget.move,reserved:0 selection:cash.budget.move,state:0 field:cash.budget.move.line,reserved:0 field:purchase.order,reserved_amount:0
+#: field:cash.budget.move,reserved:0
+#: selection:cash.budget.move,state:0
+#: field:cash.budget.move.line,reserved:0
+#: field:purchase.order,reserved_amount:0
 msgid "Reserved"
 msgstr "Reservado"
 
 #. module: cash_budget
-#: field:cash.budget.move,reversed:0 field:cash.budget.move.line,reversed:0
+#: field:cash.budget.move,reversed:0
+#: field:cash.budget.move.line,reversed:0
 msgid "Reversed"
 msgstr "Reversado"
 
 #. module: cash_budget
-#: code:addons/cash_budget/models/cash_budget_move.py:28 code:addons/cash_budget/models/cash_budget_move.py:187
+#: code:addons/cash_budget/models/cash_budget_move.py:28
+#: code:addons/cash_budget/models/cash_budget_move.py:187
 #, python-format
 msgid "Sale invoice"
 msgstr "Factura de cliente"
@@ -1426,7 +1442,8 @@ msgid "Set to review"
 msgstr "Someter a revisión"
 
 #. module: cash_budget
-#: field:cash.budget.program.line,sponsor_id:0 field:res.partner,sponsor:0
+#: field:cash.budget.program.line,sponsor_id:0
+#: field:res.partner,sponsor:0
 msgid "Sponsor"
 msgstr "Patrocinador"
 
@@ -1441,12 +1458,18 @@ msgid "Start Date"
 msgstr "Fecha de inicio"
 
 #. module: cash_budget
-#: field:cash.budget.move,state:0 field:cash.budget.move.line,state:0 field:cash.budget.plan,state:0 field:cash.budget.program,state:0 field:cash.budget.program.line,state:0
+#: field:cash.budget.move,state:0
+#: field:cash.budget.move.line,state:0
+#: field:cash.budget.plan,state:0
+#: field:cash.budget.program,state:0
+#: field:cash.budget.program.line,state:0
 msgid "State"
 msgstr "Estado"
 
 #. module: cash_budget
-#: field:account.invoice.line,subtotal_discounted_taxed:0 field:purchase.order.line,subtotal_discounted_taxed:0 field:sale.order.line,subtotal_discounted_taxed:0
+#: field:account.invoice.line,subtotal_discounted_taxed:0
+#: field:purchase.order.line,subtotal_discounted_taxed:0
+#: field:sale.order.line,subtotal_discounted_taxed:0
 msgid "Subtotal"
 msgstr "Subtotal"
 
@@ -1472,15 +1495,16 @@ msgid "Tax of: "
 msgstr "Impuesto de: "
 
 #. module: cash_budget
-#: help:cash.budget.account,account_type:0 help:cash.budget.program.line,type:0
+#: help:cash.budget.account,account_type:0
+#: help:cash.budget.program.line,type:0
 msgid "The 'Internal Type' is used for features available on different types of accounts: view can not have journal items, consolidation are accounts that can have children accounts for consolidations and can only have institutional views as parent, institutional can have only consolidation childs"
 msgstr "El 'Tipo Interno' es usado para funciones disponibles en diferentes tipos de cuentas: Vistas no pueden tener movimientos, consolidación son las cuentas que pueden tener cuentas hijas para consolidaciones y pueden solamente tener vistas institucionales como padres, institucionales pueden tener solamente hijos consolidados"
 
 #. module: cash_budget
-#: code:addons/cash_budget/models/cash_budget_move.py:353 code:addons/cash_budget/models/cash_budget_move.py:371
+#: code:addons/cash_budget/models/cash_budget_move.py:353
+#: code:addons/cash_budget/models/cash_budget_move.py:371
 #, python-format
-msgid ""
-"The amount to substract from %s is greater\n"
+msgid "The amount to substract from %s is greater\n"
 "                            than the available"
 msgstr "El monto a sustraer de %s es mayor que el disponible"
 
@@ -1488,6 +1512,24 @@ msgstr "El monto a sustraer de %s es mayor que el disponible"
 #: sql_constraint:cash.budget.account:0
 msgid "The code is defined for another account with the same parent"
 msgstr "El código está definido por otra cuenta con el mismo padre"
+
+#. module: cash_budget
+#: code:addons/cash_budget/models/account_move_line_distribution.py:140
+#, python-format
+msgid "The distribution amount can not be greater than compromisedamount in budget move line selected"
+msgstr "The distribution amount can not be greater than compromisedamount in budget move line selected"
+
+#. module: cash_budget
+#: code:addons/cash_budget/models/account_move_line_distribution.py:76
+#, python-format
+msgid "The distribution amount can not be greater than maximumamount of remaining amount for account move line selected"
+msgstr "The distribution amount can not be greater than maximumamount of remaining amount for account move line selected"
+
+#. module: cash_budget
+#: code:addons/cash_budget/models/account_move_line_distribution.py:44
+#, python-format
+msgid "The distribution percentage can not be greaterthan sum of all percentage for the account move line selected"
+msgstr "The distribution percentage can not be greaterthan sum of all percentage for the account move line selected"
 
 #. module: cash_budget
 #: code:addons/cash_budget/wizard/cash_budget_import_catalog.py:83
@@ -1498,21 +1540,17 @@ msgstr "El nombre del archivo es muy largo"
 #. module: cash_budget
 #: code:addons/cash_budget/models/cash_budget_plan.py:139
 #, python-format
-msgid ""
-"The following budget accounts are not consolidated children of any consolidation view: \n"
+msgid "The following budget accounts are not consolidated children of any consolidation view: \n"
 " "
-msgstr ""
-"Las siguientes cuentas presupuestarias no son hijos consolidados de ninguna vista consolidada: \n"
+msgstr "Las siguientes cuentas presupuestarias no son hijos consolidados de ninguna vista consolidada: \n"
 " "
 
 #. module: cash_budget
 #: code:addons/cash_budget/models/cash_budget_plan.py:122
 #, python-format
-msgid ""
-"The following budget accounts are not listed in this program: \n"
+msgid "The following budget accounts are not listed in this program: \n"
 " : "
-msgstr ""
-"Las siguientes cuentas de presupuesto no están inscritas en este programa: \n"
+msgstr "Las siguientes cuentas de presupuesto no están inscritas en este programa: \n"
 " : "
 
 #. module: cash_budget
@@ -1537,23 +1575,31 @@ msgid "The reserved amount must be negative"
 msgstr "El monto reservado debe ser negativo"
 
 #. module: cash_budget
-#: code:addons/cash_budget/models/cash_budget_move.py:323 code:addons/cash_budget/models/cash_budget_move.py:325
+#: code:addons/cash_budget/models/cash_budget_move.py:323
+#: code:addons/cash_budget/models/cash_budget_move.py:325
 #, python-format
 msgid "The reserved amount must be positive"
 msgstr "El monto a reservar debe ser positivo"
 
 #. module: cash_budget
-#: help:cash.budget.plan,state:0 help:cash.budget.program,state:0 help:cash.budget.program.line,state:0
+#: help:cash.budget.plan,state:0
+#: help:cash.budget.program,state:0
+#: help:cash.budget.program.line,state:0
 msgid "The state of the budget. A budget that is still under planning is in a 'Draft' state. Then the plan has to be confirmed by the user in order to be approved, the state switch to 'Confirmed'. Then the manager must confirm the budget plan to change the state to 'Approved'. If a plan will not be approved it must be cancelled."
 msgstr "Estado del predupuesto. Un presupuesto que está aún en planeamiento se encuentra en estado 'Borrador'. Luego el plan debe ser confirmado por el usuario para ser aprobado, el estado cambia a 'Confirmado'. Luego el administrador debe aprobar el presupuesto para cambiar el estado a 'Aprobado'. Si un plan no será aprobado debe ser cancelado."
 
 #. module: cash_budget
 #: code:addons/cash_budget/models/cash_budget_move.py:330
 #, python-format
-msgid ""
-"The sum of addition and subtractions\n"
+msgid "The sum of addition and subtractions\n"
 "                        from program lines must be zero"
 msgstr "La suma de las adiciones y sustracciones de las lineas de programa debe ser cero."
+
+#. module: cash_budget
+#: code:addons/cash_budget/models/hr_expense.py:264
+#, python-format
+msgid "There is a tax defined for this product, its account or the account of the product category. The tax must be included in the price of the expense product."
+msgstr "There is a tax defined for this product, its account or the account of the product category. The tax must be included in the price of the expense product."
 
 #. module: cash_budget
 #: code:addons/cash_budget/models/cash_budget_program_line.py:144
@@ -1578,12 +1624,14 @@ msgid "This wizard will import a budget account tree"
 msgstr "Este asistente importará un árbol de cuentas presupuestarias"
 
 #. module: cash_budget
-#: selection:cash.budget.move,state:0 field:cash.budget.move.line,from_migration:0
+#: selection:cash.budget.move,state:0
+#: field:cash.budget.move.line,from_migration:0
 msgid "Transferred"
 msgstr "Transferido"
 
 #. module: cash_budget
-#: view:purchase.order:cash_budget.budget_purchase_order_form view:purchase.order.line:cash_budget.budget_purchase_order_line_form
+#: view:purchase.order:cash_budget.budget_purchase_order_form
+#: view:purchase.order.line:cash_budget.budget_purchase_order_line_form
 msgid "True"
 msgstr "Verdadero"
 
@@ -1626,11 +1674,9 @@ msgstr "No se puede aprobar una orden con monto cero "
 #. module: cash_budget
 #: code:addons/cash_budget/models/cash_budget_plan.py:158
 #, python-format
-msgid ""
-"You cannot close a plan that has a period in draft state.\n"
+msgid "You cannot close a plan that has a period in draft state.\n"
 "The period %s is in draft state."
-msgstr ""
-"No es posible cerrar un plan que tiene un período en estado borrador.\n"
+msgstr "No es posible cerrar un plan que tiene un período en estado borrador.\n"
 "El período %s se encuentra en estado borrador."
 
 #. module: cash_budget
@@ -1640,12 +1686,34 @@ msgid "You cannot confirm a purchase order without any purchase order line."
 msgstr "No se puede confirmar una orden de compra que no tenga líneas de orden de compra."
 
 #. module: cash_budget
+#: code:addons/cash_budget/models/cash_budget_move_line.py:216
+#, python-format
+msgid "You cannot create a budget move line from an cancel or closed plan"
+msgstr "You cannot create a budget move line from an cancel or closed plan"
+
+#. module: cash_budget
+#: code:addons/cash_budget/models/cash_budget_move_line.py:229
+#, python-format
+msgid "You cannot create a budget move line with a canceled or closed plan"
+msgstr "You cannot create a budget move line with a canceled or closed plan"
+
+#. module: cash_budget
 #: code:addons/cash_budget/models/cash_budget_move.py:392
 #, python-format
-msgid ""
-"You cannot create a budget move that have associated\n"
-"                budget move lines with a closed or canceled budget plan"
-msgstr "No es posible crear un movimiento de presupuesto que tenga asociadas lineas pertenecientes a un plan en estado cerrado o cancelado"
+msgid "You cannot create a budget move that have associatedbudget move lines with a closed or canceled budget plan"
+msgstr "You cannot create a budget move that have associatedbudget move lines with a closed or canceled budget plan"
+
+#. module: cash_budget
+#: code:addons/cash_budget/models/cash_budget_move_line.py:244
+#, python-format
+msgid "You cannot create a budget move with a canceled orclosed plan"
+msgstr "You cannot create a budget move with a canceled orclosed plan"
+
+#. module: cash_budget
+#: code:addons/cash_budget/models/account_move_line_distribution.py:110
+#, python-format
+msgid "You cannot create a distribution with a closed or cancelled plan"
+msgstr "You cannot create a distribution with a closed or cancelled plan"
 
 #. module: cash_budget
 #: code:addons/cash_budget/models/cash_budget_program_line.py:269
@@ -1666,10 +1734,22 @@ msgid "You cannot delete a budget move budget move that have associated budget l
 msgstr "No es posible eliminar un moviento de presupuesto que esté asociado un plan aprobado o cerradom"
 
 #. module: cash_budget
+#: code:addons/cash_budget/models/account_move_line_distribution.py:194
+#, python-format
+msgid "You cannot delete a distribution with a closed plan"
+msgstr "You cannot delete a distribution with a closed plan"
+
+#. module: cash_budget
 #: code:addons/cash_budget/models/cash_budget_program_line.py:248
 #, python-format
 msgid "You cannot delete a line from an approved or closed plan"
 msgstr "No se pueden borrar líneas de un plan aprobado o cerrado"
+
+#. module: cash_budget
+#: code:addons/cash_budget/models/cash_budget_program.py:76
+#, python-format
+msgid "You cannot delete a program that is associated with an approved or closed plan"
+msgstr "You cannot delete a program that is associated with an approved or closed plan"
 
 #. module: cash_budget
 #: code:addons/cash_budget/models/cash_budget_account.py:262
@@ -1710,8 +1790,7 @@ msgstr "No se puede sobreescribir el código o el nombre de una cuenta utilizada
 #. module: cash_budget
 #: code:addons/cash_budget/models/account_move.py:86
 #, python-format
-msgid ""
-"You cannot validate a non-balanced entry.\n"
+msgid "You cannot validate a non-balanced entry.\n"
 "                Make sure you have configured payment terms properly.\n"
 "                The latest payment term line should be of the \"Balance\" type.\n"
 "                "
@@ -1752,184 +1831,3 @@ msgstr "on_change_currency(currency_id)"
 msgid "period close"
 msgstr "cierre periodo"
 
-#~ msgid "All entry lines must be distributed in a 100 percentage. The move line with reference: '%s' is not completely distributed"
-#~ msgstr "Todas las entradas deben estar distribuidas en un 100 por ciento. La linea de asiento con referencia: '%s' No se encuentra completamente distribuida."
-
-#~ msgid "If you have not set a previous program for this program, new program lines won't inherit their previous program lines, do you want to continue? "
-#~ msgstr "Si no se asigna un progrma previo para el actual las nuevas lineas de programa no heredaran las anteriores. ¿Desea continuar? "
-
-#~ msgid "Awarded"
-#~ msgstr "Adjudicado"
-
-#~ msgid "RFQ Sent"
-#~ msgstr "RFQ Enviado"
-
-#~ msgid "Bid review"
-#~ msgstr "Revisión de ofertas"
-
-#~ msgid "The sum of addition and subtractions from program lines must be zero"
-#~ msgstr "El total de las lineas de debe ser cero"
-
-#~ msgid "You cannot create a distribution with a approved or closed plan"
-#~ msgstr "No es posible crear una distribución para un plan cerrado"
-
-#~ msgid "Draft Bill"
-#~ msgstr "Cartel en borrador"
-
-#~ msgid " Budget Moves"
-#~ msgstr " Movimientos presupuestarios"
-
-#~ msgid " Budget Program Line"
-#~ msgstr " Línea de programa de Presupuesto"
-
-#~ msgid "budget.program.populate"
-#~ msgstr "budget.program.populate"
-
-#~ msgid "Budget Request"
-#~ msgstr "Solicitud de presupuesto"
-
-#~ msgid " Budget Plan "
-#~ msgstr "Plan presupuestario "
-
-#~ msgid "You cannot create more than one move per period on a centralized journal."
-#~ msgstr "No puede crear más de un movimiento por periodo en un diario centralizado."
-
-#~ msgid "You cannot delete a program that is associated with an approved or closed plan "
-#~ msgstr "No es posible borrar un programa que está asociado a un plan aprobado o cerrado"
-
-#~ msgid "You cannot create a budget move line with a canceled or closed plan"
-#~ msgstr "No es posible crear una linea presupuesto para un plan cancelado o cerrado"
-
-#~ msgid "Invalid Action!"
-#~ msgstr "Acción inválida!"
-
-#~ msgid "Request for Quotation "
-#~ msgstr "Solicitud de presupuesto "
-
-#~ msgid "Helps you handle your Budget, if you are an administrator you will be able to execute budget."
-#~ msgstr "Ayuda a administrar el presupuesto, si usted es un administrador podrá ejecutar presupuesto."
-
-#~ msgid " is greater than the available "
-#~ msgstr " es mayor que el disponible "
-
-#~ msgid "recalculate"
-#~ msgstr "recalcular"
-
-#~ msgid "Type"
-#~ msgstr "Tipo"
-
-#~ msgid "The distribution percentage can not be greater than sum of all percentage for the account move line selected"
-#~ msgstr "El porcentaje de distribución no puede ser mayor a la suma de los porcentajes de la linea de asiento seleccionada"
-
-#~ msgid "on_change_account_id(account_id)"
-#~ msgstr "on_change_account_id(account_id)"
-
-#~ msgid "Invoice Exception"
-#~ msgstr "Excepción de factura"
-
-#~ msgid "Anulled"
-#~ msgstr "Anulado"
-
-#~ msgid "A Distribution Line only has one target. A target can be a move line or a budget move line"
-#~ msgstr "Una linea de distribución solo puede tener un objetivo. el objetivo puede ser una linea de asiento o una linea de movimiento presupuestario"
-
-#~ msgid "You cannot delete a budget move budget move that have associated budget lines with a approved or closed budget plan"
-#~ msgstr "No es posible borrar un moviento de presupuesto que esté asociado un plan cerrado o cancelado"
-
-#~ msgid "budget.import.catalog"
-#~ msgstr "budget.import.catalog"
-
-#~ msgid "You cannot create a budget move that have associated budget move lines with a approved or closed budget plan"
-#~ msgstr "No es posible crear un movimiento de presupuesto que tenga asociadas lineas pertenecientes a un plan en estado aprovado o cerrado"
-
-#~ msgid "hr.salary.rule"
-#~ msgstr "hr.salary.rule"
-
-#~ msgid "Shipping Exception"
-#~ msgstr "Excepción de envío"
-
-#~ msgid "The distribution amount can not be greater than compromised amount in budget move line selected"
-#~ msgstr "El monto de distribución no puede ser mayor que el monto comprometido en la linea de presupuesto seleccionada"
-
-#~ msgid "You cannot create a budget move with a canceled or closed plan"
-#~ msgstr "No es posible crear un movimiento de presupuesto en un plan cerrado o cancelado"
-
-#~ msgid "The distribution amount can not be greater than maximum amount of remaining amount for account move line selected"
-#~ msgstr "El monto a distribuir no puede ser mayor al monto restante par la linea de asiento seleccionada"
-
-#~ msgid "You cannot create a budget move line from an cancel or closed plan"
-#~ msgstr "No es posible crear una linea de movimiento presupuestario en un plan cerrado o cancelado"
-
-#~ msgid "unknown"
-#~ msgstr "desconocido"
-
-#~ msgid "Bill published"
-#~ msgstr "Cartel publicado"
-
-#~ msgid "Purchase Order "
-#~ msgstr "Pedido de compra "
-
-#~ msgid "The amount to substract from "
-#~ msgstr "El monto a sustraer de "
-
-#~ msgid "Orders in state other than draft cannot be deleted \n"
-#~ msgstr "Órdenes en otro estado que no sea borrador no pueden ser borradas\n"
-
-#~ msgid "Done"
-#~ msgstr "Realizado"
-
-#~ msgid ""
-#~ "You cannot validate a non-balanced entry.\n"
-#~ "Make sure you have configured payment terms properly.\n"
-#~ "The latest payment term line should be of the \"Balance\" type."
-#~ msgstr ""
-#~ "No se puede validar una entrada no balanceada. \n"
-#~ "Asegúrese de que ha configurado correctamente las condiciones de pago.\n"
-#~ "La última línea de término del pago debe ser de la \" Balance\" de tipo."
-
-#~ msgid " Budget Account "
-#~ msgstr "Cuenta Presupuestaria "
-
-#~ msgid ""
-#~ "Error!\n"
-#~ " There is a tax defined for this product, its account or the account of the product category. \n"
-#~ " The tax must be included in the price of the expense product."
-#~ msgstr ""
-#~ "Error!\n"
-#~ " Existe un impuesto definido para este producto, su cuenta o la cuenta de la categoría del producto. \n"
-#~ " El impuesto debe ser incluído en el precio del producto."
-
-#~ msgid ""
-#~ "Error!\n"
-#~ " The plan for this program line must be in approved state"
-#~ msgstr ""
-#~ "Error!\n"
-#~ " El plan para esta línea de programa debe de estar en estado aprobado"
-
-#~ msgid " Budget Program "
-#~ msgstr "Programa presupuestario "
-
-#~ msgid "The state of the move. A move that is still under planning is in a 'Draft' state. Then the move goes to 'Reserved' state in order to reserve the designated amount. This move goes to 'Compromised' state when the purchase operation is confirmed. Finally goes to the 'Executed' state where the amount is finally discounted from the budget available amount"
-#~ msgstr "El estado de un movimiento. Un movimiento que se está planificando se encuentra en estado 'Borrador'. Luego el movimiento pasa a estado 'Reservado' para reservar el monto designado. Este movimiento pasa a estado 'Comprometido' cuando la operación de compra es confirmada. Finalmente, pasa a estado 'Ejecutado' donde el monto es finalmente descontado del monto disponible del presupuesto"
-
-#~ msgid "You cannot delete a distribution with a closed plan"
-#~ msgstr "No es posible borrar una distribución de un plan cerrado"
-
-#~ msgid ""
-#~ "Error!\n"
-#~ "The budget account is related to another program line."
-#~ msgstr ""
-#~ "Error!\n"
-#~ "La cuenta presupuestaria está relacionado con otra línea de programa"
-
-#~ msgid "Deserted"
-#~ msgstr "Desierto"
-
-#~ msgid "Ineffectual"
-#~ msgstr "Insubstancial"
-
-#~ msgid "Final Approval"
-#~ msgstr "Aprobación final"
-
-#~ msgid "Waiting approval"
-#~ msgstr "Esperando aprobación"

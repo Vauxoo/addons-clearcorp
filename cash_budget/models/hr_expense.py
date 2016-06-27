@@ -233,10 +233,9 @@ class HRExpenseExpense(models.Model):
     @api.onchange('currency_id')
     def on_change_currency(self, currency_id):
         if self:
-            raise Warning(_("""
-                Budget uses the currency of the company, if you use other,
-                you should change the unit price
-            """))
+            raise Warning(_(
+                "Budget uses the currency of the company, if you use other, "
+                "you should change the unit price"))
 
     @api.one
     def action_move_create(self):
@@ -262,10 +261,10 @@ class HRExpenseLine(models.Model):
     @api.one
     @api.constrains('product_id')
     def _check_no_taxes(self):
-        message = _("""
-        There is a tax defined for this product, its account or the account of
-        the product category. The tax must be included in the price of the
-        expense product.""")
+        message = _(
+            "There is a tax defined for this product, its account or the "
+            "account of the product category. The tax must be included in the "
+            "price of the expense product.")
         product = self.product_id
         if product.supplier_taxes_id:
             raise Warning(_(message))
