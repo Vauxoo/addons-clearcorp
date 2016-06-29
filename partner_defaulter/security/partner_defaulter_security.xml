@@ -5,7 +5,7 @@
 <openerp>
     <data noupdate="1">
 
-        <record id="group_partner_slow_payer" model="res.groups">
+        <record id="group_partner_defaulter" model="res.groups">
             <field name="name">Sale and invoice slow payers</field>
             <field name="category_id" ref="base.module_category_hidden" />
         </record>

@@ -2,9 +2,9 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-==================
-Partner Slow Payer
-==================
+=================
+Partner defaulter
+=================
 
 This module was written to extend the functionality of res partner adding the
 field slow payer to identify and restrict sales if a partner is a slow payer.
@@ -16,6 +16,7 @@ Contributors
 ------------
 
 * Rodney Vargas <rodney.vargas@clearcorp.cr>
+* Lesmed Gutiérrez <lesmed.gutierrez@clearcorp.co.cr>
 
 
 Maintainer

@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
-    'name': 'Partner Slow Payer',
+    'name': 'Partner defaulter',
     'summary': 'Identify slow payers',
     'version': '8.0.1.0',
     'category': 'Extra Tools',
@@ -20,7 +20,7 @@
         'sale',
     ],
     'data': [
-        'views/partner_slow_payer_view.xml',
-        'security/partner_slow_payer_security.xml'
+        'views/partner_defaulter_view.xml',
+        'security/partner_defaulter_security.xml'
     ],
 }

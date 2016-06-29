@@ -44,7 +44,7 @@ class AccountInvoice(models.Model):
                     if sum > 0:
                         if not users.has_group(
                             self._cr, self._uid,
-                                'partner_slow_payer.group_partner_slow_payer'):
+                                'partner_defaulter.group_partner_defaulter'):
                             if invoice.partner_id.slow_payer:
                                 raise Warning(_('You have a pending invoice'))
                             if invoice.partner_id.credit_limit - \
@@ -69,7 +69,7 @@ class SaleOrder(models.Model):
                 if sum > 0:
                     if not users.has_group(
                         self._cr, self._uid,
-                            'partner_slow_payer.group_partner_slow_payer'):
+                            'partner_defaulter.group_partner_defaulter'):
                         if sale.partner_id.credit_limit - \
                                 sale.partner_id.credit - \
                                 sale.amount_total <= 0.0:
