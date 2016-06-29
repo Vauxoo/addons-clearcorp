@@ -3,8 +3,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
-    'name': 'Partner defaulter',
-    'summary': 'Identify slow payers',
+    'name': 'Partner Defaulter',
+    'summary': 'Identify defaulters',
     'version': '8.0.1.0',
     'category': 'Extra Tools',
     'website': 'http://clearcorp.cr',

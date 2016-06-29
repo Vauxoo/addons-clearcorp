@@ -3,7 +3,7 @@
    :alt: License: AGPL-3
 
 =================
-Partner defaulter
+Partner Defaulter
 =================
 
 This module was written to extend the functionality of res partner adding the
