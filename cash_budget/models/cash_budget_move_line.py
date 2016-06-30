@@ -43,19 +43,6 @@ class CashBudgetMoveLine(models.Model):
             compromised = 0.0
             reserved = 0.0
             _reversed = 0.0
-            if line.state in ('executed', 'in_execution', 'transferred'):
-                if line.type not in ('opening', 'modification', 'extension'):
-                    executed = line.fixed_amount
-                elif line.type in (
-                        'manual_invoice_in', 'expense', 'invoice_in',
-                        'payroll', 'manual'):
-                    line_ids_bar = amld.search([
-                        ('target_budget_move_line_id', '=', line.id),
-                        ('account_move_line_type', '=', 'liquid')])
-                    for bar_line in line_ids_bar:
-                        if bar_line.id in ignore_dist_ids:
-                            continue
-                        executed += bar_line.distribution_amount
             void_line_ids_amld = amld.search([
                 ('target_budget_move_line_id', '=', line.id),
                 ('account_move_line_type', '=', 'void')])
@@ -64,17 +51,26 @@ class CashBudgetMoveLine(models.Model):
                     continue
                 _reversed += void_line
 
-            if line.previous_move_line_id:
-                executed += line.previous_move_line_id.executed
-                _reversed += line.previous_move_line_id.reversed
-
-            if line.state in ('compromised', 'executed', 'in_execution',
-                              'transferred') and\
-                    line.type not in ('opening', 'modification', 'extension'):
-                compromised = line.fixed_amount - executed - line.reversed
-            if line.state == 'reserved' and\
-                    line.type not in ('opening', 'modification', 'extension'):
-                reserved = line.fixed_amount - _reversed
+            if line.type not in ('opening', 'modification', 'extension'):
+                if line.state in ('executed', 'in_execution', 'transferred'):
+                    if line.type in (
+                            'manual_invoice_in', 'expense', 'invoice_in',
+                            'payroll', 'manual'):
+                        line_ids_bar = amld.search([
+                            ('target_budget_move_line_id', '=', line.id),
+                            ('account_move_line_type', '=', 'liquid')])
+                        for bar_line in line_ids_bar:
+                            if bar_line.id in ignore_dist_ids:
+                                continue
+                            executed += bar_line.distribution_amount
+                if line.previous_move_line_id:
+                    executed += line.previous_move_line_id.executed
+                    _reversed += line.previous_move_line_id.reversed
+                if line.state in ('compromised', 'executed', 'in_execution',
+                                  'transferred'):
+                    compromised = line.fixed_amount - executed - line.reversed
+                if line.state == 'reserved':
+                    reserved = line.fixed_amount - _reversed
             line.executed = executed
             line.compromised = compromised
             line.reversed = _reversed

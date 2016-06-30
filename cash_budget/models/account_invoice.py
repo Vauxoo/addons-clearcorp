@@ -45,7 +45,12 @@ class account_invoice(models.Model):
             _type = 'manual_invoice_in'
         if self.type in ('out_invoice', 'in_refund'):
             _type = 'manual_invoice_out'
-        move_id = bud_move_obj.create({'type': _type})
+
+        move_id = bud_move_obj.create({
+            'type': _type,
+            'origin': self.name,
+            'fixed_amount': self.amount_total,
+            'arch_compromised': self.amount_total})
         return move_id
 
     @api.one
@@ -100,36 +105,51 @@ class account_invoice(models.Model):
         tax_line = acc_inv_tax_obj.browse(line_id)
         invoice = tax_line.invoice_id
         move_id = invoice.budget_move_id
-        refund = False
         vals = {
             'budget_move_id': move_id.id,
             'origin': tax_line.name,
-            'account_move_id': invoice.move_id.id
+            'account_move_id': invoice.move_id.id,
+            'tax_line_id': line_id
         }
         if invoice.type in ('in_invoice', 'out_refund'):
             fixed_amount = tax_line.tax_amount
-            vals['tax_line_id'] = line_id
-            if invoice.type == 'out_refund':
-                refund = True
-        if invoice.type in ('out_invoice', 'in_refund'):
+        else:
             fixed_amount = tax_line.tax_amount * -1
-            vals['tax_line_id'] = line_id
-            if invoice.type == 'in_refund':
-                refund = True
+        vals['fixed_amount'] = fixed_amount
+
+        # es necesario cambiar la forma en que se generan los
+        # account_invoice_tax para que sea haga uno por cada combinacion de tax
+        # y budget_program_line
+        """
         invoice_lines = tax_line.invoice_id.invoice_line
         for inv_line in invoice_lines:
             if tax_line.base_amount == inv_line.price_subtotal:
-                vals['program_line_id'] = inv_line.program_line_id.id
-        vals['fixed_amount'] = fixed_amount
+                vals['program_line_id'] = inv_line.program_line_id.id"""
         bud_line = bud_line_obj.create(vals)
-        budget_type = 'void' if refund else 'budget'
-        invoice.move_id.write({'budget_type': budget_type})
         return bud_line
+
+    @api.multi
+    def action_move_create(self):
+        for inv in self:
+            if not inv._check_from_order() and not inv.budget_move_id:
+                inv.budget_move_id = inv.create_budget_move()
+        return super(account_invoice, self).action_move_create()
+
+    @api.model
+    def line_get_convert(self, line, part, date):
+        res = super(account_invoice, self).line_get_convert(line, part, date)
+        if self._check_from_order:
+            self.create_budget_move_line_from_invoice(line.id)
+        return res
 
     @api.one
     def invoice_validate(self):
         obj_bud_move_line = self.env['cash.budget.move.line']
         validate_result = super(account_invoice, self).invoice_validate()
+        if self.type in ['in_refund', 'out_refund']:
+            self.move_id.budget_type = 'void'
+        else:
+            self.move_id.budget_type = 'budget'
         if not self._check_from_order():
             move_id = self.budget_move_id if self.budget_move_id else\
                 self.create_budget_move()
@@ -261,3 +281,30 @@ class AccountInvoiceLine(models.Model):
         result = super(AccountInvoiceLine, self).write(vals)
         self.invoice_id.write({'name': self.invoice_id.name})
         return result
+
+
+class AccountInvoiceTax(models.Model):
+    _inherit = 'account.invoice.tax'
+
+    # Hay que probar si viene de un PO para utilizar los budget_move_lines
+    #  que ya existen y no crear nuevos
+    @api.model
+    def move_line_get(self, invoice_id):
+        res = super(AccountInvoiceTax, self).move_line_get(invoice_id)
+        checked_lines = []
+        for aml in res:
+            aits = self.search([
+                ('id', 'not in', checked_lines),
+                ('invoice_id', '=', invoice_id),
+                ('name', '=', aml['name']),
+                ('amount', '=', aml['price_unit']),
+                ('account_id', '=', aml['account_id']),
+                ('tax_code_id', '=', aml['tax_code_id']),
+                ('tax_amount', '=', aml['tax_amount']),
+                ('account_analytic_id', '=', aml['account_analytic_id'])])
+            if aits:
+                bml = self.env['account.invoice']\
+                    .create_budget_move_line_from_tax(aits[0].id)
+                aml['budget_move_lines'] = [(4, bml.id)]
+                checked_lines.append(aits[0].id)
+        return res
