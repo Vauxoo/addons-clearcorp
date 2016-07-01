@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <openerp>
     <data>
+        <template id="account_invoice_report_duplicate_main" inherit_id="account.account_invoice_report_duplicate_main">
+            <xpath expr="//t[@t-foreach='docs']" position="after">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="account.report_invoice_document" t-lang="o.partner_id.lang"/>
+                </t>
+            </xpath>
+        </template>
         <record id="account_invoice_report" model="ir.ui.view">
             <field name="priority" eval="260"/>
             <field name="name">account_invoice_report</field>
