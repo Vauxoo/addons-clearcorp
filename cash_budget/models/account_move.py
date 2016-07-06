@@ -76,93 +76,26 @@ class AccountMove(models.Model):
 
     @api.one
     def post(self):
-        context = self.env.context
-        if context is None:
-            context = {}
-        invoice = context.get('invoice', False)
-        valid_moves = self.validate()
-
-        if not valid_moves:
-            raise ValidationError(_(
-                """You cannot validate a non-balanced entry.
-                Make sure you have configured payment terms properly.
-                The latest payment term line should be of the "Balance" type.
-                """))
-        _created_move_ids = self.create_budget_moves()
-        # ===========================================================
-        check_lines = []
-        next_step = False
-        amount = 0.0
-        percentage = 0.0
+        res = super(AccountMove, self).post()
         obj_move_line = self.env['account.move.line']
-
         # Check if this account.move has distributions lines and check
         # (only in valid_moves -> is a account.move object)
-        for move in self.browse(valid_moves):
-            move_lines = obj_move_line.search([('move_id', '=', move.id)])
-            for line in move_lines:
-                if line.account_id.moves_cash:
-                    check_lines.append(line)
-            # Check amount in line.distribution (if there exist any line.id)
-            if len(check_lines) > 0:
-                for line in check_lines:
-                    distribution_lines =\
-                        self.env['account.move.line.distribution'].search(
-                            [('account_move_line_id', '=', line.id)])
-                    if len(distribution_lines) > 0:
-                        # Sum distribution_amount. This amount is equal to
-                        # line.amount (debit or credit).
-                        for distribution in distribution_lines:
-                            amount += distribution.distribution_amount
-                            percentage += distribution.distribution_percentage
-                        # Find amount (debit or credit) and compare.
-                        if line.debit > 0:
-                            amount_check = line.debit
-                        else:
-                            amount_check = line.credit
-                        # Continue with normal process
-                        if (amount_check == amount) and (percentage == 100):
-                            next_step = True
-                        else:
-                            next_step = False
-                            return {
-                                'value': {'account_move_line_id': line.id},
-                                'warning': {
-                                    'title': 'Warning',
-                                    'message': """
-                                    Distribution amount for this move line does
-                                    not match with original amount line"""
-                                }
-                            }
-                    # Continue with normal process
-                    else:
-                        next_step = True
-            else:
-                next_step = True
-            # ===============================================================#
-            if next_step:
-                for move in self.browse(valid_moves):
-                    if move.name == '/':
-                        new_name = False
-                        journal = move.journal_id
-                        if invoice and invoice.internal_number:
-                            new_name = invoice.internal_number
-                        else:
-                            if journal.sequence_id:
-                                new_name = journal.sequence_id.next_by_id(
-                                    move.period_id.fiscalyear_id.id)
-                            else:
-                                raise ValidationError(_(
-                                    'Please define a sequence on the journal.'
-                                    ))
-                        if new_name:
-                            move.write({'name': new_name})
-                update_query =\
-                    "UPDATE account_move SET state=%s WHERE id IN %s"
-                self._cr.execute(update_query, ('posted', tuple(valid_moves)))
-        super_result = super(AccountMove, self).post()
-        self.rewrite_bud_move_names()
-        return super_result
+        move_lines = self.line_id
+        moves_budget = False
+        for line in move_lines:
+            if line.account_id.moves_cash and\
+                    not line.check_distribution_amount():
+                raise Warning(_(
+                    "The distribution amount for one of this move lines does"
+                    "not match with original amount line"
+                ))
+            if line.budget_program_line:
+                moves_budget = True
+        if not self.budget_move_id and moves_budget:
+            self.create_budget_moves()
+        if self.budget_move_id and self.budget_move_id.type in ['manual']:
+            self.rewrite_bud_move_names()
+        return res
 
     @api.multi
     def button_cancel(self):
@@ -174,3 +107,12 @@ class AccountMove(models.Model):
                 bud_move.unlink()
         super(AccountMove, self).button_cancel()
         return True
+
+    @api.model
+    def create(self, vals):
+        res = super(AccountMove, self).create(vals)
+        for line in res.line_id:
+            if line.budget_move_lines:
+                res.budget_move_id = line.budget_move_lines[0].budget_move_id
+                break
+        return res

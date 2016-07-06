@@ -48,7 +48,7 @@ class account_invoice(models.Model):
 
         move_id = bud_move_obj.create({
             'type': _type,
-            'origin': self.name,
+            'origin': self.number,
             'fixed_amount': self.amount_total,
             'arch_compromised': self.amount_total})
         return move_id
@@ -72,7 +72,9 @@ class account_invoice(models.Model):
         fixed_amount = 0.0
         invoice_line = inv_line_obj.browse(line_id)
         invoice = invoice_line.invoice_id
-        move_id = invoice.budget_move_id
+        move_id = invoice.budget_move_id if invoice.budget_move_id\
+            else invoice.create_budget_move()[0]
+        invoice.budget_move_id = move_id
         refund = False
         vals = {
             'budget_move_id': move_id.id,
@@ -133,17 +135,33 @@ class account_invoice(models.Model):
         for inv in self:
             if not inv._check_from_order() and not inv.budget_move_id:
                 inv.budget_move_id = inv.create_budget_move()
-        return super(account_invoice, self).action_move_create()
+        res = super(account_invoice, self).action_move_create()
+        for inv in self:
+            inv.budget_move_id.signal_workflow('button_execute')
+            inv.budget_move_id.recalculate_values()
+        return res
+
 
     @api.model
     def line_get_convert(self, line, part, date):
         res = super(account_invoice, self).line_get_convert(line, part, date)
-        if self._check_from_order:
-            self.create_budget_move_line_from_invoice(line.id)
+        res.update({
+            'budget_move_lines': line.get('budget_move_lines', False),
+            'budget_program_line': line.get('budget_program_line', False)
+        })
+        return res
+
+    @api.multi
+    def action_number(self):
+        res = super(account_invoice, self).action_number()
+        for inv in self:
+            if inv.budget_move_id and inv.budget_move_id.type in [
+                    'manual_invoice_in', 'manual_invoice_out']:
+                inv.budget_move_id.origin = inv.number
         return res
 
     @api.one
-    def invoice_validate(self):
+    def invoice_validate2(self):
         obj_bud_move_line = self.env['cash.budget.move.line']
         validate_result = super(account_invoice, self).invoice_validate()
         if self.type in ['in_refund', 'out_refund']:
@@ -236,6 +254,8 @@ class AccountInvoiceLine(models.Model):
     subtotal_discounted_taxed = fields.Float(
         compute='_subtotal_discounted_taxed',
         digits=dp.get_precision('Account'), string='Subtotal')
+    budget_move_line_ids = fields.One2many(
+        'cash.budget.move.line', 'inv_line_id', string='Budget Move Lines')
 
     @api.one
     @api.depends('program_line_id')
@@ -275,6 +295,19 @@ class AccountInvoiceLine(models.Model):
             price_unit_discount, self.quantity, self.product_id.id,
             self.invoice_id.partner_id)['total_included']
         self.subtotal_discounted_taxed = amount_discounted_taxed
+
+    @api.model
+    def move_line_get_item(self, line):
+        res = super(AccountInvoiceLine, self).move_line_get_item(line)
+        bmls = line.budget_move_line_ids.ids
+        if not bmls and line.purchase_line_id:
+            bmls = line.purchase_line_id.budget_move_line_ids.ids
+        if not bmls:
+            bmls = self.env['account.invoice'].\
+                    create_budget_move_line_from_invoice(line.id).ids
+        res['budget_move_lines'] = [(6, 0, bmls)]
+        res['budget_program_line'] = line.program_line_id.id
+        return res
 
     @api.one
     def write(self, vals):

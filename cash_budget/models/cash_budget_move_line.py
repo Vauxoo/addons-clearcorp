@@ -215,11 +215,11 @@ class CashBudgetMoveLine(models.Model):
                     "closed plan"))
         return super(CashBudgetMoveLine, self).create(vals)
 
-    @api.one
+    @api.multi
     def write(self, vals):
         for bud_move_line in self:
-            if bud_move_line.program_line_id.program_id.plan_id.state in (
-                    'cancel', 'closed'):
+            if bud_move_line.program_line_id.program_id.plan_id.state in [
+                    'cancel', 'closed']:
                 next_line =\
                     bud_move_line.get_next_year_line()[bud_move_line.id]
                 if not next_line:

@@ -132,3 +132,26 @@ class AccountMoveLine(models.Model):
     # ======budget program line
     budget_program_line = fields.Many2one(
         'cash.budget.program.line', 'Budget Program Line')
+
+    @api.one
+    def check_distribution_amount(self):
+        amount = 0.0
+        percentage = 0.0
+        distribution_lines = \
+            self.env['account.move.line.distribution'].search(
+                [('account_move_line_id', '=', self.id)])
+        if distribution_lines:
+            # Sum distribution_amount. This amount is equal to
+            # line.amount (debit or credit).
+            for distribution in distribution_lines:
+                amount += distribution.distribution_amount
+                percentage += distribution.distribution_percentage
+            # Find amount (debit or credit) and compare.
+            if self.debit > 0:
+                amount_check = self.debit
+            else:
+                amount_check = self.credit
+            # Continue with normal process
+            if not (amount_check == amount) or not (percentage == 100):
+                return False
+        return True

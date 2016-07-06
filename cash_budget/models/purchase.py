@@ -49,21 +49,30 @@ class purchase_order(osv.osv):
         obj_bud_line = self.pool.get('cash.budget.move.line')
         acc_inv_mov = self.pool.get('account.invoice')
         obj_inv_line = self.pool.get('account.invoice.line')
-        res = False
+        res = []
         for id in ids:
             if context is None:
                 context = {}
-            invoice_id = super(purchase_order, self).action_invoice_create(cr, uid, ids, context=context)
-            acc_inv_mov.write(cr, uid, [invoice_id],{'from_order': True})
-            for purchase in self.browse(cr, uid, [id],context=context):
-                move_id = purchase.budget_move_id.id
-                for po_line in purchase.order_line:
-                    asoc_bud_line_id = obj_bud_line.search(cr, uid, [('po_line_id','=',po_line.id), ])[0]
-                    if po_line.invoice_lines:
-                        inv_line = po_line.invoice_lines[0]
-                        obj_bud_line.write(cr, uid, [asoc_bud_line_id],{'inv_line_id': inv_line.id}, context=context)
-                obj_bud_mov.signal_workflow(cr, uid, [move_id], 'button_execute', context=context)
-        return res     
+            purchase = self.browse(cr, uid, [id], context=context)[0]
+            invoice_id = super(purchase_order, self).action_invoice_create(
+                cr, uid, [id], context=context)
+            res = invoice_id
+            move_id = purchase.budget_move_id.id
+            acc_inv_mov.write(
+                cr, uid, [invoice_id],
+                {'from_order': True, 'budget_move_id': move_id})
+            obj_bud_mov.signal_workflow(cr, uid, [move_id], 'button_execute', context=context)
+        return res
+
+    def _prepare_inv_line(self, cr, uid, account_id, order_line, context=None):
+        res = super(purchase_order, self)._prepare_inv_line(
+            cr, uid, account_id, order_line, context=context)
+        res.update({
+            'budget_move_line_ids': [
+                (6, 0, order_line.budget_move_line_ids.ids)],
+            'program_line_id': order_line.program_line_id.id
+        })
+        return res
 
     
     def action_mark_budget_approval(self, cr, uid, ids, context=None):
@@ -222,6 +231,8 @@ class purchase_order_line(osv.osv):
     'program_line_id': fields.many2one('cash.budget.program.line', 'Program line', required=True),
     'line_available': fields.function(_check_available,  type='float', method=True, string='Line available',readonly=True),
     'subtotal_discounted_taxed': fields.function(_subtotal_discounted_taxed, digits_compute= dp.get_precision('Account'), string='Subtotal', ),
+    'budget_move_line_ids': fields.one2many(
+        'cash.budget.move.line', 'po_line_id', string='Budget Move Lines')
     }
 
     _constraints=[
