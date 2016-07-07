@@ -137,6 +137,10 @@ class account_invoice(models.Model):
                 inv.budget_move_id = inv.create_budget_move()
         res = super(account_invoice, self).action_move_create()
         for inv in self:
+            if inv.type in ['in_refund', 'out_refund']:
+                inv.move_id.budget_type = 'void'
+            else:
+                inv.move_id.budget_type = 'budget'
             inv.budget_move_id.signal_workflow('button_execute')
             inv.budget_move_id.recalculate_values()
         return res
@@ -164,10 +168,7 @@ class account_invoice(models.Model):
     def invoice_validate2(self):
         obj_bud_move_line = self.env['cash.budget.move.line']
         validate_result = super(account_invoice, self).invoice_validate()
-        if self.type in ['in_refund', 'out_refund']:
-            self.move_id.budget_type = 'void'
-        else:
-            self.move_id.budget_type = 'budget'
+
         if not self._check_from_order():
             move_id = self.budget_move_id if self.budget_move_id else\
                 self.create_budget_move()

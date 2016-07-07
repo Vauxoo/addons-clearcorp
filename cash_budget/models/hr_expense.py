@@ -50,15 +50,17 @@ class HRExpenseExpense(models.Model):
         if self.budget_move_id and self.budget_move_id.state != 'draft':
             self.budget_move_id.write({'fixed_amount': self.amount})
             self.budget_move_id.recalculate_values()
-        if 'state' in vals:
+        if 'state' in vals.keys():
             if vals['state'] == 'paid':
                 self.budget_move_id.action_execute()
+        if 'name' in vals.keys():
+            self.budget_move_id.origin = vals['name']
         return result
 
     @api.one
     def create_budget_move(self):
         bud_move_obj = self.env['cash.budget.move']
-        move_id = bud_move_obj.create({'type': 'expense'})
+        move_id = bud_move_obj.create({'origin': self.name, 'type': 'expense'})
         return move_id
 
     @api.one
@@ -90,7 +92,8 @@ class HRExpenseExpense(models.Model):
     def action_receipt_create(self):
         mov_line_obj = self.env['cash.budget.move.line']
         # result = super(HRExpenseExpense, self).action_receipt_create()
-        self.account_move_id.write({'budget_type': 'budget'})
+        self.account_move_id.budget_type = 'budget'
+        self.account_move_id.budget_move_id = self.budget_move_id
         self.budget_move_id.move_lines.write(
             {'account_move_id': self.account_move_id.id})
         self.budget_move_id.signal_workflow('button_compromise')
@@ -312,25 +315,21 @@ class HRExpenseLine(models.Model):
 
     @api.one
     def write(self, vals):
+        res = super(HRExpenseLine, self).write(vals)
         bud_line_obj = self.env['cash.budget.move.line']
-        write_result = True
         bud_line_dict = {}
-        if 'unit_amount' in vals.keys() or 'program_line_id' in vals.keys() or\
-                'name' in vals.keys():
-            if 'unit_amount' in vals.keys():
-                bud_line_dict['fixed_amount'] = vals['unit_amount']
-            if 'program_line_id' in vals.keys():
-                bud_line_dict['program_line_id'] = vals['program_line_id']
-            if 'name' in vals.keys():
-                bud_line_dict['origin'] = vals['name']
-            write_result = super(HRExpenseLine, self).write(vals)
-            bud_line_ids = bud_line_obj.search(
-                [('expense_line_id', '=', self.id)])
-            for bud_line in bud_line_ids:
-                bud_line.write(bud_line_dict)
-                result = bud_line._check_values()
-                if not result[0]:
-                    raise Warning(result[1])
-        else:
-            write_result = super(HRExpenseLine, self).write(vals)
-        return write_result
+        if 'unit_amount' in vals or 'unit_quantity' in vals:
+            bud_line_dict['fixed_amount'] = self.total_amount
+        if 'program_line_id' in vals:
+            bud_line_dict['program_line_id'] = vals['program_line_id']
+        if 'name' in vals:
+            bud_line_dict['origin'] = vals['name']
+        bud_line_ids = bud_line_obj.search(
+            [('expense_line_id', '=', self.id)])
+        for bud_line in bud_line_ids:
+            bud_line.write(bud_line_dict)
+            bud_line.budget_move_id.recalculate_values()
+            result = bud_line.budget_move_id._check_values()
+            if not result[0]:
+                raise Warning(result[1])
+        return res
