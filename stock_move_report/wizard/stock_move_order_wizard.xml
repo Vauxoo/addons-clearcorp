@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- © 2015 ClearCorp
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
 <openerp>
     <data>
         <!-- Stock Move Report -->
@@ -41,11 +43,10 @@
         </record>
         
         <!-- Menu -->
-        <menuitem icon="STOCK_PRINT"
-         name="Report Stock Move Order" 
-         parent="stock.next_id_61"
-         action="action_report_stock_move_order_wizard_view"
-         id="menu_report_stock_move_order"
-         sequence="2"/>
+        <menuitem id="menu_report_stock_move_order"
+                  name="Report Stock Move Order Change Name"
+                  parent="stock.menu_warehouse_report"
+                  action="action_report_stock_move_order_wizard_view"
+                  sequence="136"/>
     </data>
 </openerp>

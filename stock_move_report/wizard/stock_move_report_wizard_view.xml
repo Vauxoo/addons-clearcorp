@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- © 2014 ClearCorp
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
 <openerp>
     <data>
         <!-- Stock Move Report -->
@@ -7,16 +9,20 @@
             <field name="model">stock.move.report.wiz</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                 <form string="Report Options" version="7.0">
-                    <separator string="Stock Move Report" colspan="4"/>
+                 <form string="Report Options">
+                    <separator string="Stock Move Report"/>
                     <label string="This report allows to print a stock move report by different search criteria."/> 
-                    <group col="4" string="General Options">
-                        <field name="date_from"/>
-                        <field name="date_to"/>
-                        <field name="out_format"/>
-                        <field name="include_costs" />
+                    <group name="general-options" string="General Options">
+                        <group>
+                            <field name="date_from"/>
+                            <field name="out_format"/>
+                        </group>
+                        <group>
+                            <field name="date_to"/>
+                            <field name="include_costs" />
+                        </group>
                     </group>
-                    <group string="Filters" col="4" >
+                    <group string="Filters">
                         <group colspan="4" string="Categories Products">
                             <field name="category_ids" nolabel="1"/>
                         </group>
@@ -37,8 +43,7 @@
                         </group>
                     </group>
                     <footer>
-                        <button name="print_report" string="Print" type="object" default_focus="1" class="oe_highlight"/>
-                        or 
+                        <button name="print_report" string="Print" type="object" class="oe_highlight"/>
                         <button string="Cancel" class="oe_link" special="cancel" />
                     </footer>
                 </form>
@@ -47,7 +52,7 @@
 
         <!-- Action -->
         <record id="action_stock_move_report_wizard_view" model="ir.actions.act_window">
-            <field name="name">Stock Move Report</field>
+            <field name="name">Stock Moves Report</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">stock.move.report.wiz</field>
             <field name="view_type">form</field>
@@ -55,7 +60,12 @@
             <field name="view_id" ref="stock_move_report_wizard_form_view"/>
             <field name="target">new</field>
         </record>
+
         <!-- Menu -->
-        <menuitem icon="STOCK_PRINT" name="Stock Move Report" parent="stock.next_id_61" action="action_stock_move_report_wizard_view" id="menu_stock_move_report"/>
+        <menuitem id="menu_stock_move_report"
+                  name="Stock Moves Report"
+                  parent="stock.menu_warehouse_report"
+                  action="action_stock_move_report_wizard_view"
+                  sequence="135"/>
     </data>
 </openerp>
