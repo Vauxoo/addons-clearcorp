@@ -450,7 +450,7 @@ class AccountMoveReconcile(orm.Model):
                     'target_budget_move_line_id':   line.id,
                     'reconcile_ids':                [(6, 0, new_reconcile_ids)],
                     'type':                         'auto',
-                    'account_move_line_type':       'liquid',
+                    'account_move_line_type':       'void',
                 }
                 budget_res.append(dist_obj.create(cr, uid, vals, context = context))
                 bud_move_obj.signal_workflow(cr, uid, [line.budget_move_id.id], 'button_check_execution', context=context)
