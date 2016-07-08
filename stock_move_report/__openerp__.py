@@ -14,21 +14,20 @@
     'application': False,
     'installable': True,
     'auto_install': False,
-    'website': 'http://clearcorp.co.cr',
     'depends': [
         'stock',
         'product',
-        #'report_xls_template'
+        # 'report_xls_template'
     ],
     'data': [
         'security/ir.model.access.csv',
         'data/paperformat.xml',
-        #'views/stock_move_report_report.xml',
-        #'views/stock_move_order_report.xml',
+        # 'views/stock_move_report_report.xml',
+        # 'views/stock_move_order_report.xml',
         'views/report_stock_move_pdf.xml',
         'report/stock_move_analysis_view.xml',
-        #'views/report_stock_move_xls.xml',
-        #'views/report_stock_move_order.xml',
+        # 'views/report_stock_move_xls.xml',
+        # 'views/report_stock_move_order.xml',
         'wizard/stock_move_report_wizard_view.xml',
         'wizard/stock_move_order_wizard_view.xml'
     ],
