@@ -83,12 +83,12 @@
 	                </data>
 	            </field>
 		</record>
-        
-        
-        
+
         <record id="purchase.purchase_rfq" model="ir.actions.act_window">
             <field name="domain">[('state','in',('draft','budget_approval','sent','confirmed'))]</field>
+			<field name="context" eval="{'default_pricelist_id': ref('purchase.pricelist_type_purchase')}" />
         </record>
+
         <record id="purchase.purchase_form_action" model="ir.actions.act_window">
             <field name="domain">[('state','not in',('draft','sent','budget_approval','confirmed'))]</field>
         </record>

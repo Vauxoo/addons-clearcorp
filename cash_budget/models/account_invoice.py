@@ -39,31 +39,35 @@ class account_invoice(models.Model):
 
     @api.one
     def create_budget_move(self):
-        bud_move_obj = self.env['cash.budget.move']
-        _type = False
-        if self.type in ('in_invoice', 'out_refund'):
-            _type = 'manual_invoice_in'
-        if self.type in ('out_invoice', 'in_refund'):
-            _type = 'manual_invoice_out'
-
-        move_id = bud_move_obj.create({
-            'type': _type,
-            'origin': self.number,
-            'fixed_amount': self.amount_total,
-            'arch_compromised': self.amount_total})
-        return move_id
+        if self.type in ['in_invoice', 'out_invoice']:
+            bud_move_obj = self.env['cash.budget.move']
+            _type = False
+            if self.type == 'in_invoice':
+                _type = 'manual_invoice_in'
+            else:
+                _type = 'manual_invoice_out'
+            move_id = bud_move_obj.create({
+                'type': _type,
+                'origin': self.number,
+                'fixed_amount': self.amount_total,
+                'arch_compromised': self.amount_total})
+            return move_id
+        return False
 
     @api.one
     def update_budget_move(self):
-        _type = False
-        if self.type in ('in_invoice', 'out_refund'):
-            _type = 'manual_invoice_in'
-        if self.type in ('out_invoice', 'in_refund'):
-            _type = 'manual_invoice_out'
-        self.budget_move_id.write({'type': _type})
-        move_ids = [(2, x.id)for x in self.budget_move_id.move_lines]
-        if move_ids:
-            self.budget_move_id.write({'move_lines': move_ids})
+        if self.type in ['in_invoice', 'out_invoice']:
+            _type = False
+            if self.type == 'in_invoice':
+                _type = 'manual_invoice_in'
+            else:
+                _type = 'manual_invoice_out'
+            self.budget_move_id.write({'type': _type})
+            move_ids = [(2, x.id)for x in self.budget_move_id.move_lines]
+            if move_ids:
+                self.budget_move_id.write({'move_lines': move_ids})
+            return True
+        return False
 
     @api.model
     def create_budget_move_line_from_invoice(self, line_id, is_tax=False):
@@ -71,33 +75,26 @@ class account_invoice(models.Model):
         bud_line_obj = self.env['cash.budget.move.line']
         fixed_amount = 0.0
         invoice_line = inv_line_obj.browse(line_id)
-        invoice = invoice_line.invoice_id
-        move_id = invoice.budget_move_id if invoice.budget_move_id\
-            else invoice.create_budget_move()[0]
-        invoice.budget_move_id = move_id
-        refund = False
-        vals = {
-            'budget_move_id': move_id.id,
-            'origin': invoice_line.name,
-            'program_line_id': invoice_line.program_line_id.id,
-            'account_move_id': invoice.move_id.id
-        }
-        if invoice.type in ('in_invoice', 'out_refund'):
-            fixed_amount = invoice_line.price_subtotal
-            vals['inv_line_id'] = line_id
-            if invoice.type == 'out_refund':
-                refund = True
-        if invoice.type in ('out_invoice', 'in_refund'):
-            # should be negative because it is an income
-            fixed_amount = invoice_line.price_subtotal * -1
-            vals['inv_line_id'] = line_id
-            if invoice.type == 'in_refund':
-                refund = True
-        vals['fixed_amount'] = fixed_amount
-        bud_line = bud_line_obj.create(vals)
-        budget_type = 'void' if refund else 'budget'
-        invoice.move_id.write({'budget_type': budget_type})
-        return bud_line
+        if invoice_line.invoice_id.type not in ['in_refund', 'out_refund']:
+            invoice = invoice_line.invoice_id
+            move_id = invoice.budget_move_id
+            vals = {
+                'budget_move_id': move_id.id,
+                'origin': invoice_line.name,
+                'program_line_id': invoice_line.program_line_id.id,
+                'account_move_id': invoice.move_id.id
+            }
+            if invoice.type == 'in_invoice':
+                fixed_amount = invoice_line.price_subtotal
+                vals['inv_line_id'] = line_id
+            else:
+                # should be negative because it is an income
+                fixed_amount = invoice_line.price_subtotal * -1
+                vals['inv_line_id'] = line_id
+            vals['fixed_amount'] = fixed_amount
+            bud_line = bud_line_obj.create(vals)
+            return bud_line
+        return False
 
     @api.model
     def create_budget_move_line_from_tax(self, line_id):
@@ -105,35 +102,38 @@ class account_invoice(models.Model):
         bud_line_obj = self.env['cash.budget.move.line']
         fixed_amount = 0.0
         tax_line = acc_inv_tax_obj.browse(line_id)
-        invoice = tax_line.invoice_id
-        move_id = invoice.budget_move_id
-        vals = {
-            'budget_move_id': move_id.id,
-            'origin': tax_line.name,
-            'account_move_id': invoice.move_id.id,
-            'tax_line_id': line_id
-        }
-        if invoice.type in ('in_invoice', 'out_refund'):
-            fixed_amount = tax_line.tax_amount
-        else:
-            fixed_amount = tax_line.tax_amount * -1
-        vals['fixed_amount'] = fixed_amount
+        if tax_line.invoice_id.type not in ['in_refund', 'out_refund']:
+            invoice = tax_line.invoice_id
+            move_id = invoice.budget_move_id
+            vals = {
+                'budget_move_id': move_id.id,
+                'origin': tax_line.name,
+                'account_move_id': invoice.move_id.id,
+                'tax_line_id': line_id
+            }
+            if invoice.type == 'in_invoice':
+                fixed_amount = tax_line.tax_amount
+            else:
+                fixed_amount = tax_line.tax_amount * -1
+            vals['fixed_amount'] = fixed_amount
 
-        # es necesario cambiar la forma en que se generan los
-        # account_invoice_tax para que sea haga uno por cada combinacion de tax
-        # y budget_program_line
-        """
-        invoice_lines = tax_line.invoice_id.invoice_line
-        for inv_line in invoice_lines:
-            if tax_line.base_amount == inv_line.price_subtotal:
-                vals['program_line_id'] = inv_line.program_line_id.id"""
-        bud_line = bud_line_obj.create(vals)
-        return bud_line
+            # es necesario cambiar la forma en que se generan los
+            # account_invoice_tax para que sea haga uno por cada combinacion de tax
+            # y budget_program_line
+            """
+            invoice_lines = tax_line.invoice_id.invoice_line
+            for inv_line in invoice_lines:
+                if tax_line.base_amount == inv_line.price_subtotal:
+                    vals['program_line_id'] = inv_line.program_line_id.id"""
+            bud_line = bud_line_obj.create(vals)
+            return bud_line
+        return False
 
     @api.multi
     def action_move_create(self):
         for inv in self:
-            if not inv._check_from_order() and not inv.budget_move_id:
+            if not inv._check_from_order() and not inv.budget_move_id\
+                    and inv.type not in ['in_refund', 'out_refund']:
                 inv.budget_move_id = inv.create_budget_move()
         res = super(account_invoice, self).action_move_create()
         for inv in self:
@@ -141,18 +141,18 @@ class account_invoice(models.Model):
                 inv.move_id.budget_type = 'void'
             else:
                 inv.move_id.budget_type = 'budget'
-            inv.budget_move_id.signal_workflow('button_execute')
-            inv.budget_move_id.recalculate_values()
+                inv.budget_move_id.signal_workflow('button_execute')
+                inv.budget_move_id.recalculate_values()
         return res
-
 
     @api.model
     def line_get_convert(self, line, part, date):
         res = super(account_invoice, self).line_get_convert(line, part, date)
-        res.update({
-            'budget_move_lines': line.get('budget_move_lines', False),
-            'budget_program_line': line.get('budget_program_line', False)
-        })
+        if 'budget_move_lines' in line:
+            res.update({
+                'budget_move_lines': line.get('budget_move_lines', False),
+                'budget_program_line': line.get('budget_program_line', False)
+            })
         return res
 
     @api.multi
@@ -163,75 +163,6 @@ class account_invoice(models.Model):
                     'manual_invoice_in', 'manual_invoice_out']:
                 inv.budget_move_id.origin = inv.number
         return res
-
-    @api.one
-    def invoice_validate2(self):
-        obj_bud_move_line = self.env['cash.budget.move.line']
-        validate_result = super(account_invoice, self).invoice_validate()
-
-        if not self._check_from_order():
-            move_id = self.budget_move_id if self.budget_move_id else\
-                self.create_budget_move()
-            self.write({'budget_move_id': move_id})
-            # creating budget move lines per invoice line
-            for line in self.invoice_line:
-                if not line.invoice_id.from_order:
-                    self.create_budget_move_line_from_invoice(line.id)
-            # creating budget move lines per tax line
-            for line in self.tax_line:
-                if not line.invoice_id.from_order:
-                    self.create_budget_move_line_from_tax(line.id)
-            move_id.write(
-                {'origin': self.name,
-                 'fixed_amount': self.amount_total,
-                 'arch_compromised': self.amount_total})
-            # Associating
-            bud_lines_ids = obj_bud_move_line.search(
-                [('budget_move_id', '=', move_id.id)])
-            bud_lines = obj_bud_move_line.browse(bud_lines_ids)
-            move_lines = self.move_id.line_id
-            assigned_mov_lines = []
-            for bud_line in bud_lines:
-                for move_line in move_lines:
-                    fixed_amount = abs(move_line.debit - move_line.credit) or\
-                        abs(move_line.amount_currency)
-                    account_id = 0
-                    if bud_line.inv_line_id and\
-                            bud_line.inv_line_id.account_id:
-                        account_id = bud_line.inv_line_id.account_id.id
-                    elif bud_line.tax_line_id and\
-                            bud_line.tax_line_id.account_id:
-                        account_id = bud_line.tax_line_id.account_id.id
-                    if move_line.id not in assigned_mov_lines and\
-                            bud_line.origin.find(move_line.name) != -1 and\
-                            bud_line.fixed_amount == fixed_amount and \
-                            account_id == move_line.account_id.id:
-                        bud_line.write({'move_line_id': move_line.id})
-                        assigned_mov_lines.append(move_line.id)
-                move_id.signal_workflow('button_execute')
-        else:
-            for inv_line in self.invoice_line:
-                bud_line = inv_line.invoice_id.budget_move_id.move_lines
-                move_id = bud_line.budget_move_id
-                move_lines = self.move_id.line_id
-                assigned_mov_lines = []
-                for move_line in move_lines:
-                    fixed_amount = abs(move_line.debit - move_line.credit) or\
-                        abs(move_line.amount_currency)
-                    account_id = 0
-                    if bud_line.inv_line_id and\
-                            bud_line.inv_line_id.account_id:
-                        account_id = bud_line.inv_line_id.account_id.id
-                    elif bud_line.tax_line_id and\
-                            bud_line.tax_line_id.account_id:
-                        account_id = bud_line.tax_line_id.account_id.id
-                    if move_line.id not in assigned_mov_lines and\
-                            bud_line.fixed_amount == fixed_amount and \
-                            account_id == move_line.account_id.id:
-                        bud_line.write({'move_line_id': move_line.id})
-                        assigned_mov_lines.append(move_line.id)
-                move_id.signal_workflow('button_execute')
-        return validate_result
 
     @api.one
     def copy(self, default=None):
@@ -300,14 +231,15 @@ class AccountInvoiceLine(models.Model):
     @api.model
     def move_line_get_item(self, line):
         res = super(AccountInvoiceLine, self).move_line_get_item(line)
-        bmls = line.budget_move_line_ids.ids
-        if not bmls and line.purchase_line_id:
-            bmls = line.purchase_line_id.budget_move_line_ids.ids
-        if not bmls:
-            bmls = self.env['account.invoice'].\
-                    create_budget_move_line_from_invoice(line.id).ids
-        res['budget_move_lines'] = [(6, 0, bmls)]
-        res['budget_program_line'] = line.program_line_id.id
+        if line.invoice_id.type in ['in_invoice', 'out_invoice']:
+            bmls = line.budget_move_line_ids.ids
+            if not bmls and line.purchase_line_id:
+                bmls = line.purchase_line_id.budget_move_line_ids.ids
+            if not bmls:
+                bmls = self.env['account.invoice'].\
+                        create_budget_move_line_from_invoice(line.id).ids
+            res['budget_move_lines'] = [(6, 0, bmls)]
+            res['budget_program_line'] = line.program_line_id.id
         return res
 
     @api.one
@@ -325,20 +257,22 @@ class AccountInvoiceTax(models.Model):
     @api.model
     def move_line_get(self, invoice_id):
         res = super(AccountInvoiceTax, self).move_line_get(invoice_id)
-        checked_lines = []
-        for aml in res:
-            aits = self.search([
-                ('id', 'not in', checked_lines),
-                ('invoice_id', '=', invoice_id),
-                ('name', '=', aml['name']),
-                ('amount', '=', aml['price_unit']),
-                ('account_id', '=', aml['account_id']),
-                ('tax_code_id', '=', aml['tax_code_id']),
-                ('tax_amount', '=', aml['tax_amount']),
-                ('account_analytic_id', '=', aml['account_analytic_id'])])
-            if aits:
-                bml = self.env['account.invoice']\
-                    .create_budget_move_line_from_tax(aits[0].id)
-                aml['budget_move_lines'] = [(4, bml.id)]
-                checked_lines.append(aits[0].id)
+        if self.env['account.invoice'].browse(invoice_id).type in\
+                ['in_invoice', 'out_invoice']:
+            checked_lines = []
+            for aml in res:
+                aits = self.search([
+                    ('id', 'not in', checked_lines),
+                    ('invoice_id', '=', invoice_id),
+                    ('name', '=', aml['name']),
+                    ('amount', '=', aml['price_unit']),
+                    ('account_id', '=', aml['account_id']),
+                    ('tax_code_id', '=', aml['tax_code_id']),
+                    ('tax_amount', '=', aml['tax_amount']),
+                    ('account_analytic_id', '=', aml['account_analytic_id'])])
+                if aits:
+                    bml = self.env['account.invoice']\
+                        .create_budget_move_line_from_tax(aits[0].id)
+                    aml['budget_move_lines'] = [(4, bml.id)]
+                    checked_lines.append(aits[0].id)
         return res

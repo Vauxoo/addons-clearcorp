@@ -338,7 +338,7 @@ class AccountMoveReconcile(orm.Model):
         budget_move_line_obj = self.pool.get('cash.budget.move.line')
         
         # Check if not first call and void type line. This kind of lines only can be navigated when called first by the main method.
-        if actual_line and actual_line.move_id.budget_type == 'void':
+        if actual_line and actual_line.move_id != original_line.move_id and actual_line.move_id.budget_type == 'void':
             return []
         
         # Check if first call and not void line
@@ -350,7 +350,7 @@ class AccountMoveReconcile(orm.Model):
             actual_line = original_line
             amount_to_dist = original_line.debit + original_line.credit
             original_amount_to_dist = amount_to_dist
-            checked_lines.append(actual_line.id)
+            checked_lines = [actual_line.id]
         
         if not amount_to_dist:
             return []
@@ -382,7 +382,7 @@ class AccountMoveReconcile(orm.Model):
                     budget_amounts[counterpart.id] = counterpart.debit + counterpart.credit
                     budget_total += counterpart.debit + counterpart.credit
                     amount_total += counterpart.debit + counterpart.credit
-                elif not counterpart.account_id.moves_cash and counterpart.move_id.budget_type != 'void':
+                elif not counterpart.account_id.moves_cash and (counterpart.move_id == original_line.move_id or counterpart.move_id.budget_type != 'void'):
                     none_lines[counterpart.id] = counterpart
                     none_total += counterpart.debit + counterpart.credit
                     amount_total += counterpart.debit + counterpart.credit
@@ -406,13 +406,14 @@ class AccountMoveReconcile(orm.Model):
             for line in none_lines.values():
                 line_amount_to_dist = (none_amount_to_dist if line.debit + line.credit >= none_amount_to_dist else line.debit + line.credit)
                 # Use none_amount_to_dist with all lines as we don't know which ones will find something
-                none_res += self._recursive_void_get_auto_distribution(cr, uid, original_line,
-                                                                       actual_line = line,
-                                                                       checked_lines = checked_lines,
-                                                                       amount_to_dist = line_amount_to_dist,
-                                                                       reconcile_ids = new_reconcile_ids,
-                                                                       continue_reconcile = (not continue_reconcile),
-                                                                       context = context)
+                none_res += self._recursive_void_get_auto_distribution(
+                    cr, uid, original_line, actual_line=line,
+                    checked_lines=checked_lines,
+                    amount_to_dist=line_amount_to_dist,
+                    reconcile_ids=new_reconcile_ids,
+                    continue_reconcile=(not continue_reconcile),
+                    original_amount_to_dist=original_amount_to_dist,
+                    context=context)
         
         budget_res = []
         budget_distributed = 0.0

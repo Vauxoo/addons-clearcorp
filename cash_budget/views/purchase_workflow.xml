@@ -149,7 +149,13 @@
             <field name="act_to" ref="purchase.act_draft"/>
             <field name="signal">draft</field>
         </record>
-        
+
+        <record id="trans_ineffectual_draft" model="workflow.transition">
+            <field name="act_from" ref="act_ineffectual"/>
+            <field name="act_to" ref="purchase.act_draft"/>
+            <field name="signal">draft</field>
+        </record>
+
         <record id="trans_deserted_cancel" model="workflow.transition">
             <field name="act_from" ref="act_deserted"/>
             <field name="act_to" ref="purchase.act_cancel"/>

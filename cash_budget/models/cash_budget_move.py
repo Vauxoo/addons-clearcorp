@@ -350,8 +350,8 @@ class CashBudgetMove(models.Model):
                             line.program_line_id.available_budget <
                             abs(line.fixed_amount)):
                         return [False, _(
-                            """The amount to substract from %s is greater
-                            than the available""" % line.program_line_id.name)]
+                            "The amount to substract from %s is greater "
+                            "than the available" % line.program_line_id.name)]
                 elif line.type in (
                         'opening', 'manual_invoice_in', 'expense',
                         'invoice_in', 'manual'):
@@ -368,8 +368,8 @@ class CashBudgetMove(models.Model):
                                 line.fixed_amount:
                             return [True, '']
                         return [False, _(
-                            """The amount to substract from %s is greater
-                            than the available""" % line.program_line_id.name)]
+                            "The amount to substract from %s is greater "
+                            "than the available" % line.program_line_id.name)]
         return [True, '']
 
     @api.model
