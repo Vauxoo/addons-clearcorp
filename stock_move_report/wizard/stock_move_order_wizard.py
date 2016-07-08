@@ -10,12 +10,12 @@ class ReportStockMoveOrder(osv.osv_memory):
     _name = 'report.stock.move.order.wiz'
 
     _columns = {
-        'stock_location': fields.many2one('stock.location',
-                                          string='Stock Location'),
-        'product_ids': fields.many2many('product.product',
-                                        string='Product',
-                                        domain=[('type', '=', 'product')]),
-            }
+        'stock_location': fields.many2one(
+            'stock.location', string='Location', required=True),
+        'product_ids': fields.many2many(
+            'product.product', string='Products', required=True,
+            domain=[('type', '=', 'product')]),
+        }
 
     def print_report(self, cr, uid, ids, context=None):
         if context is None:

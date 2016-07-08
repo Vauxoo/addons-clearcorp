@@ -3,14 +3,13 @@
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
 <openerp>
     <data>
-        <!-- Stock Move Report -->
+        <!-- Form View -->
         <record id="view_stock_move_wizard_form" model="ir.ui.view">
             <field name="name">stock_move_report_wizard_form_view</field>
             <field name="model">stock.move.report.wiz</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
-                 <form string="Report Options">
-                    <separator string="Stock Move Report"/>
+                 <form>
                     <label string="This report allows to print a stock move report by different search criteria."/> 
                     <group name="general-options" string="General Options">
                         <group>
@@ -49,7 +48,6 @@
                 </form>
             </field>
         </record>
-
         <!-- Action -->
         <record id="action_stock_move_wizard_view" model="ir.actions.act_window">
             <field name="name">Stock Moves Report</field>
@@ -57,10 +55,8 @@
             <field name="res_model">stock.move.report.wiz</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="stock_move_report_wizard_form_view"/>
             <field name="target">new</field>
         </record>
-
         <!-- Menu -->
         <menuitem id="menu_stock_move_report"
                   name="Stock Moves Report"
