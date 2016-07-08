@@ -20,7 +20,4 @@
 #
 ##############################################################################
 
-import stock_move_analysis
-import report_stock_move
-import report_stock_move_order
-import res_company
+from . import stock_move_analysis, report_stock_move, report_stock_move_order

@@ -26,11 +26,9 @@
         #'views/stock_move_report_report.xml',
         #'views/stock_move_order_report.xml',
         'views/report_stock_move_pdf.xml',
-        #'views/report_picking.xml',
-        #'report/stock_move_analysis.xml',
+        'report/stock_move_analysis_view.xml',
         #'views/report_stock_move_xls.xml',
         #'views/report_stock_move_order.xml',
-        #'views/view_company_form.xml',
         'wizard/stock_move_report_wizard_view.xml',
         'wizard/stock_move_order_wizard_view.xml'
     ],

@@ -212,5 +212,12 @@
                 </div>
             </div>
         </template>
+        <report id="action_report_stock_move_order"
+                model="stock.move"
+                string="Stock Move Order"
+                report_type="qweb-xls"
+                name="stock_move_report.report_stock_move_order"
+                file="stock_move_report.report_stock_move_order"
+                menu="False"/>
     </data>
 </openerp>
