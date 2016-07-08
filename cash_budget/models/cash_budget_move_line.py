@@ -49,7 +49,7 @@ class CashBudgetMoveLine(models.Model):
             for void_line in void_line_ids_amld:
                 if void_line.id in ignore_dist_ids:
                     continue
-                _reversed += void_line
+                _reversed += void_line.distribution_amount
 
             if line.type not in ('opening', 'modification', 'extension'):
                 if line.state in ('executed', 'in_execution', 'transferred'):
@@ -68,7 +68,7 @@ class CashBudgetMoveLine(models.Model):
                     _reversed += line.previous_move_line_id.reversed
                 if line.state in ('compromised', 'executed', 'in_execution',
                                   'transferred'):
-                    compromised = line.fixed_amount - executed - line.reversed
+                    compromised = line.fixed_amount - executed - _reversed
                 if line.state == 'reserved':
                     reserved = line.fixed_amount - _reversed
             line.executed = executed
