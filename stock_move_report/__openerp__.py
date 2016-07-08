@@ -32,6 +32,6 @@
         #'views/report_stock_move_order.xml',
         #'views/view_company_form.xml',
         'wizard/stock_move_report_wizard_view.xml',
-        'wizard/stock_move_order_wizard.xml'
+        'wizard/stock_move_order_wizard_view.xml'
     ],
 }

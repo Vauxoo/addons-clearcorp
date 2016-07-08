@@ -4,7 +4,7 @@
 <openerp>
     <data>
         <!-- Stock Move Report -->
-        <record id="stock_move_report_wizard_form_view" model="ir.ui.view">
+        <record id="view_stock_move_wizard_form" model="ir.ui.view">
             <field name="name">stock_move_report_wizard_form_view</field>
             <field name="model">stock.move.report.wiz</field>
             <field name="type">form</field>
@@ -51,7 +51,7 @@
         </record>
 
         <!-- Action -->
-        <record id="action_stock_move_report_wizard_view" model="ir.actions.act_window">
+        <record id="action_stock_move_wizard_view" model="ir.actions.act_window">
             <field name="name">Stock Moves Report</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">stock.move.report.wiz</field>
@@ -65,7 +65,7 @@
         <menuitem id="menu_stock_move_report"
                   name="Stock Moves Report"
                   parent="stock.menu_warehouse_report"
-                  action="action_stock_move_report_wizard_view"
+                  action="action_stock_move_wizard_view"
                   sequence="135"/>
     </data>
 </openerp>
