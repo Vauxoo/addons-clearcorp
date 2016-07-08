@@ -342,7 +342,7 @@ class AccountMoveReconcile(orm.Model):
             return []
         
         # Check if first call and not void line
-        if not actual_line and not actual_line.move_id.budget_type == 'void':
+        if not actual_line and not original_line.move_id.budget_type == 'void':
             return []
         
         # Check for first call
@@ -427,12 +427,13 @@ class AccountMoveReconcile(orm.Model):
             budget_budget_move_line_ids = []
             budget_budget_move_lines = []
             bud_move_obj = self.pool.get('cash.budget.move')
+            bud_move_line_obj = self.pool.get('cash.budget.move.line')
             for lines in budget_lines.values():
                 budget_budget_move_lines += lines
-            for line in budget_budget_move_lines:
+            for line in bud_move_line_obj.browse(cr, uid, budget_budget_move_lines, context=context):
                 budget_budget_move_line_ids.append(line.id)
                 budget_total +=  abs(line.compromised)
-            for line in budget_budget_move_lines:
+            for line in bud_move_line_obj.browse(cr, uid, budget_budget_move_lines, context=context):
                 distribution_amount =  abs(line.compromised)
                 # If the resulting total of budget plus liquid lines is more than available, the amount has to be fractioned.
                 if budget_total > amount_to_dist:
@@ -483,7 +484,7 @@ class AccountMoveReconcile(orm.Model):
                     if checked_dist_ids:
                         res[line.id] = checked_dist_ids
                 elif (line.id not in done_lines) and line.move_id.budget_type == 'void':
-                    dist_ids = self._recursive_void_get_auto_distribution(cr, uid, line, context=context, is_incremental=is_incremental)
+                    dist_ids = self._recursive_void_get_auto_distribution(cr, uid, line, context=context)
                     checked_dist_ids = self._check_auto_distributions(cr, uid, line, dist_ids, context=context, object="budget")
                     if checked_dist_ids:
                         res[line.id] = checked_dist_ids
