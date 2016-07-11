@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+        <template id="report_invoice">
+            <div class="workbook">
+                <div class="worksheet" name="Invoicing Report" orientation="landscape" fithorizontal="1">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <t t-if="o and 'company_id' in o">
+                                    <t t-set="company" t-value="o.company_id"></t>
+                                </t>
+                                <t t-if="not o or not 'company_id' in o">
+                                    <t t-set="company" t-value="res_company"></t>
+                                </t>
+                                <td colspan="3" rowspan="10">
+                                    <img x_scale="0.4" y_scale="0.40" x_offset="20" y_offset="60" t-att-src="'data:image/png;base64,%s' % company.logo"/>
+                                </td>
+                                <td colspan="7" rowspan="10" format="{'bold':True, 'font_size':20, 'align':'center', 'valign':'vcenter',}">Invoice Report Example</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th format="{'bold':True, 'align':'center', 'valign':'vcenter', 'bottom': 1}">Number</th>
+                                <th colspan="2" format="{'bold':True, 'align':'center', 'valign':'vcenter', 'bottom': 1}">Customer</th>
+                                <th colwidth="20" format="{'bold':True, 'align':'center', 'valign':'vcenter', 'bottom': 1}">Invoice Date</th>
+                                <th colwidth="20" format="{'bold':True, 'align':'center', 'valign':'vcenter', 'bottom': 1}">Due Date</th>
+                                <th format="{'bold':True, 'align':'center', 'valign':'vcenter', 'bottom': 1}">Balance</th>
+                                <th format="{'bold':True, 'align':'center', 'valign':'vcenter', 'bottom': 1}">Subtotal</th>
+                                <th format="{'bold':True, 'align':'center', 'valign':'vcenter', 'bottom': 1}">Total</th>
+                                <th format="{'bold':True, 'align':'center', 'valign':'vcenter', 'bottom': 1}">Tax</th>
+                                <th format="{'bold':True, 'align':'center', 'valign':'vcenter', 'bottom': 1}">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="row_count" t-value="12"/>
+                            <tr t-foreach="docs" t-as="o">
+                                <td>
+                                    <span t-field="o.number"/>
+                                </td>
+                                <td colspan="2">
+                                    <span t-field="o.partner_id" />
+                                </td>
+                                <td type="date" format="{'num_format': 'dd/mm/yyyy'}">
+                                    <span t-esc="o.date_invoice"/>
+                                </td>
+                                <td type="date" format="{'num_format': 'dd/mm/yyyy'}">
+                                    <span t-esc="o.date_due"/>
+                                </td>
+                                <td>
+                                    <span t-esc="o.residual"/>
+                                </td>
+                                <td>
+                                    <span t-esc="o.amount_untaxed"/>
+                                </td>
+                                <td>
+                                    <span t-esc="o.amount_total"/>
+                                </td>
+                                <td>
+                                    =H<t t-esc="row_count" />-G<t t-esc="row_count" /></td>
+                                <td>
+                                    <span t-field="o.state"/>
+                                </td>
+                                <t t-set="row_count" t-value="row_count+1"/>
+                            </tr>
+                            <tr rowheight="40">
+                                <td></td>
+                                <td colspan="2"></td>
+                                <td></td>
+                                <td></td>
+                                <td>=SUM(F12:F<t t-esc="row_count-1" />)</td>
+                                <td>=SUM(G12:G<t t-esc="row_count-1" />)</td>
+                                <td>=SUM(H12:H<t t-esc="row_count-1" />)</td>
+                                <td>=SUM(I12:I<t t-esc="row_count-1" />)</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </template>
+    </data>
+</openerp>

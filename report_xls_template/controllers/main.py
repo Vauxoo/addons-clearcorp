@@ -1,32 +1,14 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    OpenERP, Open Source Management Solution
-#    Addons modules by CLEARCORP S.A.
-#    Copyright (C) 2009-TODAY CLEARCORP S.A. (<http://clearcorp.co.cr>).
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
-#    Code inspired by OpenERP SA report module
-##############################################################################
+# © 2014 ClearCorp
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+# Code inspired by OpenERP SA report module
 
-import simplejson
+import json
 from werkzeug import exceptions, url_decode
-from openerp.osv import osv
 from openerp.addons.web.http import Controller, route, request
 from openerp.addons.web.controllers.main import _serialize_exception
+from openerp.addons.web.controllers.main import content_disposition
+from openerp.tools import html_escape
 
 
 class ReportXLSController(Controller):
@@ -41,27 +23,29 @@ class ReportXLSController(Controller):
 
         if docids:
             docids = [int(i) for i in docids.split(',')]
-        options_data = None
         if data.get('options'):
-            options_data = simplejson.loads(data['options'])
+            data.update(json.loads(data.pop('options')))
         if data.get('context'):
             # Ignore 'lang' here, because the context in data is the
             # one from the webclient *but* if the user explicitely
             # wants to change the lang, this mechanism overwrites it.
-            data_context = simplejson.loads(data['context'])
-            if data_context.get('lang'):
-                del data_context['lang']
-            context.update(data_context)
+            data['context'] = json.loads(data['context'])
+            if data['context'].get('lang'):
+                del data['context']['lang']
+            context.update(data['context'])
 
         if converter == 'xls':
-            xls = report_obj.get_xls(cr, uid, docids, reportname,
-                                     data=options_data, context=context)
-            xlshttpheaders = [('Content-Type', 'application/vnd.ms-excel'),
-                              ('Content-Length', len(xls))]
-            return request.make_response(xls, headers=xlshttpheaders)
+            xls = report_obj.get_xls(
+                cr, uid, docids, reportname, data=data, context=context)
+            xlsxhttpheaders = [
+                ('Content-Type',
+                 'application/vnd.openxmlformats-officedocument.'
+                 'spreadsheetml.sheet'),
+                ('Content-Length', len(xls))]
+            return request.make_response(xls, headers=xlsxhttpheaders)
         elif converter == 'ods':
-            ods = report_obj.get_ods(cr, uid, docids, reportname,
-                                     data=options_data, context=context)
+            ods = report_obj.get_ods(
+                cr, uid, docids, reportname, data=data, context=context)
             odshttpheaders = [
                 ('Content-Type',
                  'application/vnd.oasis.opendocument.spreadsheet'),
@@ -75,11 +59,12 @@ class ReportXLSController(Controller):
     def report_download(self, data, token):
         """This function is used by 'report_xls.js' in order to
         trigger the download of xls/ods report.
+        :param token: token received by controller
         :param data: a javascript array JSON.stringified containg
         report internal url ([0]) and type [1]
         :returns: Response with a filetoken cookie and an attachment header
         """
-        requestcontent = simplejson.loads(data)
+        requestcontent = json.loads(data)
         url, report_type = requestcontent[0], requestcontent[1]
         try:
             if report_type == 'qweb-xls':
@@ -99,11 +84,16 @@ class ReportXLSController(Controller):
                     response = self.report_routes(
                         reportname, converter='xls', **dict(data))
 
+                cr, uid = request.cr, request.uid
+                report = request.registry['report']._get_xls_report_from_name(
+                    cr, uid, reportname)
+                filename = "%s.%s" % (report.name, "xlsx")
                 response.headers.add(
                     'Content-Disposition',
-                    'attachment; filename=%s.xls;' % reportname)
+                    content_disposition(filename))
                 response.set_cookie('fileToken', token)
                 return response
+
             elif report_type == 'qweb-ods':
                 reportname = url.split(
                     '/reportxlstemplate/ods/')[1].split('?')[0]
@@ -121,18 +111,23 @@ class ReportXLSController(Controller):
                     response = self.report_routes(
                         reportname, converter='ods', **dict(data))
 
+                cr, uid = request.cr, request.uid
+                report = request.registry['report']._get_xls_report_from_name(
+                    cr, uid, reportname)
+                filename = "%s.%s" % (report.name, "ods")
                 response.headers.add(
                     'Content-Disposition',
-                    'attachment; filename=%s.ods;' % reportname)
+                    content_disposition(filename))
                 response.set_cookie('fileToken', token)
                 return response
+
             else:
                 return
-        except osv.except_osv, e:
+        except Exception, e:
             se = _serialize_exception(e)
             error = {
                 'code': 200,
                 'message': "Odoo Server Error",
                 'data': se
             }
-            return request.make_response(simplejson.dumps(error))
+            return request.make_response(html_escape(json.dumps(error)))
