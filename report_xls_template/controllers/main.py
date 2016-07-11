@@ -5,7 +5,6 @@
 
 import json
 from werkzeug import exceptions, url_decode
-from openerp.osv import osv
 from openerp.addons.web.http import Controller, route, request
 from openerp.addons.web.controllers.main import _serialize_exception
 from openerp.addons.web.controllers.main import content_disposition
@@ -86,12 +85,12 @@ class ReportXLSController(Controller):
                         reportname, converter='xls', **dict(data))
 
                 cr, uid = request.cr, request.uid
-                report = request.registry['report']._get_report_from_name(
+                report = request.registry['report']._get_xls_report_from_name(
                     cr, uid, reportname)
                 filename = "%s.%s" % (report.name, "xlsx")
                 response.headers.add(
                     'Content-Disposition',
-                     content_disposition(filename))
+                    content_disposition(filename))
                 response.set_cookie('fileToken', token)
                 return response
 
@@ -113,7 +112,7 @@ class ReportXLSController(Controller):
                         reportname, converter='ods', **dict(data))
 
                 cr, uid = request.cr, request.uid
-                report = request.registry['report']._get_report_from_name(
+                report = request.registry['report']._get_xls_report_from_name(
                     cr, uid, reportname)
                 filename = "%s.%s" % (report.name, "ods")
                 response.headers.add(

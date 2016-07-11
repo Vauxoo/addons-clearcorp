@@ -4,7 +4,9 @@
 
 from openerp import models, fields
 
-REPORT_TYPES = [('qweb-xls', 'XLS'), ('qweb-ods', 'ODS')]
+REPORT_TYPES = [
+    ('qweb-xls', 'Office Open XML Spreadsheet (.xlsx)'),
+    ('qweb-ods', 'Open Document Spreadsheet (.ods)')]
 
 
 class ReportAction(models.Model):
