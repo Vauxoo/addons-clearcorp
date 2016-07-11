@@ -2,54 +2,23 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-==============
-{module_title}
-==============
+=================
+QWeb xlsx Reports
+=================
 
-This module was written to extend the functionality of ... to support ...
-and allow you to ...
-
-Reports in XLS format
-=====================
-Allow you to print reports on xls format.
+This module was written to extend the functionality of Odoo and allow you to print reports on xlsx format.
 
 Main Features
 -------------
 * Uses QWeb templates
 * Allows the creation of worksheets
-* Supports base 64 encoded 24 bits True Color bitmaps
-
-Installation
-============
-
-To install this module, you need to:
-
-* do this ...
-
-Configuration
-=============
-
-To configure this module, you need to:
-
-* go to ...
+* Supports images
+* Supports dates, datetimes and formulas
 
 Usage
 =====
 
-To use this module, you need to:
-
-* go to ...
-
-Known issues / Roadmap
-======================
-
-* ...
-
-Bug Tracker
-===========
-
-Bugs are tracked on ...
-
+Take a look at the report_xls_template_example module
 
 Credits
 =======
@@ -57,8 +26,7 @@ Credits
 Contributors
 ------------
 
-* Firstname Lastname <email.address@example.org>
-* Second Person <second.person@example.org>
+* Glen Sojo <glen.sojo@clearcorp.co.cr>
 
 
 Maintainer
