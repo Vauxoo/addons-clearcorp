@@ -3,7 +3,7 @@
 
 <openerp>
     <data>
-        <template id="report_frutro_invoice_ticket">
+        <template id="report_account_invoice_ticket">
             <t t-call="report.html_container">
                 <!-- Multicompany -->
                 <t t-if="o and 'company_id' in o">
@@ -72,8 +72,8 @@
                             </t>
                         </div>
                         <div class="row">
-                            <t t-if="o.payment_term">
-                                <span>Payment Term:</span> <span t-field="o.payment_term"/>
+                            <t t-if="o.payment_term_id">
+                                <span>Payment Term:</span> <span t-field="o.payment_term_id"/>
                             </t>
                         </div>
                         <div class="row">
@@ -95,11 +95,11 @@
                                <td>Qty</td>
                                <td>Product</td>
                             </tr>
-                            <t t-foreach="o.invoice_line" t-as="line">
+                            <t t-foreach="o.invoice_line_ids" t-as="line">
                                 <tr>
                                     <td>
                                         <span style="padding-right:5px" t-field="line.quantity"/>
-                                        <span style="padding-right:5px" t-field="line.uos_id"/>
+                                        <span style="padding-right:5px" t-field="line.uom_id"/>
                                     </td>
                                     <td colspan="2">
                                         <span t-field="line.product_id"/>

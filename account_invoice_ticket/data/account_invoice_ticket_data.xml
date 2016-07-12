@@ -4,7 +4,7 @@
 
 <openerp>
     <data>
-        <record id="paperformat_frutroinvoice" model="report.paperformat">
+        <record id="paperformat_account_invoice" model="report.paperformat">
            <field name="name">Point Of Sale Receipt</field>
            <field name="default" eval="True"/>
            <field name="format">custom</field>

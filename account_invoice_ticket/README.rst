@@ -3,10 +3,10 @@
    :alt: License: AGPL-3
 
 =========================
-Frutrópico Invoice Ticket
+Account Invoice Ticket
 =========================
 
-This module was written to print, invoice in ticket format
+This module was written to print an invoice in ticket format
 
 Credits
 =======
@@ -16,7 +16,7 @@ Contributors
 
 * Rodney Vargas <rodney.vargas@clearcorp.cr>
 * Glen Sojo <glen.sojo@clearcorp.cr>
-
+* Antonio Hidalgo <antonio.hidalgo@clearcorp.cr>
 
 Maintainer
 ----------
