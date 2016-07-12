@@ -1,0 +1,53 @@
+/* © 2016 ClearCorp
+ * License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+ */
+
+div.label {
+    border: 1px solid black;
+    display: inline-block;
+    padding: 0px;
+    margin: 15px;
+    width: 315px;
+    height: 90px;
+}
+
+.table-inline {
+    display: inline;
+}
+
+.table-label {
+    width: 100%;
+}
+
+.table-label thead tr th {
+    background-color: #FFFF00;
+}
+
+.table-label thead tr th.name span {
+    margin-left: 10px;
+}
+
+.table-label thead tr th.info-right {
+    text-align: right;
+}
+
+.table-label tbody tr td.price {
+    font-size: xx-large;
+    text-align: center;
+}
+
+.table-label tbody tr td.info span {
+    margin: 1px;
+}
+
+.table-label tbody tr td.info-right {
+    text-align: right;
+}
+
+.table-label tbody tr td.barcode {
+    text-align: center;
+}
+
+.table-label tbody tr td.info img {
+    margin: 1px;
+}

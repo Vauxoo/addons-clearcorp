@@ -22,7 +22,7 @@
 
 {
     'name': 'Product Label',
-    'version': '1.0',
+    'version': '9.0.1.0',
     'category': 'Sales Management',
     'sequence': 10,
     'summary': 'Product label report',
@@ -33,9 +33,9 @@
                 'account',
                 ],
     'data': [
-             'product_label_view.xml',
+             'views/product_label_view.xml',
              'views/report_label.xml',
-             'product_label_report.xml',
+             'views/product_label_report.xml'
              ],
     'test': [],
     'demo': [],

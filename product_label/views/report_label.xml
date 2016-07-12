@@ -2,47 +2,7 @@
 <openerp>
     <data>
         <template id="report_label">
-            <style type="text/css">
-                div.label {
-                    border: 1px solid black;
-                    display: inline-block;
-                    padding: 0px;
-                    margin: 15px;
-                    width: 315px;
-                    height: 90px;
-                }
-                .table-inline {
-                    display: inline;
-                }
-                .table-label {
-                    width: 100%;
-                }
-                .table-label thead tr th {
-                    background-color: #FFFF00;
-                }
-                .table-label thead tr th.name span {
-                    margin-left: 10px;
-                }
-                .table-label thead tr th.info-right {
-                    text-align: right;
-                }
-                .table-label tbody tr td.price {
-                    font-size: xx-large;
-                    text-align: center;
-                }
-                .table-label tbody tr td.info span {
-                    margin: 1px;
-                }
-                .table-label tbody tr td.info-right {
-                    text-align: right;
-                }
-                .table-label tbody tr td.barcode {
-                    text-align: center;
-                }
-                .table-label tbody tr td.info img {
-                    margin: 1px;
-                }
-            </style>
+            <link href="/product_label/static/src/css/product_label.css" rel="stylesheet"/>
             <t t-call="report.html_container">
                 <t t-call="report.internal_layout">
                     <!-- Multicompany -->
@@ -58,7 +18,7 @@
                                 <table class="table-inline table-label">
                                     <thead>
                                         <tr>
-                                            <th class="name" colspan="2">
+                                            <th class="name" colspan="2" ><!--style="background-color: #FFFF00"-->
                                                 <span t-field="o.name"/>
                                             </th>
                                             <th class="info-right">
@@ -76,7 +36,7 @@
                                         </tr>
                                         <tr>
                                             <td class="info barcode" colspan="3">
-                                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', o.ean13, 160, 15)" />
+                                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', o.barcode, 160, 15)" />
                                             </td>
                                         </tr>
                                         <tr>
@@ -84,7 +44,7 @@
                                                 <span t-field="o.default_code"/>
                                             </td>
                                             <td class="info barcode">
-                                                <span t-field="o.ean13"/>
+                                                <span t-field="o.barcode"/>
                                             </td>
                                             <td class="info info-right">
                                                 <span t-field="o.label_price_per_uom" /> x <span t-field="o.label_uom_id"/>
