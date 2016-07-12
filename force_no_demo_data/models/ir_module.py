@@ -11,6 +11,7 @@ class IrModuleModule(models.Model):
     _inherit = 'ir.module.module'
 
     _sql_constraints = [
-         ('force_no_demo_data', 'CHECK (demo = false)', 'You cannot install demo data.'),
+         ('force_no_demo_data',
+          'CHECK (demo = false)',
+          'You cannot install demo data.'),
     ]
-    
