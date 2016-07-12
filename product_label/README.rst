@@ -6,14 +6,14 @@
 Label Report
 ============
 
-This module allows you to print complete product lables with taxes and pricelist included
+This module allows you to print complete product labels with taxes and price list included
 
 Usage
 =====
 
 To use this module, you need to:
 
-* Go to your product variant configure the product label properties
+* Go to your product variant and configure the product label properties
 
 Credits
 =======

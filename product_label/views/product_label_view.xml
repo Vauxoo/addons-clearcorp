@@ -9,7 +9,7 @@
             <field name="priority" eval="16" />
             <field name="inherit_id" ref="product.product_template_form_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//form/sheet/notebook/page[@string='Inventory']" position="inside">
+                <xpath expr="//form/sheet/notebook/page[2]" position="inside">
                     <group name="label" string="Labels" attrs="{'invisible': [('product_variant_count', '>', 1)]}" groups="product.group_uom" colspan="4">
                         <field name="label_packaging" />
                         <field name="label_uom_id" />
@@ -24,7 +24,7 @@
             <field name="priority" eval="16" />
             <field name="inherit_id" ref="product.product_template_form_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//form/sheet/notebook/page[@string='Inventory']" position="inside">
+                <xpath expr="//form/sheet/notebook/page[2]" position="inside">
                     <group name="label" string="Labels"  groups="product.group_uom" colspan="4">
                         <group>
                             <field name="label_packaging" />
