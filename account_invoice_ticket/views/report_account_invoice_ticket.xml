@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2016 ClearCorp License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+
+<openerp>
+    <data>
+        <template id="report_account_invoice_ticket">
+            <t t-call="report.html_container">
+                <!-- Multicompany -->
+                <t t-if="o and 'company_id' in o">
+                    <t t-set="company" t-value="o.company_id"/>
+                </t>
+                <t t-if="not o or not 'company_id' in o">
+                    <t t-set="company" t-value="res_company"/>
+                </t>
+                <t t-foreach="docs" t-as="o">
+                    <div class="page" style="font-size: 120%">
+                        <div align="center">
+                            <div class="row">
+                                <b><span t-field="company.name"/></b>
+                            </div>
+                            <div class="row">
+                                <span class="fa fa-check-square-o" style="width: 14px; text-align: center; margin-right: 3px"/> <span t-field="company.company_registry"/>
+                            </div>
+                            <div class="row">
+                                <t t-if="company.street or company.street2 or company.zip or company.city or company.state_id or company.country_id">
+                                    <span class="fa fa-map-marker" style="width: 14px; text-align: center; margin-right: 3px"/>
+                                    <t t-if="company.street"><span t-field="company.street"/>, </t>
+                                    <t t-if="company.street2"><span t-field="company.street2"/>, </t>
+                                    <t t-if="company.city"><span t-field="company.city"/></t>
+                                    <br/>
+                                    <t t-if="company.state_id">
+                                        <span t-field="company.state_id.name"/><t t-if="company.country_id">, </t>
+                                    </t>
+                                    <t t-if="company.country_id">
+                                        <span t-att-style="not company.state_id and 'margin-left: 17px;' or ''" t-field="company.country_id.code"/> 
+                                    </t>
+                                </t>
+                            </div>
+                            <div class="row">
+                                <span class="fa fa-phone" style="width: 14px; text-align: center; margin-right: 3px"/> <span t-field="company.phone"/>
+                            </div>
+                        </div>
+                        <br/>
+                        <div align="center">
+                            <div class="row">
+                                <span t-if="o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">Invoice</span>
+                                <span t-if="o.type == 'out_invoice' and o.state == 'proforma2'">PRO-FORMA</span>
+                                <span t-if="o.type == 'out_invoice' and o.state == 'draft'">Draft Invoice</span>
+                                <span t-if="o.type == 'out_invoice' and o.state == 'cancel'">Cancelled Invoice</span>
+                                <span t-if="o.type == 'out_refund'">Refund</span>
+                                <span t-if="o.type == 'in_refund'">Supplier Refund</span>
+                                <span t-if="o.type == 'in_invoice'">Supplier Invoice</span>
+                                <span t-field="o.number"/>
+                            </div>
+                            <div class="row">
+                                <t t-if="o.date_invoice">
+                                    <span>Date:</span>
+                                    <span t-field="o.date_invoice"/>
+                                </t>
+                            </div>
+                            <div class="row">
+                                <t t-if="o.date_due">
+                                    <span>Date Due:</span>
+                                    <span t-field="o.date_due"/>
+                                </t>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <t t-if="o.partner_id">
+                                <span>Customer:</span> <span t-field="o.partner_id"/>
+                            </t>
+                        </div>
+                        <div class="row">
+                            <t t-if="o.payment_term_id">
+                                <span>Payment Term:</span> <span t-field="o.payment_term_id"/>
+                            </t>
+                        </div>
+                        <div class="row">
+                            <t t-if="o.origin">
+                                <span>Origin:</span>
+                                <span t-field="o.origin"/>
+                            </t>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div align="center">
+                                <div class="col-xs-12" style="border-top: 1px solid #999999; font-size: 25px">
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <table width="370px">
+                            <tr>
+                               <td>Qty</td>
+                               <td>Product</td>
+                            </tr>
+                            <t t-foreach="o.invoice_line_ids" t-as="line">
+                                <tr>
+                                    <td>
+                                        <span style="padding-right:5px" t-field="line.quantity"/>
+                                        <span style="padding-right:5px" t-field="line.uom_id"/>
+                                    </td>
+                                    <td colspan="2">
+                                        <span t-field="line.product_id"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td/>
+                                    <td style="text-align: right;">
+                                        <span t-field="line.price_unit" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <span style="white-space: nowrap" t-field="line.price_subtotal" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}">
+                                         </span>
+                                    </td>
+                                </tr>
+                            </t>
+                            <tr>
+                                <td><br/></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: right; border-top: 1px solid #999999;" colspan="2">Subtotal:</td>
+                                <td style="text-align: right; border-top: 1px solid #999999;">
+                                    <span t-field="o.amount_untaxed" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                                 </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: right;" colspan="2">Taxes:</td>
+                                <td style="text-align: right;">
+                                    <span t-field="o.amount_tax" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: right;" colspan="2">Total:</td>
+                                <td style="text-align: right;">
+                                    <span t-field="o.amount_total" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div align="center">
+                            <div class="row">
+                                <div class="col-xs-offset-2 col-xs-8" style="border-top: 1px solid #999999;">
+                                    <span>Sign and id</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer-custom">
+                            <div class="row">
+                                <br/><br/>
+                                <div>
+                                    <div class="col-xs-offset-1" style="border-top: 1px solid #999999;  margin-right: 3px" align="center">
+                                        <t t-if="company.custom_footer">
+                                            <span style="width: 100%;" t-field="company.rml_footer"/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>
