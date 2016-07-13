@@ -47,7 +47,7 @@
             <field name="arch" type="xml">
                 <data>
                     <field name="credit_note" position="after">
-                        <field name="period_id" domain="[('state', '=', 'draft'),('special', '=', False)]" widget="selection"/>
+                        <!--<field name="period_id" domain="[('state', '=', 'draft'),('special', '=', False)]" widget="selection"/>-->
                         <field name="schedule_pay" required = "True" string = "Schedule pay"/>
                     </field>
                     <button name="%(hr_payroll.action_hr_payslip_by_employees)d" position = "replace"> 
