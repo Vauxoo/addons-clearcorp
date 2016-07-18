@@ -253,7 +253,7 @@ msgstr "Días"
 #. module: project_issue_helpdesk_invoicing
 #: view:account.analytic.account:project_issue_helpdesk_invoicing.view_account_analytic_account_form
 msgid "Define a list of product of a contract and time interval por generate the issues."
-msgstr "Define la lista de porductos por contrato y el intervalo de tiempo para generar incidencias"
+msgstr "Define la lista de productos por contrato y el intervalo de tiempo para generar incidencias"
 
 #. module: project_issue_helpdesk_invoicing
 #: view:account.analytic.account:project_issue_helpdesk_invoicing.view_account_analytic_account_form
