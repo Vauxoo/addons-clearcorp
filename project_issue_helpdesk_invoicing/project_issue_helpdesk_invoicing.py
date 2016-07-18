@@ -47,6 +47,33 @@ class SaleOrderLine(models.Model):
         return True
 class ProjectIssue(models.Model):
     _inherit = 'project.issue'
+    @api.one
+    @api.depends('product_id')
+    def get_rate_issue(self):
+        technical_product_rate=False
+        technical_category_rate=False
+        assistant_product_rate=False
+        assistant_category_rate=False
+        minimum_time_product=False
+        minimum_time_category=False
+        for line in self.analytic_account_id.pricelist_ids:
+            if line.product_id==self.product_id:
+                technical_product_rate=line.technical_rate
+                assistant_product_rate=line.assistant_rate
+                minimum_time_product=line.minimum_time
+            if line.categ_id==self.categ_id:
+                technical_category_rate=line.technical_rate
+                assistant_category_rate=line.assistant_rate
+                minimum_time_category=line.minimum_time
+        if technical_product_rate:
+            self.technical_rate=technical_product_rate
+            self.assistant_rate=assistant_product_rate
+            self.minimum_time=minimum_time_product
+        else:
+            self.technical_rate=technical_category_rate
+            self.assistant_rate=assistant_category_rate
+            self.minimum_time=minimum_time_category
+
     @api.v7
     def create(self,cr, uid, vals, context=None):
         additional_cost=self.pool.get('project.issue.additional.cost')
@@ -126,6 +153,10 @@ class ProjectIssue(models.Model):
     sale_order_id=fields.Many2one('sale.order','Sale Order')
     invoice_sale_id=fields.Char(string='Invoice Number',related='sale_order_id.invoice_ids.internal_number',store=True)
     invoice_ids=fields.Many2many('account.invoice','account_invoice_project_issue_rel',string='Invoices Numbers')
+    technical_rate=fields.Float('Technical Rate',compute='get_rate_issue')
+    assistant_rate=fields.Float('Assistant Rate', compute='get_rate_issue')
+    contract_currency_id=fields.Many2one(string='Contract Currency',related='analytic_account_id.pricelist_id.currency_id')
+    minimum_time=fields.Float(string="Minimum Time",compute='get_rate_issue')
     
 class ResPartner(models.Model):
     _inherit = 'res.partner'
