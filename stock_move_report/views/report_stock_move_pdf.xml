@@ -213,7 +213,7 @@
             file="stock_move_report.report_stock_move_pdf"
             menu="False"/>
         <record id="action_report_stock_move_pdf" model="ir.actions.report.xml">
-            <field name="paperformat_id" ref="paperformat_letterlandscape"/>
+            <field name="paperformat_id" ref="paperformat_letter_landscape"/>
         </record>
     </data>
 </openerp>

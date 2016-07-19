@@ -2,46 +2,11 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-==============
-{module_title}
-==============
+=================
+Stock Move Report
+=================
 
-This module was written to extend the functionality of ... to support ...
-and allow you to ...
-
-This module add stock move report
-
-Installation
-============
-
-To install this module, you need to:
-
-* do this ...
-
-Configuration
-=============
-
-To configure this module, you need to:
-
-* go to ...
-
-Usage
-=====
-
-To use this module, you need to:
-
-* go to ...
-
-Known issues / Roadmap
-======================
-
-* ...
-
-Bug Tracker
-===========
-
-Bugs are tracked on ...
-
+This module adds stock move report in pdf and xlsx formats.
 
 Credits
 =======
@@ -49,8 +14,8 @@ Credits
 Contributors
 ------------
 
-* Firstname Lastname <email.address@example.org>
-* Second Person <second.person@example.org>
+* Glen Sojo <glen.sojo@clearcorp.cr>
+* Antonio Hidalgo <antonio.hidalgo@clearcorp.cr>
 
 
 Maintainer

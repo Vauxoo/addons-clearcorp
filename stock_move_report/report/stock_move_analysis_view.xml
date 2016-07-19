@@ -21,10 +21,10 @@
             <field name="name"> Move Analysis Graph</field>
             <field name="model">stock.move.analysis</field>
             <field name="arch" type="xml">
-             <graph string="Stock Move Analysis">
+                <graph string="Stock Move Analysis">
                  <field name="product_id"/>
                  <field name="product_qty" type="measure"/>
-             </graph>
+                </graph>
             </field>
         </record>
         <!-- Search view -->

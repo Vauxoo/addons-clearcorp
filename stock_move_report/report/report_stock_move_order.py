@@ -34,9 +34,9 @@ class StockMoveOder(report_sxw.rml_parse):
                                                  [('product_id',
                                                    '=',
                                                    product_id),
-                                                  ('order_id.shipped',
+                                                  ('state',
                                                    '=',
-                                                   False)]
+                                                   'sale')]
                                                  )
             sale_order_ids = sale_obj.search(
                 self.cr,
@@ -52,9 +52,9 @@ class StockMoveOder(report_sxw.rml_parse):
                                                          [('product_id',
                                                            '=',
                                                            product_id),
-                                                          ('order_id.shipped',
+                                                          ('state',
                                                            '=',
-                                                           False)]
+                                                           'sale')]
                                                          )
             purchase_order_ids = purchase_obj.search(self.cr,
                                                      self.uid,

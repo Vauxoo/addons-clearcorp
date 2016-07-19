@@ -3,7 +3,7 @@
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
 <openerp>
     <data>
-        <record id="paperformat_letterlandscape" model="report.paperformat">
+        <record id="paperformat_letter_landscape" model="report.paperformat">
             <field name="name">Stock Moves Report Letter</field>
             <field name="format">Letter</field>
             <field name="orientation">Landscape</field>
