@@ -32,6 +32,14 @@
             <field name="inherit_id" ref="project_issue.project_issue_form_view"/>
             <field name="priority" eval="30"/>
             <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[@string='Worklogs']/field[@name='timesheet_ids']" position="before">
+                    <group>
+                        <field name="contract_currency_id" invisible="1"/>
+                        <field name="technical_rate" widget="monetary" options="{'currency_field': 'contract_currency_id'}"/>
+                        <field name="assistant_rate" widget="monetary" options="{'currency_field': 'contract_currency_id'}"/>
+                        <field name="minimum_time" widget="float_time"/> 
+                    </group>
+                </xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Extra Info']/group/group[@string='Status']" position="inside">
                         <field name="sale_order_id" attrs="{'readonly':[('sale_order_id', '!=', False),('invoice_ids', '!=', False)]}"/>
                         <field name="invoice_sale_id" readonly="1" attrs="{'invisible':[('sale_order_id', '=', False)]}"/>
