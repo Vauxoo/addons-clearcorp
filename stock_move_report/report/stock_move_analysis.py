@@ -12,7 +12,7 @@ class StockMoveAnalysis(models.Model):
     _name = 'stock.move.analysis'
     _description = 'Stock Move Analysis'
     _auto = False
-    
+
     date = fields.Datetime('Date', readonly=True)
     origin = fields.Char('Description', readonly=True)
     name = fields.Char('Name', readonly=True)

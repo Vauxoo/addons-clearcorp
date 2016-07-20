@@ -10,7 +10,7 @@ import time
 class StockMoveWizard(models.TransientModel):
 
     _name = 'stock.move.report.wiz'
-   
+
     @api.multi
     def print_report(self):
         if not self.product_ids and not self.category_ids:
