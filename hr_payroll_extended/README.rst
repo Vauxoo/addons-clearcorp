@@ -16,6 +16,7 @@ Contributors
 ------------
 
 * Lesmed Gutierrez <lesmed.gutierrez@clearcorp.cr>
+* Antonio Hidalgo <antonio.hidalgo@clearcorp.cr>
 
 Maintainer
 ----------
