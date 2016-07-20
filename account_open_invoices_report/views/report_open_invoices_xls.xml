@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2014 ClearCorp
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<openerp>
+    <data>
+        <template id="report_open_invoices_xls">
+            <div class="workbook">
+                <div class="worksheet" name="Open Invoices" fixpages="1" wpages="1" hpages="0">
+                    <t t-if="o and 'company_id' in o">
+                        <t t-set="company" t-value="o.company_id"/>
+                    </t>
+                    <t t-if="not o or not 'company_id' in o">
+                        <t t-set="company" t-value="res_company"/>
+                    </t>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td colspan="4" rowspan="5" easyfx="font: bold on, height 400; align: horiz center,vert center">
+                                    <span t-field="company.name"/>
+                                </td>
+                                <td colspan="7" rowspan="5" easyfx="font: bold on, height 400; align: horiz center,vert center">
+                                    <span>Open Invoices</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td/>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th colspan="2" easyfx="font: bold on; align: horiz center; border: bottom medium">Chart of Accounts</th>
+                                <th colspan="2" easyfx="font: bold on; align: horiz center; border: bottom medium">Fiscal Year</th>
+                                <th colspan="2" easyfx="font: bold on; align: horiz center; border: bottom medium">Filters by:</th>
+                                <th colspan="2" easyfx="font: bold on; align: horiz center; border: bottom medium">Accounts filter</th>
+                                <th colspan="2" easyfx="font: bold on; align: horiz center; border: bottom medium">Movements destination</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="2">
+                                    <span t-esc="get_chart_account_id(data).name"/>
+                                </td>
+                                <td colspan="2">
+                                    <span t-esc="get_fiscal_year(data).name"/>
+                                </td>
+                                <td colspan="2">
+                                    <t t-if="get_filter(data) == 'filter_date'">
+                                        <span>From:</span>
+                                        <span t-esc="formatLang(get_date_from(data), date=True)" />
+                                        <span> To:</span>
+                                        <span t-esc="formatLang(get_date_to(data), date=True)" />
+                                    </t>
+                                    <t t-if="get_filter(data) == 'filter_period'">
+                                        <span>From:</span>
+                                        <span t-esc="get_start_period(data).name" />
+                                        <span>To:</span>
+                                        <span t-esc=" get_end_period(data).name" />
+                                    </t>
+                                    <t t-if="get_filter(data) == 'filter_no'">
+                                        <span>No Filters</span>
+                                    </t>
+                                </td>
+                                <td colspan="2">
+                                    <span t-esc="get_display_sort_selection(data)"/>
+                                </td>
+                                <td colspan="2">
+                                    <span t-esc="display_target_move(data)"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td/>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table>
+                        <t t-set="test" t-value="set_data_template(data)"/>
+                        <tbody>
+                            <t t-foreach="get_data_template('result').items()" t-as="cur">
+                                <t t-foreach="get_data_template('result').items()" t-as="partners">
+                                    <tr>
+                                        <td colspan="9" easyfx="font: bold on; align: horiz right; border: bottom medium">
+                                            <span t-esc="get_currency_name(cur[0])"/>
+                                        </td>
+                                        <td easyfx="font: bold on; align: horiz right; border: bottom medium"/>
+                                        <td easyfx="font: bold on; align: horiz right; border: bottom medium"/>
+                                    </tr>
+                                    <t t-foreach="get_data_template('partners')" t-as="partner">
+                                        <t t-if="partner_in_currency(partner, cur[0])">
+                                            <tr>
+                                                <td colspan="9" easyfx="font: bold on; align: horiz right; border: bottom medium">
+                                                    <span t-esc="get_partner_name(partner)"/>
+                                                </td>
+                                                <td easyfx="font: bold on; align: horiz right; border: bottom medium"/>
+                                                <td easyfx="font: bold on; align: horiz right; border: bottom medium"/>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="9" easyfx="font: bold on; align: horiz right; border: bottom medium">
+                                                    <span>Opening balance: </span>
+                                                </td>
+                                                <td colspan="2" easyfx="font: bold on; align: horiz right; border: bottom medium">
+                                                    <span t-esc="formatLang(get_initial_balance(partner, cur[0], data))"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Date</td>
+                                                <td>Period</td>
+                                                <td>Journal</td>
+                                                <td>Account</td>
+                                                <td>Note</td>
+                                                <td>Tag</td>
+                                                <td>Invoices</td>
+                                                <td>Payments</td>
+                                                <td>Notes D/C</td>
+                                                <td>Mov. Man</td>
+                                                <td>Balance</td>
+                                            </tr>
+                                            <t t-foreach="get_move_lines_per_partner(cur[0], partner)" t-as="line">
+                                                <t t-set="test" t-value="result_lines(get_data_template('result')[cur[0]][partner],cur[0])"/>
+                                                <tr>
+                                                    <td>
+                                                        <span t-esc="formatLang(line.date, date=True)"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="line.period_id.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="line.journal_id.code"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="line.account_id.code"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="line.move_id.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="line.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="formatLang(get_data_template('amount_per_line')[line.id]['invoice'])"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="formatLang(get_data_template('amount_per_line')[line.id]['payment'])"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="formatLang(get_data_template('amount_per_line')[line.id]['c_d_notes'])"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="formatLang(get_data_template('amount_per_line')[line.id]['manual'])"/>
+                                                    </td>
+                                                     <td>
+                                                        <span t-esc="formatLang(compute_cum_balance(partner, get_data_template('amount_per_line')[line.id]))"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                            <tr>
+                                                <td/>
+                                                <td/>
+                                                <td/>
+                                                <td/>
+                                                <td/>
+                                                <td>
+                                                    <span>Saldo</span>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="formatLang(total_by_type( get_move_lines_per_partner(cur[0], partner))['invoice'])"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="formatLang(total_by_type( get_move_lines_per_partner(cur[0], partner))['payment'])"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="formatLang(total_by_type(get_move_lines_per_partner(cur[0],partner))['c_d_notes'])"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="formatLang(total_by_type( get_move_lines_per_partner(cur[0], partner))['manual'])"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="formatLang(get_final_cumul_balance(partner))"/>
+                                                </td>
+                                            </tr>
+                                            <t t-set="reset" t-value="reset_values()"/>
+                                        </t>
+                                    </t>
+                                </t>
+                            </t>
+                        </tbody>
+                    </table>
+                    <t t-if="not get_data_template('result')">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <span>No exist open invoices with the selected filters</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+                    <t t-if="get_data_template('open_balance')">
+                        <t t-set="check" t-value="get_check_open_balance(data)"/>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <td colspan="4">
+                                        <span>Companies with open balance for dates/periods selected but not open invoices</span>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="get_data_template('open_balance').iteritems()" t-as="dict">
+                                    <t t-foreach="get_data_template('open_balance').iteritems()" t-as="partner">
+                                        <t t-if ="display_partner(dict)">
+                                            <tr>
+                                                <td colspan="4">
+                                                    <span t-esc="get_partner_name(partner)"/>
+                                                </td>
+                                            </tr>
+                                            <t t-foreach="dict.iteritems()" t-as="key">
+                                                <t t-foreach="dict.iteritems()" t-as="value">
+                                                    <t t-if="value != 0">
+                                                        <tr>
+                                                            <td>
+                                                                <span>Moneda: </span>
+                                                            </td>
+                                                            <td colspan="3">
+                                                                <span t-esc="get_currency_name(key)"/>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <span>Saldo:</span></td>
+                                                            <td colspan="3">
+                                                                <span t-esc="formatLang(value)"/>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                        </t>
+                                    </t>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                </div>
+            </div>
+        </template>
+    </data>
+</openerp>
