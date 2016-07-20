@@ -5,7 +5,7 @@
 from openerp.osv import fields, osv
 
 
-class OpenInvoicesReportWizard(osv.Model):
+class OpenInvoicesReportWizard(osv.TransientModel):
 
     _inherit = "account.report.wiz"
     _name = "open.invoices.wiz"
@@ -21,7 +21,8 @@ class OpenInvoicesReportWizard(osv.Model):
             ('supplier', 'Payable Accounts'),
             ('customer_supplier', 'Receivable and Payable Accounts')],
            "Account type",),
-       'out_format': fields.selection([('pdf', 'PDF')], 'Print Format'),
+       'out_format': fields.selection(
+           [('pdf', 'PDF'), ('xls', 'XLS')], 'Print Format'),
     }
     
     _defaults = {
@@ -31,12 +32,17 @@ class OpenInvoicesReportWizard(osv.Model):
         }
     
     def _print_report(self, cr, uid, ids, data, context=None):
-        context = context or {}
-        report_name = 'account_open_invoices_report.report_open_invoices'
-        
-        return {
-                'type': 'ir.actions.report.xml',
-                'report_name': report_name,
-                'datas': data,
-                'context': context
-               }
+        res = {}
+        wizard = self.browse(cr, uid, ids[0], context=context)
+        if wizard.out_format == 'pdf':
+            res = self.pool.get('report').get_action(
+                cr, uid, ids,
+                'account_open_invoices_report.report_open_invoices',
+                data=data, context=context)
+
+        elif wizard.out_format == 'xls':
+            res = self.pool.get('report').get_action(
+                cr, uid, ids,
+                'account_open_invoices_report.report_open_invoices_xls',
+                data=data, context=context)
+        return res

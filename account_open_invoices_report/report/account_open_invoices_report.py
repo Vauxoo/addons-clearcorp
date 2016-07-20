@@ -607,3 +607,10 @@ class ReportPartnerLedger(osv.AbstractModel):
     _inherit = 'report.abstract_report'
     _template = 'account_open_invoices_report.report_open_invoices'
     _wrapped_report_class = Parser
+
+
+class ReportPartnerLedgerXLS(osv.AbstractModel):
+    _name = 'report.account_open_invoices_report.report_open_invoices_xls'
+    _inherit = 'report.abstract_report'
+    _template = 'account_open_invoices_report.report_open_invoices_xls'
+    _wrapped_report_class = Parser

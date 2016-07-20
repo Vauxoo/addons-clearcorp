@@ -13,5 +13,13 @@
         file="account_open_invoices_report.report_open_invoices"
         menu="False"
         />
+        <report id="action_report_open_invoices_xls"
+        model="res.partner"
+        string="Open Invoices"
+        report_type="qweb-xls"
+        name="account_open_invoices_report.report_open_invoices_xls"
+        file="account_open_invoices_report.report_open_invoices_xls"
+        menu="False"
+        />
     </data>
 </openerp>
