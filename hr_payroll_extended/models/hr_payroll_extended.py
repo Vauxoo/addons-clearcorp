@@ -45,9 +45,6 @@ class PayslipRun(osv.Model):
     _inherit = 'hr.payslip.run'
 
     _columns = {
-        'period_id': fields.many2one(
-            'account.period', 'Force Period',
-            readonly=True, states={'draft': [('readonly', False)]}),
         'schedule_pay': fields.selection([
             ('monthly', 'Monthly'),
             ('quarterly', 'Quarterly'),
@@ -205,10 +202,3 @@ class Payslip(osv.osv):
         res += super(Payslip, self).get_worked_day_lines(
             cr, uid, contract_ids, date_from, date_to, context=context)
         return res
-
-    def create(self, cr, uid, vals, context=None):
-        if context is None:
-            context = {}
-        if 'period_id' in context:
-            vals.update({'period_id': context.get('period_id')})
-        return super(Payslip, self).create(cr, uid, vals, context=context)
