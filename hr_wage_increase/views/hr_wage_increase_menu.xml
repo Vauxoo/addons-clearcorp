@@ -2,7 +2,7 @@
 <openerp>
     <data>
         <menuitem id="menu_increase_wizard"
-            parent="hr_contract.hr_menu_contract"
+            parent="hr.menu_hr_root"
             name="Wage Increase"
             action="action_increase_wizard"
             groups="base.group_hr_manager"
