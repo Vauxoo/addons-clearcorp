@@ -18,7 +18,6 @@ This module modifies the open invoice report """,
         'report'
     ],
     'data': [
-        'security/ir.model.access.csv',
         'wizard/account_open_invoices_report_wizard_view.xml',
         'report/report.xml',
         'report_menus.xml',
