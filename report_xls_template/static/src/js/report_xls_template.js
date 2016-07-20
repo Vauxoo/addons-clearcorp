@@ -63,11 +63,10 @@ ActionManager.include({
             response[1] = action.report_type;
             var c = CrashManager;
 
-            if (action.report_type === 'qweb-xls') {
-                return trigger_xls_download(self.session, response, c, action, options);
-            } else {
-                return self._super(action, options);
-            }
+            return trigger_xls_download(self.session, response, c, action, options);
+
+        } else {
+            return self._super(action, options);
         }
     }
 });

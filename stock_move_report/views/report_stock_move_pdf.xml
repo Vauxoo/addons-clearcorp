@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- © 2015 ClearCorp
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<openerp>
+    <data>
+        <template id="report_stock_move_pdf">
+            <t t-call="report.html_container">
+                <t t-call="report.internal_layout">
+                    <div class="page">
+                        <div class="row">
+                            <h1 class="text-center">Stock Moves Report</h1>
+                        </div>
+                        <br/>
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Dates</th>
+                                    <th>Categories Products</th>
+                                    <th>Products</th>
+                                    <th>Companies</th>
+                                    <th>Source Locations</th>
+                                    <th>Destination Locations</th>
+                                    <th>Picking Types</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                 <tr>
+                                     <td>
+                                         <table>
+                                             <tr>
+                                                 <td>From:</td>
+                                                 <td><span t-esc="formatLang(get_date_from(data),date=True)"/></td>
+                                             </tr>
+                                             <tr>
+                                                 <td>To:</td>
+                                                 <td><span t-esc="formatLang(get_date_to(data),date=True)"/></td>
+                                             </tr>
+                                         </table>
+                                     </td>
+                                     <td>
+                                         <span t-esc="display_category_product(data)"/>
+                                     </td>
+                                     <td>
+                                         <span t-esc="display_product(data)"/>
+                                     </td>
+                                     <td>
+                                         <span t-esc="display_partner(data)"/>
+                                     </td>
+                                     <td>
+                                         <span t-esc="display_source_location(data)"/>
+                                     </td>
+                                     <td>
+                                         <span t-esc="display_destination_location(data)"/>
+                                     </td>
+                                     <td>
+                                         <span t-esc="display_picking_type(data)"/>
+                                     </td>
+                                 </tr>
+                            </tbody>
+                        </table>
+                        <t t-foreach="get_products(doc_ids)" t-as="product">
+                            <div class="row">
+                                <h4>
+                                    <span style="font-weight:bold;" t-esc="get_name_product(product.id)"/>
+                                </h4>
+                            </div>
+                            <t t-if="has_stock_moves(data,product.id) == False">
+                                <span style="color:red">No inventory moves related to this product</span>
+                            </t>
+                            <t t-if="has_stock_moves(data,product.id) == True">
+                                <t t-foreach="get_locations(data,product.id)" t-as="location">
+                                    <table class="table table-condensed">
+                                         <t t-if="get_include_costs(data) == True">
+                                             <thead>
+                                                 <tr>
+                                                     <th  colspan="9">
+                                                         <span t-esc="location[0]['complete_name']"/>
+                                                     </th>
+                                                 </tr>
+                                                 <tr>
+                                                     <th colspan="4">
+                                                         Opening Quantity: <span t-esc="formatLang(set_opening_quantity(data,product.id,location[0]['location_id']))"/>
+                                                     </th>
+                                                     <th colspan="5">
+                                                         Opening Cost: <span t-esc="formatLang(get_opening_cost(data,product.id,location[0]['location_id'],return_opening_quantity()))"/>
+                                                     </th>
+                                                 </tr>
+                                                 <tr>
+                                                     <th>Date</th>
+                                                     <th>Origin</th>
+                                                     <th>Company</th>
+                                                     <th class="text-right">Quantity Input</th>
+                                                     <th class="text-right">Quantity Output</th>
+                                                     <th class="text-right">Final Quantity</th>
+                                                     <th class="text-right">Standard Price</th>
+                                                     <th class="text-right">Final Cost</th>
+                                                     <th class="text-right">Total</th>
+                                                 </tr>
+                                             </thead>
+                                             <tbody>
+                                                 <tr t-foreach="get_group_moves(data,product.id,location[0]['location_id'],return_opening_quantity())" t-as="move">
+                                                     <td>
+                                                         <span t-esc="formatLang(move['date'],date=True)"/>
+                                                     </td>
+                                                     <td>
+                                                         <span t-esc="move['origin']"/>
+                                                     </td>
+                                                     <td>
+                                                         <span t-esc="move['company']"/>
+                                                     </td>
+                                                     <td class="text-right">
+                                                         <span t-esc="formatLang(move['quantity_input'])"/>
+                                                     </td>
+                                                     <td class="text-right">
+                                                         <span t-esc="formatLang(move['quantity_output'])"/>
+                                                     </td>
+                                                     <td class="text-right">
+                                                         <span t-esc="formatLang(move['final_quantify_move'])"/>
+                                                     </td>
+                                                     <td class="text-right">
+                                                         <span t-esc="formatLang(move['standard_price'])"/>
+                                                     </td>
+                                                     <td class="text-right">
+                                                         <span t-esc="formatLang(move['final_cost'])"/>
+                                                     </td>
+                                                     <td class="text-right">
+                                                         <span t-esc="formatLang(move['total'])"/>
+                                                     </td>
+                                                 </tr>
+                                             </tbody>
+                                             <tfoot>
+                                                 <tr>
+                                                     <td colspan="4">
+                                                         <strong>
+                                                            Final Quantity: <span t-esc="formatLang(get_final_quantity())"/>
+                                                         </strong>
+                                                    </td>
+                                                    <td colspan="5">
+                                                        <strong>
+                                                            Final Cost: <span t-esc="formatLang(return_final_cost())"/>
+                                                        </strong>
+                                                    </td>
+                                                </tr>
+                                             </tfoot>
+                                         </t>
+                                         <t t-if="get_include_costs(data) == False">
+                                             <thead>
+                                                 <tr>
+                                                     <th colspan="6">
+                                                         <span t-esc="location[0]['complete_name']"/>
+                                                     </th>
+                                                 </tr>
+                                                 <tr>
+                                                     <th colspan="6">
+                                                         Opening Quantity: <span t-esc="formatLang(set_opening_quantity(data,product.id,location[0]['location_id']))"/>
+                                                     </th>
+                                                 </tr>
+                                                 <tr>
+                                                     <th>Date</th>
+                                                     <th>Origin</th>
+                                                     <th>Company</th>
+                                                     <th class="text-right">Quantity Input</th>
+                                                     <th class="text-right">Quantity Output</th>
+                                                     <th class="text-right">Final Quantity</th>
+                                                 </tr>
+                                             </thead>
+                                             <tbody>
+                                                 <tr t-foreach="get_group_moves(data,product.id,location[0]['location_id'],return_opening_quantity())" t-as="move">
+                                                     <td>
+                                                         <span t-esc="formatLang(move['date'],date=True)"/>
+                                                     </td>
+                                                     <td>
+                                                         <span t-esc="move['origin']"/>
+                                                     </td>
+                                                     <td>
+                                                         <span t-esc="move['company']"/>
+                                                     </td>
+                                                     <td class="text-right">
+                                                         <span t-esc="formatLang(move['quantity_input'])"/>
+                                                     </td>
+                                                     <td class="text-right">
+                                                         <span t-esc="formatLang(move['quantity_output'])"/>
+                                                     </td>
+                                                     <td class="text-right">
+                                                         <span t-esc="formatLang(move['final_quantify_move'])"/>
+                                                     </td>
+                                                 </tr>
+                                             </tbody>
+                                             <tfoot>
+                                                 <tr>
+                                                     <td colspan="6">
+                                                         <strong>
+                                                             Final Quantity: <span t-esc="formatLang(get_final_quantity())"/>
+                                                         </strong>
+                                                     </td>
+                                                 </tr>
+                                             </tfoot>
+                                         </t>
+                                    </table>
+                                </t>
+                            </t>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+        <report
+            id="action_report_stock_move_pdf"
+            model="stock.move"
+            string="Stock Move Report"
+            report_type="qweb-pdf"
+            name="stock_move_report.report_stock_move_pdf"
+            file="stock_move_report.report_stock_move_pdf"
+            menu="False"/>
+        <record id="action_report_stock_move_pdf" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paperformat_letter_landscape"/>
+        </record>
+    </data>
+</openerp>

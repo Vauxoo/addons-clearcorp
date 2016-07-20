@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- © 2015 ClearCorp
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+<openerp>
+    <data>
+        <!-- Form view -->
+        <record id="view_stock_move_order_wizard_form" model="ir.ui.view">
+            <field name="name">report_stock_move_order_wizard_form</field>
+            <field name="model">report.stock.move.order.wiz</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <label string="This report allows to print a report stock move orders."/>
+                    <group string="Location">
+                        <field name="stock_location" nolabel="1"/>
+                    </group>
+                    <group string="Products">
+                        <field name="product_ids" nolabel="1"/>
+                    </group>
+                    <footer>
+                        <button name="print_report" string="Print" type="object" class="oe_highlight"/>
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <!-- Action -->
+        <record id="action_stock_move_order_wizard" model="ir.actions.act_window">
+            <field name="name">Stock Move Orders Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">report.stock.move.order.wiz</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <!-- Menu -->
+        <menuitem id="menu_report_stock_move_order"
+                  name="Stock Move Orders Report"
+                  parent="stock.menu_warehouse_report"
+                  action="action_stock_move_order_wizard"
+                  sequence="136"/>
+    </data>
+</openerp>

@@ -80,10 +80,10 @@ class Report(models.Model):
                 return val
             except Exception as e:
                 _logger.info(
-                    'Could not covert %s to type.' % e.message)
+                    'Could not convert %s to type.' % e.message)
             return value
 
-        # Method should be rewriten for a more complex rendering
+        # Method should be rewritten for a more complex rendering
         def render_element_content(element):
             res = ''
             if isinstance(element.text, (str, unicode)):

@@ -1,24 +1,7 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    OpenERP, Open Source Management Solution
-#    Addons modules by CLEARCORP S.A.
-#    Copyright (C) 2009-TODAY CLEARCORP S.A. (<http://clearcorp.co.cr>).
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# © 2014 ClearCorp
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+
 import operator
 import itertools
 from openerp import models
@@ -291,7 +274,6 @@ class StockMoveReport(report_sxw.rml_parse):
         return False
 
     def get_locations(self, data, product_id):
-        line_report = {}
         stock_moves = []
         group_location = []
         source_location_ids = []
@@ -313,15 +295,14 @@ class StockMoveReport(report_sxw.rml_parse):
         lines_obj = self.get_moves_lines(data, product_id, None)
         for line in lines_obj:
             if line.location_id.id in source_location_ids:
-                line_report = {}
-                line_report['location_id'] = line.location_id.id
-                line_report['complete_name'] = line.location_id.complete_name
+                line_report = {'location_id': line.location_id.id,
+                               'complete_name': line.location_id.complete_name}
                 stock_moves.append(line_report)
             if line.location_dest_id.id in destination_location_ids:
-                line_report = {}
-                line_report['location_id'] = line.location_dest_id.id
-                line_report['complete_name'] =\
-                    line.location_dest_id.complete_name
+                line_report = {
+                    'location_id': line.location_dest_id.id,
+                    'complete_name': line.location_dest_id.complete_name
+                }
                 stock_moves.append(line_report)
         locations_list = [dict(tupleized) for tupleized in
                           set(tuple(item.items()) for item in stock_moves)]
@@ -338,16 +319,15 @@ class StockMoveReport(report_sxw.rml_parse):
             if (line.location_id.id == location_id or
                     line.location_dest_id.id == location_id):
 
-                _final_quantity = self.get_product_quantity(line, location_id,
-                                                            opening_quantity)
                 final_cost = self.get_opening_cost(data, product_id,
                                                    location_id,
                                                    opening_quantity)
                 sign = 1
-                line_report = {}
-                line_report['date'] = line.date
-                line_report['origin'] = line.origin or ''
-                line_report['company'] = line.picking_id.partner_id.name or ''
+                line_report = {
+                    'date': line.date,
+                    'origin': line.origin or '',
+                    'company': line.picking_id.partner_id.name or ''
+                }
 
                 if line.location_id.id == location_id:
                     line_report['quantity_input'] = 0.00
@@ -430,7 +410,7 @@ class StockMoveReport(report_sxw.rml_parse):
         if stock_move.quant_ids:
             for quant in stock_move.quant_ids:
                     quantity += abs(quant.qty)
-                    final_cost_quant += (quant.cost)*abs(quant.qty)
+                    final_cost_quant += quant.cost * abs(quant.qty)
             standart_price = (final_cost_quant/quantity)
             total = standart_price*stock_move.product_qty
         return standart_price, total
@@ -461,20 +441,20 @@ class StockMoveReport(report_sxw.rml_parse):
             for stock_move in stock_moves:
                 for quant in stock_move.quant_ids:
                     quantity += abs(quant.qty)
-                    cost_quant += (quant.cost)*abs(quant.qty)
+                    cost_quant += quant.cost * abs(quant.qty)
             if cost_quant != 0.0:
                 opening_cost = (cost_quant/quantity)*opening_quantity
         return opening_cost
 
 
-class report_stock_move_pdf(models.AbstractModel):
+class ReportStockMovePdf(models.AbstractModel):
     _name = 'report.stock_move_report.report_stock_move_pdf'
     _inherit = 'report.abstract_report'
     _template = 'stock_move_report.report_stock_move_pdf'
     _wrapped_report_class = StockMoveReport
 
 
-class report_stock_move_xls(models.AbstractModel):
+class ReportStockMoveXls(models.AbstractModel):
     _name = 'report.stock_move_report.report_stock_move_xls'
     _inherit = 'report.abstract_report'
     _template = 'stock_move_report.report_stock_move_xls'

@@ -1,2 +1,0 @@
-import stock_move_report_wizard
-import stock_move_order_wizard

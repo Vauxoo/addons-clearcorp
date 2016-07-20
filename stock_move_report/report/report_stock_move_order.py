@@ -1,25 +1,6 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    OpenERP, Open Source Management Solution
-#    Addons modules by CLEARCORP S.A.
-#    Copyright (C) 2009-TODAY CLEARCORP S.A. (<http://clearcorp.co.cr>).
-#
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
-
+# © 2015 ClearCorp
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from openerp import models
 from openerp.report import report_sxw
@@ -53,9 +34,9 @@ class StockMoveOder(report_sxw.rml_parse):
                                                  [('product_id',
                                                    '=',
                                                    product_id),
-                                                  ('order_id.shipped',
+                                                  ('state',
                                                    '=',
-                                                   False)]
+                                                   'sale')]
                                                  )
             sale_order_ids = sale_obj.search(
                 self.cr,
@@ -71,9 +52,9 @@ class StockMoveOder(report_sxw.rml_parse):
                                                          [('product_id',
                                                            '=',
                                                            product_id),
-                                                          ('order_id.shipped',
+                                                          ('state',
                                                            '=',
-                                                           False)]
+                                                           'sale')]
                                                          )
             purchase_order_ids = purchase_obj.search(self.cr,
                                                      self.uid,
@@ -139,15 +120,13 @@ class StockMoveOder(report_sxw.rml_parse):
                         'quantity': purchase_product_quantity,
                         }
                     purchase_orders_list.append(purchase_order_line_dict)
-            product_lines = []
-            product_lines.append(sale_orders_list)
-            product_lines.append(purchase_orders_list)
+            product_lines = [sale_orders_list, purchase_orders_list]
             line['product_lines'] = product_lines
             product_lines_to_print.append(line)
         return product_lines_to_print
 
 
-class report_stock_move_order(models.AbstractModel):
+class ReportStockMoveOrder(models.AbstractModel):
     _name = 'report.stock_move_report.report_stock_move_order'
     _inherit = 'report.abstract_report'
     _template = 'stock_move_report.report_stock_move_order'

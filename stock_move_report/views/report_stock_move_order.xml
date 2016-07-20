@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- © 2015 ClearCorp
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
 <openerp>
     <data>
         <template id="report_stock_move_order">
@@ -8,22 +10,22 @@
                         <tbody>
                             <tr>
                                 <td colspan="3" rowspan="9">
-                                    <img scale_x="0.5" scale_y="0.5" offset_x="20" offset_y="35" t-if="company.logo_report_bmp" t-att-src="'data:image/bmp;base64,%s' % company.logo_report_bmp"/>
+                                    <img x_scale="0.5" y_scale="0.5" x_offset="1" y_offset="35" t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo"/>
                                 </td>         
-                                <td colspan="7" rowspan="9" easyfx="font: bold on, height 400; align: horiz center,vert center">Stock move order</td>
+                                <td colspan="7" rowspan="9" format="{'bold':True, 'font_size': 20, 'align':'center', 'valign':'vcenter'}">Stock move order</td>
                             </tr>
                         </tbody>
                     </table>
                     <table>
                         <thead>
                             <tr>
-                                <th colspan="4" rowspan="2" easyfx="font:height 200,bold on;align: wrap on, vert center;borders: bottom thin, top thin, left thin, right thin;">Product</th>
-                                <th colspan="1" rowspan="2" easyfx="font:height 200,bold on;align: wrap on, vert center; borders: bottom thin, top thin, left thin, right thin;">Qty Available </th>
-                                <th colspan="1" rowspan="2" easyfx="font:height 200,bold on;align: wrap on, vert center;borders: bottom thin, top thin, left thin, right thin;">Virtual available</th>
-                                <th colspan="1" rowspan="2" easyfx="font:height 200,bold on;align: wrap on, vert center;borders: bottom thin, top thin, left thin, right thin;">Sale Order</th>
-                                <th colspan="1" rowspan="2" easyfx="font:height 200,bold on;align: wrap on, vert center;borders: bottom thin, top thin, left thin, right thin;">Quantity delivery</th>
-                                <th colspan="1" rowspan="2" easyfx="font:height 200,bold on;align: wrap on, vert center;borders: bottom thin, top thin, left thin, right thin;">Purchase order</th>
-                                <th colspan="1" rowspan="2" easyfx="font:height 200,bold on;align: wrap on, vert center;borders: bottom thin, top thin, left thin, right thin;">Quantity to receive</th>
+                                <th colspan="4" rowspan="2" format="{'font_size': 10, 'bold':True, 'text_wrap':True, 'valign':'vcenter', 'border': 1}">Product</th>
+                                <th colspan="1" rowspan="2" format="{'font_size': 10, 'bold':True, 'text_wrap':True, 'valign':'vcenter', 'border': 1}">Qty Available </th>
+                                <th colspan="1" rowspan="2" format="{'font_size': 10, 'bold':True, 'text_wrap':True, 'valign':'vcenter', 'border': 1}">Virtual available</th>
+                                <th colspan="1" rowspan="2" format="{'font_size': 10, 'bold':True, 'text_wrap':True, 'valign':'vcenter', 'border': 1}">Sale Order</th>
+                                <th colspan="1" rowspan="2" format="{'font_size': 10, 'bold':True, 'text_wrap':True, 'valign':'vcenter', 'border': 1}">Quantity delivered</th>
+                                <th colspan="1" rowspan="2" format="{'font_size': 10, 'bold':True, 'text_wrap':True, 'valign':'vcenter', 'border': 1}">Purchase order</th>
+                                <th colspan="1" rowspan="2" format="{'font_size': 10, 'bold':True, 'text_wrap':True, 'valign':'vcenter', 'border': 1}">Quantity to receive</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -33,49 +35,49 @@
                                     <t t-set="sale" t-value="product['product_lines']"/> 
                                     <t t-set="purchase" t-value="product['product_lines']"/>
                                     <tr>
-                                        <td colspan="4" easyfx="align: horizontal left; borders: bottom thin, top thin, left thin, right thin;">
+                                        <td colspan="4" format="{'align':'justify', 'border': 1}">
                                             <span t-esc= "product['name']"/>
                                         </td>
-                                        <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
+                                        <td format="{'align':'center', 'border': 1}">
                                             <span t-esc= "product['qyt_available']"/>
                                         </td>
-                                        <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
+                                        <td format="{'align':'center', 'border': 1}">
                                             <span t-esc= "product['virtual_available']"/>
                                         </td>
                                         <t t-if="len(sale[0]) > 0">
-                                            <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
+                                            <td format="{'align':'center', 'border': 1}">
                                                 <t t-set="s" t-value="sale[0]"/>
-                                                    <span t-esc= "s[0]['sale']"></span>
+                                                <span t-esc= "s[0]['sale']"/>
                                             </td>
-                                            <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
+                                            <td format="{'align':'center', 'border': 1}">
                                                 <t t-set="s" t-value="sale[0]"/>
-                                                <span t-esc= "s[0]['quantity']"></span>
+                                                <span t-esc= "s[0]['quantity']"/>
                                             </td>
                                         </t>
                                         <t t-if="len(sale[0]) == 0">
-                                             <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
+                                             <td format="{'align':'center', 'border': 1};">
                                                
                                             </td>
-                                            <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
+                                            <td format="{'align':'center', 'border': 1}">
                                                
                                             </td>
                                         </t>
                                         
                                         <t t-if="len(purchase[1]) > 0">
-                                            <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
+                                            <td format="{'align':'center', 'border': 1}">
                                                 <t t-set="p" t-value="purchase[1]"/>
-                                                <span t-esc= "p[0]['purchase']"></span>
+                                                <span t-esc= "p[0]['purchase']"/>
                                             </td>
-                                            <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
+                                            <td fomat="{'align':'center', 'border': 1}">
                                                 <t t-set="p" t-value="purchase[1]"/>
-                                                <span t-esc= "p[0]['quantity']"></span>
+                                                <span t-esc= "p[0]['quantity']"/>
                                             </td>
                                         </t>
                                          <t t-if="len(purchase[1]) == 0">
-                                             <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
+                                             <td fomat="{'align':'center', 'border': 1}">
                                                
                                             </td>
-                                            <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
+                                            <td fomat="{'align':'center', 'border': 1}">
                                                
                                             </td>
                                         </t>
@@ -94,42 +96,42 @@
                                                     <td colspan="1">
                                                     </td>
                                                     <t t-if="len(sale[0]) == 1">
-                                                        <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
+                                                        <td fomat="{'align':'center', 'border': 1}">
                                                         </td>
-                                                        <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
+                                                        <td fomat="{'align':'center', 'border': 1}">
                                                         </td>
                                                     </t>
                                                     <t t-if="len(sale[0]) > 1">
-                                                        <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
-                                                            <span t-esc="sal['sale']"></span>
+                                                        <td fomat="{'align':'center', 'border': 1}">
+                                                            <span t-esc="sal['sale']"/>
                                                         </td>
-                                                        <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
-                                                            <span t-esc="sal['quantity']"></span>
+                                                        <td fomat="{'align':'center', 'border': 1}">
+                                                            <span t-esc="sal['quantity']"/>
                                                         </td>
                                                     </t>
                                                     <t t-if="len(purchase[1]) == 1">
-                                                        <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
+                                                        <td fomat="{'align':'center', 'border': 1}">
                                                         
                                                         </td>
-                                                        <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
+                                                        <td fomat="{'align':'center', 'border': 1}">
                                                         
                                                         </td>
                                                     </t>
                                                     <t t-if="len(purchase[1]) == 0">
-                                                         <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
+                                                         <td fomat="{'align':'center', 'border': 1}">
                                                            
                                                         </td>
-                                                        <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
+                                                        <td fomat="{'align':'center', 'border': 1}">
                                                            
                                                         </td>
                                                     </t>
                                                     <t t-if="len(purchase[1]) > 1">
                                                         <t t-if="not purchase_cont >= len(purchase[1])">
-                                                            <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
-                                                                <span t-esc="purchase[1][purchase_cont]['purchase']"></span>
+                                                            <td fomat="{'align':'center', 'border': 1}">
+                                                                <span t-esc="purchase[1][purchase_cont]['purchase']"/>
                                                             </td>
-                                                            <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
-                                                                <span t-esc="purchase[1][purchase_cont]['quantity']"></span>
+                                                            <td fomat="{'align':'center', 'border': 1}">
+                                                                <span t-esc="purchase[1][purchase_cont]['quantity']"/>
                                                             </td>
                                                         </t>
                                                     </t>
@@ -159,35 +161,35 @@
                                                         </td>
                                                     </t>
                                                     <t t-if="len(sale[0]) > 1">
-                                                        <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
-                                                            <span t-esc="sale[0][sale_cont]['sale']"></span>
+                                                        <td fomat="{'align':'center', 'border': 1}">
+                                                            <span t-esc="sale[0][sale_cont]['sale']"/>
                                                         </td>
-                                                        <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
-                                                            <span t-esc="sale[0][sale_cont]['quantity']"></span>
+                                                        <td fomat="{'align':'center', 'border': 1}">
+                                                            <span t-esc="sale[0][sale_cont]['quantity']"/>
                                                         </td>
                                                      </t>
                                                     <t t-if="len(purchase[1]) == 1">
-                                                        <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
+                                                        <td fomat="{'align':'center', 'border': 1}">
                                                         
                                                         </td>
-                                                        <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
+                                                        <td fomat="{'align':'center', 'border': 1}">
                                                         
                                                         </td>
                                                     </t>
                                                     <t t-if="len(purchase[1]) == 0">
-                                                         <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
+                                                         <td fomat="{'align':'center', 'border': 1}">
                                                            
                                                         </td>
-                                                        <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
+                                                        <td fomat="{'align':'center', 'border': 1}">
                                                            
                                                         </td>
                                                     </t>
                                                     <t t-if="len(purchase[1]) > 1">
-                                                        <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
-                                                            <span t-esc="pur['purchase']"></span>
+                                                        <td fomat="{'align':'center', 'border': 1}">
+                                                            <span t-esc="pur['purchase']"/>
                                                         </td>
-                                                        <td colspan="1" easyfx="align: horizontal center; borders: bottom thin, top thin, left thin, right thin;">
-                                                            <span t-esc="pur['quantity']"></span>
+                                                        <td fomat="{'align':'center', 'border': 1}">
+                                                            <span t-esc="pur['quantity']"/>
                                                         </td>
                                                     </t>
                                                 </tr>
@@ -203,7 +205,7 @@
                            <t t-if="not products">
                                 <tr>
                                     <td>
-                                        <span>This product not have moves</span>
+                                        <span>This product doesn't have moves</span>
                                     </td>
                                 </tr>
                            </t>
@@ -212,5 +214,12 @@
                 </div>
             </div>
         </template>
+        <report id="action_report_stock_move_order"
+                model="stock.move"
+                string="Stock Move Order"
+                report_type="qweb-xls"
+                name="stock_move_report.report_stock_move_order"
+                file="stock_move_report.report_stock_move_order"
+                menu="False"/>
     </data>
 </openerp>
