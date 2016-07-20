@@ -202,8 +202,3 @@ class Payslip(osv.osv):
         res += super(Payslip, self).get_worked_day_lines(
             cr, uid, contract_ids, date_from, date_to, context=context)
         return res
-
-    def create(self, cr, uid, vals, context=None):
-        if context is None:
-            context = {}
-        return super(Payslip, self).create(cr, uid, vals, context=context)
