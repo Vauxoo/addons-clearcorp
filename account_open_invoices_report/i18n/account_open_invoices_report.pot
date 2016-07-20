@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-07-20 22:02+0000\n"
 "PO-Revision-Date: 2016-07-20 22:02+0000\n"
-"Last-Translator: Glen Sojo <glen.sojo@clearcorp.co.cr>\n"
+"Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,98 +18,98 @@ msgstr ""
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 msgid "- Saldo:"
-msgstr "- Saldo:"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "Account"
-msgstr "Cuenta"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: field:open.invoices.wiz,account_base_report:0
 msgid "Account Base Report"
-msgstr "Informe financiero base"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:open.invoices.wiz:account_open_invoices_report.account_open_invoices_inherit
 msgid "Account Financial Report"
-msgstr "Informe finaciero"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:open.invoices.wiz:account_open_invoices_report.account_open_invoices_inherit
 msgid "Account Open Invoices"
-msgstr "Facturas pendientes"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: model:ir.actions.act_window,name:account_open_invoices_report.action_account_open_invoices_report_wizard
 msgid "Account Open Invoices Report"
-msgstr "Reporte de facturas pendientes"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: field:open.invoices.wiz,account_type:0
 msgid "Account type"
-msgstr "Tipo de cuenta"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:open.invoices.wiz:account_open_invoices_report.account_open_invoices_inherit
 #: field:open.invoices.wiz,account_ids:0
 msgid "Accounts"
-msgstr "Cuentas"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "Accounts filter"
-msgstr "Filtro de cuentas"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: selection:open.invoices.wiz,target_move:0
 msgid "All Entries"
-msgstr "Todos los apuntes"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: selection:open.invoices.wiz,target_move:0
 msgid "All Posted Entries"
-msgstr "Todos los apuntes publicados"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "Balance"
-msgstr "Saldo pendiente"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: field:open.invoices.wiz,chart_account_id:0
 msgid "Chart of Account"
-msgstr "Catálogo contable"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "Chart of Accounts"
-msgstr "Catálogo de cuentas"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "Companies with open balance for dates/periods selected but not open invoices"
-msgstr "Empresas con saldo pendiente para las fechas/periodos selecionados pero sin facturas pendientes"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: field:open.invoices.wiz,company_id:0
 msgid "Company"
-msgstr "Compañía"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: field:open.invoices.wiz,create_uid:0
 msgid "Created by"
-msgstr "Creado por"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: field:open.invoices.wiz,create_date:0
 msgid "Created on"
-msgstr "Creado en"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: selection:open.invoices.wiz,filter:0
@@ -117,173 +117,173 @@ msgstr "Creado en"
 #: view:website:account_open_invoices_report.report_open_invoices
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "Date"
-msgstr "Fecha"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 msgid "Dates"
-msgstr "Fechas"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: field:open.invoices.wiz,display_name:0
 #: field:report.account_open_invoices_report.report_open_invoices,display_name:0
 #: field:report.account_open_invoices_report.report_open_invoices_xls,display_name:0
 msgid "Display Name"
-msgstr "Nombre para mostrar"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: field:open.invoices.wiz,date_to:0
 msgid "End Date"
-msgstr "Fecha final"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: field:open.invoices.wiz,period_to:0
 msgid "End Period"
-msgstr "Período final"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:open.invoices.wiz:account_open_invoices_report.account_open_invoices_inherit
 #: field:open.invoices.wiz,sort_selection:0
 msgid "Entries Sorted by"
-msgstr "Entradas ordenadas por"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: field:open.invoices.wiz,filter:0
 msgid "Filter by"
-msgstr "Filtrado por"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "Filters by:"
-msgstr "Filtros por:"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: field:open.invoices.wiz,fiscalyear_id:0
 #: view:website:account_open_invoices_report.report_open_invoices
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "Fiscal Year"
-msgstr "Año fiscal"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "From:"
-msgstr "De:"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: field:open.invoices.wiz,id:0
 #: field:report.account_open_invoices_report.report_open_invoices,id:0
 #: field:report.account_open_invoices_report.report_open_invoices_xls,id:0
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: help:open.invoices.wiz,historic_strict:0
 msgid "If selected, will display a historical unreconciled lines, taking into account the end of the period or date selected"
-msgstr "Si está selecciondo, desplegará las líneas no conciliadas históricas, dentro de la cuenta al final del período o de la fecha seleccionada"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: help:open.invoices.wiz,special_period:0
 msgid "Include special period"
-msgstr "Includir período especial"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "Invoices"
-msgstr "Facturas"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: help:open.invoices.wiz,amount_currency:0
 msgid "It adds the currency column on report if the currency differs from the company currency."
-msgstr "Añade una columna de moneda al reporte si la moneda es diferente de la moneda de la compañía"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "Journal"
-msgstr "Diario"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:open.invoices.wiz:account_open_invoices_report.account_open_invoices_inherit
 #: field:open.invoices.wiz,journal_ids:0
 msgid "Journals"
-msgstr "Diarios"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: help:open.invoices.wiz,fiscalyear_id:0
 msgid "Keep empty for all open fiscal year"
-msgstr "Mantener vacío para todo el año fiscal abierto"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: field:open.invoices.wiz,__last_update:0
 #: field:report.account_open_invoices_report.report_open_invoices,__last_update:0
 #: field:report.account_open_invoices_report.report_open_invoices_xls,__last_update:0
 msgid "Last Modified on"
-msgstr "Última modificación el"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: field:open.invoices.wiz,write_uid:0
 msgid "Last Updated by"
-msgstr "Ultima actualización por"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: field:open.invoices.wiz,write_date:0
 msgid "Last Updated on"
-msgstr "Ultima actualización en"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "Moneda:"
-msgstr "Moneda:"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "Mov. Man"
-msgstr "Mov. man"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "Movements destination"
-msgstr "Movimientos destino"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: selection:open.invoices.wiz,sort_selection:0
 msgid "Name"
-msgstr "Nombre"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "No Filters"
-msgstr "Sin filtros"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "No exist open invoices with the selected filters"
-msgstr "No existen facturas pendientes con los filtros seleccionados"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "Note"
-msgstr "Nota"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "Notes D/C"
-msgstr "Notas D/C"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 msgid "Odoo:"
-msgstr "Odoo:"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: model:ir.actions.report.xml,name:account_open_invoices_report.action_report_open_invoices
@@ -292,189 +292,189 @@ msgstr "Odoo:"
 #: view:website:account_open_invoices_report.report_open_invoices
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "Open Invoices"
-msgstr "Facturas pendientes"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: model:ir.model,name:account_open_invoices_report.model_open_invoices_wiz
 msgid "Open Invoices Report Wizard"
-msgstr "Generar reporte de facturas pendientes"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "Opening balance:"
-msgstr "Opening balance:"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: selection:open.invoices.wiz,out_format:0
 msgid "PDF"
-msgstr "PDF"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 msgid "Page:"
-msgstr "Página:"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: field:open.invoices.wiz,res_partners_ids:0
 msgid "Partners"
-msgstr "Empresas"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 msgid "Partners in"
-msgstr "Clientes en"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: selection:open.invoices.wiz,account_type:0
 msgid "Payable Accounts"
-msgstr "Cuentas por pagar"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: code:addons/account_open_invoices_report/report/account_open_invoices_report.py:50
 #, python-format
 msgid "Payable accounts"
-msgstr "Cuentas por pagar"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: code:addons/account_open_invoices_report/report/account_open_invoices_report.py:52
 #, python-format
 msgid "Payable and Receivable accounts"
-msgstr "Cuentas por pagar y cobrar"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "Payments"
-msgstr "Pagos"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "Period"
-msgstr "Periodo"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: selection:open.invoices.wiz,filter:0
 #: view:website:account_open_invoices_report.report_open_invoices
 msgid "Periods"
-msgstr "Períodos"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: field:open.invoices.wiz,out_format:0
 msgid "Print Format"
-msgstr "Formato de impresión"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: selection:open.invoices.wiz,account_type:0
 msgid "Receivable Accounts"
-msgstr "Cuentas por cobrar"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: code:addons/account_open_invoices_report/report/account_open_invoices_report.py:48
 #, python-format
 msgid "Receivable accounts"
-msgstr "Cuentas por cobrar"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: selection:open.invoices.wiz,account_type:0
 msgid "Receivable and Payable Accounts"
-msgstr "Cuentas por cobrar y pagar"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "Saldo"
-msgstr "Saldo"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "Saldo:"
-msgstr "Saldo:"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: help:open.invoices.wiz,chart_account_id:0
 msgid "Select Charts of Accounts"
-msgstr "Seleccionar catálogo contable"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: field:open.invoices.wiz,special_period:0
 msgid "Special period"
-msgstr "Período especial"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: field:open.invoices.wiz,date_from:0
 msgid "Start Date"
-msgstr "Fecha inicio"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: field:open.invoices.wiz,period_from:0
 msgid "Start Period"
-msgstr "Período inicial"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: field:open.invoices.wiz,historic_strict:0
 msgid "Strict History"
-msgstr "Histórico estricto"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "Tag"
-msgstr "Etiqueta"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: field:open.invoices.wiz,target_move:0
 msgid "Target Moves"
-msgstr "Movimientos destino"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:open.invoices.wiz:account_open_invoices_report.account_open_invoices_inherit
 msgid "This report allows you to print or generate a pdf of your Account Open Invoices Report"
-msgstr "Este reporte le permitirá imprimir or generar un pdf del reporte de facturas pendientes"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:website:account_open_invoices_report.report_open_invoices
 #: view:website:account_open_invoices_report.report_open_invoices_xls
 msgid "To:"
-msgstr "Hasta:"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:open.invoices.wiz:account_open_invoices_report.account_open_invoices_inherit
 msgid "True"
-msgstr "Verdad"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: field:open.invoices.wiz,amount_currency:0
 msgid "With Currency"
-msgstr "Con moneda"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: selection:open.invoices.wiz,out_format:0
 msgid "XLS"
-msgstr "XLS"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:open.invoices.wiz:account_open_invoices_report.account_open_invoices_inherit
 msgid "[('special', '=', False),('fiscalyear_id', '=', fiscalyear_id)]"
-msgstr "[('special', '=', False),('fiscalyear_id', '=', fiscalyear_id)]"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:open.invoices.wiz:account_open_invoices_report.account_open_invoices_inherit
 msgid "{'invisible': True}"
-msgstr "{'invisible': True}"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:open.invoices.wiz:account_open_invoices_report.account_open_invoices_inherit
 msgid "{'required': True}"
-msgstr "{'required': True}"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:open.invoices.wiz:account_open_invoices_report.account_open_invoices_inherit
 msgid "{'required': [('filter', '=', 'filter_date')]}"
-msgstr "{'required': [('filter', '=', 'filter_date')]}"
+msgstr ""
 
 #. module: account_open_invoices_report
 #: view:open.invoices.wiz:account_open_invoices_report.account_open_invoices_inherit
 msgid "{'required': [('filter', '=', 'filter_period')]}"
-msgstr "{'required': [('filter', '=', 'filter_period')]}"
+msgstr ""
