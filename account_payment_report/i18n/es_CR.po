@@ -1,0 +1,104 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* account_payment_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 9.0c\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-07-22 17:45+0000\n"
+"PO-Revision-Date: 2016-07-22 17:45+0000\n"
+"Last-Translator: Antonio Hidalgo <antonio.hidalgo@clearcorp.co.cr>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_payment_report
+#: model:ir.ui.view,arch_db:account_payment_report.account_payment_report
+msgid "<span style=\"text-align: left\">We have</span>"
+msgstr "<span style=\"text-align: left\">Hemos</span>"
+
+#. module: account_payment_report
+#: model:ir.ui.view,arch_db:account_payment_report.account_payment_report
+msgid "<span style=\"text-align: left\">the amount of</span>"
+msgstr "<span style=\"text-align: left\">la cantidad de</span>"
+
+#. module: account_payment_report
+#: model:ir.actions.report.xml,name:account_payment_report.action_account_payment_report
+msgid "Account Payment Report"
+msgstr "Account Payment Report"
+
+#. module: account_payment_report
+#: code:addons/account_payment_report/report/account_payment_report.py:39
+#, python-format
+msgid "Currency not supported by this report."
+msgstr "La moneda no tiene soporte en este reporte."
+
+#. module: account_payment_report
+#: model:ir.model.fields,field_description:account_payment_report.field_report_account_payment_report_account_payment_report_display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: account_payment_report
+#: model:ir.model.fields,field_description:account_payment_report.field_report_account_payment_report_account_payment_report_id
+msgid "ID"
+msgstr "ID"
+
+#. module: account_payment_report
+#: model:ir.ui.view,arch_db:account_payment_report.account_payment_report
+msgid "Internal Transfer"
+msgstr "Transferencia interna"
+
+#. module: account_payment_report
+#: code:addons/account_payment_report/report/account_payment_report.py:54
+#, python-format
+msgid "Language not supported by this report."
+msgstr "El lenguaje no tiene soporte en este reporte."
+
+#. module: account_payment_report
+#: model:ir.model.fields,field_description:account_payment_report.field_report_account_payment_report_account_payment_report___last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: account_payment_report
+#: model:ir.ui.view,arch_db:account_payment_report.account_payment_report
+msgid "Receive Money"
+msgstr "Recibir dinero"
+
+#. module: account_payment_report
+#: model:ir.ui.view,arch_db:account_payment_report.account_payment_report
+msgid "Send Money"
+msgstr "Enviar dinero"
+
+#. module: account_payment_report
+#: model:ir.ui.view,arch_db:account_payment_report.account_payment_report
+msgid "received"
+msgstr "recibido"
+
+#. module: account_payment_report
+#: model:ir.model,name:account_payment_report.model_report_account_payment_report_account_payment_report
+msgid "report.account_payment_report.account_payment_report"
+msgstr "report.account_payment_report.account_payment_report"
+
+#. module: account_payment_report
+#: model:ir.model,name:account_payment_report.model_report_account_payment_report_report_account_payment
+msgid "report.account_payment_report.report_account_payment"
+msgstr "report.account_payment_report.report_account_payment"
+
+#. module: account_payment_report
+#: model:ir.model,name:account_payment_report.model_report_account_payment_report_report_account_payment_chec
+msgid "report.account_payment_report.report_account_payment_chec"
+msgstr "report.account_payment_report.report_account_payment_chec"
+
+#. module: account_payment_report
+#: model:ir.ui.view,arch_db:account_payment_report.account_payment_report
+msgid "sent"
+msgstr "enviado"
+
+#. module: account_payment_report
+#: model:ir.ui.view,arch_db:account_payment_report.account_payment_report
+msgid "transferred"
+msgstr "transferido"
+
