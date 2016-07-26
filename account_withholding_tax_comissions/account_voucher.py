@@ -109,7 +109,19 @@ class Voucher(osv.Model):
                 voucher.write({
                     'withholding_tax_lines': withholding_tax_lines
                 })
-        return True
+            view_id = self.pool.get('ir.ui.view').search(cr, uid, [
+                ('model', '=', 'account.voucher'),
+                ('name', '=', 'account.voucher.receipt.dialog.form')])
+            return {
+                'type': 'ir.actions.act_window',
+                'res_model': 'account.voucher',
+                'view_type': 'form',
+                'view_mode': 'form',
+                'view_id': view_id,
+                'res_id': ids[0],
+                'target': 'new',
+                'context': context
+            }
 
     _columns = {
         'withholding_tax_lines': fields.one2many('account.withholding.tax.line',

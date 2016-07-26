@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+		<record id="budget_account_invoice_supplier_form" model="ir.ui.view" >
+	            <field name="name">cash.budget.account.invoice.supplier.form</field>
+	            <field name="model">account.invoice</field>
+	            <field name="type">form</field>
+	            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+	            <field name="arch" type="xml">
+	                <data>
+	                    <field name="journal_id" position="after" >
+	                    	<field name="budget_move_id" />
+	                    	<field name="from_order" readonly="True" />
+	                    </field>
+	                    <xpath expr="/form/sheet/notebook/page[@string='Invoice']/field/tree/field[@name='price_unit']" position="after">
+	                		<field name="invoice_from_order" invisible="True"/>
+	                		<field name="program_line_id" domain="[('type','=','budget'), ('active_for_view','=',True)]" attrs="{ 'invisible':[('invoice_from_order','=',True),] }"/>
+	                	</xpath>
+	                </data>
+	            </field>
+	     </record>
+	     
+	     <record id="budget_account_invoice_form" model="ir.ui.view" >
+	            <field name="name">cash.budget.account.invoice.form</field>
+	            <field name="model">account.invoice</field>
+	            <field name="type">form</field>
+	            <field name="inherit_id" ref="account.invoice_form"/>
+	            <field name="arch" type="xml">
+	                <data>
+	                    <field name="account_id" position="after" >
+	                    	<field name="budget_move_id" />
+	                    	<field name="from_order" readonly="True" />
+	                    </field>
+	                    
+	                    <xpath expr="/form/sheet/notebook/page[@string='Invoice Lines']/field/tree/field[@name='price_unit']" position="after">
+	                		<field name="invoice_from_order" invisible="True"/>
+	                		<field name="program_line_id" domain="[('type','=','budget'), ('active_for_view','=',True)]" attrs="{ 'required':[('invoice_from_order','=',False)] }"/>
+	                	</xpath>
+	                </data>
+	            </field>
+	     </record>
+	     
+	     
+	     <record id="budget_account_invoice_line_form" model="ir.ui.view" >
+	            <field name="name">cash.budget.account.invoice.line.form</field>
+	            <field name="model">account.invoice.line</field>
+	            <field name="type">form</field>
+	            <field name="inherit_id" ref="account.view_invoice_line_form"/>
+	            <field name="arch" type="xml">
+	                <data>
+	                    <field name="discount" position="after" >
+	                    	<field name="invoice_from_order" invisible="True"/>
+	                    	<field name="program_line_id" domain="[('type','=','budget'), ('active_for_view','=',True)]" attrs="{ 'required':[('invoice_from_order','=',False),] }"/>
+            				<field name="line_available"/>
+	                    </field>
+	                </data>
+	            </field>
+	     </record>	
+	 </data>
+</openerp>	 
