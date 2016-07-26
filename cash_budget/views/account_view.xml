@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    	<record id="budget_view_account_form" model="ir.ui.view">
+            <field name="name">cash.budget.account.account.form</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_form"/>
+            <field name="arch" type="xml">
+    			<data>
+    				<field name="active" position="after">
+    					<field name="default_budget_program_line" domain="[('type','=','budget'), ('active_for_view','=',True)]"/>
+	                </field>			
+    			</data>
+    		</field>
+    	</record>    	
+    </data>
+</openerp>

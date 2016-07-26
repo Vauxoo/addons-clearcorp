@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="hr_salary_rule_form_inherit" model="ir.ui.view">
+            <field name="name">hr.salary.rule.form.inherit</field>
+            <field name="model">hr.salary.rule</field>
+            <field name="inherit_id" ref="hr_payroll.hr_salary_rule_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="/form/notebook/page[@string='General']" position="after" >
+                        <page string="Budget Program Lines">
+                            <group colspan="4">
+	                            <field name="debit_budget_program_line" domain="[('type','=','budget'), ('active_for_view','=',True)]"/>
+	                            <field name="credit_budget_program_line" domain="[('type','=','budget'), ('active_for_view','=',True)]" />
+                            </group>
+                        </page>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+    </data>
+</openerp>
+
