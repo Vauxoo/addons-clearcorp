@@ -4,7 +4,8 @@
 
 {
     'name': 'Account Payment Report',
-    'summary': 'This module allows the user to create a half-page report for invoices.',
+    'summary': 'This module allows the user to create a '
+               'half-page report for invoices.',
     'version': '9.0.1.0',
     'category': 'Accounting & Finance',
     'website': 'http://clearcorp.cr',
