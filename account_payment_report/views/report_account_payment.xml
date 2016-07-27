@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2016 ClearCorp
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+
+<openerp>
+    <data>
+        <!-- QWeb Report -->
+        <report id="action_account_payment_report"
+                model="account.payment"
+                string="Account Payment Report"
+                report_type="qweb-pdf"
+                name="account_payment_report.account_payment_report"
+                file="account_payment_report.account_payment_report"
+        />
+        <record id="action_account_payment_report" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paperformat_account_payment_report"/>
+        </record>
+    </data>
+</openerp>

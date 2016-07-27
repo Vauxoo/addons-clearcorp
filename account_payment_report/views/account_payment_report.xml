@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2016 ClearCorp
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+
+<openerp>
+    <data>
+        <template id="account_payment_report">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="account_payment_report.account_payment_report_header"/>
+                        <div class="page">
+                            <div class="row" style="padding-top: 130px">
+                                <div class="col-xs-6">
+                                    <span style="text-align: left" t-field="o.company_id.company_registry"/>
+                                </div>
+                                <div class="col-xs-offset-11">
+                                    <span style="text-align: right" t-field="o.payment_date"/>
+                                </div>
+                            </div>
+                            <div class="row" style="padding-top: 20px">
+                                <div class="col-xs-6">
+                                    <span style="text-align: right" t-field="o.name"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <!--Title changes according to the type of report-->
+                                    <h2 t-if="o.payment_type == 'inbound'" style="text-align: center">Receive Money</h2>
+                                    <h2 t-if="o.payment_type == 'outbound'" style="text-align: center">Send Money</h2>
+                                    <h2 t-if="o.payment_type == 'transfer'" style="text-align: center">Internal Transfer</h2>
+                                </div>
+                            </div>
+                            <div class="row" style="padding-top: 30px">
+                                <div class="col-xs-12">
+                                    <span style="text-align: left">We have</span>
+                                    <!--Text changes depending on the type of report-->
+                                    <span style="text-align: left" t-if="o.payment_type == 'inbound'">received</span>
+                                    <span style="text-align: left" t-if="o.payment_type == 'outbound'">sent</span>
+                                    <span style="text-align: left" t-if="o.payment_type == 'transfer'">transferred</span>
+                                    <span style="text-align: left">the amount of</span>
+                                    <strong t-field="o.currency_id"/>
+                                    <strong t-field="o.amount"/>
+                                    <span t-esc="get_text_amount(o.amount, o.currency_id.id)"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-call="report.external_layout_footer"/>
+                </t>
+        </template>
+    </data>
+</openerp>
