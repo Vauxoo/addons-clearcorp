@@ -16,11 +16,13 @@
     'installable': True,
     'auto_install': False,
     'depends': [
-        'account'
+        'account',
+        'l10n_cr_amount_to_text'
     ],
     'data': [
         'data/report_paperformat.xml',
         'views/account_payment_report_header.xml',
+        'views/account_payment_report_footer.xml',
         'views/account_payment_report.xml',
         'views/report_account_payment.xml'
     ]
