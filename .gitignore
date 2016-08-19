@@ -53,9 +53,11 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
-
 #Settings eclipse
 .settings
 
 #Temporal files
 *~
+
+# Pycharm settings
+.idea
