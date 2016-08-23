@@ -96,6 +96,41 @@ class stock_picking(models.Model):
                         picking.carrier_invoice_control = 'invoiced'
                 else:
                     picking.carrier_invoice_control = picking.invoice_state
+        if not delivey_invoices and 'invoice_delivery' in context:
+            for move in moves:
+                key = (move.picking_id.partner_id.id, move.picking_id.id)
+                for invoice_id in invoice_ids:
+                    invoice = self.pool.get('account.invoice').browse(
+                        cr, uid, invoice_id, context=context)
+                    if invoice.origin == move.picking_id.name:
+                        if key not in delivey_invoices:
+                            delivey_invoices[key] = invoice
+
+            for key, invoice in delivey_invoices.items():
+                picking = self.browse(cr, uid, key[1], context=context)
+                if picking.invoice_state == 'invoiced' and \
+                        picking.carrier_invoice_control == '2binvoiced':
+                    invoice_line = invoice_line_obj.search(
+                        cr, uid, [('invoice_id', '=', invoice.id),
+                                  ('delivery_line', '=', False)],
+                        context=context)
+                    invoice.write({
+                        'partner_id': picking.carrier_id.partner_id.id
+                    })
+                    if invoice_line:
+                        invoice_line_obj.unlink(cr, uid, invoice_line)
+
+                    invoice_line = self._prepare_shipping_invoice_line(
+                        cr, uid, picking, invoice, context=context)
+
+                    if invoice_line:
+                        invoice_line_obj.create(cr, uid, invoice_line)
+
+                    invoice_obj.button_compute(
+                        cr, uid, [invoice.id], context=context,
+                        set_total=(inv_type in ('out_invoice',
+                                                'out_refund')))
+                    picking.carrier_invoice_control = 'invoiced'
         return invoice_ids
 
     def _prepare_shipping_invoice_line(
@@ -166,8 +201,12 @@ class purchase_order(models.Model):
         'used for a single id at a time'
         res = super(purchase_order, self).action_picking_create(
             cr, uid, ids, context=context)
+        purchase = self.browse(cr, uid, ids, context=context)
         if res:
-            picking = self.pool.get('stock.picking').browse(cr, uid, res,
-                                                            context=context)
-            picking.write({'carrier_invoice_control': picking.invoice_state})
+            picking = self.pool.get('stock.picking').browse(
+                cr, uid, res, context=context)
+            picking.write({
+                'carrier_invoice_control': purchase.carrier_id and
+                    picking.invoice_state or 'none'
+            })
         return res
