@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- © 2016 ClearCorp
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+
+<templates id="template" xml:space="preserve">
+    <t t-name="OpenAttachment" t-extend="oe_sidebar">
+        <t t-jquery="oe_sidebar_delete_item"  t-operation="before">
+            <button name="open_attachment" string="font-awesome-icon"/>
+        </t>
+    </t>
+</templates>
