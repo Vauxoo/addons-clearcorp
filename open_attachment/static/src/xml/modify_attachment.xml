@@ -5,7 +5,9 @@
 <templates id="template" xml:space="preserve">
     <t t-name="OpenAttachment" t-extend="oe_sidebar">
         <t t-jquery="oe_sidebar_delete_item"  t-operation="before">
-            <button name="open_attachment" string="font-awesome-icon"/>
+            <a t-if="widget.view.is_action_enabled('edit') &amp;&amp; section.name == 'files' and !item.callback" class="oe_sidebar_edit_item" t-att-data-id="item.id" title="Edit this attachment">
+                <i class="fa fa-paperclip" aria-hidden="true"/>
+            </a>
         </t>
     </t>
 </templates>
