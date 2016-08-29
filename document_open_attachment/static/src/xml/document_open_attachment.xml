@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- © 2016 ClearCorp
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+
+<template>
+    <t t-extend="Sidebar">
+        <t t-jquery="a.oe_sidebar_delete_item"  t-operation="before">
+            <a t-if="widget.view.is_action_enabled('edit') &amp;&amp; section.name == 'files' and !item.callback" class="oe_sidebar_edit_item" t-att-data-id="item.id" title="Edit this attachment">
+                <i class="fa fa-paperclip" aria-hidden="true"/>
+            </a>
+        </t>
+    </t>
+</template>

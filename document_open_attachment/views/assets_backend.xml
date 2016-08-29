@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <template id="assets_backend" name="open_attachment_assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/document_open_attachment/static/src/js/document_open_attachment.js"/>
+                <link rel="stylesheet" type="text/css" href="/document_open_attachment/static/src/css/sidebar_edit_item.css"/>
+            </xpath>
+        </template>
+    </data>
+</openerp>

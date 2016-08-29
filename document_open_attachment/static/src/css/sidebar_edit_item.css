@@ -1,0 +1,26 @@
+.openerp .oe_sidebar .oe_dropdown_menu li .oe_sidebar_edit_item {
+  position: absolute;
+  top: 4px;
+  right: 20px;
+  width: 12px;
+  height: 12px;
+  padding: 1px;
+  display: none;
+  color: #8786b7;
+  line-height: 8px;
+  text-align: center;
+  font-weight: bold;
+  text-shadow: 0 1px 1px white;
+}
+.openerp .oe_sidebar .oe_dropdown_menu li .oe_sidebar_edit_item:hover {
+  text-decoration: none;
+  color: white;
+  background: #8786b7;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+}
+.openerp .oe_sidebar .oe_dropdown_menu li:hover .oe_sidebar_edit_item {
+  display: inline-block;
+}
