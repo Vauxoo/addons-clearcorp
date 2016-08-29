@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
-    'name': 'Modify Attachment',
+    'name': 'Document Open Attachment',
     'version': '8.0.1.0',
     'category': '',
     'sequence': 10,
@@ -14,7 +14,7 @@
     'auto_install': False,
     'application': False,
     'license': 'AGPL-3',
-    'depends': [],
-    'data': [],
-    'qweb': ['static/src/xml/modify_attachment.xml'],
+    'depends': ['document'],
+    'data': ['views/assets_backend.xml'],
+    'qweb': ['static/src/xml/document_open_attachment.xml']
 }

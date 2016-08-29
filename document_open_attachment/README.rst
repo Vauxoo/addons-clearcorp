@@ -2,9 +2,9 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-===============
-Open attachment
-===============
+========================
+Document Open attachment
+========================
 
 This module allows the editing of an attachment's details instead of just
 downloading it.
@@ -16,6 +16,7 @@ Contributors
 ------------
 
 * Antonio Hidalgo <antonio.hidalgo@clearcorp.co.cr>
+* Glen Sojo <glen.sojo@clearcorp.co.cr>
 
 
 Maintainer
