@@ -580,7 +580,8 @@ class IssueInvoiceWizard(models.TransientModel):
                     'date_invoice':datetime.strftime(datetime.today(), "%Y-%m-%d"),
                     'company_id':issue.analytic_account_id.company_id.id,
                     'fiscal_position':issue.product_id.manufacturer.property_account_position.id,
-                    'origin':_('Issue #')
+                    'origin':_('Issue #'),
+                    'comment':issue.name
                     }
                 ctx = dict(self._context)
                 ctx['force_company']=issue.analytic_account_id.company_id.id
@@ -625,6 +626,8 @@ class IssueInvoiceWizard(models.TransientModel):
                         'payment_term':partner_id.property_payment_term.id,
                         'date_due':self.get_date_due(partner_id)
                         }
+                if len(issues_ids)==1:
+                    invoice['comment']=issue.name
                 ctx = dict(self._context)
                 ctx['force_company']=user.company_id.id
                 ctx['company_id']=user.company_id.id
@@ -645,6 +648,8 @@ class IssueInvoiceWizard(models.TransientModel):
                         'payment_term':branch_id.property_payment_term.id,
                         'date_due':self.get_date_due(branch_id)
                         }
+                if len(issues_ids)==1:
+                    invoice['comment']=issue.name
                 ctx = dict(self._context)
                 ctx['force_company']=user.company_id.id
                 ctx['company_id']=user.company_id.id
