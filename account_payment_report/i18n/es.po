@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-27 17:57+0000\n"
-"PO-Revision-Date: 2016-07-27 17:57+0000\n"
-"Last-Translator: Antonio Hidalgo <antonio.hidalgo@clearcorp.co.cr>\n"
+"POT-Creation-Date: 2016-08-31 17:41+0000\n"
+"PO-Revision-Date: 2016-08-31 17:41+0000\n"
+"Last-Translator: Glen Sojo <glen.sojo@clearcorp.co.cr>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,9 +31,19 @@ msgid "<span style=\"text-align: left\">the amount of</span>"
 msgstr "<span style=\"text-align: left\">la suma de</span>"
 
 #. module: account_payment_report
+#: model:ir.ui.view,arch_db:account_payment_report.account_payment_report
+msgid "<strong>Date: </strong>"
+msgstr "<strong>Fecha: </strong>"
+
+#. module: account_payment_report
+#: model:ir.ui.view,arch_db:account_payment_report.account_payment_report
+msgid "<strong>Ref: </strong>"
+msgstr "<strong>Ref: </strong>"
+
+#. module: account_payment_report
 #: model:ir.actions.report.xml,name:account_payment_report.action_account_payment_report
 msgid "Account Payment Report"
-msgstr "Reporte del pago de cuenta"
+msgstr "Reporte de pago"
 
 #. module: account_payment_report
 #: code:addons/account_payment_report/report/account_payment_report.py:40
@@ -74,13 +84,8 @@ msgstr "Página:"
 
 #. module: account_payment_report
 #: model:ir.ui.view,arch_db:account_payment_report.account_payment_report
-msgid "Received Money"
-msgstr "Recibo de dinero"
-
-#. module: account_payment_report
-#: model:ir.ui.view,arch_db:account_payment_report.account_payment_report
-msgid "Sent Money"
-msgstr "Envío de dinero"
+msgid "Payment Receipt"
+msgstr "Recibo de pago"
 
 #. module: account_payment_report
 #: model:ir.ui.view,arch_db:account_payment_report.account_payment_report
@@ -91,16 +96,6 @@ msgstr "recibido"
 #: model:ir.model,name:account_payment_report.model_report_account_payment_report_account_payment_report
 msgid "report.account_payment_report.account_payment_report"
 msgstr "report.account_payment_report.account_payment_report"
-
-#. module: account_payment_report
-#: model:ir.model,name:account_payment_report.model_report_account_payment_report_report_account_payment
-msgid "report.account_payment_report.report_account_payment"
-msgstr "report.account_payment_report.report_account_payment"
-
-#. module: account_payment_report
-#: model:ir.model,name:account_payment_report.model_report_account_payment_report_report_account_payment_chec
-msgid "report.account_payment_report.report_account_payment_chec"
-msgstr "report.account_payment_report.report_account_payment_chec"
 
 #. module: account_payment_report
 #: model:ir.ui.view,arch_db:account_payment_report.account_payment_report
