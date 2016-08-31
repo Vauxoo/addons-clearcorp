@@ -12,8 +12,7 @@
                             <div class="row" style="padding-top: 200px">
                                 <div class="col-xs-12">
                                     <!--Title changes according to the type of report-->
-                                    <h2 t-if="o.payment_type == 'inbound'" style="text-align: center">Received Money</h2>
-                                    <h2 t-if="o.payment_type == 'outbound'" style="text-align: center">Sent Money</h2>
+                                    <h2 t-if="o.payment_type in ['inbound', 'outbound']" style="text-align: center">Payment Receipt</h2>
                                     <h2 t-if="o.payment_type == 'transfer'" style="text-align: center">Internal Transfer</h2>
                                 </div>
                             </div>
