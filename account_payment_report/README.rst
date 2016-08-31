@@ -15,6 +15,7 @@ Contributors
 ------------
 
 * Antonio Hidalgo <antonio.hidalgo@clearcorp.co.cr>
+* Glen Sojo <glen.sojo@clearcorp.co.cr>
 
 
 Maintainer
