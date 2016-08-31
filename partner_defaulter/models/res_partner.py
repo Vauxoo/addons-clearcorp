@@ -37,9 +37,9 @@ class AccountInvoice(models.Model):
         users = self.pool('res.users')
         for invoice in self:
             if invoice.type == 'out_invoice':
-                if invoice.payment_term:
+                if invoice.payment_term_id:
                     sum = 0
-                    for line in invoice.payment_term.line_ids:
+                    for line in invoice.payment_term_id.line_ids:
                         sum += line.days
                     if sum > 0:
                         if not users.has_group(
@@ -62,9 +62,9 @@ class SaleOrder(models.Model):
         users = self.pool('res.users')
         super(SaleOrder, self).action_wait()
         for sale in self:
-            if sale.payment_term:
+            if sale.payment_term_id:
                 sum = 0
-                for line in sale.payment_term.line_ids:
+                for line in sale.payment_term_id.line_ids:
                     sum += line.days
                 if sum > 0:
                     if not users.has_group(
