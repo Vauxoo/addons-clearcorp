@@ -5,6 +5,9 @@
             <field name="paperformat_id" ref="paperformat_invoice" />
             <field name="attachment">(object.state in ('open','paid')) and ((object.number or '').replace('/','')+'.pdf')</field>
         </record>
+        <record id="account.account_invoice_action_report_duplicate" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paperformat_invoice" />
+        </record>
     </data>
 </openerp>
 
