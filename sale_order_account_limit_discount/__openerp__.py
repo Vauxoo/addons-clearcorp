@@ -19,8 +19,8 @@
         'base', 'sale', 'account'
     ],
     'data': [
-        'security/ir.model.access.csv',
         'security/sale_order_account_limit_discount.xml',
+        'security/ir.model.access.csv',
         'views/account_limit_view.xml'
     ]
 }
