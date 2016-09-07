@@ -8,10 +8,11 @@
         <record id="view_partner_form" model="ir.ui.view">
             <field name="name">view.partner.form</field>
             <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="inherit_id" ref="product.view_partner_property_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//form/sheet/group/group/field[@name='title']" position="after">
-                        <field name="slow_payer"/> 
+                <xpath expr="//field[@name='property_product_pricelist']" position="after">
+                        <field name="slow_payer"/>
+                        <field name="credit_limit"/>
                 </xpath>
             </field>
         </record>
