@@ -4,13 +4,34 @@
 
 <openerp>
     <data>
+        <record id="account.action_invoice_tree1" model="ir.actions.act_window">
+            <!-- The context is changed to allow the read-only field to be used in on-change method -->
+            <field name="context">
+                {'default_type':'out_invoice', 'type':'out_invoice', 'journal_type': 'sale', 'readonly_by_pass': ['price_unit']}
+            </field>
+        </record>
+        <!-- Read-only fields for all groups but unlimited discount -->
         <record id="limited_invoice_form_view" model="ir.ui.view">
             <field name="name">Limited Invoice Form</field>
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="priority" eval="16"/>
             <field name="arch" type="xml">
-                <xpath expr="//form/sheet/notebook/page/field[@name='price_unit']" position="attributes">
+                <xpath expr="//form/sheet/notebook/page/field/tree/field[@name='price_unit']" position="attributes">
                     <attribute name="readonly">1</attribute>
+                </xpath>
+            </field>
+        </record>
+        <!-- Read-only fields for unlimited discount group -->
+        <record id="unlimited_invoice_form_view" model="ir.ui.view">
+            <field name="name">Unlimited Invoice Form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="groups_id" eval="[(6,0,[ref('group_no_limit_discount')])]"/>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/notebook/page/field/tree/field[@name='price_unit']" position="attributes">
+                    <attribute name="readonly">0</attribute>
                 </xpath>
             </field>
         </record>

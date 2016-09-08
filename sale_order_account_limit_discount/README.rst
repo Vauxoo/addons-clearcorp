@@ -3,7 +3,7 @@
    :alt: License: AGPL-3
 
 =========================
-Sale order limit discount
+Sale Order Limit Discount
 =========================
 
 This module was written to create groups that limit the change of prices and

@@ -1,4 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_unlimited_discount_user,access.unlimited.discount.user,sale_order.model_sale_order_account_limit_discount,group_no_limit_discount,1,1,0,0
-access_higher_discount_user,access.higher.discount.user,sale_order.model_sale_order_account_limit_discount,group_higher_limit_discount,1,1,0,0
-access_lower_discount_user,access.lower.discount.user,sale_order.model_sale_order_account_limit_discount,group_lower_limit_discount,1,0,0,0
+access_unlimited_discount_user,access.unlimited.discount.user,sale.model_sale_order_line,group_no_limit_discount,1,1,1,1
+access_higher_discount_user,access.higher.discount.user,sale.model_sale_order_line,group_higher_limit_discount,1,1,1,1
+access_lower_discount_user,access.lower.discount.user,sale.model_sale_order_line,group_lower_limit_discount,1,1,1,1

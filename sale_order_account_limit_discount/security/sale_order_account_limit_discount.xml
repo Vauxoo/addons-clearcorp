@@ -11,8 +11,9 @@
             <field name="visible" eval="0"/>
         </record>
         <record id="group_no_limit_discount" model="res.groups">
-            <field name="name">Allowed to change discount without limits</field>
+            <field name="name">Allowed to change discount and prices without limits</field>
             <field name="category_id" ref="module_category_limit_discount"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
         <record id="group_higher_limit_discount" model="res.groups">
             <field name="name">Allowed to apply a higher-tier discount</field>
@@ -21,7 +22,6 @@
         <record id="group_lower_limit_discount" model="res.groups">
             <field name="name">Allowed to apply a lower-tier discount</field>
             <field name="category_id" ref="module_category_limit_discount"/>
-            <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
     </data>
 </openerp>

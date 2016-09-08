@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
-    'name': 'Sale order limit discount',
+    'name': 'Sale Order Limit Discount',
     'summary': 'The module allows the creation of different groups that '
                'restrict changes in prices and discounts.',
     'version': '9.0.1.0',
@@ -16,7 +16,7 @@
     'installable': True,
     'auto_install': False,
     'depends': [
-        'base', 'sale', 'account'
+        'base', 'sale', 'account', 'web_readonly_bypass'
     ],
     'data': [
         'security/sale_order_account_limit_discount.xml',
