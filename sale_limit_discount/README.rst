@@ -2,13 +2,13 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-=========================
-Sale Order Limit Discount
-=========================
+=================================
+Sale Order/Invoice Limit Discount
+=================================
 
 This module was written to create groups that limit the change of prices and
 discounts. One group can change both without restriction, the rest can change
-discounts, one up to 10 % and another up to 20 %.
+discounts, one up to 10 % and another up to 20 % (defaults).
 
 Credits
 =======

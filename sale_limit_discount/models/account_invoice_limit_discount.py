@@ -24,11 +24,11 @@ class AccountInvoice(models.Model):
         # Checks the groups to which a user may belong.
         # No limit discount group.
         if current_user.has_group(
-                'sale_order_account_limit_discount.group_no_limit_discount'):
+                'sale_limit_discount.group_no_limit_discount'):
             max_discount = 100
         # High-tier discount group
         elif current_user.has_group(
-                'sale_order_account_limit_discount.group_higher_limit_discount'
+                'sale_limit_discount.group_higher_limit_discount'
         ):
             max_discount = self._higher_tier_discount
         # Lower discount group
