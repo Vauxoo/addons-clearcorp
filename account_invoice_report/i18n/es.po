@@ -23,7 +23,7 @@ msgstr "<b>Descripción: </b>"
 #. module: account_invoice_report
 #: model:ir.ui.view,arch_db:account_invoice_report.account_invoice_report_duplicate
 msgid "<b>Duplicate</b>"
-msgstr "<b>Duplicar</b>"
+msgstr "<b>Duplicado</b>"
 
 #. module: account_invoice_report
 #: model:ir.ui.view,arch_db:account_invoice_report.invoice_layout_header
@@ -62,7 +62,7 @@ msgstr "<br/>\n"
 msgid "<br/>\n"
 "                                <b>Page: </b><span class=\"page\"/> / <span class=\"topage\"/>"
 msgstr "<br/>\n"
-"                                <b>Page: </b><span class=\"page\"/> / <span class=\"topage\"/>"
+"                                <b>Página: </b><span class=\"page\"/> / <span class=\"topage\"/>"
 
 #. module: account_invoice_report
 #: model:ir.ui.view,arch_db:account_invoice_report.invoice_layout_header
