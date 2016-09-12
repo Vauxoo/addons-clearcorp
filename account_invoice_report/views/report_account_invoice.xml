@@ -9,7 +9,7 @@
             </xpath>
         </template>
         <template  id="account_invoice_report_duplicate" inherit_id="account_invoice_report.account_invoice_report" primary="True" >
-            <xpath expr="//div[@class='page']/div[1]" position="before">
+            <xpath expr="//div[@class='page']/div[1]" position="before"><br/>
                 <h4><b>Duplicate</b></h4>
             </xpath>
         </template>
