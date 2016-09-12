@@ -11,7 +11,7 @@
                             <div class="col-xs-12 text-center" style="border-top: 1px solid #999999; font-size: 85%">
                                 <t t-if="company.custom_footer">
                                     <span t-raw="company.invoie_rml_footer"/>
-                                </t>
+                                </t><br/>
                                 <b>Page: </b><span class="page"/> / <span class="topage"/>
                             </div>
                         </div>
