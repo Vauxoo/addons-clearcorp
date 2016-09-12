@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2016 ClearCorp
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+
+<openerp>
+    <data>
+         <record id="view_stock_piking_no_set_availabel_form" model="ir.ui.view">
+            <field name="name">stock.picking.no.availabel</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_form"/>
+            <field name="priority" eval="150"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/header/button[@name='force_assign']" position="attributes">
+                    <attribute name="groups">stock_no_force_transfers.group_transfer_allow</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
