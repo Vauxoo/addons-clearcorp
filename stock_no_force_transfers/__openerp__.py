@@ -22,7 +22,6 @@
     'data': [
         'security/stock_no_force_transfer_security.xml',
         'views/stock_piking_no_transfer_view.xml',
-        'views/stock_piking_no_set_availabel_view.xml',
     ],
 
 }
