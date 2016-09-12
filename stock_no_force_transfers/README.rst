@@ -2,43 +2,11 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-==============
+==================
 Inventory No Force
-==============
+==================
 
-This module was written to extend the functionality of ... to support ...
-and allow you to ...
-
-Installation
-============
-
-To install this module, you need to:
-
-* do this ...
-
-Configuration
-=============
-
-To configure this module, you need to:
-
-* go to ...
-
-Usage
-=====
-
-To use this module, you need to:
-
-* go to ...
-
-Known issues / Roadmap
-======================
-
-* ...
-
-Bug Tracker
-===========
-
-Bugs are tracked on ...
+This module was written to add security too the button of force available on inventory.
 
 
 Credits
@@ -47,8 +15,7 @@ Credits
 Contributors
 ------------
 
-* Firstname Lastname <email.address@example.org>
-* Second Person <second.person@example.org>
+* Carlos Quirós <carlos.quiros@clearcorp.co.cr>
 
 
 Maintainer

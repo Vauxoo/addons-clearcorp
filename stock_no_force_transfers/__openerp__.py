@@ -14,10 +14,7 @@
     'application': False,
     'installable': True,
     'auto_install': False,
-    'external_dependencies': {
-        'python': [],
-        'bin': [],
-    },
+
     'depends': [
         'base',
         'stock',
@@ -27,10 +24,5 @@
         'views/stock_piking_no_transfer_view.xml',
         'views/stock_piking_no_set_availabel_view.xml',
     ],
-    'demo': [
 
-    ],
-    'qweb': [
-
-    ],
 }
