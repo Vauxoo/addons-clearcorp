@@ -11,6 +11,7 @@ import openerp.addons.decimal_precision as dp
 
 class CashBudgetMove(models.Model):
     _name = "cash.budget.move"
+    _inherit = ['mail.thread']
     _description = "Budget Move"
 
     STATE_SELECTION = [
