@@ -19,6 +19,7 @@ from openerp.osv import fields, orm, osv
 ##
 class cash_budget_account(osv.osv):
     _name = 'cash.budget.account'
+    _inherit = ['mail.thread']
     _description = 'Budget Account'
     _order = "parent_left"
     _parent_order = "code"
