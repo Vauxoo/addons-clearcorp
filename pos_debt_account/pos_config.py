@@ -28,4 +28,4 @@ class PosConfig(models.Model):
     _inherit = 'pos.config'
 
     account_id = fields.Many2one('account.account',
-            string='Sale Account')
+                                 string='Sale Account')
