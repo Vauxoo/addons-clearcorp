@@ -43,15 +43,18 @@ class Order(models.Model):
 
             order_account = (order.partner_id and
                              order.partner_id.property_account_receivable and
-                             order.partner_id.property_account_receivable.id or
-                             account_def and account_def.id or current_company.account_receivable.id)
-            
+                             order.partner_id.property_account_receivable.id
+                             or
+                             account_def and account_def.id or
+                             current_company.account_receivable.id)
             if order.account_move:
                 account = order.session_id.config_id.account_id
                 if account:
-                    self._cr.execute("""UPDATE account_move_line SET account_id = %s
+                    self._cr.execute("""UPDATE account_move_line
+                    SET account_id = %s
                     WHERE move_id = %s AND account_id = %s;""",
-                                     (account.id, order.account_move.id, order_account,))
+                                     (account.id, order.account_move.id,
+                                      order_account,))
         return res
 
     def add_payment(self, cr, uid, order_id, data, context=None):
@@ -68,9 +71,11 @@ class Order(models.Model):
                 for line in order.statement_ids:
                     if line.statement_id.id == statement_id:
                         statement_line_obj.write(cr, uid, line.id,
-                                                 {'account_id': account.id}, context=context)
+                                                 {'account_id': account.id},
+                                                 context=context)
                 statement_obj.write(cr, uid, statement_id,
-                                    {'account_id': account.id}, context=context)
+                                    {'account_id': account.id},
+                                    context=context)
 
         return statement_id
 

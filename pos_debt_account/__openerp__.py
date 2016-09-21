@@ -27,10 +27,10 @@
     'sequence': 7,
     'summary': 'Configure debt account',
     'description': """
-Configure a Debt Account
-========================
-This modules allows the user to configure the 
-account to be used when creating journal items.""",
+    Configure a Debt Account
+    ========================
+    This modules allows the user to configure the
+    account to be used when creating journal items.""",
     'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'complexity': 'normal',
