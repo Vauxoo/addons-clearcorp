@@ -43,8 +43,7 @@ class Order(models.Model):
 
             order_account = (order.partner_id and
                              order.partner_id.property_account_receivable and
-                             order.partner_id.property_account_receivable.id
-                             or
+                             order.partner_id.property_account_receivable.id or
                              account_def and account_def.id or
                              current_company.account_receivable.id)
             if order.account_move:
@@ -78,4 +77,3 @@ class Order(models.Model):
                                     context=context)
 
         return statement_id
-
