@@ -7,9 +7,9 @@ Point of Sale Account
 =====================
 
 Configure a Debt Account
-    ========================
-    This modules allows the user to configure the
-    account to be used when creating journal items.
+========================
+
+This modules allows the user to configure the account to be used when creating journal items.
 
 Credits
 =======
