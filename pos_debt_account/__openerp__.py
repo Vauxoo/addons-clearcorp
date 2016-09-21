@@ -22,15 +22,10 @@
 
 {
     'name': 'Point of Sale Account',
-    'version': '1.0',
+    'version': '9.0.1.0',
     'category': 'Point Of Sale',
     'sequence': 7,
     'summary': 'Configure debt account',
-    'description': """
-    Configure a Debt Account
-    ========================
-    This modules allows the user to configure the
-    account to be used when creating journal items.""",
     'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
     'complexity': 'normal',
