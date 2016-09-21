@@ -27,4 +27,3 @@
         'views/webclient_templates.xml',
     ],
 }
-
