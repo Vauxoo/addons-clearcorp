@@ -6,6 +6,7 @@
 from openerp import models, fields, api
 from openerp.exceptions import Warning, ValidationError
 from openerp.tools.translate import _
+from openerp.tools.float_utils import float_round
 import openerp.addons.decimal_precision as dp
 
 
@@ -32,8 +33,12 @@ class CashBudgetMoveLine(models.Model):
         self.line_available = res_amount
 
     @api.multi
-    @api.depends('date', 'state', 'fixed_amount', 'type')
+    @api.depends('date', 'state', 'fixed_amount', 'type',
+                 'budget_move_line_dist',
+                 'budget_move_line_dist.distribution_amount')
     def _compute_values(self, ignore_dist_ids=[]):
+        precision = self.env[
+            'decimal.precision'].precision_get('Account')
         amld = self.env['account.move.line.distribution']
         _fields = ['compromised', 'executed', 'reversed', 'reserved']
         res = {}
@@ -71,15 +76,15 @@ class CashBudgetMoveLine(models.Model):
                     compromised = line.fixed_amount - executed - _reversed
                 if line.state == 'reserved':
                     reserved = line.fixed_amount - _reversed
-            line.executed = executed
-            line.compromised = compromised
-            line.reversed = _reversed
-            line.reserved = reserved
+            line.executed = float_round(executed, precision_digits=precision)
+            line.compromised = float_round(compromised, precision_digits=precision)
+            line.reversed = float_round(_reversed, precision_digits=precision)
+            line.reserved = float_round(reserved, precision_digits=precision)
             res[line.id] = {
-                'executed': executed,
-                'compromised': compromised,
-                'reversed': _reversed,
-                'reserved': reserved
+                'executed': line.executed,
+                'compromised': line.compromised,
+                'reversed': line.reversed,
+                'reserved': line.reserved,
             }
         return res
 

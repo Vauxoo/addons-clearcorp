@@ -4,9 +4,9 @@
 
 
 from openerp.osv import fields, orm, osv
+from openerp.tools.float_utils import float_round
 import openerp.addons.decimal_precision as dp
 from openerp.tools.translate import _
-from datetime import datetime
 from copy import copy
 
 class CashBudgetDistributionError(osv.except_osv):
@@ -157,7 +157,8 @@ class AccountMoveReconcile(orm.Model):
         to try to find a budget move to match with.
         Returns the list of account.move.line.distribution created, or an empty list.
         """
-        
+        precision = self.pool[
+            'decimal.precision'].precision_get(cr, uid, 'Account')
         dist_obj = self.pool.get('account.move.line.distribution')
         budget_move_line_obj = self.pool.get('cash.budget.move.line')
         
@@ -216,19 +217,25 @@ class AccountMoveReconcile(orm.Model):
                     liquid_amounts[counterpart.id] = counterpart.debit + counterpart.credit
                     liquid_total += counterpart.debit + counterpart.credit
                     amount_total += counterpart.debit + counterpart.credit
+                    checked_lines.append(counterpart.id)
                 else:
                     none_lines[counterpart.id] = counterpart
                     none_total += counterpart.debit + counterpart.credit
                     amount_total += counterpart.debit + counterpart.credit
-            checked_lines.append(counterpart.id)
+                    checked_lines.append(counterpart.id)
         
         if not (budget_lines or liquid_lines or none_lines):
             return []
         
         if amount_total and amount_total > amount_to_dist:
-            budget_amount_to_dist = budget_total * amount_to_dist / amount_total
-            liquid_amount_to_dist = liquid_total * amount_to_dist / amount_total
-            none_amount_to_dist = amount_to_dist - budget_amount_to_dist - liquid_amount_to_dist
+            budget_amount_to_dist = float_round(
+                budget_total * amount_to_dist / amount_total,
+                precision_digits=precision)
+            liquid_amount_to_dist = float_round(
+                liquid_total * amount_to_dist / amount_total,
+                precision_digits=precision)
+            none_amount_to_dist = amount_to_dist - budget_amount_to_dist - \
+                liquid_amount_to_dist
         elif amount_total:
             budget_amount_to_dist = budget_total
             liquid_amount_to_dist = liquid_total
@@ -264,7 +271,7 @@ class AccountMoveReconcile(orm.Model):
             
             # Budget list
             budget_total = 0.0
-            budget_budget_move_line_ids = []
+            budget_to_distribute = 0.0
             budget_budget_move_lines_ids = []
             budget_budget_move_lines = []
             #lines is an int (id)
@@ -273,33 +280,58 @@ class AccountMoveReconcile(orm.Model):
             #Browse record: lines is an int not an object! 
             budget_budget_move_lines = self.pool.get('cash.budget.move.line').browse(cr,uid, budget_budget_move_lines_ids,context=context)
             for line in budget_budget_move_lines:
-                budget_budget_move_line_ids.append(line.id)
                 budget_total += abs(line.fixed_amount)
+                budget_to_distribute += abs(line.fixed_amount) - \
+                    abs(line.executed)
+
+            signed_dist_amount_total = 0.0
+            dist_percentage_total = 0.0
+
+            vals = {}
+            amounts = {}
             for line in budget_budget_move_lines:
-                distribution_amount = abs(line.fixed_amount)
-                
-                # If the resulting total of budget plus liquid lines is more than available, the amount has to be fractioned.
-                if abs(budget_total) + liquid_amount_to_dist > amount_to_dist:
-                    distribution_amount = distribution_amount * amount_to_dist / budget_total + liquid_amount_to_dist
-                
-                if line.fixed_amount < 0:
-                    signed_dist_amount = distribution_amount * -1
-                else:
-                    signed_dist_amount = distribution_amount
-                budget_distributed += distribution_amount
-                vals = {
-                    'account_move_line_id':         original_line.id,
-                    'distribution_amount':          signed_dist_amount,
-                    'distribution_percentage':      100 * abs(distribution_amount) / abs(original_amount_to_dist),
-                    'target_budget_move_line_id':   line.id,
-                    'reconcile_ids':                [(6, 0, new_reconcile_ids)],
-                    'type':                         'auto',
-                    'account_move_line_type':       'liquid',
-                }
-                budget_res.append(dist_obj.create(cr, uid, vals, context = context))
-                bud_move_obj.signal_workflow(cr, uid, [line.budget_move_id.id], 'button_check_execution', context=context)
-                
-            
+                if line.executed != line.fixed_amount:
+                    distribution_amount = abs(line.fixed_amount)
+
+                    # If the resulting total of budget plus liquid lines is more than available, the amount has to be fractioned.
+                    if abs(budget_total) > budget_amount_to_dist:
+                        distribution_amount = float_round(
+                            distribution_amount * budget_amount_to_dist / \
+                            budget_total, precision_digits=precision)
+
+                    if line.fixed_amount < 0:
+                        signed_dist_amount = distribution_amount * -1
+                    else:
+                        signed_dist_amount = distribution_amount
+
+                    dist_percentage = float_round(
+                        100 * abs(distribution_amount) / \
+                            abs(original_amount_to_dist),
+                        precision_digits=2)
+
+                    budget_distributed += distribution_amount
+                    signed_dist_amount_total += signed_dist_amount
+
+                    dist_percentage_total += dist_percentage
+                    vals[line.id] = {
+                        'account_move_line_id':         original_line.id,
+                        'distribution_amount':          signed_dist_amount,
+                        'distribution_percentage':      dist_percentage,
+                        'target_budget_move_line_id':   line.id,
+                        'reconcile_ids':                [(6, 0, new_reconcile_ids)],
+                        'type':                         'auto',
+                        'account_move_line_type':       'liquid',
+                    }
+                    amounts[line.id] = {
+                    }
+                    budget_res.append(dist_obj.create(cr, uid, vals[line.id], context = context))
+
+                    bud_move_obj.signal_workflow(cr, uid, [line.budget_move_id.id], 'button_check_execution', context=context)
+
+            if signed_dist_amount_total != budget_amount_to_dist or \
+                    dist_percentage_total != 100.0:
+                pass
+
             # Liquid list
             for line in liquid_lines.values():
                 distribution_amount = liquid_amounts[line.id]

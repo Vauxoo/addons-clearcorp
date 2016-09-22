@@ -134,12 +134,12 @@ class AccountMoveReconcile(orm.Model):
                 dist_obj = self.pool.get('account.move.line.distribution')
                         
             dists = dist_obj.browse(cr, uid, dist_ids, context = context)
-            distribution_amount = 0.0            
+            distribution_amount = 0.0
             distribution_percentage = 0.0
             #Check amounts for a particular line
             for dist in dists:
                 distribution_amount += dist.distribution_amount
-                distribution_percentage += dist.distribution_percentage            
+                distribution_percentage += dist.distribution_percentage
             last_dist = dists[-1]
             last_dist_distribution_amount = last_dist.distribution_amount
             last_dist_distribution_percentage = last_dist.distribution_percentage
@@ -157,12 +157,6 @@ class AccountMoveReconcile(orm.Model):
                         vals['distribution_amount'] = amount - (abs(distribution_amount) - abs(last_dist_distribution_amount))
                     else:
                         vals['distribution_amount'] = -(amount - (abs(distribution_amount) - abs(last_dist_distribution_amount)))
-                        
-            elif distribution_amount < amount:
-                if distribution_amount > 0:
-                    vals['distribution_amount'] = amount - (abs(distribution_amount) - abs(last_dist_distribution_amount))
-                else:
-                    vals['distribution_amount'] = -(amount - (abs(distribution_amount) - abs(last_dist_distribution_amount)))
                     
             if 'distribution_amount' in vals:
                 if last_dist.target_account_move_line_id and \
@@ -188,9 +182,7 @@ class AccountMoveReconcile(orm.Model):
                 else:
                     # Adjust difference
                     vals['distribution_percentage'] = 100 - (distribution_percentage - last_dist_distribution_percentage)
-            
-            elif distribution_percentage < 100:
-                vals['distribution_percentage'] = 100 - (distribution_percentage - last_dist_distribution_percentage)
 
-            dist_obj.write(cr, uid, [last_dist.id], vals, context=context)
+            if vals:
+                dist_obj.write(cr, uid, [last_dist.id], vals, context=context)
             return dist_ids
