@@ -6,6 +6,7 @@
 from openerp import models, fields, api
 from openerp.tools.translate import _
 from openerp.exceptions import Warning
+from openerp.tools.float_utils import float_is_zero, float_round
 import openerp.addons.decimal_precision as dp
 
 
@@ -479,6 +480,8 @@ class CashBudgetMove(models.Model):
     @api.one
     def is_executed(self):
         dist_obj = self.env['account.move.line.distribution']
+        precision = self.env[
+            'decimal.precision'].precision_get('Account')
         executed = 0.0
         void = 0.0
         if self.type in ('opening', 'extension', 'modification'):
@@ -487,15 +490,46 @@ class CashBudgetMove(models.Model):
         if self.type in ('manual_invoice_in', 'expense', 'invoice_in',
                          'payroll', 'manual'):
             distr_line_ids = []
+            rounding_adjustment = []
             for line in self.move_lines:
                 distr_line_ids += dist_obj.search(
                     [('target_budget_move_line_id', '=', line.id)])._ids
+                if not float_is_zero(line.executed - line.fixed_amount,
+                        precision_digits=precision):
+                    rounding_adjustment.append(line)
             for dist in dist_obj.browse(distr_line_ids):
                 if dist.account_move_line_type == 'liquid':
                     executed += dist.distribution_amount
                 elif dist.account_move_line_type == 'void':
                     void += dist.distribution_amount
-            if executed == self.fixed_amount - void:
+
+            if float_is_zero(executed - (self.fixed_amount - void),
+                             precision_digits=precision):
+                if rounding_adjustment:
+                    adjustment_dist = []
+                    line = rounding_adjustment.pop(0)
+                    for dist in line.budget_move_line_dist:
+                        for current_line in rounding_adjustment:
+                            res = dist_obj.search([
+                                ('account_move_line_id', '=', dist.account_move_line_id.id),
+                                ('target_budget_move_line_id', '=', current_line.id)], limit=1)
+                            if res:
+                                adjustment_dist.append(res)
+                            else:
+                                adjustment_dist = []
+                                break
+                        if adjustment_dist:
+                            adjustment_dist.append(dist)
+                            break
+                    if adjustment_dist:
+                        for dist in adjustment_dist:
+                            dist.distribution_amount = float_round(
+                                dist.distribution_amount + (
+                                    dist.target_budget_move_line_id.fixed_amount -
+                                    dist.target_budget_move_line_id.executed),
+                                precision_digits=precision)
+                    else:
+                        return False
                 return True
         return False
 

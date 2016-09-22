@@ -4,6 +4,7 @@
 
 from openerp import models, fields, api
 from openerp.tools.translate import _
+from .account import CashBudgetDistributionError
 
 
 class AccountMoveLine(models.Model):
@@ -155,3 +156,30 @@ class AccountMoveLine(models.Model):
             if not (amount_check == amount) or not (percentage == 100):
                 return False
         return True
+
+    @api.multi
+    def write(self, vals):
+        res = super(AccountMoveLine, self).write(vals)
+        if 'reconcile_id' in vals or 'reconcile_partial_id' in vals:
+            reconcile_obj = self.env['account.move.reconcile']
+            reconcile_id = vals.get('reconcile_id', False) or \
+                vals.get('reconcile_partial_id', False)
+            is_incremental = True
+            for reconcile in reconcile_obj.browse(reconcile_id):
+                for line in reconcile.line_id:
+                    if line.id not in self._ids:
+                        is_incremental = False
+                for line in reconcile.line_partial_ids:
+                    if line.id not in self._ids:
+                        is_incremental = False
+            try:
+                reconcile_obj.browse(
+                    reconcile_id).reconcile_budget_check(
+                        is_incremental=is_incremental)
+            except CashBudgetDistributionError, error:
+                msg = _(
+                    'Budget distributions cannot be created automatically '
+                    'for this reconcile')
+                self.env['account.move'].browse(
+                    [error.move_id]).message_post(body=msg)
+        return res
