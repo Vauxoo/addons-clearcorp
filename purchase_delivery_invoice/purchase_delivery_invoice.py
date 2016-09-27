@@ -20,7 +20,7 @@
 #
 ##############################################################################
 
-from openerp import fields, models, _
+from openerp import fields, models, api, _
 
 
 class delivery_carrier(models.Model):
@@ -44,6 +44,11 @@ class stock_picking(models.Model):
     carrier_invoice_control = fields.Selection(
         [("invoiced", "Invoiced"), ("2binvoiced", "To Be Invoiced"),
          ("none", "Not Applicable")], "Carrier Invoice Control",)
+
+    @api.multi
+    @api.onchange('partner_id')
+    def partner_id_change(self):
+        self.carrier_id = self.partner_id.property_delivery_carrier or False
 
     def _invoice_create_line(
             self, cr, uid, moves, journal_id,
@@ -131,6 +136,42 @@ class stock_picking(models.Model):
                         set_total=(inv_type in ('out_invoice',
                                                 'out_refund')))
                     picking.carrier_invoice_control = 'invoiced'
+
+        picking = self.browse(cr, uid, key[1], context=context)
+        if delivery_carrier and not picking.carrier_id.split_invoice and not delivey_invoices:
+            for move in moves:
+                key = (move.picking_id.partner_id.id, move.picking_id.id)
+                for invoice_id in invoice_ids:
+                    invoice = self.pool.get('account.invoice').browse(
+                        cr, uid, invoice_id, context=context)
+                    if invoice.origin == move.picking_id.name:
+                        if key not in delivey_invoices:
+                            delivey_invoices[key] = invoice
+
+            for key, invoice in delivey_invoices.items():
+                picking = self.browse(cr, uid, key[1], context=context)
+                if picking.invoice_state == 'invoiced' and \
+                        picking.carrier_invoice_control == '2binvoiced':
+                    invoice_line = invoice_line_obj.search(
+                        cr, uid, [('invoice_id', '=', invoice.id),
+                                  ('delivery_line', '=', False)],
+                        context=context)
+                    invoice.write({
+                        'partner_id': picking.carrier_id.partner_id.id
+                    })
+
+                    invoice_line = self._prepare_shipping_invoice_line(
+                        cr, uid, picking, invoice, context=context)
+
+                    if invoice_line:
+                        invoice_line_obj.create(cr, uid, invoice_line)
+
+                    invoice_obj.button_compute(
+                        cr, uid, [invoice.id], context=context,
+                        set_total=(inv_type in ('out_invoice',
+                                                'out_refund')))
+                    picking.carrier_invoice_control = 'invoiced'
+
         return invoice_ids
 
     def _prepare_shipping_invoice_line(
@@ -164,14 +205,14 @@ class stock_picking(models.Model):
                     cr, uid, invoice.company_id.currency_id.id,
                     invoice.currency_id.id, price,
                     context=dict(context or {}, date=invoice.date_invoice))
-            account_id = picking.carrier_id.product_id. \
-                property_account_income.id
+                account_id = picking.carrier_id.product_id.property_account_income.id
+
             if not account_id:
                 account_id = picking.carrier_id.product_id.categ_id. \
                     property_account_income_categ.id
-            taxes = picking.carrier_id.product_id.taxes_id
-            partner = picking.partner_id or False
-            fp = invoice.fiscal_position or partner.property_account_position
+                taxes = picking.carrier_id.product_id.taxes_id
+                partner = picking.partner_id or False
+                fp = invoice.fiscal_position or partner.property_account_position
             if partner:
                 account_id = self.pool.get('account.fiscal.position') .\
                     map_account(cr, uid, fp, account_id)
@@ -206,7 +247,6 @@ class purchase_order(models.Model):
             picking = self.pool.get('stock.picking').browse(
                 cr, uid, res, context=context)
             picking.write({
-                'carrier_invoice_control': purchase.carrier_id and
-                    picking.invoice_state or 'none'
+                'carrier_invoice_control': purchase.carrier_id and picking.invoice_state or 'none'
             })
         return res
