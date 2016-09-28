@@ -39,13 +39,13 @@ class Order(models.Model):
 
             current_company = order.sale_journal.company_id
             account_def = property_obj.get(
-                'property_account_receivable', 'res.partner')
+                'property_account_receivable_id', 'res.partner')
 
-            order_account = (order.partner_id and
-                             order.partner_id.property_account_receivable and
-                             order.partner_id.property_account_receivable.id or
-                             account_def and account_def.id or
-                             current_company.account_receivable.id)
+            order_account = order.partner_id and \
+                order.partner_id.property_account_receivable_id and \
+                order.partner_id.property_account_receivable_id.id or \
+                account_def and account_def.id
+
             if order.account_move:
                 account = order.session_id.config_id.account_id
                 if account:
