@@ -45,7 +45,6 @@ class stock_picking(models.Model):
         [("invoiced", "Invoiced"), ("2binvoiced", "To Be Invoiced"),
          ("none", "Not Applicable")], "Carrier Invoice Control",)
 
-    @api.multi
     @api.onchange('partner_id')
     def partner_id_change(self):
         self.carrier_id = self.partner_id.property_delivery_carrier or False
@@ -208,11 +207,10 @@ class stock_picking(models.Model):
                 account_id = picking.carrier_id.product_id.property_account_income.id
 
             if not account_id:
-                account_id = picking.carrier_id.product_id.categ_id. \
-                    property_account_income_categ.id
-                taxes = picking.carrier_id.product_id.taxes_id
-                partner = picking.partner_id or False
-                fp = invoice.fiscal_position or partner.property_account_position
+                account_id = picking.carrier_id.product_id.categ_id.property_account_income_categ.id
+            taxes = picking.carrier_id.product_id.taxes_id
+            partner = picking.partner_id or False
+            fp = invoice.fiscal_position or partner.property_account_position
             if partner:
                 account_id = self.pool.get('account.fiscal.position') .\
                     map_account(cr, uid, fp, account_id)
