@@ -19,6 +19,7 @@ Contributors
 * Rodney Vargas <rodney.vargas@clearcorp.co.cr>
 * Fabio Vilchez <fabio.vilchez@clearcorp.co.cr>
 * Carlos Vásquez <carlos.vasquez@clearcorp.co.cr>
+* Carlos Quirós <carlos.quiros@clearcorp.co.cr>
 
 Maintainer
 ----------
