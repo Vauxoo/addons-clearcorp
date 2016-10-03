@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <openerp>
     <data>
+
         <template id="account_invoice_report_duplicate_main" inherit_id="account.account_invoice_report_duplicate_main">
             <xpath expr="." position="replace">
                 <t t-foreach="docs" t-as="o">
                     <t t-call="account_invoice_report.account_invoice_report_duplicate" t-lang="o.partner_id.lang"/>
                 </t>
-            </xpath>
-        </template>
-        <template  id="account_invoice_report_duplicate" inherit_id="account_invoice_report.account_invoice_report" primary="True" >
-            <xpath expr="//div[@class='page']/div[1]" position="before"><br/>
-                <h4><b>Duplicate</b></h4>
             </xpath>
         </template>
         <record id="account_invoice_report" model="ir.ui.view">
@@ -181,5 +177,10 @@
                 </xpath>
             </field>
         </record>
+        <template  id="account_invoice_report_duplicate" inherit_id="account_invoice_report.account_invoice_report" primary="True" >
+            <xpath expr="//div[@class='page']/div[1]" position="before"><br/>
+                <h4><b>Duplicate</b></h4>
+            </xpath>
+        </template>
     </data>
 </openerp>
