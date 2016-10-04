@@ -314,8 +314,6 @@
 	                		<group>
 	                			
 	                			<field name="active" on_change="on_change_active(active)" groups="cash_budget.group_budget_manager"/>
-		               			<field name="allows_reimbursement"/>
-		               			<field name="allows_reduction"/>
 	               			</group>
 	               			<group>
 		                		<field name="account_type" on_change="onchange_account_parent(account_type)"/>
