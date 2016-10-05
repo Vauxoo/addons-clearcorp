@@ -159,8 +159,6 @@ class cash_budget_account(osv.osv):
         'child_id': fields.function(_get_child_ids, type='many2many',
                                     relation="cash.budget.account",
                                     string="Child Accounts"),
-        'allows_reimbursement': fields.boolean('Allows reimbursement'),
-        'allows_reduction': fields.boolean('Allows reduction'),
         'parent_left': fields.integer('Parent Left', select=1),
         'parent_right': fields.integer('Parent Right', select=1),
         'level': fields.function(_get_level, string='Level', method=True,
@@ -178,9 +176,6 @@ class cash_budget_account(osv.osv):
         'company_id': lambda s, cr, uid, c: s.pool.get(
             'res.company')._company_default_get(cr, uid, 'account.account',
                                                 context=c),
-        'allows_reimbursement': False,
-        'allows_reduction': False,
-
     }
 
     _check_recursion = check_cycle
