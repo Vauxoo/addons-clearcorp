@@ -158,8 +158,9 @@ class AccountMoveLine(models.Model):
         return True
 
     @api.multi
-    def write(self, vals):
-        res = super(AccountMoveLine, self).write(vals)
+    def write(self, vals, check=True, update_check=True):
+        res = super(AccountMoveLine, self).write(
+            vals, check=check, update_check=update_check)
         if 'reconcile_id' in vals or 'reconcile_partial_id' in vals:
             reconcile_obj = self.env['account.move.reconcile']
             reconcile_id = vals.get('reconcile_id', False) or \
