@@ -30,7 +30,7 @@
             <field name="arch" type="xml">
                     <xpath expr="//form/sheet/notebook/page/field[@name='work_ids']"
                         position="attributes">
-                        <attribute name="attrs">{'readonly': ['|',('state','!=','open')]}</attribute>
+                        <attribute name="attrs">{'readonly': [('state','!=','open'),('create_date','!=',False)]}</attribute>
                     </xpath>
                 <xpath expr="//form/sheet/group/group/field[@name='project_id']"
                     position="after">
