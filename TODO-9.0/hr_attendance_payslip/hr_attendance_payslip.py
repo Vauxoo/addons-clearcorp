@@ -30,11 +30,18 @@ class Contract(osv.Model):
 
     _inherit = 'hr.contract'
 
+    def _attendance_sum_hours_on_day(self, cr, uid, id, attendance_hours, context=None):
+        sum = 0.0
+        for hours in attendance_hours.values():
+            sum += hours
+        return sum
+
     def _attendance_normal_hours_on_day(self, cr, uid, id, date, context=None):
         if isinstance(id, list):
             id = id[0]
         attendance_obj = self.pool.get('hr.attendance')
         user = self.pool.get('res.users').browse(cr, uid, uid)
+        attendance_normal_hours = {}
         contract = self.browse(cr, uid, id, context=context)
         datefrom = date
         if user.tz: # Parse the date at 12 o'clock to UTC
@@ -52,8 +59,7 @@ class Contract(osv.Model):
                 ('name','<',dateto)]
         attendance_ids = attendance_obj.search(cr, uid, cond, order='name asc', context=context)
         if not attendance_ids:
-            return (False, 0.0)
-        sum = 0.0
+            return (False, attendance_normal_hours)
         for attendance in attendance_obj.browse(cr, uid, attendance_ids, context=context):
             cond = [('employee_id','=',contract.employee_id.id),
                     ('action','=','sign_out'),
@@ -72,8 +78,8 @@ class Contract(osv.Model):
                 value = int(value) + 0.5
             else:
                 value = int(value)
-            sum += value
-        return (True, sum)
+            attendance_normal_hours.update({attendance.id:value})
+        return (True, attendance_normal_hours)
 
     def _attendance_extra_hours_on_day(self, cr, uid, id, date, context=None):
         if isinstance(id, list):
@@ -81,6 +87,7 @@ class Contract(osv.Model):
         attendance_obj = self.pool.get('hr.attendance')
         user = self.pool.get('res.users').browse(cr, uid, uid)
         contract = self.browse(cr, uid, id, context=context)
+        attendance_extra_hours = {}
         datefrom = date
         if user.tz: # Parse the date at 12 o'clock to UTC
             utc = pytz.timezone('UTC')
@@ -98,8 +105,7 @@ class Contract(osv.Model):
                 ('name','<',dateto)]
         attendance_ids = attendance_obj.search(cr, uid, cond, order='name asc', context=context)
         if not attendance_ids:
-            return (False, 0.0)
-        sum = 0.0
+            return (False, attendance_extra_hours)
         for attendance in attendance_obj.browse(cr, uid, attendance_ids, context=context):
             cond = [('employee_id','=',contract.employee_id.id),
                     ('action','=','action'),
@@ -119,8 +125,8 @@ class Contract(osv.Model):
                 value = int(value) + 0.5
             else:
                 value = int(value)
-            sum += value
-        return (True, sum)
+            attendance_extra_hours.update({sign_out.name:value})
+        return (True, attendance_extra_hours)
 
     _columns = {
         'is_attendance': fields.boolean('Compute from attendance'),
@@ -136,9 +142,9 @@ class PaySlip(osv.Model):
         
 
     def get_worked_day_lines(self, cr, uid, contract_ids, date_from, date_to, context=None):
-        
         res = []
-        for contract in self.pool.get('hr.contract').browse(cr, uid, contract_ids, context=context):
+        contract_obj = self.pool.get('hr.contract')
+        for contract in contract_obj.browse(cr, uid, contract_ids, context=context):
             if contract.is_attendance:
                 attendances = {
                     'name': _("Attendance Working Hours"),
@@ -152,7 +158,8 @@ class PaySlip(osv.Model):
                 day_to = datetime.strptime(date_to,"%Y-%m-%d")
                 nb_of_days = (day_to - day_from).days + 1
                 for day in range(0, nb_of_days):
-                    had_work,working_hours = contract._attendance_normal_hours_on_day(day_from + timedelta(days=day), context=context)[0]
+                    had_work,attendance_hours = contract._attendance_normal_hours_on_day(day_from + timedelta(days=day), context=context)[0]
+                    working_hours = contract._attendance_sum_hours_on_day(attendance_hours, context=context)[0]
                     if had_work:
                         attendances['number_of_days'] += 1.0
                         attendances['number_of_hours'] += working_hours
@@ -174,7 +181,8 @@ class PaySlip(osv.Model):
                     'contract_id': contract.id,
                 }
                 for day in range(0, nb_of_days):
-                    had_work,working_hours = contract._attendance_extra_hours_on_day(day_from + timedelta(days=day), context=context)[0]
+                    had_work,attendance_hours = contract._attendance_extra_hours_on_day(day_from + timedelta(days=day), context=context)[0]
+                    working_hours = contract._attendance_sum_hours_on_day(attendance_hours, context=context)[0]
                     if had_work:
                         extra['number_of_days'] += 1.0
                         extra['number_of_hours'] += working_hours
