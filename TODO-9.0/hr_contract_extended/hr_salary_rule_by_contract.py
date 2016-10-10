@@ -55,7 +55,7 @@ class HrContract(osv.osv):
     _inherit = 'hr.contract'
     
     _columns = {
-        'hr_salary_rule_ids':fields.one2many('hr.salary.rule', 'contract_id', 'Salary Rules'),
+        'hr_salary_rule_ids':fields.one2many('hr.salary.rule', 'contract_id', 'Salary Rules', change_default=True),
     }
     
     def unlink(self, cr, uid, ids, context=None):
