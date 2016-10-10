@@ -178,11 +178,13 @@ class stock_invoice_onshipping(osv.osv_memory):
         picking_obj = self.pool.get('stock.picking')
         context = context or {}
         todo = {}
+        delivery_partner = {}
         for picking in picking_obj.browse(cr, uid, ids, context=context):
             if not picking.carrier_id:
                 raise Warning(_('The carrier is not set for this picking %s')
                               % picking.name)
             partner = picking.carrier_id.partner_id.id
+            delivery_partner = picking.carrier_id.partner_id
             # grouping is based on the invoiced partner
             if group:
                 key = partner
@@ -195,6 +197,7 @@ class stock_invoice_onshipping(osv.osv_memory):
                         todo[key].append(move)
         invoices = []
         ctx = context.copy()
+        ctx['partner_delivery'] = delivery_partner
         ctx['invoice_delivery'] = True
         for moves in todo.values():
             invoices += picking_obj._invoice_create_line(

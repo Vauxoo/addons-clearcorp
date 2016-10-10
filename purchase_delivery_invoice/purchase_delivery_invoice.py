@@ -45,6 +45,32 @@ class stock_picking(models.Model):
         [("invoiced", "Invoiced"), ("2binvoiced", "To Be Invoiced"),
          ("none", "Not Applicable")], "Carrier Invoice Control",)
 
+    @api.cr_uid_ids
+    def _get_invoice_vals(self, cr, uid, key, inv_type, journal_id,
+                          move, context=None):
+        res = super(stock_picking, self)._get_invoice_vals(
+            cr, uid, key, inv_type, journal_id, move, context=context)
+        if 'invoice_delivery' in context:
+            new_partner = context.get('partner_delivery')
+            currency_id=new_partner.property_product_pricelist_purchase.currency_id.id
+            if inv_type in ('out_invoice', 'out_refund'):
+                account_id = new_partner.property_account_receivable.id
+                payment_term = new_partner.property_payment_term.id or False
+            else:
+                account_id = new_partner.property_account_payable.id
+                payment_term = new_partner.property_supplier_payment_term.id or False
+            res.update({
+                'partner_id': new_partner.id,
+                'account_id': account_id,
+                'payment_term': payment_term,
+                'currency_id': currency_id,
+                'fiscal_position': new_partner.property_account_position.id,
+                'journal_id': journal_id,
+
+            })
+        return  res
+
+
     @api.onchange('partner_id')
     def partner_id_change(self):
         self.carrier_id = self.partner_id.property_delivery_carrier or False
