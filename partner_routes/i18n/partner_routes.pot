@@ -1,0 +1,90 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* partner_routes
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 9.0c\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-10-11 22:40+0000\n"
+"PO-Revision-Date: 2016-10-11 22:40+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: partner_routes
+#: model:ir.ui.view,arch_db:partner_routes.report_delivery_document
+msgid "<strong>Partner Route</strong>"
+msgstr ""
+
+#. module: partner_routes
+#: model:ir.model.fields,field_description:partner_routes.field_res_partner_route_create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: partner_routes
+#: model:ir.model.fields,field_description:partner_routes.field_res_partner_route_create_date
+msgid "Created on"
+msgstr ""
+
+#. module: partner_routes
+#: model:ir.model.fields,field_description:partner_routes.field_res_partner_route_display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: partner_routes
+#: model:ir.model.fields,field_description:partner_routes.field_res_partner_route_id
+msgid "ID"
+msgstr ""
+
+#. module: partner_routes
+#: model:ir.model.fields,field_description:partner_routes.field_res_partner_route___last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: partner_routes
+#: model:ir.model.fields,field_description:partner_routes.field_res_partner_route_write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: partner_routes
+#: model:ir.model.fields,field_description:partner_routes.field_res_partner_route_write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: partner_routes
+#: model:ir.model.fields,field_description:partner_routes.field_res_partner_route_name
+msgid "Name"
+msgstr ""
+
+#. module: partner_routes
+#: model:ir.model,name:partner_routes.model_res_partner
+msgid "Partner"
+msgstr ""
+
+#. module: partner_routes
+#: model:ir.model,name:partner_routes.model_res_partner_route
+msgid "Partner Route"
+msgstr ""
+
+#. module: partner_routes
+#: model:ir.actions.act_window,name:partner_routes.action_partner_routes
+#: model:ir.ui.menu,name:partner_routes.menu_partner_routes
+msgid "Partner Routes"
+msgstr ""
+
+#. module: partner_routes
+#: model:ir.model.fields,field_description:partner_routes.field_res_partner_partner_route_id
+#: model:ir.model.fields,field_description:partner_routes.field_stock_picking_partner_route_id
+#: model:ir.ui.view,arch_db:partner_routes.view_picking_search
+msgid "Route"
+msgstr ""
+
+#. module: partner_routes
+#: model:ir.model,name:partner_routes.model_stock_picking
+msgid "Transfer"
+msgstr ""
+

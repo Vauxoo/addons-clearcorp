@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2016 ClearCorp
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+
+<openerp>
+    <data>
+        <record id="view_partner_routes_tree" model="ir.ui.view">
+            <field name="name">res.partner.route.tree</field>
+            <field name="model">res.partner.route</field>
+            <field name="priority" eval="40"/>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_partner_routes" model="ir.actions.act_window">
+            <field name="name">Partner Routes</field>
+            <field name="res_model">res.partner.route</field>
+            <field name="view_mode">tree</field>
+        </record>
+        <menuitem id="menu_partner_routes" name="Partner Routes" action="action_partner_routes" sequence="120" parent="base.menu_sale_config"/>
+    </data>
+</openerp>
