@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.0e\n"
+"Project-Id-Version: Odoo Server 9.0c\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-31 00:43+0000\n"
-"PO-Revision-Date: 2016-03-31 00:43+0000\n"
+"POT-Creation-Date: 2016-10-11 18:55+0000\n"
+"PO-Revision-Date: 2016-10-11 18:55+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,14 +16,19 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: sale_order_report
-#: model:ir.ui.view,arch_db:sale_order_report.view_sale order_report
-msgid "<b><span>Invoice address</span></b><br/>\n"
-"                                       <span class=\"fa fa-file-text\" style=\"width: 14px; text-align: center; margin-right: 3px\"/>"
+#: model:ir.ui.view,arch_db:sale_order_report.report_saleorder_document
+msgid "<b><span>Invoice Address</span></b><br/>\n"
+"                                   <span class=\"fa fa-file-text\" style=\"width: 14px; text-align: center; margin-right: 3px\"/>"
 msgstr ""
 
 #. module: sale_order_report
-#: model:ir.ui.view,arch_db:sale_order_report.view_sale order_report
-msgid "<b>Contract: </b>"
+#: model:ir.ui.view,arch_db:sale_order_report.report_saleorder_document
+msgid "<b>Analytic Account: </b>"
+msgstr ""
+
+#. module: sale_order_report
+#: model:ir.ui.view,arch_db:sale_order_report.report_saleorder_document
+msgid "<b>Customer Reference: </b>"
 msgstr ""
 
 #. module: sale_order_report
@@ -32,23 +37,18 @@ msgid "<b>Date: </b>"
 msgstr ""
 
 #. module: sale_order_report
-#: model:ir.ui.view,arch_db:sale_order_report.view_sale order_report
+#: model:ir.ui.view,arch_db:sale_order_report.sale_layout_header
+msgid "<b>Expiration Date: </b>"
+msgstr ""
+
+#. module: sale_order_report
+#: model:ir.ui.view,arch_db:sale_order_report.report_saleorder_document
 msgid "<b>Incoterm: </b>"
 msgstr ""
 
 #. module: sale_order_report
 #: model:ir.ui.view,arch_db:sale_order_report.sale_layout_header
-msgid "<b>Page: </b><span class=\"page\"/> / <span class=\"topage\"/>"
-msgstr ""
-
-#. module: sale_order_report
-#: model:ir.ui.view,arch_db:sale_order_report.sale_layout_header
-msgid "<b>Payment terms: </b>"
-msgstr ""
-
-#. module: sale_order_report
-#: model:ir.ui.view,arch_db:sale_order_report.view_sale order_report
-msgid "<b>Reference: </b>"
+msgid "<b>Payment Term: </b>"
 msgstr ""
 
 #. module: sale_order_report
@@ -57,75 +57,76 @@ msgid "<b>Salesperson: </b>"
 msgstr ""
 
 #. module: sale_order_report
-#: model:ir.ui.view,arch_db:sale_order_report.view_sale order_report
-msgid "<b>Source: </b>"
+#: model:ir.ui.view,arch_db:sale_order_report.report_saleorder_document
+msgid "<b>Source Document: </b>"
 msgstr ""
 
 #. module: sale_order_report
-#: model:ir.ui.view,arch_db:sale_order_report.view_sale order_report
-msgid "<b>Total Without Taxes</b>"
+#: model:ir.ui.view,arch_db:sale_order_report.report_saleorder_document
+msgid "<b>Subtotal</b>"
 msgstr ""
 
 #. module: sale_order_report
-#: model:ir.ui.view,arch_db:sale_order_report.view_sale order_report
+#: model:ir.ui.view,arch_db:sale_order_report.report_saleorder_document
 msgid "<b>Total</b>"
 msgstr ""
 
 #. module: sale_order_report
-#: model:ir.ui.view,arch_db:sale_order_report.sale_layout_header
-msgid "<b>Valid until: </b>"
-msgstr ""
-
-#. module: sale_order_report
-#: model:ir.ui.view,arch_db:sale_order_report.view_sale order_report
+#: model:ir.ui.view,arch_db:sale_order_report.report_saleorder_document
 msgid "<br/>\n"
-"                                        <b><span>Shipping address</span></b><br/>\n"
-"                                       <span class=\"fa fa-truck\" style=\"width: 14px; text-align: center; margin-right: 3px\"/>"
+"                                    <b><span>Delivery Address</span></b><br/>\n"
+"                                   <span class=\"fa fa-truck\" style=\"width: 14px; text-align: center; margin-right: 3px\"/>"
 msgstr ""
 
 #. module: sale_order_report
-#: model:ir.ui.view,arch_db:sale_order_report.view_sale order_report
+#: model:ir.ui.view,arch_db:sale_order_report.sale_layout_footer
+msgid "<br/>\n"
+"                                <b>Page: </b><span class=\"page\"/> / <span class=\"topage\"/>"
+msgstr ""
+
+#. module: sale_order_report
+#: model:ir.ui.view,arch_db:sale_order_report.report_saleorder_document
 msgid "<strong>Fiscal Position Remark:</strong>"
 msgstr ""
 
 #. module: sale_order_report
-#: model:ir.ui.view,arch_db:sale_order_report.view_sale order_report
+#: model:ir.ui.view,arch_db:sale_order_report.report_saleorder_document
 msgid "<strong>Payment Term:</strong>"
 msgstr ""
 
 #. module: sale_order_report
-#: model:ir.ui.view,arch_db:sale_order_report.view_sale order_report
+#: model:ir.ui.view,arch_db:sale_order_report.report_saleorder_document
 msgid "<strong>Terms and Conditions:</strong>"
 msgstr ""
 
 #. module: sale_order_report
-#: model:ir.ui.view,arch_db:sale_order_report.view_sale order_report
+#: model:ir.ui.view,arch_db:sale_order_report.report_saleorder_document
 msgid "Amount"
 msgstr ""
 
 #. module: sale_order_report
-#: model:ir.ui.view,arch_db:sale_order_report.view_sale order_report
+#: model:ir.ui.view,arch_db:sale_order_report.report_saleorder_document
 msgid "Customer:"
 msgstr ""
 
 #. module: sale_order_report
-#: model:ir.ui.view,arch_db:sale_order_report.view_sale order_report
+#: model:ir.ui.view,arch_db:sale_order_report.report_saleorder_document
 msgid "Description"
 msgstr ""
 
 #. module: sale_order_report
-#: model:ir.ui.view,arch_db:sale_order_report.view_sale order_report
+#: model:ir.ui.view,arch_db:sale_order_report.report_saleorder_document
 msgid "Disc."
 msgstr ""
 
 #. module: sale_order_report
-#: model:ir.ui.view,arch_db:sale_order_report.view_sale order_report
+#: model:ir.ui.view,arch_db:sale_order_report.report_saleorder_document
 msgid "Discount"
 msgstr ""
 
 #. module: sale_order_report
-#: model:ir.ui.view,arch_db:sale_order_report.view_sale order_report
-msgid "Quant."
+#: model:ir.ui.view,arch_db:sale_order_report.report_saleorder_document
+msgid "Qty"
 msgstr ""
 
 #. module: sale_order_report
@@ -135,26 +136,26 @@ msgstr ""
 
 #. module: sale_order_report
 #: model:ir.ui.view,arch_db:sale_order_report.sale_layout_header
-msgid "Sale order:"
+msgid "Sale Order:"
 msgstr ""
 
 #. module: sale_order_report
-#: model:ir.ui.view,arch_db:sale_order_report.view_sale order_report
+#: model:ir.ui.view,arch_db:sale_order_report.report_saleorder_document
 msgid "Tax"
 msgstr ""
 
 #. module: sale_order_report
-#: model:ir.ui.view,arch_db:sale_order_report.view_sale order_report
+#: model:ir.ui.view,arch_db:sale_order_report.report_saleorder_document
 msgid "Taxes"
 msgstr ""
 
 #. module: sale_order_report
-#: model:ir.ui.view,arch_db:sale_order_report.view_sale order_report
+#: model:ir.ui.view,arch_db:sale_order_report.report_saleorder_document
 msgid "Unit Price"
 msgstr ""
 
 #. module: sale_order_report
-#: model:ir.ui.view,arch_db:sale_order_report.view_sale order_report
+#: model:ir.ui.view,arch_db:sale_order_report.report_saleorder_document
 msgid "XMT"
 msgstr ""
 
