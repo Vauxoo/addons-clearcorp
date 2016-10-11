@@ -15,5 +15,20 @@
                 </xpath>
             </field>
         </record>
+
+        <record id="view_picking_search" model="ir.ui.view">
+            <field name="name">stock.picking.search</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search/field[@name='name']" position="after">
+                    <field name="partner_route_id"/>
+                </xpath>
+                <xpath expr="//search/group/filter[@name='picking_type']" position="after">
+                    <filter name="partner_route" string="Route" domain="[]" context="{'group_by':'partner_route_id'}"/>
+                </xpath>
+            </field>
+        </record>
     </data>
 </openerp>

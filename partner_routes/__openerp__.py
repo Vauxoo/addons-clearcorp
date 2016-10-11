@@ -4,7 +4,7 @@
 
 {
     'name': 'Partner Routes',
-    'summary': 'This is a module about of partner routes',
+    'summary': 'Add routes to customer',
     'version': '9.0.1.0',
     'category': 'Sale',
     'website': 'http://clearcorp.cr',

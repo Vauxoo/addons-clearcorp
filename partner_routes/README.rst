@@ -2,11 +2,12 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-=================
+==============
 Partner Routes
-=================
+==============
 
-This module adds Routes to the Partner.
+This module allows the user to assign routes to the partner and set the
+routes on transfers.
 
 Credits
 =======
