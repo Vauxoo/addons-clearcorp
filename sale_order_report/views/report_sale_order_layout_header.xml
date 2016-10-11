@@ -24,7 +24,7 @@
                             </div>
                             <div class="col-xs-4">
                                 <b>
-                                    <span t-if="doc.state not in ['draft','sent']">Sale order: </span>
+                                    <span t-if="doc.state not in ['draft','sent']">Sale Order: </span>
                                     <span t-if="doc.state in ['draft','sent']">Quote: </span>
                                     <span t-field="doc.name" />
                                 </b>
@@ -62,10 +62,10 @@
                                     <b>Date: </b><span t-field="doc.date_order"/><br />
                                 </t>
                                 <t t-if="doc.validity_date">
-                                    <b>Valid until: </b><span t-field="doc.validity_date"/><br />
+                                    <b>Expiration Date: </b><span t-field="doc.validity_date"/><br />
                                 </t>
                                 <t t-if="doc.payment_term_id">
-                                    <b>Payment terms: </b><span t-if="doc.payment_term_id" t-field="doc.payment_term_id.name"/><br />
+                                    <b>Payment Term: </b><span t-if="doc.payment_term_id" t-field="doc.payment_term_id.name"/><br />
                                 </t>
                                 <t t-if="doc.user_id">
                                     <b>Salesperson: </b><span t-if="doc.user_id" t-field="doc.user_id.name"/>
