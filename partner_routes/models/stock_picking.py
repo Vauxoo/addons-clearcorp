@@ -11,10 +11,12 @@ class StockPicking(models.Model):
     _inherit = 'stock.picking'
     _name = 'stock.picking'
 
-    def onchange_picking_type(self, cr, uid, ids, picking_type_id, partner_id, context=None):
+    def onchange_picking_type(
+            self, cr, uid, ids, picking_type_id, partner_id, context=None):
         res = super(StockPicking, self).onchange_picking_type(
             cr, uid, ids, picking_type_id, partner_id, context=context)
-        partner = self.pool['res.partner'].browse(cr, uid, partner_id, context=context)
+        partner = self.pool['res.partner'].browse(
+            cr, uid, partner_id, context=context)
         res['value']['partner_route_id'] = partner.partner_route_id.id
         return res
 
