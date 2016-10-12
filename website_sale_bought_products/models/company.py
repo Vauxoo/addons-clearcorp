@@ -8,6 +8,8 @@ class Company(models.Model):
 
     _inherit = 'res.company'
 
-    bought_product_limit = fields.Float('Suggested Products Display',
-                                        digits_compute=0, default=5,
-                                        help='Max suggested products to be display.')
+    bought_product_limit = \
+        fields.Float('Suggested Products Display',
+                     digits_compute=0,
+                     default=5,
+                     help='Max suggested products to be display.')
