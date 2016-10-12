@@ -5,7 +5,10 @@
 ========================
 Account Reconcile Filter
 ========================
-This module was written to extend the functionality of the client filter.
+This module was written to extend the functionality
+of the partner selector in bank reconciliations.
+Now is available to select the contacts of the customer's company and
+not only the company like is without this module.
 
 Credits
 =======

@@ -1,4 +1,4 @@
-/* © <YEAR(S)> ClearCorp
+/* © 2016 ClearCorp
  * License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
  */
 odoo.define('account.reconciliation_filter', function (require) {

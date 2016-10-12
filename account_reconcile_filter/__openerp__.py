@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-# © <YEAR(S)> ClearCorp
+# © 2016 ClearCorp
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
     'name': 'Account Reconcile Filter',
-    'summary': 'Module summary',
+    'summary': 'Change the partner selector in bank reconciliations',
     'version': '9.0.1.0',
     'category': 'Accounting',
     'website': 'http://clearcorp.cr',
