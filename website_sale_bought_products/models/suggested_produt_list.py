@@ -30,7 +30,7 @@ class SuggestedProdutList(models.Model):
         related_recordset = \
             self.env["product.template"].search([("id",
                                                 "=",
-                                                self._cr.fetchall())])
+                                                 self._cr.fetchall())])
         self.product_list = related_recordset
 
     product_list = fields.One2many('product.template',
