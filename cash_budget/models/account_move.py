@@ -76,6 +76,10 @@ class AccountMove(models.Model):
 
     @api.one
     def post(self):
+        for line in self.line_id:
+            if line.budget_move_lines:
+                self.budget_move_id = line.budget_move_lines[0].budget_move_id
+                break
         res = super(AccountMove, self).post()
         obj_move_line = self.env['account.move.line']
         # Check if this account.move has distributions lines and check
