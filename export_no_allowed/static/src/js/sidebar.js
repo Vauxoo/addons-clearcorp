@@ -18,10 +18,10 @@ odoo.define('web.restrict_export_sidebar', function (require) {
             var args = arguments;
 
             $.when(
-                // Also allows a special user group "Export" to export data.
+                this.session.user_has_group('base.group_user'),
                 this.session.user_has_group('export_no_allowed.group_export')
-            ).done(function(is_user, is_admin, can_export) {
-                if (is_user && (can_export || is_admin)) {
+            ).done(function(is_user, can_export) {
+                if (is_user && can_export ) {
                     _super.apply(self, args);
                 }
                 else {
