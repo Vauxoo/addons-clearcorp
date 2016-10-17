@@ -132,7 +132,7 @@ class stock_picking(models.Model):
                 for invoice_id in invoice_ids:
                     invoice = self.pool.get('account.invoice').browse(
                         cr, uid, invoice_id, context=context)
-                    if invoice.origin == move.picking_id.name:
+                    if move.picking_id.name in invoice.origin:
                         if key not in delivey_invoices:
                             delivey_invoices[key] = invoice
 
@@ -225,6 +225,7 @@ class stock_picking(models.Model):
             price = grid_obj.get_price_from_picking(
                 cr, uid, grid_id, invoice.amount_untaxed, picking.weight,
                 picking.volume, quantity, context=context)
+            account_id = False
             if invoice.company_id.currency_id.id != invoice.currency_id.id:
                 price = currency_obj.compute(
                     cr, uid, invoice.company_id.currency_id.id,
