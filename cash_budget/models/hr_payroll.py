@@ -76,7 +76,8 @@ class HRPayslip(models.Model):
                         'origin': payslip_line.name,
                         'budget_move_id': bud_move.id,
                         'payslip_line_id': payslip_line.id,
-                        'move_line_id': move_line.id
+                        'move_line_id': move_line.id,
+                        'program_line_id': False
                     }
                     if not is_debit and\
                             payslip_line_credit_account_id ==\
@@ -86,6 +87,7 @@ class HRPayslip(models.Model):
                         vals['fixed_amount'] = move_line_credit * -1
                         vals['program_line_id'] =\
                             payslip_line_credit_budget_program_id
+                        obj_bud_line.create(vals)
                     if is_debit and\
                             payslip_line_debit_account_id ==\
                             move_line_account_id and\
@@ -94,7 +96,7 @@ class HRPayslip(models.Model):
                         vals['fixed_amount'] = move_line_debit
                         vals['program_line_id'] =\
                             payslip_line_debit_budget_program_id
-                    obj_bud_line.create(vals)
+                        obj_bud_line.create(vals)
             bud_move.write({'fixed_amount': payslip_total})
             bud_move.signal_workflow('button_reserve')
             bud_move.signal_workflow('button_compromise')

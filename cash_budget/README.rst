@@ -17,6 +17,7 @@ Contributors
 ------------
 
 * Lesmed Gutiérrez <lesmed.gutierrez@clearcorp.co.cr>
+* Carlos Quirós <carlos.quiros@clearcorp.co.cr>
 
 
 Maintainer
