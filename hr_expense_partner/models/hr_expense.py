@@ -13,8 +13,8 @@ class HrExpenseExpense(models.Model):
         res = super(HrExpenseExpense, self)._prepare_move_line(line)
         if self.product_id:
             account = \
-                self.product_id.product_tmpl_id._get_product_accounts()
-            ['expense'].id
+                self.product_id.product_tmpl_id._get_product_accounts(
+                )['expense'].id
         else:
             account = self.env['ir.property'].with_context(
                 force_company=self.company_id.id).get(
