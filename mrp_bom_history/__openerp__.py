@@ -19,7 +19,6 @@
     ],
     'data': [
         'security/ir.model.access.csv',
-        'views/mrp_bom_view.xml',
         'views/mrp_bom_history_view.xml',
     ],
 }

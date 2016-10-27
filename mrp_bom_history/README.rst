@@ -16,6 +16,7 @@ Contributors
 ------------
 
 * Glen Sojo <glen.sojo@clearcorp.co.cr>
+* Carlos Quirós <carlos.quiros@clearcorp.co.cr>
 
 Maintainer
 ----------
