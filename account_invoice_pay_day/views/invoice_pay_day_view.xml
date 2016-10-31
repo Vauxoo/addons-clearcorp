@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2016 ClearCorp
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+
+<openerp>
+    <data>
+        <record id="view_invoice_pay_day" model="ir.ui.view">
+            <field name="name">account.invoice.pay.day</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="priority" eval="150"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/group[1]/field[@name='fiscal_position']" position="after">
+                    <field name="pay_day_related"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="select_invoice_pay_day" model="ir.ui.view">
+            <field name="name">account.invoice.pay.day.select</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+            <field name="priority" eval="150"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search/group/filter[1]" position="after">
+                    <filter string="Pay Day" context="{'group_by':'pay_day_related'}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
