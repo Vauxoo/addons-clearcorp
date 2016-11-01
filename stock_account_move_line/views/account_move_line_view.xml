@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <!--form-->
         <!-- stock.account.move.line -->
+        <!--form-->
         <record id="view_stock_account_move_line_form" model="ir.ui.view">
             <field name="name">stock.account.move.line.form</field>
             <field name="model">account.move.line</field>
             <field name="inherit_id" ref="account.view_move_line_form" />
             <field name="priority" eval="50" />
             <field name="arch" type="xml">
-                <xpath expr="//form/sheet/notebook/page[@string='Information']/group/group/field[@name='quantity']" position="after">
-	                <field name="product_id"/>
-	                <field name="unit_cost"/>
-	                <field name="unit_cost_currency"/>
-	            </xpath>
-                <xpath expr="//form/sheet/notebook/page[@string='Information']/group/group/field[@name='statement_id']" position="after">
+                <xpath expr="//form/sheet/notebook/page/group/group/field[@name='quantity']" position="after">
+                    <field name="product_id"/>
+                    <field name="unit_cost"/>
+                    <field name="unit_cost_currency"/>
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page/group/group/field[@name='statement_id']" position="after">
                     <field name="stock_move_id"/>
                     <field name="stock_picking_id"/>
                 </xpath>
             </field>
         </record> 
 
-         <!--  stock.account.move.line search -->
+         <!-- search -->
         <record id="view_account_move_line_filter" model="ir.ui.view">
             <field name="name">Stock account move line Search</field>
             <field name="model">account.move.line</field>
@@ -32,13 +32,14 @@
                     <field name="stock_move_id"/>
                     <field name="stock_picking_id"/>
                 </xpath>
-                <xpath expr="//search/group[@string='Group By']" position="inside">
+                <xpath expr="//search/group" position="inside">
                     <filter string="Stock Move" domain="[]" context="{'group_by':'stock_move_id'}"/>
                     <filter string="Stock Picking" domain="[]" context="{'group_by':'stock_picking_id'}" />
                 </xpath>
             </field>
         </record>
-        <!-- stock.account.move.line tree -->
+
+        <!-- tree -->
         <record id="view_stock_account_move_line_tree" model="ir.ui.view">
             <field name="name">stock.account.move.line</field>
             <field name="model">account.move.line</field>
