@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* product_sequence
+#	* product_sequence_ccorp
 #
 msgid ""
 msgstr ""
@@ -15,18 +15,18 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. module: product_sequence
+#. module: product_sequence_ccorp
 #: sql_constraint:product.product:0
 msgid "Default Code already exist "
 msgstr "Referencia Interna ya existe"
 
-#. module: product_sequence
-#: model:ir.model,name:product_sequence.model_product_product
+#. module: product_sequence_ccorp
+#: model:ir.model,name:product_sequence_ccorp.model_product_product
 msgid "Product"
 msgstr "Producto"
 
-#. module: product_sequence
-#: model:ir.model,name:product_sequence.model_product_template
+#. module: product_sequence_ccorp
+#: model:ir.model,name:product_sequence_ccorp.model_product_template
 msgid "Product Template"
 msgstr "Plantilla de producto"
 
