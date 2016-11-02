@@ -20,7 +20,7 @@
 #
 ##############################################################################
 {
-    'name': 'Product sequence',
+    'name': 'Product sequence ClearCorp',
     'version': '1.0',
     'author': 'ClearCorp',
     'category': 'Warehouse Management',
