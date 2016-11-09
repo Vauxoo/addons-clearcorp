@@ -34,7 +34,7 @@ class ResPartner(orm.Model):
 
     _columns = {
             'trade_name': fields.char(
-                'Trade Name', size=128, 
+                'Trade Name', size=128,
                 help="Is used if the contact used trade name, and this"
                      " is different to the business name"),
             }
