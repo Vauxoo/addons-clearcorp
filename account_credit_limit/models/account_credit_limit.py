@@ -40,7 +40,6 @@ class Partner(models.Model):
             date = datetime.datetime.now().strftime("%Y-%m-%d")
         else:
             date = date[:10]
-
         result = payment_term.compute(value, date_ref=date)[0]
         sum = 0.0
         # elem is a tuple of date, value
@@ -48,7 +47,6 @@ class Partner(models.Model):
         for elem in result:
             if elem[0] != date:
                 sum += elem[1]
-
         if sum == 0.0:
             return True
         else:
@@ -69,10 +67,10 @@ class SaleOrder(models.Model):
                         has_group('account_credit_limit.'
                                   'group_account_exceed_credit_limit'):
                     if not sale_order.partner_id. \
-                            credit_available_order(sale_order.payment_term,
-                                                   sale_order.amount_total,
-                                                   date=
-                                                   sale_order.date_order)[0]:
+                            credit_available_order(
+                                sale_order.payment_term,
+                                sale_order.amount_total,
+                                date=sale_order.date_order)[0]:
                         raise Warning(_('Not enough credit is available to '
                                         'confirm the order.'))
         return super(SaleOrder, self).action_button_confirm()
