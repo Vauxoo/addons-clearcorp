@@ -23,6 +23,7 @@
 from openerp.osv import fields, osv, orm
 import time
 import logging
+import openerp
 from datetime import datetime, timedelta
 from openerp.addons.currency_rate_update.currency_rate_update import bccr_getter
 from openerp import pooler 
@@ -119,7 +120,8 @@ class bccr_getter_second_rate(bccr_getter):
         logger2 = logging.getLogger('bccr_getter')
         """implementation of abstract method of Curreny_getter_interface"""
         today = time.strftime('%d/%m/%Y')
-        url1='http://indicadoreseconomicos.bccr.fi.cr/indicadoreseconomicos/WebServices/wsIndicadoresEconomicos.asmx/ObtenerIndicadoresEconomicos?tcNombre=clearcorp&tnSubNiveles=N&tcFechaFinal=' + today + '&tcFechaInicio='
+        ip_bccr_getter = openerp.tools.config['ip_bccr_getter']
+        url1='http://' + ip_bccr_getter + '/indicadoreseconomicos/WebServices/wsIndicadoresEconomicos.asmx/ObtenerIndicadoresEconomicos?tcNombre=clearcorp&tnSubNiveles=N&tcFechaFinal=' + today + '&tcFechaInicio='
         url2='&tcIndicador='
 
         from xml.dom.minidom import parseString
