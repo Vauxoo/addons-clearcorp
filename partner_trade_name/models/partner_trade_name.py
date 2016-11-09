@@ -4,6 +4,7 @@
 
 from openerp.osv import osv, fields, orm
 
+
 class ResPartner(orm.Model):
     _inherit = 'res.partner'
 
@@ -21,19 +22,19 @@ class ResPartner(orm.Model):
             res.append((partner.id, partner_name))
         return res
 
-    def name_search(self, cr, uid, name, args = None, operator = 'ilike',
-                    context=None, limit = 100):
-        res = super(ResPartner, self).name_search(cr, uid, name,
-                        args = args, operator = 'ilike', context = context)
-        ids = self.search(cr, uid, [('trade_name', operator, name)],
-                              limit = limit, context = context)
+    def name_search(self, cr, uid, name, args=None, operator='ilike',
+                    context=None, limit=100):
+        res = super(ResPartner, self).name_search(
+            cr, uid, name, args=args, operator='ilike', context=context)
+        ids = self.search(
+            cr, uid, [('trade_name', operator, name)],
+            limit=limit, context=context)
         res = list(set(res + self.name_get(cr, uid, ids, context)))
         return res
 
-    _columns={
-            'trade_name': fields.char('Trade Name', size=128, 
-                                        help="Is used if " + \
-                                            "the contact used trade " + \
-                                            "name, and this is different " + \
-                                            "to the business name"),
+    _columns = {
+            'trade_name': fields.char(
+                'Trade Name', size=128, 
+                help="Is used if the contact used trade name, and this"
+                     " is different to the business name"),
             }
