@@ -24,7 +24,7 @@
                         <div class="page">
                             <div class="row" style="font-size:130%">
                                 <div class="col-xs-12 mb8">
-                                    <b>Supplier: <span t-field="supplier.name"/></b>
+                                    <b><span t-field="o.partner_id" t-field-options='{"widget": "contact", "fields": ["name"], "no_marker": true}'/></b>
                                 </div>
                             </div>
                             <div class="row">
