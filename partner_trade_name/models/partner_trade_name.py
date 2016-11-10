@@ -9,8 +9,6 @@ class ResPartner(orm.Model):
     _inherit = 'res.partner'
 
     def name_get(self, cr, uid, ids, context=None):
-        if not len(ids):
-            return []
         res = []
         for partner in self.browse(cr, uid, ids, context=context):
             partner_name = ''
