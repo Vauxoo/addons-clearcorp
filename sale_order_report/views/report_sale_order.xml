@@ -20,7 +20,7 @@
                     <div class="page">
                         <div class="row" style="font-size:130%">
                             <div class="col-xs-12 mb8">
-                                <b>Customer: <span t-field="customer.name"/></b>
+                                <b><span t-field="doc.partner_id" t-field-options='{"widget": "contact", "fields": ["name"], "no_marker": true}'/></b>
                             </div>
                         </div>
                         <div class="row">
