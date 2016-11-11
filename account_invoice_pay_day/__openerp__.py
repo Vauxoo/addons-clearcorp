@@ -3,22 +3,26 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 {
-    'name': 'MRP Bill of Materials History',
-    'summary': 'Historic of bill of materials modifications',
+    'name': 'Client Pay Day',
+    'summary': 'Add a pay day to client',
     'version': '8.0.1.0',
-    'category': 'Manufacturing',
+    'category': 'Accounting & Finance',
     'website': 'http://clearcorp.cr',
     'author': 'ClearCorp',
     'license': 'AGPL-3',
-    'sequence': 19,
+    'sequence': 10,
     'application': False,
     'installable': True,
     'auto_install': False,
+
     'depends': [
-        'mrp',
+        'base',
+        'account',
     ],
     'data': [
-        'security/ir.model.access.csv',
-        'views/mrp_bom_history_view.xml',
+        'views/client_pay_day_view.xml',
+        'views/invoice_pay_day_view.xml',
     ],
+
+
 }

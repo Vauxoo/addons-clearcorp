@@ -2,12 +2,11 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-=========================
-Bill of Materials History
-=========================
+==============
+Client Pay Day
+==============
 
-This module was written to extend the functionality of bill of material and allow you to record every modification in bills of materials.
-
+Add a pay day to client
 
 Credits
 =======
@@ -15,8 +14,8 @@ Credits
 Contributors
 ------------
 
-* Glen Sojo <glen.sojo@clearcorp.co.cr>
 * Carlos Quirós <carlos.quiros@clearcorp.co.cr>
+
 
 Maintainer
 ----------

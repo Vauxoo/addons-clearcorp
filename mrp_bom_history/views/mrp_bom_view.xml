@@ -4,12 +4,6 @@
 
 <openerp>
     <data>
-        <record id="action_bom_history_tree" model="ir.actions.act_window">
-            <field name="name">Bill of Materials History</field>
-            <field name="res_model">mrp.bom.history</field>
-            <field name="context">{'search_default_bom_id': [active_id]}</field>
-            <field name="view_id" ref="view_bom_history_tree"/>
-        </record>
         <record id="view_bom_form" model="ir.ui.view">
             <field name="name">Bill of Material From</field>
             <field name="model">mrp.bom</field>

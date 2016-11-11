@@ -4,6 +4,42 @@
 
 <openerp>
     <data>
+        <record id="view_bom_history_tree" model="ir.ui.view">
+            <field name="name">Bill of Material History Tree</field>
+            <field name="model">mrp.bom.history</field>
+            <field name="priority" eval="16"/>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="bom_id"/>
+                    <field name="name"/>
+                    <field name="create_uid"/>
+                    <field name="create_date"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_bom_history_tree" model="ir.actions.act_window">
+            <field name="name">Bill of Materials History</field>
+            <field name="res_model">mrp.bom.history</field>
+            <field name="context">{'search_default_bom_id': [active_id]}</field>
+            <field name="view_id" ref="view_bom_history_tree"/>
+        </record>
+         <record id="view_bom_form" model="ir.ui.view">
+            <field name="name">Bill of Material From</field>
+            <field name="model">mrp.bom</field>
+            <field name="priority" eval="16"/>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/group" position="before">
+                    <div class="oe_right oe_button_box" name="buttons">
+                         <button type="action" class="oe_stat_button" name="%(action_bom_history_tree)d" icon="fa-list">
+                             <field string="History" name="history_item_count" widget="statinfo"/>
+                         </button>
+                    </div>
+                </xpath>
+            </field>
+        </record>
         <record id="view_bom_history_form" model="ir.ui.view">
             <field name="name">Bill of Material History From</field>
             <field name="model">mrp.bom.history</field>
@@ -20,19 +56,9 @@
                 <field name="name" position="before">
                     <field name="create_date"/>
                 </field>
-            </field>
-        </record>
-        <record id="view_bom_history_tree" model="ir.ui.view">
-            <field name="name">Bill of Material History Tree</field>
-            <field name="model">mrp.bom.history</field>
-            <field name="priority" eval="16"/>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
-                <tree>
-                    <field name="bom_id"/>
-                    <field name="name"/>
-                    <field name="create_date"/>
-                </tree>
+                <field name="name" position="before">
+                    <field name="create_uid"/>
+                </field>
             </field>
         </record>
         <record id="view_bom_history_search" model="ir.ui.view">
@@ -47,5 +73,6 @@
                 </search>
             </field>
         </record>
+
     </data>
 </openerp>
