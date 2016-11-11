@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="ss_view_purchase_predicton_filter" model="ir.ui.view">
+            <field name="name">purchase.prediction.select</field>
+            <field name="model">purchase.prediction</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Sales Analysis By">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="create_date"/>
+                </search>
+            </field>
+        </record>
+        <record id="ss_view_purchase_predicton_tree" model="ir.ui.view">
+            <field name="name">purchase.prediction.tree</field>
+            <field name="model">purchase.prediction</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="create_date"/>
+            </field>
+        </record>
+        <record id="ss_view_purchase_predicton_form" model="ir.ui.view">
+            <field name="name">purchase.prediction.form</field>
+            <field name="model">purchase.prediction</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Sales/Suppliers Analysis">
+                    <group col="6" colspan="4">
+                        <field name="name"/>
+                        <field name="create_date"/>
+                        <field name="partner_id"/>
+                        <field name="prediction_month_qty"/>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+
+                    </group>
+
+                    <notebook>
+                        <page string="Products">
+                                <field colspan="4" mode="tree" name="prediction_id" nolabel="1" select="1"  height="260"/>
+
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+        <record id="ss_view_purchase_predicton_line_tree" model="ir.ui.view">
+            <field name="name">purchase.prediction.line.tree</field>
+            <field name="model">purchase.prediction.line</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <field name="product_id"/>
+                <field name="qty_sold"/>
+                <field name="qty_proyect"/>
+                <field name="qty_purchase"/>
+                <field name="stock_available"/>
+                <field name="virtual_available"/>
+                <field name="qty_approved"/>
+            </field>
+        </record>
+        <record id="ss_view_purchase_predicton_line_form" model="ir.ui.view">
+            <field name="name">purchase.prediction.line.form</field>
+            <field name="model">purchase.prediction.line</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Sales/Suppliers Analysis">
+                    <field name="product_id"/>
+                    <field name="stock_available"/>
+                    <field name="virtual_available"/>
+                    <field name="qty_sold"/>
+                    <field name="qty_purchase"/>
+                    <field name="qty_proyect"/>
+                    <field name="qty_approved"/>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="ss_purchase_predicton_action">
+            <field name="name">Sales/Suppliers Analysis</field>
+            <field name="res_model">purchase.prediction</field>
+            <field name="view_type">form</field>
+        </record>
+        <menuitem
+            id="ss_menu_purchase_predicton"
+            name="Sales/Suppliers Analysis"
+            parent="purchase.menu_procurement_management"
+            action="ss_purchase_predicton_action"
+            sequence="11"
+        />
+
+    </data>
+</openerp>
