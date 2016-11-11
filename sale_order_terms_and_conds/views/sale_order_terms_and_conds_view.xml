@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- tree -->
+        <record id="view_sale_order_termsandconditions_tree" model="ir.ui.view">
+           <field name="name">sale.order.termsandconditions.tree</field>
+           <field name="model">sale.order.termsandconditions</field>
+           <field name="priority">16</field>
+           <field name="arch" type="xml">
+               <tree string="Templates">
+                   <field name="name"/>
+               </tree>
+           </field>
+        </record>
+
+        <!-- Form -->
+        <record id="view_sale_order_termsandconditions_form" model="ir.ui.view">
+            <field name="name">sale.order.termsandconditions</field>
+            <field name="model">sale.order.termsandconditions</field>
+            <field name="arch" type="xml">
+                <form string="Template Terms and Conditions">
+                    <sheet>
+                        <group>
+		                    <field name="name" />
+		                    <field name="html_template"/>
+		                </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action menu -->
+        <record id="action_terms_and_conditions" model="ir.actions.act_window">
+            <field name="name">Terms And Conditions</field>
+            <field name="res_model">sale.order.termsandconditions</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- menu -->
+        <menuitem id="menu_terms_and_conditions" string="Terms And Conditions"
+            parent="base.menu_sale_config_sales" action="action_terms_and_conditions" />
+
+        <!-- views -->
+        <!-- sale.order -->
+        <record id="view_order_form" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="priority" eval="50" />
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/notebook/page['Order Lines']" position="after">
+                    <page name="terms_conditions" string="Terms and Conditions">
+                        <group>
+	                        <field name="terms_id"/>
+	                        <field name="note"/>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page['Order Lines']/field[@name='note']" position="replace">
+                </xpath>
+            </field>
+        </record> 
+    </data>
+</odoo>
