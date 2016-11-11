@@ -6,19 +6,17 @@ from openerp import models, api
 
 
 class AccountAccount(models.Model):
-
     _inherit = 'account.account'
 
     @api.multi
     @api.depends('name', 'code')
     def name_get(self):
-        _res = super(AccountAccount, self).name_get()
         result = []
         for account in self:
             name = ''
             if account.company_id.prefix:
-                name += '['+account.company_id.prefix+']' + \
-                    ' ' + account.code + ' ' + account.name
+                name += '[' + account.company_id.prefix + ']' + \
+                        ' ' + account.code + ' ' + account.name
             else:
                 name += account.code + ' ' + account.name
             result.append((account.id, name))
