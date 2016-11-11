@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2016 ClearCorp
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+
+<openerp>
+    <data>
+        <record id="view_product_summary" model="ir.ui.view">
+            <field name="name">product.template.summary</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="priority" eval="150"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='standard_price']/.." position="after">
+                    <field name="cost_services"/>
+                    <field name="cost_w_services"/>
+                    <button class="oe_button oe_form_button oe_link" string="Update Cost" name="action_recal_cost" type="object">
+                    </button>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
