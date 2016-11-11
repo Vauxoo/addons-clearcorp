@@ -2,9 +2,9 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-============
-Label Report
-============
+==================
+Project Task State
+==================
 
 This module allows you to print complete product labels with taxes and price list included
 
