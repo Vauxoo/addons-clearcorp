@@ -20,9 +20,9 @@ class AccountMoveline(models.Model):
         implemented."""
 
         if(self.amount_currency):
-            #1. Get currency for current company.
-            #(The exchange rate for this case is from
-            #currency_company to currency_id)
+            # 1. Get currency for current company.
+            # (The exchange rate for this case is from
+            # currency_company to currency_id)
             company_currency = self.move_id.company_id.currency_id
             # 2. Get date as string
             if self.move_id and not self.move_id.date:
