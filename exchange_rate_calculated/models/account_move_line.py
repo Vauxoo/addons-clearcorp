@@ -8,7 +8,7 @@ import time
 import copy
 
 
-class accountMoveline(models.Model):
+class AccountMoveline(models.Model):
 
     _inherit = 'account.move.line'
 
