@@ -35,7 +35,6 @@ Sale order report in Qweb
     "images": [],
     "depends": [
         'sale_order_discount',
-        'sale_order_extended',
         'account_report_lib',
         'website_quote',
         ],
