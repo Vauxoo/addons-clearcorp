@@ -11,7 +11,8 @@ class AccountMove(models.Model):
 
     @api.multi
     def reverse_moves(self, date=None, journal_id=None):
-        reverse_moves = super(AccountMove, self).reverse_moves(date, journal_id)
+        reverse_moves = super(AccountMove, self).reverse_moves(
+            date, journal_id)
         if reverse_moves:
             reverse_move_id = reverse_moves[0]
             for move in self:
