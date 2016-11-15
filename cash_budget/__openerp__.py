@@ -45,6 +45,7 @@
         'views/res_partner_view.xml',
         'views/sale_view.xml',
         'wizard/cash_budget_import_catalog_view.xml',
-        'wizard/cash_budget_program_populate_view.xml'
-        ]
+        'wizard/cash_budget_program_populate_view.xml',
+        'data/cash_budget_data.xml'
+    ]
 }

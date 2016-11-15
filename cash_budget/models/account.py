@@ -42,18 +42,7 @@ class AccountMoveReconcile(orm.Model):
             for mov_id in budget_move_ids:
                 bud_mov_obj.signal_workflow(cr, uid, [mov_id], 'button_check_execution', context=context)
         return super(AccountMoveReconcile, self).unlink(cr, uid, ids, context=context)
-     
-    def create(self, cr, uid, vals, context=None):
-        account_move_obj= self.pool.get('account.move')
-        is_incremental = self.check_incremental_reconcile(cr, uid, vals, context=context)
-        reconcile_id = super(AccountMoveReconcile, self).create(cr, uid, vals, context=context)
-        try:
-            self.reconcile_budget_check(cr, uid, [reconcile_id], context=context, is_incremental=is_incremental) 
-        except CashBudgetDistributionError, error:
-            msg= _('Budget distributions cannot be created automatically for this reconcile')
-            account_move_obj.message_post(cr, uid, [error.move_id], body=msg, context=context)
-        return reconcile_id
-    
+
     def move_in_voucher(self,cr, uid, move_ids, context=None):
         #Checks if a move is in a voucher, returns the id of the voucher or -1 in case that is not in any
         acc_move_obj = self.pool.get('account.move')
@@ -495,10 +484,17 @@ class AccountMoveReconcile(orm.Model):
             self._adjust_distributed_values(cr, uid, none_res, amount_to_dist - distributed_amount, context = context, object="budget")
         
         return budget_res + none_res
-    
+
+    def do_check_distribution(self, cr, uid, context=None):
+        reconcile_ids = self.search(
+            cr, uid, [('check_distribution', '=', True)], context=context)
+        self.reconcile_budget_check(cr, uid, reconcile_ids, context=context)
+
     def reconcile_budget_check(self, cr, uid, ids, context={}, is_incremental=False):
         done_lines = []
         res = {}
+        move_lines = []
+        move_line_obj = self.pool.get('account.move.line')
         for reconcile in self.browse(cr, uid, ids, context=context):
             # Check if reconcile "touches" a move that touches a liquid account on any of its move lines
             
@@ -508,34 +504,45 @@ class AccountMoveReconcile(orm.Model):
             else:
                 moves = [line.move_id for line in reconcile.line_partial_ids]
             # Then get all the lines of those moves, reconciled and counterparts
-            move_lines = [line for move in moves for line in move.line_id]
-            # Check if the account if marked as moves_cash
-            for line in move_lines:
-                if (line.id not in done_lines) and line.account_id and line.account_id.moves_cash:
-                    dist_ids = self._recursive_liquid_get_auto_distribution(cr, uid, line, context=context, is_incremental=is_incremental)
-                    checked_dist_ids = self._check_auto_distributions(cr, uid, line, dist_ids, context=context,object="budget")
-                    if checked_dist_ids:
-                        res[line.id] = checked_dist_ids
-                elif (line.id not in done_lines) and line.move_id.budget_type == 'void':
-                    dist_ids = self._recursive_void_get_auto_distribution(cr, uid, line, context=context)
-                    checked_dist_ids = self._check_auto_distributions(cr, uid, line, dist_ids, context=context, object="budget")
-                    if checked_dist_ids:
-                        res[line.id] = checked_dist_ids
-                done_lines.append(line.id)
+            move_lines += [line.id for move in moves for line in move.line_id]
+        move_lines = list(set(move_lines))
+        # Check if the account if marked as moves_cash
+        for line in move_line_obj.browse(cr, uid, move_lines, context=context):
+            if (line.id not in done_lines) and line.account_id and line.account_id.moves_cash:
+                dist_ids = self._recursive_liquid_get_auto_distribution(cr, uid, line, context=context, is_incremental=is_incremental)
+                checked_dist_ids = self._check_auto_distributions(cr, uid, line, dist_ids, context=context,object="budget")
+                if checked_dist_ids:
+                    res[line.id] = checked_dist_ids
+            elif (line.id not in done_lines) and line.move_id.budget_type == 'void':
+                dist_ids = self._recursive_void_get_auto_distribution(cr, uid, line, context=context)
+                checked_dist_ids = self._check_auto_distributions(cr, uid, line, dist_ids, context=context, object="budget")
+                if checked_dist_ids:
+                    res[line.id] = checked_dist_ids
+            done_lines.append(line.id)
             
-            # Recalculate budget move values
-            if res:
-                budget_move_ids = []
-                dist_obj = self.pool.get('account.move.line.distribution')
-                dist_ids = [dist_id for dist_ids in res.values() for dist_id in dist_ids]
-                dists = dist_obj.browse(cr, uid, dist_ids)
-                for dist in dists:
-                    if dist.target_budget_move_line_id and dist.target_budget_move_line_id.budget_move_id:
-                        budget_move_ids.append(dist.target_budget_move_line_id.budget_move_id.id)
-                if budget_move_ids:
-                    budget_move_obj = self.pool.get('cash.budget.move')
-                    budget_move_obj.recalculate_values(cr, uid, budget_move_ids, context = context)
-        return res 
+        # Recalculate budget move values
+        if res:
+            budget_move_ids = []
+            dist_obj = self.pool.get('account.move.line.distribution')
+            dist_ids = [dist_id for dist_ids in res.values() for dist_id in dist_ids]
+            dists = dist_obj.browse(cr, uid, dist_ids)
+            for dist in dists:
+                if dist.target_budget_move_line_id and dist.target_budget_move_line_id.budget_move_id:
+                    budget_move_ids.append(dist.target_budget_move_line_id.budget_move_id.id)
+            if budget_move_ids:
+                budget_move_obj = self.pool.get('cash.budget.move')
+                budget_move_obj.recalculate_values(cr, uid, budget_move_ids, context = context)
+        self.write(
+            cr, uid, ids, {'check_distribution': False}, context=context)
+        return res
+
+    _columns = {
+        'check_distribution': fields.boolean('Check Distribution'),
+    }
+
+    _defaults = {
+        'check_distribution': True,
+    }
 
 class Account(osv.Model):
     _inherit = 'account.account'
