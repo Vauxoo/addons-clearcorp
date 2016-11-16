@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 8.0\n"
+"Project-Id-Version: Odoo Server 9.0e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-02 16:03+0000\n"
-"PO-Revision-Date: 2016-03-02 16:03+0000\n"
+"POT-Creation-Date: 2016-11-16 16:26+0000\n"
+"PO-Revision-Date: 2016-11-16 16:26+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,19 +16,17 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: hr_job
-#: field:hr.job,active:0
+#: model:ir.model.fields,field_description:hr_job.field_hr_job_active
 msgid "Active"
 msgstr "Activo"
 
 #. module: hr_job
 #: model:ir.model,name:hr_job.model_hr_job
-msgid "Job Description"
-msgstr "Descripción del puesto"
+msgid "Job Position"
+msgstr "Puesto de trabajo"
 
 #. module: hr_job
-#: field:hr.job,real_no_of_employee:0
+#: model:ir.model.fields,field_description:hr_job.field_hr_job_real_no_of_employee
 msgid "Real no of employee"
 msgstr "Número real de empleados"
-
-
 
