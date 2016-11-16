@@ -93,25 +93,10 @@ class AccountMoveLine(models.Model):
                     ))
         return result
 
-    @api.one
-    def copy(self, default=None):
-        default = {} if default is None else default.copy()
-        default.update({
-            'budget_move_lines': False
-        })
-        return super(AccountMoveLine, self).copy(default)
-
-    @api.one
-    def copy_data(self, default=None):
-        default = {} if default is None else default.copy()
-        default.update({
-            'budget_move_lines': False
-        })
-        return super(AccountMoveLine, self).copy_data(default)
-
     # =======Budget Move Line
     budget_move_lines = fields.One2many(
-        'cash.budget.move.line', 'move_line_id', 'Budget Move Lines')
+        'cash.budget.move.line', 'move_line_id', 'Budget Move Lines',
+        copy=False)
 
     # =======Percentage y amount distribution
     distribution_percentage_sum = fields.Float(
@@ -165,6 +150,6 @@ class AccountMoveLine(models.Model):
             reconcile_obj = self.env['account.move.reconcile']
             reconcile_id = vals.get('reconcile_id', False) or \
                 vals.get('reconcile_partial_id', False)
-            reconcile = reconcile_obj.search(reconcile_id)
+            reconcile = reconcile_obj.browse(reconcile_id)
             reconcile.write({'check_distribution': True})
         return res

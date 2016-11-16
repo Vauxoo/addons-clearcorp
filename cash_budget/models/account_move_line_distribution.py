@@ -136,10 +136,14 @@ class AccountMoveLineDistribution(models.Model):
         executed = round(
             self.target_budget_move_line_id.executed,
             self.env['decimal.precision'].precision_get('Account'))
-        if abs(self.distribution_amount) > abs(compromised) + abs(executed):
+        reversed = round(
+            self.target_budget_move_line_id.reversed,
+            self.env['decimal.precision'].precision_get('Account'))
+        if abs(self.distribution_amount) > abs(compromised) + \
+                abs(executed) + abs(reversed):
             raise Warning(_(
                 "The distribution amount can not be greater than compromised"
-                "amount in budget move line selected"
+                " amount in budget move line selected"
             ))
 
     @api.model
