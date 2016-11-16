@@ -165,6 +165,6 @@ class AccountMoveLine(models.Model):
             reconcile_obj = self.env['account.move.reconcile']
             reconcile_id = vals.get('reconcile_id', False) or \
                 vals.get('reconcile_partial_id', False)
-            reconcile_obj.write(
-                reconcile_id, {'check_distribution': True})
+            reconcile = reconcile_obj.search(reconcile_id)
+            reconcile.write({'check_distribution': True})
         return res
