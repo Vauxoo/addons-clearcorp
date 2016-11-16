@@ -67,10 +67,10 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="account.view_move_form"/>
             <field name="arch" type="xml">
-            	<field name="ref" position="after">
-            		<field name="budget_move_id" readonly="1"/>
-
-            	</field>
+                <field name="ref" position="after">
+                    <field name="budget_move_id" readonly="1"/>
+                    <field name="budget_type"/>
+                </field>
                 <xpath expr="/form/notebook/page[@string='Journal Items']/field[@name='line_id']/tree[@string='Journal Items']/field[@name='account_id']" position="after">
                     <field name="budget_program_line" domain="[('type','=','budget')]"/>
                 </xpath>    

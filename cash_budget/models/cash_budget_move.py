@@ -494,8 +494,9 @@ class CashBudgetMove(models.Model):
             for line in self.move_lines:
                 distr_line_ids += dist_obj.search(
                     [('target_budget_move_line_id', '=', line.id)])._ids
-                if not float_is_zero(line.executed - line.fixed_amount,
-                        precision_digits=precision):
+                if not float_is_zero(
+                        line.executed - line.fixed_amount +
+                        line.reversed, precision_digits=precision):
                     rounding_adjustment.append(line)
             for dist in dist_obj.browse(distr_line_ids):
                 if dist.account_move_line_type == 'liquid':
@@ -551,7 +552,7 @@ class CashBudgetMove(models.Model):
                     executed += dist.distribution_amount
                 elif dist.account_move_line_type == 'void':
                     void += dist.distribution_amount
-            if executed != self.fixed_amount - void:
+            if executed != self.fixed_amount + void:
                 return True
         return False
 

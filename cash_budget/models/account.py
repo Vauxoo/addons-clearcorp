@@ -398,7 +398,7 @@ class AccountMoveReconcile(orm.Model):
             if counterpart.id not in checked_lines:
                 # Check if there are any budget move lines associated with this counterpart
                 budget_move_lines_found = budget_move_line_obj.search(cr, uid, [('move_line_id','=',counterpart.id)], context=context)
-                if budget_move_lines_found:
+                if budget_move_lines_found :
                     budget_lines[counterpart.id] = budget_move_lines_found
                     budget_amounts[counterpart.id] = counterpart.debit + counterpart.credit
                     budget_total += counterpart.debit + counterpart.credit
@@ -475,7 +475,24 @@ class AccountMoveReconcile(orm.Model):
                     'account_move_line_type':       'void',
                 }
                 budget_res.append(dist_obj.create(cr, uid, vals, context = context))
-                bud_move_obj.signal_workflow(cr, uid, [line.budget_move_id.id], 'button_check_execution', context=context)
+                vals = {
+                    'account_move_line_id': line.move_line_id.id,
+                    'distribution_amount': -1 * signed_dist_amount,
+                    'distribution_percentage': 100 * abs(
+                        distribution_amount) / abs(original_amount_to_dist),
+                    'target_budget_move_line_id': original_line.budget_move_lines[0].id,
+                    'reconcile_ids': [(6, 0, new_reconcile_ids)],
+                    'type': 'auto',
+                    'account_move_line_type': 'void',
+                }
+                budget_res.append(
+                    dist_obj.create(cr, uid, vals, context=context))
+                bud_move_obj.signal_workflow(
+                    cr, uid, [
+                        line.budget_move_id.id,
+                        original_line.budget_move_lines[0].budget_move_id.id
+                    ],
+                    'button_check_execution', context=context)
         
         distributed_amount = budget_distributed
         
@@ -513,7 +530,8 @@ class AccountMoveReconcile(orm.Model):
                 checked_dist_ids = self._check_auto_distributions(cr, uid, line, dist_ids, context=context,object="budget")
                 if checked_dist_ids:
                     res[line.id] = checked_dist_ids
-            elif (line.id not in done_lines) and line.move_id.budget_type == 'void':
+            elif (line.id not in done_lines) and line.move_id.budget_type == 'void' and \
+                    line.budget_move_lines:
                 dist_ids = self._recursive_void_get_auto_distribution(cr, uid, line, context=context)
                 checked_dist_ids = self._check_auto_distributions(cr, uid, line, dist_ids, context=context, object="budget")
                 if checked_dist_ids:

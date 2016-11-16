@@ -16,16 +16,11 @@ class AccountMove(models.Model):
         ('budget', 'Budget move'),
     ]
 
-    budget_move_id = fields.Many2one('cash.budget.move', 'Budget move')
-    budget_type = fields.Selection(OPTIONS, 'budget_type', readonly=True)
-
-    @api.one
-    def copy(self, default):
-        default = {} if default is None else default.copy()
-        default.update({
-            'budget_move_id': False
-        })
-        return super(AccountMove, self).copy(default)
+    budget_move_id = fields.Many2one(
+        'cash.budget.move', 'Budget move', copy=False)
+    budget_type = fields.Selection(
+        OPTIONS, 'budget_type', readonly=True,
+        states={'draft': [('readonly', False)]})
 
     @api.one
     def check_moves_budget(self):
@@ -43,9 +38,12 @@ class AccountMove(models.Model):
         if res_check_moves_budget:
             bud_move_id = bud_mov_obj.create(
                 {'type': 'manual', 'origin': self.name})
-            self.write(
-                {'budget_type': 'budget',
-                 'budget_move_id': bud_move_id.id})
+            vals = {
+                'budget_move_id': bud_move_id.id
+            }
+            if not self.budget_type:
+                vals['budget_type'] = 'budget'
+            self.write(vals)
             created_move_ids.append(bud_move_id)
             for move_line in self.line_id:
                 if move_line.budget_program_line:
