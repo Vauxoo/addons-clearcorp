@@ -11,10 +11,10 @@
             <field name="inherit_id" ref="hr.view_hr_job_form"/>
             <field name="arch" type="xml">
             <data>
-                 <xpath expr="//form/sheet/group[@name='employee_data']/field[@name='department_id']" position="before">
+                 <xpath expr="//form/sheet/group[@name='employee_data']/group/field[@name='department_id']" position="before">
                         <field name="active"/>
                 </xpath>
-                <xpath expr="//form/sheet/group[@name='employee_data']/field[@name='department_id']" position="after">
+                <xpath expr="//form/sheet/group[@name='employee_data']/group/field[@name='department_id']" position="after">
                         <field name="real_no_of_employee"/>
                 </xpath>
             </data>
