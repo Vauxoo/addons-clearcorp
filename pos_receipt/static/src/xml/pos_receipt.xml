@@ -1,36 +1,39 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- vim:fdl=1:
--->
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © 2016 ClearCorp
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
 <templates id="template" xml:space="preserve">
     <t t-name="PosReceipt">
         <div class="pos-sale-ticket">
             <div class="pos-center-align">
-                <t t-esc="widget.pos.company.name"/><br />
-                Company Registry: <t t-esc="widget.pos.company.company_registry || ''"/><br />
-                Phone: <t t-esc="widget.pos.company.phone || ''"/><br />
-                Fax: <t t-esc="widget.pos.company.fax || ''"/><br />
-                Cash Invoice<br />
+            <!--<div class="pos-center-align"><t t-esc="moment().format('L LT')"/> <t t-esc="order.name"/></div>-->
+                <t t-esc="widget.pos.company.name"/><br/>
+                <t t-if="widget.pos.company.company_registry">
+                    Company Registry: <t t-esc="widget.pos.company.company_registry"/><br />
+                </t>
+                <t t-if="widget.pos.company.phone">
+                    Phone: <t t-esc="widget.pos.company.phone"/><br />
+                </t>
+                <t t-if="widget.pos.company.fax">
+                    Fax: <t t-esc="widget.pos.company.fax"/><br />
+                </t>
                 <t t-if="order.get_client_name()">
-	               Client: <t t-esc="order.get_client_name()"/><br />
-	            </t>
-	             <t t-if="order.get_client() and order.get_client().vat">
-	                Client TIN: <t t-esc="order.get_client().vat"/><br />
+                   Client: <t t-esc="order.get_client_name()"/><br/>
+                </t>
+                <t t-if="order.get_client() and order.get_client().vat">
+                    Client TIN: <t t-esc="order.get_client().vat"/><br/>
                 </t>
                 Salesman: <t t-esc="widget.pos.cashier ? widget.pos.cashier.name : widget.pos.user.name"/><br />
                 Shop: <t t-esc="widget.pos.shop.name"/><br />
+                Date: <t t-esc="moment().format('L LT')"/><br/>
+                <t t-esc="order.name"/><br/>
+                <t t-if="receipt.header">
+                    <div style='text-align: center'>
+                        <t t-esc="receipt.header" />
+                    </div>
+                    <br />
+                </t>
             </div>
-            <div class="pos-center-align">
-                <t t-esc="new Date().toString(Date.CultureInfo.formatPatterns.shortDate + ' ' + Date.CultureInfo.formatPatterns.longTime)"/><br />
-                <t t-esc="order.get('name')"/>
-            </div>
-            <br />
-            <t t-if="widget.pos.config.receipt_header">
-                <div style='text-align:center'>
-                    <t t-esc="widget.pos.config.receipt_header" />
-                </div>
-                <br />
-            </t>
-            <table>
+            <table class="receipt-orderlines">
                 <colgroup>
                     <col width='15%' />
                     <col width='35%' />
@@ -70,7 +73,7 @@
                 </t>
             </table>
             <br />
-            <table>
+            <table class="receipt-total">
                 <tr>
                     <td>Subtotal:</td>
                     <td class="pos-right-align">
@@ -80,10 +83,10 @@
                 <tr>
                     <td>Discount:</td>
                     <td class="pos-right-align">
-                        <t t-esc="widget.format_currency(order.getDiscountTotal())"/>
+                        <t t-esc="widget.format_currency(order.get_total_discount())"/>
                     </td>
                 </tr>
-                <t t-foreach="order.getTaxDetails()" t-as="taxdetail">
+                <t t-foreach="order.get_tax_details()" t-as="taxdetail">
                     <tr>
                         <td><t t-esc="taxdetail.name" /></td>
                         <td class="pos-right-align">
@@ -94,7 +97,7 @@
                 <tr class="emph">
                     <td>Total:</td>
                     <td class="pos-right-align">
-                        <t t-esc="widget.format_currency(order.getTotalTaxIncluded())"/>
+                        <t t-esc="widget.format_currency(order.get_total_with_tax())"/>
                     </td>
                 </tr>
             </table>
@@ -114,19 +117,15 @@
                 <tr class="emph">
                     <td>Change:</td>
                     <td class="pos-right-align">
-                        <t t-esc="widget.format_currency(order.getChange())"/>
+                        <t t-esc="widget.format_currency(order.get_change())"/>
                     </td>
                 </tr>
             </table>
             <br />
-            <br />
-            Client Sign: ___________________<br />
-            <br />
-            Identification: ___________________<br />
-            <t t-if="widget.pos.config.receipt_footer">
-                <br />
+            <t t-if="receipt.footer">
+                <br/>
                 <div style='text-align:center'>
-                    <t t-esc="widget.pos.config.receipt_footer" />
+                    <t t-esc="receipt.footer" />
                 </div>
             </t>
         </div>
@@ -134,32 +133,55 @@
 
     <t t-extend="XmlReceipt">
         <t t-jquery="receipt" t-operation="replace">
-            <receipt align='center' width='38' value-thousands-separator='' >
-                <div>
-                    <t t-esc="receipt.company.name"/><br />
-                    Company Registry: <t t-esc="receipt.company.company_registry || ''"/><br />
-                    Phone: <t t-esc="receipt.company.phone || ''"/><br />
-                    Fax: <t t-esc="receipt.company.fax || ''"/><br />
-                    Cash Invoice<br />
-                    <t t-if='receipt.client'>
-                        Client: <t t-esc="receipt.client"/><br />
-                        <t t-if='receipt.client_vat'>
-	                       Client TIN: <t t-esc="receipt.client_vat"/><br />
-	                    </t>
+            <receipt align='center' width='40' value-thousands-separator='' >
+                <t t-if='receipt.company.logo'>
+                    <img t-att-src='receipt.company.logo' />
+                    <br/>
+                </t>
+                <div font="b">
+                    <div><t t-esc="receipt.company.name"/></div>
+                    <t t-if="receipt.company.company_registry">
+                        <div>Company Registry: <t t-esc="receipt.company.company_registry"/></div>
                     </t>
-                    Salesman: <t t-esc="receipt.cashier || ''"/><br />
-                    Shop: <t t-esc="receipt.shop.name"/><br />
-                    <t t-esc="new Date().toString(Date.CultureInfo.formatPatterns.shortDate + ' ' + Date.CultureInfo.formatPatterns.longTime)"/><br />
-                    <t t-esc="receipt.name || ''"/>
+                    <t t-if="receipt.company.phone">
+                        <div>Phone: <t t-esc="receipt.company.phone"/></div>
+                    </t>
+                    <t t-if="receipt.company.fax">
+                        <div>Fax: <t t-esc="receipt.company.fax || ''"/></div>
+                    </t>
+                    <t t-if='receipt.company.vat'>
+                        <div>VAT:<t t-esc='receipt.company.vat' /></div>
+                    </t>
+                    <t t-if='receipt.company.website'>
+                        <div><t t-esc='receipt.company.website' /></div>
+                    </t>
+                    <t t-if='receipt.company.email'>
+                        <div><t t-esc='receipt.company.email' /></div>
+                    </t>
+                    <t t-if='receipt.client'>
+                        <div>Client: <t t-esc="receipt.client"/></div>
+                        <t t-if='receipt.client_vat'>
+                           <div>Client TIN: <t t-esc="receipt.client_vat"/></div>
+                        </t>
+                    </t>
+                    <t t-if='receipt.cashier'>
+                        <div>Salesman: <t t-esc="receipt.cashier"/></div>
+                    </t>
+                    <t t-if="receipt.shop.name">
+                        <div>Shop: <t t-esc="receipt.shop.name"/></div>
+                    </t>
+                    <div>Date: <t t-esc='receipt.date.localestring' /></div>
+                    <div><t t-esc="receipt.name || ''"/></div>
+                    <t t-if='receipt.header_xml'>
+                        <t t-raw='receipt.header_xml' />
+                    </t>
+                    <t t-if='!receipt.header_xml and receipt.header'>
+                        <div><t t-esc='receipt.header' /></div>
+                    </t>
                 </div>
                 <br /><br />
-                <t t-if="receipt.header">
-                    <div>
-                        <t t-esc="receipt.header" />
-                    </div>
-                </t>
-                <br /><br />
-                <div line-ratio='0.6'>
+                <!-- orderlines -->
+                <div class='orderlines' line-ratio='0.6'>
                     <line>
                         <left>
                             <span>Qty</span>
@@ -177,6 +199,9 @@
                                 <value value-decimals='2' value-autoint='on'>
                                     <t t-esc='line.quantity' />
                                 </value>
+                                <t t-if='line.unit_name !== "Unit(s)"'>
+                                    <t t-esc='line.unit_name' />
+                                </t>
                                 <t t-esc='line.product_name' />
                             </left>
                             <right>
@@ -212,11 +237,11 @@
                     <left><pre>Total:</pre></left>
                     <right><value><t t-esc='receipt.total_with_tax' /></value></right>
                 </line>
-                <br/><br/>
-                <t t-foreach='receipt.paymentlines' t-as='line'>
+                <br/>
+                <t t-foreach='paymentlines' t-as='line'>
                     <line>
-                        <left><t t-esc='line.journal' /></left>
-                        <right><value><t t-esc='line.amount'/></value></right>
+                        <left><t t-esc='line.name' /></left>
+                        <right><value><t t-esc='line.get_amount()'/></value></right>
                     </line>
                 </t>
                 <br />
@@ -224,17 +249,18 @@
                     <left><pre>Change:</pre></left>
                     <right><value><t t-esc='receipt.change' /></value></right>
                 </line>
-                <br />
-                <br />
-                Client Sign: ___________________<br />
-                <br />
-                Identification: ___________________<br />
-                <br />
-                <t t-if="receipt.footer">
-                    <div>
-                        <t t-esc="receipt.footer" />
-                    </div>
+                <div class='before-footer' />
+                <t t-if='receipt.footer_xml'>
+                    <t t-raw='receipt.footer_xml' />
                 </t>
+
+                <t t-if='!receipt.footer_xml and receipt.footer'>
+                    <br/>
+                    <t t-esc='receipt.footer' />
+                    <br/>
+                    <br/>
+                </t>
+                <div class='after-footer' />
             </receipt>
         </t>
     </t>
