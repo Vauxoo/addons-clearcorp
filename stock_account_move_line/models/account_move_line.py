@@ -34,7 +34,7 @@ class AccountMoveLine(models.Model):
         else:
             company_currency = stock_picking.company_id.currency_id
             unit_cost_currency = company_currency.compute(
-                currency.id, unit_cost)
+                currency, unit_cost)
         return unit_cost_currency
 
     unit_cost = fields.Float('Unit Cost')
