@@ -19,7 +19,7 @@ class HrExpenseExpense(models.Model):
             account = self.env['ir.property'].with_context(
                 force_company=self.company_id.id).get(
                 'property_account_expense_categ_id', 'product.category').id
-        if res['account_id'] != account:
+        if res['account_id'] == account:
             res['partner_id'] = self.supplier_id.id
         return res
 
