@@ -22,23 +22,15 @@
 
 
 {
-    "name" : 'NAME',
+    "name" : 'Consignment stock location on partner',
     "version" : '1.0',
     "author" : 'ClearCorp',
-    #easy, normal, expert
-    'complexity': 'normal',
-    "description": """
-LONG DESCRIPTION
-    """,
-    "category": 'Accounting & Finance',
+    "summary": "Create a field to set the location for consignment stock on partners.",
+    "category": 'Hidden',
     "sequence": 4,
-    "website" : "http://clearcorp.co.cr",
-    "images" : [],
-    "icon" : False,
-    "depends" : [],
-    "init_xml" : [],
-    "demo_xml" : [],
-    "update_xml" : [],
+    "depends" : ['stock'],
+    "data" : ['res_partner_view.xml'],
+    "demo" : [],
     "test" : [],
     "auto_install": False,
     "application": False,

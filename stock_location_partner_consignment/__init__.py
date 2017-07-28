@@ -20,28 +20,4 @@
 #
 ##############################################################################
 
-
-{
-    "name" : 'NAME',
-    "version" : '1.0',
-    "author" : 'ClearCorp',
-    #easy, normal, expert
-    'complexity': 'normal',
-    "description": """
-LONG DESCRIPTION
-    """,
-    "category": 'Accounting & Finance',
-    "sequence": 4,
-    "website" : "http://clearcorp.co.cr",
-    "images" : [],
-    "icon" : False,
-    "depends" : [],
-    "init_xml" : [],
-    "demo_xml" : [],
-    "update_xml" : [],
-    "test" : [],
-    "auto_install": False,
-    "application": False,
-    "installable": True,
-    'license': 'AGPL-3',
-}
+import res_partner
