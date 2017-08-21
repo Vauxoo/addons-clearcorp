@@ -16,6 +16,8 @@ class StockQuant(models.Model):
         res = super(StockQuant, self)._prepare_account_move_line(
             cr, uid, move, qty, cost, credit_account_id, debit_account_id,
             context=context)
+        if not res:
+            return res
 
         move_line_obj = self.pool.get('account.move.line')
 
