@@ -283,29 +283,17 @@ class AccountAnalyticAccount(models.Model):
 
 class HRExpenseLine(models.Model):
     _inherit = 'hr.expense.line'
-    @api.depends('issue_id')
-    @api.one
-    def get_account_issue(self):
-        account_obj=self.env['account.analytic.account']
-        if self.issue_id:
-            self.init_onchange_call=self.issue_id.analytic_account_id
     @api.onchange('issue_id')
     def get_account(self):
         if self.issue_id.analytic_account_id:
             self.analytic_account=self.issue_id.analytic_account_id
         else:
             self.analytic_account=False
-    init_onchange_call= fields.Many2many('account.analytic.account',compute="get_account_issue",string='Nothing Display', help='field at view init')
+
     issue_id=fields.Many2one('project.issue','Issue')
 
 class AccountInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
-    @api.depends('issue_id')
-    @api.one
-    def get_account_issue(self):
-        account_obj=self.env['account.analytic.account']
-        if self.issue_id:
-            self.init_onchange_call=self.issue_id.analytic_account_id
 
     @api.onchange('issue_id')
     def get_account(self):
@@ -313,7 +301,6 @@ class AccountInvoiceLine(models.Model):
             self.account_analytic_id=self.issue_id.analytic_account_id
         else:
             self.account_analytic_id=False
-    
     @api.onchange('task_id')
     def get_account_task(self):
         if self.task_id:
@@ -323,8 +310,6 @@ class AccountInvoiceLine(models.Model):
                 self.account_analytic_id=False
         else:
             self.account_analytic_id=False
-                
-    init_onchange_call= fields.Many2many('account.analytic.account',compute="get_account_issue",string='Nothing Display', help='field at view init')
     issue_id=fields.Many2one('project.issue','Issue')
     billable=fields.Boolean(string="Billable")
     
