@@ -130,10 +130,9 @@
                 <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/form[@string='Expense Lines']/group/group/field[@name='analytic_account']" position="before"> 
                     <field name="task_id" attrs="{'readonly':[('issue_id','!=',False)]}" domain="[('stage_id.closed','!=',True)]"/>
                     <field name="issue_id" attrs="{'readonly':[('task_id','!=',False)]}" domain="[('stage_id.closed','!=',True)]"/>
-                    <field name="init_onchange_call" invisible="1"/>
                 </xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/form[@string='Expense Lines']/group/group/field[@name='analytic_account']" position="attributes"> 
-                    <attribute name="domain">[('id','in',init_onchange_call[0][2]),('type','in',['normal','contract'])]</attribute>
+                    <attribute name="domain">[('type','in',['normal','contract'])]</attribute>
                     <attribute name="attrs">{'required':['|',('issue_id','!=',False),('task_id','!=',False)]}</attribute>
                 </xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/form[@string='Expense Lines']/group/group[2]/field[@name='date_value']" position="before"> 
@@ -142,7 +141,6 @@
 
                 <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']/field[@name='analytic_account']" position="before">
                     <field name="issue_id" attrs="{'readonly':[('task_id','!=',False)]}" domain="[('stage_id.closed','!=',True)]"/>
-                    <field name="init_onchange_call" invisible="1"/>
                 </xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']/field[@name='task_id']" position="attributes"> 
                     <attribute name="domain">[('stage_id.closed','!=',True)]</attribute>
@@ -151,7 +149,7 @@
                     <attribute name="attrs">{'readonly': [('issue_id','!=',False)]}</attribute>
                 </xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']/field[@name='analytic_account']" position="attributes"> 
-                    <attribute name="domain">[('id','in',init_onchange_call[0][2]),('type','in',['normal','contract'])]</attribute>
+                    <attribute name="domain">[('type','in',['normal','contract'])]</attribute>
                 </xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Description']/field[@name='line_ids']/tree[@string='Expense Lines']" position="attributes"> 
                     <attribute name="editable"/>
@@ -181,9 +179,8 @@
                                 <field name="product_id" on_change="product_id_change(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.currency_id, parent.company_id, context)"/>
                                 <field name="task_id" attrs="{'readonly':[('issue_id','!=',False)]}" domain="[('stage_id.closed','!=',True)]"/>
                                 <field name="issue_id" attrs="{'readonly':[('task_id','!=',False)]}" domain="[('stage_id.closed','!=',True)]"/>
-                                <field name="account_analytic_id" groups="purchase.group_analytic_accounting" attrs="{'required':['|',('issue_id','!=',False),('task_id','!=',False)]}" domain="[('id','in',init_onchange_call[0][2]),('type','in',['normal','contract'])]"/>
+                                <field name="account_analytic_id" groups="purchase.group_analytic_accounting" attrs="{'required':['|',('issue_id','!=',False),('task_id','!=',False)]}" domain="[('type','in',['normal','contract'])]"/>
                                 <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
-                                 <field name="init_onchange_call" invisible="1"/>
                             </group>
                             <group>
                                 <field name="account_id" groups="account.group_account_user"
@@ -208,7 +205,6 @@
                 </xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Invoice']/field[@name='invoice_line']/tree[@string='Invoice lines']/field[@name='account_analytic_id']" position="before">
                     <field name="issue_id" attrs="{'readonly':[('task_id','!=',False)]}" domain="[('stage_id.closed','!=',True)]"/>
-                    <field name="init_onchange_call" invisible="1"/>
                 </xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Invoice']/field[@name='invoice_line']/tree[@string='Invoice lines']/field[@name='task_id']" position="attributes"> 
                     <attribute name="domain">[('stage_id.closed','!=',True)]</attribute>
@@ -217,7 +213,7 @@
                     <attribute name="attrs">{'readonly': [('issue_id','!=',False)]}</attribute>
                 </xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Invoice']/field[@name='invoice_line']/tree[@string='Invoice lines']/field[@name='account_analytic_id']" position="attributes"> 
-                    <attribute name="domain">[('id','in',init_onchange_call[0][2]),('type','in',['normal','contract'])]</attribute>
+                    <attribute name="domain">[('type','in',['normal','contract'])]</attribute>
                 </xpath>
                 <xpath expr="/form/sheet/notebook/page[@string='Invoice']/field[@name='invoice_line']/tree[@string='Invoice lines']" position="attributes"> 
                     <attribute name="editable"/>
