@@ -96,7 +96,7 @@ AND prl.product_id = %s""", [self.requisition_id.id,
             # Raise an error if no match is found
             if diff > 0:
                 raise Warning(_('It was unable to be processed due '
-                                'to the error in the match of quantities.'))
+                                'to the error in the match of quantities. (%s)' % self.product_id.default_code))
             return True
 
     requisition_id = fields.Many2one(
