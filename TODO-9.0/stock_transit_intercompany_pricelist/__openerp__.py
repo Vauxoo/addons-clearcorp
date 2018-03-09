@@ -32,7 +32,7 @@ This module adds a field 'Intercompany Price' to make the transfer InterCompany
     'website': 'http://clearcorp.co.cr',
     'depends': ['stock',],
     'data': [],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'application': False,    
     'license': 'AGPL-3',

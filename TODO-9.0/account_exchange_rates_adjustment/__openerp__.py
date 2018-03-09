@@ -38,7 +38,7 @@
               "wizard/account_exchange_rates_adjustment.xml",
               "account_exchange_rates_adjustment.xml",
               ],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'license': 'AGPL-3',
 }

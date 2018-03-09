@@ -40,6 +40,6 @@ Also includes functions for Account Reconcile that are in common with both model
     "depends" : ['account'],
     "data" : [],
     'active': False,
-    'installable': True,    
+    'installable': False,    
     'license': 'AGPL-3',
 }

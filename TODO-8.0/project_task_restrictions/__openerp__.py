@@ -42,6 +42,6 @@ Restricts that the only user able to close a task is the responsible of the task
     "test" : [],
     "auto_install": False,
     "application": False,
-    "installable": True,
+    "installable": False,
     'license': 'AGPL-3',
 }

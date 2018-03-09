@@ -51,5 +51,5 @@ Also, rename the journal, that add the company prefix in the name get and name s
     "test" : [],
     "auto_install": False,
     "application": False,
-    "installable": True,
+    "installable": False,
 }

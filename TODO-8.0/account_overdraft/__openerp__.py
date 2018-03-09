@@ -33,6 +33,6 @@ This module can generate alerts for accounts that have overdrafts on debit and c
     'data': ['data/data.xml',
              'account_overdraft_view.xml'],
     'active': False,
-    'installable': True,    
+    'installable': False,    
     'license': 'AGPL-3',
 }

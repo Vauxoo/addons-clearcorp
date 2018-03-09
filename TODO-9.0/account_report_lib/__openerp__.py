@@ -52,6 +52,6 @@ Observations about qweb_reports module:
              ],
     'test': [],
     'active': False,
-    'installable': True,
+    'installable': False,
     'license': 'AGPL-3',
 }

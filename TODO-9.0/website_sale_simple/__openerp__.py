@@ -29,7 +29,7 @@
     'website': 'http://clearcorp.cr',
     'depends': ['website_sale'],
     'data': ['view/website_sale_simple_view.xml'],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'application': False,
     'license': 'AGPL-3',

@@ -45,7 +45,7 @@ Restrict Line Removal
     'qweb': [
              'static/src/xml/remove_line_confirm.xml',
              ],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'application': False,
     'license': 'AGPL-3',

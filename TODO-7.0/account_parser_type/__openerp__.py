@@ -37,6 +37,6 @@
     'update_xml': ['account_parser_type.xml',],
     'test': [],
     'active': False,
-    'installable': True,
+    'installable': False,
     'license': 'AGPL-3',
 }

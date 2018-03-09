@@ -34,7 +34,7 @@ This module add a payment/charge for clients and suggest a date due in invoices
     'data': [
              'account_invoice_partner_date_due.xml',
              ],                
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'license': 'AGPL-3',
 }

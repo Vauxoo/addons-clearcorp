@@ -34,6 +34,6 @@ mixed or international.
     'depends': ['product',],
     'data': ['product_origin.xml'],
     'active': False,
-    'installable': True,
+    'installable': False,
     'license': 'AGPL-3',
 }

@@ -39,6 +39,6 @@ This module modifies the Partner Balance Report. Add Qweb report support""",
              'views/report_partner_balance.xml',
             ],
     'active': False,
-    'installable': True,    
+    'installable': False,    
     'license': 'AGPL-3',
 }

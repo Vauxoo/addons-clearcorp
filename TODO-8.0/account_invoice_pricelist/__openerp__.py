@@ -40,7 +40,7 @@ This module adds and links the Sale and Purchase Orders Pricelist with the Invoi
              ],
     'test' : [],
     'demo': [],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'application': False,
     'license': 'AGPL-3',

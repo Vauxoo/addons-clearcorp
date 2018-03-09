@@ -45,7 +45,7 @@ Restrict Discounts
     'qweb': [
              'static/src/xml/discount_confirm.xml',
              ],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'application': False,
     'license': 'AGPL-3',

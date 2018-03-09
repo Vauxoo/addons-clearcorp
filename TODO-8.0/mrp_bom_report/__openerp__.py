@@ -38,7 +38,7 @@ total quantity for all products or for a specific list of products
              'report/report.xml',
              'report_menus.xml',
              ],                
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'license': 'AGPL-3',
 }

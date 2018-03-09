@@ -40,6 +40,6 @@
                     'hr_payroll_report_view.xml',
                 ],
     'license': 'AGPL-3',
-    'installable': True,
+    'installable': False,
     'active': False,
 }

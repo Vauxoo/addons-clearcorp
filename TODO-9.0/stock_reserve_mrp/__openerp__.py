@@ -13,7 +13,7 @@
     'website': 'http://clearcorp.co.cr',
     'depends': ['mrp', 'stock_reserve'],
     'data': ['stock_reserve_mrp_view.xml'],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'application': False,
     'license': 'AGPL-3',

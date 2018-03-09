@@ -36,6 +36,6 @@
     'demo_xml': [],
     'update_xml': ['purchase_order_archive.xml'],
     'license': 'AGPL-3',
-    'installable': True,
+    'installable': False,
     'active': False,
 }

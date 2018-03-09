@@ -41,5 +41,5 @@ This module eliminates translation of the name properties in the account tax.
     "test" : [],
     "auto_install": False,
     "application": False,
-    "installable": True,
+    "installable": False,
 }

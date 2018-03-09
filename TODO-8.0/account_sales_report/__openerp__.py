@@ -40,6 +40,6 @@ This module permits print the account sales report.
              'report/report.xml',
              'report_menus.xml'],
     'active': False,
-    'installable': True,
+    'installable': False,
     'license': 'AGPL-3',
 }

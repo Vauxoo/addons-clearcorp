@@ -36,6 +36,6 @@
     'demo_xml': [],
     'update_xml': ['mrp_production_sequence.xml'],
     'license': 'AGPL-3',
-    'installable': True,
+    'installable': False,
     'active': False,
 }

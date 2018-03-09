@@ -33,6 +33,6 @@
     'data' : ['project_task_sequence_view.xml','project_task_sequence_data.xml'],
     'auto_install': False,
     'application': False,
-    'installable': True,
+    'installable': False,
     'license': 'AGPL-3',
 }

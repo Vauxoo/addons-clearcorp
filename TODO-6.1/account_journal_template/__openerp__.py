@@ -7,5 +7,5 @@
     "update_xml" : [],
     "category" : "",
     "active": False,
-    "installable": True
+    "installable": False
 }

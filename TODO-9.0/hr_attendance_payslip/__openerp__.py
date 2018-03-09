@@ -57,6 +57,6 @@ Warning: Does not support multiple contracts per user
     'test' : [],
     'auto_install': False,
     'application': False,
-    'installable': True,
+    'installable': False,
     'license': 'AGPL-3',
 }

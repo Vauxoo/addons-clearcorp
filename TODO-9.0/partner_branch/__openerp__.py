@@ -38,7 +38,7 @@ Defines whether the partner is a company , branch or contact.
     'data': ['view/partner_branch.xml'
              ],
     'license': 'AGPL-3',
-    'installable': True,
+    'installable': False,
     'active': False,
 }
 

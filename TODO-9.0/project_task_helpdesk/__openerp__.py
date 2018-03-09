@@ -38,7 +38,7 @@ Extends Project Task
     'data': ['data/project_task_sequence_data.xml','view/project_task_helpdesk.xml',
              ],
     'license': 'AGPL-3',
-    'installable': True,
+    'installable': False,
     'active': False,
 }
 

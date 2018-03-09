@@ -39,6 +39,6 @@
         'payment_receipt_report.xml', 
         ],
    'license': 'AGPL-3',
-    'installable': True,
+    'installable': False,
     'active': False,
 }

@@ -41,6 +41,6 @@ It is ment to be used in other modules, it doesn't do anything on its own.
     ],
     'test': [],
     'active': False,
-    'installable': True,
+    'installable': False,
     'license': 'AGPL-3',
 }

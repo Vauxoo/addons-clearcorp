@@ -45,6 +45,6 @@ This modules allows to specify custom actions (reports, links or actions) to pla
     "test" : [],
     "auto_install": False,
     "application": False,
-    "installable": True,
+    "installable": False,
     'license': 'AGPL-3',
 }

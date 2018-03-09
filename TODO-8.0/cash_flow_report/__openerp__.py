@@ -43,6 +43,6 @@ This report allows you to monitor company activities that move cash flow """,
                 'report_menus.xml',        
              ],
     'active': False,
-    'installable': True,    
+    'installable': False,    
     'license': 'AGPL-3',
 }

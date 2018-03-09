@@ -38,6 +38,6 @@
 		'base_currency_symbol_view.xml',
 		],
 	'license': 'Other OSI approved licence',
-	'installable': True,
+	'installable': False,
 	'active': False,
 }

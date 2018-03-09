@@ -57,7 +57,7 @@ Note: If you uinstall this module be sure to update the sale_commission module d
              ],
     'test' : [],
     'demo': [],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'application': False,
     'license': 'AGPL-3',

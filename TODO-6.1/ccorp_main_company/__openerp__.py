@@ -46,6 +46,6 @@
     'demo_xml': ['ccorp_main_company_data.xml'],
     'update_xml': [],
     'license': 'Other OSI approved licence',
-    'installable': True,
+    'installable': False,
     'active': True,
 }

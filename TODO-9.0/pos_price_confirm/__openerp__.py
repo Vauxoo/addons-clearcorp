@@ -45,7 +45,7 @@ Restrict Price Changes
     'qweb': [
              'static/src/xml/price_confirm.xml',
              ],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'application': False,
     'license': 'AGPL-3',

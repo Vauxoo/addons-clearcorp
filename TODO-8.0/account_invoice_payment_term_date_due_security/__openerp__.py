@@ -39,7 +39,7 @@ it adds security on payment term in sale order
               'sale_order_inherit.xml',
               'purchase_order_inherit.xml',
               ],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'license': 'AGPL-3',
 }

@@ -40,6 +40,6 @@
                 'security/ir.model.access.csv',
                 ],
     'license': 'AGPL-3',
-    'installable': True,
+    'installable': False,
     'active': False,
 }

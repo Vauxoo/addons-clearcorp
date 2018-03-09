@@ -50,7 +50,7 @@ The selected addresses/partners are deactivated and a new one is created with :
                     "wizard/base_partner_merge_address_ccorp_view.xml"
                    ],
     'demo_xml': [],
-    'installable': True,
+    'installable': False,
     "active": False,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

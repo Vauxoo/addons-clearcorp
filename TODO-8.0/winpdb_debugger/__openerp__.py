@@ -32,6 +32,6 @@
     'demo_xml': [],
     'update_xml': ['winpdb_debugger_wizard.xml'],
     'license': 'AGPL-3',
-    'installable': True,
+    'installable': False,
     'active': False,
 }

@@ -36,6 +36,6 @@
     'data': [
              'account_period_attachment_doc.xml'
              ],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
 }

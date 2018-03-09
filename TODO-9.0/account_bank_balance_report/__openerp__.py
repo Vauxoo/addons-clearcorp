@@ -38,7 +38,7 @@ Install the Account Bank Balance Report
              'report_menus.xml',
              'views/report_bank_balance.xml'
              ],                
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'license': 'AGPL-3',
 }

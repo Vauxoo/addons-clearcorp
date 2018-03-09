@@ -52,5 +52,5 @@
                      'security/security.xml',
                      ],
     "active": False,
-    "installable": True
+    "installable": False
 }

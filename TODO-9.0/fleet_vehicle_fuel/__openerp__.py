@@ -32,7 +32,7 @@ This module modify the field purchase for view all partners
     'website': 'http://clearcorp.co.cr',
     'depends' : ['fleet'],
     'data': [],
-    'installable': True,
+    'installable': False,
     'active': False,
     'license': 'AGPL-3',
 

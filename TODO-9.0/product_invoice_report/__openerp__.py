@@ -47,7 +47,7 @@ This module permits print the product invoice report.
              ],
     'test' : [],
     'demo': [],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'application': False,
     'license': 'AGPL-3',

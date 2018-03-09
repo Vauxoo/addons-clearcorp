@@ -43,7 +43,7 @@ This module add stock move report
                     'report/stock_move_analysis.xml',
                     ],
     'license': 'AGPL-3',
-    'installable': True,
+    'installable': False,
     'active': False,
 }
 

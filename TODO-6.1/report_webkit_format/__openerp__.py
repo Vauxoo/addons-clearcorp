@@ -8,5 +8,5 @@
 		],
 	"category" : "Reporting",
 	"active": False,
-	"installable": True
+	"installable": False
 }

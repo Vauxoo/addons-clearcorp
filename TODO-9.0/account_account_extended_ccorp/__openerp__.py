@@ -40,7 +40,7 @@ Adds filters to account move line: Currency and account type
              'account_account_extended_ccorp_view.xml',
              'account_move_line_extended.xml'],
     'license': 'AGPL-3',
-    'installable': True,
+    'installable': False,
     'active': False,
 }
 

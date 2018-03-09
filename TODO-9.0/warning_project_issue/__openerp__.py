@@ -33,6 +33,6 @@ Warning messages can be displayed for object project issue. The message is trigg
     'depends': ['warning'],
     'data': ['warning_view.xml'],
     'license': 'AGPL-3',
-    'installable': True,
+    'installable': False,
     'active': False,
 }

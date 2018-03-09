@@ -47,6 +47,6 @@ Creates Journal Items for discounts in Customer invoices and refunds
     'test' : [],
     'auto_install': False,
     'application': False,
-    'installable': True,
+    'installable': False,
     'license': 'AGPL-3',
 }

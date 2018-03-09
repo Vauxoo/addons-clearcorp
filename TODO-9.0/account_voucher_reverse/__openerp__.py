@@ -43,6 +43,6 @@ Module for reverse account vouchers
     "test" : [],
     "auto_install": False,
     "application": False,
-    "installable": True,
+    "installable": False,
     'license': 'AGPL-3',
 }

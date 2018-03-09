@@ -32,7 +32,7 @@ This module add fields in account configuration for the number of lines in Accou
     'website': 'http://clearcorp.co.cr',
     'depends' : ['product','account'],
     'data': ['res_config.xml','product_view.xml'],
-    'installable': True,
+    'installable': False,
     'active': False,
     'license': 'AGPL-3',
 

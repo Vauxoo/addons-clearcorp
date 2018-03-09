@@ -40,7 +40,7 @@ Add Terms & Conditions to the sale order
              'security/ir.model.access.csv'],
     'test': [],
     'demo': [],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'application': False,
     'license': 'AGPL-3',

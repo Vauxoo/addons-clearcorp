@@ -33,7 +33,7 @@ This module add a field of accounting code to handle the encoding requested by c
     'depends' : ['product','account'],
     'data': ['view/partner_account.xml',
              'security/ir.model.access.csv',],
-    'installable': True,
+    'installable': False,
     'active': False,
     'license': 'AGPL-3',
 

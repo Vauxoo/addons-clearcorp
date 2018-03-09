@@ -12,6 +12,6 @@ OpenERP Contact Form
     'author': 'ClearCorp',
     'depends': ['website_partner', 'crm', 'website_crm'],
     'data': ['view.xml'],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
 }

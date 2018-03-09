@@ -34,6 +34,6 @@ and default code
     'depends': ['product',],
     'data': ['report/report.xml'],
     'active': False,
-    'installable': True,
+    'installable': False,
     'license': 'AGPL-3',
 }

@@ -32,7 +32,7 @@
     'data': ['crm_lead_stage_history.xml', 'security/ir.model.access.csv'],
     'test': [],
     'demo': [],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'application': False,
     'license': 'AGPL-3',

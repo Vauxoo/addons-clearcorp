@@ -34,6 +34,6 @@ case that product has image, report will print this image.
     'depends': ['product','account_report_lib'],
     'data': ['report/report.xml'],
     'active': False,
-    'installable': True,
+    'installable': False,
     'license': 'AGPL-3',
 }

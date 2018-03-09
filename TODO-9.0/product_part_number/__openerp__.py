@@ -32,7 +32,7 @@ This module add the part number and the manufacturer to products
     'website': 'http://clearcorp.co.cr',
     'depends' : ['base','product','stock','purchase'],
     'data': ['product_view.xml','res_config.xml'],
-    'installable': True,
+    'installable': False,
     'active': False,
     'license': 'AGPL-3',
 

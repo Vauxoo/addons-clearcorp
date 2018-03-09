@@ -43,5 +43,5 @@
                      'magento_stadistic_menu.xml',                     
                      ],
     "active": False,
-    "installable": True
+    "installable": False
 }

@@ -43,7 +43,7 @@ Limits the users that can allow stock moves that left an negative inventory on t
              ],
     'test' : [],
     'demo': [],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'application': False,
     'license': 'AGPL-3',

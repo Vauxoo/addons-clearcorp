@@ -43,7 +43,7 @@ This module adds different options:
                 "account_journal.xml",
                 "account_voucher_exchange.xml",
             ],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'license': 'AGPL-3',
 }

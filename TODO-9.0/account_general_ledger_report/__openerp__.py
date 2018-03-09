@@ -40,6 +40,6 @@ This module modifies the general ledger report""",
                'views/report_general_ledger.xml',
             ],
     'active': False,
-    'installable': True,    
+    'installable': False,    
     'license': 'AGPL-3',
 }

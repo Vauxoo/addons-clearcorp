@@ -39,6 +39,6 @@ Limit the discount amount allowed in Sale Orders and Invoices""",
               ],
     'test': [],
     'active': False,
-    'installable': True,
+    'installable': False,
     'license': 'AGPL-3',
 }

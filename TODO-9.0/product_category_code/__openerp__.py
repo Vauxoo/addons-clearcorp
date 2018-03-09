@@ -36,6 +36,6 @@ This module permits encode  categories and subcategories of product and service.
             'view/product_category_code.xml' 
                      ],
     'active': False,
-    'installable': True,
+    'installable': False,
     'license': 'AGPL-3',
 }

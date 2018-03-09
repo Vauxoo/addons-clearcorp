@@ -32,7 +32,7 @@
     'data': ['product_attribute_code_view.xml'],
     'test': [],
     'demo': [],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'application': False,
     'license': 'AGPL-3',

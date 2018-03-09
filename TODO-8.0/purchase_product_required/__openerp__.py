@@ -36,7 +36,7 @@ Description:
     'website': 'http://www.clearcorp.co.cr',
     'depends': ['purchase'],
     'data': [],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
 }
 

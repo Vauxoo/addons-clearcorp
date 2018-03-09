@@ -45,6 +45,6 @@
 	'demo_xml': [],
 	'update_xml': ['base_partner_code_view.xml'],
 	'license': 'Other OSI approved licence',
-	'installable': True,
+	'installable': False,
 	'active': False,
 }

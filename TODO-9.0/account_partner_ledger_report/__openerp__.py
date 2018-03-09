@@ -39,6 +39,6 @@ This module modifies the partner ledger report """,
              'views/report_account_partner_ledger.xml',
             ],
     'active': False,
-    'installable': True,    
+    'installable': False,    
     'license': 'AGPL-3',
 }

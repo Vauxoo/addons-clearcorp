@@ -37,6 +37,6 @@ product has sequence, default code in product is built based on sequence in cate
              'product_product.xml',
              ],
     'active': False,
-    'installable': True,
+    'installable': False,
     'license': 'AGPL-3',
 }

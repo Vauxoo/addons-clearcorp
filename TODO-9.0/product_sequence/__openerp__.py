@@ -33,6 +33,6 @@ This module adds a sequence in products
     'depends': ['product',],
     'data': ['data/product_sequence_data.xml'],
     'active': False,
-    'installable': True,    
+    'installable': False,    
     'license': 'AGPL-3',
 }

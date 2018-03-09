@@ -35,6 +35,6 @@ This module import products from .xlsx to update it
              'wizard/product_cisco_import_wizard_view.xml',
              ],
     'active': False,
-    'installable': True,
+    'installable': False,
     'license': 'AGPL-3',
 }

@@ -39,7 +39,7 @@ This module permits to associate manual payments from a specific invoice.
 				'wizard/account_voucher_add_payments.xml',
 				'account_invoice.xml'
 			],
-	'installable': True,
+	'installable': False,
 	'auto_install': False,
 	'license': 'AGPL-3',
 }

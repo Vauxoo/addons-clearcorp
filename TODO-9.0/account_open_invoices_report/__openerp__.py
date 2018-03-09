@@ -38,6 +38,6 @@ This module modifies the open invoice report """,
              'views/report_open_invoices.xml',
             ],
     'active': False,
-    'installable': True,    
+    'installable': False,    
     'license': 'AGPL-3',
 }

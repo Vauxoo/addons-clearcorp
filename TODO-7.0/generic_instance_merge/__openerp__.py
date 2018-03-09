@@ -37,6 +37,6 @@ This a library with a method to merge instances from a given object and update r
     'update_xml': [],
     'test': [],
     'active': False,
-    'installable': True,
+    'installable': False,
     'license': 'AGPL-3',
 }

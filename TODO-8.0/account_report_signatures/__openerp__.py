@@ -35,6 +35,6 @@
               'account_report_signatures.xml',
               'account_report_signature_menu.xml'],
     'license': 'Other OSI approved licence',
-    'installable': True,
+    'installable': False,
     'active': False,
 }

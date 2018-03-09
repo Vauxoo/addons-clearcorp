@@ -34,6 +34,6 @@ picking and invoice. The message is triggered by the form's onchange event based
     'depends': ['warning'
                 ],
     'license': 'AGPL-3',
-    'installable': True,
+    'installable': False,
     'active': False,
 }

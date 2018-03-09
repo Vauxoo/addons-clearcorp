@@ -40,6 +40,6 @@ Create a reconcile with different partners in specific accounts
     "test" : [],
     "auto_install": False,
     "application": False,
-    "installable": True,
+    "installable": False,
     'license': 'AGPL-3',
 }

@@ -38,6 +38,6 @@ This module permits to print a Aged Partner Balance Report.
              'report_menus.xml',
             ],
     'active': False,
-    'installable': True,    
+    'installable': False,    
     'license': 'AGPL-3',
 }

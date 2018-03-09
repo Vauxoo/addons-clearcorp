@@ -33,6 +33,6 @@
               'res_currency_priority_view.xml',
               ],
     'active': False,
-    'installable': True,
+    'installable': False,
     'license': 'AGPL-3',
 }

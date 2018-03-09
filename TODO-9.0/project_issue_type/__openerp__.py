@@ -32,7 +32,7 @@
     'data': ['project_issue_type_view.xml','security/ir.model.access.csv'], 
     'test' : [],
     'demo': [],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'application': False,
     'license': 'AGPL-3',

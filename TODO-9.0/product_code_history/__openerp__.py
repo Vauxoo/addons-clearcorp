@@ -34,6 +34,6 @@ This module permits In the data sheet should be able to register the old codes b
     'data': ['view/product_code_history.xml',
              'view/product_code_history_menu.xml'],
     'active': False,
-    'installable': True,
+    'installable': False,
     'license': 'AGPL-3',
 }

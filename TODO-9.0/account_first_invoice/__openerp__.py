@@ -29,7 +29,7 @@
     'website': 'http://clearcorp.cr',
     'depends': ['account'],
     'data': ['account_first_invoice_view.xml'],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'application': False,
     'license': 'AGPL-3',

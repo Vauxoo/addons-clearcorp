@@ -49,5 +49,5 @@ NAME: Account name
     "test" : [],
     "auto_install": False,
     "application": False,
-    "installable": True,
+    "installable": False,
 }
