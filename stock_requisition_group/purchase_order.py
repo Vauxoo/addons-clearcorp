@@ -52,7 +52,7 @@ class PurchaseOrder(models.Model):
         for po in self:
             for line in po.order_line:
                 line.match_procurement()
-        return True
+        return super(PurchaseOrder, self).wkf_confirm_order()
 
 
 class PurchaseOrderLine(models.Model):
