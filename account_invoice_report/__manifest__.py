@@ -4,7 +4,7 @@
 {
     'name': 'Invoice Report',
     'summary': 'Invoice webkit report',
-    'version': '8.0.1.0',
+    'version': '0.9.0001',
     'category': 'Accounting & Finance',
     'website': 'http://clearcorp.cr',
     'author': 'ClearCorp',
