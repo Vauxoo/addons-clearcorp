@@ -4,7 +4,7 @@
 {
     'name': 'Invoice discount',
     'summary': 'Adds a discount feature for invoice',
-    'version': '1.0',
+    'version': '0.9.001',
     'category': 'Accounting & Finance',
     'website': "http://clearcorp.cr",
     'author': 'ClearCorp',
