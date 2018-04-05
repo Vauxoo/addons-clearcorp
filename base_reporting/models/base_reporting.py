@@ -12,3 +12,8 @@ class Company(models.Model):
     logo_report = fields.Binary(
         'Report Logo', help='Upload a high definition logo to print '
         'on reports.')
+
+class BaseConfigSettings(models.TransientModel):
+    _inherit = 'base.config.settings'
+    
+    logo_report = fields.Boolean(related="company_id.logo_report", string="Report Logo", help="Upload a high definition logo to print on reports.")

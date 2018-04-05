@@ -5,7 +5,7 @@
 {
     'name': 'Base Reporting',
     'summary': 'Base for reporting ',
-    'version': '0.9.0001',
+    'version': '0.9.0002',
     'category': 'Technical Settings',
     'website': 'http://clearcorp.cr',
     'author': 'ClearCorp',
