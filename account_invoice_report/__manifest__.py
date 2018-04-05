@@ -15,6 +15,7 @@
     'auto_install': False,
     'depends': [
         'base',
+        'base_setup',
         'account_invoice_discount',
         'base_reporting',
         ],

@@ -16,6 +16,7 @@
     'auto_install': False,
     'depends': [
         'base',
+        'base_setup',
     ],
     'data': [
         "views/base_reporting_view.xml",
