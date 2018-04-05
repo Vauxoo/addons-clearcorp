@@ -9,9 +9,9 @@
             <field name="arch" type="xml">
 	            <data>
                     <xpath expr="//group[@name='report']" position="inside">
-                        <label for="invoie_rml_footer"/>
+                        <label for="invoice_rml_footer"/>
                         <div>
-                            <field name="invoie_rml_footer" class="oe_inline" />                            
+                            <field name="invoice_rml_footer" class="oe_inline" />                            
                         </div>
                     </xpath>
 	            </data>

@@ -139,7 +139,7 @@ msgid "Invoice"
 msgstr "Factura"
 
 #. module: account_invoice_report
-#: model:ir.model.fields,field_description:account_invoice_report.field_res_company_invoie_rml_footer
+#: model:ir.model.fields,field_description:account_invoice_report.field_res_company_invoice_rml_footer
 msgid "Invoice Footer"
 msgstr "Invoice Footer"
 
