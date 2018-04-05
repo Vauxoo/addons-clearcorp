@@ -8,9 +8,12 @@
             <field name="type">form</field>
             <field name="arch" type="xml">
 	            <data>
-	                <field name="rml_footer" position="before" >
-	                    <field name="invoie_rml_footer" /> 
-	                </field>
+                    <xpath expr="//group[@name='report']" position="inside">
+                        <label for="invoie_rml_footer"/>
+                        <div>
+                            <field name="invoie_rml_footer" class="oe_inline" />                            
+                        </div>
+                    </xpath>
 	            </data>
             </field>
         </record>

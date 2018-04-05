@@ -10,3 +10,8 @@ class ResCompany(models.Model):
     _inherit = 'res.company'
 
     invoie_rml_footer = fields.Text(string='Invoice Footer')
+
+class BaseConfigSettings(models.TransientModel):
+    _inherit = 'base.config.settings'
+    
+    invoie_rml_footer = fields.Text(related="company_id.logo_report", string='Invoice Footer')
