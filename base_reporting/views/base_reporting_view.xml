@@ -13,7 +13,7 @@
                     <xpath expr="//group[@name='report']" position="inside">
                         <label for="logo_report"/>
                         <div>
-                            <field name="logo_report" widget="image" class="oe_inline oe_avatar" />                            
+                            <field name="logo_report" widget="image" class="oe_inline" />                            
                         </div>
                     </xpath>
                 </data>

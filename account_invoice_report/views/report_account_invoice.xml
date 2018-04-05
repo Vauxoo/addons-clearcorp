@@ -29,35 +29,33 @@
                             <div class="page">
                                 <div class="row" style="font-size:130%">
                                     <div class="col-xs-12 mb8">
-                                        <b><span t-field="customer.name"/></b>
+                                        <b>Customer: <span t-field="customer.name"/></b>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-xs-3">
+                                    <div class="col-xs-4">
                                         <t t-if="customer.ref"><span class="fa fa-check-square-o" style="width: 14px; text-align: center; margin-right: 3px" /><span t-field="customer.ref"/><br /></t>
                                         <t t-if="contact"><span class="fa fa-user" style="width: 14px; text-align: center; margin-right: 3px" /><span t-field="contact.name"/><br /></t>
                                         <t t-if="o.partner_id.phone"><span class="fa fa-phone" style="width: 14px; text-align: center; margin-right: 3px" /><span t-field="o.partner_id.phone"/><br /></t>
-                                        <t t-if="o.partner_id.email"><span class="fa fa-envelope-o" style="width: 14px; text-align: center; margin-right: 3px" /><span t-field="o.partner_id.email"/><br /></t>
+                                        <t t-if="o.partner_id.email"><span style="white-space: nowrap;"><span class="fa fa-envelope-o" style="width: 14px; text-align: center; margin-right: 3px" /><span style="white-space: normal; word-wrap: break-word;" t-field="o.partner_id.email"/></span><br /></t>
                                     </div>
-                                    <div class="col-xs-5">
+                                    <div class="col-xs-4">
                                         <t t-if="o.partner_id.street or o.partner_id.street2 or o.partner_id.zip or o.partner_id.city or o.partner_id.state_id or o.partner_id.country_id">
                                             <span class="fa fa-map-marker" style="width: 14px; text-align: center; margin-right: 3px" />
                                             <t t-if="o.partner_id.street"><span t-field="o.partner_id.street" /><br /></t>
                                             <t t-if="o.partner_id.street2"><span style="margin-left: 17px" t-field="o.partner_id.street2" /><br /></t>
-                                            <t t-if="o.partner_id.zip or o.partner_id.city">
+                                            <t t-if="o.partner_id.zip or o.partner_id.city or o.partner_id.state_id or o.partner_id.country_id">
                                                 <t t-if="o.partner_id.zip">
                                                     <span style="margin-left: 17px" t-field="o.partner_id.zip" /> 
                                                 </t>
                                                 <t t-if="o.partner_id.city">
-                                                    <span t-att-style="not o.partner_id.zip and 'margin-left: 17px;' or ''" t-field="o.partner_id.city" /> 
-                                                </t><br />
-                                            </t>
-                                            <t t-if="o.partner_id.state_id or o.partner_id.country_id">
+                                                    <span t-att-style="not o.partner_id.zip and 'margin-left: 17px;' or ''" t-field="o.partner_id.city" /><t t-if="o.partner_id.state_id or o.partner_id.country_id">, </t>
+                                                </t>
                                                 <t t-if="o.partner_id.state_id">
-                                                    <span style="margin-left: 17px" t-field="o.partner_id.state_id.name" /><t t-if="o.partner_id.country_id">, </t>
+                                                    <span t-att-style="not (o.partner_id.zip or o.partner_id.city) and 'margin-left: 17px;' or ''" t-field="o.partner_id.state_id.name" /><t t-if="o.partner_id.country_id">, </t>
                                                 </t>
                                                 <t t-if="o.partner_id.country_id">
-                                                    <span t-att-style="not o.partner_id.state_id and 'margin-left: 17px;' or ''" t-field="o.partner_id.country_id.code" /> 
+                                                    <span t-att-style="not (o.partner_id.zip or o.partner_id.city or o.partner_id.state_id) and 'margin-left: 17px;' or ''" t-field="o.partner_id.country_id.code" /> 
                                                 </t>
                                             </t>
                                         </t>
@@ -65,7 +63,8 @@
                                     <div class="col-xs-4">
                                         <t t-if="o.name"><b>Description: </b><span t-field="o.name"/><br /></t>
                                         <t t-if="o.origin"><b>Source: </b><span t-field="o.origin"/><br /></t>
-                                        <t t-if="o.reference"><b>Reference: </b><span t-field="o.reference"/></t>
+                                        <t t-if="o.reference"><b>Reference: </b><span t-field="o.reference"/><br /></t>
+                                        <t t-if="o.user_id"><b>Salesperson: </b><span t-field="o.user_id.name"/></t>
                                     </div>
                                 </div>
     
@@ -108,21 +107,21 @@
                                     </tbody>
                                 </table>
                                 <div class="row" style="margin: none;">
-                                    <div class="col-xs-8" style="vertical-align: top; page-break-inside:auto;padding-right: 30px">
+                                    <div class="col-xs-8" style="vertical-align: top; page-break-inside:auto;">
                                         <p t-if="o.comment" style="padding: 15px 25px 15px 25px; background-color: #EEEEEE; margin-top: 16px; page-break-inside:avoid">
-                                            <strong>Terms &amp; Conditions:</strong>
+                                            <strong>Terms &amp; Conditions:</strong><br />
                                             <span t-field="o.comment"/>
                                         </p>
                                         <p t-if="o.payment_term_id.note" style="padding: 15px 25px 15px 25px; background-color: #EEEEEE; margin-top: 16px; page-break-inside:avoid">
-                                            <strong>Payment Term:</strong>
+                                            <strong>Payment Term:</strong><br />
                                             <span t-field="o.payment_term_id.note"/>
                                         </p>
                                         <p t-if="o.fiscal_position_id.note" style="padding: 15px 25px 15px 25px; background-color: #EEEEEE; margin-top: 16px; page-break-inside:avoid">
-                                            <strong>Fiscal Position Remark:</strong>
+                                            <strong>Fiscal Position Remark:</strong><br />
                                             <span t-field="o.fiscal_position_id.note"/>
                                         </p>
                                     </div>
-                                    <div class="col-xs-4" style="padding: none">
+                                    <div class="col-xs-4">
                                         <table class="table table-condensed mt0" style="width: auto; float: right; page-break-inside:avoid">
                                             <tr class="border-black text-right" style="white-space: nowrap">
                                                 <td t-att-colspan="(o.amount_discounted != 0.0) and '5' or '4'" style="padding-left: 24px; padding-right: 15px">
@@ -143,7 +142,8 @@
                                             <t t-if="o.amount_tax != 0.0">
                                                 <tr class="text-right" style="white-space: nowrap; border: none" t-foreach="o.tax_line_ids" t-as="t">
                                                     <td t-att-colspan="(o.amount_discounted != 0.0) and '5' or '4'" style="padding-left: 24px; padding-right: 15px">
-                                                        <span t-field="t.name" />
+                                                        <t t-if="t.tax_id.description"><span t-field="t.tax_id.description" /></t>
+                                                        <t t-if="t.tax_id.description == ''"><span t-field="t.tax_id.name" /></t>
                                                     </td>
                                                     <td>
                                                         <span t-field="t.amount" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>

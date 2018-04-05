@@ -8,18 +8,29 @@
                 <t t-name="account_invoice_report.invoice_layout_header">
                     <div class="header">
                         <div class="row">
-                            <div class="col-xs-10 mt32">
-                                <img t-if="company.logo_report" t-att-src="'data:image/png;base64,%s' % company.logo_report" style="max-height: 50px"/>
-                            </div>
-                            <div class="col-xs-2 mt32" style="text-align: right; font-size: 85%">
-                            </div>
-                        </div>
-                        <div class="row mt16 mb8" style="font-size:130%">
-                            <div class="col-xs-8">
-                                <b><span t-field="company.name"/></b>
+                            <div class="col-xs-4">
+                                <img t-if="company.logo_report" t-att-src="'data:image/png;base64,%s' % company.logo_report" style="max-height: 140px; max-width: 260px"/>
                             </div>
                             <div class="col-xs-4">
-                                <b>
+                                <b><span t-field="company.name"/></b><br />
+                                <span class="fa fa-check-square-o" style="width: 14px; text-align: center; margin-right: 3px" /><span t-field="company.company_registry" /><br />
+                                <span class="fa fa-phone" style="width: 14px; text-align: center; margin-right: 3px" /><span t-field="company.partner_id.phone" /><br />
+                                <span class="fa fa-map-marker" style="width: 14px; text-align: center; margin-right: 3px" /><t t-if="company.partner_id.street"><span t-field="company.partner_id.street" /><br /></t>
+                                <t t-if="company.partner_id.street2"><span style="margin-left: 17px" t-field="company.partner_id.street2" /><br /></t>
+                                <t t-if="company.partner_id.zip or company.partner_id.city or company.partner_id.state_id or company.partner_id.country_id">
+                                    <t t-if="company.partner_id.zip">
+                                        <span style="margin-left: 17px" t-field="company.partner_id.zip" /> 
+                                    </t>
+                                    <t t-if="company.partner_id.city">
+                                        <span t-att-style="not company.partner_id.zip and 'margin-left: 17px;' or ''" t-field="company.partner_id.city" /><t t-if="company.partner_id.state_id or company.partner_id.country_id">, </t>
+                                    </t>
+                                    <t t-if="company.partner_id.state_id">
+                                        <span t-att-style="not (company.partner_id.zip or company.partner_id.city) and 'margin-left: 17px;' or ''" t-field="company.partner_id.state_id.name" /><t t-if="company.partner_id.country_id">, </t>
+                                    </t>
+                                </t>
+                            </div>
+                            <div class="col-xs-4">
+                                <span style="font-size: 130%"><b>
                                     <span t-if="o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">Invoice</span>
                                     <span t-if="o.type == 'out_invoice' and o.state == 'proforma2'">PRO-FORMA</span>
                                     <span t-if="o.type == 'out_invoice' and o.state == 'draft'">Draft Invoice</span>
@@ -28,41 +39,12 @@
                                     <span t-if="o.type == 'in_refund'">Supplier Refund</span>
                                     <span t-if="o.type == 'in_invoice'">Supplier Invoice</span>
                                     <span t-field="o.number"/>
-                                </b>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-3">
-                                <b><span class="fa fa-check-square-o" style="width: 14px; text-align: center; margin-right: 3px" /></b><span t-field="company.company_registry" /><br />
-                                <b><span class="fa fa-phone" style="width: 14px; text-align: center; margin-right: 3px" /></b><span t-field="company.partner_id.phone" /><br />
-                                <b><span class="fa fa-envelope-o" style="width: 14px; text-align: center; margin-right: 3px" /></b><span t-field="company.partner_id.email" />
-                            </div>
-                            <div class="col-xs-5">
-                                <span class="fa fa-map-marker" style="width: 14px; text-align: center; margin-right: 3px" /><t t-if="company.partner_id.street"><span t-field="company.partner_id.street" /><br /></t>
-                                <t t-if="company.partner_id.street2"><span style="margin-left: 17px" t-field="company.partner_id.street2" /><br /></t>
-                                <t t-if="company.partner_id.zip or company.partner_id.city">
-                                    <t t-if="company.partner_id.zip">
-                                        <span style="margin-left: 17px" t-field="company.partner_id.zip" /> 
-                                    </t>
-                                    <t t-if="company.partner_id.city">
-                                        <span t-att-style="not company.partner_id.zip and 'margin-left: 17px;' or ''" t-field="company.partner_id.city" /> 
-                                    </t><br />
-                                </t>
-                                <t t-if="company.partner_id.state_id or company.partner_id.country_id">
-                                    <t t-if="company.partner_id.state_id">
-                                        <span style="margin-left: 17px" t-field="company.partner_id.state_id.name" /><t t-if="company.partner_id.country_id">, </t>
-                                    </t>
-                                    <t t-if="company.partner_id.country_id">
-                                        <span t-att-style="not company.partner_id.state_id and 'margin-left: 17px;' or ''" t-field="company.partner_id.country_id.code" /> 
-                                    </t>
-                                </t><br />
-                                <span class="fa fa-globe" style="width: 14px; text-align: center; margin-right: 3px" /><span t-field="company.website" /><br />
-                            </div>
-                            <div class="col-xs-4">
+                                </b></span><br />
                                 <b>Invoice date: </b><span t-field="o.date_invoice"/><br />
                                 <b>Due date: </b><span t-field="o.date_due"/><br />
                                 <b>Payment terms: </b><span t-if="o.payment_term_id" t-field="o.payment_term_id.name"/><br />
-                                <b>Salesperson: </b><span t-if="o.user_id" t-field="o.user_id.name"/>
+                                <span style="white-space: nowrap;"><span class="fa fa-envelope-o" style="width: 14px; text-align: center; margin-right: 3px" /><span t-field="company.partner_id.email" /></span><br />
+                                <span style="white-space: nowrap;"><span class="fa fa-globe" style="width: 14px; text-align: center; margin-right: 3px" /><span t-field="company.website" /></span><br />
                             </div>
                         </div>
                         <div class="row mt8 mb2">
