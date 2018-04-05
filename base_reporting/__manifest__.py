@@ -5,14 +5,14 @@
 {
     'name': 'Base Reporting',
     'summary': 'Base for reporting ',
-    'version': '8.0.1.0',
+    'version': '0.9.0001',
     'category': 'Technical Settings',
     'website': 'http://clearcorp.cr',
     'author': 'ClearCorp',
     'license': 'AGPL-3',
     'sequence': 10,
     'application': False,
-    'installable': False,
+    'installable': True,
     'auto_install': False,
     'depends': [
         'base',
