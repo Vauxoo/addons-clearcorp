@@ -35,11 +35,10 @@ class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
     @api.one
-    @api.depends('invoice_line_ids.price_subtotal', 'tax_line_ids.amount', 'currency_id', 'company_id', 'date_invoice', 'type')
+    @api.depends('invoice_line_ids.price_subtotal_not_discounted', 'invoice_line_ids.price_subtotal')
     def _compute_amount_all(self):
         amount_untaxed_not_discounted = 0.0
         amount_discounted = 0.0
-        invoice_discount = 0.0
 
         for line in self.invoice_line_ids:
             amount_untaxed_not_discounted += \
