@@ -16,10 +16,10 @@
                         <field name="price_subtotal_not_discounted"/>
                     </xpath>
                     <xpath expr="//form/sheet/notebook/page/group/group/field[@name='amount_untaxed']" position="replace">
-                        <field name="amount_untaxed_not_discounted" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        <field name="amount_untaxed_not_discounted"/>
                     </xpath>
                     <xpath expr="//form/sheet/notebook/page/group/group/field[@name='amount_tax']" position="before">
-                        <field name="amount_discounted" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        <field name="amount_discounted"/>
                     </xpath>
                 </data>
             </field>
@@ -36,10 +36,10 @@
                         <field name="price_subtotal_not_discounted"/>
                     </xpath>
                     <xpath expr="//form/sheet/notebook/page/group/field[@name='amount_untaxed']" position="replace">
-                        <field name="amount_untaxed_not_discounted" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        <field name="amount_untaxed_not_discounted"/>
                     </xpath>
                     <xpath expr="//form/sheet/notebook/page/group/field[@name='amount_tax']" position="before">
-                        <field name="amount_discounted" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        <field name="amount_discounted"/>
                     </xpath>
                     </data>
             </field>
