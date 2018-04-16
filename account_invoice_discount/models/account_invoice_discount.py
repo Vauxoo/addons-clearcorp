@@ -25,7 +25,7 @@ class InvoiceLine(models.Model):
 
     price_subtotal_not_discounted = fields.Monetary(
         compute='_compute_price',
-        currency_field='company_currency_id', store=True, readonly=True,
+        currency_field='currency_id', store=True, readonly=True,
         string='Subtotal')
 
 
@@ -51,8 +51,8 @@ class AccountInvoice(models.Model):
         super(AccountInvoice, self)._compute_amount()
 
     amount_discounted = fields.Monetary(
-        compute='_compute_amount', currency_field='company_currency_id',
+        compute='_compute_amount', currency_field='currency_id',
         string='Discount', store=True, readonly=True)
     amount_untaxed_not_discounted = fields.Monetary(
-        compute='_compute_amount', currency_field='company_currency_id',
+        compute='_compute_amount', currency_field='currency_id',
         string='Subtotal', store=True, readonly=True)
