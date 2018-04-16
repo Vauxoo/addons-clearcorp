@@ -13,8 +13,7 @@ class InvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
 
     @api.one
-    @api.depends('price_unit', 'quantity')
-    def _compute_amount_line_no_discount(self):
+    def _compute_price(self):
         if self.invoice_id and self.invoice_id.currency_id:
             cur = self.invoice_id.currency_id
             self.price_subtotal_not_discounted = cur.round(
@@ -22,10 +21,12 @@ class InvoiceLine(models.Model):
         else:
             self.price_subtotal_not_discounted = \
                 self.price_unit * self.quantity
+        super(InvoiceLine, self)._compute_price()
 
-    price_subtotal_not_discounted = fields.Float(
-        compute='_compute_amount_line_no_discount',
-        store=True, string='Subtotal')
+    price_subtotal_not_discounted = fields.Monetary(
+        compute='_compute_price',
+        currency_field='company_currency_id', store=True, readonly=True,
+        string='Subtotal')
 
 
 class AccountInvoice(models.Model):
@@ -35,8 +36,7 @@ class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
     @api.one
-    @api.depends('invoice_line_ids.price_subtotal_not_discounted', 'invoice_line_ids.price_subtotal')
-    def _compute_amount_all(self):
+    def _compute_amount(self):
         amount_untaxed_not_discounted = 0.0
         amount_discounted = 0.0
 
@@ -48,12 +48,11 @@ class AccountInvoice(models.Model):
         self.amount_untaxed_not_discounted = \
             amount_untaxed_not_discounted
         self.amount_discounted = amount_discounted
+        super(AccountInvoice, self)._compute_amount()
 
-    amount_discounted = fields.Float(
-        compute='_compute_amount_all',
-        digits=dp.get_precision('Account'),
-        string='Discount', store=True)
-    amount_untaxed_not_discounted = fields.Float(
-        compute='_compute_amount_all',
-        digits=dp.get_precision('Account'),
-        string='Subtotal', store=True)
+    amount_discounted = fields.Monetary(
+        compute='_compute_amount', currency_field='company_currency_id',
+        string='Discount', store=True, readonly=True)
+    amount_untaxed_not_discounted = fields.Monetary(
+        compute='_compute_amount', currency_field='company_currency_id',
+        string='Subtotal', store=True, readonly=True)
