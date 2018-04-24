@@ -10,14 +10,14 @@
                         <div class="row">
                             <div class="col-xs-12 text-left mt8" style="border-top: 1px solid #999999; font-size: 85%; padding-top: 8px">
                                 <t t-if="company.invoice_rml_footer">
-                                    <span t-raw="company.invoice_rml_footer"/>
+                                    <span t-raw="company.invoice_rml_footer" style="white-space: pre"/>
                                 </t>
                                 <div class="text-right">
                                     <b>Page: </b><span class="page"/> / <span class="topage"/>
                                 </div>
                             </div>
                         </div>
-                    </div>      
+                    </div>
                 </t>
             </field>
         </record>
