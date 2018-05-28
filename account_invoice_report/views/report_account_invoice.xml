@@ -97,11 +97,11 @@
                                                 </t>
                                             </td>
                                             <td class="text-right" style="white-space: nowrap">
-                                                <span t-field="l.price_unit" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                                                <span t-field="l.price_unit_not_discounted" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
                                             </td>
                                             <td class="text-right" groups="sale.group_discount_per_so_line" t-if="o.amount_discounted != 0.0"><span t-field="l.discount"/>%</td>
                                             <td class="text-right" style="white-space: nowrap">
-                                                <span t-field="l.price_subtotal" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                                                <span t-field="l.price_subtotal_not_discounted" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
                                             </td>
                                         </tr>
                                     </tbody>

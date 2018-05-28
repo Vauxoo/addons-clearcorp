@@ -4,6 +4,8 @@
 
 from openerp import models, fields, api
 import openerp.addons.decimal_precision as dp
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class InvoiceLine(models.Model):
@@ -14,19 +16,35 @@ class InvoiceLine(models.Model):
 
     @api.one
     def _compute_price(self):
+        super(InvoiceLine, self)._compute_price()
+        discount_inv = 1.0 - (self.discount / 100)
+        price_subtotal_not_discounted = self.price_subtotal
+        _logger.info("price_subtotal_not_discounted: %s" % price_subtotal_not_discounted)
+        _logger.info("discount_inv: %s" % discount_inv)
+        if discount_inv != 0.0:
+            price_subtotal_not_discounted = price_subtotal_not_discounted / discount_inv
+        
+        if self.quantity:
+            price_unit_not_discounted = price_subtotal_not_discounted / self.quantity
+        else:
+            price_unit_not_discounted = 0.0
+        
         if self.invoice_id and self.invoice_id.currency_id:
             cur = self.invoice_id.currency_id
-            self.price_subtotal_not_discounted = cur.round(
-                self.price_unit * self.quantity)
-        else:
-            self.price_subtotal_not_discounted = \
-                self.price_unit * self.quantity
-        super(InvoiceLine, self)._compute_price()
+            price_subtotal_not_discounted = cur.round(price_subtotal_not_discounted)
+            _logger.info("price_subtotal_not_discounted: %s" % price_subtotal_not_discounted)
+            price_unit_not_discounted = cur.round(price_unit_not_discounted)
+        self.price_subtotal_not_discounted = price_subtotal_not_discounted
+        self.price_unit_not_discounted = price_unit_not_discounted
 
     price_subtotal_not_discounted = fields.Monetary(
         compute='_compute_price',
         currency_field='currency_id', store=True, readonly=True,
         string='Subtotal')
+    price_unit_not_discounted = fields.Monetary(
+        compute='_compute_price',
+        currency_field='currency_id', store=True, readonly=True,
+        string='Price unit')
 
 
 class AccountInvoice(models.Model):
