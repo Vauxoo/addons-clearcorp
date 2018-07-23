@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.0e\n"
+"Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-01 20:48+0000\n"
-"PO-Revision-Date: 2016-04-01 20:48+0000\n"
+"POT-Creation-Date: 2018-04-16 23:08+0000\n"
+"PO-Revision-Date: 2018-04-16 23:08+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgid "Amount"
 msgstr "Monto"
 
 #. module: hr_wage_increase
-#: code:addons/hr_wage_increase/wizard/increase_wizard.py:56
+#: code:addons/hr_wage_increase/wizard/increase_wizard.py:67
 #, python-format
 msgid "An error occurred while processing the contracts"
 msgstr "Un error ocurrión mientras se procesaban los contratos"
@@ -54,13 +54,7 @@ msgstr "Creado en"
 #. module: hr_wage_increase
 #: model:ir.model.fields,field_description:hr_wage_increase.field_hr_wage_increase_increase_wizard_display_name
 msgid "Display Name"
-msgstr "Nombre mostrado"
-
-#. module: hr_wage_increase
-#: code:addons/hr_wage_increase/wizard/increase_wizard.py:55
-#, python-format
-msgid "Error Processing Contracts"
-msgstr "Error procesando contratos"
+msgstr "Display Name"
 
 #. module: hr_wage_increase
 #: selection:hr.wage.increase.increase.wizard,increase_type:0
@@ -108,18 +102,20 @@ msgid "Process"
 msgstr "Procesar"
 
 #. module: hr_wage_increase
-#: code:addons/hr_wage_increase/wizard/increase_wizard.py:44
+#: code:addons/hr_wage_increase/wizard/increase_wizard.py:58
 #, python-format
 msgid "Updated contracts"
 msgstr "Contratos actualizados"
 
 #. module: hr_wage_increase
-#: constraint:hr.wage.increase.increase.wizard:0
+#: code:addons/hr_wage_increase/wizard/increase_wizard.py:35
+#, python-format
 msgid "Value must be greater than 0 and lower or equal than 100."
 msgstr "El valor debe ser mayor que 0 y menor o igual que 100."
 
 #. module: hr_wage_increase
-#: constraint:hr.wage.increase.increase.wizard:0
+#: code:addons/hr_wage_increase/wizard/increase_wizard.py:43
+#, python-format
 msgid "Value must be greater than 0."
 msgstr "El valor debe ser mayor que 0."
 

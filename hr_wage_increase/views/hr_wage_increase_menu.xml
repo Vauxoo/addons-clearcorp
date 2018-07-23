@@ -5,7 +5,7 @@
             parent="hr.menu_hr_root"
             name="Wage Increase"
             action="action_increase_wizard"
-            groups="base.group_hr_manager"
-            sequence="50"/>
+            groups="hr.group_hr_manager"
+            sequence="30"/>
     </data>
 </openerp>
