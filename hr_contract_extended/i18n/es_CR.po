@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.0e\n"
+"Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-31 16:40+0000\n"
-"PO-Revision-Date: 2016-03-31 16:40+0000\n"
+"POT-Creation-Date: 2018-04-23 23:33+0000\n"
+"PO-Revision-Date: 2018-04-23 23:33+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,122 +18,127 @@ msgstr ""
 #. module: hr_contract_extended
 #: model:ir.ui.view,arch_db:hr_contract_extended.hr_contract_salary_rule_form
 msgid "Academic"
-msgstr ""
+msgstr "Formación Académica"
 
 #. module: hr_contract_extended
 #: model:ir.model.fields,field_description:hr_contract_extended.field_hr_contract_academic_achievement
 #: model:ir.model.fields,field_description:hr_contract_extended.field_hr_contract_academic_achievement_contract_academic_achievement
 msgid "Academic Achievements"
-msgstr ""
+msgstr "Logros Académicos"
 
 #. module: hr_contract_extended
-#: model:ir.model,name:hr_contract_extended.model_hr_contract
 #: model:ir.model.fields,field_description:hr_contract_extended.field_hr_salary_rule_contract_id
 msgid "Contract"
-msgstr ""
+msgstr "Contrato"
 
 #. module: hr_contract_extended
 #: model:ir.model.fields,field_description:hr_contract_extended.field_hr_contract_academic_achievement_create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Creado por"
 
 #. module: hr_contract_extended
 #: model:ir.model.fields,field_description:hr_contract_extended.field_hr_contract_academic_achievement_create_date
 msgid "Created on"
-msgstr ""
+msgstr "Creado en"
 
 #. module: hr_contract_extended
 #: model:ir.model.fields,field_description:hr_contract_extended.field_hr_contract_academic_achievement_date_obtained
 msgid "Date Obtained"
-msgstr ""
+msgstr "Fecha de Obtención"
 
 #. module: hr_contract_extended
 #: model:ir.model.fields,field_description:hr_contract_extended.field_hr_contract_duration_days
 msgid "Days"
-msgstr ""
+msgstr "Días"
 
 #. module: hr_contract_extended
 #: model:ir.model.fields,field_description:hr_contract_extended.field_hr_contract_academic_achievement_degree_obtained
 msgid "Degree Obtained"
-msgstr ""
+msgstr "Título Obtenido"
 
 #. module: hr_contract_extended
 #: model:ir.model.fields,field_description:hr_contract_extended.field_hr_contract_academic_achievement_display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Display Name"
+
+#. module: hr_contract_extended
+#: model:ir.model,name:hr_contract_extended.model_hr_contract
+msgid "Employee Contract"
+msgstr "Contrato Empleado"
 
 #. module: hr_contract_extended
 #: model:ir.model,name:hr_contract_extended.model_hr_contract_academic_achievement
 msgid "Hr Contract Academic Achievement"
-msgstr ""
+msgstr "Hr Contrato Logros Académicos"
 
 #. module: hr_contract_extended
 #: model:ir.model.fields,field_description:hr_contract_extended.field_hr_contract_academic_achievement_id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: hr_contract_extended
 #: model:ir.model.fields,field_description:hr_contract_extended.field_hr_contract_academic_achievement_institution
 msgid "Institution"
-msgstr ""
+msgstr "Institución"
 
 #. module: hr_contract_extended
 #: model:ir.ui.view,arch_db:hr_contract_extended.hr_contract_salary_rule_form
 msgid "Invoice lines"
-msgstr ""
+msgstr "Líneas de factura"
 
 #. module: hr_contract_extended
 #: model:ir.model.fields,field_description:hr_contract_extended.field_hr_contract_academic_achievement___last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Última modificación en"
 
 #. module: hr_contract_extended
 #: model:ir.model.fields,field_description:hr_contract_extended.field_hr_contract_academic_achievement_write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Última actualización de"
 
 #. module: hr_contract_extended
 #: model:ir.model.fields,field_description:hr_contract_extended.field_hr_contract_academic_achievement_write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Última actualización en"
 
 #. module: hr_contract_extended
 #: model:ir.model.fields,field_description:hr_contract_extended.field_hr_contract_duration_months
 msgid "Months"
-msgstr ""
+msgstr "Meses"
 
 #. module: hr_contract_extended
 #: model:ir.model.fields,field_description:hr_contract_extended.field_hr_contract_hr_salary_rule_ids
 #: model:ir.ui.view,arch_db:hr_contract_extended.hr_contract_salary_rule_form
 msgid "Salary Rules"
-msgstr ""
+msgstr "Reglas de Salario"
 
 #. module: hr_contract_extended
 #: model:ir.ui.view,arch_db:hr_contract_extended.hr_contract_salary_rule_form
 msgid "Time Worked"
-msgstr ""
+msgstr "Tiempo Laborado"
 
 #. module: hr_contract_extended
 #: model:ir.model.fields,field_description:hr_contract_extended.field_hr_contract_duration_years
 msgid "Years"
-msgstr ""
+msgstr "Años"
 
 #. module: hr_contract_extended
 #: model:ir.ui.view,arch_db:hr_contract_extended.hr_contract_salary_rule_form
 msgid "day(s)"
-msgstr ""
+msgstr "día(s)"
 
 #. module: hr_contract_extended
 #: model:ir.model,name:hr_contract_extended.model_hr_salary_rule
 msgid "hr.salary.rule"
-msgstr ""
+msgstr "hr.salary.rule"
 
 #. module: hr_contract_extended
 #: model:ir.ui.view,arch_db:hr_contract_extended.hr_contract_salary_rule_form
 msgid "month(s) -"
-msgstr ""
+msgstr "mes(es) -"
 
 #. module: hr_contract_extended
 #: model:ir.ui.view,arch_db:hr_contract_extended.hr_contract_salary_rule_form
 msgid "year(s) -"
-msgstr ""
+msgstr "año(s) -"
+
