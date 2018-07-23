@@ -3,7 +3,7 @@
 <openerp>
     <data>
         <menuitem id="menu_action_personnel_action"
-            parent="hr.menu_hr_main"
+            parent="hr.menu_hr_root"
             name="Personnel Action"
             sequence="100"
             action="action_personnel_action"/>

@@ -34,6 +34,8 @@
             <field name="action_type_id" eval="ref('personnel_type_payroll')"/>
         </record>
         
+        <!-- Sequences -->
+        
         <record id="action_sequence_id" model="ir.sequence">
             <field name="name">Personnel Action</field>
             <field name="code">personnel.actions</field>

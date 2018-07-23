@@ -114,9 +114,9 @@
             <field name="priority" eval="16"/>
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//page[2]" position="after">
-                    <page name="personnel_actions_page"  string="Personnel Actions">
-                        <group name="personnel_actions_group" string="Personnel Actions">
+                <xpath expr="//page[@name='hr_settings']" position="after">
+                    <page string="Personnel Actions">
+                        <group string="Personnel Actions" name="personnel_actions_group">
                             <field name="personnel_action_ids" nolabel="1"/>
                         </group>
                     </page>

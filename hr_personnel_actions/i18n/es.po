@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 9.0e\n"
+"Project-Id-Version: Odoo Server 10.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-01 16:51+0000\n"
-"PO-Revision-Date: 2016-04-01 16:51+0000\n"
+"POT-Creation-Date: 2018-04-17 18:47+0000\n"
+"PO-Revision-Date: 2018-04-17 18:47+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,10 +16,52 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: hr_personnel_actions
+#: model:ir.ui.view,arch_db:hr_personnel_actions.report_hr_personnel_actions_user
+msgid "<strong>\n"
+"                                    <u>Employee Personnel Actions Report\n"
+"                                    </u>\n"
+"                                </strong>"
+msgstr "<strong>\n"
+"                                    <u>Reporte Acciones de Personal Empleados\n"
+"                                    </u>\n"
+"                                </strong>"
+
+#. module: hr_personnel_actions
+#: model:ir.ui.view,arch_db:hr_personnel_actions.report_hr_personnel_actions
+msgid "<strong>\n"
+"                                    <u>Personnel Actions Report</u>\n"
+"                                </strong>"
+msgstr "<strong>\n"
+"                                    <u>Reporte de Acciones de Personal</u>\n"
+"                                </strong>"
+
+#. module: hr_personnel_actions
+#: model:ir.ui.view,arch_db:hr_personnel_actions.report_hr_personnel_actions
+msgid "<strong>_____________________________\n"
+"                                        </strong>"
+msgstr "<strong>_____________________________\n"
+"                                        </strong>"
+
+#. module: hr_personnel_actions
+#: model:ir.ui.view,arch_db:hr_personnel_actions.report_hr_personnel_actions
+#: model:ir.ui.view,arch_db:hr_personnel_actions.report_hr_personnel_actions_user
+msgid "<strong>_____________________________\n"
+"                                    </strong>"
+msgstr "<strong>_____________________________\n"
+"                                    </strong>"
+
+#. module: hr_personnel_actions
+#: model:ir.ui.view,arch_db:hr_personnel_actions.report_hr_personnel_actions_user
+msgid "<strong>_____________________________\n"
+"                                </strong>"
+msgstr "<strong>_____________________________\n"
+"                                </strong>"
+
+#. module: hr_personnel_actions
 #: model:ir.model.fields,field_description:hr_personnel_actions.field_hr_personnel_actions_configuration_action_type_id
 #: model:ir.ui.view,arch_db:hr_personnel_actions.personnel_actions_personnel_action_search_view
 msgid "Action Type"
-msgstr "Tipo de Acción"
+msgstr "Tipo de acción"
 
 #. module: hr_personnel_actions
 #: model:ir.ui.view,arch_db:hr_personnel_actions.personnel_actions_personnel_action_form_view
@@ -43,7 +85,6 @@ msgstr "Cancelado"
 
 #. module: hr_personnel_actions
 #: model:hr.personnel.actions.type,type:hr_personnel_actions.personnel_type_contract
-#: model:ir.model,name:hr_personnel_actions.model_hr_contract
 msgid "Contract"
 msgstr "Contrato"
 
@@ -53,10 +94,10 @@ msgid "Contract Duration"
 msgstr "Duración del Contrato"
 
 #. module: hr_personnel_actions
-#: code:addons/hr_personnel_actions/models/hr_personnel_actions.py:85
+#: code:addons/hr_personnel_actions/hr_personnel_actions.py:86
 #, python-format
 msgid "Contract Modifications"
-msgstr "Contract Modifications"
+msgstr "Modificaciones al contrato"
 
 #. module: hr_personnel_actions
 #: selection:hr.personnel.actions.configuration,key:0
@@ -72,17 +113,17 @@ msgstr "Salario del Contrato"
 #. module: hr_personnel_actions
 #: model:ir.actions.act_window,help:hr_personnel_actions.action_personnel_action
 msgid "Create new personnel action"
-msgstr "Create new personnel action"
+msgstr "Crear nueva acción de personal"
 
 #. module: hr_personnel_actions
 #: model:ir.actions.act_window,help:hr_personnel_actions.action_action_type
 msgid "Create new personnel action type"
-msgstr "Create new personnel action type"
+msgstr "Crear nuevo tipo de acción de personal"
 
 #. module: hr_personnel_actions
 #: model:ir.actions.act_window,help:hr_personnel_actions.action_module_config
 msgid "Create new personnel configuration"
-msgstr "Create new personnel configuration"
+msgstr "Crear nueva configuración de personal"
 
 #. module: hr_personnel_actions
 #: model:ir.model.fields,field_description:hr_personnel_actions.field_hr_personnel_actions_configuration_create_uid
@@ -119,7 +160,7 @@ msgstr "Descripción"
 #: model:ir.model.fields,field_description:hr_personnel_actions.field_hr_personnel_actions_personnel_action_display_name
 #: model:ir.model.fields,field_description:hr_personnel_actions.field_hr_personnel_actions_type_display_name
 msgid "Display Name"
-msgstr "Nombre mostrado"
+msgstr "Display Name"
 
 #. module: hr_personnel_actions
 #: selection:hr.personnel.actions.personnel.action,state:0
@@ -127,16 +168,16 @@ msgid "Draft"
 msgstr "Borrador"
 
 #. module: hr_personnel_actions
-#: code:addons/hr_personnel_actions/models/hr_personnel_actions.py:135
+#: code:addons/hr_personnel_actions/hr_personnel_actions.py:121
 #, python-format
 msgid "Duration has been modified. The new value for end date is:"
-msgstr "Duration has been modified. The new value for end date is:"
+msgstr "La duración ha sido modificada. El nuevo valor para la fecha final es:"
 
 #. module: hr_personnel_actions
-#: code:addons/hr_personnel_actions/models/hr_personnel_actions.py:121
+#: code:addons/hr_personnel_actions/hr_personnel_actions.py:113
 #, python-format
 msgid "Duration has been modified. The new value for start date is:"
-msgstr "Duration has been modified. The new value for start date is:"
+msgstr "La duración ha sido modificada. El nuevo valor para la fecha inicial es:"
 
 #. module: hr_personnel_actions
 #: model:ir.model,name:hr_personnel_actions.model_hr_employee
@@ -152,6 +193,11 @@ msgid "Employee Admonishment"
 msgstr "Amonestación al Empleado"
 
 #. module: hr_personnel_actions
+#: model:ir.model,name:hr_personnel_actions.model_hr_contract
+msgid "Employee Contract"
+msgstr "Contrato de Empleado"
+
+#. module: hr_personnel_actions
 #: model:hr.personnel.actions.type,type:hr_personnel_actions.personnel_type_fines
 msgid "Employee Fines"
 msgstr "Multas al Empleado"
@@ -164,7 +210,7 @@ msgstr "Empleado Acción de Personal"
 #. module: hr_personnel_actions
 #: model:ir.ui.view,arch_db:hr_personnel_actions.personnel_actions_personnel_action_form_view
 msgid "General Information"
-msgstr "Información General"
+msgstr "Información general"
 
 #. module: hr_personnel_actions
 #: model:ir.ui.view,arch_db:hr_personnel_actions.personnel_actions_personnel_action_search_view
@@ -244,12 +290,6 @@ msgid "Personnel Actions Configuration"
 msgstr "Configuración de Acciones de Personal"
 
 #. module: hr_personnel_actions
-#: code:addons/hr_personnel_actions/models/hr_personnel_actions.py:95
-#, python-format
-msgid "Personnel Actions Error"
-msgstr "Error de Acciones de Personal"
-
-#. module: hr_personnel_actions
 #: model:ir.model.fields,field_description:hr_personnel_actions.field_hr_personnel_actions_personnel_action_sequence
 msgid "Sequence"
 msgstr "Secuencia"
@@ -260,19 +300,19 @@ msgid "Status"
 msgstr "Estado"
 
 #. module: hr_personnel_actions
-#: code:addons/hr_personnel_actions/models/hr_personnel_actions.py:97
+#: code:addons/hr_personnel_actions/hr_personnel_actions.py:96
 #, python-format
 msgid "System cannot create the respective personnel action"
-msgstr "El sistema no puede crear la respectiva acción de personal"
+msgstr "El sistema no puede crear la acción de personal respectiva"
 
 #. module: hr_personnel_actions
-#: code:addons/hr_personnel_actions/models/hr_personnel_actions.py:101
+#: code:addons/hr_personnel_actions/hr_personnel_actions.py:99
 #, python-format
 msgid "The old value was:"
-msgstr "El antiguo valor era:"
+msgstr "El antiguo valor era"
 
 #. module: hr_personnel_actions
-#: code:addons/hr_personnel_actions/models/hr_personnel_actions.py:149
+#: code:addons/hr_personnel_actions/hr_personnel_actions.py:130
 #, python-format
 msgid "The salary structure has been modified. The new value is:"
 msgstr "La estructura salarial ha sido modificada. El nuevo valor es:"
@@ -304,10 +344,10 @@ msgid "Types of Actions"
 msgstr "Tipos de Acciones"
 
 #. module: hr_personnel_actions
-#: code:addons/hr_personnel_actions/models/hr_personnel_actions.py:108
+#: code:addons/hr_personnel_actions/hr_personnel_actions.py:104
 #, python-format
 msgid "Wage has been modified. The new value for wage is:"
-msgstr "Salarion ha sido modificado. El nuevo valor para salario es:"
+msgstr "El salario ha sido modificado. El nuevo valor para el salario es:"
 
 #. module: hr_personnel_actions
 #: model:ir.ui.view,arch_db:hr_personnel_actions.personnel_actions_personnel_action_form_view
