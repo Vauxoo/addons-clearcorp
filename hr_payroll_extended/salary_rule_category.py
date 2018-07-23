@@ -20,9 +20,11 @@
 #
 ##############################################################################
 
-import hr_payroll_extended
-import inputs
-import contract
-import structure
-import salary_rule_category
-import wizard
+from odoo import models, fields
+
+
+class SalaryRuleCategory(models.Model):
+
+    _inherit = 'hr.salary.rule.category'
+
+    active = fields.Boolean(default=True)

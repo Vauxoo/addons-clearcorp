@@ -20,9 +20,19 @@
 #
 ##############################################################################
 
-import hr_payroll_extended
-import inputs
-import contract
-import structure
-import salary_rule_category
-import wizard
+from odoo import models, fields, api, _
+import odoo.addons.decimal_precision as dp
+
+
+class Contract(models.Model):
+
+    _inherit = 'hr.contract'
+
+    use_fixed_working_hours = fields.Boolean('Use Work Hours')
+    fixed_working_hours = fields.Float(
+        'Work Hours', digits=dp.get_precision('Payroll'))
+    fixed_working_days = fields.Float(
+        'Work Days', digits=dp.get_precision('Payroll'))
+    fixed_working_hours_code = fields.Many2one(
+        'hr.payroll.extended.input.value', string='Code',
+        domain=[('type', '=', 'worked_days')])

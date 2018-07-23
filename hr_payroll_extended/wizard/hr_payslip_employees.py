@@ -20,9 +20,18 @@
 #
 ##############################################################################
 
-import hr_payroll_extended
-import inputs
-import contract
-import structure
-import salary_rule_category
-import wizard
+from odoo import api, fields, models, _
+
+
+class hr_payslip_employees(models.TransientModel):
+    _inherit = 'hr.payslip.employees'
+    @api.multi
+    def compute_sheet(self):
+        run_pool = self.env['hr.payslip.run']
+        active_id=self.env.context.get('active_id')
+        if active_id:
+            [run_data] = run_pool.browse(active_id).read(['date'])
+        date = run_data.get('date')
+        if date:
+            return super(hr_payslip_employees, self.with_context(date=date)).compute_sheet()
+        return super(hr_payslip_employees, self).compute_sheet()

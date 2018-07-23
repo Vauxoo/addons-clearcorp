@@ -47,13 +47,13 @@
             <field name="arch" type="xml">
                 <data>
                     <field name="credit_note" position="after">
-                        <!--<field name="period_id" domain="[('state', '=', 'draft'),('special', '=', False)]" widget="selection"/>-->
+                        <field name="date"/>
                         <field name="schedule_pay" required = "True" string = "Schedule pay"/>
                     </field>
-                    <button name="%(hr_payroll.action_hr_payslip_by_employees)d" position = "replace"> 
+                    <button name="690" position = "replace"> 
                         <button name="%(hr_payroll.action_hr_payslip_by_employees)d" context="{'schedule_pay': schedule_pay}" type="action" states="draft" icon="gtk-execute" string="Generate Payslips" />
                     </button>
-                    <button name="%(hr_payroll.action_hr_payslip_by_employees)d" position = "after">
+                    <button name="690" position = "after">
                         <button name="compute_payslips" type="object"
                             states="draft" icon="terp-stock_zoom"
                             string="Compute Payslips" />
@@ -177,21 +177,8 @@
             </field> 
         </record>
 
-        <!-- res.company -->
-        <record id="view_company_form_inherit" model="ir.ui.view">
-            <field name="name">view.company.form.inherit</field>
-            <field name="model">res.company</field>
-            <field name="priority">24</field>
-            <field name="inherit_id" ref="base.view_company_form"/>
-            <field name="arch" type="xml">
-                 <page name="report" position="inside">
-                        <group name="payslip_footer" string="Payslip footer">
-                            <field name="payslip_footer" groups="base.group_no_one" nolabel="1"/>
-                        </group>
-                </page>
-            </field>
-        </record>
-        <!-- hr.salary.rule.list-->
+       
+         <!-- hr.salary.rule.list-->
         <record id="view_rule_list" model="ir.ui.view">
             <field name="name">Salary Rules tree</field>
             <field name="model">hr.salary.rule</field>
