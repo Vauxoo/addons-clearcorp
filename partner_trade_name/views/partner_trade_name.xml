@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-    <openerp>
-        <data>
+	<openerp>
+		<data>
             <!--Form View Inherit res partner (base)-->
             <record id="view_partner_form" model="ir.ui.view">
                 <field name="name">view.partner.form</field>
@@ -8,7 +8,7 @@
                 <field name="inherit_id" ref="base.view_partner_form"/>
                 <field name="arch" type="xml">
                     <field name="function" position="before">
-                        <field name="trade_name"/>
+                            <field name="trade_name"/>
                     </field>
                 </field>
             </record>
@@ -19,7 +19,7 @@
                 <field name="inherit_id" ref="base.view_partner_tree"/>
                 <field name="arch" type="xml">
                     <field name="display_name" position="after">
-                        <field name="trade_name"/>
+                            <field name="trade_name"/>
                     </field>
                 </field>
             </record>
@@ -29,13 +29,9 @@
                 <field name="model">res.partner</field>
                 <field name="inherit_id" ref="base.res_partner_kanban_view"/>
                 <field name="arch" type="xml">
-                    <xpath expr="//div[contains(@class, 'oe_kanban_partner_categories')]" position="before">
-                        <h4 class="oe_partner_heading" attrs="{'invisible': [('trade_name','=',False)]}">
-                            <a type="open">
-                                <span>(</span><field name="trade_name"/><span>)</span>
-                            </a>
-                        </h4>
-                    </xpath>    
+                    <xpath expr="//div[@class='oe_kanban_details']/ul/li" position="before">
+                        <li t-if="record.parent_id.raw_value and !record.function.raw_value"><field name="trade_name"/></li>
+                    </xpath>
                 </field>
             </record>
             <!--Search View Inherit res partner (base)-->
@@ -44,10 +40,10 @@
                 <field name="model">res.partner</field>
                 <field name="inherit_id" ref="base.view_res_partner_filter"/>
                 <field name="arch" type="xml">
-                   <field name="name" position="attributes">
-                        <attribute name="filter_domain">['|','|','|',('trade_name','ilike',self),('name','ilike',self),('parent_id','ilike',self),('ref','=',self)]</attribute>
-                   </field>
+                        <field name="name" position="attributes">
+                             <attribute name="filter_domain">['|','|','|',('trade_name','ilike',self),('name','ilike',self),('parent_id','ilike',self),('ref','=',self)]</attribute>
+                        </field>
                 </field>
             </record>
-        </data>
-    </openerp>
+		</data>
+	</openerp>

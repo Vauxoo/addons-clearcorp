@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
@@ -10,7 +11,7 @@
 # published by the Free Software Foundation, either version 3 of the
 # License, or (at your option) any later version.
 #
-# This program is distributed in the hope that it will be useful,
+# This program is distributed in the hope that it will be useful,related relationrelated relation
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU Affero General Public License for more details.
@@ -19,20 +20,18 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-'name': 'Partner Trade Name',
-'description': """
-Partner Trade Name
-================
-This module add field trade name to partners
-""",
-'version': '1.0',
-'author': 'ClearCorp',
-'category': 'Extra Tools',
-'website': "http://clearcorp.co.cr",
-'depends': ['base'],
-'data': ['view/partner_trade_name.xml'],
-'active': False,
-'installable': True,
-'license': 'AGPL-3',
-}
+from odoo import api,models,fields
+
+class ResPartner(models.Model):
+	_inherit = 'res.partner'
+	
+	@api.model
+	def name_search(self,name, args=None, operator='ilike', limit=100):
+		res = super(ResPartner, self).name_search(name, args = args, operator = 'ilike')
+		recs = self.browse()
+		recs=self.search([('trade_name', operator, name)] + args,
+							  limit=limit)
+		res = list(set(res + recs.name_get()))
+		return res
+		
+	trade_name= fields.Char('Trade Name', size=128, help="Is used if the contact used trade name, and this is different to the business name")
