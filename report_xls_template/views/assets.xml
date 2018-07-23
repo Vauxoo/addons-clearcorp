@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- © 2014 ClearCorp
-     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
 <openerp>
     <data>
         <template id="assets_backend" name="report_xls_template assets" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
-                <script type="text/javascript" src="/report_xls_template/static/src/js/report_xls_template.js"/>
+                <script type="text/javascript" src="/report_xls_template/static/src/js/report_xls.js"></script>
             </xpath>
         </template>
     </data>
