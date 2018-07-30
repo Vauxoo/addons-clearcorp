@@ -46,8 +46,8 @@ Main features
     'depends': ['hr_contract',],
     'data': [
              'wizard/increase_wizard_view.xml',
-             'view/hr_wage_increase_view.xml',
-             'view/hr_wage_increase_menu.xml',
+             'views/hr_wage_increase_view.xml',
+             'views/hr_wage_increase_menu.xml',
              ],
     'test' : [],
     'demo': [],
