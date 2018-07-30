@@ -54,6 +54,6 @@
         'payment_receipt_report.xml', 
         ],
     'license': 'Other OSI approved licence',
-    'installable': True,
+    'installable': False,
     'active': False,
 }

@@ -56,6 +56,6 @@
         'ccorp_account_webkit_report.xml', 'ccorp_account_view.xml',
         ],
     'license': 'Other OSI approved licence',
-    'installable': True,
+    'installable': False,
     'active': False,
 }

@@ -50,6 +50,6 @@ Use symbol_prefix and symbol_suffix depending on the currency standard.
 		'base_currency_symbol_view.xml',
 		],
 	'license': 'Other OSI approved licence',
-	'installable': True,
+	'installable': False,
 	'active': True,
 }
