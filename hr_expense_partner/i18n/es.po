@@ -21,7 +21,7 @@ msgid "Expense"
 msgstr "Gasto"
 
 #. module: hr_expense_partner
-#: model:ir.model.fields,field_description:hr_expense_partner.field_hr_expense_supplier_id
+#: model:ir.model.fields,field_description:hr_expense_partner.field_hr_expense_res_partner_id
 msgid "Supplier"
 msgstr "Proveedor"
 
