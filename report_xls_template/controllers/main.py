@@ -80,7 +80,7 @@ class ReportXLSController(Controller):
                     response = self.report_routes(reportname, converter='xls', **dict(data))
 
                 report = request.env['report']._get_xls_report_from_name(reportname)
-                filename = "%s.%s" % (report.name, "xlsx")
+                filename = "%s.%s" % (report.name, "xls")
                 response.headers.add(
                     'Content-Disposition',
                     content_disposition(filename))
