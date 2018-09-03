@@ -31,7 +31,7 @@ This module add field trade name to partners
 'category': 'Extra Tools',
 'website': "http://clearcorp.co.cr",
 'depends': ['base'],
-'data': ['view/partner_trade_name.xml'],
+'data': ['views/partner_trade_name.xml'],
 'active': False,
 'installable': True,
 'license': 'AGPL-3',
