@@ -19,27 +19,40 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+
 {
-    'name': 'Hr Contract Extended',
-    'version': '1.1',
-    'url': 'http://launchpad.net/openerp-ccorp-addons',
-    'author': 'ClearCorp',
-    'website': 'http://clearcorp.co.cr',
+    'name': 'Wage Increase',
+    'version': '1.0',
     'category': 'Human Resources',
-    'complexity': 'normal',
-    'description': """This module adds a payslips rules in contract.
-    """,
-    'depends': [
-        'hr_payroll',
-    ],
-    'init_xml': [],
-    'demo_xml': [],
+    'sequence': 3,
+    'summary': 'Contract, Wage, Increase',
+    'description': """
+Increase the contract wage
+==========================
+
+This module allow you to increase the employees wage using a simple wizard.
+
+Main features
+-------------
+
+* Multiple contract selection
+* Increase by fixed amount
+* Percent increase
+""",
+    'author': 'CLEARCORP S.A.',
+    'website': 'http://clearcorp.co.cr',
+    'complexity': 'easy',
+    'images' : [],
+    'depends': ['hr_contract',],
     'data': [
-                'hr_contract_extended_view.xml',
-                'security/hr_contract_extended_security.xml',
-                'security/ir.model.access.csv',
-                ],
+             'wizard/increase_wizard_view.xml',
+             'views/hr_wage_increase_view.xml',
+             'views/hr_wage_increase_menu.xml',
+             ],
+    'test' : [],
+    'demo': [],
+    'installable': False,
+    'auto_install': False,
+    'application': False,
     'license': 'AGPL-3',
-    'installable': True,
-    'active': False,
 }

@@ -22,6 +22,6 @@
         'views/hr_expense_view.xml'
     ],
     'license': 'AGPL-3',
-    'installable': True,
+    'installable': False,
     'active': False,
 }

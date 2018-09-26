@@ -19,30 +19,27 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 {
-    'name' : 'Payroll Account Line Partner',
-    'version' : '1.0',
-    'author' : 'ClearCorp',
-    'complexity': 'easy',
-    'description': ''' Add partners and employees in payroll entries
-''',
+    'name': 'Hr Contract Extended',
+    'version': '1.1',
+    'url': 'http://launchpad.net/openerp-ccorp-addons',
+    'author': 'ClearCorp',
+    'website': 'http://clearcorp.co.cr',
     'category': 'Human Resources',
-    'sequence': 10,
-    'website' : 'http://clearcorp.co.cr',
-    'images' : [],
-    'depends' : [
-                 'hr_payroll_account',
-                 ],
-    'data' : [
-              'view/hr_payroll_account_line_partner_view.xml',
-              ],
-    'init_xml' : [],
-    'demo_xml' : [],
-    'update_xml' : [],
-    'test' : [],
-    'auto_install': False,
-    'application': False,
-    'installable': True,
+    'complexity': 'normal',
+    'description': """This module adds a payslips rules in contract.
+    """,
+    'depends': [
+        'hr_payroll',
+    ],
+    'init_xml': [],
+    'demo_xml': [],
+    'data': [
+                'hr_contract_extended_view.xml',
+                'security/hr_contract_extended_security.xml',
+                'security/ir.model.access.csv',
+                ],
     'license': 'AGPL-3',
+    'installable': False,
+    'active': False,
 }

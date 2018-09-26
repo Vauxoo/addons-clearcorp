@@ -21,22 +21,28 @@
 ##############################################################################
 
 {
-    'name': 'Payroll Extended',
-    'version': '1.0',
-    'author': 'ClearCorp',
-    'website': 'http://clearcorp.co.cr',
+    'name' : 'Payroll Account Line Partner',
+    'version' : '1.0',
+    'author' : 'ClearCorp',
+    'complexity': 'easy',
+    'description': ''' Add partners and employees in payroll entries
+''',
     'category': 'Human Resources',
-    'depends': [
-        'hr_payroll',
-        'account',
-    ],
-    'data': [
-        'hr_payroll_extended_view.xml',
-        'hr_payroll_extended_menu.xml',
-        'data/hr_payroll_extended_data.xml',
-        'security/ir.model.access.csv',
-    ],
-    'active': False,
-    'installable': True,
+    'sequence': 10,
+    'website' : 'http://clearcorp.co.cr',
+    'images' : [],
+    'depends' : [
+                 'hr_payroll_account',
+                 ],
+    'data' : [
+              'view/hr_payroll_account_line_partner_view.xml',
+              ],
+    'init_xml' : [],
+    'demo_xml' : [],
+    'update_xml' : [],
+    'test' : [],
+    'auto_install': False,
+    'application': False,
+    'installable': False,
     'license': 'AGPL-3',
 }

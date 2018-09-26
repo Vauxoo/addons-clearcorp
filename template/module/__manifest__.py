@@ -12,7 +12,7 @@
     'license': 'AGPL-3',
     'sequence': 10,
     'application': False,
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'external_dependencies': {
         'python': [],

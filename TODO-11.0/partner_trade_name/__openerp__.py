@@ -33,6 +33,6 @@ This module add field trade name to partners
 'depends': ['base'],
 'data': ['views/partner_trade_name.xml'],
 'active': False,
-'installable': True,
+'installable': False,
 'license': 'AGPL-3',
 }

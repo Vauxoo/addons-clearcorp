@@ -21,34 +21,22 @@
 ##############################################################################
 
 {
-    'name': 'XLS Reports',
+    'name': 'Payroll Extended',
     'version': '1.0',
-    'category': 'Base',
-    'sequence': 16,
-    'summary': 'XLS format QWeb Reports',
-    'description': """
-Reports in XLS format
-=====================
-Allow you to print reports on xls format.
-
-Main Features
--------------
-* Uses QWeb templates
-* Allows the creation of worksheets
-* Supports base 64 encoded 24 bits True Color bitmaps""",
     'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
-    'complexity': 'normal',
-    'images': [],
-    'depends': ['report'],
+    'category': 'Human Resources',
+    'depends': [
+        'hr_payroll',
+        'account',
+    ],
     'data': [
-             'report_xls_view.xml',
-             'views/assets.xml',
-             ],
-    'test': [],
-    'demo': [],
-    'installable': True,
-    'auto_install': False,
-    'application': False,
+        'hr_payroll_extended_view.xml',
+        'hr_payroll_extended_menu.xml',
+        'data/hr_payroll_extended_data.xml',
+        'security/ir.model.access.csv',
+    ],
+    'active': False,
+    'installable': False,
     'license': 'AGPL-3',
 }

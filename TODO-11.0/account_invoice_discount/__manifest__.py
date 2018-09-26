@@ -11,7 +11,7 @@
     'license': 'AGPL-3',
     'sequence': 4,
     'application': False,
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'depends': ['account'],
     'data': [

@@ -21,37 +21,33 @@
 ##############################################################################
 
 {
-    'name': 'Wage Increase',
+    'name': 'XLS Reports',
     'version': '1.0',
-    'category': 'Human Resources',
-    'sequence': 3,
-    'summary': 'Contract, Wage, Increase',
+    'category': 'Base',
+    'sequence': 16,
+    'summary': 'XLS format QWeb Reports',
     'description': """
-Increase the contract wage
-==========================
+Reports in XLS format
+=====================
+Allow you to print reports on xls format.
 
-This module allow you to increase the employees wage using a simple wizard.
-
-Main features
+Main Features
 -------------
-
-* Multiple contract selection
-* Increase by fixed amount
-* Percent increase
-""",
-    'author': 'CLEARCORP S.A.',
+* Uses QWeb templates
+* Allows the creation of worksheets
+* Supports base 64 encoded 24 bits True Color bitmaps""",
+    'author': 'ClearCorp',
     'website': 'http://clearcorp.co.cr',
-    'complexity': 'easy',
-    'images' : [],
-    'depends': ['hr_contract',],
+    'complexity': 'normal',
+    'images': [],
+    'depends': ['report'],
     'data': [
-             'wizard/increase_wizard_view.xml',
-             'views/hr_wage_increase_view.xml',
-             'views/hr_wage_increase_menu.xml',
+             'report_xls_view.xml',
+             'views/assets.xml',
              ],
-    'test' : [],
+    'test': [],
     'demo': [],
-    'installable': True,
+    'installable': False,
     'auto_install': False,
     'application': False,
     'license': 'AGPL-3',
