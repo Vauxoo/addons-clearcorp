@@ -4,14 +4,13 @@
 {
     'name': 'Journal code extended',
     'summary': 'Enables up to 64 chars in a journal code',
-    'version': '8.0.1.0',
-    'category': 'General Modules/Accounting',
-    'website': 'http://clearcorp.cr',
+    'version': '1.0',
+    'category': 'Accounting',
     'author': 'ClearCorp',
     'license': 'AGPL-3',
     'sequence': 10,
     'application': False,
-    'installable': False,
+    'installable': True,
     'auto_install': False,
     'depends': ['account'],
 }
