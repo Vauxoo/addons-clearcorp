@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_stock_move_report,stock.move.report.wiz,model_stock_move_report_wiz,stock.group_stock_manager,1,1,1,1
-access_stock_move_analysis,stock.move.analysis,model_stock_move_analysis,stock.group_stock_manager,1,1,1,1
