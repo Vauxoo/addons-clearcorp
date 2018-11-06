@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets" inherit_id="point_of_sale.assets" priority="200">
+        <script type="text/javascript" src="/point_of_sale/static/src/js/tests.js" position="after">
+            <script type="text/javascript" src="/pos_force_invoice/static/src/js/pos.js"></script>
+        </script>
+    </template>
+</odoo>
