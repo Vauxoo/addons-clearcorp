@@ -1,9 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_reservation_color_user,Reservation Color,model_project_event_reservation_color,project.group_project_user,1,0,0,0
-access_resource_category_user,Resource Category User,model_project_event_resource_category,project.group_project_user,1,0,0,0
-access_resource_category_admin,Resource Category Admin,model_project_event_resource_category,group_manage_resources,1,1,1,1
-access_resource_user,Resource User,model_project_event_resource,project.group_project_user,1,0,0,0
-access_resource_admin,Resource Admin,model_project_event_resource,group_manage_resources,1,1,1,1
-access_resource_reservation_user,Resource Reservation User,model_project_event_resource_reservation,project.group_project_user,1,1,1,1
-access_event_user,Event User,model_project_event_event,project.group_project_user,1,1,1,1
-access_resource_resource_admin,Resource Resource,resource.model_resource_resource,group_manage_resources,1,1,1,1

@@ -1,9 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_project_scrum_feature_type_manager,access.project.scrum.feature.type.manager,model_project_scrum_feature_type,project.group_project_manager,1,1,1,1
-access_project_scrum_feature_type_user,access.project.scrum.feature.type.user,model_project_scrum_feature_type,project.group_project_user,1,0,0,0
-access_project_scrum_sprint_manager,access.project.scrum.sprint.manager,model_project_scrum_sprint,project.group_project_manager,1,1,1,1
-access_project_scrum_sprint_user,access.project.scrum.sprint.user,model_project_scrum_sprint,project.group_project_user,1,0,0,0
-access_project_scrum_feature_manager,access.project.scrum.feature.manager,model_project_scrum_feature,project.group_project_manager,1,1,1,1
-access_project_scrum_feature_user,access.project.scrum.feature.user,model_project_scrum_feature,project.group_project_user,1,0,0,0
-access_project_scrum_release_backlog_manager,access.project.scrum.release.backlog.manager,model_project_scrum_release_backlog,project.group_project_manager,1,1,1,1
-access_project_scrum_release_backlog_user,access.project.scrum.release.backlog.user,model_project_scrum_release_backlog,project.group_project_user,1,0,0,0

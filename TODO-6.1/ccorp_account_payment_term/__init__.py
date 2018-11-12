@@ -1,1 +1,0 @@
-import ccorp_account_payment_term

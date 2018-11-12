@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_sneldev_magento_manager,magento_settings_manager,model_sneldev_magento,group_magento_manager,1,1,1,1
-access_sneldev_magento_user,magento_settings_user,model_sneldev_magento,group_magento_user,1,0,0,0

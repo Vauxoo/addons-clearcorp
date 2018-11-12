@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_project_scrum_feature_hours_manager,access.project.scrum.feature.hours.manager,model_project_scrum_feature_hours,project.group_project_manager,1,1,1,1
-access_project_scrum_feature_hours_user,access.project.scrum.feature.hours.user,model_project_scrum_feature_hours,project.group_project_user,1,0,0,0
