@@ -8,7 +8,7 @@ class PurchaseRequisition(models.Model):
 
     _inherit = 'purchase.requisition'
 
-"""
+    """
     @api.model
     def _prepare_purchase_order_line(
             self, requisition, requisition_line, purchase_id, supplier):
@@ -19,7 +19,7 @@ class PurchaseRequisition(models.Model):
                 'procurement_ids': [(4, requisition_line.procurement_id.id)]
             })
         return res
-"""
+    """
 
     group_id = fields.Many2one('procurement.group', string='Procurement Group')
     name = fields.Char(default='')
