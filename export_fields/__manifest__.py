@@ -5,14 +5,13 @@
 {
     'name': 'Export Fields',
     'summary': 'Adds a way to edit the export fields lists',
-    'version': '9.0.1.0',
+    'version': '1.0',
     'category': 'Tools',
-    'website': 'http://clearcorp.cr',
     'author': 'ClearCorp',
     'license': 'AGPL-3',
     'sequence': 10,
     'application': False,
-    'installable': False,
+    'installable': True,
     'auto_install': False,
     'depends': [
         'base'
