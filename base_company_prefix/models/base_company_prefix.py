@@ -2,23 +2,20 @@
 # © 2016 ClearCorp
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp.osv import fields, orm
+from odoo import models, fields, api
 
 
-class ResCompany(orm.Model):
+class ResCompany(models.Model):
     _name = "res.company"
     _inherit = 'res.company'
     _order = 'prefix'
 
-    _columns = {
-        'prefix': fields.char('Prefix', size=10, default=''),
-    }
+    prefix = fields.Char('Prefix', size=10, default='')
 
-    def name_get(self, cr, uid, ids, context=None):
-        if not len(ids):
-            return []
+    @api.multi
+    def name_get(self):
         res = []
-        for obj_company in self.browse(cr, uid, ids, context=context):
+        for obj_company in self:
             obj_company_name = obj_company.prefix and obj_company.prefix + \
                 ' ' or ''
             obj_company_name += obj_company.name

@@ -5,14 +5,13 @@
 {
     'name': 'Company prefix',
     'summary': 'Add prefix in company',
-    'version': '8.0.1.0',
+    'version': '1.0',
     'category': 'Hidden',
-    'website': 'http://clearcorp.cr',
     'author': 'ClearCorp',
     'license': 'AGPL-3',
     'sequence': 10,
     'application': False,
-    'installable': False,
+    'installable': True,
     'auto_install': False,
     'depends': [
         'base'
