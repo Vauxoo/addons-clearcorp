@@ -5,14 +5,14 @@
 {
     'name': 'Stock Account Move Line',
     'summary': 'Unit price on journal items',
-    'version': '9.0.1.0',
+    'version': '1.0',
     'category': 'Technical Settings',
     'website': 'http://clearcorp.cr',
     'author': 'ClearCorp',
     'license': 'AGPL-3',
     'sequence': 10,
     'application': False,
-    'installable': False,
+    'installable': True,
     'auto_install': False,
     'depends': [
         'stock_account',
