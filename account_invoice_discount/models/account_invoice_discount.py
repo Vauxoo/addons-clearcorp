@@ -18,27 +18,16 @@ class InvoiceLine(models.Model):
         if discount_inv != 0.0:
             price_subtotal_not_discounted = price_subtotal_not_discounted / discount_inv
         
-        if self.quantity:
-            price_unit_not_discounted = price_subtotal_not_discounted / self.quantity
-        else:
-            price_unit_not_discounted = 0.0
-        
         if self.invoice_id and self.invoice_id.currency_id:
             cur = self.invoice_id.currency_id
             price_subtotal_not_discounted = cur.round(price_subtotal_not_discounted)
             price_unit_not_discounted = cur.round(price_unit_not_discounted)
         self.price_subtotal_not_discounted = price_subtotal_not_discounted
-        self.price_unit_not_discounted = price_unit_not_discounted
 
     price_subtotal_not_discounted = fields.Monetary(
         compute='_compute_price',
         currency_field='currency_id', store=True, readonly=True,
         string='Subtotal')
-    price_unit_not_discounted = fields.Monetary(
-        compute='_compute_price',
-        currency_field='currency_id', store=True, readonly=True,
-        string='Price unit')
-
 
 class AccountInvoice(models.Model):
     """Inherits account.invoice to
