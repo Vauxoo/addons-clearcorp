@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<openerp>
-    <data>
-        <record id="point_of_sale.paperformat_posreceipt" model="report.paperformat">
-            <field name="page_width">75</field>
-        </record>
-    </data>
-</openerp>

@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_mrp_workcenter_station,mrp.workcenter.station.station,model_mrp_workcenter_station_station,mrp.group_mrp_user,1,0,0,0
-access_mrp_workcenter_station,mrp.workcenter.station.station.manager,model_mrp_workcenter_station_station,mrp.group_mrp_manager,1,1,1,1

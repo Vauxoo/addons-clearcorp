@@ -1,8 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_commission_payment_hr_manager,access.commission.payment.hr.manager,model_hr_payroll_pay_commission_payment,base.group_hr_manager,1,1,1,1
-access_commission_payment_sale_salesman,access.commission.payment.sale.salesman,model_hr_payroll_pay_commission_payment,base.group_sale_salesman,1,0,0,0
-access_commission_payment_user,access.commission.payment.user,model_hr_payroll_pay_commission_payment,base.group_user,1,0,0,0
-access_sale_commission_hr_manager,access.sale.commission.hr.manager,sale_commission.model_sale_commission_commission,base.group_hr_manager,1,0,0,0
-access_sale_commission_user,access.sale.commission.user,sale_commission.model_sale_commission_commission,base.group_user,1,0,0,0
-access_account_invoice_hr_manager,access.account.invoice.hr.manager,account.model_account_invoice,base.group_hr_manager,1,0,0,0
-access_hr_payslip_user,access.hr.payslip_user,hr_payroll.model_hr_payslip,base.group_user,1,0,0,0
