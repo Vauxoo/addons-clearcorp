@@ -3,9 +3,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import models, fields, api
-import logging
-_logger = logging.getLogger(__name__)
-
 
 class InvoiceLine(models.Model):
     """Inherits account.invoice.line
@@ -18,8 +15,6 @@ class InvoiceLine(models.Model):
         super(InvoiceLine, self)._compute_price()
         discount_inv = 1.0 - (self.discount / 100)
         price_subtotal_not_discounted = self.price_subtotal
-        _logger.info("price_subtotal_not_discounted: %s" % price_subtotal_not_discounted)
-        _logger.info("discount_inv: %s" % discount_inv)
         if discount_inv != 0.0:
             price_subtotal_not_discounted = price_subtotal_not_discounted / discount_inv
         
@@ -31,7 +26,6 @@ class InvoiceLine(models.Model):
         if self.invoice_id and self.invoice_id.currency_id:
             cur = self.invoice_id.currency_id
             price_subtotal_not_discounted = cur.round(price_subtotal_not_discounted)
-            _logger.info("price_subtotal_not_discounted: %s" % price_subtotal_not_discounted)
             price_unit_not_discounted = cur.round(price_unit_not_discounted)
         self.price_subtotal_not_discounted = price_subtotal_not_discounted
         self.price_unit_not_discounted = price_unit_not_discounted
