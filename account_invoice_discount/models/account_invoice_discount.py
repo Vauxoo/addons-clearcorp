@@ -21,7 +21,6 @@ class InvoiceLine(models.Model):
         if self.invoice_id and self.invoice_id.currency_id:
             cur = self.invoice_id.currency_id
             price_subtotal_not_discounted = cur.round(price_subtotal_not_discounted)
-            price_unit_not_discounted = cur.round(price_unit_not_discounted)
         self.price_subtotal_not_discounted = price_subtotal_not_discounted
 
     price_subtotal_not_discounted = fields.Monetary(
