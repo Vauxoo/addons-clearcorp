@@ -10,7 +10,6 @@ class AccountMoveLine(models.Model):
 
     @api.multi
     def _compute_unit_cost(self, quantity, debit, credit):
-        assert self.ensure_one()
         cost = 0.0
         if quantity != 0.0:
             cost = (debit + credit) / quantity
@@ -18,7 +17,6 @@ class AccountMoveLine(models.Model):
 
     @api.multi
     def _compute_unit_cost_currency(self, stock_picking, unit_cost):
-        assert self.ensure_one()
         currency = False
         if stock_picking.sale_id:
             currency = stock_picking.sale_id.currency_id or False
