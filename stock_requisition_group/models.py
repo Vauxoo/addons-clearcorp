@@ -21,8 +21,10 @@ class ProcurementRule(models.Model):
         if product_id.purchase_requisition != 'tenders' or 'group_id' not in values:
             return super(ProcurementRule, self).\
                 _run_buy(product_id, product_qty, product_uom, location_id, name, origin, values)
-        requisition = self.env['purchase.requisition'].\
-            search([('group_id','=',values['group_id'].id),('state','=','draft')], limit=1)
+        requisition = self.env['purchase.requisition'].search([
+            ('group_id', '=', values['group_id'].id),
+            ('company_id', '=', values['company_id'].id),
+            ('state', '=', 'draft')], limit=1)
         req_values = self.env['purchase.requisition']._prepare_tender_values(product_id, product_qty, product_uom,
                                                                              location_id, name, origin, values)
         if not requisition:
