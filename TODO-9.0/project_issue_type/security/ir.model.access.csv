@@ -1,8 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-base.access_ticket_type_user,ticket_type_user,project_issue_type.model_ticket_invoice_type,base.group_user,1,0,0,0
-account.access_ticket_type_account_user,ticket_type_account_user,project_issue_type.model_ticket_invoice_type,account.group_account_user,1,1,1,1
-base.access_ticket_type_sale_salesman,ticket_type_sale_salesman,project_issue_type.model_ticket_invoice_type,base.group_sale_salesman,1,1,1,0
-project.access_ticket_type_project_user,ticket_type_project_user,project_issue_type.model_ticket_invoice_type,project.group_project_user,1,0,0,0
-project.access_ticket_type_project_manager,ticket_type_project_manager,project_issue_type.model_ticket_invoice_type,project.group_project_manager,1,1,1,1
-base.access_ticket_type_portal,ticket_type_portal,project_issue_type.model_ticket_invoice_type,base.group_portal,1,0,0,0
-base.access_ticket_type_public,ticket_type_public,project_issue_type.model_ticket_invoice_type,base.group_public,1,0,0,0

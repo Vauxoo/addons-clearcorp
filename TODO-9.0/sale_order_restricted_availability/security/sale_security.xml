@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<openerp>
-    <data noupdate="0">
-        <record id="group_exceeding_limits_stock_sale" model="res.groups">
-            <field name="name">Exceeding limits stock on sale</field>
-            <field name="category_id" ref="base.module_category_hidden"/>
-        </record>
-    </data>
-</openerp>

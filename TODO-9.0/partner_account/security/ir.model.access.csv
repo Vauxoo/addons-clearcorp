@@ -1,5 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_partner_account_manager,access_partner_account_manager,model_partner_account,account.group_account_manager,1,1,1,1
-access_partner_account_date_user,access_partner_account_user,model_partner_account,account.group_account_user,1,0,0,0
-access_partner_account_line_manager,access_partner_account_line_manager,model_partner_account_line,account.group_account_manager,1,1,1,1
-access_partner_account_line_user,access_partner_account_line_user,model_partner_account_line,account.group_account_user,1,0,0,0

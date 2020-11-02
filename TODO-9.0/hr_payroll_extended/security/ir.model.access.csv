@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_input_value user,access.input.value.user,model_hr_payroll_extended_input_value,base.group_user,1,0,0,0
-access_input_value manager,access.input.value.manager,model_hr_payroll_extended_input_value,base.group_hr_manager,1,1,1,1

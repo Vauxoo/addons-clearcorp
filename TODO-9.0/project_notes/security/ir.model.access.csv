@@ -1,5 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_project_notes_objetives,Objectives,model_project_notes_objetives,project.group_project_user,1,0,0,0
-access_project_notes_objetives_manager,Objectives,model_project_notes_objetives,project.group_project_manager,1,1,1,1
-access_project_notes_objetives_employee,Objectives,model_project_notes_objetives,base.group_user,1,0,0,0
-access_project_notes_objetives_salesman,Objectives,model_project_notes_objetives,base.group_sale_salesman,1,0,0,0
